@@ -404,11 +404,12 @@ export function install(app) {
     });
   }
   app.scene3d.orbit = orbit;
+  const syncPartner = () => (app.desktop?.multiports ?? []).flatMap((mp) => mp.panes).find((p) => !p.view3d && p.geoLayer?.()?.modelId);
   C.implement('3d.sync', {
-    enabled: () => has(),
+    enabled: () => has() && !!syncPartner(), // GUI-022
     run: run(async () => {
       const v = view();
-      const other = (app.desktop?.multiports ?? []).flatMap((mp) => mp.panes).find((p) => !p.view3d && p.geoLayer?.()?.modelId);
+      const other = syncPartner();
       if (!other) throw new Error('no 2D panel with a sensor model to sync with');
       const l = other.geoLayer();
       const g = l.groundAt(other.view.cx, other.view.cy, 0);

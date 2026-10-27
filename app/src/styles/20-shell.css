@@ -72,8 +72,13 @@
 .rtab-file { background: var(--c-ribbon-fileTab); color: #fff; font-weight: 600; margin-right: 4px; }
 .rtab-file:hover { background: color-mix(in srgb, var(--c-ribbon-fileTab) 85%, #fff); }
 .rtab-set { display: flex; align-items: flex-end; gap: 1px; height: 100%; position: relative; border-top: 3px solid var(--ctx); margin-left: 4px; padding: 0 1px; background: color-mix(in srgb, var(--ctx) 30%, transparent); }
-.rtab-set::before { content: attr(data-caption); position: absolute; left: 0; right: 0; bottom: calc(100% + 3px); height: calc(var(--s-ribbonContextCaptionHeight) - 2px); line-height: calc(var(--s-ribbonContextCaptionHeight) - 2px); background: var(--ctx); color: #fff; text-align: center; font-size: var(--fs-sm); padding: 0 6px; white-space: nowrap; pointer-events: none; text-shadow: 0 0 2px rgba(0,0,0,.6); }
+.rtab-set::before { content: attr(data-caption); position: absolute; left: 0; right: 0; bottom: calc(100% + 3px); height: calc(var(--s-ribbonContextCaptionHeight) - 2px); line-height: calc(var(--s-ribbonContextCaptionHeight) - 2px); background: var(--ctx); color: #fff; text-align: center; font-size: var(--fs-sm); padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; text-shadow: 0 0 2px rgba(0,0,0,.6); }
 .rtab-set .rtab.active { border-top: 0; }
+/* Narrow windows with contextual sets: tighten the tabs so every tab stays reachable (GUI-014). */
+.ribbon-tabs.compact .rtab { padding: 0 6px; }
+.ribbon-tabs.compact .rtab-set { margin-left: 2px; }
+.ribbon-tabs.tight .rtab { padding: 0 3px; font-size: var(--fs-sm); }
+.ribbon-tabs.tight .rtab-file { margin-right: 2px; }
 .rtab-min { flex: none; height: var(--s-targetMin); width: var(--s-targetMin); background: transparent; border: 0; color: var(--c-chrome-textOnFrame); display: grid; place-items: center; }
 .ribbon.min .rtab-min .ico { transform: rotate(180deg); }
 .ribbon-body { height: var(--s-ribbonBodyHeight); display: flex; align-items: stretch; background: linear-gradient(var(--c-ribbon-bodyTop), var(--c-ribbon-bodyBottom)); border-bottom: 1px solid var(--c-ribbon-borderBottom); color: #000; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }

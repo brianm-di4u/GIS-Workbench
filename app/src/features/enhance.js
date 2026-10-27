@@ -138,7 +138,7 @@ export function install(app) {
       const rows = rec.map((s, i) => {
         const cb = h('input', { type: 'checkbox', checked: s.enabled !== false, disabled: s.enabled === undefined, 'aria-label': `Enable ${s.op}` });
         cb.dataset.i = String(i);
-        return h('tr', {}, h('td', {}, s.stage), h('td', {}, s.op), h('td', {}, cb), h('td', { class: 'mono' }, JSON.stringify(s.params)));
+        return h('tr', {}, h('td', {}, s.stage), h('td', {}, s.op), h('td', {}, cb), h('td', { class: 'mono chain-params' }, JSON.stringify(s.params).replace(/,"/g, ', "')));
       });
       const body = h('div', {}, h('p', {}, chainSummary(l.chain)), h('table', { class: 'grid-table' }, h('thead', {}, h('tr', {}, h('th', {}, 'Stage'), h('th', {}, 'Operation'), h('th', {}, 'On'), h('th', {}, 'Parameters'))), h('tbody', {}, rows)), h('p', { class: 'hint' }, 'Stage order follows Research/04 §2.2: geometry → filters → DRA/stretch → tone → colour. The chain is recorded with chips and measurements.'));
       const r = await modal({ title: 'Chain Editor', body, buttons: ['OK', 'Cancel'], width: 640, id: 'chain-editor' });
@@ -193,7 +193,8 @@ export function install(app) {
   // Re-derive LUTs when the store changes a chain (undo/redo included).
   app.store.on('change', ({ ids }) => {
     for (const l of app.layers.values()) if (!ids || ids.has(l.id)) {
-      if (l.stats) l.ensureStats().then(() => {
+      // An undone open leaves the layer object without its record (GUI-021).
+      if (l.stats && l.rec) l.ensureStats().then(() => {
         l.updateLut();
         app.renderer.invalidate();
       });

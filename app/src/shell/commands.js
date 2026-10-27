@@ -3,6 +3,7 @@
 // command without behaviour is an honest stub that says when it arrives (SDP R0.2).
 
 import { Emitter } from '../core/util.js';
+import { STEP_FIRST } from './toast.js';
 
 // [id, label, icon, REQ, release, key?, tip?]
 const CATALOG = [
@@ -46,6 +47,8 @@ const CATALOG = [
   ['keys.customize', 'Customize Hot Keys…', 'console', 'REQ-UI-09', 'R1'],
   ['dock.jobs', 'Job Queue', 'job', 'REQ-ARC-06', 'R0'],
   ['dock.netlog', 'Network Log', 'network', 'REQ-SEC-12', 'R0'],
+  ['dock.importlog', 'Import Log', 'list', 'REQ-UI-05', 'R0', '', 'Every file opened this session, what it became and any errors.'],
+  ['ribbon.minimise', 'Minimise the Ribbon', 'caret', 'REQ-UI-03', 'R0', 'Ctrl+F1', 'Hide the Ribbon body to show more of the panels; click a tab to show it again.'],
   ['dock.layers', 'Layer Manager', 'layers', 'REQ-UI-18', 'R0'],
   ['dock.toolbox', 'ToolBox', 'toolbox', 'REQ-EXT-01', 'R1'],
   ['theme.grey', 'Grey (default)', 'theme', 'REQ-UI-12', 'R0'],
@@ -58,6 +61,7 @@ const CATALOG = [
   ['help.topics', 'Help Topics', 'help', 'REQ-UI-15', 'R0', 'F1'],
   ['help.keys', 'Keyboard Map', 'console', 'REQ-UI-09', 'R0'],
   ['help.limits', 'Accuracy and Limits', 'info', 'REQ-SEC-07', 'R0'],
+  ['help.whatsnew', "What's New", 'info', 'REQ-HOST-01', 'R0', '', 'The changes in this version and the ones before it.'],
   ['help.about', 'About & Diagnostics', 'info', 'REQ-HOST-01', 'R0'],
   // Home
   ['nav.glove', 'Glove', 'glove', 'REQ-UI-08', 'R0', '', 'Drag to pan the image'],
@@ -473,6 +477,13 @@ const CATALOG = [
   ['det.review', 'Review Queue', 'list', 'REQ-EXT-19', 'R3'],
 ];
 
+/** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */
+const LITE_NEEDS = [
+  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$/],
+  ['wasm-sar', /^sar\.(speckle|acd|ccd|pairs|subap|csi|pauli)$/],
+];
+
+
 export class Commands extends Emitter {
   constructor(app) {
     super();
@@ -503,9 +514,18 @@ export class Commands extends Emitter {
     this.emit('change', id);
   }
 
+  /** In the Lite file: why a command cannot run here, else null. */
+  liteGap(id) {
+    const omitted = this.app.gw?.manifest?.omitted;
+    if (!omitted?.length) return null;
+    const hit = LITE_NEEDS.find(([block, re]) => omitted.includes(block) && re.test(id));
+    return hit ? `${this.map.get(id)?.label ?? id} needs the ${hit[0] === 'wasm-sar' ? 'SAR' : '3D/LiDAR'} module, which GIS Workbench Lite leaves out: open the Standard file` : null;
+  }
+
   enabled(id) {
     const c = this.map.get(id);
     if (!c) return false;
+    if (this.liteGap(id)) return false;
     try {
       return c.enabled ? !!c.enabled() : true;
     } catch {
@@ -530,12 +550,21 @@ export class Commands extends Emitter {
       this.app.toast(`${c.label} is planned for ${c.rel} (${c.req}).`, { kind: 'info' });
       return;
     }
+    const gap = this.liteGap(id);
+    if (gap) return this.app.toast(gap, { kind: 'info', ms: 6000 });
     if (!this.enabled(id)) return;
     try {
       return await c.run(args);
     } catch (e) {
+      const msg = String(e?.message || e);
+      // "Do this first" refusals are guidance, not failures (GUI-018, GUI-019).
+      if (STEP_FIRST.test(msg)) {
+        const action = /no AI connection/.test(msg) ? { label: 'Set up…', run: () => this.run('ai.connections') } : undefined;
+        this.app.toast(`${c.label}: ${msg}`, { kind: 'warn', ms: 6000, action });
+        return;
+      }
       console.error(e);
-      this.app.toast(`${c.label}: ${e.message || e}`, { kind: 'error', ms: 6000 });
+      this.app.toast(`${c.label}: ${msg}`, { kind: 'error', ms: 6000 });
     }
   }
 

@@ -61,11 +61,12 @@ export function install(app) {
       const body = h(
         'div',
         { class: 'about' },
-        h('p', {}, h('b', {}, `GIS Workbench ${app.build.version}`), ` · build ${app.build.id} · ${app.build.date}${app.build.dev ? ' (dev)' : ''}`),
+        h('p', {}, h('b', {}, `GIS Workbench ${app.build.version}`), ` · ${edition()} · build ${app.build.id} · ${app.build.date}${app.build.dev ? ' (dev)' : ''}`),
+        app.gw.manifest.omitted?.length ? h('p', { class: 'hint' }, 'GIS Workbench Lite leaves out the 3D, video playback, LiDAR and SAR-analysis modules; open the Standard file for them.') : null,
         h('p', { class: 'hint' }, NOT_ACCREDITED),
         section(
           'Run mode',
-          h('p', {}, `Mode: ${rm.mode} (${rm.protocol}${rm.framed ? ', framed' : ''}). Features switch on detected capabilities, not on the mode name.`),
+          h('p', {}, `Mode: ${rm.mode} (${rm.protocol.replace(':', '')}${rm.framed ? ', framed' : ''}). Features switch on detected capabilities, not on the mode name.`),
           h('table', { class: 'grid-table small' }, h('tbody', {}, caps.map(([k, v]) => h('tr', {}, h('td', {}, k), h('td', {}, String(v)))))),
           rm.problems.length ? h('ul', { class: 'warn' }, rm.problems.map((p) => h('li', {}, p))) : null,
           app.storageWarning ? h('p', { class: 'warn' }, app.storageWarning) : null,
@@ -79,12 +80,53 @@ export function install(app) {
         section('Blocks (build manifest)', h('table', { class: 'grid-table small' }, h('tbody', {}, blocks.map(([n, b]) => h('tr', {}, h('td', {}, n), h('td', {}, b.kind), h('td', {}, b.load), h('td', {}, fmtBytes(b.size)), h('td', { class: 'mono' }, `${b.sha256.slice(0, 16)}…`))))), vb, verify),
         section('Third-party notices', notices),
       );
-      const r = await modal({ title: 'About & Diagnostics', body, buttons: ['Close', 'Copy Diagnostics'], width: 760, id: 'about' });
+      const r = await modal({ title: 'About & Diagnostics', body, buttons: ['Close', 'Copy Diagnostics', "What's New…"], width: 760, id: 'about' });
+      if (r === "What's New…") return C.run('help.whatsnew');
       if (r === 'Copy Diagnostics') {
         const diag = { build: app.build, runMode: { ...rm, caps: { ...rm.caps } }, stats: app.renderer.stats, pool: app.pool.stats(), messages: app.messages.slice(-50), coverage: app.commands.coverage() };
         await copyText(JSON.stringify(diag, null, 2));
         app.toast('Diagnostics copied');
       }
+    },
+  });
+
+  const edition = () => (app.build.profile === 'lite' ? 'Lite edition' : 'Standard edition');
+  // What's New (GUI-008): the CHANGELOG.md embedded by the build, as headings, lists and paragraphs.
+  C.implement('help.whatsnew', {
+    run: async () => {
+      const md = await app.gw.text('data-changelog');
+      const inline = (s) => {
+        const out = [];
+        const re = /\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\)/g;
+        let at = 0;
+        for (let m; (m = re.exec(s)); at = re.lastIndex) {
+          out.push(s.slice(at, m.index));
+          out.push(m[1] ? h('b', {}, m[1]) : m[2] ? h('code', {}, m[2]) : m[3]);
+        }
+        out.push(s.slice(at));
+        return out;
+      };
+      const body = h('div', { class: 'whatsnew' });
+      let list = null;
+      for (const line of md.split('\n')) {
+        const t = line.trim();
+        if (!t || /^# /.test(t)) {
+          list = null;
+          continue;
+        }
+        const rel = /^## \[(.+?)\](?: - (.+))?/.exec(t);
+        if (rel) {
+          body.appendChild(h('h3', {}, `Version ${rel[1]}`, rel[2] ? h('span', { class: 'hint' }, ` · ${rel[2]}`) : null, rel[1] === app.build.version ? h('span', { class: 'whatsnew-this' }, 'this version') : null));
+          list = null;
+        } else if (/^### /.test(t)) {
+          body.appendChild(h('h4', {}, t.slice(4)));
+          list = null;
+        } else if (/^- /.test(t)) {
+          if (!list) body.appendChild((list = h('ul', {})));
+          list.appendChild(h('li', {}, inline(t.slice(2))));
+        } else if (body.children.length) body.appendChild(h('p', {}, inline(t)));
+      }
+      await modal({ title: "What's New", body, buttons: ['Close'], width: 640, id: 'whatsnew' });
     },
   });
 

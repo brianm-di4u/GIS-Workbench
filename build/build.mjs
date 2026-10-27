@@ -225,6 +225,8 @@ async function main() {
   if (base) blocks.push(block({ name: 'data-basemap', kind: 'data', bytes: Buffer.from(base), load: 'eager', licence: 'public domain (Natural Earth)' }));
   const tokensJson = readFileSync(join(root, 'app', 'src', 'data', 'ui-tokens.json'));
   blocks.push(block({ name: 'data-tokens', kind: 'data', bytes: tokensJson, load: 'lazy', licence: 'own' }));
+  // The changelog behind Help ▸ What's New.
+  blocks.push(block({ name: 'data-changelog', kind: 'data', bytes: readFileSync(join(root, 'CHANGELOG.md')), load: 'lazy', licence: 'own' }));
 
   // Data packs (REQ-ARC-14): built beside the HTML; their hashes go in the build manifest.
   const packs = await buildPacks({ outDir, esbuild, toolVersion: VERSION });
@@ -390,6 +392,7 @@ function liteHtml(html, csp) {
     '<meta charset="utf-8">',
     `<meta http-equiv="Content-Security-Policy" content="${liteCsp}">`,
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    `<meta name="generator" content="GIS Workbench ${VERSION} (Lite)">`,
     '<title>GIS Workbench</title>',
     '</head>',
     '<body>',

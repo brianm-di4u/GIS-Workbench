@@ -38,6 +38,13 @@ npm run test:rust
 - `tests/e2e`: Playwright on the built file in Chrome and Edge (platform tests PT-01..PT-12,
   the R1 scenarios SCN-01..04, 11, 16, 17, 19, 20, the R1 Musts, performance, samples
   regression, embed kit).
+- `tests/e2e/gui-sweep.spec.js`: the GUI campaign sweep. It clicks every Ribbon control, split
+  caret, menu item, QAT and toolbar button, dock, context menu, layout and hot key on the
+  Standard and Lite files in eleven data states (`GW_SWEEP_BUILDS`, `GW_SWEEP_STATES` narrow it)
+  and writes one JSON summary per run to `reports/gui/`. `gui-fixes.spec.js` holds the
+  regression tests for `docs/validation/GUI-findings.md`.
+- `node tests/tools/serve.mjs` serves the folder above the repository on port 8765 for hands-on
+  testing in a browser, with a `/__loader` page that hands fixtures to an open app tab.
 - `crates`: Rust unit and sample tests; `cargo test --release -p gw-fuzz` runs the mutation
   fuzzer (`GW_FUZZ_ITERS` sets the iterations per parser).
 - `node build/traceability.mjs --release=R1` writes `reports/traceability.{json,md}`.
@@ -64,6 +71,7 @@ rendering.
 | `build` | Build, gates, tokens, data blocks, traceability |
 | `docs/design/decisions.md` | Implementation decisions and the defaults used for open owner decisions |
 | `docs/validation` | Release validation reports |
+| `CHANGELOG.md` | Changes per release; embedded in the build and shown by Help ▸ What's New |
 
 ## Licence
 

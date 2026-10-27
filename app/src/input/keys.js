@@ -14,6 +14,7 @@ const DEFAULT_MAP = {
   'Mod+Alt+KeyT': 'pane.showname',
   'Mod+Shift+Space': 'ai.assistant',
   F1: 'help.topics',
+  'Mod+F1': 'ribbon.minimise',
   KeyB: 'wb.toggle',
 };
 
@@ -101,8 +102,18 @@ export class Keys {
       if (c === 'KeyB' && e.target.closest?.('.pane, .gwin, body') === null) return;
       e.preventDefault();
       e.stopPropagation();
-      this.app.commands.run(cmd);
+      this.runKey(cmd);
     }
+  }
+
+  /** A hot key for a greyed-out command says so instead of doing nothing (GUI-010). */
+  runKey(cmd) {
+    const C = this.app.commands;
+    if (C.get(cmd)?.run && !C.enabled(cmd) && !C.liteGap(cmd)) {
+      this.app.toast(`${C.get(cmd).label} is not available right now.`, { kind: 'info', ms: 2500 });
+      return;
+    }
+    C.run(cmd);
   }
 
   onKeyUp(e) {
@@ -129,7 +140,7 @@ export class Keys {
     if (cmd) {
       e.preventDefault();
       e.stopPropagation();
-      this.app.commands.run(cmd);
+      this.runKey(cmd);
       return;
     }
     // With the magnifier on, arrows change its power (up/down) and size (left/right).

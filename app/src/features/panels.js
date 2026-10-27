@@ -57,6 +57,8 @@ export function install(app) {
   C.implement('men.log', { run: () => app.panels.toggle('menlog', 'bottom'), checked: () => !!app.activeMp()?.docks.isOpen('menlog') });
   C.implement('dock.jobs', { run: () => app.panels.toggle('jobs', 'bottom') });
   C.implement('dock.netlog', { run: () => app.panels.toggle('netlog', 'bottom') });
+  C.implement('dock.importlog', { run: () => app.panels.toggle('importlog', 'bottom'), checked: () => !!app.activeMp()?.docks.isOpen('importlog') });
+  C.implement('ribbon.minimise', { run: () => app.activeMp()?.ribbon.toggleMinimise(), checked: () => !!app.activeMp()?.ribbon.minimised });
   app.cue = (text) => {
     app.cueText = text;
     app.emit('cue');

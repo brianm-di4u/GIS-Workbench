@@ -1,0 +1,202 @@
+[
+ {
+  "tab": "keytips",
+  "id": "Alt H",
+  "problems": []
+ },
+ {
+  "tab": "keytips",
+  "id": "Alt S",
+  "problems": []
+ },
+ {
+  "tab": "keytips",
+  "id": "Alt D",
+  "problems": []
+ },
+ {
+  "tab": "keytips",
+  "id": "Alt G",
+  "problems": []
+ },
+ {
+  "tab": "keytips",
+  "id": "Alt P",
+  "problems": []
+ },
+ {
+  "tab": "keytips",
+  "id": "Alt V",
+  "problems": []
+ },
+ {
+  "tab": "keytips",
+  "id": "Alt A",
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+KeyZ → qat.undo",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+KeyY → qat.redo",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+Shift+KeyZ → qat.redo",
+  "dialogs": [],
+  "toasts": [
+   "info: Redo is not available right now."
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+Alt+Digit1 → nav.onetoone",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+Alt+KeyT → pane.showname",
+  "dialogs": [],
+  "toasts": [
+   "info: fx01.ntf"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+Shift+Space → ai.assistant",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "F1 → help.topics",
+  "dialogs": [
+   "dialog:help"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+F1 → ribbon.minimise",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "KeyB → wb.toggle",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "KeyW → nav.whole",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "F5 → draw.marker",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "F7 → nav.roam",
+  "dialogs": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Equal → nav.zoomin",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "NumpadAdd → nav.zoomin",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Minus → nav.zoomout",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "NumpadSubtract → nav.zoomout",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+Digit1 → nav.onetoone",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+KeyA → sel.all",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 graphic(s) selected"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Delete → edit.delete",
+  "dialogs": [],
+  "toasts": [
+   "info: Delete is not available right now."
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+KeyC → edit.copy",
+  "dialogs": [],
+  "toasts": [
+   "info: Copy is not available right now."
+  ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+KeyV → edit.paste",
+  "dialogs": [],
+  "toasts": [
+   "info: Paste is not available right now."
+  ],
+  "problems": []
+ }
+]

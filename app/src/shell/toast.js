@@ -12,7 +12,11 @@ function ensure() {
   document.body.append(host, live);
 }
 
+/** Messages that ask the user to do something first (open, select, draw…): guidance, not failures (GUI-019). */
+export const STEP_FIRST = /\bfirst\b|^(select|open|draw|give) |no AI connection is set up/i;
+
 export function toast(message, { kind = 'info', ms = 3500, action } = {}) {
+  if (kind === 'error' && STEP_FIRST.test(message)) kind = 'warn';
   ensure();
   const t = h('div', { class: ['toast', `toast-${kind}`], role: kind === 'error' ? 'alert' : null }, h('span', {}, message));
   if (action) {

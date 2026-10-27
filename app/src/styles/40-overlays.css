@@ -33,6 +33,14 @@
 .notices { max-height: 200px !important; }
 .banner-preview { background: var(--c-banner-U); color: #fff; padding: 4px 8px; font-weight: bold; text-align: center; }
 .about .grid-table td { font-size: var(--fs-sm); }
+.chain-params { overflow-wrap: anywhere; } /* long chain parameters wrap instead of scrolling the dialog sideways (GUI-023) */
+.whatsnew h3 { margin: 14px 0 4px; font-size: 14px; }
+.whatsnew h3:first-child { margin-top: 0; }
+.whatsnew h4 { margin: 8px 0 2px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .04em; opacity: .8; }
+.whatsnew ul { margin: 0 0 4px; padding-left: 18px; }
+.whatsnew li { margin: 2px 0; }
+.whatsnew code { font-family: var(--f-monoLog); font-size: .92em; }
+.whatsnew-this { margin-left: 8px; padding: 0 6px; border-radius: 8px; background: var(--c-ribbon-fileTab); color: #fff; font-size: var(--fs-sm); font-weight: 400; }
 .relink-list { max-height: 200px; overflow: auto; font-family: var(--f-monoLog); font-size: var(--fs-sm); }
 .history ol { max-height: 50vh; overflow: auto; }
 .history li.redo { opacity: .6; }
@@ -41,6 +49,9 @@
 
 .toasts { position: fixed; right: 14px; bottom: 54px; display: flex; flex-direction: column; gap: 6px; z-index: 950; max-width: 420px; }
 .toast { background: #2b2b2b; color: #f0f0f0; padding: 7px 12px; border-left: 4px solid #4da3ff; box-shadow: 0 3px 10px rgba(0,0,0,.4); display: flex; gap: 10px; align-items: center; transition: opacity .3s; }
+/* Toasts never block what is under them (video transport, dialog buttons); only their buttons take clicks (GUI-020). */
+.toasts, .toast { pointer-events: none; }
+.toast button { pointer-events: auto; }
 .toast.out { opacity: 0; }
 .toast-error { border-left-color: #ff5a5a; }
 .toast-warn { border-left-color: #e0b050; }

@@ -751,8 +751,14 @@ export function install(app) {
     return product(l, z, planes, { name: `${l.info.iid} CSI`, irep: 'RGB', stretch: 'linear2' });
   }
 
+  const pol = (l) => String(sarOf(l)?.polarization ?? '').toUpperCase().replace(/:/g, '');
+  /** HH, HV (or VH) and VV collects are all open (GUI-022). */
+  const quadPol = (layers) => {
+    const p = new Set(layers.map(pol));
+    return p.has('HH') && (p.has('HV') || p.has('VH')) && p.has('VV');
+  };
+
   async function pauli(layers, opts = {}) {
-    const pol = (l) => String(sarOf(l)?.polarization ?? '').toUpperCase().replace(/:/g, '');
     const by = {};
     for (const l of layers) by[pol(l)] = l;
     const hh = by.HH;
@@ -895,5 +901,5 @@ export function install(app) {
     }),
   });
   C.implement('sar.csi', { enabled: hasC, run: run(() => csi(layer())) });
-  C.implement('sar.pauli', { enabled: () => sicdLayers().length >= 3, run: run(() => pauli(sicdLayers())) });
+  C.implement('sar.pauli', { enabled: () => quadPol(sicdLayers()), run: run(() => pauli(sicdLayers())) });
 }

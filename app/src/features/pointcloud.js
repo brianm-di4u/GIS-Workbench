@@ -514,7 +514,7 @@ export function install(app) {
     const now = new Date();
     const doy = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
     const cols = packColumns(c);
-    const bytes = await job('write', { cols, n: c.n, rgb: !!c.rgb, inv, prm: [fmt, 0.001, 0.001, 0.001, doy, now.getFullYear(), c.info.globalEncoding & 1, c.t0, compress ? 1 : 0], text: `${wkt}\0GIS Workbench\0GIS Workbench ${app.version ?? ''}`.slice(0, 1e6) }, [cols.buffer]);
+    const bytes = await job('write', { cols, n: c.n, rgb: !!c.rgb, inv, prm: [fmt, 0.001, 0.001, 0.001, doy, now.getFullYear(), c.info.globalEncoding & 1, c.t0, compress ? 1 : 0], text: `${wkt}\0GIS Workbench\0GIS Workbench ${app.build?.version ?? ''}`.slice(0, 1e6) }, [cols.buffer]);
     const name = `${c.name.replace(/\.(las|laz)$/i, '')}_export.${compress ? 'laz' : 'las'}`;
     return { bytes, name, format: fmt, epsg };
   }

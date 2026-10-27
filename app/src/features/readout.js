@@ -20,7 +20,7 @@ export function install(app) {
   app.on('state', () => {
     for (const mp of app.desktop?.multiports ?? []) {
       const l = mp.activePane?.geoLayer?.();
-      if (l) mp.status.set({ model: `Math Model: ${l.modelName}` });
+      mp.status.set({ model: `Math Model: ${l?.modelName ?? 'none'}` }); // 'none' once the last image goes (GUI-021)
     }
   });
 

@@ -60,6 +60,10 @@ export class StatusBar {
         c.classList.toggle('ok', v[1] === 'ok');
         c.classList.toggle('bad', v[1] === 'bad');
       } else if (c.textContent !== v) c.textContent = v;
+      // A narrow cell ends in an ellipsis; its tooltip keeps the whole value (GUI-024).
+      const label = CELLS.find(([key]) => key === k)[1];
+      const tip = c.textContent ? `${label}: ${c.textContent}` : label;
+      if (c.title !== tip) c.title = tip;
     }
   }
 }

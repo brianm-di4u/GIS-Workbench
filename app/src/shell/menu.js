@@ -70,7 +70,8 @@ function build(items, app, level, close) {
       sub = null;
       if (!hasSub) return;
       sub = build(it.items, app, level + 1, close);
-      document.body.appendChild(sub);
+      // In the menu host, so closing the menu also closes its open submenus (GUI-025).
+      (ul.parentElement ?? document.body).appendChild(sub);
       const r = row.getBoundingClientRect();
       place(sub, r.right - 2, r.top - 3, r.left);
     };
@@ -145,6 +146,19 @@ document.addEventListener(
   'pointerdown',
   (e) => {
     if (open && !e.target.closest('.menu')) closeMenus();
+  },
+  true,
+);
+// Esc closes an open menu wherever focus is (after a right-click it stays on the panel) (GUI-026).
+document.addEventListener(
+  'keydown',
+  (e) => {
+    if (!open || e.target.closest?.('.menu')) return;
+    if (e.key === 'Escape') closeMenus();
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') open.el.querySelector('.menu-item')?.focus();
+    else return;
+    e.preventDefault();
+    e.stopPropagation();
   },
   true,
 );

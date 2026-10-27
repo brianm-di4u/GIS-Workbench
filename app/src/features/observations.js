@@ -107,11 +107,11 @@ export function install(app) {
     };
     const links = (o) => [o.graphics?.length ? `${o.graphics.length} graphic(s)` : '', o.chips?.length ? `chip ${o.chips.join(', ')}` : '', o.features?.length ? `${o.features.length} feature(s)` : ''].filter(Boolean).join(' · ') || '–';
     dockEl.replaceChildren(
-      h('div', { class: 'btn-row' }, (() => {
-        const b = h('button', { class: 'btn', type: 'button' }, 'Activity report…');
-        b.addEventListener('click', run(() => reportDialog()));
+      h('div', { class: 'btn-row' }, ...[['New observation…', () => toolbox()], ['Activity report…', () => reportDialog()]].map(([label, fn]) => {
+        const b = h('button', { class: 'btn', type: 'button' }, label);
+        b.addEventListener('click', run(fn));
         return b;
-      })()),
+      })),
       h('table', { class: 'tbl obs-table', 'data-id': 'obs-table' }, h('thead', {}, h('tr', {}, ...['#', 'Time (UTC)', 'Category', 'Observation', 'Confidence', 'Links'].map((t) => h('th', {}, t)))), h('tbody', {}, ...obs.map((o, i) => h('tr', { 'data-obs': o.id }, h('td', {}, String(i + 1)), h('td', {}, (o.time ?? o.created ?? '').replace('T', ' ').slice(0, 19)), cell(o, 'category', CATEGORIES), cell(o, 'text'), cell(o, 'confidence', CONF), h('td', {}, links(o)))))),
     );
   }

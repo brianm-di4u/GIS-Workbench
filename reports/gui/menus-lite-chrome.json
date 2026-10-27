@@ -1,0 +1,692 @@
+[
+ {
+  "tab": "menu:File",
+  "id": "New ▸ New Project",
+  "outcome": "clicked",
+  "dialogs": [
+   "New Project"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "New ▸ New Template",
+  "outcome": "clicked",
+  "dialogs": [
+   "New Template"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open Image…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open Project…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open Vector…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open DEM…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open Point Cloud…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Open Point Cloud… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Stream Point Cloud (COPC/EPT)…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Stream Point Cloud (COPC/EPT)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open Video or GMTI…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Import Detections…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Edit Online Layer…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:remote-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open GeoPackage or CSV…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Open ▸ Open Data Pack…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Recent Projects",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:recent"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Save Project",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Save Project As…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Save Options…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:save-options"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Relink Imagery…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: All imagery is linked"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "menu:File",
+  "id": "Project Properties…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:project-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "Undo",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "Redo",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "History…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:history"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "Copy",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "Paste",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "Select All",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 graphic(s) selected"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "menu:Edit",
+  "id": "Delete",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Data View",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Windows View",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Map View",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Preview",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Customize Hot Keys…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Job Queue",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Network Log",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Import Log",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Theme ▸ Grey (default)",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Theme ▸ Dark",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Theme ▸ Print",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "UI Scale…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ui-scale"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Geospatial",
+  "id": "Convert Coordinates…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:convert"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Geospatial",
+  "id": "Jump to Point…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Geospatial",
+  "id": "Terrain Folder…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Geospatial",
+  "id": "Add Online Source…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Tools",
+  "id": "Image List",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Tools",
+  "id": "Load Point File…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Tools",
+  "id": "Preferences…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Tools",
+  "id": "Automation Console",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "AI Assistant",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "Connections…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ai-connections"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "Prompt Helper (offline)…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "MCP Servers…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:mcp-servers"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "Feedback Whiteboard",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+  ],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "Review & Send…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:wb-review"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Add-Ins",
+  "id": "Import Feedback…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Help",
+  "id": "Help Topics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:help"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Help",
+  "id": "Keyboard Map",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Help",
+  "id": "Accuracy and Limits",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:limits"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Help",
+  "id": "What's New",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:whatsnew"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:Help",
+  "id": "About & Diagnostics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:about"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open Image…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open Project…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open Vector…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open DEM…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open Point Cloud…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Open Point Cloud… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Stream Point Cloud (COPC/EPT)…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Stream Point Cloud (COPC/EPT)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open Video or GMTI…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Import Detections…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Edit Online Layer…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:remote-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open GeoPackage or CSV…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Open ▸ Open Data Pack…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Save ▸ Save Project",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Save ▸ Save Project As…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Save ▸ Save Product As…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Save ▸ Save Template As…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Save Options…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:save-options"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Relink Imagery…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: All imagery is linked"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Export Snapshot",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Preferences…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "ribbon:file",
+  "id": "Project Properties…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:project-props"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

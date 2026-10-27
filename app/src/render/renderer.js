@@ -230,6 +230,8 @@ export class Renderer {
     this.stats = { fps: 0, frameMs: 0, gpuBytes: 0, tiles: 0, uploads: 0 };
     this.gpuBudget = 384 << 20;
     this.uploadsPerFrame = 8;
+    // The shared canvas follows the window; panels that only move still need a redraw (GUI-011).
+    window.addEventListener('resize', () => this.invalidate());
     canvas.addEventListener('webglcontextlost', (e) => {
       e.preventDefault();
       this.lost = true;

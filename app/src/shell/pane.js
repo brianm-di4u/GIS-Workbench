@@ -29,6 +29,9 @@ export class ImagePane {
     this.readout = h('div', { class: 'sr-only', 'aria-live': 'polite' });
     this.el.append(this.overlay, this.bannerTop, this.bannerBottom, this.label, this.status, this.readout);
     this._bind();
+    // Window resizes, splitters and docks change the panel's size: redraw (GUI-011).
+    this._resize = new ResizeObserver(() => this.invalidate());
+    this._resize.observe(this.el);
     app.renderer.addPane(this);
     this.background = this.rec?.background ?? [0, 0, 0, 1];
     this._overlayDirty = true;
@@ -703,6 +706,7 @@ export class ImagePane {
   }
 
   dispose() {
+    this._resize.disconnect();
     this.app.renderer.removePane(this);
     this.el.remove();
   }

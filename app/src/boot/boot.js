@@ -90,6 +90,7 @@
         name,
         (async () => {
           const entry = manifest.blocks[name];
+          if (!entry && manifest.omitted?.includes(name)) await bytes(name); // rejects with the Lite message (GUI-001)
           if (!entry || entry.kind !== 'js') throw new Error(`"${name}" is not a script block`);
           const u8 = await bytes(name);
           const url = URL.createObjectURL(new Blob([u8], { type: 'text/javascript' }));

@@ -142,7 +142,8 @@ export class ImageLayer {
 
   /** Full-image statistics for the selected bands (worker, level nearest 1024²). */
   async ensureStats() {
-    if (this.chain?.bandMath) await this.bandMathStats();
+    if (!this.chain) return;
+    if (this.chain.bandMath) await this.bandMathStats();
     const bands = this.chain.bands;
     const need = bands.filter((b) => !this.stats?.[b]);
     if (!need.length) return;

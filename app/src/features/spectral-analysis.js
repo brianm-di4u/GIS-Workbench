@@ -388,11 +388,12 @@ export function install(app) {
     ];
     const ok = (v) => (v[0] === 'preset' ? !msi().presetBands(l, v[1]).missing.length : v[0] === 'index' ? msi().indexAvailable(l, v[1]).ok : true);
     const list = (views ?? all.filter(ok)).slice(0, 16);
+    // Check before changing the layout (GUI-022).
+    const fref = S.get(l.rec.file);
+    if (!fref) throw new Error('Xport clones a file-backed image');
     const mp = app.activeMp();
     const n = list.length;
     mp.setLayout(n <= 4 ? '2x2' : n <= 9 ? '3x3' : n <= 12 ? '3x4' : '4x4');
-    const fref = S.get(l.rec.file);
-    if (!fref) throw new Error('Xport clones a file-backed image');
     const out = [];
     for (let i = 0; i < n; i++) {
       const p = mp.panes[i];
@@ -589,7 +590,7 @@ export function install(app) {
       await brightnessTemperature(l, Number(band.value), { emissivity: em.value === '' ? NaN : Number(em.value), celsius: cel.checked });
     }),
   });
-  C.implement('msi.xport', { enabled: multi, run: run(() => xport(layer())) });
+  C.implement('msi.xport', { enabled: () => multi() && !!S.get(layer()?.rec?.file), run: run(() => xport(layer())) });
   C.implement('msi.destripe', { enabled: multi, run: run(() => destripe(layer())) });
   C.implement('msi.change', {
     // A second date needs the active image's band count (TE-043: any two multiband images enabled

@@ -154,9 +154,23 @@ export function install(app) {
   });
 
   // Windows and layouts (REQ-UI-02).
+  // The button toggles between one panel and the last split chosen from its menu (GUI-004).
+  let lastSplit = '1x2';
   C.implement('win.split', {
-    run: () => {},
-    menu: () => Object.keys(LAYOUTS).map((k) => ({ label: k.replace('x', ' × '), checked: app.activeMp()?.rec.layout === k, run: () => app.activeMp()?.setLayout(k) })),
+    run: () => {
+      const mp = app.activeMp();
+      if (mp) mp.setLayout(mp.rec.layout === '1x1' ? lastSplit : '1x1');
+    },
+    checked: () => (app.activeMp()?.rec.layout ?? '1x1') !== '1x1',
+    menu: () =>
+      Object.keys(LAYOUTS).map((k) => ({
+        label: k.replace('x', ' × '),
+        checked: app.activeMp()?.rec.layout === k,
+        run: () => {
+          if (k !== '1x1') lastSplit = k;
+          app.activeMp()?.setLayout(k);
+        },
+      })),
   });
   C.implement('win.new', {
     run: () => {

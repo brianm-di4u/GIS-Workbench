@@ -1267,7 +1267,7 @@ export async function install(app) {
   C.implement('fmv.measure', { enabled: hasVideoPane, checked: () => api.measureMode, run: run(() => ((api.measureMode = !api.measureMode), view() && (view().measure = null), view()?.drawHud())) });
   C.implement('fmv.link', { checked: () => !!options.linkPanes, run: run(() => (options.linkPanes = !options.linkPanes)) });
   C.implement('fmv.csv', { enabled: hasClip, run: run(async () => { const [f] = await pickFiles(app, { accept: ['.csv'], description: 'Platform metadata CSV' }); if (f) app.toast(`${await importCsv(activeClip(), f)} metadata rows applied`); }) });
-  C.implement('fmv.export', { enabled: hasVideoPane, run: run(() => exportClip()) });
+  C.implement('fmv.export', { enabled: () => hasVideoPane() && !viewOf(activeClip())?.metadataOnly, run: run(() => exportClip()) }); // metadata-only video (Lite, no MSE) cannot be recorded (GUI-022)
 
   const api = {
     clips,

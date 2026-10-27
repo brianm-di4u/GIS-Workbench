@@ -23,6 +23,18 @@ export class Ribbon {
     this.el.append(h('div', { class: 'ribbon-tabrow' }, this.strip, this.caret), this.body);
     this.controls = new Map();
     this.render();
+    new ResizeObserver(() => this.fitTabs()).observe(this.el);
+    // A Ribbon wider than its window scrolls sideways under the mouse wheel (GUI-017).
+    this.body.addEventListener(
+      'wheel',
+      (e) => {
+        const b = this.body;
+        if (b.scrollWidth <= b.clientWidth || Math.abs(e.deltaX) >= Math.abs(e.deltaY) || e.target.closest('select, input[type="range"]')) return;
+        b.scrollLeft += e.deltaY;
+        e.preventDefault();
+      },
+      { passive: false },
+    );
     app.on('state', () => this.refresh());
     app.on('ribbon', () => this.render());
     app.commands.on('change', () => this.refresh());
@@ -79,7 +91,7 @@ export class Ribbon {
       if (t.set !== lastSet) {
         if (t.set) {
           // Contextual set: its tabs sit under one coloured caption in the QAT row.
-          host = h('div', { class: 'rtab-set', role: 'presentation', 'data-caption': t.set.label, style: { '--ctx': `var(${t.set.color})` }, 'data-id': `ribbon:set:${t.set.id}` });
+          host = h('div', { class: 'rtab-set', role: 'presentation', 'data-caption': t.set.label, title: t.set.label, style: { '--ctx': `var(${t.set.color})` }, 'data-id': `ribbon:set:${t.set.id}` });
           this.strip.appendChild(host);
         } else host = this.strip;
       }
@@ -103,6 +115,18 @@ export class Ribbon {
     }
     this.caret.setAttribute('aria-pressed', String(this.minimised));
     this.renderBody(tabs.find((t) => t.id === this.active));
+    this.fitTabs();
+  }
+
+  /** Tighten the tab strip in steps until every tab fits (GUI-014). */
+  fitTabs() {
+    const s = this.strip;
+    s.classList.remove('compact', 'tight');
+    if (!s.isConnected) return;
+    for (const c of ['compact', 'tight']) {
+      if (s.scrollWidth <= s.clientWidth + 1) break;
+      s.classList.add(c);
+    }
   }
 
   toggleMinimise() {
@@ -156,6 +180,7 @@ export class Ribbon {
     if (c.key) parts.push(`(${c.key})`);
     if (c.tip) parts.push(`— ${c.tip}`);
     if (!c.implemented) parts.push(`· planned ${c.rel}, ${c.req}`);
+    if (this.app.commands.liteGap(c.id)) parts.push('· not in GIS Workbench Lite: open the Standard file');
     return parts.join(' ');
   }
 
@@ -201,21 +226,24 @@ export class Ribbon {
         const caret = h('button', { class: 'rsplit-caret', 'aria-label': `${c.label} options`, 'data-id': `${did}:menu` }, icon('caret', 12));
         caret.addEventListener('click', (e) => {
           e.stopPropagation();
-          const items = c.menu?.() ?? [{ label: c.implemented ? c.label : `${c.label} — planned ${c.rel}`, run: () => this.app.commands.run(c.id) }];
+          let items = c.menu?.() ?? [{ label: c.implemented ? c.label : `${c.label} — planned ${c.rel}`, run: () => this.app.commands.run(c.id) }];
+          if (!items.length) items = [{ label: 'Nothing to choose for the active image', disabled: true }];
           openMenu(items, this.app, { anchor: caret });
         });
         el = h('div', { class: ['rsplit', large ? 'rsplit-l' : 'rsplit-s'] }, b, caret);
+        this.controls.set(c.id, { el, c, kind: it.kind ?? 'button', b, caret });
       } else el = b;
-      this.controls.set(c.id, { el, c, kind: it.kind ?? 'button', b });
+      if (!this.controls.has(c.id)) this.controls.set(c.id, { el, c, kind: it.kind ?? 'button', b });
     }
     return el;
   }
 
   refresh() {
-    for (const { c, kind, b, sel, rng, inp } of this.controls.values()) {
+    for (const { c, kind, b, sel, rng, inp, caret } of this.controls.values()) {
       const en = this.app.commands.enabled(c.id);
       if (b) {
         b.disabled = !en && c.implemented;
+        if (caret) caret.disabled = b.disabled;
         if (c.checked || kind === 'toggle') {
           const on = this.app.commands.checked(c.id);
           b.setAttribute('aria-pressed', String(on));

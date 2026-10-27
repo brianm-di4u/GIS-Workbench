@@ -89,7 +89,7 @@ export class MapPane {
     // Footprints.
     for (const l of this.app.layers.values()) {
       const fp = l.footprint?.();
-      if (!fp || l.rec?.footprint === false) continue; // footprint toggle (Image List, REQ-UI-19)
+      if (!fp || !l.rec || l.rec.footprint === false) continue; // footprint toggle (Image List, REQ-UI-19); undone opens have no record
       const v = new Float32Array(fp.flatMap(([lat, lon]) => [lon, lat]));
       const col = l.kind === 'dem' ? [1, 0.55, 0, 1] : [0.88, 0, 0, 1];
       r.drawFlat(v, gl.LINE_LOOP, col, m, vp.w, vp.h);
@@ -111,7 +111,7 @@ export class MapPane {
 
   zoomToFootprints() {
     const pts = [];
-    for (const l of this.app.layers.values()) for (const p of l.footprint?.() ?? []) pts.push(p);
+    for (const l of this.app.layers.values()) if (l.rec) for (const p of l.footprint?.() ?? []) pts.push(p);
     if (!pts.length) return this.zoomTo(20, 0, 2);
     const lats = pts.map((p) => p[0]);
     const lons = pts.map((p) => p[1]);
