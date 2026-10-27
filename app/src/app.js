@@ -8,6 +8,7 @@ import { Commands } from './shell/commands.js';
 import { toast } from './shell/toast.js';
 import { highest, titleSuffix } from './security/marking.js';
 import { Terrain } from './layers/terrain.js';
+import { FEEDBACK_EMAIL } from './feedback/contact.js';
 
 const PREFS_KEY = 'gisworkbench.prefs.v1';
 const COMMON_KEY = 'gisworkbench.prefs.common.v1';
@@ -122,7 +123,7 @@ export class App extends Emitter {
     this.store.transact(
       'New project',
       (tx) => {
-        tx.create('project', { name: 'Untitled', created: new Date().toISOString(), marking: null, feedbackRecipient: '', origins: [], format: 1 }, 'project');
+        tx.create('project', { name: 'Untitled', created: new Date().toISOString(), marking: null, feedbackRecipient: FEEDBACK_EMAIL, origins: [], format: 1 }, 'project');
         tx.create('multiport', { name: 'Multiport_1', layout: '1x1', panes: [paneId] }, mpId);
         tx.create('pane', { multiport: mpId, layers: [], activeLayer: null }, paneId);
       },

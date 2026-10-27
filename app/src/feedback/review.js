@@ -8,6 +8,7 @@ import { modal } from '../shell/dialogs.js';
 import { saveBlob, textBlob, pickFiles } from '../storage/files.js';
 import { toJson, fromJson, extractJsonFromHtml, merge, emailBody, PAGE_TYPES, TRIAGE_STATUS, TRIAGE_PRIORITY, filterPages, pageToObservation } from './model.js';
 import { bannerText } from '../security/marking.js';
+import { FEEDBACK_EMAIL } from './contact.js';
 
 function esc(s) {
   return String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -169,7 +170,7 @@ export async function openReview(app, wb) {
       });
     } else {
       const s = session(app, wb);
-      const recipient = app.project()?.feedbackRecipient ?? '';
+      const recipient = app.project()?.feedbackRecipient || FEEDBACK_EMAIL;
       const subject = `GIS Workbench feedback — ${s.project} (${wb.pages.length} page${wb.pages.length > 1 ? 's' : ''})`;
       const text = emailBody(s);
       const actions = [

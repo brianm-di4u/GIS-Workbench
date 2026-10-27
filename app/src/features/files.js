@@ -9,6 +9,7 @@ import { groupFiles, openImageFile, attachFile } from '../formats/open.js';
 import { modal, field, confirmBox, promptBox } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
 import { fmtBytes } from '../core/util.js';
+import { FEEDBACK_EMAIL } from '../feedback/contact.js';
 
 export const name = 'files';
 
@@ -312,7 +313,7 @@ export async function install(app) {
     run: async () => {
       const p = app.project();
       const nm = h('input', { class: 'inp', value: p.name, spellcheck: 'true' });
-      const rcpt = h('input', { class: 'inp', type: 'email', value: p.feedbackRecipient ?? '', placeholder: 'reviewer@example.org' });
+      const rcpt = h('input', { class: 'inp', type: 'email', value: p.feedbackRecipient || FEEDBACK_EMAIL, placeholder: FEEDBACK_EMAIL });
       const body = h('div', {}, field('Project name', nm), field('Feedback recipient', rcpt, 'Used to pre-fill whiteboard e-mail drafts. Nothing is sent without your click.'), h('p', { class: 'hint' }, `Created ${p.created}. Imagery files: ${app.store.all('fileref').length}. Origins added: ${(p.origins ?? []).length || 'none'}.`));
       if ((await modal({ title: 'Project Properties', body, buttons: ['OK', 'Cancel'], id: 'project-props' })) !== 'OK') return;
       app.store.transact('Project properties', (tx) => {
