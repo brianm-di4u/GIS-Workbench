@@ -1,0 +1,25 @@
+{
+ "spec": "c03-enhance",
+ "project": "chrome",
+ "when": "2026-10-27T15:35:05.978Z",
+ "key": "bands.select",
+ "id": "bands.select",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Band Selection — SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

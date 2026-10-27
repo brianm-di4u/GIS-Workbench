@@ -1,0 +1,24 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-27T15:36:01.456Z",
+ "key": "sar.pairs",
+ "id": "sar.pairs",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Interferometric Pair Finder"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fx07/fx07_a.nitf",
+  "fx07/fx07_b.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

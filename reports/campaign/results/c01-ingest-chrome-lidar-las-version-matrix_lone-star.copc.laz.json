@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:07.352Z",
+ "key": "lidar-las-version-matrix/lone-star.copc.laz",
+ "item": "lidar-las-version-matrix",
+ "file": "lone-star.copc.laz",
+ "format": "LAS1.0-1.4 / LAZ / COPC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful.",
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened lone-star.copc.laz: 518,862 points in 817 ms (2 notes in the import log)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 965,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

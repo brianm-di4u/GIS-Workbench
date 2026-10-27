@@ -1,0 +1,29 @@
+{
+ "spec": "c07-terrain",
+ "project": "edge",
+ "when": "2026-10-27T15:41:51.548Z",
+ "key": "dem.r2v",
+ "id": "dem.r2v",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: 11423 polygon(s) from HLZ suitable"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain",
+  "los.hlz: dialog"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

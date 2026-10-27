@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:42:02.341Z",
+ "key": "cop-dem-glo30-n40w106/Copernicus_DSM_COG_10_N40_00_W106_00_DEM.tif",
+ "item": "cop-dem-glo30-n40w106",
+ "file": "Copernicus_DSM_COG_10_N40_00_W106_00_DEM.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Copernicus_DSM_COG_10_N40_00_W106_00_DEM.tif in 34 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 3600,
+   "h": 3600,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 614,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

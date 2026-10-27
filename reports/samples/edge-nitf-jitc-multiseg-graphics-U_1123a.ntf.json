@@ -1,0 +1,57 @@
+{
+ "browser": "edge",
+ "sample": "nitf-jitc-multiseg-graphics/U_1123a.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 64,
+   "h": 64,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 64,
+   "h": 64,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 231,
+   "h": 191,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 181,
+   "h": 73,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 240
+}

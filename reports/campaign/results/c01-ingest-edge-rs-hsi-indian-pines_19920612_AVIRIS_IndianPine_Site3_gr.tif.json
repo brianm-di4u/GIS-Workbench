@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:41.201Z",
+ "key": "rs-hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3_gr.tif",
+ "item": "rs-hsi-indian-pines",
+ "file": "19920612_AVIRIS_IndianPine_Site3_gr.tif",
+ "format": "GeoTIFF 220-band",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 19920612_AVIRIS_IndianPine_Site3_gr.tif in 25 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 145,
+   "h": 145,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 334,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

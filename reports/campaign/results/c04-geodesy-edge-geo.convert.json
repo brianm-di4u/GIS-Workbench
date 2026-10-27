@@ -1,0 +1,21 @@
+{
+ "spec": "c04-geodesy",
+ "project": "edge",
+ "when": "2026-10-27T15:41:01.550Z",
+ "key": "geo.convert",
+ "id": "geo.convert",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Convert Coordinates"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

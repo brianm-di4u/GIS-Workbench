@@ -1,0 +1,23 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-27T15:36:04.933Z",
+ "key": "profile.spectral",
+ "id": "profile.spectral",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

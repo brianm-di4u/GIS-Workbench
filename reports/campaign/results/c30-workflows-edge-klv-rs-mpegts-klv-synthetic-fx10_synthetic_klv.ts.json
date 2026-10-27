@@ -1,0 +1,9 @@
+{
+ "spec": "c30-workflows",
+ "project": "edge",
+ "when": "2026-10-27T14:46:38.931Z",
+ "key": "klv-rs-mpegts-klv-synthetic-fx10_synthetic_klv.ts",
+ "packets": 300,
+ "compared": 50,
+ "bad": []
+}

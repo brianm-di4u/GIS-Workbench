@@ -1,0 +1,25 @@
+{
+ "spec": "c15-products",
+ "project": "edge",
+ "when": "2026-10-27T15:44:29.280Z",
+ "key": "prod.finishing",
+ "id": "prod.finishing",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Finishing Tool"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

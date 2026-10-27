@@ -1,0 +1,498 @@
+{
+  "build": {
+    "id": "cc718bae6e46bdbb",
+    "version": "1.0.0",
+    "date": "2026-10-27T15:57:39.032Z",
+    "dev": false,
+    "defaultModel": "claude-opus-5-5",
+    "profile": "standard"
+  },
+  "sizes": {
+    "total": 5658215,
+    "eager": 2273438,
+    "css": 39882,
+    "boot": 2694,
+    "app": 1962440,
+    "notices": 113900,
+    "blocks": {
+      "wasm-core": {
+        "raw": 344323,
+        "stored": 187092,
+        "load": "eager"
+      },
+      "wasm-parse": {
+        "raw": 473646,
+        "stored": 238788,
+        "load": "lazy"
+      },
+      "wasm-j2k": {
+        "raw": 277317,
+        "stored": 123664,
+        "load": "lazy"
+      },
+      "wasm-photo": {
+        "raw": 240830,
+        "stored": 127816,
+        "load": "lazy"
+      },
+      "wasm-raster": {
+        "raw": 71050,
+        "stored": 41108,
+        "load": "lazy"
+      },
+      "wasm-terrain": {
+        "raw": 124076,
+        "stored": 65340,
+        "load": "lazy"
+      },
+      "wasm-pointcloud": {
+        "raw": 353454,
+        "stored": 167392,
+        "load": "lazy"
+      },
+      "wasm-vector": {
+        "raw": 106313,
+        "stored": 56272,
+        "load": "lazy"
+      },
+      "wasm-sar": {
+        "raw": 134160,
+        "stored": 70464,
+        "load": "lazy"
+      },
+      "wasm-spectral": {
+        "raw": 180168,
+        "stored": 86300,
+        "load": "lazy"
+      },
+      "js-worker-core": {
+        "raw": 11764,
+        "stored": 5060,
+        "load": "lazy"
+      },
+      "js-worker-ai": {
+        "raw": 2785,
+        "stored": 1956,
+        "load": "lazy"
+      },
+      "js-worker-analysis": {
+        "raw": 36884,
+        "stored": 17712,
+        "load": "lazy"
+      },
+      "js-worker-decode": {
+        "raw": 354123,
+        "stored": 175752,
+        "load": "lazy"
+      },
+      "js-worker-pointcloud": {
+        "raw": 6884,
+        "stored": 2808,
+        "load": "lazy"
+      },
+      "js-milsymbol": {
+        "raw": 862192,
+        "stored": 260128,
+        "load": "lazy"
+      },
+      "js-mpegts": {
+        "raw": 277673,
+        "stored": 85444,
+        "load": "lazy"
+      },
+      "js-pptx": {
+        "raw": 373179,
+        "stored": 168340,
+        "load": "lazy"
+      },
+      "js-sqlite": {
+        "raw": 45802,
+        "stored": 20320,
+        "load": "lazy"
+      },
+      "js-three": {
+        "raw": 639164,
+        "stored": 214904,
+        "load": "lazy"
+      },
+      "wasm-sqlite": {
+        "raw": 631155,
+        "stored": 415492,
+        "load": "lazy"
+      },
+      "data-egm96": {
+        "raw": 2076480,
+        "stored": 911464,
+        "load": "lazy"
+      },
+      "data-basemap": {
+        "raw": 140298,
+        "stored": 73732,
+        "load": "eager"
+      },
+      "data-tokens": {
+        "raw": 40592,
+        "stored": 9304,
+        "load": "lazy"
+      }
+    },
+    "rust": {
+      "core": {
+        "raw": 344323,
+        "gzip": 140318,
+        "budget": 256000
+      },
+      "parse": {
+        "raw": 473646,
+        "gzip": 179091,
+        "budget": 204800
+      },
+      "j2k": {
+        "raw": 277317,
+        "gzip": 92747,
+        "budget": 307200
+      },
+      "photo": {
+        "raw": 240830,
+        "gzip": 95862,
+        "budget": 153600
+      },
+      "raster": {
+        "raw": 71050,
+        "gzip": 30831,
+        "budget": 153600
+      },
+      "terrain": {
+        "raw": 124076,
+        "gzip": 49003,
+        "budget": 81920
+      },
+      "pointcloud": {
+        "raw": 353454,
+        "gzip": 125543,
+        "budget": 122880
+      },
+      "vector": {
+        "raw": 106313,
+        "gzip": 42202,
+        "budget": 81920
+      },
+      "sar": {
+        "raw": 134160,
+        "gzip": 52847,
+        "budget": 102400
+      },
+      "spectral": {
+        "raw": 180168,
+        "gzip": 64723,
+        "budget": 102400
+      }
+    },
+    "rustTotalGzip": 873167,
+    "lite": 3940588,
+    "snippet": 5990358,
+    "snippetLite": 3940911
+  },
+  "gates": {
+    "errors": [],
+    "warnings": [],
+    "licence": "pass"
+  },
+  "packages": [
+    {
+      "name": "@anthropic-ai/sdk",
+      "version": "1.3.0",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@opentelemetry/api",
+      "version": "1.10.0",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@petamoriken/float16",
+      "version": "3.9.3",
+      "license": "MIT"
+    },
+    {
+      "name": "@stablelib/base64",
+      "version": "1.0.1",
+      "license": "MIT"
+    },
+    {
+      "name": "fast-sha256",
+      "version": "1.3.0",
+      "license": "Unlicense"
+    },
+    {
+      "name": "fflate",
+      "version": "0.8.3",
+      "license": "MIT"
+    },
+    {
+      "name": "geotiff",
+      "version": "3.0.5",
+      "license": "MIT"
+    },
+    {
+      "name": "jszip",
+      "version": "3.10.2",
+      "license": "(MIT OR GPL-3.0-or-later)"
+    },
+    {
+      "name": "kdbush",
+      "version": "4.0.2",
+      "license": "ISC"
+    },
+    {
+      "name": "lerc",
+      "version": "3.0.0",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "milsymbol",
+      "version": "3.0.4",
+      "license": "MIT"
+    },
+    {
+      "name": "mpegts.js",
+      "version": "1.8.2",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "pako",
+      "version": "2.2.0",
+      "license": "(MIT AND Zlib)"
+    },
+    {
+      "name": "polygon-clipping",
+      "version": "0.15.7",
+      "license": "MIT"
+    },
+    {
+      "name": "pptxgenjs",
+      "version": "4.0.1",
+      "license": "MIT"
+    },
+    {
+      "name": "proj4",
+      "version": "2.22.0",
+      "license": "MIT"
+    },
+    {
+      "name": "quick-lru",
+      "version": "6.1.2",
+      "license": "MIT"
+    },
+    {
+      "name": "quickselect",
+      "version": "3.0.0",
+      "license": "ISC"
+    },
+    {
+      "name": "rbush",
+      "version": "4.0.1",
+      "license": "MIT"
+    },
+    {
+      "name": "rtree-sql.js",
+      "version": "1.7.0",
+      "license": "MIT"
+    },
+    {
+      "name": "standardwebhooks",
+      "version": "1.1.1",
+      "license": "MIT"
+    },
+    {
+      "name": "three",
+      "version": "0.186.1",
+      "license": "MIT"
+    },
+    {
+      "name": "web-worker",
+      "version": "1.5.0",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "wkt-parser",
+      "version": "1.6.0",
+      "license": "MIT"
+    },
+    {
+      "name": "xml-utils",
+      "version": "1.10.2",
+      "license": "CC0-1.0"
+    },
+    {
+      "name": "zstddec",
+      "version": "0.2.0",
+      "license": "MIT AND BSD-3-Clause"
+    }
+  ],
+  "rustCrates": [
+    {
+      "name": "adler2",
+      "version": "2.0.1",
+      "license": "0BSD OR MIT OR Apache-2.0",
+      "repository": "https://github.com/oyvindln/adler2"
+    },
+    {
+      "name": "autocfg",
+      "version": "1.5.1",
+      "license": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/cuviper/autocfg"
+    },
+    {
+      "name": "bytemuck",
+      "version": "1.25.2",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "repository": "https://github.com/Lokathor/bytemuck"
+    },
+    {
+      "name": "bytemuck_derive",
+      "version": "1.12.1",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "repository": "https://github.com/Lokathor/bytemuck"
+    },
+    {
+      "name": "byteorder",
+      "version": "1.5.0",
+      "license": "Unlicense OR MIT",
+      "repository": "https://github.com/BurntSushi/byteorder"
+    },
+    {
+      "name": "fax",
+      "version": "0.3.0",
+      "license": "MIT",
+      "repository": "https://github.com/pdf-rs/fax"
+    },
+    {
+      "name": "fearless_simd",
+      "version": "1.2.0",
+      "license": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/linebender/fearless_simd"
+    },
+    {
+      "name": "geographiclib-rs",
+      "version": "0.2.7",
+      "license": "MIT",
+      "repository": "https://github.com/georust/geographiclib-rs"
+    },
+    {
+      "name": "hayro-jpeg2000",
+      "version": "0.4.1+gw.1",
+      "license": "Apache-2.0 OR MIT",
+      "repository": ""
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.18",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/itoa"
+    },
+    {
+      "name": "jpeg-decoder",
+      "version": "0.3.2",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/image-rs/jpeg-decoder"
+    },
+    {
+      "name": "laz",
+      "version": "0.13.0",
+      "license": "Apache-2.0",
+      "repository": "https://github.com/tmontaigu/laz-rs"
+    },
+    {
+      "name": "libm",
+      "version": "0.2.16",
+      "license": "MIT",
+      "repository": "https://github.com/rust-lang/compiler-builtins"
+    },
+    {
+      "name": "memchr",
+      "version": "2.8.3",
+      "license": "Unlicense OR MIT",
+      "repository": "https://github.com/BurntSushi/memchr"
+    },
+    {
+      "name": "miniz_oxide",
+      "version": "0.8.9",
+      "license": "MIT OR Zlib OR Apache-2.0",
+      "repository": "https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide"
+    },
+    {
+      "name": "ndic-core",
+      "version": "0.2.5",
+      "license": "MIT",
+      "repository": "https://github.com/fideus-labs/nd-image-codecs"
+    },
+    {
+      "name": "ndic-htj2k",
+      "version": "0.2.5",
+      "license": "MIT",
+      "repository": "https://github.com/fideus-labs/nd-image-codecs"
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/rust-num/num-traits"
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.107",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/proc-macro2"
+    },
+    {
+      "name": "quote",
+      "version": "1.0.47",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/quote"
+    },
+    {
+      "name": "serde_core",
+      "version": "1.0.229",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/serde-rs/serde"
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.154",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/serde-rs/json"
+    },
+    {
+      "name": "syn",
+      "version": "3.0.9",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/syn"
+    },
+    {
+      "name": "thiserror",
+      "version": "2.0.21",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/thiserror"
+    },
+    {
+      "name": "thiserror-impl",
+      "version": "2.0.21",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/thiserror"
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.27",
+      "license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "repository": "https://github.com/dtolnay/unicode-ident"
+    },
+    {
+      "name": "zmij",
+      "version": "1.0.23",
+      "license": "MIT",
+      "repository": "https://github.com/dtolnay/zmij"
+    }
+  ],
+  "csp": "default-src 'none'; script-src 'sha256-aU5aa6Skw19Nx24cVbloywmnc3AxFYnu6zNV6uB2tuE=' 'sha256-4eKLY6cHjfXdzs/meZxBSnTas4quMuViFyO8sm1az58=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+}

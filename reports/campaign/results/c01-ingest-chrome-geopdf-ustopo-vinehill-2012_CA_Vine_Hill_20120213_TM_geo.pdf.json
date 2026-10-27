@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:23.208Z",
+ "key": "geopdf-ustopo-vinehill-2012/CA_Vine_Hill_20120213_TM_geo.pdf",
+ "item": "geopdf-ustopo-vinehill-2012",
+ "file": "CA_Vine_Hill_20120213_TM_geo.pdf",
+ "format": "GeoPDF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened CA_Vine_Hill_20120213_TM_geo.pdf in 3184 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (788 objects; LGIDict; 155 images)",
+   "w": 7122,
+   "h": 8987,
+   "bands": 3,
+   "model": "GeoPDF LGIDict (EPSG:26910, 5 points)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 6607,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

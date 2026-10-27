@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:39:40.827Z",
+ "key": "3d-gltf-sample-assets/Box.glb",
+ "item": "3d-gltf-sample-assets",
+ "file": "Box.glb",
+ "format": "glTF 2.0 / GLB",
+ "rendered": false,
+ "errors": [],
+ "warnings": [
+  "placed by its centre"
+ ],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120092,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

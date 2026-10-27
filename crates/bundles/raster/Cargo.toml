@@ -1,0 +1,16 @@
+[package]
+name = "gw-bundle-raster"
+description = "Lazy WASM bundle: orthorectification and mosaics (analysis worker)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+gw-sensor.workspace = true
+gw-raster.workspace = true

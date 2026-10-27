@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:45.951Z",
+ "key": "rs-nitf-gdal-autotest-small/fake_nsif.ntf",
+ "item": "rs-nitf-gdal-autotest-small",
+ "file": "fake_nsif.ntf",
+ "format": "NITF2.1/NSIF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened fake_nsif.ntf in 60 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NSIF 01.00",
+   "w": 30,
+   "h": 30,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 177,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

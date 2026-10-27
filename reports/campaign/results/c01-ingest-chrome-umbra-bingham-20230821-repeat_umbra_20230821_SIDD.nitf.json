@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:12.152Z",
+ "key": "umbra-bingham-20230821-repeat/umbra_20230821_SIDD.nitf",
+ "item": "umbra-bingham-20230821-repeat",
+ "file": "umbra_20230821_SIDD.nitf",
+ "format": "SICD1.2.1/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF (GEC)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened umbra_20230821_SIDD.nitf in 33 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SIDD 2.0.0 (MONO8I)",
+   "w": 7911,
+   "h": 7911,
+   "bands": 1,
+   "model": "SIDD PlaneProjection"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2393,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

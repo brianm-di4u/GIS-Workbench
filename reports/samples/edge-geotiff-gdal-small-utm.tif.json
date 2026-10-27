@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "geotiff-gdal-small/utm.tif",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "GeoTIFF",
+   "w": 512,
+   "h": 512,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)",
+   "kind": "image"
+  }
+ ],
+ "ms": 160
+}

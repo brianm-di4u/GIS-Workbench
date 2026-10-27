@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:50.230Z",
+ "key": "rs-nitf-jitc-jpeg-c3/U_2005a.ntf",
+ "item": "rs-nitf-jitc-jpeg-c3",
+ "file": "U_2005a.ntf",
+ "format": "NITF C3",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened U_2005a.ntf in 29 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 256,
+   "h": 256,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 351,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

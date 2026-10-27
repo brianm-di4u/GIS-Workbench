@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:35:08.252Z",
+ "key": "nitf-ntb-nitf20-conformance/U_4003b.ntf",
+ "item": "nitf-ntb-nitf20-conformance",
+ "file": "U_4003b.ntf",
+ "format": "NITF2.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened U_4003b.ntf in 24 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 2560,
+   "h": 4096,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 585,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

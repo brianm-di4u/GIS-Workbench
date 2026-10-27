@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:15.233Z",
+ "key": "robustness-gdal-autotest-seeds/byte_bigtiff_invalid_slong8_for_stripoffsets.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "byte_bigtiff_invalid_slong8_for_stripoffsets.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened byte_bigtiff_invalid_slong8_for_stripoffsets.tif in 39 ms",
+  "toast-error: byte_bigtiff_invalid_slong8_for_stripoffsets.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
+ ],
+ "layers": [
+  {
+   "error": "the TIFF is truncated or damaged: a tag or block points outside the file",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 151,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

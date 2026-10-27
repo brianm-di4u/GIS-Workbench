@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:39.324Z",
+ "key": "rs-geotiff-gdal-small/small_world.tif",
+ "item": "rs-geotiff-gdal-small",
+ "file": "small_world.tif",
+ "format": "GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened small_world.tif in 28 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 400,
+   "h": 200,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 346,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

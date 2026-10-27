@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:17.608Z",
+ "key": "fmv-esri-truck-tutorial/Truck.ts",
+ "item": "fmv-esri-truck-tutorial",
+ "file": "Truck.ts",
+ "format": "MPEG-TS/KLV (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Truck.ts: 4439 frames, 711 KLV packets (0 bad) in 1897 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1966,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

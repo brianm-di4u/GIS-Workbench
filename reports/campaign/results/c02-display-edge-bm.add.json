@@ -1,0 +1,29 @@
+{
+ "spec": "c02-display",
+ "project": "edge",
+ "when": "2026-10-27T15:39:14.714Z",
+ "key": "bm.add",
+ "id": "bm.add",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Add 2D Bookmark"
+ ],
+ "toasts": [
+  "toast-info: Bookmark \"Bookmark 1\" added"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

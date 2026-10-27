@@ -1,0 +1,14 @@
+{
+ "spec": "c18-live",
+ "project": "edge",
+ "when": "2026-10-27T15:08:59.970Z",
+ "key": "copc-https",
+ "kind": "COPC",
+ "total": 10653336,
+ "nodesLoaded": 8,
+ "requests": 15,
+ "bytes": 3423921,
+ "statuses": [
+  206
+ ]
+}

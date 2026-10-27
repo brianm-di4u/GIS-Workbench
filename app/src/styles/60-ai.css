@@ -1,0 +1,18 @@
+/* AI Assistant dock (REQ-AI-01). */
+.ai-tabs { display: flex; gap: 2px; padding: 3px; background: var(--c-content-header); flex: none; }
+.ai-page { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 4px; padding: 4px; overflow: auto; }
+.ai-transcript { flex: 1; min-height: 80px; overflow: auto; display: flex; flex-direction: column; gap: 4px; }
+.ai-msg { padding: 4px 6px; border-radius: 3px; white-space: pre-wrap; word-break: break-word; }
+.ai-user { background: color-mix(in srgb, var(--c-content-selected) 70%, transparent); align-self: flex-end; max-width: 92%; }
+.ai-ai { background: color-mix(in srgb, #4da3ff 14%, transparent); border-left: 3px solid #4da3ff; }
+.ai-tool { font-family: var(--f-monoLog); font-size: 11px; opacity: .85; border-left: 3px solid #8a8a8a; padding-left: 4px; }
+.ai-sys { font-style: italic; opacity: .85; }
+.ai-prov { font-size: 10px; opacity: .7; margin-top: 2px; }
+.ai-input { resize: vertical; }
+.ai-attach { display: flex; gap: 10px; font-size: var(--fs-sm); }
+.ai-prop { border: 1px solid #9a9a9a; padding: 4px 6px; margin: 3px 0; background: var(--c-content-bg); }
+.ai-prop-status { float: right; font-size: 11px; text-transform: uppercase; }
+.ai-prop-stale { opacity: .6; }
+.ai-prop-accepted .ai-prop-status { color: #2e7d32; }
+.ai-prop-rejected .ai-prop-status { color: #b00020; }
+form.ai-tool { border-top: 1px solid #c4c4c4; padding: 4px 0; display: block; }

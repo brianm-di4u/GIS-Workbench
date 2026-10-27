@@ -1,0 +1,28 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "edge",
+ "when": "2026-10-27T15:41:15.210Z",
+ "key": "stereo.manager",
+ "id": "stereo.manager",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Stereo Model Manager"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "stereo"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

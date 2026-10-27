@@ -1,0 +1,11 @@
+{
+ "spec": "c19-nonfunctional",
+ "project": "chrome",
+ "when": "2026-10-27T14:48:21.206Z",
+ "key": "rs-geotiff-wv3-rpc-cog-file",
+ "mode": "file",
+ "errors": [],
+ "ok": true,
+ "logs": [],
+ "requests": []
+}

@@ -1,0 +1,13 @@
+{
+ "browser": "edge",
+ "sample": "nsif-jitc/ns3114a.nsf",
+ "expected": "/no displayable image/",
+ "rendered": false,
+ "errors": [
+  "the file has no displayable image"
+ ],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [],
+ "ms": 78
+}

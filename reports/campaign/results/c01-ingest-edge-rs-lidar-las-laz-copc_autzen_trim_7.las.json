@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:43.326Z",
+ "key": "rs-lidar-las-laz-copc/autzen_trim_7.las",
+ "item": "rs-lidar-las-laz-copc",
+ "file": "autzen_trim_7.las",
+ "format": "LAS/LAZ/COPC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened autzen_trim_7.las: 110,000 points in 143 ms (1 note in the import log)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 257,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,11 @@
+{
+ "spec": "c19-nonfunctional",
+ "project": "chrome",
+ "when": "2026-10-27T14:48:19.058Z",
+ "key": "rs-nitf-jitc-jpeg-c3-iframe",
+ "mode": "iframe",
+ "errors": [],
+ "ok": true,
+ "logs": [],
+ "requests": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:27.275Z",
+ "key": "robustness-gdal-autotest-seeds/n43_sparse_cols.dt0",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "n43_sparse_cols.dt0",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": false,
+ "errors": [
+  "DTED data records truncated: 3936 of 34162 bytes"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: n43_sparse_cols.dt0: DTED data records truncated: 3936 of 34162 bytes"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 94,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

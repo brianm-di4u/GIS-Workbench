@@ -1,0 +1,25 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-27T15:33:26.943Z",
+ "key": "panel.visibility",
+ "id": "panel.visibility",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Data Visibility"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,1702 @@
+{
+  "version": "1.0",
+  "generated": "2026-10-26",
+  "notes": "Rebuilt design tokens for a GXP-like workbench (WS2). 'observed' = pixel-sampled from public BAE release-note screenshots (v4.5/4.6; scaled and compressed, so treat as +/- a few levels); 'estimated' = read by eye from screenshots or video frames; 'guess' = design choice where no evidence exists. Every value is [unverified] against a live SOCET GXP installation. Two palettes: 'colors' (observed GXP-grey look) and 'colorsDarkDerived' (derived dark theme for the workbench; all 'guess'). Sizes are given at 100% Windows scaling (CSS px). Do not copy GXP icons, logos or names into the tool. Source IDs refer to 02-ui-visual-language.md. GIS Workbench additions (2026-10-26): GW contextual captions, focus ring, banner colours and a print palette, all 'guess'.",
+  "colors": {
+    "chrome.frame": {
+      "hex": "#717171",
+      "use": "Menu bar, QAT row, Ribbon tab strip, window gutters, dialog body",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "chrome.qatTop": {
+      "hex": "#787878",
+      "use": "Top of QAT row gradient",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "chrome.toolbar": {
+      "hex": "#bababa",
+      "use": "Workspace Manager toolbar row",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "chrome.titlebar": {
+      "hex": "#ffffff",
+      "use": "OS title bar (Windows 11)",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "chrome.textOnFrame": {
+      "hex": "#ffffff",
+      "use": "Menu and tab labels, dialog labels on grey",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.bodyTop": {
+      "hex": "#c8c6c7",
+      "use": "Ribbon body gradient top",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.bodyBottom": {
+      "hex": "#a7a3a4",
+      "use": "Ribbon body gradient bottom",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.captionBand": {
+      "hex": "#a6a6a6",
+      "use": "Group caption band",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.captionText": {
+      "hex": "#3b3b3b",
+      "use": "Group caption text",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.groupSeparator": {
+      "hex": "#8f8f8f",
+      "use": "Vertical rule between groups",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.borderBottom": {
+      "hex": "#58526e",
+      "use": "Line under Ribbon",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.selectedTab": {
+      "hex": "#c8c6c7",
+      "use": "Selected tab fill (matches body)",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.fileTab": {
+      "hex": "#2f68bf",
+      "use": "File (application) tab fill, 2-D Multiport",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.fileTab3D": {
+      "hex": "#f5a623",
+      "use": "File tab in 3D Multiport appears orange",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbon.buttonHot": {
+      "hex": "#ffe79c",
+      "use": "Button hover (amber)",
+      "confidence": "observed",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "ribbon.buttonPressed": {
+      "hex": "#ffcb5f",
+      "use": "Button pressed/checked (amber)",
+      "confidence": "observed",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "ctx.imageTools": {
+      "hex": "#6e86a8",
+      "use": "Contextual caption: Visualize, Enhance, Search, Analyze",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ctx.layerTools": {
+      "hex": "#c98e4c",
+      "use": "Contextual caption: Layers",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ctx.surfaceTools": {
+      "hex": "#62a558",
+      "use": "Contextual caption: Surface",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ctx.featureTools": {
+      "hex": "#a2a727",
+      "use": "Contextual caption: Feature",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ctx.observationTools": {
+      "hex": "#7c60ab",
+      "use": "Contextual caption: Observation, Auto Detections",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "dock.title": {
+      "hex": "#767676",
+      "use": "Dock window title bar (white text)",
+      "confidence": "observed",
+      "source": [
+        "WS2-04"
+      ],
+      "measured": "#7c7c7c",
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+    },
+    "dock.body": {
+      "hex": "#a1a1a1",
+      "use": "Dock background",
+      "confidence": "observed",
+      "source": [
+        "WS2-03",
+        "WS2-04"
+      ]
+    },
+    "dock.tabActive": {
+      "hex": "#a3a3a3",
+      "use": "Active bottom tab",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "dock.tabInactive": {
+      "hex": "#e9e9e9",
+      "use": "Inactive bottom tab",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "toolbox.drawerHeader": {
+      "hex": "#4a4a4a",
+      "use": "ToolBox drawer header bar (white text), v4.0",
+      "confidence": "estimated",
+      "source": [
+        "WS2-01"
+      ]
+    },
+    "content.bg": {
+      "hex": "#ffffff",
+      "use": "Trees, tables, inputs, preview",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "content.text": {
+      "hex": "#000000",
+      "use": "Text on white",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "content.header": {
+      "hex": "#e5e5e5",
+      "use": "Table header row",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "content.selected": {
+      "hex": "#d9d9d9",
+      "use": "Selected tree/table row",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "content.dropdownHover": {
+      "hex": "#add8e6",
+      "use": "Drop-down list item under pointer",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "content.link": {
+      "hex": "#0000ee",
+      "use": "Hyperlink cells (jump-to)",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "menu.bg": {
+      "hex": "#f5f5f7",
+      "use": "Context/drop-down menu body",
+      "confidence": "observed",
+      "source": [
+        "WS2-03",
+        "WS2-04"
+      ]
+    },
+    "menu.hover": {
+      "hex": "#ffe7a2",
+      "use": "Context menu hover",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "button.face": {
+      "hex": "#e1e1e1",
+      "use": "Dialog push buttons",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "layer.activeHighlight": {
+      "hex": "#ffff00",
+      "use": "Active layer row in Layer Manager",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "status.bg": {
+      "hex": "#3b3b3b",
+      "use": "Status bars (Multiport, Workspace Manager)",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "status.text": {
+      "hex": "#e8e8e8",
+      "use": "Status bar text",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "status.separator": {
+      "hex": "#626262",
+      "use": "Status cell dividers",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "status.ok": {
+      "hex": "#72fc69",
+      "use": "Terrain / sensor model available cell (black text)",
+      "confidence": "observed",
+      "source": [
+        "WS2-03",
+        "WS2-01"
+      ]
+    },
+    "status.bad": {
+      "hex": "#ff5a5a",
+      "use": "Terrain not available cell",
+      "confidence": "estimated",
+      "source": [
+        "WS2-01"
+      ]
+    },
+    "pane.bg": {
+      "hex": "#000000",
+      "use": "Image pane background",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "map.bg": {
+      "hex": "#000014",
+      "use": "Workspace Map View background",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "footprint.images": {
+      "hex": "#e00000",
+      "use": "Map View image footprints",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "footprint.terrain": {
+      "hex": "#ff8c00",
+      "use": "Map View terrain footprints",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "footprint.maps": {
+      "hex": "#e6d200",
+      "use": "Map View maps and charts footprints",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "footprint.vectors": {
+      "hex": "#a020f0",
+      "use": "Map View vector footprints",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "gfx.activePanel": {
+      "hex": "#ffff00",
+      "use": "Active panel outline; PiP region box",
+      "confidence": "estimated",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "gfx.snailTrail": {
+      "hex": "#00c000",
+      "use": "Overview roam-history tint",
+      "confidence": "guess",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "gfx.panZone": {
+      "hex": "#ffffff",
+      "use": "Pan Zone dashed border and hint text",
+      "confidence": "estimated",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "gfx.scalebarRed": {
+      "hex": "#e00000",
+      "use": "Scalebar blocks and labels",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "gfx.scalebarWhite": {
+      "hex": "#ffffff",
+      "use": "Scalebar alternate blocks",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "gfx.calloutBg": {
+      "hex": "#ffffff",
+      "use": "Marker callout box (black text)",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "gfx.calloutLeader": {
+      "hex": "#e00000",
+      "use": "Marker callout leader line",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "gfx.markerRing": {
+      "hex": "#ffd400",
+      "use": "Marker ring on point (4.6); orange in v4.0",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03",
+        "WS2-01"
+      ]
+    },
+    "gfx.feature": {
+      "hex": "#e00000",
+      "use": "Default extracted feature linework",
+      "confidence": "estimated",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "gfx.featureFill": {
+      "hex": "#e0000080",
+      "use": "Polygon feature fill (semi-transparent)",
+      "confidence": "estimated",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "gfx.featureOutline2": {
+      "hex": "#1e7cc8",
+      "use": "Secondary polygon outline",
+      "confidence": "estimated",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "gfx.selected": {
+      "hex": "#e000e0",
+      "use": "Selected feature line",
+      "confidence": "estimated",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "gfx.vertex": {
+      "hex": "#08b0f0",
+      "use": "Vertex handle dots",
+      "confidence": "observed",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "gfx.compareOld": {
+      "hex": "#ff0000",
+      "use": "Multi-colour compare: present only in older image",
+      "confidence": "guess",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "gfx.compareNew": {
+      "hex": "#0000ff",
+      "use": "Multi-colour compare: present only in newer image",
+      "confidence": "guess",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "gfx.losVisible": {
+      "hex": "#00c000",
+      "use": "Line-of-sight visible area",
+      "confidence": "guess",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "gfx.trackStart": {
+      "hex": "#00c000",
+      "use": "Track start (STANAG 4676)",
+      "confidence": "guess",
+      "source": [
+        "WS2-13"
+      ]
+    },
+    "gfx.trackEnd": {
+      "hex": "#e00000",
+      "use": "Track end (STANAG 4676)",
+      "confidence": "guess",
+      "source": [
+        "WS2-13"
+      ]
+    },
+    "gfx.northArrow": {
+      "hex": "#ffffff",
+      "use": "North arrow fill (dark outline)",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "gfx.errorBall": {
+      "hex": "#d01010",
+      "use": "Validation error marker",
+      "confidence": "estimated",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "gfx.okBall": {
+      "hex": "#20b020",
+      "use": "Status complete marker",
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ctx.stereoTools": {
+      "hex": "#5f8f9f",
+      "use": "Contextual caption: Stereo (GW)",
+      "confidence": "guess",
+      "source": [
+        "Appendix C §6"
+      ]
+    },
+    "ctx.pointCloudTools": {
+      "hex": "#4f9a7a",
+      "use": "Contextual caption: Point Cloud (GW)",
+      "confidence": "guess",
+      "source": [
+        "Appendix C §6"
+      ]
+    },
+    "ctx.sarTools": {
+      "hex": "#8a7a5a",
+      "use": "Contextual caption: SAR (GW)",
+      "confidence": "guess",
+      "source": [
+        "Appendix C §6"
+      ]
+    },
+    "ctx.videoTools": {
+      "hex": "#a0606e",
+      "use": "Contextual caption: Video (GW)",
+      "confidence": "guess",
+      "source": [
+        "Appendix C §6"
+      ]
+    },
+    "focus.ring": {
+      "hex": "#1a5fb4",
+      "use": "Keyboard focus ring (accessibility addition, grey theme)",
+      "confidence": "guess",
+      "source": []
+    },
+    "banner.U": {
+      "hex": "#007a33",
+      "use": "Classification banner UNCLASSIFIED (convention, not NITF)",
+      "confidence": "guess",
+      "source": [
+        "Research/14 §2.3"
+      ]
+    },
+    "banner.C": {
+      "hex": "#0033a0",
+      "use": "Classification banner CONFIDENTIAL",
+      "confidence": "guess",
+      "source": [
+        "Research/14 §2.3"
+      ]
+    },
+    "banner.S": {
+      "hex": "#c8102e",
+      "use": "Classification banner SECRET",
+      "confidence": "guess",
+      "source": [
+        "Research/14 §2.3"
+      ]
+    },
+    "banner.T": {
+      "hex": "#ff8c00",
+      "use": "Classification banner TOP SECRET",
+      "confidence": "guess",
+      "source": [
+        "Research/14 §2.3"
+      ]
+    },
+    "banner.R": {
+      "hex": "#6f2da8",
+      "use": "Classification banner RESTRICTED",
+      "confidence": "guess",
+      "source": [
+        "Research/14 §2.3"
+      ]
+    },
+    "dock.titleText": {
+      "hex": "#ffffff",
+      "use": "Dock window title text",
+      "confidence": "observed",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "content.errorText": {
+      "hex": "#b3261e",
+      "use": "Error text on content background (6.5:1 on white)",
+      "confidence": "guess",
+      "source": []
+    }
+  },
+  "colorsDarkDerived": {
+    "chrome.frame": {
+      "hex": "#2b2b2b",
+      "use": "Frame, menu bar, tab strip",
+      "confidence": "guess",
+      "source": []
+    },
+    "chrome.toolbar": {
+      "hex": "#333333",
+      "use": "Toolbars",
+      "confidence": "guess",
+      "source": []
+    },
+    "chrome.textOnFrame": {
+      "hex": "#e6e6e6",
+      "use": "Labels on chrome",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.bodyTop": {
+      "hex": "#3a3a3a",
+      "use": "Ribbon gradient top",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.bodyBottom": {
+      "hex": "#323232",
+      "use": "Ribbon gradient bottom",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.captionBand": {
+      "hex": "#2f2f2f",
+      "use": "Group caption band",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.fileTab": {
+      "hex": "#2a5aa8",
+      "use": "Application tab",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.buttonHot": {
+      "hex": "#5a4a1e",
+      "use": "Hover",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.buttonPressed": {
+      "hex": "#94722a",
+      "use": "Pressed/checked",
+      "confidence": "guess",
+      "source": [],
+      "measured": "#8a6a1a",
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+    },
+    "ctx.imageTools": {
+      "hex": "#5d728f",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.layerTools": {
+      "hex": "#ab7941",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.surfaceTools": {
+      "hex": "#538c4b",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.featureTools": {
+      "hex": "#8a8e21",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.observationTools": {
+      "hex": "#6a5291",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.title": {
+      "hex": "#3c3c3c",
+      "use": "Dock title",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.body": {
+      "hex": "#2e2e2e",
+      "use": "Dock body",
+      "confidence": "guess",
+      "source": []
+    },
+    "content.bg": {
+      "hex": "#1e1e1e",
+      "use": "Trees, tables, inputs",
+      "confidence": "guess",
+      "source": []
+    },
+    "content.text": {
+      "hex": "#e6e6e6",
+      "use": "Text",
+      "confidence": "guess",
+      "source": []
+    },
+    "content.header": {
+      "hex": "#2a2a2a",
+      "use": "Table header",
+      "confidence": "guess",
+      "source": []
+    },
+    "content.selected": {
+      "hex": "#4a4a4a",
+      "use": "Selection",
+      "confidence": "guess",
+      "source": []
+    },
+    "menu.hover": {
+      "hex": "#4d4426",
+      "use": "Menu hover",
+      "confidence": "guess",
+      "source": []
+    },
+    "layer.activeHighlight": {
+      "hex": "#c8b400",
+      "use": "Active layer row (black text)",
+      "confidence": "guess",
+      "source": []
+    },
+    "status.bg": {
+      "hex": "#151515",
+      "use": "Status bars",
+      "confidence": "guess",
+      "source": []
+    },
+    "status.ok": {
+      "hex": "#3fbf3a",
+      "use": "OK cell",
+      "confidence": "guess",
+      "source": []
+    },
+    "status.bad": {
+      "hex": "#e05050",
+      "use": "Missing cell",
+      "confidence": "guess",
+      "source": [],
+      "measured": "#c83c3c",
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+    },
+    "pane.bg": {
+      "hex": "#000000",
+      "use": "Image pane",
+      "confidence": "guess",
+      "source": []
+    },
+    "focus.ring": {
+      "hex": "#4da3ff",
+      "use": "Keyboard focus ring (accessibility addition)",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.stereoTools": {
+      "hex": "#4f7a88",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.pointCloudTools": {
+      "hex": "#418467",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.sarTools": {
+      "hex": "#75684c",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ctx.videoTools": {
+      "hex": "#88515d",
+      "use": "Contextual caption",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.selectedTab": {
+      "use": "Selected ribbon tab (dark)",
+      "confidence": "guess",
+      "source": [],
+      "hex": "#4a4a4a",
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+    },
+    "content.errorText": {
+      "hex": "#ff8a80",
+      "use": "Error text on dark content background",
+      "confidence": "guess",
+      "source": []
+    }
+  },
+  "fonts": {
+    "ui": {
+      "family": "\"Segoe UI\", system-ui, -apple-system, \"Helvetica Neue\", Arial, sans-serif",
+      "size": "12px",
+      "weight": 400,
+      "confidence": "estimated",
+      "source": [
+        "WS2-01",
+        "WS2-03"
+      ]
+    },
+    "ribbonLabel": {
+      "family": "ui",
+      "size": "12px",
+      "weight": 400,
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "ribbonCaption": {
+      "family": "ui",
+      "size": "11px",
+      "weight": 400,
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "dockTitle": {
+      "family": "ui",
+      "size": "12px",
+      "weight": 600,
+      "confidence": "guess",
+      "source": [
+        "WS2-04"
+      ]
+    },
+    "statusBar": {
+      "family": "ui",
+      "size": "11px",
+      "weight": 400,
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "monoLog": {
+      "family": "\"Courier New\", Consolas, ui-monospace, monospace",
+      "size": "12px",
+      "weight": 400,
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    },
+    "hud": {
+      "family": "Consolas, ui-monospace, monospace",
+      "size": "11px",
+      "weight": 400,
+      "confidence": "guess",
+      "source": [
+        "WS2-01"
+      ]
+    },
+    "onImageLabel": {
+      "family": "Arial, Helvetica, sans-serif",
+      "size": "13px",
+      "weight": 400,
+      "confidence": "estimated",
+      "source": [
+        "WS2-03"
+      ]
+    }
+  },
+  "sizes": {
+    "fontSizes": {
+      "xs": "10px",
+      "sm": "11px",
+      "md": "12px",
+      "lg": "14px"
+    },
+    "titleBarHeight": {
+      "value": "30px",
+      "confidence": "estimated"
+    },
+    "menuBarHeight": {
+      "value": "24px",
+      "confidence": "estimated",
+      "measured": "20px",
+      "a11y": "WCAG 2.2 SC 2.5.8 target size >= 24 px (DN-07)"
+    },
+    "qatRowHeight": {
+      "value": "24px",
+      "confidence": "estimated"
+    },
+    "ribbonTabStripHeight": {
+      "value": "24px",
+      "confidence": "estimated"
+    },
+    "ribbonContextCaptionHeight": {
+      "value": "24px",
+      "confidence": "estimated",
+      "note": "Coloured caption shares the QAT row height above its tabs"
+    },
+    "ribbonBodyHeight": {
+      "value": "92px",
+      "confidence": "estimated"
+    },
+    "ribbonGroupCaptionHeight": {
+      "value": "16px",
+      "confidence": "estimated"
+    },
+    "ribbonLargeIcon": {
+      "value": "32px",
+      "confidence": "estimated"
+    },
+    "ribbonSmallIcon": {
+      "value": "16px",
+      "confidence": "estimated"
+    },
+    "toolboxIcon": {
+      "value": "24px",
+      "confidence": "estimated"
+    },
+    "toolbarHeight": {
+      "value": "26px",
+      "confidence": "estimated",
+      "measured": "22px",
+      "a11y": "WCAG 2.2 SC 2.5.8 target size >= 24 px (DN-07)"
+    },
+    "dockTitleHeight": {
+      "value": "24px",
+      "confidence": "estimated",
+      "measured": "18px",
+      "a11y": "WCAG 2.2 SC 2.5.8 target size >= 24 px (DN-07)"
+    },
+    "dockTabHeight": {
+      "value": "24px",
+      "confidence": "estimated",
+      "measured": "20px",
+      "a11y": "WCAG 2.2 SC 2.5.8 target size >= 24 px (DN-07)"
+    },
+    "treeRowHeight": {
+      "value": "24px",
+      "confidence": "estimated",
+      "measured": "20px",
+      "a11y": "WCAG 2.2 SC 2.5.8 target size >= 24 px (DN-07)"
+    },
+    "tableRowHeight": {
+      "value": "18px",
+      "confidence": "estimated"
+    },
+    "statusBarRowHeight": {
+      "value": "20px",
+      "confidence": "estimated",
+      "note": "Multiport has two rows"
+    },
+    "splitterWidth": {
+      "value": "4px",
+      "confidence": "guess"
+    },
+    "dialogPadding": {
+      "value": "8px",
+      "confidence": "guess"
+    },
+    "buttonHeight": {
+      "value": "23px",
+      "confidence": "estimated"
+    },
+    "inputHeight": {
+      "value": "24px",
+      "confidence": "estimated",
+      "measured": "20px",
+      "a11y": "WCAG 2.2 SC 2.5.8 target size >= 24 px (DN-07)"
+    },
+    "magnifierDefault": {
+      "value": "200px",
+      "confidence": "guess"
+    },
+    "pipOverview": {
+      "value": "160px",
+      "confidence": "guess"
+    },
+    "targetMin": {
+      "value": "24px",
+      "confidence": "guess",
+      "a11y": "WCAG 2.2 SC 2.5.8"
+    }
+  },
+  "layout": {
+    "workspaceManager": {
+      "regions": [
+        {
+          "id": "menuBar",
+          "position": "top",
+          "contents": [
+            "File",
+            "Edit",
+            "View",
+            "Geospatial",
+            "Tools",
+            "Add-Ins",
+            "Window",
+            "Help"
+          ],
+          "size": "20px"
+        },
+        {
+          "id": "toolbar",
+          "position": "top",
+          "contents": [
+            "New",
+            "Open folder",
+            "Save",
+            "Copy/stack tools",
+            "Help"
+          ],
+          "size": "22px"
+        },
+        {
+          "id": "leftToolStrip",
+          "position": "left",
+          "contents": [
+            "View modes",
+            "Move up/down",
+            "Find",
+            "Sort A-Z"
+          ],
+          "size": "24px"
+        },
+        {
+          "id": "dataView",
+          "position": "upper-left",
+          "contents": [
+            "Tree-table: Name | TOT | Type | Size(KB)"
+          ],
+          "size": "45% width, 55% height"
+        },
+        {
+          "id": "windowsView",
+          "position": "upper-centre",
+          "contents": [
+            "Multiports > Panels > Layers; Links"
+          ],
+          "size": "40% width"
+        },
+        {
+          "id": "previewPane",
+          "position": "upper-right",
+          "contents": [
+            "Thumbnail",
+            "Metadata"
+          ],
+          "size": "15% width"
+        },
+        {
+          "id": "bottomTabs",
+          "position": "lower",
+          "contents": [
+            "Map View (layer list + footprint map + toolbar + coordinate readout)",
+            "GXP Xplorer Servers Status",
+            "File System (optional)",
+            "Job Queue (optional)"
+          ],
+          "size": "40% height"
+        },
+        {
+          "id": "statusBar",
+          "position": "bottom",
+          "contents": [
+            "Workspace CRS: 'Geographic | WGS_84 | MSL(EGM96)'"
+          ],
+          "size": "20px"
+        }
+      ],
+      "confidence": "observed",
+      "source": [
+        "WS2-03",
+        "WS2-02",
+        "WS2-01"
+      ]
+    },
+    "multiport2D": {
+      "regions": [
+        {
+          "id": "titleBar",
+          "position": "top",
+          "contents": [
+            "Multiport name + classification marking, e.g. 'Multiport_1 (U - Unclassified)'"
+          ],
+          "size": "30px"
+        },
+        {
+          "id": "qat",
+          "position": "top",
+          "contents": [
+            "Undo",
+            "Redo",
+            "user tools (e.g. Layer Manager, ToolBox)",
+            "customise"
+          ],
+          "size": "24px"
+        },
+        {
+          "id": "tabStrip",
+          "position": "top",
+          "contents": [
+            "File",
+            "Home",
+            "Select",
+            "Draw",
+            "Geospatial",
+            "Products",
+            "View",
+            "Add-Ins",
+            "[Image Tools: Visualize, Enhance, Search, Analyze]",
+            "[Layer Tools: Layers]",
+            "[Surface Tools: Surface]",
+            "[Feature Tools: Feature]",
+            "[Observation Tools: Observation, Auto Detections]"
+          ],
+          "size": "24px"
+        },
+        {
+          "id": "ribbonBody",
+          "position": "top",
+          "contents": [
+            "groups of large/small buttons with captions"
+          ],
+          "size": "92px"
+        },
+        {
+          "id": "leftDock",
+          "position": "left",
+          "contents": [
+            "Layer Manager",
+            "ToolBox",
+            "Cue Cards",
+            "Templates",
+            "Observation Toolbox",
+            "Search"
+          ],
+          "size": "255px",
+          "tabsAtBottom": true
+        },
+        {
+          "id": "panelArea",
+          "position": "centre",
+          "contents": [
+            "1-4 panels, split or tabbed; black background; active panel yellow outline; north arrow top-left"
+          ],
+          "size": "fill"
+        },
+        {
+          "id": "bottomDock",
+          "position": "bottom",
+          "contents": [
+            "Observation Table",
+            "Feature Attributes",
+            "Target Table",
+            "Post Query results"
+          ],
+          "size": "150px",
+          "defaultVisible": false
+        },
+        {
+          "id": "statusBars",
+          "position": "bottom",
+          "contents": [
+            "Row 1: cursor lat/lon | measurement | CRS | ground point lat/lon/elev",
+            "Row 2: CE | terrain source (green/red) | LE | Math Model | CRS"
+          ],
+          "size": "2 x 20px"
+        }
+      ],
+      "confidence": "observed",
+      "source": [
+        "WS2-03",
+        "WS2-02"
+      ]
+    },
+    "multiport3D": {
+      "regions": [
+        {
+          "id": "tabStrip",
+          "position": "top",
+          "contents": [
+            "File (orange)",
+            "Home",
+            "Draw",
+            "Geospatial",
+            "Products",
+            "View"
+          ],
+          "size": "24px"
+        },
+        {
+          "id": "leftDock",
+          "position": "left",
+          "contents": [
+            "Layer Manager (Active Panel, Active Layer, Feature Contents View, Display View)",
+            "Templates"
+          ],
+          "size": "190px"
+        },
+        {
+          "id": "scene",
+          "position": "centre",
+          "contents": [
+            "perspective scene, sky or solid background, 3-D compass"
+          ],
+          "size": "fill"
+        },
+        {
+          "id": "statusBars",
+          "position": "bottom",
+          "contents": [
+            "Lat/Lon | measurement | CRS | ground Lat/Lon/Elev",
+            "CE | LE"
+          ],
+          "size": "2 x 20px"
+        }
+      ],
+      "confidence": "observed",
+      "source": [
+        "WS2-03",
+        "WS2-01"
+      ]
+    },
+    "maxPanelsPerMultiport": 4,
+    "xportMaxViews": 16,
+    "videoMaxPanels": 6
+  },
+  "cursors": {
+    "default": {
+      "description": "Thin crosshair drawn in the image; colour changes when panels are linked",
+      "confidence": "estimated",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "markerRing": {
+      "description": "Open ring with small cross at a point (orange in v4.0, yellow ring under callouts in 4.6)",
+      "confidence": "estimated",
+      "source": [
+        "WS2-01",
+        "WS2-03"
+      ]
+    },
+    "roamCompassRose": {
+      "description": "Roam cursor showing 4 cardinal directions",
+      "confidence": "observed",
+      "source": [
+        "WS2-08"
+      ]
+    },
+    "roamDirectional": {
+      "description": "Roam cursor indicating 16 directions plus current roam direction",
+      "confidence": "observed",
+      "source": [
+        "WS2-08"
+      ]
+    },
+    "groundDistanceRings": {
+      "description": "Concentric circles in ground units or GSD multiples",
+      "confidence": "observed",
+      "source": [
+        "WS2-08",
+        "WS2-13"
+      ]
+    },
+    "groundCompass": {
+      "description": "Compass rose ground cursor",
+      "confidence": "observed",
+      "source": [
+        "WS2-08"
+      ]
+    },
+    "glove": {
+      "description": "Open hand; closed hand while dragging (pan / Glove Align)",
+      "confidence": "estimated",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "magnifier": {
+      "description": "Square inset offset to lower-right of pointer",
+      "confidence": "observed",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "porthole": {
+      "description": "Circular see-through window following pointer; size by arrow keys",
+      "confidence": "observed",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "swiper": {
+      "description": "Full-height vertical bar following pointer",
+      "confidence": "observed",
+      "source": [
+        "WS2-02"
+      ]
+    },
+    "snap": {
+      "description": "Custom snap cursor that changes on vertex/line/plane snap",
+      "confidence": "observed",
+      "source": [
+        "WS2-07"
+      ]
+    },
+    "stereoFloatingMark": {
+      "description": "Small 3-D mark drawn in both eye images at current XYZ; Z via Shift+wheel or controller Z-wheel; terrain tracking / snap-to-ground set Z",
+      "confidence": "estimated",
+      "source": [
+        "WS2-02",
+        "WS2-06",
+        "WS2-09"
+      ]
+    },
+    "cursor3D": {
+      "description": "Surface-tracking 3-D cursor in 3D Multiport; Shift+wheel raises/lowers",
+      "confidence": "observed",
+      "source": [
+        "WS2-20"
+      ]
+    },
+    "cursorModes": {
+      "description": "Multiport Cursor Mode preference: Fixed Image (cursor moves) or Fixed Cursor (image moves under centred cursor)",
+      "confidence": "observed",
+      "source": [
+        "WS2-03"
+      ]
+    }
+  },
+  "shortcuts": [
+    {
+      "keys": "F5",
+      "action": "Drop marker at cursor",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "F7",
+      "action": "Toggle full roam (Mouse) mode",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "W",
+      "action": "Zoom to whole scene",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Ctrl+1",
+      "action": "Zoom 1:1",
+      "source": "WS2-03",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Ctrl+T",
+      "action": "Show image file name in panel",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Ctrl+A",
+      "action": "Select all graphics",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Delete",
+      "action": "Delete selected graphics",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Escape",
+      "action": "End current tool; drop porthole/swiper/magnifier",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Space",
+      "action": "Roam in cursor direction while in Pan Zone (toggle)",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "ArrowUp/ArrowDown",
+      "action": "Magnifier power; step bands in Band Preview",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "ArrowLeft/ArrowRight",
+      "action": "Magnifier / porthole size",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Shift+Wheel",
+      "action": "Move cursor in Z (stereo) / raise-lower 3-D cursor",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Q",
+      "action": "Reset 3-D camera (3D Multiport)",
+      "source": "WS2-07",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Alt",
+      "action": "Show Ribbon KeyTips; then letter (e.g. G = Geospatial tab)",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Alt+Shift+S",
+      "action": "Sync cursor with ArcGIS Pro",
+      "source": "WS2-03",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Ctrl+Click (ToolBox)",
+      "action": "Append modifier to active tool",
+      "source": "WS2-01",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Double-click tool button",
+      "action": "Make tool repeat until Esc",
+      "source": "WS2-02",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Double-click in panel",
+      "action": "Centre and zoom",
+      "source": "WS2-08",
+      "confidence": "observed"
+    },
+    {
+      "keys": "Ctrl+C / Ctrl+V",
+      "action": "Copy / paste graphic (paste at cursor)",
+      "source": "WS2-03",
+      "confidence": "estimated"
+    },
+    {
+      "keys": "Ctrl+Z / Ctrl+Y",
+      "action": "Undo / redo",
+      "source": "WS2-05",
+      "confidence": "guess"
+    },
+    {
+      "keys": "(assignable)",
+      "action": "Glove tool hot key",
+      "source": "WS2-03",
+      "confidence": "observed"
+    },
+    {
+      "keys": "(assignable)",
+      "action": "Quick Snap to point (Insert Vertex on)",
+      "source": "WS2-03",
+      "confidence": "observed"
+    },
+    {
+      "keys": "(assignable)",
+      "action": "Place 3-D cursor on ground (stereo)",
+      "source": "WS2-09",
+      "confidence": "observed"
+    }
+  ],
+  "mouse": [
+    {
+      "gesture": "Middle button hold + move",
+      "action": "Roam; speed proportional to distance from panel centre",
+      "context": "2-D",
+      "source": "WS2-02"
+    },
+    {
+      "gesture": "Wheel",
+      "action": "Zoom about cursor; cycle layers under porthole/swiper; magnifier power",
+      "context": "2-D",
+      "source": "WS2-02"
+    },
+    {
+      "gesture": "Left drag (Glove)",
+      "action": "Pan",
+      "context": "2-D",
+      "source": "WS2-02"
+    },
+    {
+      "gesture": "Left drag (Mouse rotate)",
+      "action": "Rotate",
+      "context": "2-D",
+      "source": "WS2-02"
+    },
+    {
+      "gesture": "Right click",
+      "action": "Mini toolbar / context menu",
+      "context": "2-D",
+      "source": "WS2-02"
+    },
+    {
+      "gesture": "Left drag",
+      "action": "Camera look angle",
+      "context": "3-D",
+      "source": "WS2-07"
+    },
+    {
+      "gesture": "Middle hold",
+      "action": "Move camera X/Y, speed by distance from centre",
+      "context": "3-D",
+      "source": "WS2-07"
+    },
+    {
+      "gesture": "Wheel",
+      "action": "Zoom to point",
+      "context": "3-D",
+      "source": "WS2-07"
+    },
+    {
+      "gesture": "Right drag horizontal / vertical",
+      "action": "Orbit / raise-lower camera",
+      "context": "3-D",
+      "source": "WS2-07"
+    },
+    {
+      "gesture": "Double-click",
+      "action": "Zoom to place",
+      "context": "3-D",
+      "source": "WS2-07"
+    }
+  ],
+  "inputDevices": {
+    "trackballNames": [
+      "None",
+      "3Dconnexion Space Explorer",
+      "Immersion Mouse",
+      "ITAC Systems Mouse-Trak",
+      "Leica Topomouse (Serial)",
+      "Leica Topomouse (USB)",
+      "Softmouse 3D",
+      "Stealth Mouse (E-Type)",
+      "Stealth Mouse (V-Type)",
+      "Stealth Mouse (Z-Type)"
+    ],
+    "gains": {
+      "trackballX": "user",
+      "trackballY": "user",
+      "trackballZ": "user",
+      "mousewheel": 0.2,
+      "keyboardStep": 10,
+      "scaleZIncrementToZoom": true
+    },
+    "confidence": "observed",
+    "source": [
+      "WS2-03",
+      "WS2-14"
+    ]
+  },
+  "colorsPrintDerived": {
+    "chrome.frame": {
+      "hex": "#e6e6e6",
+      "use": "Frame (print/light)",
+      "confidence": "guess",
+      "source": []
+    },
+    "chrome.toolbar": {
+      "hex": "#f2f2f2",
+      "use": "Toolbars",
+      "confidence": "guess",
+      "source": []
+    },
+    "chrome.textOnFrame": {
+      "hex": "#111111",
+      "use": "Labels on chrome",
+      "confidence": "guess",
+      "source": []
+    },
+    "chrome.qatTop": {
+      "hex": "#ececec",
+      "use": "QAT",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.bodyTop": {
+      "hex": "#ffffff",
+      "use": "Ribbon",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.bodyBottom": {
+      "hex": "#f0f0f0",
+      "use": "Ribbon",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.captionBand": {
+      "hex": "#e2e2e2",
+      "use": "Caption band",
+      "confidence": "guess",
+      "source": []
+    },
+    "ribbon.selectedTab": {
+      "hex": "#ffffff",
+      "use": "Selected tab",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.title": {
+      "hex": "#d0d0d0",
+      "use": "Dock title",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.body": {
+      "hex": "#f4f4f4",
+      "use": "Dock body",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.tabActive": {
+      "hex": "#ffffff",
+      "use": "Tab",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.tabInactive": {
+      "hex": "#e4e4e4",
+      "use": "Tab",
+      "confidence": "guess",
+      "source": []
+    },
+    "dock.titleText": {
+      "use": "Dock title text (print)",
+      "confidence": "guess",
+      "source": [],
+      "hex": "#111111",
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+    }
+  }
+}

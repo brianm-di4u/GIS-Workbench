@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:24.290Z",
+ "key": "fmv-libmisbklv-fixtures/synthetic-untimed-0x06.ts",
+ "item": "fmv-libmisbklv-fixtures",
+ "file": "synthetic-untimed-0x06.ts",
+ "format": "KLV binary / MPEG-TS",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened synthetic-untimed-0x06.ts: 0 frames, 6 KLV packets (0 bad) in 74 ms — metadata only"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 164,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "geotiff-gdal-small/small_world.tif",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "GeoTIFF",
+   "w": 400,
+   "h": 200,
+   "bands": 3,
+   "model": "Map (EPSG:4326)",
+   "kind": "image"
+  }
+ ],
+ "ms": 153
+}

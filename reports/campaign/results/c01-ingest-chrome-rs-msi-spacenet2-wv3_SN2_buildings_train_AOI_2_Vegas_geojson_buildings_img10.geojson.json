@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:08.170Z",
+ "key": "rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson",
+ "item": "rs-msi-spacenet2-wv3",
+ "file": "SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson",
+ "format": "GeoTIFF 8-band",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10: 28 feature(s) from GeoJSON"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 28,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 137,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

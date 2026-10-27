@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:34.436Z",
+ "key": "srtm-skadi-n39w106-n40w106/N39W106.hgt.gz",
+ "item": "srtm-skadi-n39w106-n40w106",
+ "file": "N39W106.hgt.gz",
+ "format": "SRTM HGT (gzip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened N39W106.hgt.gz in 397 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "SRTM HGT",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1004,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

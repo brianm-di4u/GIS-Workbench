@@ -1,0 +1,47 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:09.003Z",
+ "key": "rs-nitf-gdal-autotest-small/two_images_jpeg.ntf",
+ "item": "rs-nitf-gdal-autotest-small",
+ "file": "two_images_jpeg.ntf",
+ "format": "NITF2.1/NSIF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened two_images_jpeg.ntf in 48 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 403,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

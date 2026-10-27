@@ -1,0 +1,29 @@
+{
+ "spec": "c12-vector",
+ "project": "chrome",
+ "when": "2026-10-27T15:37:45.511Z",
+ "key": "chg.detect",
+ "id": "chg.detect",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Change Detection",
+  "Change Candidates"
+ ],
+ "toasts": [
+  "toast-info: 17 change candidate(s) in 226 ms (gain 1.072, offset 10.0)"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fx06/fx06_date1.tif",
+  "fx06/fx06_date2.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

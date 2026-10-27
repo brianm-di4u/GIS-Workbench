@@ -1,0 +1,26 @@
+{
+ "spec": "c07-terrain",
+ "project": "edge",
+ "when": "2026-10-27T15:41:37.877Z",
+ "key": "dem.relief",
+ "id": "dem.relief",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

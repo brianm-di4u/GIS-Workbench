@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:54.720Z",
+ "key": "fmv-ffmpeg-day-flight/Day Flight.mpg",
+ "item": "fmv-ffmpeg-day-flight",
+ "file": "Day Flight.mpg",
+ "format": "MPEG-TS/KLV",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Day Flight.mpg: 11693 frames, 6 KLV packets (0 bad) in 1040 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1117,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

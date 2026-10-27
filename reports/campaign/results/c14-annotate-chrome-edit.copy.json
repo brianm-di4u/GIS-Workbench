@@ -1,0 +1,27 @@
+{
+ "spec": "c14-annotate",
+ "project": "chrome",
+ "when": "2026-10-27T15:38:10.564Z",
+ "key": "edit.copy",
+ "id": "edit.copy",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Copied 1 graphic(s)"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

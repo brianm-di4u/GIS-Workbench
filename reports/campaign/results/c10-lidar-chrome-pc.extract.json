@@ -1,0 +1,31 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-27T15:36:52.709Z",
+ "key": "pc.extract",
+ "id": "pc.extract",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: autzen_trim_DSM.tif is now terrain (heights above the ellipsoid)",
+  "toast-info: autzen_trim_DTM.tif is now terrain (heights above the ellipsoid)",
+  "toast-info: From points: 8 building(s), 47 tree(s)"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

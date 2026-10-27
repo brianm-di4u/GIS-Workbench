@@ -1,0 +1,26 @@
+{
+ "spec": "c15-products",
+ "project": "edge",
+ "when": "2026-10-27T15:44:17.520Z",
+ "key": "chip.preset",
+ "id": "chip.preset",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Chip by Preset Area Size",
+  "Chip - UNCLASSIFIED"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

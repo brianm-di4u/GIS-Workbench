@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:07.847Z",
+ "key": "vector-tiger-2024-colorado/tl_2024_08005_roads.zip",
+ "item": "vector-tiger-2024-colorado",
+ "file": "tl_2024_08005_roads.zip",
+ "format": "Shapefile (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: tl_2024_08005_roads: 14463 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 14463,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 623,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

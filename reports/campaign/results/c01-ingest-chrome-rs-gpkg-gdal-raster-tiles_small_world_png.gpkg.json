@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:04.208Z",
+ "key": "rs-gpkg-gdal-raster-tiles/small_world_png.gpkg",
+ "item": "rs-gpkg-gdal-raster-tiles",
+ "file": "small_world_png.gpkg",
+ "format": "GeoPackage tiles",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "small_world_png: tile pyramid zoom 1 (2×1 matrix, tiles of 256×200, 2 decoded) opened as small_world_png_small_world_png_z1.png"
+ ],
+ "toasts": [
+  "toast-info: Opened small_world_png_small_world_png_z1.png in 43 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "png",
+   "w": 512,
+   "h": 200,
+   "bands": 3,
+   "model": "World file (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 211,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

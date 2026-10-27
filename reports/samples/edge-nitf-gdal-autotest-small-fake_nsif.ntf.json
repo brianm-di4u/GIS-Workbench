@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-gdal-autotest-small/fake_nsif.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NSIF 01.00",
+   "w": 30,
+   "h": 30,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)",
+   "kind": "image"
+  }
+ ],
+ "ms": 127
+}

@@ -1,0 +1,29 @@
+{
+ "spec": "c02-display",
+ "project": "edge",
+ "when": "2026-10-27T15:39:21.791Z",
+ "key": "grid.grg",
+ "id": "grid.grg",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Gridded Reference Graphic"
+ ],
+ "toasts": [
+  "toast-info: GRG: 7 × 7 cells"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

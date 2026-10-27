@@ -1,0 +1,31 @@
+{
+ "measured": "2026-10-27T15:25:20.644Z",
+ "firstTileMs FX-01 NITF 4096² (16 MiB, one block)": 701,
+ "firstTileMs WV3 COG": 161,
+ "multiport2x2": {
+  "fps": 59.950041631973356,
+  "frameMs": 1.4279928360932888,
+  "gpu": 18116800,
+  "budget": 402653184,
+  "pool": {
+   "size": 6,
+   "workers": {
+    "decode": [
+     {
+      "id": "wk_mvqu7af59cpgdh",
+      "busy": 1
+     }
+    ]
+   },
+   "queued": 0,
+   "running": 1
+  },
+  "heap": 39600000,
+  "gl": "ANGLE (Intel, Intel(R) Arc(TM) Graphics (0x00007D55) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "software": false
+ },
+ "readoutMs": {
+  "median": 0.5999999642372131,
+  "max": 3.300000011920929
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c02-display",
+ "project": "edge",
+ "when": "2026-10-27T15:39:29.628Z",
+ "key": "cmp.record",
+ "id": "cmp.record",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Recording the panel to WEBM. Record again to stop and save."
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

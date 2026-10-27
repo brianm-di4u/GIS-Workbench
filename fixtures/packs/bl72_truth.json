@@ -1,0 +1,1 @@
+{"epsg":31370,"geotransform":[148000,10,0,172000,0,-10],"width":256,"height":256,"note":"Corner coordinates in EPSG:31370; the test compares the PROJ pack transform with the opened layer model."}

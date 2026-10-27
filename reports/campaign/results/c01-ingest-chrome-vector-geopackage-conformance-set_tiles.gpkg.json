@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:30:00.848Z",
+ "key": "vector-geopackage-conformance-set/tiles.gpkg",
+ "item": "vector-geopackage-conformance-set",
+ "file": "tiles.gpkg",
+ "format": "GeoPackage",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "tiles: tile pyramid zoom 4 (16×16 matrix, tiles of 256×256, 256 decoded) opened as tiles_tiles_z4.png"
+ ],
+ "toasts": [
+  "toast-info: Opened tiles_tiles_z4.png in 261 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "png",
+   "w": 4096,
+   "h": 4096,
+   "bands": 3,
+   "model": "World file (EPSG:3857)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2209,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

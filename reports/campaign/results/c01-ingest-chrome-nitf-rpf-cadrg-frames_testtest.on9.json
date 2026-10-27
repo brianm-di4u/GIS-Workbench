@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:36.891Z",
+ "key": "nitf-rpf-cadrg-frames/testtest.on9",
+ "item": "nitf-rpf-cadrg-frames",
+ "file": "testtest.on9",
+ "format": "RPF (CADRG) / NITF-wrapped frames",
+ "rendered": false,
+ "errors": [
+  "image segment 1: mask table: IMDATOFF is inside the mask table"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: testtest.on9: image segment 1: mask table: IMDATOFF is inside the mask table"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 117,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

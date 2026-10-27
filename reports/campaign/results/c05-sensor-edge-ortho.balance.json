@@ -1,0 +1,32 @@
+{
+ "spec": "c05-sensor",
+ "project": "edge",
+ "when": "2026-10-27T15:41:14.267Z",
+ "key": "ortho.balance",
+ "id": "ortho.balance",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Colour Balance"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain",
+  "ortho.mosaic: dialog"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,11 @@
+{
+ "spec": "c18-live",
+ "project": "chrome",
+ "when": "2026-10-27T15:08:49.401Z",
+ "key": "3dtiles-local",
+ "net": [
+  "200 /TilesetWithDiscreteLOD/dragon_medium.b3dm",
+  "200 /TilesetWithDiscreteLOD/dragon_low.b3dm",
+  "200 /TilesetWithDiscreteLOD/tileset.json"
+ ]
+}

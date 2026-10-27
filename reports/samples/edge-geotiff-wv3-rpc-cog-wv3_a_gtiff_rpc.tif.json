@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "geotiff-wv3-rpc-cog/wv3_a_gtiff_rpc.tif",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "GeoTIFF",
+   "w": 1536,
+   "h": 1536,
+   "bands": 1,
+   "model": "RPC (GeoTIFF tag)",
+   "kind": "image"
+  }
+ ],
+ "ms": 370
+}

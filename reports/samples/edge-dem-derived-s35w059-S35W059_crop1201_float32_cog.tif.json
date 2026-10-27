@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "COG/GeoTIFF",
+   "w": 1201,
+   "h": 1201,
+   "bands": 1,
+   "model": "Map (EPSG:4326)",
+   "kind": "image"
+  }
+ ],
+ "ms": 452
+}

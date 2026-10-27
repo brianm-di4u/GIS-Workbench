@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:36.182Z",
+ "key": "vector-geopackage-conformance-set/relation_mapping_table.gpkg",
+ "item": "vector-geopackage-conformance-set",
+ "file": "relation_mapping_table.gpkg",
+ "format": "GeoPackage",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "a: SRS GDAL:99999 is not known; coordinates read as longitude/latitude",
+  "a: no Z (z = 0); heights set to 0",
+  "b: SRS GDAL:99999 is not known; coordinates read as longitude/latitude",
+  "b: no Z (z = 0); heights set to 0",
+  "a: SRS GDAL:99999 is not known; coordinates read as longitude/latitude",
+  "a: no Z (z = 0); heights set to 0",
+  "b: SRS GDAL:99999 is not known; coordinates read as longitude/latitude",
+  "b: no Z (z = 0); heights set to 0"
+ ],
+ "toasts": [
+  "toast-info: a: 0 feature(s) from GeoPackage (4 note(s))",
+  "toast-info: b: 0 feature(s) from GeoPackage (4 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 2,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 105,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

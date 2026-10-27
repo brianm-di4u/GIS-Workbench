@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:04.524Z",
+ "key": "lidar-las-version-matrix/lots_of_vlr.las",
+ "item": "lidar-las-version-matrix",
+ "file": "lots_of_vlr.las",
+ "format": "LAS1.0-1.4 / LAZ / COPC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful.",
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened lots_of_vlr.las: 1 points in 40 ms (2 notes in the import log)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 192,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

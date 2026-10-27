@@ -1,0 +1,1088 @@
+{
+ "name": "TDS 7.1 subset (GIS Workbench)",
+ "id": "tds71-subset",
+ "version": "7.1",
+ "source": "NSG Topographic Data Store 7.1 / NAS: 38 commonly collected feature types with their usual attributes and coded values (REQ-EXT-10, D11). Not the full TDS; extend or replace by importing a schema.",
+ "nulls": {
+  "text": "noInformation",
+  "number": -999999,
+  "enum": "-999999",
+  "other": "999"
+ },
+ "attributes": {
+  "F_CODE": {
+   "label": "Feature Code",
+   "type": "text",
+   "length": 5,
+   "required": true,
+   "definition": "The feature type code (TDS 7.1 / NAS)."
+  },
+  "UFI": {
+   "label": "Unique Entity Identifier",
+   "type": "text",
+   "length": 254,
+   "definition": "A UUID; the store keeps one per feature."
+  },
+  "ZI001_SDP": {
+   "label": "Source Description",
+   "type": "text",
+   "length": 254,
+   "auto": "image.name",
+   "definition": "The source the feature was collected from."
+  },
+  "ZI001_SDV": {
+   "label": "Source Date and Time",
+   "type": "text",
+   "length": 20,
+   "auto": "image.date",
+   "definition": "Acquisition date and time of the source (ISO 8601)."
+  },
+  "ZI006_MEM": {
+   "label": "Memorandum",
+   "type": "text",
+   "length": 254,
+   "definition": "Free text."
+  },
+  "ZI005_FNA": {
+   "label": "Geographic Name Information : Full Name",
+   "type": "text",
+   "length": 200
+  },
+  "HGT": {
+   "label": "Height Above Surface Level",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    0,
+    1000
+   ],
+   "auto": "height",
+   "definition": "Height of the top of the feature above the surface beneath it."
+  },
+  "ZVH": {
+   "label": "Highest Elevation",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    -500,
+    9000
+   ],
+   "definition": "Highest elevation (MSL EGM96)."
+  },
+  "LZN": {
+   "label": "Length",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    0,
+    1000000.0
+   ],
+   "auto": "length"
+  },
+  "WID": {
+   "label": "Width",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    0,
+    10000
+   ]
+  },
+  "ARA": {
+   "label": "Area",
+   "type": "real",
+   "unit": "m²",
+   "range": [
+    0,
+    10000000000.0
+   ],
+   "auto": "area"
+  },
+  "BNF": {
+   "label": "Floor Count",
+   "type": "integer",
+   "range": [
+    0,
+    300
+   ]
+  },
+  "FFN": {
+   "label": "Feature Function",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "2": "Agriculture",
+    "440": "Commercial",
+    "550": "Accommodation",
+    "563": "Residence",
+    "572": "Restaurant",
+    "811": "Government",
+    "830": "Public Order, Safety and Security Services",
+    "835": "Defence Activities",
+    "850": "Education",
+    "860": "Human Health Activities",
+    "931": "Religious Activities",
+    "999": "Other"
+   }
+  },
+  "MCC": {
+   "label": "Structural Material Type",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "5": "Asphalt",
+    "21": "Concrete",
+    "46": "Earthen",
+    "62": "Masonry",
+    "64": "Metal",
+    "86": "Reinforced Concrete",
+    "104": "Steel",
+    "107": "Stone",
+    "117": "Wood",
+    "999": "Other"
+   }
+  },
+  "PCF": {
+   "label": "Physical Condition",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Construction",
+    "2": "Intact",
+    "3": "Unmaintained",
+    "4": "Damaged",
+    "5": "Dismantled",
+    "6": "Destroyed",
+    "999": "Other"
+   }
+  },
+  "LMC": {
+   "label": "Navigation Landmark",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1000": "False",
+    "1001": "True"
+   }
+  },
+  "RTY": {
+   "label": "Roadway Type",
+   "type": "enum",
+   "required": true,
+   "domain": {
+    "-999999": "No Information",
+    "1": "Motorway",
+    "2": "Limited Access Motorway",
+    "3": "Road",
+    "4": "Street",
+    "999": "Other"
+   }
+  },
+  "ZI016_ROC": {
+   "label": "Route Pavement Information : Route Surface Composition",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Unimproved",
+    "2": "Stabilized Earth",
+    "3": "Flexible Pavement",
+    "4": "Aggregate",
+    "5": "Macadam",
+    "6": "Bound Surface",
+    "7": "Rigid Pavement",
+    "8": "Concrete",
+    "9": "Asphalt",
+    "10": "Asphalt over Concrete",
+    "11": "Cobblestone",
+    "12": "Brick",
+    "13": "Metal",
+    "14": "Wood",
+    "17": "Ice",
+    "18": "Snow",
+    "999": "Other"
+   }
+  },
+  "ZI016_WD1": {
+   "label": "Route Pavement Information : Route Minimum Travelled Way Width",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    0,
+    200
+   ]
+  },
+  "LTN": {
+   "label": "Track or Lane Count",
+   "type": "integer",
+   "range": [
+    0,
+    50
+   ]
+  },
+  "RRC": {
+   "label": "Railway Use",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "2": "Carline",
+    "6": "Subway",
+    "8": "Logging",
+    "16": "Main Line",
+    "32": "Tramway",
+    "999": "Other"
+   }
+  },
+  "ZI017_GAW": {
+   "label": "Track Information : Gauge Width",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    0,
+    3
+   ]
+  },
+  "TRS": {
+   "label": "Transportation System Type",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "3": "Automotive",
+    "7": "Pedestrian",
+    "9": "Pipeline",
+    "12": "Railway",
+    "13": "Road",
+    "999": "Other"
+   }
+  },
+  "TTC": {
+   "label": "Tower Type",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "2": "Observation",
+    "3": "Communication",
+    "10": "Lookout",
+    "12": "Radar",
+    "20": "Fire",
+    "999": "Other"
+   }
+  },
+  "ZI024_HYP": {
+   "label": "Water Resource Information : Hydrologic Persistence",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Perennial",
+    "2": "Intermittent",
+    "4": "Dry",
+    "999": "Other"
+   }
+  },
+  "DMT": {
+   "label": "Canopy Cover",
+   "type": "real",
+   "unit": "%",
+   "range": [
+    0,
+    100
+   ]
+  },
+  "TRE": {
+   "label": "Foliage Type",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Deciduous",
+    "2": "Evergreen",
+    "3": "Mixed",
+    "999": "Other"
+   }
+  },
+  "CRA": {
+   "label": "Crown Diameter",
+   "type": "real",
+   "unit": "m",
+   "range": [
+    0,
+    100
+   ]
+  },
+  "APT": {
+   "label": "Airfield Use",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Major Airfield",
+    "2": "Minor Airfield",
+    "3": "General Aviation",
+    "12": "Military",
+    "999": "Other"
+   }
+  },
+  "SFS": {
+   "label": "Aerodrome Pavement Functional Status",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Fair",
+    "2": "Good",
+    "3": "Poor",
+    "999": "Other"
+   }
+  },
+  "PPO": {
+   "label": "Product",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "3": "Ammunition",
+    "38": "Coal",
+    "62": "Gas",
+    "84": "Oil",
+    "130": "Water",
+    "999": "Other"
+   }
+  },
+  "POS": {
+   "label": "Power Source",
+   "type": "enum",
+   "domain": {
+    "-999999": "No Information",
+    "1": "Geothermal",
+    "2": "Hydro-electric",
+    "3": "Nuclear",
+    "4": "Thermal",
+    "5": "Tidal",
+    "999": "Other"
+   }
+  },
+  "ZI020_GE4": {
+   "label": "Designation : GENC Short URN-based Identifier",
+   "type": "text",
+   "length": 80
+  }
+ },
+ "types": [
+  {
+   "code": "AL013",
+   "name": "Building",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AL015",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "HGT",
+    "BNF",
+    "FFN",
+    "MCC",
+    "PCF",
+    "LMC",
+    "ARA"
+   ]
+  },
+  {
+   "code": "AL020",
+   "name": "Built-Up Area",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AL020",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "FFN",
+    "ARA"
+   ]
+  },
+  {
+   "code": "AL030",
+   "name": "Cemetery",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AL030",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "ARA"
+   ]
+  },
+  {
+   "code": "AL099",
+   "name": "Hut",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AL099",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "MCC",
+    "PCF"
+   ]
+  },
+  {
+   "code": "AL105",
+   "name": "Settlement",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AL105",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "ARA"
+   ]
+  },
+  {
+   "code": "AL130",
+   "name": "Memorial Monument",
+   "geometry": [
+    "Point",
+    "Polygon"
+   ],
+   "mgcp": "AL130",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "HGT",
+    "LMC"
+   ]
+  },
+  {
+   "code": "AL200",
+   "name": "Ruins",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AL200",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "PCF"
+   ]
+  },
+  {
+   "code": "AL241",
+   "name": "Tower",
+   "geometry": [
+    "Point",
+    "Polygon"
+   ],
+   "mgcp": "AL241",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "TTC",
+    "MCC",
+    "LMC"
+   ]
+  },
+  {
+   "code": "AL260",
+   "name": "Wall",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AL260",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "WID",
+    "MCC",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AN010",
+   "name": "Railway",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AN010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "RRC",
+    "ZI017_GAW",
+    "LTN",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AP030",
+   "name": "Road",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AP030",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "RTY",
+    "ZI016_ROC",
+    "ZI016_WD1",
+    "LTN",
+    "LZN",
+    "TRS"
+   ]
+  },
+  {
+   "code": "AP050",
+   "name": "Trail",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AP050",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "TRS",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AQ040",
+   "name": "Bridge",
+   "geometry": [
+    "LineString",
+    "Polygon"
+   ],
+   "mgcp": "AQ040",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "HGT",
+    "WID",
+    "MCC",
+    "TRS",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AQ063",
+   "name": "Causeway Structure",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AQ063",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "TRS",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AQ113",
+   "name": "Pipeline",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AQ113",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "PPO",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AQ130",
+   "name": "Tunnel",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AQ130",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "TRS",
+    "WID",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AT005",
+   "name": "Cable",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "AT005",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "LZN"
+   ]
+  },
+  {
+   "code": "AT042",
+   "name": "Pylon",
+   "geometry": [
+    "Point"
+   ],
+   "mgcp": "AT042",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "MCC"
+   ]
+  },
+  {
+   "code": "AD010",
+   "name": "Electric Power Station",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "AD010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "POS",
+    "ARA"
+   ]
+  },
+  {
+   "code": "BA010",
+   "name": "Land Water Boundary",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "BA010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "LZN"
+   ]
+  },
+  {
+   "code": "BA040",
+   "name": "Tidal Water",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "BA040",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "ARA"
+   ]
+  },
+  {
+   "code": "BH082",
+   "name": "Inland Waterbody",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "BH082",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "ZI024_HYP",
+    "ARA"
+   ]
+  },
+  {
+   "code": "BH120",
+   "name": "Rapids",
+   "geometry": [
+    "Point",
+    "LineString"
+   ],
+   "mgcp": "BH120",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA"
+   ]
+  },
+  {
+   "code": "BH140",
+   "name": "River",
+   "geometry": [
+    "LineString",
+    "Polygon"
+   ],
+   "mgcp": "BH140",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "WID",
+    "ZI024_HYP",
+    "LZN"
+   ]
+  },
+  {
+   "code": "BI020",
+   "name": "Dam",
+   "geometry": [
+    "LineString",
+    "Polygon"
+   ],
+   "mgcp": "BI020",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "HGT",
+    "MCC"
+   ]
+  },
+  {
+   "code": "DB010",
+   "name": "Steep Terrain Face",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "DB010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "LZN"
+   ]
+  },
+  {
+   "code": "DB160",
+   "name": "Rock Formation",
+   "geometry": [
+    "Point",
+    "Polygon"
+   ],
+   "mgcp": "DB160",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT"
+   ]
+  },
+  {
+   "code": "EA010",
+   "name": "Crop Land",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "EA010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ARA"
+   ]
+  },
+  {
+   "code": "EA040",
+   "name": "Orchard",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "EA040",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "ARA"
+   ]
+  },
+  {
+   "code": "EB010",
+   "name": "Grassland",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "EB010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ARA"
+   ]
+  },
+  {
+   "code": "EC005",
+   "name": "Tree",
+   "geometry": [
+    "Point"
+   ],
+   "mgcp": "EC005",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "TRE",
+    "CRA"
+   ]
+  },
+  {
+   "code": "EC015",
+   "name": "Forest",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "EC015",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "HGT",
+    "TRE",
+    "DMT",
+    "ARA"
+   ]
+  },
+  {
+   "code": "ED010",
+   "name": "Marsh",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "ED010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ARA"
+   ]
+  },
+  {
+   "code": "GB005",
+   "name": "Land Aerodrome",
+   "geometry": [
+    "Polygon",
+    "Point"
+   ],
+   "mgcp": "GB005",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "APT",
+    "ZVH",
+    "ARA"
+   ]
+  },
+  {
+   "code": "GB055",
+   "name": "Runway",
+   "geometry": [
+    "Polygon"
+   ],
+   "mgcp": "GB055",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "WID",
+    "LZN",
+    "SFS",
+    "MCC"
+   ]
+  },
+  {
+   "code": "GB075",
+   "name": "Taxiway",
+   "geometry": [
+    "Polygon",
+    "LineString"
+   ],
+   "mgcp": "GB075",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "WID",
+    "SFS",
+    "MCC"
+   ]
+  },
+  {
+   "code": "CA010",
+   "name": "Elevation Contour",
+   "geometry": [
+    "LineString"
+   ],
+   "mgcp": "CA010",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZVH"
+   ]
+  },
+  {
+   "code": "ZD040",
+   "name": "Named Location",
+   "geometry": [
+    "Point"
+   ],
+   "mgcp": "ZD040",
+   "attributes": [
+    "F_CODE",
+    "UFI",
+    "ZI001_SDP",
+    "ZI001_SDV",
+    "ZI006_MEM",
+    "ZI005_FNA",
+    "ZI020_GE4"
+   ]
+  }
+ ],
+ "crosswalk": {
+  "MGCP": {
+   "note": "TDS 7.1 → MGCP TRD 4.x feature and attribute names for export (REQ-EXT-10)",
+   "attributes": {
+    "ZI005_FNA": "NAM",
+    "ZI016_ROC": "RST",
+    "ZI016_WD1": "WD1",
+    "ZI024_HYP": "HYP",
+    "ZI001_SDP": "SDP",
+    "ZI001_SDV": "SDV",
+    "ZI006_MEM": "TXT",
+    "UFI": "UID",
+    "BNF": "BNF",
+    "HGT": "HGT",
+    "FFN": "FFN",
+    "MCC": "MCC",
+    "PCF": "PCF",
+    "WID": "WID",
+    "LTN": "LTN",
+    "RTY": "RTY",
+    "ZVH": "ZVH"
+   }
+  }
+ }
+}

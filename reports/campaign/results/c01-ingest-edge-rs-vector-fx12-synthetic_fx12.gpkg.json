@@ -1,0 +1,44 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:54.443Z",
+ "key": "rs-vector-fx12-synthetic/fx12.gpkg",
+ "item": "rs-vector-fx12-synthetic",
+ "file": "fx12.gpkg",
+ "format": "GeoJSON/GPKG/KML/KMZ/SHP (synthetic)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "fx12_points: no Z (z = 0); heights set to 0",
+  "fx12_lines: no Z (z = 0); heights set to 0",
+  "fx12_polygons: no Z (z = 0); heights set to 0",
+  "fx12_points: no Z (z = 0); heights set to 0",
+  "fx12_lines: no Z (z = 0); heights set to 0",
+  "fx12_polygons: no Z (z = 0); heights set to 0",
+  "fx12_points: no Z (z = 0); heights set to 0",
+  "fx12_lines: no Z (z = 0); heights set to 0",
+  "fx12_polygons: no Z (z = 0); heights set to 0",
+  "fx12_points: no Z (z = 0); heights set to 0",
+  "fx12_lines: no Z (z = 0); heights set to 0",
+  "fx12_polygons: no Z (z = 0); heights set to 0"
+ ],
+ "toasts": [
+  "toast-info: fx12_points: 14 feature(s) from GeoPackage (3 note(s))",
+  "toast-info: fx12_lines: 14 feature(s) from GeoPackage (3 note(s))",
+  "toast-info: fx12_polygons: 14 feature(s) from GeoPackage (3 note(s))",
+  "toast-info: fx12_polygonz: 14 feature(s) from GeoPackage (3 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 4,
+  "features": 14,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 100,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

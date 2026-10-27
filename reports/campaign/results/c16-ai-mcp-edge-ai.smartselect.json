@@ -1,0 +1,26 @@
+{
+ "spec": "c16-ai-mcp",
+ "project": "edge",
+ "when": "2026-10-27T15:44:29.252Z",
+ "key": "ai.smartselect",
+ "id": "ai.smartselect",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic",
+  "ai-mock"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

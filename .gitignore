@@ -1,0 +1,13 @@
+# Dependencies and caches
+node_modules/
+.cache/
+
+# Scratch builds (dist/ is committed: the released single-file app)
+dist-te/
+
+# Transient test output (summaries and traceability in reports/ are kept)
+test-results/
+reports/campaign/out/
+reports/campaign/results/verify/
+reports/campaign/verify-*.json
+reports/fuzz-crashes/

@@ -1,0 +1,22 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-27T15:37:00.850Z",
+ "key": "pc.colour.rgb",
+ "id": "pc.colour.rgb",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

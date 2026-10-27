@@ -1,0 +1,11 @@
+{
+ "spec": "c19-nonfunctional",
+ "project": "chrome",
+ "when": "2026-10-27T14:52:22.522Z",
+ "key": "rs-vector-naturalearth-110m-srcdoc",
+ "mode": "srcdoc",
+ "errors": [],
+ "ok": false,
+ "logs": [],
+ "requests": []
+}

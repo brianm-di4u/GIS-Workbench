@@ -1,0 +1,28 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-27T15:37:07.760Z",
+ "key": "msi.vectors",
+ "id": "msi.vectors",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: 0 class polygon(s) with area and perimeter"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "classify"
+ ],
+ "data": [
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

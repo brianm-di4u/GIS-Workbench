@@ -1,0 +1,29 @@
+# Vendored hayro-jpeg2000 0.4.1 (Apache-2.0 OR MIT, https://github.com/LaurenzV/hayro) with
+# HTJ2K code-block decoding added for GIS Workbench (REQ-FMT-17, DN-xx in docs/design/decisions.md).
+# Changes are marked "GW HTJ2K" in the sources; see VENDOR.md.
+
+[package]
+edition = "2024"
+rust-version = "1.92"
+name = "hayro-jpeg2000"
+version = "0.4.1+gw.1"
+authors = ["Laurenz Stampfl <laurenz.stampfl@gmail.com>"]
+description = "A memory-safe, pure-Rust JPEG 2000 decoder (with HTJ2K code-blocks, GIS Workbench fork)."
+readme = "README.md"
+license = "Apache-2.0 OR MIT"
+publish = false
+
+[features]
+default = ["std", "simd"]
+logging = ["dep:log"]
+simd = ["fearless_simd", "std"]
+std = []
+
+[lib]
+name = "hayro_jpeg2000"
+path = "src/lib.rs"
+
+[dependencies]
+fearless_simd = { version = "1.0.0", optional = true }
+log = { version = "0.4", optional = true }
+ndic-htj2k = { version = "=0.2.5", default-features = false }

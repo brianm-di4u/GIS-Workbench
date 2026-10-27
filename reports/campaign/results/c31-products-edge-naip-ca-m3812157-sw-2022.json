@@ -1,0 +1,30 @@
+{
+ "spec": "c31-products",
+ "project": "edge",
+ "when": "2026-10-27T14:48:13.273Z",
+ "key": "naip-ca-m3812157-sw-2022",
+ "written": [
+  "chip1_m_3812157_sw_10_060_20220519.tif.tif",
+  "chip1_m_3812157_sw_10_060_20220519.tif.zip"
+ ],
+ "results": [
+  {
+   "rel": "chip1_m_3812157_sw_10_060_20220519.tif.tif",
+   "model": "Map (EPSG:26910)",
+   "error": null,
+   "maxM": 0.03520722661454836,
+   "gsd": 6,
+   "rpc": false,
+   "logs": []
+  },
+  {
+   "rel": "chip1_m_3812157_sw_10_060_20220519.tif\\chip1_m_3812157_sw_10_060_20220519.tif.png",
+   "model": "World file (EPSG:4326)",
+   "error": null,
+   "maxM": 0,
+   "gsd": 8.007618416357843,
+   "rpc": false,
+   "logs": []
+  }
+ ]
+}

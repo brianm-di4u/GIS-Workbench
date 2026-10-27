@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:30:04.990Z",
+ "key": "vector-gpx-csv-wkt-gdal/curves_polygon.csv",
+ "item": "vector-gpx-csv-wkt-gdal",
+ "file": "curves_polygon.csv",
+ "format": "GPX / CSV (WKT)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: curves_polygon: 0 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 38,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

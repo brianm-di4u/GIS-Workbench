@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:13.674Z",
+ "key": "s2-l1c-jp2-safe-10seh-20240816/T10SEH_20240816T184919_B09.jp2",
+ "item": "s2-l1c-jp2-safe-10seh-20240816",
+ "file": "T10SEH_20240816T184919_B09.jp2",
+ "format": "JPEG2000 (SAFE)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened T10SEH_20240816T184919_B09.jp2 in 54 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GMLJP2; 1830×1830×1, 15-bit, 4 resolution levels)",
+   "w": 1830,
+   "h": 1830,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 647,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

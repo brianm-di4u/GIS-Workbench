@@ -1,0 +1,96 @@
+/* Menus, dialogs (REQ-UI-14 form pattern), toasts. */
+.menu-host { position: fixed; inset: 0; pointer-events: none; z-index: 900; }
+.menu { position: fixed; pointer-events: auto; min-width: 180px; background: var(--c-menu-bg); color: #000; border: 1px solid #8a8a8a; box-shadow: 2px 3px 8px rgba(0,0,0,.35); padding: 2px 0; z-index: 901; }
+[data-theme="dark"] .menu { background: #2a2a2a; color: #e6e6e6; border-color: #555; }
+.menu-item { display: grid; grid-template-columns: 16px 20px 1fr auto; align-items: center; gap: 2px; height: 22px; padding: 0 10px 0 4px; white-space: nowrap; outline: none; }
+.menu-item:hover, .menu-item:focus { background: var(--c-menu-hover); color: #000; }
+.menu-item.disabled { opacity: .45; }
+.menu-key { color: #666; font-size: var(--fs-sm); padding-left: 18px; }
+.menu-sep { height: 1px; background: #c4c4c4; margin: 3px 4px; }
+.menubar-item[aria-expanded="true"] { background: var(--c-menu-hover); color: #000; }
+
+.dlg-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.18); z-index: 800; }
+.dlg { position: fixed; z-index: 810; background: var(--c-chrome-frame); color: var(--c-chrome-textOnFrame); border: 1px solid #222; box-shadow: 0 8px 26px rgba(0,0,0,.45); max-width: calc(100vw - 20px); max-height: calc(100vh - 20px); display: flex; flex-direction: column; }
+.dlg-title { height: 26px; flex: none; display: flex; align-items: center; padding: 0 2px 0 10px; background: var(--c-chrome-titlebar); color: #000; cursor: move; user-select: none; }
+[data-theme="dark"] .dlg-title { background: #1d1d1d; color: #e6e6e6; }
+.dlg-title-text { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dlg-x { background: transparent; border: 0; width: 26px; height: 22px; color: inherit; display: grid; place-items: center; }
+.dlg-x:hover { background: #e81123; color: #fff; }
+.dlg-body { padding: var(--s-dialogPadding) 12px; overflow: auto; flex: 1; }
+.dlg-body .grid-table, .dlg-body pre, .dlg-body .inp, .dlg-body select { color: var(--c-content-text); }
+.dlg-msg { margin: 6px 0; }
+.dlg-buttons { display: flex; justify-content: flex-end; gap: 6px; padding: 8px 12px; border-top: 1px solid #5f5f5f; flex: none; }
+.dlg-buttons .btn-left { margin-right: auto; }
+.dlg-buttons .btn-left + .btn-left { margin-right: 0; }
+.fld { display: grid; grid-template-columns: 150px 1fr; gap: 8px; align-items: center; margin: 4px 0; }
+.fld > small { grid-column: 2; }
+.fld-inline { display: flex; gap: 6px; }
+.sec { border: 0; border-top: 1px solid #8f8f8f; margin: 10px 0 4px; padding: 6px 0 0; }
+.sec legend { padding: 0 6px 0 0; font-weight: 600; }
+.dlg pre { background: var(--c-content-bg); padding: 6px; max-height: 360px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+.meta-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.meta-pre { max-height: 60vh !important; }
+.notices { max-height: 200px !important; }
+.banner-preview { background: var(--c-banner-U); color: #fff; padding: 4px 8px; font-weight: bold; text-align: center; }
+.about .grid-table td { font-size: var(--fs-sm); }
+.relink-list { max-height: 200px; overflow: auto; font-family: var(--f-monoLog); font-size: var(--fs-sm); }
+.history ol { max-height: 50vh; overflow: auto; }
+.history li.redo { opacity: .6; }
+.help details { margin: 4px 0; }
+.help summary { cursor: pointer; font-weight: 600; }
+
+.toasts { position: fixed; right: 14px; bottom: 54px; display: flex; flex-direction: column; gap: 6px; z-index: 950; max-width: 420px; }
+.toast { background: #2b2b2b; color: #f0f0f0; padding: 7px 12px; border-left: 4px solid #4da3ff; box-shadow: 0 3px 10px rgba(0,0,0,.4); display: flex; gap: 10px; align-items: center; transition: opacity .3s; }
+.toast.out { opacity: 0; }
+.toast-error { border-left-color: #ff5a5a; }
+.toast-warn { border-left-color: #e0b050; }
+
+/* Enhancement editors (REQ-IMG-06/08) */
+.mtf-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.mtf-cell { width: 100%; min-width: 0; }
+.curve-editor { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.curve-canvas, .hist-canvas { border: 1px solid #8a8a8a; cursor: crosshair; touch-action: none; max-width: 100%; }
+.curve-canvas:focus-visible { outline: 2px solid var(--c-focus-ring); }
+.hist-editor { display: flex; flex-direction: column; gap: 8px; }
+.hist-band { display: flex; flex-direction: column; gap: 3px; }
+.pixel-matrix { display: flex; flex-wrap: wrap; gap: 8px; }
+.pm-table td { text-align: right; padding: 1px 4px; font-family: var(--f-mono, monospace); }
+.pm-table td.pm-centre { outline: 2px solid var(--c-focus-ring); }
+.profile-canvas { border: 1px solid #8a8a8a; max-width: 100%; cursor: crosshair; }
+.legend { display: flex; flex-direction: column; gap: 4px; }
+.legend-row { display: flex; align-items: center; gap: 8px; }
+
+/* Products: chip preview (REQ-PRD-01) */
+.chip-preview { max-height: 46vh; overflow: auto; background: #000; border: 1px solid var(--c-border, #555); text-align: center; }
+.chip-preview canvas { max-width: 100%; height: auto; display: inline-block; }
+.chip-info { margin: 4px 0 8px; color: inherit; }
+body[aria-busy='true'], body[aria-busy='true'] * { cursor: progress !important; }
+#print-root { display: none; }
+@media print {
+  body.printing > *:not(#print-root) { display: none !important; }
+  body.printing #print-root { display: block; }
+  #print-root > img { display: block; }
+}
+
+/* ToolBox ▸ Features (REQ-EXT-01) */
+.tb-row { display: flex; gap: 4px; align-items: center; padding: 2px 6px; }
+.tb-row select { flex: 1; min-width: 0; }
+.tb-text { font-size: 18px; line-height: 1; }
+.tb-mods { display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 4px 6px; font-size: var(--fs-sm); }
+.tb-mod { display: inline-flex; align-items: center; gap: 3px; min-height: var(--s-targetMin, 24px); }
+.inp-small { width: 56px; }
+.th-sort { background: none; border: 0; color: inherit; font: inherit; font-weight: bold; cursor: pointer; padding: 0; min-height: var(--s-targetMin, 24px); }
+tr.selected td { background: color-mix(in srgb, #e000e0 22%, transparent); }
+
+/* Preferences (REQ-UI-11) */
+.prefs-tabs { display: flex; gap: 4px; margin: 6px 0; }
+.prefs-tabs .btn.active { font-weight: 600; }
+.prefs-split { display: flex; gap: 8px; min-height: 240px; }
+.prefs-tree { list-style: none; margin: 0; padding: 0; min-width: 130px; border-right: 1px solid color-mix(in srgb, currentColor 20%, transparent); }
+.prefs-tree li { padding: 3px 8px; cursor: pointer; }
+.prefs-tree li.sel { font-weight: 600; background: color-mix(in srgb, currentColor 10%, transparent); }
+.prefs-rows { flex: 1; overflow: auto; max-height: 50vh; }
+
+/* Mini toolbar over the panel context menu (REQ-UI-06) */
+.menu.mini-toolbar { display: flex; gap: 2px; min-width: 0; padding: 2px; }
+.menu.mini-toolbar .btn { padding: 2px 4px; }

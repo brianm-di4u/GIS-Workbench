@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:18.822Z",
+ "key": "robustness-gdal-autotest-seeds/tiled_bad_offset.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "tiled_bad_offset.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened tiled_bad_offset.tif in 39 ms",
+  "toast-error: tiled_bad_offset.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
+ ],
+ "layers": [
+  {
+   "error": "the TIFF is truncated or damaged: a tag or block points outside the file",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16,
+   "h": 16,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 142,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

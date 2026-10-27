@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:03.148Z",
+ "key": "fmv-libmisbklv-fixtures/synthetic-video.ts",
+ "item": "fmv-libmisbklv-fixtures",
+ "file": "synthetic-video.ts",
+ "format": "KLV binary / MPEG-TS",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened synthetic-video.ts: 60 frames, 1 KLV packets (0 bad) in 128 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 177,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

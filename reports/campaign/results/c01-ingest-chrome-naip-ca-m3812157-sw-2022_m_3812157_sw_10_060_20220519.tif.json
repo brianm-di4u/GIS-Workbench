@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:16.102Z",
+ "key": "naip-ca-m3812157-sw-2022/m_3812157_sw_10_060_20220519.tif",
+ "item": "naip-ca-m3812157-sw-2022",
+ "file": "m_3812157_sw_10_060_20220519.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened m_3812157_sw_10_060_20220519.tif in 41 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 9940,
+   "h": 12330,
+   "bands": 4,
+   "model": "Map (EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 619,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

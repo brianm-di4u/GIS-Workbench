@@ -1,0 +1,28 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "edge",
+ "when": "2026-10-27T15:41:23.226Z",
+ "key": "stereo.ypar",
+ "id": "stereo.ypar",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Residual y-parallax of the epipolar fit over the view: 0.037 px RMS"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "stereo"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

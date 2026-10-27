@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-27T15:38:55.138Z",
+ "key": "help.about",
+ "id": "help.about",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "About & Diagnostics"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

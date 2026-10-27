@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:26.345Z",
+ "key": "robustness-gdal-autotest-seeds/rgb.ntf",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "rgb.ntf",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened rgb.ntf in 30 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 50,
+   "h": 50,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 114,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

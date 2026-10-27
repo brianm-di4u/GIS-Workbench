@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:42:08.872Z",
+ "key": "gdal-dted-samples/l5102.dhm",
+ "item": "gdal-dted-samples",
+ "file": "l5102.dhm",
+ "format": "DTED0 | DTED1 | DTED (1-arcsec)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened l5102.dhm in 39 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 1201,
+   "h": 721,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 355,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

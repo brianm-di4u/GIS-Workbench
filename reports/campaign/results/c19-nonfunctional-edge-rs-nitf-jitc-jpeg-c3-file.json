@@ -1,0 +1,11 @@
+{
+ "spec": "c19-nonfunctional",
+ "project": "edge",
+ "when": "2026-10-27T14:48:27.297Z",
+ "key": "rs-nitf-jitc-jpeg-c3-file",
+ "mode": "file",
+ "errors": [],
+ "ok": true,
+ "logs": [],
+ "requests": []
+}

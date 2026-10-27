@@ -1,0 +1,1546 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c18-live",
+      "--project=chrome",
+      "--project=edge"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "edge",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "msedge"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "edge"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-phase5.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c18-live.spec.js",
+      "file": "c18-live.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C18 live-gibs-wmts-4326 endpoint reachable [wmts]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:38.253Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-0fbcfe8d4791c320414e",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-gibs-wmts-3857 endpoint reachable [wmts]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 8300,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:38.279Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-c5e034a353d32672d384",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-tnm-usgstopo-wms endpoint reachable [wms]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:38.293Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-718bf46d75ed4a9d08fe",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-tnm-usgstopo-rest endpoint reachable [arcgis-rest]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 562,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:38.265Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-c2380ed74d368ce8844f",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-osm-tiles endpoint reachable [xyz]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 212,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:38.855Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-f952ae7548240962dab2",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-esri-sampleserver6-wildfire endpoint reachable [featureservice]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 287,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:38.908Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-00ab6e0d5881f874875a",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-wfst-geosolutions-gs-stable endpoint reachable [wfs-t]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:39.077Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-81c778bb99d8d806d98a",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-ngs-ncat endpoint reachable [ncat]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 950,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:39.204Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-a51a6d05b72ce72a057b",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-ngs-geoid endpoint reachable [geoid]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 70,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:40.160Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-8cc72448dbc7fff2c2ab",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-copc-autzen-https endpoint reachable [copc-http]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 354,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:40.237Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-fb4a1b6c83a01d101141",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-SEC-12 no request leaves before an origin is allowed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3441,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:40.598Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-5889b27844efbb72d87e",
+          "file": "c18-live.spec.js",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 REQ-UI-26 REQ-ARC-16 REQ-SEC-12 allow-listed basemap renders: NASA GIBS Blue Marble (WMTS)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2727,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:40.869Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-169bc2b9f1aed76639df",
+          "file": "c18-live.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-UI-26 REQ-ARC-16 REQ-SEC-12 allow-listed basemap renders: USGS The National Map topo (ArcGIS REST)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2386,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:43.823Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-c5d6fe14f2981b19c63f",
+          "file": "c18-live.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-UI-26 REQ-ARC-16 REQ-SEC-12 allow-listed basemap renders: OpenStreetMap (XYZ)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2595,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:44.211Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-93da7aaabcef54dea695",
+          "file": "c18-live.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-EXT-26 REQ-SEC-12 a public ArcGIS feature service opens for editing (read only; no edit sent)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2743,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:45.879Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-9c4a5ccaf5a0dade1305",
+          "file": "c18-live.spec.js",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 REQ-LDR-02 REQ-SEC-12 COPC streams over HTTPS range requests (Autzen, 81 MB)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 3285,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:46.220Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-d428c4634f4697ea56cc",
+          "file": "c18-live.spec.js",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 REQ-STR-15 3D Tiles stream from a local http server (CesiumGS samples)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2640,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:46.608Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-36eb1bd22469792fd919",
+          "file": "c18-live.spec.js",
+          "line": 158,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 live-gibs-wmts-4326 endpoint reachable [wmts]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 2,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.470Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-3c2b856eef0cf643c901",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-gibs-wmts-3857 endpoint reachable [wmts]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.496Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-a76909bb8d843c0e8bba",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-tnm-usgstopo-wms endpoint reachable [wms]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.504Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-60121fe7defdd0b842ef",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-tnm-usgstopo-rest endpoint reachable [arcgis-rest]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.512Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-8c16bfa4c30f714bfac6",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-osm-tiles endpoint reachable [xyz]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.525Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-2fa3131b7ef362896a2f",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-esri-sampleserver6-wildfire endpoint reachable [featureservice]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.532Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-779f43abe5493008104e",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-wfst-geosolutions-gs-stable endpoint reachable [wfs-t]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.539Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-947e6a5916960bba9ff3",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-ngs-ncat endpoint reachable [ncat]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.547Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-cfb205267a2d43df51c9",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-ngs-geoid endpoint reachable [geoid]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.563Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-0184901bbd23c196dde6",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 live-copc-autzen-https endpoint reachable [copc-http]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "once per run",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                    "line": 19,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.572Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "once per run",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c18-live.spec.js",
+                        "line": 19,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-d63d3ec2e11576d2ac93",
+          "file": "c18-live.spec.js",
+          "line": 18,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-SEC-12 no request leaves before an origin is allowed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3584,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:47.580Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-9dc7d72c8680f8b4212a",
+          "file": "c18-live.spec.js",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 REQ-UI-26 REQ-ARC-16 REQ-SEC-12 allow-listed basemap renders: NASA GIBS Blue Marble (WMTS)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6127,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:49.366Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-b91e95ca1022c609714e",
+          "file": "c18-live.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-UI-26 REQ-ARC-16 REQ-SEC-12 allow-listed basemap renders: USGS The National Map topo (ArcGIS REST)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 6229,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:50.087Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-fa334a8b76f70b627cc4",
+          "file": "c18-live.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-UI-26 REQ-ARC-16 REQ-SEC-12 allow-listed basemap renders: OpenStreetMap (XYZ)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 6239,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:50.213Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-d2bd3724c7d3c66ead6b",
+          "file": "c18-live.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "TE-C18 REQ-EXT-26 REQ-SEC-12 a public ArcGIS feature service opens for editing (read only; no edit sent)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 6701,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:51.514Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-3cd96062421ab9a49253",
+          "file": "c18-live.spec.js",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 REQ-LDR-02 REQ-SEC-12 COPC streams over HTTPS range requests (Autzen, 81 MB)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4213,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:55.779Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-55a895679be232096c95",
+          "file": "c18-live.spec.js",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "TE-C18 REQ-STR-15 3D Tiles stream from a local http server (CesiumGS samples)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1859,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:08:56.583Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4b22931ba9411570f6c0-aaa80bc2152ab9a0cc74",
+          "file": "c18-live.spec.js",
+          "line": 158,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T15:08:37.798Z",
+    "duration": 22532.21,
+    "expected": 24,
+    "skipped": 10,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

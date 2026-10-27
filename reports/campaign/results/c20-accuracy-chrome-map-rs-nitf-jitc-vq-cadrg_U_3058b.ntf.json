@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "chrome",
+ "when": "2026-10-27T14:43:48.690Z",
+ "key": "map-rs-nitf-jitc-vq-cadrg/U_3058b.ntf",
+ "kind": "map",
+ "model": "RPF frame (coverage section)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 63.94126036792088,
+ "gsd": 639.4126036792088,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:35:18.429Z",
+ "key": "eo-spacenet-vegas-wv3-pan-ms-r1c1/15OCT22183656-M2AS_R1C1-055649178030_01_P001.TIF",
+ "item": "eo-spacenet-vegas-wv3-pan-ms-r1c1",
+ "file": "15OCT22183656-M2AS_R1C1-055649178030_01_P001.TIF",
+ "format": "GeoTIFF (DigitalGlobe LV2A Standard tile) + DG XML",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 15OCT22183656-M2AS_R1C1-055649178030_01_P001.TIF in 40 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 4096,
+   "h": 4096,
+   "bands": 8,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2158,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

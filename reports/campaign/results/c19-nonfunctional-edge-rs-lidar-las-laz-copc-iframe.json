@@ -1,0 +1,11 @@
+{
+ "spec": "c19-nonfunctional",
+ "project": "edge",
+ "when": "2026-10-27T14:55:40.856Z",
+ "key": "rs-lidar-las-laz-copc-iframe",
+ "mode": "iframe",
+ "errors": [],
+ "ok": false,
+ "logs": [],
+ "requests": []
+}

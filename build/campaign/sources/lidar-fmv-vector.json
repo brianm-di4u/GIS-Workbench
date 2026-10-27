@@ -1,0 +1,2249 @@
+[
+ {
+  "id": "lidar-3dep-co-drcog-2020-2x2",
+  "area": "lidar",
+  "title": "USGS 3DEP CO_DRCOG_2020_B20 - 2x2 block of adjacent 1 km LAZ tiles (Boulder foothills, ~N39.89-39.91 W105.28-105.30)",
+  "source": "USGS 3D Elevation Program (3DEP)",
+  "landing": "https://apps.nationalmap.gov/downloader/",
+  "licence": "Public domain (US Government work)",
+  "attribution": "U.S. Geological Survey, 3D Elevation Program",
+  "tier": "A",
+  "format": "LAZ (LAS1.4 PDRF6)",
+  "profile": "LAS 1.4, PDRF 6, 30-byte records, WKT CRS (global encoding bit 4), ~36.7M pts/tile; tiles w0474-0475 / n4416-4417 form a 2x2 block",
+  "files": [
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/LAZ/USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz",
+    "bytes": 268701224,
+    "role": "primary"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0474n4417.laz",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/LAZ/USGS_LPC_CO_DRCOG_2020_B20_w0474n4417.laz",
+    "bytes": 290920204,
+    "role": "primary"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0475n4416.laz",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/LAZ/USGS_LPC_CO_DRCOG_2020_B20_w0475n4416.laz",
+    "bytes": 277401230,
+    "role": "primary"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0475n4417.laz",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/LAZ/USGS_LPC_CO_DRCOG_2020_B20_w0475n4417.laz",
+    "bytes": 274605364,
+    "role": "primary"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.xml",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/metadata/USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.xml",
+    "bytes": 11866,
+    "role": "metadata"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0474n4417.xml",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/metadata/USGS_LPC_CO_DRCOG_2020_B20_w0474n4417.xml",
+    "bytes": 11864,
+    "role": "metadata"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0475n4416.xml",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/metadata/USGS_LPC_CO_DRCOG_2020_B20_w0475n4416.xml",
+    "bytes": 11866,
+    "role": "metadata"
+   },
+   {
+    "name": "USGS_LPC_CO_DRCOG_2020_B20_w0475n4417.xml",
+    "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/CO_DRCOG_2020_B20/CO_DRCOG_1_2020/metadata/USGS_LPC_CO_DRCOG_2020_B20_w0475n4417.xml",
+    "bytes": 11865,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Header verified by range request on w0474n4416 (LAS 1.4, PDRF 6, GeoCue). Served from rockyweb.usgs.gov (prd-tnm S3 holds only metadata/browse for this project). rockyweb returns HTTP 429 to bursty requests, so download one at a time with backoff. URLs found via the TNM Access API (tnmaccess.nationalmap.gov/api/v1/products).",
+  "feeds": [
+   "pc.read.laz",
+   "pc.read.las14",
+   "pc.groundfilter",
+   "pc.classify",
+   "pc.dem",
+   "pc.write.las14",
+   "pc.merge",
+   "pc.crs.wkt"
+  ]
+ },
+ {
+  "id": "lidar-autzen-classified-copc",
+  "area": "lidar",
+  "title": "Autzen Stadium classified COPC (PDAL/Hobu reference)",
+  "source": "Hobu Inc. / PDAL",
+  "landing": "https://github.com/PDAL/data/tree/main/autzen",
+  "licence": "Public sample data distributed by PDAL (PDAL/data repo; no explicit data licence; source lidar from Oregon LiDAR Consortium/DOGAMI)",
+  "attribution": "Hobu, Inc. / PDAL; source lidar DOGAMI Oregon LiDAR Consortium",
+  "tier": "A",
+  "format": "COPC",
+  "profile": "LAS 1.4 PDRF 7 (RGB), LAZ-compressed COPC, 10,653,336 pts, WKT CRS",
+  "files": [
+   {
+    "name": "autzen-classified.copc.laz",
+    "url": "https://s3.amazonaws.com/hobu-lidar/autzen-classified.copc.laz",
+    "bytes": 81123042,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "hobu-lidar S3 bucket is anonymous, CORS '*' with Range allowed in preflight; Content-Range is not an exposed header. The PDAL/data GitHub copy is a Git LFS pointer (133 B), so use the S3 URL.",
+  "feeds": [
+   "pc.read.copc",
+   "pc.copc.stream",
+   "pc.classify",
+   "pc.groundfilter",
+   "pc.write.las14"
+  ]
+ },
+ {
+  "id": "lidar-las-version-matrix",
+  "area": "lidar",
+  "title": "LAS/LAZ version & PDRF conformance matrix (PDAL, laspy, LAStools, laz-perf test data)",
+  "source": "PDAL / laspy / LAStools / laz-perf (GitHub)",
+  "landing": "https://github.com/PDAL/PDAL/tree/master/test/data/las",
+  "licence": "Test data distributed in repos: PDAL BSD-3-Clause; laspy BSD-2-Clause; LAStools/LASzip LGPL-2.1 (LASzip); laz-perf Apache-2.0",
+  "attribution": "PDAL contributors; laspy contributors; rapidlasso GmbH; Hobu Inc.",
+  "tier": "A",
+  "format": "LAS1.0-1.4 / LAZ / COPC",
+  "profile": "Coverage: LAS 1.0,1.1,1.2,1.3,1.4; PDRF 0,1,2,3,4,6,7,8,10; extra bytes, EVLR, WKT CRS, GeoTIFF+WKT, 390 VLRs, negatives. NOT covered: PDRF 5 and 9 (none found in public test corpora).",
+  "files": [
+   {
+    "name": "pdal/permutations/1.0_0.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.0_0.las",
+    "bytes": 1027,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.0_1.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.0_1.las",
+    "bytes": 1035,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.1_0.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.1_0.las",
+    "bytes": 1025,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.1_1.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.1_1.las",
+    "bytes": 1033,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.2_0.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.2_0.las",
+    "bytes": 1025,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.2_1.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.2_1.las",
+    "bytes": 1033,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.2_2.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.2_2.las",
+    "bytes": 1031,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/permutations/1.2_3.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/permutations/1.2_3.las",
+    "bytes": 1039,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/1.2-with-color.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/1.2-with-color.las",
+    "bytes": 36439,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/epsg_4326.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/epsg_4326.las",
+    "bytes": 108453,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/lots_of_vlr.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/lots_of_vlr.las",
+    "bytes": 81919,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/4_1.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/4_1.las",
+    "bytes": 5572238,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/4_6.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/4_6.las",
+    "bytes": 5971566,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/extrabytes.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/extrabytes.las",
+    "bytes": 66354,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/las_with_several_extra_byte_bloc.laz",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/laz/las_with_several_extra_byte_bloc.laz",
+    "bytes": 3240041,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/lone-star.copc.laz",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/copc/lone-star.copc.laz",
+    "bytes": 2705193,
+    "role": "primary"
+   },
+   {
+    "name": "pdal/no-points.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/no-points.las",
+    "bytes": 859,
+    "role": "truth"
+   },
+   {
+    "name": "pdal/gps-time-nan.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/gps-time-nan.las",
+    "bytes": 255,
+    "role": "truth"
+   },
+   {
+    "name": "pdal/bad_vlr_count.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/bad_vlr_count.las",
+    "bytes": 769,
+    "role": "truth"
+   },
+   {
+    "name": "pdal/garbage_nVariableLength.las",
+    "url": "https://raw.githubusercontent.com/PDAL/PDAL/fa80ee0a922716ad5c4f86de4b8ba26e94ae294e/test/data/las/garbage_nVariableLength.las",
+    "bytes": 14601,
+    "role": "truth"
+   },
+   {
+    "name": "laspy/simple1_1.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/simple1_1.las",
+    "bytes": 30047,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/simple1_3.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/simple1_3.las",
+    "bytes": 62888,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/vegetation_1_3.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/vegetation_1_3.las",
+    "bytes": 299359,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/simple1_4.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/simple1_4.las",
+    "bytes": 814388,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/1_4_w_evlr.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/1_4_w_evlr.las",
+    "bytes": 32381,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/1_4_w_evlr.laz",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/1_4_w_evlr.laz",
+    "bytes": 8948,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/file_with_both_wkt_and_geotiff_vlrs.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/file_with_both_wkt_and_geotiff_vlrs.las",
+    "bytes": 763642,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/extra.laz",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/extra.laz",
+    "bytes": 29084,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/unregistered_extra_bytes.las",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/unregistered_extra_bytes.las",
+    "bytes": 511,
+    "role": "truth"
+   },
+   {
+    "name": "laspy/fullwave.laz",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/fullwave.laz",
+    "bytes": 200894,
+    "role": "primary"
+   },
+   {
+    "name": "laspy/fullwave.wdp",
+    "url": "https://raw.githubusercontent.com/laspy/laspy/b4e14088d24e7e23f72fd9d33d61f63a9668cb74/tests/data/fullwave.wdp",
+    "bytes": 35392092,
+    "role": "sidecar"
+   },
+   {
+    "name": "lastools/TO_core_last_zoom.laz",
+    "url": "https://raw.githubusercontent.com/LAStools/LAStools/master/data/TO_core_last_zoom.laz",
+    "bytes": 559487,
+    "role": "primary"
+   },
+   {
+    "name": "lastools/5points_14.las",
+    "url": "https://raw.githubusercontent.com/LAStools/LAStools/master/LASzip/example/5points_14.las",
+    "bytes": 1086,
+    "role": "primary"
+   },
+   {
+    "name": "lastools/broken_coder.laz",
+    "url": "https://raw.githubusercontent.com/LAStools/LAStools/master/LASzip/data/broken_coder.laz",
+    "bytes": 1000,
+    "role": "truth"
+   },
+   {
+    "name": "lastools/broken_version.laz",
+    "url": "https://raw.githubusercontent.com/LAStools/LAStools/master/LASzip/data/broken_version.laz",
+    "bytes": 1000,
+    "role": "truth"
+   },
+   {
+    "name": "lazperf/no-points-1.3.las",
+    "url": "https://raw.githubusercontent.com/hobuinc/laz-perf/master/cpp/test/raw-sets/no-points-1.3.las",
+    "bytes": 235,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Headers of every primary file checked by range read (version/PDRF in each file's 'note'). PDAL/laspy URLs pinned to commit SHAs. Excludes files already held (autzen_trim, autzen_trim_7, test1_4, simple.copc.laz, ellipsoid.copc.laz). Gap: PDRF 5 and 9. Generate them with the app's LAS 1.4 writer or PDAL writers.las (minor_version=3 dataformat_id=5; minor_version=4 dataformat_id=9) and keep them as generated truth. Per-file: 1.0_0.las=LAS1.0 PDRF0; 1.0_1.las=LAS1.0 PDRF1; 1.1_0.las=LAS1.1 PDRF0; 1.1_1.las=LAS1.1 PDRF1; 1.2_0.las=LAS1.2 PDRF0; 1.2_1.las=LAS1.2 PDRF1; 1.2_2.las=LAS1.2 PDRF2; 1.2_3.las=LAS1.2 PDRF3; 1.2-with-color.las=LAS1.2 PDRF3 1065 pts; epsg_4326.las=LAS1.2 PDRF0 GeoTIFF geographic CRS; lots_of_vlr.las=LAS1.1 PDRF1 390 VLRs; 4_1.las=LAS1.4 PDRF1 (legacy format in 1.4); 4_6.las=LAS1.4 PDRF6 WKT CRS; extrabytes.las=LAS1.4 PDRF3 + extra bytes (61-byte records); las_with_several_extra_byte_bloc.laz=LAS1.4 PDRF8 (RGB+NIR) LAZ, multiple extra-byte blocks, WKT; lone-star.copc.laz=COPC LAS1.4 PDRF6 518,862 pts; no-points.las=negative: zero points; gps-time-nan.las=edge: NaN GPS time; bad_vlr_count.las=negative: VLR count mismatch; garbage_nVariableLength.las=negative: garbage VLR count; simple1_1.las=LAS1.1 PDRF1; simple1_3.las=LAS1.3 PDRF4 (waveform fields, external waveform flag); vegetation_1_3.las=LAS1.3 PDRF1; simple1_4.las=LAS1.4 PDRF7; 1_4_w_evlr.las=LAS1.4 PDRF6 with EVLR; 1_4_w_evlr.laz=LAZ LAS1.4 PDRF6 with EVLR; file_with_both_wkt_and_geotiff_vlrs.las=LAS1.4 PDRF6 with both WKT and GeoTIFF VLRs; extra.laz=LAZ LAS1.4 PDRF3 extra bytes; unregistered_extra_bytes.las=edge: extra bytes without descriptor VLR; fullwave.laz=LAZ LAS1.4 PDRF10 (waveform) WKT; fullwave.wdp=external waveform data packets for fullwave.laz; TO_core_last_zoom.laz=LAZ LAS1.0 PDRF1; 5points_14.las=LAS1.4 PDRF6 + 3 extra bytes, 5 pts; broken_coder.laz=negative: corrupt LAZ; broken_version.laz=negative: corrupt LAZ version; no-points-1.3.las=edge: LAS1.3 zero points.",
+  "feeds": [
+   "pc.read.las",
+   "pc.read.laz",
+   "pc.read.copc",
+   "pc.write.las14",
+   "pc.roundtrip",
+   "ext.validate",
+   "pc.crs.wkt"
+  ]
+ },
+ {
+  "id": "lidar-opentopo-co23-roumelis",
+  "area": "lidar",
+  "title": "OpenTopography CO23_Roumelis - lidar survey of a partially burned mountain watershed, CO 2023 (3 adjacent 1 km tiles)",
+  "source": "OpenTopography / NCALM",
+  "landing": "https://doi.org/10.5069/G9HD7SMZ",
+  "licence": "CC BY 4.0",
+  "attribution": "Roumelis, C. (2024). Lidar Survey of a Partially Burned Mountain Watershed, CO 2023. NCALM; distributed by OpenTopography. https://doi.org/10.5069/G9HD7SMZ",
+  "tier": "A",
+  "format": "LAZ (LAS1.4 PDRF6) + LAX",
+  "profile": "LAS 1.4 PDRF 6, WKT, UTM 13N 1 km tiles, 0.25-7.4M pts/tile; LAStools .lax spatial index sidecars",
+  "files": [
+   {
+    "name": "447000_4498000.laz",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/447000_4498000.laz",
+    "bytes": 20555890,
+    "role": "primary"
+   },
+   {
+    "name": "447000_4498000.lax",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/447000_4498000.lax",
+    "bytes": 66456,
+    "role": "sidecar"
+   },
+   {
+    "name": "448000_4497000.laz",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/448000_4497000.laz",
+    "bytes": 23075625,
+    "role": "primary"
+   },
+   {
+    "name": "448000_4497000.lax",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/448000_4497000.lax",
+    "bytes": 61640,
+    "role": "sidecar"
+   },
+   {
+    "name": "447000_4497000.laz",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/447000_4497000.laz",
+    "bytes": 796835,
+    "role": "primary"
+   },
+   {
+    "name": "447000_4497000.lax",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/447000_4497000.lax",
+    "bytes": 3220,
+    "role": "sidecar"
+   },
+   {
+    "name": "CO23_Roumelis_TileIndex.zip",
+    "url": "https://opentopography.s3.sdsc.edu/pc-bulk/CO23_Roumelis/CO23_Roumelis_TileIndex.zip",
+    "bytes": 3968,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Anonymous S3-compatible endpoint (SDSC). The bucket root denies listing, but /pc-bulk/ lists anonymously. CORS reflects Origin and exposes Content-Range, so it works for browser range streaming. Full dataset is 63 objects / 743 MB. Licence (CC BY 4.0) comes from the WIFIRE Commons mirror of the OT catalogue; confirm on the OT dataset page. Front Range, N40.6 W105.6 (Cameron Peak burn area).",
+  "feeds": [
+   "pc.read.laz",
+   "pc.groundfilter",
+   "pc.dem",
+   "pc.http.range",
+   "pc.index.lax"
+  ]
+ },
+ {
+  "id": "fmv-ffmpeg-day-flight",
+  "area": "fmv",
+  "title": "FFmpeg sample 'Day Flight.mpg' - EO MPEG-2 TS with MISB ST 0601 KLV",
+  "source": "FFmpeg samples archive",
+  "landing": "https://samples.ffmpeg.org/MPEG2/mpegts-klv/",
+  "licence": "No licence published (public test sample; redistribution rights unclear)",
+  "attribution": "samples.ffmpeg.org",
+  "tier": "A",
+  "format": "MPEG-TS/KLV",
+  "profile": "MPEG-2 TS, H.264 1280x720, asynchronous KLVA ST 0601 (valid checksums; Tag 22 encoded as 4 bytes, which strict decoders reject)",
+  "files": [
+   {
+    "name": "Day Flight.mpg",
+    "url": "https://samples.ffmpeg.org/MPEG2/mpegts-klv/Day%20Flight.mpg",
+    "bytes": 102004664,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "The directory holds only 2 files (this and Night Flight IR.mpg). sha256 a491ceff524b0008e3076d9eb30782badac2d53053731accc0a4e1226177260e (per trane293/stanag4609 fixtures.json). Keep local-only; do not redistribute.",
+  "feeds": [
+   "fmv.ts.demux",
+   "fmv.klv",
+   "fmv.st0601",
+   "fmv.footprint",
+   "fmv.sync"
+  ]
+ },
+ {
+  "id": "fmv-ffmpeg-night-flight-ir",
+  "area": "fmv",
+  "title": "FFmpeg sample 'Night Flight IR.mpg' - IR MPEG-2 TS with MISB ST 0601 KLV",
+  "source": "FFmpeg samples archive",
+  "landing": "https://samples.ffmpeg.org/MPEG2/mpegts-klv/",
+  "licence": "No licence published (public test sample; redistribution rights unclear)",
+  "attribution": "samples.ffmpeg.org",
+  "tier": "A",
+  "format": "MPEG-TS/KLV",
+  "profile": "MPEG-2 TS, H.264 1280x720 IR, asynchronous KLVA ST 0601",
+  "files": [
+   {
+    "name": "Night Flight IR.mpg",
+    "url": "https://samples.ffmpeg.org/MPEG2/mpegts-klv/Night%20Flight%20IR.mpg",
+    "bytes": 170146016,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "sha256 8d229f4031644cd8a3f1e56f3cc74f12b0f10506f69bf03536e6fbce83e937ad (per stanag4609 fixtures.json).",
+  "feeds": [
+   "fmv.ts.demux",
+   "fmv.klv",
+   "fmv.st0601",
+   "fmv.footprint"
+  ]
+ },
+ {
+  "id": "fmv-esri-truck-tutorial",
+  "area": "fmv",
+  "title": "Esri ArcGIS FMV tutorial data (Truck.ts - semi-trailer near Cheyenne, WY)",
+  "source": "Esri",
+  "landing": "https://www.arcgis.com/home/item.html?id=55ec6f32d5e342fcbfba376ca2cc409a",
+  "licence": "Esri tutorial data; no explicit licence on the item (Esri Terms of Use apply); publicly shared, anonymous download",
+  "attribution": "Esri",
+  "tier": "A",
+  "format": "MPEG-TS/KLV (zip)",
+  "profile": "H.264 video + AAC audio + synchronous KLVA (ST 0601) in TS. Known negative traits: no metadata_std descriptor, metadata AU discontinuities, PCR interval violations",
+  "files": [
+   {
+    "name": "FMV_tutorial_data.zip",
+    "url": "https://www.arcgis.com/sharing/rest/content/items/55ec6f32d5e342fcbfba376ca2cc409a/data",
+    "bytes": 96313676,
+    "role": "archive",
+    "extract": true
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Public ArcGIS Online item 'Sample video for Full Motion Video (FMV)', anonymous. Its current size differs from the 103,211,436 bytes recorded in stanag4609 fixtures.json, so the item was re-uploaded; do not pin the sha256 from that source.",
+  "feeds": [
+   "fmv.ts.demux",
+   "fmv.klv",
+   "fmv.klv.sync",
+   "fmv.st0601",
+   "fmv.audio",
+   "ext.validate"
+  ]
+ },
+ {
+  "id": "fmv-impleotv-damaged-corpus",
+  "area": "fmv",
+  "title": "ImpleoTV STANAG 4609 Inspector test files - 21 deliberately damaged MPEG-TS/KLV streams",
+  "source": "ImpleoTV Systems Ltd",
+  "landing": "https://impleotv.com/content/stinspector/help/docs/test-files/",
+  "licence": "No licence stated (public GitHub release asset 'Stanag Inspector demo files'); treat as local test use only",
+  "attribution": "ImpleoTV Systems Ltd",
+  "tier": "A",
+  "format": "MPEG-TS/KLV (zip)",
+  "profile": "15 MPEG-TS faults (CC error, duplicate packets, PAT/PMT blackout/removal, PCR backward/jump, PTS/DTS monotonicity, PSI CRC, sync-byte corruption, TEI, PES length, PCR/PTS drift) + 6 KLV faults (corrupt checksum, corrupt key, corrupt packets, duplicate tags, missing mandatory ST0601 tags, missing KLV PID)",
+  "files": [
+   {
+    "name": "testfiles.zip",
+    "url": "https://github.com/impleotv/stinspector-release/releases/download/v.0.0.0/testfiles.zip",
+    "bytes": 3750413,
+    "role": "archive",
+    "extract": true
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "sha256 fe586773ab8f9996ce5b59f133fd07cc7187c062baa1dec591f81b9c411796a2 (per stanag4609 fixtures.json). Good for robustness and negative tests.",
+  "feeds": [
+   "fmv.ts.demux",
+   "fmv.klv",
+   "fmv.robustness",
+   "ext.validate"
+  ]
+ },
+ {
+  "id": "fmv-jmisb-st0903-vector",
+  "area": "fmv",
+  "title": "jmisb ST 0903 VMTI binary + ST 1201 test vectors",
+  "source": "WestRidge Systems (jmisb)",
+  "landing": "https://github.com/WestRidgeSystems/jmisb",
+  "licence": "MIT",
+  "attribution": "jmisb contributors / WestRidge Systems",
+  "tier": "A",
+  "format": "KLV binary / JSON",
+  "profile": "ST 0903 VMTI local set (650 B); ST 1201 IMAPB floating-point test cases (JSON)",
+  "files": [
+   {
+    "name": "jmisb/0903.bin",
+    "url": "https://raw.githubusercontent.com/WestRidgeSystems/jmisb/main/api/src/test/resources/0903.bin",
+    "bytes": 650,
+    "role": "test-vector"
+   },
+   {
+    "name": "jmisb/st1201tests.json",
+    "url": "https://raw.githubusercontent.com/WestRidgeSystems/jmisb/main/api/src/test/resources/org/jmisb/api/klv/st1201/st1201tests.json",
+    "bytes": 666311,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "The jmisb repo has no sample .ts files (full tree checked). Most of its test vectors are inline byte arrays in the Java tests.",
+  "feeds": [
+   "fmv.klv",
+   "fmv.vmti",
+   "fmv.st1201"
+  ]
+ },
+ {
+  "id": "fmv-klvdata-st0601-packets",
+  "area": "fmv",
+  "title": "klvdata ST 0601 sample packets",
+  "source": "paretech/klvdata",
+  "landing": "https://github.com/paretech/klvdata",
+  "licence": "MIT",
+  "attribution": "paretech/klvdata contributors",
+  "tier": "A",
+  "format": "KLV binary",
+  "profile": "ST 0601 UAS Datalink LS packets (dynamic+constant, dynamic-only)",
+  "files": [
+   {
+    "name": "klvdata/DynamicConstantMISMMSPacketData.bin",
+    "url": "https://raw.githubusercontent.com/paretech/klvdata/master/data/DynamicConstantMISMMSPacketData.bin",
+    "bytes": 228,
+    "role": "test-vector"
+   },
+   {
+    "name": "klvdata/DynamicOnlyMISMMSPacketData.bin",
+    "url": "https://raw.githubusercontent.com/paretech/klvdata/master/data/DynamicOnlyMISMMSPacketData.bin",
+    "bytes": 114,
+    "role": "test-vector"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "The same two packets are copied into vidterra/misb.js and All4Gis/QGISFMV.",
+  "feeds": [
+   "fmv.klv",
+   "fmv.st0601"
+  ]
+ },
+ {
+  "id": "fmv-libmisbklv-fixtures",
+  "area": "fmv",
+  "title": "libmisbklv synthetic ST 0601/0903 fixtures (VMTI vectors + tiny TS streams)",
+  "source": "nitsuga/libmisbklv",
+  "landing": "https://github.com/nitsuga/libmisbklv",
+  "licence": "Apache-2.0",
+  "attribution": "libmisbklv contributors",
+  "tier": "A",
+  "format": "KLV binary / MPEG-TS",
+  "profile": "VMTI ST0903 nested/standalone/VTarget (hand-authored; some omit mandatory items); ST0601 synthetic packets; synchronous (0x15) / asynchronous (0x06) metadata TS snippets",
+  "files": [
+   {
+    "name": "libmisbklv/vmti_nested.klv",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/vmti_nested.klv",
+    "bytes": 60,
+    "role": "test-vector"
+   },
+   {
+    "name": "libmisbklv/vmti_standalone.klv",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/vmti_standalone.klv",
+    "bytes": 48,
+    "role": "test-vector"
+   },
+   {
+    "name": "libmisbklv/vmti_vtarget.klv",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/vmti_vtarget.klv",
+    "bytes": 72,
+    "role": "test-vector"
+   },
+   {
+    "name": "libmisbklv/synthetic-basic.klv",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-basic.klv",
+    "bytes": 810,
+    "role": "test-vector"
+   },
+   {
+    "name": "libmisbklv/synthetic-comprehensive.klv",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-comprehensive.klv",
+    "bytes": 1130,
+    "role": "test-vector"
+   },
+   {
+    "name": "libmisbklv/synthetic-first-packet.klv",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-first-packet.klv",
+    "bytes": 135,
+    "role": "test-vector"
+   },
+   {
+    "name": "libmisbklv/synthetic-timed-0x06.ts",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-timed-0x06.ts",
+    "bytes": 1504,
+    "role": "primary"
+   },
+   {
+    "name": "libmisbklv/synthetic-timed-0x15.ts",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-timed-0x15.ts",
+    "bytes": 1504,
+    "role": "primary"
+   },
+   {
+    "name": "libmisbklv/synthetic-untimed-0x06.ts",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-untimed-0x06.ts",
+    "bytes": 1504,
+    "role": "primary"
+   },
+   {
+    "name": "libmisbklv/synthetic-video.ts",
+    "url": "https://raw.githubusercontent.com/nitsuga/libmisbklv/4da3023c95bc45ef78bf6a1895939e6b043a5eac/test/fixtures/synthetic-video.ts",
+    "bytes": 11844,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Pinned to commit 4da3023 (as referenced by trane293/stanag4609). Small single-maintainer repo that may change or vanish; keep a local copy.",
+  "feeds": [
+   "fmv.klv",
+   "fmv.vmti",
+   "fmv.ts.demux",
+   "ext.validate"
+  ]
+ },
+ {
+  "id": "gmti-stanag4607-none",
+  "area": "gmti",
+  "title": "STANAG 4607 GMTI sample (.4607) - none found",
+  "source": "n/a",
+  "landing": "https://github.com/pentlandedge/s4607",
+  "licence": "n/a",
+  "attribution": "n/a",
+  "tier": "A",
+  "format": "STANAG 4607",
+  "profile": "n/a",
+  "files": [],
+  "sign": null,
+  "service": null,
+  "notes": "No public .4607 sample found (web search, GitHub repo search, pentlandedge/s4607 tree). pentlandedge/s4607 (Erlang, Apache-2.0) can ENCODE mission/dwell/target segments; use it or an in-app generator to make test files.",
+  "feeds": [
+   "gmti.read"
+  ]
+ },
+ {
+  "id": "vector-natural-earth-10m-shp",
+  "area": "vector",
+  "title": "Natural Earth 10m cultural + physical shapefiles",
+  "source": "Natural Earth (NACIS)",
+  "landing": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/",
+  "licence": "Public domain",
+  "attribution": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com",
+  "tier": "A",
+  "format": "Shapefile (zip)",
+  "profile": "EPSG:4326; admin-0 countries, populated places, roads, rivers+lake centerlines, lakes",
+  "files": [
+   {
+    "name": "ne_10m_admin_0_countries.zip",
+    "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
+    "bytes": 4930492,
+    "role": "primary"
+   },
+   {
+    "name": "ne_10m_populated_places.zip",
+    "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_populated_places.zip",
+    "bytes": 2811199,
+    "role": "primary"
+   },
+   {
+    "name": "ne_10m_roads.zip",
+    "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_roads.zip",
+    "bytes": 9075919,
+    "role": "primary"
+   },
+   {
+    "name": "ne_10m_rivers_lake_centerlines.zip",
+    "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_rivers_lake_centerlines.zip",
+    "bytes": 2079507,
+    "role": "primary"
+   },
+   {
+    "name": "ne_10m_lakes.zip",
+    "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_lakes.zip",
+    "bytes": 2349685,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "naciscdn.org is the download CDN behind naturalearthdata.com links.",
+  "feeds": [
+   "vec.read.shp",
+   "vec.style",
+   "vec.reproject",
+   "vec.label"
+  ]
+ },
+ {
+  "id": "vector-natural-earth-gpkg",
+  "area": "vector",
+  "title": "Natural Earth full vector GeoPackage",
+  "source": "Natural Earth (NACIS)",
+  "landing": "https://www.naturalearthdata.com/downloads/",
+  "licence": "Public domain",
+  "attribution": "Made with Natural Earth",
+  "tier": "A",
+  "format": "GeoPackage (zip)",
+  "profile": "All NE vector layers (10m/50m/110m) in one GPKG (more than 100 tables)",
+  "files": [
+   {
+    "name": "natural_earth_vector.gpkg.zip",
+    "url": "https://naciscdn.org/naturalearth/packages/natural_earth_vector.gpkg.zip",
+    "bytes": 446353155,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Large (446 MB zip); a good stress test for listing a many-layer GPKG.",
+  "feeds": [
+   "vec.read.gpkg",
+   "vec.layers.many",
+   "vec.stress"
+  ]
+ },
+ {
+  "id": "vector-tiger-2024-colorado",
+  "area": "vector",
+  "title": "US Census TIGER/Line 2024 - Colorado tracts, block groups, primary/secondary roads; roads+edges for 10 Front Range counties",
+  "source": "US Census Bureau",
+  "landing": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html",
+  "licence": "Public domain (US Government work)",
+  "attribution": "U.S. Census Bureau, TIGER/Line Shapefiles 2024",
+  "tier": "A",
+  "format": "Shapefile (zip)",
+  "profile": "EPSG:4269 (NAD83); counties Adams, Arapahoe, Boulder, Broomfield, Denver, Douglas, El Paso, Jefferson, Larimer, Weld",
+  "files": [
+   {
+    "name": "tl_2024_08_tract.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/TRACT/tl_2024_08_tract.zip",
+    "bytes": 8348815,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08_bg.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/BG/tl_2024_08_bg.zip",
+    "bytes": 13503201,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08_prisecroads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/PRISECROADS/tl_2024_08_prisecroads.zip",
+    "bytes": 3893114,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08001_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08001_roads.zip",
+    "bytes": 1978615,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08001_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08001_edges.zip",
+    "bytes": 6912205,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08005_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08005_roads.zip",
+    "bytes": 2249648,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08005_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08005_edges.zip",
+    "bytes": 5891187,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08013_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08013_roads.zip",
+    "bytes": 1916732,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08013_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08013_edges.zip",
+    "bytes": 6127971,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08014_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08014_roads.zip",
+    "bytes": 402581,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08014_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08014_edges.zip",
+    "bytes": 901419,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08031_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08031_roads.zip",
+    "bytes": 1593113,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08031_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08031_edges.zip",
+    "bytes": 3526730,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08035_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08035_roads.zip",
+    "bytes": 2794455,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08035_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08035_edges.zip",
+    "bytes": 5701090,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08041_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08041_roads.zip",
+    "bytes": 5621769,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08041_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08041_edges.zip",
+    "bytes": 11675250,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08059_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08059_roads.zip",
+    "bytes": 2862066,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08059_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08059_edges.zip",
+    "bytes": 8211082,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08069_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08069_roads.zip",
+    "bytes": 5574657,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08069_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08069_edges.zip",
+    "bytes": 15167604,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08123_roads.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/tl_2024_08123_roads.zip",
+    "bytes": 1893535,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08123_edges.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/EDGES/tl_2024_08123_edges.zip",
+    "bytes": 6281037,
+    "role": "primary"
+   },
+   {
+    "name": "tl_2024_08013_areawater.zip",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/AREAWATER/tl_2024_08013_areawater.zip",
+    "bytes": 465350,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Same area as the 3DEP/OpenTopography lidar, for overlay tests. The edges files are the largest (many attributes, dense topology).",
+  "feeds": [
+   "vec.read.shp",
+   "vec.reproject",
+   "vec.topology",
+   "vec.query",
+   "vec.stress"
+  ]
+ },
+ {
+  "id": "vector-nhd-hu4-1019-gpkg",
+  "area": "vector",
+  "title": "USGS NHD High Resolution HU4 1019 (South Platte) GeoPackage",
+  "source": "USGS National Hydrography Dataset",
+  "landing": "https://www.usgs.gov/national-hydrography/access-national-hydrography-products",
+  "licence": "Public domain (US Government work)",
+  "attribution": "U.S. Geological Survey, National Hydrography Dataset",
+  "tier": "A",
+  "format": "GeoPackage (zip)",
+  "profile": "NHD HR feature classes (flowlines with Z/M, waterbodies, areas, WBD HUC polygons) in one GPKG",
+  "files": [
+   {
+    "name": "NHD_H_1019_HU4_GPKG.zip",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/GPKG/NHD_H_1019_HU4_GPKG.zip",
+    "bytes": 182071303,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "NHD_H_1019_HU4_GPKG.xml",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/GPKG/NHD_H_1019_HU4_GPKG.xml",
+    "bytes": 30250,
+    "role": "metadata"
+   },
+   {
+    "name": "NHD_H_1019_HU4_GPKG.jpg",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/GPKG/NHD_H_1019_HU4_GPKG.jpg",
+    "bytes": 63387,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Anonymous prd-tnm S3. Covers Denver/Front Range and overlaps the lidar area. NHDPlus HR for 1019 exists only as FileGDB (382 MB), not GPKG.",
+  "feeds": [
+   "vec.read.gpkg",
+   "vec.zm",
+   "vec.query",
+   "vec.stress"
+  ]
+ },
+ {
+  "id": "vector-geofabrik-osm-colorado",
+  "area": "vector",
+  "title": "Geofabrik OpenStreetMap extract - Colorado (shapefile + GeoPackage)",
+  "source": "Geofabrik GmbH / OpenStreetMap",
+  "landing": "https://download.geofabrik.de/north-america/us/colorado.html",
+  "licence": "ODbL 1.0",
+  "attribution": "(c) OpenStreetMap contributors; extract by Geofabrik GmbH",
+  "tier": "A",
+  "format": "Shapefile (zip) + GeoPackage (zip)",
+  "profile": "Geofabrik 'free' layer schema (roads, buildings, landuse, water, pois, places, railways...), EPSG:4326",
+  "files": [
+   {
+    "name": "colorado-latest-free.shp.zip",
+    "url": "https://download.geofabrik.de/north-america/us/colorado-latest-free.shp.zip",
+    "bytes": 719538616,
+    "role": "primary"
+   },
+   {
+    "name": "colorado-latest-free.gpkg.zip",
+    "url": "https://download.geofabrik.de/north-america/us/colorado-latest-free.gpkg.zip",
+    "bytes": 737022258,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "'latest' is rebuilt daily, so size and hash change; use the dated file names on the region page if you need reproducibility. ODbL requires share-alike on derived databases. Shapefile and GPKG carry the same layers: a large-scale format parity and stress pair, in the same area as the lidar and TIGER data.",
+  "feeds": [
+   "vec.read.shp",
+   "vec.read.gpkg",
+   "vec.parity",
+   "vec.stress",
+   "vec.style",
+   "vec.query"
+  ]
+ },
+ {
+  "id": "vector-geofabrik-osm-dc",
+  "area": "vector",
+  "title": "Geofabrik OpenStreetMap extract - District of Columbia (shapefile + GeoPackage)",
+  "source": "Geofabrik GmbH / OpenStreetMap",
+  "landing": "https://download.geofabrik.de/north-america/us/district-of-columbia.html",
+  "licence": "ODbL 1.0",
+  "attribution": "(c) OpenStreetMap contributors; extract by Geofabrik GmbH",
+  "tier": "A",
+  "format": "Shapefile (zip) + GeoPackage (zip)",
+  "profile": "Same content in both encodings, for format parity tests",
+  "files": [
+   {
+    "name": "district-of-columbia-latest-free.shp.zip",
+    "url": "https://download.geofabrik.de/north-america/us/district-of-columbia-latest-free.shp.zip",
+    "bytes": 31571712,
+    "role": "primary"
+   },
+   {
+    "name": "district-of-columbia-latest-free.gpkg.zip",
+    "url": "https://download.geofabrik.de/north-america/us/district-of-columbia-latest-free.gpkg.zip",
+    "bytes": 32438958,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Confirms Geofabrik publishes .gpkg.zip for US states. 'latest' changes daily.",
+  "feeds": [
+   "vec.read.shp",
+   "vec.read.gpkg",
+   "vec.parity"
+  ]
+ },
+ {
+  "id": "vector-geopackage-conformance-set",
+  "area": "vector",
+  "title": "GeoPackage sample/conformance set (OGC geopackage.org, NGA, GDAL autotest)",
+  "source": "OGC / NGA / OSGeo GDAL",
+  "landing": "https://www.geopackage.org/",
+  "licence": "OGC samples: OGC repo licence (GitHub shows NOASSERTION; OGC document/software notice); NGA geopackage-js/-java: MIT; GDAL autotest: MIT",
+  "attribution": "Open Geospatial Consortium; National Geospatial-Intelligence Agency; GDAL/OGR contributors",
+  "tier": "A",
+  "format": "GeoPackage",
+  "profile": "GPKG 1.0/1.1/1.2 samples; features, tiles, 2D gridded coverage (elevation PNG/TIFF), related tables (RTE), styles/portrayal, domains, 3D envelopes, non-conformant/corrupt negatives",
+  "files": [
+   {
+    "name": "ogc/sample1_0.gpkg",
+    "url": "https://www.geopackage.org/data/sample1_0.gpkg",
+    "bytes": 2322432,
+    "role": "primary"
+   },
+   {
+    "name": "ogc/sample1_1.gpkg",
+    "url": "https://www.geopackage.org/data/sample1_1.gpkg",
+    "bytes": 2322432,
+    "role": "primary"
+   },
+   {
+    "name": "ogc/sample1_2.gpkg",
+    "url": "https://www.geopackage.org/data/sample1_2.gpkg",
+    "bytes": 2322432,
+    "role": "primary"
+   },
+   {
+    "name": "ogc/gdal_sample_v1.2_spi_nonlinear_webp_elevation.gpkg",
+    "url": "https://www.geopackage.org/data/gdal_sample_v1.2_spi_nonlinear_webp_elevation.gpkg",
+    "bytes": 630784,
+    "role": "primary"
+   },
+   {
+    "name": "ogc/states10.gpkg",
+    "url": "https://www.geopackage.org/data/states10.gpkg",
+    "bytes": 253952,
+    "role": "primary"
+   },
+   {
+    "name": "ogc/empty.gpkg",
+    "url": "https://www.geopackage.org/data/empty.gpkg",
+    "bytes": 25600,
+    "role": "truth"
+   },
+   {
+    "name": "nga/example.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-js/master/test/fixtures/example.gpkg",
+    "bytes": 2396160,
+    "role": "primary"
+   },
+   {
+    "name": "nga/styled.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-js/master/test/fixtures/styled.gpkg",
+    "bytes": 94208,
+    "role": "primary"
+   },
+   {
+    "name": "nga/3857.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-js/master/test/fixtures/3857.gpkg",
+    "bytes": 1028096,
+    "role": "primary"
+   },
+   {
+    "name": "nga/denver_tile.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-js/master/test/fixtures/denver_tile.gpkg",
+    "bytes": 1208320,
+    "role": "primary"
+   },
+   {
+    "name": "nga/rte.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-java/master/src/test/resources/rte.gpkg",
+    "bytes": 155648,
+    "role": "primary"
+   },
+   {
+    "name": "nga/coverage_data.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-java/master/src/test/resources/coverage_data.gpkg",
+    "bytes": 601088,
+    "role": "primary"
+   },
+   {
+    "name": "nga/coverage_data_tiff.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-java/master/src/test/resources/coverage_data_tiff.gpkg",
+    "bytes": 6402048,
+    "role": "primary"
+   },
+   {
+    "name": "nga/tiles.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-java/master/src/test/resources/tiles.gpkg",
+    "bytes": 5066752,
+    "role": "primary"
+   },
+   {
+    "name": "nga/import_db_corrupt.gpkg",
+    "url": "https://raw.githubusercontent.com/ngageoint/geopackage-java/master/src/test/resources/import_db_corrupt.gpkg",
+    "bytes": 142131,
+    "role": "truth"
+   },
+   {
+    "name": "gdal/poly_golden_gpkg_1_4.gpkg",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpkg/poly_golden_gpkg_1_4.gpkg",
+    "bytes": 106496,
+    "role": "primary"
+   },
+   {
+    "name": "gdal/domains.gpkg",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpkg/domains.gpkg",
+    "bytes": 122880,
+    "role": "primary"
+   },
+   {
+    "name": "gdal/relation_mapping_table.gpkg",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpkg/relation_mapping_table.gpkg",
+    "bytes": 131072,
+    "role": "primary"
+   },
+   {
+    "name": "gdal/3d_envelope.gpkg",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpkg/3d_envelope.gpkg",
+    "bytes": 98304,
+    "role": "primary"
+   },
+   {
+    "name": "gdal/poly_non_conformant.gpkg",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpkg/poly_non_conformant.gpkg",
+    "bytes": 7168,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "geopackage.org/data is the gh-pages branch of opengeospatial/geopackage.",
+  "feeds": [
+   "vec.read.gpkg",
+   "vec.remotesave",
+   "ext.validate",
+   "raster.gpkg.tiles",
+   "vec.related"
+  ]
+ },
+ {
+  "id": "vector-kml-google-samples",
+  "area": "vector",
+  "title": "Google KML_Samples.kml (KML reference samples)",
+  "source": "Google Developers",
+  "landing": "https://developers.google.com/kml/documentation/kml_tut",
+  "licence": "CC BY 4.0 (Google Developers content); code samples Apache-2.0",
+  "attribution": "Google",
+  "tier": "A",
+  "format": "KML",
+  "profile": "KML 2.2: placemarks, styles, ground overlays, screen overlays, paths, polygons, extruded geometry, NetworkLinks",
+  "files": [
+   {
+    "name": "KML_Samples.kml",
+    "url": "https://developers.google.com/static/kml/documentation/KML_Samples.kml",
+    "bytes": 35920,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "The old KMZ sample URLs on developers.google.com (kmzfile.kmz etc.) now return 404, so KMZ coverage comes from libkml/ets-kml22 instead.",
+  "feeds": [
+   "vec.read.kml",
+   "vec.style"
+  ]
+ },
+ {
+  "id": "vector-kml-kmz-test-set",
+  "area": "vector",
+  "title": "KML/KMZ test set (libkml examples+testdata, OGC KML ETS fixtures, GDAL autotest)",
+  "source": "Google libkml / OGC ets-kml22 / GDAL",
+  "landing": "https://github.com/google/libkml",
+  "licence": "libkml: BSD-3-Clause (repo LICENSE; GitHub shows NOASSERTION); OGC ets-kml22: see repo LICENSE (GitHub NOASSERTION, verify); GDAL autotest: MIT",
+  "attribution": "Google; Open Geospatial Consortium; GDAL contributors",
+  "tier": "A",
+  "format": "KML / KMZ",
+  "profile": "gx: extensions (Track, MultiTrack, altitude modes), time/TimeSpan, ExtendedData+Schema, KMZ with relative images/models, corrupt KMZ negatives",
+  "files": [
+   {
+    "name": "libkml/all-gx.kml",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/testdata/gx/all-gx.kml",
+    "bytes": 7366,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/time.kml",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/examples/kml/time.kml",
+    "bytes": 92849,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/extendeddata.kml",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/examples/kml/extendeddata.kml",
+    "bytes": 1976,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/polygons2d.kml",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/examples/kml/polygons2d.kml",
+    "bytes": 596301,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/balloon-image-rel.kmz",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/testdata/kmz/balloon-image-rel.kmz",
+    "bytes": 5646,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/screenoverlay-continents.kmz",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/testdata/kmz/screenoverlay-continents.kmz",
+    "bytes": 6342,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/model-macky.kmz",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/testdata/kmz/model-macky.kmz",
+    "bytes": 495118,
+    "role": "primary"
+   },
+   {
+    "name": "libkml/bad.kmz",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/testdata/kmz/bad.kmz",
+    "bytes": 128937,
+    "role": "truth"
+   },
+   {
+    "name": "libkml/nokml.kmz",
+    "url": "https://raw.githubusercontent.com/google/libkml/master/testdata/kmz/nokml.kmz",
+    "bytes": 677,
+    "role": "truth"
+   },
+   {
+    "name": "ogc-ets/small_world.kmz",
+    "url": "https://raw.githubusercontent.com/opengeospatial/ets-kml22/master/src/test/resources/kmz/small_world.kmz",
+    "bytes": 15519,
+    "role": "primary"
+   },
+   {
+    "name": "ogc-ets/archive-1.kmz",
+    "url": "https://raw.githubusercontent.com/opengeospatial/ets-kml22/master/src/test/resources/kmz/archive-1.kmz",
+    "bytes": 101040,
+    "role": "primary"
+   },
+   {
+    "name": "ogc-ets/Document-clean.kml",
+    "url": "https://raw.githubusercontent.com/opengeospatial/ets-kml22/master/src/test/resources/kml/Document-clean.kml",
+    "bytes": 19365,
+    "role": "primary"
+   },
+   {
+    "name": "ogc-ets/LinearRingWithInvalidLat.kml",
+    "url": "https://raw.githubusercontent.com/opengeospatial/ets-kml22/master/src/test/resources/kml/LinearRingWithInvalidLat.kml",
+    "bytes": 220,
+    "role": "truth"
+   },
+   {
+    "name": "gdal/geometries.kml",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/kml/geometries.kml",
+    "bytes": 3226,
+    "role": "primary"
+   },
+   {
+    "name": "gdal/gxtrack.kml",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/kml/gxtrack.kml",
+    "bytes": 525,
+    "role": "primary"
+   },
+   {
+    "name": "gdal/truncated.kml",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/kml/truncated.kml",
+    "bytes": 1299,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "OGC KML 2.3: schemas.opengis.net/kml/2.3/ has only ogckml23.xsd + atom-author-link.xsd (no examples folder), and no public KML 2.3 ETS repo was found. Use the XSD for validation.",
+  "feeds": [
+   "vec.read.kml",
+   "vec.read.kmz",
+   "vec.time",
+   "ext.validate"
+  ]
+ },
+ {
+  "id": "vector-ogc-kml23-schema",
+  "area": "vector",
+  "title": "OGC KML 2.3 XML schema (validation truth)",
+  "source": "OGC",
+  "landing": "https://schemas.opengis.net/kml/2.3/",
+  "licence": "OGC Software/Document Notice (free use)",
+  "attribution": "Open Geospatial Consortium",
+  "tier": "A",
+  "format": "XSD",
+  "profile": "KML 2.3 schema",
+  "files": [
+   {
+    "name": "ogckml23.xsd",
+    "url": "https://schemas.opengis.net/kml/2.3/ogckml23.xsd",
+    "bytes": 95116,
+    "role": "truth"
+   },
+   {
+    "name": "atom-author-link.xsd",
+    "url": "https://schemas.opengis.net/kml/2.3/atom-author-link.xsd",
+    "bytes": 1973,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "No official example instance files are published alongside.",
+  "feeds": [
+   "ext.validate",
+   "vec.write.kml"
+  ]
+ },
+ {
+  "id": "vector-gpx-csv-wkt-gdal",
+  "area": "vector",
+  "title": "GPX and CSV-with-WKT samples (GDAL autotest)",
+  "source": "OSGeo GDAL",
+  "landing": "https://github.com/OSGeo/gdal/tree/master/autotest/ogr/data",
+  "licence": "MIT",
+  "attribution": "GDAL/OGR contributors",
+  "tier": "A",
+  "format": "GPX / CSV (WKT)",
+  "profile": "GPX 1.1 waypoints/routes/tracks + time extension; CSV with WKT polygon column; CSV with curved WKT (CIRCULARSTRING/COMPOUNDCURVE); CSVT type sidecar",
+  "files": [
+   {
+    "name": "gpx/test.gpx",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpx/test.gpx",
+    "bytes": 2301,
+    "role": "primary"
+   },
+   {
+    "name": "gpx/track_with_time_extension.gpx",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/gpx/track_with_time_extension.gpx",
+    "bytes": 1626,
+    "role": "primary"
+   },
+   {
+    "name": "csv/wkt.csv",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/wkt.csv",
+    "bytes": 209,
+    "role": "primary"
+   },
+   {
+    "name": "csv/curves_line.csv",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/filegdb/curves_line.csv",
+    "bytes": 7559,
+    "role": "primary"
+   },
+   {
+    "name": "csv/curves_polygon.csv",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/filegdb/curves_polygon.csv",
+    "bytes": 7011,
+    "role": "primary"
+   },
+   {
+    "name": "csv/testcsvt.csv",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/csv/testcsvt.csv",
+    "bytes": 164,
+    "role": "primary"
+   },
+   {
+    "name": "csv/testcsvt.csvt",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/autotest/ogr/data/csv/testcsvt.csvt",
+    "bytes": 90,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "curves_*.csv sit under filegdb/ but are plain WKT CSV, useful as curve-geometry edge cases.",
+  "feeds": [
+   "vec.read.gpx",
+   "vec.read.csv",
+   "vec.wkt",
+   "ext.validate"
+  ]
+ },
+ {
+  "id": "3d-gltf-sample-assets",
+  "area": "3d",
+  "title": "Khronos glTF Sample Assets - Box, Duck, BoomBox (glTF+bin, GLB, Draco, Embedded)",
+  "source": "Khronos Group",
+  "landing": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+  "licence": "Box: CC-BY-4.0; Duck: SCEA Shared Source 1.0 + CC-BY-4.0; BoomBox: CC0-1.0 + CC-BY-4.0 (per model LICENSE.md)",
+  "attribution": "Khronos Group; Duck (c) Sony Computer Entertainment Inc.; BoomBox (c) Microsoft",
+  "tier": "A",
+  "format": "glTF 2.0 / GLB",
+  "profile": "Minimal (Box), textured legacy (Duck), PBR metallic-roughness with emissive/normal/ORM (BoomBox); KHR_draco_mesh_compression (Box-Draco); data-URI buffers (Box-Embedded)",
+  "files": [
+   {
+    "name": "Box/glTF/Box.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/glTF/Box.gltf",
+    "bytes": 2898,
+    "role": "primary"
+   },
+   {
+    "name": "Box/glTF/Box0.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/glTF/Box0.bin",
+    "bytes": 648,
+    "role": "test-vector"
+   },
+   {
+    "name": "Box/glTF-Binary/Box.glb",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/glTF-Binary/Box.glb",
+    "bytes": 1664,
+    "role": "primary"
+   },
+   {
+    "name": "Box/glTF-Draco/Box.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/glTF-Draco/Box.gltf",
+    "bytes": 2427,
+    "role": "primary"
+   },
+   {
+    "name": "Box/glTF-Draco/Box.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/glTF-Draco/Box.bin",
+    "bytes": 120,
+    "role": "test-vector"
+   },
+   {
+    "name": "Box/glTF-Embedded/Box.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/glTF-Embedded/Box.gltf",
+    "bytes": 3791,
+    "role": "primary"
+   },
+   {
+    "name": "Box/LICENSE.md",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Box/LICENSE.md",
+    "bytes": 771,
+    "role": "metadata"
+   },
+   {
+    "name": "Duck/glTF/Duck.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Duck/glTF/Duck.gltf",
+    "bytes": 4964,
+    "role": "primary"
+   },
+   {
+    "name": "Duck/glTF/Duck0.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Duck/glTF/Duck0.bin",
+    "bytes": 102040,
+    "role": "test-vector"
+   },
+   {
+    "name": "Duck/glTF/DuckCM.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Duck/glTF/DuckCM.png",
+    "bytes": 16302,
+    "role": "sidecar"
+   },
+   {
+    "name": "Duck/glTF-Binary/Duck.glb",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Duck/glTF-Binary/Duck.glb",
+    "bytes": 120484,
+    "role": "primary"
+   },
+   {
+    "name": "Duck/LICENSE.md",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Duck/LICENSE.md",
+    "bytes": 696,
+    "role": "metadata"
+   },
+   {
+    "name": "BoomBox/glTF/BoomBox.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF/BoomBox.gltf",
+    "bytes": 2702,
+    "role": "primary"
+   },
+   {
+    "name": "BoomBox/glTF/BoomBox.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF/BoomBox.bin",
+    "bytes": 207816,
+    "role": "test-vector"
+   },
+   {
+    "name": "BoomBox/glTF/BoomBox_baseColor.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF/BoomBox_baseColor.png",
+    "bytes": 3285844,
+    "role": "sidecar"
+   },
+   {
+    "name": "BoomBox/glTF/BoomBox_emissive.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF/BoomBox_emissive.png",
+    "bytes": 132833,
+    "role": "sidecar"
+   },
+   {
+    "name": "BoomBox/glTF/BoomBox_normal.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF/BoomBox_normal.png",
+    "bytes": 2514469,
+    "role": "sidecar"
+   },
+   {
+    "name": "BoomBox/glTF/BoomBox_occlusionRoughnessMetallic.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF/BoomBox_occlusionRoughnessMetallic.png",
+    "bytes": 4471451,
+    "role": "sidecar"
+   },
+   {
+    "name": "BoomBox/glTF-Binary/BoomBox.glb",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/glTF-Binary/BoomBox.glb",
+    "bytes": 10614184,
+    "role": "primary"
+   },
+   {
+    "name": "BoomBox/LICENSE.md",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/BoomBox/LICENSE.md",
+    "bytes": 770,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Keep each model's LICENSE.md with its files.",
+  "feeds": [
+   "3d.gltf",
+   "3d.glb",
+   "3d.draco",
+   "3d.pbr"
+  ]
+ },
+ {
+  "id": "3d-tiles-discrete-lod",
+  "area": "3d",
+  "title": "Cesium 3D Tiles 1.0 sample - TilesetWithDiscreteLOD (Stanford Dragon, b3dm)",
+  "source": "Cesium GS",
+  "landing": "https://github.com/CesiumGS/3d-tiles-samples/tree/main/1.0/TilesetWithDiscreteLOD",
+  "licence": "CC0-1.0 (per tileset README)",
+  "attribution": "Cesium GS; Stanford Dragon mesh, Stanford 3D Scanning Repository",
+  "tier": "A",
+  "format": "3D Tiles 1.0 (b3dm)",
+  "profile": "3-level REPLACE refinement, b3dm (glTF inside), geometricError LOD",
+  "files": [
+   {
+    "name": "TilesetWithDiscreteLOD/tileset.json",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.0/TilesetWithDiscreteLOD/tileset.json",
+    "bytes": 1640,
+    "role": "primary"
+   },
+   {
+    "name": "TilesetWithDiscreteLOD/dragon_low.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.0/TilesetWithDiscreteLOD/dragon_low.b3dm",
+    "bytes": 44960,
+    "role": "sidecar"
+   },
+   {
+    "name": "TilesetWithDiscreteLOD/dragon_medium.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.0/TilesetWithDiscreteLOD/dragon_medium.b3dm",
+    "bytes": 269432,
+    "role": "sidecar"
+   },
+   {
+    "name": "TilesetWithDiscreteLOD/dragon_high.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.0/TilesetWithDiscreteLOD/dragon_high.b3dm",
+    "bytes": 4475004,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Screenshot GIF (4.4 MB) left out.",
+  "feeds": [
+   "3d.tiles",
+   "3d.b3dm",
+   "3d.lod"
+  ]
+ },
+ {
+  "id": "3d-tiles-sparse-implicit-quadtree",
+  "area": "3d",
+  "title": "Cesium 3D Tiles 1.1 sample - SparseImplicitQuadtree (implicit tiling, subtrees, glb content)",
+  "source": "Cesium GS",
+  "landing": "https://github.com/CesiumGS/3d-tiles-samples/tree/main/1.1/SparseImplicitQuadtree",
+  "licence": "CC0-1.0",
+  "attribution": "Cesium GS",
+  "tier": "A",
+  "format": "3D Tiles 1.1 (implicit, glb)",
+  "profile": "Implicit QUADTREE, subtreeLevels 3, sparse availability bitstreams (.subtree), 32 glb leaf contents at level 5",
+  "files": [
+   {
+    "name": "SparseImplicitQuadtree/tileset.json",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/tileset.json",
+    "bytes": 543,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/0.0.0.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/0.0.0.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.0.5.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.0.5.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.1.4.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.1.4.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.2.7.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.2.7.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.3.6.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.3.6.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.4.1.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.4.1.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.5.0.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.5.0.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.6.3.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.6.3.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/subtrees/3.7.2.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/subtrees/3.7.2.subtree",
+    "bytes": 352,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__0_21.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__0_21.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__10_31.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__10_31.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__11_30.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__11_30.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__12_25.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__12_25.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__13_24.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__13_24.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__14_27.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__14_27.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__15_26.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__15_26.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__16_5.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__16_5.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__17_4.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__17_4.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__18_7.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__18_7.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__19_6.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__19_6.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__1_20.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__1_20.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__20_1.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__20_1.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__21_0.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__21_0.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__22_3.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__22_3.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__23_2.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__23_2.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__24_13.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__24_13.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__25_12.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__25_12.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__26_15.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__26_15.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__27_14.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__27_14.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__28_9.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__28_9.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__29_8.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__29_8.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__2_23.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__2_23.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__30_11.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__30_11.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__31_10.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__31_10.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__3_22.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__3_22.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__4_17.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__4_17.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__5_16.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__5_16.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__6_19.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__6_19.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__7_18.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__7_18.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__8_29.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__8_29.glb",
+    "bytes": 1212,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitQuadtree/content/content_5__9_28.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/SparseImplicitQuadtree/content/content_5__9_28.glb",
+    "bytes": 1216,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "Full file list taken from the git tree; screenshots left out.",
+  "feeds": [
+   "3d.tiles",
+   "3d.tiles.implicit",
+   "3d.glb"
+  ]
+ },
+ {
+  "id": "3d-tiles-multiple-contents",
+  "area": "3d",
+  "title": "Cesium 3D Tiles 1.1 sample - MultipleContents (two glb contents per tile)",
+  "source": "Cesium GS",
+  "landing": "https://github.com/CesiumGS/3d-tiles-samples/tree/main/1.1/MultipleContents",
+  "licence": "CC0-1.0",
+  "attribution": "Cesium GS",
+  "tier": "A",
+  "format": "3D Tiles 1.1 (glb)",
+  "profile": "tile.contents[] with point-cloud glb + triangle glb",
+  "files": [
+   {
+    "name": "MultipleContents/tileset.json",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/MultipleContents/tileset.json",
+    "bytes": 392,
+    "role": "primary"
+   },
+   {
+    "name": "MultipleContents/planePoints.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/MultipleContents/planePoints.glb",
+    "bytes": 267140,
+    "role": "sidecar"
+   },
+   {
+    "name": "MultipleContents/planeTriangles.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/main/1.1/MultipleContents/planeTriangles.glb",
+    "bytes": 113332,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "",
+  "feeds": [
+   "3d.tiles",
+   "3d.glb"
+  ]
+ },
+ {
+  "id": "3d-cityjson-samples",
+  "area": "3d",
+  "title": "CityJSON samples (Delft subset, Den Haag subset, multi-LoD) from cjio test data",
+  "source": "CityJSON / TU Delft 3D geoinformation",
+  "landing": "https://www.cityjson.org/datasets/",
+  "licence": "MIT (cjio repo); underlying Den Haag/Delft data is open municipal data (licence per source)",
+  "attribution": "cjio contributors, TU Delft 3D geoinformation group; Gemeente Den Haag; Delft BGT",
+  "tier": "A",
+  "format": "CityJSON",
+  "profile": "delft.json (BGT-derived, many CityObjects); DH_01_subs CityJSON 1.1 BuildingParts; multi_lod.json with multiple LoDs",
+  "files": [
+   {
+    "name": "cityjson/delft.json",
+    "url": "https://raw.githubusercontent.com/cityjson/cjio/master/tests/data/delft.json",
+    "bytes": 1464527,
+    "role": "primary"
+   },
+   {
+    "name": "cityjson/DH_01_subs.city.json",
+    "url": "https://raw.githubusercontent.com/cityjson/cjio/master/tests/data/DH_01_subs.city.json",
+    "bytes": 26587,
+    "role": "primary"
+   },
+   {
+    "name": "cityjson/multi_lod.json",
+    "url": "https://raw.githubusercontent.com/cityjson/cjio/master/tests/data/multi_lod.json",
+    "bytes": 29222,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "service": null,
+  "notes": "The main cityjson.org dataset host 3d.bk.tudelft.nl (e.g. 3dcities/v2.0/LoD3_Railway.city.json) timed out on TCP 443 from this network, so it is unverified. The 3D BAG tile URL on data.3dbag.nl returned 403. These GitHub copies use older CityJSON versions (1.x); run 'cjio ... upgrade' if you need v2.0.",
+  "feeds": [
+   "3d.cityjson",
+   "vec.read.cityjson"
+  ]
+ },
+ {
+  "id": "live-gibs-wmts-4326",
+  "area": "live",
+  "title": "NASA GIBS WMTS (EPSG:4326, 'best')",
+  "source": "NASA EOSDIS GIBS",
+  "landing": "https://nasa-gibs.github.io/gibs-api-docs/",
+  "licence": "No restrictions on use (NASA EOSDIS data policy); attribution requested",
+  "attribution": "NASA EOSDIS GIBS",
+  "tier": "A",
+  "format": "WMTS",
+  "profile": "wmts",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "wmts",
+   "url": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/1.0.0/WMTSCapabilities.xml",
+   "cors": true,
+   "editable": false
+  },
+  "notes": "GetCapabilities 200, CORS '*'.",
+  "feeds": [
+   "online.add",
+   "online.wmts"
+  ]
+ },
+ {
+  "id": "live-gibs-wmts-3857",
+  "area": "live",
+  "title": "NASA GIBS WMTS (EPSG:3857, 'best')",
+  "source": "NASA EOSDIS GIBS",
+  "landing": "https://nasa-gibs.github.io/gibs-api-docs/",
+  "licence": "No restrictions on use; attribution requested",
+  "attribution": "NASA EOSDIS GIBS",
+  "tier": "A",
+  "format": "WMTS",
+  "profile": "wmts",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "wmts",
+   "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/WMTSCapabilities.xml",
+   "cors": true,
+   "editable": false
+  },
+  "notes": "GetCapabilities 200, CORS '*'.",
+  "feeds": [
+   "online.add",
+   "online.wmts"
+  ]
+ },
+ {
+  "id": "live-tnm-usgstopo-wms",
+  "area": "live",
+  "title": "USGS The National Map - USGSTopo WMS 1.3.0",
+  "source": "USGS The National Map",
+  "landing": "https://basemap.nationalmap.gov/",
+  "licence": "Public domain",
+  "attribution": "USGS The National Map",
+  "tier": "A",
+  "format": "WMS",
+  "profile": "wms",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "wms",
+   "url": "https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer?request=GetCapabilities&service=WMS",
+   "cors": true,
+   "editable": false
+  },
+  "notes": "WMS_Capabilities 1.3.0 returned, CORS '*'. Other basemaps: USGSImageryOnly, USGSImageryTopo, USGSShadedReliefOnly, USGSHydroCached.",
+  "feeds": [
+   "online.add",
+   "online.wms"
+  ]
+ },
+ {
+  "id": "live-tnm-usgstopo-rest",
+  "area": "live",
+  "title": "USGS The National Map - USGSTopo ArcGIS REST MapServer (tiled)",
+  "source": "USGS The National Map",
+  "landing": "https://basemap.nationalmap.gov/arcgis/rest/services",
+  "licence": "Public domain",
+  "attribution": "USGS The National Map",
+  "tier": "A",
+  "format": "ArcGIS REST MapServer",
+  "profile": "arcgis-rest",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "arcgis-rest",
+   "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer?f=json",
+   "cors": true,
+   "editable": false
+  },
+  "notes": "ArcGIS Server 11.3 JSON 200, CORS '*'; tile cache at .../MapServer/tile/{z}/{y}/{x}.",
+  "feeds": [
+   "online.add",
+   "online.arcgis"
+  ]
+ },
+ {
+  "id": "live-osm-tiles",
+  "area": "live",
+  "title": "OpenStreetMap standard tile layer (XYZ)",
+  "source": "OpenStreetMap Foundation",
+  "landing": "https://operations.osmfoundation.org/policies/tiles/",
+  "licence": "ODbL 1.0 data; attribution required; subject to the OSMF Tile Usage Policy",
+  "attribution": "(c) OpenStreetMap contributors",
+  "tier": "A",
+  "format": "XYZ",
+  "profile": "xyz",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "xyz",
+   "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+   "cors": true,
+   "editable": false
+  },
+  "notes": "0/0/0.png 200, CORS '*'. Usage policy: visible attribution, valid User-Agent/Referer, no bulk download or prefetch, heavy use forbidden. Keep automated tests to a handful of tiles.",
+  "feeds": [
+   "online.add",
+   "online.xyz"
+  ]
+ },
+ {
+  "id": "live-esri-sampleserver6-wildfire",
+  "area": "live",
+  "title": "Esri sampleserver6 Wildfire FeatureServer (editable)",
+  "source": "Esri",
+  "landing": "https://sampleserver6.arcgisonline.com/arcgis/rest/services",
+  "licence": "Esri sample/demo service (Esri Terms of Use); data reset periodically",
+  "attribution": "Esri",
+  "tier": "A",
+  "format": "ArcGIS FeatureServer",
+  "profile": "featureservice",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "featureservice",
+   "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Wildfire/FeatureServer",
+   "cors": true,
+   "editable": true
+  },
+  "notes": "Layer 0 capabilities 'Query,Create,Update,Delete,Uploads,Editing', so applyEdits is supported. Also editable: DamageAssessment/FeatureServer, ServiceRequest/FeatureServer, Sync/WildfireSync/FeatureServer (adds Sync,ChangeTracking; supportsApplyEditsWithGlobalIds=true). SampleWorldCities/FeatureServer returned error 500. CORS reflects Origin. Shared public sandbox: write only clearly tagged test features and delete them afterwards.",
+  "feeds": [
+   "online.add",
+   "vec.remotesave",
+   "online.applyedits"
+  ]
+ },
+ {
+  "id": "live-wfst-geosolutions-gs-stable",
+  "area": "live",
+  "title": "GeoSolutions gs-stable GeoServer WFS (Transaction advertised)",
+  "source": "GeoSolutions",
+  "landing": "https://gs-stable.geo-solutions.it/geoserver/web/",
+  "licence": "Demo server (no SLA); layer data under each source's licence",
+  "attribution": "GeoSolutions",
+  "tier": "A",
+  "format": "WFS-T",
+  "profile": "wfs-t",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "wfs-t",
+   "url": "https://gs-stable.geo-solutions.it/geoserver/wfs?service=WFS&request=GetCapabilities&version=1.1.0",
+   "cors": true,
+   "editable": true
+  },
+  "notes": "WFS 1.1.0 GetCapabilities 200, CORS '*', advertises Transaction and LockFeature. Not tested: whether anonymous Transactions are accepted on any layer (no writes were made to a public server). Check with an Insert+Delete on a test layer (e.g. the tiger demo layers) before relying on it.",
+  "feeds": [
+   "online.add",
+   "vec.remotesave",
+   "online.wfst"
+  ]
+ },
+ {
+  "id": "live-ngs-ncat",
+  "area": "live",
+  "title": "NOAA NGS NCAT REST API (datum transformation oracle)",
+  "source": "NOAA National Geodetic Survey",
+  "landing": "https://geodesy.noaa.gov/web_services/ncat/",
+  "licence": "Public domain (US Government)",
+  "attribution": "NOAA National Geodetic Survey",
+  "tier": "A",
+  "format": "REST/JSON",
+  "profile": "ncat",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "ncat",
+   "url": "https://geodesy.noaa.gov/api/ncat/llh?lat=40.0&lon=-105.25&eht=1600&inDatum=nad83(2011)&outDatum=nad83(1986)",
+   "cors": false,
+   "editable": false
+  },
+  "notes": "Returns JSON (NADCON 5.0 / VERTCON 3.0) with destination lat/lon and sigmas. No Access-Control-Allow-Origin header, so call it from the test harness or a server, not browser JS.",
+  "feeds": [
+   "geodesy.oracle",
+   "crs.transform.truth"
+  ]
+ },
+ {
+  "id": "live-ngs-geoid",
+  "area": "live",
+  "title": "NOAA NGS Geoid API (geoid height oracle)",
+  "source": "NOAA National Geodetic Survey",
+  "landing": "https://geodesy.noaa.gov/web_services/geoid.shtml",
+  "licence": "Public domain (US Government)",
+  "attribution": "NOAA National Geodetic Survey",
+  "tier": "A",
+  "format": "REST/JSON",
+  "profile": "geoid",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "geoid",
+   "url": "https://geodesy.noaa.gov/api/geoid/ght?lat=40.0&lon=-105.25&model=14",
+   "cors": false,
+   "editable": false
+  },
+  "notes": "Returned GEOID18 height -15.878 m at 40N 105.25W. model=14 came back as GEOID18, so check the model codes in the docs. No CORS header (the preflight also lacks ACAO), so harness-side only.",
+  "feeds": [
+   "geodesy.oracle",
+   "crs.vertical.truth"
+  ]
+ },
+ {
+  "id": "live-copc-autzen-https",
+  "area": "live",
+  "title": "Autzen classified COPC over HTTPS (range + CORS)",
+  "source": "Hobu Inc.",
+  "landing": "https://s3.amazonaws.com/hobu-lidar/autzen-classified.copc.laz",
+  "licence": "See lidar-autzen-classified-copc",
+  "attribution": "Hobu, Inc. / PDAL",
+  "tier": "A",
+  "format": "COPC",
+  "profile": "copc-http",
+  "files": [],
+  "sign": null,
+  "service": {
+   "type": "copc-http",
+   "url": "https://s3.amazonaws.com/hobu-lidar/autzen-classified.copc.laz",
+   "cors": true,
+   "editable": false
+  },
+  "notes": "Range 0-0 returns 206 with Content-Range bytes 0-0/81123042 and ACAO '*'; the preflight allows header 'range'. Content-Range/Content-Length are not in Access-Control-Expose-Headers, so JS must not depend on reading them (use the COPC info VLR offsets). Alternative that does expose headers: OpenTopography pc-bulk LAZ (see lidar-opentopo-co23-roumelis).",
+  "feeds": [
+   "pc.copc.stream",
+   "online.add",
+   "pc.http.range"
+  ]
+ }
+]

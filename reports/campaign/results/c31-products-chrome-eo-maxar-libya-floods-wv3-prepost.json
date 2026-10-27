@@ -1,0 +1,30 @@
+{
+ "spec": "c31-products",
+ "project": "chrome",
+ "when": "2026-10-27T14:47:11.505Z",
+ "key": "eo-maxar-libya-floods-wv3-prepost",
+ "written": [
+  "chip1_1040010087AB7E00-ms.tif.tif",
+  "chip1_1040010087AB7E00-ms.tif.zip"
+ ],
+ "results": [
+  {
+   "rel": "chip1_1040010087AB7E00-ms.tif.tif",
+   "model": "Map (EPSG:32634)",
+   "error": null,
+   "maxM": 1.7168629577337118e-9,
+   "gsd": 5.136572395455644,
+   "rpc": false,
+   "logs": []
+  },
+  {
+   "rel": "chip1_1040010087AB7E00-ms.tif\\chip1_1040010087AB7E00-ms.tif.png",
+   "model": "World file (EPSG:4326)",
+   "error": null,
+   "maxM": 0,
+   "gsd": 6.64851295870403,
+   "rpc": false,
+   "logs": []
+  }
+ ]
+}

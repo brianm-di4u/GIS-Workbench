@@ -1,0 +1,21 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-27T15:35:55.944Z",
+ "key": "sar.view",
+ "id": "sar.view",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "sicd-umbra-chip/umbra_sicd_chip_1024.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

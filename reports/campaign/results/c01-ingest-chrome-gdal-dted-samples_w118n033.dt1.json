@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:35.817Z",
+ "key": "gdal-dted-samples/w118n033.dt1",
+ "item": "gdal-dted-samples",
+ "file": "w118n033.dt1",
+ "format": "DTED0 | DTED1 | DTED (1-arcsec)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened w118n033.dt1 in 79 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 1201,
+   "h": 1201,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 431,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

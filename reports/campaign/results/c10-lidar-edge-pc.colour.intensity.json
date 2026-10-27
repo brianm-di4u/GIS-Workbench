@@ -1,0 +1,22 @@
+{
+ "spec": "c10-lidar",
+ "project": "edge",
+ "when": "2026-10-27T15:42:51.458Z",
+ "key": "pc.colour.intensity",
+ "id": "pc.colour.intensity",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

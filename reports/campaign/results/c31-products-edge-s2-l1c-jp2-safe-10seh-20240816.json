@@ -1,0 +1,30 @@
+{
+ "spec": "c31-products",
+ "project": "edge",
+ "when": "2026-10-27T14:47:46.024Z",
+ "key": "s2-l1c-jp2-safe-10seh-20240816",
+ "written": [
+  "chip1_T10SEH_20240816T184919_B04.jp2.tif",
+  "chip1_T10SEH_20240816T184919_B04.jp2.zip"
+ ],
+ "results": [
+  {
+   "rel": "chip1_T10SEH_20240816T184919_B04.jp2.tif",
+   "model": "Map (EPSG:32610)",
+   "error": null,
+   "maxM": 1.5819451106334777e-9,
+   "gsd": 110,
+   "rpc": false,
+   "logs": []
+  },
+  {
+   "rel": "chip1_T10SEH_20240816T184919_B04.jp2\\chip1_T10SEH_20240816T184919_B04.jp2.png",
+   "model": "World file (EPSG:4326)",
+   "error": null,
+   "maxM": 0,
+   "gsd": 147.96160699247804,
+   "rpc": false,
+   "logs": []
+  }
+ ]
+}

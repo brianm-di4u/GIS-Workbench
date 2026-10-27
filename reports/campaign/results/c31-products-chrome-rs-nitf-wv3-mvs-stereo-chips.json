@@ -1,0 +1,40 @@
+{
+ "spec": "c31-products",
+ "project": "chrome",
+ "when": "2026-10-27T14:46:43.380Z",
+ "key": "rs-nitf-wv3-mvs-stereo-chips",
+ "written": [
+  "chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_.tif",
+  "chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_.ntf",
+  "chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_.zip"
+ ],
+ "results": [
+  {
+   "rel": "chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_.ntf",
+   "model": "RPC00B",
+   "error": null,
+   "maxM": 5.125156839647863e-9,
+   "gsd": 0.4550427350426743,
+   "rpc": true,
+   "logs": []
+  },
+  {
+   "rel": "chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_.tif",
+   "model": "RPC (GeoTIFF tag)",
+   "error": null,
+   "maxM": 0,
+   "gsd": null,
+   "rpc": true,
+   "logs": []
+  },
+  {
+   "rel": "chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_\\chip1_18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_AAE_.png",
+   "model": "World file (EPSG:4326)",
+   "error": null,
+   "maxM": 0,
+   "gsd": 0.7285496775597082,
+   "rpc": false,
+   "logs": []
+  }
+ ]
+}

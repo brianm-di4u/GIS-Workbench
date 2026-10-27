@@ -1,0 +1,28 @@
+{
+ "spec": "c10-lidar",
+ "project": "edge",
+ "when": "2026-10-27T15:43:28.529Z",
+ "key": "pc.colourise",
+ "id": "pc.colourise",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Colourise from Image"
+ ],
+ "toasts": [
+  "toast-info: Colourised 36,705,037 of 36,705,037 points"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-3dep-co-drcog-2020-2x2/USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz",
+  "usgs-3dep-13-n40w106/USGS_13_n40w106.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

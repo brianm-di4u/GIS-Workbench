@@ -1,0 +1,27 @@
+{
+ "spec": "c21-viewshed",
+ "project": "edge",
+ "when": "2026-10-27T14:46:21.562Z",
+ "key": "gdal-viewshed",
+ "cc": {
+  "n": 260459,
+  "agree": 259753,
+  "frac": 0.9972894006350328
+ },
+ "flatVsGdalCc": {
+  "n": 260459,
+  "agree": 259704,
+  "frac": 0.9971012712173509
+ },
+ "stats": {
+  "posts": 1043930,
+  "visible": 24961,
+  "visibleFraction": 0.023910607033038614,
+  "ms": 152,
+  "engine": "webgpu",
+  "curvature": 0.87,
+  "inverse": false,
+  "terrain": "dem_utm13_30m.tif (GeoTIFF, HAE)"
+ },
+ "command": "gdal_viewshed -ox 452745.30349949974 -oy 4377957.985002606 -oz 2 -tz 1.8 -cc 0.87 -vv 255 -iv 0 -ov 0 -md 0 C:\\GIS Workbench\\TE-corpus\\derived-dem-utm13-viewshed\\dem_utm13_30m.tif C:\\GIS Workbench\\TE-corpus\\derived-dem-utm13-viewshed\\viewshed_gdal.tif"
+}

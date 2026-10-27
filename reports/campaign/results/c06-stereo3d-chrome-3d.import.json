@@ -1,0 +1,25 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "chrome",
+ "when": "2026-10-27T15:35:41.379Z",
+ "key": "3d.import",
+ "id": "3d.import",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "terrain",
+  "3d"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

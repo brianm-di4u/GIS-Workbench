@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:13.198Z",
+ "key": "umbra-bingham-20230821-repeat/umbra_20230821_SICD.nitf",
+ "item": "umbra-bingham-20230821-repeat",
+ "file": "umbra_20230821_SICD.nitf",
+ "format": "SICD1.2.1/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF (GEC)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.2.1 (RE32F_IM32F)",
+   "w": 12670,
+   "h": 8540,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 4995,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

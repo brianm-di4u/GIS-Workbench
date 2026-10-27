@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "GeoTIFF",
+   "w": 650,
+   "h": 650,
+   "bands": 3,
+   "model": "Map (EPSG:4326)",
+   "kind": "image"
+  }
+ ],
+ "ms": 1298
+}

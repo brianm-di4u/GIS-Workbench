@@ -1,0 +1,23 @@
+{
+ "spec": "c02-display",
+ "project": "edge",
+ "when": "2026-10-27T15:39:27.307Z",
+ "key": "display.pixels",
+ "id": "display.pixels",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Pixel Matrix Viewer"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

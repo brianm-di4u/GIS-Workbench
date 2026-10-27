@@ -1,0 +1,21 @@
+{
+ "spec": "c04-geodesy",
+ "project": "edge",
+ "when": "2026-10-27T15:41:01.552Z",
+ "key": "geo.datum",
+ "id": "geo.datum",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Datum Info"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

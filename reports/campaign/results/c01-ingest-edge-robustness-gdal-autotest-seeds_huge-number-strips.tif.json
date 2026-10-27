@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:17.319Z",
+ "key": "robustness-gdal-autotest-seeds/huge-number-strips.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "huge-number-strips.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": false,
+ "errors": [
+  "the TIFF declares an impossible size or offset"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: huge-number-strips.tif: the TIFF declares an impossible size or offset"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 82,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

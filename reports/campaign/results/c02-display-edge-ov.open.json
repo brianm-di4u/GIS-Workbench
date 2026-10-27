@@ -1,0 +1,25 @@
+{
+ "spec": "c02-display",
+ "project": "edge",
+ "when": "2026-10-27T15:39:13.385Z",
+ "key": "ov.open",
+ "id": "ov.open",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:55.664Z",
+ "key": "vector-geopackage-conformance-set/styled.gpkg",
+ "item": "vector-geopackage-conformance-set",
+ "file": "styled.gpkg",
+ "format": "GeoPackage",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "Drawing Layer 1: no Z (z = 0); heights set to 0",
+  "styled.gpkg: tile tables not read (no such table: gpkg_tile_matrix_set)"
+ ],
+ "toasts": [
+  "toast-info: Drawing Layer 1: 7 feature(s) from GeoPackage (2 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 7,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 110,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

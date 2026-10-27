@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:34.255Z",
+ "key": "aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_e_sc01_ort_img",
+ "item": "aviris-classic-f130410t01p00r09",
+ "file": "f130410t01p00r09rdn_e_sc01_ort_img",
+ "format": "ENVI (binary + .hdr) in tar.gz",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BIP (data type 2)",
+   "w": 743,
+   "h": 1293,
+   "bands": 224,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 9316,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

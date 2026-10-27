@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:59.503Z",
+ "key": "lidar-las-version-matrix/1.0_1.las",
+ "item": "lidar-las-version-matrix",
+ "file": "1.0_1.las",
+ "format": "LAS1.0-1.4 / LAZ / COPC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened 1.0_1.las: 1 points in 61 ms (1 note in the import log)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 287,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

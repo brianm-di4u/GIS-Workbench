@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:28.184Z",
+ "key": "vector-tiger-2024-colorado/tl_2024_08_tract.zip",
+ "item": "vector-tiger-2024-colorado",
+ "file": "tl_2024_08_tract.zip",
+ "format": "Shapefile (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: tl_2024_08_tract: 1447 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1447,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1031,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

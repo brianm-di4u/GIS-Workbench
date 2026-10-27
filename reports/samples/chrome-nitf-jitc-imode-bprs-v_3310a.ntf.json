@@ -1,0 +1,21 @@
+{
+ "browser": "chrome",
+ "sample": "nitf-jitc-imode-bprs/v_3310a.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 244,
+   "h": 244,
+   "bands": 3,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 167
+}

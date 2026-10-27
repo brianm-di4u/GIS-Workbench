@@ -1,0 +1,33 @@
+{
+ "spec": "c10-lidar",
+ "project": "edge",
+ "when": "2026-10-27T15:42:41.952Z",
+ "key": "pc.dod",
+ "id": "pc.dod",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "DSM of Difference"
+ ],
+ "toasts": [
+  "toast-info: autzen_trim_DSM.tif is now terrain (heights above the ellipsoid)",
+  "toast-info: autzen_trim_DSM.tif is now terrain (heights above the ellipsoid)",
+  "toast-info: DoD: 0 m² raised, 0 m² lowered (|Δ| ≥ 1 m)"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,175 @@
+{
+ "description": "FX-07 synthetic two-pass SICD pair (SARkit 1.12 writer and oracle)",
+ "files": {
+  "a": "fx07_a.nitf",
+  "b": "fx07_b.nitf",
+  "c": "fx07_c.nitf",
+  "d": "fx07_d.nitf"
+ },
+ "size": 1024,
+ "pixelTypes": {
+  "a": "RE32F_IM32F",
+  "b": "RE32F_IM32F",
+  "c": "RE16I_IM16I",
+  "d": "AMP8I_PHS8I"
+ },
+ "quadPol": {
+  "files": {
+   "H:H": "fx07_qhh.nitf",
+   "H:V": "fx07_qhv.nitf",
+   "V:V": "fx07_qvv.nitf"
+  },
+  "size": 512,
+  "dihedral": {
+   "row0": 100,
+   "row1": 160,
+   "col0": 100,
+   "col1": 160
+  },
+  "volume": {
+   "row0": 300,
+   "row1": 360,
+   "col0": 300,
+   "col1": 360
+  }
+ },
+ "grid": {
+  "type": "PLANE",
+  "plane": "SLANT",
+  "rowSS": 0.6,
+  "colSS": 0.9,
+  "anamorphic": 1.5
+ },
+ "regions": {
+  "disturbed": {
+   "row0": 400,
+   "row1": 520,
+   "col0": 520,
+   "col1": 680
+  },
+  "water": {
+   "row0": 820,
+   "col0": 700
+  },
+  "roadLine": "row - 0.35\u00b7col = 300 \u00b1 6"
+ },
+ "coherence": {
+  "stableTrue": 0.920194478905198,
+  "disturbedTrue": 0.0,
+  "window": 5
+ },
+ "shiftB": {
+  "row": 0.3,
+  "col": -0.2
+ },
+ "rampB": {
+  "row": 0.011,
+  "col": -0.004
+ },
+ "vehicles": {
+  "onlyA": {
+   "row": 700,
+   "col": 150,
+   "h": 4,
+   "w": 9
+  },
+  "onlyB": {
+   "row": 260,
+   "col": 420,
+   "h": 4,
+   "w": 9
+  }
+ },
+ "buildings": [
+  {
+   "row": 150,
+   "col": 200,
+   "h": 18,
+   "w": 26
+  },
+  {
+   "row": 180,
+   "col": 640,
+   "h": 18,
+   "w": 26
+  },
+  {
+   "row": 520,
+   "col": 300,
+   "h": 18,
+   "w": 26
+  },
+  {
+   "row": 610,
+   "col": 760,
+   "h": 18,
+   "w": 26
+  },
+  {
+   "row": 300,
+   "col": 880,
+   "h": 18,
+   "w": 26
+  }
+ ],
+ "radiometric": {
+  "a": {
+   "sigmaZeroSF": 2.0,
+   "noiseDb": -25.0
+  },
+  "b": null
+ },
+ "apos": {
+  "b": {
+   "pos": [
+    1.5,
+    -2.0,
+    0.5
+   ],
+   "vel": [
+    0.01,
+    -0.02,
+    0.005
+   ],
+   "tx": 2e-09,
+   "rcv": 5e-09
+  }
+ },
+ "scpcoa": {
+  "SCPTime": 1.5,
+  "SlantRange": 685338.8268994462,
+  "GroundRange": 406164.7009156222,
+  "DopplerConeAng": 90.00000000000001,
+  "GrazeAng": 49.99999999999998,
+  "IncidenceAng": 40.00000000000002,
+  "TwistAng": -0.0,
+  "SlopeAng": 49.99999999999998,
+  "AzimAng": 279.99999999999994,
+  "LayoverAng": 280.0,
+  "SideOfTrack": "R"
+ },
+ "layover": {
+  "topRow": 384.33095013234504,
+  "topCol": 512.000000000016,
+  "groundShift": 119.18145737073124,
+  "azimuth": 280.0000000002012
+ },
+ "corners": [
+  [
+   -34.55362225073821,
+   -58.55408215812867
+  ],
+  [
+   -34.54544895272529,
+   -58.55234002828844
+  ],
+  [
+   -34.54694278614811,
+   -58.542099572107006
+  ],
+  [
+   -34.55511622803097,
+   -58.54384073309109
+  ]
+ ]
+}

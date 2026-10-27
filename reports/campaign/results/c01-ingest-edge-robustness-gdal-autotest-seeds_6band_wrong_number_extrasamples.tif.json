@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:13.764Z",
+ "key": "robustness-gdal-autotest-seeds/6band_wrong_number_extrasamples.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "6band_wrong_number_extrasamples.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 6band_wrong_number_extrasamples.tif in 26 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 20,
+   "h": 20,
+   "bands": 6,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 354,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

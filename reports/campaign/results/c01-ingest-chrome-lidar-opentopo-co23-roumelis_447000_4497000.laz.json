@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:11.763Z",
+ "key": "lidar-opentopo-co23-roumelis/447000_4497000.laz",
+ "item": "lidar-opentopo-co23-roumelis",
+ "file": "447000_4497000.laz",
+ "format": "LAZ (LAS1.4 PDRF6) + LAX",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "447000_4497000.lax: kept with its point cloud (not read)",
+  "NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty"
+ ],
+ "toasts": [
+  "toast-info: Opened 447000_4497000.laz: 249,592 points in 574 ms (1 note in the import log)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 734,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

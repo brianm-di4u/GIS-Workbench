@@ -1,0 +1,15 @@
+[package]
+name = "gw-adjust"
+description = "GIS Workbench photogrammetric adjustment: RPC bias-compensated block adjustment (Levenberg-Marquardt, Schur complement), blunder rejection, RPC fitting"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+gw-sensor.workspace = true
+
+[dev-dependencies]
+serde_json = "1"

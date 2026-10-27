@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:18.959Z",
+ "key": "rs-vector-fx12-synthetic/fx12.kmz",
+ "item": "rs-vector-fx12-synthetic",
+ "file": "fx12.kmz",
+ "format": "GeoJSON/GPKG/KML/KMZ/SHP (synthetic)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "13 placemark(s) are clamped or relative to the ground; their heights were set to 0 m HAE (drop them to the terrain to fix)",
+  "0 file(s) kept from the KMZ (icons and overlays)"
+ ],
+ "toasts": [
+  "toast-info: FX-12 synthetic (WS14): 14 feature(s) from KML (2 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 14,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 85,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

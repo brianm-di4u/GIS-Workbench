@@ -1,0 +1,27 @@
+{
+ "spec": "c02-display",
+ "project": "edge",
+ "when": "2026-10-27T15:39:13.172Z",
+ "key": "link.cursors",
+ "id": "link.cursors",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Linked Cursors"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "split"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

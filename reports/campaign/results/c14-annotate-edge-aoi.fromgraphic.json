@@ -1,0 +1,27 @@
+{
+ "spec": "c14-annotate",
+ "project": "edge",
+ "when": "2026-10-27T15:44:03.659Z",
+ "key": "aoi.fromgraphic",
+ "id": "aoi.fromgraphic",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: AOI set: DRA (AOI scope), change detection, chips and Select by Location use it"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

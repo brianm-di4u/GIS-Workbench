@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:10.557Z",
+ "key": "robustness-gdal-autotest-seeds/sar_sicd.ntf",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "sar_sicd.ntf",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "IGEOLO corners (approximate): degenerate corner points"
+ ],
+ "toasts": [
+  "toast-info: Opened sar_sicd.ntf in 36 ms (1 note in the import log)"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.1.0 (RE32F_IM32F)",
+   "w": 10,
+   "h": 5,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 130,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,24 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-27T15:36:54.541Z",
+ "key": "pc.header",
+ "id": "pc.header",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Point Cloud Header — autzen_trim.laz"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

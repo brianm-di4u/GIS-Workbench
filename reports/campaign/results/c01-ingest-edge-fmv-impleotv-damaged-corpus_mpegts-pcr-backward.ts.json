@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:01.581Z",
+ "key": "fmv-impleotv-damaged-corpus/mpegts-pcr-backward.ts",
+ "item": "fmv-impleotv-damaged-corpus",
+ "file": "mpegts-pcr-backward.ts",
+ "format": "MPEG-TS/KLV (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened mpegts-pcr-backward.ts: 300 frames, 0 KLV packets (0 bad) in 128 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 200,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

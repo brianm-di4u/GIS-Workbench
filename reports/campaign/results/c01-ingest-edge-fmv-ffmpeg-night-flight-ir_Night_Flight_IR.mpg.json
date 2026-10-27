@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:56.612Z",
+ "key": "fmv-ffmpeg-night-flight-ir/Night Flight IR.mpg",
+ "item": "fmv-ffmpeg-night-flight-ir",
+ "file": "Night Flight IR.mpg",
+ "format": "MPEG-TS/KLV",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Night Flight IR.mpg: 18789 frames, 18 KLV packets (0 bad) in 1203 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1440,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

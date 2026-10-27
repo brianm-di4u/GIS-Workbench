@@ -1,0 +1,26 @@
+{
+ "spec": "c12-vector",
+ "project": "edge",
+ "when": "2026-10-27T15:43:37.923Z",
+ "key": "chg.confirm",
+ "id": "chg.confirm",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Change Candidates"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "chg.detect: dialog"
+ ],
+ "data": [
+  "fx06/fx06_date1.tif",
+  "fx06/fx06_date2.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

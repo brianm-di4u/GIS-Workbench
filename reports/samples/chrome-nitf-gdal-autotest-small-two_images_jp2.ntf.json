@@ -1,0 +1,30 @@
+{
+ "browser": "chrome",
+ "sample": "nitf-gdal-autotest-small/two_images_jp2.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 160
+}

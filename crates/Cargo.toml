@@ -1,0 +1,79 @@
+[workspace]
+resolver = "2"
+members = [
+  "gw-abi",
+  "gw-geodesy",
+  "gw-sensor",
+  "gw-parse",
+  "gw-codec",
+  "gw-fuzz",
+  "gw-extract",
+  "gw-adjust",
+  "gw-match",
+  "gw-raster",
+  "gw-terrain",
+  "gw-pointcloud",
+  "gw-vector",
+  "gw-sar",
+  "gw-spectral",
+  "bundles/core",
+  "bundles/parse",
+  "bundles/j2k",
+  "bundles/photo",
+  "bundles/raster",
+  "bundles/terrain",
+  "bundles/pointcloud",
+  "bundles/vector",
+  "bundles/sar",
+  "bundles/spectral",
+]
+# Vendored third-party crates (path dependencies, not members).
+exclude = ["vendor"]
+
+[workspace.package]
+version = "0.0.1"
+edition = "2021"
+license = "LicenseRef-GIS-Workbench"
+publish = false
+
+[workspace.dependencies]
+gw-abi = { path = "gw-abi" }
+gw-geodesy = { path = "gw-geodesy" }
+gw-sensor = { path = "gw-sensor" }
+gw-parse = { path = "gw-parse" }
+gw-codec = { path = "gw-codec" }
+gw-extract = { path = "gw-extract" }
+gw-adjust = { path = "gw-adjust" }
+gw-match = { path = "gw-match" }
+gw-raster = { path = "gw-raster" }
+gw-terrain = { path = "gw-terrain" }
+gw-pointcloud = { path = "gw-pointcloud" }
+gw-vector = { path = "gw-vector" }
+gw-sar = { path = "gw-sar" }
+gw-spectral = { path = "gw-spectral" }
+geographiclib-rs = { version = "0.2.7", default-features = false }
+# Inflate only (PDF object/content streams, TE-001). MIT OR Zlib OR Apache-2.0, pure Rust.
+miniz_oxide = { version = "0.8", default-features = false, features = ["with-alloc"] }
+
+# Appendix D §4: hot bundles use opt-level 3, cold ones "z" (set per bundle by build/rust.mjs
+# through CARGO_PROFILE_RELEASE_OPT_LEVEL). LTO fat, one codegen unit, abort on panic, strip.
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+debug = false
+
+[profile.dev]
+panic = "unwind"
+
+# The laz crate's arithmetic decoder has a debug_assert! (sym < 1 << 16) that corrupt LAZ input
+# trips in debug builds only; release (shipped) builds carry no debug assertions. Keep ours on,
+# turn its off, so the debug fuzz gate reflects the shipped behaviour (TE campaign, Phase 0).
+[profile.dev.package.laz]
+debug-assertions = false
+
+# T.4 two-dimensional decoding (TE-020): crates/vendor/fax/VENDOR.md.
+[patch.crates-io]
+fax = { path = "vendor/fax" }

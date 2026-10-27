@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:25.125Z",
+ "key": "derived-dem-utm13-viewshed/dem_utm13_30m.tif",
+ "item": "derived-dem-utm13-viewshed",
+ "file": "dem_utm13_30m.tif",
+ "format": "GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened dem_utm13_30m.tif in 35 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1025,
+   "h": 1025,
+   "bands": 1,
+   "model": "Map (EPSG:32613)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 641,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:16.258Z",
+ "key": "robustness-gdal-autotest-seeds/corrupted_deflate_singlestrip.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "corrupted_deflate_singlestrip.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": false,
+ "errors": [
+  "the TIFF is truncated or damaged: a tag or block points outside the file"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: corrupted_deflate_singlestrip.tif: the TIFF is truncated or damaged: a tag or block points outside the file"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 78,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

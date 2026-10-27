@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:31.950Z",
+ "key": "usgs-3dep-13-n40w106/USGS_13_n40w106.tif",
+ "item": "usgs-3dep-13-n40w106",
+ "file": "USGS_13_n40w106.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_13_n40w106.tif in 33 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10812,
+   "h": 10812,
+   "bands": 1,
+   "model": "Map (EPSG:4269, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 600,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

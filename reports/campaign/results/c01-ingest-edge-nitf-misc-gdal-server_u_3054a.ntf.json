@@ -1,0 +1,56 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:35:13.329Z",
+ "key": "nitf-misc-gdal-server/u_3054a.ntf",
+ "item": "nitf-misc-gdal-server",
+ "file": "u_3054a.ntf",
+ "format": "NITF2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened u_3054a.ntf in 35 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 2048,
+   "h": 2048,
+   "bands": 3,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 512,
+   "h": 384,
+   "bands": 3,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 512,
+   "h": 384,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 3,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 855,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

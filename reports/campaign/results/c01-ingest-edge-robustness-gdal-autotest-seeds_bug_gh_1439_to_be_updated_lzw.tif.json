@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:14.599Z",
+ "key": "robustness-gdal-autotest-seeds/bug_gh_1439_to_be_updated_lzw.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "bug_gh_1439_to_be_updated_lzw.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened bug_gh_1439_to_be_updated_lzw.tif in 29 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 4096,
+   "h": 2,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 344,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

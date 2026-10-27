@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:18.622Z",
+ "key": "robustness-gdal-autotest-seeds/tif_webp_huge_single_strip.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "tif_webp_huge_single_strip.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened tif_webp_huge_single_strip.tif in 34 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1,
+   "h": 2001,
+   "bands": 3,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 364,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

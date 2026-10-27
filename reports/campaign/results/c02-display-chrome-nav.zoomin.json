@@ -1,0 +1,25 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-27T15:33:18.786Z",
+ "key": "nav.zoomin",
+ "id": "nav.zoomin",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

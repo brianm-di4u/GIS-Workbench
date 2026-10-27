@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:48.240Z",
+ "key": "rs-nitf-jitc-bitdepth/i_3430a.ntf",
+ "item": "rs-nitf-jitc-bitdepth",
+ "file": "i_3430a.ntf",
+ "format": "NITF2.x",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened i_3430a.ntf in 35 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 356,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

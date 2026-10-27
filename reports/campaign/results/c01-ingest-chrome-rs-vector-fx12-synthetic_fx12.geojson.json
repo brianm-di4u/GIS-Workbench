@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:18.574Z",
+ "key": "rs-vector-fx12-synthetic/fx12.geojson",
+ "item": "rs-vector-fx12-synthetic",
+ "file": "fx12.geojson",
+ "format": "GeoJSON/GPKG/KML/KMZ/SHP (synthetic)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: fx12: 14 feature(s) from GeoJSON"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 14,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 91,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

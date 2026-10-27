@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "dted-gdal/n43.dt0",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "DTED",
+   "w": 121,
+   "h": 121,
+   "bands": 1,
+   "model": "Map (EPSG:4326)",
+   "kind": "dem"
+  }
+ ],
+ "ms": 114
+}

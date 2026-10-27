@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:05.225Z",
+ "key": "rs-jpeg-png-worldfile/small_world.jpg",
+ "item": "rs-jpeg-png-worldfile",
+ "file": "small_world.jpg",
+ "format": "JPEG/PNG + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened small_world.jpg in 30 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 400,
+   "h": 200,
+   "bands": 3,
+   "model": "World file (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 375,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

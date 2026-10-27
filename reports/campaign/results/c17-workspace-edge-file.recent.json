@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "edge",
+ "when": "2026-10-27T15:44:37.973Z",
+ "key": "file.recent",
+ "id": "file.recent",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Recent Projects"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

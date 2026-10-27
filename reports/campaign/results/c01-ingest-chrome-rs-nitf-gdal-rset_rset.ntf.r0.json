@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:10.572Z",
+ "key": "rs-nitf-gdal-rset/rset.ntf.r0",
+ "item": "rs-nitf-gdal-rset",
+ "file": "rset.ntf.r0",
+ "format": "NITF R-set",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened rset.ntf.r0 in 39 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 50,
+   "h": 50,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 389,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

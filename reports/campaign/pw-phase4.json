@@ -1,0 +1,1567 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c30-workflows",
+      "c31-products",
+      "--project=chrome",
+      "--project=edge"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "edge",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "msedge"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "edge"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-phase4.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c30-workflows.spec.js",
+      "file": "c30-workflows.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata rs-mpegts-klv-synthetic/fx10_synthetic_klv.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1692,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:29.979Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-3b8d93d8e73233373efa",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-ffmpeg-day-flight/Day Flight.mpg",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2752,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:30.010Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-6a55749bf443f25fe0b2",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-ffmpeg-night-flight-ir/Night Flight IR.mpg",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3256,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:29.994Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-2663a6a105335321094a",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-esri-truck-tutorial/Truck.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 3040,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:30.003Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-271298c17710e86fbfe5",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-corrupt-checksum.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 837,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:32.026Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-8d954c15ef26c3c34cf1",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-corrupt-key.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 913,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:32.878Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-aec3f6ab99e5edc0a8ac",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-corrupt-packets.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1125,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:33.112Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-c7848cd9ec36e16ef584",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-duplicate-tags.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1319,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:33.373Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-5ee6d371e809cfc1ab45",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-missing-mandatory-tags.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1330,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:33.598Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-dfa3a31f8065087eddcc",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-libmisbklv-fixtures/synthetic-timed-0x06.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1199,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:33.804Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-274b2bae9856671238c6",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-libmisbklv-fixtures/synthetic-untimed-0x06.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1053,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:34.253Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-e64c693164daa0010fcb",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-libmisbklv-fixtures/synthetic-video.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 985,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:34.713Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-f0dab073b22a5f03fff0",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-13 REQ-MSI-04 AT-13.1 NDVI vs DN-computed reference naip-ca-m3812157-sw-2022",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3638,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:34.948Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-c892f6c205611fe72e7d",
+          "file": "c30-workflows.spec.js",
+          "line": 57,
+          "column": 3
+        },
+        {
+          "title": "TE-C30 SCN-14 REQ-LDR-07 REQ-LDR-08 AT-14.x SMRF and DTM vs USGS 3DEP delivered ground",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 36414,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:35.019Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-7701642ef9815a275c51",
+          "file": "c30-workflows.spec.js",
+          "line": 96,
+          "column": 1
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata rs-mpegts-klv-synthetic/fx10_synthetic_klv.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2007,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:36.536Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-1572c6a7e67a03f5a119",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-ffmpeg-day-flight/Day Flight.mpg",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3337,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:39.763Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-bc8693ded1a22590fab9",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-ffmpeg-night-flight-ir/Night Flight IR.mpg",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 3130,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:38.975Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-f5e77afee23ba57ab093",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-esri-truck-tutorial/Truck.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2402,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:42.123Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-6b21187d50cf4c35c9be",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-corrupt-checksum.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 816,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:43.601Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-48f44c041a0c3807204c",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-corrupt-key.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 793,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:44.431Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-aa347aaa631fe1d9f62a",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-corrupt-packets.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 776,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:44.537Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-9d4fe75a4951df6e8f47",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-duplicate-tags.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 729,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:45.234Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-939a04c2f4637cd5cee6",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-impleotv-damaged-corpus/klv-missing-mandatory-tags.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 710,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:45.328Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-240bf1e06442a449d7a1",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-libmisbklv-fixtures/synthetic-timed-0x06.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 679,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:45.971Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-30b96bcfd97c29a79f19",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-libmisbklv-fixtures/synthetic-untimed-0x06.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 659,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:46.050Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-4cefd9038ef7afb19d60",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-15 REQ-FMV-02 AT-15.1 KLV tags vs klvdata fmv-libmisbklv-fixtures/synthetic-video.ts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 638,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:46.662Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-56edd31718d82df1a564",
+          "file": "c30-workflows.spec.js",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TE-C30 SCN-13 REQ-MSI-04 AT-13.1 NDVI vs DN-computed reference naip-ca-m3812157-sw-2022",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2824,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:46.726Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-ed1a736d0cca48049887",
+          "file": "c30-workflows.spec.js",
+          "line": 57,
+          "column": 3
+        },
+        {
+          "title": "TE-C30 SCN-14 REQ-LDR-07 REQ-LDR-08 AT-14.x SMRF and DTM vs USGS 3DEP delivered ground",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 32425,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:47.309Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f6a81522b9c3767565a-7e45de2ee12c6347bc41",
+          "file": "c30-workflows.spec.js",
+          "line": 96,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "c31-products.spec.js",
+      "file": "c31-products.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from rs-nitf-wv3-mvs-stereo-chips reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 8074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:35.339Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-93868bb29442f4f03f65",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from eo-maxar-libya-floods-wv3-prepost reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 28118,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:43.428Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-7fc2109b7a3a227cb471",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from s2-l1c-jp2-safe-10seh-20240816 reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 26111,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:47:11.560Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-cb93eaaffd27e06645bb",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from naip-ca-m3812157-sw-2022 reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 27592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:47:37.685Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-a01877b20ba2373f9b7f",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from rs-nitf-wv3-mvs-stereo-chips reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 5819,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:49.575Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-fd819d5a91f350feb6fb",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from eo-maxar-libya-floods-wv3-prepost reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 26326,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:46:55.405Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-02265baf99a358065605",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from s2-l1c-jp2-safe-10seh-20240816 reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 24308,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:47:21.742Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-bfcdbfa162c35c78d8e2",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        },
+        {
+          "title": "TE-C31 REQ-PRD-01 REQ-PRD-10 REQ-FMT-05 products from naip-ca-m3812157-sw-2022 reopen with GDAL-consistent geolocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 27238,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T14:47:46.059Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c31-products.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "09d3b2f0f990402b7854-1fa18788f301312eb8aa",
+          "file": "c31-products.spec.js",
+          "line": 27,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T14:46:29.464Z",
+    "duration": 104106.334,
+    "expected": 36,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

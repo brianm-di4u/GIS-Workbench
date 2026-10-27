@@ -1,0 +1,25 @@
+{
+ "spec": "c14-annotate",
+ "project": "edge",
+ "when": "2026-10-27T15:44:11.223Z",
+ "key": "gfx.props",
+ "id": "gfx.props",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Common Properties"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

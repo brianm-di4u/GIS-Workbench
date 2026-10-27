@@ -1,0 +1,11 @@
+[package]
+name = "gw-geodesy"
+description = "GIS Workbench geodesy: WGS 84, geodesics, UTM/UPS/MGRS/USNG/GARS/GEOREF, geoid, ECEF/ENU, CE/LE, sun, time"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+geographiclib-rs.workspace = true

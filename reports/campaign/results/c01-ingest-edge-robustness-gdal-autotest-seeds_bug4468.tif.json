@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:13.977Z",
+ "key": "robustness-gdal-autotest-seeds/bug4468.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "bug4468.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened bug4468.tif in 26 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 32,
+   "h": 32,
+   "bands": 4,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 338,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

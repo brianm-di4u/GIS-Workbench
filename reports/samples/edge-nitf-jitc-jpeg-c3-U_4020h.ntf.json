@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-jitc-jpeg-c3/U_4020h.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 3072,
+   "h": 2048,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 527
+}

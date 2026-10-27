@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:40.167Z",
+ "key": "rs-geotiff-wv3-rpc-cog/wv3_a_gtiff_rpc.tif",
+ "item": "rs-geotiff-wv3-rpc-cog",
+ "file": "wv3_a_gtiff_rpc.tif",
+ "format": "GeoTIFF/COG RPC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened wv3_a_gtiff_rpc.tif in 32 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1536,
+   "h": 1536,
+   "bands": 1,
+   "model": "RPC (GeoTIFF tag)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 360,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

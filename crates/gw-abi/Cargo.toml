@@ -1,0 +1,9 @@
+[package]
+name = "gw-abi"
+description = "GIS Workbench C ABI helpers: alloc/free, status codes, last-error buffer, JSON writer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]

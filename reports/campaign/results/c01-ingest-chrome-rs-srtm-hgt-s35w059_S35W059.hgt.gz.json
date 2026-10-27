@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:18.259Z",
+ "key": "rs-srtm-hgt-s35w059/S35W059.hgt.gz",
+ "item": "rs-srtm-hgt-s35w059",
+ "file": "S35W059.hgt.gz",
+ "format": "SRTM HGT",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened S35W059.hgt.gz in 323 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "SRTM HGT",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 957,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

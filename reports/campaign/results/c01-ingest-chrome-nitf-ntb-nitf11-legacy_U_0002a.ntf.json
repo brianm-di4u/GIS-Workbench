@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:33.983Z",
+ "key": "nitf-ntb-nitf11-legacy/U_0002a.ntf",
+ "item": "nitf-ntb-nitf11-legacy",
+ "file": "U_0002a.ntf",
+ "format": "NITF1.1",
+ "rendered": false,
+ "errors": [
+  "NITF header: not a NITF 2.0/2.1 or NSIF 1.0 file (header \"NITF01.10\")"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: U_0002a.ntf: NITF header: not a NITF 2.0/2.1 or NSIF 1.0 file (header \"NITF01.10\")"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 116,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

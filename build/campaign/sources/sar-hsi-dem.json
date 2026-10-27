@@ -1,0 +1,764 @@
+[
+ {
+  "id": "umbra-bingham-20230925-full",
+  "area": "sar",
+  "title": "Umbra Spotlight 50 cm, Bingham Canyon Copper Mine UT, 2023-09-25 (SICD+SIDD+GEC+CPHD)",
+  "source": "Umbra Space",
+  "landing": "https://registry.opendata.aws/umbra-open-data/",
+  "licence": "CC BY 4.0 (https://umbra.space/open-license)",
+  "attribution": "Umbra Space Open Data Program, CC BY 4.0",
+  "tier": "A",
+  "format": "SICD1.2.1/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF (GEC) | CPHD1.1.0",
+  "profile": "UMB-SPOTLIGHT-50-1, X-band VV, UMBRA-05, descending, left-looking, az -32.1 deg, inc 40.0 deg, squint 135.5; scene centre -112.1461, 40.5224",
+  "files": [
+   {
+    "name": "umbra_20230925_SICD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/08366064-ed4c-407f-a77c-86100d580f9c/2023-09-25-17-37-50_UMBRA-05/2023-09-25-17-37-50_UMBRA-05_SICD.nitf",
+    "bytes": 953329244,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230925_SIDD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/08366064-ed4c-407f-a77c-86100d580f9c/2023-09-25-17-37-50_UMBRA-05/2023-09-25-17-37-50_UMBRA-05_SIDD.nitf",
+    "bytes": 65868565,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230925_GEC.tif",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/08366064-ed4c-407f-a77c-86100d580f9c/2023-09-25-17-37-50_UMBRA-05/2023-09-25-17-37-50_UMBRA-05_GEC.tif",
+    "bytes": 89397852,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230925_CPHD.cphd",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/08366064-ed4c-407f-a77c-86100d580f9c/2023-09-25-17-37-50_UMBRA-05/2023-09-25-17-37-50_UMBRA-05_CPHD.cphd",
+    "bytes": 1486349192,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230925_METADATA.json",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/08366064-ed4c-407f-a77c-86100d580f9c/2023-09-25-17-37-50_UMBRA-05/2023-09-25-17-37-50_UMBRA-05_METADATA.json",
+    "bytes": 7399,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "S3 key contains spaces (task folder 'Bingham Copper Mine'); URLs are %20-encoded. Versions read from the NITF DES XML namespace (urn:SICD:1.2.1, urn:SIDD:2.0.0) and the CPHD file header (CPHD/1.1.0; app targets CPHD metadata, so confirm 1.1 support). All five products come from the same collect. This is the reference image of the CCD pair with umbra-bingham-20230821-repeat.",
+  "feeds": [
+   "sar.sicd",
+   "sar.sidd",
+   "sar.remap",
+   "sar.cphd.metadata",
+   "sar.gec",
+   "sar.ccd",
+   "sar.acd"
+  ]
+ },
+ {
+  "id": "umbra-bingham-20230821-repeat",
+  "area": "sar",
+  "title": "Umbra Spotlight 50 cm, Bingham Canyon, 2023-08-21 - repeat-pass partner of 2023-09-25",
+  "source": "Umbra Space",
+  "landing": "https://registry.opendata.aws/umbra-open-data/",
+  "licence": "CC BY 4.0 (https://umbra.space/open-license)",
+  "attribution": "Umbra Space Open Data Program, CC BY 4.0",
+  "tier": "A",
+  "format": "SICD1.2.1/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF (GEC)",
+  "profile": "UMB-SPOTLIGHT-50-1, X-band VV, same satellite UMBRA-05, descending, left, az -32.1 deg, inc 40.7 deg, squint 135.5; matches 2023-09-25 within 0.7 deg incidence, 35-day baseline",
+  "files": [
+   {
+    "name": "umbra_20230821_SICD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/ae42f71c-9240-479a-b297-f5b219b3e2fc/2023-08-21-17-38-39_UMBRA-05/2023-08-21-17-38-39_UMBRA-05_SICD.nitf",
+    "bytes": 865647939,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230821_SIDD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/ae42f71c-9240-479a-b297-f5b219b3e2fc/2023-08-21-17-38-39_UMBRA-05/2023-08-21-17-38-39_UMBRA-05_SIDD.nitf",
+    "bytes": 62599244,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230821_GEC.tif",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/ae42f71c-9240-479a-b297-f5b219b3e2fc/2023-08-21-17-38-39_UMBRA-05/2023-08-21-17-38-39_UMBRA-05_GEC.tif",
+    "bytes": 89397852,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_20230821_METADATA.json",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Bingham%20Copper%20Mine/ae42f71c-9240-479a-b297-f5b219b3e2fc/2023-08-21-17-38-39_UMBRA-05/2023-08-21-17-38-39_UMBRA-05_METADATA.json",
+    "bytes": 7410,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Chosen by comparing METADATA.json of 40 Bingham 2023 collects; this pair has the closest geometry (same satellite, track, look side, azimuth and squint; incidence 40.7 vs 40.0) and the same scene centre point. Active open-pit mine, so real change exists. A third near-identical-geometry date if wanted: 2023-09-04-17-39-34_UMBRA-05 (inc 43.0, SICD 855 MB). Different task from the existing ship_detection_testdata chip.",
+  "feeds": [
+   "sar.ccd",
+   "sar.acd",
+   "sar.sicd",
+   "sar.coreg"
+  ]
+ },
+ {
+  "id": "capella-c13-sm-20240924",
+  "area": "sar",
+  "title": "Capella C13 stripmap VV 2024-09-24 (SICD+SIDD+SLC+GEO+CPHD)",
+  "source": "Capella Space",
+  "landing": "https://registry.opendata.aws/capella_opendata/",
+  "licence": "CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) plus a Capella Open Data condition: users must restrict transfer to individuals, entities and countries sanctioned or restricted under US Government laws and regulations (https://support.capellaspace.com/what-is-the-licensing-for-capellas-open-data)",
+  "attribution": "© Capella Space Corp., Capella Open Data, CC BY 4.0",
+  "tier": "A",
+  "format": "SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF SLC + extended JSON | GeoTIFF/COG GEO | CPHD1.1.0",
+  "profile": "Stripmap (SM), X-band VV, inc 13.3 deg, East African coast (~11 S, 40.7 E)",
+  "files": [
+   {
+    "name": "capella_C13_SM_SICD.ntf",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_SICD_VV_20240924045643_20240924045645/CAPELLA_C13_SM_SICD_VV_20240924045643_20240924045645.ntf",
+    "bytes": 37644843,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C13_SM_SIDD.ntf",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_SIDD_VV_20240924045643_20240924045645/CAPELLA_C13_SM_SIDD_VV_20240924045643_20240924045645.ntf",
+    "bytes": 45336725,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C13_SM_SLC.tif",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_SLC_VV_20240924045643_20240924045645/CAPELLA_C13_SM_SLC_VV_20240924045643_20240924045645.tif",
+    "bytes": 25240349,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C13_SM_SLC_extended.json",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_SLC_VV_20240924045643_20240924045645/CAPELLA_C13_SM_SLC_VV_20240924045643_20240924045645_extended.json",
+    "bytes": 94910,
+    "role": "sidecar"
+   },
+   {
+    "name": "capella_C13_SM_GEO.tif",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_GEO_VV_20240924045643_20240924045645/CAPELLA_C13_SM_GEO_VV_20240924045643_20240924045645.tif",
+    "bytes": 45418192,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C13_SM_GEO_extended.json",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_GEO_VV_20240924045643_20240924045645/CAPELLA_C13_SM_GEO_VV_20240924045643_20240924045645_extended.json",
+    "bytes": 93506,
+    "role": "sidecar"
+   },
+   {
+    "name": "capella_C13_SM_CPHD.cphd",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/24/CAPELLA_C13_SM_CPHD_VV_20240924045643_20240924045645/CAPELLA_C13_SM_CPHD_VV_20240924045643_20240924045645.cphd",
+    "bytes": 424734068,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Smallest 2024 Capella collect with a full product set. SICD 1.3.0 (Umbra is 1.2.1) widens version coverage. Each product type lives in its own folder. The CPHD (425 MB) is optional; drop it if the budget is tight. A GEC (45.6 MB) exists in the same pattern if wanted.",
+  "feeds": [
+   "sar.sicd",
+   "sar.sidd",
+   "sar.remap",
+   "sar.slc.capella",
+   "sar.cphd.metadata",
+   "sar.geo"
+  ]
+ },
+ {
+  "id": "iceye-x50-slf-20251027-sidd3",
+  "area": "sar",
+  "title": "ICEYE X50 Spot Fine 2025-10-27: SIDD 3.0 GRD NITF + SICD XML",
+  "source": "ICEYE",
+  "landing": "https://registry.opendata.aws/iceye-opendata/",
+  "licence": "CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+  "attribution": "ICEYE Open Data, CC BY 4.0",
+  "tier": "A",
+  "format": "SIDD3.0.0/NITF2.1 | SICD1.3.0 XML",
+  "profile": "Spotlight Fine (SLF), X-band, ICEYE-X50",
+  "files": [
+   {
+    "name": "iceye_X50_SIDD_GRD_SLF.nitf",
+    "url": "https://iceye-open-data-catalog.s3.us-west-2.amazonaws.com/data/spot-fine/ICEYE_U2S1V5_20251027T081355Z_6770949_X50_SLF/ICEYE_X50_SIDD_GRD_SLF_6770949_20251027T081355.nitf",
+    "bytes": 400009657,
+    "role": "primary"
+   },
+   {
+    "name": "iceye_X50_SIDD_GRD_SLF.xml",
+    "url": "https://iceye-open-data-catalog.s3.us-west-2.amazonaws.com/data/spot-fine/ICEYE_U2S1V5_20251027T081355Z_6770949_X50_SLF/ICEYE_X50_SIDD_GRD_SLF_6770949_20251027T081355.xml",
+    "bytes": 8784,
+    "role": "metadata"
+   },
+   {
+    "name": "iceye_X50_SICD_SLF.xml",
+    "url": "https://iceye-open-data-catalog.s3.us-west-2.amazonaws.com/data/spot-fine/ICEYE_U2S1V5_20251027T081355Z_6770949_X50_SLF/ICEYE_X50_SICD_SLF_6770949_20251027T081355.xml",
+    "bytes": 9338,
+    "role": "metadata"
+   },
+   {
+    "name": "iceye_X50_SLF_stac.json",
+    "url": "https://iceye-open-data-catalog.s3.us-west-2.amazonaws.com/stac-items/2025/10/ICEYE_U2S1V5_20251027T081355Z_6770949_X50_SLF.json",
+    "bytes": 9843,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "The only SIDD 3.0 source found (namespace urn:SIDD:3.0.0). ICEYE SICD NITFs are anonymous but all 7.9-13.7 GB, so the full SICD is NOT in files. If wanted: https://iceye-open-data-catalog.s3.us-west-2.amazonaws.com/data/spot-fine/ICEYE_U2S1V5_20251027T081355Z_6770949_X50_SLF/ICEYE_X50_SICD_SLF_6770949_20251027T081355.nitf (7,869,652,383 bytes, urn:SICD:1.3.0). The SICD XML sidecar is included for XML-parser tests. The same folder also holds CPHD (16.5 GB), SLC GeoTIFF (8.8 GB), GRD .tif (496 MB) and QLK .tif (4.8 MB).",
+  "feeds": [
+   "sar.sidd",
+   "sar.sicd.xml"
+  ]
+ },
+ {
+  "id": "emit-l2a-rfl-cuprite",
+  "area": "hsi",
+  "title": "EMIT L2A surface reflectance, Cuprite NV, 2024-07-27 (3% cloud)",
+  "source": "NASA LP DAAC",
+  "landing": "https://lpdaac.usgs.gov/products/emitl2arflv001/",
+  "licence": "NASA open data, no use restrictions; Earthdata Login required to download",
+  "attribution": "EMIT L2A data courtesy NASA JPL / LP DAAC (doi:10.5067/EMIT/EMITL2ARFL.001)",
+  "tier": "B",
+  "format": "NetCDF4",
+  "profile": "285 bands 381-2493 nm, 60 m, unorthorectified swath with GLT",
+  "files": [
+   {
+    "name": "EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc",
+    "url": null,
+    "bytes": 1851048031,
+    "role": "primary"
+   },
+   {
+    "name": "EMIT_L2A_MASK_001_20240727T213005_2420914_007.nc",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "Granule found via CMR (short_name EMITL2ARFL, version 001, bbox over Cuprite, sorted by cloud cover). Data URL https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.001/EMIT_L2A_RFL_001_20240727T213005_2420914_007/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc ; anonymous HEAD returns the size but GET redirects to urs.earthdata.nasa.gov. EMIT is NOT on Microsoft Planetary Computer (collection list checked 2026-10-26), so there is no pc: signing path. Mask size not checked.",
+  "feeds": [
+   "hsi.netcdf",
+   "hsi.glt",
+   "hsi.library-match"
+  ]
+ },
+ {
+  "id": "emit-l1b-rad-cuprite",
+  "area": "hsi",
+  "title": "EMIT L1B at-sensor radiance + OBS, Cuprite NV, 2024-07-27",
+  "source": "NASA LP DAAC",
+  "landing": "https://lpdaac.usgs.gov/products/emitl1bradv001/",
+  "licence": "NASA open data, no use restrictions; Earthdata Login required",
+  "attribution": "EMIT L1B data courtesy NASA JPL / LP DAAC (doi:10.5067/EMIT/EMITL1BRAD.001)",
+  "tier": "B",
+  "format": "NetCDF4",
+  "profile": "radiance uW/cm2/sr/nm, 285 bands",
+  "files": [
+   {
+    "name": "EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
+    "url": null,
+    "bytes": 1852486758,
+    "role": "primary"
+   },
+   {
+    "name": "EMIT_L1B_OBS_001_20240727T213005_2420914_007.nc",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "Same scene as emit-l2a-rfl-cuprite. URL pattern https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL1BRAD.001/<granule>/<file>.nc ; Earthdata login needed.",
+  "feeds": [
+   "hsi.netcdf",
+   "hsi.radiance"
+  ]
+ },
+ {
+  "id": "aviris-classic-f130410t01p00r09",
+  "area": "hsi",
+  "title": "AVIRIS-Classic 2013-04-10 run 09: reflectance and radiance ENVI cubes",
+  "source": "NASA JPL AVIRIS",
+  "landing": "https://aviris.jpl.nasa.gov/dataportal/",
+  "licence": "NASA/JPL AVIRIS data, freely available with no usage restrictions (acknowledgement requested)",
+  "attribution": "AVIRIS data courtesy NASA/JPL-Caltech",
+  "tier": "A",
+  "format": "ENVI (binary + .hdr) in tar.gz",
+  "profile": "224 bands 365-2500 nm; reflectance image uncompressed 430 MB",
+  "files": [
+   {
+    "name": "f130410t01p00r09_refl.tar.gz",
+    "url": "https://popo.jpl.nasa.gov/avcl/y13_data/f130410t01p00r09_refl.tar.gz",
+    "bytes": 136579801,
+    "role": "archive"
+   },
+   {
+    "name": "f130410t01p00r09.tar.gz",
+    "url": "https://popo.jpl.nasa.gov/avcl/y13_data/f130410t01p00r09.tar.gz",
+    "bytes": 225141225,
+    "role": "archive"
+   }
+  ],
+  "sign": null,
+  "notes": "Server is an open Apache index (popo.jpl.nasa.gov/avcl/yYY_data/, years 2006-2023). The free_data.html FTP links (1996-2009, including the classic Cuprite cube) are DEAD; use this HTTPS archive. Tar peek: f130410t01p00r09_refl/f130410t01p00r09rdn_refl_img_corr (430,393,152 B) plus header. The radiance tar holds the L1 rdn ENVI cube with GLT/IGM. Site name not checked (the flight-log CGI did not return it); quicklook https://aviris.jpl.nasa.gov/ql/13qlook/f130410t01p00r09_geo.jpeg . Must untar before use.",
+  "feeds": [
+   "hsi.envi",
+   "hsi.library-match",
+   "hsi.radiance"
+  ]
+ },
+ {
+  "id": "enmap-potsdam-l2a-subset",
+  "area": "hsi",
+  "title": "EnMAP L2A Potsdam subset with land-cover truth (EnMAP-Box example data)",
+  "source": "DLR / EnMAP-Box (Humboldt-Universitat zu Berlin)",
+  "landing": "https://github.com/EnMAP-Box/enmap-box/tree/main/enmapbox/exampledata",
+  "licence": "EnMAP data © DLR, redistributed in the EnMAP-Box repository (GPL-3.0); land-cover truth derived from GeoBasis-DE/LGB data, dl-de/by-2-0",
+  "attribution": "Contains modified EnMAP data © DLR 2022; GeoBasis-DE/LGB, dl-de/by-2-0; EnMAP-Box team",
+  "tier": "A",
+  "format": "GeoTIFF (224-band Float32) + GeoPackage",
+  "profile": "EnMAP L2A scene ENMAP01-____L2A-DT0000001867_20220724T104526Z, 30 m, 224 bands 400-2450 nm, 330x200 px",
+  "files": [
+   {
+    "name": "enmap_potsdam.tif",
+    "url": "https://raw.githubusercontent.com/EnMAP-Box/enmap-box/main/enmapbox/exampledata/enmap_potsdam.tif",
+    "bytes": 29367591,
+    "role": "primary"
+   },
+   {
+    "name": "enmap_potsdam_srf.geojson",
+    "url": "https://raw.githubusercontent.com/EnMAP-Box/enmap-box/main/enmapbox/exampledata/enmap_potsdam_srf.geojson",
+    "bytes": 102672,
+    "role": "sidecar"
+   },
+   {
+    "name": "landcover_potsdam_polygon.gpkg",
+    "url": "https://raw.githubusercontent.com/EnMAP-Box/enmap-box/main/enmapbox/exampledata/landcover_potsdam_polygon.gpkg",
+    "bytes": 8892416,
+    "role": "truth"
+   },
+   {
+    "name": "landcover_potsdam_point.gpkg",
+    "url": "https://raw.githubusercontent.com/EnMAP-Box/enmap-box/main/enmapbox/exampledata/landcover_potsdam_point.gpkg",
+    "bytes": 163840,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "notes": "Real EnMAP L2A subset, downloadable anonymously; covers the EnMAP format without a DLR login. Full EnMAP scenes remain tier B. 6 bad bands are filled with nodata. Licence of the imagery inside a GPL repo is not separately stated; credit DLR.",
+  "feeds": [
+   "hsi.geotiff",
+   "hsi.classify",
+   "hsi.truth"
+  ]
+ },
+ {
+  "id": "usgs-splib07-ascii",
+  "area": "hsi",
+  "title": "USGS Spectral Library v7 ASCII (splib07a) + AVIRIS-2013 convolved (splib07b_cvAVIRISc2013)",
+  "source": "USGS",
+  "landing": "https://www.sciencebase.gov/catalog/item/586e8c88e4b0f5ce109fccae",
+  "licence": "US Government public domain (USGS)",
+  "attribution": "Kokaly, R.F., et al., 2017, USGS Spectral Library Version 7: USGS Data Series 1035, doi:10.5066/F7RR1WDJ",
+  "tier": "A",
+  "format": "ASCII spectra (zip)",
+  "profile": "splib07a native resolution; cvAVIRISc2013 resampled to AVIRIS 2013 bands (matches aviris-classic-f130410t01p00r09)",
+  "files": [
+   {
+    "name": "ASCIIdata_splib07a.zip",
+    "url": "https://www.sciencebase.gov/catalog/file/get/586e8c88e4b0f5ce109fccae?f=__disk__a7%2F4f%2F91%2Fa74f913e0b7d1b8123ad059e52506a02b75a2832",
+    "bytes": 21812828,
+    "role": "library"
+   },
+   {
+    "name": "ASCIIdata_splib07b_cvAVIRISc2013.zip",
+    "url": "https://www.sciencebase.gov/catalog/file/get/586e8c88e4b0f5ce109fccae?f=__disk__1e%2F24%2F0e%2F1e240e5314ab312e55ba289fe8d093b3d03e7665",
+    "bytes": 4313819,
+    "role": "library"
+   }
+  ],
+  "sign": null,
+  "notes": "ScienceBase returns the whole file (HTTP 200, ignores Range; Content-Disposition carries the filename, so save with the given name). crustal.usgs.gov/speclab now returns 403. Other convolutions (Landsat8 1.37 MB, Sentinel2 1.46 MB, HYPERION, ASD) are in the same item. The full splib07 zip is 5.5 GB; not used.",
+  "feeds": [
+   "msi.library",
+   "hsi.library-match"
+  ]
+ },
+ {
+  "id": "prisma-l2d-sample",
+  "area": "hsi",
+  "title": "PRISMA L1/L2D hyperspectral scene",
+  "source": "ASI (Italian Space Agency)",
+  "landing": "https://prisma.asi.it/",
+  "licence": "ASI PRISMA data licence (free for registered users; non-commercial/research)",
+  "attribution": "PRISMA Product - © Italian Space Agency (ASI)",
+  "tier": "B",
+  "format": "HDF5 (HE5)",
+  "profile": "~240 bands 400-2500 nm, 30 m, 30x30 km",
+  "files": [
+   {
+    "name": "PRS_L2D_STD_<YYYYMMDDhhmmss>_<YYYYMMDDhhmmss>_0001.he5",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Requires PRISMA portal registration and licence acceptance; expected pattern PRS_L2D_STD_*.he5 (about 1 GB zipped). Not verified.",
+  "feeds": [
+   "hsi.hdf5"
+  ]
+ },
+ {
+  "id": "enmap-l2a-full-scene",
+  "area": "hsi",
+  "title": "EnMAP L1B/L2A full scene",
+  "source": "DLR EOC",
+  "landing": "https://www.enmap.org/data_access/",
+  "licence": "EnMAP data licence (free; registration via DLR EOWEB GeoPortal)",
+  "attribution": "Contains EnMAP data © DLR [year]",
+  "tier": "B",
+  "format": "GeoTIFF (SPECTRAL_IMAGE.TIF) + METADATA.XML",
+  "profile": "224 bands, 30 m, 30x30 km",
+  "files": [
+   {
+    "name": "ENMAP01-____L2A-DT<id>_<date>-SPECTRAL_IMAGE.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "ENMAP01-____L2A-DT<id>_<date>-METADATA.XML",
+    "url": null,
+    "bytes": null,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Order via EOWEB GeoPortal (https://eoweb.dlr.de) after login. A real anonymous EnMAP subset is covered by enmap-potsdam-l2a-subset.",
+  "feeds": [
+   "hsi.geotiff"
+  ]
+ },
+ {
+  "id": "cop-dem-glo30-n39w106",
+  "area": "dem",
+  "title": "Copernicus DEM GLO-30 N39 W106 (Front Range: Idaho Springs, Mt Evans, Golden)",
+  "source": "ESA / Copernicus (AWS Open Data)",
+  "landing": "https://registry.opendata.aws/copernicus-dem/",
+  "licence": "Copernicus DEM GLO-30 Public / GLO-90 licence (free for the general public): https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+  "attribution": "© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "1 arcsec (~30 m), Float32, EGM2008 heights, DSM",
+  "files": [
+   {
+    "name": "Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
+    "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_N39_00_W106_00_DEM/Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
+    "bytes": 39138429,
+    "role": "primary"
+   },
+   {
+    "name": "Copernicus_DSM_COG_10_N39_00_W106_00_WBM.tif",
+    "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_N39_00_W106_00_DEM/AUXFILES/Copernicus_DSM_COG_10_N39_00_W106_00_WBM.tif",
+    "bytes": 52600,
+    "role": "sidecar"
+   },
+   {
+    "name": "Copernicus_DSM_10_N39_00_W106_00.xml",
+    "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_N39_00_W106_00_DEM/Copernicus_DSM_10_N39_00_W106_00.xml",
+    "bytes": 44734,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Bucket copernicus-dem-30m (eu-central-1), not requester-pays. Same 1-degree cell as USGS 3DEP n40w106 and SRTM N39W106, for cross-source comparison (EGM2008 vs NAVD88 vs EGM96 vertical datums, a useful datum test). The HEM height-error mask (51.8 MB) is in AUXFILES if wanted.",
+  "feeds": [
+   "dem.hillshade",
+   "dem.slope",
+   "los.viewshed",
+   "dem.compare"
+  ]
+ },
+ {
+  "id": "cop-dem-glo30-n40w106",
+  "area": "dem",
+  "title": "Copernicus DEM GLO-30 N40 W106 (Boulder, Indian Peaks, southern RMNP) - adjacent north tile",
+  "source": "ESA / Copernicus (AWS Open Data)",
+  "landing": "https://registry.opendata.aws/copernicus-dem/",
+  "licence": "Copernicus DEM GLO-30 Public / GLO-90 licence (free for the general public): https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+  "attribution": "© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "1 arcsec, Float32",
+  "files": [
+   {
+    "name": "Copernicus_DSM_COG_10_N40_00_W106_00_DEM.tif",
+    "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_N40_00_W106_00_DEM/Copernicus_DSM_COG_10_N40_00_W106_00_DEM.tif",
+    "bytes": 38931936,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Shares its southern edge (lat 40) with N39W106; use for mosaic and seam tests. Matches SRTM N40W106.",
+  "feeds": [
+   "dem.mosaic",
+   "dem.hillshade",
+   "los.viewshed"
+  ]
+ },
+ {
+  "id": "cop-dem-glo90-n39w106",
+  "area": "dem",
+  "title": "Copernicus DEM GLO-90 N39 W106",
+  "source": "ESA / Copernicus (AWS Open Data)",
+  "landing": "https://registry.opendata.aws/copernicus-dem/",
+  "licence": "Copernicus DEM GLO-30 Public / GLO-90 licence (free for the general public): https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+  "attribution": "© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "3 arcsec (~90 m), Float32",
+  "files": [
+   {
+    "name": "Copernicus_DSM_COG_30_N39_00_W106_00_DEM.tif",
+    "url": "https://copernicus-dem-90m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_30_N39_00_W106_00_DEM/Copernicus_DSM_COG_30_N39_00_W106_00_DEM.tif",
+    "bytes": 4774692,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Bucket copernicus-dem-90m (eu-central-1). Multi-resolution comparison with GLO-30 for the same tile.",
+  "feeds": [
+   "dem.resample",
+   "dem.compare"
+  ]
+ },
+ {
+  "id": "usgs-3dep-13-n40w106",
+  "area": "dem",
+  "title": "USGS 3DEP 1/3 arc-second (and 1 arc-second) DEM, cell n40w106",
+  "source": "USGS National Map",
+  "landing": "https://www.usgs.gov/3d-elevation-program",
+  "licence": "US Government public domain",
+  "attribution": "U.S. Geological Survey, 3D Elevation Program",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "1/3 arcsec (~10 m) Float32, NAVD88, NAD83; plus 1 arcsec version",
+  "files": [
+   {
+    "name": "USGS_13_n40w106.tif",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w106/USGS_13_n40w106.tif",
+    "bytes": 413480184,
+    "role": "primary"
+   },
+   {
+    "name": "USGS_1_n40w106.tif",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/current/n40w106/USGS_1_n40w106.tif",
+    "bytes": 51486544,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "3DEP 'n40w106' names the NW corner, so it covers lat 39-40, lon -106 to -105: the same cell as Copernicus N39W106 and SRTM N39W106. Overlaps the 1 m tile below. The 'current' path can change when USGS republishes; re-HEAD at download time.",
+  "feeds": [
+   "dem.hillshade",
+   "dem.compare",
+   "los.viewshed",
+   "dem.datum"
+  ]
+ },
+ {
+  "id": "usgs-3dep-1m-x48y441-drcog2020",
+  "area": "dem",
+  "title": "USGS 3DEP 1 m DEM tile x48y441 (CO_DRCOG_2020_B20, Golden / Green Mountain hogback)",
+  "source": "USGS National Map",
+  "landing": "https://apps.nationalmap.gov/downloader/",
+  "licence": "US Government public domain",
+  "attribution": "U.S. Geological Survey, 3D Elevation Program",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "1 m, UTM zone 13N NAD83, NAVD88, 10x10 km",
+  "files": [
+   {
+    "name": "USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CO_DRCOG_2020_B20/TIFF/USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif",
+    "bytes": 254299400,
+    "role": "primary"
+   },
+   {
+    "name": "USGS_1M_13_x48y441_CO_DRCOG_2020_B20.xml",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CO_DRCOG_2020_B20/metadata/USGS_1M_13_x48y441_CO_DRCOG_2020_B20.xml",
+    "bytes": 12330,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Found via the TNM API with bbox -105.30,39.74,-105.20,39.78; lies inside cell n40w106/N39W106. Its source lidar project CO_DRCOG_2020 (Denver Regional COG) also exists as point clouds (USGS 3DEP lidar EPT, Planetary Computer 3dep-lidar-copc), so the lidar picks can target it for overlap. Older 2013 CO_SoPlatteRiver_Lot5 1 m tiles of the same footprint exist for DEM differencing.",
+  "feeds": [
+   "dem.hillshade",
+   "dem.hires",
+   "los.viewshed",
+   "dem.compare"
+  ]
+ },
+ {
+  "id": "srtm-skadi-n39w106-n40w106",
+  "area": "dem",
+  "title": "SRTM 1 arc-second HGT (AWS Terrain Tiles skadi) N39W106 and N40W106",
+  "source": "NASA/USGS SRTM via Mapzen / AWS Terrain Tiles",
+  "landing": "https://registry.opendata.aws/terrain-tiles/",
+  "licence": "SRTM is US Government public domain; Terrain Tiles attribution terms https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+  "attribution": "SRTM data courtesy NASA/USGS; tiles via Mapzen Terrain Tiles on AWS",
+  "tier": "A",
+  "format": "SRTM HGT (gzip)",
+  "profile": "3601x3601 Int16 big-endian, EGM96, 1 arcsec",
+  "files": [
+   {
+    "name": "N39W106.hgt.gz",
+    "url": "https://s3.amazonaws.com/elevation-tiles-prod/skadi/N39/N39W106.hgt.gz",
+    "bytes": 13932588,
+    "role": "primary"
+   },
+   {
+    "name": "N40W106.hgt.gz",
+    "url": "https://s3.amazonaws.com/elevation-tiles-prod/skadi/N40/N40W106.hgt.gz",
+    "bytes": 13519697,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Bucket elevation-tiles-prod (us-east-1). Gunzip to .hgt; the GDAL SRTMHGT driver needs the NxxWyyy.hgt filename.",
+  "feeds": [
+   "dem.hgt",
+   "dem.hillshade",
+   "dem.compare"
+  ]
+ },
+ {
+  "id": "gdal-dted-samples",
+  "area": "dem",
+  "title": "Real DTED cells from the GDAL data server (DTED0/1, a 1-arcsec cell and an HDR-prefixed file)",
+  "source": "OSGeo / GDAL project",
+  "landing": "https://download.osgeo.org/gdal/data/dted/",
+  "licence": "Redistributed by OSGeo as GDAL test data (originally US Government DTED); no explicit licence file",
+  "attribution": "GDAL project test data (download.osgeo.org)",
+  "tier": "A",
+  "format": "DTED0 | DTED1 | DTED (1-arcsec)",
+  "profile": "n43.dt0 (W080 N43, 30 arcsec); n48.dt1 (W124 N48, 3 arcsec); w118n033.dt1 (starts with an 80-byte HDR1 tape label before UHL, an edge case); l5102.dhm (E005 N47, 1 arcsec spacing in UHL = DTED2-like, .dhm extension)",
+  "files": [
+   {
+    "name": "n43.dt0",
+    "url": "https://download.osgeo.org/gdal/data/dted/n43.dt0",
+    "bytes": 34162,
+    "role": "primary"
+   },
+   {
+    "name": "n48.dt1",
+    "url": "https://download.osgeo.org/gdal/data/dted/n48.dt1",
+    "bytes": 2902642,
+    "role": "primary"
+   },
+   {
+    "name": "w118n033.dt1",
+    "url": "https://download.osgeo.org/gdal/data/dted/w118n033.dt1",
+    "bytes": 2902722,
+    "role": "primary"
+   },
+   {
+    "name": "l5102.dhm",
+    "url": "https://download.osgeo.org/gdal/data/dted/l5102.dhm",
+    "bytes": 1749842,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Only anonymous source of real DTED cells found; none cover Colorado. Headers read with 80-byte range requests. For a Colorado DTED2 cell use the tier-B EarthExplorer item, or convert N39W106 with gdal_translate -of DTED.",
+  "feeds": [
+   "dem.dted",
+   "dem.hillshade"
+  ]
+ },
+ {
+  "id": "gdal-autotest-dted-edge",
+  "area": "dem",
+  "title": "GDAL autotest DTED edge cases (bad CRC, inverted coords, partial/sparse columns, WGS72, truncated)",
+  "source": "OSGeo GDAL (GitHub)",
+  "landing": "https://github.com/OSGeo/gdal/tree/master/autotest/gdrivers/data/dted",
+  "licence": "GDAL autotest data under the GDAL MIT/X licence (https://github.com/OSGeo/gdal/blob/master/LICENSE.TXT)",
+  "attribution": "GDAL/OGR contributors",
+  "tier": "A",
+  "format": "DTED0 | DTED1 (malformed)",
+  "profile": "negative / robustness tests",
+  "files": [
+   {
+    "name": "n43_bad_crc.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_bad_crc.dt0",
+    "bytes": 34162,
+    "role": "truth"
+   },
+   {
+    "name": "n43_coord_inverted.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_coord_inverted.dt0",
+    "bytes": 3428,
+    "role": "truth"
+   },
+   {
+    "name": "n43_partial_cols.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_partial_cols.dt0",
+    "bytes": 3936,
+    "role": "truth"
+   },
+   {
+    "name": "n43_sparse_cols.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_sparse_cols.dt0",
+    "bytes": 3936,
+    "role": "truth"
+   },
+   {
+    "name": "n43_wgs72.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_wgs72.dt0",
+    "bytes": 34162,
+    "role": "truth"
+   },
+   {
+    "name": "w118n033_trunc.dt1",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/w118n033_trunc.dt1",
+    "bytes": 3428,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "notes": "Not duplicates of the download.osgeo.org files: each is a deliberately altered variant (n43_* from n43.dt0, w118n033_trunc from w118n033.dt1). Expected behaviour is in GDAL autotest gdrivers/dted.py. Pin to a commit SHA in the manifest for reproducibility (master path used here).",
+  "feeds": [
+   "dem.dted",
+   "robustness.fuzz"
+  ]
+ },
+ {
+  "id": "usgs-srtm-dted2-n39w106",
+  "area": "dem",
+  "title": "SRTM 1 Arc-Second Global as DTED Level 2, cell N39 W106",
+  "source": "USGS EROS EarthExplorer",
+  "landing": "https://earthexplorer.usgs.gov/",
+  "licence": "US Government public domain; free USGS ERS login required",
+  "attribution": "NASA/USGS SRTM, courtesy U.S. Geological Survey",
+  "tier": "B",
+  "format": "DTED2",
+  "profile": "3601x3601, 1 arcsec, EGM96",
+  "files": [
+   {
+    "name": "n39_w106_1arc_v3.dt2",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Dataset 'SRTM 1 Arc-Second Global' (doi:10.5066/F7PR7TFT); EarthExplorer offers DTED, BIL and GeoTIFF, so choose DTED. SRTM Void Filled 3-arcsec DTED1 (n39_w106_3arc_v2.dt1) is also there. Login needed; not verified.",
+  "feeds": [
+   "dem.dted",
+   "dem.compare"
+  ]
+ }
+]

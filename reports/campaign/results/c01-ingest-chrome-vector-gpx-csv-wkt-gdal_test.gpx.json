@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:32:04.211Z",
+ "key": "vector-gpx-csv-wkt-gdal/test.gpx",
+ "item": "vector-gpx-csv-wkt-gdal",
+ "file": "test.gpx",
+ "format": "GPX / CSV (WKT)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120096,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

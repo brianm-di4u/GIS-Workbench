@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-gdal-autotest-small/i_3034c.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 35,
+   "h": 18,
+   "bands": 3,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 116
+}

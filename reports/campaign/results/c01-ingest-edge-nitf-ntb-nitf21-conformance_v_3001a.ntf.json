@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:35:12.522Z",
+ "key": "nitf-ntb-nitf21-conformance/v_3001a.ntf",
+ "item": "nitf-ntb-nitf21-conformance",
+ "file": "v_3001a.ntf",
+ "format": "NITF2.1 + BMP truth",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened v_3001a.ntf in 31 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 369,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

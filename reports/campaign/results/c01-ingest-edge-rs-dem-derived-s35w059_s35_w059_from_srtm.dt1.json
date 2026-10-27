@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:38.432Z",
+ "key": "rs-dem-derived-s35w059/s35_w059_from_srtm.dt1",
+ "item": "rs-dem-derived-s35w059",
+ "file": "s35_w059_from_srtm.dt1",
+ "format": "GeoTIFF/COG float32 + DTED1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened s35_w059_from_srtm.dt1 in 59 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 1201,
+   "h": 1201,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 401,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

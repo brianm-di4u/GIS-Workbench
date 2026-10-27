@@ -1,0 +1,27 @@
+{
+ "spec": "c14-annotate",
+ "project": "chrome",
+ "when": "2026-10-27T15:38:23.108Z",
+ "key": "draw.symbol",
+ "id": "draw.symbol",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "MIL-STD-2525 Symbol"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

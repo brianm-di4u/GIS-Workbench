@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:42:06.726Z",
+ "key": "usgs-3dep-1m-x48y441-drcog2020/USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif",
+ "item": "usgs-3dep-1m-x48y441-drcog2020",
+ "file": "USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif in 37 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10012,
+   "h": 10012,
+   "bands": 1,
+   "model": "Map (EPSG:26913)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 868,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

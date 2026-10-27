@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:35:15.014Z",
+ "key": "eo-maxar-libya-floods-wv3-prepost/1040010087AB7E00-pan.tif",
+ "item": "eo-maxar-libya-floods-wv3-prepost",
+ "file": "1040010087AB7E00-pan.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 1040010087AB7E00-pan.tif in 40 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 16548,
+   "h": 16548,
+   "bands": 1,
+   "model": "Map (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 352,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

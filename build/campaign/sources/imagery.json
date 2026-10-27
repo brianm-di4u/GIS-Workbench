@@ -1,0 +1,2053 @@
+[
+ {
+  "id": "nitf-ntb-nitf20-conformance",
+  "area": "nitf",
+  "title": "NTB NITF 2.0 conformance test files (U_1xxx-U_4xxx, not already held)",
+  "source": "OSGeo / GDAL (mirror of NITFS Technical Board test suite)",
+  "landing": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/",
+  "licence": "GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osgeo.org/gdal/data/COPYING); NITF test files originate from the US Government NITFS Technical Board (NTB)/JITC conformance suite (unclassified, public test data)",
+  "attribution": "NITFS Technical Board / JITC NITF conformance test data, via GDAL download server (download.osgeo.org)",
+  "tier": "A",
+  "format": "NITF2.0",
+  "profile": "Mixed: uncompressed mono/RGB/multiband, LUT, C3/M3 JPEG, VQ (C4), bi-level C1, CGM/text segments, TREs, multi-image",
+  "files": [
+   {
+    "name": "U_1001a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1001a.ntf",
+    "bytes": 1049559,
+    "role": "primary"
+   },
+   {
+    "name": "U_1025a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1025a.ntf",
+    "bytes": 17089,
+    "role": "primary"
+   },
+   {
+    "name": "U_1033a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1033a.ntf",
+    "bytes": 9554,
+    "role": "primary"
+   },
+   {
+    "name": "U_1034a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1034a.ntf",
+    "bytes": 263248,
+    "role": "primary"
+   },
+   {
+    "name": "U_1036a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1036a.ntf",
+    "bytes": 23485,
+    "role": "primary"
+   },
+   {
+    "name": "U_1050a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1050a.ntf",
+    "bytes": 4071,
+    "role": "primary"
+   },
+   {
+    "name": "U_1051e.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1051e.ntf",
+    "bytes": 1490,
+    "role": "primary"
+   },
+   {
+    "name": "U_1052a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1052a.ntf",
+    "bytes": 1562,
+    "role": "primary"
+   },
+   {
+    "name": "U_1056a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1056a.ntf",
+    "bytes": 1740,
+    "role": "primary"
+   },
+   {
+    "name": "U_1060a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1060a.ntf",
+    "bytes": 1666,
+    "role": "primary"
+   },
+   {
+    "name": "U_1064a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1064a.ntf",
+    "bytes": 1634,
+    "role": "primary"
+   },
+   {
+    "name": "U_1068a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1068a.ntf",
+    "bytes": 1700,
+    "role": "primary"
+   },
+   {
+    "name": "U_1092c.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1092c.ntf",
+    "bytes": 319833,
+    "role": "primary"
+   },
+   {
+    "name": "U_1101a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1101a.ntf",
+    "bytes": 1051337,
+    "role": "primary"
+   },
+   {
+    "name": "U_1122a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_1122a.ntf",
+    "bytes": 1147398,
+    "role": "primary"
+   },
+   {
+    "name": "U_2001d.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_2001d.ntf",
+    "bytes": 23943,
+    "role": "primary"
+   },
+   {
+    "name": "U_2001e.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_2001e.ntf",
+    "bytes": 36292,
+    "role": "primary"
+   },
+   {
+    "name": "U_2010a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_2010a.ntf",
+    "bytes": 25405,
+    "role": "primary"
+   },
+   {
+    "name": "U_2015a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_2015a.ntf",
+    "bytes": 19594,
+    "role": "primary"
+   },
+   {
+    "name": "U_2020a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_2020a.ntf",
+    "bytes": 25405,
+    "role": "primary"
+   },
+   {
+    "name": "U_3001a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_3001a.ntf",
+    "bytes": 3146597,
+    "role": "primary"
+   },
+   {
+    "name": "U_3010a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_3010a.ntf",
+    "bytes": 197477,
+    "role": "primary"
+   },
+   {
+    "name": "U_3050b.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_3050b.ntf",
+    "bytes": 1052287,
+    "role": "primary"
+   },
+   {
+    "name": "U_4001b.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4001b.ntf",
+    "bytes": 429691,
+    "role": "primary"
+   },
+   {
+    "name": "U_4002a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4002a.ntf",
+    "bytes": 131913,
+    "role": "primary"
+   },
+   {
+    "name": "U_4003b.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4003b.ntf",
+    "bytes": 76450,
+    "role": "primary"
+   },
+   {
+    "name": "U_4004b.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4004b.ntf",
+    "bytes": 47762,
+    "role": "primary"
+   },
+   {
+    "name": "U_4007a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4007a.ntf",
+    "bytes": 197451,
+    "role": "primary"
+   },
+   {
+    "name": "U_4018b.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4018b.ntf",
+    "bytes": 71720,
+    "role": "primary"
+   },
+   {
+    "name": "U_4018e.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4018e.ntf",
+    "bytes": 266263,
+    "role": "primary"
+   },
+   {
+    "name": "U_4020f.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4020f.ntf",
+    "bytes": 7629187,
+    "role": "primary"
+   },
+   {
+    "name": "U_4020i.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4020i.ntf",
+    "bytes": 1402364,
+    "role": "primary"
+   },
+   {
+    "name": "U_4022a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/U_4022a.ntf",
+    "bytes": 1402147,
+    "role": "primary"
+   },
+   {
+    "name": "scen_2_0.html",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.0/scen_2_0.html",
+    "bytes": 43540,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "scen_2_0.html is the NTB scenario description page (what each U_xxxx file is meant to exercise and expected rendering) - keep it as metadata. Excluded files already in corpus. U_3010a has same size as U_3002a but is a distinct file.",
+  "feeds": [
+   "ingest",
+   "nitf.parse",
+   "nitf.decode",
+   "display",
+   "metadata.tre",
+   "graphics.cgm"
+  ]
+ },
+ {
+  "id": "nitf-ntb-nitf11-legacy",
+  "area": "nitf",
+  "title": "NTB NITF 1.1 legacy-format test files",
+  "source": "OSGeo / GDAL (mirror of NITFS Technical Board test suite)",
+  "landing": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/",
+  "licence": "GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osgeo.org/gdal/data/COPYING); NITF test files originate from the US Government NITFS Technical Board (NTB)/JITC conformance suite (unclassified, public test data)",
+  "attribution": "NITFS Technical Board / JITC NITF conformance test data, via GDAL download server (download.osgeo.org)",
+  "tier": "A",
+  "format": "NITF1.1",
+  "profile": "Legacy NITF 1.1 headers; uncompressed and compressed images, symbols/labels",
+  "files": [
+   {
+    "name": "U_0001a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0001a.ntf",
+    "bytes": 378477,
+    "role": "primary"
+   },
+   {
+    "name": "U_0001b.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0001b.ntf",
+    "bytes": 326900,
+    "role": "primary"
+   },
+   {
+    "name": "U_0001c.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0001c.ntf",
+    "bytes": 333266,
+    "role": "primary"
+   },
+   {
+    "name": "U_0002a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0002a.ntf",
+    "bytes": 388,
+    "role": "primary"
+   },
+   {
+    "name": "U_0004a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0004a.ntf",
+    "bytes": 38124,
+    "role": "primary"
+   },
+   {
+    "name": "U_0005a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0005a.ntf",
+    "bytes": 269672,
+    "role": "primary"
+   },
+   {
+    "name": "U_0006a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf1.1/U_0006a.ntf",
+    "bytes": 10759,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "NITF 1.1 is pre-2.0; readers that only support 2.0/2.1 should fail gracefully. U_0002a.ntf (388 B) is a header-only/no-image file.",
+  "feeds": [
+   "ingest",
+   "nitf.parse",
+   "robustness"
+  ]
+ },
+ {
+  "id": "nitf-ntb-nitf21-conformance",
+  "area": "nitf",
+  "title": "NTB NITF 2.1 conformance files with reference renderings",
+  "source": "OSGeo / GDAL (mirror of NITFS Technical Board test suite)",
+  "landing": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/",
+  "licence": "GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osgeo.org/gdal/data/COPYING); NITF test files originate from the US Government NITFS Technical Board (NTB)/JITC conformance suite (unclassified, public test data)",
+  "attribution": "NITFS Technical Board / JITC NITF conformance test data, via GDAL download server (download.osgeo.org)",
+  "tier": "A",
+  "format": "NITF2.1 + BMP truth",
+  "profile": "v_3001a (1024x1024 mono), v_3303a (large multi-image); *r.bmp = expected rendering",
+  "files": [
+   {
+    "name": "v_3001a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3001a.ntf",
+    "bytes": 1049479,
+    "role": "primary"
+   },
+   {
+    "name": "v_3001ar.bmp",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3001ar.bmp",
+    "bytes": 1049654,
+    "role": "truth"
+   },
+   {
+    "name": "v_3301ar.bmp",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3301ar.bmp",
+    "bytes": 66614,
+    "role": "truth"
+   },
+   {
+    "name": "v_3301fr.bmp",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3301fr.bmp",
+    "bytes": 360794,
+    "role": "truth"
+   },
+   {
+    "name": "v_3303a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3303a.ntf",
+    "bytes": 4195147,
+    "role": "primary"
+   },
+   {
+    "name": "v_3303ar.bmp",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3303ar.bmp",
+    "bytes": 66614,
+    "role": "truth"
+   },
+   {
+    "name": "v_3310ar.bmp",
+    "url": "https://download.osgeo.org/gdal/data/nitf/nitf2.1/v_3310ar.bmp",
+    "bytes": 66614,
+    "role": "truth"
+   }
+  ],
+  "sign": null,
+  "notes": "v_3301ar.bmp, v_3301fr.bmp and v_3310ar.bmp are reference renderings ('truth') for NITF files ALREADY in the corpus (v_3301a, v_3301f, v_3310a) - pair them for pixel-comparison tests.",
+  "feeds": [
+   "ingest",
+   "nitf.decode",
+   "display",
+   "regression.pixel-compare"
+  ]
+ },
+ {
+  "id": "nitf-misc-gdal-server",
+  "area": "nitf",
+  "title": "Miscellaneous NITF files (bug repro, large C3, JPEG2000 syntax notes)",
+  "source": "OSGeo / GDAL",
+  "landing": "https://download.osgeo.org/gdal/data/nitf/",
+  "licence": "GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osgeo.org/gdal/data/COPYING); NITF test files originate from the US Government NITFS Technical Board (NTB)/JITC conformance suite (unclassified, public test data)",
+  "attribution": "GDAL project sample data (download.osgeo.org)",
+  "tier": "A",
+  "format": "NITF2.1",
+  "profile": "u_3054a: 13 MB multi-segment; bug3337: GDAL bug #3337 repro; p0_01syntax.txt describes p0_01a.ntf (J2K codestream conformance)",
+  "files": [
+   {
+    "name": "u_3054a.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/u_3054a.ntf",
+    "bytes": 13766291,
+    "role": "primary"
+   },
+   {
+    "name": "bug3337.ntf",
+    "url": "https://download.osgeo.org/gdal/data/nitf/bugs/bug3337.ntf",
+    "bytes": 127796,
+    "role": "primary"
+   },
+   {
+    "name": "p0_01syntax.txt",
+    "url": "https://download.osgeo.org/gdal/data/nitf/jpeg2000/p0_01syntax.txt",
+    "bytes": 2936,
+    "role": "metadata"
+   },
+   {
+    "name": "README",
+    "url": "https://download.osgeo.org/gdal/data/nitf/README",
+    "bytes": 65,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "README points to the defunct NTB server 164.214.2.51 (no longer reachable).",
+  "feeds": [
+   "ingest",
+   "nitf.decode",
+   "robustness"
+  ]
+ },
+ {
+  "id": "nitf-rpf-cadrg-frames",
+  "area": "nitf",
+  "title": "RPF / CADRG frames and A.TOC table of contents",
+  "source": "OSGeo / GDAL (download server + autotest)",
+  "landing": "https://download.osgeo.org/gdal/data/nitf/cadrg/",
+  "licence": "GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osgeo.org/gdal/data/COPYING); NITF test files originate from the US Government NITFS Technical Board (NTB)/JITC conformance suite (unclassified, public test data); autotest files: GDAL repository (MIT, https://github.com/OSGeo/gdal/blob/master/LICENSE.TXT)",
+  "attribution": "GDAL project sample/test data",
+  "tier": "A",
+  "format": "RPF (CADRG) / NITF-wrapped frames",
+  "profile": "CADRG ONC 1:1M frame (.on1), GNC frame (.GN3), RPF overview (.ovr), A.TOC + RPFTOC01.ON2 frame, testtest.on9",
+  "files": [
+   {
+    "name": "cadrg/001zc013.on1",
+    "url": "https://download.osgeo.org/gdal/data/nitf/cadrg/001zc013.on1",
+    "bytes": 293583,
+    "role": "primary"
+   },
+   {
+    "name": "cadrg/overview.ovr",
+    "url": "https://download.osgeo.org/gdal/data/nitf/cadrg/overview.ovr",
+    "bytes": 126759,
+    "role": "sidecar"
+   },
+   {
+    "name": "gn3/0000M033.GN3",
+    "url": "https://download.osgeo.org/gdal/data/nitf/0000M033.GN3",
+    "bytes": 146840,
+    "role": "primary"
+   },
+   {
+    "name": "rpf_toc/A.TOC",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/A.TOC",
+    "bytes": 292,
+    "role": "metadata"
+   },
+   {
+    "name": "rpf_toc/RPFTOC01.ON2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/RPFTOC01.ON2",
+    "bytes": 22507,
+    "role": "primary"
+   },
+   {
+    "name": "rpf_toc/testtest.on9",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/testtest.on9",
+    "bytes": 1099,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Keep A.TOC and RPFTOC01.ON2 in the same directory (A.TOC references the frame by name). No CIB (.I*) frames exist on the GDAL server - see tier-B item nitf-rpf-cib-usgs. No 'cib', 'jitc' or 'ntb' subdirectories exist under /gdal/data/nitf/ (only bugs, cadrg, jpeg2000, nitf1.1, nitf2.0, nitf2.1).",
+  "feeds": [
+   "ingest",
+   "rpf.toc",
+   "nitf.decode.vq",
+   "display"
+  ]
+ },
+ {
+  "id": "nitf-rpf-cib-usgs",
+  "area": "nitf",
+  "title": "SPOT Controlled Image Base 10 m (CIB-10)",
+  "source": "USGS EROS",
+  "landing": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-commercial-satellites-spot-controlled-image-base-10-meter",
+  "licence": "USGS EROS archive, public access (free EarthExplorer login required)",
+  "attribution": "SPOT CIB-10 courtesy of the U.S. Geological Survey",
+  "tier": "B",
+  "format": "RPF CIB (expected) / GeoTIFF",
+  "profile": "10 m panchromatic orthoimage, 1986-1993, partial coverage",
+  "files": [
+   {
+    "name": "CIB10_<entity>.zip",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Tier B: sign in to https://earthexplorer.usgs.gov, dataset 'SPOT CIB-10' (Commercial Satellites), pick one tile and download. Distribution format not verified (may be delivered as RPF with A.TOC or as GeoTIFF). No anonymous CIB source was found.",
+  "feeds": [
+   "ingest",
+   "rpf.toc",
+   "nitf.decode.vq"
+  ]
+ },
+ {
+  "id": "eo-maxar-libya-floods-wv3-prepost",
+  "area": "eo",
+  "title": "Maxar WorldView-3 ARD pre/post pair, Libya floods (Storm Daniel) Sept 2023, tile 031311331100",
+  "source": "Maxar Open Data Program",
+  "landing": "https://www.maxar.com/open-data/libya-floods",
+  "licence": "CC BY-NC 4.0 (Creative Commons Attribution Non Commercial 4.0; AWS Open Data Registry maxar-open-data)",
+  "attribution": "Contains imagery (c) Maxar Technologies, Maxar Open Data Program, CC BY-NC 4.0",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "WV03 ARD ortho, UTM 34N; ms = 8-band VNIR 16-bit (~1.2 m), pan = 16-bit (~0.3 m), visual = 3-band 8-bit; 0% cloud both dates",
+  "files": [
+   {
+    "name": "2023-08-01/1040010087AB7E00-data-mask.gpkg",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-08-01/1040010087AB7E00-data-mask.gpkg",
+    "bytes": 98304,
+    "role": "sidecar"
+   },
+   {
+    "name": "2023-08-01/1040010087AB7E00-ms.tif",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-08-01/1040010087AB7E00-ms.tif",
+    "bytes": 168945688,
+    "role": "primary"
+   },
+   {
+    "name": "2023-08-01/1040010087AB7E00-pan.tif",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-08-01/1040010087AB7E00-pan.tif",
+    "bytes": 318852487,
+    "role": "primary"
+   },
+   {
+    "name": "2023-08-01/1040010087AB7E00-visual.tif",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-08-01/1040010087AB7E00-visual.tif",
+    "bytes": 50306022,
+    "role": "sidecar"
+   },
+   {
+    "name": "2023-08-01/1040010087AB7E00.json",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-08-01/1040010087AB7E00.json",
+    "bytes": 4135,
+    "role": "metadata"
+   },
+   {
+    "name": "2023-09-15/104001008B282A00-data-mask.gpkg",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-09-15/104001008B282A00-data-mask.gpkg",
+    "bytes": 98304,
+    "role": "sidecar"
+   },
+   {
+    "name": "2023-09-15/104001008B282A00-ms.tif",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-09-15/104001008B282A00-ms.tif",
+    "bytes": 129076022,
+    "role": "primary"
+   },
+   {
+    "name": "2023-09-15/104001008B282A00-pan.tif",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-09-15/104001008B282A00-pan.tif",
+    "bytes": 247055418,
+    "role": "primary"
+   },
+   {
+    "name": "2023-09-15/104001008B282A00-visual.tif",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-09-15/104001008B282A00-visual.tif",
+    "bytes": 54397290,
+    "role": "sidecar"
+   },
+   {
+    "name": "2023-09-15/104001008B282A00.json",
+    "url": "https://maxar-opendata.s3.us-west-2.amazonaws.com/events/Libya-Floods-Sept-2023/ard/34/031311331100/2023-09-15/104001008B282A00.json",
+    "bytes": 4039,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pre-event 2023-08-01 (catalog 1040010087AB7E00, off-nadir 14.4) and post-event 2023-09-15 (catalog 104001008B282A00, off-nadir 26.5), same 5x5 km quadkey tile near 20.82E 32.51N (Jebel Akhdar region). These are ortho ARD tiles: NO RPC (geotransform only). Non-commercial licence - keep corpus use internal T&E. STAC item JSON per tile included as metadata.",
+  "feeds": [
+   "ingest",
+   "enhance",
+   "msi.radiometric",
+   "pansharpen",
+   "change-detection",
+   "display"
+  ]
+ },
+ {
+  "id": "eo-spacenet-vegas-wv3-pan-ms-r1c1",
+  "area": "eo",
+  "title": "SpaceNet AOI_2_Vegas WorldView-3 PAN + 8-band MS source tiles (R1C1) with DG XML/RPB",
+  "source": "SpaceNet (AWS Open Data)",
+  "landing": "https://spacenet.ai/spacenet-buildings-dataset-v2/",
+  "licence": "CC BY-SA 4.0 (The SpaceNet Dataset by SpaceNet Partners, https://spacenet.ai/off-nadir-building-detection/ )",
+  "attribution": "The SpaceNet Dataset by SpaceNet Partners (imagery (c) Maxar/DigitalGlobe), licensed CC BY-SA 4.0",
+  "tier": "A",
+  "format": "GeoTIFF (DigitalGlobe LV2A Standard tile) + DG XML",
+  "profile": "WV03, PAN 16-bit 16384x16384 (~0.31 m), MS 8-band 16-bit (~1.24 m), RPC00B in XML <RPB> block, off-nadir 16.8, 0% cloud, 2015-10-22",
+  "files": [
+   {
+    "name": "15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_2_Vegas/PAN/15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF",
+    "bytes": 536875617,
+    "role": "primary"
+   },
+   {
+    "name": "15OCT22183656-M2AS_R1C1-055649178030_01_P001.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_2_Vegas/MS/15OCT22183656-M2AS_R1C1-055649178030_01_P001.TIF",
+    "bytes": 268438248,
+    "role": "primary"
+   },
+   {
+    "name": "15OCT22183656-P2AS_R1C1-055649178030_01_P001.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_2_Vegas/metadata/15OCT22183656-P2AS-055649178030_01_P001.XML",
+    "bytes": 24972,
+    "role": "sidecar"
+   },
+   {
+    "name": "15OCT22183656-M2AS_R1C1-055649178030_01_P001.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_2_Vegas/metadata/15OCT22183656-M2AS-055649178030_01_P001.XML",
+    "bytes": 29615,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "TIFFs carry NO RPC tag (checked: IFD at end of file, no tag 50844, not COG). RPCs are in the product-level DG .XML (<RPB>, SPECID RPC00B); the XMLs are renamed locally to the tile basename so GDAL's DigitalGlobe metadata reader pairs them. R1C1 is the top-left tile, so the product RPC applies without tile offset (check the TIL if other tiles are added). Product is LV2A 'Standard' (map-projected, coarse DEM) - RPC is usable for sensor-model tests but the image is not raw 1B geometry; use the Atlanta L1B item for true sensor geometry.",
+  "feeds": [
+   "ingest",
+   "sensor-model",
+   "rpc",
+   "msi.radiometric",
+   "pansharpen",
+   "enhance"
+  ]
+ },
+ {
+  "id": "eo-spacenet-atlanta-wv2-l1b-rpc",
+  "area": "eo",
+  "title": "SpaceNet Off-Nadir Atlanta WorldView-2 Level-1B PAN/MUL strips with RPB, ATT/EPH/GEO (two same-pass looks)",
+  "source": "SpaceNet (AWS Open Data)",
+  "landing": "https://spacenet.ai/off-nadir-building-detection/",
+  "licence": "CC BY-SA 4.0 (The SpaceNet Dataset by SpaceNet Partners, https://spacenet.ai/off-nadir-building-detection/ )",
+  "attribution": "The SpaceNet Dataset by SpaceNet Partners (imagery (c) Maxar/DigitalGlobe), licensed CC BY-SA 4.0",
+  "tier": "A",
+  "format": "GeoTIFF (DigitalGlobe LV1B, sensor geometry) + RPB/IMD/ATT/EPH/GEO/TIL/XML",
+  "profile": "WV02 LV1B 16-bit; PAN + 8-band MUL; RPC00B (.RPB); off-nadir 52.5 / 53.7 deg, 2009-12-22, 0% cloud",
+  "files": [
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.TIF",
+    "bytes": 158593447,
+    "role": "primary"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.RPB",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.RPB",
+    "bytes": 1860,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.IMD",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.IMD",
+    "bytes": 2212,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.XML",
+    "bytes": 878124,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.TIL",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.TIL",
+    "bytes": 573,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.ATT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.ATT",
+    "bytes": 443985,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.EPH",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.EPH",
+    "bytes": 358847,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.GEO",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005.GEO",
+    "bytes": 1224,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005_README.TXT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_PAN/09DEC22163912-P1BS-058332896010_01_P005_README.TXT",
+    "bytes": 1149,
+    "role": "metadata"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF",
+    "bytes": 83262294,
+    "role": "primary"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.RPB",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.RPB",
+    "bytes": 1860,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.IMD",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.IMD",
+    "bytes": 4946,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.XML",
+    "bytes": 884987,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIL",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIL",
+    "bytes": 571,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.ATT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.ATT",
+    "bytes": 443985,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.EPH",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.EPH",
+    "bytes": 358847,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.GEO",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005.GEO",
+    "bytes": 3316,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005_README.TXT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003BDDC00/058332896010_01_P005_MUL/09DEC22163912-M1BS-058332896010_01_P005_README.TXT",
+    "bytes": 1149,
+    "role": "metadata"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.TIF",
+    "bytes": 334917039,
+    "role": "primary"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.RPB",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.RPB",
+    "bytes": 1860,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.IMD",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.IMD",
+    "bytes": 2212,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.XML",
+    "bytes": 878129,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.TIL",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.TIL",
+    "bytes": 573,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.ATT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.ATT",
+    "bytes": 443985,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.EPH",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.EPH",
+    "bytes": 358847,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005.GEO",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005.GEO",
+    "bytes": 1224,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir53_CD4300_PAN/09DEC22163922-P1BS-058332890010_01_P005_README.TXT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003CD4300/058332890010_01_P005_PAN/09DEC22163922-P1BS-058332890010_01_P005_README.TXT",
+    "bytes": 1149,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "True raw sensor-geometry (1B) product with full physical-model support files (attitude .ATT, ephemeris .EPH, camera .GEO) and RPC (.RPB) - ideal for sensor-model/RPC tests. Keep each look's files together in its own folder with original basenames (GDAL pairs .TIF with same-basename .RPB/.IMD/.XML). The two PAN looks (catids 1030010003BDDC00 and 1030010003CD4300) overlap almost completely (~33.8-34.07N, -84.6..-84.18) but are from the same pass with similar azimuth (~199) and off-nadir (~52-54), so the stereo convergence angle is small - suitable for multi-image RPC/tie-point tests, weak for DSM. Other catids in AOIs/AOI_6_Atlanta/metadata/ (27 looks, off-nadir 7-54) can be added for larger-baseline stereo (segments 0.5-1.9 GB each).",
+  "feeds": [
+   "ingest",
+   "sensor-model",
+   "rpc",
+   "stereo",
+   "orthorectify",
+   "msi.radiometric"
+  ]
+ },
+ {
+  "id": "landsat8-c1-l1tp-044034-20210508",
+  "area": "landsat",
+  "title": "Landsat 8 OLI/TIRS Collection 1 Level-1 (L1TP) full scene, path 44 row 34 (San Francisco Bay / Delta), 2021-05-08",
+  "source": "USGS, via Google Cloud Public Datasets (gcp-public-data-landsat)",
+  "landing": "https://cloud.google.com/storage/docs/public-datasets/landsat",
+  "licence": "Public domain (USGS Landsat data, no restrictions; https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits)",
+  "attribution": "Landsat-8 image courtesy of the U.S. Geological Survey",
+  "tier": "A",
+  "format": "GeoTIFF",
+  "profile": "C1 L1TP, 16-bit DN, B1-B11 (B8 pan 15 m), BQA, MTL.txt (radiance/reflectance rescaling), ANG.txt; cloud cover 0.07%",
+  "files": [
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_ANG.txt",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_ANG.txt",
+    "bytes": 117391,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B1.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B1.TIF",
+    "bytes": 72464473,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B10.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B10.TIF",
+    "bytes": 59440009,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B11.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B11.TIF",
+    "bytes": 57674753,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B2.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B2.TIF",
+    "bytes": 74692743,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B3.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B3.TIF",
+    "bytes": 77387083,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B4.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B4.TIF",
+    "bytes": 81639242,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B5.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B5.TIF",
+    "bytes": 87420345,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B6.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B6.TIF",
+    "bytes": 87064320,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B7.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B7.TIF",
+    "bytes": 84427595,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B8.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B8.TIF",
+    "bytes": 314052545,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_B9.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_B9.TIF",
+    "bytes": 45039686,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_BQA.TIF",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_BQA.TIF",
+    "bytes": 1167810,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20210508_20210518_01_T1_MTL.txt",
+    "url": "https://storage.googleapis.com/gcp-public-data-landsat/LC08/01/044/034/LC08_L1TP_044034_20210508_20210518_01_T1/LC08_L1TP_044034_20210508_20210518_01_T1_MTL.txt",
+    "bytes": 8703,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "SUBSTITUTE for the requested C2 L1: Planetary Computer 'landsat-c2-l1' only holds Landsat 1-5 MSS (1972-2013), not Landsat 8/9; USGS LandsatLook and the usgs-landsat bucket require ERS login / requester-pays. Collection 1 has the same band set and an MTL.txt with RADIANCE_MULT/ADD and REFLECTANCE_MULT/ADD, but a C1 (not C2) MTL layout and BQA instead of QA_PIXEL/QA_RADSAT. Scene has bay water, delta wetlands, agriculture and urban.",
+  "feeds": [
+   "ingest",
+   "msi.radiometric",
+   "toa-reflectance",
+   "thermal",
+   "pansharpen",
+   "cloud-mask",
+   "enhance"
+  ]
+ },
+ {
+  "id": "landsat8-c2-l1tp-044034-20240820-tierb",
+  "area": "landsat",
+  "title": "Landsat 8 Collection 2 Level-1 (L1TP) full scene, path 44 row 34, 2024-08-20 (cloud 0.03%)",
+  "source": "USGS EROS (LandsatLook / EarthExplorer)",
+  "landing": "https://landsatlook.usgs.gov/stac-browser/collection02/level-1/standard/oli-tirs/2024/044/034/LC08_L1TP_044034_20240820_20240830_02_T1",
+  "licence": "Public domain (USGS)",
+  "attribution": "Landsat-8 image courtesy of the U.S. Geological Survey",
+  "tier": "B",
+  "format": "GeoTIFF/COG",
+  "profile": "C2 L1TP 16-bit DN, B1-B11, QA_PIXEL, QA_RADSAT, MTL.txt/xml/json, ANG.txt, per-pixel angle bands",
+  "files": [
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B1.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B2.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B3.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B4.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B5.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B6.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B7.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B8.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B9.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B10.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_PIXEL.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_RADSAT.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_VAA.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_VZA.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_SAA.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_SZA.TIF",
+    "url": null,
+    "bytes": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.txt",
+    "url": null,
+    "bytes": null,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.xml",
+    "url": null,
+    "bytes": null,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.json",
+    "url": null,
+    "bytes": null,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_ANG.txt",
+    "url": null,
+    "bytes": null,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Tier B: data URLs https://landsatlook.usgs.gov/data/collection02/level-1/standard/oli-tirs/2024/044/034/LC08_L1TP_044034_20240820_20240830_02_T1/<file> redirect to ers.cr.usgs.gov login (verified 302). Sign in with a free USGS ERS account, or use EarthExplorer bulk download. Same path/row as the C1 and C2-L2 items, and same day-window as the Sentinel-2 10SEH items (2024-08-16) for cross-sensor tests. Expected total ~1.0 GB.",
+  "feeds": [
+   "ingest",
+   "msi.radiometric",
+   "toa-reflectance",
+   "thermal",
+   "pansharpen",
+   "cloud-mask"
+  ]
+ },
+ {
+  "id": "landsat8-c2-l2sp-044034-20240820",
+  "area": "landsat",
+  "title": "Landsat 8 Collection 2 Level-2 (surface reflectance + surface temperature), path 44 row 34, 2024-08-20",
+  "source": "USGS, via Microsoft Planetary Computer (landsat-c2-l2)",
+  "landing": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2",
+  "licence": "Public domain (USGS; https://www.usgs.gov/core-science-systems/hdds/data-policy)",
+  "attribution": "Landsat-8 image courtesy of the U.S. Geological Survey",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "C2 L2SP: SR_B1-B7 (scaled reflectance uint16), ST_B10, ST_QA, QA_PIXEL, QA_RADSAT, SR_QA_AEROSOL, C2 MTL.txt/xml/json, ANG.txt; cloud 0.03%",
+  "files": [
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_ANG.txt",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_ANG.txt",
+    "bytes": 117265,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_MTL.json",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_MTL.json",
+    "bytes": 14539,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_MTL.txt",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_MTL.txt",
+    "bytes": 15414,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_MTL.xml",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_MTL.xml",
+    "bytes": 22716,
+    "role": "metadata"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_QA_PIXEL.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_QA_PIXEL.TIF",
+    "bytes": 717696,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_QA_RADSAT.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_QA_RADSAT.TIF",
+    "bytes": 223602,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B1.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B1.TIF",
+    "bytes": 81697340,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B2.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B2.TIF",
+    "bytes": 82642814,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B3.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B3.TIF",
+    "bytes": 84043957,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF",
+    "bytes": 85805795,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B5.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B5.TIF",
+    "bytes": 86771916,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B6.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B6.TIF",
+    "bytes": 86887305,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B7.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B7.TIF",
+    "bytes": 84815896,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_QA_AEROSOL.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_SR_QA_AEROSOL.TIF",
+    "bytes": 3559272,
+    "role": "sidecar"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_ST_B10.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_ST_B10.TIF",
+    "bytes": 80517912,
+    "role": "primary"
+   },
+   {
+    "name": "LC08_L2SP_044034_20240820_20240830_02_T1_ST_QA.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/oli-tirs/2024/044/034/LC08_L2SP_044034_20240820_20240830_02_T1/LC08_L2SP_044034_20240820_20240830_02_T1_ST_QA.TIF",
+    "bytes": 20766683,
+    "role": "sidecar"
+   }
+  ],
+  "sign": "pc:landsat-c2-l2",
+  "notes": "Gives a genuine Collection 2 MTL.txt and QA_PIXEL to pair with the C2 L1 tier-B item. Unsigned blob URLs return HTTP 409; append the SAS token from https://planetarycomputer.microsoft.com/api/sas/v1/token/landsat-c2-l2 (verified 206 with token). ST intermediate bands (ATRAN, CDIST, DRAD, EMIS, EMSD, TRAD, URAD; ~166 MB) omitted - add from the STAC item if needed. On Windows curl/schannel use --ssl-no-revoke for *.blob.core.windows.net.",
+  "feeds": [
+   "ingest",
+   "msi.radiometric",
+   "surface-reflectance",
+   "thermal",
+   "cloud-mask",
+   "indices"
+  ]
+ },
+ {
+  "id": "s2-l2a-cog-10seh-20240816",
+  "area": "sentinel2",
+  "title": "Sentinel-2B L2A COGs, MGRS tile 10SEH (SF Bay / Delta), 2024-08-16",
+  "source": "ESA Copernicus, processed/hosted by Element 84 Earth Search (AWS sentinel-cogs)",
+  "landing": "https://registry.opendata.aws/sentinel-2-l2a-cogs/",
+  "licence": "Copernicus Sentinel data terms: free, full and open access (https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice)",
+  "attribution": "Contains modified Copernicus Sentinel data 2024, processed by ESA; COGs by Element 84",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "L2A BOA reflectance uint16, baseline N05.11 (offset -1000), B01-B12 (no B10), SCL, AOT; 10/20/60 m; cloud 0.003%",
+  "files": [
+   {
+    "name": "AOT.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/AOT.tif",
+    "bytes": 619613,
+    "role": "sidecar"
+   },
+   {
+    "name": "B02.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B02.tif",
+    "bytes": 222289828,
+    "role": "primary"
+   },
+   {
+    "name": "B01.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B01.tif",
+    "bytes": 5983976,
+    "role": "primary"
+   },
+   {
+    "name": "granule_metadata.xml",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/granule_metadata.xml",
+    "bytes": 626412,
+    "role": "metadata"
+   },
+   {
+    "name": "B03.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B03.tif",
+    "bytes": 224730960,
+    "role": "primary"
+   },
+   {
+    "name": "B08.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B08.tif",
+    "bytes": 238022373,
+    "role": "primary"
+   },
+   {
+    "name": "B8A.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B8A.tif",
+    "bytes": 60732783,
+    "role": "primary"
+   },
+   {
+    "name": "B09.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B09.tif",
+    "bytes": 6780710,
+    "role": "primary"
+   },
+   {
+    "name": "B04.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B04.tif",
+    "bytes": 232220516,
+    "role": "primary"
+   },
+   {
+    "name": "B05.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B05.tif",
+    "bytes": 60015288,
+    "role": "primary"
+   },
+   {
+    "name": "B06.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B06.tif",
+    "bytes": 59861356,
+    "role": "primary"
+   },
+   {
+    "name": "B07.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B07.tif",
+    "bytes": 60504068,
+    "role": "primary"
+   },
+   {
+    "name": "SCL.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/SCL.tif",
+    "bytes": 3854966,
+    "role": "sidecar"
+   },
+   {
+    "name": "B11.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B11.tif",
+    "bytes": 60470403,
+    "role": "primary"
+   },
+   {
+    "name": "B12.tif",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/B12.tif",
+    "bytes": 59353668,
+    "role": "primary"
+   },
+   {
+    "name": "thumbnail.jpg",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/thumbnail.jpg",
+    "bytes": 130875,
+    "role": "metadata"
+   },
+   {
+    "name": "tileinfo_metadata.json",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EH/2024/8/S2B_10SEH_20240816_0_L2A/tileinfo_metadata.json",
+    "bytes": 1491,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_10SEH_20240816_0_L2A.stac.json",
+    "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_10SEH_20240816_0_L2A",
+    "bytes": 21377,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Bucket sentinel-cogs is anonymous (not requester-pays). Omitted TCI.tif (352 MB) and WVP.tif (89 MB) to save space - add from the STAC item if wanted. granule_metadata.xml = original MTD_TL.xml (sun/view angle grids); tileinfo_metadata.json = tile info. The STAC item JSON is served by a dynamic API (byte size may differ slightly). The '-jp2' assets in the STAC item point to s3://sentinel-s2-l2a (requester-pays) - do not use.",
+  "feeds": [
+   "ingest",
+   "msi.radiometric",
+   "surface-reflectance",
+   "indices",
+   "cloud-mask",
+   "resample.multires"
+  ]
+ },
+ {
+  "id": "s2-l1c-jp2-safe-10seh-20240816",
+  "area": "sentinel2",
+  "title": "Sentinel-2B L1C full SAFE product in native JPEG2000, tile 10SEH, 2024-08-16",
+  "source": "ESA Copernicus, via Google Cloud Public Datasets (gcp-public-data-sentinel-2)",
+  "landing": "https://cloud.google.com/storage/docs/public-datasets/sentinel-2",
+  "licence": "Copernicus Sentinel data terms: free, full and open access (https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice)",
+  "attribution": "Contains modified Copernicus Sentinel data 2024",
+  "tier": "A",
+  "format": "JPEG2000 (SAFE)",
+  "profile": "L1C TOA reflectance, 13 bands B01-B12 incl. B10 cirrus, native .jp2 (OpenJPEG/Kakadu-encoded, 15-bit), TCI.jp2 8-bit RGB, MTD_MSIL1C.xml, MTD_TL.xml, MTD_DS.xml (20 MB datastrip incl. detector/geometry info), QI masks as JP2",
+  "files": [
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/MTD_DS.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/MTD_DS.xml",
+    "bytes": 20193172,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/FORMAT_CORRECTNESS.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/FORMAT_CORRECTNESS.xml",
+    "bytes": 23059,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/GENERAL_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/GENERAL_QUALITY.xml",
+    "bytes": 7782,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/GEOMETRIC_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/GEOMETRIC_QUALITY.xml",
+    "bytes": 8943,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/RADIOMETRIC_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/RADIOMETRIC_QUALITY.xml",
+    "bytes": 7131,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/SENSOR_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/DATASTRIP/DS_2BPS_20240816T222835_S20240816T185441/QI_DATA/SENSOR_QUALITY.xml",
+    "bytes": 4723,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/AUX_DATA/AUX_CAMSFO",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/AUX_DATA/AUX_CAMSFO",
+    "bytes": 2970,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/AUX_DATA/AUX_ECMWFT",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/AUX_DATA/AUX_ECMWFT",
+    "bytes": 1620,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B01.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B01.jp2",
+    "bytes": 3762823,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B02.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B02.jp2",
+    "bytes": 113763583,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B03.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B03.jp2",
+    "bytes": 118625400,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B04.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B04.jp2",
+    "bytes": 126976552,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B05.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B05.jp2",
+    "bytes": 33404961,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B06.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B06.jp2",
+    "bytes": 33720744,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B07.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B07.jp2",
+    "bytes": 33724670,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B08.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B08.jp2",
+    "bytes": 133046464,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B09.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B09.jp2",
+    "bytes": 3746088,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B10.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B10.jp2",
+    "bytes": 1555656,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B11.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B11.jp2",
+    "bytes": 33394644,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B12.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B12.jp2",
+    "bytes": 33002478,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B8A.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B8A.jp2",
+    "bytes": 33854855,
+    "role": "primary"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_TCI.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_TCI.jp2",
+    "bytes": 135089741,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/MTD_TL.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/MTD_TL.xml",
+    "bytes": 624483,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/FORMAT_CORRECTNESS.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/FORMAT_CORRECTNESS.xml",
+    "bytes": 28443,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/GENERAL_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/GENERAL_QUALITY.xml",
+    "bytes": 4277,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/GEOMETRIC_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/GEOMETRIC_QUALITY.xml",
+    "bytes": 5151,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_CLASSI_B00.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_CLASSI_B00.jp2",
+    "bytes": 7219,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B01.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B01.jp2",
+    "bytes": 15558,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B02.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B02.jp2",
+    "bytes": 66860,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B03.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B03.jp2",
+    "bytes": 66731,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B04.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B04.jp2",
+    "bytes": 67009,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B05.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B05.jp2",
+    "bytes": 27300,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B06.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B06.jp2",
+    "bytes": 27328,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B07.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B07.jp2",
+    "bytes": 27374,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B08.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B08.jp2",
+    "bytes": 66815,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B09.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B09.jp2",
+    "bytes": 15695,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B10.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B10.jp2",
+    "bytes": 15579,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B11.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B11.jp2",
+    "bytes": 27346,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B12.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B12.jp2",
+    "bytes": 27155,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B8A.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_DETFOO_B8A.jp2",
+    "bytes": 27395,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B01.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B01.jp2",
+    "bytes": 14764,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B02.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B02.jp2",
+    "bytes": 56818,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B03.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B03.jp2",
+    "bytes": 56802,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B04.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B04.jp2",
+    "bytes": 56822,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B05.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B05.jp2",
+    "bytes": 14031,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B06.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B06.jp2",
+    "bytes": 14056,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B07.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B07.jp2",
+    "bytes": 14063,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B08.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B08.jp2",
+    "bytes": 57091,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B09.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B09.jp2",
+    "bytes": 14764,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B10.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B10.jp2",
+    "bytes": 20624,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B11.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B11.jp2",
+    "bytes": 27454,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B12.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B12.jp2",
+    "bytes": 27866,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B8A.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/MSK_QUALIT_B8A.jp2",
+    "bytes": 14130,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/SENSOR_QUALITY.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/SENSOR_QUALITY.xml",
+    "bytes": 5239,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/T10SEH_20240816T184919_PVI.jp2",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/QI_DATA/T10SEH_20240816T184919_PVI.jp2",
+    "bytes": 167268,
+    "role": "sidecar"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/INSPIRE.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/INSPIRE.xml",
+    "bytes": 18655,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/MTD_MSIL1C.xml",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/MTD_MSIL1C.xml",
+    "bytes": 45795,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835-ql.jpg",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835-ql.jpg",
+    "bytes": 25397,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/manifest.safe",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/manifest.safe",
+    "bytes": 48693,
+    "role": "metadata"
+   },
+   {
+    "name": "S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/rep_info/S2_User_Product_Level-1C_Metadata.xsd",
+    "url": "https://storage.googleapis.com/gcp-public-data-sentinel-2/tiles/10/S/EH/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/rep_info/S2_User_Product_Level-1C_Metadata.xsd",
+    "bytes": 1139,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Anonymous source of real Sentinel-2 .jp2 found: Google Cloud public bucket (no login, no requester-pays). Keep the relative SAFE paths so GDAL's SENTINEL2 driver can open MTD_MSIL1C.xml. Same tile and date as the L2A COG item (L1C->L2A pair). AWS sentinel-s2-l1c is requester-pays (avoided); Copernicus Data Space (https://dataspace.copernicus.eu) is the tier-B alternative. B02/B03/B04/B08 are ~115-135 MB each.",
+  "feeds": [
+   "ingest",
+   "jpeg2000",
+   "msi.radiometric",
+   "toa-reflectance",
+   "sentinel2.safe",
+   "resample.multires"
+  ]
+ },
+ {
+  "id": "naip-ca-m3812157-sw-2022",
+  "area": "naip",
+  "title": "NAIP 2022 4-band (RGBN) quarter-quad m_3812157_sw (Suisun Bay / Vine Hill, CA)",
+  "source": "USDA Farm Service Agency, via Microsoft Planetary Computer (naip)",
+  "landing": "https://planetarycomputer.microsoft.com/dataset/naip",
+  "licence": "Public domain (USDA FSA NAIP imagery; https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/)",
+  "attribution": "NAIP imagery courtesy of USDA Farm Service Agency",
+  "tier": "A",
+  "format": "GeoTIFF/COG",
+  "profile": "0.6 m, 4-band RGB+NIR 8-bit, UTM 10N, acquired 2022-05-19",
+  "files": [
+   {
+    "name": "m_3812157_sw_10_060_20220519.tif",
+    "url": "https://naipeuwest.blob.core.windows.net/naip/v002/ca/2022/ca_060cm_2022/38121/m_3812157_sw_10_060_20220519.tif",
+    "bytes": 386578060,
+    "role": "primary"
+   },
+   {
+    "name": "m_3812157_sw_10_060_20220519.200.jpg",
+    "url": "https://naipeuwest.blob.core.windows.net/naip/v002/ca/2022/ca_060cm_2022/38121/m_3812157_sw_10_060_20220519.200.jpg",
+    "bytes": 8924,
+    "role": "metadata"
+   }
+  ],
+  "sign": "pc:naip",
+  "notes": "Unsigned URLs return 409; sign with https://planetarycomputer.microsoft.com/api/sas/v1/token/naip (verified 206). Same area as the US Topo Vine Hill / Honker Bay GeoPDFs, Landsat 44/34 and Sentinel-2 10SEH (overlay/co-registration tests). Older vintages of the same quarter-quad (2020, 2018, 2016 0.6 m; 2014/2012 1 m) are in the same collection for change tests.",
+  "feeds": [
+   "ingest",
+   "enhance",
+   "indices",
+   "display",
+   "co-registration"
+  ]
+ },
+ {
+  "id": "geopdf-ustopo-vinehill-honkerbay-current",
+  "area": "geopdf",
+  "title": "USGS US Topo 7.5' GeoPDFs: Vine Hill (2021) and Honker Bay (2022), CA - adjacent quads",
+  "source": "USGS The National Map",
+  "landing": "https://www.usgs.gov/programs/national-geospatial-program/us-topo-maps-america",
+  "licence": "Public domain (USGS; https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits)",
+  "attribution": "U.S. Geological Survey, The National Map - US Topo",
+  "tier": "A",
+  "format": "GeoPDF (ISO 32000 geospatial PDF, layered)",
+  "profile": "1:24,000, layered (OCG) vector + orthoimage + shaded relief, embedded georeferencing (Measure/LGIDict)",
+  "files": [
+   {
+    "name": "CA_Vine_Hill_20211231_TM_geo.pdf",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Vine_Hill_20211231_TM_geo.pdf",
+    "bytes": 31890701,
+    "role": "primary"
+   },
+   {
+    "name": "CA_Honker_Bay_20220107_TM_geo.pdf",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Honker_Bay_20220107_TM_geo.pdf",
+    "bytes": 34060592,
+    "role": "primary"
+   },
+   {
+    "name": "CA_Vine_Hill_20211231_TM_tn.jpg",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Vine_Hill_20211231_TM_tn.jpg",
+    "bytes": 74718,
+    "role": "metadata"
+   },
+   {
+    "name": "CA_Honker_Bay_20220107_TM_tn.jpg",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Honker_Bay_20220107_TM_tn.jpg",
+    "bytes": 75142,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Adjacent quads for mosaic/edge-match tests; overlaps the NAIP, Landsat and Sentinel-2 items.",
+  "feeds": [
+   "ingest",
+   "geopdf",
+   "vector.layers",
+   "display",
+   "mosaic"
+  ]
+ },
+ {
+  "id": "geopdf-ustopo-vinehill-2012",
+  "area": "geopdf",
+  "title": "USGS US Topo GeoPDF Vine Hill, CA - 2012 edition (older generation)",
+  "source": "USGS The National Map",
+  "landing": "https://www.usgs.gov/programs/national-geospatial-program/us-topo-maps-america",
+  "licence": "Public domain (USGS)",
+  "attribution": "U.S. Geological Survey, The National Map - US Topo",
+  "tier": "A",
+  "format": "GeoPDF",
+  "profile": "2012-generation US Topo (TerraGo-era GeoPDF encoding)",
+  "files": [
+   {
+    "name": "CA_Vine_Hill_20120213_TM_geo.pdf",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Vine_Hill_20120213_TM_geo.pdf",
+    "bytes": 14463207,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Same quad as the 2021 edition but from an older production line - exercises a different geospatial-PDF encoding variant.",
+  "feeds": [
+   "ingest",
+   "geopdf",
+   "robustness"
+  ]
+ },
+ {
+  "id": "robustness-gdal-autotest-seeds",
+  "area": "robustness",
+  "title": "GDAL autotest malformed / edge-case seeds (NITF, DTED, GeoTIFF)",
+  "source": "OSGeo / GDAL autotest (GitHub)",
+  "landing": "https://github.com/OSGeo/gdal/tree/master/autotest",
+  "licence": "GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/master/LICENSE.TXT); test files are redistributable as part of GDAL autotest",
+  "attribution": "GDAL/OGR contributors, OSGeo",
+  "tier": "A",
+  "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+  "profile": "truncated, out-of-bounds TRE, invalid UDID, OSS-Fuzz repro, SICD, bad CRC, inverted coords, partial/sparse DTED columns, corrupted deflate/zstd/LZW, huge strip counts, bad tile offsets",
+  "files": [
+   {
+    "name": "nitf/i_3034f.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/i_3034f.ntf",
+    "bytes": 948,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/i_6130a_truncated.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/i_6130a_truncated.ntf",
+    "bytes": 6890,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/image_tre_oob.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/image_tre_oob.ntf",
+    "bytes": 2027,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/invalid_udid.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/invalid_udid.ntf",
+    "bytes": 2027,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/valid_udid.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/valid_udid.ntf",
+    "bytes": 2027,
+    "role": "truth"
+   },
+   {
+    "name": "nitf/ns3034d.nsf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/ns3034d.nsf",
+    "bytes": 937,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/oss_fuzz_1525.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/oss_fuzz_1525.ntf",
+    "bytes": 532,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/sar_sicd.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/sar_sicd.ntf",
+    "bytes": 7955,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/test_jp2_ecw33.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/test_jp2_ecw33.ntf",
+    "bytes": 2525,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/rgb.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/rgb.ntf",
+    "bytes": 8432,
+    "role": "primary"
+   },
+   {
+    "name": "dted/n43_bad_crc.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_bad_crc.dt0",
+    "bytes": 34162,
+    "role": "primary"
+   },
+   {
+    "name": "dted/n43_coord_inverted.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_coord_inverted.dt0",
+    "bytes": 3428,
+    "role": "primary"
+   },
+   {
+    "name": "dted/n43_partial_cols.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_partial_cols.dt0",
+    "bytes": 3936,
+    "role": "primary"
+   },
+   {
+    "name": "dted/n43_sparse_cols.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_sparse_cols.dt0",
+    "bytes": 3936,
+    "role": "primary"
+   },
+   {
+    "name": "dted/n43_wgs72.dt0",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/n43_wgs72.dt0",
+    "bytes": 34162,
+    "role": "primary"
+   },
+   {
+    "name": "dted/w118n033_trunc.dt1",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dted/w118n033_trunc.dt1",
+    "bytes": 3428,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/6band_wrong_number_extrasamples.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/6band_wrong_number_extrasamples.tif",
+    "bytes": 2804,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/bug4468.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bug4468.tif",
+    "bytes": 1068,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/bug_gh_1439_to_be_updated_lzw.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bug_gh_1439_to_be_updated_lzw.tif",
+    "bytes": 8511,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/bug_gh_1439_update_lzw.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bug_gh_1439_update_lzw.tif",
+    "bytes": 9755,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/byte_bigtiff_invalid_slong8_for_stripoffsets.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/byte_bigtiff_invalid_slong8_for_stripoffsets.tif",
+    "bytes": 896,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/byte_buggy_packbits.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/byte_buggy_packbits.tif",
+    "bytes": 937,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/byte_truncated.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/byte_truncated.tif",
+    "bytes": 374,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/byte_zstd_corrupted.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/byte_zstd_corrupted.tif",
+    "bytes": 576,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/byte_zstd_corrupted2.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/byte_zstd_corrupted2.tif",
+    "bytes": 576,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/corrupted_deflate_singlestrip.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/corrupted_deflate_singlestrip.tif",
+    "bytes": 10242,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/corrupted_gtiff_tags.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/corrupted_gtiff_tags.tif",
+    "bytes": 405,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/corrupted_z_buf_error.gz",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/corrupted_z_buf_error.gz",
+    "bytes": 867,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/huge-implied-number-strips.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/huge-implied-number-strips.tif",
+    "bytes": 128,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/huge-number-strips.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/huge-number-strips.tif",
+    "bytes": 192,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/huge4GB.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/huge4GB.tif",
+    "bytes": 401,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/hugeblocksize.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/hugeblocksize.tif",
+    "bytes": 158,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/many_blocks_truncated.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/many_blocks_truncated.tif",
+    "bytes": 167,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/spaf27_brokengdal.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/spaf27_brokengdal.tif",
+    "bytes": 928,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/tif_webp_huge_single_strip.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/tif_webp_huge_single_strip.tif",
+    "bytes": 850,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/tiled_bad_offset.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/tiled_bad_offset.tif",
+    "bytes": 170,
+    "role": "primary"
+   },
+   {
+    "name": "gtiff/zackthecat_corrupted.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/zackthecat_corrupted.tif",
+    "bytes": 8258,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to branch 'master'; for reproducibility the downloader may substitute a release tag (e.g. v3.10.0) in the raw URL. valid_udid.ntf is the well-formed counterpart of invalid_udid.ntf. huge4GB.tif / huge-number-strips.tif declare enormous sizes in a tiny file - readers must not allocate eagerly. Already-held autotest files (SENSRB_TRE, fake_nsif, two_images_*, rset.ntf.r*, ns3114a, i_3034c) excluded.",
+  "feeds": [
+   "robustness",
+   "fuzz-seed",
+   "ingest",
+   "error-handling"
+  ]
+ }
+]

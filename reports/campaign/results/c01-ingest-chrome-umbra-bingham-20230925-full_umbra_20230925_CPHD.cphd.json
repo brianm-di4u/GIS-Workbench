@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:07.733Z",
+ "key": "umbra-bingham-20230925-full/umbra_20230925_CPHD.cphd",
+ "item": "umbra-bingham-20230925-full",
+ "file": "umbra_20230925_CPHD.cphd",
+ "format": "SICD1.2.1/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF (GEC) | CPHD1.1.0",
+ "rendered": false,
+ "errors": [
+  "CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: umbra_20230925_CPHD.cphd: CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 65,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

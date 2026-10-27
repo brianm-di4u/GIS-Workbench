@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:30:04.578Z",
+ "key": "vector-gpx-csv-wkt-gdal/curves_line.csv",
+ "item": "vector-gpx-csv-wkt-gdal",
+ "file": "curves_line.csv",
+ "format": "GPX / CSV (WKT)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: curves_line: 5 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 5,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 54,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

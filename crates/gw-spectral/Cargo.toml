@@ -1,0 +1,10 @@
+[package]
+name = "gw-spectral"
+description = "GIS Workbench spectral processing: statistics, classification, accuracy, detection, PCA/MNF, corrections"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true

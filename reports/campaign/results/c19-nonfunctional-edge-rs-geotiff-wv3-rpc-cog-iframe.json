@@ -1,0 +1,11 @@
+{
+ "spec": "c19-nonfunctional",
+ "project": "edge",
+ "when": "2026-10-27T14:48:32.211Z",
+ "key": "rs-geotiff-wv3-rpc-cog-iframe",
+ "mode": "iframe",
+ "errors": [],
+ "ok": true,
+ "logs": [],
+ "requests": []
+}

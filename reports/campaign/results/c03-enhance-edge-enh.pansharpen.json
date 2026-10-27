@@ -1,0 +1,26 @@
+{
+ "spec": "c03-enhance",
+ "project": "edge",
+ "when": "2026-10-27T15:41:03.874Z",
+ "key": "enh.pansharpen",
+ "id": "enh.pansharpen",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Pan Sharpen"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "eo-spacenet-vegas-wv3-pan-ms-r1c1/15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF",
+  "eo-spacenet-vegas-wv3-pan-ms-r1c1/15OCT22183656-P2AS_R1C1-055649178030_01_P001.XML",
+  "eo-spacenet-vegas-wv3-pan-ms-r1c1/15OCT22183656-M2AS_R1C1-055649178030_01_P001.TIF",
+  "eo-spacenet-vegas-wv3-pan-ms-r1c1/15OCT22183656-M2AS_R1C1-055649178030_01_P001.XML"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

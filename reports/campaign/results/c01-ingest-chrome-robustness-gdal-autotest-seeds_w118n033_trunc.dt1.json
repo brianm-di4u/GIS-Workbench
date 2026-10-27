@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:27.992Z",
+ "key": "robustness-gdal-autotest-seeds/w118n033_trunc.dt1",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "w118n033_trunc.dt1",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": false,
+ "errors": [
+  "need 2700 bytes at offset 728, have 3348"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: w118n033_trunc.dt1: need 2700 bytes at offset 728, have 3348"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 96,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:30.255Z",
+ "key": "robustness-gdal-autotest-seeds/byte_zstd_corrupted.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "byte_zstd_corrupted.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened byte_zstd_corrupted.tif in 37 ms",
+  "toast-error: byte_zstd_corrupted.tif cannot be displayed: a compressed TIFF block is corrupt"
+ ],
+ "layers": [
+  {
+   "error": "a compressed TIFF block is corrupt",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 386,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

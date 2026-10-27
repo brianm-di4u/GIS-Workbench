@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:59.262Z",
+ "key": "fmv-impleotv-damaged-corpus/klv-corrupt-key.ts",
+ "item": "fmv-impleotv-damaged-corpus",
+ "file": "klv-corrupt-key.ts",
+ "format": "MPEG-TS/KLV (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened klv-corrupt-key.ts: 298 frames, 288 KLV packets (0 bad) in 278 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 394,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

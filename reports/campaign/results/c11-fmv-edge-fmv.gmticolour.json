@@ -1,0 +1,21 @@
+{
+ "spec": "c11-fmv",
+ "project": "edge",
+ "when": "2026-10-27T15:45:13.909Z",
+ "key": "fmv.gmticolour",
+ "id": "fmv.gmticolour",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fx11/fx11.4607"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

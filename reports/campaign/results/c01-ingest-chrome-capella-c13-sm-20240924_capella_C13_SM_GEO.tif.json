@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:14.611Z",
+ "key": "capella-c13-sm-20240924/capella_C13_SM_GEO.tif",
+ "item": "capella-c13-sm-20240924",
+ "file": "capella_C13_SM_GEO.tif",
+ "format": "SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF SLC + extended JSON | GeoTIFF/COG GEO | CPHD1.1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened capella_C13_SM_GEO.tif in 35 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 8495,
+   "h": 8539,
+   "bands": 1,
+   "model": "Map (EPSG:32737)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 362,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

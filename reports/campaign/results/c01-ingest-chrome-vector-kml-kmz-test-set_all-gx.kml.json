@@ -1,0 +1,35 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:30:01.406Z",
+ "key": "vector-kml-kmz-test-set/all-gx.kml",
+ "item": "vector-kml-kmz-test-set",
+ "file": "all-gx.kml",
+ "format": "KML / KMZ",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "placemark \"1\" has no supported geometry (tracks and models are not read)",
+  "placemark \"4\" has no supported geometry (tracks and models are not read)",
+  "placemark \"5\" has no supported geometry (tracks and models are not read)",
+  "placemark \"6\" has no supported geometry (tracks and models are not read)",
+  "placemark \"7\" has no supported geometry (tracks and models are not read)",
+  "2 placemark(s) are clamped or relative to the ground; their heights were set to 0 m HAE (drop them to the terrain to fix)"
+ ],
+ "toasts": [
+  "toast-info: all-gx: 2 feature(s) from KML (6 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 67,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:39.624Z",
+ "key": "vector-gpx-csv-wkt-gdal/wkt.csv",
+ "item": "vector-gpx-csv-wkt-gdal",
+ "file": "wkt.csv",
+ "format": "GPX / CSV (WKT)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: wkt: 3 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 3,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 41,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

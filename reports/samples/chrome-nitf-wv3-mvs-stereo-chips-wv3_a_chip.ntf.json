@@ -1,0 +1,21 @@
+{
+ "browser": "chrome",
+ "sample": "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 1536,
+   "h": 1536,
+   "bands": 1,
+   "model": "RPC00B",
+   "kind": "image"
+  }
+ ],
+ "ms": 290
+}

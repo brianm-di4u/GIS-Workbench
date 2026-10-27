@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:06.172Z",
+ "key": "vector-tiger-2024-colorado/tl_2024_08_prisecroads.zip",
+ "item": "vector-tiger-2024-colorado",
+ "file": "tl_2024_08_prisecroads.zip",
+ "format": "Shapefile (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: tl_2024_08_prisecroads: 2944 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2944,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 505,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

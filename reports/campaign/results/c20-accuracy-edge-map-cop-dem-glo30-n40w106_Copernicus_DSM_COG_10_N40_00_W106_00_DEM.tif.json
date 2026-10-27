@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "edge",
+ "when": "2026-10-27T14:46:05.877Z",
+ "key": "map-cop-dem-glo30-n40w106/Copernicus_DSM_COG_10_N40_00_W106_00_DEM.tif",
+ "kind": "map",
+ "model": "Map (EPSG:4326)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 2.3513393566263256,
+ "gsd": 23.513393566263257,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

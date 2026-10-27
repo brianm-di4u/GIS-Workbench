@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "edge",
+ "when": "2026-10-27T14:46:09.594Z",
+ "key": "map-aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_e_sc01_ort_img",
+ "kind": "map",
+ "model": "Map (EPSG:32610)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 1.4960463861862084e-9,
+ "tolM": 1.4879808953945743,
+ "gsd": 14.879808953945743,
+ "errs": [
+  0,
+  1.4944788055193653e-9,
+  0,
+  7.909725553167388e-10,
+  1.4960463861862084e-9
+ ]
+}

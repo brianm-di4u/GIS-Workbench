@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:36:05.467Z",
+ "key": "3d-gltf-sample-assets/BoomBox.glb",
+ "item": "3d-gltf-sample-assets",
+ "file": "BoomBox.glb",
+ "format": "glTF 2.0 / GLB",
+ "rendered": false,
+ "errors": [],
+ "warnings": [
+  "placed by its centre"
+ ],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120246,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,27 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-27T15:36:06.084Z",
+ "key": "sar.subap",
+ "id": "sar.subap",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fx07/fx07_a.nitf",
+  "fx07/fx07_b.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

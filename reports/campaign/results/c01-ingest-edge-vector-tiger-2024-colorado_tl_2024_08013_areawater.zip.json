@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:16.639Z",
+ "key": "vector-tiger-2024-colorado/tl_2024_08013_areawater.zip",
+ "item": "vector-tiger-2024-colorado",
+ "file": "tl_2024_08013_areawater.zip",
+ "format": "Shapefile (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: tl_2024_08013_areawater: 1326 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1326,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 146,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

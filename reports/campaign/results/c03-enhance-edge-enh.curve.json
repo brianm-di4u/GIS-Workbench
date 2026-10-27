@@ -1,0 +1,23 @@
+{
+ "spec": "c03-enhance",
+ "project": "edge",
+ "when": "2026-10-27T15:39:36.430Z",
+ "key": "enh.curve",
+ "id": "enh.curve",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Tonal Curve"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

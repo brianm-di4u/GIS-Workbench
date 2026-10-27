@@ -1,0 +1,21 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-27T15:39:22.588Z",
+ "key": "fmv.gmticolour",
+ "id": "fmv.gmticolour",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fx11/fx11.4607"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

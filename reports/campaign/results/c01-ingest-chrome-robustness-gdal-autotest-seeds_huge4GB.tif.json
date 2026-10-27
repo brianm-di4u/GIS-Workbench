@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:32.039Z",
+ "key": "robustness-gdal-autotest-seeds/huge4GB.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "huge4GB.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened huge4GB.tif in 33 ms",
+  "toast-error: huge4GB.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
+ ],
+ "layers": [
+  {
+   "error": "the TIFF is truncated or damaged: a tag or block points outside the file",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 65535,
+   "h": 65535,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 366,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

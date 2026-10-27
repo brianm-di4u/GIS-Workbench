@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:30:05.120Z",
+ "key": "vector-gpx-csv-wkt-gdal/testcsvt.csv",
+ "item": "vector-gpx-csv-wkt-gdal",
+ "file": "testcsvt.csv",
+ "format": "GPX / CSV (WKT)",
+ "rendered": false,
+ "errors": [
+  "no WKT column and no longitude/latitude columns"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: testcsvt.csv: no WKT column and no longitude/latitude columns"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 64,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

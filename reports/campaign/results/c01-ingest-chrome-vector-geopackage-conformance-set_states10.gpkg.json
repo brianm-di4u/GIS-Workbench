@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:54.941Z",
+ "key": "vector-geopackage-conformance-set/states10.gpkg",
+ "item": "vector-geopackage-conformance-set",
+ "file": "states10.gpkg",
+ "format": "GeoPackage",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "statesQGIS: no Z (z = 0); heights set to 0",
+  "states10.gpkg: tile tables not read (no such table: gpkg_tile_matrix_set)"
+ ],
+ "toasts": [
+  "toast-info: statesQGIS: 51 feature(s) from GeoPackage (2 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 51,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 139,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

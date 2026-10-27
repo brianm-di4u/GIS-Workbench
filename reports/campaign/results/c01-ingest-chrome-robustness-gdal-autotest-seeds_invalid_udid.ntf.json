@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:25.078Z",
+ "key": "robustness-gdal-autotest-seeds/invalid_udid.ntf",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "invalid_udid.ntf",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": false,
+ "errors": [
+  "image segment 1: field UDOFL is not a number: \"Thi\""
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: invalid_udid.ntf: image segment 1: field UDOFL is not a number: \"Thi\""
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 109,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

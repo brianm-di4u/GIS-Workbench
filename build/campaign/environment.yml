@@ -1,0 +1,35 @@
+# T&E campaign oracle environment (independent open-source references; never shipped).
+#   ../TE-tools/micromamba.exe create -f build/campaign/environment.yml   (MAMBA_ROOT_PREFIX=../TE-tools/mamba)
+#   ../TE-tools/micromamba.exe run -n gw-te python -I build/campaign/oracles/<area>.py <TE-corpus>
+name: gw-te
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - gdal>=3.9          # gdalinfo, gdal_viewshed (S-15), ogr, NITF/GeoTIFF/DTED/GPKG reference
+  - libgdal-jp2openjpeg
+  - libgdal-hdf5
+  - libgdal-netcdf
+  - libgdal-pdf        # GeoPDF (US Topo) reference
+  - pdal               # SMRF ground filter, LAS/LAZ/COPC reference
+  - python-pdal
+  - rasterio
+  - pyproj
+  - geographiclib
+  - numpy
+  - scipy
+  - scikit-learn       # overall accuracy / kappa
+  - h5py
+  - netcdf4
+  - ffmpeg             # ffprobe for MPEG-TS stream tables
+  - python-pptx
+  - python-docx
+  - pypdf
+  - lxml
+  - openjdk=17         # OGC GeoPackage ETS (TEAM Engine) and veraPDF, when used
+  - pip
+  - pip:
+      - sarpy          # NGA SICD/SIDD/CPHD reference
+      - sarkit         # NGA SICD projections (AT-12.x oracle)
+      - laspy[lazrs]
+      - klvdata        # MISB ST 0601 decoding

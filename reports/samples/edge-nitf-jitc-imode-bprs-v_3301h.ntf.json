@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-jitc-imode-bprs/v_3301h.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 216,
+   "h": 216,
+   "bands": 3,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 174
+}

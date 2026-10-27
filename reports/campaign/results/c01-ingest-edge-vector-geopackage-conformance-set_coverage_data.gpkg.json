@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:34.934Z",
+ "key": "vector-geopackage-conformance-set/coverage_data.gpkg",
+ "item": "vector-geopackage-conformance-set",
+ "file": "coverage_data.gpkg",
+ "format": "GeoPackage",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "DSM_N6130W14900_3857_clip.tif: gridded coverage zoom 0 (integer, 15 tile(s)) opened as coverage_data_dsm_n6130w14900_3857_clip_tif_tiles_z0.tif, 1280×768"
+ ],
+ "toasts": [
+  "toast-info: Opened coverage_data_dsm_n6130w14900_3857_clip_tif_tiles_z0.tif in 31 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 1280,
+   "h": 768,
+   "bands": 1,
+   "model": "Map (EPSG:3857)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 696,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

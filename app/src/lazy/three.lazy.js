@@ -1,0 +1,8 @@
+// Lazy three.js block for the 3D pane (D18, REQ-LDR-04, REQ-STR-11): only the classes the point
+// cloud and terrain views use, run on demand from a verified inline block (boot runScript).
+
+import { WebGLRenderer, Scene, PerspectiveCamera, OrthographicCamera, BufferGeometry, BufferAttribute, InterleavedBufferAttribute, Points, Mesh, LineSegments, Line, LineLoop, ShaderMaterial, RawShaderMaterial, MeshBasicMaterial, LineBasicMaterial, WebGLRenderTarget, DepthTexture, PlaneGeometry, Vector2, Vector3, Vector4, Matrix4, Color, Frustum, Box3, Sphere, Raycaster, Group, Object3D, DataTexture, Texture, FloatType, UnsignedIntType, UnsignedShortType, UnsignedByteType, RGBAFormat, RedFormat, NearestFilter, LinearFilter, DoubleSide, NoBlending, GLSL3, MeshLambertMaterial, AmbientLight, DirectionalLight, SRGBColorSpace, Quaternion, Euler , LoadingManager } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+(globalThis.__lib ??= {})['js-three'] = { WebGLRenderer, Scene, PerspectiveCamera, OrthographicCamera, BufferGeometry, BufferAttribute, InterleavedBufferAttribute, Points, Mesh, LineSegments, Line, LineLoop, ShaderMaterial, RawShaderMaterial, MeshBasicMaterial, LineBasicMaterial, WebGLRenderTarget, DepthTexture, PlaneGeometry, Vector2, Vector3, Vector4, Matrix4, Color, Frustum, Box3, Sphere, Raycaster, Group, Object3D, DataTexture, Texture, FloatType, UnsignedIntType, UnsignedShortType, UnsignedByteType, RGBAFormat, RedFormat, NearestFilter, LinearFilter, DoubleSide, NoBlending, GLSL3, OrbitControls, GLTFLoader, MeshLambertMaterial, AmbientLight, DirectionalLight, SRGBColorSpace, Quaternion, Euler, LoadingManager };

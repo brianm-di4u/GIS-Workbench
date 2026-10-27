@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-jitc-masked-nm/v_3301c.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 768,
+   "h": 768,
+   "bands": 3,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 365
+}

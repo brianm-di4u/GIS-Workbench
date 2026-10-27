@@ -1,0 +1,46 @@
+/* Panes are transparent DOM rectangles over the WebGL canvas (D3). */
+.pane { position: relative; background: transparent; overflow: hidden; outline: none; min-width: 0; min-height: 0; cursor: crosshair; }
+.pane.grabbing { cursor: grabbing; }
+.pane.active { box-shadow: inset 0 0 0 2px var(--c-gfx-activePanel); }
+.pane.drop { box-shadow: inset 0 0 0 3px #4da3ff; }
+.pane:focus-visible { box-shadow: inset 0 0 0 2px var(--c-focus-ring); }
+.pane-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.pane-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; outline: none; cursor: grab; touch-action: none; }
+.banner { position: absolute; left: 50%; transform: translateX(-50%); padding: 1px 14px; color: #fff; font: bold 12px/16px Arial, sans-serif; letter-spacing: .04em; pointer-events: none; white-space: nowrap; max-width: 96%; overflow: hidden; text-overflow: ellipsis; z-index: 2; }
+.banner-top { top: 0; }
+.banner-bottom { bottom: 0; }
+.pane-label { position: absolute; left: 50px; top: 20px; color: #fff; font: var(--fs-onImageLabel) Arial, sans-serif; text-shadow: 0 0 3px #000, 0 0 2px #000; pointer-events: none; white-space: nowrap; max-width: calc(100% - 60px); overflow: hidden; text-overflow: ellipsis; }
+.pane-status { position: absolute; right: 8px; top: 20px; color: #ddd; font-size: 11px; pointer-events: none; }
+body[data-tool^="draw"] .pane, body[data-tool^="men"] .pane { cursor: crosshair; }
+body[data-tool="recenter"] .pane { cursor: cell; }
+
+/* Overview dock and panel-in-panel (REQ-IMG-14) */
+.minipane { position: relative; overflow: hidden; cursor: crosshair; }
+.minipane-dock { width: 100%; height: 100%; min-height: 160px; }
+.minipane-pip { position: absolute; left: 8px; bottom: 34px; width: var(--s-pipOverview); height: var(--s-pipOverview); border: 1px solid #ffff00; z-index: 3; }
+.order-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.panel-tabs { display: flex; gap: 1px; background: var(--c-dock-body); }
+.panel-tab { min-height: var(--s-targetMin); border: 0; padding: 0 12px; background: var(--c-dock-tabInactive); color: #000; font-size: var(--fs-sm); }
+.panel-tab.active { background: var(--c-dock-tabActive); font-weight: 600; }
+.pane.no-label .pane-label { display: none; }
+.map-notice { position: absolute; left: 8px; right: 8px; top: 8px; background: rgba(0,0,0,0.75); color: #fff; padding: 4px 8px; font-size: var(--fs-sm); pointer-events: none; }
+.map-attribution { position: absolute; right: 4px; bottom: 2px; color: #fff; font-size: 10px; text-shadow: 0 0 2px #000; pointer-events: none; }
+
+/* Video panel (REQ-FMV-05, 08): stage + DVR bar; banners stay above it. */
+.video-view { position: absolute; inset: 16px 0 16px 0; display: flex; flex-direction: column; background: #000; z-index: 1; cursor: default; outline: none; }
+.video-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.video-el, .video-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.video-still { display: block; }
+.video-still[hidden] { display: none; }
+.video-hud { position: absolute; inset: 0; width: 100%; height: 100%; }
+.video-msg { position: absolute; left: 12px; right: 12px; top: 40%; color: #ffb000; font: 13px/1.4 sans-serif; text-align: center; }
+.dvr { display: flex; align-items: center; gap: 4px; padding: 2px 6px; background: #151515; color: #eee; font-size: 12px; }
+.dvr-btn { min-width: 28px; height: 24px; border: 1px solid #444; background: #262626; color: #eee; border-radius: 2px; cursor: pointer; }
+.dvr-btn.on { background: #2a5d9f; }
+.dvr-rate { height: 24px; background: #262626; color: #eee; border: 1px solid #444; }
+.video-slider { flex: 1; min-width: 60px; }
+.video-time { font-family: monospace; white-space: nowrap; }
+.klv-scroll { max-height: 55vh; overflow: auto; }
+.klv-table tr.changed td { background: rgba(255, 210, 0, 0.18); }
+.klv-table tr.unknown td { color: #c07000; }
+.klv-table td.mono { font-family: monospace; font-size: 11px; word-break: break-all; }

@@ -1,0 +1,21 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-27T15:33:30.309Z",
+ "key": "input.devices",
+ "id": "input.devices",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Input Devices"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,31 @@
+{
+ "spec": "c10-lidar",
+ "project": "edge",
+ "when": "2026-10-27T15:43:02.425Z",
+ "key": "pc.ndsm",
+ "id": "pc.ndsm",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Generate nDSM"
+ ],
+ "toasts": [
+  "toast-info: nDSM 361 × 161 posts opened as autzen_trim_nDSM.tif"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

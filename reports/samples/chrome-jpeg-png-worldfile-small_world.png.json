@@ -1,0 +1,21 @@
+{
+ "browser": "chrome",
+ "sample": "jpeg-png-worldfile/small_world.png",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "png",
+   "w": 400,
+   "h": 200,
+   "bands": 3,
+   "model": "World file (EPSG:4326)",
+   "kind": "image"
+  }
+ ],
+ "ms": 159
+}

@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-ntb-j2k-p0_01/p0_01a.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 128,
+   "h": 128,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 142
+}

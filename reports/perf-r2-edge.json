@@ -1,0 +1,40 @@
+{
+ "measured": "2026-10-27T15:25:54.282Z",
+ "anaglyph2k": {
+  "fps": 59.91611743582793,
+  "viewport": [
+   2560,
+   1440
+  ],
+  "paneCss": [
+   1896,
+   1230
+  ],
+  "dpr": 1,
+  "frameMs": 1.624427168606024,
+  "mode": 0
+ },
+ "dsm4k": {
+  "ms": 29526.5,
+  "size": [
+   4096,
+   4096
+  ],
+  "grid": [
+   2407,
+   2500
+  ],
+  "tiles": 25,
+  "matched": 0.9663204552817531,
+  "workers": 6,
+  "webgpu": true,
+  "matcher": "worker",
+  "gpu": {
+   "ms": 9344.100000023842,
+   "matched": 0.9656248777009783,
+   "matcher": "webgpu",
+   "medianDiff": 0,
+   "p95Diff": 0.00677490234375
+  }
+ }
+}

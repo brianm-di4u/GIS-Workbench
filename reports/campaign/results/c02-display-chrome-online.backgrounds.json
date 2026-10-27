@@ -1,0 +1,21 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-27T15:33:24.986Z",
+ "key": "online.backgrounds",
+ "id": "online.backgrounds",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Map Backgrounds"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

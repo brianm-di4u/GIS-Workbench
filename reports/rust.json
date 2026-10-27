@@ -1,0 +1,226 @@
+{
+ "measured": "2026-10-27T15:32:47.624Z",
+ "crates": 25,
+ "files": {
+  "crates/bundles/core/src/lib.rs": {
+   "passed": 3,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/j2k/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/parse/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/photo/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/pointcloud/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/raster/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/sar/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/spectral/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/terrain/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/bundles/vector/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-abi/src/lib.rs": {
+   "passed": 5,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-adjust/src/lib.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-adjust/tests/fx04.rs": {
+   "passed": 4,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-codec/src/lib.rs": {
+   "passed": 3,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-codec/tests/htj2k.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-codec/tests/samples.rs": {
+   "passed": 3,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-codec/tests/te_t4.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-extract/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-extract/tests/square.rs": {
+   "passed": 6,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-fuzz/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-fuzz/tests/fuzz.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-geodesy/src/lib.rs": {
+   "passed": 37,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-match/src/lib.rs": {
+   "passed": 5,
+   "failed": 0,
+   "ignored": 1
+  },
+  "crates/gw-parse/src/lib.rs": {
+   "passed": 31,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-parse/tests/fmv.rs": {
+   "passed": 3,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-parse/tests/samples.rs": {
+   "passed": 2,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-parse/tests/te_geopdf.rs": {
+   "passed": 2,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-pointcloud/src/lib.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-pointcloud/tests/fx09.rs": {
+   "passed": 3,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-pointcloud/tests/te_las.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-pointcloud/tests/te_laz_stream.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-raster/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-raster/tests/ortho.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 1
+  },
+  "crates/gw-sar/src/lib.rs": {
+   "passed": 8,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-sensor/src/lib.rs": {
+   "passed": 14,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-sensor/tests/frame_rsm.rs": {
+   "passed": 3,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-sensor/tests/klv_frame.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-sensor/tests/sicd_oracle.rs": {
+   "passed": 9,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-spectral/src/lib.rs": {
+   "passed": 7,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-terrain/src/lib.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-terrain/tests/buildings.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-terrain/tests/viewshed.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-vector/src/lib.rs": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0
+  },
+  "crates/gw-vector/tests/validate.rs": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0
+  }
+ }
+}

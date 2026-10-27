@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:28.563Z",
+ "key": "vector-natural-earth-10m-shp/ne_10m_roads.zip",
+ "item": "vector-natural-earth-10m-shp",
+ "file": "ne_10m_roads.zip",
+ "format": "Shapefile (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_10m_roads: 56600 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 56600,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3465,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

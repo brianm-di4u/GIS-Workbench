@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:35:41.812Z",
+ "key": "landsat8-c2-l2sp-044034-20240820/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B1.TIF",
+ "item": "landsat8-c2-l2sp-044034-20240820",
+ "file": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B1.TIF",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened LC08_L2SP_044034_20240820_20240830_02_T1_SR_B1.TIF in 39 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 7671,
+   "h": 7811,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 355,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

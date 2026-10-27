@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:54.869Z",
+ "key": "rs-vector-fx12-synthetic/fx12_shapefiles.zip",
+ "item": "rs-vector-fx12-synthetic",
+ "file": "fx12_shapefiles.zip",
+ "format": "GeoJSON/GPKG/KML/KMZ/SHP (synthetic)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: fx12_lines: 3 feature(s) from ESRI Shapefile",
+  "toast-info: fx12_points: 8 feature(s) from ESRI Shapefile",
+  "toast-info: fx12_polygons: 2 feature(s) from ESRI Shapefile",
+  "toast-info: fx12_polygonz: 1 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 4,
+  "features": 14,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 55,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

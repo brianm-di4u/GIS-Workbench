@@ -1,0 +1,9 @@
+{
+ "spec": "c18-live",
+ "project": "chrome",
+ "when": "2026-10-27T15:08:38.843Z",
+ "key": "live-tnm-usgstopo-rest-reach",
+ "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer?f=json",
+ "status": 200,
+ "cors": "*"
+}

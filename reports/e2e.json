@@ -1,0 +1,940 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "platform.spec.js"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\e2e",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "edge",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\e2e",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "msedge"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "edge"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/e2e.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "platform.spec.js",
+      "file": "platform.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over file with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1448,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:55.537Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-e0b41061c6106ef61d53",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over http with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 648,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:57.293Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-6891a944bbf3d6af5a4d",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over iframe with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 871,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:57.954Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-44967c5b8bea02fdafac",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over srcdoc with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1204,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:58.843Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-605179e8684ee548a074",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-02 REQ-SEC-01 REQ-SEC-12 REQ-AI-05 no request leaves unless the origin was added; every request is logged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 434,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:00.056Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-e095c25df8efbf6b5877",
+          "file": "platform.spec.js",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "PT-03 REQ-ARC-02 REQ-RUST-01 a tampered block is refused",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 489,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:00.500Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-9138f0f22426b46ebbcc",
+          "file": "platform.spec.js",
+          "line": 59,
+          "column": 1
+        },
+        {
+          "title": "PT-05 REQ-ARC-05 REQ-RUST-04 the worker pool runs, cancels, times out and recovers from a WASM trap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2121,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:01.005Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-f6007ced5e20af9780fe",
+          "file": "platform.spec.js",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "PT-07 REQ-ARC-08 REQ-ARC-09 REQ-ARC-10 the project saves, reloads and relinks imagery by fingerprint",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 525,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:03.136Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-426d5b2f131a32f74f52",
+          "file": "platform.spec.js",
+          "line": 115,
+          "column": 1
+        },
+        {
+          "title": "PT-08 REQ-ARC-22 WebGL context loss restores every pane",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:03.672Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-9aa31e375d174943b8a3",
+          "file": "platform.spec.js",
+          "line": 157,
+          "column": 1
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over file with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1260,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:55.550Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-b1067a765249d452ebc8",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over http with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 689,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:57.229Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-49410ca8f31d2b72491e",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over iframe with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 852,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:57.935Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-bbe559e51fe45d797944",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over srcdoc with no console errors or CSP violations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1178,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:58.803Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-109c88d0a74d22ce6914",
+          "file": "platform.spec.js",
+          "line": 16,
+          "column": 3
+        },
+        {
+          "title": "PT-02 REQ-SEC-01 REQ-SEC-12 REQ-AI-05 no request leaves unless the origin was added; every request is logged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 414,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:59.991Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-b1504949877c96837160",
+          "file": "platform.spec.js",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "PT-03 REQ-ARC-02 REQ-RUST-01 a tampered block is refused",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 508,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:00.412Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-6543dba21d81b4d9c036",
+          "file": "platform.spec.js",
+          "line": 59,
+          "column": 1
+        },
+        {
+          "title": "PT-05 REQ-ARC-05 REQ-RUST-04 the worker pool runs, cancels, times out and recovers from a WASM trap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2111,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:00.929Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-46e283930aea9987dc29",
+          "file": "platform.spec.js",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "PT-07 REQ-ARC-08 REQ-ARC-09 REQ-ARC-10 the project saves, reloads and relinks imagery by fingerprint",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 497,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:03.048Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-9139e216daed58fd6d0a",
+          "file": "platform.spec.js",
+          "line": 115,
+          "column": 1
+        },
+        {
+          "title": "PT-08 REQ-ARC-22 WebGL context loss restores every pane",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1635,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:58:03.554Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-031b804e5ec560e1ea20",
+          "file": "platform.spec.js",
+          "line": 157,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "r2-platform.spec.js",
+      "file": "r2-platform.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "REQ-ARC-16 REQ-SEC-10 REQ-SEC-12 online sources, tokens and the allow-list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1233,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"urls\":[\"https://tiles.example.test/3/2/1.png?access_token=SECRET-123\",\"https://maps.example.test/wms?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=base%2Croads&STYLES=&CRS=EPSG:3857&BBOX=-20037508.343,0.000,0.000,20037508.343&WIDTH=256&HEIGHT=256&FORMAT=image%2Fpng&TRANSPARENT=true\",\"https://maps.example.test/wmts/1.0.0/base/default/GoogleMapsCompatible/5/9/7.png\",\"https://services.example.test/arcgis/rest/services/World/MapServer/tile/4/2/3?token=KEEP-ME\"],\"errs\":[\"The URL must start with https://\",\"An XYZ template must contain {z}, {x} and {y}\",\"A WMS source needs its layer names\",\"A WMTS template must contain {TileMatrix}, {TileRow} and {TileCol}\"],\"prefsSources\":\"[{\\\"id\\\":\\\"src_mvqvdev5400v3z\\\",\\\"name\\\":\\\"XYZ\\\",\\\"kind\\\":\\\"xyz\\\",\\\"url\\\":\\\"https://tiles.example.test/{z}/{x}/{y}.png\\\",\\\"layers\\\":null,\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":\\\"access_token\\\",\\\"maxZoom\\\":19},{\\\"id\\\":\\\"src_mvqvdev55bvxl7\\\",\\\"name\\\":\\\"WMS\\\",\\\"kind\\\":\\\"wms\\\",\\\"url\\\":\\\"https://maps.example.test/wms\\\",\\\"layers\\\":\\\"base,roads\\\",\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":null,\\\"maxZoom\\\":19},{\\\"id\\\":\\\"src_mvqvdev66w5be4\\\",\\\"name\\\":\\\"WMTS\\\",\\\"kind\\\":\\\"wmts\\\",\\\"url\\\":\\\"https://maps.example.test/wmts/1.0.0/base/default/GoogleMapsCompatible/{TileMatrix}/{TileRow}/{TileCol}.png\\\",\\\"layers\\\":null,\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":null,\\\"maxZoom\\\":19},{\\\"id\\\":\\\"src_mvqvdev67y4gqs\\\",\\\"name\\\":\\\"ArcGIS\\\",\\\"kind\\\":\\\"arcgis\\\",\\\"url\\\":\\\"https://services.example.test/arcgis/rest/services/World/MapServer/\\\",\\\"layers\\\":null,\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":null,\\\"maxZoom\\\":19}]\",\"prefsTokens\":{\"src_mvqvdev67y4gqs\":\"KEEP-ME\"},\"projectHasToken\":false,\"fetchError\":\"https://not-added.example.test is not in this file's network allow-list (CSP connect-src). Add it in Add-Ins ▸ Network Allow-List, save the file and reload it.\",\"logged\":{\"time\":\"15:57:56\",\"method\":\"GET\",\"origin\":\"https://not-added.example.test\",\"path\":\"/data.json\",\"status\":\"not allowed\",\"sent\":0,\"received\":0,\"purpose\":\"test\"}}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:55.534Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cf2e0059c02a3320e05-5f8f2e6e1253ec889471",
+          "file": "r2-platform.spec.js",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "REQ-SEC-11 REQ-ARC-21 REQ-UI-20 REQ-UI-21 FX-01 provenance notice, redaction and split, streamed save, input devices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1984,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"notice\":\"Provenance: this PNG product carries a JSON record (image, sensor model, centre, marking, analyst) and a world file with a .prj from FX01 SYNTHETIC PAN 4096. Review it before release; Redact / Split Image writes pixels only.\",\"redact\":{\"w\":200,\"h\":120,\"px\":[0,0,0,255],\"parts\":4,\"partW\":388,\"srcW\":776,\"pngHasText\":false},\"stream\":{\"how\":\"download\",\"name\":\"stream.bin\",\"bytes\":5000},\"input\":{\"pan1\":371.014492753623,\"zoom\":0.8784946559334271,\"dead\":0,\"pan2\":844.659646470835,\"hid\":-117.92326233196718,\"pad\":2610.5486161524304,\"source\":\"gamepad:Test pad\"}}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:57.024Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cf2e0059c02a3320e05-af7c17645b6c87d8364d",
+          "file": "r2-platform.spec.js",
+          "line": 60,
+          "column": 1
+        },
+        {
+          "title": "REQ-ARC-16 REQ-SEC-10 REQ-SEC-12 online sources, tokens and the allow-list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1152,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"urls\":[\"https://tiles.example.test/3/2/1.png?access_token=SECRET-123\",\"https://maps.example.test/wms?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=base%2Croads&STYLES=&CRS=EPSG:3857&BBOX=-20037508.343,0.000,0.000,20037508.343&WIDTH=256&HEIGHT=256&FORMAT=image%2Fpng&TRANSPARENT=true\",\"https://maps.example.test/wmts/1.0.0/base/default/GoogleMapsCompatible/5/9/7.png\",\"https://services.example.test/arcgis/rest/services/World/MapServer/tile/4/2/3?token=KEEP-ME\"],\"errs\":[\"The URL must start with https://\",\"An XYZ template must contain {z}, {x} and {y}\",\"A WMS source needs its layer names\",\"A WMTS template must contain {TileMatrix}, {TileRow} and {TileCol}\"],\"prefsSources\":\"[{\\\"id\\\":\\\"src_mvqvdevq4uxzes\\\",\\\"name\\\":\\\"XYZ\\\",\\\"kind\\\":\\\"xyz\\\",\\\"url\\\":\\\"https://tiles.example.test/{z}/{x}/{y}.png\\\",\\\"layers\\\":null,\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":\\\"access_token\\\",\\\"maxZoom\\\":19},{\\\"id\\\":\\\"src_mvqvdevr51fu6n\\\",\\\"name\\\":\\\"WMS\\\",\\\"kind\\\":\\\"wms\\\",\\\"url\\\":\\\"https://maps.example.test/wms\\\",\\\"layers\\\":\\\"base,roads\\\",\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":null,\\\"maxZoom\\\":19},{\\\"id\\\":\\\"src_mvqvdevr6uuw0a\\\",\\\"name\\\":\\\"WMTS\\\",\\\"kind\\\":\\\"wmts\\\",\\\"url\\\":\\\"https://maps.example.test/wmts/1.0.0/base/default/GoogleMapsCompatible/{TileMatrix}/{TileRow}/{TileCol}.png\\\",\\\"layers\\\":null,\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":null,\\\"maxZoom\\\":19},{\\\"id\\\":\\\"src_mvqvdevr7qmbxd\\\",\\\"name\\\":\\\"ArcGIS\\\",\\\"kind\\\":\\\"arcgis\\\",\\\"url\\\":\\\"https://services.example.test/arcgis/rest/services/World/MapServer/\\\",\\\"layers\\\":null,\\\"attribution\\\":\\\"\\\",\\\"tokenParam\\\":null,\\\"maxZoom\\\":19}]\",\"prefsTokens\":{\"src_mvqvdevr7qmbxd\":\"KEEP-ME\"},\"projectHasToken\":false,\"fetchError\":\"https://not-added.example.test is not in this file's network allow-list (CSP connect-src). Add it in Add-Ins ▸ Network Allow-List, save the file and reload it.\",\"logged\":{\"time\":\"15:57:57\",\"method\":\"GET\",\"origin\":\"https://not-added.example.test\",\"path\":\"/data.json\",\"status\":\"not allowed\",\"sent\":0,\"received\":0,\"purpose\":\"test\"}}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:55.556Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cf2e0059c02a3320e05-003c3c3d5f87d97d4171",
+          "file": "r2-platform.spec.js",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "REQ-SEC-11 REQ-ARC-21 REQ-UI-20 REQ-UI-21 FX-01 provenance notice, redaction and split, streamed save, input devices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2037,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"notice\":\"Provenance: this PNG product carries a JSON record (image, sensor model, centre, marking, analyst) and a world file with a .prj from FX01 SYNTHETIC PAN 4096. Review it before release; Redact / Split Image writes pixels only.\",\"redact\":{\"w\":200,\"h\":120,\"px\":[0,0,0,255],\"parts\":4,\"partW\":388,\"srcW\":776,\"pngHasText\":false},\"stream\":{\"how\":\"download\",\"name\":\"stream.bin\",\"bytes\":5000},\"input\":{\"pan1\":371.014492753623,\"zoom\":0.8784946559334271,\"dead\":0,\"pan2\":844.659646470835,\"hid\":-117.92326233196718,\"pad\":2720.2007957124615,\"source\":\"gamepad:Test pad\"}}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T15:57:57.051Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cf2e0059c02a3320e05-22b92d6cafd7d8df574e",
+          "file": "r2-platform.spec.js",
+          "line": 60,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T15:57:55.132Z",
+    "duration": 10344.57,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

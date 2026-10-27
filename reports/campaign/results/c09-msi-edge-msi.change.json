@@ -1,0 +1,27 @@
+{
+ "spec": "c09-msi",
+ "project": "edge",
+ "when": "2026-10-27T15:42:55.866Z",
+ "key": "msi.change",
+ "id": "msi.change",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Two-date Spectral Change"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr",
+  "hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

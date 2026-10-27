@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:07.969Z",
+ "key": "geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf",
+ "item": "geopdf-ustopo-vinehill-honkerbay-current",
+ "file": "CA_Honker_Bay_20220107_TM_geo.pdf",
+ "format": "GeoPDF (ISO 32000 geospatial PDF, layered)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened CA_Honker_Bay_20220107_TM_geo.pdf in 4879 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (412 objects; ISO 32000 /GEO viewport; 211 images)",
+   "w": 7365,
+   "h": 8690,
+   "bands": 3,
+   "model": "GeoPDF viewport (4 points, NAD83 taken as WGS 84, about 1 m)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 8288,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

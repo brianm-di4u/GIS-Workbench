@@ -1,0 +1,9 @@
+{
+ "spec": "c18-live",
+ "project": "chrome",
+ "when": "2026-10-27T15:08:40.231Z",
+ "key": "live-ngs-geoid-reach",
+ "url": "https://geodesy.noaa.gov/api/geoid/ght?lat=40.0&lon=-105.25&model=14",
+ "status": 200,
+ "cors": null
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:26.496Z",
+ "key": "robustness-gdal-autotest-seeds/test_jp2_ecw33.ntf",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "test_jp2_ecw33.ntf",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened test_jp2_ecw33.ntf in 34 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 200,
+   "h": 100,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 380,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

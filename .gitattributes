@@ -1,0 +1,8 @@
+# Source and docs: LF in the repository.
+* text=auto eol=lf
+
+# Released artifacts and test data must stay byte-exact (SHA256SUMS, fixture truth hashes):
+# no line-ending conversion, no diffs.
+dist/** binary
+fixtures/** binary
+fixtures-perf/** binary

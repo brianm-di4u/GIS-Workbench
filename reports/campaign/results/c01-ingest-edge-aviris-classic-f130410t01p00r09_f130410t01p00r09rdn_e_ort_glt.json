@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:41:58.656Z",
+ "key": "aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_e_ort_glt",
+ "item": "aviris-classic-f130410t01p00r09",
+ "file": "f130410t01p00r09rdn_e_ort_glt",
+ "format": "ENVI (binary + .hdr) in tar.gz",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened f130410t01p00r09rdn_e_ort_glt in 34 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BIL (data type 2)",
+   "w": 743,
+   "h": 1293,
+   "bands": 2,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2121,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

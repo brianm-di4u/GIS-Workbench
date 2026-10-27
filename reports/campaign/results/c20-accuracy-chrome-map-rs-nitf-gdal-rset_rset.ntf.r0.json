@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "chrome",
+ "when": "2026-10-27T14:43:46.787Z",
+ "key": "map-rs-nitf-gdal-rset/rset.ntf.r0",
+ "kind": "map",
+ "model": "IGEOLO corners (approximate)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 538.4202937611225,
+ "gsd": 358.946862507415,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:09.822Z",
+ "key": "lidar-las-version-matrix/fullwave.laz",
+ "item": "lidar-las-version-matrix",
+ "file": "fullwave.laz",
+ "format": "LAS1.0-1.4 / LAZ / COPC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "fullwave.wdp: kept with its point cloud (not read)",
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened fullwave.laz: 10,750 points in 89 ms (1 note in the import log)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 234,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

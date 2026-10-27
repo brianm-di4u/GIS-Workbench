@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:41:45.839Z",
+ "key": "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf",
+ "item": "umbra-bingham-20230925-full",
+ "file": "umbra_20230925_SICD.nitf",
+ "format": "SICD1.2.1/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF (GEC) | CPHD1.1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.2.1 (RE32F_IM32F)",
+   "w": 13377,
+   "h": 8908,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 5152,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

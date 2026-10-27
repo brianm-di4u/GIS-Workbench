@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:34:31.879Z",
+ "key": "cop-dem-glo90-n39w106/Copernicus_DSM_COG_30_N39_00_W106_00_DEM.tif",
+ "item": "cop-dem-glo90-n39w106",
+ "file": "Copernicus_DSM_COG_30_N39_00_W106_00_DEM.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Copernicus_DSM_COG_30_N39_00_W106_00_DEM.tif in 30 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 1200,
+   "h": 1200,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2641,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

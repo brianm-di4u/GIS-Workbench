@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:53.914Z",
+ "key": "rs-sicd-umbra-chip/umbra_sicd_chip_1024.nitf",
+ "item": "rs-sicd-umbra-chip",
+ "file": "umbra_sicd_chip_1024.nitf",
+ "format": "SICD1.3/NITF2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened umbra_sicd_chip_1024.nitf in 45 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.3.0 (RE32F_IM32F)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 380,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

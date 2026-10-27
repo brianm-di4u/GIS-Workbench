@@ -1,0 +1,39 @@
+{
+ "browser": "chrome",
+ "sample": "nitf-gdal-rset/rset.ntf.r0",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 50,
+   "h": 50,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 25,
+   "h": 25,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)",
+   "kind": "image"
+  },
+  {
+   "error": null,
+   "format": "NITF 02.10",
+   "w": 12,
+   "h": 12,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)",
+   "kind": "image"
+  }
+ ],
+ "ms": 189
+}

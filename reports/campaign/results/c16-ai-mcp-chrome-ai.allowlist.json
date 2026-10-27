@@ -1,0 +1,21 @@
+{
+ "spec": "c16-ai-mcp",
+ "project": "chrome",
+ "when": "2026-10-27T15:38:41.472Z",
+ "key": "ai.allowlist",
+ "id": "ai.allowlist",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Network Allow-List"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

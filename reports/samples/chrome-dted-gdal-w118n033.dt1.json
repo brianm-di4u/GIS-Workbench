@@ -1,0 +1,21 @@
+{
+ "browser": "chrome",
+ "sample": "dted-gdal/w118n033.dt1",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "DTED",
+   "w": 1201,
+   "h": 1201,
+   "bands": 1,
+   "model": "Map (EPSG:4326)",
+   "kind": "dem"
+  }
+ ],
+ "ms": 275
+}

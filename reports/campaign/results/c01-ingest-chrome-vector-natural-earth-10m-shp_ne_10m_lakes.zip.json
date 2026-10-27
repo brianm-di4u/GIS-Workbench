@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:29:26.328Z",
+ "key": "vector-natural-earth-10m-shp/ne_10m_lakes.zip",
+ "item": "vector-natural-earth-10m-shp",
+ "file": "ne_10m_lakes.zip",
+ "format": "Shapefile (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_10m_lakes: 1355 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1355,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 407,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

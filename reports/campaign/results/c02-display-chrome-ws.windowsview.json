@@ -1,0 +1,22 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-27T15:33:15.765Z",
+ "key": "ws.windowsview",
+ "id": "ws.windowsview",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "panes",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

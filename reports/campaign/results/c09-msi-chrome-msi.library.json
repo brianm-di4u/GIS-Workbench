@@ -1,0 +1,25 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-27T15:36:45.155Z",
+ "key": "msi.library",
+ "id": "msi.library",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: 0 library spectra"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

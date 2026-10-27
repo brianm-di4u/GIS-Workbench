@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "srtm-hgt-s35w059/S35W059.hgt.gz",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "SRTM HGT",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)",
+   "kind": "dem"
+  }
+ ],
+ "ms": 685
+}

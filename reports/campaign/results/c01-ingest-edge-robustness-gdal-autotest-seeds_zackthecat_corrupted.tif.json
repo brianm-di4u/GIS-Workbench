@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:36:19.251Z",
+ "key": "robustness-gdal-autotest-seeds/zackthecat_corrupted.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "zackthecat_corrupted.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened zackthecat_corrupted.tif in 28 ms",
+  "toast-error: zackthecat_corrupted.tif cannot be displayed: old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7"
+ ],
+ "layers": [
+  {
+   "error": "old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 234,
+   "h": 213,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 86,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

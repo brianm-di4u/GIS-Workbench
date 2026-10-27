@@ -1,0 +1,34 @@
+{
+ "spec": "c05-sensor",
+ "project": "edge",
+ "when": "2026-10-27T15:41:10.389Z",
+ "key": "ortho.rectify",
+ "id": "ortho.rectify",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Orthorectify — WV3CHIPA"
+ ],
+ "toasts": [
+  "toast-info: Ortho 1649×1802 at 0.35 m in 0.1 s (grid error ≤ 0.114 px)"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain",
+  "activate-rpc"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

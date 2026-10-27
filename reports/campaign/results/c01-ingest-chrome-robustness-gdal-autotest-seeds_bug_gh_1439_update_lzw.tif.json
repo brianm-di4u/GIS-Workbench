@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:28.993Z",
+ "key": "robustness-gdal-autotest-seeds/bug_gh_1439_update_lzw.tif",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "bug_gh_1439_update_lzw.tif",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened bug_gh_1439_update_lzw.tif in 31 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 4096,
+   "h": 1,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 351,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,54 @@
+/* Base layout. Every colour, size and font is a token from ui-tokens.json (REQ-UI-12). */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body {
+  background: var(--c-chrome-frame);
+  color: var(--c-content-text);
+  font: var(--fw-ui) var(--fs-ui)/1.35 var(--f-ui);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--c-focus-ring); outline-offset: 1px; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.muted { color: color-mix(in srgb, currentColor 65%, transparent); }
+.pad { padding: 6px 8px; }
+.mono { font-family: var(--f-monoLog); font-size: var(--fs-monoLog); }
+.small { font-size: var(--fs-sm); }
+.hint { font-size: var(--fs-sm); color: inherit; margin: 4px 0; }
+.warn { color: #8a5a00; }
+[data-theme="dark"] .warn { color: #e0b050; }
+.err { color: #b00020; }
+[data-theme="dark"] .err { color: #ff7a7a; }
+
+/* The one WebGL2 canvas sits behind the chrome; panes are transparent holes. */
+#gl { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+#app { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+.boot-fail { margin: 40px auto; max-width: 640px; background: var(--c-content-bg); padding: 20px 28px; border: 1px solid var(--c-ribbon-groupSeparator); }
+
+.desktop { flex: 1; min-height: 0; display: flex; gap: 0; background: transparent; }
+.desktop[data-arrange="max"] > .gwin, .desktop[data-arrange="tabs"] > .gwin { flex: 1; width: auto !important; }
+.desk-tabs { display: flex; gap: 2px; background: var(--c-chrome-frame); padding: 2px 4px 0; }
+.desk-tab { border: 0; background: var(--c-dock-tabInactive); color: #000; padding: 3px 12px; }
+.desk-tab.active { background: var(--c-ribbon-selectedTab); font-weight: 600; }
+
+.icon-btn { background: transparent; border: 0; padding: 2px 4px; color: inherit; }
+.ico-wrap { display: inline-flex; line-height: 0; }
+.ico { display: block; }
+
+.btn { background: var(--c-button-face); color: #000; border: 1px solid #8a8a8a; border-radius: 2px; min-height: var(--s-buttonHeight); padding: 2px 12px; }
+.btn:hover { background: var(--c-ribbon-buttonHot); }
+.btn:active { background: var(--c-ribbon-buttonPressed); }
+.btn-primary { border-color: #3a3a3a; font-weight: 600; }
+.btn-small { min-height: 20px; padding: 1px 8px; font-size: var(--fs-sm); }
+.btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+.inp { background: var(--c-content-bg); color: var(--c-content-text); border: 1px solid #8a8a8a; min-height: var(--s-inputHeight); padding: 1px 4px; width: 100%; }
+.inp-num { width: 90px; }
+.inp-short { width: auto; }
+
+.grid-table { border-collapse: collapse; width: 100%; background: var(--c-content-bg); color: var(--c-content-text); }
+.grid-table th { background: var(--c-content-header); text-align: left; font-weight: 600; position: sticky; top: 0; }
+.grid-table th, .grid-table td { border: 1px solid color-mix(in srgb, var(--c-content-text) 15%, transparent); padding: 1px 5px; height: var(--s-tableRowHeight); vertical-align: top; }
+.grid-table tr.failed td { color: #b00020; }
+.cell-input { border: 0; background: transparent; width: 100%; min-width: 80px; }

@@ -1,0 +1,34 @@
+{
+  "note": "Downloaded inputs of the data packs (REQ-ARC-14). `node build/packs.mjs --fetch` downloads each URL into .cache/packs-src and refuses any file whose SHA-256 differs from the pin. npm inputs come from node_modules at the pinned package versions.",
+  "downloads": [
+    {
+      "id": "egm2008-5",
+      "url": "https://sourceforge.net/projects/geographiclib/files/geoids-distrib/egm2008-5.tar.bz2/download",
+      "file": "egm2008-5.tar.bz2",
+      "sha256": "9a57c14330ac609132d324906822a9da9de265ad9b9087779793eb7080852970",
+      "extract": { "member": "geoids/egm2008-5.pgm", "to": "egm2008-5.pgm", "sha256": "96d55e88db186ddae892b00c5f8cc42a37cdac8ddb69b6de00af8c75dffb34a3" },
+      "licence": "EGM2008: NGA, public domain. Grid packaging: GeographicLib geoids distribution (C. F. F. Karney, MIT)."
+    },
+    {
+      "id": "slimsam-encoder",
+      "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/onnx/vision_encoder_quantized.onnx",
+      "file": "slimsam_vision_encoder_quantized.onnx",
+      "sha256": "cce23c7b2e5d4f330932738fb67ba518e04b0d99ccdd1cccd22a7da4e01f2971",
+      "licence": "SlimSAM-77-uniform (nielsr/slimsam-77-uniform, ONNX by Xenova): Apache-2.0."
+    },
+    {
+      "id": "slimsam-decoder",
+      "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/onnx/prompt_encoder_mask_decoder_quantized.onnx",
+      "file": "slimsam_prompt_encoder_mask_decoder_quantized.onnx",
+      "sha256": "cb90b279f549d2cab7fd6e20c38522438c65d84bdcca3d2a764cff7d857fdce2",
+      "licence": "SlimSAM-77-uniform (nielsr/slimsam-77-uniform, ONNX by Xenova): Apache-2.0."
+    },
+    {
+      "id": "slimsam-config",
+      "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/preprocessor_config.json",
+      "file": "slimsam_preprocessor_config.json",
+      "sha256": "225545a743c654e3c495ec6f545a0eaba57c8ba3fbbd8483b3cb1c0fc58db517",
+      "licence": "Apache-2.0."
+    }
+  ]
+}

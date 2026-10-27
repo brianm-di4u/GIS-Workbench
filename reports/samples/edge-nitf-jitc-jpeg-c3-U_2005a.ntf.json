@@ -1,0 +1,21 @@
+{
+ "browser": "edge",
+ "sample": "nitf-jitc-jpeg-c3/U_2005a.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 256,
+   "h": 256,
+   "bands": 3,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 162
+}

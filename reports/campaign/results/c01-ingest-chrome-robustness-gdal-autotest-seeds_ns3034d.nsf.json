@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:28:25.611Z",
+ "key": "robustness-gdal-autotest-seeds/ns3034d.nsf",
+ "item": "robustness-gdal-autotest-seeds",
+ "file": "ns3034d.nsf",
+ "format": "NITF / NSIF / DTED / GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened ns3034d.nsf in 44 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NSIF 01.00",
+   "w": 35,
+   "h": 18,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 410,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

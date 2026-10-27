@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:30:02.998Z",
+ "key": "vector-kml-kmz-test-set/small_world.kmz",
+ "item": "vector-kml-kmz-test-set",
+ "file": "small_world.kmz",
+ "format": "KML / KMZ",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "2 file(s) kept from the KMZ (icons and overlays)"
+ ],
+ "toasts": [
+  "toast-info: small_world: 0 feature(s) from KML (1 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 96,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

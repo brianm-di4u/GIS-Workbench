@@ -1,0 +1,21 @@
+{
+ "browser": "chrome",
+ "sample": "nitf-jitc-jpeg-c3/U_4017a.ntf",
+ "expected": "render",
+ "rendered": true,
+ "errors": [],
+ "layerErrors": [],
+ "warnings": [],
+ "layers": [
+  {
+   "error": null,
+   "format": "NITF 02.00",
+   "w": 64,
+   "h": 64,
+   "bands": 1,
+   "model": "none",
+   "kind": "image"
+  }
+ ],
+ "ms": 134
+}

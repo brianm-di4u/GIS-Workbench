@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:38.326Z",
+ "key": "eo-maxar-libya-floods-wv3-prepost/104001008B282A00-ms.tif",
+ "item": "eo-maxar-libya-floods-wv3-prepost",
+ "file": "104001008B282A00-ms.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 104001008B282A00-ms.tif in 47 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 3551,
+   "h": 3551,
+   "bands": 8,
+   "model": "Map (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1136,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

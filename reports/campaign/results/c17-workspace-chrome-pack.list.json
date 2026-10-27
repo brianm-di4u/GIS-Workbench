@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-27T15:38:59.207Z",
+ "key": "pack.list",
+ "id": "pack.list",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Data Packs"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

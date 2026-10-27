@@ -1,0 +1,23 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-27T15:35:56.391Z",
+ "key": "sar.metadata",
+ "id": "sar.metadata",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "SICD Metadata — umbra_sicd_chip_1024.nitf SICD000"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "sicd-umbra-chip/umbra_sicd_chip_1024.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

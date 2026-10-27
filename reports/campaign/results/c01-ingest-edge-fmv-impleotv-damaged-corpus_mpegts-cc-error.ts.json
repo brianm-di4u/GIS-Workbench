@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:00.752Z",
+ "key": "fmv-impleotv-damaged-corpus/mpegts-cc-error.ts",
+ "item": "fmv-impleotv-damaged-corpus",
+ "file": "mpegts-cc-error.ts",
+ "format": "MPEG-TS/KLV (zip)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened mpegts-cc-error.ts: 300 frames, 0 KLV packets (0 bad) in 130 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 204,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

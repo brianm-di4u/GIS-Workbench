@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:54.751Z",
+ "key": "rs-srtm-hgt-s35w059/S35W059.hgt.gz",
+ "item": "rs-srtm-hgt-s35w059",
+ "file": "S35W059.hgt.gz",
+ "format": "SRTM HGT",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened S35W059.hgt.gz in 287 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "SRTM HGT",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 878,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

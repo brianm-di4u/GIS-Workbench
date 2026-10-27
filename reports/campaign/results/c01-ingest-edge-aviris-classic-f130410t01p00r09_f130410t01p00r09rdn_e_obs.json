@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:41:56.090Z",
+ "key": "aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_e_obs",
+ "item": "aviris-classic-f130410t01p00r09",
+ "file": "f130410t01p00r09rdn_e_obs",
+ "format": "ENVI (binary + .hdr) in tar.gz",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BIL (data type 4)",
+   "w": 677,
+   "h": 1250,
+   "bands": 10,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 5929,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

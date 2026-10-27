@@ -1,0 +1,11 @@
+[package]
+name = "gw-parse"
+description = "GIS Workbench hardened parsers: NITF/NSIF, TREs, DTED/HGT"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+miniz_oxide.workspace = true

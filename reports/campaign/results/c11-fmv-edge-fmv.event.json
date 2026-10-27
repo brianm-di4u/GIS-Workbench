@@ -1,0 +1,23 @@
+{
+ "spec": "c11-fmv",
+ "project": "edge",
+ "when": "2026-10-27T15:43:14.096Z",
+ "key": "fmv.event",
+ "id": "fmv.event",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "FMV Event Log"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fmv-ffmpeg-day-flight/Day Flight.mpg"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

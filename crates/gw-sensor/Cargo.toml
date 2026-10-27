@@ -1,0 +1,15 @@
+[package]
+name = "gw-sensor"
+description = "GIS Workbench sensor models: CSM-like interface, RPC00A/B, GCP models, ray-DEM"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+
+[dev-dependencies]
+gw-parse.workspace = true
+serde_json = "1"

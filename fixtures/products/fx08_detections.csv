@@ -1,0 +1,6 @@
+class,confidence,xmin,ymin,xmax,ymax
+painted metal,0.97,58,68,66,76
+vehicle,0.35,380,-4,392,8
+concrete,0.7,44,172,84,212
+vehicle,0.44999999999999996,252,252,264,264
+concrete,0.8,428,300,468,340

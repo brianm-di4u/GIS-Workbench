@@ -1,0 +1,21 @@
+{
+ "spec": "c11-fmv",
+ "project": "edge",
+ "when": "2026-10-27T15:43:11.100Z",
+ "key": "fmv.hud",
+ "id": "fmv.hud",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fmv-ffmpeg-day-flight/Day Flight.mpg"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:37:36.477Z",
+ "key": "vector-geopackage-conformance-set/3d_envelope.gpkg",
+ "item": "vector-geopackage-conformance-set",
+ "file": "3d_envelope.gpkg",
+ "format": "GeoPackage",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: foo: 2 feature(s) from GeoPackage"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 110,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

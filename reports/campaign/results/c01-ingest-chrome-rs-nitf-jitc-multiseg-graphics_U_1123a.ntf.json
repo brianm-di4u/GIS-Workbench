@@ -1,0 +1,74 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T14:27:14.653Z",
+ "key": "rs-nitf-jitc-multiseg-graphics/U_1123a.ntf",
+ "item": "rs-nitf-jitc-multiseg-graphics",
+ "file": "U_1123a.ntf",
+ "format": "NITF multi-segment + CGM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened U_1123a.ntf in 66 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 64,
+   "h": 64,
+   "bands": 1,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 64,
+   "h": 64,
+   "bands": 1,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 231,
+   "h": 191,
+   "bands": 1,
+   "model": "none"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 181,
+   "h": 73,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 5,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 429,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

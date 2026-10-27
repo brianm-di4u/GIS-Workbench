@@ -1,0 +1,23 @@
+{
+ "spec": "c03-enhance",
+ "project": "chrome",
+ "when": "2026-10-27T15:35:08.609Z",
+ "key": "clip.void",
+ "id": "clip.void",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

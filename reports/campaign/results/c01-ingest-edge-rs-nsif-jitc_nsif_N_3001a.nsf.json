@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-27T14:34:53.076Z",
+ "key": "rs-nsif-jitc/nsif_N_3001a.nsf",
+ "item": "rs-nsif-jitc",
+ "file": "nsif_N_3001a.nsf",
+ "format": "NSIF1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened nsif_N_3001a.nsf in 31 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NSIF 01.00",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 351,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}
