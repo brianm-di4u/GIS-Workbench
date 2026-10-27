@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "GIS Workbench: single-file, offline, browser-based imagery exploitation and photogrammetry tool",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "build": "node build/build.mjs",

@@ -55,7 +55,7 @@ export function buildRust(root, { log = console.log } = {}) {
     const imports = WebAssembly.Module.imports(mod).map((i) => `${i.module}.${i.name}`);
     const gz = gzipSync(bytes, { level: 9 }).length;
     total += gz;
-    results.push({ ...b, bytes, raw: bytes.length, gzip: gz, imports, exports: WebAssembly.Module.exports(mod).length, licence: 'LicenseRef-GIS-Workbench' });
+    results.push({ ...b, bytes, raw: bytes.length, gzip: gz, imports, exports: WebAssembly.Module.exports(mod).length, licence: 'Apache-2.0' });
   }
   errors.push(...wasmGate(results));
   errors.push(...determinismGate(results.map((r) => ({ name: r.name, bytes: r.bytes }))));

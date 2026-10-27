@@ -2,14 +2,14 @@
   "build": {
     "id": "cc718bae6e46bdbb",
     "version": "1.0.0",
-    "date": "2026-10-27T15:57:39.032Z",
+    "date": "2026-10-27T16:06:51.882Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5658215,
-    "eager": 2273438,
+    "total": 5658075,
+    "eager": 2273298,
     "css": 39882,
     "boot": 2694,
     "app": 1962440,
@@ -189,9 +189,9 @@
       }
     },
     "rustTotalGzip": 873167,
-    "lite": 3940588,
-    "snippet": 5990358,
-    "snippetLite": 3940911
+    "lite": 3940592,
+    "snippet": 5990218,
+    "snippetLite": 3940915
   },
   "gates": {
     "errors": [],

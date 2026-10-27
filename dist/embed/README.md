@@ -3,7 +3,7 @@
 Paste `snippet.html` into a hosting service's HTML/embed box, or host `gis-workbench.html` and embed it with
 `<iframe src="gis-workbench.html" allow="fullscreen; clipboard-read; clipboard-write; display-capture"></iframe>`.
 
-Snippet size: 5990358 bytes (snippet.html); Lite: 3940911 bytes (snippet-lite.html, REQ-HOST-05).
+Snippet size: 5990218 bytes (snippet.html); Lite: 3940915 bytes (snippet-lite.html, REQ-HOST-05).
 The Lite profile is the same application without the 3D, LiDAR, video and SAR modules, packed as one gzip payload behind a small loader; it starts a little slower.
 
 ## What works where (REQ-HOST-08)

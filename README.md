@@ -64,3 +64,9 @@ rendering.
 | `build` | Build, gates, tokens, data blocks, traceability |
 | `docs/design/decisions.md` | Implementation decisions and the defaults used for open owner decisions |
 | `docs/validation` | Release validation reports |
+
+## Licence
+
+Apache License 2.0; see [LICENSE](LICENSE). Third-party components are permissively licensed (MIT,
+Apache-2.0, BSD, ISC, Zlib); their notices ship in `dist/THIRD-PARTY-NOTICES.txt` and inside the
+built file.

@@ -7,7 +7,7 @@ a spike (`S-…`); none changes a requirement. The owner can reverse any of them
 
 | Decision | Default used in this build | Where it shows |
 |---|---|---|
-| O-02 Licence of the tool | `LicenseRef-GIS-Workbench` (proprietary placeholder) on our own code; only permissive third-party code ships | `package.json`, `crates/Cargo.toml`, notices |
+| O-02 Licence of the tool | **Apache-2.0** (owner decision at the 1.0 release, 2026-10-27; was the proprietary placeholder `LicenseRef-GIS-Workbench`); only permissive third-party code ships | `LICENSE`, `package.json`, `crates/Cargo.toml`, build report, notices |
 | O-21 Cloud AI | Allowed only after a connection is added; off by default; consent per session; a second confirmation when the screen shows a marking above UNCLASSIFIED | AI Assistant dock, `ai/assistant.js` |
 | O-22 Embed hosts | Tested locally as `srcdoc` iframe, cross-origin iframe and a scripts-only sandbox; the real hosts (Google Sites, WordPress, GitHub Pages, Netlify, SharePoint) are not tested | `tests/e2e/embed.spec.js` |
 | O-23 Rust toolchain | Yes: Rust 1.99.1 pinned in `rust-toolchain.toml`, `wasm32-unknown-unknown`, crates pinned with `=` versions, `cargo deny` for licences; binaryen not required (wasm-opt is used when present) | `build/rust.mjs` |

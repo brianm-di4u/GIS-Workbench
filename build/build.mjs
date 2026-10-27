@@ -182,7 +182,7 @@ async function main() {
     for (const b of BUNDLES) {
       const f = join(tdir, 'wasm32-unknown-unknown', 'release', `${b.crate.replace(/-/g, '_')}.wasm`);
       const bytes = readFileSync(f);
-      rust.bundles.push({ ...b, bytes, raw: bytes.length, gzip: gzipSync(bytes, { level: 9 }).length, licence: 'LicenseRef-GIS-Workbench' });
+      rust.bundles.push({ ...b, bytes, raw: bytes.length, gzip: gzipSync(bytes, { level: 9 }).length, licence: 'Apache-2.0' });
     }
   }
 
