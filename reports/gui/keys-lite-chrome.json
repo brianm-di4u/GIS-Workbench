@@ -53,7 +53,7 @@
   "id": "Mod+Shift+KeyZ → qat.redo",
   "dialogs": [],
   "toasts": [
-   "info: Redo is not available right now."
+   "info: Redo is not available right now.×"
   ],
   "problems": []
  },
@@ -69,7 +69,7 @@
   "id": "Mod+Alt+KeyT → pane.showname",
   "dialogs": [],
   "toasts": [
-   "info: fx01.ntf"
+   "info: fx01.ntf×"
   ],
   "problems": []
  },
@@ -101,8 +101,17 @@
   "id": "KeyB → wb.toggle",
   "dialogs": [],
   "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
   ],
+  "problems": []
+ },
+ {
+  "tab": "keys",
+  "id": "Mod+KeyK → ui.palette",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -124,7 +133,7 @@
   "id": "F7 → nav.roam",
   "dialogs": [],
   "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)"
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
   ],
   "problems": []
  },
@@ -168,7 +177,7 @@
   "id": "Mod+KeyA → sel.all",
   "dialogs": [],
   "toasts": [
-   "info: 0 graphic(s) selected"
+   "info: 0 graphic(s) selected×"
   ],
   "problems": []
  },
@@ -176,9 +185,7 @@
   "tab": "keys",
   "id": "Delete → edit.delete",
   "dialogs": [],
-  "toasts": [
-   "info: Delete is not available right now."
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -186,7 +193,7 @@
   "id": "Mod+KeyC → edit.copy",
   "dialogs": [],
   "toasts": [
-   "info: Copy is not available right now."
+   "info: Delete is not available right now.×"
   ],
   "problems": []
  },
@@ -194,9 +201,7 @@
   "tab": "keys",
   "id": "Mod+KeyV → edit.paste",
   "dialogs": [],
-  "toasts": [
-   "info: Paste is not available right now."
-  ],
+  "toasts": [],
   "problems": []
  }
 ]

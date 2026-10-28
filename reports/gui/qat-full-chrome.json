@@ -32,7 +32,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
   ],
   "problems": []
  },

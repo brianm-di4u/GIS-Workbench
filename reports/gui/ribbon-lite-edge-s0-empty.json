@@ -307,7 +307,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 0 graphic(s) selected"
+   "info: 0 graphic(s) selected×"
   ],
   "problems": []
  },
@@ -1024,7 +1024,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)"
+   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)×"
   ],
   "problems": []
  },
@@ -1138,6 +1138,15 @@
   "id": "win.tabbed",
   "kind": "button",
   "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "win.workspace",
+  "kind": "button",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1341,6 +1350,28 @@
  },
  {
   "tab": "view",
+  "id": "ui.palette",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "ui.layout",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "Interface Layout"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
   "id": "3d.open",
   "kind": "button",
   "outcome": "disabled",
@@ -1444,7 +1475,7 @@
   "outcome": "toggled",
   "dialogs": [],
   "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
   ],
   "problems": []
  },

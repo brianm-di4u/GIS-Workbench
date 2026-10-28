@@ -126,11 +126,10 @@ tr.selected td { background: color-mix(in srgb, #e000e0 22%, transparent); }
 .pal-empty { padding: 14px 16px; opacity: .7; }
 .pal-hint { padding: 6px 14px; font-size: 11px; opacity: .6; border-top: 1px solid rgba(0, 0, 0, .08); }
 /* Two-line tooltip (REQ-SHL-06). */
-.tip2 { position: fixed; z-index: 950; max-width: 340px; padding: 8px 10px; border-radius: 8px; background: #20242a; color: #f2f4f7; box-shadow: 0 6px 20px rgba(0, 0, 0, .35); font-size: 12px; line-height: 1.4; }
+.tip2 { pointer-events: none; position: fixed; z-index: 950; max-width: 340px; padding: 8px 10px; border-radius: 8px; background: #20242a; color: #f2f4f7; box-shadow: 0 6px 20px rgba(0, 0, 0, .35); font-size: 12px; line-height: 1.4; }
 .tip2[hidden] { display: none; }
 .tip2-head { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
 .tip2 kbd { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .25); color: inherit; }
 .tip2-out { margin-top: 3px; color: #d6dbe2; }
 .tip2-status { margin-top: 4px; color: #ffcb5f; }
-.tip2-foot { margin-top: 4px; text-align: right; }
-.tip2-help { background: none; border: 0; padding: 0; color: #8ab4f8; cursor: pointer; font: inherit; text-decoration: underline; }
+.tip2-foot { margin-top: 4px; text-align: right; font-size: 11px; color: #9aa3ad; }

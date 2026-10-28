@@ -2,7 +2,7 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
-## [1.3.0] - Unreleased
+## [1.3.0] - 2026-10-28
 
 A clean canvas, the first step of GIS Workbench 2.0 (`Docs/SDP-2.0-modernization-plan.md`, phase P1), in answer to a first user's UI review. The app now starts on one edge-to-edge image panel and brings tools to you instead of showing them all at once. The 1.x layout is one setting away. Requirements REQ-SHL-01..07.
 

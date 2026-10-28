@@ -24,7 +24,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)"
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
   ],
   "problems": []
  },
@@ -46,7 +46,7 @@
   "outcome": "input",
   "dialogs": [],
   "toasts": [
-   "info: Jumped to 34.050000°N 117.250000°W (DD, 1113 m precision)"
+   "info: Jumped to 34.050000°N 117.250000°W (DD, 1113 m precision)×"
   ],
   "problems": []
  },
@@ -56,9 +56,7 @@
   "kind": "button",
   "outcome": "toggled",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -76,7 +74,9 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -104,7 +104,7 @@
   "outcome": "toggled",
   "dialogs": [],
   "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)"
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
   ],
   "problems": []
  },
@@ -319,7 +319,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 0 graphic(s) selected"
+   "info: 0 graphic(s) selected×"
   ],
   "problems": []
  },
@@ -1060,7 +1060,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)"
+   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)×"
   ],
   "problems": []
  },
@@ -1180,6 +1180,15 @@
   "id": "win.tabbed",
   "kind": "button",
   "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "win.workspace",
+  "kind": "button",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1393,6 +1402,28 @@
  },
  {
   "tab": "view",
+  "id": "ui.palette",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "ui.layout",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "Interface Layout"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
   "id": "3d.open",
   "kind": "button",
   "outcome": "disabled",
@@ -1425,7 +1456,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: Describe View: no AI connection is set up (AI Assistant ▸ Connections)"
+   "warn: Describe View: no AI connection is set up (AI Assistant ▸ Connections)×"
   ],
   "problems": []
  },
@@ -1498,7 +1529,7 @@
   "outcome": "toggled",
   "dialogs": [],
   "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
   ],
   "problems": []
  },
@@ -1569,7 +1600,7 @@
   "outcome": "toggled",
   "dialogs": [],
   "toasts": [
-   "warn: Cannot read properties of undefined (reading '1')"
+   "warn: Cannot read properties of undefined (reading '1')×"
   ],
   "problems": []
  },
@@ -1683,7 +1714,7 @@
   "outcome": "combo ×3",
   "dialogs": [],
   "toasts": [
-   "warn: Draw an AOI first (Home ▸ Area of Interest)"
+   "warn: Draw an AOI first (Home ▸ Area of Interest)×"
   ],
   "problems": []
  },
@@ -1877,7 +1908,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: draw an AOI around one example of the object first"
+   "warn: draw an AOI around one example of the object first×"
   ],
   "problems": []
  },
@@ -1957,7 +1988,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)"
+   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
   ],
   "problems": []
  },

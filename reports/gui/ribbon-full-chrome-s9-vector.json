@@ -245,7 +245,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: ArcGIS Pro hand-off: 1 table(s), 11 feature(s); coded domains in gpkg_data_column_constraints"
+   "info: ArcGIS Pro hand-off: 1 table(s), 11 feature(s); coded domains in gpkg_data_column_constraints×"
   ],
   "problems": []
  },

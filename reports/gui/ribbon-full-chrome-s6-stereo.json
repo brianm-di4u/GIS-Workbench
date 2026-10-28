@@ -118,7 +118,7 @@
   "outcome": "combo ×3",
   "dialogs": [],
   "toasts": [
-   "warn: Draw an AOI first (Home ▸ Area of Interest)"
+   "warn: Draw an AOI first (Home ▸ Area of Interest)×"
   ],
   "problems": []
  },
@@ -314,7 +314,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: draw an AOI around one example of the object first"
+   "warn: draw an AOI around one example of the object first×"
   ],
   "problems": []
  },
@@ -394,7 +394,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)"
+   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
   ],
   "problems": []
  },
@@ -550,7 +550,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: fx02_a.ntf FX02A"
+   "info: fx02_a.ntf FX02A×"
   ],
   "problems": []
  },
@@ -561,7 +561,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: fx02_b.ntf FX02B"
+   "info: fx02_b.ntf FX02B×"
   ],
   "problems": []
  },
@@ -704,7 +704,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Stereo model FX02A + FX02B: convergence 33.3°"
+   "info: Stereo model FX02A + FX02B: convergence 33.3°×"
   ],
   "problems": []
  },
@@ -744,7 +744,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Epipolar pair: 2525 × 2245 px at 1 display px per pixel"
+   "info: Epipolar pair: 2525 × 2245 px at 1 display px per pixel×"
   ],
   "problems": []
  },
@@ -890,7 +890,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Snapped: Z 700.03 m HAE (correlation 1.00)"
+   "info: Snapped: Z 700.03 m HAE (correlation 1.00)×"
   ],
   "problems": []
  },
@@ -919,8 +919,8 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Residual y-parallax of the epipolar fit over the view: 0.347 px RMS",
-   "info: Stereo Align: 46 tie points, σ₀ 0.04; FX02B adjusted (SOL-0001); 46 points added"
+   "info: Residual y-parallax of the epipolar fit over the view: 0.347 px RMS×",
+   "info: Stereo Align: 46 tie points, σ₀ 0.04; FX02B adjusted (SOL-0001); 46 points added×"
   ],
   "problems": []
  },

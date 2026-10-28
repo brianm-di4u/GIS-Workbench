@@ -53,7 +53,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 3D cursor: click two points on the terrain"
+   "info: 3D cursor: click two points on the terrain×"
   ],
   "problems": []
  },
@@ -267,7 +267,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Profile: click the start and end on the cloud (Esc to stop)"
+   "info: Profile: click the start and end on the cloud (Esc to stop)×"
   ],
   "problems": []
  },
@@ -278,7 +278,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Measure 3D: click two points (Esc to stop)"
+   "info: Measure 3D: click two points (Esc to stop)×"
   ],
   "problems": []
  },
@@ -384,7 +384,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Clip: click the polygon on the view (looking down works best); double-click to finish"
+   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
   ],
   "problems": []
  },
@@ -392,10 +392,12 @@
   "tab": "pointcloud",
   "id": "pc.colourise",
   "kind": "button",
-  "outcome": "disabled",
-  "dialogs": [],
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-colourise"
+  ],
   "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)"
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
   ],
   "problems": []
  },

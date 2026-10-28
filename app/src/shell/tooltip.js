@@ -1,5 +1,6 @@
 // Two-line tooltips (REQ-SHL-06): the command name and key, then what it does in plain words,
-// then why it cannot run now (if so) and a help link. One delegated listener serves every
+// then why it cannot run now (if so) and how to get help. The tooltip never takes the pointer, so
+// it cannot cover the control the analyst reaches for next. One delegated listener serves every
 // command control (Ribbon, QAT, Workspace toolbar, toolbox, palette pill…): any element whose
 // data-id is "cmd:<id>", "qat:<id>" or "ws:<id>", or that carries data-tip-cmd="<id>". The
 // element's native title is parked while the tooltip shows, so the browser does not show both.
@@ -22,14 +23,12 @@ export class Tooltips {
   constructor(app) {
     this.app = app;
     this.tip = h('div', { class: 'tip2', role: 'tooltip', id: 'tip2', hidden: true });
-    this.tip.addEventListener('pointerenter', () => clearTimeout(this.hideT));
-    this.tip.addEventListener('pointerleave', () => this.scheduleHide());
     document.body.appendChild(this.tip);
     const sel = '[data-id^="cmd:"],[data-id^="qat:"],[data-id^="ws:"],[data-tip-cmd]';
     document.addEventListener('pointerover', (e) => {
       const el = e.target.closest?.(sel);
       if (el && el !== this.target) this.schedule(el);
-      else if (!el && !this.tip.contains(e.target)) this.scheduleHide();
+      else if (!el) this.scheduleHide();
     });
     document.addEventListener('focusin', (e) => {
       const el = e.target.closest?.(sel);
@@ -92,17 +91,12 @@ export class Tooltips {
     const id = commandIdOf(el);
     const t = id && this.content(id);
     if (!t) return;
-    const help = h('button', { class: 'tip2-help', type: 'button', 'data-id': 'tip2:help' }, 'Help ▸');
-    help.addEventListener('click', () => {
-      this.hide();
-      this.app.commands.run('help.topics');
-    });
     // replaceChildren() would turn a null into the text "null": drop the empty lines first.
     const lines = [
       h('div', { class: 'tip2-head' }, h('strong', {}, t.label), t.key ? h('kbd', {}, t.key) : null),
       t.outcome ? h('div', { class: 'tip2-out' }, t.outcome) : null,
       t.status ? h('div', { class: 'tip2-status' }, t.status) : null,
-      h('div', { class: 'tip2-foot' }, help),
+      h('div', { class: 'tip2-foot' }, 'F1: help'),
     ];
     this.tip.replaceChildren(...lines.filter(Boolean));
     this.tip.dataset.cmd = id;

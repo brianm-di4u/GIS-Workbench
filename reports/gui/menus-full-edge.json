@@ -153,7 +153,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: All imagery is linked"
+   "info: All imagery is linked×"
   ],
   "problems": []
  },
@@ -215,7 +215,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 0 graphic(s) selected"
+   "info: 0 graphic(s) selected×"
   ],
   "problems": []
  },
@@ -256,6 +256,34 @@
   "id": "Preview",
   "outcome": "clicked",
   "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Command Palette…",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Workspace Window",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Interface Layout",
+  "outcome": "clicked",
+  "dialogs": [
+   "Interface Layout"
+  ],
   "toasts": [],
   "problems": []
  },
@@ -441,7 +469,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
   ],
   "problems": []
  },
@@ -653,7 +681,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: All imagery is linked"
+   "info: All imagery is linked×"
   ],
   "problems": []
  },

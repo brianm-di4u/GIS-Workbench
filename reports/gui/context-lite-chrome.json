@@ -74,7 +74,7 @@
   "id": "Copy Coordinate ▸ Decimal degrees",
   "dialogs": [],
   "toasts": [
-   "info: Copied"
+   "info: Copied×"
   ],
   "problems": []
  },
@@ -82,27 +82,21 @@
   "tab": "panel menu",
   "id": "Copy Coordinate ▸ DMS",
   "dialogs": [],
-  "toasts": [
-   "info: Copied"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
   "tab": "panel menu",
   "id": "Copy Coordinate ▸ MGRS",
   "dialogs": [],
-  "toasts": [
-   "info: Copied"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
   "tab": "panel menu",
   "id": "Copy Coordinate ▸ UTM",
   "dialogs": [],
-  "toasts": [
-   "info: Copied"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -117,7 +111,7 @@
   "id": "Add Feedback Pin",
   "dialogs": [],
   "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves."
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
   ],
   "problems": []
  },

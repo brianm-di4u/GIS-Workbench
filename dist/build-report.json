@@ -1,18 +1,18 @@
 {
   "build": {
-    "id": "354b292f5e3cd21c",
-    "version": "1.2.1",
-    "date": "2026-10-28T06:00:49.661Z",
+    "id": "6959048a1cff6b6e",
+    "version": "1.3.0",
+    "date": "2026-10-28T07:37:46.773Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5698574,
-    "eager": 2302395,
-    "css": 40646,
+    "total": 5747914,
+    "eager": 2350395,
+    "css": 45377,
     "boot": 2733,
-    "app": 1990362,
+    "app": 2033631,
     "notices": 113900,
     "blocks": {
       "wasm-core": {
@@ -136,8 +136,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 10043,
-        "stored": 6168,
+        "raw": 12512,
+        "stored": 7508,
         "load": "lazy"
       }
     },
@@ -194,9 +194,9 @@
       }
     },
     "rustTotalGzip": 874882,
-    "lite": 3965933,
-    "snippet": 6035341,
-    "snippetLite": 3966276
+    "lite": 3991137,
+    "snippet": 6098225,
+    "snippetLite": 3991480
   },
   "gates": {
     "errors": [],
@@ -499,5 +499,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-2vs66uuOYNIQe7a5qF1tlY+Nfuxb3s4MbwfzWAaoXeI=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-ziMlKt5LrAxM5tFY7PdZ65AxKbtWpdEvnnQAatNkdCQ=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

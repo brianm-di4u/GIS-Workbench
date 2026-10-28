@@ -113,8 +113,16 @@ async function settle(page) {
         const b = top.querySelector('.dlg-body');
         overflow = !!b && b.scrollWidth > b.clientWidth + 2;
       }
-      return { dlg: top?.getAttribute('aria-label') ?? null, id: top?.dataset.id ?? null, fit, overflow, menu: !!document.querySelector('.menu-host'), wb: !!document.querySelector('.wb-overlay:not([hidden])') };
+      return { dlg: top?.getAttribute('aria-label') ?? null, id: top?.dataset.id ?? null, fit, overflow, menu: !!document.querySelector('.menu-host'), wb: !!document.querySelector('.wb-overlay:not([hidden])'), palette: !!document.querySelector('[data-id="palette"]') };
     });
+    // The command palette (REQ-SHL-05) closes with Esc like a dialog.
+    if (st.palette) {
+      seen.dialogs.push('palette');
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(150);
+      if (await page.locator('[data-id="palette"]').count()) seen.problems.push('the command palette ignores Esc');
+      continue;
+    }
     if (st.dlg) {
       seen.dialogs.push(st.id ?? st.dlg);
       if (!st.fit) seen.problems.push(`dialog "${st.dlg}" does not fit the window`);
@@ -142,6 +150,9 @@ async function settle(page) {
     }
     break;
   }
+  // View ▸ Workspace Window folds the Workspace window (and its menu bar) into a rail: open it
+  // again so the sweep keeps its menus (REQ-SHL-02).
+  if (await page.locator('[data-id="ws:rail"]').count()) await page.locator('[data-id="ws:rail"]').click();
   // A tool left active keeps capturing the panel: Esc cancels it (keys.js).
   const tool = await page.evaluate(() => !!window.gisworkbench.tools?.current);
   if (tool) {

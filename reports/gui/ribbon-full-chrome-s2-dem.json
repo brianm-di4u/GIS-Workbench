@@ -116,7 +116,7 @@
   "outcome": "combo ×3",
   "dialogs": [],
   "toasts": [
-   "warn: Draw an AOI first (Home ▸ Area of Interest)"
+   "warn: Draw an AOI first (Home ▸ Area of Interest)×"
   ],
   "problems": []
  },
@@ -310,7 +310,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: draw an AOI around one example of the object first"
+   "warn: draw an AOI around one example of the object first×"
   ],
   "problems": []
  },
@@ -390,7 +390,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)"
+   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
   ],
   "problems": []
  },
