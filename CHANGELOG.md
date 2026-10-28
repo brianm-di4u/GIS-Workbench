@@ -2,7 +2,7 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
-## [1.2.1] - Unreleased
+## [1.2.1] - 2026-10-28
 
 Field-data campaign (phase F): real production imagery supplied by a first user: Pléiades and DigitalGlobe ortho packages (ZIP, DIMAP), JPEG-tiled GeoTIFF tile sets, Intermap dual-pol SAR intensity and MrSID mosaics. Findings TE-059 onward.
 
