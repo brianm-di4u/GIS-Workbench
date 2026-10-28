@@ -509,7 +509,14 @@ const CATALOG = [
   ['lai.contrast', 'Auto Contrast', 'contrast', 'REQ-LAI-07', 'R4', '', 'Sets local contrast and brightness for this image automatically; Undo restores the previous look.'],
   ['lai.square', 'Square Corners', 'wand', 'REQ-LAI-02', 'R4', '', 'Smart Select outlines of buildings and other man-made objects get right-angled corners.'],
   ['lai.device', 'AI Device…', 'ai', 'REQ-LAI-01', 'R4', '', 'Shows whether the local models run on the graphics card (WebGPU) or the CPU, and which model packs are loaded.'],
-  ['align.ai', 'Auto Align (AI)', 'align', 'REQ-LAI-05', 'R4', '', 'Lines up the active image with the reference by matching learned keypoints; works across dates and sensors.']
+  ['align.ai', 'Auto Align (AI)', 'align', 'REQ-LAI-05', 'R4', '', 'Lines up the active image with the reference by matching learned keypoints; works across dates and sensors.'],
+  // ---- 2.0 recipes (P6) ----
+  ['rcp.open', 'Recipes', 'list', 'REQ-PIP-02', 'R4', '', 'Shows the recipe stepper: run a workflow step by step, change a step and re-run from there.'],
+  ['rcp.import', 'Open Recipe…', 'open', 'REQ-PIP-01', 'R4', '', 'Opens a .gwrecipe.json file and keeps it in your recipe list.'],
+  ['rcp.airfield-triage', 'Airfield Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: auto contrast, find aircraft, your review, a chip deck and a GeoJSON of the accepted ones.'],
+  ['rcp.damage-triage', 'Damage Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: align the post-event image, find damage, your review, GeoJSON.'],
+  ['rcp.folder-to-cog', 'Convert a Folder to COG', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: every raster in a folder becomes a Cloud-Optimized GeoTIFF.'],
+  ['rcp.building-extraction', 'Building Extraction', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: find buildings, outline and square each one, your review, GeoJSON.']
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */

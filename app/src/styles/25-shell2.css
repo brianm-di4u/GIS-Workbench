@@ -103,3 +103,22 @@
 .drop-zone.over, .drop-zone:hover, .drop-zone:focus-visible { border-color: var(--c-m3-primary, #2f5fb3); background: color-mix(in srgb, var(--c-m3-primary, #2f5fb3) 10%, transparent); }
 .drop-zone span { font-size: 11px; opacity: .8; }
 .cv-failed { color: var(--c-content-errorText); }
+
+/* Recipe stepper (2.0 P6; REQ-PIP-02) */
+.rcp { display: flex; flex-direction: column; gap: 6px; padding: 6px; }
+.rcp-bar { flex-wrap: wrap; align-items: center; }
+.rcp-steps { list-style: none; display: flex; gap: 6px; margin: 0; padding: 2px 0 4px; overflow-x: auto; }
+.rcp-step { position: relative; display: flex; flex-direction: column; gap: 2px; min-width: 150px; max-width: 220px; padding: 6px 8px 6px 30px; border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: var(--shape-medium, 8px); cursor: pointer; }
+.rcp-step.sel, .rcp-step:focus-visible { outline: 2px solid var(--c-m3-primary, #2f5fb3); outline-offset: 1px; }
+.rcp-n { position: absolute; left: 6px; top: 6px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: color-mix(in srgb, currentColor 14%, transparent); }
+.rcp-t { font-weight: 600; }
+.rcp-running .rcp-n { background: var(--c-m3-primary, #2f5fb3); color: var(--c-m3-on-primary, #fff); }
+.rcp-done .rcp-n { background: #2e7d32; color: #fff; }
+.rcp-failed { border-color: #c62828; }
+.rcp-failed .rcp-n { background: #c62828; color: #fff; }
+.rcp-waiting { border-color: #f9a825; box-shadow: 0 0 0 2px color-mix(in srgb, #f9a825 35%, transparent); }
+.rcp-waiting .rcp-n { background: #f9a825; color: #000; }
+.rcp-stale, .rcp-skipped { opacity: .65; }
+.rcp-drawer { border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent); padding-top: 6px; display: flex; flex-direction: column; gap: 6px; }
+.rcp-params { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px 12px; }
+.rcp-param { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }

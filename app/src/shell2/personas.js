@@ -28,7 +28,7 @@ export const PERSONAS = [
     docks: { ai: 'right' },
     statusRows: 1,
     pill: true,
-    radial: ['ai.smartselect', 'lai.find', 'lai.search', 'hud.quickchip', 'det.review', 'patrol.next', 'lai.contrast', 'ui.palette'],
+    radial: ['ai.smartselect', 'lai.find', 'lai.search', 'hud.quickchip', 'det.review', 'patrol.next', 'lai.contrast', 'rcp.airfield-triage'],
   },
   {
     id: 'pro',

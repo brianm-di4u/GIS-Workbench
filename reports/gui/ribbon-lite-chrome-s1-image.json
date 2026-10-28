@@ -1589,6 +1589,46 @@
  },
  {
   "tab": "addins",
+  "id": "rcp.open",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.airfield-triage",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.building-extraction",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.import",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
   "id": "ai.connections",
   "kind": "button",
   "outcome": "clicked",

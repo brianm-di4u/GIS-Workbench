@@ -719,3 +719,41 @@ Implementation rules for the 2.0 work:
   - The vision-language drafter (REQ-LAI-04: Florence-2 / Moondream / Qwen-VL) needs a
     generation loop and tokenizers beyond CLIP's.
   - The Find in Scene prompt front door.
+
+## DN-57 Glass-box recipes (2.0 P6; REQ-PIP-01..04)
+- **Model.** A recipe is a versioned JSON file (`gw-recipe/1`, saved as `.gwrecipe.json`). It is
+  a linear list of steps `{id, op, title, params, note, pythonHint}`, with no graph: a list
+  reads, edits and reviews like a checklist.
+  - `recipes/recipe.js` checks a recipe against the known operations, fills each step's
+    defaults and refuses anything that is not data.
+  - `pythonHint` is carried for the deferred "Copy as Python" (2.x).
+- **Operations** (`features/recipes.js OPS`):
+  - Auto contrast, find, search, co-register, outline (SAM 2.1 per detection; detections in
+    one 1024 px tile share one encoder run).
+  - Gate; chips (quick chips of reviewed detections into the session deck); export deck; export
+    GeoJSON (accepted detections or outlines); convert a folder; run any command.
+  - Steps call the same functions as the commands, so each change is an ordinary undoable
+    transaction.
+- **Runner.** Step states are pending, running, done, failed, waiting (a gate), skipped and
+  stale.
+  - A failure stops the run and names the step.
+  - Changing a parameter in the drawer marks that step and the later ones stale. "Re-run from
+    here" resets them and runs on.
+  - Stop skips the rest and releases a waiting gate.
+- **Gates.** A gate opens the detections review queue at the first pending candidate (they are
+  drawn on the map) and waits. The analyst accepts or rejects in the queue or with J / K and
+  1 / 2 / 3, then presses Enter (outside text fields and dialogs) or Resume. The gate's summary
+  then counts accepted and rejected.
+- **Stepper UI.** The Recipe dock opens at the bottom from the navigation rail item Recipes or
+  Image Tools ▸ Recipes. It has a horizontal list of numbered step chips with their state,
+  summary and time, and a parameter drawer under the selected step.
+- **Built-ins and pinning (REQ-PIP-04).**
+  - The built-in recipes are Airfield triage, Damage triage, Convert a folder to COG and
+    Building extraction.
+  - Each built-in is also a command (`rcp.<id>`), so it can sit on the radial menu, the QAT or a
+    persona. The AI Analyst persona pins Airfield triage.
+  - Opened recipes are kept in preferences (the last 20). They do not yet get commands of their
+    own.
+- **Deviation.** Damage triage has no change-mask step (DN-56). It finds damage on the
+  co-registered post-event image and the gate asks for flicker or swipe against the pre-event
+  image.

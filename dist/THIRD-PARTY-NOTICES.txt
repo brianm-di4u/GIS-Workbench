@@ -1,5 +1,5 @@
 GIS Workbench — third-party notices
-Build 2.0.0-beta.4 (2026-10-28T12:16:32.628Z)
+Build 2.0.0-rc.1 (2026-10-28T13:06:47.560Z)
 
 This file is generated from the build metafile (JavaScript), cargo metadata (Rust) and the data list below.
 

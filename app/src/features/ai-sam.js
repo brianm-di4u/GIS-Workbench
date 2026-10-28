@@ -129,12 +129,13 @@ export function install(app) {
   }
 
   /** The window around (x, y) as stretched 8-bit RGB. */
-  async function rgbWindow(l, x, y, size, hillshade = l.kind === 'dem' || !!app.terrain?.entry?.(l.id)) {
+  async function rgbWindow(l, x, y, size, hillshade = l.kind === 'dem' || !!app.terrain?.entry?.(l.id), at = null) {
     const W = Math.min(l.width, size);
     const H = Math.min(l.height, size);
     const step = Math.max(1, Math.ceil(Math.max(W, H) / 1024));
-    const x0 = Math.max(0, Math.min(l.width - W, Math.round(x - W / 2)));
-    const y0 = Math.max(0, Math.min(l.height - H, Math.round(y - H / 2)));
+    // `at`: a fixed window origin, so clicks in one tile share one embedding (recipes).
+    const x0 = Math.max(0, Math.min(l.width - W, Math.round(at ? at.x0 : x - W / 2)));
+    const y0 = Math.max(0, Math.min(l.height - H, Math.round(at ? at.y0 : y - H / 2)));
     const cb = l.chain?.bands ?? [0];
     const bands = cb.length >= 3 ? cb.slice(0, 3) : [cb[0] ?? 0];
     const r = await app.pool.run('window', { handle: l.handle, x0, y0, w: Math.ceil(W / step), h: Math.ceil(H / step), step, bands }, { affinity: l.affinity, label: 'smart select window' });
@@ -184,9 +185,9 @@ export function install(app) {
    * Smart select at image point (x, y) of layer l: → {polygon (image coords), iou, area, graphic}.
    * points: extra prompts [[x, y, 1|0]] in image coordinates.
    */
-  async function select(l, x, y, { pane = app.activePane(), size = 1024, points = [], commit = true, hillshade, square = !!app.prefs.get('samSquare') } = {}) {
+  async function select(l, x, y, { pane = app.activePane(), size = 1024, points = [], commit = true, hillshade, square = !!app.prefs.get('samSquare'), at = null } = {}) {
     const m = await ensure();
-    const win = await rgbWindow(l, x, y, size, hillshade);
+    const win = await rgbWindow(l, x, y, size, hillshade, at);
     const key = `${m.model}|${l.id}|${win.x0},${win.y0},${win.w},${win.h},${win.step},${win.hillshade ? 'hs' : 'rgb'}`;
     let id = cache.get(key);
     let encMs = 0;

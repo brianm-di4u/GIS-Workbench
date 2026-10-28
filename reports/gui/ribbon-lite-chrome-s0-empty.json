@@ -1527,6 +1527,46 @@
  },
  {
   "tab": "addins",
+  "id": "rcp.open",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.airfield-triage",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: select an image layer first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.building-extraction",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: open an image first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.import",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
   "id": "ai.connections",
   "kind": "button",
   "outcome": "clicked",

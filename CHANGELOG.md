@@ -2,6 +2,22 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0-rc.1] - 2026-10-28
+
+Recipes, the sixth step of GIS Workbench 2.0 (phase P6) and the first release candidate. A workflow runs as a row of steps you can watch, pause, adjust and share. Requirements REQ-PIP-01..04.
+
+### Added
+- **Recipes** (navigation rail ▸ Recipes, or Image Tools ▸ Recipes). A recipe runs one step after another in a stepper along the bottom. Each step shows its state, its result (“11 building”, “135 tie points”) and its time. (REQ-PIP-02)
+- **Change a step and re-run from there.** Click a step to open its parameters (the objects to find, a threshold…). A change marks that step and the ones after it as stale, and **Re-run from here** runs them again. (REQ-PIP-02)
+- **Review gates.** The recipe pauses with the candidates on the map and the review queue open. Accept or reject them (✓ / ✗, or J then 1 / 2 / 3), then press **Enter** or **Resume**. (REQ-PIP-03)
+- **Built-in recipes** (REQ-PIP-04):
+  - **Airfield triage**: auto contrast, find aircraft, review, then a chip deck and a GeoJSON of the accepted ones.
+  - **Damage triage**: co-register (AI), find damage, review, GeoJSON.
+  - **Convert a folder to COG**.
+  - **Building extraction**: find buildings, outline and square each with SAM 2.1, review, GeoJSON.
+  - Each is a command, so it can go on the radial menu or the Quick Access Toolbar. The AI Analyst persona has Airfield triage on its radial menu.
+- **Recipes as files.** **Save…** writes the recipe with your parameters as `.gwrecipe.json`. **Open…** loads one and keeps it in your list. (REQ-PIP-01)
+
 ## [2.0.0-beta.4] - 2026-10-28
 
 Local AI, the fifth step of GIS Workbench 2.0 (phase P5). The models run on this computer, on the graphics card when it supports WebGPU and on the processor otherwise. Nothing is sent anywhere. Requirements REQ-LAI-01..03 and REQ-LAI-05..09.
