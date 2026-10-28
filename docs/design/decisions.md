@@ -552,3 +552,28 @@ decodes every function body of every Rust bundle at build time and in the unit t
 on relaxed-SIMD opcodes, atomics, undecodable bodies or a relaxed-simd target feature.
 `wasm-opt` runs with `--disable-relaxed-simd` where it is installed. GPU paths are not
 reference paths: they are checked against the worker results.
+
+## DN-53 GIS Workbench 2.0 baseline (release R4)
+The 2.0 modernization answers the first-user UI/UX review of 1.2. The approved plan is
+`../Docs/SDP-2.0-modernization-plan.md`; the requirements are PRD §6.22 (REQ-SHL, NET, GLB, CON,
+ING, CNV, LAI, PIP, HUB; `Docs/tools/newreqs-v2.mjs`, release R4). Owner decisions:
+- **OD-2.1** The Modern shell is the default and the Ribbon is the opt-in Classic layout.
+- **OD-2.2** The app stays browser only.
+- **OD-2.3** Curated public origins sit behind an Online/Offline switch, plus an air-gapped variant.
+- **OD-2.4** The 2.0 hub covers export bridges, TAK and drives.
+
+Implementation rules for the 2.0 work:
+- **One spine.** Both layouts drive the same `Commands` registry, store, panes and renderer.
+  Command metadata for the Modern chrome (category, keywords, outcome text, contexts, pill,
+  radial, plain-language alias) lives in `shell/command-meta.js`, keyed by command id, so the
+  positional `CATALOG` rows stay untouched.
+- **Interim releases.** P1 ships as 1.3.0 and P2–P7 as 2.0.0 betas; 2.0.0 closes P8. Work
+  happens on branch `v2-modernization` and is merged to `main` at each release.
+- **Tests.** The 1.x suites stay green. Tests that read Ribbon, QAT or menu DOM are marked
+  `@classic` and select the Classic layout once it exists (P2). Tests that expect banners on an
+  UNCLASSIFIED image set the banner preference explicitly from 1.3.0.
+- **Spikes S-27, S-30, S-33.** Their desk work was done while planning (2026-10-27). CORS of every
+  candidate origin was measured with `Origin: null`; model licences, ONNX sizes and the
+  Cesium/3d-tiles-renderer bundles were checked. The results are in the plan (§4 P3/P5, §6, §8).
+  The hands-on halves run at the start of P3 (globe, basemap renderer) and P5 (WebGPU models),
+  before any design in those phases is fixed.
