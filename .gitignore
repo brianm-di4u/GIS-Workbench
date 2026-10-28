@@ -7,6 +7,7 @@ dist-te/
 dist-te2/
 dist-gui/
 dist-live/
+dist-v200/
 
 # Transient test output (summaries and traceability in reports/ are kept)
 test-results/

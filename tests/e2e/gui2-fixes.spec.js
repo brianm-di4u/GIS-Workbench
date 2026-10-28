@@ -344,9 +344,11 @@ test('GUI-054 Network Allow-List and Send to a Google Sheet name every field', a
 
 test('GUI-055 the air-gapped status stays on one line in a narrow window', async ({ page }) => {
   await modern(page, [], { build: 'airgap' });
-  await page.setViewportSize({ width: 800, height: 600 });
+  await page.setViewportSize({ width: 640, height: 600 });
   const b = page.locator('[data-id^="status:net:"]');
   await expect(b).toHaveText('Air-gapped');
+  // The rule itself: it may neither wrap nor be squeezed by the cells beside it.
+  expect(await b.evaluate((e) => [getComputedStyle(e).whiteSpace, getComputedStyle(e).flexShrink])).toEqual(['nowrap', '0']);
   const h = await b.evaluate((e) => e.getBoundingClientRect().height);
   const line = await b.evaluate((e) => parseFloat(getComputedStyle(e).lineHeight) || 16);
   expect(h).toBeLessThan(line * 1.6 + 4);
