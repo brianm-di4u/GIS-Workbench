@@ -487,6 +487,33 @@ export function categoryOf(id) {
   return PREFIX_CAT[id.split('.')[0]] ?? 'view';
 }
 
+/** What to open or do before a command of each category can run (GUI-047). */
+const NEED = {
+  video: 'open a video (MPEG-TS with KLV) first',
+  points: 'open a point cloud (LAS, LAZ or COPC) first',
+  sar: 'open a SAR image (SICD) first',
+  spectral: 'open a multispectral image first',
+  terrain: 'open an elevation model (DEM) first',
+  compare: 'open two images in this panel first',
+  extract: 'open or draw features first',
+};
+
+/**
+ * Why a greyed-out command cannot run, in words a user can act on: what to open or do first,
+ * from its category and what is open now (GUI-047). The palette and tooltips show it.
+ */
+export function needOf(app, id) {
+  const cat = categoryOf(id);
+  const pane = app.activePane?.();
+  const open = (app.layers?.size ?? 0) > 0 || !!pane?.video || !!pane?.view3d;
+  if (id === 'stereo.open') return 'open two images with 3-D sensor models in this panel first';
+  if (cat === 'stereo') return 'open the Stereo Panel first';
+  if (cat === 'scene3d') return open ? 'show the 3D view first' : 'open a georeferenced image or a point cloud first';
+  if (NEED[cat]) return NEED[cat];
+  if (!open && !['file', 'help', 'settings', 'window', 'data', 'ai'].includes(cat)) return 'open an image first';
+  return 'not available with what is open or selected now';
+}
+
 /** {cat, out, alias, kw} for a command id. `out` may be undefined (the command's tip applies). */
 export function metaOf(id) {
   return { cat: categoryOf(id), out: OUT[id], alias: ALIAS[id], kw: KW[id] };

@@ -1,0 +1,914 @@
+[
+ {
+  "tab": "app bar",
+  "id": "shell:search",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:file.openimage",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:file.openurl",
+  "outcome": "clicked",
+  "dialogs": [
+   "Open from URL"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:qat.undo",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:qat.redo",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:file.save",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "shell:theme",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "shell:theme (back)",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:wb.toggle",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "app bar",
+  "id": "cmd:file.prefs",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ New",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Open",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Recent Projects",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:recent"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Save Project",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Save Project As…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Save Options…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:save-options"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Relink Imagery…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: All imagery is linked×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "File ▸ Project Properties…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:project-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ Undo",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ Redo",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ History…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:history"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ Copy",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ Paste",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ Select All",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 graphic(s) selected×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Edit ▸ Delete",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Data View",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Windows View",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Map View",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Preview",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Command Palette…",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Workspace Window",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Interface Layout",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Classic layout: Ribbon and docks as in 1.x. Switch back from View ▸ Display or the palette (Ctrl+K).×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Customize Hot Keys…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Job Queue",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Network Log",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Import Log",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ Theme",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "View ▸ UI Scale…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ui-scale"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Geospatial ▸ Convert Coordinates…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:convert"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Geospatial ▸ Jump to Point…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Geospatial ▸ Terrain Folder…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Geospatial ▸ Add Online Source…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Tools ▸ Image List",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Tools ▸ Load Point File…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Tools ▸ Preferences…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Tools ▸ Automation Console",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ AI Assistant",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ Connections…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ai-connections"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ Prompt Helper (offline)…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ MCP Servers…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:mcp-servers"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ Feedback Whiteboard",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ Review & Send…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:wb-review"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Add-Ins ▸ Import Feedback…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Help ▸ Help Topics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:help"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Help ▸ Keyboard Map",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Help ▸ Accuracy and Limits",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:limits"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Help ▸ What's New",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:whatsnew"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "main menu",
+  "id": "Help ▸ About & Diagnostics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:about"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "help menu",
+  "id": "Help Topics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:help"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "help menu",
+  "id": "Keyboard Map",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "help menu",
+  "id": "Accuracy and Limits",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:limits"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "help menu",
+  "id": "What's New",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:whatsnew"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "help menu",
+  "id": "About & Diagnostics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:about"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "workspace chip",
+  "id": "Imagery Explorer & Converter",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Imagery Explorer & Converter: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "workspace chip",
+  "id": "AI & Exploitation Analyst",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: AI & Exploitation Analyst: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "workspace chip",
+  "id": "Mensuration & Photogrammetry Pro",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Mensuration & Photogrammetry Pro: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "workspace chip",
+  "id": "Save Current Workspace…",
+  "outcome": "clicked",
+  "dialogs": [
+   "Save Workspace"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "workspace chip",
+  "id": "Interface Layout",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "catalog (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "catalog (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "data (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [
+   "info: Classic layout: Ribbon and docks as in 1.x. Switch back from View ▸ Display or the palette (Ctrl+K).×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "data (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "layers (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "layers (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "tools (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "tools (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "measure (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "measure (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "ai (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "ai (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "recipes (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "recipes (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "convert (open)",
+  "outcome": "pressed true",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail",
+  "id": "convert (close)",
+  "outcome": "pressed false",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Chip Current View",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "By Preset Area Size",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "All Markers",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Quick Chip",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Export Session Deck…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "PowerPoint",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "PDF",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "GeoPDF",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "KMZ",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Photoshop (PSD)…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Illustrator (Layered PDF)…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "3D Terrain (GLB)…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "3D Terrain (USDZ)…",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "ATAK Data Package…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Report Template",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:report"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Draft with AI…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "rail products",
+  "id": "Finishing Tool",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "status bar",
+  "id": "[data-id^=\"status:net:\"] button",
+  "outcome": "hidden",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "status bar",
+  "id": "[data-id^=\"status:net:\"] button",
+  "outcome": "hidden",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "status bar",
+  "id": "[data-id^=\"status:jobs:\"]",
+  "outcome": "hidden",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

@@ -228,7 +228,8 @@ export function install(app) {
           p.el.appendChild(b);
           fabs.set(p, b);
         }
-        const can = app.layoutMode() === 'modern' && (!!p.geoLayer?.()?.modelId || !!p.globe) && !p.video;
+        // Not in the Lite file, which leaves the 3D module out (GUI-046).
+        const can = app.layoutMode() === 'modern' && (!!p.geoLayer?.()?.modelId || !!p.globe) && !p.video && !C.liteGap('glb.toggle');
         b.hidden = !can;
         const t = p.view3d && p.globe ? '2D' : '3D';
         if (b.textContent !== t) b.textContent = t;

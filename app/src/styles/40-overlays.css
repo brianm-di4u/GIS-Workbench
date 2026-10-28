@@ -24,6 +24,13 @@
 .dlg-buttons .btn-left + .btn-left { margin-right: 0; }
 .fld { display: grid; grid-template-columns: 150px 1fr; gap: 8px; align-items: center; margin: 4px 0; }
 .fld > small { grid-column: 2; }
+/* In a narrow dock the label sits above its control instead of pushing it out of view (GUI-050). */
+.dock-content { container-type: inline-size; }
+@container (max-width: 360px) {
+  .fld { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .fld > small { grid-column: 1; }
+  .fld > :is(input, select, textarea) { min-width: 0; }
+}
 .fld-inline { display: flex; gap: 6px; }
 .sec { border: 0; border-top: 1px solid #8f8f8f; margin: 10px 0 4px; padding: 6px 0 0; }
 .sec legend { padding: 0 6px 0 0; font-weight: 600; }
@@ -88,8 +95,9 @@ body[aria-busy='true'], body[aria-busy='true'] * { cursor: progress !important; 
 }
 
 /* ToolBox ▸ Features (REQ-EXT-01) */
-.tb-row { display: flex; gap: 4px; align-items: center; padding: 2px 6px; }
+.tb-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; padding: 2px 6px; } /* wraps in a narrow dock (GUI-050) */
 .tb-row select { flex: 1; min-width: 0; }
+.tb-row input[type="range"] { flex: 1 1 80px; min-width: 60px; }
 .tb-text { font-size: 18px; line-height: 1; }
 .tb-mods { display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 4px 6px; font-size: var(--fs-sm); }
 .tb-mod { display: inline-flex; align-items: center; gap: 3px; min-height: var(--s-targetMin, 24px); }
@@ -103,7 +111,7 @@ tr.selected td { background: color-mix(in srgb, #e000e0 22%, transparent); }
 .prefs-split { display: flex; gap: 8px; min-height: 240px; }
 .prefs-tree { list-style: none; margin: 0; padding: 0; min-width: 130px; border-right: 1px solid color-mix(in srgb, currentColor 20%, transparent); }
 .prefs-tree li { padding: 3px 8px; cursor: pointer; }
-.prefs-tree li.sel { font-weight: 600; background: color-mix(in srgb, currentColor 10%, transparent); }
+.prefs-tree li.sel { font-weight: 600; background: var(--c-content-selected); color: var(--c-content-text); }
 .prefs-rows { flex: 1; overflow: auto; max-height: 50vh; }
 
 /* Mini toolbar over the panel context menu (REQ-UI-06) */

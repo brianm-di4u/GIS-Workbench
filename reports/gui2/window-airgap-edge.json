@@ -1,0 +1,96 @@
+[
+ {
+  "tab": "window",
+  "id": "win.new",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "win.clone",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Cloned Multiport_2×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "win.separate",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "win.close",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "display.fullscreen",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Exploitation Fullscreen: browser shortcuts are captured. Hold Esc to leave.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "display.fullscreen",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "file.print",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "cmp.record",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Recording the panel to WEBM. Record again to stop and save.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "cmp.record",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "stereo.xr",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "window",
+  "id": "3d.record",
+  "outcome": "not now: show the 3D view first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

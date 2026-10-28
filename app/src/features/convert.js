@@ -216,7 +216,7 @@ export function install(app) {
     clear(panelEl);
     const target = h('select', { class: 'inp', 'data-id': 'convert:target', 'aria-label': 'Vector output' }, h('option', { value: 'geojson' }, 'Vectors → GeoJSON'), h('option', { value: 'geoparquet', selected: app.prefs.get('convertTarget') === 'geoparquet' }, 'Vectors → GeoParquet'), h('option', { value: 'flatgeobuf', selected: app.prefs.get('convertTarget') === 'flatgeobuf' }, 'Vectors → FlatGeobuf'));
     target.addEventListener('change', () => app.prefs.set('convertTarget', target.value));
-    const zone = h('div', { class: 'drop-zone', tabindex: '0', role: 'button', 'data-id': 'convert:drop' }, h('strong', {}, 'Drop files here to convert'), h('span', {}, 'Shapefile (zip), KML/KMZ, GPX, GeoPackage, CSV, GML → GeoJSON, GeoParquet or FlatGeobuf · GeoTIFF, NITF, JPEG 2000, DTED → Cloud-Optimized GeoTIFF'));
+    const zone = h('div', { class: 'drop-zone', tabindex: '0', role: 'button', 'data-id': 'convert:drop' }, h('strong', {}, 'Drop files here, or click to choose them') /* GUI-051 */, h('span', {}, 'Shapefile (zip), KML/KMZ, GPX, GeoPackage, CSV, GML → GeoJSON, GeoParquet or FlatGeobuf · GeoTIFF, NITF, JPEG 2000, DTED → Cloud-Optimized GeoTIFF'));
     zone.addEventListener('dragover', (e) => {
       e.preventDefault();
       zone.classList.add('over');

@@ -90,7 +90,7 @@ const RECIPES = [
 const PRECONDITION = {
   'stereo.xr': /WebXR immersive stereo is not available/,
   'msi.thermal': /needs radiance/,
-  'vec.remoteopen': /service URL must start with http/,
+  'vec.remoteopen': /service URL that starts with http/,
   '3d.qmesh': /enter the layer\.json URL/,
   '3d.tiles': /enter the tileset\.json URL/,
 };

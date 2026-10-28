@@ -1,0 +1,124 @@
+[
+ {
+  "id": "qat:qat.undo",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "qat:qat.redo",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "qat:dock.layers",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "qat:dock.toolbox",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "qat:wb.toggle",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
+  ],
+  "problems": []
+ },
+ {
+  "id": "qat:ai.assistant",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "qat:file.save",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "qat:qat.customize",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:qat-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:file.newproject",
+  "outcome": "clicked",
+  "dialogs": [
+   "New Project"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:file.openimage",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:file.save",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:edit.copy",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:help.topics",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:help"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:view:data",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:view:windows",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "id": "ws:online",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

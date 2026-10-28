@@ -10,6 +10,15 @@
  },
  {
   "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
   "id": "img.vmosaic",
   "kind": "button",
   "outcome": "disabled",
@@ -387,11 +396,9 @@
   "tab": "analyze",
   "id": "profile.elevation",
   "kind": "button",
-  "outcome": "clicked",
+  "outcome": "toggled",
   "dialogs": [],
-  "toasts": [
-   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -532,6 +539,195 @@
   "tab": "analyze",
   "id": "sar.ccd:menu",
   "kind": "caret",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.select",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.hillshade",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.slope",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.aspect",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [
+   "info: Aspect: clockwise from true north (grid north turned by the meridian convergence; gdaldem uses grid north)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.relief",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.contours",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:contours"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.contourlines",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:contour-lines"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "los.p2p",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "los.fan",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:viewshed"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "los.viewshed",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:viewshed"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "los.hlz",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:hlz"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.extract",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.groundfilter",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ground-filter"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.edit",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:dem-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.volume",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.diff",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.accuracy",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.save",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:dem-save"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "surface",
+  "id": "dem.r2v",
+  "kind": "button",
   "outcome": "disabled",
   "dialogs": [],
   "toasts": [],

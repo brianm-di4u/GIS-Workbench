@@ -36,6 +36,20 @@ async function boot() {
   const core = new Core(coreModule);
   const app = new App({ gw, runMode, core });
   globalThis.gisworkbench = app; // automation console (REQ-ARC-17, R1 for the full API)
+  // A failure outside a command (a timer, a listener, a promise nobody awaits) goes to the
+  // message log for Copy Diagnostics and, once per message, to the user (GUI-037).
+  const told = new Set();
+  const unexpected = (what, err) => {
+    if (err?.name === 'AbortError') return;
+    const msg = err?.message ?? String(err ?? 'unknown error');
+    const at = err?.stack?.split('\n').slice(1, 4).map((s) => s.trim()).join(' ← ');
+    app.log('error', `${what}: ${msg}${at ? ` (${at})` : ''}`);
+    if (told.has(msg) || !app.desktop) return;
+    told.add(msg);
+    app.toast(`Something went wrong: ${msg}. Help ▸ About & Diagnostics ▸ Copy Diagnostics has the details.`, { kind: 'error', ms: 8000 });
+  };
+  addEventListener('error', (e) => e.error && unexpected('uncaught error', e.error));
+  addEventListener('unhandledrejection', (e) => unexpected('unhandled promise', e.reason));
   document.documentElement.dataset.layout = app.layoutMode();
   document.documentElement.dataset.theme = app.prefs.get('theme') ?? (app.layoutMode() === 'modern' ? 'm3-dark' : 'grey');
 
@@ -73,6 +87,15 @@ async function boot() {
   mark('multiport');
   app.emit('ready', mp);
   mark('ready handlers');
+  // Every Multiport gets every dock panel, however it is made (New Project, Open Project, Window ▸
+  // New Window): a later one gets the panels the first one registered (GUI-045).
+  const panelSpecs = [...mp.docks.registry.values()].filter((p) => !p.transient).map((p) => p.spec);
+  const addMp = app.desktop.addMultiport.bind(app.desktop);
+  app.desktop.addMultiport = (id) => {
+    const m = addMp(id);
+    for (const s of panelSpecs) if (!m.docks.registry.has(s.id)) m.docks.register(s);
+    return m;
+  };
   // A persona's docks open at start; the first start offers the choice (REQ-SHL-12).
   const per = app.personas.current();
   if (per) app.personas.apply(per.id, { quiet: true });

@@ -246,9 +246,11 @@ export function install(app) {
     clear(panelEl);
     const api0 = app.prefs.get('stacApi') ?? STAC_APIS[0].id;
     // URL
-    const url = h('input', { class: 'inp', placeholder: 'https://…/image.tif · s3://… · gs://…', spellcheck: 'false', 'data-id': 'catalog:url' });
+    const url = h('input', { class: 'inp', placeholder: 'https://…/image.tif · s3://… · gs://…', spellcheck: 'false', 'data-id': 'catalog:url', 'aria-label': 'Image address' });
     const go = h('button', { class: 'btn', 'data-id': 'catalog:open-url' }, 'Open');
-    go.addEventListener('click', () => url.value.trim() && openUrl(url.value.trim()).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 })));
+    // An empty box says so instead of doing nothing (GUI-051).
+    const typeFirst = (input, what) => (input.value.trim() ? true : (app.toast(`Type ${what} first.`, { kind: 'warn' }), input.focus(), false));
+    go.addEventListener('click', () => typeFirst(url, 'an image address (https://, s3:// or gs://)') && openUrl(url.value.trim()).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 })));
     url.addEventListener('keydown', (e) => e.key === 'Enter' && go.click());
     // STAC
     const apiSel = h('select', { class: 'inp', 'data-id': 'catalog:api' }, STAC_APIS.map((a) => h('option', { value: a.id, selected: a.id === api0 }, a.name)));
@@ -291,7 +293,7 @@ export function install(app) {
     };
     renderResults();
     // S3
-    const s3 = h('input', { class: 'inp', placeholder: 's3://maxar-opendata/events/', spellcheck: 'false', 'data-id': 'catalog:s3', value: listing ? `s3://${listing.bucket}/${listing.prefix}` : '' });
+    const s3 = h('input', { class: 'inp', placeholder: 's3://maxar-opendata/events/', spellcheck: 'false', 'data-id': 'catalog:s3', 'aria-label': 'Bucket address', value: listing ? `s3://${listing.bucket}/${listing.prefix}` : '' });
     const ls = h('button', { class: 'btn', 'data-id': 'catalog:list' }, 'List');
     const keysBtn = h('button', { class: 'btn' }, 'Keys…');
     keysBtn.addEventListener('click', () => C.run('cat.s3keys'));
@@ -325,7 +327,7 @@ export function install(app) {
         app.toast(e.message, { kind: 'warn', ms: 8000 });
       }
     };
-    ls.addEventListener('click', () => s3.value.trim() && browse(s3.value.trim()));
+    ls.addEventListener('click', () => typeFirst(s3, 'a bucket address (s3://bucket/prefix/)') && browse(s3.value.trim()));
     renderListing();
     // Folders
     const addF = h('button', { class: 'btn', 'data-id': 'catalog:add-folder' }, 'Add Folder…');
@@ -343,7 +345,7 @@ export function install(app) {
     panelEl.append(
       h('div', { class: 'cat' }, offline,
         h('h4', {}, 'Open from a URL'), h('div', { class: 'btn-row' }, url, go),
-        h('h4', {}, 'Search a catalogue (STAC)'), field('Catalogue', apiSel), field('Collection', colSel), h('div', { class: 'btn-row' }, from, to), h('div', { class: 'btn-row' }, search), status, resultsEl,
+        h('h4', {}, 'Search a catalogue (STAC)'), field('Catalogue', apiSel), field('Collection', colSel), h('div', { class: 'btn-row' }, field('From', from), field('To', to)), h('div', { class: 'btn-row' }, search), status, resultsEl,
         h('h4', {}, 'Browse a bucket'), h('div', { class: 'btn-row' }, s3, ls, keysBtn), lsOut,
         h('h4', {}, 'Local folders'), h('div', { class: 'btn-row' }, addF), fl),
     );

@@ -743,6 +743,30 @@
     }
   },
   "colorsDarkDerived": {
+    "dock.tabInactive": {
+      "hex": "#3a3a3a",
+      "use": "Inactive dock and Workspace tabs in the dark theme (GUI-049)",
+      "confidence": "guess",
+      "source": [
+        "derived: readable with content.text #e6e6e6"
+      ]
+    },
+    "dock.tabActive": {
+      "hex": "#5a5a5a",
+      "use": "Active dock and Workspace tabs in the dark theme (GUI-049)",
+      "confidence": "guess",
+      "source": [
+        "derived: readable with content.text #e6e6e6"
+      ]
+    },
+    "button.face": {
+      "hex": "#3c3c3c",
+      "use": "Dialog and panel buttons in the dark theme (GUI-048)",
+      "confidence": "guess",
+      "source": [
+        "derived: readable with content.text #e6e6e6"
+      ]
+    },
     "chrome.frame": {
       "hex": "#2b2b2b",
       "use": "Frame, menu bar, tab strip",
@@ -2037,24 +2061,40 @@
       ]
     },
     "status.bg": {
-      "hex": "#1d2024",
-      "use": "M3 re-skin of status.bg",
+      "hex": "#ededf4",
+      "use": "M3 re-skin of status.bg (surface container, GUI-031)",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
       ]
     },
     "status.text": {
-      "hex": "#e2e2e9",
-      "use": "M3 re-skin of status.text",
+      "hex": "#44474f",
+      "use": "M3 re-skin of status.text (on surface variant, GUI-031)",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
       ]
     },
     "status.separator": {
-      "hex": "#44474f",
+      "hex": "#c4c6d0",
       "use": "M3 re-skin of status.separator",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.ok": {
+      "hex": "#c4eed0",
+      "use": "M3 light re-skin of status.ok: a container colour under black text (GUI-031, GUI-049)",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.bad": {
+      "hex": "#ffdad6",
+      "use": "M3 light re-skin of status.bad: the error container under black text (GUI-031, GUI-049)",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"

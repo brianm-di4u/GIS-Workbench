@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+{"ms":21920.899999976158,"size":[4096,4096],"grid":[2407,2500],"tiles":25,"matched":0.9663204552817531,"workers":6,"webgpu":true,"matcher":"worker","gpu":{"ms":6715.5,"matched":0.9656248777009783,"matcher":"webgpu","medianDiff":0,"p95Diff":0.00677490234375}}
+  ok 1 [chrome] › tests\e2e\perf-r2.spec.js:58:1 › REQ-PRF-06 a 4k × 4k DSM in 60 s or less in the workers and 10 s or less with WebGPU (30.7s)
+{"ms":20943.399999976158,"size":[4096,4096],"grid":[2407,2500],"tiles":25,"matched":0.9663204552817531,"workers":6,"webgpu":true,"matcher":"worker","gpu":{"ms":6885.199999988079,"matched":0.9656248777009783,"matcher":"webgpu","medianDiff":0,"p95Diff":0.00677490234375}}
+  ok 2 [edge] › tests\e2e\perf-r2.spec.js:58:1 › REQ-PRF-06 a 4k × 4k DSM in 60 s or less in the workers and 10 s or less with WebGPU (30.0s)
+
+  2 passed (1.0m)

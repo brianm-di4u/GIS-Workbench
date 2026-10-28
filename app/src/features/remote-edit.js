@@ -101,7 +101,7 @@ export function install(app) {
 
   /** Open a remote layer. src: {kind: 'arcgis'|'wfs', url, name, typeName (WFS), tokenMode, tokenParam}. */
   async function open(src, { token = null } = {}) {
-    if (!/^https?:\/\//.test(src.url)) throw new Error('the service URL must start with http:// or https://');
+    if (!/^https?:\/\//.test(src.url)) throw new Error('enter a service URL that starts with http:// or https:// first');
     let fc;
     let idField;
     let info = {};

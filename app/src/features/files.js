@@ -153,6 +153,28 @@ export async function install(app) {
       files = rest;
       if (!files.length) return;
     }
+    // ML detections as CSV (a class and a confidence column) go to the detection review queue,
+    // not the vector reader, which has no pixel boxes (GUI-058).
+    // They are imported after any images in the same drop, onto the image they belong to.
+    const det = [];
+    if (app.detections) {
+      for (const f of files) {
+        if (!/\.csv$/i.test(f.name)) continue;
+        const head = (await f.slice(0, 2048).text()).split(/\r?\n/)[0].toLowerCase().split(',').map((x) => x.trim());
+        if (head.some((x) => ['class', 'label', 'category'].includes(x)) && head.some((x) => ['confidence', 'score', 'conf', 'prob', 'probability'].includes(x))) det.push(f);
+      }
+      files = [...files].filter((f) => !det.includes(f));
+    }
+    const importDetections = async () => {
+      for (const f of det) {
+        if (!app.activeLayer?.()) {
+          app.toast(`${f.name}: open the image these detections belong to first, then open the file again`, { kind: 'warn', ms: 8000 });
+          continue;
+        }
+        await app.detections.importFile(f).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 }));
+      }
+    };
+    if (!files.length) return importDetections();
     if (app.splitVectorFiles) {
       // Vector data (GeoJSON, KML/KMZ, Shapefile sets) opens as feature layers (REQ-EXT-21).
       const { vector, rest } = app.splitVectorFiles([...files]);
@@ -174,6 +196,8 @@ export async function install(app) {
         if (L0 && !g.file.remote && L0.width * L0.height > 4e6 && !/COG/.test(fmt) && app.convertToCog) {
           app.toast(`${g.file.name} is not cloud-optimized: a COG copy pans faster and can be streamed from a server.`, { action: { label: 'Make COG copy', run: () => app.convertToCog(L0.id).then((m) => app.toast(m)).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 })) } });
         }
+        // A single-band elevation raster (a GeoTIFF DEM): offer it as terrain (GUI-056).
+        if (L0 && app.elevationLike?.(L0)) app.toast(`${g.file.name} looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.`, { action: { label: 'Use as terrain', run: () => app.terrainDialog(L0) } });
       } catch (e) {
         app.log('warn', `${g.file.name}: ${e.message}`); // a user-facing outcome, shown as a toast
         app.toast(`${g.file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
@@ -181,6 +205,7 @@ export async function install(app) {
       }
     }
     app.desktop.workspace.map.zoomToFootprints();
+    await importDetections();
   }
   app.openFiles = openFiles;
   // Test and automation hooks (E2E PT-07); not a public API yet (REQ-ARC-17 is R1/R2).
@@ -254,7 +279,7 @@ export async function install(app) {
       return app.toast(`${file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
     }
     for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
-    for (const l of app.layers.values()) l.dispose();
+    for (const l of app.layers.all()) l.dispose();
     app.layers.clear();
     app.files.clear();
     app.store.load(parsed.records);

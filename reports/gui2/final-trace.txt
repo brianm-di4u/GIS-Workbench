@@ -1,0 +1,5 @@
+
+> gis-workbench@2.0.1 trace
+> node build/traceability.mjs
+
+traceability: 188 requirements in R0+R1: {"tested":188}; 0 Must without a citing test; last results {"passing":170,"passing (file)":14,"failing (file)":3,"failing":1}; 4 Must without a passing result

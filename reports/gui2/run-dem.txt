@@ -1,0 +1,7 @@
+
+Running 3 tests using 3 workers
+
+[1/3] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s2-dem: every control in every tab responds without error
+[2/3] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s2-dem: every command this state enables runs from Ctrl+K
+[3/3] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s2-dem: every button responds
+  3 passed (3.8m)

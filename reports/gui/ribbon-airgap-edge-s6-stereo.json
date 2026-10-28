@@ -1,0 +1,1010 @@
+[
+ {
+  "tab": "visualize",
+  "id": "img.orthofly",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.vmosaic",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.projection",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ootf-projection"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.voids",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.footprint",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.segments",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:segments"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.brightness",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.contrast",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.gamma",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [
+   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.saturation",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.sharpness",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.invert",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.drascope",
+  "kind": "combo",
+  "outcome": "combo ×3",
+  "dialogs": [],
+  "toasts": [
+   "warn: Draw an AOI first (Home ▸ Area of Interest)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.dralock",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.drasettings",
+  "kind": "launcher",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:dra-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.stretch",
+  "kind": "combo",
+  "outcome": "combo ×9",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.curve",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tone-curve"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.lut",
+  "kind": "combo",
+  "outcome": "combo ×8",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.histogram",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:histogram-editor"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.sharpen",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.edge",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.smooth",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.median",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.morph",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:filter-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.clahe",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:clahe"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.auto",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.reset",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.remove",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.chain",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:chain-editor"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.pansharpen",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pansharpen"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.pansharpen:menu",
+  "kind": "caret",
+  "outcome": "menu ×5",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "search",
+  "id": "search.find",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "search",
+  "id": "search.template",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: draw an AOI around one example of the object first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.select",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:band-select"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.preview",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.stats",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:band-stats"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.snr",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "clip.threshold",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:clip-threshold"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "clip.void",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "profile.spectral",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "profile.elevation",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "display.pixels",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pixel-matrix"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "search.find",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.bandmath",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:bandmath"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.index.ndvi",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.radiometric",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:radiometric"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.stack",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:msi-stack"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.thermal",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:msi-thermal"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.cluster",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.detect",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.pca",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.xport",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.view",
+  "kind": "combo",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.anamorphic",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.ccd",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.ccd:menu",
+  "kind": "caret",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "lay.prev",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: fx02_a.ntf FX02A×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "lay.next",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: fx02_b.ntf FX02B×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "lay.order",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:order-images"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "cmp.porthole",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "cmp.swiper",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "cmp.twocolour",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "cmp.blend",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "cmp.play",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "cmp.rate",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "mie.play",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "mie.prev",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "mie.next",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "chg.detect",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:change-detect"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "chg.confirm",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layers",
+  "id": "stereo.open",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.manager",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:stereo-manager"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.next",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Stereo model FX02A + FX02B: convergence 33.3°×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.finder",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.metrics",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:stereo-metrics"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.epipolar",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.dubois",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Epipolar pair: 2525 × 2245 px at 1 display px per pixel×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.true",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.grey",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.half",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.split",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.sbs",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.cross",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.spanned",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.dual",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.overunder",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mode.interleaved",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.parity",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.swap",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.cursor",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.fixedcursor",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.place",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.snap",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Snapped: Z 700.03 m HAE (correlation 1.00)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.track",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.align",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.ypar",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Residual y-parallax of the epipolar fit over the view: 0.347 px RMS×",
+   "info: Stereo Align: 46 tie points, σ₀ 0.04; FX02B adjusted (SOL-0001); 46 points added×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mpoint",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mheight",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mdistance",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mslope",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mpolyline",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mpolygon",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.mvolume",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "stereo",
+  "id": "stereo.open",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

@@ -1,0 +1,114 @@
+[
+ {
+  "tab": "pill",
+  "id": "cmd:fmv.play",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:fmv.capture",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Captured frame 11 (NITF, RPC fit 0.000 px RMS)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:fmv.klv",
+  "outcome": "clicked",
+  "dialogs": [
+   "tool:fmv-klv"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:fmv.measure",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "pill:more",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:nav.whole",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:men.rangebearing",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:draw.marker",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:enh.auto",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:cmp.swiper",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:hud.quickchip",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:bm.add",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:ui.palette",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

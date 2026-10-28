@@ -1,0 +1,202 @@
+[
+ {
+  "tab": "palette",
+  "id": "qat.undo",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.features",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.byattr",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:sel-byattr"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of sel.byattr",
+  "id": "dialog:sel-byattr ▸ Select",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 feature(s) selected×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of sel.byattr",
+  "id": "dialog:sel-byattr ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.byloc",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:sel-byloc"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of sel.byloc",
+  "id": "dialog:sel-byloc ▸ Select",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Cannot read properties of null (reading 'groundAt')×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of sel.byloc",
+  "id": "dialog:sel-byloc ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.styles",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-styles"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.styles",
+  "id": "dialog:ext-styles ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.styles",
+  "id": "dialog:ext-styles ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.query",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:sel-byattr"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.validate",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-validate"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.validate",
+  "id": "dialog:ext-validate ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 2 issue(s) found×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.validate",
+  "id": "dialog:ext-validate ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.saveas",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-saveas"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.saveas",
+  "id": "dialog:ext-saveas ▸ Save",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-report"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.saveas",
+  "id": "dialog:ext-saveas ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.arcgis",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: ArcGIS Pro hand-off: 1 table(s), 11 feature(s); coded domains in gpkg_data_column_constraints×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.export3d",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-export3d"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.export3d",
+  "id": "dialog:ext-export3d ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.export3d",
+  "id": "dialog:ext-export3d ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

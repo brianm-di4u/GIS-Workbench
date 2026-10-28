@@ -6,7 +6,7 @@
 // element's native title is parked while the tooltip shows, so the browser does not show both.
 
 import { h } from './dom.js';
-import { metaOf } from './command-meta.js';
+import { metaOf, needOf } from './command-meta.js';
 import { chordsByCommand } from './palette.js';
 
 const SHOW_MS = 450;
@@ -82,7 +82,7 @@ export class Tooltips {
     const gap = C.liteGap(id);
     if (gap) status = gap;
     else if (!c.implemented) status = `Planned for ${c.rel} (${c.req}).`;
-    else if (!C.enabled(id)) status = 'Not available now: open or select what it works on first.';
+    else if (!C.enabled(id)) status = `Not available now: ${needOf(this.app, id)}.`;
     return { label: c.label.replace(/…$/, ''), key, outcome, status };
   }
 

@@ -1,0 +1,38 @@
+[
+ {
+  "tab": "welcome",
+  "id": "welcome:explorer",
+  "outcome": "{\"card\":false,\"layout\":\"modern\",\"persona\":\"explorer\",\"online\":false}",
+  "problems": []
+ },
+ {
+  "tab": "welcome",
+  "id": "welcome:analyst",
+  "outcome": "{\"card\":false,\"layout\":\"modern\",\"persona\":\"analyst\",\"online\":false}",
+  "problems": []
+ },
+ {
+  "tab": "welcome",
+  "id": "welcome:pro",
+  "outcome": "{\"card\":false,\"layout\":\"modern\",\"persona\":\"pro\",\"online\":false}",
+  "problems": []
+ },
+ {
+  "tab": "welcome",
+  "id": "welcome:classic",
+  "outcome": "{\"card\":false,\"layout\":\"classic\",\"persona\":null,\"online\":false}",
+  "problems": []
+ },
+ {
+  "tab": "welcome",
+  "id": "welcome:skip",
+  "outcome": "{\"card\":false,\"layout\":\"modern\",\"persona\":null,\"online\":false}",
+  "problems": []
+ },
+ {
+  "tab": "welcome",
+  "id": "welcome:online",
+  "outcome": "{\"card\":true,\"layout\":\"modern\",\"persona\":null,\"online\":false}",
+  "problems": []
+ }
+]

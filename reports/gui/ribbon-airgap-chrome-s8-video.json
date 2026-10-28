@@ -1,0 +1,163 @@
+[
+ {
+  "tab": "video",
+  "id": "fmv.play",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.stepback",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.stepfwd",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.loop",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.klv",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:fmv-klv"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.basis",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:fmv-basis"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.hud",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.vmti",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.csv",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.capture",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Captured frame 14 (NITF, RPC fit 0.000 px RMS)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.event",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:fmv-events"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.measure",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.export",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.gmti",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.gmticolour",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.link",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "video",
+  "id": "fmv.close",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

@@ -313,11 +313,11 @@ export function install(app) {
     const url = h('input', { class: 'inp', value: app.prefs.get('relayUrl') ?? '', placeholder: 'https://script.google.com/macros/s/…/exec', 'aria-label': 'Relay URL', style: { width: '100%' } });
     const secret = h('input', { class: 'inp', type: 'password', 'aria-label': 'Shared secret', autocomplete: 'off' });
     const sheet = h('input', { class: 'inp', value: app.prefs.get('relaySheet') ?? 'GIS Workbench', 'aria-label': 'Sheet name' });
-    const script = h('textarea', { class: 'inp mono', rows: '6', readOnly: true }, RELAY_SCRIPT);
+    const script = h('textarea', { class: 'inp mono', rows: '6', readOnly: true, 'aria-label': 'Relay script to copy' }, RELAY_SCRIPT);
     if ((await modal({ title: 'Send to a Google Sheet', body: h('div', {}, h('p', { class: 'hint' }, 'Appends the markers, observations and accepted detections as rows, through an Apps Script web app you deploy in your own account (script below). The secret signs each request and is not stored. Experimental: Google may refuse requests from a file opened from disk; host GIS Workbench on https if it does.'), field('Relay URL', url), field('Secret', secret), field('Sheet', sheet), h('details', {}, h('summary', {}, 'Apps Script relay'), script)), buttons: ['Send', 'Cancel'], width: 640, id: 'hub-relay' })) !== 'Send') return null;
     const u = url.value.trim();
     if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u)) throw new Error('the relay URL must be a script.google.com/macros/s/…/exec web app');
-    if (!secret.value) throw new Error('enter the shared secret');
+    if (!secret.value) throw new Error('enter the shared secret first');
     app.prefs.set('relayUrl', u);
     app.prefs.set('relaySheet', sheet.value.trim() || 'GIS Workbench');
     const columns = ['time', 'kind', 'name', 'lat', 'lon', 'mgrs', 'text', 'source'];

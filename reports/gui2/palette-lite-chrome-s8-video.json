@@ -1,0 +1,170 @@
+[
+ {
+  "tab": "palette",
+  "id": "fmv.play",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.stepback",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.stepfwd",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.loop",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.klv",
+  "outcome": "ran",
+  "dialogs": [
+   "tool:fmv-klv"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.basis",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:fmv-basis"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.basis",
+  "id": "dialog:fmv-basis ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.basis",
+  "id": "dialog:fmv-basis ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.hud",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.vmti",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.capture",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Captured frame 13 (NITF, RPC fit 0.000 px RMS)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.event",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:fmv-events"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.event",
+  "id": "dialog:fmv-events ▸ Log at this frame",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.event",
+  "id": "dialog:fmv-events ▸ Export CSV",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.event",
+  "id": "dialog:fmv-events ▸ Export GeoJSON",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.event",
+  "id": "dialog:fmv-events ▸ Export KML",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of fmv.event",
+  "id": "dialog:fmv-events ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.measure",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.csv",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.close",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

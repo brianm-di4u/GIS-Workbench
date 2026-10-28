@@ -2,6 +2,43 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.1] - 2026-10-28
+
+The 2.0 GUI campaign. Every button, menu, panel, dialog and shortcut of the Modern and Classic layouts was driven by real pointer and keyboard input in the Standard, Lite and air-gapped files, in Chrome and Edge, and checked hands-on in a browser with a GPU. This release fixes what it found and smooths what it showed could be easier.
+
+### Added
+- **Use as Terrain…** is now a command, in the command palette and on Image Tools ▸ Visualize. Opening a GeoTIFF elevation model suggests it, and the Surface tools and line of sight then work from it. Before, only the Layer Manager’s right-click menu offered it. (GUI-056)
+- **Detections open like any file.** A CSV of ML detections (class, confidence and boxes) opened or dropped with its image goes to the detection review queue. Before, it was read as a map layer and failed. (GUI-058)
+
+### Fixed
+- **New Project, Open Project and Window ▸ New Window** now bring every panel along. Before, Catalog, Convert, Recipes, Detections, Observations, Triangulation and four more could not open in the new window (“unknown dock panel”). (GUI-045)
+- **Undo after opening an image** no longer breaks Report Template and Draft with AI. (GUI-028)
+- **Stereo:** undoing the opening of one of the two images closes the stereo panel cleanly. Before, the panel failed to draw until the next reload. (GUI-033)
+- **3D:** a two-band image (a band stack, for example) drapes on the terrain and colours a point cloud. Before, both stopped with an error. (GUI-043)
+- **New Project in the Modern layout** no longer raises a hidden error. (GUI-042)
+- **Radial menu:** the eight tools no longer overlap, so a click always picks the tool under the pointer. (GUI-030)
+- **Contextual tool pill:** it now appears over video, point clouds and vector layers with their own tools, not only over images. (GUI-034)
+- **Lite:** 2D / 3D is greyed out and the 3D button is hidden, as Lite leaves the 3D module out. Before, both failed when used. (GUI-046)
+- **Network Allow-List ▸ Save New Copy** works when the list is unchanged. Before, it reported that the file had no security policy. (GUI-052)
+- **An empty or partial web address** in Stream Point Cloud, Add 3D Tiles, Add Quantized-Mesh Terrain, Open Remote Layer and Send to a Google Sheet is a warning that says what to enter, not an error. (GUI-053)
+- **Triangulation:** Automatic Tie Points, Solve, Apply and Remove Solution are greyed out, with the reason in their tooltip, until they can run. (GUI-032)
+- **Find in Scene:** Classify without training classes is a warning that says what to do, not an error. (GUI-044)
+- **About** names the air-gapped edition and says it makes no network requests, and shows the worker pool in words. (GUI-036, GUI-041)
+- **Light theme:** the status bar is light too. (GUI-031)
+- **Air-gapped file:** “Air-gapped” in the status bar no longer wraps onto two lines in a narrow window. (GUI-055)
+- **Readable in every theme:** buttons, dock tabs, the Workspace rail, warnings, the Preferences page list and status cells now meet the WCAG AA contrast ratio in the Dark and Material themes. Greyed-out buttons look greyed out. (GUI-048, GUI-049)
+- Controls without a name in Map Backgrounds, the Prompt Helper, the Network Allow-List and Send to a Google Sheet now have one for screen readers. (GUI-029, GUI-054)
+
+### Changed
+- **Greyed-out commands say what to open first** (“open a multispectral image first”, “open a video first”) in the command palette and in tooltips. (GUI-047)
+- **Every panel fits its dock.** Panels open at their top-left instead of where the last one was scrolled; Detection Review and Spectral no longer scroll sideways in a narrow dock, where form labels now sit above their controls. (GUI-050)
+- **Wide editors docked on the right** (the KLV table, for example) widen the dock to fit, up to 40 % of the window. (GUI-035)
+- **Hints match the layout.** An empty panel in the Modern layout says “Open, drop files here, or press Ctrl+K”. The AI Assistant offers an **Add a connection…** button; the air-gapped file says it cannot reach a remote assistant. (GUI-038)
+- **Unexpected errors are reported.** A failure outside a command shows once as an error message and goes into Help ▸ About & Diagnostics ▸ Copy Diagnostics. (GUI-037)
+- **Catalog and Convert:** Open and List with an empty box say what to type; the date boxes are labelled From and To; the Convert drop zone says it can be clicked. (GUI-051)
+- **Auto Contrast** reports gamma as a factor with the Tone value it sets, for example “gamma 2.03 (Tone +51)”. (GUI-057)
+- Recipes has its own icon in the navigation rail. The AI Assistant's attach options no longer wrap in mid-phrase. (GUI-039, GUI-040)
+
 ## [2.0.0] - 2026-10-28
 
 GIS Workbench 2.0, the modernization release. It answers the ELT review: a clean canvas instead of a wall of tools, workspaces for the way you work, data that opens from anywhere, local AI as a first-class copilot, workflows you can watch, and hand-offs to the tools around you. The 1.x Ribbon layout is one click away for anyone who prefers it. The betas and release candidates below list every change in detail.

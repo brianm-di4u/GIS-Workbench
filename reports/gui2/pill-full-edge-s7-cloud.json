@@ -1,0 +1,116 @@
+[
+ {
+  "tab": "pill",
+  "id": "cmd:pc.colour.class",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:pc.measure",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Measure 3D: click two points (Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:pc.profile",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Profile: click the start and end on the cloud (Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:3d.measure",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "pill:more",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:nav.whole",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [
+   "info: 3D cursor: click two points on the terrain×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:men.rangebearing",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:draw.marker",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:enh.auto",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:cmp.swiper",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:hud.quickchip",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:bm.add",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:ui.palette",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

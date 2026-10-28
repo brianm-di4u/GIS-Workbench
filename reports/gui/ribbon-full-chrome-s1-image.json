@@ -1669,7 +1669,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma +3.×"
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.04 (Tone +3).×"
   ],
   "problems": []
  },
@@ -1848,6 +1848,15 @@
   "toasts": [
    "warn: Cannot read properties of undefined (reading '1')×"
   ],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
   "problems": []
  },
  {

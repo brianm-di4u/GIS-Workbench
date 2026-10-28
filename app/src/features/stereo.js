@@ -760,7 +760,16 @@ export function install(app) {
     p.fitWhole();
     app.emit('state');
   }
-  app.store.on('change', () => (app._storeVersion = (app._storeVersion ?? 0) + 1));
+  app.store.on('change', () => {
+    app._storeVersion = (app._storeVersion ?? 0) + 1;
+    // An eye whose image an undo or Remove took away ends the stereo panel (GUI-033).
+    for (const mp of app.desktop?.multiports ?? [])
+      for (const p of mp.panes)
+        if (p.stereo && !(app.store.get(p.stereo.ids.L) && app.store.get(p.stereo.ids.R))) {
+          closeStereo(p);
+          toast('Stereo closed: one of its two images is no longer open.', { kind: 'info' });
+        }
+  });
   app.stereo = { open: openStereo, close: closeStereo, metrics: (L, R, o) => pairMetrics(app, L, R, o), view: st };
 
   const need = () => {

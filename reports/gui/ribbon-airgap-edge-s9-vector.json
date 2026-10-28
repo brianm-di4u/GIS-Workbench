@@ -1,0 +1,272 @@
+[
+ {
+  "tab": "feature",
+  "id": "vec.remoteopen",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:remote-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "vec.remotesave",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.toolbox",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.repeat",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.custom",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-custom"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.newschema",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-newschema"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.wand",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.edgetrace",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.roadtrace",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.fromdsm",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.vertices",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.split",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.merge",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.reshape",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.square",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.droptoground",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.attrtable",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.attributes",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.attrsets",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.styles",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-styles"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.query",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:sel-byattr"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.validate",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-validate"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.results",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.saveas",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-saveas"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.saveas:menu",
+  "kind": "caret",
+  "outcome": "menu ×1",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.arcgis",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: ArcGIS Pro hand-off: 1 table(s), 11 feature(s); coded domains in gpkg_data_column_constraints×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.export3d",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-export3d"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "feature",
+  "id": "ext.texture",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

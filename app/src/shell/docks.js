@@ -107,6 +107,7 @@ export class DockArea {
       if (this.content.firstChild !== this.active.el) {
         clear(this.content);
         this.content.appendChild(this.active.el);
+        this.content.scrollTo(0, 0); // a panel opens at its top-left, not where the last one was scrolled (GUI-050)
       }
       this.active.onShow?.();
     } else clear(this.content);
@@ -118,6 +119,7 @@ export class DockArea {
       if (this.content2.firstChild !== this.second.el) {
         clear(this.content2);
         this.content2.appendChild(this.second.el);
+        this.content2.scrollTo(0, 0);
       }
       this.second.onShow?.();
     } else clear(this.content2);
@@ -192,7 +194,7 @@ export class DockManager {
 
   /** Register a panel factory: {id, title, icon, create(app, mp) → element, home, marked?}. */
   register(spec) {
-    this.registry.set(spec.id, { ...spec, el: null, area: null });
+    this.registry.set(spec.id, { ...spec, spec, el: null, area: null });
   }
 
   panel(id) {
@@ -222,7 +224,8 @@ export class DockManager {
 
   isOpen(id) {
     const p = this.registry.get(id);
-    return !!(((p?.area?.active === p || p?.area?.second === p) && !p.area.collapsed) || p?.floatWin);
+    if (!p) return false; // not registered (yet) in this Multiport (GUI-042)
+    return !!(((p.area?.active === p || p.area?.second === p) && !p.area.collapsed) || p.floatWin);
   }
 
   toggle(id, side) {
@@ -342,7 +345,7 @@ export class DockManager {
 
   // ---- tool editors in the dock (Modern layout, REQ-SHL-09) ----
   /** Host a modeless editor as a right-dock panel; resolves like modal(). */
-  hostTool({ title, body, buttons, id, onApply, onHelp, onReset }) {
+  hostTool({ title, body, buttons, id, onApply, onHelp, onReset, width }) {
     return new Promise((resolve) => {
       const pid = `tool:${id ?? Math.random().toString(36).slice(2, 8)}`;
       const old = this.registry.get(pid);
@@ -380,6 +383,13 @@ export class DockManager {
       p.transient = true;
       p.onClose = () => finish(null);
       this.show(pid, 'right');
+      // A wide editor (a table, a form) widens the dock up to 40 % of the window, never narrows it (GUI-035).
+      const a = this.areas.right;
+      const want = Math.min(Math.max(0, (width ?? 0) - 40), Math.round(innerWidth * 0.4));
+      if (a && want > a.el.getBoundingClientRect().width) {
+        a.el.style.width = `${want}px`;
+        this.app.desktop?.layout?.();
+      }
     });
   }
 
