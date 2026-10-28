@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:33:39.965Z",
+ "when": "2026-10-28T03:29:29.017Z",
  "key": "enh.drasettings",
  "id": "enh.drasettings",
  "enabled": true,
@@ -17,7 +17,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+  "Millerovo/IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif"
  ],
  "openErrors": [],
  "requests": [],

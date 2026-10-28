@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:38:08.582Z",
+ "key": "field-dg-spratly-west-reef-20140430/West_Reef_20140430_BROWSE.tif",
+ "item": "field-dg-spratly-west-reef-20140430",
+ "file": "West_Reef_20140430_BROWSE.tif",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened West_Reef_20140430_BROWSE.tif in 34 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1144,
+   "h": 1338,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 622,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

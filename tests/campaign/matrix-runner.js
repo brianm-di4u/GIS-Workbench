@@ -103,14 +103,16 @@ const ELSEWHERE = {
 const recipeFor = (row) => RECIPES.find(([re]) => re.test(row.id))?.[1] ?? null;
 
 // TE_ITEMS=<prefix> (phase F: TE_ITEMS=field) runs the sweep on those corpus items only: each
-// command gets one of them in turn (by its id), recipe rows are left to the main campaign.
+// command gets one of them in turn (by its id); recipe rows with setup steps are left to the
+// main campaign.
 const ONLY = process.env.TE_ITEMS ?? null;
 const spread = (id, n) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % n;
 
 function dataFor(row) {
   const r = recipeFor(row);
-  if (r && ONLY) return null;
-  if (r) {
+  // Field mode: a recipe that only names files gives way to field data that fits the context.
+  if (r && ONLY && (r.setup || r.pre || !row.needs)) return null;
+  if (r && !ONLY) {
     try {
       const f = r.files();
       return f.length && f.every(existsSync) ? f : null;

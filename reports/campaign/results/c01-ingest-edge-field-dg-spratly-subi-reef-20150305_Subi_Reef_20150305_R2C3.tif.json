@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:33:24.495Z",
+ "key": "field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R2C3.tif",
+ "item": "field-dg-spratly-subi-reef-20150305",
+ "file": "Subi_Reef_20150305_R2C3.tif",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 6477,
+   "h": 16384,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 15487,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

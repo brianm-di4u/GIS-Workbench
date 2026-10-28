@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:28:58.761Z",
+ "key": "field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R1C3.tif",
+ "item": "field-dg-spratly-mischief-reef-20150131",
+ "file": "Mischief_Reef_20150131_R1C3.tif",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 8077,
+   "h": 13744,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 16741,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

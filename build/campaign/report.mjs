@@ -136,6 +136,19 @@ const distSize = existsSync(join(REPO, 'dist/gis-workbench.html')) ? statSync(jo
 const onDiskItems = corpus.items.filter(present).length;
 const corpusBytes = corpus.items.filter((i) => i.origin !== 'research-samples').reduce((s, i) => s + i.files.reduce((t, f) => t + (f.bytes ?? 0), 0), 0);
 
+// ---- Phase F: field data a user supplied (docs/validation/TE-field-plan.md) ----
+const fieldPhases = Object.fromEntries(['ingest', 'zip', 'accuracy', 'field', 'sweep', 'perf'].map((p) => [p, pwStats(`reports/campaign/pw-field-${p}.json`)]));
+const isField = (r) => /^field-/.test(String(r.item ?? '')) || /field-/.test(JSON.stringify(r.data ?? ''));
+const fieldIngest = records.filter((r) => r.spec === 'c01-ingest' && isField(r));
+const fieldAcc = records.filter((r) => r.spec === 'c20-accuracy' && /^field-/.test(String(r.item ?? r.key ?? '')));
+const fieldWf = [...new Map(bySpec('c43-field-workflows').map((r) => [r.key, r])).values()];
+const fieldPerf = bySpec('c44-field-perf');
+const fieldFindings = () => findings.filter((r) => r[3] === 'F');
+const fph = (k, label) => {
+  const s = fieldPhases[k];
+  return s ? `| ${label} | ${s.passed} | ${s.failed} | ${s.skipped} | ${s.flaky} |` : `| ${label} | — | — | — | — |`;
+};
+
 const ph = (k, label) => {
   const s = phases[k];
   return s ? `| ${label} | ${s.passed} | ${s.failed} | ${s.skipped} | ${s.flaky} |` : `| ${label} | — | — | — | — |`;
@@ -191,6 +204,31 @@ const lines = [
   ...prf.map((r) => `| ${r.key.replace(/^prf03-/, '')} (${r.project}) | ${fmtBytes(r.bytes ?? 0)} | ${r.firstTileMs ?? 'timeout'} |`),
   '',
   `Run modes (file, http, cross-origin iframe, srcdoc): ${modes.length} records, ${modes.filter((r) => !r.errors?.length && !r.logs?.length).length} clean.`,
+  '',
+  '## 2F. Field-data campaign (phase F)',
+  '',
+  'Imagery a first user supplied (tier U, never redistributed: OD-09). Plan: [TE-field-plan.md](TE-field-plan.md).',
+  '',
+  '| Phase F run | Passed | Failed | Skipped | Flaky |',
+  '|---|---|---|---|---|',
+  fph('ingest', 'F1 Ingest, every field file (c01, Chrome + Edge)'),
+  fph('zip', 'F1 Ingest re-check, delivery ZIPs after TE-067 (c01, Chrome + Edge)'),
+  fph('accuracy', 'F3 Corners vs GDAL (c20, Chrome)'),
+  fph('sweep', 'F2 Functional sweep on field data (c02–c17, TE_ITEMS=field, Chrome)'),
+  fph('field', 'F4 Workflows W1–W5 (c43, Chrome)'),
+  fph('perf', 'F5 Performance (c44, Chrome + Edge)'),
+  '',
+  `Ingest records: ${fieldIngest.length} (${fieldIngest.filter((r) => r.rendered).length} displayed, ${fieldIngest.filter((r) => !r.rendered && (r.errors?.length || r.toasts?.some((t) => /^toast-(warn|error)/.test(t)))).length} refused or reported by name). Sweep records with field data: ${records.filter((r) => /^c(0[2-9]|1[0-7])-/.test(r.spec) && isField(r)).length}. Corner checks: ${fieldAcc.length} (${fieldAcc.filter((r) => r.pass !== false && !r.errors?.length).length} within tolerance).`,
+  '',
+  '| Workflow | Result |',
+  '|---|---|',
+  ...fieldWf.map((r) => `| ${r.key} | ${r.key.startsWith('w1') ? `whole scene ${r.whole?.n} candidates at 1/${r.whole?.method?.step} in ${Math.round((r.whole?.ms ?? 0) / 1000)} s; AOI ${r.aoi?.n} at full resolution` : r.key.startsWith('w2') ? `${r.n} candidates, ${r.area} px, resampled across grids` : r.key.startsWith('w3') ? `${(r.layers ?? []).filter((l) => !l.error).length}/12 tiles displayed in ${Math.round((r.msDisplay ?? 0) / 1000)} s; mosaic extent error ${Number(r.extentErrorPx).toFixed(3)} px` : r.key.startsWith('w4') ? `opened from the ZIP in ${Math.round((r.ms ?? 0) / 1000)} s; bands ${JSON.stringify(r.layers?.[0]?.bands)}; sun ${r.layers?.[0]?.sun?.azimuth?.toFixed(1)}°/${r.layers?.[0]?.sun?.elevation?.toFixed(1)}°` : r.key.startsWith('w5') ? `GCP error ${Number(r.geoErrPx).toFixed(2)} px; σ⁰ dB max |Δ| ${Number(r.dbMax).toExponential(1)} over ${r.dbCompared} px` : ''} |`),
+  '',
+  '| Field file (c44) | Browser | Size | First tile ms | Settled ms | Statistics ms after display |',
+  '|---|---|---|---|---|---|',
+  ...fieldPerf.map((r) => `| ${r.key.replace(/^perf-/, '')} | ${r.project} | ${fmtBytes(r.bytes ?? 0)} | ${r.firstTileMs ?? '—'} | ${r.settledMs ?? 'not settled'} | ${r.statsMsAfterDisplay ?? '—'} |`),
+  '',
+  `Phase F findings: ${fieldFindings().map((r) => `${r[0]} (${r[1]}, ${r[2]})`).join(', ') || 'none'}.`,
   '',
   '## 3. Findings',
   '',

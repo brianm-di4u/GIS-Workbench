@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:26:00.877Z",
+ "key": "field-dg-spratly-west-reef-20140430/West_Reef_20140430_R1C2.tif",
+ "item": "field-dg-spratly-west-reef-20140430",
+ "file": "West_Reef_20140430_R1C2.tif",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16384,
+   "h": 14494,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 24558,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

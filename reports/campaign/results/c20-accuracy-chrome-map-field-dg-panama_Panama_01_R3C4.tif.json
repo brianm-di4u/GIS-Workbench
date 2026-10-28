@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "chrome",
+ "when": "2026-10-28T03:43:27.298Z",
+ "key": "map-field-dg-panama/Panama_01_R3C4.tif",
+ "kind": "map",
+ "model": "Map (EPSG:4326)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 0.05,
+ "gsd": 0.33951453018885347,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

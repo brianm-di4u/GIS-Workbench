@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:26:52.830Z",
+ "key": "field-phr-dimap/ROI_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+ "item": "field-phr-dimap",
+ "file": "ROI_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+ "format": "DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: RegionOfInterest mask from data-strip DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070: 1 feature(s) from GML"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 77,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

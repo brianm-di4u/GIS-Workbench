@@ -1,7 +1,7 @@
 {
  "version": 1,
  "budgetBytes": 25769803776,
- "generated": "2026-10-28T02:44:12.925Z",
+ "generated": "2026-10-28T03:39:54.061Z",
  "items": [
   {
    "id": "rs-dem-derived-s35w059",
@@ -3691,7 +3691,8 @@
     "display",
     "metadata",
     "vector",
-    "products"
+    "products",
+    "msi"
    ]
   },
   {

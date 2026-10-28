@@ -1,0 +1,37 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:26:54.303Z",
+ "key": "field-phr-dimap/PREVIEW_PHR1B_PMS_201804210157279_ORT_3132754101.KMZ",
+ "item": "field-phr-dimap",
+ "file": "PREVIEW_PHR1B_PMS_201804210157279_ORT_3132754101.KMZ",
+ "format": "DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "placemark \"1\" has no supported geometry (tracks and models are not read)",
+  "placemark \"2\" has no supported geometry (tracks and models are not read)",
+  "placemark \"3\" has no supported geometry (tracks and models are not read)",
+  "placemark \"4\" has no supported geometry (tracks and models are not read)",
+  "placemark \"5\" has no supported geometry (tracks and models are not read)",
+  "placemark \"R1C1\" mixes geometry types; split into 2 features",
+  "6 placemark(s) are clamped or relative to the ground; their heights were set to 0 m HAE (drop them to the terrain to fix)",
+  "4 file(s) kept from the KMZ (icons and overlays)"
+ ],
+ "toasts": [
+  "toast-info: DS_PHR1B_201804210156556_FR1_PX_E131N43_1210_00397: 8 feature(s) from KML (8 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 8,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 141,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

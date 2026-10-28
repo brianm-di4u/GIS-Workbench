@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:38:45.096Z",
+ "key": "field-dg-spratly-west-reef-20140430/West_Reef_20140430_TILE_SHAPE.zip",
+ "item": "field-dg-spratly-west-reef-20140430",
+ "file": "West_Reef_20140430_TILE_SHAPE.zip",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: West_Reef_20140430_TILE_SHAPE: 9 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 9,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 53,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

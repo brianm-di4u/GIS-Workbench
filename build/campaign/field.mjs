@@ -85,7 +85,7 @@ if (args.has('--extract')) rmSync(spratlyX, { recursive: true, force: true });
 if (existsSync(join(CORPUS, 'field-phr-dimap'))) {
   items.push({
     id: 'field-phr-dimap', area: 'eo', title: 'Pléiades 1B PMS ortho DIMAP package (E131 N43, 2018-04-21), unpacked', ...common, licence: TEST_ONLY, attribution: 'Pléiades © CNES 2018, Distribution Airbus DS', origin: 'field-extract',
-    format: 'DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)', profile: 'unpacked from the delivered ZIP', files: listFiles(join(CORPUS, 'field-phr-dimap'), relative(FIELD, dimapZip).replace(/\\/g, '/')), feeds: ['ingest', 'display', 'metadata', 'vector', 'products'],
+    format: 'DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)', profile: 'unpacked from the delivered ZIP', files: listFiles(join(CORPUS, 'field-phr-dimap'), relative(FIELD, dimapZip).replace(/\\/g, '/')), feeds: ['ingest', 'display', 'metadata', 'vector', 'products', 'msi'],
   });
 }
 writeFileSync(join(HERE, 'sources', 'field.json'), `${JSON.stringify(items, null, 1)}\n`);

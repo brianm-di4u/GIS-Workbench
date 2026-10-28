@@ -1,29 +1,109 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:16:49.117Z",
+ "when": "2026-10-28T03:42:09.884Z",
  "key": "field-dg-spratly-zip/Spratly Islands.zip",
  "item": "field-dg-spratly-zip",
  "file": "Spratly Islands.zip",
  "format": "ZIP (nested ZIP of GeoTIFF tiles + shapefile ZIPs)",
- "rendered": false,
- "errors": [
-  "1523 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 11 of 50 files from the ZIP"
  ],
- "warnings": [],
- "toasts": [
-  "toast-warn: Spratly Islands.zip: 1523 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1964,
+   "h": 12149,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2035,
+   "h": 15291,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2001,
+   "h": 16384,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16274,
+   "h": 11626,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16384,
+   "h": 12094,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16384,
+   "h": 16384,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16384,
+   "h": 16383,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16329,
+   "h": 16384,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16384,
+   "h": 15837,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
  ],
- "layers": [],
  "others": {
-  "images": 0,
-  "vlayers": 0,
-  "features": 0,
+  "images": 9,
+  "vlayers": 2,
+  "features": 10,
   "clouds": 0,
   "clips": 0
  },
  "diffs": [],
- "ms": 46,
+ "ms": 101591,
  "logs": [],
  "requests": [],
  "csp": []

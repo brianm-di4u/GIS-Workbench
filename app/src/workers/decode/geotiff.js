@@ -111,22 +111,23 @@ export function useFastJpeg() {
         return raw;
       }
     }
-    // geotiff.js's own JPEG parameters (it adds JPEGTables), plus the photometric interpretation.
-    const params = async (fd) => {
-      const tiled = !fd.hasTag('StripOffsets');
-      return {
-        tileWidth: await fd.loadValue(tiled ? 'TileWidth' : 'ImageWidth'),
-        tileHeight: tiled ? await fd.loadValue('TileLength') : (await fd.loadValue('RowsPerStrip')) || (await fd.loadValue('ImageLength')),
-        planarConfiguration: await fd.loadValue('PlanarConfiguration'),
-        bitsPerSample: await fd.loadValue('BitsPerSample'),
-        predictor: (await fd.loadValue('Predictor')) || 1,
-        JPEGTables: await fd.loadValue('JPEGTables'),
-        photometric: await fd.loadValue('PhotometricInterpretation'),
-      };
-    };
-    addDecoder(7, () => FastJpegDecoder, params);
+    addDecoder(7, () => FastJpegDecoder, jpegParams);
   })();
   return jpegReady;
+}
+
+/** geotiff.js's own JPEG decoder parameters (it adds JPEGTables), plus the photometric interpretation. */
+async function jpegParams(fd) {
+  const tiled = !fd.hasTag('StripOffsets');
+  return {
+    tileWidth: await fd.loadValue(tiled ? 'TileWidth' : 'ImageWidth'),
+    tileHeight: tiled ? await fd.loadValue('TileLength') : (await fd.loadValue('RowsPerStrip')) || (await fd.loadValue('ImageLength')),
+    planarConfiguration: await fd.loadValue('PlanarConfiguration'),
+    bitsPerSample: await fd.loadValue('BitsPerSample'),
+    predictor: (await fd.loadValue('Predictor')) || 1,
+    JPEGTables: await fd.loadValue('JPEGTables'),
+    photometric: await fd.loadValue('PhotometricInterpretation'),
+  };
 }
 
 /** Components, precision and Adobe transform code from a JPEG stream's markers (null if none). */
@@ -418,7 +419,35 @@ async function openGeoTiff0(file) {
     return img === main ? masked(await read0(img, scale, x0, y0, w, h, bands), x0, y0, w, h) : read0(img, scale, x0, y0, w, h, bands);
   }
 
+  // TE-066 / IMP-24: a pyramid core read is exactly one 512² block of a 512-tiled image; for 8-bit
+  // pixel-interleaved JPEG the decoded block is split into bands directly, instead of through
+  // geotiff.js's per-sample DataView copy (most of the time per block).
+  const blockFast = T.Compression === 7 && Number(main.getBitsPerSample()) === 8 && ((await tag(fd, 'PlanarConfiguration')) ?? 1) === 1 && main.isTiled;
+  const decoders = new Map();
+  async function readBlock(img, x0, y0, w, h, bands) {
+    const tw = img.getTileWidth();
+    const th = img.getTileHeight();
+    if (!blockFast || x0 % tw || y0 % th || w > tw || h > th || x0 + w > img.getWidth() || y0 + h > img.getHeight()) return null;
+    if (!decoders.has(img)) decoders.set(img, getDecoder(7, await jpegParams(img.fileDirectory)));
+    const { data } = await img.getTileOrStrip(x0 / tw, y0 / th, 0, await decoders.get(img));
+    const u8 = new Uint8Array(data);
+    const spp = img.getSamplesPerPixel();
+    return bands.map((b) => {
+      const out = new Uint8Array(w * h);
+      for (let y = 0; y < h; y++) for (let x = 0, i = y * tw * spp + b, o = y * w; x < w; x++, i += spp) out[o + x] = u8[i];
+      return out;
+    });
+  }
+
   async function read0(img, scale, x0, y0, w, h, bands) {
+    if (blockFast) {
+      try {
+        const r = await readBlock(img, x0, y0, w, h, bands);
+        if (r) return r;
+      } catch (e) {
+        throw tiffError(e);
+      }
+    }
     if (striped && img === main) {
       try {
         const out = bands.map(() => new CTOR[type](w * h));

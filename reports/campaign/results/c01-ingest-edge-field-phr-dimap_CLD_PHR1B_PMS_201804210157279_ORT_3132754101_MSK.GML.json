@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:39:16.800Z",
+ "key": "field-phr-dimap/CLD_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+ "item": "field-phr-dimap",
+ "file": "CLD_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+ "format": "DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "the GML holds no features (an empty mask or collection)"
+ ],
+ "toasts": [
+  "toast-info: Cloud mask from data-strip DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070: 0 feature(s) from GML (1 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 68,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

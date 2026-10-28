@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:35:05.735Z",
+ "when": "2026-10-28T03:34:27.745Z",
  "key": "enh.chain",
  "id": "enh.chain",
  "enabled": true,
@@ -17,7 +17,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+  "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

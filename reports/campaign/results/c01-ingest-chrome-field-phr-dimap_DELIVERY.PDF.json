@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:26:49.273Z",
+ "key": "field-phr-dimap/DELIVERY.PDF",
+ "item": "field-phr-dimap",
+ "file": "DELIVERY.PDF",
+ "format": "DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened DELIVERY.PDF in 99 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (26 objects; no georeferencing; 1 image)",
+   "w": 1279,
+   "h": 1810,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 746,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

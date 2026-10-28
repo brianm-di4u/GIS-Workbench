@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:33:38.745Z",
+ "when": "2026-10-28T03:29:25.902Z",
  "key": "enh.invert",
  "id": "enh.invert",
  "enabled": true,
@@ -13,7 +13,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+  "field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

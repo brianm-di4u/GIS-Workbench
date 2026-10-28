@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:33:40.841Z",
+ "when": "2026-10-28T03:30:20.507Z",
  "key": "enh.curve",
  "id": "enh.curve",
  "enabled": true,
@@ -15,7 +15,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+  "field-dg-spratly-west-reef-20140111/West_Reef_20140111_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

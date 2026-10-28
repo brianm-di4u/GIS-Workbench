@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:27:00.049Z",
+ "key": "field-phr-millerovo/IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif",
+ "item": "field-phr-millerovo",
+ "file": "IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif",
+ "format": "GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif in 63 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 13358,
+   "h": 10301,
+   "bands": 3,
+   "model": "Map (EPSG:32638)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1736,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

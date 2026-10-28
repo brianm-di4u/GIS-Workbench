@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:26:55.198Z",
+ "key": "field-phr-dimap/LOGO.JPG",
+ "item": "field-phr-dimap",
+ "file": "LOGO.JPG",
+ "format": "DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened LOGO.JPG in 44 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 250,
+   "h": 86,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 393,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

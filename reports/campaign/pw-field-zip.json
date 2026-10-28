@@ -1,0 +1,328 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c01-ingest",
+      "-g",
+      "field-.*\\.zip/|-zip/",
+      "--project=chrome",
+      "--project=edge"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "edge",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "msedge"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "edge"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-field-zip.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c01-ingest.spec.js",
+      "file": "c01-ingest.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C01 REQ-FMT-16 field-dg-spratly-zip/Spratly Islands.zip [ZIP (nested ZIP of GeoTIFF tiles + shapefile ZIPs)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 103237,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:40:26.272Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-b8db1c7375ead2c27494",
+          "file": "c01-ingest.spec.js",
+          "line": 94,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip [ZIP (DIMAP v2 package)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 7581,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:40:26.276Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-93e9ffb3e889453c6e32",
+          "file": "c01-ingest.spec.js",
+          "line": 94,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 field-dg-spratly-zip/Spratly Islands.zip [ZIP (nested ZIP of GeoTIFF tiles + shapefile ZIPs)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 104997,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:40:26.212Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-3764bbd86421a0d37704",
+          "file": "c01-ingest.spec.js",
+          "line": 94,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip [ZIP (DIMAP v2 package)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 8092,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:40:26.294Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-63cfcc5d0ba2d5bb779d",
+          "file": "c01-ingest.spec.js",
+          "line": 94,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T03:40:25.337Z",
+    "duration": 106633.798,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

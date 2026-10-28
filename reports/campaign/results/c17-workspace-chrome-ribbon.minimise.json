@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-28T03:36:04.796Z",
+ "key": "ribbon.minimise",
+ "id": "ribbon.minimise",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

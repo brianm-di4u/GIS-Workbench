@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:26:11.864Z",
+ "key": "field-dg-spratly-west-reef-20140430/West_Reef_20140430_SEAMLINES_SHAPE.zip",
+ "item": "field-dg-spratly-west-reef-20140430",
+ "file": "West_Reef_20140430_SEAMLINES_SHAPE.zip",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: West_Reef_20140430_SEAMLINES_SHAPE: 1 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 68,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

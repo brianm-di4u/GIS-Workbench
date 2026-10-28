@@ -1,7 +1,7 @@
 {
  "spec": "c12-vector",
  "project": "chrome",
- "when": "2026-10-27T15:38:02.443Z",
+ "when": "2026-10-28T03:35:59.034Z",
  "key": "obs.toolbox",
  "id": "obs.toolbox",
  "enabled": true,
@@ -15,7 +15,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "geotiff-gdal-small/small_world.tif"
+  "field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

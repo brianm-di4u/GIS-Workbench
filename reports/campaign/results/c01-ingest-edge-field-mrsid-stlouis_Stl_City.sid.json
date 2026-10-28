@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T03:28:39.190Z",
+ "key": "field-mrsid-stlouis/Stl_City.sid",
+ "item": "field-mrsid-stlouis",
+ "file": "Stl_City.sid",
+ "format": "MrSID MG3 + .sdw + .aux.xml",
+ "rendered": false,
+ "errors": [
+  "MrSID (MG3; 98,304 × 188,416 px, 3 bands, 8-bit) is a proprietary wavelet format with no open decoder and cannot be opened in this release. Convert it to a Cloud-Optimized GeoTIFF first, e.g. gdal_translate -of COG with a MrSID-enabled GDAL, or with Extensis GeoExpress"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: Stl_City.sid: MrSID (MG3; 98,304 × 188,416 px, 3 bands, 8-bit) is a proprietary wavelet format with no open decoder and cannot be opened in this release. Convert it to a Cloud-Optimized GeoTIFF first, e.g. gdal_translate -of COG with a MrSID-enabled GDAL, or with Extensis GeoExpress"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 379,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}
