@@ -312,6 +312,11 @@ export class Core extends Bundle {
     return this.guard(() => this._id(this.x.gw_model_offset(base, dx, dy)));
   }
 
+  /** A model on a sub-window sampled every `step`-th pixel (TE-069): reduced-resolution products. */
+  windowModel(base, dx, dy, step) {
+    return this.guard(() => this._id(this.x.gw_model_window(base, dx, dy, step)));
+  }
+
   /** A model corrected by an image-space bias (REQ-SNS-11/15); the base stays registered. */
   adjustedModel(base, c, { centre, half, sigma = NaN, name = '' } = {}) {
     return this.guard(() => {

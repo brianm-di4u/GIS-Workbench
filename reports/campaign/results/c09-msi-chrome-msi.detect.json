@@ -1,28 +1,27 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-27T15:36:42.707Z",
+ "when": "2026-10-28T04:02:01.680Z",
  "key": "msi.detect",
  "id": "msi.detect",
  "enabled": true,
- "outcome": "dialog",
+ "outcome": "error",
  "dialogs": [
   "Target and Anomaly Detection"
  ],
  "toasts": [
-  "toast-info: 16 detection(s) above 96.29"
+  "toast-error: 16370×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
  ],
- "errors": [],
+ "errors": [
+  "toast-error: 16370×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
+ ],
  "changed": [
-  "layers",
-  "active",
-  "chain",
   "body"
  ],
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

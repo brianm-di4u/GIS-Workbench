@@ -782,7 +782,7 @@ export { highest };
  * replaced (live thresholds) with `layer.updatePlanes(planes)`. The geometry is the parent's
  * model, offset by the window origin. `chain` patches the automatic first display.
  */
-export async function openMemoryLayer(app, parent, { name, bands, sampleType, planes, nodata = null, x0 = 0, y0 = 0, width = parent.width, height = parent.height, chain = {}, pane = app.activePane(), select = true, info = {} }) {
+export async function openMemoryLayer(app, parent, { name, bands, sampleType, planes, nodata = null, x0 = 0, y0 = 0, step = 1, width = parent.width, height = parent.height, chain = {}, pane = app.activePane(), select = true, info = {} }) {
   // Copies go to the worker: callers keep their arrays (labels and scores for live thresholds).
   const sent = planes.map((p) => p.slice());
   const job = app.pool.run('memopen', { width, height, bands, sampleType, nodata, planes: sent }, { label: `product ${name}`, transfer: sent.map((p) => p.buffer) });
@@ -792,14 +792,15 @@ export async function openMemoryLayer(app, parent, { name, bands, sampleType, pl
   const base = autoChain({ bands, sampleType, kind: 'image' });
   const ch = { ...base, ...chain, colour: { ...base.colour, ...(chain.colour ?? {}) } };
   app.store.transact(`Product ${name}`, (tx) => {
-    tx.create('layer', { pane: pane.id, kind: 'image', name, file: null, memory: true, derivedFrom: parent.id, window: [x0, y0, width, height], imageIndex: 0, chain: ch, visible: true, opacity: 1, saved: false, model: null }, id);
+    tx.create('layer', { pane: pane.id, kind: 'image', name, file: null, memory: true, derivedFrom: parent.id, window: [x0, y0, width, height], ...(step > 1 ? { step } : {}), imageIndex: 0, chain: ch, visible: true, opacity: 1, saved: false, model: null }, id);
     tx.set(pane.id, 'layers', [...(tx.get(pane.id).layers ?? []), id]);
     if (select) tx.set(pane.id, 'activeLayer', id);
   });
   const rec = app.store.get(id);
   const layer = new ImageLayer(app, rec, raster, { format: 'In-memory product', kind: 'memory', fileName: name, marking: parent.info.marking, fileMarking: parent.info.fileMarking, iid: name, affinity, datetime: parent.info.datetime, icat: parent.info.icat, irep: '', ...info });
   if (parent.modelId) {
-    const mid = x0 || y0 ? app.core.offsetModel(parent.modelId, x0, y0) : parent.modelId;
+    // A product of every step-th source pixel (TE-069) keeps its geolocation through a window model.
+    const mid = step > 1 ? app.core.windowModel(parent.modelId, x0, y0, step) : x0 || y0 ? app.core.offsetModel(parent.modelId, x0, y0) : parent.modelId;
     layer.modelId = mid;
     layer.modelName = parent.modelName;
     layer.modelInfo = parent.modelInfo;

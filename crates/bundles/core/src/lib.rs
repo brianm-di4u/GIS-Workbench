@@ -797,22 +797,39 @@ pub unsafe extern "C" fn gw_sicd_project(id: i32, op: i32, pts: *const f64, n: u
 /// y + dy) of the base (products on a sub-window, REQ-MSI-08/11). Returns a new id or −status.
 #[no_mangle]
 pub extern "C" fn gw_model_offset(base: i32, dx: f64, dy: f64) -> i32 {
-    struct Offset {
+    gw_model_window(base, dx, dy, 1.0)
+}
+
+/// A model on a sub-window of the base model's image sampled every `step`-th pixel (TE-069):
+/// pixel centre (x, y) is base pixel centre (dx + step·x − (step − 1)/2, …), so a product made
+/// from every step-th source pixel (reduced-resolution analysis) keeps its geolocation.
+#[no_mangle]
+pub extern "C" fn gw_model_window(base: i32, dx: f64, dy: f64, step: f64) -> i32 {
+    struct Window {
         base: Rc<dyn SensorModel>,
         dx: f64,
         dy: f64,
+        step: f64,
         name: String,
     }
-    impl SensorModel for Offset {
+    impl Window {
+        fn to_base(&self, x: f64, y: f64) -> (f64, f64) {
+            let k = (self.step - 1.0) * 0.5;
+            (self.dx + self.step * x - k, self.dy + self.step * y - k)
+        }
+    }
+    impl SensorModel for Window {
         fn name(&self) -> &str {
             &self.name
         }
         fn ground_to_image(&self, g: gw_sensor::Ground) -> Result<(f64, f64)> {
             let (x, y) = self.base.ground_to_image(g)?;
-            Ok((x - self.dx, y - self.dy))
+            let k = (self.step - 1.0) * 0.5;
+            Ok(((x - self.dx + k) / self.step, (y - self.dy + k) / self.step))
         }
         fn image_to_ground(&self, x: f64, y: f64, h: f64) -> Result<gw_sensor::Ground> {
-            self.base.image_to_ground(x + self.dx, y + self.dy, h)
+            let (bx, by) = self.to_base(x, y);
+            self.base.image_to_ground(bx, by, h)
         }
         fn height_range(&self) -> (f64, f64) {
             self.base.height_range()
@@ -827,13 +844,17 @@ pub extern "C" fn gw_model_offset(base: i32, dx: f64, dy: f64) -> i32 {
             self.base.is_3d()
         }
         fn surface_crossings(&self, x: f64, y: f64, dem: &dyn Fn(f64, f64) -> f64, lo: f64, hi: f64, post: f64) -> Option<Result<Vec<gw_sensor::Ground>>> {
-            self.base.surface_crossings(x + self.dx, y + self.dy, dem, lo, hi, post)
+            let (bx, by) = self.to_base(x, y);
+            self.base.surface_crossings(bx, by, dem, lo, hi, post)
         }
+    }
+    if !(step.is_finite() && step >= 1.0) {
+        return -status::<()>(Err(Error::invalid("window model: step must be ≥ 1")));
     }
     match model_rc(base) {
         Ok(b) => {
-            let name = format!("{} (offset {dx}, {dy})", b.name());
-            register_rc(Rc::new(Offset { base: b, dx, dy, name }))
+            let name = if step == 1.0 { format!("{} (offset {dx}, {dy})", b.name()) } else { format!("{} (window {dx}, {dy}, every {step})", b.name()) };
+            register_rc(Rc::new(Window { base: b, dx, dy, step, name }))
         }
         Err(e) => -status::<()>(Err(e)),
     }

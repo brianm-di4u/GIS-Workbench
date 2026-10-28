@@ -1,11 +1,11 @@
 {
  "spec": "c08-sar",
  "project": "chrome",
- "when": "2026-10-27T15:35:57.882Z",
+ "when": "2026-10-28T04:00:12.143Z",
  "key": "sar.shadows",
  "id": "sar.shadows",
- "enabled": true,
- "outcome": "done",
+ "enabled": false,
+ "outcome": "disabled",
  "dialogs": [],
  "toasts": [],
  "errors": [],
@@ -13,7 +13,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "sicd-umbra-chip/umbra_sicd_chip_1024.nitf"
+  "Intermap SAR/m4817p37s5_HH_01.tif"
  ],
  "openErrors": [],
  "requests": [],

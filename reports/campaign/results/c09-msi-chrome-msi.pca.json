@@ -1,27 +1,27 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-27T15:36:44.311Z",
+ "when": "2026-10-28T04:02:14.552Z",
  "key": "msi.pca",
  "id": "msi.pca",
  "enabled": true,
- "outcome": "dialog",
+ "outcome": "error",
  "dialogs": [
-  "Spectral Transforms",
-  "PCA Eigenvalues"
+  "Spectral Transforms"
  ],
- "toasts": [],
- "errors": [],
+ "toasts": [
+  "toast-error: 16369×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
+ ],
+ "errors": [
+  "toast-error: 16369×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
+ ],
  "changed": [
-  "layers",
-  "active",
-  "chain",
   "body"
  ],
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

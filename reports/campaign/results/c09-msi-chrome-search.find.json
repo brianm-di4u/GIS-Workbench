@@ -1,7 +1,7 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-27T15:36:04.264Z",
+ "when": "2026-10-28T04:00:51.175Z",
  "key": "search.find",
  "id": "search.find",
  "enabled": true,
@@ -15,7 +15,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

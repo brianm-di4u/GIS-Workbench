@@ -1,22 +1,21 @@
 {
  "spec": "c11-fmv",
  "project": "chrome",
- "when": "2026-10-27T15:37:39.461Z",
+ "when": "2026-10-28T04:02:19.805Z",
  "key": "mie.prev",
  "id": "mie.prev",
- "enabled": true,
- "outcome": "done",
+ "enabled": false,
+ "outcome": "disabled",
  "dialogs": [],
  "toasts": [],
  "errors": [],
- "changed": [
-  "active",
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [],
  "data": [
-  "formats/mie4nitf.ntf"
+  "IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TFW",
+  "IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF",
+  "Millerovo/IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif"
  ],
  "openErrors": [],
  "requests": [],

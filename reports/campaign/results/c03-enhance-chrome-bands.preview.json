@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:35:05.574Z",
+ "when": "2026-10-28T03:59:49.321Z",
  "key": "bands.preview",
  "id": "bands.preview",
  "enabled": true,
@@ -16,7 +16,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

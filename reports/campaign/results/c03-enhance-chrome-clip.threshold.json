@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:34:48.589Z",
+ "when": "2026-10-28T04:00:08.030Z",
  "key": "clip.threshold",
  "id": "clip.threshold",
  "enabled": true,

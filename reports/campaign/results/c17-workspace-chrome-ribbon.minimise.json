@@ -1,7 +1,7 @@
 {
  "spec": "c17-workspace",
  "project": "chrome",
- "when": "2026-10-28T03:36:04.796Z",
+ "when": "2026-10-28T04:03:23.851Z",
  "key": "ribbon.minimise",
  "id": "ribbon.minimise",
  "enabled": true,

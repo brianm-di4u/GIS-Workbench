@@ -1,13 +1,13 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:35:07.634Z",
+ "when": "2026-10-28T04:00:02.531Z",
  "key": "bands.snr",
  "id": "bands.snr",
  "enabled": true,
  "outcome": "dialog",
  "dialogs": [
-  "Band Statistics and SNR — SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "Band Statistics and SNR — West_Reef_20150417_R1C1.tif"
  ],
  "toasts": [],
  "errors": [],
@@ -15,7 +15,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

@@ -1,7 +1,7 @@
 {
  "spec": "c16-ai-mcp",
  "project": "chrome",
- "when": "2026-10-28T03:35:55.453Z",
+ "when": "2026-10-28T04:03:17.926Z",
  "key": "auto.mcpserver",
  "id": "auto.mcpserver",
  "enabled": true,

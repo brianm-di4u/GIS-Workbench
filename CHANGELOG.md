@@ -19,6 +19,7 @@ Field-data campaign (phase F): real production imagery supplied by a first user:
 - Big-endian GeoTIFFs with many tiles (DigitalGlobe/Maxar JPEG tile sets) failed with "SOI not found": the tile tables were read in the wrong byte order. (TE-060)
 - JPEG-compressed YCbCr GeoTIFFs were shown and analysed as raw Y/Cb/Cr instead of RGB (wrong colours and band values). (TE-062)
 - MrSID files are refused by name, with the image size and how to convert them, instead of as "unrecognised data". (TE-061)
+- Classification, clustering, target/anomaly detection, PCA/MNF and spectral change run on large images: the active AOI, else the whole image read at every k-th pixel (with a note), and the result is placed correctly. Destripe asks for an AOI on images too large for full resolution. (TE-069)
 - A Pléiades/SPOT image is dated by its DIMAP acquisition time, not by when its TIFF was written. (TE-068)
 - A delivery ZIP whose packages are themselves deflated ZIPs (DigitalGlobe NextView) is recognised as imagery. (TE-067)
 - `.sdw` and `.tifw` world files are read as world files instead of failing as images. (TE-063)

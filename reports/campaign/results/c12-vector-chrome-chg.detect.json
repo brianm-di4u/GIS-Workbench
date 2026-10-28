@@ -1,18 +1,15 @@
 {
  "spec": "c12-vector",
  "project": "chrome",
- "when": "2026-10-27T15:37:45.511Z",
+ "when": "2026-10-28T04:03:35.507Z",
  "key": "chg.detect",
  "id": "chg.detect",
  "enabled": true,
  "outcome": "dialog",
  "dialogs": [
-  "Change Detection",
-  "Change Candidates"
+  "Change Detection"
  ],
- "toasts": [
-  "toast-info: 17 change candidate(s) in 226 ms (gain 1.072, offset 10.0)"
- ],
+ "toasts": [],
  "errors": [],
  "changed": [
   "body"
@@ -20,8 +17,8 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "fx06/fx06_date1.tif",
-  "fx06/fx06_date2.tif"
+  "field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R1C1.tif",
+  "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

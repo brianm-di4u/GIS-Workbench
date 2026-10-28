@@ -28,6 +28,19 @@ export function install(app) {
   const toast = (m, o) => app.toast(m, o);
   const msi = () => app.msi;
   const spec = (op, ...args) => app.pool.run('spectral', { op, args }, { kind: 'analysis', label: `spectral ${op}`, timeout: 600000 }).then((r) => r.r);
+
+  // TE-069: whole-image analysis of a large image (every field image: 16k² DigitalGlobe tiles,
+  // 13k² Pléiades) asked the worker for more than its 96 M-sample cube and was refused. Use the
+  // active AOI when there is one, and read every k-th pixel when the window is still too large;
+  // the product keeps its geolocation through a window model (openMemoryLayer step).
+  const CUBE_MAX = 96e6;
+  function fitWindow(l, window = null, { nb = l.bands, fullRes = null } = {}) {
+    const a = window ?? aoiRect(l) ?? { x0: 0, y0: 0, w: l.width, h: l.height };
+    const step = a.step ?? Math.max(1, Math.ceil(Math.sqrt((a.w * a.h * nb) / CUBE_MAX)));
+    if (step > 1 && fullRes) throw new Error(`${fullRes} works at full resolution on up to ${CUBE_MAX / 1e6} M samples; the ${window || aoiRect(l) ? 'AOI' : 'image'} is ${a.w}×${a.h}×${nb}: draw a smaller AOI over the area`);
+    if (step > 1) app.toast(`${l.rec?.name ?? 'The image'} is ${a.w}×${a.h}×${nb}: analysed at every ${step}th pixel. Draw an AOI of up to ${Math.floor(Math.sqrt(CUBE_MAX / nb))}² pixels for full resolution.`, { ms: 9000 });
+    return { x0: a.x0, y0: a.y0, w: a.w, h: a.h, step };
+  }
   app.openMemoryLayer = (parent, o) => openMemoryLayer(app, parent, o);
 
   // ---- training classes (REQ-MSI-08) ----
@@ -78,14 +91,14 @@ export function install(app) {
   async function classify(l, method = 'ml', { threshold = NaN, window = null, signatures = null } = {}) {
     const cls = classesOf(l);
     if (!signatures && cls.length < 2) throw new Error('classification needs at least two training classes');
-    const c = await msi().cube(l, window ?? {});
+    const c = await msi().cube(l, fitWindow(l, window));
     const sets = signatures ? null : cls.map((k) => indicesIn(k.regions, c));
     if (sets?.some((s) => s.length < c.nb + 1) && (method === 'ml' || method === 'mahalanobis')) throw new Error(`${LABEL[method]} needs at least ${c.nb + 1} training pixels per class (better ${10 * c.nb})`);
     const r = await spec('classify', c.v, c.w, c.h, c.nb, method, { sets, means: signatures?.map((s) => s.values) ?? null, threshold: NaN });
     const names = signatures ? signatures.map((s) => s.name) : cls.map((k) => k.name);
     const colours = signatures ? signatures.map((_, i) => CLASS_COLOURS[(i % (CLASS_COLOURS.length - 1)) + 1]) : cls.map((k) => k.colour);
     const labels = applyThreshold(r.labels, r.scores, threshold);
-    const P = await openMemoryLayer(app, l, { name: `${LABEL[method]} — ${l.rec?.name ?? ''}`, bands: 1, sampleType: 'u8', planes: [labels], nodata: 0, x0: c.x0, y0: c.y0, width: c.w, height: c.h, chain: { stretch: 'none', kernel: 'nearest', colour: { palette: 'grey', table: [[0, 0, 0], ...colours] } }, info: { bandsMeta: [{ name: 'class', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'class labels', gain: null, offset: null, unit: 'class', source: LABEL[method] } } });
+    const P = await openMemoryLayer(app, l, { name: `${LABEL[method]} — ${l.rec?.name ?? ''}`, bands: 1, sampleType: 'u8', planes: [labels], nodata: 0, x0: c.x0, y0: c.y0, step: c.step, width: c.w, height: c.h, chain: { stretch: 'none', kernel: 'nearest', colour: { palette: 'grey', table: [[0, 0, 0], ...colours] } }, info: { bandsMeta: [{ name: 'class', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'class labels', gain: null, offset: null, unit: 'class', source: LABEL[method] } } });
     P.msi = { kind: 'classification', method, names, colours, labelsAll: r.labels, scores: r.scores, threshold, window: { x0: c.x0, y0: c.y0, w: c.w, h: c.h, step: c.step }, parent: l.id, nb: c.nb };
     return P;
   }
@@ -106,11 +119,11 @@ export function install(app) {
   // ---- unsupervised, clean-up, vectors (REQ-MSI-09) ----
 
   async function cluster(l, algo = 'kmeans', o = {}) {
-    const c = await msi().cube(l, o.window ?? {});
+    const c = await msi().cube(l, fitWindow(l, o.window));
     const r = await spec(algo, c.v, c.w, c.h, c.nb, o);
     const k = r.centres.length;
     const colours = Array.from({ length: k }, (_, i) => CLASS_COLOURS[(i % (CLASS_COLOURS.length - 1)) + 1]);
-    const P = await openMemoryLayer(app, l, { name: `${algo === 'kmeans' ? 'K-means' : 'ISODATA'} (${k}) — ${l.rec?.name ?? ''}`, bands: 1, sampleType: 'u8', planes: [r.labels], nodata: 0, x0: c.x0, y0: c.y0, width: c.w, height: c.h, chain: { stretch: 'none', kernel: 'nearest', colour: { palette: 'grey', table: [[0, 0, 0], ...colours] } }, info: { bandsMeta: [{ name: 'cluster', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'cluster labels', gain: null, offset: null, unit: 'cluster', source: algo } } });
+    const P = await openMemoryLayer(app, l, { name: `${algo === 'kmeans' ? 'K-means' : 'ISODATA'} (${k}) — ${l.rec?.name ?? ''}`, bands: 1, sampleType: 'u8', planes: [r.labels], nodata: 0, x0: c.x0, y0: c.y0, step: c.step, width: c.w, height: c.h, chain: { stretch: 'none', kernel: 'nearest', colour: { palette: 'grey', table: [[0, 0, 0], ...colours] } }, info: { bandsMeta: [{ name: 'cluster', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'cluster labels', gain: null, offset: null, unit: 'cluster', source: algo } } });
     P.msi = { kind: 'classification', method: algo, names: colours.map((_, i) => `Cluster ${i + 1}`), colours, labelsAll: r.labels, scores: null, centres: r.centres, window: { x0: c.x0, y0: c.y0, w: c.w, h: c.h, step: c.step }, parent: l.id };
     return P;
   }
@@ -221,7 +234,7 @@ export function install(app) {
    * 99.9 %) or {value}. Returns {layer, scores, threshold, hits: [{x, y, pixels, max}]}.
    */
   async function detect(l, kind = 'rx', { percentile = 0.999, value = NaN, target = null, window = null, outer = 15, guard = 5, k = 4 } = {}) {
-    let c = await msi().cube(l, window ?? {});
+    let c = await msi().cube(l, fitWindow(l, window));
     const fullNb = c.nb;
     let scores;
     if (kind === 'mf' || kind === 'ace' || kind === 'cem') {
@@ -271,7 +284,7 @@ export function install(app) {
     }
     hits.sort((a, b) => b.max - a.max);
     const names = { rx: 'Global RX', rxlocal: 'Local RX', gmm: 'GMM anomaly', mf: 'Matched filter', ace: 'ACE', cem: 'CEM' };
-    const P = await openMemoryLayer(app, l, { name: `${names[kind]}${c.reduced ? ` (PCA ${c.reduced.to} of ${fullNb})` : ''} — ${l.rec?.name ?? ''}`, bands: 1, sampleType: 'f32', planes: [Float32Array.from(scores)], nodata: NaN, x0: c.x0, y0: c.y0, width: c.w, height: c.h, chain: { stretch: 'linear1', colour: { palette: 'iron' }, clip: { on: true, lo: thr, hi: Infinity } }, info: { bandsMeta: [{ name: names[kind], cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: names[kind], gain: null, offset: null, unit: 'score', source: kind } } });
+    const P = await openMemoryLayer(app, l, { name: `${names[kind]}${c.reduced ? ` (PCA ${c.reduced.to} of ${fullNb})` : ''} — ${l.rec?.name ?? ''}`, bands: 1, sampleType: 'f32', planes: [Float32Array.from(scores)], nodata: NaN, x0: c.x0, y0: c.y0, step: c.step, width: c.w, height: c.h, chain: { stretch: 'linear1', colour: { palette: 'iron' }, clip: { on: true, lo: thr, hi: Infinity } }, info: { bandsMeta: [{ name: names[kind], cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: names[kind], gain: null, offset: null, unit: 'score', source: kind } } });
     P.msi = { kind: 'detection', detector: kind, threshold: thr, hits, reduced: c.reduced };
     app.msi.lastDetect = { kind, threshold: thr, hits, scores, w: c.w, h: c.h, x0: c.x0, y0: c.y0, reduced: c.reduced, layer: P };
     return app.msi.lastDetect;
@@ -280,7 +293,7 @@ export function install(app) {
   // ---- transforms (REQ-MSI-12) ----
 
   async function components(l, kind = 'pca', { k = 3, window = null, endmembers = null } = {}) {
-    const c = await msi().cube(l, window ?? {});
+    const c = await msi().cube(l, fitWindow(l, window));
     const r = await spec('transform', kind, c.v, c.w, c.h, c.nb, { k, step: 2, endmembers });
     const nb = kind === 'dstretch' ? c.nb : kind === 'unmix' ? endmembers.length + 1 : k;
     const n = c.w * c.h;
@@ -290,7 +303,7 @@ export function install(app) {
       return p;
     });
     const names = { pca: 'PCA', mnf: 'MNF', ica: 'ICA', dstretch: 'Decorrelation stretch', unmix: 'Abundances' };
-    const P = await openMemoryLayer(app, l, { name: `${names[kind]} — ${l.rec?.name ?? ''}`, bands: nb, sampleType: 'f32', planes, nodata: NaN, x0: c.x0, y0: c.y0, width: c.w, height: c.h, chain: { bands: nb >= 3 && kind !== 'unmix' ? [0, 1, 2] : [0], stretch: 'linear2' }, info: { bandsMeta: planes.map((_, i) => ({ name: kind === 'unmix' && i === nb - 1 ? 'RMS residual' : `${names[kind]} ${i + 1}`, cw: NaN, fwhm: NaN, bad: false })), radiometry: { state: names[kind], gain: null, offset: null, unit: 'component', source: kind } } });
+    const P = await openMemoryLayer(app, l, { name: `${names[kind]} — ${l.rec?.name ?? ''}`, bands: nb, sampleType: 'f32', planes, nodata: NaN, x0: c.x0, y0: c.y0, step: c.step, width: c.w, height: c.h, chain: { bands: nb >= 3 && kind !== 'unmix' ? [0, 1, 2] : [0], stretch: 'linear2' }, info: { bandsMeta: planes.map((_, i) => ({ name: kind === 'unmix' && i === nb - 1 ? 'RMS residual' : `${names[kind]} ${i + 1}`, cw: NaN, fwhm: NaN, bad: false })), radiometry: { state: names[kind], gain: null, offset: null, unit: 'component', source: kind } } });
     P.msi = { kind: 'transform', transform: kind, values: r.values ?? null, vectors: r.vectors ?? null };
     return { layer: P, values: r.values ?? null };
   }
@@ -422,7 +435,8 @@ export function install(app) {
   // ---- destriping, change, template matching (REQ-MSI-16, REQ-EXT-28) ----
 
   async function destripe(l) {
-    const c = await msi().cube(l, {});
+    // Stripes are per detector column: decimating would alias them, so full resolution only.
+    const c = await msi().cube(l, fitWindow(l, null, { fullRes: 'Destripe' }));
     const r = await spec('correct', 'destripe', c.v, c.w, c.h, c.nb, {});
     const n = c.w * c.h;
     const planes = Array.from({ length: c.nb }, (_, b) => {
@@ -430,13 +444,14 @@ export function install(app) {
       for (let i = 0; i < n; i++) p[i] = r.cube[i * c.nb + b];
       return p;
     });
-    return openMemoryLayer(app, l, { name: `Destriped — ${l.rec?.name ?? ''}`, bands: c.nb, sampleType: 'f32', planes, nodata: NaN, chain: { bands: l.chain.bands, stretch: 'dra' }, info: { bandsMeta: msi().bandsOf(l), radiometry: { ...l.radiometry, gain: null, offset: null, state: `${l.radiometry.state}, destriped` } } });
+    return openMemoryLayer(app, l, { name: `Destriped — ${l.rec?.name ?? ''}`, bands: c.nb, sampleType: 'f32', planes, nodata: NaN, x0: c.x0, y0: c.y0, width: c.w, height: c.h, chain: { bands: l.chain.bands, stretch: 'dra' }, info: { bandsMeta: msi().bandsOf(l), radiometry: { ...l.radiometry, gain: null, offset: null, state: `${l.radiometry.state}, destriped` } } });
   }
   async function spectralChange(a, b, { threshold = NaN } = {}) {
     if (a.width !== b.width || a.height !== b.height || a.bands !== b.bands) throw new Error('two-date change needs images of the same size and bands (co-register first)');
-    const [ca, cb] = await Promise.all([msi().cube(a, {}), msi().cube(b, {})]);
+    const win = fitWindow(a);
+    const [ca, cb] = await Promise.all([msi().cube(a, win), msi().cube(b, win)]);
     const r = await spec('correct', 'change', ca.v, ca.w, ca.h, ca.nb, { b: cb.v });
-    const P = await openMemoryLayer(app, a, { name: `Spectral change ${a.rec?.name} → ${b.rec?.name}`, bands: 2, sampleType: 'f32', planes: [r.magnitude, r.angle], nodata: NaN, chain: { bands: [0], stretch: 'linear1', colour: { palette: 'iron' } }, info: { bandsMeta: [{ name: 'change magnitude', cw: NaN, fwhm: NaN, bad: false }, { name: 'spectral angle (rad)', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'change vector', gain: null, offset: null, unit: a.radiometry.unit, source: 'CVA' } } });
+    const P = await openMemoryLayer(app, a, { name: `Spectral change ${a.rec?.name} → ${b.rec?.name}`, bands: 2, sampleType: 'f32', planes: [r.magnitude, r.angle], nodata: NaN, x0: ca.x0, y0: ca.y0, step: ca.step, width: ca.w, height: ca.h, chain: { bands: [0], stretch: 'linear1', colour: { palette: 'iron' } }, info: { bandsMeta: [{ name: 'change magnitude', cw: NaN, fwhm: NaN, bad: false }, { name: 'spectral angle (rad)', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'change vector', gain: null, offset: null, unit: a.radiometry.unit, source: 'CVA' } } });
     P.msi = { kind: 'change', magnitude: r.magnitude, angle: r.angle, threshold };
     return P;
   }

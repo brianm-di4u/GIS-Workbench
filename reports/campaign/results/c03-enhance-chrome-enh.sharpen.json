@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:32:49.706Z",
+ "when": "2026-10-28T03:58:29.124Z",
  "key": "enh.sharpen",
  "id": "enh.sharpen",
  "enabled": true,

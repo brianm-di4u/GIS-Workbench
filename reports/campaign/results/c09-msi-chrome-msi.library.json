@@ -1,7 +1,7 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-27T15:36:45.155Z",
+ "when": "2026-10-28T04:01:44.776Z",
  "key": "msi.library",
  "id": "msi.library",
  "enabled": true,
@@ -17,7 +17,8 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TFW",
+  "IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF"
  ],
  "openErrors": [],
  "requests": [],

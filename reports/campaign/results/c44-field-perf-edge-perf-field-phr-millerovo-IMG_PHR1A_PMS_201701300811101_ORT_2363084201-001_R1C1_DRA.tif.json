@@ -1,0 +1,22 @@
+{
+ "spec": "c44-field-perf",
+ "project": "edge",
+ "when": "2026-10-28T04:03:45.430Z",
+ "key": "perf-field-phr-millerovo-IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif",
+ "bytes": 515107439,
+ "openMs": 153,
+ "firstTileMs": 878,
+ "settledMs": 1227,
+ "statsMsAfterDisplay": 0,
+ "layer": {
+  "ms": 0,
+  "error": null,
+  "w": 13375,
+  "h": 12835,
+  "bands": 3,
+  "type": "u8"
+ },
+ "toasts": [
+  "Opened IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif in 50 ms"
+ ]
+}

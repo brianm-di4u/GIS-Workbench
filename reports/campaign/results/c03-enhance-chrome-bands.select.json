@@ -1,13 +1,13 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:35:05.978Z",
+ "when": "2026-10-28T03:59:28.771Z",
  "key": "bands.select",
  "id": "bands.select",
  "enabled": true,
  "outcome": "dialog",
  "dialogs": [
-  "Band Selection — SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "Band Selection — IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF"
  ],
  "toasts": [],
  "errors": [],
@@ -17,7 +17,8 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TFW",
+  "IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF"
  ],
  "openErrors": [],
  "requests": [],

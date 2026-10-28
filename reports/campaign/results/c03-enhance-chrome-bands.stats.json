@@ -1,13 +1,13 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:35:07.390Z",
+ "when": "2026-10-28T03:59:31.404Z",
  "key": "bands.stats",
  "id": "bands.stats",
  "enabled": true,
  "outcome": "dialog",
  "dialogs": [
-  "Band Statistics — SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "Band Statistics — IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif"
  ],
  "toasts": [],
  "errors": [],
@@ -15,7 +15,7 @@
  "downloads": [],
  "prepared": [],
  "data": [
-  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+  "Millerovo/IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif"
  ],
  "openErrors": [],
  "requests": [],

@@ -108,3 +108,28 @@ test('IMP-23 TE-065 REQ-EXT-30 DIMAP GML masks open as vector layers in WGS 84 (
   expect((await toasts(frame)).filter((x) => x.startsWith('toast-error'))).toEqual([]);
   expect(logs).toEqual([]);
 });
+
+test('TE-069 REQ-MSI-09 REQ-SNS-09 a classification made from every k-th pixel keeps its geolocation (window model)', async ({ page }) => {
+  const { frame, logs } = await openApp(page, 'file');
+  await openFiles(frame, [F('te060_bigendian_jpeg.tif')]);
+  await ready(frame);
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const L = [...app.layers.values()][0];
+    const P = await app.msi.cluster(L, 'kmeans', { k: 3, iterations: 3, window: { x0: 100, y0: 50, w: 800, h: 600, step: 4 } });
+    const lay = P.layer ?? P;
+    const d = [[10.5, 20.5], [0.5, 0.5], [199.5, 149.5]].map(([x, y]) => {
+      const a = lay.groundAt(x, y);
+      const b = L.groundAt(100 + 4 * Math.floor(x) + 0.5, 50 + 4 * Math.floor(y) + 0.5);
+      const back = lay.imageAt(b.lat, b.lon, 0);
+      return { dLat: Math.abs(a.lat - b.lat), dLon: Math.abs(a.lon - b.lon), dx: Math.abs(back.x - x), dy: Math.abs(back.y - y) };
+    });
+    return { w: lay.width, h: lay.height, d };
+  });
+  expect([r.w, r.h]).toEqual([200, 150]);
+  for (const q of r.d) {
+    expect(q.dLat + q.dLon, 'product pixel centre vs the sampled source pixel (deg)').toBeLessThan(1e-9);
+    expect(q.dx + q.dy, 'ground → product pixel round trip').toBeLessThan(1e-6);
+  }
+  expect(logs).toEqual([]);
+});
