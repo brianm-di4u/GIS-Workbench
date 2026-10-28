@@ -642,3 +642,80 @@ Implementation rules for the 2.0 work:
     9 × 9 GCP grid.
   - **The streaming BigTIFF converter for larger images (S-32) is still open.**
   - GeoParquet is written, not read.
+
+## DN-56 Local AI on the device (2.0 P5; REQ-LAI-01..03, 05..09)
+- **Runtimes.** The ai pack carries two onnxruntime-web 1.30 builds: the WASM build and the
+  WebGPU build (`ort.webgpu.min.js` with the asyncify glue). Each runs in an AI worker of its own,
+  single threaded, from Blob URLs, with the WASM binary passed in memory. A model is created on
+  the WebGPU runtime when the device has a WebGPU adapter (WebGPU first, WASM for the nodes
+  WebGPU lacks). If the session cannot be created there, it is created on the CPU runtime.
+  OWLv2 int8 is one such model (`Cast(13)` has no kernel in the WebGPU build). SlimSAM int8 runs
+  on the WebGPU provider but gives wrong masks there (IoU 0.49 instead of > 0.85 on FX-08), so it is
+  pinned to the CPU. SAM 2.1, CLIP and LightGlue agree between the two runtimes: SAM 2.1 gives the
+  same IoUs, CLIP scores differ by ≤ 0.012, and LightGlue gives the same matches. Every job is pinned
+  to the worker that holds its model (`affinity`); the second runtime avoids the first one's
+  worker (pool option `avoid`).
+- **No eval.** The WebGPU glue builds its emval method invoker with `new Function`, which the CSP
+  and the REQ-ARC-04 gate refuse. `build/packs.mjs` (`noEvalGlue`) replaces it with a closure
+  making the same call. The build fails if the pinned text moves.
+- **Tiers.** `ai/hw.js` probes the adapter:
+  - Tier 1 is WebGPU with shader-f16.
+  - Tier 2 also needs a 2 GB buffer limit and ≥ 8 GB of memory.
+  - Below Tier 1, REQ-LAI-01 asks to hide the features. **Deviation:** they stay available and run
+    on the CPU, and AI Device says they are slow. An air-gapped CPU-only machine would otherwise
+    have no local AI at all.
+- **Models (all permissive, checked by `modelLicenceGate`, REQ-LAI-08).** Each model pack
+  declares the SPDX licences of its code and weights. Licence texts naming non-commercial,
+  research-only or GPL terms fail the build. Large model packs are release assets, not committed
+  (`.gitignore`; GitHub's 100 MB file limit).
+
+  | Pack | Model | Licence | Size |
+  |---|---|---|---|
+  | ai-sam2 | SAM 2.1 hiera-tiny, int8 (onnx-community; external-data files) | Apache-2.0 | 62 MB |
+  | ai-detect | OWLv2 base patch16 ensemble, 8-bit (Xenova) | Apache-2.0 | 156 MB |
+  | ai-search | CLIP ViT-B/32, 8-bit vision and text (Xenova) | MIT | 154 MB |
+  | ai-match | DISK + LightGlue end-to-end (fabio-sim/LightGlue-ONNX v2.0) | Apache-2.0 | 50 MB |
+
+  These substitute for some of the plan's picks:
+  - ALIKED is published only fused with the RaCo detector, whose weight licence S-34 has not
+    cleared. DISK + LightGlue (Apache-2.0 weights) is used instead.
+  - RemoteCLIP and SigLIP2 need a weight audit and a SentencePiece tokenizer. CLIP B/32 shares
+    the BPE tokenizer written for OWLv2 (`ai/clip-tokenizer.js`).
+- **SAM 2.1.** The click window is stretched to 1024² and the three feature levels are kept in
+  the worker. Clicks on an encoded window run the decoder only.
+  - Outlines can be squared by `vector/regularize.js`. It takes the dominant direction from the
+    4θ-weighted edge angles, snaps every edge to it or its normal, merges runs at their
+    length-weighted offsets, drops lines shorter than √area / 12 and intersects neighbours. It is
+    JavaScript rather than Rust, at well under 1 ms per outline.
+  - With Square Corners the decoder takes the largest mask within 0.15 of the best score (whole
+    object rather than one roof facet). On SpaceNet Vegas this raises the median IoU of the six
+    largest buildings from 0.33 to 0.68.
+- **OWLv2.** The view is tiled at screen resolution into 960 px tiles (at most 4, coarsening
+  otherwise). Tiles are padded to a square with grey, and queries are wrapped as "a photo of a …".
+  Boxes go through per-class NMS (IoU 0.3) within and across tiles. Results enter the detections
+  review queue as pending, with model, device and prompt; J / K patrols them.
+- **CLIP search.** The image is indexed as square chips of ≥ 224 px (≤ 1200 chips), with int8
+  unit embeddings held in memory per layer. Queries are "a satellite photo of …". The top k are
+  outlined (tag `aisearch`) and the best is centred. Not yet built: persisting the index (OPFS)
+  and folder or catalogue indexes.
+- **Auto Align (AI).** One coarse window over the overlap (≤ 768 px) gives a first affine. Fine
+  full-resolution windows of 512 px placed with it give the tie points, cut to multiples of 16
+  for DISK's U-Net. The robust affine fit uses a 1 px tolerance. On the Maxar Libya pre/post
+  pair: 135 tie points, RMS 0.64 px. The change mask step is not built yet (REQ-LAI-05).
+- **Auto Contrast (REQ-LAI-07).** This is classical, with no model. It sets DRA at 1–99 %, CLAHE
+  8 × 8 with its clip from the histogram spread (1.8 / 2.5 / 3.5), and a gamma that brings the
+  median to 0.45, as one undoable step. The A/B of spike S-36 is still to run.
+- **Copilot routing (REQ-LAI-09).** `ai/intent.js` recognises find, search, contrast, align,
+  segment and go-to requests, which run locally before any cloud call. Offline, other requests
+  get the list of what works. A connected assistant also gets `gw_find_objects` and
+  `gw_search_imagery`.
+- **Measured here** (Intel Xe-LPG, WebGPU f16):
+  - SAM 2.1 int8 encodes a window in 7.6 s on WebGPU and 8.5 s on the CPU; a click takes about
+    0.65 s.
+  - Int8 graphs gain little from WebGPU because their quantised operators fall back to the CPU.
+    fp16 model variants (twice the size) are the route to the plan's < 300 ms encoder (S-33).
+  - OWLv2 takes 26 s per tile on the CPU.
+- **Not in beta.4:**
+  - The vision-language drafter (REQ-LAI-04: Florence-2 / Moondream / Qwen-VL) needs a
+    generation loop and tokenizers beyond CLIP's.
+  - The Find in Scene prompt front door.

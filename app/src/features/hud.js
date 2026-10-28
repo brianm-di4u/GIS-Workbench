@@ -461,10 +461,15 @@ export function install(app) {
   const patrol = { i: -1, list: [] };
   const targets = () => {
     const out = [];
+    // Search results (local AI) are outlines: their centres.
+    for (const g of app.store.all('graphic')) if (g.tag === 'aisearch' && g.coords?.length) out.push(g.anchor === 'ground' ? { id: g.id, kind: 'graphic', name: g.text, lat: g.coords.reduce((t, q) => t + q[1], 0) / g.coords.length, lon: g.coords.reduce((t, q) => t + q[0], 0) / g.coords.length } : { id: g.id, kind: 'graphic', name: g.text, x: g.coords.reduce((t, q) => t + q[0], 0) / g.coords.length, y: g.coords.reduce((t, q) => t + q[1], 0) / g.coords.length });
     for (const g of app.store.all('graphic')) if ((g.shape === 'marker' || g.shape === 'point') && g.anchor === 'ground' && g.coords?.[0]) out.push({ id: g.id, kind: 'graphic', name: g.text || `Marker ${g.id.slice(-4)}`, lat: g.coords[0][1], lon: g.coords[0][0] });
     for (const d of app.store.all('detection')) {
       if (d.anchor === 'ground' && d.point) out.push({ id: d.id, kind: 'detection', name: `${d.cls ?? 'detection'} ${d.n}`, lat: d.point[1], lon: d.point[0] });
-      else if (d.anchor === 'image' && d.point) out.push({ id: d.id, kind: 'detection', name: `${d.cls ?? 'detection'} ${d.n}`, x: d.point[0], y: d.point[1], layer: d.layer });
+      else if (d.anchor === 'image' && (d.point || d.ring?.length)) {
+        const c = d.point ?? [d.ring.reduce((t, q) => t + q[0], 0) / d.ring.length, d.ring.reduce((t, q) => t + q[1], 0) / d.ring.length];
+        out.push({ id: d.id, kind: 'detection', name: `${d.cls ?? 'detection'} ${d.n}`, x: c[0], y: c[1], layer: d.layer });
+      }
     }
     for (const o of app.store.all('observation')) if (Number.isFinite(o.lat) && Number.isFinite(o.lon)) out.push({ id: o.id, kind: 'observation', name: (o.text ?? '').slice(0, 40) || 'Observation', lat: o.lat, lon: o.lon });
     return out;

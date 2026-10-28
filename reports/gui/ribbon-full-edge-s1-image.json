@@ -704,6 +704,15 @@
  },
  {
   "tab": "geospatial",
+  "id": "align.ai",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
   "id": "align.quick",
   "kind": "button",
   "outcome": "disabled",
@@ -1527,6 +1536,59 @@
  },
  {
   "tab": "addins",
+  "id": "lai.square",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.find",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-find"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.search",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-search"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.contrast",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma +3.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.device",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-device"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
   "id": "ai.connections",
   "kind": "button",
   "outcome": "clicked",
@@ -1722,7 +1784,7 @@
   "tab": "enhance",
   "id": "enh.gamma",
   "kind": "slider",
-  "outcome": "slider",
+  "outcome": "slider left at 3",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1876,7 +1938,7 @@
   "tab": "enhance",
   "id": "enh.clahe",
   "kind": "button",
-  "outcome": "clicked",
+  "outcome": "toggled",
   "dialogs": [
    "dialog:clahe"
   ],

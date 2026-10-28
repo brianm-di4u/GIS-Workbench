@@ -2,6 +2,35 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0-beta.4] - 2026-10-28
+
+Local AI, the fifth step of GIS Workbench 2.0 (phase P5). The models run on this computer, on the graphics card when it supports WebGPU and on the processor otherwise. Nothing is sent anywhere. Requirements REQ-LAI-01..03 and REQ-LAI-05..09.
+
+### Added
+- **AI model packs**, each opened once with File ▸ Open ▸ Open Data Pack and kept for later sessions. They are attached to the release, beside the HTML files. (REQ-LAI-01, REQ-LAI-08)
+  - `ai-sam2`: SAM 2.1 click-to-polygon.
+  - `ai-detect`: OWLv2 open-vocabulary detection.
+  - `ai-search`: CLIP semantic search.
+  - `ai-match`: DISK + LightGlue matching.
+  - Every model is Apache-2.0 or MIT, and the build refuses any other licence.
+- **Smart Select uses SAM 2.1** when its pack is loaded. **Square Corners** gives building outlines right angles. After the first click on an area, each click takes well under a second. (REQ-LAI-02)
+- **Find Objects (AI)**: name what to look for (“aircraft, vehicle”) and the objects in view go to the detections review queue, to accept or reject. J / K steps through them. (REQ-LAI-03)
+- **Search Imagery (AI)**: describe a place (“unpaved runway”). The best matches in the image are outlined and the view flies to the first. (REQ-LAI-06)
+- **Auto Align (AI)**: lines up two images by matching learned keypoints. It works across dates and sensors, and is next to Auto Align in Image Tools ▸ Align. (REQ-LAI-05)
+- **Auto Contrast**: local contrast and brightness set from the image in one undoable step. (REQ-LAI-07)
+- **The AI dock works without a connection.** Plain requests such as “detect aircraft in view”, “search for flooded fields”, “auto contrast”, “align to the reference” or “go to 38SMB4484” run on the local tools first. A connected assistant can use them too. (REQ-LAI-09)
+- **AI Device** shows whether the graphics card is used, the device tier and which model packs are loaded. It can also force the CPU. (REQ-LAI-01)
+
+### Changed
+- The `ai` pack now also carries the WebGPU runtime.
+
+### Known limits
+- Devices without WebGPU run the models on the processor, slowly; the commands stay available. On integrated graphics the 8-bit models gain little from WebGPU.
+- Not yet available:
+  - The vision-language drafter (REQ-LAI-04).
+  - The change mask after Auto Align (AI).
+  - Search indexes kept between sessions or built over whole folders.
+
 ## [2.0.0-beta.3] - 2026-10-28
 
 The data hub, the fourth step of GIS Workbench 2.0 (phase P4). Imagery in the cloud opens by range, catalogues can be searched over the view, folders are watched, and legacy formats convert to cloud-native ones from one drop zone. Requirements REQ-CON-01..06, REQ-ING-01..03 and REQ-CNV-01..03.

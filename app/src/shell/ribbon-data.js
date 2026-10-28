@@ -49,7 +49,7 @@ export const MAIN_TABS = [
     label: 'Geospatial',
     key: 'G',
     groups: [
-      { label: 'Align', items: [L('align.glove'), S('align.auto'), S('align.quick'), S('align.poly')] },
+      { label: 'Align', items: [L('align.glove'), S('align.auto'), S('align.ai'), S('align.quick'), S('align.poly')] },
       { label: 'Sensor Model', items: [L('model.active', { kind: 'split' }), S('model.info'), S('model.error'), S('model.gcp')] },
       { label: 'Triangulation', items: [S('tri.mip'), S('tri.tiepoints'), S('tri.adjust'), S('tri.frame'), S('tri.solutions')] },
       { label: 'Ortho', items: [S('ortho.rectify'), S('ortho.true'), S('ortho.mosaic'), S('ortho.seam'), S('ortho.balance')] },
@@ -89,7 +89,8 @@ export const MAIN_TABS = [
     label: 'Add-Ins',
     key: 'A',
     groups: [
-      { label: 'AI Assistant', items: [L('ai.assistant'), S('ai.askselection'), S('ai.describe'), S('ai.proposals'), S('ai.smartselect', { kind: 'toggle' })] },
+      { label: 'AI Assistant', items: [L('ai.assistant'), S('ai.askselection'), S('ai.describe'), S('ai.proposals'), S('ai.smartselect', { kind: 'toggle' }), S('lai.square', { kind: 'toggle' })] },
+      { label: 'Local AI', items: [L('lai.find'), S('lai.search'), S('lai.contrast'), S('lai.device')] },
       { label: 'AI Setup', items: [S('ai.connections'), S('ai.allowlist'), S('ai.prompthelper'), S('ai.mcp')] },
       { label: 'Feedback', items: [L('wb.toggle'), S('wb.review'), S('wb.import')] },
       { label: 'Automation', items: [S('auto.console'), S('auto.mcpserver')] },

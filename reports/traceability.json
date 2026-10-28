@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generated": "2026-10-28T05:54:22.402Z",
+  "generated": "2026-10-28T11:42:01.769Z",
   "releases": [
    "R0",
    "R1"
@@ -22,7 +22,7 @@
    "REQ-FMT-12 (R1, failing (file))",
    "REQ-FMT-16 (R1, failing)"
   ],
-  "testResults": 4569,
+  "testResults": 4590,
   "families": {
    "PT": {
     "ids": 12,
@@ -120,7 +120,8 @@
    "code": [
     "app/src/boot/boot.js",
     "build/build.mjs",
-    "build/gates.mjs"
+    "build/gates.mjs",
+    "build/packs.mjs"
    ],
    "tests": [
     "tests/unit/gates.test.js"
@@ -3675,6 +3676,7 @@
    "verify": "Unit + Insp",
    "code": [
     "app/src/ai/providers.js",
+    "app/src/connectors/sigv4.js",
     "app/src/features/ai.js"
    ],
    "tests": [

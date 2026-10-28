@@ -104,19 +104,25 @@ export function install(app) {
     return { type: 'Polygon', pts: d.ring.map(([x, y]) => g(x, y)) };
   }
 
+  /** Add detections [{cls, confidence, anchor, ring|point, props}] to the review queue (import or local AI). */
+  function add(list, { layer = app.activeLayer(), source = 'detections' } = {}) {
+    if (list.some((d) => d.anchor === 'image') && !layer) throw new Error('pixel detections need an image: open it and make it active first');
+    const base = all().length;
+    const batch = new Date().toISOString();
+    S.transact(`Add ${list.length} detections`, (tx) => {
+      list.forEach((d, i) => tx.create('detection', { n: base + i + 1, cls: d.cls, confidence: d.confidence, anchor: d.anchor, ring: d.ring ?? null, point: d.point ?? null, layer: d.anchor === 'image' ? layer.id : null, image: d.anchor === 'image' ? layer.rec?.name ?? null : null, source, props: d.props, status: 'pending', note: '', imported: batch }));
+    });
+    opts.current = queue()[0]?.id ?? null;
+    redraw();
+    return list.length;
+  }
+
   async function importFile(file, { layer = app.activeLayer(), source = file.name } = {}) {
     const text = await file.text();
     const list = /\.csv$/i.test(file.name) ? parseCsv(text) : parseGeoJson(text);
     if (!list.length) throw new Error(`${file.name}: no detections found`);
-    if (list.some((d) => d.anchor === 'image') && !layer) throw new Error('pixel detections need an image: open it and make it active first');
-    const base = all().length;
-    const batch = new Date().toISOString();
-    S.transact(`Import ${list.length} detections`, (tx) => {
-      list.forEach((d, i) => tx.create('detection', { n: base + i + 1, cls: d.cls, confidence: d.confidence, anchor: d.anchor, ring: d.ring ?? null, point: d.point ?? null, layer: d.anchor === 'image' ? layer.id : null, image: d.anchor === 'image' ? layer.rec?.name ?? null : null, source, props: d.props, status: 'pending', note: '', imported: batch }));
-    });
+    add(list, { layer, source });
     app.importLog.push({ file: file.name, errors: [], warnings: [`${list.length} detections imported (${list.filter((d) => d.anchor === 'image').length} in pixel coordinates)`] });
-    opts.current = queue()[0]?.id ?? null;
-    redraw();
     app.toast(`${list.length} detections from ${file.name}; ${queue().length} at confidence ≥ ${opts.minConfidence}`);
     return list.length;
   }
@@ -323,5 +329,5 @@ export function install(app) {
 
   C.implement('det.import', { run: run(async () => { for (const f of await pickFiles(app, { accept: ['.geojson', '.json', '.csv'], description: 'ML detections (GeoJSON or CSV)' })) await importFile(f); app.activeMp().docks.show('detections'); }) });
   C.implement('det.review', { run: run(() => app.activeMp().docks.show('detections')) });
-  app.detections = { importFile, queue, setStatus, edit, zoomTo, summary, options: opts, csv: csvOut, parseCsv, parseGeoJson, exportCsv: () => saveBlob(app, new Blob([csvOut()], { type: 'text/csv' }), { name: 'detections_review.csv' }) };
+  app.detections = { add, importFile, queue, setStatus, edit, zoomTo, summary, options: opts, csv: csvOut, parseCsv, parseGeoJson, exportCsv: () => saveBlob(app, new Blob([csvOut()], { type: 'text/csv' }), { name: 'detections_review.csv' }) };
 }

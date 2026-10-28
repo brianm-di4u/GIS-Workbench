@@ -502,7 +502,14 @@ const CATALOG = [
   ['cnv.open', 'Convert…', 'save', 'REQ-CNV-02', 'R4', '', 'One drop zone: vectors to GeoJSON or GeoParquet, rasters to Cloud-Optimized GeoTIFF.'],
   ['cnv.cog', 'Make Cloud-Optimized Copy', 'save', 'REQ-CNV-01', 'R4', '', 'Writes the active image as a Cloud-Optimized GeoTIFF: tiled, compressed, with overviews.'],
   ['glb.toggle', '2D / 3D', 'globe', 'REQ-GLB-02', 'R4', '', 'Turns the view into an oblique 3D scene of the same place, and back.'],
-  ['bm.pmtiles', 'Open PMTiles Basemap…', 'open', 'REQ-NET-05', 'R4', '', 'Uses a raster PMTiles file on this computer as the basemap; it works offline.']
+  ['bm.pmtiles', 'Open PMTiles Basemap…', 'open', 'REQ-NET-05', 'R4', '', 'Uses a raster PMTiles file on this computer as the basemap; it works offline.'],
+  // ---- 2.0 local AI (P5) ----
+  ['lai.find', 'Find Objects (AI)…', 'search', 'REQ-LAI-03', 'R4', '', 'Finds the objects you name (aircraft, vehicle…) in the view on this device; they go to the detections review queue.'],
+  ['lai.search', 'Search Imagery (AI)…', 'search', 'REQ-LAI-06', 'R4', '', 'Describe what you are looking for; the places in the image that look most like it are outlined and centred.'],
+  ['lai.contrast', 'Auto Contrast', 'contrast', 'REQ-LAI-07', 'R4', '', 'Sets local contrast and brightness for this image automatically; Undo restores the previous look.'],
+  ['lai.square', 'Square Corners', 'wand', 'REQ-LAI-02', 'R4', '', 'Smart Select outlines of buildings and other man-made objects get right-angled corners.'],
+  ['lai.device', 'AI Device…', 'ai', 'REQ-LAI-01', 'R4', '', 'Shows whether the local models run on the graphics card (WebGPU) or the CPU, and which model packs are loaded.'],
+  ['align.ai', 'Auto Align (AI)', 'align', 'REQ-LAI-05', 'R4', '', 'Lines up the active image with the reference by matching learned keypoints; works across dates and sensors.']
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */

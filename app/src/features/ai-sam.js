@@ -1,10 +1,14 @@
-// SAM-based smart select from the local AI pack (REQ-EXT-18, REQ-AI-18, D12): click an object on
-// imagery or on a DSM hillshade and get its outline as a polygon graphic. SlimSAM runs on this
-// device in the AI worker; the window around the click (≤ 1024 px at full resolution, or
+// SAM-based smart select from the local AI packs (REQ-EXT-18, REQ-AI-18, REQ-LAI-02, D12): click an
+// object on imagery or on a DSM hillshade and get its outline as a polygon graphic. SAM 2.1 (the
+// ai-sam2 pack) runs when it is loaded, SlimSAM (the ai pack) otherwise, on this device in the AI
+// worker (features/ai-local.js); the window around the click (≤ 1024 px at full resolution, or
 // decimated to fit) is stretched to 8-bit RGB from the layer's display bands. Shift-click adds a
-// positive point, Alt-click a negative one, on the same embedding.
+// positive point, Alt-click a negative one, on the same embedding. With "Square corners" on, the
+// outline is regularised to right angles (vector/regularize.js) for buildings and other man-made
+// objects.
 
 import { groundOf } from '../tools/tools.js';
+import { regularize } from '../vector/regularize.js';
 
 export const name = 'aiSam';
 
@@ -114,20 +118,14 @@ function simplify(pts, tol) {
 export function install(app) {
   const C = app.commands;
   const S = app.store;
-  const job = (op, args, transfer = []) => app.pool.run(op, args, { kind: 'ai', transfer, timeout: 300000, label: `AI ${op}` });
-  let loaded = null;
-  const cache = new Map(); // `${layer}|${x0},${y0},${w},${h},${step}` → embedding id
+  const job = (m, op, args, transfer = []) => app.aiLocal.job(op, args, { transfer, timeout: 300000, rt: m.rt });
+  const cache = new Map(); // `${model}|${layer}|${x0},${y0},${w},${h},${step}` → embedding id
 
+  /** The segmentation model to use: SAM 2.1 when its pack is at hand, else SlimSAM → {model, config, title}. */
   async function ensure() {
-    loaded ??= (async () => {
-      const p = await app.packs.require('ai', 'Smart select');
-      const g = (path) => p.entries.get(path).slice().buffer;
-      return job('samload', { glue: g('ort-wasm-simd-threaded.mjs'), wasm: g('ort-wasm-simd-threaded.wasm'), encoder: g('slimsam/vision_encoder_quantized.onnx'), decoder: g('slimsam/prompt_encoder_mask_decoder_quantized.onnx'), config: g('slimsam/preprocessor_config.json') });
-    })().catch((e) => {
-      loaded = null;
-      throw e;
-    });
-    return loaded;
+    const model = app.aiLocal.has('sam2') ? 'sam2' : 'slimsam';
+    const m = await app.aiLocal.load(model);
+    return { model, ...m };
   }
 
   /** The window around (x, y) as stretched 8-bit RGB. */
@@ -186,14 +184,14 @@ export function install(app) {
    * Smart select at image point (x, y) of layer l: → {polygon (image coords), iou, area, graphic}.
    * points: extra prompts [[x, y, 1|0]] in image coordinates.
    */
-  async function select(l, x, y, { pane = app.activePane(), size = 1024, points = [], commit = true, hillshade } = {}) {
-    await ensure();
+  async function select(l, x, y, { pane = app.activePane(), size = 1024, points = [], commit = true, hillshade, square = !!app.prefs.get('samSquare') } = {}) {
+    const m = await ensure();
     const win = await rgbWindow(l, x, y, size, hillshade);
-    const key = `${l.id}|${win.x0},${win.y0},${win.w},${win.h},${win.step},${win.hillshade ? 'hs' : 'rgb'}`;
+    const key = `${m.model}|${l.id}|${win.x0},${win.y0},${win.w},${win.h},${win.step},${win.hillshade ? 'hs' : 'rgb'}`;
     let id = cache.get(key);
     let encMs = 0;
     if (!id) {
-      const e = await job('samembed', { rgb: win.rgb, w: win.w, h: win.h }, [win.rgb.buffer]);
+      const e = await job(m, m.model === 'sam2' ? 'sam2embed' : 'samembed', { rgb: win.rgb, w: win.w, h: win.h, config: m.config }, [win.rgb.buffer]);
       id = e.id;
       encMs = e.ms;
       cache.set(key, id);
@@ -201,11 +199,13 @@ export function install(app) {
     }
     const local = (px, py) => [(px - win.x0) / win.step, (py - win.y0) / win.step];
     const prompts = [[...local(x, y), 1], ...points.map(([px, py, lab]) => [...local(px, py), lab])];
-    const d = await job('samdecode', { id, points: prompts });
+    const d = await job(m, 'samdecode', { id, points: prompts, prefer: square ? 'whole' : 'best' });
     const [cx, cy] = local(x, y).map(Math.floor);
     const comp = component(d.mask, d.w, d.h, cx, cy);
-    const ring = outline(comp.mask, d.w, d.h, 0.75).map(([px, py]) => [win.x0 + px * win.step, win.y0 + py * win.step]);
-    const out = { polygon: ring, iou: d.iou, area: comp.n * win.step * win.step, hit: comp.hit, encoderMs: encMs, decoderMs: d.ms, window: { x0: win.x0, y0: win.y0, w: win.w * win.step, h: win.h * win.step, step: win.step } };
+    let edge = outline(comp.mask, d.w, d.h, 0.75);
+    if (square && edge.length >= 4) edge = regularize(edge, { minLen: Math.max(2, Math.sqrt(comp.n) / 12) });
+    const ring = edge.map(([px, py]) => [win.x0 + px * win.step, win.y0 + py * win.step]);
+    const out = { polygon: ring, iou: d.iou, area: comp.n * win.step * win.step, hit: comp.hit, encoderMs: encMs, decoderMs: d.ms, model: m.model, device: m.device, squared: square, window: { x0: win.x0, y0: win.y0, w: win.w * win.step, h: win.h * win.step, step: win.step } };
     if (commit && ring.length >= 3) {
       const ground = ring.map(([px, py]) => l.groundAt?.(px, py));
       const anchor = ground.every(Boolean) ? 'ground' : 'image';
@@ -215,7 +215,7 @@ export function install(app) {
           gl = tx.create('glayer', { pane: pane.id, name: 'Graphics', visible: true, saved: false });
           tx.set(pane.id, 'graphicsLayer', gl);
         }
-        out.graphic = tx.create('graphic', { glayer: gl, pane: pane.id, shape: 'polygon', anchor, coords: anchor === 'ground' ? ground.map((g) => [g.lon, g.lat, g.h]) : ring, text: `SAM ${(d.iou * 100).toFixed(0)}%`, style: { stroke: '#00e5ff', width: 2, fill: '#00e5ff22' }, created: new Date().toISOString(), provenance: { kind: 'ai-sam', model: 'SlimSAM-77-uniform (int8), on this device', iou: d.iou, layer: l.rec?.name ?? '' } });
+        out.graphic = tx.create('graphic', { glayer: gl, pane: pane.id, shape: 'polygon', anchor, coords: anchor === 'ground' ? ground.map((g) => [g.lon, g.lat, g.h]) : ring, text: `SAM ${(d.iou * 100).toFixed(0)}%`, style: { stroke: '#00e5ff', width: 2, fill: '#00e5ff22' }, created: new Date().toISOString(), provenance: { kind: 'ai-sam', model: `${m.model === 'sam2' ? 'SAM 2.1 hiera-tiny (int8)' : 'SlimSAM-77-uniform (int8)'}, on this device (${m.device === 'webgpu' ? 'WebGPU' : 'CPU'})${square ? ', corners squared' : ''}`, iou: d.iou, layer: l.rec?.name ?? '' } });
       });
       pane.invalidate();
     }
@@ -224,7 +224,7 @@ export function install(app) {
 
   app.tools.register({
     id: 'ai.smartselect',
-    cue: 'Smart select: click an object (SlimSAM from the local AI pack runs on this device).',
+    cue: 'Smart select: click an object (SAM from the local AI packs runs on this device).',
     onDown(p, e, sx, sy) {
       const l = p.geoLayer?.() ?? p.activeLayer?.();
       if (!l) return false;

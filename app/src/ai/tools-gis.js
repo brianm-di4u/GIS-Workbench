@@ -216,6 +216,31 @@ export function installGisTools(app, reg) {
     },
   });
 
+  // ---- local AI models on this device (REQ-LAI-09): the assistant routes to these first ----
+
+  reg.tool({
+    name: 'gw_find_objects',
+    title: 'Find objects (local AI)',
+    description: 'Run the on-device open-vocabulary detector (OWLv2) over the active panel\'s view for the named objects. Results go to the detections review queue as pending, where the analyst accepts or rejects them. Returns counts per object and the boxes (image pixels) with scores. Needs the ai-detect pack.',
+    readOnly: true,
+    inputSchema: obj({ objects: { type: 'array', items: { type: 'string' } }, threshold: { type: 'number', minimum: 0.05, maximum: 0.9 } }, ['objects']),
+    run: async ({ objects, threshold }) => {
+      const r = await app.aiLocal.find(objects, { threshold: threshold ?? 0.15 });
+      return { counts: r.counts, tiles: r.tiles, device: r.device, detections: r.detections.slice(0, 50).map((d) => ({ object: d.cls, score: d.confidence, box: [d.ring[0][0], d.ring[0][1], d.ring[2][0], d.ring[2][1]].map(Math.round) })) };
+    },
+  });
+  reg.tool({
+    name: 'gw_search_imagery',
+    title: 'Search imagery (local AI)',
+    description: 'Semantic search of the active image with on-device CLIP embeddings: outlines and centres the places that look most like the text. Scores are similarities, not probabilities. Needs the ai-search pack.',
+    readOnly: true,
+    inputSchema: obj({ text: { type: 'string' }, k: { type: 'integer', minimum: 1, maximum: 20 } }, ['text']),
+    run: async ({ text, k }) => {
+      const r = await app.aiLocal.search(text, { k: k ?? 8 });
+      return { chips: r.chips, device: r.device, hits: r.hits.map((x) => ({ box: [x.x0, x.y0, x.x0 + x.size, x.y0 + x.size], score: x.score })) };
+    },
+  });
+
   const featuresOf = (layer) => app.store.all('feature').filter((f) => !layer || f.vlayer === layer);
   reg.tool({
     name: 'gw_query_features',

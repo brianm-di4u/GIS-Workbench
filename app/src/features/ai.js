@@ -16,6 +16,7 @@ import { buildPrompt, parseReply, proposeReply } from '../ai/prompt-helper.js';
 import { htmlWithOrigins, hasTemplate } from '../storage/selfsave.js';
 import { saveBlob, textBlob } from '../storage/files.js';
 import { newId } from '../core/util.js';
+import { parseIntent, LOCAL_HELP } from '../ai/intent.js';
 
 export const name = 'ai';
 
@@ -227,14 +228,14 @@ export function install(app) {
     const renderTranscript = () => {
       clear(transcript);
       const c = active();
-      status.textContent = c ? `Connection: ${c.name} · ${c.model}${c.provider !== 'mock' && !keys.has(c.id) ? ' · no key set' : ''}${c.provider !== 'mock' && !cspAllows(`${c.baseURL || DEFAULT_BASE_URL}/v1/messages`) ? ' · origin not in the allow-list' : ''}` : 'AI is off: add a connection (Add-Ins ▸ AI Setup ▸ Connections).';
+      status.textContent = c ? `Connection: ${c.name} · ${c.model}${c.provider !== 'mock' && !keys.has(c.id) ? ' · no key set' : ''}${c.provider !== 'mock' && !cspAllows(`${c.baseURL || DEFAULT_BASE_URL}/v1/messages`) ? ' · origin not in the allow-list' : ''}` : 'No assistant connected: requests run on the local AI tools (“detect aircraft in view”, “search for an unpaved runway”, “auto contrast”). Add a connection under Add-Ins ▸ AI Setup ▸ Connections.';
       for (const t of asst.transcript) {
         const msg = h('div', { class: `ai-msg ai-${t.who}` }, t.text);
         if (t.provenance) msg.appendChild(h('div', { class: 'ai-prov' }, `AI-drafted · ${t.provenance.model} · ${t.provenance.time.slice(11, 19)}`));
         transcript.appendChild(msg);
       }
       transcript.scrollTop = transcript.scrollHeight;
-      send.disabled = asst.busy || !c;
+      send.disabled = asst.busy; // with no connection, Send runs the local tools (REQ-LAI-09)
       stop.hidden = !asst.busy;
     };
     const renderProposals = () => {
@@ -282,10 +283,40 @@ export function install(app) {
         pages.tools.appendChild(form);
       }
     };
+    /**
+     * Local tools first (REQ-LAI-09): a request a local model can do (find, search, auto contrast,
+     * align, segment, go to) runs on this device. Offline, anything else gets the list of what
+     * works here; with a connection it goes to the assistant. → true when handled here.
+     */
+    const localTurn = async (text, offline) => {
+      if (!app.aiLocal) return false;
+      const intent = parseIntent(text);
+      if (!intent && !offline) return false;
+      asst.transcript.push({ who: 'user', text });
+      const prov = { model: 'local tools on this device', time: new Date().toISOString() };
+      if (!intent) asst.transcript.push({ who: 'sys', text: LOCAL_HELP });
+      else {
+        const live = { who: 'ai', text: 'Working on this device…', provenance: prov };
+        asst.transcript.push(live);
+        renderTranscript();
+        try {
+          live.text = (await app.aiLocal.route(text)).text;
+        } catch (e) {
+          live.text = `Could not do that here: ${e.message}`;
+        }
+      }
+      renderTranscript();
+      return true;
+    };
     send.addEventListener('click', async () => {
       const c = active();
       const text = input.value.trim();
-      if (!c || !text) return;
+      if (!text) return;
+      if (await localTurn(text, !c)) {
+        input.value = '';
+        return;
+      }
+      if (!c) return;
       if (c.provider !== 'mock') {
         if (!keys.has(c.id) && !(await secretDialog(c))) return;
         if (!cspAllows(`${c.baseURL || DEFAULT_BASE_URL}/v1/messages`)) {

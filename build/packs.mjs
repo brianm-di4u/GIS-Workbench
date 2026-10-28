@@ -6,7 +6,9 @@
 //   node build/packs.mjs --fetch     download the pinned inputs into .cache/packs-src (checked)
 //
 // Packs: geoid (EGM2008 5′ grid), hdf5 (h5wasm), proj (PROJ-WASM with proj.db), ai (onnxruntime-web
-// + SlimSAM int8). A pack whose inputs are missing is skipped with a warning.
+// WASM and WebGPU runtimes + SlimSAM int8) and the 2.0 model packs (2.0 plan P5, DN-56), which need
+// the ai pack's runtime: ai-sam2 (SAM 2.1 tiny), ai-detect (OWLv2), ai-search (CLIP ViT-B/32) and
+// ai-match (DISK + LightGlue). A pack whose inputs are missing is skipped with a warning.
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -65,6 +67,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Third-party components inside the WebAssembly build: see https://github.com/microsoft/onnxruntime/blob/main/ThirdPartyNotices.txt`;
 
+/**
+ * The WebGPU glue's emval method invoker is built with `new Function` (Emscripten's dynamic
+ * execution), which the app's CSP and the REQ-ARC-04 eval gate refuse. This replaces it with a
+ * closure that does the same call: the converters read each argument (8 bytes apart), the call
+ * kind picks function / constructor / method, and a non-void result goes back through the return
+ * wire. Pinned to onnxruntime-web 1.30.0's minified names; the build fails if the text moves.
+ */
+function noEvalGlue(text) {
+  const from = 'c=(new Function(Object.keys(k),h))(...Object.values(k));';
+  const to = 'c=((K,F,B,V)=>function(handle,methodName,destructorsRef,args){var v=F.map((l,p)=>l(args+8*p)),r;switch(K){case 0:r=R(handle)(...v);break;case 2:r=new(R(handle))(...v);break;case 3:r=v[v.length-1];break;case 1:r=R(handle)[Yg(methodName)](...v)}if(!V)return Wg(B,destructorsRef,r)})(c,f,b,d.we);';
+  if (text.split(from).length !== 2) throw new Error('onnxruntime-web asyncify glue: the emval invoker was not found once; update noEvalGlue for this version');
+  return Buffer.from(text.replace(from, to));
+}
+
 const HDF5_NOTICE = 'h5wasm (https://github.com/usnistgov/h5wasm) is NIST-developed software. Acknowledgement: National Institute of Standards and Technology. GIS Workbench ships the h5wasm IIFE build unchanged.\n\n';
 
 /** Pack definitions: entries [{path, kind: 'js'|'wasm'|'model'|'data', bytes}] or null when inputs are missing. */
@@ -93,20 +109,52 @@ async function definitions(esbuild) {
     const licence = `onnxruntime-web ${v} (MIT):\n${ORT_MIT}\n\nSlimSAM-77-uniform (Z. Chen et al., "SlimSAM: 0.1% Data Makes Segment Anything Slim"; weights nielsr/slimsam-77-uniform, ONNX export Xenova/slimsam-77-uniform): Apache-2.0. Based on Segment Anything (Meta AI, Apache-2.0).`;
     out.push({
       name: 'ai',
-      title: 'Local AI (SlimSAM smart select)',
-      version: `${v}+slimsam77`,
-      description: 'Runs SlimSAM segmentation on the device for smart selection on imagery and DSM hillshade (REQ-EXT-18, REQ-AI-18). Nothing leaves the machine.',
+      title: 'Local AI runtime (WebGPU / WASM) and SlimSAM',
+      spdx: ['MIT', 'Apache-2.0'],
+      version: `${v}+slimsam77.webgpu`,
+      description: 'The on-device AI runtime (onnxruntime-web: WebGPU, with a WASM fallback) and SlimSAM smart select; the model packs need it (REQ-EXT-18, REQ-AI-18, REQ-LAI-01). Nothing leaves the machine.',
       licence,
       entries: [
         { path: 'ort.wasm.min.js', kind: 'js', bytes: readFileSync(nm('onnxruntime-web', 'dist', 'ort.wasm.min.js')) },
         { path: 'ort-wasm-simd-threaded.mjs', kind: 'js', bytes: readFileSync(nm('onnxruntime-web', 'dist', 'ort-wasm-simd-threaded.mjs')) },
         { path: 'ort-wasm-simd-threaded.wasm', kind: 'wasm', bytes: readFileSync(nm('onnxruntime-web', 'dist', 'ort-wasm-simd-threaded.wasm')) },
+        // The WebGPU build (REQ-LAI-01): used when the device has a WebGPU adapter; WASM otherwise.
+        { path: 'ort.webgpu.min.js', kind: 'js', bytes: readFileSync(nm('onnxruntime-web', 'dist', 'ort.webgpu.min.js')) },
+        { path: 'ort-wasm-simd-threaded.asyncify.mjs', kind: 'js', bytes: noEvalGlue(readFileSync(nm('onnxruntime-web', 'dist', 'ort-wasm-simd-threaded.asyncify.mjs'), 'utf8')) },
+        { path: 'ort-wasm-simd-threaded.asyncify.wasm', kind: 'wasm', bytes: readFileSync(nm('onnxruntime-web', 'dist', 'ort-wasm-simd-threaded.asyncify.wasm')) },
         { path: 'slimsam/vision_encoder_quantized.onnx', kind: 'model', bytes: enc },
         { path: 'slimsam/prompt_encoder_mask_decoder_quantized.onnx', kind: 'model', bytes: dec },
         { path: 'slimsam/preprocessor_config.json', kind: 'data', bytes: cfg },
       ],
     });
   }
+  // ---- 2.0 model packs (P5). Each needs the ai pack's runtime. ----
+  const pack = (name, title, version, description, licence, ids, spdx) => {
+    const bytes = ids.map(([id]) => cached(id));
+    if (bytes.some((b) => !b)) return;
+    out.push({ name, title, version, description, licence: `${licence}\n\nRuns in the onnxruntime-web runtime of the ai pack (MIT).`, spdx, requires: 'ai', entries: ids.map(([, path, kind], i) => ({ path, kind, bytes: bytes[i] })) });
+  };
+  pack('ai-sam2', 'Local AI: SAM 2.1 click-to-polygon', '2.1-tiny-int8', 'SAM 2.1 hiera-tiny (int8) for click and box segmentation, with outlines squared on request (REQ-LAI-02).', 'SAM 2.1 hiera-tiny: Meta AI, facebook/sam2.1-hiera-tiny, Apache-2.0 (github.com/facebookresearch/sam2). ONNX export: onnx-community/sam2.1-hiera-tiny-ONNX.', [
+    ['sam2-encoder', 'sam2/vision_encoder_int8.onnx', 'model'],
+    ['sam2-encoder-data', 'sam2/vision_encoder_int8.onnx_data', 'model'],
+    ['sam2-decoder', 'sam2/prompt_encoder_mask_decoder_int8.onnx', 'model'],
+    ['sam2-decoder-data', 'sam2/prompt_encoder_mask_decoder_int8.onnx_data', 'model'],
+    ['sam2-config', 'sam2/preprocessor_config.json', 'data'],
+  ], ['Apache-2.0']);
+  pack('ai-detect', 'Local AI: OWLv2 open-vocabulary detection', 'owlv2-b16-q8', 'OWLv2 base (patch 16, ensemble; 8-bit) finds objects named in plain words, tiled over the view (REQ-LAI-03).', 'OWLv2: Google, google/owlv2-base-patch16-ensemble, Apache-2.0 (github.com/google-research/scenic). ONNX export: Xenova/owlv2-base-patch16-ensemble. CLIP tokenizer vocabulary and merges: OpenAI CLIP, MIT.', [
+    ['owlv2-model', 'owlv2/model_quantized.onnx', 'model'],
+    ['owlv2-config', 'owlv2/preprocessor_config.json', 'data'],
+    ['clip-vocab', 'clip/vocab.json', 'data'],
+    ['clip-merges', 'clip/merges.txt', 'data'],
+  ], ['Apache-2.0', 'MIT']);
+  pack('ai-search', 'Local AI: CLIP semantic search', 'clip-b32-q8', 'CLIP ViT-B/32 (8-bit) image and text embeddings: type what you are looking for and fly to the best matching places (REQ-LAI-06).', 'CLIP ViT-B/32: OpenAI, openai/clip-vit-base-patch32; code and weights MIT (github.com/openai/CLIP). ONNX export: Xenova/clip-vit-base-patch32.', [
+    ['clip-vision', 'clip/vision_model_quantized.onnx', 'model'],
+    ['clip-text', 'clip/text_model_quantized.onnx', 'model'],
+    ['clip-config', 'clip/preprocessor_config.json', 'data'],
+    ['clip-vocab', 'clip/vocab.json', 'data'],
+    ['clip-merges', 'clip/merges.txt', 'data'],
+  ], ['MIT']);
+  pack('ai-match', 'Local AI: DISK + LightGlue co-registration', 'disk-lightglue-2.0', 'Learned keypoints (DISK) and matching (LightGlue) for Auto Align (AI) between dates or sensors (REQ-LAI-05).', 'DISK: cvlab-epfl/disk, Apache-2.0. LightGlue and its DISK-trained weights: cvg/LightGlue, Apache-2.0 (the SuperPoint weights, which are not licensed for commercial use, are not used). End-to-end ONNX pipeline: fabio-sim/LightGlue-ONNX v2.0, Apache-2.0.', [['disk-lightglue', 'lightglue/disk_lightglue_pipeline.onnx', 'model']], ['Apache-2.0']);
   return out;
 }
 
@@ -120,21 +168,23 @@ export async function buildPacks({ outDir, esbuild, toolVersion }) {
   const manifest = {};
   const files = [];
   const code = [];
+  const models = []; // REQ-LAI-08: {pack, spdx, licence} of every pack that carries a model
   const warnings = [];
   const defs = await definitions(esbuild);
-  for (const want of ['geoid', 'hdf5', 'proj', 'ai']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
+  for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
   for (const p of defs) {
     const entries = p.entries.map((e) => ({ path: e.path, kind: e.kind, size: e.bytes.length, sha256: sha256(e.bytes) }));
-    const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, created: new Date().toISOString().slice(0, 10), entries };
+    const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: new Date().toISOString().slice(0, 10), entries };
     const pjBytes = strToU8(JSON.stringify(pj, null, 1));
     const zip = zipSync({ 'pack.json': pjBytes, 'LICENCE.txt': strToU8(p.licence), ...Object.fromEntries(p.entries.map((e) => [e.path, [new Uint8Array(e.bytes), { level: e.kind === 'model' ? 0 : 6 }]])) });
     const file = `${p.name}-${p.version}.gwpack`;
     writeFileSync(join(dir, file), zip);
-    manifest[p.name] = { title: p.title, version: p.version, file, sha256: sha256(zip), size: zip.length, packJson: sha256(pjBytes), entries: Object.fromEntries(entries.map((e) => [e.path, { kind: e.kind, sha256: e.sha256, size: e.size }])) };
+    manifest[p.name] = { title: p.title, version: p.version, ...(p.requires ? { requires: p.requires } : {}), file, sha256: sha256(zip), size: zip.length, packJson: sha256(pjBytes), entries: Object.fromEntries(entries.map((e) => [e.path, { kind: e.kind, sha256: e.sha256, size: e.size }])) };
     files.push(`packs/${file}`);
     for (const e of p.entries) if (e.kind === 'js') code.push({ name: `pack:${p.name}/${e.path}`, text: e.bytes.toString('utf8') });
+    if (p.entries.some((e) => e.kind === 'model')) models.push({ pack: p.name, spdx: p.spdx ?? [], licence: p.licence });
   }
-  return { manifest, files, warnings, code };
+  return { manifest, files, warnings, code, models };
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1] && process.argv.includes('--fetch')) await fetchAll();

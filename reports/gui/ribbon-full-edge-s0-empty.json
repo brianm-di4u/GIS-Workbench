@@ -688,6 +688,15 @@
  },
  {
   "tab": "geospatial",
+  "id": "align.ai",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
   "id": "align.quick",
   "kind": "button",
   "outcome": "disabled",
@@ -1466,6 +1475,53 @@
   "kind": "button",
   "outcome": "disabled",
   "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.square",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.find",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.search",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.contrast",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.device",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-device"
+  ],
   "toasts": [],
   "problems": []
  },

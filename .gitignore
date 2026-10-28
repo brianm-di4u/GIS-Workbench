@@ -19,3 +19,9 @@ reports/marketing/
 # GUI campaign run logs (the per-run JSON summaries in reports/gui are kept)
 reports/gui/*.txt
 reports/gui/progress.log
+
+# 2.0 model packs (50–160 MB each): attached to the GitHub release, not committed (100 MB file limit)
+dist/packs/ai-sam2-*.gwpack
+dist/packs/ai-detect-*.gwpack
+dist/packs/ai-search-*.gwpack
+dist/packs/ai-match-*.gwpack

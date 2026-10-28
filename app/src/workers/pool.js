@@ -75,7 +75,7 @@ export class WorkerPool extends Emitter {
   }
 
   /**
-   * Run a job. opts: {kind='decode', priority, transfer, timeout, affinity (slot id), onProgress, label}.
+   * Run a job. opts: {kind='decode', priority, transfer, timeout, affinity (slot id), avoid (slot ids), onProgress, label}.
    * Resolves with the result; rejects with an Error that has .cancelled/.timedOut/.trapped flags.
    */
   run(op, args = {}, opts = {}) {
@@ -88,6 +88,7 @@ export class WorkerPool extends Emitter {
       transfer: opts.transfer ?? [],
       timeout: opts.timeout ?? 120000,
       affinity: opts.affinity ?? null,
+      avoid: opts.avoid ?? null,
       onProgress: opts.onProgress,
       label: opts.label ?? op,
       state: 'queued',
@@ -123,9 +124,15 @@ export class WorkerPool extends Emitter {
         continue;
       }
       if (!slot) {
-        slot = slots.reduce((a, b) => (a.busy <= b.busy ? a : b));
+        // `avoid`: slot ids this job must not run on (a second AI runtime needs its own worker).
+        const free = job.avoid?.length ? slots.filter((s) => !job.avoid.includes(s.id)) : slots;
+        slot = free.length ? free.reduce((a, b) => (a.busy <= b.busy ? a : b)) : null;
         const spawning = this._spawning.get(job.kind) ?? 0;
-        if (slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4) && slots.length + spawning < this.size) {
+        if (!slot && slots.length + spawning >= this.size) {
+          this._finish(job, null, new Error(`no free ${job.kind} worker: the pool is full`));
+          continue;
+        }
+        if ((!slot || slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4)) && slots.length + spawning < this.size) {
           // Claim the job before awaiting the new worker: a concurrent pump must not post it too
           // (its buffers would already be transferred), nor start more workers than the pool size.
           job.state = 'dispatching';

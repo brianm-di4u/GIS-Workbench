@@ -1,5 +1,5 @@
 GIS Workbench — third-party notices
-Build 2.0.0-beta.3 (2026-10-28T11:17:55.991Z)
+Build 2.0.0-beta.4 (2026-10-28T12:16:32.628Z)
 
 This file is generated from the build metafile (JavaScript), cargo metadata (Rust) and the data list below.
 
@@ -2115,7 +2115,11 @@ Starter spectral library — 80 spectra from the USGS Spectral Library Version 7
 geoid 2008.5min: EGM2008 geoid (5′ grid) — see LICENCE.txt inside geoid-2008.5min.gwpack.
 hdf5 0.10.3: HDF5 reader (h5wasm) — see LICENCE.txt inside hdf5-0.10.3.gwpack.
 proj 0.1.0: PROJ (proj-wasm with proj.db) — see LICENCE.txt inside proj-0.1.0.gwpack.
-ai 1.30.0+slimsam77: Local AI (SlimSAM smart select) — see LICENCE.txt inside ai-1.30.0+slimsam77.gwpack.
+ai 1.30.0+slimsam77.webgpu: Local AI runtime (WebGPU / WASM) and SlimSAM — see LICENCE.txt inside ai-1.30.0+slimsam77.webgpu.gwpack.
+ai-sam2 2.1-tiny-int8: Local AI: SAM 2.1 click-to-polygon — see LICENCE.txt inside ai-sam2-2.1-tiny-int8.gwpack.
+ai-detect owlv2-b16-q8: Local AI: OWLv2 open-vocabulary detection — see LICENCE.txt inside ai-detect-owlv2-b16-q8.gwpack.
+ai-search clip-b32-q8: Local AI: CLIP semantic search — see LICENCE.txt inside ai-search-clip-b32-q8.gwpack.
+ai-match disk-lightglue-2.0: Local AI: DISK + LightGlue co-registration — see LICENCE.txt inside ai-match-disk-lightglue-2.0.gwpack.
 
 == Ported algorithms ==
 Transverse Mercator, polar stereographic, UTM/UPS/MGRS, geocentric conversions — ported from GeographicLib (MIT, © Charles Karney).

@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { buildRust, BUNDLES } from './rust.mjs';
 import { egm96Grid, encodePredicted, basemap, writeGeoidFixture } from './data.mjs';
 import { tokensCss } from './tokens.mjs';
-import { sizeGate, evalGate, licenceGate, manifestGate, cspGate } from './gates.mjs';
+import { sizeGate, evalGate, licenceGate, manifestGate, cspGate, modelLicenceGate } from './gates.mjs';
 import { buildPacks } from './packs.mjs';
 import { vendorFixes } from './vendor-fixes.mjs';
 
@@ -238,6 +238,7 @@ async function main() {
   const packs = await buildPacks({ outDir, esbuild, toolVersion: VERSION });
   warnings.push(...packs.warnings);
   errors.push(...evalGate(packs.code, EVAL_ALLOW));
+  errors.push(...modelLicenceGate(packs.models));
 
   const styles = css();
   // The id covers everything shipped: loader, app, styles and every block.

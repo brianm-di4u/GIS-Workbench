@@ -436,6 +436,87 @@ export function install(app) {
     },
   });
 
+  // ---- Auto Align (AI): DISK keypoints matched by LightGlue (REQ-LAI-05) ----
+  /**
+   * Learned tie points: one coarse window over the overlap (decimated to `size` px) gives a first
+   * affine; then `fine` windows of `fineSize` px at full resolution, placed with it, give the
+   * precise points. Works across dates, sensors and moderate rotation/scale, unlike the NCC grid.
+   */
+  async function aiTiePoints({ size = 768, fine = 4, fineSize = 512, minScore = 0.5 } = {}) {
+    const { master, slave } = pair();
+    const L = app.aiLocal;
+    if (!L) throw new Error('the local AI tools are not part of this build');
+    const toRef = (l, x, y) => applyAffine(l.align ?? ID, x, y); // layer pixel → reference pixel
+    const box = (l) => {
+      const c = [[0, 0], [l.width, 0], [0, l.height], [l.width, l.height]].map(([x, y]) => toRef(l, x, y));
+      return [Math.min(...c.map((q) => q.x)), Math.min(...c.map((q) => q.y)), Math.max(...c.map((q) => q.x)), Math.max(...c.map((q) => q.y))];
+    };
+    const a = box(master);
+    const b = box(slave);
+    const ov = [Math.max(a[0], b[0]), Math.max(a[1], b[1]), Math.min(a[2], b[2]), Math.min(a[3], b[3])];
+    if (ov[2] - ov[0] < 64 || ov[3] - ov[1] < 64) throw new Error('the two images do not overlap');
+    const crop = (win, w, hh) => {
+      if (win.w === w && win.h === hh) return win;
+      const rgb = new Uint8Array(3 * w * hh);
+      for (let y = 0; y < hh; y++) rgb.set(win.rgb.subarray(3 * y * win.w, 3 * (y * win.w + w)), 3 * y * w);
+      return { ...win, rgb, w, h: hh };
+    };
+    /** Pairs from windows centred on reference pixel (cx, cy); A maps slave pixels to reference pixels. */
+    const pairsAt = async (cx, cy, side, step, A) => {
+      const m = applyAffine(invertAffine(master.align ?? ID), cx, cy);
+      const s = applyAffine(invertAffine(A), cx, cy);
+      const half = (side * step) / 2;
+      const wa = await L.rgbRegion(master, m.x - half, m.y - half, side * step, side * step, step);
+      const wb = await L.rgbRegion(slave, s.x - half, s.y - half, side * step, side * step, step);
+      // DISK's U-Net halves the image four times: sides are cut to multiples of 16.
+      const w = Math.floor(Math.min(wa.w, wb.w) / 16) * 16;
+      const hh = Math.floor(Math.min(wa.h, wb.h) / 16) * 16;
+      if (w < 64 || hh < 64) return [];
+      const r = await L.match(crop(wa, w, hh), crop(wb, w, hh));
+      return r.pairs.filter((p) => p.score >= minScore).map((p) => ({ s: { x: wb.x0 + p.b.x * step, y: wb.y0 + p.b.y * step }, t: toRef(master, wa.x0 + p.a.x * step, wa.y0 + p.a.y * step), score: p.score }));
+    };
+    const ow = ov[2] - ov[0];
+    const oh = ov[3] - ov[1];
+    const cstep = Math.max(1, Math.ceil(Math.max(ow, oh) / size));
+    const coarse = await pairsAt((ov[0] + ov[2]) / 2, (ov[1] + ov[3]) / 2, size, cstep, slave.align ?? ID);
+    if (coarse.length < 3) throw new Error(`only ${coarse.length} learned match(es) between the images; try Quick Align`);
+    const A0 = robustFit(coarse, 'affine', Math.max(1, cstep)).A;
+    let pairs = [];
+    if (fine > 0 && cstep > 1) {
+      const k = Math.ceil(Math.sqrt(fine));
+      for (let j = 0; j < k; j++)
+        for (let i = 0; i < k && pairs.length < 4000; i++) {
+          if (j * k + i >= fine) break;
+          pairs.push(...(await pairsAt(ov[0] + (ow * (i + 0.5)) / k, ov[1] + (oh * (j + 0.5)) / k, Math.min(fineSize, Math.floor(Math.min(ow, oh) / k)), 1, A0)));
+        }
+    }
+    if (pairs.length < 8) pairs = pairs.concat(coarse);
+    return { master, slave, pairs, coarse: coarse.length, step: cstep };
+  }
+  app.aiTiePoints = aiTiePoints;
+
+  async function autoAlignAI({ kind = 'affine', ...o } = {}) {
+    const { master, slave, pairs } = await aiTiePoints(o);
+    if (pairs.length < 3) throw new Error(`only ${pairs.length} tie point(s) matched; Auto Align (AI) needs 3`);
+    const fit = robustFit(pairs.length > 600 ? pairs.filter((_, i) => i % Math.ceil(pairs.length / 600) === 0) : pairs, kind, 1);
+    const res = apply(master, slave, fit.A, { method: `Auto Align (AI: DISK + LightGlue, ${fit.used.length} tie points, ${fit.rejected} rejected, ${kind})`, rmsPx: fit.rms, pairs: fit.used });
+    app.store.transact('Tie points', (tx) => tx.set(slave.id, 'tiepoints', fit.used.slice(0, 200).map((p) => ({ s: p.s, t: p.t, score: p.score }))));
+    return { ...res, used: fit.used.length, rejected: fit.rejected, rms: fit.rms };
+  }
+  app.autoAlignAI = autoAlignAI;
+  C.implement('align.ai', {
+    enabled: hasPair,
+    run: async () => {
+      try {
+        app.toast('Auto Align (AI): matching learned keypoints…');
+        const r = await autoAlignAI();
+        app.toast(`Auto Align (AI): ${r.used} tie points, RMS ${r.rms.toFixed(2)} px.`);
+      } catch (e) {
+        app.toast(`Auto Align (AI): ${e.message}`, { kind: 'warn', ms: 9000 });
+      }
+    },
+  });
+
   // ---- Polynomial Registration with an RMS report ----
   C.implement('align.poly', {
     enabled: hasPair,

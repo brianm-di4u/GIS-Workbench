@@ -54,6 +54,7 @@ import * as spectral from './spectral.js';
 import * as spectralAnalysis from './spectral-analysis.js';
 import * as fmv from './fmv.js';
 import * as packs from './packs.js';
+import * as aiLocal from './ai-local.js';
 import * as aiSam from './ai-sam.js';
 import * as detections from './detections.js';
 import * as observations from './observations.js';
@@ -64,4 +65,4 @@ import * as stereoOut from './stereo-out.js';
 import * as terrainFolder from './terrain-folder.js';
 import * as automation from './automation.js';
 
-export const FEATURES = [hud, basemaps, globe, catalog, convert, navigation, readout, files, enhance, enhanceTools, analyze, panels, views, measure, dem, compare, dialogs, graphics, change, feedback, ai, online, products, productPages, extract, register, prefsUi, workspaceTools, aoi, fusion, measureExtras, aiExtras, triangulation, stereo, terrainExtract, demTools, ortho, terrainAnalysis, pointcloud, attribution, extractR2, scene3d, symbology, finishing, devices, release, frames, ootf, sar, spectral, spectralAnalysis, fmv, packs, aiSam, detections, observations, media, mie, remoteEdit, stereoOut, terrainFolder, automation];
+export const FEATURES = [hud, basemaps, globe, catalog, convert, navigation, readout, files, enhance, enhanceTools, analyze, panels, views, measure, dem, compare, dialogs, graphics, change, feedback, ai, online, products, productPages, extract, register, prefsUi, workspaceTools, aoi, fusion, measureExtras, aiExtras, triangulation, stereo, terrainExtract, demTools, ortho, terrainAnalysis, pointcloud, attribution, extractR2, scene3d, symbology, finishing, devices, release, frames, ootf, sar, spectral, spectralAnalysis, fmv, packs, aiLocal, aiSam, detections, observations, media, mie, remoteEdit, stereoOut, terrainFolder, automation];

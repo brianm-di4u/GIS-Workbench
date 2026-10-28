@@ -6,7 +6,11 @@
       "url": "https://sourceforge.net/projects/geographiclib/files/geoids-distrib/egm2008-5.tar.bz2/download",
       "file": "egm2008-5.tar.bz2",
       "sha256": "9a57c14330ac609132d324906822a9da9de265ad9b9087779793eb7080852970",
-      "extract": { "member": "geoids/egm2008-5.pgm", "to": "egm2008-5.pgm", "sha256": "96d55e88db186ddae892b00c5f8cc42a37cdac8ddb69b6de00af8c75dffb34a3" },
+      "extract": {
+        "member": "geoids/egm2008-5.pgm",
+        "to": "egm2008-5.pgm",
+        "sha256": "96d55e88db186ddae892b00c5f8cc42a37cdac8ddb69b6de00af8c75dffb34a3"
+      },
       "licence": "EGM2008: NGA, public domain. Grid packaging: GeographicLib geoids distribution (C. F. F. Karney, MIT)."
     },
     {
@@ -29,6 +33,97 @@
       "file": "slimsam_preprocessor_config.json",
       "sha256": "225545a743c654e3c495ec6f545a0eaba57c8ba3fbbd8483b3cb1c0fc58db517",
       "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-encoder",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/vision_encoder_int8.onnx",
+      "file": "sam2_vision_encoder_int8.onnx",
+      "sha256": "d848e08b747ba44ee59b31246988528d5ecc67d1e1c0a2f5c08395c86d92176f",
+      "licence": "SAM 2.1 hiera-tiny (Meta AI, facebook/sam2.1-hiera-tiny; ONNX export onnx-community): Apache-2.0."
+    },
+    {
+      "id": "sam2-encoder-data",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/vision_encoder_int8.onnx_data",
+      "file": "sam2_vision_encoder_int8.onnx_data",
+      "sha256": "4359d45f8aafcbc69f945e714af7fb06b74b24c753b5af86b6a230ecd0e737bc",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-decoder",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/prompt_encoder_mask_decoder_int8.onnx",
+      "file": "sam2_decoder_int8.onnx",
+      "sha256": "e53727dc441a3c8716dd4a606d5bbf920e33e7545d1a6ff843c9fb804c7d19b6",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-decoder-data",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/prompt_encoder_mask_decoder_int8.onnx_data",
+      "file": "sam2_decoder_int8.onnx_data",
+      "sha256": "fdb3179a32388267a944a416c0f992c77a138b69a4bfd94f0bbf7089430d7489",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-config",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/preprocessor_config.json",
+      "file": "sam2_preprocessor_config.json",
+      "sha256": "240c886b428d36b63bbb51b0c17ad4d2668d83ba851a04f09880a2b93f0b7349",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "owlv2-model",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/onnx/model_quantized.onnx",
+      "file": "owlv2_model_quantized.onnx",
+      "sha256": "af8d6a041e4114b06eafabb03047350c7b8f136670a3f8afc7e73c5a74c2b24b",
+      "licence": "OWLv2 base patch16 ensemble (Google, google/owlv2-base-patch16-ensemble; ONNX export Xenova): Apache-2.0."
+    },
+    {
+      "id": "owlv2-config",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/preprocessor_config.json",
+      "file": "owlv2_preprocessor_config.json",
+      "sha256": "cf3e396635b797ee1a464e1b2836e98748f8edac19e89aaa2c93b55ac15b0064",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "clip-vocab",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/vocab.json",
+      "file": "clip_vocab.json",
+      "sha256": "5047b556ce86ccaf6aa22b3ffccfc52d391ea4accdab9c2f2407da5b742d4363",
+      "licence": "CLIP BPE vocabulary (OpenAI CLIP, MIT)."
+    },
+    {
+      "id": "clip-merges",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/merges.txt",
+      "file": "clip_merges.txt",
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+      "licence": "CLIP BPE merges (OpenAI CLIP, MIT)."
+    },
+    {
+      "id": "clip-vision",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/main/onnx/vision_model_quantized.onnx",
+      "file": "clip_vision_quantized.onnx",
+      "sha256": "583fd1110a514667812fee7d684952aaf82a99b959760c8d7dca7e0ab9839299",
+      "licence": "CLIP ViT-B/32 (OpenAI, openai/clip-vit-base-patch32; code and weights MIT per github.com/openai/CLIP; ONNX export Xenova)."
+    },
+    {
+      "id": "clip-text",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/main/onnx/text_model_quantized.onnx",
+      "file": "clip_text_quantized.onnx",
+      "sha256": "73baab855d406190da9faa498cfedf65f15cf309f4cc7385b7b032e6d08e5c3a",
+      "licence": "CLIP ViT-B/32 text encoder (OpenAI, MIT; ONNX export Xenova)."
+    },
+    {
+      "id": "clip-config",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/main/preprocessor_config.json",
+      "file": "clip_preprocessor_config.json",
+      "sha256": "6f638fb9401a6d6296feff533ee7efe657b787c49f954f82f5906b36ef2a1b1f",
+      "licence": "MIT."
+    },
+    {
+      "id": "disk-lightglue",
+      "url": "https://github.com/fabio-sim/LightGlue-ONNX/releases/download/v2.0/disk_lightglue_pipeline.onnx",
+      "file": "disk_lightglue_pipeline.onnx",
+      "sha256": "23300fb62b76bca5639e61ec6b7f8579757f49b15c5fe70d93fb1f403d93c6d3",
+      "licence": "DISK (cvlab-epfl/disk, Apache-2.0) + LightGlue weights trained on DISK (cvg/LightGlue, Apache-2.0); end-to-end ONNX pipeline fabio-sim/LightGlue-ONNX v2.0 (Apache-2.0)."
     }
   ]
 }
