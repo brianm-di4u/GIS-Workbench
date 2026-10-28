@@ -7,8 +7,8 @@ import { ImageLayer } from '../layers/image-layer.js';
 import { newId } from '../core/util.js';
 import { crsOf, converter, fittedMapModel } from '../geo/crs.js';
 
-const IMAGE_EXT = /\.(ntf|nitf|nsf|r\d+|tif|tiff|gtiff|jpg|jpeg|png|gif|bmp|webp|dt0|dt1|dt2|hgt|gz|img|dat|bsq|bil|bip|raw|h5|he5|hdf5|nc|pdf|jp2|jpx|j2k|j2c|jpf|gn[0-9a-j]|jn[0-9a-j]|on[0-9a-j]|tp[0-9a-j]|lf[0-9a-j]|ja[0-9a-j]|jr[0-9a-j]|tc[0-9a-j]|tl[0-9a-j]|i[1-5][0-9a-j])$/i;
-const SIDECAR_EXT = /\.(jgw|pgw|tfw|wld|gfw|bpw|j2w|aux\.xml|prj|ovr|rpb|imd|til|att|eph|geo|clr|xml|hdr)$/i;
+const IMAGE_EXT = /\.(ntf|nitf|nsf|r\d+|tif|tiff|gtiff|sid|jpg|jpeg|png|gif|bmp|webp|dt0|dt1|dt2|hgt|gz|img|dat|bsq|bil|bip|raw|h5|he5|hdf5|nc|pdf|jp2|jpx|j2k|j2c|jpf|gn[0-9a-j]|jn[0-9a-j]|on[0-9a-j]|tp[0-9a-j]|lf[0-9a-j]|ja[0-9a-j]|jr[0-9a-j]|tc[0-9a-j]|tl[0-9a-j]|i[1-5][0-9a-j])$/i;
+const SIDECAR_EXT = /\.(jgw|pgw|tfw|tifw|sdw|wld|gfw|bpw|j2w|aux\.xml|prj|ovr|rpb|imd|til|att|eph|geo|clr|xml|hdr)$/i;
 
 /** SHA-256 of the first and last 1 MiB plus the size (D1, REQ-ARC-08). */
 export async function fingerprint(file) {
@@ -38,7 +38,9 @@ export function groupFiles(files) {
   return primaries.map((f) => {
     const base = f.name.replace(/\.[^.]+$/, '').toLowerCase();
     const full = f.name.toLowerCase();
-    const side = [...(byBase.get(base) ?? []), ...(byBase.get(full) ?? [])];
+    // A DIMAP volume's DIM_<stem>.XML describes IMG_<stem>[_RnCm].TIF (IMP-22).
+    const dim = /^img_(.+?)(_r\d+c\d+)?$/.exec(base);
+    const side = [...(byBase.get(base) ?? []), ...(byBase.get(full) ?? []), ...(dim ? byBase.get(`dim_${dim[1]}`) ?? [] : [])];
     return { file: f, sidecars: side };
   });
 }
@@ -524,13 +526,47 @@ function parseTil(text) {
   return out;
 }
 
+/**
+ * Airbus DIMAP v2 product metadata (Pléiades, SPOT 6/7, Pléiades Neo; IMP-22): mission, processing
+ * level, scene-centre time and sun/viewing angles, and the band display order (file bands are
+ * B0 blue, B1 green, B2 red, B3 NIR, so RGB is B2 B1 B0).
+ */
+export function parseDimap(text) {
+  try {
+    const doc = new DOMParser().parseFromString(text, 'application/xml');
+    if (doc.querySelector('parsererror') || doc.documentElement.nodeName !== 'Dimap_Document') return null;
+    const t = (sel, root = doc) => root.querySelector(sel)?.textContent?.trim() ?? null;
+    const centre = [...doc.querySelectorAll('Located_Geometric_Values')].find((n) => t('LOCATION_TYPE', n) === 'Center') ?? null;
+    const num = (sel) => {
+      const v = centre ? Number(t(sel, centre)) : NaN;
+      return Number.isFinite(v) ? v : null;
+    };
+    const band = (c) => /^B(\d+)$/.exec(t(`Band_Display_Order ${c}`) ?? '')?.[1];
+    const order = ['RED_CHANNEL', 'GREEN_CHANNEL', 'BLUE_CHANNEL'].map(band);
+    const time = (centre && t('TIME', centre)) || [t('IMAGING_DATE'), t('IMAGING_TIME')].filter(Boolean).join('T') || null;
+    return {
+      mission: [t('MISSION'), t('MISSION_INDEX')].filter(Boolean).join(' ') || null,
+      level: t('PROCESSING_LEVEL'),
+      spectral: t('SPECTRAL_PROCESSING'),
+      time,
+      sun: num('SUN_AZIMUTH') !== null && num('SUN_ELEVATION') !== null ? { azimuth: num('SUN_AZIMUTH'), elevation: num('SUN_ELEVATION'), source: 'DIMAP' } : null,
+      viewing: num('VIEWING_ANGLE'),
+      incidence: num('INCIDENCE_ANGLE'),
+      rgb: order.every((x) => x !== undefined) ? order.map(Number) : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function readSidecars(sidecars) {
-  const out = { aux: null, world: null, epsg: null, prj: null, rpc: null, tiles: null };
+  const out = { aux: null, world: null, epsg: null, prj: null, rpc: null, tiles: null, dimap: null };
   for (const f of sidecars) {
     if (f.size > 4 << 20) continue;
     const text = await f.text();
     if (/\.aux\.xml$/i.test(f.name)) out.aux = parseAux(text);
-    else if (/\.(jgw|pgw|tfw|wld|gfw|bpw|j2w)$/i.test(f.name)) out.world = parseWorldFile(text);
+    else if (/^DIM_.*\.xml$/i.test(f.name)) out.dimap = parseDimap(text);
+    else if (/\.(jgw|pgw|tfw|tifw|sdw|wld|gfw|bpw|j2w)$/i.test(f.name)) out.world = parseWorldFile(text);
     else if (/\.rpb$/i.test(f.name)) out.rpc = parseRpb(text);
     else if (/\.til$/i.test(f.name)) out.tiles = parseTil(text);
     else if (/\.prj$/i.test(f.name)) {
@@ -622,6 +658,17 @@ export async function describe(app, file, sidecars = [], { merge = false } = {})
       } else info.format = `SIDD ${raster.sar.version} (${raster.sar.pixelType ?? ''})`;
     }
     const chain = autoChain({ bands: raster.bands, sampleType: raster.sampleType, abpp: ish?.ABPP ?? raster.abpp, irep: info.irep, icat: info.icat, bandRoles: ish ? nitfBandRoles(ish) : null, kind: kind === 'dem' ? 'dem' : 'image', sar: (raster.sar?.kind === 'SICD' || raster.sar?.kind === 'Complex GeoTIFF') && raster.sar.complex });
+    // DIMAP (IMP-22): sun angles and the scene-centre time for shadow tools and Shadows Down, and
+    // the product's own RGB band order (file order is blue first).
+    const dm = side.dimap;
+    if (dm) {
+      info.dimap = dm;
+      if (dm.sun) info.sun = dm.sun;
+      const ts = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)/.exec(dm.time ?? '');
+      if (ts && !info.datetime) info.datetime = ts.slice(1).join('');
+      if (dm.rgb && raster.bands > Math.max(...dm.rgb) && chain.bands?.length === 3) chain.bands = dm.rgb;
+      report.warnings.push(`DIMAP ${[dm.mission, dm.level, dm.spectral].filter(Boolean).join(' ')}${dm.time ? `, ${dm.time}` : ''}${dm.sun ? `, sun azimuth ${dm.sun.azimuth.toFixed(1)}° elevation ${dm.sun.elevation.toFixed(1)}°` : ''}`);
+    }
     rasters.push({ raster, info, chain, name });
   }
   report.warnings.push(...checkConsistency(fileMarking, segMarks));

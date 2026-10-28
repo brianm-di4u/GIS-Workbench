@@ -44,6 +44,9 @@ const EXPECT = {
   'colorado-latest-free.shp.zip': { refuse: /read whole into memory/ },
   'colorado-latest-free.gpkg.zip': { refuse: /read whole into memory/ },
   'colorado.gpkg': { refuse: /read whole into memory/ },
+  // TE-061: MrSID (proprietary wavelet codec) is refused by name with its size; decoding is OD-10.
+  'Hamilton_2018_rgb_20x.sid': { refuse: /MrSID \(MG3; 340,000 × 220,000 px, 3 bands, 8-bit\)/ },
+  'Stl_City.sid': { refuse: /MrSID \(MG3; 98,304 × 188,416 px, 3 bands, 8-bit\)/ },
 };
 // Robustness seeds are malformed on purpose: they must fail by name (no console error, no hang).
 const ROBUST = (it) => it.area === 'robustness' || it.id === 'gdal-autotest-dted-edge';
@@ -95,6 +98,8 @@ for (const { it, f, files } of cases) {
     const bytes = files.reduce((t, p) => t + statSync(p).size, 0);
     if (bytes > 200e6) test.setTimeout(900_000);
     const { frame, logs, requests, csp } = await openApp(page, 'file');
+    // Imagery ZIPs open their default selection without the picker (IMP-21).
+    await frame.evaluate(() => (window.gisworkbench.zipPick = 'default'));
     const t0 = Date.now();
     const log = await openFiles(frame, files);
     const errors = log.flatMap((r) => r.errors ?? []);

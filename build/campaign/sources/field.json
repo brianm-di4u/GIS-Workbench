@@ -2192,25 +2192,9 @@
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
    },
    {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/CLD_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 24,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
     "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/CLD_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
     "url": null,
     "bytes": 647,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/DET_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 24,
     "sha256": null,
     "role": "primary",
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
@@ -2224,25 +2208,9 @@
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
    },
    {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/QTE_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 24,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
     "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/QTE_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
     "url": null,
     "bytes": 644,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/ROI_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 791,
     "sha256": null,
     "role": "primary",
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
@@ -2256,14 +2224,6 @@
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
    },
    {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SLT_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 24,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
     "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SLT_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
     "url": null,
     "bytes": 725,
@@ -2272,25 +2232,9 @@
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
    },
    {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SNW_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 24,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
     "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SNW_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
     "url": null,
     "bytes": 646,
-    "sha256": null,
-    "role": "primary",
-    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
-   },
-   {
-    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/VIS_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
-    "url": null,
-    "bytes": 24,
     "sha256": null,
     "role": "primary",
     "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"

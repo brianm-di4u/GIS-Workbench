@@ -14,6 +14,7 @@ import { egm96Grid, encodePredicted, basemap, writeGeoidFixture } from './data.m
 import { tokensCss } from './tokens.mjs';
 import { sizeGate, evalGate, licenceGate, manifestGate, cspGate } from './gates.mjs';
 import { buildPacks } from './packs.mjs';
+import { vendorFixes } from './vendor-fixes.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = new Set(process.argv.slice(2));
@@ -76,6 +77,7 @@ async function bundle(entry, { name, globalName, external = [] } = {}) {
     },
     loader: { '.css': 'text', '.svg': 'text', '.txt': 'text', '.wgsl': 'text', '.glsl': 'text' },
     logLevel: 'warning',
+    plugins: [vendorFixes],
   });
   // Library shims that find the global object through `Function("return this")()` (webpack's
   // global, es6-promise's vertx probe) are rewritten to `globalThis`, the same object, so no

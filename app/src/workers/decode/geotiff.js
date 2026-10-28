@@ -45,6 +45,123 @@ class BoundedZstdDecoder extends BaseDecoder {
 addDecoder(50000, () => zstd.init().then(() => BoundedZstdDecoder));
 
 /**
+ * TIFF JPEG blocks (compression 7), IMP-24 and TE-062.
+ * - Speed (TE-066): geotiff.js's JavaScript decoder costs 15–120 ms per 512² block; the browser's
+ *   own JPEG decoder (createImageBitmap in the worker) is several times faster.
+ * - Colour (TE-062): geotiff.js returns the JPEG components as stored, so YCbCr TIFFs came back as
+ *   Y/Cb/Cr. The native decoder converts YCbCr to RGB as libjpeg (and GDAL) do; the JavaScript
+ *   fallback's output is converted here. Blocks are returned as RGB for Photometric 6.
+ * Abbreviated streams get the JPEGTables spliced in. The native path is used where its colour
+ * handling is certain (YCbCr, grey, RGB with an Adobe "no transform" marker, 8-bit); anything else
+ * (12-bit, CMYK, RGB without the marker) goes to geotiff.js's decoder.
+ */
+let jpegReady = null;
+export function useFastJpeg() {
+  jpegReady ??= (async () => {
+    const JsJpeg = (await getDecoder(7, { tileWidth: 1, tileHeight: 1, planarConfiguration: 1, bitsPerSample: [8], predictor: 1 })).constructor;
+    const native = typeof createImageBitmap === 'function' && typeof OffscreenCanvas === 'function';
+    class FastJpegDecoder extends BaseDecoder {
+      constructor(params) {
+        super(params);
+        const t = params.JPEGTables;
+        // The tables stream without its EOI, so a block (without its SOI) can follow it.
+        this.tables = t && t.length > 4 ? Uint8Array.from(t).subarray(0, t.length - 2) : null;
+        this.js = null;
+      }
+      async decodeBlock(buffer) {
+        const { tileWidth: tw, tileHeight: th, photometric } = this.parameters;
+        let d = new Uint8Array(buffer);
+        if (this.tables && d[0] === 0xff && d[1] === 0xd8) {
+          const s = new Uint8Array(this.tables.length + d.length - 2);
+          s.set(this.tables);
+          s.set(d.subarray(2), this.tables.length);
+          d = s;
+        }
+        const info = jpegInfo(d);
+        const ok = native && info && info.bits === 8 && (info.comps === 1 || (info.comps === 3 && (photometric === 6 || info.adobe === 0)));
+        if (ok) {
+          try {
+            const bmp = await createImageBitmap(new Blob([d], { type: 'image/jpeg' }), { colorSpaceConversion: 'none', premultiplyAlpha: 'none' });
+            const cv = new OffscreenCanvas(bmp.width, bmp.height);
+            const g = cv.getContext('2d', { willReadFrequently: true });
+            g.drawImage(bmp, 0, 0);
+            const rgba = g.getImageData(0, 0, bmp.width, bmp.height).data;
+            const w = bmp.width;
+            bmp.close();
+            const n = info.comps;
+            const out = new Uint8Array(tw * th * n);
+            const W = Math.min(w, tw);
+            const H = Math.min(rgba.length / 4 / w, th);
+            for (let y = 0; y < H; y++)
+              for (let x = 0, i = y * w * 4, o = y * tw * n; x < W; x++, i += 4, o += n) {
+                out[o] = rgba[i];
+                if (n === 3) {
+                  out[o + 1] = rgba[i + 1];
+                  out[o + 2] = rgba[i + 2];
+                }
+              }
+            return out.buffer;
+          } catch {
+            /* the browser refused this stream: the JavaScript decoder reports it by name */
+          }
+        }
+        this.js ??= new JsJpeg(this.parameters);
+        const raw = await this.js.decodeBlock(buffer);
+        if (photometric === 6 && info?.comps === 3) yccToRgb(new Uint8Array(raw));
+        return raw;
+      }
+    }
+    // geotiff.js's own JPEG parameters (it adds JPEGTables), plus the photometric interpretation.
+    const params = async (fd) => {
+      const tiled = !fd.hasTag('StripOffsets');
+      return {
+        tileWidth: await fd.loadValue(tiled ? 'TileWidth' : 'ImageWidth'),
+        tileHeight: tiled ? await fd.loadValue('TileLength') : (await fd.loadValue('RowsPerStrip')) || (await fd.loadValue('ImageLength')),
+        planarConfiguration: await fd.loadValue('PlanarConfiguration'),
+        bitsPerSample: await fd.loadValue('BitsPerSample'),
+        predictor: (await fd.loadValue('Predictor')) || 1,
+        JPEGTables: await fd.loadValue('JPEGTables'),
+        photometric: await fd.loadValue('PhotometricInterpretation'),
+      };
+    };
+    addDecoder(7, () => FastJpegDecoder, params);
+  })();
+  return jpegReady;
+}
+
+/** Components, precision and Adobe transform code from a JPEG stream's markers (null if none). */
+function jpegInfo(d) {
+  let adobe = null;
+  for (let i = 2; i + 4 < d.length; ) {
+    if (d[i] !== 0xff) return null;
+    const m = d[i + 1];
+    if (m === 0xff) {
+      i++;
+      continue;
+    }
+    const len = (d[i + 2] << 8) | d[i + 3];
+    if (m === 0xee && len >= 12 && String.fromCharCode(d[i + 4], d[i + 5], d[i + 6], d[i + 7], d[i + 8]) === 'Adobe') adobe = d[i + 15];
+    if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) return { bits: d[i + 4], comps: d[i + 9], adobe, progressive: m === 0xc2 };
+    if (m === 0xda) return null;
+    i += 2 + len;
+  }
+  return null;
+}
+
+/** Pixel-interleaved Y, Cb, Cr → R, G, B in place (JFIF full range, as libjpeg). */
+function yccToRgb(a) {
+  const c = (v) => (v < 0 ? 0 : v > 255 ? 255 : Math.round(v));
+  for (let i = 0; i + 2 < a.length; i += 3) {
+    const y = a[i];
+    const cb = a[i + 1] - 128;
+    const cr = a[i + 2] - 128;
+    a[i] = c(y + 1.402 * cr);
+    a[i + 1] = c(y - 0.344136 * cb - 0.714136 * cr);
+    a[i + 2] = c(y + 1.772 * cb);
+  }
+}
+
+/**
  * TE-005 (REQ-SEC-02): geotiff.js reports damaged files with raw engine messages ("Offset is
  * outside the bounds of the DataView", "… exceeds MAX_SAFE_INTEGER …"). Name the failure for the
  * analyst; the library message stays on error.cause for diagnosis.
@@ -106,12 +223,35 @@ export async function openGeoTiff(file) {
 }
 
 async function openGeoTiff0(file) {
+  await useFastJpeg();
   const tiff = await fromBlob(file);
   const count = await tiff.getImageCount();
   if (count < 1) throw new Error('TIFF has no images');
   const main = await tiff.getImage(0);
   const W = main.getWidth();
   const H = main.getHeight();
+  // TE-066: a pyramid tile (512 px plus a 4-px border) overlaps up to four TIFF tiles, so building
+  // coarse levels of an image without overviews decoded every block about four times. Keep the most
+  // recently decoded blocks (≈128 MB per image) in geotiff.js's per-image tile slot.
+  const keepTiles = (im) => {
+    if (!im.isTiled) return;
+    const per = im.getTileWidth() * im.getTileHeight() * im.getBytesPerPixel();
+    const max = Math.max(16, Math.floor((128 << 20) / Math.max(1, per)));
+    const m = new Map();
+    im.tiles = new Proxy({}, {
+      get: (_, k) => {
+        const v = m.get(k);
+        if (v !== undefined) (m.delete(k), m.set(k, v));
+        return v;
+      },
+      set: (_, k, v) => {
+        m.set(k, v);
+        if (m.size > max) m.delete(m.keys().next().value);
+        return true;
+      },
+    });
+  };
+  keepTiles(main);
   // Overviews: subsequent full-extent images that are smaller (COG). Skip masks.
   const overviews = [];
   let maskImg = null; // GDAL internal (PER_DATASET) mask at full resolution (TE-053)
@@ -122,7 +262,7 @@ async function openGeoTiff0(file) {
       if (!maskImg && im.getWidth() === W && im.getHeight() === H) maskImg = im; // transparency mask
       continue;
     }
-    if (im.getWidth() < W && im.getSamplesPerPixel() === main.getSamplesPerPixel()) overviews.push({ img: im, scale: W / im.getWidth() });
+    if (im.getWidth() < W && im.getSamplesPerPixel() === main.getSamplesPerPixel()) (keepTiles(im), overviews.push({ img: im, scale: W / im.getWidth() }));
   }
   // Complex samples (SampleFormat 5 complex integer, 6 complex float: SAR SLC GeoTIFFs) are read
   // block by block here, geotiff.js not handling them (IMP-16).

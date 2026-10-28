@@ -14,12 +14,12 @@ import polygonClipping from 'polygon-clipping';
 import { groundOf, screenOfGround, halo } from '../tools/tools.js';
 import { FeatureIndex, snapAt, edges } from '../vector/index.js';
 import { parts, partRanges, partOf, vertex, fromParts, setVertex, insertVertex, deleteVertex, isPolygonal, isLinear, bbox, polygonGroups, pointInPolygonal, toGeoJSON, fromGeoJSON, coincident } from '../vector/geom.js';
-import { readGeoJSON, writeGeoJSON, readShapefile, writeShapefile, shapefileSets, readKml, writeKml, inferFields } from '../vector/io.js';
+import { readGeoJSON, writeGeoJSON, readShapefile, writeShapefile, shapefileSets, readKml, writeKml, readGml, inferFields } from '../vector/io.js';
 import { crsOf, converter } from '../geo/crs.js';
 
 export const name = 'extract';
 
-const VECTOR_RE = /\.(geojson|kml|kmz|shp|zip|gpkg|csv)$/i;
+const VECTOR_RE = /\.(geojson|kml|kmz|shp|zip|gpkg|csv|gml)$/i;
 const SIDE_RE = /\.(dbf|shx|cpg)$/i;
 const STYLE = { stroke: '#ff2020', width: 2, fill: '#ff202040', outline: '#2060ff' };
 const SEL = '#e000e0';
@@ -1180,6 +1180,14 @@ export function install(app) {
           // TE-006: an empty result must not be silent.
           if (!got.length && !got.tilesOpened) throw new Error(`no feature layers or tile pyramids found in the ${ext.toUpperCase()} file`);
           for (const o of got) out.push({ id: o.id, report: o.report ?? { format: ext.toUpperCase(), features_out: S.all('feature').filter((f) => f.vlayer === o.id).length, warnings: [] } });
+        } else if (/\.gml$/i.test(nm)) {
+          const { layer, report } = readGml(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), reproject: (epsg) => {
+            const crs = crsOf({ epsg });
+            if (!crs) return null;
+            const c = converter(crs);
+            return (x, y) => c.toLonLat(x, y);
+          } });
+          out.push({ id: addLayer(layer, { format: 'GML', file: nm, report }), report });
         } else if (/\.kml$/i.test(nm)) {
           const { layer, report } = readKml(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), toHae });
           out.push({ id: addLayer(layer, { format: 'KML', file: nm, report }), report });

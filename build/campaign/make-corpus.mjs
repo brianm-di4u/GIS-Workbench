@@ -75,7 +75,8 @@ for (const f of readdirSync(srcDir).filter((x) => x.endsWith('.json')).sort()) {
       if (p) Object.assign(file, { sha256: p.sha256, bytes: p.bytes, ...(['archive', 'test-vector', 'library'].includes(p.role) ? { role: p.role } : {}) });
       else if (file.extract) file.role = file.role === 'archive' ? 'archive' : file.role;
     }
-    for (const x of extracted.get(it.id) ?? []) if (!it.files.some((f) => f.name === x.name)) it.files.push(x);
+    // Field packages are listed whole by field.mjs from what is on disk; nothing to carry over.
+    if (it.origin !== 'field-extract') for (const x of extracted.get(it.id) ?? []) if (!it.files.some((f) => f.name === x.name)) it.files.push(x);
     items.push(it);
   }
 }

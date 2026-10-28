@@ -636,6 +636,111 @@ export function readKml(text, { name = 'KML', toHae = (lat, lon, a) => a, parser
   return { layer: { name: txt(all(doc, 'Document')[0] && kid(all(doc, 'Document')[0], 'name')) || name, fields, features: feats, assets: {} }, report: rep };
 }
 
+/**
+ * GML 2/3 simple features (IMP-23): Point, LineString, LinearRing, Polygon and their Multi*,
+ * MultiSurface and MultiCurve forms, in any application schema — each top-level geometry is a feature
+ * whose attributes are its feature element's simple children. Built for product masks such as the
+ * Pléiades/SPOT DIMAP MASKS/*.GML (an empty mask is a valid "none" and opens with no features).
+ * `reproject(epsg)` returns (x, y) → [lon, lat] for a CRS other than WGS 84.
+ */
+export function readGml(text, { name = 'GML', reproject = null, parser = typeof DOMParser !== 'undefined' ? new DOMParser() : null } = {}) {
+  if (/<!DOCTYPE|<!ENTITY/i.test(text)) throw new Error('GML with a DTD or entities is refused');
+  const rep = newReport('GML', 'import');
+  const doc = parser.parseFromString(text, 'application/xml');
+  if (doc.getElementsByTagName('parsererror').length) throw new Error('the GML is not well-formed XML');
+  const GEOM = new Set(['Point', 'LineString', 'LinearRing', 'Polygon', 'MultiPoint', 'MultiLineString', 'MultiCurve', 'MultiPolygon', 'MultiSurface']);
+  const isGeom = (el) => GEOM.has(el.localName) && /opengis\.net\/gml/.test(el.namespaceURI ?? '');
+  const all = (el, tag) => [...el.getElementsByTagNameNS('*', tag)];
+  // srsName → EPSG code and axis order: URN/URI forms of a geographic CRS are latitude first.
+  const srsOf = (el) => {
+    for (let e = el; e && e.nodeType === 1; e = e.parentNode) {
+      const s = e.getAttribute('srsName');
+      if (s) return s;
+    }
+    return all(doc, 'Envelope')[0]?.getAttribute('srsName') ?? null;
+  };
+  const crs = (s) => {
+    const epsg = Number(/(?:EPSG[:/](?:[\d.]*[:/])*|epsg\.xml#)(\d+)\s*$/i.exec(s ?? '')?.[1]) || 4326;
+    const latFirst = /^(urn:|https?:\/\/www\.opengis\.net\/def\/)/i.test(s ?? '') && [4326, 4258, 4269, 4267, 4979].includes(epsg);
+    return { epsg, latFirst };
+  };
+  const convs = new Map();
+  const toLonLat = (epsg) => {
+    if (epsg === 4326 || epsg === 4979) return (x, y) => [x, y];
+    if (!convs.has(epsg)) convs.set(epsg, reproject?.(epsg) ?? null);
+    return convs.get(epsg);
+  };
+  const unknown = new Set();
+  const pts = (el, c) => {
+    const dim = Number(el.getAttribute('srsDimension') ?? el.closest?.('[srsDimension]')?.getAttribute('srsDimension')) || 2;
+    let v = [];
+    const pl = all(el, 'posList')[0];
+    if (pl) {
+      const n = pl.textContent.trim().split(/\s+/).map(Number);
+      for (let i = 0; i + 1 < n.length; i += dim) v.push([n[i], n[i + 1], dim > 2 ? n[i + 2] : 0]);
+    } else if (all(el, 'pos').length) v = all(el, 'pos').map((p) => p.textContent.trim().split(/\s+/).map(Number)).map((q) => [q[0], q[1], q[2] ?? 0]);
+    else if (all(el, 'coordinates')[0]) v = all(el, 'coordinates')[0].textContent.trim().split(/\s+/).map((t) => t.split(',').map(Number)).map((q) => [q[0], q[1], q[2] ?? 0]);
+    const f = toLonLat(c.epsg);
+    if (!f) unknown.add(c.epsg);
+    return v
+      .map(([a, b, z]) => (c.latFirst ? [b, a, z] : [a, b, z]))
+      .map(([x, y, z]) => (f ? [...f(x, y), z] : [x, y, z]))
+      .filter((q) => Number.isFinite(q[0]) && Number.isFinite(q[1]));
+  };
+  const open = (r) => (r.length > 1 && r[0][0] === r.at(-1)[0] && r[0][1] === r.at(-1)[1] ? r.slice(0, -1) : r);
+  const rings = (poly, c) => {
+    const ext = all(poly, 'exterior')[0] ?? all(poly, 'outerBoundaryIs')[0];
+    const ints = [...all(poly, 'interior'), ...all(poly, 'innerBoundaryIs')];
+    return [ext, ...ints].filter(Boolean).map((r) => open(pts(r, c))).filter((r) => r.length >= 3);
+  };
+  const geomOf = (g) => {
+    const c = crs(srsOf(g));
+    const k = g.localName;
+    if (k === 'Point') return fromParts('Point', [pts(g, c).slice(0, 1)]);
+    if (k === 'LineString' || k === 'LinearRing') return fromParts('LineString', [pts(g, c)]);
+    if (k === 'Polygon') return fromParts('Polygon', rings(g, c), [0]);
+    if (k === 'MultiPoint') return fromParts('MultiPoint', all(g, 'Point').map((p) => pts(p, c).slice(0, 1)));
+    if (k === 'MultiLineString' || k === 'MultiCurve') return fromParts('MultiLineString', all(g, 'LineString').map((l) => pts(l, c)));
+    const groups = all(g, 'Polygon').map((p) => rings(p, c)).filter((r) => r.length);
+    const flat = [];
+    const starts = [];
+    for (const gr of groups) {
+      starts.push(flat.length);
+      flat.push(...gr);
+    }
+    return fromParts('MultiPolygon', flat, starts);
+  };
+  const tops = [...doc.getElementsByTagName('*')].filter((el) => isGeom(el) && ![...ancestors(el)].some(isGeom));
+  const feats = [];
+  for (const g of tops) {
+    rep.features_in++;
+    const owner = g.parentNode?.parentNode?.nodeType === 1 ? g.parentNode.parentNode : g.parentNode;
+    const attrs = {};
+    for (const c of owner?.children ?? []) if (!c.children.length && c.textContent.trim() && c.localName !== 'name') attrs[c.localName] = c.textContent.trim();
+    const id = owner?.getAttribute?.('gml:id') ?? owner?.getAttributeNS?.('http://www.opengis.net/gml', 'id') ?? null;
+    if (id) attrs.gml_id = id;
+    let geom;
+    try {
+      geom = geomOf(g);
+    } catch (e) {
+      rep.warnings.push(`feature ${id ?? rep.features_in}: ${e.message}; skipped`);
+      continue;
+    }
+    feats.push({ geom, attrs, name: owner ? [...owner.children].find((c) => c.localName === 'name')?.textContent.trim() ?? null : null, description: null });
+    countGeom(rep, geom.type);
+  }
+  for (const e of unknown) rep.warnings.push(`EPSG:${e} is not defined here; coordinates kept as they are (load the PROJ data pack)`);
+  if (!feats.length) rep.warnings.push('the GML holds no features (an empty mask or collection)');
+  const crsNames = [...new Set(tops.map((g) => crs(srsOf(g)).epsg))];
+  if (crsNames.some((e) => e !== 4326)) rep.crs = `EPSG:${crsNames.join(', EPSG:')} (reprojected to WGS 84)`;
+  rep.features_out = feats.length;
+  const docName = [...doc.documentElement.children].find((c) => c.localName === 'name')?.textContent.trim();
+  return { layer: { name: docName || name, fields: inferFields(feats), features: feats, assets: {} }, report: rep };
+}
+function* ancestors(el) {
+  for (let e = el.parentNode; e && e.nodeType === 1; e = e.parentNode) yield e;
+}
+
 /** Geometry families present, for writers that need one type per file. */
 export const families = (layer) => [...new Set(layer.features.map((f) => familyOf(f.geom.type)))];
 export { isPolygonal, isLinear };

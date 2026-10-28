@@ -56,6 +56,9 @@ export class Pyramid {
   constructor(source, cache) {
     this.src = source;
     this.cache = cache;
+    // Levels 3 and coarser (1/64 of the image and less) in their own cache, so streaming a whole
+    // full-resolution image through `cache` to build them does not evict them (TE-066).
+    this.coarse = new LRU(48 << 20);
     this.key = Math.random().toString(36).slice(2);
     this.levels = 1;
     while ((Math.max(source.width, source.height) >> (this.levels - 1)) > TILE) this.levels++;
@@ -72,13 +75,17 @@ export class Pyramid {
   }
 
   /** Core tile (TILE² or smaller at the image edge) for one band. */
+  cacheFor(L) {
+    return L >= 3 ? this.coarse : this.cache;
+  }
+
   async core(L, tx, ty, band, job) {
     const k = `${this.key}/${L}/${tx}/${ty}/${band}`;
-    const hit = this.cache.get(k);
+    const hit = this.cacheFor(L).get(k);
     if (hit) return hit;
     if (this.inflight.has(k)) return this.inflight.get(k);
     const p = this._core(L, tx, ty, band, job).then((t) => {
-      this.cache.set(k, t, t.data.byteLength);
+      this.cacheFor(L).set(k, t, t.data.byteLength);
       this.inflight.delete(k);
       return t;
     }, (e) => {
@@ -89,60 +96,82 @@ export class Pyramid {
     return p;
   }
 
+  /**
+   * TE-066: images of up to four bands are read and averaged for all bands at once and every band's
+   * tile is cached, so a compressed block is decoded once, not once per band, and a coarse level is
+   * built in one pass over its children (per-band passes overflowed the cache on 16k² images and
+   * decoded the whole image again for every band).
+   */
   async _core(L, tx, ty, band, job) {
+    const nb = Number(this.src.bands) || 1;
+    const all = nb > 1 && nb <= 4 && !this.src.pickBands?.length ? Array.from({ length: nb }, (_, i) => i) : [band];
+    const tiles = await this._coreBands(L, tx, ty, all, job);
+    for (let i = 0; i < all.length; i++) {
+      if (all[i] === band) continue;
+      const k = `${this.key}/${L}/${tx}/${ty}/${all[i]}`;
+      if (!this.cacheFor(L).map.has(k)) this.cacheFor(L).set(k, tiles[i], tiles[i].data.byteLength);
+    }
+    return tiles[all.indexOf(band)];
+  }
+
+  async _coreBands(L, tx, ty, bands, job) {
     const { w: lw, h: lh } = this.dims(L);
     const x0 = tx * TILE;
     const y0 = ty * TILE;
     const w = Math.min(TILE, lw - x0);
     const h = Math.min(TILE, lh - y0);
     if (w <= 0 || h <= 0) throw new Error('tile outside the image');
-    if (L === 0) {
-      const [data] = await this.src.readWindow(x0, y0, w, h, [band], job);
-      return { w, h, data };
-    }
-    if (this.src.readLevel && this.src.hasLevel?.(L)) {
-      const [data] = await this.src.readLevel(L, x0, y0, w, h, [band], job);
-      return { w, h, data };
-    }
+    if (L === 0) return (await this.src.readWindow(x0, y0, w, h, bands, job)).map((data) => ({ w, h, data }));
+    if (this.src.readLevel && this.src.hasLevel?.(L)) return (await this.src.readLevel(L, x0, y0, w, h, bands, job)).map((data) => ({ w, h, data }));
     // Compose from the four children at L-1.
     const C = ctorFor(this.src.sampleType);
-    const out = new C(w * h);
-    const sum = new Float64Array(w * h);
-    const cnt = new Uint16Array(w * h);
     const nd = this.src.nodata;
     const isNd = nd === null || nd === undefined ? () => false : Number.isNaN(nd) ? (v) => Number.isNaN(v) : (v) => v === nd;
     const { nx, ny } = this.tilesAt(L - 1);
-    // Bands that must not be averaged (SAR phase, I, Q) are decimated: one child sample each.
-    const pick = !!this.src.pickBands?.includes(band);
-    for (let cy = 0; cy < 2; cy++) {
-      for (let cx = 0; cx < 2; cx++) {
+    const fill = nd === null || nd === undefined ? 0 : nd;
+    const round = C === Float32Array ? (v) => v : (v) => Math.round(v);
+    const sums = bands.map(() => new Float64Array(w * h));
+    const cnts = bands.map(() => new Uint16Array(w * h));
+    // Full-resolution children are read together: their blocks then decode concurrently (the
+    // browser's JPEG decoder runs off this thread). Coarser children stay sequential (memory).
+    const kids = [];
+    for (let cy = 0; cy < 2; cy++) for (let cx = 0; cx < 2; cx++) if (2 * tx + cx < nx && 2 * ty + cy < ny) kids.push([cx, cy]);
+    if (L === 1) await Promise.all(kids.map(([cx, cy]) => this.core(0, 2 * tx + cx, 2 * ty + cy, bands[0], job)));
+    for (const [cx, cy] of kids) {
+      {
         const ctx = 2 * tx + cx;
         const cty = 2 * ty + cy;
-        if (ctx >= nx || cty >= ny) continue;
         job?.checkCancel?.();
-        const c = await this.core(L - 1, ctx, cty, band, job);
         const ox = cx * (TILE / 2);
         const oy = cy * (TILE / 2);
-        for (let y = 0; y < c.h; y++) {
-          const yy = oy + (y >> 1);
-          if (yy >= h) continue;
-          for (let x = 0; x < c.w; x++) {
-            const xx = ox + (x >> 1);
-            if (xx >= w) continue;
-            if (pick && ((x | y) & 1)) continue;
-            const v = c.data[y * c.w + x];
-            if (isNd(v)) continue;
-            const i = yy * w + xx;
-            sum[i] += v;
-            cnt[i]++;
+        for (let q = 0; q < bands.length; q++) {
+          const c = await this.core(L - 1, ctx, cty, bands[q], job);
+          // Bands that must not be averaged (SAR phase, I, Q) are decimated: one child sample each.
+          const pick = !!this.src.pickBands?.includes(bands[q]);
+          const sum = sums[q];
+          const cnt = cnts[q];
+          for (let y = 0; y < c.h; y++) {
+            const yy = oy + (y >> 1);
+            if (yy >= h) continue;
+            for (let x = 0; x < c.w; x++) {
+              const xx = ox + (x >> 1);
+              if (xx >= w) continue;
+              if (pick && ((x | y) & 1)) continue;
+              const v = c.data[y * c.w + x];
+              if (isNd(v)) continue;
+              const i = yy * w + xx;
+              sum[i] += v;
+              cnt[i]++;
+            }
           }
         }
       }
     }
-    const fill = nd === null || nd === undefined ? 0 : nd;
-    const round = C === Float32Array ? (v) => v : (v) => Math.round(v);
-    for (let i = 0; i < out.length; i++) out[i] = cnt[i] ? round(sum[i] / cnt[i]) : fill;
-    return { w, h, data: out };
+    return bands.map((_, q) => {
+      const out = new C(w * h);
+      for (let i = 0; i < out.length; i++) out[i] = cnts[q][i] ? round(sums[q][i] / cnts[q][i]) : fill;
+      return { w, h, data: out };
+    });
   }
 
   /**

@@ -6,6 +6,7 @@ import { templateHtml } from '../storage/selfsave.js';
 import { serialiseProject, readProject, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
 import { groupFiles, openImageFile, attachFile } from '../formats/open.js';
+import { isImageryZip, expandZip, defaultPick } from '../formats/zip-container.js';
 import { modal, field, confirmBox, promptBox } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
 import { fmtBytes } from '../core/util.js';
@@ -13,7 +14,7 @@ import { FEEDBACK_EMAIL } from '../feedback/contact.js';
 
 export const name = 'files';
 
-const IMAGE_ACCEPT = ['.ntf', '.nitf', '.nsf', '.tif', '.tiff', '.jpg', '.jpeg', '.png', '.jgw', '.pgw', '.tfw', '.wld', '.xml', '.prj', '.dt0', '.dt1', '.dt2', '.hgt', '.gz', '.r0', '.r1', '.r2', '.img', '.hdr', '.h5', '.he5', '.nc', '.gwpack'];
+const IMAGE_ACCEPT = ['.ntf', '.nitf', '.nsf', '.tif', '.tiff', '.jpg', '.jpeg', '.png', '.jgw', '.pgw', '.tfw', '.sdw', '.wld', '.xml', '.zip', '.sid', '.prj', '.dt0', '.dt1', '.dt2', '.hgt', '.gz', '.r0', '.r1', '.r2', '.img', '.hdr', '.h5', '.he5', '.nc', '.gwpack'];
 
 export async function install(app) {
   const C = app.commands;
@@ -35,7 +36,60 @@ export async function install(app) {
     }
   });
 
+  /** Pick the entries of an imagery ZIP to open (IMP-21): a grouped checklist, defaults ticked. */
+  async function chooseEntries(zip, entries) {
+    const def = new Set(defaultPick(entries));
+    const how = app.zipPick; // automation and tests: 'default', 'all' or a function of the entries
+    if (how === 'default') return [...def];
+    if (how === 'all') return entries;
+    if (typeof how === 'function') return how(entries);
+    const boxes = new Map();
+    const groups = [...new Set(entries.map((e) => e.group))];
+    const rows = groups.map((g) => {
+      const mine = entries.filter((e) => e.group === g);
+      const all = h('input', { type: 'checkbox', checked: mine.every((e) => def.has(e)), 'aria-label': `All of ${g}` });
+      all.addEventListener('change', () => mine.forEach((e) => (boxes.get(e).checked = all.checked)));
+      return h('fieldset', { class: 'sec' }, h('legend', {}, h('label', {}, all, ` ${g.slice(zip.name.length + 1) || zip.name}`)),
+        mine.map((e) => {
+          const b = h('input', { type: 'checkbox', checked: def.has(e) });
+          boxes.set(e, b);
+          return h('label', { class: 'chk', style: { display: 'block' } }, b, ` ${e.path.split('/').slice(-2).join('/')} `, h('small', { class: 'hint' }, fmtBytes(e.size)));
+        }));
+    });
+    const body = h('div', {}, h('p', { class: 'dlg-msg' }, `${zip.name} holds ${entries.length} files. Choose what to open; nothing is unpacked to disk.`), h('div', { style: { maxHeight: '50vh', overflow: 'auto' } }, rows));
+    const r = await modal({ title: 'Open from ZIP', body, buttons: ['Open', 'Cancel'], width: 560, id: 'zip-open' });
+    return r === 'Open' ? entries.filter((e) => boxes.get(e).checked) : null;
+  }
+
+  /** Replace imagery ZIPs in a dropped set by the entries the user picks from them. */
+  async function expandPackages(files) {
+    const out = [];
+    for (const f of files) {
+      if (!/\.zip$/i.test(f.name) || !(await isImageryZip(f))) {
+        out.push(f);
+        continue;
+      }
+      try {
+        const entries = await expandZip(f);
+        const pick = await chooseEntries(f, entries);
+        if (!pick?.length) continue;
+        if (pick.some((e) => e.method === 8 && e.size > 64e6)) app.toast(`Unpacking ${f.name} in memory…`);
+        for (const e of pick) out.push(await e.open());
+        app.importLog.push({ file: f.name, errors: [], warnings: [`opened ${pick.length} of ${entries.length} files from the ZIP`] });
+      } catch (e) {
+        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 9000 });
+        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+      }
+    }
+    return out;
+  }
+
   async function openFiles(files, pane) {
+    // Imagery packages delivered as ZIPs open from inside the archive (IMP-21).
+    if ([...files].some((f) => /\.zip$/i.test(f.name))) {
+      files = await expandPackages([...files]);
+      if (!files.length) return;
+    }
     if (app.splitPointCloudFiles) {
       // LAS/LAZ open into a 3D panel (REQ-LDR-01).
       const { clouds, rest } = app.splitPointCloudFiles([...files]);

@@ -6,7 +6,19 @@ All notable changes to GIS Workbench. The format follows [Keep a Changelog](http
 
 Field-data campaign (phase F): real production imagery supplied by a first user: Pléiades and DigitalGlobe ortho packages (ZIP, DIMAP), JPEG-tiled GeoTIFF tile sets, Intermap dual-pol SAR intensity and MrSID mosaics. Findings TE-059 onward.
 
+### Added
+- **Imagery in ZIP deliveries** opens without unpacking: DigitalGlobe/Maxar tile-set ZIPs (including ZIPs of ZIPs) and Pléiades DIMAP volumes. A picker lists the files with the imagery, its sidecars and the vector overlays ticked; quick looks and masks are offered but not ticked. ZIPs of vector files open as before. (IMP-21, TE-064)
+- **Pléiades/SPOT DIMAP metadata** (`DIM_*.XML`): the product's own RGB band order, the scene time and the sun azimuth/elevation for the shadow and sun tools. (IMP-22)
+- **GML** vector files open, including the DIMAP product masks (cloud, snow, footprint…); an empty mask opens with a note. (IMP-23, TE-065)
+
+### Changed
+- JPEG-compressed GeoTIFFs without overviews display several times faster: the browser's own JPEG decoder is used, each block is decoded once for all bands, and statistics reuse the coarse levels (a 16384² DigitalGlobe tile: first full view 125 s → 28 s). (IMP-24, TE-066)
+
 ### Fixed
+- Big-endian GeoTIFFs with many tiles (DigitalGlobe/Maxar JPEG tile sets) failed with "SOI not found": the tile tables were read in the wrong byte order. (TE-060)
+- JPEG-compressed YCbCr GeoTIFFs were shown and analysed as raw Y/Cb/Cr instead of RGB (wrong colours and band values). (TE-062)
+- MrSID files are refused by name, with the image size and how to convert them, instead of as "unrecognised data". (TE-061)
+- `.sdw` and `.tifw` world files are read as world files instead of failing as images. (TE-063)
 - A LAZ file whose chunk table claims an impossible number of chunks is refused by name; it used to abort the point-cloud worker on a multi-gigabyte allocation. (TE-059)
 
 ## [1.2.0] - 2026-10-27

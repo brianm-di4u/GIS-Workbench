@@ -102,8 +102,14 @@ const ELSEWHERE = {
 };
 const recipeFor = (row) => RECIPES.find(([re]) => re.test(row.id))?.[1] ?? null;
 
+// TE_ITEMS=<prefix> (phase F: TE_ITEMS=field) runs the sweep on those corpus items only: each
+// command gets one of them in turn (by its id), recipe rows are left to the main campaign.
+const ONLY = process.env.TE_ITEMS ?? null;
+const spread = (id, n) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % n;
+
 function dataFor(row) {
   const r = recipeFor(row);
+  if (r && ONLY) return null;
   if (r) {
     try {
       const f = r.files();
@@ -113,12 +119,18 @@ function dataFor(row) {
     }
   }
   if (!row.needs) return [];
-  const ids = row.data.filter((id) => onDisk(item(id)));
-  const pick = ids.slice(0, row.needs.n);
+  let ids = row.data.filter((id) => onDisk(item(id)));
+  if (ONLY) {
+    ids = ids.filter((id) => id.startsWith(ONLY) && item(id).files.some((f) => /\.(tif|tiff)$/i.test(f.name)));
+    if (ids.length > row.needs.n) ids = [...ids.slice(spread(row.id, ids.length)), ...ids];
+  }
+  const pick = [...new Set(ids)].slice(0, row.needs.n);
   if (pick.length < row.needs.n) return null;
   return pick.flatMap((id) => {
     const it = item(id);
-    const prim = it.files.find((f) => (f.role ?? 'primary') === 'primary');
+    const prims = it.files.filter((f) => (f.role ?? 'primary') === 'primary');
+    // Field tile sets: a real (JPEG) tile, not the browse quick look.
+    const prim = (ONLY && (prims.find((f) => /_R1C1\.tif$/i.test(f.name)) ?? prims.find((f) => /\.tif$/i.test(f.name)))) || prims[0];
     const all = paths(it);
     const stem = prim.name.split('/').pop().replace(/\.[^.]+$/, '');
     const base = (p) => p.split(/[\\/]/).pop();

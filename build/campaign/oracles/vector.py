@@ -1,15 +1,18 @@
 """Vector truth from GDAL/OGR: layers, feature counts, geometry types, extents, fields, CRS and a
 validity count (GEOS). Feeds c12-vector (open, ext.saveas round trip, ext.validate)."""
-from osgeo import ogr, osr
+from osgeo import gdal, ogr, osr
 
 ogr.UseExceptions()
+gdal.UseExceptions()
 
 
 def describe(path):
     p = str(path)
     if p.lower().endswith('.zip'):
         p = '/vsizip/' + p
-    ds = ogr.Open(p)
+    # H-15: the GML driver writes a .gfs schema file next to its input by default; the corpus is
+    # read-only to the oracles.
+    ds = gdal.OpenEx(p, gdal.OF_VECTOR, open_options=['WRITE_GFS=NO'] if p.lower().endswith('.gml') else [])
     layers = []
     for i in range(ds.GetLayerCount()):
         lyr = ds.GetLayerByIndex(i)

@@ -12,6 +12,7 @@ import { enviSource, enviBands, gdalBands } from '../decode/envi.js';
 import { openHdf5 } from '../decode/hdf5.js';
 import { openGeoPdf } from '../decode/geopdf.js';
 import { openJp2 } from '../decode/jp2.js';
+import { isMrSid, mrsidRefusal } from '../decode/mrsid-header.js';
 
 const { GW } = self;
 const handles = new Map();
@@ -44,6 +45,7 @@ export function detect(h, name) {
   if (h[0] === 0x89 && s.slice(1, 4) === 'HDF') return 'hdf5';
   if (s.startsWith('%PDF-')) return 'pdf';
   if (s.startsWith('CPHD/')) return 'cphd';
+  if (isMrSid(h)) return 'mrsid';
   if (h[0] === 0x1f && h[1] === 0x8b) return 'gzip';
   return 'unknown';
 }
@@ -177,6 +179,11 @@ GW.register('open', async ({ file, name, merge = false, hdr = null }) => {
     const pyr = new Pyramid(source, tileCache);
     handles.set(h, { pyr, src: source });
     result = { kind: 'picture', meta, rasters: [{ handle: h, imageIndex: 0, width: source.width, height: source.height, bands: source.bands, sampleType: 'u8', nodata: null, levels: pyr.levels }] };
+  } else if (kind === 'mrsid') {
+    // TE-061: named, with the image's size, instead of "unrecognised data".
+    const e = new Error(mrsidRefusal(await head(file, 64)));
+    e.code = 4;
+    throw e;
   } else {
     const names = { gpkg: 'GeoPackage (R2)', las: 'LAS/LAZ point cloud (R2)', mpegts: 'MPEG-TS motion imagery (R3)', zip: 'ZIP container', gzip: 'gzip file', unknown: 'unrecognised data', cphd: 'CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release)' };
     const e = new Error(`${names[kind] ?? kind} cannot be opened as imagery in this release`);
