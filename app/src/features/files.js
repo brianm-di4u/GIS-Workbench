@@ -150,9 +150,12 @@ export async function install(app) {
     const groups = groupFiles(files);
     for (const g of groups) {
       try {
-        const { report } = await openImageFile(app, g.file, { sidecars: g.sidecars, handle: g.file.__handle ?? null, pane });
+        const { report, layers } = await openImageFile(app, g.file, { sidecars: g.sidecars, handle: g.file.__handle ?? null, pane });
         const extra = report.warnings.length ? ` (${report.warnings.length} note${report.warnings.length > 1 ? 's' : ''} in the import log)` : '';
-        app.toast(`Opened ${g.file.name} in ${report.ms} ms${extra}`);
+        // Snackbar with one action (REQ-SHL-07): bring the new image into view.
+        const lid = layers?.[0]?.id ?? layers?.[0];
+        const zoom = lid ? { label: 'Zoom to layer', run: () => app.zoomToLayer?.(lid) } : undefined;
+        app.toast(`Opened ${g.file.name} in ${report.ms} ms${extra}`, { action: zoom });
       } catch (e) {
         app.log('warn', `${g.file.name}: ${e.message}`); // a user-facing outcome, shown as a toast
         app.toast(`${g.file.name}: ${e.message}`, { kind: 'error', ms: 8000 });

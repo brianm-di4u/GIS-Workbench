@@ -15,7 +15,8 @@ import { FMT } from '../wasm/core.js';
 export const name = 'dialogs';
 
 export const HELP_TOPICS = [
-  ['Getting started', 'Open imagery with File ▸ Open Image or by dropping files (with their world files, .aux.xml or .prj) on a panel. The Workspace window lists files and layers; the Map View shows footprints.'],
+  ['Getting started', 'Open imagery with File ▸ Open Image or by dropping files (with their world files, .aux.xml or .prj) on a panel. Press Ctrl+K to find any command by name, or type a coordinate there to fly to it. The Workspace window (the rail on the left) lists files and layers; its Map View shows footprints.'],
+  ['Modern and Classic layouts', 'GIS Workbench starts on a clean canvas: one image panel, no docks open, the Workspace window folded into a rail on the left, and a small compass at the bottom right of each panel (click it to turn the view north up). Ctrl+K opens the command palette. Hover any button to see what it does. Classification banners appear on their own when an image is marked above UNCLASSIFIED; View ▸ Decorations ▸ Classification Banners shows them always, and Preferences ▸ Security Markings can hide them. Preferences ▸ Display ▸ Interface layout switches to the Classic layout of 1.x (Layer Manager and Cue Cards open, Workspace window shown, north arrow on the image) at the next start.'],
   ['Navigation', 'Wheel zooms about the cursor. Hold the middle button to roam. W = whole scene, Ctrl+Alt+1 = 1:1, F7 = full roam. Home ▸ Rotate offers North Up, Up is Up and Shadows Down, computed from the sensor model at the view centre.'],
   ['Image chain', 'Image Tools ▸ Enhance holds brightness, contrast, gamma and saturation sliders, the SIPS-style DRA with full-image and viewport scopes and Lock DRA, stretches and pseudo-colour LUTs. Every change is undoable and recorded with chips and measurements.'],
   ['Mensuration', 'Draw ▸ Mensuration: Point Position, Range & Bearing, Polyline Length and Polygon Area. Results are geodesic on WGS 84 and go to the Mensuration Log with CE90/LE90 or "error not available".'],
@@ -328,6 +329,9 @@ export function install(app) {
     ['Mensuration', 'pickSigmaPx', 'Measurement σ (pixels)', 'number', null, 0.5],
     ['Mensuration', 'heightMethod', 'Default height method', 'select', [['layover', 'Layover'], ['shadow', 'Shadow']], 'layover'],
     ['Storage', 'journal', 'Recovery journal', 'select', [['on', 'On'], ['off', 'Off (nothing is written to browser storage)']], 'on'],
+    ['Display', 'layout', 'Interface layout (applies at the next start)', 'select', [['modern', 'Modern: clean canvas'], ['classic', 'Classic: Ribbon layout as in 1.x']], 'modern'],
+    ['Display', 'northStyle', 'North indicator', 'select', [['compass', 'Compass button (click for north up)'], ['arrow', 'North arrow on the image']], 'compass'],
+    ['Security Markings', 'bannerMode', 'Classification banners', 'select', [['auto', 'Automatic: only above UNCLASSIFIED'], ['on', 'Always show'], ['off', 'Never show (products still carry markings)']], 'auto'],
     ['Display', 'gpuBudgetMB', 'GPU texture budget (MB)', 'number', null, 384],
     ['Display', 'webgpu', 'Use WebGPU where available (viewshed)', 'bool', null, true],
     ['Network', 'copcStream', 'Stream every COPC by range', 'bool', null, false],
@@ -421,6 +425,8 @@ export function install(app) {
         edits.common = {};
         edits.lock = {};
         app.renderer.gpuBudget = (P.get('gpuBudgetMB') ?? 384) << 20;
+        for (const mp of app.desktop.multiports) for (const p of mp.panes) p.invalidate();
+        app.emit('state');
         render();
       };
       const r = await modal({ title: 'Preferences', body, buttons: ['OK', 'Cancel'], width: 760, id: 'prefs', onApply: apply, onReset: () => {

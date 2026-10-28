@@ -14,10 +14,20 @@ export class Desktop {
     this.multiports = [];
     this.maximised = null;
     this.arrange = app.prefs.get('arrange') ?? 'tile';
+    // The Workspace window starts collapsed to a rail in the Modern layout (REQ-SHL-02).
+    this.wsCollapsed = app.prefs.get('workspaceCollapsed') ?? app.layoutMode() === 'modern';
+  }
+
+  setWorkspaceCollapsed(v) {
+    this.wsCollapsed = !!v;
+    this.app.prefs.set('workspaceCollapsed', this.wsCollapsed);
+    this.layout();
   }
 
   init() {
     this.workspace = new Workspace(this.app);
+    this.wsRail = h('button', { class: 'ws-rail', type: 'button', title: 'Workspace window — data tree, map view and preview', 'aria-label': 'Show the Workspace window', 'data-id': 'ws:rail' }, h('span', { 'aria-hidden': 'true' }, '›'), h('span', { class: 'ws-rail-label' }, 'Workspace'));
+    this.wsRail.addEventListener('click', () => this.setWorkspaceCollapsed(false));
     this.wsSplit = h('div', { class: 'splitter splitter-v desk-split', role: 'separator', tabindex: '0', 'aria-label': 'Resize the Workspace window', 'aria-orientation': 'vertical', 'aria-valuemin': '220', 'aria-valuemax': '2000', 'aria-valuenow': '400' });
     this._bindSplit();
     this.layout();
@@ -40,6 +50,7 @@ export class Desktop {
   }
 
   focus(win) {
+    if (win === this.workspace && this.wsCollapsed) this.wsCollapsed = false;
     if (this.arrange === 'tabs') this.current = win;
     if (win instanceof Multiport) this.activeMp = win;
     this.layout();
@@ -83,6 +94,12 @@ export class Desktop {
       }
       this.el.appendChild(this.current.el);
     } else {
+      if (this.wsCollapsed) {
+        this.el.append(this.wsRail, ...this.multiports.map((m) => m.el));
+        this.app.renderer?.invalidate();
+        this.app.emit('layout');
+        return;
+      }
       this.el.append(this.workspace.el, this.wsSplit, ...this.multiports.map((m) => m.el));
       this.workspace.el.style.width = `${this.app.prefs.get('workspaceWidth') ?? 400}px`;
       this.wsSplit.setAttribute('aria-valuenow', String(this.app.prefs.get('workspaceWidth') ?? 400));

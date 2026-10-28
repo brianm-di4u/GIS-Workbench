@@ -33,6 +33,15 @@ export class StatusBar {
       this.rows[row - 1].appendChild(c);
     }
     this.el.append(...this.rows.slice(0, rows));
+    // Job indicator (REQ-SHL-07): a ring with the count and overall progress while any job runs;
+    // a click opens the Job Queue.
+    this.jobs = h('button', { class: 'status-jobs', type: 'button', hidden: true, 'data-id': `status:jobs:${id}`, 'aria-label': 'Background jobs' }, h('span', { class: 'job-ring', 'aria-hidden': 'true' }), h('span', { class: 'job-text' }));
+    this.jobs.addEventListener('click', () => app.commands.run('dock.jobs'));
+    this.rows[0].appendChild(this.jobs);
+    let t = 0;
+    app.pool?.on('job', () => {
+      if (!t) t = setTimeout(() => ((t = 0), this.updateJobs()), 200);
+    });
     this.el.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       openMenu(
@@ -49,6 +58,20 @@ export class StatusBar {
       );
     });
     this.set({ crs: 'Geographic | WGS_84 | HAE', vdatum: 'MSL(EGM96)', terrain: ['Terrain Not Available', 'bad'], model: 'Math Model: none', ce: 'CE: –', le: 'LE: –' });
+  }
+
+  /** Show running jobs (tile reads excluded: they are too short to matter). */
+  updateJobs() {
+    const jobs = [...(this.app.pool?.jobs.values() ?? [])].filter((j) => j.op !== 'tile');
+    this.jobs.hidden = !jobs.length;
+    if (!jobs.length) return;
+    const withP = jobs.filter((j) => Number.isFinite(j.progress) && j.progress > 0);
+    const pct = withP.length ? Math.round((withP.reduce((a, j) => a + j.progress, 0) / withP.length) * 100) : null;
+    this.jobs.style.setProperty('--p', pct === null ? '25' : String(pct));
+    this.jobs.classList.toggle('indeterminate', pct === null);
+    const text = `${jobs.length} job${jobs.length > 1 ? 's' : ''}${pct === null ? '' : ` · ${pct} %`}`;
+    this.jobs.lastChild.textContent = text;
+    this.jobs.title = `${jobs.map((j) => j.label).slice(0, 5).join(', ')}${jobs.length > 5 ? '…' : ''} — click for the Job Queue`;
   }
 
   set(vals) {

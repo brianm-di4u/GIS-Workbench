@@ -113,9 +113,10 @@ export function install(app) {
     app.emit('ai');
   }
 
-  async function allowListDialog() {
+  app.allowListDialog = (preset) => allowListDialog(preset);
+  async function allowListDialog(preset = []) {
     const cur = cspConnectSources().filter((s) => s !== 'blob:');
-    const proj = app.project()?.origins ?? [];
+    const proj = [...(app.project()?.origins ?? []), ...(Array.isArray(preset) ? preset : [])];
     const inp = h('input', { class: 'inp', placeholder: 'https://api.anthropic.com', spellcheck: 'false' });
     const listEl = h('ul');
     const pending = new Set([...cur, ...proj]);

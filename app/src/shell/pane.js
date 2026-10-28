@@ -5,9 +5,27 @@
 import { h } from './dom.js';
 import { levelFor } from '../render/tiles.js';
 import { invertView, forwardView, alignedBox, applyAffine, invertAffine, screenToImageDelta } from '../render/renderer.js';
-import { bannerText, highest, bannerColorVar } from '../security/marking.js';
+import { bannerText, highest, bannerColorVar, rank } from '../security/marking.js';
 
 const WHEEL_STEP = 2 ** 0.25;
+
+/**
+ * Classification banner mode (REQ-SHL-03, D13 amended): 'auto' (default) shows banners only for
+ * a marking above UNCLASSIFIED or one that is not understood; 'on' always; 'off' never. The
+ * 1.x preference decorations.banners (true/false) maps to 'on'/'off'.
+ */
+export function bannerMode(app) {
+  const m = app.prefs.get('bannerMode');
+  if (m === 'on' || m === 'off' || m === 'auto') return m;
+  const d = (app.prefs.get('decorations') ?? {}).banners;
+  return d === false ? 'off' : d === true ? 'on' : 'auto';
+}
+
+export function bannersShown(app, marking) {
+  const mode = bannerMode(app);
+  if (mode !== 'auto') return mode === 'on';
+  return rank(marking?.level) > 0 || (!!marking?.raw && !marking?.level);
+}
 const ZMIN = 1 / 4096;
 const ZMAX = 32;
 
@@ -27,7 +45,16 @@ export class ImagePane {
     this.label = h('div', { class: 'pane-label' });
     this.status = h('div', { class: 'pane-status', 'aria-live': 'polite' });
     this.readout = h('div', { class: 'sr-only', 'aria-live': 'polite' });
-    this.el.append(this.overlay, this.bannerTop, this.bannerBottom, this.label, this.status, this.readout);
+    // Compass HUD (REQ-SHL-04): turns with the view; a click rotates the view to north.
+    this.compass = h('button', { class: 'pane-compass', type: 'button', hidden: true, title: 'North — click to turn the view north up', 'aria-label': 'Compass: turn the view north up', 'data-id': `pane:${id}:compass` });
+    this.compass.innerHTML = '<svg viewBox="-12 -12 24 24" width="24" height="24" aria-hidden="true"><circle r="11" class="cmp-ring"/><path d="M0 -9 L4 1 L0 -1 L-4 1 Z" class="cmp-n"/><path d="M0 9 L4 1 L0 -1 L-4 1 Z" class="cmp-s"/></svg>';
+    this.compass.addEventListener('pointerdown', (e) => e.stopPropagation());
+    this.compass.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.mp.setActivePane(this);
+      app.commands.run('rot.north');
+    });
+    this.el.append(this.overlay, this.bannerTop, this.bannerBottom, this.label, this.status, this.readout, this.compass);
     this._bind();
     // Window resizes, splitters and docks change the panel's size: redraw (GUI-011).
     this._resize = new ResizeObserver(() => this.invalidate());
@@ -402,7 +429,9 @@ export class ImagePane {
     this.app.paneDecorations?.(this, g, w, h, l);
     this.app.compareOverlay?.(this, g, w, h);
     const deco = this.app.prefs.get('decorations') ?? {};
-    if (l?.modelId && deco.north !== false) this._northArrow(g, l);
+    const compass = l?.modelId && deco.north !== false && (this.app.prefs.get('northStyle') ?? (this.app.layoutMode() === 'classic' ? 'arrow' : 'compass')) === 'compass';
+    if (l?.modelId && deco.north !== false && !compass) this._northArrow(g, l);
+    this._updateCompass(compass ? l : null);
     if (l?.modelId && deco.scalebar !== false) this._scaleBar(g, l, w, h);
     if (this._loading) {
       g.fillStyle = 'rgba(255,255,255,0.7)';
@@ -415,9 +444,8 @@ export class ImagePane {
     this._updateBanners();
   }
 
-  _northArrow(g, l) {
-    // Direction of north at the view centre, in screen space.
-    let ang;
+  /** Screen angle (radians, from +x) of north at the view centre, or null without a model. */
+  northAngle(l = this.geoLayer()) {
     try {
       const gc = l.groundAt(this.view.cx, this.view.cy);
       const t = this.app.core.direct(gc.lat, gc.lon, 0, 50);
@@ -425,10 +453,28 @@ export class ImagePane {
       const { w, h } = this.size();
       const a = forwardView(this.view, w, h, this.view.cx, this.view.cy);
       const b = forwardView(this.view, w, h, p1.x, p1.y);
-      ang = Math.atan2(b.y - a.y, b.x - a.x);
+      const ang = Math.atan2(b.y - a.y, b.x - a.x);
+      return Number.isFinite(ang) ? ang : null;
     } catch {
-      return;
+      return null;
     }
+  }
+
+  _updateCompass(l) {
+    const ang = l ? this.northAngle(l) : null;
+    this.compass.hidden = ang === null;
+    if (ang === null) return;
+    const deg = Math.round(((ang * 180) / Math.PI + 90) * 10) / 10;
+    const svg = this.compass.firstChild;
+    const t = `rotate(${deg}deg)`;
+    if (svg.style.transform !== t) svg.style.transform = t;
+    this.compass.dataset.north = String(deg);
+  }
+
+  _northArrow(g, l) {
+    // Direction of north at the view centre, in screen space.
+    const ang = this.northAngle(l);
+    if (ang === null) return;
     const x = 28;
     const y = 52;
     g.save();
@@ -478,7 +524,8 @@ export class ImagePane {
     const p = 10 ** Math.floor(Math.log10(target));
     const nice = [1, 2, 5, 10].map((k) => k * p).filter((v) => v <= target).pop() ?? p;
     const px = nice / mpp;
-    const x0 = w - px - 20;
+    // Leave the bottom-right corner to the compass HUD (REQ-SHL-04).
+    const x0 = w - px - (this.compass.hidden ? 20 : 44);
     const y0 = h - 30;
     const blocks = 4;
     for (let i = 0; i < blocks; i++) {
@@ -504,8 +551,8 @@ export class ImagePane {
 
   _updateBanners() {
     if (this.video) return; // the video panel sets ST 0102 banners itself (REQ-FMV-03)
-    const show = (this.app.prefs.get('decorations') ?? {}).banners !== false;
     const m = this.marking();
+    const show = bannersShown(this.app, m);
     const text = this.visibleLayers().length ? bannerText(m) : '';
     for (const b of [this.bannerTop, this.bannerBottom]) {
       b.hidden = !show || !text;

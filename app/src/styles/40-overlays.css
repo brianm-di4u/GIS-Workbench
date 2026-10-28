@@ -47,8 +47,12 @@
 .help details { margin: 4px 0; }
 .help summary { cursor: pointer; font-weight: 600; }
 
-.toasts { position: fixed; right: 14px; bottom: 54px; display: flex; flex-direction: column; gap: 6px; z-index: 950; max-width: 420px; }
-.toast { background: #2b2b2b; color: #f0f0f0; padding: 7px 12px; border-left: 4px solid #4da3ff; box-shadow: 0 3px 10px rgba(0,0,0,.4); display: flex; gap: 10px; align-items: center; transition: opacity .3s; }
+/* Snackbars (REQ-SHL-07): bottom centre above the status bar, at most three at a time. */
+.toasts { position: fixed; left: 50%; transform: translateX(-50%); bottom: 54px; display: flex; flex-direction: column-reverse; align-items: center; gap: 6px; z-index: 950; width: max-content; max-width: min(560px, calc(100vw - 32px)); }
+.toast { background: #2b2f36; color: #f0f2f5; padding: 8px 8px 8px 14px; border-radius: 8px; border-left: 4px solid #4da3ff; box-shadow: 0 4px 14px rgba(0,0,0,.4); display: flex; gap: 10px; align-items: center; transition: opacity .3s; }
+.toast-action { color: #8ab4f8; background: transparent; border: 0; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.toast-x { background: transparent; border: 0; color: inherit; opacity: .7; font-size: 16px; line-height: 1; padding: 0 4px; cursor: pointer; }
+.toast-x:hover { opacity: 1; }
 /* Toasts never block what is under them (video transport, dialog buttons); only their buttons take clicks (GUI-020). */
 .toasts, .toast { pointer-events: none; }
 .toast button { pointer-events: auto; }
@@ -105,3 +109,28 @@ tr.selected td { background: color-mix(in srgb, #e000e0 22%, transparent); }
 /* Mini toolbar over the panel context menu (REQ-UI-06) */
 .menu.mini-toolbar { display: flex; gap: 2px; min-width: 0; padding: 2px; }
 .menu.mini-toolbar .btn { padding: 2px 4px; }
+/* Command palette (REQ-SHL-05). */
+.pal-backdrop { position: fixed; inset: 0; z-index: 900; background: rgba(0, 0, 0, .28); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
+.pal { width: min(640px, calc(100vw - 32px)); max-height: 70vh; display: flex; flex-direction: column; background: var(--c-content-bg, #fff); color: var(--c-content-text, #111); border-radius: 12px; box-shadow: 0 16px 48px rgba(0, 0, 0, .45); overflow: hidden; }
+.pal-input { border: 0; border-bottom: 1px solid rgba(0, 0, 0, .12); padding: 14px 16px; font: inherit; font-size: 15px; background: transparent; color: inherit; outline: none; }
+.pal-list { list-style: none; margin: 0; padding: 4px 0; overflow: auto; flex: 1; }
+.pal-item { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: center; padding: 6px 14px; cursor: pointer; }
+.pal-item.sel { background: var(--c-content-selected, #d9e8fb); }
+.pal-item.off { opacity: .55; }
+.pal-ic { display: grid; place-items: center; }
+.pal-text { display: flex; flex-direction: column; min-width: 0; }
+.pal-label { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pal-cat { font-weight: 400; opacity: .6; }
+.pal-detail { font-size: 12px; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pal-key, .tip2 kbd { font: 11px/1 var(--f-monoLog, ui-monospace, monospace); padding: 3px 6px; border-radius: 4px; background: rgba(0, 0, 0, .08); border: 1px solid rgba(0, 0, 0, .15); white-space: nowrap; }
+.pal-empty { padding: 14px 16px; opacity: .7; }
+.pal-hint { padding: 6px 14px; font-size: 11px; opacity: .6; border-top: 1px solid rgba(0, 0, 0, .08); }
+/* Two-line tooltip (REQ-SHL-06). */
+.tip2 { position: fixed; z-index: 950; max-width: 340px; padding: 8px 10px; border-radius: 8px; background: #20242a; color: #f2f4f7; box-shadow: 0 6px 20px rgba(0, 0, 0, .35); font-size: 12px; line-height: 1.4; }
+.tip2[hidden] { display: none; }
+.tip2-head { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+.tip2 kbd { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .25); color: inherit; }
+.tip2-out { margin-top: 3px; color: #d6dbe2; }
+.tip2-status { margin-top: 4px; color: #ffcb5f; }
+.tip2-foot { margin-top: 4px; text-align: right; }
+.tip2-help { background: none; border: 0; padding: 0; color: #8ab4f8; cursor: pointer; font: inherit; text-decoration: underline; }

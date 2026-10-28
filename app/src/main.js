@@ -9,6 +9,8 @@ import { Renderer } from './render/renderer.js';
 import { detectRunMode } from './host/runmode.js';
 import { Desktop } from './shell/desktop.js';
 import { Keys } from './input/keys.js';
+import { Palette } from './shell/palette.js';
+import { Tooltips } from './shell/tooltip.js';
 import { h } from './shell/dom.js';
 import { FEATURES } from './features/index.js';
 import { captureTemplate } from './storage/selfsave.js';
@@ -39,6 +41,8 @@ async function boot() {
   app.pool = new WorkerPool({ gw, modules: { core: coreModule, parse: gw.wasm('wasm-parse') }, lazyModules: { j2k: () => gw.wasm('wasm-j2k'), photo: () => gw.wasm('wasm-photo'), raster: () => gw.wasm('wasm-raster'), terrain: () => gw.wasm('wasm-terrain'), pointcloud: () => gw.wasm('wasm-pointcloud'), vector: () => gw.wasm('wasm-vector'), sar: () => gw.wasm('wasm-sar'), spectral: () => gw.wasm('wasm-spectral') } });
   app.keys = new Keys(app);
   app.desktop = new Desktop(app, root);
+  app.palette = new Palette(app); // Ctrl+K (REQ-SHL-05)
+  app.tooltips = new Tooltips(app); // two-line tooltips (REQ-SHL-06)
 
   const mpId = app.newProject();
   app.desktop.init();

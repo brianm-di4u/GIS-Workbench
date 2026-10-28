@@ -169,6 +169,7 @@ export function install(app) {
     await app.journal.put('kv', 'recent', list.slice(0, 10));
   };
   app.recentProjects = recent;
+  app.openRecent = (r) => openRecent(r);
   /** Reopen a recent project through its stored file handle, else ask for the file again. */
   async function openRecent(r) {
     try {

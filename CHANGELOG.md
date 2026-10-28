@@ -2,6 +2,24 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [1.3.0] - Unreleased
+
+A clean canvas, the first step of GIS Workbench 2.0 (`Docs/SDP-2.0-modernization-plan.md`, phase P1), in answer to a first user's UI review. The app now starts on one edge-to-edge image panel and brings tools to you instead of showing them all at once. The 1.x layout is one setting away. Requirements REQ-SHL-01..07.
+
+### Added
+- **Command palette (Ctrl+K)**: find and run any command, layer, bookmark or recent project by typing part of its name. A command that cannot run yet says why. Type or paste a coordinate (MGRS, decimal degrees, DMS, UTM…) and press Enter to fly there. (REQ-SHL-05)
+- **Two-line tooltips** on every button: its name and shortcut, then what it does in plain words, why it cannot run now (if so) and a link to help. Every one of the 455 commands has a plain-language description. (REQ-SHL-06)
+- **Compass button** in the bottom-right corner of each panel: it turns with the view, and a click turns the view north up. It replaces the north arrow drawn on the image; Preferences ▸ Display ▸ North indicator brings the arrow back. (REQ-SHL-04)
+- **Job indicator** in the status bar: a progress ring with the number of running jobs; click it for the Job Queue. (REQ-SHL-07)
+- **"Zoom to layer"** on the message that confirms an opened image. (REQ-SHL-07)
+- **Interface layout** (View ▸ Display, or Preferences ▸ Display): Modern (default) or Classic, the 1.x start with Layer Manager and Cue Cards open, the Workspace window shown and the north arrow on the image. (REQ-SHL-01)
+
+### Changed
+- **Clean start**: no dock is open, and the Workspace window is folded into a rail on the left. Click the rail or use View ▸ Windows ▸ Workspace Window to open it. (REQ-SHL-02)
+- **Classification banners** appear on their own only when an open image carries a marking above UNCLASSIFIED (or one that cannot be read). View ▸ Decorations ▸ Classification Banners shows them always, and Preferences ▸ Security Markings can turn them off. Products, captures and AI consent keep their marking rules. (REQ-SHL-03)
+- **Messages** show at the bottom centre, at most three at a time, each with a close button. A repeated message is shown longer rather than twice. (REQ-SHL-07)
+- **Online maps**: an online background whose site is not allowed yet explains this in plain words and offers **Enable online maps…**, which opens the allow-list with that site filled in. Before, this was an error about the CSP allow-list.
+
 ## [1.2.1] - 2026-10-28
 
 Field-data campaign (phase F): real production imagery supplied by a first user: Pléiades and DigitalGlobe ortho packages (ZIP, DIMAP), JPEG-tiled GeoTIFF tile sets, Intermap dual-pol SAR intensity and MrSID mosaics. Findings TE-059 onward.

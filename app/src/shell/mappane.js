@@ -13,9 +13,15 @@ export class MapPane {
     this.notice = h('div', { class: 'map-notice', role: 'status', hidden: true });
     this.attribution = h('div', { class: 'map-attribution' });
     this.el.append(this.coords, this.notice, this.attribution);
-    app.on('online-notice', (t) => {
-      this.notice.hidden = !t;
-      this.notice.textContent = t;
+    app.on('online-notice', (n) => {
+      const text = typeof n === 'string' ? n : n?.text ?? '';
+      this.notice.hidden = !text;
+      this.notice.textContent = text;
+      if (n?.origin && app.allowListDialog) {
+        const b = h('button', { class: 'btn btn-small', 'data-id': 'map:enable-online' }, 'Enable online maps…');
+        b.addEventListener('click', () => app.allowListDialog([n.origin]));
+        this.notice.append(' ', b);
+      }
     });
     host.appendChild(this.el);
     this.background = [0, 0, 0.078, 1]; // map.bg #000014

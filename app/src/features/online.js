@@ -90,8 +90,24 @@ class TileLayer {
       })
       .catch((e) => {
         this.failed.set(key, performance.now());
-        this.notice = /allow-list/.test(e.message) ? `${s.name}: the origin is not in this file's network allow-list (Add-Ins ▸ Network Allow-List, then save and reload the copy).` : `${s.name}: ${e.message}`;
-        this.app.emit('online-notice', this.notice);
+        if (/allow-list/.test(e.message)) {
+          // Plain words and a one-click fix instead of a policy error (review item 4; REQ-NET-02 in 2.0).
+          let origin = null;
+          try {
+            origin = new URL(this.url(s, z, x, y)).origin;
+          } catch {
+            /* keep null */
+          }
+          this.notice = `${s.name} is an online map. This copy of GIS Workbench makes no network requests until you allow a site; the offline world map is shown instead.`;
+          this.app.emit('online-notice', { text: this.notice, origin });
+          if (!this.offered && origin) {
+            this.offered = true;
+            this.app.toast(`${s.name} needs the network. Allow ${origin} to show it.`, { kind: 'info', action: { label: 'Enable…', run: () => this.app.allowListDialog?.([origin]) } });
+          }
+        } else {
+          this.notice = `${s.name}: ${e.message}`;
+          this.app.emit('online-notice', this.notice);
+        }
       })
       .finally(() => this.pending.delete(key));
   }

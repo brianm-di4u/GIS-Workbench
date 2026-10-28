@@ -16,6 +16,7 @@ const DEFAULT_MAP = {
   F1: 'help.topics',
   'Mod+F1': 'ribbon.minimise',
   KeyB: 'wb.toggle',
+  'Mod+KeyK': 'ui.palette',
 };
 
 const PANE_MAP = {

@@ -34,9 +34,13 @@ export function install(app) {
     D.register({ id: 'jobs', title: 'Job Queue', icon: 'job', home: 'bottom', create: (a, m, el) => jobQueue(a, el) });
     D.register({ id: 'netlog', title: 'Network Log', icon: 'network', home: 'bottom', create: (a, m, el) => netLog(a, el) });
     D.register({ id: 'importlog', title: 'Import Log', icon: 'list', home: 'bottom', create: (a, m, el) => importLog(a, el) });
-    D.show('layers', 'left');
-    D.show('cues', 'left');
-    D.show('layers', 'left');
+    // The Classic layout opens the Layer Manager and Cue Cards at start, as in 1.x; the Modern
+    // layout starts with no dock open (REQ-SHL-02).
+    if (app.layoutMode() === 'classic') {
+      D.show('layers', 'left');
+      D.show('cues', 'left');
+      D.show('layers', 'left');
+    }
   };
   app.on('ready', (mp) => reg(mp));
   const orig = app.desktop.addMultiport.bind(app.desktop);

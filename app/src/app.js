@@ -111,6 +111,14 @@ export class App extends Emitter {
     return this.store.all('project')[0];
   }
 
+  /**
+   * Interface layout (REQ-SHL-01): 'modern' (default from 1.3.0: clean canvas, Workspace window
+   * collapsed, no docks open at start, compass HUD) or 'classic' (the 1.x layout).
+   */
+  layoutMode() {
+    return this.prefs.get('layout') === 'classic' ? 'classic' : 'modern';
+  }
+
   /** Create the default project: one Multiport with one panel. */
   newProject() {
     this.store.load([]);

@@ -41,9 +41,14 @@ export async function servers(htmlPath = DIST) {
 
 /**
  * Open the app. mode: 'file' | 'http' | 'iframe' (cross-origin) | 'srcdoc'.
+ * `prefs` are User preferences set before boot. Without `prefs` the 1.x suites run in the
+ * Classic layout with banners always on (LEGACY_PREFS, DN-53); pass prefs: {} for the Modern
+ * defaults, or e.g. { layout: 'classic' } (REQ-SHL-01/03).
  * Returns {frame, logs, csp, requests} where frame is the app's Frame.
  */
-export async function openApp(page, mode = 'file', { srv, htmlPath = DIST } = {}) {
+export const LEGACY_PREFS = { layout: 'classic', bannerMode: 'on' };
+
+export async function openApp(page, mode = 'file', { srv, htmlPath = DIST, prefs = LEGACY_PREFS } = {}) {
   const logs = [];
   const requests = [];
   page.on('console', (m) => {
@@ -54,6 +59,16 @@ export async function openApp(page, mode = 'file', { srv, htmlPath = DIST } = {}
     const u = r.url();
     if (!/^(file|data|blob|about|chrome-extension):/.test(u) && !/^http:\/\/(127\.0\.0\.1|localhost):\d+\//.test(u)) requests.push(u);
   });
+  if (prefs) {
+    await page.addInitScript((p) => {
+      try {
+        const k = 'gisworkbench.prefs.v1';
+        localStorage.setItem(k, JSON.stringify({ ...JSON.parse(localStorage.getItem(k) ?? '{}'), ...p }));
+      } catch {
+        /* storage blocked in this frame */
+      }
+    }, prefs);
+  }
   await page.addInitScript(() => {
     window.__csp = [];
     document.addEventListener('securitypolicyviolation', (e) => window.__csp.push(`${e.violatedDirective} ${e.blockedURI}`));

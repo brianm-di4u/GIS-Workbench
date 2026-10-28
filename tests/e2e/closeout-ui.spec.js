@@ -65,7 +65,7 @@ test('REQ-UI-06 REQ-UI-10 REQ-UI-11 REQ-UI-14 REQ-UI-23 REQ-UI-24 context menu, 
   const dlg = frame.locator('[data-id="dialog:prefs"]');
   await expect(dlg).toBeVisible();
   for (const b of ['Help', 'Reset', 'OK', 'Cancel', 'Apply']) await expect(dlg.locator('.dlg-buttons button', { hasText: new RegExp(`^${b}$`) })).toHaveCount(1);
-  await expect(dlg.locator('[role="tree"] [role="treeitem"]')).toHaveCount(7);
+  await expect(dlg.locator('[role="tree"] [role="treeitem"]')).toHaveCount(8); // All + 7 categories (Security Markings added in 1.3, REQ-SHL-03)
   await expect(dlg.locator('[data-tab="user"]')).toBeVisible();
   await expect(dlg.locator('[data-tab="common"]')).toBeVisible();
   await dlg.locator('[data-id="prefs-search"]').fill('sigma');

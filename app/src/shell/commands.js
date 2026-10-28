@@ -476,6 +476,10 @@ const CATALOG = [
   ['vec.remoteopen', 'Edit Online Layer…', 'network', 'REQ-EXT-26', 'R3', '', 'Open an ArcGIS REST feature service layer or a WFS-T feature type for editing.'],
   ['vec.remotesave', 'Save Online Edits', 'save', 'REQ-EXT-26', 'R3', '', 'Send adds, updates and deletes to the service (applyEdits or a WFS Transaction).'],
   ['det.review', 'Review Queue', 'list', 'REQ-EXT-19', 'R3'],
+  // GIS Workbench 2.0 (release R4): modern shell.
+  ['ui.palette', 'Command Palette…', 'search', 'REQ-SHL-05', 'R4', 'Mod+K', 'Find and run any command, or type a coordinate to fly there.'],
+  ['win.workspace', 'Workspace Window', 'window', 'REQ-SHL-02', 'R4', '', 'Show or hide the Workspace window: data tree, map view and preview.'],
+  ['ui.layout', 'Interface Layout', 'layout', 'REQ-SHL-01', 'R4', '', 'Modern (clean canvas) or Classic (Ribbon, open docks, as in 1.x).'],
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */

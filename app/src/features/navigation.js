@@ -1,6 +1,7 @@
 // Navigation, rotation, linking, windows, themes and display commands (Home and View tabs).
 
-import { modal, field } from '../shell/dialogs.js';
+import { modal, field, confirmBox } from '../shell/dialogs.js';
+import { bannerMode } from '../shell/pane.js';
 import { h } from '../shell/dom.js';
 import { LAYOUTS } from '../shell/multiport.js';
 import { KERNELS } from '../render/chain.js';
@@ -245,11 +246,52 @@ export function install(app) {
   });
   C.implement('deco.north', deco('north'));
   C.implement('deco.scalebar', deco('scalebar'));
-  C.implement('deco.banners', deco('banners'));
+  // Banners (REQ-SHL-03): the toggle switches between always on and automatic (shown only for
+  // a marking above UNCLASSIFIED); Preferences ▸ Display also offers "never".
+  C.implement('deco.banners', {
+    run: () => {
+      app.prefs.set('bannerMode', bannerMode(app) === 'on' ? 'auto' : 'on');
+      for (const mp of app.desktop.multiports) for (const p of mp.panes) p.invalidate();
+      app.emit('state');
+    },
+    checked: () => bannerMode(app) === 'on',
+  });
 
   // Workspace views.
   C.implement('ws.dataview', { run: () => app.desktop.workspace.setView('data') });
   C.implement('ws.windowsview', { run: () => app.desktop.workspace.setView('windows') });
   C.implement('ws.mapview', { run: () => app.desktop.workspace.map.zoomToFootprints() });
   C.implement('ws.preview', { run: () => app.desktop.focus(app.desktop.workspace) });
+  /** Make a layer active in the panel that holds it and fit it (snackbar "Zoom to layer"). */
+  app.zoomToLayer = (layerId) => {
+    for (const mp of app.desktop.multiports) {
+      for (const p of mp.panes) {
+        if (!(p.rec?.layers ?? []).includes(layerId)) continue;
+        mp.setActivePane(p);
+        if (p.rec.activeLayer !== layerId) app.store.transact('Set active layer', (tx) => tx.set(p.id, 'activeLayer', layerId), { kind: 'load' });
+        p.fitWhole();
+        return true;
+      }
+    }
+    return false;
+  };
+  C.implement('ui.palette', { run: (q) => app.palette.open(typeof q === 'string' ? q : '') });
+  C.implement('win.workspace', {
+    run: () => app.desktop.setWorkspaceCollapsed(!app.desktop.wsCollapsed),
+    checked: () => !app.desktop.wsCollapsed,
+  });
+  // Interface layout (REQ-SHL-01). In 1.3 the choice sets the start-up defaults (docks, Workspace
+  // window, north arrow) and applies on the next start; 2.0 switches the chrome live.
+  C.implement('ui.layout', {
+    run: async () => {
+      const cur = app.layoutMode();
+      const next = cur === 'modern' ? 'classic' : 'modern';
+      const ok = await confirmBox('Interface Layout', `Switch to the ${next === 'classic' ? 'Classic layout (Layer Manager and Cue Cards open, Workspace window shown, north arrow on the image, as in 1.x)' : 'Modern layout (clean canvas: no docks open, Workspace window collapsed, compass button)'}? It applies the next time GIS Workbench starts; your project is not affected.`, { ok: 'Switch' });
+      if (!ok) return;
+      app.prefs.set('layout', next);
+      for (const k of ['workspaceCollapsed', 'northStyle']) if (app.prefs.user(k) !== undefined) app.prefs.set(k, undefined);
+      app.toast(`The ${next === 'classic' ? 'Classic' : 'Modern'} layout applies when GIS Workbench next starts.`, { action: { label: 'Reload now', run: () => location.reload() } });
+    },
+    checked: () => app.layoutMode() === 'classic',
+  });
 }

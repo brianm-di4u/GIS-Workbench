@@ -184,3 +184,15 @@
 .console-out .console-in { color: color-mix(in srgb, currentColor 65%, transparent); }
 .console-out .console-err { color: #b00020; }
 [data-theme="dark"] .console-out .console-err { color: #ff7a7a; }
+/* Collapsed Workspace window (REQ-SHL-02): a slim rail that expands it. */
+.ws-rail { flex: 0 0 22px; width: 22px; border: 0; border-right: 1px solid var(--c-chrome-frame, #555); background: var(--c-dock-body, #7c7c7c); color: var(--c-chrome-textOnFrame, #fff); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 6px 0; font: inherit; font-size: 11px; }
+.ws-rail:hover { filter: brightness(1.1); }
+.ws-rail:focus-visible { outline: 2px solid var(--c-focus-ring, #ffcb5f); outline-offset: -2px; }
+.ws-rail-label { writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: .04em; }
+/* Job indicator in the status bar (REQ-SHL-07). */
+.status-jobs { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 0; color: inherit; font: inherit; padding: 0 8px; cursor: pointer; }
+.status-jobs[hidden] { display: none; }
+.job-ring { width: 12px; height: 12px; border-radius: 50%; background: conic-gradient(#4da3ff calc(var(--p, 0) * 1%), rgba(255, 255, 255, .2) 0); }
+.status-jobs.indeterminate .job-ring { animation: job-spin 1s linear infinite; }
+@keyframes job-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .status-jobs.indeterminate .job-ring { animation: none; } }

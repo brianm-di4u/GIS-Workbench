@@ -44,3 +44,13 @@ body[data-tool="recenter"] .pane { cursor: cell; }
 .klv-table tr.changed td { background: rgba(255, 210, 0, 0.18); }
 .klv-table tr.unknown td { color: #c07000; }
 .klv-table td.mono { font-family: monospace; font-size: 11px; word-break: break-all; }
+/* Compass HUD (REQ-SHL-04): 24 px, bottom-right, turns with the view; click = north up. */
+.pane-compass { position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; padding: 2px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, .35); cursor: pointer; z-index: 3; display: grid; place-items: center; }
+.pane-compass[hidden] { display: none; }
+.pane-compass:hover { background: rgba(0, 0, 0, .55); }
+.pane-compass:focus-visible { outline: 2px solid var(--c-focus-ring, #ffcb5f); outline-offset: 1px; }
+.pane-compass svg { transition: transform .12s ease-out; }
+.pane-compass .cmp-ring { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1.2; }
+.pane-compass .cmp-n { fill: var(--c-gfx-northArrow, #fff); stroke: #000; stroke-width: .6; }
+.pane-compass .cmp-s { fill: rgba(255, 255, 255, .35); }
+.map-notice button { pointer-events: auto; margin-left: 6px; }
