@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:27:54.749Z",
+ "when": "2026-10-28T01:11:29.050Z",
  "key": "sar-osml-sicd-sidd-chips/sicd_example_1_PFA_RE32F_IM32F_HH-0-0.NITF",
  "item": "sar-osml-sicd-sidd-chips",
  "file": "sicd_example_1_PFA_RE32F_IM32F_HH-0-0.NITF",
@@ -12,7 +12,7 @@
   "IGEOLO corners (approximate; corner order repaired): degenerate corner points"
  ],
  "toasts": [
-  "toast-info: Opened sicd_example_1_PFA_RE32F_IM32F_HH-0-0.NITF in 48 ms (1 note in the import log)"
+  "toast-info: Opened sicd_example_1_PFA_RE32F_IM32F_HH-0-0.NITF in 41 ms (1 note in the import log)"
  ],
  "layers": [
   {

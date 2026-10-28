@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:25:01.207Z",
+ "when": "2026-10-28T01:11:19.297Z",
  "key": "ieee-dfc2018-houston/2018_IEEE_GRSS_DFC_GT_TR.tif",
  "item": "ieee-dfc2018-houston",
  "file": "2018_IEEE_GRSS_DFC_GT_TR.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened 2018_IEEE_GRSS_DFC_GT_TR.tif in 44 ms"
+  "toast-info: Opened 2018_IEEE_GRSS_DFC_GT_TR.tif in 40 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 636,
+ "ms": 895,
  "logs": [],
  "requests": [],
  "csp": []

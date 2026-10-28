@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:05.739Z",
+ "when": "2026-10-28T01:04:58.638Z",
  "key": "landsat8-c2-l2sp-044034-20240820/LC08_L2SP_044034_20240820_20240830_02_T1_ST_B10.TIF",
  "item": "landsat8-c2-l2sp-044034-20240820",
  "file": "LC08_L2SP_044034_20240820_20240830_02_T1_ST_B10.TIF",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened LC08_L2SP_044034_20240820_20240830_02_T1_ST_B10.TIF in 41 ms"
+  "toast-info: Opened LC08_L2SP_044034_20240820_20240830_02_T1_ST_B10.TIF in 51 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 392,
+ "ms": 406,
  "logs": [],
  "requests": [],
  "csp": []

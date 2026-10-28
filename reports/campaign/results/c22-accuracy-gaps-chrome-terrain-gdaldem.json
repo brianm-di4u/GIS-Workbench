@@ -1,0 +1,59 @@
+{
+ "spec": "c22-accuracy-gaps",
+ "project": "chrome",
+ "when": "2026-10-28T01:17:13.751Z",
+ "key": "terrain-gdaldem",
+ "check": "terrain",
+ "tol": "≥ 99 % of sampled posts within ±1 DN / ±0.1° / ±0.5° of gdaldem (Horn); aspect after turning gdaldem grid-north aspect to true north",
+ "gridNorthDeg": -0.35022071285311046,
+ "cell": [
+  30.011179932703136,
+  30.011179406369344,
+  -0.006112504547968402
+ ],
+ "worstAlignPx": 0,
+ "commands": [
+  "gdaldem hillshade -az 315 -alt 45 -z 1 dem_utm13_30m.tif derived-dem-utm13-viewshed.hillshade.tif",
+  "gdaldem hillshade -az 315.350221 -alt 45 -z 1 dem_utm13_30m.tif derived-dem-utm13-viewshed.hillshade_truenorth.tif",
+  "gdaldem slope  dem_utm13_30m.tif derived-dem-utm13-viewshed.slope.tif",
+  "gdaldem aspect  dem_utm13_30m.tif derived-dem-utm13-viewshed.aspect.tif"
+ ],
+ "res": {
+  "hillshade": {
+   "n": 116844,
+   "within": 0.9983995755023792,
+   "max": 2,
+   "p99": 1,
+   "notGrey": 0
+  },
+  "hillshade_truenorth": {
+   "n": 116844,
+   "within": 1,
+   "max": 1,
+   "p99": 1,
+   "notGrey": 0
+  },
+  "slope": {
+   "n": 116170,
+   "within": 1,
+   "max": 0.09690273509306024,
+   "p99": 0.05786110373104236,
+   "quantStepDeg": 0.09803921568627451
+  },
+  "aspect": {
+   "n": 115360,
+   "within": 0.8825936199722607,
+   "max": 0.6623001098632812,
+   "p99": 0.605849461002208,
+   "median": 0.3506258969807732
+  },
+  "aspect_truenorth": {
+   "n": 115360,
+   "within": 1,
+   "max": 0.31207939701016585,
+   "p99": 0.2721303697959456,
+   "median": 0.0876331392062184
+  }
+ },
+ "pass": true
+}

@@ -136,7 +136,7 @@ export const CONTEXT_SETS = [
           { label: 'Clip Pixels', items: [S('clip.threshold'), S('clip.void')] },
           { label: 'Profile', items: [S('profile.spectral'), S('profile.elevation')] },
           { label: 'Pixel Values', items: [L('display.pixels')] },
-          { label: 'Spectral', items: [L('search.find'), S('msi.bandmath'), S('msi.index.ndvi'), S('msi.radiometric'), S('msi.cluster'), S('msi.detect'), S('msi.pca'), S('msi.xport')] },
+          { label: 'Spectral', items: [L('search.find'), S('msi.bandmath'), S('msi.index.ndvi'), S('msi.radiometric'), S('msi.stack'), S('msi.thermal'), S('msi.cluster'), S('msi.detect'), S('msi.pca'), S('msi.xport')] },
           { label: 'SAR', items: [S('sar.view', { kind: 'combo' }), S('sar.anamorphic', { kind: 'toggle' }), S('sar.ccd', { kind: 'split' })] },
         ],
       },

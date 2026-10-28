@@ -1,0 +1,67 @@
+{
+ "spec": "c22-accuracy-gaps",
+ "project": "chrome",
+ "when": "2026-10-28T01:16:13.983Z",
+ "key": "thermal-landsat8-b10-b11",
+ "check": "thermal",
+ "tol": "UI path runs; max |ΔBT| ≤ 0.1 K",
+ "out": {
+  "B10": {
+   "ui": {
+    "outcome": "dialog",
+    "toasts": []
+   },
+   "radiometricEnabled": true,
+   "meta": {
+    "state": "radiance",
+    "gain": [
+     0.0003342
+    ],
+    "offset": [
+     0.1
+    ]
+   },
+   "btSource": "K1/K2",
+   "error": null,
+   "diffK": {
+    "n": 262144,
+    "max": 0.000030517578125,
+    "mean": 0.000001632142812013626,
+    "p99": 0.000030517578125,
+    "nanApp": 0
+   },
+   "k1": 774.8853,
+   "k2": 1321.0789,
+   "refMeanK": 300.40047694381053
+  },
+  "B11": {
+   "ui": {
+    "outcome": "dialog",
+    "toasts": []
+   },
+   "radiometricEnabled": true,
+   "meta": {
+    "state": "radiance",
+    "gain": [
+     0.0003342
+    ],
+    "offset": [
+     0.1
+    ]
+   },
+   "btSource": "K1/K2",
+   "error": null,
+   "diffK": {
+    "n": 262144,
+    "max": 0.000030517578125,
+    "mean": 0.00000169314444065094,
+    "p99": 0.000030517578125,
+    "nanApp": 0
+   },
+   "k1": 480.8883,
+   "k2": 1201.1442,
+   "refMeanK": 298.79210854654445
+  }
+ },
+ "pass": true
+}

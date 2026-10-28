@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:31.590Z",
+ "when": "2026-10-28T01:05:06.886Z",
  "key": "robustness-gdal-autotest-seeds/huge-number-strips.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "huge-number-strips.tif",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 92,
+ "ms": 95,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,0 +1,77 @@
+{
+ "spec": "c22-accuracy-gaps",
+ "project": "chrome",
+ "when": "2026-10-28T01:17:10.047Z",
+ "key": "toa-s2-l1c-jp2-safe-10seh-20240816",
+ "check": "toa",
+ "tol": "max |Δρ| ≤ 0.01, max |ΔNDVI| ≤ 0.01",
+ "window": [
+  5234,
+  5234,
+  512,
+  512
+ ],
+ "res": {
+  "B04": {
+   "meta": {
+    "state": "TOA reflectance (Sentinel-2 L1C)",
+    "gain": [
+     0.0001
+    ],
+    "offset": [
+     -0.1
+    ],
+    "source": "MTD_MSIL1C.xml (sentinel2 L1C)"
+   },
+   "diff": {
+    "n": 262144,
+    "max": 0,
+    "mean": 0,
+    "p99": 0,
+    "nanApp": 0
+   }
+  },
+  "B08": {
+   "meta": {
+    "state": "TOA reflectance (Sentinel-2 L1C)",
+    "gain": [
+     0.0001
+    ],
+    "offset": [
+     -0.1
+    ],
+    "source": "MTD_MSIL1C.xml (sentinel2 L1C)"
+   },
+   "diff": {
+    "n": 262144,
+    "max": 0,
+    "mean": 0,
+    "p99": 0,
+    "nanApp": 0
+   }
+  },
+  "ndvi": {
+   "n": 262144,
+   "max": 6.376356798121208e-8,
+   "mean": 1.577591900029766e-8,
+   "p99": 4.4624633099843436e-8,
+   "nanApp": 0
+  },
+  "stackNdvi": {
+   "n": 262144,
+   "max": 0,
+   "mean": 0,
+   "p99": 0,
+   "nanApp": 0,
+   "indexAvailable": {
+    "ok": true,
+    "reason": null
+   }
+  }
+ },
+ "ui": {
+  "radiometricEnabledOnBandFile": true,
+  "bandMathEnabledOnBandFile": true
+ },
+ "pass": true
+}

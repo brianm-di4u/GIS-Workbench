@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:53:49.440Z",
+ "when": "2026-10-28T01:13:30.709Z",
  "key": "gmti-stanag4607-trane293-fixtures/mission_dwell_hi_res_targets.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "mission_dwell_hi_res_targets.gmti",
@@ -19,7 +19,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120098,
+ "ms": 120088,
  "logs": [],
  "requests": [],
  "csp": []

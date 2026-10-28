@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:31.277Z",
+ "when": "2026-10-28T01:05:06.712Z",
  "key": "robustness-gdal-autotest-seeds/huge-implied-number-strips.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "huge-implied-number-strips.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened huge-implied-number-strips.tif in 37 ms",
+  "toast-info: Opened huge-implied-number-strips.tif in 36 ms",
   "toast-error: huge-implied-number-strips.tif cannot be displayed: the TIFF has an invalid sample layout (BitsPerSample / SamplesPerPixel)"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 135,
+ "ms": 118,
  "logs": [],
  "requests": [],
  "csp": []

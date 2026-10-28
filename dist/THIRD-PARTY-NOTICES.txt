@@ -1,5 +1,5 @@
 GIS Workbench — third-party notices
-Build 1.1.0 (2026-10-27T23:59:43.039Z)
+Build 1.1.0 (2026-10-28T00:48:09.866Z)
 
 This file is generated from the build metafile (JavaScript), cargo metadata (Rust) and the data list below.
 
@@ -2055,6 +2055,33 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 == Rust crates (linked into the WASM bundles) ==
+adler2 2.0.1 (0BSD OR MIT OR Apache-2.0) https://github.com/oyvindln/adler2
+autocfg 1.5.1 (Apache-2.0 OR MIT) https://github.com/cuviper/autocfg
+bytemuck 1.25.2 (Zlib OR Apache-2.0 OR MIT) https://github.com/Lokathor/bytemuck
+bytemuck_derive 1.12.1 (Zlib OR Apache-2.0 OR MIT) https://github.com/Lokathor/bytemuck
+byteorder 1.5.0 (Unlicense OR MIT) https://github.com/BurntSushi/byteorder
+fax 0.3.0 (MIT) https://github.com/pdf-rs/fax
+fearless_simd 1.2.0 (Apache-2.0 OR MIT) https://github.com/linebender/fearless_simd
+geographiclib-rs 0.2.7 (MIT) https://github.com/georust/geographiclib-rs
+hayro-jpeg2000 0.4.1+gw.1 (Apache-2.0 OR MIT) 
+itoa 1.0.18 (MIT OR Apache-2.0) https://github.com/dtolnay/itoa
+jpeg-decoder 0.3.2 (MIT OR Apache-2.0) https://github.com/image-rs/jpeg-decoder
+laz 0.13.0 (Apache-2.0) https://github.com/tmontaigu/laz-rs
+libm 0.2.16 (MIT) https://github.com/rust-lang/compiler-builtins
+memchr 2.8.3 (Unlicense OR MIT) https://github.com/BurntSushi/memchr
+miniz_oxide 0.8.9 (MIT OR Zlib OR Apache-2.0) https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide
+ndic-core 0.2.5 (MIT) https://github.com/fideus-labs/nd-image-codecs
+ndic-htj2k 0.2.5 (MIT) https://github.com/fideus-labs/nd-image-codecs
+num-traits 0.2.19 (MIT OR Apache-2.0) https://github.com/rust-num/num-traits
+proc-macro2 1.0.107 (MIT OR Apache-2.0) https://github.com/dtolnay/proc-macro2
+quote 1.0.47 (MIT OR Apache-2.0) https://github.com/dtolnay/quote
+serde_core 1.0.229 (MIT OR Apache-2.0) https://github.com/serde-rs/serde
+serde_json 1.0.154 (MIT OR Apache-2.0) https://github.com/serde-rs/json
+syn 3.0.9 (MIT OR Apache-2.0) https://github.com/dtolnay/syn
+thiserror 2.0.21 (MIT OR Apache-2.0) https://github.com/dtolnay/thiserror
+thiserror-impl 2.0.21 (MIT OR Apache-2.0) https://github.com/dtolnay/thiserror
+unicode-ident 1.0.27 ((MIT OR Apache-2.0) AND Unicode-3.0) https://github.com/dtolnay/unicode-ident
+zmij 1.0.23 (MIT) https://github.com/dtolnay/zmij
 
 == Data ==
 Natural Earth 1:110m admin-0 countries — public domain. Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.

@@ -1,0 +1,53 @@
+{
+ "spec": "c22-accuracy-gaps",
+ "project": "chrome",
+ "when": "2026-10-28T01:16:31.798Z",
+ "key": "chg-detect-maxar-derna",
+ "check": "change",
+ "tol": "gain ±1 %, offset ±5 DN, threshold ±2 %, candidates ±10 %, box-cover IoU ≥ 0.9",
+ "setup": [
+  {
+   "name": "1040010087AB7E00-ms.tif",
+   "w": 4137,
+   "h": 4137,
+   "band0": 0,
+   "date": ""
+  },
+  {
+   "name": "104001008B282A00-ms.tif",
+   "w": 3551,
+   "h": 3551,
+   "band0": 0,
+   "date": ""
+  }
+ ],
+ "run": {
+  "outcome": "dialog",
+  "toasts": [
+   "toast-info: 4025 change candidate(s) in 52459 ms (gain 0.909, offset -76.6)"
+  ],
+  "errors": []
+ },
+ "oracle": {
+  "band": 0,
+  "method": "gdal.Warp bilinear (post → pre grid), Deming fit step 7 (unsaturated, refit without top 10 % residuals), |Δ|, 3×3 mean, median + 4·1.4826·MAD + 3, 3×3 opening, 8-connected ≥ 30 px",
+  "changedPx": 651242,
+  "crop": null
+ },
+ "cmp": {
+  "candidatesApp": 4025,
+  "candidatesRef": 4034,
+  "gainApp": 0.9092,
+  "gainRef": 0.9091803365109634,
+  "offsetApp": -76.6,
+  "offsetRef": -76.57674721135584,
+  "thresholdApp": 476.24,
+  "thresholdRef": 476.12768023877305,
+  "boxCoverIoU": 0.9987717833382713,
+  "sameGrid": false,
+  "image1": "1040010087AB7E00-ms.tif",
+  "image2": "104001008B282A00-ms.tif"
+ },
+ "note": "The corpus holds one NAIP date (naip-ca-m3812157-sw-2022); no NAIP pre/post pair exists, so the Maxar WV3 pair is the real-data case.",
+ "pass": true
+}

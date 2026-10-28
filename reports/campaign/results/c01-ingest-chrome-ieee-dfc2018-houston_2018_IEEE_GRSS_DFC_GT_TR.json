@@ -1,16 +1,14 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:25:11.280Z",
+ "when": "2026-10-28T01:11:28.736Z",
  "key": "ieee-dfc2018-houston/2018_IEEE_GRSS_DFC_GT_TR",
  "item": "ieee-dfc2018-houston",
  "file": "2018_IEEE_GRSS_DFC_GT_TR",
  "format": "ENVI-style .pix/.hdr HSI + LAS 1.x + GeoTIFF/TFW",
  "rendered": true,
  "errors": [],
- "warnings": [
-  "map info: ENVI map info \"UTM\" is not read"
- ],
+ "warnings": [],
  "toasts": [],
  "layers": [
   {
@@ -20,7 +18,7 @@
    "w": 4768,
    "h": 1202,
    "bands": 1,
-   "model": "none"
+   "model": "Map (EPSG:26915)"
   }
  ],
  "others": {
@@ -31,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 11123,
+ "ms": 10606,
  "logs": [],
  "requests": [],
  "csp": []

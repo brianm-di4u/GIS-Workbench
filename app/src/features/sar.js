@@ -471,7 +471,24 @@ export function install(app) {
     const da = Math.abs((((ma.azimuth ?? 0) - (mb.azimuth ?? 0) + 540) % 360) - 180);
     if (da > 5) warn.push(`azimuth differs by ${da.toFixed(2)}°`);
     const linked = (ma.match ?? []).some((x) => x.coreName === mb.coreName) || (mb.match ?? []).some((x) => x.coreName === ma.coreName);
-    return { ok: true, warnings: warn, matchInfo: linked };
+    // TE-051: geometric decorrelation of a repeat-pass pair, from the scene-centre geometry:
+    // B⊥ ≈ R·Δθ, height of ambiguity λR·sinθ/(2B⊥), critical baseline λR·B·tanθ/c.
+    const baseline = (() => {
+      const mean = (k) => ((ma[k] ?? NaN) + (mb[k] ?? NaN)) / 2;
+      const R = mean('slantRange');
+      const th = (mean('incidence') * Math.PI) / 180;
+      const dth = (Math.abs((ma.incidence ?? NaN) - (mb.incidence ?? NaN)) * Math.PI) / 180;
+      const f0 = (ma.fcMin + ma.fcMax) / 2;
+      const bw = Math.min(ma.fcMax - ma.fcMin, mb.fcMax - mb.fcMin);
+      if (![R, th, dth, f0, bw].every(Number.isFinite) || dth <= 0 || bw <= 0) return null;
+      const c0 = 299792458;
+      const lam = c0 / f0;
+      const bPerp = R * dth;
+      return { bPerp, hAmb: (lam * R * Math.sin(th)) / (2 * bPerp), overlap: Math.max(0, 1 - bPerp / ((lam * R * bw * Math.tan(th)) / c0)) };
+    })();
+    if (baseline && (baseline.overlap < 0.8 || baseline.hAmb < 20))
+      warn.push(`perpendicular baseline ≈ ${(baseline.bPerp / 1000).toFixed(1)} km (height of ambiguity ${baseline.hAmb.toFixed(1)} m, range-spectrum overlap ${(100 * baseline.overlap).toFixed(0)} %): geometric decorrelation will keep coherence low even where nothing changed`);
+    return { ok: true, warnings: warn, matchInfo: linked, baseline };
   }
 
   /** The chip in layer b that covers chip c of layer a, through the projections (coarse). */
@@ -526,7 +543,10 @@ export function install(app) {
     const r = await app.pool.run('sar.ccd', { f: fa.z, g: fb.z, w: fa.w, h: fa.h, opts: { win: opts.win ?? 5, register: opts.register !== false, flatEarth: opts.flatEarth !== false, noise, compensate: !!opts.compensate, cnrDb: Number.isNaN(cnr) ? NaN : cnr, goldstein: opts.goldstein ?? 0 } }, { kind: 'analysis', transfer: [fa.z.buffer, fb.z.buffer], label: 'CCD', timeout: 600000 });
     const ms = performance.now() - t0;
     const n = fa.w * fa.h;
-    const out = { chip: c, chipB: cb, ms, warnings: comp.warnings, matchInfo: comp.matchInfo, warp: r.warp, rms: r.rms, ties: r.ties?.length ?? 0, fringe: r.fringe, gamma: r.gamma, phase: r.phase, i1: r.i1, i2: r.i2, layers: {} };
+    // TE-051: an affine warp cannot follow terrain-induced offsets; say so when the residual is large.
+    const warnings = [...comp.warnings];
+    if (Number.isFinite(r.rms) && r.rms > 1) warnings.push(`registration residual ${r.rms.toFixed(1)} px RMS: the affine warp does not follow the terrain, so coherence is biased low`);
+    const out = { chip: c, chipB: cb, ms, warnings, baseline: comp.baseline, matchInfo: comp.matchInfo, warp: r.warp, rms: r.rms, ties: r.ties?.length ?? 0, fringe: r.fringe, gamma: r.gamma, phase: r.phase, i1: r.i1, i2: r.i2, layers: {} };
     const want = new Set(opts.products ?? ['coherence', 'mtc']);
     const dB = (v) => 10 * Math.log10(v + 1e-30);
     const st = (arr) => {

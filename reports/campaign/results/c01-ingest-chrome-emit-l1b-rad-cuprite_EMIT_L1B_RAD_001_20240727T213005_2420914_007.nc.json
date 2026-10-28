@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:35:21.887Z",
+ "when": "2026-10-28T01:11:12.767Z",
  "key": "emit-l1b-rad-cuprite/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
  "item": "emit-l1b-rad-cuprite",
  "file": "EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
@@ -10,8 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Data pack HDF5 reader (h5wasm) 0.10.3 verified (1 entries, SHA-256 checked)",
-  "toast-info: Opened EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc in 2360 ms"
+  "toast-info: Opened EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc in 3231 ms"
  ],
  "layers": [
   {
@@ -32,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 3531,
+ "ms": 4715,
  "logs": [],
  "requests": [],
  "csp": []

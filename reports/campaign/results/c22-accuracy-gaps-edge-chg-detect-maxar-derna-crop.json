@@ -1,0 +1,53 @@
+{
+ "spec": "c22-accuracy-gaps",
+ "project": "edge",
+ "when": "2026-10-28T01:17:24.448Z",
+ "key": "chg-detect-maxar-derna-crop",
+ "check": "change",
+ "tol": "gain ±1 %, offset ±5 DN, threshold ±2 %, candidates ±10 %, box-cover IoU ≥ 0.9",
+ "setup": [
+  {
+   "name": "eo-maxar-libya-floods-wv3-prepost.crop.1040010087AB7E00-ms.tif",
+   "w": 2048,
+   "h": 2048,
+   "band0": 0,
+   "date": ""
+  },
+  {
+   "name": "eo-maxar-libya-floods-wv3-prepost.crop.104001008B282A00-ms.tif",
+   "w": 1759,
+   "h": 1759,
+   "band0": 0,
+   "date": ""
+  }
+ ],
+ "run": {
+  "outcome": "dialog",
+  "toasts": [
+   "toast-info: 947 change candidate(s) in 14111 ms (gain 0.892, offset -82.9)"
+  ],
+  "errors": []
+ },
+ "oracle": {
+  "band": 0,
+  "method": "gdal.Warp bilinear (post → pre grid), Deming fit step 7 (unsaturated, refit without top 10 % residuals), |Δ|, 3×3 mean, median + 4·1.4826·MAD + 3, 3×3 opening, 8-connected ≥ 30 px",
+  "changedPx": 221124,
+  "crop": "gdal_translate -projWin 481184.395 3598815.605 483814.320 3596185.680 -co COMPRESS=DEFLATE -co TILED=YES"
+ },
+ "cmp": {
+  "candidatesApp": 947,
+  "candidatesRef": 948,
+  "gainApp": 0.8918,
+  "gainRef": 0.8917577820830165,
+  "offsetApp": -82.87,
+  "offsetRef": -82.85120714438301,
+  "thresholdApp": 317.5,
+  "thresholdRef": 317.39738027009304,
+  "boxCoverIoU": 0.9995306133184424,
+  "sameGrid": false,
+  "image1": "eo-maxar-libya-floods-wv3-prepost.crop.1040010087AB7E00-ms.tif",
+  "image2": "eo-maxar-libya-floods-wv3-prepost.crop.104001008B282A00-ms.tif"
+ },
+ "note": "The corpus holds one NAIP date (naip-ca-m3812157-sw-2022); no NAIP pre/post pair exists, so the Maxar WV3 pair is the real-data case.",
+ "pass": true
+}

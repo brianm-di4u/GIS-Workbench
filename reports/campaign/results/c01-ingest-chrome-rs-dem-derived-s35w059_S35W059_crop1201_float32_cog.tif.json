@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:02.399Z",
+ "when": "2026-10-28T01:04:19.581Z",
  "key": "rs-dem-derived-s35w059/S35W059_crop1201_float32_cog.tif",
  "item": "rs-dem-derived-s35w059",
  "file": "S35W059_crop1201_float32_cog.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened S35W059_crop1201_float32_cog.tif in 46 ms"
+  "toast-info: Opened S35W059_crop1201_float32_cog.tif in 36 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 658,
+ "ms": 637,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:24:58.484Z",
+ "when": "2026-10-28T01:11:14.832Z",
  "key": "ieee-dfc2018-houston/UH17_GEG051.tif",
  "item": "ieee-dfc2018-houston",
  "file": "UH17_GEG051.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened UH17_GEG051.tif in 51 ms"
+  "toast-info: Opened UH17_GEG051.tif in 47 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 2695,
+ "ms": 2721,
  "logs": [],
  "requests": [],
  "csp": []

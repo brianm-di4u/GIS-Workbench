@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:33.021Z",
+ "when": "2026-10-28T01:05:08.466Z",
  "key": "robustness-gdal-autotest-seeds/tif_webp_huge_single_strip.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "tif_webp_huge_single_strip.tif",
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 395,
+ "ms": 388,
  "logs": [],
  "requests": [],
  "csp": []

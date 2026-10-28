@@ -10,6 +10,8 @@ import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles } from '../storage/files.js';
 import { parse as bmParse, toGlsl, INDICES, BAND_NAMES, bandByName, evaluate as bmEvaluate } from '../render/bandmath.js';
+import { openMemoryLayer } from '../formats/open.js';
+import { invertView } from '../render/renderer.js';
 
 export const name = 'spectral';
 
@@ -43,6 +45,25 @@ export function install(app) {
   const toast = (m, o) => app.toast(m, o);
 
   /** Band metadata of a layer: [{name, cw (µm), fwhm (µm), bad}] (file or defaults). */
+  // Landsat 8/9 OLI/TIRS (by band number) and Sentinel-2 MSI (by MTD band_id) names, centre
+  // wavelengths and FWHM in µm, for band files that carry none (TE-056).
+  const SENSOR_BANDS = {
+    landsat: { 1: ['Coastal', 0.443, 0.016], 2: ['Blue', 0.482, 0.06], 3: ['Green', 0.561, 0.057], 4: ['Red', 0.655, 0.037], 5: ['NIR', 0.865, 0.028], 6: ['SWIR1', 1.609, 0.085], 7: ['SWIR2', 2.201, 0.187], 8: ['Pan', 0.59, 0.172], 9: ['Cirrus', 1.373, 0.02], 10: ['TIRS1', 10.895, 0.59], 11: ['TIRS2', 12.005, 1.01] },
+    sentinel2: { 0: ['B01', 0.443, 0.02], 1: ['B02', 0.49, 0.065], 2: ['B03', 0.56, 0.035], 3: ['B04', 0.665, 0.03], 4: ['B05', 0.705, 0.015], 5: ['B06', 0.74, 0.015], 6: ['B07', 0.783, 0.02], 7: ['B08', 0.842, 0.115], 8: ['B8A', 0.865, 0.02], 9: ['B09', 0.945, 0.02], 10: ['B10', 1.375, 0.03], 11: ['B11', 1.61, 0.09], 12: ['B12', 2.19, 0.18] },
+  };
+  const S2_IDS = ['01', '02', '03', '04', '05', '06', '07', '08', '8A', '09', '10', '11', '12'];
+
+  /** The sensor band of a one-band file from its name: Landsat `…_B10.TIF` → 10, Sentinel-2 `…_B8A.jp2` → band_id 8. */
+  function bandFromName(name, sensor) {
+    const m = /_B(\d{1,2}|8A)\.(tif|tiff|jp2)$/i.exec(name ?? '');
+    if (!m) return null;
+    if (sensor === 'sentinel2') {
+      const i = S2_IDS.indexOf(m[1].toUpperCase().padStart(2, '0'));
+      return i >= 0 ? i : null;
+    }
+    return sensor === 'landsat' ? Number(m[1]) : null;
+  }
+
   function bandsOf(l) {
     const b = l?.rec?.bandsMeta ?? l?.info?.bandsMeta;
     if (b?.length === l.bands) return b;
@@ -192,8 +213,11 @@ export function install(app) {
 
   // ---- radiometric state (REQ-MSI-05/06) ----
 
-  function setRadiometry(l, r, label = `Radiometry: ${r.state}`) {
-    S.transact(label, (tx) => tx.set(l.id, 'radiometry', { ...r, at: new Date().toISOString() }));
+  function setRadiometry(l, r, label = `Radiometry: ${r.state}`, { bandsMeta = null } = {}) {
+    S.transact(label, (tx) => {
+      tx.set(l.id, 'radiometry', { ...r, at: new Date().toISOString() });
+      if (bandsMeta) tx.set(l.id, 'bandsMeta', bandsMeta);
+    });
     l.bmHist = null;
     if (l.chain.bandMath) l.ensureStats().then(() => l.updateLut(true));
     app.emit('state');
@@ -213,6 +237,11 @@ export function install(app) {
     const parse = app.pool.run('msimeta', { kind, bytes: text }, { label: `metadata ${file.name}` });
     const m = await parse;
     const nb = l.bands;
+    // TE-054/056: Landsat and Sentinel-2 deliver one file per band; its name says which band it is.
+    if (!bandMap && nb === 1) {
+      const b = bandFromName(l.rec?.name ?? l.info?.fileName, m.sensor);
+      if (b !== null) bandMap = [b];
+    }
     const gain = new Array(nb).fill(1);
     const offset = new Array(nb).fill(0);
     let state;
@@ -269,7 +298,12 @@ export function install(app) {
       state = target === 'radiance' ? 'radiance (WorldView)' : 'TOA reflectance (WorldView)';
       unit = target === 'radiance' ? 'W m⁻² sr⁻¹ µm⁻¹' : 'reflectance';
     }
-    return setRadiometry(l, { state, gain, offset, unit, source: `${file.name} (${m.sensor}${m.level ? ` ${m.level}` : ''})`, meta: m });
+    // Band names and centre wavelengths from the sensor table when the file carries none (indices,
+    // presets and the Layer Stack find red/NIR by wavelength).
+    const table = SENSOR_BANDS[m.sensor];
+    const sensorBand = (k) => bandMap?.[k] ?? (m.sensor === 'landsat' ? k + 1 : k);
+    const bandsMeta = table && !hasWl(l) ? Array.from({ length: nb }, (_, k) => table[sensorBand(k)]).map((t, k) => (t ? { name: t[0], cw: t[1], fwhm: t[2], bad: false } : bandsOf(l)[k])) : null;
+    return setRadiometry(l, { state, gain, offset, unit, source: `${file.name} (${m.sensor}${m.level ? ` ${m.level}` : ''})`, meta: m, bandMap }, undefined, { bandsMeta });
   }
 
   /** DOS, IARR and flat field (REQ-MSI-06): parameters from the image, stored as a chain step. */
@@ -509,7 +543,7 @@ export function install(app) {
   });
   C.implement('profile.spectral', { enabled: multi, run: () => pane()?.mp?.docks.toggle('spectral') });
   C.implement('msi.bandmath', {
-    enabled: multi,
+    enabled: () => !!layer(),
     run: run(async () => {
       const l = layer();
       const names = Object.keys(BAND_NAMES).filter((n) => bandByName(n, bandsOf(l)) >= 0);
@@ -527,8 +561,75 @@ export function install(app) {
   });
   for (const k of Object.keys(INDICES)) C.implement(`msi.index.${k}`, { enabled: () => multi() && indexAvailable(layer(), k).ok, run: run(() => setIndex(layer(), k)) });
   for (const k of Object.keys(PRESETS)) C.implement(`msi.preset.${k}`, { enabled: () => multi() && !presetBands(layer(), k).missing.length, run: run(() => applyPreset(layer(), k)) });
+  // ---- Layer Stack (TE-056) ----
+
+  const STACK_MAX = 4096;
+
+  /** One-band layers in the active panel on the active layer's grid (Landsat/Sentinel-2 band files). */
+  function stackCandidates(l = layer()) {
+    if (!l || l.bands !== 1) return [];
+    const p = pane();
+    return [...app.layers.values()].filter((x) => x.rec?.pane === p?.id && x.bands === 1 && !x.error && x.width === l.width && x.height === l.height);
+  }
+
+  /** The window to stack: the whole grid when it fits STACK_MAX², else the panel's view (clipped to STACK_MAX²). */
+  function stackWindow(l) {
+    if (l.width <= STACK_MAX && l.height <= STACK_MAX) return { x0: 0, y0: 0, w: l.width, h: l.height };
+    const p = pane();
+    const r = p.el.getBoundingClientRect();
+    const c = [[0, 0], [r.width, 0], [0, r.height], [r.width, r.height]].map(([x, y]) => invertView(p.view, r.width, r.height, x, y));
+    const fit = (lo, hi, n) => {
+      let a = Math.max(0, Math.floor(lo));
+      let b = Math.min(n, Math.ceil(hi));
+      if (b - a > STACK_MAX) [a, b] = [Math.round((a + b - STACK_MAX) / 2), Math.round((a + b + STACK_MAX) / 2)];
+      return [a, Math.max(a + 1, b)];
+    };
+    const [x0, x1] = fit(Math.min(...c.map((q) => q.x)), Math.max(...c.map((q) => q.x)), l.width);
+    const [y0, y1] = fit(Math.min(...c.map((q) => q.y)), Math.max(...c.map((q) => q.y)), l.height);
+    return { x0, y0, w: x1 - x0, h: y1 - y0 };
+  }
+
+  /**
+   * Stack same-grid one-band layers into one multiband product, so composites, indices, Band Math
+   * and Radiometric Conversion apply across band files. Each band keeps its source's DN, radiometry
+   * (gain/offset, metadata band) and band metadata.
+   */
+  async function stack(layers, { window = null } = {}) {
+    if (layers.length < 2) throw new Error('Layer Stack needs at least two one-band layers on the same grid');
+    const L0 = layers[0];
+    if (layers.some((x) => x.bands !== 1 || x.width !== L0.width || x.height !== L0.height)) throw new Error('Layer Stack takes one-band layers of the same size');
+    const win = window ?? stackWindow(L0);
+    const st = layers.every((x) => x.sampleType === 'u8') ? 'u8' : layers.every((x) => ['u8', 'u16'].includes(x.sampleType)) ? 'u16' : 'f32';
+    const T = { u8: Uint8Array, u16: Uint16Array, f32: Float32Array }[st];
+    const planes = [];
+    for (const x of layers) planes.push(T.from((await cube(x, { ...win, raw: true })).v));
+    const rad = layers.map((x) => x.radiometry);
+    const same = (k) => (rad.every((r) => r[k] === rad[0][k]) ? rad[0][k] : 'mixed');
+    const radiometry = { state: same('state'), unit: same('unit'), gain: rad.map((r) => r.gain?.[0] ?? 1), offset: rad.map((r) => r.offset?.[0] ?? 0), source: `stack of ${layers.length} band files`, meta: rad.find((r) => r.meta)?.meta ?? null, bandMap: rad.map((r) => r.bandMap?.[0] ?? null) };
+    const bandsMeta = layers.map((x) => {
+      const b = bandsOf(x)[0];
+      return /^Band 1$/.test(b.name) ? { ...b, name: x.rec?.name ?? b.name } : b;
+    });
+    const full = win.w === L0.width && win.h === L0.height;
+    return openMemoryLayer(app, L0, { name: `Stack of ${layers.length} bands${full ? '' : ` (${win.w}×${win.h} window)`} — ${L0.rec?.name ?? ''}`, bands: layers.length, sampleType: st, planes, nodata: L0.nodata, x0: win.x0, y0: win.y0, width: win.w, height: win.h, info: { bandsMeta, radiometry } });
+  }
+  app.msi.stack = stack;
+
+  C.implement('msi.stack', {
+    enabled: () => stackCandidates().length >= 2,
+    run: run(async () => {
+      const cands = stackCandidates().sort((a, b) => (bandsOf(a)[0].cw || Infinity) - (bandsOf(b)[0].cw || Infinity));
+      const boxes = cands.map((x) => h('input', { type: 'checkbox', checked: true, 'aria-label': x.rec?.name ?? x.id }));
+      const win = stackWindow(layer());
+      const body = h('div', {}, ...cands.map((x, i) => h('label', { class: 'fld fld-inline' }, boxes[i], h('span', {}, `${x.rec?.name ?? x.id}${Number.isFinite(bandsOf(x)[0].cw) ? ` (${(bandsOf(x)[0].cw * 1000).toFixed(0)} nm)` : ''} · ${x.radiometry.state}`))), h('p', { class: 'hint' }, win.w === layer().width && win.h === layer().height ? 'The whole grid is stacked.' : `The grid is larger than ${STACK_MAX}²: the panel's view (${win.w}×${win.h} pixels) is stacked. Zoom or pan first to choose the area.`));
+      if ((await modal({ title: 'Layer Stack', body, buttons: ['Stack', 'Cancel'], width: 520, id: 'msi-stack' })) !== 'Stack') return;
+      const l = await stack(cands.filter((_, i) => boxes[i].checked), { window: win });
+      toast(`Stacked ${l.bands} bands (${l.width}×${l.height})`);
+    }),
+  });
+
   C.implement('msi.radiometric', {
-    enabled: multi,
+    enabled: () => !!layer(),
     run: run(async () => {
       const l = layer();
       const kind = h('select', { class: 'inp', 'aria-label': 'Conversion' }, ...[['meta', 'From metadata (Landsat MTL, Sentinel-2 MTD, WorldView IMD)…'], ['dos', 'Dark-object subtraction'], ['iarr', 'IARR (relative reflectance)'], ['flat', 'Flat field (AOI)'], ['reset', 'Back to the file’s state']].map(([v, t]) => h('option', { value: v }, t)));

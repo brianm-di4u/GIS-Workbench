@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:32.503Z",
+ "when": "2026-10-28T01:05:07.893Z",
  "key": "robustness-gdal-autotest-seeds/many_blocks_truncated.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "many_blocks_truncated.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened many_blocks_truncated.tif in 38 ms",
+  "toast-info: Opened many_blocks_truncated.tif in 44 ms",
   "toast-error: many_blocks_truncated.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 380,
+ "ms": 400,
  "logs": [],
  "requests": [],
  "csp": []

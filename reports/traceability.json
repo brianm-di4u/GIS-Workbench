@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generated": "2026-10-27T16:25:36.831Z",
+  "generated": "2026-10-28T01:24:56.680Z",
   "releases": [
    "R0",
    "R1",
@@ -13,12 +13,16 @@
   },
   "mustUntested": [],
   "lastResult": {
-   "passing": 329,
+   "passing": 327,
    "passing (file)": 18,
-   "cited, no result in the reports": 1
+   "cited, no result in the reports": 1,
+   "failing": 2
   },
-  "mustWithoutPassingResult": [],
-  "testResults": 2559,
+  "mustWithoutPassingResult": [
+   "REQ-MSI-08 (R3, failing)",
+   "REQ-MSI-10 (R3, failing)"
+  ],
+  "testResults": 2724,
   "families": {
    "PT": {
     "ids": 12,
@@ -37,8 +41,8 @@
     "failing": 0
    },
    "TE": {
-    "ids": 24,
-    "failing": 0
+    "ids": 25,
+    "failing": 1
    }
   }
  },
@@ -880,6 +884,7 @@
    "verify": "E2E + GC",
    "code": [
     "app/src/app.js",
+    "app/src/shell/commands.js",
     "app/src/shell/ribbon-data.js",
     "app/src/shell/ribbon.js"
    ],
@@ -927,6 +932,7 @@
    "impl": "JS",
    "verify": "E2E + GC",
    "code": [
+    "app/src/shell/commands.js",
     "app/src/shell/docks.js"
    ],
    "tests": [
@@ -3890,11 +3896,12 @@
     "app/src/shell/commands.js"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/e2e/surface.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 12,
     "failed": 0,
     "skipped": 0
    },
@@ -4120,7 +4127,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 32,
+    "passed": 39,
     "failed": 0,
     "skipped": 0
    },
@@ -4326,11 +4333,12 @@
     "crates/gw-sar/src/register.rs"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/e2e/scn12.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 6,
     "failed": 0,
     "skipped": 0
    },
@@ -4491,7 +4499,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 114,
+    "passed": 128,
     "failed": 0,
     "skipped": 0
    },
@@ -4561,12 +4569,13 @@
     "app/src/shell/commands.js"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/campaign/c30-workflows.spec.js",
     "tests/e2e/scn13.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 20,
+    "passed": 24,
     "failed": 0,
     "skipped": 0
    },
@@ -4593,11 +4602,12 @@
     "crates/gw-spectral/src/lib.rs"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/e2e/scn13.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 8,
     "failed": 0,
     "skipped": 0
    },
@@ -4681,15 +4691,16 @@
     "crates/gw-spectral/src/stats.rs"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/e2e/scn13.spec.js"
    ],
    "status": "tested",
    "results": {
     "passed": 4,
-    "failed": 0,
+    "failed": 2,
     "skipped": 0
    },
-   "lastResult": "passing"
+   "lastResult": "failing"
   },
   {
    "id": "REQ-MSI-09",
@@ -4739,15 +4750,16 @@
     "crates/gw-spectral/src/lib.rs"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/e2e/scn13.spec.js"
    ],
    "status": "tested",
    "results": {
     "passed": 4,
-    "failed": 0,
+    "failed": 2,
     "skipped": 0
    },
-   "lastResult": "passing"
+   "lastResult": "failing"
   },
   {
    "id": "REQ-MSI-11",
@@ -4855,11 +4867,12 @@
     "crates/gw-spectral/src/misc.rs"
    ],
    "tests": [
+    "tests/campaign/c22-accuracy-gaps.spec.js",
     "tests/e2e/scn13.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 6,
     "failed": 0,
     "skipped": 0
    },
@@ -4940,7 +4953,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 90,
+    "passed": 92,
     "failed": 0,
     "skipped": 0
    },
@@ -5235,7 +5248,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 86,
+    "passed": 88,
     "failed": 0,
     "skipped": 0
    },
@@ -5266,7 +5279,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 60,
+    "passed": 66,
     "failed": 0,
     "skipped": 0
    },
@@ -6261,7 +6274,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 180,
+    "passed": 187,
     "failed": 0,
     "skipped": 0
    },
@@ -6285,7 +6298,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 882,
+    "passed": 931,
     "failed": 0,
     "skipped": 0
    },
@@ -6355,7 +6368,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 194,
+    "passed": 203,
     "failed": 0,
     "skipped": 0
    },
@@ -6401,7 +6414,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 808,
+    "passed": 857,
     "failed": 0,
     "skipped": 0
    },
@@ -6496,7 +6509,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 807,
+    "passed": 856,
     "failed": 0,
     "skipped": 0
    },
@@ -6539,7 +6552,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 804,
+    "passed": 853,
     "failed": 0,
     "skipped": 0
    },
@@ -6635,7 +6648,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 800,
+    "passed": 849,
     "failed": 0,
     "skipped": 0
    },

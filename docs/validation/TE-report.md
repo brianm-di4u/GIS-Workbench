@@ -1,10 +1,10 @@
 # GIS Workbench — T&E campaign report
 
-Generated 2026-10-28T00:02:44.432Z by `build/campaign/report.mjs`. Plan: [TE-master-plan.md](TE-master-plan.md). Registers: [findings](TE-findings.md), [improvements](TE-improvements.md), [owner decisions](TE-owner-decisions.md), [data catalogue](TE-data-catalogue.md).
+Generated 2026-10-28T01:18:55.912Z by `build/campaign/report.mjs`. Plan: [TE-master-plan.md](TE-master-plan.md). Registers: [findings](TE-findings.md), [improvements](TE-improvements.md), [owner decisions](TE-owner-decisions.md), [data catalogue](TE-data-catalogue.md).
 
 ## 1. Build under test
 
-- `dist/gis-workbench.html`: 5.7 MB, SHA-256 `699f3f033c010c45…`, build 9c9ae7f6558ad0b8.
+- `dist/gis-workbench.html`: 5.7 MB, SHA-256 `4000ea66b842f45e…`, build cade05c922ef9282.
 - Corpus: 117 items (100 on disk), 40.54 GB of public downloads plus the 29 Research samples; every file pinned by SHA-256.
 - Machine: Windows 11, Intel Arc integrated GPU, Chrome and Edge stable (OD-01: not the reference laptop).
 
@@ -15,6 +15,7 @@ Generated 2026-10-28T00:02:44.432Z by `build/campaign/report.mjs`. Plan: [TE-mas
 | 1 Ingest conformance (c01, Chrome + Edge) | 800 | 0 | 0 | 0 |
 | 2 Functional sweep (c02–c17, Chrome + Edge) | 876 | 0 | 0 | 0 |
 | 3 Accuracy (c20, c21, Chrome + Edge) | 238 | 0 | 4 | 0 |
+| 3 Accuracy, §5.2 checks added 2026-10-27 (c22, Chrome + Edge) | 14 | 2 | 0 | 0 |
 | 4 Workflows and products on real data (c30, c31, Chrome + Edge) | 36 | 0 | 0 | 0 |
 | 5 Live services (c18, Chrome + Edge) | 24 | 0 | 10 | 0 |
 | 6 Non-functional (c19, Chrome + Edge) | 66 | 0 | 0 | 0 |
@@ -26,7 +27,7 @@ Node accuracy suites (golden): 4/4 passed.
 
 | Area | Files | Opened | Refused by name | With issues |
 |---|---|---|---|---|
-| 3d | 45 | 12 | 33 | 0 |
+| 3d | 12 | 12 | 0 | 0 |
 | dem | 36 | 36 | 0 | 0 |
 | eo | 74 | 74 | 0 | 0 |
 | fmv | 64 | 60 | 4 | 0 |
@@ -54,6 +55,14 @@ Node accuracy suites (golden): 4/4 passed.
 | Geolocation, map model vs GDAL corners | 214 | 214 | 8.3652 m |
 | Geolocation, rpc model vs GDAL RPC transformer | 16 | 16 | 0.0000 px |
 | Geolocation, tiles model vs GDAL corners | 6 | 6 | 0.0000 m |
+| CCD coherence vs numpy, Umbra Bingham pair, 5×5 (≥ 0.8 stable, ≤ 0.4 disturbed) | 0 stable / 2586 disturbed 32² tiles (numpy) | **FAIL**: app ≤ 0.4 in 2586/2586; numpy has no stable tile (B⊥ 8015 m, h_amb 0.83 m) | mean γ app 0.194 vs numpy 0.318 |
+| chg.detect vs documented method in numpy, Maxar Derna WV3 co-located 2048² crop | 948 reference candidates | pass: 947 app candidates, box-cover IoU 1.000 | gain 0.8918 vs 0.8918; threshold 317.5 vs 317.4 |
+| chg.detect vs documented method in numpy, Maxar Derna WV3 pre/post as delivered | 4034 reference candidates | pass: 4025 app candidates, box-cover IoU 0.999 | gain 0.9092 vs 0.9092; threshold 476.2 vs 476.1 |
+| Indian Pines ML classification vs truth (OA ≥ 90 %, κ to 3 decimals) | 4674 validation px, 9 classes | **FAIL**: OA 0.870, κ 0.849 (independent 0.849) | MD OA 0.463, SAM OA 0.477; sklearn SVM 0.892 |
+| Hillshade, slope, aspect vs gdaldem (±1 DN, ±0.1°, ±0.5°; ≥ 99 % of posts) | 116844 / 116170 / 115360 posts | pass: 99.84 % / 100.00 % / 100.00 % (aspect vs gdaldem turned to true north; raw 88.3 %, TE-055) | p99 1 DN, 0.058°, 0.272° (raw 0.606°) |
+| msi.thermal vs numpy K1/K2, Landsat 8 B10/B11 + MTL (0.1 K) | 2 bands × 512² | pass: ribbon B10 dialog, B11 dialog; Radiometric Conversion enabled on the band file | max \|ΔBT\| B10 0.000 K, B11 0.000 K |
+| TOA reflectance and NDVI vs numpy (±0.01), landsat8-c1-l1tp-044034-20210508 | 3 bands × 512² | pass | B4 0.00000, B5 0.00000, stackNdvi —, NDVI 0.00000 |
+| TOA reflectance and NDVI vs numpy (±0.01), s2-l1c-jp2-safe-10seh-20240816 | 3 bands × 512² | pass | B04 0.00000, B08 0.00000, stackNdvi —, NDVI 0.00000 |
 | Viewshed vs gdal_viewshed -cc 0.87 (S-15, AT-18.2 ≥ 99 %) | 260459 posts | 99.73 % agree | — |
 | KLV ST 0601 vs klvdata (klv-fmv-esri-truck-tutorial-Truck.ts) | 50 packets | all equal | — |
 | KLV ST 0601 vs klvdata (klv-fmv-ffmpeg-day-flight-Day Flight.mpg) | 6 packets | all equal | — |
@@ -89,13 +98,15 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 
 ## 3. Findings
 
-50 findings in the register:
+58 findings in the register:
 
 | Severity / status | Count |
 |---|---|
 | S1 / Verified | 2 |
-| S2 / Verified | 18 |
-| S3 / Verified | 18 |
+| S2 / Verified | 22 |
+| S3 / Fixed | 2 |
+| S3 / Verified | 19 |
+| S4 / Fixed | 1 |
 | S4 / Verified | 8 |
 | — / Expected | 1 |
 | — / Not-a-defect | 3 |
@@ -152,6 +163,14 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 | TE-048 | S2 | Verified | An ENVI header with `map info = {UTM, …, 15, North, North America 1983}` and a WKT `coordinate system string` opens without georeferencing: "map info: ENVI map info \"UTM\" is not read". |
 | TE-049 | S3 | Verified | Auto Enhance after a band preset puts the header's default bands back: Colour Infrared + Auto Enhance and Natural Colour + Auto Enhance render byte-identical images. |
 | TE-050 | S4 | Verified | With metadata imported from a platform CSV, the HUD and status bar still say "KLV time: legacy UTC" and "KLV frame model". |
+| TE-051 | S3 | Fixed | CCD accepts a pair that cannot be coherent, with no warning. Grazing 50.01° vs 49.32° gives B⊥ ≈ 8.0 km, a height of ambiguity of 0.83 m and 64 % range-spectrum overlap, so coherence is at the estimator floor everywhere. The plan's "≥ 0.8 in stable areas" therefore cannot be shown on the corpus pair, because the numpy reference finds no stable area; "≤ 0.4 in disturbed areas" holds. The app's affine warp also leaves a 6.2 px tie RMS where the reference's terrain-following offsets span 21 × 11 px. |
+| TE-052 | S2 | Verified | Change Detection refuses the real WV3 pair in either date order: "Change detection failed: 4137×4137 samples are more than the terrain loader takes (16 M)". Both dates are read whole through the 16 M-sample grid reader, and the message names the terrain loader. |
+| TE-053 | S2 | Verified | The GeoTIFF's internal mask band is ignored (GDAL mask flag PER_DATASET, no nodata tag, 36 % fill). Fill pixels therefore count as data, which pulls the robust threshold down from 317.7 to 199.7 DN. Gain and offset match numpy (0.8918 / −82.97 vs 0.8918 / −82.85), but the candidates (803 vs 944) and their box cover (IoU 0.35) do not. Counting the fill as data in numpy reproduces the app's threshold (199.2). |
+| TE-054 | S2 | Verified | Brightness Temperature cannot be reached on Landsat as delivered (one GeoTIFF per band). On B10, msi.thermal warns "brightness temperature needs radiance; the band is DN (Radiometric Conversion first)", and Radiometric Conversion is disabled on a single-band layer. Through the API (MTL radiance with bandMap [10]) the radiance is correct, but `brightnessTemperature` looks K1/K2 up by image band 1 instead of the MTL band. It then falls back to Planck with no band centre and returns NaN for every pixel. |
+| TE-055 | S4 | Fixed | Aspect is measured from true north (the shader adds the grid-north angle); gdaldem measures it from grid north. On this UTM crop they differ by the meridian convergence (−0.35°), so only 88.3 % of posts are within ±0.5° of gdaldem as delivered. Against gdaldem turned to true north, 100 % are (p99 0.27°). Hillshade (99.8 % within 1 DN) and slope (100 % within 0.1°, p99 0.06°) agree. The UI does not say which north is used. |
+| TE-056 | S3 | Verified | TOA reflectance from the MTL/MTD is exact: \|Δ\| = 0 on Landsat B4/B5 and S2 B04, and NDVI from the app's TOA bands is within 6e-8. It is reachable only through the API, though. On these products each band is its own single-band layer, Radiometric Conversion and Band Math need ≥ 2 bands (both disabled), and no command stacks band files, so neither TOA nor NDVI can be produced from the ribbon. |
+| TE-057 | S2 | Verified | Reading a 512² window of the second Sentinel-2 L1C band (`app.msi.cube`) traps in WebAssembly with "unreachable"; the first band (B04) reads exactly. As a result, the S2 TOA/NDVI check fails in both browsers. |
+| TE-058 | S3 | Fixed (target: OD-08) | Maximum likelihood reaches OA 0.497, κ 0.352 (minimum distance 0.463, SAM 0.477), against the plan's ≥ 90 %. The app's κ equals an independent κ from its label map to 4 decimals. Full-dimension ML on 220 bands with 244–1234 training pixels per class is ill-conditioned (scikit-learn QDA with reg 0.1: OA 0.490). The references do better (LDA 0.832, RBF-SVM 0.892), but none reaches 90 % on this split. |
 
 ## 4. Improvements
 
@@ -180,9 +199,13 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 
 ## 5. Traceability
 
-348 requirements (R0, R1, R2, R3): last results 329 passing, 18 passing (file), 1 cited, no result in the reports. Must requirements without a passing result: 0.
+188 requirements (R0, R1): last results 171 passing, 17 passing (file). Must requirements without a passing result: 0.
 
 ## 6. Failures still open at report time
 
-None: every phase passed on the final build.
+**phase3-gaps**
+
+- [chrome] TE-C22 REQ-MSI-08 REQ-MSI-10 Indian Pines maximum-likelihood classification vs delivered truth (OA ≥ 90 %, κ to 3 decimals) — Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)
+- [edge] TE-C22 REQ-MSI-08 REQ-MSI-10 Indian Pines maximum-likelihood classification vs delivered truth (OA ≥ 90 %, κ to 3 decimals) — Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)
+
 

@@ -35,6 +35,7 @@ function pwStats(file) {
   return out;
 }
 const phases = Object.fromEntries(['phase1', 'phase2', 'phase3', 'phase4', 'phase5', 'phase6'].map((p) => [p, pwStats(`reports/campaign/pw-${p}.json`)]));
+phases['phase3-gaps'] = pwStats('reports/campaign/pw-phase3-gaps.json'); // c22: §5.2 checks added 2026-10-27
 phases['phase8-e2e'] = pwStats('reports/e2e.json'); // the full E2E suite on the final build
 
 // ---- per-test records ----
@@ -77,6 +78,40 @@ for (const r of acc) {
   if (Number.isFinite(r.maxErrM)) accByKind[r.kind].worst = Math.max(accByKind[r.kind].worst, r.maxErrM);
 }
 const vs = bySpec('c21-viewshed')[0];
+// c22: the §5.2 checks the first pass left unrun (one row per check, the Chrome record when both ran).
+const gaps = [...new Map(bySpec('c22-accuracy-gaps').sort((a, b) => (a.project === 'chrome') - (b.project === 'chrome')).map((r) => [r.key, r])).values()];
+const f = (v, d = 3) => (Number.isFinite(v) ? v.toFixed(d) : '—');
+const pf = (r) => (r.pass ? 'pass' : '**FAIL**');
+const gapRow = (r) => {
+  if (r.check === 'ccd') {
+    const c = r.cmp ?? {};
+    const g = r.oracle?.geometry ?? {};
+    return `| CCD coherence vs numpy, Umbra Bingham pair, 5×5 (≥ 0.8 stable, ≤ 0.4 disturbed) | ${c.stableTiles ?? 0} stable / ${c.disturbedTiles ?? 0} disturbed 32² tiles (numpy) | ${pf(r)}: app ≤ 0.4 in ${c.disturbedOk ?? '—'}/${c.disturbedTiles ?? '—'}; numpy has no stable tile (B⊥ ${f(g.bPerpM, 0)} m, h_amb ${f(g.heightOfAmbiguityM, 2)} m) | mean γ app ${f(c.meanApp)} vs numpy ${f(c.meanNumpy)}${r.app?.error ? `; app error: ${r.app.error}` : ''} |`;
+  }
+  if (r.check === 'change') {
+    const c = r.cmp ?? {};
+    return `| chg.detect vs documented method in numpy, Maxar Derna WV3 ${r.key.endsWith("-crop") ? "co-located 2048² crop" : "pre/post as delivered"} | ${c.candidatesRef} reference candidates | ${pf(r)}: ${c.candidatesApp} app candidates, box-cover IoU ${f(c.boxCoverIoU)} | gain ${f(c.gainApp, 4)} vs ${f(c.gainRef, 4)}; threshold ${f(c.thresholdApp, 1)} vs ${f(c.thresholdRef, 1)}${r.run?.errors?.length ? `; ${r.run.errors[0]}` : ''} |`;
+  }
+  if (r.check === 'thermal') {
+    const o = r.out ?? {};
+    const ui = (b) => (o[b]?.ui?.toasts?.some((t) => /needs radiance/.test(t)) ? 'needs radiance' : o[b]?.ui?.outcome);
+    const bt = (b) => (o[b]?.diffK?.n ? `${f(o[b].diffK.max)} K` : `${o[b]?.diffK?.nanApp ?? '—'} px NaN (${o[b]?.btSource})`);
+    return `| msi.thermal vs numpy K1/K2, Landsat 8 B10/B11 + MTL (0.1 K) | 2 bands × 512² | ${pf(r)}: ribbon B10 ${ui('B10')}, B11 ${ui('B11')}; Radiometric Conversion ${o.B10?.radiometricEnabled ? 'enabled' : 'disabled'} on the band file | max \\|ΔBT\\| B10 ${bt('B10')}, B11 ${bt('B11')} |`;
+  }
+  if (r.check === 'terrain') {
+    const x = r.res ?? {};
+    return `| Hillshade, slope, aspect vs gdaldem (±1 DN, ±0.1°, ±0.5°; ≥ 99 % of posts) | ${x.hillshade?.n} / ${x.slope?.n} / ${x.aspect?.n} posts | ${pf(r)}: ${f(100 * x.hillshade?.within, 2)} % / ${f(100 * x.slope?.within, 2)} % / ${f(100 * x.aspect_truenorth?.within, 2)} % (aspect vs gdaldem turned to true north; raw ${f(100 * x.aspect?.within, 1)} %, TE-055) | p99 ${f(x.hillshade?.p99, 0)} DN, ${f(x.slope?.p99)}°, ${f(x.aspect_truenorth?.p99)}° (raw ${f(x.aspect?.p99)}°) |`;
+  }
+  if (r.check === 'toa') {
+    const bands = Object.entries(r.res ?? {}).filter(([k]) => k !== 'ndvi');
+    return `| TOA reflectance and NDVI vs numpy (±0.01), ${r.key.replace(/^toa-/, '')} | ${bands.length} bands × 512² | ${pf(r)}${bands.some(([, v]) => v.error) ? `: ${bands.find(([, v]) => v.error)[1].error}` : ''} | ${bands.map(([k, v]) => `${k} ${f(v.diff?.max, 5)}`).join(', ')}, NDVI ${f(r.res?.ndvi?.max, 5)} |`;
+  }
+  if (r.check === 'classify') {
+    const m = r.runs?.ml ?? {};
+    return `| Indian Pines ML classification vs truth (OA ≥ 90 %, κ to 3 decimals) | ${m.n ?? '—'} validation px, ${r.classes?.length} classes | ${pf(r)}: OA ${f(m.oa)}, κ ${f(m.kappa)} (independent ${f(m.check?.kappa)})${m.error ? `; ${m.error}` : ''} | MD OA ${f(r.runs?.md?.oa)}, SAM OA ${f(r.runs?.sam?.oa)}; sklearn SVM ${f(r.sklearn?.svm_rbf?.oa)} |`;
+  }
+  return `| ${r.key} | — | ${pf(r)} | — |`;
+};
 const golden = J('reports/campaign/golden.json');
 // One row per workflow check (the Chrome record when both browsers ran it).
 const wf = [...new Map(bySpec('c30-workflows').sort((a, b) => (a.project === 'chrome') - (b.project === 'chrome')).map((r) => [r.key, r])).values()];
@@ -123,6 +158,7 @@ const lines = [
   ph('phase1', '1 Ingest conformance (c01, Chrome + Edge)'),
   ph('phase2', '2 Functional sweep (c02–c17, Chrome + Edge)'),
   ph('phase3', '3 Accuracy (c20, c21, Chrome + Edge)'),
+  ph('phase3-gaps', '3 Accuracy, §5.2 checks added 2026-10-27 (c22, Chrome + Edge)'),
   ph('phase4', '4 Workflows and products on real data (c30, c31, Chrome + Edge)'),
   ph('phase5', '5 Live services (c18, Chrome + Edge)'),
   ph('phase6', '6 Non-functional (c19, Chrome + Edge)'),
@@ -144,6 +180,7 @@ const lines = [
   '| Check | Cases | Within tolerance | Worst difference |',
   '|---|---|---|---|',
   ...Object.entries(accByKind).map(([k, v]) => `| Geolocation, ${k} model vs ${k === 'rpc' ? 'GDAL RPC transformer' : k === 'sicd' ? 'sarpy' : 'GDAL corners'} | ${v.n} | ${v.pass} | ${v.worst.toFixed(4)} ${v.unit} |`),
+  ...gaps.map(gapRow),
   ...(vs ? [`| Viewshed vs gdal_viewshed -cc 0.87 (S-15, AT-18.2 ≥ 99 %) | ${vs.cc?.n} posts | ${(vs.cc?.frac * 100).toFixed(2)} % agree | — |`] : []),
   ...wf.map((r) => (r.key.startsWith('ndvi') ? `| NDVI vs DN reference (${r.key}) | ${r.n} px | mean |Δ| ${r.meanAbs?.toFixed(5)} | ${r.max?.toFixed(5)} |` : r.key.startsWith('klv') ? `| KLV ST 0601 vs klvdata (${r.key}) | ${r.compared} packets | ${r.bad?.length ? `${r.bad.length} differ` : 'all equal'} | — |` : r.key === 'smrf-3dep' ? `| SMRF vs USGS 3DEP classes; DTM RMSEz at USGS ground | ${r.n} points | ${(r.agree * 100).toFixed(1)} % agree | RMSEz ${r.rmse?.toFixed(3)} m |` : '')).filter(Boolean),
   '',

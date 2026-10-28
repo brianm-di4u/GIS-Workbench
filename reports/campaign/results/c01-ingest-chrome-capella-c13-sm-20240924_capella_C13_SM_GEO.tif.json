@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:14.611Z",
+ "when": "2026-10-28T01:05:10.485Z",
  "key": "capella-c13-sm-20240924/capella_C13_SM_GEO.tif",
  "item": "capella-c13-sm-20240924",
  "file": "capella_C13_SM_GEO.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened capella_C13_SM_GEO.tif in 35 ms"
+  "toast-info: Opened capella_C13_SM_GEO.tif in 60 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 362,
+ "ms": 401,
  "logs": [],
  "requests": [],
  "csp": []

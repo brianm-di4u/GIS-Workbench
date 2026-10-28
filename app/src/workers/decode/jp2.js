@@ -158,6 +158,10 @@ export async function openJp2(file, j2k, kind) {
       const tw = L ? Math.max(1, Math.floor(width / 2 ** L)) : 0;
       const th = L ? Math.max(1, Math.floor(height / 2 ** L)) : 0;
       if (!L && width * height * comps > MAX_SAMPLES) throw new Error(`JPEG 2000 ${width}×${height}×${comps} is above the 400 M-sample full-resolution limit; zoom out`);
+      // TE-057: WASM memory never shrinks and the ABI keeps the last output until the next call, so
+      // a second full-resolution band (10980² S2) ran out of memory on top of the first. Full
+      // decodes run in a fresh instance, which is dropped again once the planes are copied out.
+      if (!L) j2k.instantiate();
       const [p0, n0] = j2k.put(bytes);
       let out;
       try {
@@ -171,6 +175,7 @@ export async function openJp2(file, j2k, kind) {
       const N = w * h;
       const planes = [];
       for (let c = 0; c < nc; c++) planes.push(bits <= 8 ? out.slice(16 + c * N, 16 + (c + 1) * N) : new Uint16Array(out.buffer.slice(out.byteOffset + 16 + c * N * 2, out.byteOffset + 16 + (c + 1) * N * 2)));
+      if (!L) j2k.instantiate();
       return { w, h, planes };
     })();
     // Keep the full resolution and at most two reduced levels.

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:04.265Z",
+ "when": "2026-10-28T01:04:20.451Z",
  "key": "rs-hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3_gr.tif",
  "item": "rs-hsi-indian-pines",
  "file": "19920612_AVIRIS_IndianPine_Site3_gr.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened 19920612_AVIRIS_IndianPine_Site3_gr.tif in 41 ms"
+  "toast-info: Opened 19920612_AVIRIS_IndianPine_Site3_gr.tif in 32 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 138,
+ "ms": 373,
  "logs": [],
  "requests": [],
  "csp": []

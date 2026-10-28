@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "9c9ae7f6558ad0b8",
+    "id": "cade05c922ef9282",
     "version": "1.1.0",
-    "date": "2026-10-27T23:59:43.039Z",
+    "date": "2026-10-28T00:48:09.866Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5666902,
-    "eager": 2280926,
+    "total": 5678681,
+    "eager": 2288414,
     "css": 40646,
     "boot": 2733,
-    "app": 1969090,
-    "notices": 111945,
+    "app": 1976578,
+    "notices": 113900,
     "blocks": {
       "wasm-core": {
         "raw": 344323,
@@ -61,8 +61,8 @@
         "load": "lazy"
       },
       "wasm-spectral": {
-        "raw": 180168,
-        "stored": 86300,
+        "raw": 184289,
+        "stored": 88224,
         "load": "lazy"
       },
       "js-worker-core": {
@@ -81,8 +81,8 @@
         "load": "lazy"
       },
       "js-worker-decode": {
-        "raw": 354123,
-        "stored": 175752,
+        "raw": 354944,
+        "stored": 176164,
         "load": "lazy"
       },
       "js-worker-pointcloud": {
@@ -188,20 +188,20 @@
         "budget": 102400
       },
       "spectral": {
-        "raw": 180168,
-        "gzip": 64723,
+        "raw": 184289,
+        "gzip": 66168,
         "budget": 102400
       }
     },
-    "rustTotalGzip": 873167,
-    "lite": 3945441,
-    "snippet": 6000697,
-    "snippetLite": 3945784
+    "rustTotalGzip": 874612,
+    "lite": 3951869,
+    "snippet": 6013614,
+    "snippetLite": 3952212
   },
   "gates": {
     "errors": [],
     "warnings": [],
-    "licence": "skipped"
+    "licence": "pass"
   },
   "packages": [
     {
@@ -335,6 +335,169 @@
       "license": "MIT AND BSD-3-Clause"
     }
   ],
-  "rustCrates": [],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-37Mkw8WAWe8PPA708+6j3etvx/OXJvoKQIF5ex0zgh0=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "rustCrates": [
+    {
+      "name": "adler2",
+      "version": "2.0.1",
+      "license": "0BSD OR MIT OR Apache-2.0",
+      "repository": "https://github.com/oyvindln/adler2"
+    },
+    {
+      "name": "autocfg",
+      "version": "1.5.1",
+      "license": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/cuviper/autocfg"
+    },
+    {
+      "name": "bytemuck",
+      "version": "1.25.2",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "repository": "https://github.com/Lokathor/bytemuck"
+    },
+    {
+      "name": "bytemuck_derive",
+      "version": "1.12.1",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "repository": "https://github.com/Lokathor/bytemuck"
+    },
+    {
+      "name": "byteorder",
+      "version": "1.5.0",
+      "license": "Unlicense OR MIT",
+      "repository": "https://github.com/BurntSushi/byteorder"
+    },
+    {
+      "name": "fax",
+      "version": "0.3.0",
+      "license": "MIT",
+      "repository": "https://github.com/pdf-rs/fax"
+    },
+    {
+      "name": "fearless_simd",
+      "version": "1.2.0",
+      "license": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/linebender/fearless_simd"
+    },
+    {
+      "name": "geographiclib-rs",
+      "version": "0.2.7",
+      "license": "MIT",
+      "repository": "https://github.com/georust/geographiclib-rs"
+    },
+    {
+      "name": "hayro-jpeg2000",
+      "version": "0.4.1+gw.1",
+      "license": "Apache-2.0 OR MIT",
+      "repository": ""
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.18",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/itoa"
+    },
+    {
+      "name": "jpeg-decoder",
+      "version": "0.3.2",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/image-rs/jpeg-decoder"
+    },
+    {
+      "name": "laz",
+      "version": "0.13.0",
+      "license": "Apache-2.0",
+      "repository": "https://github.com/tmontaigu/laz-rs"
+    },
+    {
+      "name": "libm",
+      "version": "0.2.16",
+      "license": "MIT",
+      "repository": "https://github.com/rust-lang/compiler-builtins"
+    },
+    {
+      "name": "memchr",
+      "version": "2.8.3",
+      "license": "Unlicense OR MIT",
+      "repository": "https://github.com/BurntSushi/memchr"
+    },
+    {
+      "name": "miniz_oxide",
+      "version": "0.8.9",
+      "license": "MIT OR Zlib OR Apache-2.0",
+      "repository": "https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide"
+    },
+    {
+      "name": "ndic-core",
+      "version": "0.2.5",
+      "license": "MIT",
+      "repository": "https://github.com/fideus-labs/nd-image-codecs"
+    },
+    {
+      "name": "ndic-htj2k",
+      "version": "0.2.5",
+      "license": "MIT",
+      "repository": "https://github.com/fideus-labs/nd-image-codecs"
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/rust-num/num-traits"
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.107",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/proc-macro2"
+    },
+    {
+      "name": "quote",
+      "version": "1.0.47",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/quote"
+    },
+    {
+      "name": "serde_core",
+      "version": "1.0.229",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/serde-rs/serde"
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.154",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/serde-rs/json"
+    },
+    {
+      "name": "syn",
+      "version": "3.0.9",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/syn"
+    },
+    {
+      "name": "thiserror",
+      "version": "2.0.21",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/thiserror"
+    },
+    {
+      "name": "thiserror-impl",
+      "version": "2.0.21",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/thiserror"
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.27",
+      "license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "repository": "https://github.com/dtolnay/unicode-ident"
+    },
+    {
+      "name": "zmij",
+      "version": "1.0.23",
+      "license": "MIT",
+      "repository": "https://github.com/dtolnay/zmij"
+    }
+  ],
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-/NOMyywih1LZ5d7ewhSdr4WTuRGXMUrEuJShShhRXJo=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

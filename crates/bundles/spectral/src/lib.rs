@@ -150,7 +150,7 @@ pub unsafe extern "C" fn gw_spec_classify(prm: *const f64, plen: usize, v: *cons
             let mv = slice(means, nmeans);
             for q in 0..k {
                 let mean = mv.get(q * c.nb..(q + 1) * c.nb).ok_or_else(|| Error::invalid("spectral: means"))?.to_vec();
-                cls.push(classify::Class { mean, cov: gw_spectral::linalg::Sym::zeros(c.nb), inv: gw_spectral::linalg::Sym::zeros(c.nb), logdet: 0.0, n: 1 });
+                cls.push(classify::Class { mean, cov: gw_spectral::linalg::Sym::zeros(c.nb), inv: gw_spectral::linalg::Sym::zeros(c.nb), logdet: 0.0, n: 1, reg: 0.0 });
             }
             if !matches!(m, classify::Method::Sam | classify::Method::Sid | classify::Method::MinDistance) {
                 return Err(Error::invalid("spectral: signatures without training pixels classify by SAM, SID or minimum distance only"));

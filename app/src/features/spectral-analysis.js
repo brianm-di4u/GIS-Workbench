@@ -362,7 +362,9 @@ export function install(app) {
   async function brightnessTemperature(l, band, { k1 = NaN, k2 = NaN, lambda = NaN, emissivity = NaN, celsius = false } = {}) {
     const meta = l.radiometry.meta;
     if (!Number.isFinite(k1) && meta?.sensor === 'landsat') {
-      const b = meta.bands.find((x) => x.band === band + 1 && Number.isFinite(x.k1));
+      // TE-054: the MTL band of image band `band` (a B10 file is image band 1, MTL band 10).
+      const mtlBand = l.radiometry.bandMap?.[band] ?? band + 1;
+      const b = meta.bands.find((x) => x.band === mtlBand && Number.isFinite(x.k1));
       if (b) [k1, k2] = [b.k1, b.k2];
     }
     if (!Number.isFinite(k1) && !Number.isFinite(lambda)) lambda = msi().bandsOf(l)[band].cw;
@@ -586,7 +588,15 @@ export function install(app) {
       const band = h('select', { class: 'inp', 'aria-label': 'Band' }, ...app.msi.bandsOf(l).map((b, i) => h('option', { value: String(i) }, `${i + 1}: ${b.name}`)));
       const em = h('input', { class: 'inp inp-num', type: 'number', step: 'any', placeholder: 'blank = BT only', 'aria-label': 'Emissivity' });
       const cel = h('input', { type: 'checkbox', 'aria-label': 'Celsius' });
-      if ((await modal({ title: 'Brightness Temperature', body: h('div', {}, field('Thermal band (radiance)', band), field('Emissivity (water 0.99, vegetation 0.98, soil 0.95)', em), h('label', { class: 'fld fld-inline' }, cel, h('span', {}, '°C'))), buttons: ['Run', 'Cancel'], id: 'msi-thermal' })) !== 'Run') return;
+      // TE-054: a delivered Landsat band file is DN; the dialog takes the MTL and converts it here.
+      const dn = !/radiance/i.test(l.radiometry.state);
+      const hint = dn ? h('p', { class: 'hint' }, `The band is ${l.radiometry.state}: Run asks for the sensor metadata (Landsat …_MTL.txt) and converts it to radiance first.`) : null;
+      if ((await modal({ title: 'Brightness Temperature', body: h('div', {}, field('Thermal band', band), field('Emissivity (water 0.99, vegetation 0.98, soil 0.95)', em), h('label', { class: 'fld fld-inline' }, cel, h('span', {}, '°C')), ...(hint ? [hint] : [])), buttons: ['Run', 'Cancel'], id: 'msi-thermal' })) !== 'Run') return;
+      if (dn) {
+        const [f] = await pickFiles(app, { multiple: false, accept: ['.txt', '.xml'], description: 'Sensor metadata (Landsat MTL)' });
+        if (!f) return;
+        await app.msi.fromMetadata(l, f, { target: 'radiance' });
+      }
       await brightnessTemperature(l, Number(band.value), { emissivity: em.value === '' ? NaN : Number(em.value), celsius: cel.checked });
     }),
   });

@@ -1,0 +1,99 @@
+{
+ "spec": "c22-accuracy-gaps",
+ "project": "edge",
+ "when": "2026-10-28T01:17:03.779Z",
+ "key": "ccd-umbra-bingham",
+ "check": "ccd",
+ "tol": "≥ 0.8 stable, ≤ 0.4 disturbed (32² tiles; stable/disturbed = numpy tile ≥ 0.85 / ≤ 0.35)",
+ "oracle": {
+  "chip": {
+   "x0": 5664,
+   "y0": 3430,
+   "w": 2048,
+   "h": 2048
+  },
+  "meanGamma": 0.31844790943220413,
+  "p90Gamma": 0.5480471691907085,
+  "stableTileFrac": 0,
+  "disturbedTileFrac": 0.874267578125,
+  "fringe": [
+   -0.012939453125,
+   -0.049072265625
+  ],
+  "geometry": {
+   "slantRangeM": 662834.9895108533,
+   "wavelengthM": 0.03122840097582656,
+   "grazeDeg": [
+    50.013724774963826,
+    49.32089264234176
+   ],
+   "azimDeg": [
+    327.91330438520856,
+    327.8933713236771
+   ],
+   "bPerpM": 8015.134504880456,
+   "heightOfAmbiguityM": 0.8297702282125545,
+   "txBandwidthHz": 383523199.70726776,
+   "rangeSpectralShiftHz": 138412112.5777042,
+   "spectralOverlap": 0.6391036769526585,
+   "dates": [
+    "2023-09-25T17:37:51.000000",
+    "2023-08-21T17:38:40.000000"
+   ]
+  },
+  "method": "sarpy chips; a→b quadratic map through sarpy image_to_ground/ground_to_image (SCP HAE); dense amplitude offsets (256² tiles, step 64, Hann-windowed NCC, parabolic peak, 5×5 median outlier test, 3×3 mean); cubic B-spline I/Q resampling; linear phase removed at the interferogram FFT peak; |Σ a b*| / √(Σ|a|² Σ|b|²) over 5×5; no common-band filtering"
+ },
+ "app": {
+  "chip": {
+   "x0": 5664,
+   "y0": 3430,
+   "w": 2048,
+   "h": 2048
+  },
+  "chipB": {
+   "x0": 5329,
+   "y0": 3287,
+   "w": 2048,
+   "h": 2048
+  },
+  "warp": [
+   0.122571031666198,
+   0.000051671591654062996,
+   -0.00023583607949553007,
+   0.0916536237717951,
+   -0.00014266049523355582,
+   0.0001429898033888739
+  ],
+  "rms": 6.240064927145511,
+  "ties": 525,
+  "fringe": [
+   0.13636640569319478,
+   -0.01869463938081142
+  ],
+  "ms": 15812.899999976158,
+  "warnings": [
+   "perpendicular baseline ≈ 8.1 km (height of ambiguity 0.8 m, range-spectrum overlap 63 %): geometric decorrelation will keep coherence low even where nothing changed",
+   "registration residual 6.2 px RMS: the affine warp does not follow the terrain, so coherence is biased low"
+  ],
+  "baseline": {
+   "bPerp": 8085.807394369547,
+   "hAmb": 0.8357368132345616,
+   "overlap": 0.6261671176010344
+  },
+  "nanFrac": 0.43305444717407227,
+  "mean": 0.19405011969276065
+ },
+ "cmp": {
+  "stableTiles": 0,
+  "stableOk": 0,
+  "stableMedianApp": null,
+  "disturbedTiles": 2586,
+  "disturbedOk": 2586,
+  "disturbedMedianApp": 0.19394875470970874,
+  "tileAbsDiffMedian": 0.12124579572452379,
+  "tileAbsDiffP90": 0.16603282560579727,
+  "meanApp": 0.19405011969276065,
+  "meanNumpy": 0.31844790943220413
+ },
+ "pass": false
+}

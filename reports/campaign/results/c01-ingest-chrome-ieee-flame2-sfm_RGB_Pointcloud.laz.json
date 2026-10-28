@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:25:13.146Z",
+ "when": "2026-10-28T01:11:29.196Z",
  "key": "ieee-flame2-sfm/RGB_Pointcloud.laz",
  "item": "ieee-flame2-sfm",
  "file": "RGB_Pointcloud.laz",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened RGB_Pointcloud.laz: 8,593,408 points in 6172 ms (1 note in the import log)"
+  "toast-info: Opened RGB_Pointcloud.laz: 8,593,408 points in 5603 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 6468,
+ "ms": 5916,
  "logs": [],
  "requests": [],
  "csp": []

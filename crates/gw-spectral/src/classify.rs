@@ -33,17 +33,98 @@ pub struct Class {
     pub inv: Sym,
     pub logdet: f64,
     pub n: usize,
+    /// Weight of the pooled covariance in this class's (regularised) covariance.
+    pub reg: f64,
 }
 
-/// Class statistics from training pixel index lists.
-pub fn train(c: &Cube, sets: &[Vec<usize>]) -> Vec<Class> {
-    sets.iter()
-        .map(|ix| {
-            let (m, s, n) = mean_cov(c, Some(ix), 1);
-            let (inv, ld) = inverse_logdet(&s, 1e-6).unwrap_or_else(|| (Sym::zeros(c.nb), 0.0));
-            Class { mean: m, cov: s, inv, logdet: ld, n }
+/// Candidate weights of the pooled covariance (regularised discriminant analysis, Friedman 1989).
+const RDA_LAMBDAS: [f64; 5] = [0.0, 0.5, 0.75, 0.85, 0.95];
+/// Training pixels classified per fold when λ is chosen (cost control on 200+ band cubes).
+const RDA_EVAL: usize = 800;
+
+/// Class statistics (mean, sample covariance, count) of index lists.
+fn stats_of(c: &Cube, sets: &[Vec<usize>]) -> Vec<(Vec<f64>, Sym, usize)> {
+    sets.iter().map(|ix| mean_cov(c, Some(ix), 1)).collect()
+}
+
+/// Classes with covariance (1 − λ)·Σk + λ·Σpooled (TE-058: with few training pixels per class
+/// against many bands, Σk is ill-conditioned and plain ML overfits; λ = 0 is plain ML).
+fn regularised(nb: usize, st: &[(Vec<f64>, Sym, usize)], lambda: f64) -> Vec<Class> {
+    let mut pooled = Sym::zeros(nb);
+    let tot: usize = st.iter().map(|s| s.2).sum();
+    for (_, s, n) in st {
+        for i in 0..nb * nb {
+            pooled.a[i] += s.a[i] * *n as f64 / tot.max(1) as f64;
+        }
+    }
+    st.iter()
+        .map(|(m, s, n)| {
+            let mut cov = Sym::zeros(nb);
+            for i in 0..nb * nb {
+                cov.a[i] = (1.0 - lambda) * s.a[i] + lambda * pooled.a[i];
+            }
+            let (inv, ld) = inverse_logdet(&cov, 1e-6).unwrap_or_else(|| (Sym::zeros(nb), 0.0));
+            Class { mean: m.clone(), cov, inv, logdet: ld, n: *n, reg: lambda }
         })
         .collect()
+}
+
+/// ML decision for one pixel (index of the best class).
+fn ml_label(x: &[f32], classes: &[Class], d: &mut [f64]) -> usize {
+    let mut best = (f64::INFINITY, usize::MAX);
+    for (k, cl) in classes.iter().enumerate() {
+        for b in 0..d.len() {
+            d[b] = x[b] as f64 - cl.mean[b];
+        }
+        let cost = cl.logdet + quad(&cl.inv, d);
+        if cost < best.0 {
+            best = (cost, k);
+        }
+    }
+    best.1
+}
+
+/// Class statistics from training pixel index lists, for maximum likelihood with the pooled-
+/// covariance weight λ chosen by two-fold cross-validation on the training pixels (ties: smaller λ).
+pub fn train(c: &Cube, sets: &[Vec<usize>]) -> Vec<Class> {
+    let nb = c.nb;
+    let half = |r: usize| sets.iter().map(|ix| ix.iter().copied().skip(r).step_by(2).collect::<Vec<_>>()).collect::<Vec<_>>();
+    let folds = [half(0), half(1)];
+    // Fewer fold pixels than bands is the case λ is for: a pooled share keeps Σ invertible.
+    let enough = folds.iter().all(|f| f.iter().all(|ix| ix.len() >= 2));
+    let mut lambda = 0.0;
+    if enough && sets.len() >= 2 {
+        let fs = [stats_of(c, &folds[0]), stats_of(c, &folds[1])];
+        let mut d = vec![0.0; nb];
+        let mut best = (-1.0, 0.0);
+        for &lam in &RDA_LAMBDAS {
+            let (mut ok, mut all) = (0usize, 0usize);
+            for f in 0..2 {
+                let model = regularised(nb, &fs[f], lam);
+                // Evaluate on the other fold, an even share of each class up to RDA_EVAL pixels.
+                let other = &folds[1 - f];
+                let n: usize = other.iter().map(|ix| ix.len()).sum();
+                let stride = n.div_ceil(RDA_EVAL).max(1);
+                for (k, ix) in other.iter().enumerate() {
+                    for &p in ix.iter().step_by(stride) {
+                        if !c.valid(p) {
+                            continue;
+                        }
+                        all += 1;
+                        if ml_label(c.px(p), &model, &mut d) == k {
+                            ok += 1;
+                        }
+                    }
+                }
+            }
+            let acc = ok as f64 / all.max(1) as f64;
+            if acc > best.0 + 1e-9 {
+                best = (acc, lam);
+            }
+        }
+        lambda = best.1;
+    }
+    regularised(nb, &stats_of(c, sets), lambda)
 }
 
 fn sam(x: &[f32], r: &[f64]) -> f64 {
@@ -452,6 +533,50 @@ pub fn fill(l: &[u8], w: usize, h: usize) -> Vec<u8> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// TE-058: fewer training pixels per class than bands → λ > 0 and better held-out accuracy than plain ML.
+    #[test]
+    fn ml_regularises_when_classes_are_ill_conditioned() {
+        let (nb, w, h) = (40usize, 64usize, 32usize);
+        let mut s = 7u64;
+        let mut rnd = || {
+            s ^= s << 13;
+            s ^= s >> 7;
+            s ^= s << 17;
+            (s % 10_000) as f32 / 10_000.0 - 0.5
+        };
+        // Two classes (left/right halves) whose means differ by ±0.04 alternating across bands, under
+        // a strong band-common noise term: separable by a well-conditioned covariance, not by an
+        // overfitted one.
+        let mut v = vec![0f32; w * h * nb];
+        for p in 0..w * h {
+            let right = p % w >= w / 2;
+            let common = rnd();
+            for b in 0..nb {
+                let shift = if right { if b % 2 == 0 { 0.04 } else { -0.04 } } else { 0.0 };
+                v[p * nb + b] = 1.0 + shift + 0.6 * common + 0.2 * rnd();
+            }
+        }
+        let c = Cube { v: &v, nb, w, h };
+        // 30 training pixels per class (< 40 bands), the rest held out.
+        let tr: Vec<Vec<usize>> = vec![(0..w * h).filter(|p| p % w < w / 2).take(30).collect(), (0..w * h).filter(|p| p % w >= w / 2).take(30).collect()];
+        let cls = train(&c, &tr);
+        assert!(cls[0].reg > 0.0, "λ {}", cls[0].reg);
+        let held = |cl: &[Class]| {
+            let mut d = vec![0.0; nb];
+            let (mut ok, mut n) = (0, 0);
+            for p in 0..w * h {
+                if tr.iter().any(|ix| ix.contains(&p)) {
+                    continue;
+                }
+                n += 1;
+                ok += (ml_label(c.px(p), cl, &mut d) == usize::from(p % w >= w / 2)) as usize;
+            }
+            ok as f64 / n as f64
+        };
+        let plain = regularised(nb, &stats_of(&c, &tr), 0.0);
+        assert!(held(&cls) > held(&plain) + 0.05, "RDA {} vs plain {}", held(&cls), held(&plain));
+    }
 
     #[test]
     fn cleanup_on_noisy_labels_is_fast() {

@@ -1,18 +1,18 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:51:49.424Z",
+ "when": "2026-10-28T01:11:29.894Z",
  "key": "gmti-stanag4607-trane293-fixtures/free_text_and_test_status.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "free_text_and_test_status.gmti",
  "format": "STANAG 4607 (.gmti)",
  "rendered": false,
  "errors": [
-  "no dwell or platform location segments to show (1 packets: 1 mission, 1 free text, 1 test and status); free text: “SYNTHETIC FIXTURE MESSAGE, LINE ONE\nLINE TWO”"
+  "no dwell or platform location segments to show (1 packet: 1 mission, 1 free text, 1 test and status); free text: “SYNTHETIC FIXTURE MESSAGE, LINE ONE LINE TWO”"
  ],
  "warnings": [],
  "toasts": [
-  "toast-error: free_text_and_test_status.gmti: no dwell or platform location segments to show (1 packets: 1 mission, 1 free text, 1 test and status); free text: “SYNTHETIC FIXTURE MESSAGE, LINE ONE\nLINE TWO”"
+  "toast-error: free_text_and_test_status.gmti: no dwell or platform location segments to show (1 packet: 1 mission, 1 free text, 1 test and status); free text: “SYNTHETIC FIXTURE MESSAGE, LINE ONE LINE TWO”"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 71,
+ "ms": 83,
  "logs": [],
  "requests": [],
  "csp": []

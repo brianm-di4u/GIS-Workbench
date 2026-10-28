@@ -34,11 +34,15 @@ export function install(app) {
     C.implement(cmd, {
       enabled: () => isDemLike(layer()),
       checked: () => layer()?.chain?.dem?.mode === mode,
-      run: () =>
+      run: () => {
+        const on = layer()?.chain?.dem?.mode !== mode;
         app.setChain((c) => {
-          c.dem = { ...c.dem, mode: c.dem?.mode === mode ? 'none' : mode };
+          c.dem = { ...c.dem, mode: on ? mode : 'none' };
           if (mode === 'relief' && c.colour.palette === 'grey') c.colour.palette = 'terrain';
-        }, `Surface: ${mode}`),
+        }, `Surface: ${mode}`);
+        // TE-055: say which north aspect and the sun azimuth are measured from.
+        if (on && mode === 'aspect') app.toast('Aspect: clockwise from true north (grid north turned by the meridian convergence; gdaldem uses grid north)');
+      },
       menu: () => [
         { label: `${mode[0].toUpperCase()}${mode.slice(1)}`, checked: layer()?.chain?.dem?.mode === mode, run: () => C.run(cmd) },
         '-',
@@ -62,7 +66,7 @@ export function install(app) {
       az.value = img.info.sun.azimuth.toFixed(1);
       el.value = img.info.sun.elevation.toFixed(1);
     });
-    const body = h('div', {}, section('Illumination', field('Sun azimuth (°, from north)', az), field('Sun elevation (°)', el), fromImage), section('Relief', field('Z factor (vertical exaggeration)', z)), h('p', { class: 'hint' }, 'Gradients use the DEM cell size measured through its geolocation at the centre. Defaults: azimuth 315°, elevation 45°.'));
+    const body = h('div', {}, section('Illumination', field('Sun azimuth (°, clockwise from true north)', az), field('Sun elevation (°)', el), fromImage), section('Relief', field('Z factor (vertical exaggeration)', z)), h('p', { class: 'hint' }, 'Gradients use the DEM cell size measured through its geolocation at the centre. Defaults: azimuth 315°, elevation 45°.'));
     if ((await modal({ title: 'Surface Settings', body, buttons: ['OK', 'Cancel'], id: 'surface-settings' })) !== 'OK') return;
     app.setChain((c) => (c.dem = { ...c.dem, az: +az.value, el: +el.value, z: +z.value || 1 }), 'Surface settings');
   }

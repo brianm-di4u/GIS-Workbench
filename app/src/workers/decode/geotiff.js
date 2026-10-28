@@ -114,10 +114,14 @@ async function openGeoTiff0(file) {
   const H = main.getHeight();
   // Overviews: subsequent full-extent images that are smaller (COG). Skip masks.
   const overviews = [];
+  let maskImg = null; // GDAL internal (PER_DATASET) mask at full resolution (TE-053)
   for (let i = 1; i < count; i++) {
     const im = await tiff.getImage(i);
     const sub = (await tag(im.fileDirectory, 'NewSubfileType')) ?? 0;
-    if (sub & 4) continue; // transparency mask
+    if (sub & 4) {
+      if (!maskImg && im.getWidth() === W && im.getHeight() === H) maskImg = im; // transparency mask
+      continue;
+    }
     if (im.getWidth() < W && im.getSamplesPerPixel() === main.getSamplesPerPixel()) overviews.push({ img: im, scale: W / im.getWidth() });
   }
   // Complex samples (SampleFormat 5 complex integer, 6 complex float: SAR SLC GeoTIFFs) are read
@@ -132,6 +136,9 @@ async function openGeoTiff0(file) {
   let nodata = nodataText !== undefined ? Number(String(nodataText).replace(/\0/g, '').trim()) : null;
   if (nodata !== null && !Number.isFinite(nodata) && !Number.isNaN(nodata)) nodata = null;
   if (type === 'f32' && nodata === null) nodata = NaN;
+  // TE-053: with an internal mask and no no-data tag, masked pixels read as a no-data value (0 for
+  // unsigned types, GDAL's usual fill; the type minimum for signed; NaN for float).
+  if (maskImg && nodata === null) nodata = type === 'i16' ? -32768 : 0;
   let rpc = null;
   const rpcTag = await tag(fd, TAG_RPC);
   if (rpcTag && rpcTag.length >= 92) rpc = Array.from(rpcTag).slice(0, 92);
@@ -173,6 +180,7 @@ async function openGeoTiff0(file) {
     tile: T.TileWidth ? [T.TileWidth, T.TileLength] : null,
     overviews: overviews.map((o) => [o.img.getWidth(), o.img.getHeight()]),
     nodata: Number.isNaN(nodata) ? 'NaN' : nodata,
+    mask: maskImg ? 'internal (PER_DATASET): masked pixels read as no-data' : null,
     geoKeys,
     epsg,
     gcps,
@@ -253,7 +261,24 @@ async function openGeoTiff0(file) {
     return out;
   }
 
+  /** Masked pixels of a full-resolution window → no-data (TE-053). */
+  async function masked(out, x0, y0, w, h) {
+    if (!maskImg) return out;
+    let m;
+    try {
+      [m] = await maskImg.readRasters({ window: [Math.floor(x0), Math.floor(y0), Math.ceil(x0 + w), Math.ceil(y0 + h)], samples: [0], interleave: false, fillValue: 0 });
+    } catch (e) {
+      throw tiffError(e);
+    }
+    for (let i = 0; i < m.length; i++) if (!m[i]) for (const p of out) p[i] = nodata;
+    return out;
+  }
+
   async function read(img, scale, x0, y0, w, h, bands) {
+    return img === main ? masked(await read0(img, scale, x0, y0, w, h, bands), x0, y0, w, h) : read0(img, scale, x0, y0, w, h, bands);
+  }
+
+  async function read0(img, scale, x0, y0, w, h, bands) {
     if (striped && img === main) {
       try {
         const out = bands.map(() => new CTOR[type](w * h));

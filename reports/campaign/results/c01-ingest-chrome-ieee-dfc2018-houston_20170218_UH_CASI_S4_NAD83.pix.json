@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:56:19.313Z",
+ "when": "2026-10-28T01:11:42.996Z",
  "key": "ieee-dfc2018-houston/20170218_UH_CASI_S4_NAD83.pix",
  "item": "ieee-dfc2018-houston",
  "file": "20170218_UH_CASI_S4_NAD83.pix",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 19030,
+ "ms": 27481,
  "logs": [],
  "requests": [],
  "csp": []

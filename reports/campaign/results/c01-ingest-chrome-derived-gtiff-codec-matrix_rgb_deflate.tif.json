@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:20.429Z",
+ "when": "2026-10-28T01:04:22.196Z",
  "key": "derived-gtiff-codec-matrix/rgb_deflate.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "rgb_deflate.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rgb_deflate.tif in 32 ms"
+  "toast-info: Opened rgb_deflate.tif in 39 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 880,
+ "ms": 929,
  "logs": [],
  "requests": [],
  "csp": []

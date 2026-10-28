@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:27:55.777Z",
+ "when": "2026-10-28T01:11:30.032Z",
  "key": "sar-osml-sicd-sidd-chips/umbra-sidd200-chip1.ntf",
  "item": "sar-osml-sicd-sidd-chips",
  "file": "umbra-sidd200-chip1.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened umbra-sidd200-chip1.ntf in 39 ms"
+  "toast-info: Opened umbra-sidd200-chip1.ntf in 35 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 405,
+ "ms": 386,
  "logs": [],
  "requests": [],
  "csp": []

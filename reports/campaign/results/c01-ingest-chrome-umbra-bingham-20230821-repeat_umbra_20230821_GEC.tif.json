@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:11.947Z",
+ "when": "2026-10-28T01:05:09.645Z",
  "key": "umbra-bingham-20230821-repeat/umbra_20230821_GEC.tif",
  "item": "umbra-bingham-20230821-repeat",
  "file": "umbra_20230821_GEC.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened umbra_20230821_GEC.tif in 29 ms"
+  "toast-info: Opened umbra_20230821_GEC.tif in 42 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 354,
+ "ms": 382,
  "logs": [],
  "requests": [],
  "csp": []

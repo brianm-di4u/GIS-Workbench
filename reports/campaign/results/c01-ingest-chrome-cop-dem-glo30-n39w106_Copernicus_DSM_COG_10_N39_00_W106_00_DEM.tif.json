@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:27.666Z",
+ "when": "2026-10-28T01:05:12.206Z",
  "key": "cop-dem-glo30-n39w106/Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
  "item": "cop-dem-glo30-n39w106",
  "file": "Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif in 37 ms"
+  "toast-info: Opened Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif in 46 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 607,
+ "ms": 889,
  "logs": [],
  "requests": [],
  "csp": []

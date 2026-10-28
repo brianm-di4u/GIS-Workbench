@@ -1,18 +1,18 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:53:50.141Z",
+ "when": "2026-10-28T01:13:31.054Z",
  "key": "gmti-stanag4607-trane293-fixtures/processing_history_chain.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "processing_history_chain.gmti",
  "format": "STANAG 4607 (.gmti)",
  "rendered": false,
  "errors": [
-  "no dwell or platform location segments to show (1 packets: 1 mission, 1 processing history)"
+  "no dwell or platform location segments to show (1 packet: 1 mission, 1 processing history)"
  ],
  "warnings": [],
  "toasts": [
-  "toast-error: processing_history_chain.gmti: no dwell or platform location segments to show (1 packets: 1 mission, 1 processing history)"
+  "toast-error: processing_history_chain.gmti: no dwell or platform location segments to show (1 packet: 1 mission, 1 processing history)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 95,
+ "ms": 70,
  "logs": [],
  "requests": [],
  "csp": []

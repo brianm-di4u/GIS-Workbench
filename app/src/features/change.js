@@ -15,12 +15,30 @@ export function install(app) {
   const pane = () => app.activePane();
   const images = () => pane()?.layers().filter((l) => l.kind !== 'dem' && l.modelId) ?? [];
 
-  async function bandOf(l) {
-    return app.pool.run('grid', { handle: l.handle, band: l.chain.bands[0] ?? 0, maxSamples: 16e6 }, { affinity: l.affinity, label: `change: read ${l.rec.name}`, timeout: 300000 });
+  // TE-052: up to MAX_PIXELS of date 1 in one run; a larger date 1 is scoped to the active AOI.
+  const MAX_PIXELS = 32e6;
+
+  /** One band of a window [x0, y0, w, h] (whole image when null), no-data as NaN (TE-053). */
+  async function bandOf(l, window = null) {
+    const g = await app.pool.run('grid', { handle: l.handle, band: l.chain.bands[0] ?? 0, maxSamples: MAX_PIXELS, window, what: 'change detection' }, { affinity: l.affinity, label: `change: read ${l.rec.name}`, timeout: 300000 });
+    if (l.nodata !== null && l.nodata !== undefined && !Number.isNaN(l.nodata)) for (let i = 0; i < g.heights.length; i++) if (g.heights[i] === l.nodata) g.heights[i] = NaN;
+    return g;
   }
 
-  /** date-2 values on the date-1 grid; {values, sameGrid}. */
-  async function onGrid(l1, l2, g2) {
+  /** The date-1 window to compare: the whole image, or the active AOI when date 1 is too large. */
+  function windowOf(p, l1) {
+    if (l1.width * l1.height <= MAX_PIXELS) return null;
+    const b = app.aoiBox?.(p, l1);
+    const big = `date 1 is ${l1.width}×${l1.height} (${((l1.width * l1.height) / 1e6).toFixed(0)} M pixels)`;
+    if (!b) throw new Error(`${big}: draw an AOI (up to ${MAX_PIXELS / 1e6} M pixels) to scope the detection`);
+    const w = [Math.max(0, Math.floor(b.x0)), Math.max(0, Math.floor(b.y0))];
+    w.push(Math.min(l1.width, Math.ceil(b.x1)) - w[0], Math.min(l1.height, Math.ceil(b.y1)) - w[1]);
+    if (w[2] * w[3] > MAX_PIXELS) throw new Error(`${big} and the AOI is ${w[2]}×${w[3]}: draw a smaller AOI (up to ${MAX_PIXELS / 1e6} M pixels)`);
+    return w;
+  }
+
+  /** date-2 values on the date-1 window w1 = [x0, y0, w, h]; {values, sameGrid}. */
+  async function onGrid(l1, l2, w1) {
     const probes = [[0.1, 0.1], [0.9, 0.1], [0.5, 0.5], [0.1, 0.9], [0.9, 0.9]];
     const same =
       l1.width === l2.width &&
@@ -30,17 +48,28 @@ export function install(app) {
         const q = g && l2.imageAt(g.lat, g.lon, g.h);
         return q && Math.hypot(q.x - fx * l1.width, q.y - fy * l1.height) < 0.5;
       });
-    if (same) return { values: g2.heights, sameGrid: true };
-    const W = l1.width;
-    const H = l1.height;
+    if (same) return { values: (await bandOf(l2, w1)).heights, sameGrid: true };
+    // Only the part of date 2 that covers the date-1 window is read.
+    const [X0, Y0, W, H] = w1;
+    const q = [[X0, Y0], [X0 + W, Y0], [X0, Y0 + H], [X0 + W, Y0 + H], [X0 + W / 2, Y0 + H / 2]].map(([x, y]) => {
+      const g = l1.groundAt(x, y);
+      return g && l2.imageAt(g.lat, g.lon, g.h);
+    }).filter(Boolean);
+    if (!q.length) throw new Error('date 2 does not cover date 1');
+    const bx0 = Math.max(0, Math.floor(Math.min(...q.map((p) => p.x))) - 2);
+    const by0 = Math.max(0, Math.floor(Math.min(...q.map((p) => p.y))) - 2);
+    const bx1 = Math.min(l2.width, Math.ceil(Math.max(...q.map((p) => p.x))) + 2);
+    const by1 = Math.min(l2.height, Math.ceil(Math.max(...q.map((p) => p.y))) + 2);
+    if (bx1 <= bx0 || by1 <= by0) throw new Error('date 2 does not cover date 1');
+    const g2 = await bandOf(l2, [bx0, by0, bx1 - bx0, by1 - by0]);
     const out = new Float32Array(W * H).fill(NaN);
     const rows = 64;
     for (let y0 = 0; y0 < H; y0 += rows) {
       const n = Math.min(rows, H - y0) * W;
       const pts = new Float64Array(n * 3);
       for (let k = 0; k < n; k++) {
-        const x = (k % W) + 0.5;
-        const y = y0 + Math.floor(k / W) + 0.5;
+        const x = X0 + (k % W) + 0.5;
+        const y = Y0 + y0 + Math.floor(k / W) + 0.5;
         const g = l1.groundAt(x, y);
         pts.set(g ? [g.lat, g.lon, g.h] : [NaN, NaN, 0], k * 3);
       }
@@ -51,8 +80,8 @@ export function install(app) {
         continue;
       }
       for (let k = 0; k < n; k++) {
-        const x = xy[2 * k] - 0.5;
-        const y = xy[2 * k + 1] - 0.5;
+        const x = xy[2 * k] - 0.5 - g2.x0;
+        const y = xy[2 * k + 1] - 0.5 - g2.y0;
         const xi = Math.floor(x);
         const yi = Math.floor(y);
         if (!(xi >= 0 && yi >= 0 && xi < g2.width - 1 && yi < g2.height - 1)) continue;
@@ -81,7 +110,7 @@ export function install(app) {
       const d2 = pick(ls.at(-1).id);
       const k = h('input', { class: 'inp inp-num', type: 'number', min: '1', max: '20', step: '0.5', value: '4', 'aria-label': 'Threshold in robust σ' });
       const minA = h('input', { class: 'inp inp-num', type: 'number', min: '1', step: '1', value: '30', 'aria-label': 'Minimum area in pixels' });
-      const body = h('div', {}, field('Date 1 (earlier)', d1), field('Date 2 (later)', d2), section('Settings', field('Threshold (robust σ of the difference)', k), field('Minimum area (date-1 pixels)', minA)), h('p', { class: 'hint' }, 'Date 2 is normalised to date 1 (orthogonal regression), differenced, smoothed and thresholded; blobs above the minimum area become candidates. Images up to 16 M pixels.'));
+      const body = h('div', {}, field('Date 1 (earlier)', d1), field('Date 2 (later)', d2), section('Settings', field('Threshold (robust σ of the difference)', k), field('Minimum area (date-1 pixels)', minA)), h('p', { class: 'hint' }, 'Date 2 is normalised to date 1 (orthogonal regression), differenced, smoothed and thresholded; blobs above the minimum area become candidates. Up to 32 M date-1 pixels; a larger image is compared over the active AOI.'));
       if ((await modal({ title: 'Change Detection', body, buttons: ['Detect', 'Cancel'], id: 'change-detect' })) !== 'Detect') return;
       const l1 = app.layers.get(d1.value);
       const l2 = app.layers.get(d2.value);
@@ -90,10 +119,13 @@ export function install(app) {
       let r;
       let sameGrid;
       try {
-        const [g1, g2] = await Promise.all([bandOf(l1), bandOf(l2)]);
-        const v2 = await onGrid(l1, l2, g2);
+        const win = windowOf(p, l1);
+        const g1 = await bandOf(l1, win);
+        const v2 = await onGrid(l1, l2, [g1.x0, g1.y0, g1.width, g1.height]);
         sameGrid = v2.sameGrid;
-        r = detectChanges(g1.heights, v2.values, g1.width, g1.height, { k: +k.value || 4, minArea: +minA.value || 30, nodata: l1.nodata });
+        // No-data is NaN in both dates (bandOf); candidates come back in date-1 image pixels.
+        r = detectChanges(g1.heights, v2.values, g1.width, g1.height, { k: +k.value || 4, minArea: +minA.value || 30 });
+        for (const c of r.candidates) Object.assign(c, { x0: c.x0 + g1.x0, x1: c.x1 + g1.x0, y0: c.y0 + g1.y0, y1: c.y1 + g1.y0 });
         // An active AOI scopes the result (REQ-IMG-30).
         const inAoi = app.aoiContainsImage?.(p, l1);
         if (inAoi) r.candidates = r.candidates.filter((c) => inAoi((c.x0 + c.x1) / 2, (c.y0 + c.y1) / 2));

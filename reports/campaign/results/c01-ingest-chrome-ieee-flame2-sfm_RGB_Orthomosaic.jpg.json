@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:25:07.421Z",
+ "when": "2026-10-28T01:11:24.361Z",
  "key": "ieee-flame2-sfm/RGB_Orthomosaic.jpg",
  "item": "ieee-flame2-sfm",
  "file": "RGB_Orthomosaic.jpg",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened RGB_Orthomosaic.jpg in 344 ms"
+  "toast-info: Opened RGB_Orthomosaic.jpg in 288 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1981,
+ "ms": 1902,
  "logs": [],
  "requests": [],
  "csp": []

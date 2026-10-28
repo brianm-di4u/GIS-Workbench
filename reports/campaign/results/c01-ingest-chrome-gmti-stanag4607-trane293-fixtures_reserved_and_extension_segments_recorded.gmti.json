@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T23:55:50.309Z",
+ "when": "2026-10-28T01:15:31.335Z",
  "key": "gmti-stanag4607-trane293-fixtures/reserved_and_extension_segments_recorded.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "reserved_and_extension_segments_recorded.gmti",
@@ -19,7 +19,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120104,
+ "ms": 120083,
  "logs": [],
  "requests": [],
  "csp": []

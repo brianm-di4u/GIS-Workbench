@@ -1,0 +1,794 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c22-accuracy-gaps",
+      "--project=chrome",
+      "--project=edge"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "edge",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "msedge"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "edge"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-phase3-gaps.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c22-accuracy-gaps.spec.js",
+      "file": "c22-accuracy-gaps.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C22 REQ-SAR-09 CCD coherence vs numpy on the Umbra Bingham pair (≥ 0.8 stable, ≤ 0.4 disturbed)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 31973,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:15:33.868Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-b4deb309abe46c13e7d0",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 67,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 SCN-11 AT-11.3 chg.detect on the Maxar Derna WV3 pre/post pair vs the documented method in numpy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 57576,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:15:33.853Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-be96c56fbd606bf45e82",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 146,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 SCN-11 AT-11.3 chg.detect on the Maxar Derna WV3 pre/post pair, co-located 2048² crop vs the documented method in numpy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 21220,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:15:33.884Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-1f12935bcbbfb737e490",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 146,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-MSI-14 msi.thermal on Landsat 8 B10/B11 with the MTL vs numpy K1/K2 brightness temperature",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 39782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:15:33.868Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-9062bce059314ca18b58",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 196,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-DEM-10 hillshade, slope and aspect vs gdaldem on the UTM GLO-30 crop (±1 DN, ±0.1°, ±0.5°)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 600000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 78295,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:15:55.460Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-ac001ef4e9250db2e21f",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 246,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-MSI-05 REQ-MSI-04 TOA reflectance and NDVI vs numpy (Landsat 8 MTL, ±0.01) landsat8-c1-l1tp-044034-20210508",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20650,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:16:06.203Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-a3b1dd4a91614966a24f",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 366,
+          "column": 3
+        },
+        {
+          "title": "TE-C22 REQ-MSI-05 REQ-MSI-04 TOA reflectance and NDVI vs numpy (Sentinel-2 L1C MTD, ±0.01) s2-l1c-jp2-safe-10seh-20240816",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 56039,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:16:14.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-9717ac061a0688542358",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 366,
+          "column": 3
+        },
+        {
+          "title": "TE-C22 REQ-MSI-08 REQ-MSI-10 Indian Pines maximum-likelihood classification vs delivered truth (OA ≥ 90 %, κ to 3 decimals)",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 22118,
+                  "error": {
+                    "message": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m",
+                    "stack": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m\n    at C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js:475:146",
+                    "location": {
+                      "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js",
+                      "column": 146,
+                      "line": 475
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 473 |\u001b[39m   expect(ml\u001b[33m.\u001b[39merror \u001b[33m?\u001b[39m\u001b[33m?\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'maximum likelihood runs'\u001b[39m)\u001b[33m.\u001b[39mtoBeNull()\u001b[33m;\u001b[39m\n \u001b[90m 474 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(\u001b[33mMath\u001b[39m\u001b[33m.\u001b[39mabs(ml\u001b[33m.\u001b[39mkappa \u001b[33m-\u001b[39m ml\u001b[33m.\u001b[39mcheck\u001b[33m.\u001b[39mkappa)\u001b[33m,\u001b[39m \u001b[32m`app κ ${ml.kappa?.toFixed(4)} vs independent κ ${ml.check?.kappa.toFixed(4)}`\u001b[39m)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m0.0005\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 475 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(ml\u001b[33m.\u001b[39moa\u001b[33m,\u001b[39m \u001b[32m`maximum-likelihood OA (sklearn refs: ${Object.entries(T.sklearn).map(([k, v]) => `${k} ${v.oa.toFixed(3)}`).join(', ')})`\u001b[39m)\u001b[33m.\u001b[39mtoBeGreaterThanOrEqual(\u001b[35m0.9\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 476 |\u001b[39m   expect(logs)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m 477 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 478 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js",
+                        "column": 146,
+                        "line": 475
+                      },
+                      "message": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m\n\n  473 |   expect(ml.error ?? null, 'maximum likelihood runs').toBeNull();\n  474 |   expect.soft(Math.abs(ml.kappa - ml.check.kappa), `app κ ${ml.kappa?.toFixed(4)} vs independent κ ${ml.check?.kappa.toFixed(4)}`).toBeLessThan(0.0005);\n> 475 |   expect.soft(ml.oa, `maximum-likelihood OA (sklearn refs: ${Object.entries(T.sklearn).map(([k, v]) => `${k} ${v.oa.toFixed(3)}`).join(', ')})`).toBeGreaterThanOrEqual(0.9);\n      |                                                                                                                                                  ^\n  476 |   expect(logs).toEqual([]);\n  477 | });\n  478 |\n    at C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js:475:146"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:16:26.869Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\GIS Workbench\\gis-workbench\\test-results\\c22-accuracy-gaps-TE-C22-R-f733b-th-OA-≥-90-κ-to-3-decimals--chrome\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js",
+                    "column": 146,
+                    "line": 475
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-db5d7fb30c7df128de02",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 422,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-SAR-09 CCD coherence vs numpy on the Umbra Bingham pair (≥ 0.8 stable, ≤ 0.4 disturbed)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 30815,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:16:32.548Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-ec8d47709a5e56a2ab9e",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 67,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 SCN-11 AT-11.3 chg.detect on the Maxar Derna WV3 pre/post pair vs the documented method in numpy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 59729,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:16:49.677Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-48da3a6be7b6d5166378",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 146,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 SCN-11 AT-11.3 chg.detect on the Maxar Derna WV3 pre/post pair, co-located 2048² crop vs the documented method in numpy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 20650,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:17:03.808Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-614a7ba78a27bb178536",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 146,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-MSI-14 msi.thermal on Landsat 8 B10/B11 with the MTL vs numpy K1/K2 brightness temperature",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 39055,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:17:10.751Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-f55d8d0f3ecb35d6b00e",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 196,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-DEM-10 hillshade, slope and aspect vs gdaldem on the UTM GLO-30 crop (±1 DN, ±0.1°, ±0.5°)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 600000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 74414,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:17:14.465Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-08eae0745f5739c8c5ac",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 246,
+          "column": 1
+        },
+        {
+          "title": "TE-C22 REQ-MSI-05 REQ-MSI-04 TOA reflectance and NDVI vs numpy (Landsat 8 MTL, ±0.01) landsat8-c1-l1tp-044034-20210508",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 20376,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:17:24.472Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-17a1f6b4671e3525df29",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 366,
+          "column": 3
+        },
+        {
+          "title": "TE-C22 REQ-MSI-05 REQ-MSI-04 TOA reflectance and NDVI vs numpy (Sentinel-2 L1C MTD, ±0.01) s2-l1c-jp2-safe-10seh-20240816",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 56539,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:17:44.864Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-d63c3f601769aa3f4aab",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 366,
+          "column": 3
+        },
+        {
+          "title": "TE-C22 REQ-MSI-08 REQ-MSI-10 Indian Pines maximum-likelihood classification vs delivered truth (OA ≥ 90 %, κ to 3 decimals)",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "edge",
+              "projectName": "edge",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 21422,
+                  "error": {
+                    "message": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m",
+                    "stack": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m\n    at C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js:475:146",
+                    "location": {
+                      "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js",
+                      "column": 146,
+                      "line": 475
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 473 |\u001b[39m   expect(ml\u001b[33m.\u001b[39merror \u001b[33m?\u001b[39m\u001b[33m?\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'maximum likelihood runs'\u001b[39m)\u001b[33m.\u001b[39mtoBeNull()\u001b[33m;\u001b[39m\n \u001b[90m 474 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(\u001b[33mMath\u001b[39m\u001b[33m.\u001b[39mabs(ml\u001b[33m.\u001b[39mkappa \u001b[33m-\u001b[39m ml\u001b[33m.\u001b[39mcheck\u001b[33m.\u001b[39mkappa)\u001b[33m,\u001b[39m \u001b[32m`app κ ${ml.kappa?.toFixed(4)} vs independent κ ${ml.check?.kappa.toFixed(4)}`\u001b[39m)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m0.0005\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 475 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(ml\u001b[33m.\u001b[39moa\u001b[33m,\u001b[39m \u001b[32m`maximum-likelihood OA (sklearn refs: ${Object.entries(T.sklearn).map(([k, v]) => `${k} ${v.oa.toFixed(3)}`).join(', ')})`\u001b[39m)\u001b[33m.\u001b[39mtoBeGreaterThanOrEqual(\u001b[35m0.9\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 476 |\u001b[39m   expect(logs)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m 477 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 478 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js",
+                        "column": 146,
+                        "line": 475
+                      },
+                      "message": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m\n\n  473 |   expect(ml.error ?? null, 'maximum likelihood runs').toBeNull();\n  474 |   expect.soft(Math.abs(ml.kappa - ml.check.kappa), `app κ ${ml.kappa?.toFixed(4)} vs independent κ ${ml.check?.kappa.toFixed(4)}`).toBeLessThan(0.0005);\n> 475 |   expect.soft(ml.oa, `maximum-likelihood OA (sklearn refs: ${Object.entries(T.sklearn).map(([k, v]) => `${k} ${v.oa.toFixed(3)}`).join(', ')})`).toBeGreaterThanOrEqual(0.9);\n      |                                                                                                                                                  ^\n  476 |   expect(logs).toEqual([]);\n  477 | });\n  478 |\n    at C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js:475:146"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:17:49.752Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\GIS Workbench\\gis-workbench\\test-results\\c22-accuracy-gaps-TE-C22-R-f733b-th-OA-≥-90-κ-to-3-decimals--edge\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js",
+                    "column": 146,
+                    "line": 475
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7c0547d32e106b318112-719b4b79841cbae4c20f",
+          "file": "c22-accuracy-gaps.spec.js",
+          "line": 422,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T01:15:33.277Z",
+    "duration": 188393.688,
+    "expected": 14,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

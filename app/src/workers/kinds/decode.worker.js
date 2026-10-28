@@ -275,14 +275,17 @@ GW.register('patch', async ({ handle, x, y, w, h, band = 0 }, job) => {
 });
 
 /** A whole band at full resolution as Float32 (Use as Terrain, REQ-DEM-02). */
-GW.register('grid', async ({ handle, band = 0, maxSamples = 25e6 }, job) => {
+GW.register('grid', async ({ handle, band = 0, maxSamples = 25e6, window = null, what = 'the terrain loader' }, job) => {
   const e = handles.get(handle);
   if (!e) throw new Error('unknown image handle');
-  const { width: w, height: hh } = e.src;
-  if (w * hh > maxSamples) throw new Error(`${w}×${hh} samples are more than the terrain loader takes (${(maxSamples / 1e6).toFixed(0)} M)`);
-  const [a] = await e.src.readWindow(0, 0, w, hh, [band], job);
+  // An optional window [x0, y0, w, h] (change detection scoped to an AOI, TE-052).
+  const [x0, y0, w, hh] = window ? [Math.max(0, Math.floor(window[0])), Math.max(0, Math.floor(window[1])), 0, 0] : [0, 0, e.src.width, e.src.height];
+  const W = window ? Math.min(e.src.width - x0, Math.ceil(window[2])) : w;
+  const H = window ? Math.min(e.src.height - y0, Math.ceil(window[3])) : hh;
+  if (W * H > maxSamples) throw new Error(`${W}×${H} samples are more than ${what} takes (${(maxSamples / 1e6).toFixed(0)} M)`);
+  const [a] = await e.src.readWindow(x0, y0, W, H, [band], job);
   const f = a instanceof Float32Array ? a : Float32Array.from(a);
-  return GW.transfer({ width: w, height: hh, heights: f }, [f.buffer]);
+  return GW.transfer({ width: W, height: H, x0, y0, heights: f }, [f.buffer]);
 });
 
 /** Source samples of a window, every `step`-th pixel (products: GeoTIFF/NITF chips, REQ-PRD-10). */
