@@ -1,0 +1,5224 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c20-accuracy",
+      "-g",
+      "field-",
+      "--project=chrome"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-field-accuracy.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c20-accuracy.spec.js",
+      "file": "c20-accuracy.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-phr-millerovo/IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3063,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:14.379Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-36ec92598a41d6824cad",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-phr-millerovo/IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3218,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:14.378Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-f41dcce6c69f910dca2f",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-phr-millerovo/IMG_PHR1B_PMS_201703010830561_ORT_2363111201-001_R1C1_DRA.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3160,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:14.381Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-4a1742eafc348ba92d63",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-phr-millerovo/IMG_PHR1B_PMS_201704290827053_ORT_2363112201-001_R1C1_DRA.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 3314,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:14.378Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-022e5897999ec115a774",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 30579,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:17.795Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-9ea46d6f9be90d3f4c84",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 30605,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:17.939Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b71710041df6fe332fe0",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 29693,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:17.970Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8c6d3c5454d9284b3925",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R1C4.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 28864,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:18.059Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-428a165d30768af722ab",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 31891,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:46.945Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b67d7469243256d83960",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 30252,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:47.685Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-e1ea1c84fe7dd3bcacb6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 30566,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:48.395Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-1d20f0c7bfe9db13e3fa",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R2C4.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 30618,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:42:48.565Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-608da1be74f473a96596",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 8115,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:17.957Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-335f34587121a0be0174",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 7914,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:18.854Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d724a4fc0627db2e1098",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7856,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:18.980Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-933511bf1a5ee3151695",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-panama/Panama_01_R3C4.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 8110,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:19.204Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-ea322dbbfae36b24b487",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1464,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:26.089Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b199a56f14b992c6b4b7",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 28562,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:26.784Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-f4f79982f2adfff7c39e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27511,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:26.854Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-3ce910054c99b1b85462",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 12473,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:27.329Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7599f1c49de9399e3328",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 27529,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:27.576Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-ae348dc490bc8e95679d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29057,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:39.817Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-aa601b2c3f67e9c2da2c",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14954,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:54.386Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d337705e3c3f017b4c0b",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1467,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:55.120Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d0d91c671a3bb193189b",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1985,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:55.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7f75eef0726a205fbf43",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1198,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:56.601Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-24f8b667498522089da0",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 24663,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:57.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-c304d45186bfd6e50b78",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 27344,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:43:57.813Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5887888fc4fd47a47ce9",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 19200,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:08.887Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-277421e8616974332979",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 29725,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:09.357Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-a2e4a97c53556e3ac4f9",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 29178,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:22.045Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-6d14cf7645ce9462358e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 19247,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:25.169Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-25fc3e5b1c47666ff810",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 8539,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:28.102Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-61f5a41ab894be718073",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 5251,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:36.657Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7bc7f21467ee2eb17184",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150201/Mischief_Reef_20150201_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1668,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:39.100Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-737cdb7a88817255b201",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1431,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:40.784Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8132a98ed9f7c05e8f0f",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 27946,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:41.925Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-10843821f2a0c46c2b81",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25131,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:42.228Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7d29ee05134edf563b71",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 12105,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:44.434Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-dc5c24b75965acc0f76d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 28072,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:51.237Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8b50f45f7034172afea3",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 28971,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:44:56.551Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-c3711709aa9e5e51b3dc",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15694,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:07.379Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-54ffd1b5181ac01af09d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1923,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:09.885Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-27066f2075cf2ae25775",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2384,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:11.818Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-99c5f4b9ed7de658b3d6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1159,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:14.215Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-4c9320a8faf06e315bb0",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29191,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:15.386Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b5442686acfb869ee6f6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 30190,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:19.330Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7a82daf9c39dbf2c04ee",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7020,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:23.086Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-6cdb2a243c5cd13c6c5d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 28367,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:25.540Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-01bc51a1f3abb1187d50",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 28718,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:30.122Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-ecfd2bc850d89abb17e7",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 5733,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:44.591Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-cd6114c8193650369a06",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1653,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:49.538Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-37cd7b90d141b1b1bd26",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1420,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:50.335Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-01184048cbe8b9e3b4ed",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 875,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:51.209Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-16a9434c023946014562",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1417,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:51.765Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7e9035077b0dfa6392d6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 28179,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:52.095Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-514d9f736ef4a57ceaae",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 26412,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:53.195Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b9a7b3f2a1871b158a76",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 15406,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:53.919Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-60c25bc79cbeffa2653e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 28471,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:45:58.856Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b2752a23d8882a9d1dc2",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 28369,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:09.341Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-f03d6482d4a4f4f8429e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 17484,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:19.619Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-18cc61e18b871c6bdad3",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 5530,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:20.291Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-2ea5c7d8ce79dd05db6e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 7286,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:25.835Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-2247b817c763b88e5dcf",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5480,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:27.340Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d434a62b2847673b91d3",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1456,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:32.837Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-0fae3f4de920f73f66f2",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 29471,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:33.136Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-37ecba124d1be171539a",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 26623,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:34.306Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-fb8db1e006cb3877df63",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 10127,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:37.112Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-f95c12b6a49b505e5fb5",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 29419,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:37.722Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5f5104c3dc96522acdbb",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29639,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:46:47.253Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-839173ef6a5de86a5345",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12335,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:00.942Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-e11209e1cfe29f3b064d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 7759,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:02.620Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-1ef3820270d027eca6ac",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 10083,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:07.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-0381fd714e02fc6d6108",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 4986,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:10.391Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-a9b4b692500d7fc37178",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1129,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:13.288Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5f995f8fd2b8e221542a",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23530,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:14.426Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-7e1242f9fe596944fef1",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 26879,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:15.389Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-24d3a266c47e5764cf12",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 15002,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:16.906Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-6a6ad5378cef420cfe3f",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 28654,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:17.254Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-aa20f9f73e2ca9d453ea",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 28659,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:31.919Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-bd9e93329fc1f019b016",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14905,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:37.970Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-fb42b9eb7eec6d7e8391",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 26627,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:42.277Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-1e39fc92186868c82bf8",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 22821,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:45.923Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-27334bfbf4e0154dd159",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10056,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:47:52.886Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-64491ff177a405eeb0d1",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1166,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:00.594Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-123da62641ba3b3923c7",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 30716,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:01.772Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d8e07bc8bd4a63c8d4c7",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 29409,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:02.958Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-9bfdc1d31aabfd2c7cdb",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3284,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:08.756Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-6f63463e31728f4279e4",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 21876,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:08.921Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8e1565e16a4db0adb5c8",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 22520,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:12.057Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b367121583cfc7c0e3f6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2714,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:30.810Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-cf3761a642faf4929ffd",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1211,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:32.376Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-e6663dd11b9ab4ab3002",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29679,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:32.503Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-41715f0174b34282e2d6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 29265,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:33.538Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-fd1e356fb7844347341c",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13427,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:33.600Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-ec4696cc62f751d86129",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 29480,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:34.594Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-0642e257e0f0a5446248",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 29905,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:48:47.044Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-a470a7ce4df6a5f2248e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 14201,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:02.190Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-e6b44bff2f419dfb2ca1",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 11879,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:02.814Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-95a0de48d8b6671e4465",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 12638,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:04.089Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5745f996893f9f8b6786",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 6492,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:14.708Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-435ee52883f71bebba5f",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1451,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:16.407Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-64673da7cd7b4f8b0c42",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 24618,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:16.737Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-65e368a93707e3a94e26",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27377,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:16.966Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-9d7016abd5a263655c3c",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 12573,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:17.869Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b6b69d19b3552462d986",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 28925,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:21.212Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8a84304ddcc5164638b5",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29235,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:30.457Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d99e5dd5119de942821b",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 12878,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:41.366Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b212b73c12a9c7ca8fc3",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13629,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:44.357Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-2dc9fb13a64c29bc5b17",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 9794,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:50.154Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d3e642d12b04625ec216",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-subi-reef-20150605/Subi_Reef_20150605_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3269,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:54.259Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5d59c3abddf4f190313b",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1201,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:57.543Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-cbb1fc0a7e8088446f3e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 29955,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:57.996Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b40232e2f11518265e7c",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 28981,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:58.760Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-28a8df23f7efbd8b10af",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 4293,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:59.710Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-bcc5c67932d743e1e2c0",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 29766,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:49:59.962Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-9b464f3d4f9a788821dc",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29403,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:04.024Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5fed59b24c5ac0a72c4a",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 4249,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:27.753Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-789cd08c5dc35be076c8",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20791,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:27.969Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8daee4a9adbf6925ed70",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 21748,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:29.746Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-ddb48781a098e7955af0",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140111/West_Reef_20140111_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3218,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:32.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-53eb1ade22fcfda8f127",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1426,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:33.441Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-14a1be684dd5ef178db4",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29464,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:34.878Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-da7541c89d19d07d6507",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 27201,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:35.242Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-72532765b3e356da68c6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8037,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:48.774Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-f3a8f3163d295353aea0",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 29207,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:51.508Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-a03265f90bfb61ab3aef",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 29459,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:50:56.821Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-9ad7948a4b03eea0208c",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 9347,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:02.454Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-d38fe8ca9200c7224805",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 8024,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:04.356Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-164a2d68836005e770ba",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 10367,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:11.813Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5ae6a138bffaae9c372e",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140301/West_Reef_20140301_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 4002,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:12.395Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-145ce042948e95798945",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1120,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:16.410Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-728eb2ddb4f3a417f737",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 29674,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:17.543Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-8e6649a4064290b93d7d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 26630,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:20.729Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-a85831bcfa0c969c7cf1",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 5486,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:22.194Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-28db565fd30e5b59f6c6",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 30224,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:26.294Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-0d9cc77a16c7e105ab6f",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 30256,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:27.693Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-9ba76a074c48242043c2",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 7604,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:47.228Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-e6a7956d07a5c4b6d5d1",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R3C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 13671,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:47.377Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-778fa991b7d41ef0cc71",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R3C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 18018,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:54.846Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-44f0fa2a0bbe8b21fa75",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20140430/West_Reef_20140430_R3C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5003,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:56.530Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-597062c790242ef9bda4",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_BROWSE.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1152,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:57.961Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-6b54515c3437e54be6c8",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 29207,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:51:59.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-5844e6b709d6dbd55b3d",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 30196,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:52:01.063Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-51dcb89dc28fac2c81c9",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3207,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:52:01.546Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-807116f4e4cdff24ce14",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_R2C1.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22585,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:52:04.764Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b4349bfd3572d71d2226",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_R2C2.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 21052,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:52:12.878Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-c269e9f6c1c8c368e6e2",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-dg-spratly-west-reef-20150417/West_Reef_20150417_R2C3.tif",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2671,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:52:27.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-4b1f8bbe728d9c589e16",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        },
+        {
+          "title": "TE-C20 REQ-SNS-06 map geolocation field-phr-dimap/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2952,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:52:28.347Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6ef4d7d6340c85d0f3bd-b06fd9c2fca357282c85",
+          "file": "c20-accuracy.spec.js",
+          "line": 46,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T03:42:13.555Z",
+    "duration": 620533.35,
+    "expected": 149,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

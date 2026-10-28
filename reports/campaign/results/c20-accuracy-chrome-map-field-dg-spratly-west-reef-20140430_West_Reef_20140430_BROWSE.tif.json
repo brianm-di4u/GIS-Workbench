@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "chrome",
+ "when": "2026-10-28T03:51:17.524Z",
+ "key": "map-field-dg-spratly-west-reef-20140430/West_Reef_20140430_BROWSE.tif",
+ "kind": "map",
+ "model": "Map (EPSG:4326)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 1.5812298140467331,
+ "gsd": 15.81229814046733,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

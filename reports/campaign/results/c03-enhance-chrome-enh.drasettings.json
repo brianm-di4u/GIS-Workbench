@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:29:29.017Z",
+ "when": "2026-10-28T03:56:08.371Z",
  "key": "enh.drasettings",
  "id": "enh.drasettings",
  "enabled": true,

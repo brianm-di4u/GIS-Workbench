@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "chrome",
+ "when": "2026-10-28T03:47:02.602Z",
+ "key": "map-field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R1C1.tif",
+ "kind": "map",
+ "model": "Map (EPSG:4326)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 0.05,
+ "gsd": 0.49181856551247044,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

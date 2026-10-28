@@ -8,9 +8,8 @@
       "playwright.campaign.config.js",
       "c43-field-workflows",
       "-g",
-      "W1|W4",
-      "--project=chrome",
-      "--workers=2"
+      "W3",
+      "--project=chrome"
     ],
     "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
     "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
@@ -24,7 +23,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 2
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "projects": [
@@ -33,7 +32,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chrome",
         "name": "chrome",
@@ -49,7 +48,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "edge",
         "name": "edge",
@@ -65,7 +64,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "firefox",
         "name": "firefox",
@@ -85,7 +84,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "name": "chrome",
         "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
@@ -134,7 +133,7 @@
     "updateSnapshots": "default",
     "updateSourceMethod": "patch",
     "version": "1.64.1",
-    "workers": 2,
+    "workers": 4,
     "webServer": null
   },
   "suites": [
@@ -145,7 +144,7 @@
       "line": 0,
       "specs": [
         {
-          "title": "TE-C43 IMP-25 SCN-11 REQ-IMG-30 W1 Millerovo January pair: whole-scene change screening at reduced resolution, then an AOI at full resolution",
+          "title": "TE-C43 REQ-FMT-04 REQ-IMG-03 PRF-03 W3 Panama 3×4 JPEG tile set: every tile displays, tiles meet without seams, the union matches GDAL",
           "ok": true,
           "tags": [],
           "tests": [
@@ -160,12 +159,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 110286,
+                  "duration": 84519,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T03:23:35.773Z",
+                  "startTime": "2026-10-28T03:55:30.630Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -173,43 +172,9 @@
               "status": "expected"
             }
           ],
-          "id": "4c200f7d2e9b1a0f7e57-4ded4414c2b91ba49fd9",
+          "id": "4c200f7d2e9b1a0f7e57-a6c35671c4e2235e25ba",
           "file": "c43-field-workflows.spec.js",
-          "line": 25,
-          "column": 1
-        },
-        {
-          "title": "TE-C43 IMP-21 IMP-22 REQ-FMT-20 REQ-FMT-21 W4 the Pléiades DIMAP volume opens from its delivery ZIP in product colours with sun and time",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 1200000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chrome",
-              "projectName": "chrome",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 9196,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-28T03:23:35.757Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "4c200f7d2e9b1a0f7e57-51ce9d2f6eb8cbf17d5b",
-          "file": "c43-field-workflows.spec.js",
-          "line": 114,
+          "line": 84,
           "column": 1
         }
       ]
@@ -217,9 +182,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-28T03:23:34.904Z",
-    "duration": 111854.47399999999,
-    "expected": 2,
+    "startTime": "2026-10-28T03:55:29.894Z",
+    "duration": 85924.106,
+    "expected": 1,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

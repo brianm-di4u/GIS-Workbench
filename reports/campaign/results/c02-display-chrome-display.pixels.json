@@ -1,7 +1,7 @@
 {
  "spec": "c02-display",
  "project": "chrome",
- "when": "2026-10-28T03:27:25.733Z",
+ "when": "2026-10-28T03:54:55.471Z",
  "key": "display.pixels",
  "id": "display.pixels",
  "enabled": true,

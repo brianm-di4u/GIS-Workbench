@@ -3,6 +3,7 @@
 // IMP-22 DIMAP metadata, TE-061 MrSID refused by name.
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { openApp, openFiles } from './helpers.js';
 
@@ -61,12 +62,16 @@ test('IMP-21 IMP-22 REQ-FMT-20 REQ-FMT-21 a deflated DIMAP volume opens from its
   expect(logs).toEqual([]);
 });
 
-test('IMP-21 REQ-FMT-20 REQ-UI-14 opening an imagery ZIP asks which files to open; Cancel opens nothing', async ({ page }) => {
+test('IMP-21 REQ-FMT-20 REQ-UI-14 REQ-UI-16 opening an imagery ZIP asks which files to open (accessible picker); Cancel opens nothing', async ({ page }) => {
   const { frame } = await openApp(page, 'file');
   const done = openFiles(frame, [F('te060_delivery.zip')]);
   const dlg = frame.locator('[data-id="dialog:zip-open"]');
   await expect(dlg).toBeVisible({ timeout: 30000 });
   await expect(dlg.locator('input[type=checkbox]:checked')).not.toHaveCount(0);
+  // WCAG 2.2 AA on the picker (axe-core), as for the other dialogs (pages.spec.js).
+  await frame.evaluate(readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8'));
+  const v = await frame.evaluate(async () => (await window.axe.run(document.querySelector('[data-id="dialog:zip-open"]'), { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] } })).violations.map((x) => `${x.id}: ${x.nodes.map((n) => n.target.join(' ')).join(', ')}`));
+  expect(v, 'axe violations in the ZIP picker').toEqual([]);
   await dlg.getByRole('button', { name: 'Cancel' }).click();
   await done;
   expect(await layers(frame)).toEqual([]);

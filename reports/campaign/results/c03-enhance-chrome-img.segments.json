@@ -1,21 +1,19 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-27T15:33:36.937Z",
+ "when": "2026-10-28T03:55:27.983Z",
  "key": "img.segments",
  "id": "img.segments",
- "enabled": true,
- "outcome": "dialog",
- "dialogs": [
-  "Segments — wv3_a_chip.ntf"
- ],
+ "enabled": false,
+ "outcome": "disabled",
+ "dialogs": [],
  "toasts": [],
  "errors": [],
  "changed": [],
  "downloads": [],
  "prepared": [],
  "data": [
-  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+  "field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C1.tif"
  ],
  "openErrors": [],
  "requests": [],

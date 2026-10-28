@@ -1,7 +1,7 @@
 {
  "spec": "c43-field-workflows",
  "project": "chrome",
- "when": "2026-10-28T03:22:32.060Z",
+ "when": "2026-10-28T03:52:46.466Z",
  "key": "w5-intermap-sar",
  "model": "GCPs (4, GeoTIFF)",
  "gcps": 4,

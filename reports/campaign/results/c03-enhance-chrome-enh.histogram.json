@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:30:48.229Z",
+ "when": "2026-10-28T03:57:10.772Z",
  "key": "enh.histogram",
  "id": "enh.histogram",
  "enabled": true,

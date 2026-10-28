@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:29:25.902Z",
+ "when": "2026-10-28T03:56:33.385Z",
  "key": "enh.invert",
  "id": "enh.invert",
  "enabled": true,

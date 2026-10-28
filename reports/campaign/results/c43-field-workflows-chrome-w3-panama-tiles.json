@@ -1,10 +1,10 @@
 {
  "spec": "c43-field-workflows",
  "project": "chrome",
- "when": "2026-10-28T03:24:11.176Z",
+ "when": "2026-10-28T03:56:55.460Z",
  "key": "w3-panama-tiles",
  "settled": true,
- "msDisplay": 163314,
+ "msDisplay": 82858,
  "layers": [
   {
    "name": "Panama_01_R1C1.tif",
@@ -67,7 +67,8 @@
    "ready": true
   }
  ],
- "mosaicSources": 0,
- "extentErrorPx": 0,
- "run": []
+ "seams": 17,
+ "seamPx": 1.4713741336436215e-9,
+ "vmosaicEnabled": false,
+ "extentErrorPx": 0
 }

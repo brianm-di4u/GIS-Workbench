@@ -5,8 +5,8 @@
 //    resolution (both winter dates: a snow/no-snow pair inverts the radiometry by nature);
 //  • W2 Spratly West Reef 2014 → 2015 (DigitalGlobe browse images, different grids): island building
 //    is found, with the seamline shapefile overlaid;
-//  • W3 Panama 3×4 JPEG tile set: all twelve tiles open and display, the virtual mosaic covers the
-//    union of their GDAL extents;
+//  • W3 Panama 3×4 JPEG tile set: all twelve tiles open and display, adjacent tiles meet edge to edge
+//    and their union matches the GDAL extents (the RPC virtual mosaic does not apply);
 //  • W4 the Pléiades DIMAP volume as delivered (ZIP): 4-band 16-bit image in product RGB order with
 //    the DIMAP sun and time (IMP-21, IMP-22);
 //  • W5 Intermap HH/VH/VV: GCP georeferencing at the file's own tie points, Layer Stack of the three
@@ -81,7 +81,7 @@ test('TE-C43 SCN-11 REQ-IMG-30 W2 Spratly West Reef 2014-01-11 → 2015-04-17: i
   expect(logs).toEqual([]);
 });
 
-test('TE-C43 REQ-FMT-04 REQ-IMG-03 PRF-03 W3 Panama 3×4 JPEG tile set: every tile displays and the virtual mosaic covers their union', async ({ page }, info) => {
+test('TE-C43 REQ-FMT-04 REQ-IMG-03 PRF-03 W3 Panama 3×4 JPEG tile set: every tile displays, tiles meet without seams, the union matches GDAL', async ({ page }, info) => {
   const it = item('field-dg-panama');
   const files = paths(it, ['primary']);
   const T = truth(it.id);
@@ -92,21 +92,46 @@ test('TE-C43 REQ-FMT-04 REQ-IMG-03 PRF-03 W3 Panama 3×4 JPEG tile set: every ti
   const settled = await settledAny(frame, 0, 900_000);
   const msDisplay = Date.now() - t0;
   const ls = await frame.evaluate(() => [...window.gisworkbench.layers.values()].map((l) => ({ name: l.rec.name, error: l.error ?? null, ready: !!l.lutTex })));
-  const run = await runCommand(page, frame, 'img.vmosaic', { logs, wait: 300_000 });
+  // Each tile's corner, located in its neighbour: the seams must fall where GDAL puts them.
+  const seams = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const ls = [...app.layers.values()];
+    const at = (r, c) => ls.find((l) => new RegExp(`_R${r}C${c}\\.tif$`, 'i').test(l.rec.name));
+    const out = [];
+    for (let r = 1; r <= 3; r++)
+      for (let c = 1; c <= 4; c++) {
+        const a = at(r, c);
+        for (const [b, edge] of [[at(r, c + 1), 'E'], [at(r + 1, c), 'S']]) {
+          if (!a || !b) continue;
+          const p = edge === 'E' ? a.groundAt(a.width, 0) : a.groundAt(0, a.height);
+          const q = b.imageAt(p.lat, p.lon, 0);
+          out.push({ a: a.rec.name, b: b.rec.name, edge, x: q.x, y: q.y });
+        }
+      }
+    return { seams: out, vmosaicEnabled: app.commands.enabled('img.vmosaic') };
+  });
   const ext = await frame.evaluate(() => {
     const ls = [...window.gisworkbench.layers.values()];
     const pts = ls.flatMap((l) => [[0, 0], [l.width, l.height]].map(([x, y]) => l.groundAt(x, y)));
-    return { lat: [Math.min(...pts.map((p) => p.lat)), Math.max(...pts.map((p) => p.lat))], lon: [Math.min(...pts.map((p) => p.lon)), Math.max(...pts.map((p) => p.lon))], mosaic: window.gisworkbench.activePane()?.ootf?.sources?.length ?? 0 };
+    return { lat: [Math.min(...pts.map((p) => p.lat)), Math.max(...pts.map((p) => p.lat))], lon: [Math.min(...pts.map((p) => p.lon)), Math.max(...pts.map((p) => p.lon))] };
   });
   const gd = Object.values(T.files).map((f) => f.corners);
   const ref = { lat: [Math.min(...gd.map((k) => k.ll[0])), Math.max(...gd.map((k) => k.ul[0]))], lon: [Math.min(...gd.map((k) => k.ul[1])), Math.max(...gd.map((k) => k.ur[1]))] };
   const px = Math.abs(Object.values(T.files)[0].geotransform[1]);
   const err = Math.max(...['lat', 'lon'].flatMap((k) => [0, 1].map((i) => Math.abs(ext[k][i] - ref[k][i])))) / px;
-  record(SPEC, info.project.name, { key: 'w3-panama-tiles', settled, msDisplay, layers: ls, mosaicSources: ext.mosaic, extentErrorPx: err, run: run.errors });
+  // Where GDAL puts tile a's corner in tile b, from their geotransforms.
+  const seamPx = Math.max(...seams.seams.map((q) => {
+    const A = T.files[q.a];
+    const B = T.files[q.b];
+    const [gx, gy] = q.edge === 'E' ? [A.geotransform[0] + A.width * A.geotransform[1], A.geotransform[3]] : [A.geotransform[0], A.geotransform[3] + A.height * A.geotransform[5]];
+    return Math.hypot(q.x - (gx - B.geotransform[0]) / B.geotransform[1], q.y - (gy - B.geotransform[3]) / B.geotransform[5]);
+  }));
+  record(SPEC, info.project.name, { key: 'w3-panama-tiles', settled, msDisplay, layers: ls, seams: seams.seams.length, seamPx, vmosaicEnabled: seams.vmosaicEnabled, extentErrorPx: err });
   expect(ls.filter((l) => l.error), 'tiles that failed').toEqual([]);
   expect(settled, 'all 12 tiles displayed').toBe(true);
-  expect(run.errors).toEqual([]);
-  expect(ext.mosaic, 'virtual mosaic sources').toBe(12);
+  expect(seams.vmosaicEnabled, 'the RPC virtual mosaic does not apply to map-projected tiles').toBe(false);
+  expect(seams.seams.length, 'adjacent tile pairs').toBe(17);
+  expect(seamPx, 'tile-to-tile placement vs GDAL geotransforms (pixels)').toBeLessThanOrEqual(0.5);
   expect(err, 'union extent vs GDAL corners (pixels)').toBeLessThanOrEqual(0.5);
   expect(logs).toEqual([]);
 });
