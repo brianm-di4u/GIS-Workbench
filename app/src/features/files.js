@@ -174,6 +174,8 @@ export async function install(app) {
         if (L0 && !g.file.remote && L0.width * L0.height > 4e6 && !/COG/.test(fmt) && app.convertToCog) {
           app.toast(`${g.file.name} is not cloud-optimized: a COG copy pans faster and can be streamed from a server.`, { action: { label: 'Make COG copy', run: () => app.convertToCog(L0.id).then((m) => app.toast(m)).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 })) } });
         }
+        // A single-band elevation raster (a GeoTIFF DEM): offer it as terrain (GUI-056).
+        if (L0 && app.elevationLike?.(L0)) app.toast(`${g.file.name} looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.`, { action: { label: 'Use as terrain', run: () => app.terrainDialog(L0) } });
       } catch (e) {
         app.log('warn', `${g.file.name}: ${e.message}`); // a user-facing outcome, shown as a toast
         app.toast(`${g.file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
@@ -254,7 +256,7 @@ export async function install(app) {
       return app.toast(`${file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
     }
     for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
-    for (const l of app.layers.values()) l.dispose();
+    for (const l of app.layers.all()) l.dispose();
     app.layers.clear();
     app.files.clear();
     app.store.load(parsed.records);

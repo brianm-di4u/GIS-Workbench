@@ -483,7 +483,7 @@ export function install(app) {
       if (!(x >= 0 && y >= 0 && x < w && y < hh)) continue;
       inside++;
       for (let a = 0; a < 3; a++) {
-        const b = nb === 1 ? 0 : a;
+        const b = Math.min(a, nb - 1); // a two-band image has no third band (GUI-043)
         const v = (bands[b][y * w + x] - lo(b)) / Math.max(1e-6, hi(b) - lo(b));
         rgb[3 * k + a] = Math.round(65535 * Math.max(0, Math.min(1, v)));
       }
@@ -524,6 +524,8 @@ export function install(app) {
       const url = h('input', { class: 'inp', type: 'url', placeholder: 'https://…/cloud.copc.laz  or  https://…/ept.json', 'aria-label': 'Point cloud URL' });
       if ((await modal({ title: 'Stream Point Cloud', body: h('div', {}, field('COPC or EPT URL', url), h('p', { class: 'hint' }, 'The origin must be in this file’s network allow-list. COPC needs HTTP Range support (and Content-Range exposed to CORS).')), id: 'pc-stream' })) !== 'OK') return;
       const u = url.value.trim();
+      // A missing or partial address is a step to take, not a failure (GUI-053).
+      if (!/^https?:\/\/[^\s/]+/i.test(u)) return app.toast('Stream Point Cloud: enter a COPC or EPT address (https://…) first', { kind: 'warn' });
       try {
         await (/ept\.json(\?|$)/i.test(u) ? streamEpt(u) : streamCopc(u));
       } catch (e) {

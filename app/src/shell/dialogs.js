@@ -14,7 +14,7 @@ export function setToolHost(fn) {
 
 export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, onHelp, onReset, onApply, marking, modeless = false, id } = {}) {
   if (modeless && toolHost) {
-    const hosted = toolHost({ title: marking ? `${title} - ${marking}` : title, body, buttons, id, onApply, onHelp, onReset });
+    const hosted = toolHost({ title: marking ? `${title} - ${marking}` : title, body, buttons, id, onApply, onHelp, onReset, width });
     if (hosted) return hosted;
   }
   return new Promise((resolve) => {

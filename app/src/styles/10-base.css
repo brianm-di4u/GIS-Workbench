@@ -18,7 +18,7 @@ button { cursor: pointer; }
 .small { font-size: var(--fs-sm); }
 .hint { font-size: var(--fs-sm); color: inherit; margin: 4px 0; }
 .warn { color: #8a5a00; }
-[data-theme="dark"] .warn { color: #e0b050; }
+[data-theme="dark"] .warn, [data-theme="m3-dark"] .warn { color: #e0b050; }
 .err { color: #b00020; }
 [data-theme="dark"] .err { color: #ff7a7a; }
 
@@ -37,10 +37,13 @@ button { cursor: pointer; }
 .ico-wrap { display: inline-flex; line-height: 0; }
 .ico { display: block; }
 
-.btn { background: var(--c-button-face); color: #000; border: 1px solid #8a8a8a; border-radius: 2px; min-height: var(--s-buttonHeight); padding: 2px 12px; }
+.btn { background: var(--c-button-face); color: var(--c-content-text); border: 1px solid #8a8a8a; border-radius: 2px; min-height: var(--s-buttonHeight); padding: 2px 12px; }
 .btn:hover { background: var(--c-ribbon-buttonHot); }
 .btn:active { background: var(--c-ribbon-buttonPressed); }
 .btn-primary { border-color: #3a3a3a; font-weight: 600; }
+/* A greyed-out button looks it, in every theme and layout (GUI-048). */
+.btn:disabled { opacity: .45; cursor: default; }
+.btn:disabled:hover, .btn:disabled:active { background: var(--c-button-face); }
 .btn-small { min-height: 20px; padding: 1px 8px; font-size: var(--fs-sm); }
 .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
 .inp { background: var(--c-content-bg); color: var(--c-content-text); border: 1px solid #8a8a8a; min-height: var(--s-inputHeight); padding: 1px 4px; width: 100%; }

@@ -575,8 +575,9 @@ export function install(app) {
       const pts = points();
       const kindSel = h('select', { class: 'inp', 'aria-label': 'Bias model', 'data-id': 'tri:kind' }, ...Object.entries(KIND_NAMES).map(([k, n]) => h('option', { value: k, selected: k === (app.prefs.get('triKind') ?? 'shift') }, n)));
       kindSel.addEventListener('change', () => app.prefs.set('triKind', kindSel.value));
-      const btn = (label, id, fn) => {
-        const b = h('button', { class: 'btn btn-small', 'data-id': id }, label);
+      // A step that cannot run yet is greyed out and says why (GUI-032).
+      const btn = (label, id, fn, why = null) => {
+        const b = h('button', { class: 'btn btn-small', 'data-id': id, disabled: !!why, title: why ?? undefined }, label);
         b.addEventListener('click', async () => {
           b.disabled = true;
           try {
@@ -620,16 +621,16 @@ export function install(app) {
         }), btn('Automatic Tie Points', 'tri:auto', async () => {
           const r = await autoTiePoints();
           toast(`${r.points} tie point(s) over ${r.pairs} pair(s)`);
-        }), btn('New Tie Point', 'tri:new', () => {
+        }, ls.length < 2 ? 'Open two or more images with RPC models first' : null), btn('New Tie Point', 'tri:new', () => {
           S.transact('New tie point', (tx) => (activePoint = tx.create('tripoint', { name: `TP${String(pts.filter((p) => p.kind === 'tie').length + 1).padStart(3, '0')}`, kind: 'tie', known: null, sigmaH: 0, sigmaV: 0, obs: {} })));
           app.tools.select('tri.measure');
         })), ptTbl),
         section('Solve', field('Bias model', kindSel), h('div', { class: 'row' }, btn('Solve', 'tri:solve', async () => {
           lastReport = await solve({ kind: kindSel.value, fixed: ls.filter((l) => l.rec?.blockFixed).map((l) => l.id), exclude: excluded });
-        }), btn('Apply', 'tri:apply', async () => {
+        }, !ls.length || !pts.length ? 'Open images with RPC models and add block points first' : null), btn('Apply', 'tri:apply', async () => {
           if (!lastReport) throw new Error('solve the block first');
           toast(`Solution ${applySolution(lastReport)} applied: the images now use their triangulated models`);
-        }), btn('Remove Solution', 'tri:remove', async () => removeSolution())), report),
+        }, lastReport ? null : 'Solve the block first'), btn('Remove Solution', 'tri:remove', async () => removeSolution(), ls.some((l) => l.rec?.triangulation) ? null : 'No triangulated solution is applied')), report),
       );
     };
     render();

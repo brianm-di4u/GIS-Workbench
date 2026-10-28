@@ -118,7 +118,7 @@ export function install(app) {
   async function allowListDialog(preset = []) {
     const cur = cspConnectSources().filter((s) => s !== 'blob:');
     const proj = [...(app.project()?.origins ?? []), ...(Array.isArray(preset) ? preset : [])];
-    const inp = h('input', { class: 'inp', placeholder: 'https://api.anthropic.com', spellcheck: 'false' });
+    const inp = h('input', { class: 'inp', placeholder: 'https://api.anthropic.com', spellcheck: 'false', 'aria-label': 'Origin to allow' });
     const listEl = h('ul');
     const pending = new Set([...cur, ...proj]);
     const render = () => {
@@ -168,8 +168,8 @@ export function install(app) {
 
   async function promptHelper() {
     const task = h('textarea', { class: 'inp', rows: '2', spellcheck: 'true' }, 'Suggest graphics marking the main features in view, and one or two draft observations.');
-    const out = h('textarea', { class: 'inp mono', rows: '10', readOnly: true });
-    const reply = h('textarea', { class: 'inp mono', rows: '8', placeholder: 'Paste the JSON reply here', spellcheck: 'false' });
+    const out = h('textarea', { class: 'inp mono', rows: '10', readOnly: true, 'aria-label': 'Prompt' });
+    const reply = h('textarea', { class: 'inp mono', rows: '8', placeholder: 'Paste the JSON reply here', spellcheck: 'false', 'aria-label': 'Reply' });
     const status = h('div', { class: 'hint', 'aria-live': 'polite' });
     const ctx = async () => ({ view: (await reg.call('gw_get_view', {})).content, layers: JSON.parse((await reg.call('gw_list_layers', {})).content), mensuration: JSON.parse((await reg.call('gw_read_mensuration_log', {})).content).slice(0, 30) });
     const build = h('button', { class: 'btn' }, 'Build prompt');
@@ -228,7 +228,14 @@ export function install(app) {
     const renderTranscript = () => {
       clear(transcript);
       const c = active();
-      status.textContent = c ? `Connection: ${c.name} · ${c.model}${c.provider !== 'mock' && !keys.has(c.id) ? ' · no key set' : ''}${c.provider !== 'mock' && !cspAllows(`${c.baseURL || DEFAULT_BASE_URL}/v1/messages`) ? ' · origin not in the allow-list' : ''}` : 'No assistant connected: requests run on the local AI tools (“detect aircraft in view”, “search for an unpaved runway”, “auto contrast”). Add a connection under Add-Ins ▸ AI Setup ▸ Connections.';
+      status.textContent = c ? `Connection: ${c.name} · ${c.model}${c.provider !== 'mock' && !keys.has(c.id) ? ' · no key set' : ''}${c.provider !== 'mock' && !cspAllows(`${c.baseURL || DEFAULT_BASE_URL}/v1/messages`) ? ' · origin not in the allow-list' : ''}` : 'No assistant connected: requests run on the local AI tools (“detect aircraft in view”, “search for an unpaved runway”, “auto contrast”). ';
+      // The way to add one, as a button: its menu path differs between the layouts (GUI-038).
+      if (!c && app.network?.airgap) status.append('The air-gapped file cannot reach a remote assistant.');
+      else if (!c) {
+        const setup = h('button', { class: 'btn btn-small', type: 'button', 'data-id': 'ai:setup' }, 'Add a connection…');
+        setup.addEventListener('click', () => app.commands.run('ai.connections'));
+        status.appendChild(setup);
+      }
       for (const t of asst.transcript) {
         const msg = h('div', { class: `ai-msg ai-${t.who}` }, t.text);
         if (t.provenance) msg.appendChild(h('div', { class: 'ai-prov' }, `AI-drafted · ${t.provenance.model} · ${t.provenance.time.slice(11, 19)}`));

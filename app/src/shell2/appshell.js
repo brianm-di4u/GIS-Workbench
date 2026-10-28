@@ -17,7 +17,7 @@ const RAIL = [
   { id: 'tools', label: 'Tools', icon: 'toolbox', cmd: 'dock.toolbox', open: (app) => !!app.activeMp()?.docks.isOpen('toolbox') },
   { id: 'measure', label: 'Measure', icon: 'ruler', cmd: 'men.log', open: (app) => !!app.activeMp()?.docks.isOpen('menlog') },
   { id: 'ai', label: 'AI', icon: 'ai', cmd: 'ai.assistant', open: (app) => !!app.activeMp()?.docks.isOpen('ai') },
-  { id: 'recipes', label: 'Recipes', icon: 'list', cmd: 'rcp.open', open: (app) => !!app.activeMp()?.docks.isOpen('recipes') },
+  { id: 'recipes', label: 'Recipes', icon: 'template', cmd: 'rcp.open', open: (app) => !!app.activeMp()?.docks.isOpen('recipes') },
   { id: 'convert', label: 'Convert', icon: 'save', cmd: 'cnv.open', open: (app) => !!app.activeMp()?.docks.isOpen('convert') },
   {
     id: 'products',

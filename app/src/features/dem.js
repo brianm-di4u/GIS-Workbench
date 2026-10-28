@@ -134,6 +134,12 @@ export function install(app) {
     return grid;
   };
 
+  // Use as Terrain as a command, so the palette, the Ribbon and the open suggestion reach it; the
+  // Layer Manager row menu was its only way in (GUI-056).
+  const elevationLike = (l) => !!l && l.kind !== 'dem' && l.bands === 1 && ['f32', 'f64', 'i16', 'i32'].includes(l.sampleType) && !!l.modelId && !l.rec?.terrain;
+  app.elevationLike = elevationLike;
+  C.implement('dem.useterrain', { enabled: () => elevationLike(app.activeLayer?.()), run: () => app.terrainDialog(app.activeLayer()) });
+
   app.terrainDialog = async (l) => {
     const sel = h('select', { class: 'inp' }, [['egm96', 'Orthometric, EGM96 (SRTM, DTED, most global DEMs)'], ['egm2008', 'Orthometric, EGM2008 (Copernicus DEM; converted with EGM96)'], ['hae', 'Ellipsoidal (HAE, WGS 84)'], ['navd88', 'NAVD88 (not converted)']].map(([v, t]) => h('option', { value: v }, t)));
     sel.value = guessVertical(l);

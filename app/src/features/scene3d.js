@@ -102,7 +102,7 @@ export function install(app) {
     const data = new Uint8Array(W * H * 4);
     const st = l.stats ?? [];
     for (let c = 0; c < 3; c++) {
-      const bi = nb === 1 ? 0 : c;
+      const bi = Math.min(c, nb - 1); // one or two bands: the last one fills the remaining channels (GUI-043)
       const src = r.planes[bi];
       const lo = st[bands[bi]]?.p2 ?? st[bands[bi]]?.min ?? 0;
       const hi = st[bands[bi]]?.p98 ?? st[bands[bi]]?.max ?? 255;
@@ -422,6 +422,6 @@ export function install(app) {
 // A named message for an empty or malformed service URL, instead of the URL constructor's (TE-037).
 function httpUrl(v, what) {
   const u = String(v ?? '').trim();
-  if (!/^https?:\/\/[^\s/]+/i.test(u)) throw new Error(`enter the ${what} URL (http:// or https://)`);
+  if (!/^https?:\/\/[^\s/]+/i.test(u)) throw new Error(`enter the ${what} URL (http:// or https://) first`); // a warning, not an error (GUI-053)
   return u;
 }

@@ -221,8 +221,9 @@ export function install(app) {
       };
       return h('tr', { class: `det-${d.status}${d.id === opts.current ? ' current' : ''}`, 'data-det': String(d.n) }, h('td', {}, String(d.n)), h('td', {}, d.cls), h('td', {}, Number.isFinite(d.confidence) ? d.confidence.toFixed(2) : '–'), h('td', {}, d.status), h('td', {}, b('✓', () => setStatus(d.id, 'accepted'), 'accept'), b('✗', () => setStatus(d.id, 'rejected'), 'reject'), b('✎', () => edit(d.id), 'edit'), b('⌖', () => zoomTo(d.id), 'zoom')));
     };
+    dockEl.classList.add('pad'); // GUI-050
     dockEl.replaceChildren(
-      h('div', { class: 'det-head', 'data-id': 'det-summary' }, `${s.total} detections · ${q.length} at ≥ ${opts.minConfidence.toFixed(2)} · ${Object.entries(s.byStatus).map(([k, v]) => `${k} ${v}`).join(' · ')}`),
+      h('div', { class: 'det-head', 'data-id': 'det-summary' }, [`${s.total} detections`, `${q.length} at ≥ ${opts.minConfidence.toFixed(2)}`, ...Object.entries(s.byStatus).map(([k, v]) => `${k} ${v}`)].join(' · ')),
       field(`Minimum confidence (${opts.minConfidence.toFixed(2)})`, slider),
       h('p', { class: 'hint' }, 'Keys: A accept, R reject, E edit, N next (current row).'),
       h('table', { class: 'tbl det-table', 'data-id': 'det-queue' }, h('thead', {}, h('tr', {}, ...['#', 'Class', 'Conf.', 'Status', ''].map((t) => h('th', {}, t)))), h('tbody', {}, ...q.slice(0, 300).map(row))),

@@ -247,7 +247,7 @@ export function install(app) {
     runner.resume();
   });
 
-  app.on('ready', (mp) => mp.docks.register({ id: 'recipes', title: 'Recipe', icon: 'list', home: 'bottom', create: (a, m, el) => {
+  app.on('ready', (mp) => mp.docks.register({ id: 'recipes', title: 'Recipe', icon: 'template', home: 'bottom', create: (a, m, el) => {
     panelEl = el;
     render();
     return { onShow: render };

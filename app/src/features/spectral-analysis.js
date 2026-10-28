@@ -112,7 +112,7 @@ export function install(app) {
 
   async function classify(l, method = 'ml', { threshold = NaN, window = null, signatures = null } = {}) {
     const cls = classesOf(l);
-    if (!signatures && cls.length < 2) throw new Error('classification needs at least two training classes');
+    if (!signatures && cls.length < 2) throw new Error('add at least two training classes first (Find in Scene ▸ Add Region)'); // a precondition, shown as a warning (GUI-044)
     const c = await msi().cube(l, fitWindow(l, window));
     const sets = signatures ? null : cls.map((k) => indicesIn(k.regions, c));
     if (sets?.some((s) => s.length < c.nb + 1) && (method === 'ml' || method === 'mahalanobis')) throw new Error(`${LABEL[method]} needs at least ${c.nb + 1} training pixels per class (better ${10 * c.nb})`);

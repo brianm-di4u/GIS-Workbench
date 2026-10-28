@@ -72,7 +72,8 @@ export function install(app) {
     if (!items.length) return;
     radial.items = items;
     radial.sel = -1;
-    const R = 112;
+    // Ring radius: eight 68 px buttons need about 104 px so that neighbours never overlap (GUI-030).
+    const R = 106;
     const r0 = 34;
     const n = items.length;
     const host = h('div', { class: 'radial', role: 'menu', 'aria-label': 'Radial menu', 'data-id': 'radial', style: { left: `${x}px`, top: `${y}px` } });
@@ -81,7 +82,7 @@ export function install(app) {
     items.forEach((id, i) => {
       const a = (i / n) * Math.PI * 2 - Math.PI / 2;
       const c = C.get(id);
-      const b = h('button', { class: ['radial-item', !C.enabled(id) && 'off'], role: 'menuitem', type: 'button', 'data-id': `radial:${id}`, 'data-tip-cmd': id, style: { left: `calc(50% + ${Math.cos(a) * (R * 0.72)}px)`, top: `calc(50% + ${Math.sin(a) * (R * 0.72)}px)` } }, icon(c.icon, 20), h('span', {}, `${i + 1} ${c.label.replace(/…$/, '')}`));
+      const b = h('button', { class: ['radial-item', !C.enabled(id) && 'off'], role: 'menuitem', type: 'button', 'data-id': `radial:${id}`, 'data-tip-cmd': id, style: { left: `calc(50% + ${Math.cos(a) * R}px)`, top: `calc(50% + ${Math.sin(a) * R}px)` } }, icon(c.icon, 20), h('span', {}, `${i + 1} ${c.label.replace(/…$/, '')}`));
       b.addEventListener('pointerenter', () => mark(i));
       b.addEventListener('click', () => {
         radial.sel = i;
@@ -234,13 +235,14 @@ export function install(app) {
   let pillPane = null;
   const renderPill = () => {
     const p = pane();
-    const show = modern() && app.prefs.get('pill') !== false && p && !p.video && p.layers().length > 0;
-    if (!show) {
+    const show = modern() && app.prefs.get('pill') !== false && p;
+    // Video, point clouds and vectors have their own tools too, not only images (GUI-034).
+    const ids = show ? pillCommands(app, app.ribbonContext(app.activeMp())) : [];
+    if (!ids.length) {
       pill.hidden = true;
       return;
     }
     if (pill.parentNode !== p.el) p.el.appendChild(pill);
-    const ids = pillCommands(app, app.ribbonContext(app.activeMp()));
     const key = `${p.id}|${ids.join(',')}`;
     pill.hidden = !ids.length;
     if (key !== pillIds || pillPane !== p) {

@@ -14,6 +14,42 @@ const PREFS_KEY = 'gisworkbench.prefs.v1';
 const COMMON_KEY = 'gisworkbench.prefs.common.v1';
 
 /**
+ * Open image layers by id. A layer whose record an undo or Remove took out of the store keeps
+ * its runtime here so redo can bring it back, but it is not open: iterating and `size` see only
+ * layers with a record (GUI-028). `get`/`has` still reach every runtime; `all()` lists them all.
+ */
+class LayerMap extends Map {
+  constructor(store) {
+    super();
+    this.store = store;
+  }
+  live() {
+    return [...super.entries()].filter(([id]) => this.store.get(id));
+  }
+  all() {
+    return [...super.values()];
+  }
+  get size() {
+    return this.live().length;
+  }
+  *entries() {
+    yield* this.live();
+  }
+  *keys() {
+    for (const [id] of this.live()) yield id;
+  }
+  *values() {
+    for (const [, l] of this.live()) yield l;
+  }
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+  forEach(fn, self) {
+    for (const [id, l] of this.live()) fn.call(self, l, id, this);
+  }
+}
+
+/**
  * Preferences (REQ-UI-11): User values over Common values (site defaults, which an
  * administrator can import as JSON); a locked Common value wins and the user cannot change it.
  */
@@ -86,7 +122,7 @@ export class App extends Emitter {
     this.store = new Store();
     this.undo = new UndoManager(this.store);
     this.commands = new Commands(this);
-    this.layers = new Map(); // layer id → runtime (ImageLayer)
+    this.layers = new LayerMap(this.store); // layer id → runtime (ImageLayer)
     this.files = new Map(); // fileref id → {file, handle, sidecars, result}
     this.terrain = new Terrain(this);
     this.importLog = [];
@@ -123,7 +159,7 @@ export class App extends Emitter {
   newProject() {
     this.store.load([]);
     this.undo.clear();
-    for (const l of this.layers.values()) l.dispose();
+    for (const l of this.layers.all()) l.dispose();
     this.layers.clear();
     this.files.clear();
     const mpId = newId('mp');

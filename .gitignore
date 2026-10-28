@@ -6,6 +6,7 @@ node_modules/
 dist-te/
 dist-te2/
 dist-gui/
+dist-live/
 
 # Transient test output (summaries and traceability in reports/ are kept)
 test-results/

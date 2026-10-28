@@ -71,6 +71,7 @@ export function install(app) {
         { class: 'about' },
         h('p', {}, h('b', {}, `GIS Workbench ${app.build.version}`), ` · ${edition()} · build ${app.build.id} · ${app.build.date}${app.build.dev ? ' (dev)' : ''}`),
         app.gw.manifest.omitted?.length ? h('p', { class: 'hint' }, 'GIS Workbench Lite leaves out the 3D, video playback, LiDAR and SAR-analysis modules; open the Standard file for them.') : null,
+        app.build.profile === 'airgap' ? h('p', { class: 'hint' }, 'The air-gapped file makes no network requests: online basemaps, cloud catalogues and remote AI are not available.') : null,
         h('p', { class: 'hint' }, NOT_ACCREDITED),
         section(
           'Run mode',
@@ -82,7 +83,7 @@ export function install(app) {
         section(
           'Performance and memory (REQ-PRF-08)',
           h('p', {}, `Boot to ready: ${app.bootMs} ms. Last cursor read-out: ${fmtNum(app.readoutMs, 3)} ms. Frame: ${fmtNum(app.renderer.stats.frameMs, 2)} ms.`),
-          h('p', {}, `GPU textures: ${fmtBytes(app.renderer.gpuBytes)} of ${fmtBytes(app.renderer.gpuBudget)} budget. JS heap: ${mem}. Workers: ${JSON.stringify(app.pool.stats())}.`),
+          h('p', {}, `GPU textures: ${fmtBytes(app.renderer.gpuBytes)} of ${fmtBytes(app.renderer.gpuBudget)} budget. JS heap: ${mem}. Workers: ${((s) => `${s.size}, ${s.running} busy, ${s.queued} queued`)(app.pool.stats())}.`), // GUI-041
           h('p', {}, `WebGL2: ${rm.caps.gl?.renderer ?? 'n/a'} (max texture ${rm.caps.gl?.maxTexture ?? '?'})${app.softwareGl ? ' — software rendering detected, bicubic/Lanczos fall back to bilinear (REQ-IMG-33)' : ''}.`),
         ),
         section('Blocks (build manifest)', h('table', { class: 'grid-table small' }, h('tbody', {}, blocks.map(([n, b]) => h('tr', {}, h('td', {}, n), h('td', {}, b.kind), h('td', {}, b.load), h('td', {}, fmtBytes(b.size)), h('td', { class: 'mono' }, `${b.sha256.slice(0, 16)}…`))))), vb, verify),
@@ -98,7 +99,7 @@ export function install(app) {
     },
   });
 
-  const edition = () => (app.build.profile === 'lite' ? 'Lite edition' : 'Standard edition');
+  const edition = () => ({ lite: 'Lite edition', airgap: 'Air-gapped edition' })[app.build.profile] ?? 'Standard edition'; // GUI-036
   // What's New (GUI-008): the CHANGELOG.md embedded by the build, as headings, lists and paragraphs.
   C.implement('help.whatsnew', {
     run: async () => {

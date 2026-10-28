@@ -266,7 +266,7 @@ export function install(app) {
       const remember = h('input', { type: 'checkbox', 'aria-label': 'Store the token in this browser' });
       const url = h('input', { class: 'inp', placeholder: 'https://host/{z}/{x}/{y}.png', spellcheck: 'false' });
       const att = h('input', { class: 'inp', placeholder: 'Attribution' });
-      const preset = h('select', { class: 'inp' }, h('option', { value: '' }, 'Preset…'), PRESETS.map((p, i) => h('option', { value: String(i) }, p.name)));
+      const preset = h('select', { class: 'inp', 'aria-label': 'Preset' }, h('option', { value: '' }, 'Preset…'), PRESETS.map((p, i) => h('option', { value: String(i) }, p.name)));
       preset.addEventListener('change', () => {
         const p = PRESETS[+preset.value];
         if (!p) return;

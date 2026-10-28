@@ -4,7 +4,7 @@
 
 import { h, clear } from './dom.js';
 import { icon } from './icons.js';
-import { metaOf, CATEGORY_LABEL } from './command-meta.js';
+import { metaOf, needOf, CATEGORY_LABEL } from './command-meta.js';
 
 const MAX = 60;
 
@@ -99,7 +99,7 @@ async function collect(app, q) {
       icon: c.icon,
       key: chords.get(c.id) ?? (c.key ? chordLabel(c.key) : ''),
       enabled,
-      reason: gap ?? (m.need ? m.need : 'not available in the current state'),
+      reason: gap ?? needOf(app, c.id),
       run: () => C.run(c.id),
       score: sc + (enabled ? 2 : 0),
     });

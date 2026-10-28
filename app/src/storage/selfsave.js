@@ -33,11 +33,14 @@ export function templateHtml() {
 export function htmlWithOrigins(origins) {
   if (!template) throw new Error('the file template was not captured at start-up');
   const list = ['blob:', ...origins].join(' ');
+  let found = false;
   const out = template.replace(/(<meta[^>]*id="csp"[^>]*content=")([^"]*)(")/, (m, a, content, c) => {
+    found = /connect-src/.test(content);
     const next = content.replace(/connect-src[^;]*/, `connect-src ${list}`);
     return a + next + c;
   });
-  if (out === template && origins.length) throw new Error('could not find the CSP in the file template');
+  // An unchanged list gives the same file: that is not a missing CSP (GUI-052).
+  if (!found && origins.length) throw new Error('could not find the CSP in the file template');
   // Clear any data-theme/data-runmode attributes the app set on <html> before capture.
   return out.replace(/<html([^>]*?) data-runmode="[^"]*"/, '<html$1');
 }

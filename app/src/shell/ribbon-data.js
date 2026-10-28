@@ -114,6 +114,7 @@ export const CONTEXT_SETS = [
         label: 'Visualize',
         groups: [
           { label: 'Orthorectify', items: [L('img.orthofly')] },
+          { label: 'Terrain', items: [L('dem.useterrain')] },
           { label: 'Mosaic', items: [S('img.vmosaic'), S('img.projection')] },
           { label: 'Display', items: [S('img.voids', { kind: 'toggle' }), S('img.footprint', { kind: 'toggle' }), S('img.segments')] },
         ],

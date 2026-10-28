@@ -589,7 +589,7 @@ export class ImagePane {
       b.style.background = `var(${bannerColorVar(m)})`;
     }
     const l = this.activeLayer();
-    const lbl = this.video ? `Video — ${this.video.clip.name}` : this.view3d ? `3D — ${this.view3d.clouds.map((c) => c.cloud.name).join(', ')}` : l ? `${l.rec?.saved === false ? '*' : ''}${l.rec?.name ?? ''}` : 'No image — File ▸ Open Image, or drop files here';
+    const lbl = this.video ? `Video — ${this.video.clip.name}` : this.view3d ? `3D — ${this.view3d.clouds.map((c) => c.cloud.name).join(', ')}` : l ? `${l.rec?.saved === false ? '*' : ''}${l.rec?.name ?? ''}` : this.app.layoutMode() === 'modern' ? 'No image — Open, drop files here, or press Ctrl+K' : 'No image — File ▸ Open Image, or drop files here'; // GUI-038
     if (this.label.textContent !== lbl) this.label.textContent = lbl;
     this.el.setAttribute('aria-label', `Panel ${this.mp.panes.indexOf(this) + 1}: ${l?.rec?.name ?? 'empty'}, zoom ${this.view.zoom.toFixed(3)}`);
   }

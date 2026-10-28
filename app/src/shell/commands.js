@@ -328,6 +328,7 @@ const CATALOG = [
   ['chg.confirm', 'Confirm Change', 'check', 'SCN-11', 'R1'],
   // Surface Tools
   ['dem.select', 'Select Terrain File', 'terrain', 'REQ-DEM-03', 'R0'],
+  ['dem.useterrain', 'Use as Terrain…', 'terrain', 'REQ-DEM-03', 'R4', '', 'Uses the active single-band elevation image as the terrain: heights, line of sight and the Surface tools work from it.'],
   ['dem.hillshade', 'Hillshade', 'terrain', 'REQ-DEM-10', 'R1'],
   ['dem.slope', 'Slope Map', 'terrain', 'REQ-DEM-10', 'R1'],
   ['dem.aspect', 'Aspect Map', 'terrain', 'REQ-DEM-10', 'R1', '', 'Aspect clockwise from true north: grid north turned by the meridian convergence (gdaldem measures from grid north).'],
@@ -511,7 +512,7 @@ const CATALOG = [
   ['lai.device', 'AI Device…', 'ai', 'REQ-LAI-01', 'R4', '', 'Shows whether the local models run on the graphics card (WebGPU) or the CPU, and which model packs are loaded.'],
   ['align.ai', 'Auto Align (AI)', 'align', 'REQ-LAI-05', 'R4', '', 'Lines up the active image with the reference by matching learned keypoints; works across dates and sensors.'],
   // ---- 2.0 recipes (P6) ----
-  ['rcp.open', 'Recipes', 'list', 'REQ-PIP-02', 'R4', '', 'Shows the recipe stepper: run a workflow step by step, change a step and re-run from there.'],
+  ['rcp.open', 'Recipes', 'template', 'REQ-PIP-02', 'R4', '', 'Shows the recipe stepper: run a workflow step by step, change a step and re-run from there.'],
   ['rcp.import', 'Open Recipe…', 'open', 'REQ-PIP-01', 'R4', '', 'Opens a .gwrecipe.json file and keeps it in your recipe list.'],
   ['rcp.airfield-triage', 'Airfield Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: auto contrast, find aircraft, your review, a chip deck and a GeoJSON of the accepted ones.'],
   ['rcp.damage-triage', 'Damage Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: align the post-event image, find damage, your review, GeoJSON.'],
@@ -531,7 +532,7 @@ const CATALOG = [
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */
 const LITE_NEEDS = [
-  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$|^hub\.usdz$/],
+  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$|^hub\.usdz$|^glb\.toggle$/], // glb.toggle: GUI-046
   ['wasm-sar', /^sar\.(speckle|acd|ccd|pairs|subap|csi|pauli)$/],
 ];
 
