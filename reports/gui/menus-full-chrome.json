@@ -281,10 +281,10 @@
   "tab": "menu:View",
   "id": "Interface Layout",
   "outcome": "clicked",
-  "dialogs": [
-   "Interface Layout"
+  "dialogs": [],
+  "toasts": [
+   "info: Modern layout: clean canvas. Switch back from View ▸ Display or the palette (Ctrl+K).×"
   ],
-  "toasts": [],
   "problems": []
  },
  {

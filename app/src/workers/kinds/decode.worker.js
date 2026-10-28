@@ -62,6 +62,7 @@ function xmlTree(text) {
 }
 
 GW.register('open', async ({ file, name, merge = false, hdr = null }) => {
+  if (file?.remoteId) file = GW.remoteFile(file); // a remote file reads its bytes through the pool
   const kind = detect(await head(file, 16), name || file.name || '');
   // ENVI (REQ-MSI-01): a raw file (no recognised container) opened with its .hdr sidecar.
   if (hdr && kind === 'unknown') {

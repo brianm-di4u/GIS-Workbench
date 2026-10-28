@@ -119,11 +119,10 @@ test('PT-11 REQ-WB-01..11 REQ-WB-15 whiteboard draws, pins, captures, reviews, e
 
 test('PT-12 REQ-AI-01..07 REQ-AI-13 REQ-AI-17 the mock assistant asks consent, runs the tool loop and makes proposals', async ({ page }) => {
   const { frame, logs } = await ready(page);
-  // AI is off by default: no connection, the Send button is disabled.
+  // No assistant connected by default: nothing goes out; Send runs the local tools only (REQ-LAI-09).
   await frame.evaluate(() => window.gisworkbench.commands.run('ai.assistant'));
   const dock = frame.locator('.ai-page').first();
-  await expect(dock.getByRole('button', { name: 'Send' })).toBeDisabled();
-  await expect(dock.locator('.ai-status')).toContainText('AI is off');
+  await expect(dock.locator('.ai-status')).toContainText('No assistant connected');
 
   await frame.evaluate(() => {
     const app = window.gisworkbench;

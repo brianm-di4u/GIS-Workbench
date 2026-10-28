@@ -1213,6 +1213,8 @@ export function install(app) {
     return out;
   }
   app.openVectorFiles = openVectorFiles;
+  app.encodeLayer = (id, fmt) => encodeLayer(id, fmt); // Convert (features/convert.js)
+  app.vectorLayerOut = (id) => layerOut(id);
   /** Split a file list into vector inputs and the rest (images and their sidecars). */
   app.splitVectorFiles = (files) => {
     const hasShp = files.some((f) => /\.shp$/i.test(f.name));

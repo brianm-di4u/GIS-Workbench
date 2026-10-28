@@ -192,6 +192,7 @@ export class Multiport {
         const up = () => {
           s.removeEventListener('pointermove', move);
           s.removeEventListener('pointerup', up);
+          this.docks.saveSizes(); // sizes are kept (REQ-SHL-09)
         };
         s.addEventListener('pointermove', move);
         s.addEventListener('pointerup', up);
@@ -204,7 +205,7 @@ export class Multiport {
     }
     // Hide splitters next to empty docks.
     const sync = () => {
-      for (const s of this.el.querySelectorAll('.splitter')) s.hidden = this.docks.areas[s.dataset.side].el.hidden;
+      for (const s of this.el.querySelectorAll('.splitter')) s.hidden = this.docks.areas[s.dataset.side].el.hidden || this.docks.areas[s.dataset.side].collapsed;
     };
     this.app.on('layout', sync);
     sync();

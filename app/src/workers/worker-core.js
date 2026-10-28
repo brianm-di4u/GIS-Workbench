@@ -55,10 +55,29 @@ function lib(name) {
   return libs.get(name);
 }
 
+// Remote files (connectors/remote.js): byte ranges come from the main thread, which fetches them
+// through the logged, Online-gated and signed path; the worker never fetches on its own.
+const ranges = new Map();
+let nextRid = 1;
+function remoteRange(remoteId, start, end) {
+  return new Promise((resolve, reject) => {
+    const rid = nextRid++;
+    ranges.set(rid, { resolve, reject });
+    postMessage({ type: 'range', rid, remoteId, start, end });
+  });
+}
+function remoteFile(d) {
+  const f = { name: d.name, size: d.size, type: '', remote: true, remoteId: d.remoteId };
+  f.slice = (a = 0, b = d.size) => ({ size: Math.max(0, Math.min(d.size, b) - a), arrayBuffer: () => remoteRange(d.remoteId, a, Math.min(d.size, b)) });
+  f.arrayBuffer = () => remoteRange(d.remoteId, 0, d.size);
+  return f;
+}
+
 const GW = {
   register(op, fn) {
     handlers.set(op, fn);
   },
+  remoteFile,
   bundle,
   ensure,
   lib,
@@ -91,6 +110,14 @@ self.onmessage = async (e) => {
     } catch (err) {
       w.reject(err);
     }
+    return;
+  }
+  if (m.type === 'range-result') {
+    const w = ranges.get(m.rid);
+    ranges.delete(m.rid);
+    if (!w) return;
+    if (m.error) w.reject(new Error(m.error));
+    else w.resolve(m.buf);
     return;
   }
   if (m.type === 'module') {

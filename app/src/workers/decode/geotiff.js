@@ -2,7 +2,25 @@
 // File. Native overviews serve the coarser pyramid levels; geokeys, the GDAL no-data tag,
 // the RPC tag 50844 and GDAL metadata are returned for the sensor model and the metadata panel.
 
-import { fromBlob, addDecoder, getDecoder, BaseDecoder } from 'geotiff';
+import { fromBlob, fromCustomClient, addDecoder, getDecoder, BaseDecoder } from 'geotiff';
+
+/**
+ * A geotiff.js client over a remote file's ranges (REQ-CON-03): the bytes come through the pool
+ * from the main thread (connectors/remote.js), and geotiff.js's block cache keeps the requests
+ * few (64 KiB blocks, so a COG header and its tile index take one or two requests).
+ */
+function remoteClient(file) {
+  return {
+    url: file.name,
+    async request({ headers }) {
+      const m = /bytes=(\d+)-(\d+)/.exec(headers?.Range ?? headers?.range ?? '');
+      const a = m ? Number(m[1]) : 0;
+      const b = m ? Math.min(file.size, Number(m[2]) + 1) : file.size;
+      const buf = await file.slice(a, b).arrayBuffer();
+      return { ok: true, status: 206, getHeader: (n) => (/content-range/i.test(n) ? `bytes ${a}-${a + buf.byteLength - 1}/${file.size}` : /content-type/i.test(n) ? 'image/tiff' : null), getData: async () => buf };
+    },
+  };
+}
 import { ZSTDDecoder } from 'zstddec';
 
 // TE-002: zstddec (geotiff.js's ZSTD and LERC+ZSTD decoder) loads its WebAssembly with
@@ -225,7 +243,7 @@ export async function openGeoTiff(file) {
 
 async function openGeoTiff0(file) {
   await useFastJpeg();
-  const tiff = await fromBlob(file);
+  const tiff = file.remote ? await fromCustomClient(remoteClient(file), { blockSize: 65536, cacheSize: 400 }) : await fromBlob(file);
   const count = await tiff.getImageCount();
   if (count < 1) throw new Error('TIFF has no images');
   const main = await tiff.getImage(0);

@@ -75,7 +75,7 @@ export class WorkerPool extends Emitter {
   }
 
   /**
-   * Run a job. opts: {kind='decode', priority, transfer, timeout, affinity (slot id), onProgress, label}.
+   * Run a job. opts: {kind='decode', priority, transfer, timeout, affinity (slot id), avoid (slot ids), onProgress, label}.
    * Resolves with the result; rejects with an Error that has .cancelled/.timedOut/.trapped flags.
    */
   run(op, args = {}, opts = {}) {
@@ -88,6 +88,7 @@ export class WorkerPool extends Emitter {
       transfer: opts.transfer ?? [],
       timeout: opts.timeout ?? 120000,
       affinity: opts.affinity ?? null,
+      avoid: opts.avoid ?? null,
       onProgress: opts.onProgress,
       label: opts.label ?? op,
       state: 'queued',
@@ -123,9 +124,15 @@ export class WorkerPool extends Emitter {
         continue;
       }
       if (!slot) {
-        slot = slots.reduce((a, b) => (a.busy <= b.busy ? a : b));
+        // `avoid`: slot ids this job must not run on (a second AI runtime needs its own worker).
+        const free = job.avoid?.length ? slots.filter((s) => !job.avoid.includes(s.id)) : slots;
+        slot = free.length ? free.reduce((a, b) => (a.busy <= b.busy ? a : b)) : null;
         const spawning = this._spawning.get(job.kind) ?? 0;
-        if (slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4) && slots.length + spawning < this.size) {
+        if (!slot && slots.length + spawning >= this.size) {
+          this._finish(job, null, new Error(`no free ${job.kind} worker: the pool is full`));
+          continue;
+        }
+        if ((!slot || slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4)) && slots.length + spawning < this.size) {
           // Claim the job before awaiting the new worker: a concurrent pump must not post it too
           // (its buffers would already be transferred), nor start more workers than the pool size.
           job.state = 'dispatching';
@@ -173,11 +180,25 @@ export class WorkerPool extends Emitter {
       );
       return;
     }
+    if (m?.type === 'range') {
+      // A worker reads a remote file's bytes through the main thread (connectors/remote.js).
+      const r = this.remote?.get(m.remoteId);
+      if (!r) return slot.w.postMessage({ type: 'range-result', rid: m.rid, error: 'the remote file is no longer open' });
+      r.read(m.start, m.end).then(
+        (buf) => slot.w.postMessage({ type: 'range-result', rid: m.rid, buf }, [buf]),
+        (e) => slot.w.postMessage({ type: 'range-result', rid: m.rid, error: String(e?.message || e) }),
+      );
+      return;
+    }
     if (!m || !m.id) return;
     const job = this.jobs.get(m.id);
     if (!job) return;
     if (m.type === 'progress') {
       job.progress = m.progress;
+      // Time remaining from the progress rate since the first report (REQ-ING-02).
+      const now = performance.now();
+      if (!job.p0 && m.progress > 0) job.p0 = { t: now, p: m.progress };
+      else if (job.p0 && m.progress > job.p0.p) job.eta = ((now - job.p0.t) * (1 - m.progress)) / (m.progress - job.p0.p);
       job.onProgress?.(m.progress, m.partial);
       this.emit('job', job);
     } else if (m.type === 'result') this._finish(job, m.result);
@@ -198,7 +219,8 @@ export class WorkerPool extends Emitter {
     this.jobs.delete(job.id);
     const i = this.queue.indexOf(job);
     if (i >= 0) this.queue.splice(i, 1);
-    this.history.unshift({ id: job.id, label: job.label, op: job.op, state: job.state, error: job.error, ms: job.ended - (job.started ?? job.created), trapped: error?.trapped });
+    // A failed open keeps its file so the progress dock can retry it (REQ-ING-02).
+    this.history.unshift({ id: job.id, label: job.label, op: job.op, state: job.state, error: job.error, ms: job.ended - (job.started ?? job.created), trapped: error?.trapped, retry: error && job.op === 'open' && !error.cancelled ? job.args?.file ?? null : null });
     if (this.history.length > 200) this.history.length = 200;
     this.emit('job', job);
     if (error) job.reject(error);

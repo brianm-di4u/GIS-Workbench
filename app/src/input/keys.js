@@ -138,6 +138,14 @@ export class Keys {
       return;
     }
     const cmd = this.paneMap[c];
+    if (cmd === 'edit.paste' && c === 'Mod+KeyV' && this.app.findCoordinate) {
+      // Let the browser fire 'paste' so a coordinate on the clipboard can fly the view there
+      // (REQ-SHL-11, features/hud.js); with no paste event or no coordinate, Paste runs as before.
+      e.stopPropagation();
+      clearTimeout(this.pasteT);
+      this.pasteT = setTimeout(() => this.runKey(cmd), 80);
+      return;
+    }
     if (cmd) {
       e.preventDefault();
       e.stopPropagation();

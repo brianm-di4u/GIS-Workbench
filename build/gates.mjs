@@ -63,6 +63,23 @@ export function licenceGate(packages) {
 }
 
 /**
+ * REQ-LAI-08: every pack that carries a model declares SPDX licences for its code and weights,
+ * all of them permissive, and its licence text names no non-commercial, research-only or GPL
+ * terms. `models` = [{pack, spdx: [..], licence}].
+ */
+export const MODEL_LICENCES = new Set(['MIT', 'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC']);
+export function modelLicenceGate(models) {
+  const errors = [];
+  for (const m of models) {
+    if (!m.spdx?.length) errors.push(`REQ-LAI-08: model pack ${m.pack} declares no licence`);
+    for (const l of m.spdx ?? []) if (!MODEL_LICENCES.has(l)) errors.push(`REQ-LAI-08: model pack ${m.pack} is ${l}, which is not a permissive licence`);
+    const bad = /\bnon-commercial\b|\bCC[- ]BY[- ]NC\b|\bA?GPL\b|\bresearch[- ]only\b|Research Licen[cs]e/i.exec(m.licence ?? '');
+    if (bad) errors.push(`REQ-LAI-08: model pack ${m.pack} licence text mentions "${bad[0]}"`);
+  }
+  return errors;
+}
+
+/**
  * REQ-ARC-02: every block in the HTML is listed in the manifest with the same hash, and
  * every manifest entry has a block. `blocks` = [{name, sha256}] as written.
  */

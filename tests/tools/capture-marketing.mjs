@@ -147,6 +147,12 @@ for (const [name, shot] of Object.entries(SHOTS)) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  // 2.0: skip the first-start card; --prefs '{"layout":"classic"}' captures the Classic layout instead.
+  await page.addInitScript((p) => {
+    try {
+      localStorage.setItem('gisworkbench.prefs.v1', JSON.stringify({ welcomeDone: true, ...p }));
+    } catch {}
+  }, JSON.parse(opt('--prefs', '{}')));
   await page.goto(pathToFileURL(resolve(opt('--html', 'dist/gis-workbench.html'))).href);
   await page.waitForFunction(() => document.body?.dataset.ready === '1', null, { timeout: 45_000 });
   const t0 = Date.now();

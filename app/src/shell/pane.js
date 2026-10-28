@@ -245,6 +245,8 @@ export class ImagePane {
       loading += l.tiles.loading;
       if (tiles.length) r.drawImageTiles(l, tiles, view, pw, ph, opts);
     };
+    // An online basemap under georeferenced imagery (REQ-NET-04, features/basemaps.js).
+    this.app.basemapUnder?.(this, r, vp);
     const cmp = this.compareLayers();
     const ps = !cmp && this.app.panSharpenFor?.(this);
     if (ps) {
@@ -334,6 +336,8 @@ export class ImagePane {
       gl.disable(gl.STENCIL_TEST);
     } else if (cmp.mode === 'blend') {
       drawLayer(cmp.top, { opacity: c.alpha ?? 0.5 });
+    } else if (cmp.mode === 'hold') {
+      // Hold F (REQ-SHL-11): only the images underneath while the key is down.
     } else if (cmp.mode === 'flicker') {
       const phase = Math.floor((performance.now() / 1000) * (c.rate ?? 2) * 2) % 2 === 0;
       c.showingTop = phase;
@@ -394,6 +398,7 @@ export class ImagePane {
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
     g.clearRect(0, 0, w, h);
     const l = this.geoLayer();
+    this._drawLoadingFootprints(g);
     // Graphics and measurements in this pane.
     this.app.graphics?.drawPane(this, g, w, h);
     this.app.tools?.drawOverlay(this, g, w, h);
@@ -469,6 +474,30 @@ export class ImagePane {
     const t = `rotate(${deg}deg)`;
     if (svg.style.transform !== t) svg.style.transform = t;
     this.compass.dataset.north = String(deg);
+  }
+
+  /** A layer still loading shows its outline with a moving dash (REQ-ING-01), so it is placed at once. */
+  _drawLoadingFootprints(g) {
+    const loading = this.visibleLayers().filter((l) => !l.stats && l.width && l.height);
+    if (!loading.length) return;
+    const { w, h } = this.size();
+    const off = (performance.now() / 40) % 16;
+    for (const l of loading) {
+      const pts = [[0, 0], [l.width, 0], [l.width, l.height], [0, l.height]].map(([x, y]) => forwardView(this.view, w, h, x, y));
+      g.save();
+      g.setLineDash([8, 8]);
+      g.lineDashOffset = -off;
+      g.lineWidth = 2;
+      g.strokeStyle = 'rgba(77, 163, 255, 0.95)';
+      g.shadowColor = 'rgba(77, 163, 255, 0.8)';
+      g.shadowBlur = 8;
+      g.beginPath();
+      pts.forEach((p, i) => (i ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y)));
+      g.closePath();
+      g.stroke();
+      g.restore();
+    }
+    this.app.renderer.invalidate();
   }
 
   _northArrow(g, l) {

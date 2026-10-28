@@ -80,6 +80,7 @@ async function collect(app, q) {
   const items = [];
   const coord = coordinateItem(app, q);
   if (coord) items.push(coord);
+  if (/^(https?|s3|gs):\/\/\S+$/i.test(q) && app.openUrl) items.push({ kind: 'url', id: 'url', label: `Open ${q.length > 60 ? `${q.slice(0, 57)}…` : q}`, detail: 'Opens imagery from this address by range: only what is shown is read', icon: 'network', enabled: true, run: () => app.openUrl(q), score: 1000 });
   for (const c of C.list()) {
     if (!c.implemented) continue;
     const m = metaOf(c.id);

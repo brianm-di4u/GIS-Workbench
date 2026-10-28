@@ -11,6 +11,9 @@ import { Desktop } from './shell/desktop.js';
 import { Keys } from './input/keys.js';
 import { Palette } from './shell/palette.js';
 import { Tooltips } from './shell/tooltip.js';
+import { AppShell } from './shell2/appshell.js';
+import { Personas } from './shell2/personas.js';
+import { setToolHost } from './shell/dialogs.js';
 import { h } from './shell/dom.js';
 import { FEATURES } from './features/index.js';
 import { captureTemplate } from './storage/selfsave.js';
@@ -33,7 +36,8 @@ async function boot() {
   const core = new Core(coreModule);
   const app = new App({ gw, runMode, core });
   globalThis.gisworkbench = app; // automation console (REQ-ARC-17, R1 for the full API)
-  document.documentElement.dataset.theme = app.prefs.get('theme') ?? 'grey';
+  document.documentElement.dataset.layout = app.layoutMode();
+  document.documentElement.dataset.theme = app.prefs.get('theme') ?? (app.layoutMode() === 'modern' ? 'm3-dark' : 'grey');
 
   const canvas = h('canvas', { id: 'gl', 'aria-hidden': 'true' });
   document.body.prepend(canvas);
@@ -42,10 +46,15 @@ async function boot() {
   app.keys = new Keys(app);
   app.desktop = new Desktop(app, root);
   app.palette = new Palette(app); // Ctrl+K (REQ-SHL-05)
+  app.personas = new Personas(app); // workspace presets (REQ-SHL-12)
+  document.documentElement.dataset.statusRows = String(app.personas.current()?.statusRows ?? (app.layoutMode() === 'classic' ? 2 : 1));
   app.tooltips = new Tooltips(app); // two-line tooltips (REQ-SHL-06)
 
   const mpId = app.newProject();
   app.desktop.init();
+  app.shell = new AppShell(app, root); // Modern chrome around the desktop (REQ-SHL-01)
+  app.shell.mount();
+  setToolHost((spec) => (app.layoutMode() === 'modern' && app.activeMp() ? app.activeMp().docks.hostTool(spec) : null));
   // Features register commands, dock panels, tools and dialogs.
   mark('shell');
   const results = await Promise.allSettled(
@@ -64,6 +73,10 @@ async function boot() {
   mark('multiport');
   app.emit('ready', mp);
   mark('ready handlers');
+  // A persona's docks open at start; the first start offers the choice (REQ-SHL-12).
+  const per = app.personas.current();
+  if (per) app.personas.apply(per.id, { quiet: true });
+  else app.personas.welcome();
   app.emit('state');
   mark('first state');
   app.bootMarks = marks; // Help ▸ About & Diagnostics and REQ-PRF-01 checks

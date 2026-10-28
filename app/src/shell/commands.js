@@ -479,12 +479,59 @@ const CATALOG = [
   // GIS Workbench 2.0 (release R4): modern shell.
   ['ui.palette', 'Command Palette…', 'search', 'REQ-SHL-05', 'R4', 'Mod+K', 'Find and run any command, or type a coordinate to fly there.'],
   ['win.workspace', 'Workspace Window', 'window', 'REQ-SHL-02', 'R4', '', 'Show or hide the Workspace window: data tree, map view and preview.'],
-  ['ui.layout', 'Interface Layout', 'layout', 'REQ-SHL-01', 'R4', '', 'Modern (clean canvas) or Classic (Ribbon, open docks, as in 1.x).'],
+  ['ui.layout', 'Interface Layout', 'layout', 'REQ-SHL-01', 'R4', '', 'Switches between Modern (clean canvas) and Classic (Ribbon, open docks, as in 1.x).'],
+  ['theme.m3light', 'Light', 'theme', 'REQ-SHL-13', 'R4', '', 'Material light theme.'],
+  ['theme.m3dark', 'Dark (Material)', 'theme', 'REQ-SHL-13', 'R4', '', 'Material dark theme.'],
+  ['hud.radial', 'Radial Menu', 'more', 'REQ-SHL-10', 'R4', 'Space', 'Opens a ring of tools at the cursor: tap Space, drag with the right button, or press `.'],
+  ['hud.pill', 'Contextual Tools', 'toolbox', 'REQ-SHL-08', 'R4', '', 'Shows or hides the floating bar of tools for what is selected.'],
+  ['hud.flicker', 'Hold to Flicker', 'flicker', 'REQ-SHL-11', 'R4', 'F (hold)', 'Hold F over the panel to see the image underneath; release to come back.'],
+  ['hud.quickchip', 'Quick Chip', 'chip', 'REQ-SHL-11', 'R4', 'C + drag', 'Drag a box with C held: a full-resolution chip with its caption goes to the clipboard and the session deck.'],
+  ['deck.export', 'Export Session Deck…', 'report', 'REQ-SHL-11', 'R4', '', 'Saves every quick chip of this session as PowerPoint slides.'],
+  ['deck.clear', 'Empty Session Deck', 'delete', 'REQ-SHL-11', 'R4', '', 'Removes the quick chips collected so far.'],
+  ['patrol.next', 'Next Target', 'jump', 'REQ-SHL-11', 'R4', 'J', 'Centres the next marker, detection or observation at the current zoom.'],
+  ['patrol.prev', 'Previous Target', 'jump', 'REQ-SHL-11', 'R4', 'K', 'Centres the previous marker, detection or observation at the current zoom.'],
+  ['triage.clear', 'Triage: Clear', 'check', 'REQ-SHL-11', 'R4', '1', 'Marks the current target as clear (nothing there).'],
+  ['triage.active', 'Triage: Active', 'target', 'REQ-SHL-11', 'R4', '2', 'Marks the current target as active.'],
+  ['triage.flag', 'Triage: Flag', 'marker', 'REQ-SHL-11', 'R4', '3', 'Flags the current target for a closer look.'],
+  ['net.toggle', 'Online', 'network', 'REQ-NET-02', 'R4', '', 'Switches between Online (basemaps, cloud catalogs) and Offline (no request leaves this computer).'],
+  ['bm.basemap', 'Basemap', 'globe', 'REQ-NET-04', 'R4', '', 'Chooses the map shown under and around georeferenced imagery.'],
+  ['file.openurl', 'Open from URL…', 'network', 'REQ-CON-03', 'R4', '', 'Opens imagery from an https, s3:// or gs:// address by range: only what is shown is read.'],
+  ['cat.panel', 'Catalog', 'list', 'REQ-CON-06', 'R4', '', 'Shows the Catalog: open a URL, search STAC catalogues, browse buckets and local folders.'],
+  ['cat.folder', 'Add Folder…', 'open', 'REQ-CON-02', 'R4', '', 'Catalogues a folder on this computer and watches it for new files while the app is open.'],
+  ['cat.s3keys', 'Connect a Bucket…', 'network', 'REQ-CON-04', 'R4', '', 'Keys for a private S3, MinIO or GCS bucket, held in memory for this session only.'],
+  ['cnv.open', 'Convert…', 'save', 'REQ-CNV-02', 'R4', '', 'One drop zone: vectors to GeoJSON or GeoParquet, rasters to Cloud-Optimized GeoTIFF.'],
+  ['cnv.cog', 'Make Cloud-Optimized Copy', 'save', 'REQ-CNV-01', 'R4', '', 'Writes the active image as a Cloud-Optimized GeoTIFF: tiled, compressed, with overviews.'],
+  ['glb.toggle', '2D / 3D', 'globe', 'REQ-GLB-02', 'R4', '', 'Turns the view into an oblique 3D scene of the same place, and back.'],
+  ['bm.pmtiles', 'Open PMTiles Basemap…', 'open', 'REQ-NET-05', 'R4', '', 'Uses a raster PMTiles file on this computer as the basemap; it works offline.'],
+  // ---- 2.0 local AI (P5) ----
+  ['lai.find', 'Find Objects (AI)…', 'search', 'REQ-LAI-03', 'R4', '', 'Finds the objects you name (aircraft, vehicle…) in the view on this device; they go to the detections review queue.'],
+  ['lai.search', 'Search Imagery (AI)…', 'search', 'REQ-LAI-06', 'R4', '', 'Describe what you are looking for; the places in the image that look most like it are outlined and centred.'],
+  ['lai.contrast', 'Auto Contrast', 'contrast', 'REQ-LAI-07', 'R4', '', 'Sets local contrast and brightness for this image automatically; Undo restores the previous look.'],
+  ['lai.square', 'Square Corners', 'wand', 'REQ-LAI-02', 'R4', '', 'Smart Select outlines of buildings and other man-made objects get right-angled corners.'],
+  ['lai.device', 'AI Device…', 'ai', 'REQ-LAI-01', 'R4', '', 'Shows whether the local models run on the graphics card (WebGPU) or the CPU, and which model packs are loaded.'],
+  ['align.ai', 'Auto Align (AI)', 'align', 'REQ-LAI-05', 'R4', '', 'Lines up the active image with the reference by matching learned keypoints; works across dates and sensors.'],
+  // ---- 2.0 recipes (P6) ----
+  ['rcp.open', 'Recipes', 'list', 'REQ-PIP-02', 'R4', '', 'Shows the recipe stepper: run a workflow step by step, change a step and re-run from there.'],
+  ['rcp.import', 'Open Recipe…', 'open', 'REQ-PIP-01', 'R4', '', 'Opens a .gwrecipe.json file and keeps it in your recipe list.'],
+  ['rcp.airfield-triage', 'Airfield Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: auto contrast, find aircraft, your review, a chip deck and a GeoJSON of the accepted ones.'],
+  ['rcp.damage-triage', 'Damage Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: align the post-event image, find damage, your review, GeoJSON.'],
+  ['rcp.folder-to-cog', 'Convert a Folder to COG', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: every raster in a folder becomes a Cloud-Optimized GeoTIFF.'],
+  ['rcp.building-extraction', 'Building Extraction', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: find buildings, outline and square each one, your review, GeoJSON.'],
+  // ---- 2.0 hub bridges (P7) ----
+  ['hub.psd', 'Photoshop (PSD)…', 'save', 'REQ-HUB-01', 'R4', '', 'Saves the view as a Photoshop file: the image plus Levels and Curves layers that rebuild its look, and the graphics.'],
+  ['hub.tiff16', '16-bit TIFF + Curves…', 'save', 'REQ-HUB-01', 'R4', '', 'Saves the view as a 16-bit GeoTIFF and a Photoshop Curves preset that gives it the same look.'],
+  ['hub.pdf', 'Illustrator (Layered PDF)…', 'save', 'REQ-HUB-02', 'R4', '', 'Saves the view as a PDF whose layers (imagery, graphics, vectors, neatline, scale bar) Illustrator opens as layers.'],
+  ['hub.svg', 'Layered SVG…', 'save', 'REQ-HUB-02', 'R4', '', 'Saves the view as an SVG with the imagery and each vector layer as its own layer.'],
+  ['hub.glb', '3D Terrain (GLB)…', 'save', 'REQ-HUB-03', 'R4', '', 'Saves the ground in view as a textured 3D mesh for Blender or Unreal.'],
+  ['hub.usdz', '3D Terrain (USDZ)…', 'save', 'REQ-HUB-03', 'R4', '', 'Saves the ground in view as a textured 3D model that iPhone and iPad open in AR Quick Look.'],
+  ['hub.cot', 'CoT Events…', 'save', 'REQ-HUB-04', 'R4', '', 'Saves markers, observations, accepted detections and outlines as Cursor-on-Target XML.'],
+  ['hub.atak', 'ATAK Data Package…', 'save', 'REQ-HUB-04', 'R4', '', 'Saves a data package ATAK, WinTAK and iTAK import: the points and outlines with the session chips.'],
+  ['hub.relay', 'Send to Google Sheet…', 'network', 'REQ-HUB-06', 'R4', '', 'Appends markers, observations and accepted detections to a Google Sheet through your own Apps Script relay (experimental).']
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */
 const LITE_NEEDS = [
-  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$/],
+  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$|^hub\.usdz$/],
   ['wasm-sar', /^sar\.(speckle|acd|ccd|pairs|subap|csi|pauli)$/],
 ];
 

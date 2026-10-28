@@ -577,3 +577,269 @@ Implementation rules for the 2.0 work:
   Cesium/3d-tiles-renderer bundles were checked. The results are in the plan (§4 P3/P5, §6, §8).
   The hands-on halves run at the start of P3 (globe, basemap renderer) and P5 (WebGPU models),
   before any design in those phases is fixed.
+
+## DN-54 Network posture, basemaps and 3D (2.0 P3; REQ-NET-01..05, REQ-GLB-01/02)
+- **Curated origins** (`build/origins.json`) go into `connect-src` of the Standard and Lite files
+  and into `manifest.csp.curated`. Each origin records its purpose, licence, attribution and
+  policy. CORS with `Origin: null` was measured for each one. NAIP and Landsat come through
+  Planetary Computer, because `naip-analytic` (requester pays) and `usgs-landsat` send no CORS.
+- **Online/Offline.** `netlog.fetchFor` refuses every request while Offline, before the CSP check.
+  Offline is the state until the user chooses Online (first-start card or the status-bar
+  switch), and a locked Common `network` value fixes it.
+- **Air-gapped file.** `gis-workbench-airgap.html` is the Standard file with `connect-src blob:`
+  only, `curated: []` and profile `airgap`; the scripts and their hashes are unchanged.
+- **Basemaps under imagery.** Each Web Mercator tile is warped onto the view through the geo
+  layer's ground-to-image model on a 4×4 grid, using the existing textured-quad pass. The zoom is
+  the coarser one around the view's ground scale (at most 150 tiles), and the attribution is
+  always shown. The OSM tile servers are opt-in, behind their usage policy. CARTO and Esri are
+  not built in (licence).
+- **PMTiles.** Raster PMTiles (PNG, JPEG, WebP) open as a basemap, by file or drop, read by range
+  with the `pmtiles` reader (BSD-3), and work offline for the session. Vector PMTiles are refused
+  by name: they need an MVT renderer (S-30). The offline basemap pack is not built yet.
+- **2D/3D.** The 3D button builds an oblique scene on the existing three.js view (DN-35/36) in the
+  local frame. Terrain comes from a loaded DEM that covers the area, else (Online) from AWS
+  Terrain Tiles (Terrarium, MSL plus the geoid), else level ground. The active image is draped
+  through its own sensor model (the existing `drapeFor`) and the basemap is draped on a box
+  three times wider, 2 m lower. **S-27 is only partly answered:** this is a local-frame scene, not
+  a whole-earth globe. A WGS 84 globe for small scales (tiles placed through ECEF) remains open
+  and is tracked for P8.
+
+## DN-55 Data hub, staged ingest and conversion (2.0 P4; REQ-CON, REQ-ING, REQ-CNV)
+- **One read path for remote data.** `connectors/remote.js` gives a File-like object over HTTP
+  Range requests. Every reader that uses `slice().arrayBuffer()` (geotiff.js through a custom
+  client with 64 KiB block caching, the NITF parser, the fingerprint) reads remote imagery
+  unchanged. Workers never fetch. They ask the pool for byte ranges (`range` messages) and the
+  main thread fetches them through the logged, Online-gated `netlog`, signing where needed. Logs,
+  the Offline switch and keys therefore stay in one place.
+- **Paths.** `s3://bucket/key` maps to path-style regional endpoints (`KNOWN_REGIONS`), so the CSP
+  needs no wildcards. `gs://` maps to `storage.googleapis.com`.
+- **Signing.** SigV4 uses SubtleCrypto and is checked against AWS's published GET example. Keys
+  stay in memory, and GCS uses HMAC keys over its S3 API; service-account JSON is never
+  accepted. Planetary Computer assets get a per-collection SAS token, kept until it expires.
+- **Catalogues.** STAC search posts to `/search` with the view's ground box, and retries without
+  `sortby` when an API refuses it. Item footprints become graphics tagged `stac`. The asset
+  chosen is visual, then RGB, then the first GeoTIFF data asset. Bucket listing uses
+  ListObjectsV2 with `/` as delimiter. Requester-pays and no-CORS buckets say why they cannot
+  be read.
+- **Folders.** `showDirectoryPicker` with a recursive `FileSystemObserver` where the browser has
+  one, otherwise a 10 s poll. A file is taken once its size is stable over two scans. Handles are
+  kept in the journal store.
+- **Staged ingest (partial).** The fingerprint now runs beside the header read and is stored
+  when ready. A loading layer shows its outline with a moving dash until its first statistics
+  arrive. The worker `open` itself is unchanged: a very large NITF still parses its header
+  before the footprint appears.
+- **Progress.** Time left comes from the progress rate since the first report. Network
+  throughput is the Network Log's received bytes over 3 s. A failed open keeps its file for
+  Retry.
+- **Content routing.** `formats/sniff.js` renames files whose names say nothing, from their first
+  4 KiB (GeoJSON, KML, GPX, GML, GeoPackage, zip, shapefile, LAS, Parquet). Dropped folders are
+  walked: 4 levels, 2000 files at most.
+- **Conversion (partial).**
+  - Vectors are converted through the existing readers into GeoJSON or GeoParquet 1.1 (WKB, `geo`
+    metadata, written with hyparquet-writer, MIT, as a lazy block). FlatGeobuf is not written yet.
+  - Rasters become a 512 px tiled, Deflate and predictor COG with overviews, using the existing
+    writer in memory up to 256 M samples. Map grids keep their geotransform; sensor images get a
+    9 × 9 GCP grid.
+  - **The streaming BigTIFF converter for larger images (S-32) is still open.**
+  - GeoParquet is written, not read.
+
+## DN-56 Local AI on the device (2.0 P5; REQ-LAI-01..03, 05..09)
+- **Runtimes.** The ai pack carries two onnxruntime-web 1.30 builds: the WASM build and the
+  WebGPU build (`ort.webgpu.min.js` with the asyncify glue). Each runs in an AI worker of its own,
+  single threaded, from Blob URLs, with the WASM binary passed in memory. A model is created on
+  the WebGPU runtime when the device has a WebGPU adapter (WebGPU first, WASM for the nodes
+  WebGPU lacks). If the session cannot be created there, it is created on the CPU runtime.
+  OWLv2 int8 is one such model (`Cast(13)` has no kernel in the WebGPU build). SlimSAM int8 runs
+  on the WebGPU provider but gives wrong masks there (IoU 0.49 instead of > 0.85 on FX-08), so it is
+  pinned to the CPU. SAM 2.1, CLIP and LightGlue agree between the two runtimes: SAM 2.1 gives the
+  same IoUs, CLIP scores differ by ≤ 0.012, and LightGlue gives the same matches. Every job is pinned
+  to the worker that holds its model (`affinity`); the second runtime avoids the first one's
+  worker (pool option `avoid`).
+- **No eval.** The WebGPU glue builds its emval method invoker with `new Function`, which the CSP
+  and the REQ-ARC-04 gate refuse. `build/packs.mjs` (`noEvalGlue`) replaces it with a closure
+  making the same call. The build fails if the pinned text moves.
+- **Tiers.** `ai/hw.js` probes the adapter:
+  - Tier 1 is WebGPU with shader-f16.
+  - Tier 2 also needs a 2 GB buffer limit and ≥ 8 GB of memory.
+  - Below Tier 1, REQ-LAI-01 asks to hide the features. **Deviation:** they stay available and run
+    on the CPU, and AI Device says they are slow. An air-gapped CPU-only machine would otherwise
+    have no local AI at all.
+- **Models (all permissive, checked by `modelLicenceGate`, REQ-LAI-08).** Each model pack
+  declares the SPDX licences of its code and weights. Licence texts naming non-commercial,
+  research-only or GPL terms fail the build. Large model packs are release assets, not committed
+  (`.gitignore`; GitHub's 100 MB file limit).
+
+  | Pack | Model | Licence | Size |
+  |---|---|---|---|
+  | ai-sam2 | SAM 2.1 hiera-tiny, int8 (onnx-community; external-data files) | Apache-2.0 | 62 MB |
+  | ai-detect | OWLv2 base patch16 ensemble, 8-bit (Xenova) | Apache-2.0 | 156 MB |
+  | ai-search | CLIP ViT-B/32, 8-bit vision and text (Xenova) | MIT | 154 MB |
+  | ai-match | DISK + LightGlue end-to-end (fabio-sim/LightGlue-ONNX v2.0) | Apache-2.0 | 50 MB |
+
+  These substitute for some of the plan's picks:
+  - ALIKED is published only fused with the RaCo detector, whose weight licence S-34 has not
+    cleared. DISK + LightGlue (Apache-2.0 weights) is used instead.
+  - RemoteCLIP and SigLIP2 need a weight audit and a SentencePiece tokenizer. CLIP B/32 shares
+    the BPE tokenizer written for OWLv2 (`ai/clip-tokenizer.js`).
+- **SAM 2.1.** The click window is stretched to 1024² and the three feature levels are kept in
+  the worker. Clicks on an encoded window run the decoder only.
+  - Outlines can be squared by `vector/regularize.js`. It takes the dominant direction from the
+    4θ-weighted edge angles, snaps every edge to it or its normal, merges runs at their
+    length-weighted offsets, drops lines shorter than √area / 12 and intersects neighbours. It is
+    JavaScript rather than Rust, at well under 1 ms per outline.
+  - With Square Corners the decoder takes the largest mask within 0.15 of the best score (whole
+    object rather than one roof facet). On SpaceNet Vegas this raises the median IoU of the six
+    largest buildings from 0.33 to 0.68.
+- **OWLv2.** The view is tiled at screen resolution into 960 px tiles (at most 4, coarsening
+  otherwise). Tiles are padded to a square with grey, and queries are wrapped as "a photo of a …".
+  Boxes go through per-class NMS (IoU 0.3) within and across tiles. Results enter the detections
+  review queue as pending, with model, device and prompt; J / K patrols them.
+- **CLIP search.** The image is indexed as square chips of ≥ 224 px (≤ 1200 chips), with int8
+  unit embeddings held in memory per layer. Queries are "a satellite photo of …". The top k are
+  outlined (tag `aisearch`) and the best is centred. Not yet built: persisting the index (OPFS)
+  and folder or catalogue indexes.
+- **Auto Align (AI).** One coarse window over the overlap (≤ 768 px) gives a first affine. Fine
+  full-resolution windows of 512 px placed with it give the tie points, cut to multiples of 16
+  for DISK's U-Net. The robust affine fit uses a 1 px tolerance. On the Maxar Libya pre/post
+  pair: 135 tie points, RMS 0.64 px. The change mask step is not built yet (REQ-LAI-05).
+- **Auto Contrast (REQ-LAI-07).** This is classical, with no model. It sets DRA at 1–99 %, CLAHE
+  8 × 8 with its clip from the histogram spread (1.8 / 2.5 / 3.5), and a gamma that brings the
+  median to 0.45, as one undoable step. The A/B of spike S-36 is still to run.
+- **Copilot routing (REQ-LAI-09).** `ai/intent.js` recognises find, search, contrast, align,
+  segment and go-to requests, which run locally before any cloud call. Offline, other requests
+  get the list of what works. A connected assistant also gets `gw_find_objects` and
+  `gw_search_imagery`.
+- **Measured here** (Intel Xe-LPG, WebGPU f16):
+  - SAM 2.1 int8 encodes a window in 7.6 s on WebGPU and 8.5 s on the CPU; a click takes about
+    0.65 s.
+  - Int8 graphs gain little from WebGPU because their quantised operators fall back to the CPU.
+    fp16 model variants (twice the size) are the route to the plan's < 300 ms encoder (S-33).
+  - OWLv2 takes 26 s per tile on the CPU.
+- **Not in beta.4:**
+  - The vision-language drafter (REQ-LAI-04: Florence-2 / Moondream / Qwen-VL) needs a
+    generation loop and tokenizers beyond CLIP's.
+  - The Find in Scene prompt front door.
+
+## DN-57 Glass-box recipes (2.0 P6; REQ-PIP-01..04)
+- **Model.** A recipe is a versioned JSON file (`gw-recipe/1`, saved as `.gwrecipe.json`). It is
+  a linear list of steps `{id, op, title, params, note, pythonHint}`, with no graph: a list
+  reads, edits and reviews like a checklist.
+  - `recipes/recipe.js` checks a recipe against the known operations, fills each step's
+    defaults and refuses anything that is not data.
+  - `pythonHint` is carried for the deferred "Copy as Python" (2.x).
+- **Operations** (`features/recipes.js OPS`):
+  - Auto contrast, find, search, co-register, outline (SAM 2.1 per detection; detections in
+    one 1024 px tile share one encoder run).
+  - Gate; chips (quick chips of reviewed detections into the session deck); export deck; export
+    GeoJSON (accepted detections or outlines); convert a folder; run any command.
+  - Steps call the same functions as the commands, so each change is an ordinary undoable
+    transaction.
+- **Runner.** Step states are pending, running, done, failed, waiting (a gate), skipped and
+  stale.
+  - A failure stops the run and names the step.
+  - Changing a parameter in the drawer marks that step and the later ones stale. "Re-run from
+    here" resets them and runs on.
+  - Stop skips the rest and releases a waiting gate.
+- **Gates.** A gate opens the detections review queue at the first pending candidate (they are
+  drawn on the map) and waits. The analyst accepts or rejects in the queue or with J / K and
+  1 / 2 / 3, then presses Enter (outside text fields and dialogs) or Resume. The gate's summary
+  then counts accepted and rejected.
+- **Stepper UI.** The Recipe dock opens at the bottom from the navigation rail item Recipes or
+  Image Tools ▸ Recipes. It has a horizontal list of numbered step chips with their state,
+  summary and time, and a parameter drawer under the selected step.
+- **Built-ins and pinning (REQ-PIP-04).**
+  - The built-in recipes are Airfield triage, Damage triage, Convert a folder to COG and
+    Building extraction.
+  - Each built-in is also a command (`rcp.<id>`), so it can sit on the radial menu, the QAT or a
+    persona. The AI Analyst persona pins Airfield triage.
+  - Opened recipes are kept in preferences (the last 20). They do not yet get commands of their
+    own.
+- **Deviation.** Damage triage has no change-mask step (DN-56). It finds damage on the
+  co-registered post-event image and the gate asks for flicker or swipe against the pre-event
+  image.
+
+## DN-58 Hub bridges (2.0 P7; REQ-HUB-01..04, 06)
+- **Photoshop (REQ-HUB-01).**
+  - **Layered PSD**, written by ag-psd 31.0.3 (MIT) in the lazy block `js-psd`.
+    - The base layer holds the view's pixels, linear from each band's full data range (0 % to
+      100 % of the histogram) to 8 bits.
+    - A Levels adjustment layer rebuilds the stretch. Black and white points per channel are
+      the DRA or stretch range on the base's 0–255 domain, and the midtone is the chain's gamma
+      (2^(γ/50)). A Curves layer carries the tonal curve. The graphics come as a pixel layer.
+    - CLAHE and sharpening are not rebuilt: Photoshop has no live equivalent.
+  - The PSD grid is image-aligned at the view's resolution (≤ 4096 px). A `.psw` world file
+    (WGS 84 affine of the corners) carries the georeference.
+  - ag-psd writes 8-bit only. The **16-bit GeoTIFF** export rescales each band linearly from its
+    full range to 16 bits, keeps the georeference (geotransform or a 5 × 5 GCP grid), and comes
+    with an `.acv` Curves preset (version 1, composite plus R, G, B) holding the same stretch,
+    gamma and curve in at most 16 points per channel.
+- **Illustrator (REQ-HUB-02).**
+  - **Layered PDF**, from a new writer (`hub/layers.js`, PDF 1.5). Each layer is an optional
+    content group: Imagery (JPEG), Graphics, each visible vector layer, Neatline and Scale bar.
+    They are real paths in output pixels at 0.75 pt each, with the GeoPDF viewport of
+    `snap.geopdf`.
+  - **Layered SVG**, with the same layers as Inkscape layer groups and the imagery embedded.
+  - The view is drawn as on screen (makeChip without graphics), so the scale is the view's.
+    Opening in Illustrator itself is still to inspect.
+- **3D (REQ-HUB-03).** A 96 × 96 grid over the view takes its ground from the sensor model, with
+  heights by ray–DEM intersection when a DEM covers the image (flat otherwise, which the result
+  says).
+  - Coordinates are local ENU on a tangent plane, under 0.1 % scale error within 10 km. Faces
+    wind upward.
+  - The texture is a chip of the view as shown, graphics included (2048 px).
+  - GLB comes from the app's glTF writer with UVs on the grid. USDZ comes from three.js
+    USDZExporter (MeshStandardMaterial, CanvasTexture, texture ≤ 4096 px) in the three block, so
+    Lite does not offer it.
+  - Blender and Quick Look checks are still to inspect.
+- **TAK (REQ-HUB-04), Tier 1, every build including the air-gapped one.**
+  - CoT 2.0 events go out for markers, observations and accepted detections. Detections are
+    typed from their class through 2525 function codes (aircraft a-u-G-E-V-A, vehicle
+    a-u-G-E-V, ship a-u-S, building a-u-G-I). Outlines are freehand drawings (u-d-f with link
+    points). Machine detections have `how="m-g"`, analyst marks `h-e`.
+  - The ATAK data package is a v2 mission-package manifest with the CoT files and the session
+    chips (JPEG).
+  - Import into ATAK and WinTAK is still to inspect.
+  - **REQ-HUB-05** (TAK Server over HTTPS/WSS, Could) is not built. Spike S-39 needs a TAK Server
+    and client certificate to test against.
+- **Drives (REQ-HUB-06, partial).**
+  - *Synced folders* work through Catalog ▸ Add Folder (DN-55).
+  - *Writing to Sheets* uses the analyst's own Apps Script web app, with the script shown in the
+    dialog. The request is a `text/plain` POST, so no CORS preflight, carrying an
+    HMAC-SHA256-signed JSON body of rows. The secret is not stored.
+  - The relay's own CORS answer to `Origin: null` is unverified (S-41), so the command is marked
+    experimental. `script.google.com` and `script.googleusercontent.com` were added to the
+    curated origins as exact hosts.
+  - *Reading* published Sheets was dropped. Measured 2026-10-28: the CSV export answers with a
+    307 to a per-request `doc-…-sheets.googleusercontent.com` host, and the redirect carries no
+    `Access-Control-Allow-Origin`. The `gviz` CSV has no CORS header either. A page cannot read
+    them, and the CSP would need a wildcard.
+  - The Drive and OneDrive APIs in hosted mode (OAuth with the site's client id) are not built.
+
+## DN-59 Streaming COG, FlatGeobuf and the 2.0 gaps (2.0 P8; REQ-CNV-01/02)
+- **Streaming COG (S-32).** `formats/cog-stream.js` writes any image size within a fixed memory
+  ceiling. It reads one tile row at a time, at most 16 384 px wide.
+  - **Levels.** Each level is read from the source at its 2^k step (the decoder's own reduced
+    reads), not cascaded from full resolution. Its tiles are encoded with the existing
+    predictors and Deflate and appended to a temporary OPFS file, or to memory where there is
+    no OPFS.
+  - **Assembly.** The COG is assembled as a Blob of the header and IFDs plus the level files,
+    smallest overview first, so the tile data is never copied into memory. It switches to
+    BigTIFF past 4 GB.
+  - **Storage check.** Free browser storage is checked first (raw size × 0.7).
+  - **When it is used.** Convert streams above 256 M samples and keeps the in-memory writer
+    below.
+  - **Measured.** The Houston DFC 2018 orthophoto (11 920 × 12 020 × 3, 432 M samples) became a
+    311 MB, 6-level COG in 164 s, and a 64 px window matches the source exactly.
+  - S-32's 20 GB / 100 MB/s criterion has not been run: no input of that size is in the corpus.
+- **FlatGeobuf** comes from flatgeobuf 4.4.0 (BSD-3-Clause; flatbuffers Apache-2.0), in the lazy
+  block `js-fgb`. Version 4.5 and later pull in a zstd WASM module, so 4.4.0 is used.
+  - The JavaScript writer builds no packed Hilbert R-tree index. The files read in GDAL, QGIS
+    and the flatgeobuf readers, but cannot be range-filtered over HTTP.
+- **Deferred to 2.1 (recorded, not dropped):**
+  - The whole-earth globe (S-27). The 2D/3D button gives an oblique local 3D scene (DN-54).
+  - The offline z0–8 world basemap pack. User PMTiles basemaps work offline.
+  - The vision-language drafter (REQ-LAI-04) and the change mask after Auto Align (AI).
+  - The TAK Server connector (REQ-HUB-05, S-39) and the Drive / OneDrive APIs in hosted mode.
+  - Persisting search indexes, and folder indexes.
+  - The usability study with newcomers, AI analysts and GXP-trained users, and Adam Simmons's
+    review of the release candidates. These need people and are not run by the build.

@@ -185,11 +185,12 @@ export async function install(app) {
   };
   app.proj = proj;
 
-  // ---- pack libraries for workers: h5wasm (decode, REQ-MSI-02) and onnxruntime-web (ai) ----
+  // ---- pack libraries for workers: h5wasm (decode, REQ-MSI-02) and onnxruntime-web, WASM or WebGPU build (ai) ----
   app.pool.libs = {
     ...(app.pool.libs ?? {}),
     h5wasm: async () => (await packs.require('hdf5', 'Reading HDF5')).entries.get('h5wasm.js').slice(),
-    ort: async () => (await packs.require('ai', 'Smart select')).entries.get('ort.wasm.min.js').slice(),
+    ort: async () => (await packs.require('ai', 'Local AI')).entries.get('ort.wasm.min.js').slice(),
+    ortgpu: async () => (await packs.require('ai', 'Local AI')).entries.get('ort.webgpu.min.js').slice(),
   };
 
   // ---- UI ----

@@ -12,9 +12,13 @@ import { fileURLToPath } from 'node:url';
 import { buildRust, BUNDLES } from './rust.mjs';
 import { egm96Grid, encodePredicted, basemap, writeGeoidFixture } from './data.mjs';
 import { tokensCss } from './tokens.mjs';
-import { sizeGate, evalGate, licenceGate, manifestGate, cspGate } from './gates.mjs';
+import { sizeGate, evalGate, licenceGate, manifestGate, cspGate, modelLicenceGate } from './gates.mjs';
 import { buildPacks } from './packs.mjs';
 import { vendorFixes } from './vendor-fixes.mjs';
+
+/** Curated public origins (build/origins.json, REQ-NET-01). */
+const CURATED = JSON.parse(readFileSync(new URL('./origins.json', import.meta.url), 'utf8')).origins;
+for (const o of CURATED) if (!/^https:\/\/[a-z0-9.-]+$/.test(o.origin)) throw new Error(`origins.json: "${o.origin}" is not an https origin`);
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = new Set(process.argv.slice(2));
@@ -234,6 +238,7 @@ async function main() {
   const packs = await buildPacks({ outDir, esbuild, toolVersion: VERSION });
   warnings.push(...packs.warnings);
   errors.push(...evalGate(packs.code, EVAL_ALLOW));
+  errors.push(...modelLicenceGate(packs.models));
 
   const styles = css();
   // The id covers everything shipped: loader, app, styles and every block.
@@ -243,7 +248,8 @@ async function main() {
     version: 1,
     build: { id: buildId, version: VERSION, date: BUILD_DATE, dev: DEV, defaultModel: DEFAULT_MODEL, profile: 'standard' },
     blocks: Object.fromEntries(blocks.map((b) => [b.name, b.entry])),
-    csp: { origins: [] },
+    // Curated public origins (REQ-NET-01): allowed by the CSP, used only while Online (REQ-NET-02).
+    csp: { origins: [], curated: CURATED.map((o) => o.origin) },
     packs: packs.manifest,
   };
   errors.push(...manifestGate(manifest, blocks.map((b) => ({ name: b.name, sha256: b.entry.sha256 }))));
@@ -261,7 +267,7 @@ async function main() {
     'img-src data: blob:',
     'media-src blob: mediastream:',
     'font-src data:',
-    'connect-src blob:',
+    `connect-src ${['blob:', ...CURATED.map((o) => o.origin)].join(' ')}`,
     "object-src 'none'",
     "base-uri 'none'",
     "form-action 'none'",
@@ -327,6 +333,10 @@ async function main() {
   }
   const outFile = join(outDir, 'gis-workbench.html');
   writeFileSync(outFile, html);
+  // Air-gapped variant (REQ-NET-03): the same file with no network origin in its CSP.
+  const airgap = airgapHtml(html);
+  writeFileSync(join(outDir, 'gis-workbench-airgap.html'), airgap);
+  report.sizes.airgap = Buffer.byteLength(airgap);
   const lite = liteHtml(stripForLite(html.replace(`"profile":"standard"`, `"profile":"lite"`)), csp);
   writeFileSync(join(outDir, 'gis-workbench-lite.html'), lite);
   writeFileSync(join(outDir, 'THIRD-PARTY-NOTICES.txt'), notices(packages, rust.rustNotices, packs.manifest));
@@ -335,7 +345,7 @@ async function main() {
   report.sizes.snippet = kit.snippet;
   report.sizes.snippetLite = kit.snippetLite;
   writeFileSync(join(outDir, 'build-report.json'), JSON.stringify(report, null, 2));
-  const sums = ['gis-workbench.html', 'gis-workbench-lite.html', 'THIRD-PARTY-NOTICES.txt', 'build-report.json', 'embed/snippet.html', 'embed/snippet-lite.html', ...packs.files]
+  const sums = ['gis-workbench.html', 'gis-workbench-airgap.html', 'gis-workbench-lite.html', 'THIRD-PARTY-NOTICES.txt', 'build-report.json', 'embed/snippet.html', 'embed/snippet-lite.html', ...packs.files]
     .map((f) => `${sha256(readFileSync(join(outDir, f)))}  ${f}`)
     .join('\n');
   writeFileSync(join(outDir, 'SHA256SUMS'), sums + '\n');
@@ -353,6 +363,16 @@ async function main() {
  * worker), video (mpegts.js) and SAR (SAR WASM) modules. Their blocks are removed and listed as
  * `omitted` in the manifest, so the app can say why a command is unavailable.
  */
+/** The air-gapped file: connect-src blob: only, no curated origins, profile marked (REQ-NET-03). */
+export function airgapHtml(html) {
+  const out = html
+    .replace(/(<meta[^>]*id="csp"[^>]*content="[^"]*?)connect-src [^;"]*/, '$1connect-src blob:')
+    .replace(/"curated":\[[^\]]*\]/, '"curated":[]')
+    .replace('"profile":"standard"', '"profile":"airgap"');
+  if (out === html || /connect-src blob: https/.test(out)) throw new Error('airgap: could not rewrite the CSP');
+  return out;
+}
+
 export const LITE_OMIT = ['js-three', 'js-mpegts', 'wasm-pointcloud', 'js-worker-pointcloud', 'wasm-sar'];
 function stripForLite(html) {
   let out = html;

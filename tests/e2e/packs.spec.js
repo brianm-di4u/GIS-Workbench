@@ -9,7 +9,7 @@ import { unzipSync, zipSync, strToU8, strFromU8 } from 'fflate';
 import { openApp, openFiles } from './helpers.js';
 
 const DIST = resolve('dist/packs');
-const pk = (n) => resolve(DIST, readdirSync(DIST).find((f) => f.startsWith(`${n}-`)));
+const pk = (n) => resolve(DIST, readdirSync(DIST).find((f) => (n === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${n}-`))));
 const TMP = resolve('fixtures/packs/tmp');
 const sha = (b) => createHash('sha256').update(b).digest('hex');
 
@@ -37,7 +37,7 @@ function tampered(src, out, { fixJson = false, addJs = false } = {}) {
 test('REQ-ARC-14 data packs: manifest hashes, SHA-256 checks, changed or foreign code refused, data-only foreign packs accepted', async ({ page }) => {
   const { frame, logs } = await openApp(page, 'file');
   const m = await frame.evaluate(() => window.gisworkbench.gw.manifest.packs);
-  expect(Object.keys(m).sort()).toEqual(['ai', 'geoid', 'hdf5', 'proj']);
+  expect(Object.keys(m).sort()).toEqual(['ai', 'ai-detect', 'ai-match', 'ai-sam2', 'ai-search', 'geoid', 'hdf5', 'proj']);
   for (const [name, p] of Object.entries(m)) {
     expect(sha(readFileSync(pk(name))), name).toBe(p.sha256);
     expect(Object.keys(p.entries).length).toBeGreaterThan(0);

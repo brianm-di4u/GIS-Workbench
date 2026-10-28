@@ -1,5 +1,13 @@
 [
  {
+  "id": "catalog",
+  "problems": []
+ },
+ {
+  "id": "convert",
+  "problems": []
+ },
+ {
   "id": "layers",
   "problems": []
  },
@@ -53,6 +61,10 @@
  },
  {
   "id": "spectral",
+  "problems": []
+ },
+ {
+  "id": "recipes",
   "problems": []
  },
  {

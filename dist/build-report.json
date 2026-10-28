@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "6959048a1cff6b6e",
-    "version": "1.3.0",
-    "date": "2026-10-28T07:37:46.773Z",
+    "id": "f4b5f553e7f65a25",
+    "version": "2.0.0",
+    "date": "2026-10-28T13:53:15.112Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5747914,
-    "eager": 2350395,
-    "css": 45377,
+    "total": 6155587,
+    "eager": 2553089,
+    "css": 62216,
     "boot": 2733,
-    "app": 2033631,
-    "notices": 113900,
+    "app": 2214435,
+    "notices": 133234,
     "blocks": {
       "wasm-core": {
         "raw": 344926,
@@ -66,13 +66,13 @@
         "load": "lazy"
       },
       "js-worker-core": {
-        "raw": 11850,
-        "stored": 5084,
+        "raw": 12415,
+        "stored": 5352,
         "load": "lazy"
       },
       "js-worker-ai": {
-        "raw": 2785,
-        "stored": 1956,
+        "raw": 7494,
+        "stored": 4196,
         "load": "lazy"
       },
       "js-worker-analysis": {
@@ -81,13 +81,18 @@
         "load": "lazy"
       },
       "js-worker-decode": {
-        "raw": 360088,
-        "stored": 178704,
+        "raw": 370736,
+        "stored": 183072,
         "load": "lazy"
       },
       "js-worker-pointcloud": {
         "raw": 6884,
         "stored": 2808,
+        "load": "lazy"
+      },
+      "js-fgb": {
+        "raw": 42658,
+        "stored": 13888,
         "load": "lazy"
       },
       "js-milsymbol": {
@@ -100,9 +105,19 @@
         "stored": 85444,
         "load": "lazy"
       },
+      "js-parquet": {
+        "raw": 60281,
+        "stored": 24576,
+        "load": "lazy"
+      },
       "js-pptx": {
         "raw": 373179,
         "stored": 168340,
+        "load": "lazy"
+      },
+      "js-psd": {
+        "raw": 292383,
+        "stored": 115892,
         "load": "lazy"
       },
       "js-sqlite": {
@@ -111,8 +126,8 @@
         "load": "lazy"
       },
       "js-three": {
-        "raw": 639164,
-        "stored": 214904,
+        "raw": 664904,
+        "stored": 227668,
         "load": "lazy"
       },
       "wasm-sqlite": {
@@ -131,13 +146,13 @@
         "load": "eager"
       },
       "data-tokens": {
-        "raw": 40592,
-        "stored": 9304,
+        "raw": 60202,
+        "stored": 11260,
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 12512,
-        "stored": 7508,
+        "raw": 29800,
+        "stored": 16060,
         "load": "lazy"
       }
     },
@@ -194,9 +209,10 @@
       }
     },
     "rustTotalGzip": 874882,
-    "lite": 3991137,
-    "snippet": 6098225,
-    "snippetLite": 3991480
+    "airgap": 6154236,
+    "lite": 4260886,
+    "snippet": 6542047,
+    "snippetLite": 4261229
   },
   "gates": {
     "errors": [],
@@ -220,8 +236,23 @@
       "license": "MIT"
     },
     {
+      "name": "@repeaterjs/repeater",
+      "version": "3.0.6",
+      "license": "MIT"
+    },
+    {
       "name": "@stablelib/base64",
       "version": "1.0.1",
+      "license": "MIT"
+    },
+    {
+      "name": "ag-psd",
+      "version": "31.0.3",
+      "license": "MIT"
+    },
+    {
+      "name": "base64-js",
+      "version": "1.5.1",
       "license": "MIT"
     },
     {
@@ -235,8 +266,28 @@
       "license": "MIT"
     },
     {
+      "name": "flatbuffers",
+      "version": "25.9.23",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "flatgeobuf",
+      "version": "4.4.0",
+      "license": "BSD-3-Clause"
+    },
+    {
       "name": "geotiff",
       "version": "3.0.5",
+      "license": "MIT"
+    },
+    {
+      "name": "hyparquet",
+      "version": "1.31.5",
+      "license": "MIT"
+    },
+    {
+      "name": "hyparquet-writer",
+      "version": "0.17.0",
       "license": "MIT"
     },
     {
@@ -268,6 +319,11 @@
       "name": "pako",
       "version": "2.2.0",
       "license": "(MIT AND Zlib)"
+    },
+    {
+      "name": "pmtiles",
+      "version": "4.5.0",
+      "license": "BSD-3-Clause"
     },
     {
       "name": "polygon-clipping",
@@ -303,6 +359,11 @@
       "name": "rtree-sql.js",
       "version": "1.7.0",
       "license": "MIT"
+    },
+    {
+      "name": "slice-source",
+      "version": "0.4.1",
+      "license": "BSD-3-Clause"
     },
     {
       "name": "standardwebhooks",
@@ -499,5 +560,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-ziMlKt5LrAxM5tFY7PdZ65AxKbtWpdEvnnQAatNkdCQ=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-lZqM2x5Ux9uURQZmyDBMStMPLmxfkGWmdlKYJr2RyGA=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

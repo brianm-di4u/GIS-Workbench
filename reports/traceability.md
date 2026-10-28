@@ -1,15 +1,15 @@
 # Traceability — R0, R1
 
-Generated 2026-10-28T05:54:22.402Z. 188 requirements; 188 tested.
+Generated 2026-10-28T11:42:01.769Z. 188 requirements; 188 tested.
 
-Last results from 4569 test results: 170 passing; 14 passing (file); 3 failing (file); 1 failing. Must requirements without a passing result: 4.
+Last results from 4590 test results: 170 passing; 14 passing (file); 3 failing (file); 1 failing. Must requirements without a passing result: 4.
 
 | Requirement | P | Rel | Status | Last result | Tests | Code |
 |---|---|---|---|---|---|---|
 | REQ-ARC-01 | M | R1 | tested | passing (8✓ 0✗) | platform.spec.js |  |
 | REQ-ARC-02 | M | R1 | tested | passing (4✓ 0✗) | platform.spec.js, gates.test.js | boot.js, gates.mjs |
 | REQ-ARC-03 | M | R1 | tested | passing (1✓ 0✗) | gates.test.js | gates.mjs |
-| REQ-ARC-04 | M | R1 | tested | passing (7✓ 0✗) | gates.test.js | boot.js, build.mjs, gates.mjs |
+| REQ-ARC-04 | M | R1 | tested | passing (7✓ 0✗) | gates.test.js | boot.js, build.mjs, gates.mjs +1 |
 | REQ-ARC-05 | M | R1 | tested | passing (2✓ 0✗) | platform.spec.js | decode.worker.js, pool.js |
 | REQ-ARC-06 | S | R1 | tested | passing (5✓ 0✗) | closeout-ui.spec.js | panels.js, commands.js |
 | REQ-ARC-07 | M | R1 | tested | passing (2✓ 0✗) | r1-musts.spec.js | open.js, nitf.js, decode.worker.js |
@@ -161,7 +161,7 @@ Last results from 4569 test results: 170 passing; 14 passing (file); 3 failing (
 | REQ-WB-15 | M | R0 | tested | passing (2✓ 0✗) | feedback-ai.spec.js | capture.js, files.js |
 | REQ-AI-01 | M | R0 | tested | passing (7✓ 0✗) | feedback-ai.spec.js | ai-extras.js, ai.js, commands.js +1 |
 | REQ-AI-02 | M | R0 | tested | passing (5✓ 0✗) | feedback-ai.spec.js | providers.js, ai.js, commands.js |
-| REQ-AI-03 | M | R0 | tested | passing (2✓ 0✗) | feedback-ai.spec.js | providers.js, ai.js |
+| REQ-AI-03 | M | R0 | tested | passing (2✓ 0✗) | feedback-ai.spec.js | providers.js, sigv4.js, ai.js |
 | REQ-AI-04 | M | R0 | tested | passing (2✓ 0✗) | feedback-ai.spec.js | assistant.js, ai.js |
 | REQ-AI-05 | M | R0 | tested | passing (7✓ 0✗) | feedback-ai.spec.js, platform.spec.js | netlog.js, ai.js, commands.js +1 |
 | REQ-AI-06 | M | R0 | tested | passing (8✓ 0✗) | feedback-ai.spec.js, feedback-ai.test.js, store.test.js | registry.js, store.js, ai.js +1 |
