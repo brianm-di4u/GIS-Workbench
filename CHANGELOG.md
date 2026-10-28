@@ -2,6 +2,49 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0] - 2026-10-28
+
+GIS Workbench 2.0, the modernization release. It answers the ELT review: a clean canvas instead of a wall of tools, workspaces for the way you work, data that opens from anywhere, local AI as a first-class copilot, workflows you can watch, and hand-offs to the tools around you. The 1.x Ribbon layout is one click away for anyone who prefers it. The betas and release candidates below list every change in detail.
+
+### Added
+- **Modern layout** (the new default):
+  - An app bar and a navigation rail around one edge-to-edge image panel.
+  - The Ctrl+K command palette for commands, layers, coordinates and URLs, and two-line tooltips that say what each command does.
+  - A contextual tool pill and a radial menu (tap Space).
+  - Flicker (F), swipe (S), quick chips (C + drag), paste-to-pan and J / K target patrol.
+  - Docks that tile and never cover the imagery.
+  - Explorer, AI Analyst and Pro workspaces, and Material 3 light and dark themes.
+- **Network you control.** An Online/Offline switch, built-in basemaps under georeferenced imagery and a 2D/3D view once you go online. The new **air-gapped file** never touches the network.
+- **Data hub.**
+  - Imagery opens by range from https, S3 and GCS, and STAC catalogues can be searched over the view. Folders are watched, and unnamed files are recognised by their content.
+  - A Convert drop zone writes GeoJSON, GeoParquet and FlatGeobuf, and Cloud-Optimized GeoTIFF of any size.
+  - A Job Queue shows progress, speed, time left and Retry.
+- **Local AI from model packs**, on WebGPU or the CPU:
+  - SAM 2.1 smart select with square corners, Find Objects (OWLv2), Search Imagery (CLIP), Auto Align (DISK + LightGlue) and Auto Contrast.
+  - A copilot that runs plain requests on these tools first. Every model is MIT or Apache-2.0.
+- **Recipes:** workflows run as a visible stepper. Change a step and re-run from there, pause at review gates, and share recipes as files. Four are built in.
+- **Send to:**
+  - Photoshop (layered PSD with live Levels and Curves, or 16-bit TIFF with a Curves preset).
+  - Illustrator (layered PDF and SVG).
+  - Blender, Unreal and iOS (GLB and USDZ terrain).
+  - ATAK (CoT and data packages).
+  - Google Sheets (through your own relay).
+
+### Changed
+- GIS Workbench starts Offline until you choose.
+- Classification banners show automatically for imagery marked above UNCLASSIFIED, and always on request.
+- The north arrow became a small compass.
+- **Classic** (View ▸ Display ▸ Interface Layout) restores the 1.x Ribbon, Quick Access Toolbar, KeyTips, Layer Manager, Cue Cards and GXP-style themes.
+
+### Known limits
+- **Planned for 2.1:**
+  - The whole-earth globe and an offline world basemap pack.
+  - The vision-language drafter and the change mask after Auto Align (AI).
+  - Live TAK Server sending, and Drive or OneDrive through their APIs.
+  - Search indexes kept between sessions.
+  - A spatial index in FlatGeobuf output.
+- **Not yet checked in their target apps:** the Photoshop, Illustrator, Blender, Quick Look and ATAK hand-offs. Each file is checked by an independent reader in the tests.
+
 ## [2.0.0-rc.2] - 2026-10-28
 
 Bridges to the tools around GIS Workbench, the seventh step of 2.0 (phase P7), with the first hardening work of P8, as release candidate 2. Requirements REQ-HUB-01..04 and REQ-HUB-06; REQ-CNV-01..02 completed.

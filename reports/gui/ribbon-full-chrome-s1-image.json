@@ -63,9 +63,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Jumped to 34.050000°N 117.250000°W (DD, 1113 m precision)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -74,7 +72,9 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Jumped to 34.050000°N 117.250000°W (DD, 1113 m precision)×"
+  ],
   "problems": []
  },
  {
@@ -83,9 +83,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -94,7 +92,9 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {

@@ -1,10 +1,10 @@
 {
- "measured": "2026-10-28T13:43:42.797Z",
- "firstTileMs FX-01 NITF 4096² (16 MiB, one block)": 740,
- "firstTileMs WV3 COG": 195,
+ "measured": "2026-10-28T14:18:05.430Z",
+ "firstTileMs FX-01 NITF 4096² (16 MiB, one block)": 714,
+ "firstTileMs WV3 COG": 188,
  "multiport2x2": {
-  "fps": 59.90415335439493,
-  "frameMs": 1.7121887749648725,
+  "fps": 59.92808629715781,
+  "frameMs": 1.8788485514355906,
   "gpu": 18116800,
   "budget": 402653184,
   "pool": {
@@ -12,7 +12,7 @@
    "workers": {
     "decode": [
      {
-      "id": "wk_mvs60flr9vbeiu",
+      "id": "wk_mvs78mqa9ggoqf",
       "busy": 1
      }
     ]
@@ -20,12 +20,12 @@
    "queued": 0,
    "running": 1
   },
-  "heap": 39600000,
+  "heap": 42100000,
   "gl": "ANGLE (Intel, Intel(R) Arc(TM) Graphics (0x00007D55) Direct3D11 vs_5_0 ps_5_0, D3D11)",
   "software": false
  },
  "readoutMs": {
-  "median": 0.6000000238418579,
-  "max": 3
+  "median": 0.5,
+  "max": 2.200000047683716
  }
 }

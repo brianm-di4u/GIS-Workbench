@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "cbeb27c86dad6bf1",
-    "version": "2.0.0-rc.2",
-    "date": "2026-10-28T13:51:23.286Z",
+    "id": "f4b5f553e7f65a25",
+    "version": "2.0.0",
+    "date": "2026-10-28T13:53:15.112Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 6154394,
-    "eager": 2553094,
+    "total": 6155587,
+    "eager": 2553089,
     "css": 62216,
     "boot": 2733,
     "app": 2214435,
-    "notices": 133239,
+    "notices": 133234,
     "blocks": {
       "wasm-core": {
         "raw": 344926,
@@ -151,8 +151,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 26680,
-        "stored": 14852,
+        "raw": 29800,
+        "stored": 16060,
         "load": "lazy"
       }
     },
@@ -209,10 +209,10 @@
       }
     },
     "rustTotalGzip": 874882,
-    "airgap": 6153043,
-    "lite": 4259335,
-    "snippet": 6540854,
-    "snippetLite": 4259678
+    "airgap": 6154236,
+    "lite": 4260886,
+    "snippet": 6542047,
+    "snippetLite": 4261229
   },
   "gates": {
     "errors": [],
