@@ -129,6 +129,12 @@ export class Personas {
       b.addEventListener('click', () => this.apply(p.id));
       row.appendChild(b);
     }
+    // Network choice (REQ-NET-02): offline until the user says otherwise.
+    if (app.network && !app.network.airgap && !app.prefs.isLocked('network')) {
+      const online = h('input', { type: 'checkbox', 'data-id': 'welcome:online', checked: app.network.isOnline() });
+      online.addEventListener('change', () => app.network.set(online.checked ? 'online' : 'offline'));
+      card.append(h('label', { class: 'welcome-net' }, online, h('span', {}, h('strong', {}, 'Work online'), ' — satellite and map backgrounds, cloud catalogs (Earth Search, Planetary Computer, open data buckets). Every request is listed in the Network Log; leave it off to keep everything on this computer.')));
+    }
     const skip = h('button', { class: 'btn', type: 'button', 'data-id': 'welcome:skip' }, 'Skip for now');
     skip.addEventListener('click', () => this.dismissWelcome(true));
     const classic = h('button', { class: 'btn', type: 'button', 'data-id': 'welcome:classic' }, 'Classic layout (1.x)');

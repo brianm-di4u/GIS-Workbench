@@ -743,9 +743,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Epipolar pair: 2525 × 2245 px at 1 display px per pixel×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

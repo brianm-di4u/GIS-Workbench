@@ -134,6 +134,11 @@ export async function install(app) {
       }
     }
     if (!files.length) return;
+    // PMTiles open as a basemap (REQ-NET-05).
+    const pmt = [...files].filter((f) => /.pmtiles$/i.test(f.name));
+    for (const f of pmt) await app.openPmtiles?.(f).catch((e) => app.toast(`${f.name}: ${e.message}`, { kind: 'warn', ms: 8000 }));
+    if (pmt.length) files = [...files].filter((f) => !pmt.includes(f));
+    if (!files.length) return;
     if (app.splitMotionFiles) {
       // MPEG-TS video, STANAG 4607 GMTI and 4676 tracks (REQ-FMV-01, 11, 13).
       const { video, gmti, tracks, rest } = app.splitMotionFiles([...files]);

@@ -46,7 +46,7 @@ export async function servers(htmlPath = DIST) {
  * defaults, or e.g. { layout: 'classic' } (REQ-SHL-01/03).
  * Returns {frame, logs, csp, requests} where frame is the app's Frame.
  */
-export const LEGACY_PREFS = { layout: 'classic', bannerMode: 'on' };
+export const LEGACY_PREFS = { layout: 'classic', bannerMode: 'on', network: 'online' };
 
 export async function openApp(page, mode = 'file', { srv, htmlPath = DIST, prefs = LEGACY_PREFS } = {}) {
   const logs = [];

@@ -577,3 +577,29 @@ Implementation rules for the 2.0 work:
   Cesium/3d-tiles-renderer bundles were checked. The results are in the plan (§4 P3/P5, §6, §8).
   The hands-on halves run at the start of P3 (globe, basemap renderer) and P5 (WebGPU models),
   before any design in those phases is fixed.
+
+## DN-54 Network posture, basemaps and 3D (2.0 P3; REQ-NET-01..05, REQ-GLB-01/02)
+- **Curated origins** (`build/origins.json`) go into `connect-src` of the Standard and Lite files
+  and into `manifest.csp.curated`. Each origin records its purpose, licence, attribution and
+  policy. CORS with `Origin: null` was measured for each one. NAIP and Landsat come through
+  Planetary Computer, because `naip-analytic` (requester pays) and `usgs-landsat` send no CORS.
+- **Online/Offline.** `netlog.fetchFor` refuses every request while Offline, before the CSP check.
+  Offline is the state until the user chooses Online (first-start card or the status-bar
+  switch), and a locked Common `network` value fixes it.
+- **Air-gapped file.** `gis-workbench-airgap.html` is the Standard file with `connect-src blob:`
+  only, `curated: []` and profile `airgap`; the scripts and their hashes are unchanged.
+- **Basemaps under imagery.** Each Web Mercator tile is warped onto the view through the geo
+  layer's ground-to-image model on a 4×4 grid, using the existing textured-quad pass. The zoom is
+  the coarser one around the view's ground scale (at most 150 tiles), and the attribution is
+  always shown. The OSM tile servers are opt-in, behind their usage policy. CARTO and Esri are
+  not built in (licence).
+- **PMTiles.** Raster PMTiles (PNG, JPEG, WebP) open as a basemap, by file or drop, read by range
+  with the `pmtiles` reader (BSD-3), and work offline for the session. Vector PMTiles are refused
+  by name: they need an MVT renderer (S-30). The offline basemap pack is not built yet.
+- **2D/3D.** The 3D button builds an oblique scene on the existing three.js view (DN-35/36) in the
+  local frame. Terrain comes from a loaded DEM that covers the area, else (Online) from AWS
+  Terrain Tiles (Terrarium, MSL plus the geoid), else level ground. The active image is draped
+  through its own sensor model (the existing `drapeFor`) and the basemap is draped on a box
+  three times wider, 2 m lower. **S-27 is only partly answered:** this is a local-frame scene, not
+  a whole-earth globe. A WGS 84 globe for small scales (tiles placed through ECEF) remains open
+  and is tracked for P8.

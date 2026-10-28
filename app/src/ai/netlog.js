@@ -57,6 +57,14 @@ export class NetLog {
       const method = (init.method ?? (typeof input === 'object' ? input.method : null) ?? 'GET').toUpperCase();
       const origin = originOf(url);
       const entry = { time: new Date().toISOString().slice(11, 19), method, origin, path: (() => { try { return new URL(url).pathname; } catch { return url; } })(), status: 'blocked', sent: init.body ? (typeof init.body === 'string' ? init.body.length : init.body.byteLength ?? init.body.size ?? '?') : 0, received: 0, purpose };
+      // The Online/Offline switch gates every request, whatever the CSP allows (REQ-NET-02).
+      if (this.app.network && !this.app.network.isOnline()) {
+        entry.status = 'offline';
+        this.record(entry);
+        const err = new Error(this.app.network.airgap ? 'this is the air-gapped file: it makes no network requests' : 'GIS Workbench is offline (status bar ▸ Offline). Go online to reach ' + origin + '.');
+        err.offline = true;
+        throw err;
+      }
       if (!cspAllows(url)) {
         entry.status = 'not allowed';
         this.record(entry);

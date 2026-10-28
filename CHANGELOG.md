@@ -2,6 +2,21 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0-beta.2] - 2026-10-28
+
+Network, basemaps and 3D, the third step of GIS Workbench 2.0 (phase P3). Basemaps work out of the box once you choose to work online. An air-gapped file never touches the network. A 3D button shows the place in perspective. Requirements REQ-NET-01..05 and REQ-GLB-01..02.
+
+### Added
+- **Online / Offline switch** in the status bar. While Offline no request leaves this computer, whatever the file allows. GIS Workbench starts Offline until you choose, on the first-start card or with the switch, and a site can lock it. (REQ-NET-02)
+- **Built-in basemaps under and around georeferenced imagery**, drawn in the image panels through the image's own sensor model. Pick one from the corner button: Sentinel-2 cloudless satellite, USGS topographic and imagery (United States), NASA relief and night lights, or OpenStreetMap streets (opt-in, under its tile policy). The attribution is always shown and every tile is listed in the Network Log. (REQ-NET-04)
+- **Reviewed public origins** built into the file, each with its purpose, licence and policy (`build/origins.json`): the basemaps above, AWS Terrain Tiles, Earth Search and Planetary Computer catalogues, and open data buckets. Before, every origin had to be added by hand and the file saved and reloaded. (REQ-NET-01)
+- **Air-gapped file** `gis-workbench-airgap.html`, the same app with no network origin at all. (REQ-NET-03)
+- **PMTiles basemaps**: open or drop a raster `.pmtiles` file and it becomes the basemap, read by range from your disk and working offline. (REQ-NET-05)
+- **2D / 3D button** on georeferenced image panels. It builds an oblique 3D scene of the same place with terrain from a loaded DEM (else, online, from AWS Terrain Tiles), the image draped through its sensor model and the basemap around it, and goes back to 2D. (REQ-GLB-01, REQ-GLB-02)
+
+### Changed
+- An online background that the file cannot reach now explains whether GIS Workbench is offline or the site is not allowed, and offers the fix.
+
 ## [2.0.0-beta.1] - 2026-10-28
 
 The Modern shell, the second step of GIS Workbench 2.0 (phase P2). In the Modern layout the Ribbon makes way for an app bar and a navigation rail, tools come to the cursor, docked panels tile instead of floating over the image, and three workspace personas set everything up in one click. The Classic layout still runs every 1.x workflow, and it can be switched on and off without a restart. Requirements REQ-SHL-01 and REQ-SHL-08..13.

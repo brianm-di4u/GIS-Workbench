@@ -245,6 +245,8 @@ export class ImagePane {
       loading += l.tiles.loading;
       if (tiles.length) r.drawImageTiles(l, tiles, view, pw, ph, opts);
     };
+    // An online basemap under georeferenced imagery (REQ-NET-04, features/basemaps.js).
+    this.app.basemapUnder?.(this, r, vp);
     const cmp = this.compareLayers();
     const ps = !cmp && this.app.panSharpenFor?.(this);
     if (ps) {

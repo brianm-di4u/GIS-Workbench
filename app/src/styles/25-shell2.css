@@ -74,3 +74,20 @@
 .welcome-card:hover, .welcome-card:focus-visible { border-color: var(--c-m3-primary); background: color-mix(in srgb, var(--c-m3-primary) 10%, var(--c-m3-surface)); }
 .welcome-card span { color: var(--c-m3-onSurfaceVariant); font-size: 12px; }
 .welcome-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+
+/* Network switch and basemap HUD (REQ-NET-02, REQ-NET-04). */
+.status-net { display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.status-net::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #8e9099; }
+.status-net.on::before { background: #4ade80; }
+.status-net:disabled { cursor: default; opacity: .8; }
+.basemap-btn { position: absolute; left: 8px; bottom: 8px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px 0 4px; border: 0; border-radius: var(--shape-full, 999px); background: rgba(17, 19, 24, .72); color: #e2e2e9; font-size: 11px; }
+.basemap-btn:hover { background: rgba(17, 19, 24, .9); }
+.basemap-btn.waiting .basemap-name::after { content: ' (offline)'; opacity: .7; }
+.basemap-swatch { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .6); }
+.basemap-attr { position: absolute; left: 50%; transform: translateX(-50%); bottom: 2px; z-index: 2; max-width: 70%; padding: 1px 6px; font-size: 10px; color: #e2e2e9; background: rgba(0, 0, 0, .5); border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
+.welcome-net { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; padding: 10px 12px; border-radius: var(--shape-medium, 8px); background: var(--c-m3-surface); color: var(--c-m3-onSurfaceVariant); font-size: 12px; }
+.welcome-net strong { color: var(--c-m3-onSurface); }
+/* 2D / 3D button (REQ-GLB-02). */
+.fab-3d { position: absolute; right: 8px; bottom: 44px; z-index: 6; width: 44px; height: 44px; border: 0; border-radius: 14px; background: var(--c-m3-primaryContainer, #284777); color: var(--c-m3-onPrimaryContainer, #d8e2ff); font-weight: 700; box-shadow: 0 4px 14px rgba(0, 0, 0, .4); }
+.fab-3d:hover { filter: brightness(1.1); }
+.pane .pane-3d ~ .pane-compass { display: none; }

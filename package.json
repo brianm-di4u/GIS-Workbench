@@ -1,6 +1,6 @@
 {
   "name": "gis-workbench",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "private": true,
   "description": "GIS Workbench: single-file, offline, browser-based imagery exploitation and photogrammetry tool",
   "license": "Apache-2.0",
@@ -24,6 +24,7 @@
     "kdbush": "4.0.2",
     "milsymbol": "3.0.4",
     "mpegts.js": "1.8.2",
+    "pmtiles": "4.5.0",
     "polygon-clipping": "0.15.7",
     "pptxgenjs": "4.0.1",
     "proj4": "2.22.0",

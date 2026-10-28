@@ -492,7 +492,11 @@ const CATALOG = [
   ['patrol.prev', 'Previous Target', 'jump', 'REQ-SHL-11', 'R4', 'K', 'Centres the previous marker, detection or observation at the current zoom.'],
   ['triage.clear', 'Triage: Clear', 'check', 'REQ-SHL-11', 'R4', '1', 'Marks the current target as clear (nothing there).'],
   ['triage.active', 'Triage: Active', 'target', 'REQ-SHL-11', 'R4', '2', 'Marks the current target as active.'],
-  ['triage.flag', 'Triage: Flag', 'marker', 'REQ-SHL-11', 'R4', '3', 'Flags the current target for a closer look.']
+  ['triage.flag', 'Triage: Flag', 'marker', 'REQ-SHL-11', 'R4', '3', 'Flags the current target for a closer look.'],
+  ['net.toggle', 'Online', 'network', 'REQ-NET-02', 'R4', '', 'Switches between Online (basemaps, cloud catalogs) and Offline (no request leaves this computer).'],
+  ['bm.basemap', 'Basemap', 'globe', 'REQ-NET-04', 'R4', '', 'Chooses the map shown under and around georeferenced imagery.'],
+  ['glb.toggle', '2D / 3D', 'globe', 'REQ-GLB-02', 'R4', '', 'Turns the view into an oblique 3D scene of the same place, and back.'],
+  ['bm.pmtiles', 'Open PMTiles Basemap…', 'open', 'REQ-NET-05', 'R4', '', 'Uses a raster PMTiles file on this computer as the basemap; it works offline.']
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */

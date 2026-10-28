@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "3d5fdcad34f87481",
-    "version": "2.0.0-beta.1",
-    "date": "2026-10-28T08:57:35.647Z",
+    "id": "ce5f3775cf0e068d",
+    "version": "2.0.0-beta.2",
+    "date": "2026-10-28T09:55:25.115Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5797851,
-    "eager": 2396646,
-    "css": 57470,
+    "total": 5835836,
+    "eager": 2432919,
+    "css": 59353,
     "boot": 2733,
-    "app": 2067781,
-    "notices": 113907,
+    "app": 2101532,
+    "notices": 113989,
     "blocks": {
       "wasm-core": {
         "raw": 344926,
@@ -136,8 +136,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 15811,
-        "stored": 9224,
+        "raw": 17817,
+        "stored": 10260,
         "load": "lazy"
       }
     },
@@ -194,9 +194,10 @@
       }
     },
     "rustTotalGzip": 874882,
-    "lite": 4011448,
-    "snippet": 6157262,
-    "snippetLite": 4011791
+    "airgap": 5834615,
+    "lite": 4030342,
+    "snippet": 6199467,
+    "snippetLite": 4030685
   },
   "gates": {
     "errors": [],
@@ -268,6 +269,11 @@
       "name": "pako",
       "version": "2.2.0",
       "license": "(MIT AND Zlib)"
+    },
+    {
+      "name": "pmtiles",
+      "version": "4.5.0",
+      "license": "BSD-3-Clause"
     },
     {
       "name": "polygon-clipping",
@@ -499,5 +505,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-RpoXMRlcinczsSZFkuAxMMNbDcxh1wlMWCAlLdPCd6o=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-AV1GnAgXF57M2UO3+bv63/EDf7UnIa2Xf9ETqtaVLNM=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

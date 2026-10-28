@@ -1,6 +1,7 @@
 // Platform tests PT-01, PT-02, PT-03, PT-05, PT-07, PT-08 on the built file. REQ-ARC-20: the built
 // file is tested over file://, http:// and an iframe, with CSP, network capture and WebGL checks.
 import { test, expect } from '@playwright/test';
+import { resolve } from 'node:path';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -51,7 +52,10 @@ test('PT-02 REQ-SEC-01 REQ-SEC-12 REQ-AI-05 no request leaves unless the origin 
   expect(r.msg).toMatch(/not in this file's network allow-list/);
   expect(r.raw).toBe('TypeError');
   expect(r.log[0]).toMatchObject({ origin: 'https://api.anthropic.com', status: 'not allowed' });
-  expect(r.csp).toMatch(/connect-src blob:;/);
+  // 2.0 (OD-2.3, REQ-NET-01): blob: plus exactly the reviewed public origins of build/origins.json,
+  // used only while Online; the air-gapped file keeps blob: alone (net-p3.spec.js).
+  const curated = JSON.parse(readFileSync(resolve('build/origins.json'), 'utf8')).origins.map((o) => o.origin);
+  expect(/connect-src([^;]*);/.exec(r.csp)[1].trim().split(/\s+/)).toEqual(['blob:', ...curated]);
   expect(r.csp).not.toMatch(/[^-]'unsafe-eval'/);
   expect(requests).toEqual([]);
 });

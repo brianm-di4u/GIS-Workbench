@@ -1,5 +1,5 @@
 GIS Workbench — third-party notices
-Build 2.0.0-beta.1 (2026-10-28T08:57:35.647Z)
+Build 2.0.0-beta.2 (2026-10-28T09:55:25.115Z)
 
 This file is generated from the build metafile (JavaScript), cargo metadata (Rust) and the data list below.
 
@@ -1450,6 +1450,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+--- pmtiles 4.5.0 (BSD-3-Clause) ---
+(licence text not shipped with the package)
 
 --- polygon-clipping 0.15.7 (MIT) ---
 The MIT License (MIT)
