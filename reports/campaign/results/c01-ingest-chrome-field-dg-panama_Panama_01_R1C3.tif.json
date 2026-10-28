@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:16:13.514Z",
+ "key": "field-dg-panama/Panama_01_R1C3.tif",
+ "item": "field-dg-panama",
+ "file": "Panama_01_R1C3.tif",
+ "format": "GeoTIFF tile set",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 16384,
+   "h": 16384,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 29180,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

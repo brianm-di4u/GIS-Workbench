@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "194a2a60d14b0268",
+    "id": "ead71e44402a6e7b",
     "version": "1.2.1",
-    "date": "2026-10-28T03:13:42.538Z",
+    "date": "2026-10-28T03:16:15.793Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5692323,
+    "total": 5695098,
     "eager": 2299595,
     "css": 40646,
     "boot": 2733,
     "app": 1987759,
-    "notices": 111945,
+    "notices": 113900,
     "blocks": {
       "wasm-core": {
         "raw": 344323,
@@ -136,8 +136,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 7839,
-        "stored": 4956,
+        "raw": 9298,
+        "stored": 5776,
         "load": "lazy"
       }
     },
@@ -194,14 +194,14 @@
       }
     },
     "rustTotalGzip": 874735,
-    "lite": 3962969,
-    "snippet": 6028990,
-    "snippetLite": 3963312
+    "lite": 3964333,
+    "snippet": 6031765,
+    "snippetLite": 3964676
   },
   "gates": {
     "errors": [],
     "warnings": [],
-    "licence": "skipped"
+    "licence": "pass"
   },
   "packages": [
     {
@@ -335,6 +335,169 @@
       "license": "MIT AND BSD-3-Clause"
     }
   ],
-  "rustCrates": [],
+  "rustCrates": [
+    {
+      "name": "adler2",
+      "version": "2.0.1",
+      "license": "0BSD OR MIT OR Apache-2.0",
+      "repository": "https://github.com/oyvindln/adler2"
+    },
+    {
+      "name": "autocfg",
+      "version": "1.5.1",
+      "license": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/cuviper/autocfg"
+    },
+    {
+      "name": "bytemuck",
+      "version": "1.25.2",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "repository": "https://github.com/Lokathor/bytemuck"
+    },
+    {
+      "name": "bytemuck_derive",
+      "version": "1.12.1",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "repository": "https://github.com/Lokathor/bytemuck"
+    },
+    {
+      "name": "byteorder",
+      "version": "1.5.0",
+      "license": "Unlicense OR MIT",
+      "repository": "https://github.com/BurntSushi/byteorder"
+    },
+    {
+      "name": "fax",
+      "version": "0.3.0",
+      "license": "MIT",
+      "repository": "https://github.com/pdf-rs/fax"
+    },
+    {
+      "name": "fearless_simd",
+      "version": "1.2.0",
+      "license": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/linebender/fearless_simd"
+    },
+    {
+      "name": "geographiclib-rs",
+      "version": "0.2.7",
+      "license": "MIT",
+      "repository": "https://github.com/georust/geographiclib-rs"
+    },
+    {
+      "name": "hayro-jpeg2000",
+      "version": "0.4.1+gw.1",
+      "license": "Apache-2.0 OR MIT",
+      "repository": ""
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.18",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/itoa"
+    },
+    {
+      "name": "jpeg-decoder",
+      "version": "0.3.2",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/image-rs/jpeg-decoder"
+    },
+    {
+      "name": "laz",
+      "version": "0.13.0",
+      "license": "Apache-2.0",
+      "repository": "https://github.com/tmontaigu/laz-rs"
+    },
+    {
+      "name": "libm",
+      "version": "0.2.16",
+      "license": "MIT",
+      "repository": "https://github.com/rust-lang/compiler-builtins"
+    },
+    {
+      "name": "memchr",
+      "version": "2.8.3",
+      "license": "Unlicense OR MIT",
+      "repository": "https://github.com/BurntSushi/memchr"
+    },
+    {
+      "name": "miniz_oxide",
+      "version": "0.8.9",
+      "license": "MIT OR Zlib OR Apache-2.0",
+      "repository": "https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide"
+    },
+    {
+      "name": "ndic-core",
+      "version": "0.2.5",
+      "license": "MIT",
+      "repository": "https://github.com/fideus-labs/nd-image-codecs"
+    },
+    {
+      "name": "ndic-htj2k",
+      "version": "0.2.5",
+      "license": "MIT",
+      "repository": "https://github.com/fideus-labs/nd-image-codecs"
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/rust-num/num-traits"
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.107",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/proc-macro2"
+    },
+    {
+      "name": "quote",
+      "version": "1.0.47",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/quote"
+    },
+    {
+      "name": "serde_core",
+      "version": "1.0.229",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/serde-rs/serde"
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.154",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/serde-rs/json"
+    },
+    {
+      "name": "syn",
+      "version": "3.0.9",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/syn"
+    },
+    {
+      "name": "thiserror",
+      "version": "2.0.21",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/thiserror"
+    },
+    {
+      "name": "thiserror-impl",
+      "version": "2.0.21",
+      "license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/dtolnay/thiserror"
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.27",
+      "license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "repository": "https://github.com/dtolnay/unicode-ident"
+    },
+    {
+      "name": "zmij",
+      "version": "1.0.23",
+      "license": "MIT",
+      "repository": "https://github.com/dtolnay/zmij"
+    }
+  ],
   "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-iWttKbwAC8IN3pSGs+Yv1t11D0WFamwGdFGpxtYrswg=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }
