@@ -1073,6 +1073,101 @@
  },
  {
   "tab": "products",
+  "id": "hub.psd",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Photoshop: 793 × 857 px, 3 layers (Stretch (Levels), Graphics)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.tiff16",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 16-bit TIFF: 793 × 857 px, 1 band, 16-bit, with a Curves preset×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.pdf",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Layered PDF: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.svg",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.glb",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.usdz",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [
+   "info: Layered SVG: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.atak",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.cot",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.relay",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:hub-relay"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
   "id": "report.template",
   "kind": "button",
   "outcome": "clicked",
@@ -1088,7 +1183,9 @@
   "kind": "caret",
   "outcome": "menu ×1",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
   "problems": []
  },
  {

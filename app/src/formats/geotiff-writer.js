@@ -3,13 +3,13 @@
 // overviews, GeoKeys for an EPSG code, either a geotransform (pixel scale + tie point) or
 // ground control points, GDAL_NODATA and the RPC tag 50844. Little-endian classic TIFF.
 
-const TYPE = { BYTE: 1, ASCII: 2, SHORT: 3, LONG: 4, DOUBLE: 12 };
-const SIZE = { 1: 1, 2: 1, 3: 2, 4: 4, 12: 8 };
-const BPS = { u8: 8, u16: 16, i16: 16, f32: 32 };
-const FMT = { u8: 1, u16: 1, i16: 2, f32: 3 };
-const ARR = { u8: Uint8Array, u16: Uint16Array, i16: Int16Array, f32: Float32Array };
+export const TYPE = { BYTE: 1, ASCII: 2, SHORT: 3, LONG: 4, DOUBLE: 12 };
+export const SIZE = { 1: 1, 2: 1, 3: 2, 4: 4, 12: 8 };
+export const BPS = { u8: 8, u16: 16, i16: 16, f32: 32 };
+export const FMT = { u8: 1, u16: 1, i16: 2, f32: 3 };
+export const ARR = { u8: Uint8Array, u16: Uint16Array, i16: Int16Array, f32: Float32Array };
 
-async function deflate(u8) {
+export async function deflate(u8) {
   const s = new Blob([u8]).stream().pipeThrough(new CompressionStream('deflate'));
   return new Uint8Array(await new Response(s).arrayBuffer());
 }
@@ -32,13 +32,13 @@ function tileBytes(img, tx, ty, tw, th, fill) {
 }
 
 /** Predictor 2 (integer horizontal differencing) on a tile, in place. */
-function predict2(bytes, type, tw, th, n) {
+export function predict2(bytes, type, tw, th, n) {
   const a = new ARR[type](bytes.buffer, bytes.byteOffset, tw * th * n);
   for (let y = 0; y < th; y++) for (let x = tw - 1; x > 0; x--) for (let b = 0; b < n; b++) a[(y * tw + x) * n + b] -= a[(y * tw + x - 1) * n + b];
 }
 
 /** Predictor 3 (floating point, TIFF Technical Note 3): byte planes MSB first, then byte differences. */
-function predict3(bytes, tw, th, n) {
+export function predict3(bytes, tw, th, n) {
   const row = tw * n * 4;
   const out = new Uint8Array(bytes.length);
   const N = tw * n;
@@ -82,7 +82,7 @@ export function halve(img, mode = 'mean', nodata = null) {
   return { ...img, width: W, height: H, data: out };
 }
 
-function geoKeys({ epsg, vertical = null }) {
+export function geoKeys({ epsg, vertical = null }) {
   const keys = [];
   const geographic = epsg === 4326 || epsg === 4979 || (epsg >= 4000 && epsg < 5000);
   keys.push([1024, 0, 1, geographic ? 2 : 1]); // GTModelTypeGeoKey

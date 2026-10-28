@@ -516,12 +516,22 @@ const CATALOG = [
   ['rcp.airfield-triage', 'Airfield Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: auto contrast, find aircraft, your review, a chip deck and a GeoJSON of the accepted ones.'],
   ['rcp.damage-triage', 'Damage Triage', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: align the post-event image, find damage, your review, GeoJSON.'],
   ['rcp.folder-to-cog', 'Convert a Folder to COG', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: every raster in a folder becomes a Cloud-Optimized GeoTIFF.'],
-  ['rcp.building-extraction', 'Building Extraction', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: find buildings, outline and square each one, your review, GeoJSON.']
+  ['rcp.building-extraction', 'Building Extraction', 'list', 'REQ-PIP-04', 'R4', '', 'Runs the recipe: find buildings, outline and square each one, your review, GeoJSON.'],
+  // ---- 2.0 hub bridges (P7) ----
+  ['hub.psd', 'Photoshop (PSD)…', 'save', 'REQ-HUB-01', 'R4', '', 'Saves the view as a Photoshop file: the image plus Levels and Curves layers that rebuild its look, and the graphics.'],
+  ['hub.tiff16', '16-bit TIFF + Curves…', 'save', 'REQ-HUB-01', 'R4', '', 'Saves the view as a 16-bit GeoTIFF and a Photoshop Curves preset that gives it the same look.'],
+  ['hub.pdf', 'Illustrator (Layered PDF)…', 'save', 'REQ-HUB-02', 'R4', '', 'Saves the view as a PDF whose layers (imagery, graphics, vectors, neatline, scale bar) Illustrator opens as layers.'],
+  ['hub.svg', 'Layered SVG…', 'save', 'REQ-HUB-02', 'R4', '', 'Saves the view as an SVG with the imagery and each vector layer as its own layer.'],
+  ['hub.glb', '3D Terrain (GLB)…', 'save', 'REQ-HUB-03', 'R4', '', 'Saves the ground in view as a textured 3D mesh for Blender or Unreal.'],
+  ['hub.usdz', '3D Terrain (USDZ)…', 'save', 'REQ-HUB-03', 'R4', '', 'Saves the ground in view as a textured 3D model that iPhone and iPad open in AR Quick Look.'],
+  ['hub.cot', 'CoT Events…', 'save', 'REQ-HUB-04', 'R4', '', 'Saves markers, observations, accepted detections and outlines as Cursor-on-Target XML.'],
+  ['hub.atak', 'ATAK Data Package…', 'save', 'REQ-HUB-04', 'R4', '', 'Saves a data package ATAK, WinTAK and iTAK import: the points and outlines with the session chips.'],
+  ['hub.relay', 'Send to Google Sheet…', 'network', 'REQ-HUB-06', 'R4', '', 'Appends markers, observations and accepted detections to a Google Sheet through your own Apps Script relay (experimental).']
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */
 const LITE_NEEDS = [
-  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$/],
+  ['js-three', /^(3d\.|pc\.)|^file\.openpointcloud$|^hub\.usdz$/],
   ['wasm-sar', /^sar\.(speckle|acd|ccd|pairs|subap|csi|pauli)$/],
 ];
 

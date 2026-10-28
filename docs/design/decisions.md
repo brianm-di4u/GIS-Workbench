@@ -757,3 +757,89 @@ Implementation rules for the 2.0 work:
 - **Deviation.** Damage triage has no change-mask step (DN-56). It finds damage on the
   co-registered post-event image and the gate asks for flicker or swipe against the pre-event
   image.
+
+## DN-58 Hub bridges (2.0 P7; REQ-HUB-01..04, 06)
+- **Photoshop (REQ-HUB-01).**
+  - **Layered PSD**, written by ag-psd 31.0.3 (MIT) in the lazy block `js-psd`.
+    - The base layer holds the view's pixels, linear from each band's full data range (0 % to
+      100 % of the histogram) to 8 bits.
+    - A Levels adjustment layer rebuilds the stretch. Black and white points per channel are
+      the DRA or stretch range on the base's 0–255 domain, and the midtone is the chain's gamma
+      (2^(γ/50)). A Curves layer carries the tonal curve. The graphics come as a pixel layer.
+    - CLAHE and sharpening are not rebuilt: Photoshop has no live equivalent.
+  - The PSD grid is image-aligned at the view's resolution (≤ 4096 px). A `.psw` world file
+    (WGS 84 affine of the corners) carries the georeference.
+  - ag-psd writes 8-bit only. The **16-bit GeoTIFF** export rescales each band linearly from its
+    full range to 16 bits, keeps the georeference (geotransform or a 5 × 5 GCP grid), and comes
+    with an `.acv` Curves preset (version 1, composite plus R, G, B) holding the same stretch,
+    gamma and curve in at most 16 points per channel.
+- **Illustrator (REQ-HUB-02).**
+  - **Layered PDF**, from a new writer (`hub/layers.js`, PDF 1.5). Each layer is an optional
+    content group: Imagery (JPEG), Graphics, each visible vector layer, Neatline and Scale bar.
+    They are real paths in output pixels at 0.75 pt each, with the GeoPDF viewport of
+    `snap.geopdf`.
+  - **Layered SVG**, with the same layers as Inkscape layer groups and the imagery embedded.
+  - The view is drawn as on screen (makeChip without graphics), so the scale is the view's.
+    Opening in Illustrator itself is still to inspect.
+- **3D (REQ-HUB-03).** A 96 × 96 grid over the view takes its ground from the sensor model, with
+  heights by ray–DEM intersection when a DEM covers the image (flat otherwise, which the result
+  says).
+  - Coordinates are local ENU on a tangent plane, under 0.1 % scale error within 10 km. Faces
+    wind upward.
+  - The texture is a chip of the view as shown, graphics included (2048 px).
+  - GLB comes from the app's glTF writer with UVs on the grid. USDZ comes from three.js
+    USDZExporter (MeshStandardMaterial, CanvasTexture, texture ≤ 4096 px) in the three block, so
+    Lite does not offer it.
+  - Blender and Quick Look checks are still to inspect.
+- **TAK (REQ-HUB-04), Tier 1, every build including the air-gapped one.**
+  - CoT 2.0 events go out for markers, observations and accepted detections. Detections are
+    typed from their class through 2525 function codes (aircraft a-u-G-E-V-A, vehicle
+    a-u-G-E-V, ship a-u-S, building a-u-G-I). Outlines are freehand drawings (u-d-f with link
+    points). Machine detections have `how="m-g"`, analyst marks `h-e`.
+  - The ATAK data package is a v2 mission-package manifest with the CoT files and the session
+    chips (JPEG).
+  - Import into ATAK and WinTAK is still to inspect.
+  - **REQ-HUB-05** (TAK Server over HTTPS/WSS, Could) is not built. Spike S-39 needs a TAK Server
+    and client certificate to test against.
+- **Drives (REQ-HUB-06, partial).**
+  - *Synced folders* work through Catalog ▸ Add Folder (DN-55).
+  - *Writing to Sheets* uses the analyst's own Apps Script web app, with the script shown in the
+    dialog. The request is a `text/plain` POST, so no CORS preflight, carrying an
+    HMAC-SHA256-signed JSON body of rows. The secret is not stored.
+  - The relay's own CORS answer to `Origin: null` is unverified (S-41), so the command is marked
+    experimental. `script.google.com` and `script.googleusercontent.com` were added to the
+    curated origins as exact hosts.
+  - *Reading* published Sheets was dropped. Measured 2026-10-28: the CSV export answers with a
+    307 to a per-request `doc-…-sheets.googleusercontent.com` host, and the redirect carries no
+    `Access-Control-Allow-Origin`. The `gviz` CSV has no CORS header either. A page cannot read
+    them, and the CSP would need a wildcard.
+  - The Drive and OneDrive APIs in hosted mode (OAuth with the site's client id) are not built.
+
+## DN-59 Streaming COG, FlatGeobuf and the 2.0 gaps (2.0 P8; REQ-CNV-01/02)
+- **Streaming COG (S-32).** `formats/cog-stream.js` writes any image size within a fixed memory
+  ceiling. It reads one tile row at a time, at most 16 384 px wide.
+  - **Levels.** Each level is read from the source at its 2^k step (the decoder's own reduced
+    reads), not cascaded from full resolution. Its tiles are encoded with the existing
+    predictors and Deflate and appended to a temporary OPFS file, or to memory where there is
+    no OPFS.
+  - **Assembly.** The COG is assembled as a Blob of the header and IFDs plus the level files,
+    smallest overview first, so the tile data is never copied into memory. It switches to
+    BigTIFF past 4 GB.
+  - **Storage check.** Free browser storage is checked first (raw size × 0.7).
+  - **When it is used.** Convert streams above 256 M samples and keeps the in-memory writer
+    below.
+  - **Measured.** The Houston DFC 2018 orthophoto (11 920 × 12 020 × 3, 432 M samples) became a
+    311 MB, 6-level COG in 164 s, and a 64 px window matches the source exactly.
+  - S-32's 20 GB / 100 MB/s criterion has not been run: no input of that size is in the corpus.
+- **FlatGeobuf** comes from flatgeobuf 4.4.0 (BSD-3-Clause; flatbuffers Apache-2.0), in the lazy
+  block `js-fgb`. Version 4.5 and later pull in a zstd WASM module, so 4.4.0 is used.
+  - The JavaScript writer builds no packed Hilbert R-tree index. The files read in GDAL, QGIS
+    and the flatgeobuf readers, but cannot be range-filtered over HTTP.
+- **Deferred to 2.1 (recorded, not dropped):**
+  - The whole-earth globe (S-27). The 2D/3D button gives an oblique local 3D scene (DN-54).
+  - The offline z0–8 world basemap pack. User PMTiles basemaps work offline.
+  - The vision-language drafter (REQ-LAI-04) and the change mask after Auto Align (AI).
+  - The TAK Server connector (REQ-HUB-05, S-39) and the Drive / OneDrive APIs in hosted mode.
+  - Persisting search indexes, and folder indexes.
+  - The usability study with newcomers, AI analysts and GXP-trained users, and Adam Simmons's
+    review of the release candidates. These need people and are not run by the build.

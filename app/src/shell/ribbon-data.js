@@ -65,6 +65,7 @@ export const MAIN_TABS = [
       { label: 'Chip', items: [L('chip.view'), S('chip.preset'), S('chip.markers'), S('hud.quickchip'), S('deck.export'), S('deck.clear')] },
       { label: 'Templates', items: [L('tpl.apply', { kind: 'gallery' }), S('tpl.edit'), S('tpl.props')] },
       { label: 'Snapshot', items: [S('snap.pptx'), S('snap.pdf'), S('snap.geopdf'), S('snap.kmz')] },
+      { label: 'Send to', items: [S('hub.psd'), S('hub.tiff16'), S('hub.pdf'), S('hub.svg'), S('hub.glb'), S('hub.usdz'), S('hub.atak'), S('hub.cot'), S('hub.relay')] },
       { label: 'Reports', items: [L('report.template', { kind: 'split' }), S('report.ai'), S('obs.toolbox'), S('obs.table'), S('prod.gif'), S('prod.mediapptx'), S('prod.pptxtemplate')] },
       { label: 'Metadata', items: [S('meta.edit'), S('meta.marking'), S('meta.redact')] },
       { label: 'Advanced', items: [L('prod.finishing')] },

@@ -23,7 +23,7 @@ const RAIL = [
     id: 'products',
     label: 'Products',
     icon: 'chip',
-    menu: () => [{ cmd: 'chip.view' }, { cmd: 'chip.preset' }, { cmd: 'chip.markers' }, { cmd: 'hud.quickchip' }, { cmd: 'deck.export' }, '-', { cmd: 'snap.pptx' }, { cmd: 'snap.pdf' }, { cmd: 'snap.geopdf' }, { cmd: 'snap.kmz' }, '-', { cmd: 'report.template' }, { cmd: 'report.ai' }, { cmd: 'prod.finishing' }],
+    menu: () => [{ cmd: 'chip.view' }, { cmd: 'chip.preset' }, { cmd: 'chip.markers' }, { cmd: 'hud.quickchip' }, { cmd: 'deck.export' }, '-', { cmd: 'snap.pptx' }, { cmd: 'snap.pdf' }, { cmd: 'snap.geopdf' }, { cmd: 'snap.kmz' }, '-', { cmd: 'hub.psd' }, { cmd: 'hub.pdf' }, { cmd: 'hub.glb' }, { cmd: 'hub.usdz' }, { cmd: 'hub.atak' }, '-', { cmd: 'report.template' }, { cmd: 'report.ai' }, { cmd: 'prod.finishing' }],
   },
 ];
 

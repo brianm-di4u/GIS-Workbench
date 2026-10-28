@@ -2,6 +2,31 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0-rc.2] - 2026-10-28
+
+Bridges to the tools around GIS Workbench, the seventh step of 2.0 (phase P7), with the first hardening work of P8, as release candidate 2. Requirements REQ-HUB-01..04 and REQ-HUB-06; REQ-CNV-01..02 completed.
+
+### Added
+- **Send to** (Products ▸ Send to, or the Products rail menu). Every file is written on this computer.
+  - **Photoshop (PSD)**: the view as layers. The raw image comes first, then **Levels** and **Curves** adjustment layers that rebuild the GIS Workbench look and stay editable, then the graphics. A world file comes with it. (REQ-HUB-01)
+  - **16-bit TIFF + Curves**: the view at 16 bits with its georeference, plus a Photoshop Curves preset (`.acv`) for the same look. (REQ-HUB-01)
+  - **Illustrator (Layered PDF)** and **Layered SVG**: each opens with its layers: imagery, graphics, each vector layer, neatline and scale bar. The vectors are real paths. (REQ-HUB-02)
+  - **3D Terrain (GLB)** for Blender and Unreal, and **3D Terrain (USDZ)** for iPhone and iPad. The ground in view becomes a textured mesh, with heights from a loaded DEM. (REQ-HUB-03)
+  - **CoT Events** and **ATAK Data Package** cover markers, observations, accepted detections (typed by class) and outlines, plus the session chips. They are for ATAK, WinTAK and iTAK and work in every build, including the air-gapped one. (REQ-HUB-04)
+  - **Send to Google Sheet** (experimental): appends markers, observations and accepted detections as rows through an Apps Script relay you deploy in your own Google account. Each request is signed with a secret that is not stored. (REQ-HUB-06)
+
+- **Convert any image to COG.** Images above the in-memory limit (256 million samples) now convert by streaming: one row of tiles in memory at a time, temporary tiles in browser storage, and BigTIFF past 4 GB. A 432-million-sample orthophoto converts in under three minutes. (REQ-CNV-01)
+- **FlatGeobuf** output in Convert, next to GeoJSON and GeoParquet. The file has no spatial index yet. (REQ-CNV-02)
+- **Help:** new topics: What’s new in 2.0, Coming from 1.x (Classic), Online, Cloud data and conversion, Local AI, Recipes, and Send to other tools.
+
+### Known limits
+- **Photoshop:** the PSD is 8-bit; use the 16-bit TIFF for full depth. Local contrast (CLAHE) and sharpening are not rebuilt as layers.
+- **Not available yet:**
+  - Live TAK Server sending (REQ-HUB-05).
+  - Drive and OneDrive saving through their APIs.
+  - Opening published Google Sheets directly; Google's CSV links do not allow it. Use a synced folder or a downloaded CSV.
+- **Not yet checked in the target apps:** Photoshop, Illustrator, Blender, Quick Look and ATAK. Each file is checked by an independent reader in the tests.
+
 ## [2.0.0-rc.1] - 2026-10-28
 
 Recipes, the sixth step of GIS Workbench 2.0 (phase P6) and the first release candidate. A workflow runs as a row of steps you can watch, pause, adjust and share. Requirements REQ-PIP-01..04.

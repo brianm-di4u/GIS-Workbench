@@ -1,6 +1,6 @@
 {
   "name": "gis-workbench",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
   "private": true,
   "description": "GIS Workbench: single-file, offline, browser-based imagery exploitation and photogrammetry tool",
   "license": "Apache-2.0",
@@ -21,6 +21,7 @@
     "ag-psd": "31.0.3",
     "dompurify": "3.4.17",
     "fflate": "0.8.3",
+    "flatgeobuf": "4.4.0",
     "geotiff": "3.0.5",
     "hyparquet-writer": "0.17.0",
     "kdbush": "4.0.2",

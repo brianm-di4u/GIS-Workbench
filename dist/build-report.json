@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "c7e8278a3de13f10",
-    "version": "2.0.0-rc.1",
-    "date": "2026-10-28T13:06:47.560Z",
+    "id": "cbeb27c86dad6bf1",
+    "version": "2.0.0-rc.2",
+    "date": "2026-10-28T13:51:23.286Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5955370,
-    "eager": 2514994,
+    "total": 6154394,
+    "eager": 2553094,
     "css": 62216,
     "boot": 2733,
-    "app": 2176754,
-    "notices": 116662,
+    "app": 2214435,
+    "notices": 133239,
     "blocks": {
       "wasm-core": {
         "raw": 344926,
@@ -90,6 +90,11 @@
         "stored": 2808,
         "load": "lazy"
       },
+      "js-fgb": {
+        "raw": 42658,
+        "stored": 13888,
+        "load": "lazy"
+      },
       "js-milsymbol": {
         "raw": 862192,
         "stored": 260128,
@@ -110,14 +115,19 @@
         "stored": 168340,
         "load": "lazy"
       },
+      "js-psd": {
+        "raw": 292383,
+        "stored": 115892,
+        "load": "lazy"
+      },
       "js-sqlite": {
         "raw": 45802,
         "stored": 20320,
         "load": "lazy"
       },
       "js-three": {
-        "raw": 639164,
-        "stored": 214904,
+        "raw": 664904,
+        "stored": 227668,
         "load": "lazy"
       },
       "wasm-sqlite": {
@@ -141,8 +151,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 23968,
-        "stored": 13432,
+        "raw": 26680,
+        "stored": 14852,
         "load": "lazy"
       }
     },
@@ -199,10 +209,10 @@
       }
     },
     "rustTotalGzip": 874882,
-    "airgap": 5954149,
-    "lite": 4105568,
-    "snippet": 6335072,
-    "snippetLite": 4105911
+    "airgap": 6153043,
+    "lite": 4259335,
+    "snippet": 6540854,
+    "snippetLite": 4259678
   },
   "gates": {
     "errors": [],
@@ -226,8 +236,23 @@
       "license": "MIT"
     },
     {
+      "name": "@repeaterjs/repeater",
+      "version": "3.0.6",
+      "license": "MIT"
+    },
+    {
       "name": "@stablelib/base64",
       "version": "1.0.1",
+      "license": "MIT"
+    },
+    {
+      "name": "ag-psd",
+      "version": "31.0.3",
+      "license": "MIT"
+    },
+    {
+      "name": "base64-js",
+      "version": "1.5.1",
       "license": "MIT"
     },
     {
@@ -239,6 +264,16 @@
       "name": "fflate",
       "version": "0.8.3",
       "license": "MIT"
+    },
+    {
+      "name": "flatbuffers",
+      "version": "25.9.23",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "flatgeobuf",
+      "version": "4.4.0",
+      "license": "BSD-3-Clause"
     },
     {
       "name": "geotiff",
@@ -324,6 +359,11 @@
       "name": "rtree-sql.js",
       "version": "1.7.0",
       "license": "MIT"
+    },
+    {
+      "name": "slice-source",
+      "version": "0.4.1",
+      "license": "BSD-3-Clause"
     },
     {
       "name": "standardwebhooks",
@@ -520,5 +560,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-gIKR5hRHIAcwJ/tlMzvDrji2W/jlmIrAsvwZisfvba0=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-lZqM2x5Ux9uURQZmyDBMStMPLmxfkGWmdlKYJr2RyGA=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

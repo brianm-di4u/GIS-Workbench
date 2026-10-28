@@ -1035,6 +1035,93 @@
  },
  {
   "tab": "products",
+  "id": "hub.psd",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.tiff16",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.pdf",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.svg",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.glb",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.usdz",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.atak",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.cot",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.relay",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:hub-relay"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
   "id": "report.template",
   "kind": "button",
   "outcome": "clicked",
