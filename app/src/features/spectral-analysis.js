@@ -34,10 +34,32 @@ export function install(app) {
   // active AOI when there is one, and read every k-th pixel when the window is still too large;
   // the product keeps its geolocation through a window model (openMemoryLayer step).
   const CUBE_MAX = 96e6;
+  /** The image point of l under the view centre (the image centre when there is no view). */
+  function viewCentre(l) {
+    const p = pane();
+    const geo = p?.geoLayer?.();
+    if (p && geo) {
+      const { w, h } = p.size();
+      const q = p.imagePoint(w / 2, h / 2);
+      const g = geo.groundAt(q.x, q.y);
+      const r = g && l.imageAt(g.lat, g.lon, g.h ?? 0);
+      if (r && Number.isFinite(r.x)) return r;
+    }
+    return { x: l.width / 2, y: l.height / 2 };
+  }
   function fitWindow(l, window = null, { nb = l.bands, fullRes = null } = {}) {
     const a = window ?? aoiRect(l) ?? { x0: 0, y0: 0, w: l.width, h: l.height };
     const step = a.step ?? Math.max(1, Math.ceil(Math.sqrt((a.w * a.h * nb) / CUBE_MAX)));
-    if (step > 1 && fullRes) throw new Error(`${fullRes} works at full resolution on up to ${CUBE_MAX / 1e6} M samples; the ${window || aoiRect(l) ? 'AOI' : 'image'} is ${a.w}×${a.h}×${nb}: draw a smaller AOI over the area`);
+    if (step > 1 && fullRes) {
+      if (window || aoiRect(l)) throw new Error(`${fullRes} works at full resolution on up to ${CUBE_MAX / 1e6} M samples; the AOI is ${a.w}×${a.h}×${nb}: draw a smaller AOI`);
+      // No AOI: the largest full-resolution square around the view centre.
+      const side = Math.floor(Math.sqrt(CUBE_MAX / nb));
+      const c = viewCentre(l);
+      const x0 = Math.max(0, Math.min(l.width - side, Math.round(c.x - side / 2)));
+      const y0 = Math.max(0, Math.min(l.height - side, Math.round(c.y - side / 2)));
+      app.toast(`${fullRes} works at full resolution: the ${Math.min(side, l.width)}×${Math.min(side, l.height)} pixels around the view centre (draw an AOI to choose the area).`, { ms: 9000 });
+      return { x0, y0, w: Math.min(side, l.width), h: Math.min(side, l.height), step: 1 };
+    }
     if (step > 1) app.toast(`${l.rec?.name ?? 'The image'} is ${a.w}×${a.h}×${nb}: analysed at every ${step}th pixel. Draw an AOI of up to ${Math.floor(Math.sqrt(CUBE_MAX / nb))}² pixels for full resolution.`, { ms: 9000 });
     return { x0: a.x0, y0: a.y0, w: a.w, h: a.h, step };
   }

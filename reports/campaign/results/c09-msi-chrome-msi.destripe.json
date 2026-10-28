@@ -1,19 +1,19 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:02:02.296Z",
+ "when": "2026-10-28T04:07:20.562Z",
  "key": "msi.destripe",
  "id": "msi.destripe",
  "enabled": true,
- "outcome": "error",
+ "outcome": "done",
  "dialogs": [],
  "toasts": [
-  "toast-error: 8694×9400×4 samples are more than a cube takes (96 M); use an AOI or a coarser step"
+  "toast-info: Destripe works at full resolution: the 4898×4898 pixels around the view centre (draw an AOI to choose the area)."
  ],
- "errors": [
-  "toast-error: 8694×9400×4 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
+ "errors": [],
  "changed": [
+  "layers",
+  "active",
   "body"
  ],
  "downloads": [],

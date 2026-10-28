@@ -1,7 +1,7 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:01:40.807Z",
+ "when": "2026-10-28T04:06:05.283Z",
  "key": "msi.stack",
  "id": "msi.stack",
  "enabled": false,

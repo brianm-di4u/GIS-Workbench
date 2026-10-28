@@ -1,20 +1,16 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:02:01.680Z",
+ "when": "2026-10-28T04:06:22.030Z",
  "key": "msi.detect",
  "id": "msi.detect",
  "enabled": true,
- "outcome": "error",
+ "outcome": "dialog",
  "dialogs": [
   "Target and Anomaly Detection"
  ],
- "toasts": [
-  "toast-error: 16370×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
- "errors": [
-  "toast-error: 16370×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
+ "toasts": [],
+ "errors": [],
  "changed": [
   "body"
  ],

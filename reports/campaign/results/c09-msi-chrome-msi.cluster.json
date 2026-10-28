@@ -1,20 +1,16 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:01:50.141Z",
+ "when": "2026-10-28T04:06:20.737Z",
  "key": "msi.cluster",
  "id": "msi.cluster",
  "enabled": true,
- "outcome": "error",
+ "outcome": "dialog",
  "dialogs": [
   "Unsupervised Classification"
  ],
- "toasts": [
-  "toast-error: 16384×15960×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
- "errors": [
-  "toast-error: 16384×15960×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
+ "toasts": [],
+ "errors": [],
  "changed": [
   "body"
  ],

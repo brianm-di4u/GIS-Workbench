@@ -1,23 +1,23 @@
 {
   "build": {
-    "id": "0b35ae8633baf80e",
+    "id": "feb8e261b0de1379",
     "version": "1.2.1",
-    "date": "2026-10-28T03:21:08.514Z",
+    "date": "2026-10-28T04:09:13.727Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5696032,
-    "eager": 2300529,
+    "total": 5698578,
+    "eager": 2302395,
     "css": 40646,
     "boot": 2733,
-    "app": 1988693,
+    "app": 1990362,
     "notices": 113900,
     "blocks": {
       "wasm-core": {
-        "raw": 344323,
-        "stored": 187092,
+        "raw": 344926,
+        "stored": 187288,
         "load": "eager"
       },
       "wasm-parse": {
@@ -66,8 +66,8 @@
         "load": "lazy"
       },
       "js-worker-core": {
-        "raw": 11764,
-        "stored": 5060,
+        "raw": 11850,
+        "stored": 5084,
         "load": "lazy"
       },
       "js-worker-ai": {
@@ -81,8 +81,8 @@
         "load": "lazy"
       },
       "js-worker-decode": {
-        "raw": 359379,
-        "stored": 178444,
+        "raw": 360088,
+        "stored": 178704,
         "load": "lazy"
       },
       "js-worker-pointcloud": {
@@ -136,15 +136,15 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 9298,
-        "stored": 5776,
+        "raw": 10043,
+        "stored": 6172,
         "load": "lazy"
       }
     },
     "rust": {
       "core": {
-        "raw": 344323,
-        "gzip": 140318,
+        "raw": 344926,
+        "gzip": 140465,
         "budget": 256000
       },
       "parse": {
@@ -193,10 +193,10 @@
         "budget": 102400
       }
     },
-    "rustTotalGzip": 874735,
-    "lite": 3964737,
-    "snippet": 6032747,
-    "snippetLite": 3965080
+    "rustTotalGzip": 874882,
+    "lite": 3965965,
+    "snippet": 6035345,
+    "snippetLite": 3966308
   },
   "gates": {
     "errors": [],
@@ -499,5 +499,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-E2bF4LyujDXDBFeqSMzqwaJCKCUeEIRIauAA7iHz+vY=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-2vs66uuOYNIQe7a5qF1tlY+Nfuxb3s4MbwfzWAaoXeI=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

@@ -1,20 +1,16 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:02:14.552Z",
+ "when": "2026-10-28T04:06:35.875Z",
  "key": "msi.pca",
  "id": "msi.pca",
  "enabled": true,
- "outcome": "error",
+ "outcome": "dialog",
  "dialogs": [
   "Spectral Transforms"
  ],
- "toasts": [
-  "toast-error: 16369×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
- "errors": [
-  "toast-error: 16369×16383×3 samples are more than a cube takes (96 M); use an AOI or a coarser step"
- ],
+ "toasts": [],
+ "errors": [],
  "changed": [
   "body"
  ],
