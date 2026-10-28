@@ -153,6 +153,28 @@ export async function install(app) {
       files = rest;
       if (!files.length) return;
     }
+    // ML detections as CSV (a class and a confidence column) go to the detection review queue,
+    // not the vector reader, which has no pixel boxes (GUI-058).
+    // They are imported after any images in the same drop, onto the image they belong to.
+    const det = [];
+    if (app.detections) {
+      for (const f of files) {
+        if (!/\.csv$/i.test(f.name)) continue;
+        const head = (await f.slice(0, 2048).text()).split(/\r?\n/)[0].toLowerCase().split(',').map((x) => x.trim());
+        if (head.some((x) => ['class', 'label', 'category'].includes(x)) && head.some((x) => ['confidence', 'score', 'conf', 'prob', 'probability'].includes(x))) det.push(f);
+      }
+      files = [...files].filter((f) => !det.includes(f));
+    }
+    const importDetections = async () => {
+      for (const f of det) {
+        if (!app.activeLayer?.()) {
+          app.toast(`${f.name}: open the image these detections belong to first, then open the file again`, { kind: 'warn', ms: 8000 });
+          continue;
+        }
+        await app.detections.importFile(f).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 }));
+      }
+    };
+    if (!files.length) return importDetections();
     if (app.splitVectorFiles) {
       // Vector data (GeoJSON, KML/KMZ, Shapefile sets) opens as feature layers (REQ-EXT-21).
       const { vector, rest } = app.splitVectorFiles([...files]);
@@ -183,6 +205,7 @@ export async function install(app) {
       }
     }
     app.desktop.workspace.map.zoomToFootprints();
+    await importDetections();
   }
   app.openFiles = openFiles;
   // Test and automation hooks (E2E PT-07); not a public API yet (REQ-ARC-17 is R1/R2).

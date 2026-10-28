@@ -1,0 +1,1749 @@
+[
+ {
+  "tab": "palette",
+  "id": "query \"34.05 -117.25\"",
+  "outcome": "1 coord",
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "query \"https://example.com/x.tif\"",
+  "outcome": "1 url",
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "query \"fx01\"",
+  "outcome": "1 layer",
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "qat.undo",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.snapshot",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.saveas",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:chip"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.saveas",
+  "id": "dialog:chip ▸ Save…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.saveas",
+  "id": "dialog:chip ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.recenter",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.roam",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.jump",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:jump"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of nav.jump",
+  "id": "dialog:jump ▸ Jump",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Snapshot: 1 file(s) embedded×",
+   "info: Saved chip1_FX01_SYNTHETIC_PAN_4096.zip×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of nav.jump",
+  "id": "dialog:jump ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.jumpbox",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.zoombox",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.zoomin",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.zoomout",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.whole",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.onetoone",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.magnifier",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "view.interpolation",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.zero",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.upisup",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.north",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.shadows",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.mouse",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.angle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ov.open",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ov.pip",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bm.add",
+  "outcome": "ran",
+  "dialogs": [
+   "Add 2D Bookmark"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "aoi.box",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "aoi.polygon",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.point",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.line",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.polyline",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.polygon",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.rect",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.ellipse",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.circle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.arrow",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.text",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.callout",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.marker",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.autolabels",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:autolabels"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of draw.autolabels",
+  "id": "dialog:autolabels ▸ Add",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of draw.autolabels",
+  "id": "dialog:autolabels ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.automap",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.point",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.bracket",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.rangebearing",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.length",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.area",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.height",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.target",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.depth",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.sequence",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.count",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.symbol",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:draw-symbol"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of draw.symbol",
+  "id": "dialog:draw-symbol ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of draw.symbol",
+  "id": "dialog:draw-symbol ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gps.route",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gps.waypoint",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gps.load",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.active",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:model-info"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of model.active",
+  "id": "dialog:model-info ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.info",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:model-info"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.error",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:error-budget"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of model.error",
+  "id": "dialog:error-budget ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.gcp",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:model-gcp"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of model.gcp",
+  "id": "dialog:model-gcp ▸ Add GCP",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:model-gcp"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of model.gcp",
+  "id": "dialog:model-gcp ▸ Fit",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: an order-1 model needs at least 3 GCPs×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of model.gcp",
+  "id": "dialog:model-gcp ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.mip",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.frame",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:tri-frame"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tri.frame",
+  "id": "dialog:tri-frame ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: No exterior orientation matched an open image (match is by file name)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tri.frame",
+  "id": "dialog:tri-frame ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ortho.rectify",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ortho-rectify"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ortho.rectify",
+  "id": "dialog:ortho-rectify ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "geo.grid",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chip.view",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:chip"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chip.preset",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:chip-preset"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of chip.preset",
+  "id": "dialog:chip-preset ▸ Chip",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:chip"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of chip.preset",
+  "id": "dialog:chip-preset ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tpl.apply",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:tpl-apply"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tpl.apply",
+  "id": "dialog:tpl-apply ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:product-page"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tpl.apply",
+  "id": "dialog:tpl-apply ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.pptx",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:snap-pptx"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of snap.pptx",
+  "id": "dialog:snap-pptx ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of snap.pptx",
+  "id": "dialog:snap-pptx ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.pdf",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.geopdf",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.kmz",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "meta.edit",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.edit",
+  "id": "dialog:metadata ▸ File header",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.edit",
+  "id": "dialog:metadata ▸ Image subheader",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.edit",
+  "id": "dialog:metadata ▸ TREs (2)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.edit",
+  "id": "dialog:metadata ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "meta.redact",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:meta-redact"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.redact",
+  "id": "dialog:meta-redact ▸ Save PNG…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.redact",
+  "id": "dialog:meta-redact ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.finishing",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:prod-finishing"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ Add Chip of Panel",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prod-finishing"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ Add Text",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prod-finishing"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ Add Arrow",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prod-finishing"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ PNG…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ PDF…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ PowerPoint…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.finishing",
+  "id": "dialog:prod-finishing ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "panel.visibility",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:data-visibility"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of panel.visibility",
+  "id": "dialog:data-visibility ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of panel.visibility",
+  "id": "dialog:data-visibility ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.map",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.grg",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:grid-grg"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of grid.grg",
+  "id": "dialog:grid-grg ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: GRG: 7 × 7 cells×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of grid.grg",
+  "id": "dialog:grid-grg ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.micro",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:grid-micro"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of grid.micro",
+  "id": "dialog:grid-micro ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: GRG: 3 × 3 cells×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of grid.micro",
+  "id": "dialog:grid-micro ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.props",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:grid-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of grid.props",
+  "id": "dialog:grid-props ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of grid.props",
+  "id": "dialog:grid-props ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.sun",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.sensor",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "display.pixels",
+  "outcome": "ran",
+  "dialogs": [
+   "tool:pixel-matrix"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.smartselect",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.describe",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Describe View: no AI connection is set up (AI Assistant ▸ Connections)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.orthofly",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.voids",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: sun angles are not available for this image×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.footprint",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.segments",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.brightness",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.contrast",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.gamma",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.saturation",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.sharpness",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.invert",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.drascope",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.dralock",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.drasettings",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:dra-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.drasettings",
+  "id": "dialog:dra-settings ▸ Reset",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:dra-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.drasettings",
+  "id": "dialog:dra-settings ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.drasettings",
+  "id": "dialog:dra-settings ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.stretch",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.curve",
+  "outcome": "ran",
+  "dialogs": [
+   "tool:tone-curve"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.lut",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.histogram",
+  "outcome": "ran",
+  "dialogs": [
+   "tool:histogram-editor"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.sharpen",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.edge",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.smooth",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.median",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.morph",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:filter-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.morph",
+  "id": "dialog:filter-settings ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.morph",
+  "id": "dialog:filter-settings ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.clahe",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:clahe"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.clahe",
+  "id": "dialog:clahe ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.clahe",
+  "id": "dialog:clahe ▸ Cancel",
+  "outcome": "not reopened (toggle)",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.auto",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.reset",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.remove",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.chain",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:chain-editor"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.chain",
+  "id": "dialog:chain-editor ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of enh.chain",
+  "id": "dialog:chain-editor ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "search.template",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: draw an AOI around one example of the object first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bands.select",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:band-select"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bands.select",
+  "id": "dialog:band-select ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bands.select",
+  "id": "dialog:band-select ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bands.stats",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:band-stats"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bands.stats",
+  "id": "dialog:band-stats ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "clip.threshold",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:clip-threshold"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of clip.threshold",
+  "id": "dialog:clip-threshold ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of clip.threshold",
+  "id": "dialog:clip-threshold ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "clip.void",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "profile.elevation",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "los.p2p",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.bandmath",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:bandmath"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.bandmath",
+  "id": "dialog:bandmath ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.bandmath",
+  "id": "dialog:bandmath ▸ Export",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.bandmath",
+  "id": "dialog:bandmath ▸ Off",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.bandmath",
+  "id": "dialog:bandmath ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.radiometric",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:radiometric"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.radiometric",
+  "id": "dialog:radiometric ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Radiometric state: index (b1)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.radiometric",
+  "id": "dialog:radiometric ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.thermal",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:msi-thermal"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of msi.thermal",
+  "id": "dialog:msi-thermal ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.wand",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.edgetrace",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.roadtrace",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.quickchip",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bm.basemap",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cnv.cog",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Making a Cloud-Optimized GeoTIFF of b1 — Ortho On-the-Fly — FX01…×",
+   "info: 1.7 MB COG written×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "glb.toggle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.find",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:lai-find"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of lai.find",
+  "id": "dialog:lai-find ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.search",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:lai-search"
+  ],
+  "toasts": [
+   "info: Building the 3D view…×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of lai.search",
+  "id": "dialog:lai-search ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.contrast",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.psd",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.tiff16",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.pdf",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.20 (Tone +13).×",
+   "info: Photoshop: 981 × 830 px, 3 layers (Stretch (Levels), Graphics)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.svg",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: 16-bit TIFF: 981 × 830 px, 1 band, 16-bit, with a Curves preset×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.glb",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.usdz",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

@@ -1,0 +1,116 @@
+[
+ {
+  "tab": "pill",
+  "id": "cmd:stereo.cursor",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:stereo.mheight",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:stereo.mdistance",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:stereo.swap",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "pill:more",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:nav.whole",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:men.rangebearing",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:draw.marker",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:enh.auto",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:cmp.swiper",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:hud.quickchip",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:bm.add",
+  "outcome": "clicked",
+  "dialogs": [
+   "Add 2D Bookmark"
+  ],
+  "toasts": [
+   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+   "info: Swiper: the upper image is shown left of the line, which follows the cursor.×",
+   "info: Quick chip 11SNU5084824901: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:ui.palette",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

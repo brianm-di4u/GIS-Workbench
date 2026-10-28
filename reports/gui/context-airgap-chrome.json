@@ -1,0 +1,206 @@
+[
+ {
+  "tab": "panel menu",
+  "id": "Glove",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Re-center Here",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Zoom to Box",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Whole Scene",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Rotate ▸ Zero (Sensor Native)",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Rotate ▸ True North",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Rotate ▸ Up is Up",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Rotate ▸ Shadows Down",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Drop Marker Here",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Measure Point Here",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Copy Coordinate ▸ Decimal degrees",
+  "dialogs": [],
+  "toasts": [
+   "info: Copied×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Copy Coordinate ▸ DMS",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Copy Coordinate ▸ MGRS",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Copy Coordinate ▸ UTM",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Ask AI About Here",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "panel menu",
+  "id": "Add Feedback Pin",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "nav.zoomin",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "nav.zoomout",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "nav.whole",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "rot.north",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "men.point",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "draw.marker",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "mini toolbar",
+  "id": "gfx.props",
+  "dialogs": [
+   "dialog:gfx-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layer menu",
+  "id": "Set Active",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layer menu",
+  "id": "Zoom to Layer",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layer menu",
+  "id": "Metadata…",
+  "dialogs": [
+   "dialog:metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layer menu",
+  "id": "Move Up",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "layer menu",
+  "id": "Move Down",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

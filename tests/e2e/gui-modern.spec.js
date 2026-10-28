@@ -135,7 +135,9 @@ for (const build of builds) {
               if (!/^Not now: \S/.test(why)) problems.push('a disabled command gives no reason');
               await page.keyboard.press('Escape');
             } else {
-              await loc.click();
+              // Heavy redraws on software WebGL (CLAHE, sharpening: GUI-027) keep the page busy for
+              // seconds after a click: do not wait on the page here, settle() does.
+              await loc.click({ noWaitAfter: true, timeout: 30_000 });
               outcome = 'ran';
             }
             if (!byLabel) outcome += ' (found by id only)';
@@ -524,7 +526,7 @@ for (const build of builds) {
           await page.keyboard.press('Escape');
         } else {
           const popup = page.waitForEvent('popup', { timeout: 1500 }).catch(() => null);
-          await loc.click();
+          await loc.click({ noWaitAfter: true, timeout: 30_000 });
           const p = await popup;
           if (p) {
             outcome = 'opened a window';

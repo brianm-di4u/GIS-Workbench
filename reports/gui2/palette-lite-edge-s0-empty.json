@@ -1,0 +1,5218 @@
+[
+ {
+  "tab": "palette",
+  "id": "qat.undo",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "qat.redo",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "qat.customize",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:qat-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of qat.customize",
+  "id": "dialog:qat-customize ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of qat.customize",
+  "id": "dialog:qat-customize ▸ Reset",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of qat.customize",
+  "id": "dialog:qat-customize ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.newproject",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.openimage",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.openproject",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.openvector",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.openpointcloud",
+  "outcome": "not now: Open Point Cloud… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.dod",
+  "outcome": "not now: DSM of Difference… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.extract",
+  "outcome": "not now: Buildings and Trees from Points needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.stream",
+  "outcome": "not now: Stream Point Cloud (COPC/EPT)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.opendem",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.openpack",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "packs.manage",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:packs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of packs.manage",
+  "id": "dialog:packs ▸ Open Pack…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of packs.manage",
+  "id": "dialog:packs ▸ Use EGM96",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of packs.manage",
+  "id": "dialog:packs ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.recent",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:recent"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.recent",
+  "id": "dialog:recent ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.save",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.saveas",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.saveoptions",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:save-options"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.saveoptions",
+  "id": "dialog:save-options ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.saveoptions",
+  "id": "dialog:save-options ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.relink",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: All imagery is linked×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.snapshot",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.prefs",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ User",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ Common",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ Import Common…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ Help",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:help",
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ Reset",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.prefs",
+  "id": "dialog:prefs ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prefs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.projectprops",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:project-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.projectprops",
+  "id": "dialog:project-props ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of file.projectprops",
+  "id": "dialog:project-props ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.saveas",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tpl.saveas",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tpl.new",
+  "outcome": "ran",
+  "dialogs": [
+   "New Template"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "edit.history",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:history"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of edit.history",
+  "id": "dialog:history ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "edit.copy",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "edit.paste",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "edit.delete",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ws.dataview",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ws.windowsview",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ws.mapview",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ws.preview",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "keys.customize",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + Z",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + Y, Ctrl + Shift + Z",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Set…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + O",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + S",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + Shift + S",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + C (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + V (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + F1",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ F1",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ F7 (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Equal (panel), NumpadAdd (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Minus (panel), NumpadSubtract (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ W (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + Alt + 1, Ctrl + 1 (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + A (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ F5 (panel)",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Ctrl + Shift + Space",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ B",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:keys-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of keys.customize",
+  "id": "dialog:keys-customize ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dock.jobs",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dock.netlog",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dock.importlog",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ribbon.minimise",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dock.layers",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dock.toolbox",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "theme.grey",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "theme.dark",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "theme.print",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "view.uiscale",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ui-scale"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of view.uiscale",
+  "id": "dialog:ui-scale ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of view.uiscale",
+  "id": "dialog:ui-scale ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.folder",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tools.imagelist",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tools.loadpoints",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "help.topics",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:help"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.topics",
+  "id": "dialog:help ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "help.keys",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:keys"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.keys",
+  "id": "dialog:keys ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "help.limits",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:limits"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.limits",
+  "id": "dialog:limits ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "help.whatsnew",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:whatsnew"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.whatsnew",
+  "id": "dialog:whatsnew ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "help.about",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:about"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.about",
+  "id": "dialog:about ▸ Verify blocks",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:about"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.about",
+  "id": "dialog:about ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.about",
+  "id": "dialog:about ▸ Copy Diagnostics",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Diagnostics copied×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of help.about",
+  "id": "dialog:about ▸ What's New…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:whatsnew"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.glove",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.recenter",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.roam",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.jump",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.jumpbox",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.zoombox",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.zoomin",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.zoomout",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.whole",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.onetoone",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "nav.magnifier",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "view.interpolation",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.zero",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.upisup",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.north",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.shadows",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.mouse",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.angle",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "link.all",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "link.unlink",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "link.manager",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "link.cursors",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:link-cursors"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of link.cursors",
+  "id": "dialog:link-cursors ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of link.cursors",
+  "id": "dialog:link-cursors ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ov.open",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ov.pip",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bm.add",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bm.list",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:bookmarks"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bm.list",
+  "id": "dialog:bookmarks ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "aoi.box",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "aoi.polygon",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "aoi.fromgraphic",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.graphics",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.features",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.byattr",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.byloc",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sel.all",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 graphic(s) selected×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.point",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.line",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.polyline",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.polygon",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.rect",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.ellipse",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.circle",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.arrow",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.text",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.callout",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.marker",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.autolabels",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.automap",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.point",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.bracket",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.rangebearing",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.length",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.area",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.height",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.target",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.log",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.tracking",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.targettable",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:target-table"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of men.targettable",
+  "id": "dialog:target-table ▸ Export CSV",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:target-table"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of men.targettable",
+  "id": "dialog:target-table ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.depth",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.medial",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "men.centre",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.sequence",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.count",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gfx.props",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:gfx-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of gfx.props",
+  "id": "dialog:gfx-props ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Default graphic style updated×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of gfx.props",
+  "id": "dialog:gfx-props ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gfx.legend",
+  "outcome": "ran",
+  "dialogs": [
+   "tool:gfx-legend"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gfx.save",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gfx.load",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "draw.symbol",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gps.route",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gps.waypoint",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "gps.load",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "align.glove",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "align.auto",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "align.quick",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "align.poly",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.active",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.info",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.error",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "model.gcp",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.mip",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.tiepoints",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.adjust",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.frame",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tri.solutions",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:tri-solutions"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tri.solutions",
+  "id": "dialog:tri-solutions ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ortho.rectify",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ortho.true",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ortho.mosaic",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ortho.seam",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ortho.balance",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "geo.convert",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:convert"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of geo.convert",
+  "id": "dialog:convert ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "geo.grid",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "geo.datum",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:datum"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of geo.datum",
+  "id": "dialog:datum ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "online.add",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of online.add",
+  "id": "dialog:map-backgrounds ▸ Add source",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [
+   "warn: The URL must start with https://×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of online.add",
+  "id": "dialog:map-backgrounds ▸ Network Allow-List…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:allowlist",
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of online.add",
+  "id": "dialog:map-backgrounds ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "online.backgrounds",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chip.view",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chip.preset",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chip.markers",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tpl.apply",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tpl.edit",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:tpl-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tpl.edit",
+  "id": "dialog:tpl-edit ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tpl.edit",
+  "id": "dialog:tpl-edit ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "tpl.props",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:tpl-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tpl.props",
+  "id": "dialog:tpl-props ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of tpl.props",
+  "id": "dialog:tpl-props ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.pptx",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.pdf",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.geopdf",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "snap.kmz",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "report.template",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:report"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of report.template",
+  "id": "dialog:report ▸ Draft with AI…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:report"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of report.template",
+  "id": "dialog:report ▸ Save HTML…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of report.template",
+  "id": "dialog:report ▸ Save DOCX…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of report.template",
+  "id": "dialog:report ▸ Print…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of report.template",
+  "id": "dialog:report ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.gif",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:make-gif"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.gif",
+  "id": "dialog:make-gif ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: open a video first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of prod.gif",
+  "id": "dialog:make-gif ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.mediapptx",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.pptxtemplate",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "report.ai",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "meta.edit",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "meta.marking",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:marking"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.marking",
+  "id": "dialog:marking ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of meta.marking",
+  "id": "dialog:marking ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "meta.redact",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "prod.finishing",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "win.split",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "win.tabbed",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "panel.props",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:panel-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of panel.props",
+  "id": "dialog:panel-props ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of panel.props",
+  "id": "dialog:panel-props ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "panel.visibility",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "panel.legend",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.map",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.grg",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.micro",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "grid.props",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bg.map",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bg.online",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.north",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.sun",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.sensor",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.scalebar",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deco.banners",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.manager",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.next",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.finder",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.metrics",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.dubois",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.true",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.grey",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.half",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.split",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.sbs",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.cross",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.spanned",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.dual",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.overunder",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mode.interleaved",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.parity",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.swap",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.cursor",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.fixedcursor",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.place",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.snap",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.track",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.align",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.epipolar",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.ypar",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mpoint",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mheight",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mdistance",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mslope",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mpolyline",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mpolygon",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.mvolume",
+  "outcome": "not now: open the Stereo Panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.sync",
+  "outcome": "not now: Sync Now needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.syncalways",
+  "outcome": "not now: Sync Always needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "input.devices",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:input-devices"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of input.devices",
+  "id": "dialog:input-devices ▸ Connect SpaceMouse (WebHID)…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:input-devices"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of input.devices",
+  "id": "dialog:input-devices ▸ Connect Serial Device (Web Serial)…",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:input-devices"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of input.devices",
+  "id": "dialog:input-devices ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of input.devices",
+  "id": "dialog:input-devices ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.exag",
+  "outcome": "not now: Vertical Exaggeration… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.navorbit",
+  "outcome": "not now: Orbit needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.navfree",
+  "outcome": "not now: Free Flight needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.navroute",
+  "outcome": "not now: Fly Route needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.measure",
+  "outcome": "not now: 3D Cursor Measure needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.los",
+  "outcome": "not now: 3D Line of Sight needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.import",
+  "outcome": "not now: Import glTF/GLB… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.qmesh",
+  "outcome": "not now: Add Quantized-Mesh Terrain… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.tiles3tz",
+  "outcome": "not now: Open 3D Tiles Archive (.3tz)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.tiles",
+  "outcome": "not now: Add 3D Tiles… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ribbon.customize",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ribbon-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ribbon.customize",
+  "id": "dialog:ribbon-customize ▸ Add",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ribbon-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ribbon.customize",
+  "id": "dialog:ribbon-customize ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ribbon.customize",
+  "id": "dialog:ribbon-customize ▸ Reset",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ribbon.customize",
+  "id": "dialog:ribbon-customize ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "display.theme",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "display.pixels",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.assistant",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.smartselect",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.askselection",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.describe",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.proposals",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.connections",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ai-connections"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.connections",
+  "id": "dialog:ai-connections ▸ Add connection",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ai-connections"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.connections",
+  "id": "dialog:ai-connections ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.allowlist",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:allowlist"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.allowlist",
+  "id": "dialog:allowlist ▸ Add",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:allowlist"
+  ],
+  "toasts": [
+   "warn: \"\" is not a URL×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.allowlist",
+  "id": "dialog:allowlist ▸ Save New Copy…",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Saved. Close this tab and open the new copy to use the added origins.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.allowlist",
+  "id": "dialog:allowlist ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.prompthelper",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.prompthelper",
+  "id": "dialog:prompt-helper ▸ Build prompt",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.prompthelper",
+  "id": "dialog:prompt-helper ▸ Copy prompt",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [
+   "info: Prompt copied×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.prompthelper",
+  "id": "dialog:prompt-helper ▸ Validate reply",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.prompthelper",
+  "id": "dialog:prompt-helper ▸ Preview as Proposals",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.prompthelper",
+  "id": "dialog:prompt-helper ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ai.mcp",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:mcp-servers"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.mcp",
+  "id": "dialog:mcp-servers ▸ Add",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:mcp-servers"
+  ],
+  "toasts": [
+   "warn: Enter the server URL×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ai.mcp",
+  "id": "dialog:mcp-servers ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "wb.toggle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "wb.review",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:wb-review"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of wb.review",
+  "id": "dialog:wb-review ▸ Next: Send",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of wb.review",
+  "id": "dialog:wb-review ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "wb.import",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "auto.console",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "auto.mcpserver",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:mcp-server"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of auto.mcpserver",
+  "id": "dialog:mcp-server ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of auto.mcpserver",
+  "id": "dialog:mcp-server ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pack.load",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pack.list",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:packs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.orthofly",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.vmosaic",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.projection",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ootf-projection"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of img.projection",
+  "id": "dialog:ootf-projection ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of img.projection",
+  "id": "dialog:ootf-projection ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.voids",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.footprint",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "img.segments",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.brightness",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.contrast",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.gamma",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.saturation",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.sharpness",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.invert",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.drascope",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.dralock",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.drasettings",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.stretch",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.curve",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.lut",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.histogram",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.sharpen",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.edge",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.smooth",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.median",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.morph",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.clahe",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.auto",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.reset",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.remove",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.chain",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "enh.pansharpen",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "search.find",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "search.template",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bands.select",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bands.preview",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bands.stats",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bands.snr",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "clip.threshold",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "clip.void",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "profile.spectral",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "profile.elevation",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lay.prev",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lay.next",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lay.order",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cmp.porthole",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cmp.swiper",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cmp.twocolour",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cmp.blend",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cmp.play",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cmp.rate",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chg.detect",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "chg.confirm",
+  "outcome": "not now: open two images in this panel first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.select",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.useterrain",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.hillshade",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.slope",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.aspect",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.relief",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.contours",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.contourlines",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "los.p2p",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "los.fan",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "los.viewshed",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "los.hlz",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.extract",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.groundfilter",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.edit",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.volume",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.diff",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.accuracy",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.save",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "dem.r2v",
+  "outcome": "not now: open an elevation model (DEM) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.bandmath",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.ndvi",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.ndwi",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.ndwi_gao",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.mndwi",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.ndbi",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.savi",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.index.nbr",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.preset.natural",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.preset.cir",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.preset.swir",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.preset.agriculture",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.preset.rededge",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.preset.bathymetric",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.radiometric",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.stack",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.threshold",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.cluster",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.majority",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.sieve",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.fill",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.vectors",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.accuracy",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.detect",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.pca",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.library",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 library spectra×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.thermal",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.xport",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.destripe",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "msi.change",
+  "outcome": "not now: open a multispectral image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.open",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.play",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.stepback",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.stepfwd",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.loop",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.klv",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.basis",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.hud",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.vmti",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.capture",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.event",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.gmti",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.gmticolour",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.measure",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.link",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.csv",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.export",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "mie.play",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "mie.next",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "mie.prev",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.metadata",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.view",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.remap",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.anamorphic",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.ground",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.shadows",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.northup",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.overlay",
+  "outcome": "not now: open a SAR image (SICD) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.speckle",
+  "outcome": "not now: Speckle Filter… needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.acd",
+  "outcome": "not now: Amplitude Change… needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.ccd",
+  "outcome": "not now: Coherent Change… needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.pairs",
+  "outcome": "not now: Pair Finder… needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.subap",
+  "outcome": "not now: Sub-aperture Stack needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.csi",
+  "outcome": "not now: Colour Sub-aperture needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "sar.pauli",
+  "outcome": "not now: Pauli Composite needs the SAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.header",
+  "outcome": "not now: Header needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.fit",
+  "outcome": "not now: Fit Cloud needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.elevation",
+  "outcome": "not now: Colour by Elevation needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.intensity",
+  "outcome": "not now: Colour by Intensity needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.class",
+  "outcome": "not now: Colour by Class needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.rgb",
+  "outcome": "not now: Colour by RGB needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.return",
+  "outcome": "not now: Colour by Return needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.source",
+  "outcome": "not now: Colour by Point Source needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.time",
+  "outcome": "not now: Colour by GPS Time needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.hag",
+  "outcome": "not now: Colour by Height Above Ground needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.classes",
+  "outcome": "not now: Class Visibility needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.budget",
+  "outcome": "not now: Point Budget needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.edl",
+  "outcome": "not now: Eye-Dome Lighting needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.shave",
+  "outcome": "not now: Elevation Shaving needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.profile",
+  "outcome": "not now: Profile / Cross-Section needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.measure",
+  "outcome": "not now: Measure 3D needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.dsm",
+  "outcome": "not now: DSM needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.dtm",
+  "outcome": "not now: DTM needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.ndsm",
+  "outcome": "not now: nDSM needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.intensity",
+  "outcome": "not now: Intensity Image needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.density",
+  "outcome": "not now: Density Image needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.groundfilter",
+  "outcome": "not now: Ground Filter needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.classedit",
+  "outcome": "not now: Edit Classes needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.clip",
+  "outcome": "not now: Clip Box/Polygon needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colourise",
+  "outcome": "not now: Colourise from Image needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.export",
+  "outcome": "not now: Export LAS/LAZ needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.toolbox",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.repeat",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.custom",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-custom"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.custom",
+  "id": "dialog:ext-custom ▸ Save Current…",
+  "outcome": "clicked",
+  "dialogs": [
+   "Save Custom Tool"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.custom",
+  "id": "dialog:ext-custom ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.newschema",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-newschema"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.newschema",
+  "id": "dialog:ext-newschema ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.newschema",
+  "id": "dialog:ext-newschema ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.attributes",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.styles",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-styles"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.styles",
+  "id": "dialog:ext-styles ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.styles",
+  "id": "dialog:ext-styles ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.fromdsm",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.wand",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.edgetrace",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.roadtrace",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.opengpkg",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.vertices",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.split",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.merge",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.reshape",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.square",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.droptoground",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.attrtable",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.attrsets",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-attrsets"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.attrsets",
+  "id": "dialog:ext-attrsets ▸ Apply",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.attrsets",
+  "id": "dialog:ext-attrsets ▸ Save Defaults as Set…",
+  "outcome": "clicked",
+  "dialogs": [
+   "Save Attribute Set"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.attrsets",
+  "id": "dialog:ext-attrsets ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.query",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:sel-byattr"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.query",
+  "id": "dialog:sel-byattr ▸ Select",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 feature(s) selected×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.query",
+  "id": "dialog:sel-byattr ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.validate",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-validate"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.validate",
+  "id": "dialog:ext-validate ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 issue(s) found×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.validate",
+  "id": "dialog:ext-validate ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.results",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.saveas",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:ext-saveas"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.saveas",
+  "id": "dialog:ext-saveas ▸ Save",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ext-report"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of ext.saveas",
+  "id": "dialog:ext-saveas ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.arcgis",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: ArcGIS Pro hand-off: 1 table(s), 0 feature(s); coded domains in gpkg_data_column_constraints×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.export3d",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.texture",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "obs.toolbox",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:obs-toolbox"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of obs.toolbox",
+  "id": "dialog:obs-toolbox ▸ Add",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of obs.toolbox",
+  "id": "dialog:obs-toolbox ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "obs.table",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "det.import",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "vec.remoteopen",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:remote-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of vec.remoteopen",
+  "id": "dialog:remote-edit ▸ Open",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: enter a service URL that starts with http:// or https:// first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of vec.remoteopen",
+  "id": "dialog:remote-edit ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "vec.remotesave",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "det.review",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ui.palette",
+  "outcome": "ran",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "win.workspace",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ui.layout",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Classic layout: Ribbon and docks as in 1.x. Switch back from View ▸ Display or the palette (Ctrl+K).×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "theme.m3light",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "theme.m3dark",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.radial",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.pill",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.flicker",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.quickchip",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deck.export",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "deck.clear",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "patrol.next",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Next Target: place markers, import detections or record observations first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "patrol.prev",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Previous Target: place markers, import detections or record observations first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "triage.clear",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "triage.active",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "triage.flag",
+  "outcome": "not now: open or draw features first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "net.toggle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Online: basemaps and cloud catalogs can be used. Every request is listed in the Network Log.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bm.basemap",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "file.openurl",
+  "outcome": "ran",
+  "dialogs": [
+   "Open from URL"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cat.panel",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cat.folder",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cat.s3keys",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:s3keys"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of cat.s3keys",
+  "id": "dialog:s3keys ▸ Connect",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of cat.s3keys",
+  "id": "dialog:s3keys ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cnv.open",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "cnv.cog",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "glb.toggle",
+  "outcome": "not now: 2D / 3D needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "bm.pmtiles",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.find",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.search",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.contrast",
+  "outcome": "not now: not available with what is open or selected now",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.square",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "lai.device",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:lai-device"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of lai.device",
+  "id": "dialog:lai-device ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "align.ai",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rcp.open",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rcp.import",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rcp.airfield-triage",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: select an image layer first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rcp.damage-triage",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: registration needs two images in the panel: the reference (bottom) and the active layer to align×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rcp.folder-to-cog",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: Failed to execute 'showDirectoryPicker' on 'Window': Intercepted by Page.setInterceptFileChooserDialog().×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rcp.building-extraction",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.psd",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.tiff16",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.pdf",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.svg",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.glb",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.usdz",
+  "outcome": "not now: 3D Terrain (USDZ)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.cot",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.atak",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.relay",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:hub-relay"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of hub.relay",
+  "id": "dialog:hub-relay ▸ Send",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of hub.relay",
+  "id": "dialog:hub-relay ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pane.showname",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "aoi.clear",
+  "outcome": "not now: open an image first",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: open an image first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "stereo.open",
+  "outcome": "not now: open two images with 3-D sensor models in this panel first",
+  "dialogs": [],
+  "toasts": [
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.open",
+  "outcome": "not now: Open 3D Multiport needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.close",
+  "outcome": "not now: Close 3D View needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "fmv.close",
+  "outcome": "not now: open a video (MPEG-TS with KLV) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.close",
+  "outcome": "not now: Close 3D View needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

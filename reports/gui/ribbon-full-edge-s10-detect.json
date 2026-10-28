@@ -10,6 +10,15 @@
  },
  {
   "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
   "id": "img.vmosaic",
   "kind": "button",
   "outcome": "disabled",
@@ -884,6 +893,44 @@
   "id": "msi.xport",
   "kind": "button",
   "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "observation",
+  "id": "obs.toolbox",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:obs-toolbox"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "observation",
+  "id": "obs.table",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "autodetect",
+  "id": "det.import",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "autodetect",
+  "id": "det.review",
+  "kind": "button",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []

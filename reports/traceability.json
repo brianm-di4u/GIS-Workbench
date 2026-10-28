@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generated": "2026-10-28T11:42:01.769Z",
+  "generated": "2026-10-28T18:10:41.747Z",
   "releases": [
    "R0",
    "R1"
@@ -22,7 +22,7 @@
    "REQ-FMT-12 (R1, failing (file))",
    "REQ-FMT-16 (R1, failing)"
   ],
-  "testResults": 4590,
+  "testResults": 4963,
   "families": {
    "PT": {
     "ids": 12,
@@ -38,7 +38,7 @@
    },
    "PRF": {
     "ids": 7,
-    "failing": 0
+    "failing": 1
    },
    "TE": {
     "ids": 34,

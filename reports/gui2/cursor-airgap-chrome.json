@@ -1,0 +1,41 @@
+[
+ {
+  "tab": "cursor",
+  "id": "hold F flicker",
+  "outcome": "layers true,true → true,true",
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "cursor",
+  "id": "S + drag swipe",
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "cursor",
+  "id": "C + drag quick chip",
+  "toasts": [
+   "info: Quick chip 21HUB5325683186: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "cursor",
+  "id": "Alt + wheel opacity",
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "cursor",
+  "id": "J / K patrol with nothing to patrol",
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "cursor",
+  "id": "paste coordinates to pan",
+  "toasts": [],
+  "problems": []
+ }
+]

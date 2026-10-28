@@ -1,0 +1,195 @@
+[
+ {
+  "tab": "radial explorer",
+  "id": "radial:nav.whole",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:men.rangebearing",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:draw.marker",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:enh.auto",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:cmp.swiper",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:hud.quickchip",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:bm.add",
+  "dialogs": [
+   "Add 2D Bookmark"
+  ],
+  "toasts": [
+   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial explorer",
+  "id": "radial:ui.palette",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:ai.smartselect",
+  "dialogs": [],
+  "toasts": [
+   "info: AI & Exploitation Analyst: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:lai.find",
+  "dialogs": [
+   "dialog:lai-find"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:lai.search",
+  "dialogs": [
+   "dialog:lai-search"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:hud.quickchip",
+  "dialogs": [],
+  "toasts": [
+   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (2).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:det.review",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:patrol.next",
+  "dialogs": [],
+  "toasts": [
+   "warn: Next Target: place markers, import detections or record observations first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:lai.contrast",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial analyst",
+  "id": "radial:rcp.airfield-triage",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:men.rangebearing",
+  "dialogs": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.04 (Tone +3).×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:men.height",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:men.point",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:stereo.open",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:enh.drasettings",
+  "dialogs": [
+   "dialog:dra-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:cmp.swiper",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:los.p2p",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×",
+   "info: Mensuration & Photogrammetry Pro: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial pro",
+  "id": "radial:ui.palette",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

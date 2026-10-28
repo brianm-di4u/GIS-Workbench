@@ -1,0 +1,595 @@
+
+Running 152 tests using 8 workers
+
+[1/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s0-empty: every button responds
+[2/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s2-dem: every button responds
+[3/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s1-image: every command this state enables runs from Ctrl+K
+[4/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s0-empty: every command this state enables runs from Ctrl+K
+[5/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s3-msi: every command this state enables runs from Ctrl+K
+[6/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s2-dem: every command this state enables runs from Ctrl+K
+[7/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s3-msi: every button responds
+[8/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s1-image: every button responds
+[9/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s4-sar: every command this state enables runs from Ctrl+K
+[10/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s4-sar: every button responds
+[11/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s5-pair: every command this state enables runs from Ctrl+K
+[12/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s5-pair: every button responds
+[13/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s6-stereo: every command this state enables runs from Ctrl+K
+[14/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s6-stereo: every button responds
+[15/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s7-cloud: every command this state enables runs from Ctrl+K
+[16/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s7-cloud: every button responds
+[17/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s8-video: every command this state enables runs from Ctrl+K
+[18/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s8-video: every button responds
+[19/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s9-vector: every command this state enables runs from Ctrl+K
+[20/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s9-vector: every button responds
+[21/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s10-detect: every command this state enables runs from Ctrl+K
+[22/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern full › GUI modern pill and radial full s10-detect: every button responds
+[23/152] [chrome] › tests\e2e\gui-modern.spec.js:218:5 › GUI modern full › GUI modern chrome full: app bar, menus, workspace chip, rail, Products, status bar
+[24/152] [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern full › GUI modern docks full: every panel opens beside the imagery, every control in it responds, and it closes
+  1) [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s5-pair: every command this state enables runs from Ctrl+K 
+
+    TimeoutError: locator.click: Timeout 5000ms exceeded.
+    Call log:
+      - waiting for locator('[data-id="palette:cmd:lai.contrast"]')
+        - locator resolved to <li role="option" id="pal-opt-0" class="pal-item" aria-selected="false" aria-disabled="false" data-id="palette:cmd:lai.contrast">…</li>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+      136 |               await page.keyboard.press('Escape');
+      137 |             } else {
+    > 138 |               await loc.click();
+          |                         ^
+      139 |               outcome = 'ran';
+      140 |             }
+      141 |             if (!byLabel) outcome += ' (found by id only)';
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:138:25
+
+    Error Context: test-results\gui-modern-GUI-modern-full-7846f-te-enables-runs-from-Ctrl-K-chrome\error-context.md
+
+
+[25/152] [chrome] › tests\e2e\gui-modern.spec.js:404:5 › GUI modern full › GUI modern cursor shortcuts full: flicker, swipe, quick chip, patrol, paste-to-pan
+[26/152] [chrome] › tests\e2e\gui-modern.spec.js:474:5 › GUI modern full › GUI modern welcome full: every choice on the first-run card
+[27/152] [chrome] › tests\e2e\gui-modern.spec.js:502:5 › GUI modern full › GUI modern sizes full: the chrome fits and every control is named at 1920, 1440, 1280 and 1024 px
+[28/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s0-empty: every command this state enables runs from Ctrl+K
+  2) [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s6-stereo: every command this state enables runs from Ctrl+K 
+
+    TimeoutError: locator.click: Timeout 5000ms exceeded.
+    Call log:
+      - waiting for locator('[data-id="palette:cmd:lai.contrast"]')
+        - locator resolved to <li role="option" id="pal-opt-0" class="pal-item" aria-selected="false" aria-disabled="false" data-id="palette:cmd:lai.contrast">…</li>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+      136 |               await page.keyboard.press('Escape');
+      137 |             } else {
+    > 138 |               await loc.click();
+          |                         ^
+      139 |               outcome = 'ran';
+      140 |             }
+      141 |             if (!byLabel) outcome += ' (found by id only)';
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:138:25
+
+    Error Context: test-results\gui-modern-GUI-modern-full-bf3bd-te-enables-runs-from-Ctrl-K-chrome\error-context.md
+
+
+[29/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s0-empty: every button responds
+[30/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s1-image: every command this state enables runs from Ctrl+K
+[31/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s1-image: every button responds
+  3) [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern full › GUI modern docks full: every panel opens beside the imagery, every control in it responds, and it closes 
+
+    Error: 115 actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "dock detections: panel covers 23460 px² of the image panel",
+    + ]
+
+      399 |       }
+      400 |       const bad = report(OUT, `docks-${build}-${info.project.name}`, rows);
+    > 401 |       expect(bad, `${rows.length} actions`).toEqual([]);
+          |                                             ^
+      402 |     });
+      403 |
+      404 |     test(`GUI modern cursor shortcuts ${build}: flicker, swipe, quick chip, patrol, paste-to-pan`, async ({ page }, info) => {
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:401:45
+
+    Error Context: test-results\gui-modern-GUI-modern-full-a3254-n-it-responds-and-it-closes-chrome\error-context.md
+
+
+[32/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s2-dem: every command this state enables runs from Ctrl+K
+[33/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s2-dem: every button responds
+[34/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s3-msi: every command this state enables runs from Ctrl+K
+[35/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s3-msi: every button responds
+[36/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s4-sar: every command this state enables runs from Ctrl+K
+[37/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s4-sar: every button responds
+[38/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s5-pair: every command this state enables runs from Ctrl+K
+  4) [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s0-empty: every command this state enables runs from Ctrl+K 
+
+    Error: 625 actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 14
+
+    - Array []
+    + Array [
+    +   "dialog of pc.stream dialog:pc-stream ▸ OK: error toast: Failed to construct 'URL': Invalid URL×",
+    +   "dialog of online.add dialog:map-backgrounds ▸ Network Allow-List…: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of 3d.qmesh dialog:3d-qmesh ▸ OK: error toast: enter the layer.json URL (http:// or https://)×",
+    +   "dialog of 3d.tiles dialog:3d-tiles ▸ OK: error toast: enter the tileset.json URL (http:// or https://)×",
+    +   "palette ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of ai.allowlist dialog:allowlist ▸ Add: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of ai.allowlist dialog:allowlist ▸ Save New Copy…: error toast: Network Allow-List…: could not find the CSP in the file template× | console: Error: could not find the CSP in the file template
+    +     at W2 (file:///C:/GIS%20Workbench/gis-workbench/dist-gui/gis-workbench.html:3561:648)
+    +     at Object.d [as run] (file:///C:/GIS%20Workbench/gis-workbench/dist-gui/gis-workbench.html:3626:5036)
+    +     at async vu.run (file:///C:/GIS%20Workbench/gis-w",
+    +   "dialog of vec.remoteopen dialog:remote-edit ▸ Open: error toast: the service URL must start with http:// or https://×",
+    +   "palette hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    + ]
+
+      158 |         info.annotations.push({ type: 'swept', description: `${cmds.length} commands, ${found} found, ${dialogsSwept.size} dialogs` });
+      159 |         const bad = report(OUT, `palette-${build}-${info.project.name}-${st.id}`, rows);
+    > 160 |         expect(bad, `${rows.length} actions`).toEqual([]);
+          |                                               ^
+      161 |       });
+      162 |
+      163 |       test(`GUI modern pill and radial ${build} ${st.id}: every button responds`, async ({ page }, info) => {
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:160:47
+
+    Error Context: test-results\gui-modern-GUI-modern-full-2d3aa-te-enables-runs-from-Ctrl-K-chrome\error-context.md
+
+
+[39/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s5-pair: every button responds
+[40/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s6-stereo: every command this state enables runs from Ctrl+K
+[41/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s6-stereo: every button responds
+[42/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s7-cloud: every command this state enables runs from Ctrl+K
+[43/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s7-cloud: every button responds
+[44/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s8-video: every command this state enables runs from Ctrl+K
+[45/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s8-video: every button responds
+[46/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s9-vector: every command this state enables runs from Ctrl+K
+[47/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s9-vector: every button responds
+[48/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s10-detect: every command this state enables runs from Ctrl+K
+[49/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern lite › GUI modern pill and radial lite s10-detect: every button responds
+[50/152] [chrome] › tests\e2e\gui-modern.spec.js:218:5 › GUI modern lite › GUI modern chrome lite: app bar, menus, workspace chip, rail, Products, status bar
+[51/152] [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern lite › GUI modern docks lite: every panel opens beside the imagery, every control in it responds, and it closes
+  5) [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s1-image: every command this state enables runs from Ctrl+K 
+
+    TimeoutError: locator.click: Timeout 5000ms exceeded.
+    Call log:
+      - waiting for locator('[data-id="palette:cmd:lai.contrast"]')
+        - locator resolved to <li role="option" id="pal-opt-0" class="pal-item" aria-selected="false" aria-disabled="false" data-id="palette:cmd:lai.contrast">…</li>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+      136 |               await page.keyboard.press('Escape');
+      137 |             } else {
+    > 138 |               await loc.click();
+          |                         ^
+      139 |               outcome = 'ran';
+      140 |             }
+      141 |             if (!byLabel) outcome += ' (found by id only)';
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:138:25
+
+    Error Context: test-results\gui-modern-GUI-modern-lite-7278c-te-enables-runs-from-Ctrl-K-chrome\error-context.md
+
+
+[52/152] [chrome] › tests\e2e\gui-modern.spec.js:404:5 › GUI modern lite › GUI modern cursor shortcuts lite: flicker, swipe, quick chip, patrol, paste-to-pan
+[53/152] [chrome] › tests\e2e\gui-modern.spec.js:474:5 › GUI modern lite › GUI modern welcome lite: every choice on the first-run card
+[54/152] [chrome] › tests\e2e\gui-modern.spec.js:502:5 › GUI modern lite › GUI modern sizes lite: the chrome fits and every control is named at 1920, 1440, 1280 and 1024 px
+[55/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s0-empty: every command this state enables runs from Ctrl+K
+[56/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s0-empty: every button responds
+[57/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s1-image: every command this state enables runs from Ctrl+K
+[58/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s1-image: every button responds
+[59/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s2-dem: every command this state enables runs from Ctrl+K
+  6) [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern lite › GUI modern docks lite: every panel opens beside the imagery, every control in it responds, and it closes 
+
+    Error: 115 actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "dock detections: panel covers 23460 px² of the image panel",
+    + ]
+
+      399 |       }
+      400 |       const bad = report(OUT, `docks-${build}-${info.project.name}`, rows);
+    > 401 |       expect(bad, `${rows.length} actions`).toEqual([]);
+          |                                             ^
+      402 |     });
+      403 |
+      404 |     test(`GUI modern cursor shortcuts ${build}: flicker, swipe, quick chip, patrol, paste-to-pan`, async ({ page }, info) => {
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:401:45
+
+    Error Context: test-results\gui-modern-GUI-modern-lite-8adde-n-it-responds-and-it-closes-chrome\error-context.md
+
+
+[60/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s2-dem: every button responds
+[61/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s3-msi: every command this state enables runs from Ctrl+K
+[62/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s3-msi: every button responds
+[63/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s4-sar: every command this state enables runs from Ctrl+K
+  7) [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s0-empty: every command this state enables runs from Ctrl+K 
+
+    Error: 619 actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 11
+
+    - Array []
+    + Array [
+    +   "dialog of online.add dialog:map-backgrounds ▸ Network Allow-List…: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "palette ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of ai.allowlist dialog:allowlist ▸ Add: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of ai.allowlist dialog:allowlist ▸ Save New Copy…: error toast: Network Allow-List…: could not find the CSP in the file template× | console: Error: could not find the CSP in the file template
+    +     at W2 (<anonymous>:556:648)
+    +     at Object.d [as run] (<anonymous>:621:5036)
+    +     at async vu.run (<anonymous>:553:75775)",
+    +   "dialog of vec.remoteopen dialog:remote-edit ▸ Open: error toast: the service URL must start with http:// or https://×",
+    +   "palette hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    + ]
+
+      158 |         info.annotations.push({ type: 'swept', description: `${cmds.length} commands, ${found} found, ${dialogsSwept.size} dialogs` });
+      159 |         const bad = report(OUT, `palette-${build}-${info.project.name}-${st.id}`, rows);
+    > 160 |         expect(bad, `${rows.length} actions`).toEqual([]);
+          |                                               ^
+      161 |       });
+      162 |
+      163 |       test(`GUI modern pill and radial ${build} ${st.id}: every button responds`, async ({ page }, info) => {
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:160:47
+
+    Error Context: test-results\gui-modern-GUI-modern-lite-df7c1-te-enables-runs-from-Ctrl-K-chrome\error-context.md
+
+
+[64/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s4-sar: every button responds
+[65/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s5-pair: every command this state enables runs from Ctrl+K
+[66/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s5-pair: every button responds
+[67/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s6-stereo: every command this state enables runs from Ctrl+K
+[68/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s6-stereo: every button responds
+[69/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s7-cloud: every command this state enables runs from Ctrl+K
+[70/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s7-cloud: every button responds
+[71/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s8-video: every command this state enables runs from Ctrl+K
+[72/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s8-video: every button responds
+[73/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s9-vector: every command this state enables runs from Ctrl+K
+[74/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s9-vector: every button responds
+[75/152] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s10-detect: every command this state enables runs from Ctrl+K
+[76/152] [chrome] › tests\e2e\gui-modern.spec.js:163:7 › GUI modern airgap › GUI modern pill and radial airgap s10-detect: every button responds
+[77/152] [chrome] › tests\e2e\gui-modern.spec.js:218:5 › GUI modern airgap › GUI modern chrome airgap: app bar, menus, workspace chip, rail, Products, status bar
+[78/152] [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern airgap › GUI modern docks airgap: every panel opens beside the imagery, every control in it responds, and it closes
+[79/152] [chrome] › tests\e2e\gui-modern.spec.js:404:5 › GUI modern airgap › GUI modern cursor shortcuts airgap: flicker, swipe, quick chip, patrol, paste-to-pan
+[80/152] [chrome] › tests\e2e\gui-modern.spec.js:474:5 › GUI modern airgap › GUI modern welcome airgap: every choice on the first-run card
+[81/152] [chrome] › tests\e2e\gui-modern.spec.js:502:5 › GUI modern airgap › GUI modern sizes airgap: the chrome fits and every control is named at 1920, 1440, 1280 and 1024 px
+[82/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s0-empty: every control in every tab responds without error
+[83/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s1-image: every control in every tab responds without error
+[84/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s2-dem: every control in every tab responds without error
+[85/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s3-msi: every control in every tab responds without error
+  8) [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern airgap › GUI modern docks airgap: every panel opens beside the imagery, every control in it responds, and it closes 
+
+    Error: 115 actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "dock detections: panel covers 23460 px² of the image panel",
+    + ]
+
+      399 |       }
+      400 |       const bad = report(OUT, `docks-${build}-${info.project.name}`, rows);
+    > 401 |       expect(bad, `${rows.length} actions`).toEqual([]);
+          |                                             ^
+      402 |     });
+      403 |
+      404 |     test(`GUI modern cursor shortcuts ${build}: flicker, swipe, quick chip, patrol, paste-to-pan`, async ({ page }, info) => {
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:401:45
+
+    Error Context: test-results\gui-modern-GUI-modern-airg-4c185-n-it-responds-and-it-closes-chrome\error-context.md
+
+
+[86/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s4-sar: every control in every tab responds without error
+[87/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s5-pair: every control in every tab responds without error
+  9) [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s0-empty: every control in every tab responds without error 
+
+    Error: 188 controls swept
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "products hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    +   "addins ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    + ]
+
+      135 |         }
+      136 |         const bad = report(`ribbon-${build}-${info.project.name}-${st.id}`, rows);
+    > 137 |         expect(bad, `${rows.length} controls swept`).toEqual([]);
+          |                                                      ^
+      138 |       });
+      139 |     }
+      140 |
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-sweep.spec.js:137:54
+
+    Error Context: test-results\gui-sweep-GUI-sweep-full-G-1cab2--tab-responds-without-error-chrome\error-context.md
+
+
+[88/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s6-stereo: every control in every tab responds without error
+[89/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s7-cloud: every control in every tab responds without error
+[90/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s8-video: every control in every tab responds without error
+  10) [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s0-empty: every command this state enables runs from Ctrl+K 
+
+    Error: 625 actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 10
+
+    - Array []
+    + Array [
+    +   "dialog of pc.stream dialog:pc-stream ▸ OK: error toast: Failed to construct 'URL': Invalid URL×",
+    +   "dialog of online.add dialog:map-backgrounds ▸ Network Allow-List…: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of 3d.qmesh dialog:3d-qmesh ▸ OK: error toast: enter the layer.json URL (http:// or https://)×",
+    +   "dialog of 3d.tiles dialog:3d-tiles ▸ OK: error toast: enter the tileset.json URL (http:// or https://)×",
+    +   "palette ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of ai.allowlist dialog:allowlist ▸ Add: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    +   "dialog of vec.remoteopen dialog:remote-edit ▸ Open: error toast: the service URL must start with http:// or https://×",
+    +   "palette hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    + ]
+
+      158 |         info.annotations.push({ type: 'swept', description: `${cmds.length} commands, ${found} found, ${dialogsSwept.size} dialogs` });
+      159 |         const bad = report(OUT, `palette-${build}-${info.project.name}-${st.id}`, rows);
+    > 160 |         expect(bad, `${rows.length} actions`).toEqual([]);
+          |                                               ^
+      161 |       });
+      162 |
+      163 |       test(`GUI modern pill and radial ${build} ${st.id}: every button responds`, async ({ page }, info) => {
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-modern.spec.js:160:47
+
+    Error Context: test-results\gui-modern-GUI-modern-airg-eeb86-te-enables-runs-from-Ctrl-K-chrome\error-context.md
+
+
+[91/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s9-vector: every control in every tab responds without error
+[92/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s10-detect: every control in every tab responds without error
+[93/152] [chrome] › tests\e2e\gui-sweep.spec.js:141:5 › GUI sweep full › GUI menus full: every Workspace and File menu item opens, runs or refuses by name
+[94/152] [chrome] › tests\e2e\gui-sweep.spec.js:192:5 › GUI sweep full › GUI QAT and workspace toolbar full: every button responds
+[95/152] [chrome] › tests\e2e\gui-sweep.spec.js:215:5 › GUI sweep full › GUI docks full: every dock panel opens, moves left/right/bottom, floats and closes
+[96/152] [chrome] › tests\e2e\gui-sweep.spec.js:246:5 › GUI sweep full › GUI context menus full: panel, mini toolbar, layer row and status bar menus
+[97/152] [chrome] › tests\e2e\gui-sweep.spec.js:319:5 › GUI sweep full › GUI keyboard full: hot keys, KeyTips and Esc
+  11) [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s1-image: every control in every tab responds without error 
+
+    Error: 244 controls swept
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "products hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    +   "addins ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    + ]
+
+      135 |         }
+      136 |         const bad = report(`ribbon-${build}-${info.project.name}-${st.id}`, rows);
+    > 137 |         expect(bad, `${rows.length} controls swept`).toEqual([]);
+          |                                                      ^
+      138 |       });
+      139 |     }
+      140 |
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-sweep.spec.js:137:54
+
+    Error Context: test-results\gui-sweep-GUI-sweep-full-G-e0b5a--tab-responds-without-error-chrome\error-context.md
+
+
+[98/152] [chrome] › tests\e2e\gui-sweep.spec.js:349:5 › GUI sweep full › GUI windows and layouts full: split layouts, tabbed panels, new/close Multiport, arrange
+[99/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s0-empty: every control in every tab responds without error
+[100/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s1-image: every control in every tab responds without error
+[101/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s2-dem: every control in every tab responds without error
+[102/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s3-msi: every control in every tab responds without error
+[103/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s4-sar: every control in every tab responds without error
+[104/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s5-pair: every control in every tab responds without error
+[105/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s6-stereo: every control in every tab responds without error
+[106/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s7-cloud: every control in every tab responds without error
+[107/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s8-video: every control in every tab responds without error
+[108/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s9-vector: every control in every tab responds without error
+[109/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s10-detect: every control in every tab responds without error
+[110/152] [chrome] › tests\e2e\gui-sweep.spec.js:141:5 › GUI sweep lite › GUI menus lite: every Workspace and File menu item opens, runs or refuses by name
+[111/152] [chrome] › tests\e2e\gui-sweep.spec.js:192:5 › GUI sweep lite › GUI QAT and workspace toolbar lite: every button responds
+[112/152] [chrome] › tests\e2e\gui-sweep.spec.js:215:5 › GUI sweep lite › GUI docks lite: every dock panel opens, moves left/right/bottom, floats and closes
+  12) [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s0-empty: every control in every tab responds without error 
+
+    Error: 188 controls swept
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "products hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    +   "addins ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    + ]
+
+      135 |         }
+      136 |         const bad = report(`ribbon-${build}-${info.project.name}-${st.id}`, rows);
+    > 137 |         expect(bad, `${rows.length} controls swept`).toEqual([]);
+          |                                                      ^
+      138 |       });
+      139 |     }
+      140 |
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-sweep.spec.js:137:54
+
+    Error Context: test-results\gui-sweep-GUI-sweep-lite-G-f3c49--tab-responds-without-error-chrome\error-context.md
+
+
+[113/152] [chrome] › tests\e2e\gui-sweep.spec.js:246:5 › GUI sweep lite › GUI context menus lite: panel, mini toolbar, layer row and status bar menus
+[114/152] [chrome] › tests\e2e\gui-sweep.spec.js:319:5 › GUI sweep lite › GUI keyboard lite: hot keys, KeyTips and Esc
+[115/152] [chrome] › tests\e2e\gui-sweep.spec.js:349:5 › GUI sweep lite › GUI windows and layouts lite: split layouts, tabbed panels, new/close Multiport, arrange
+[116/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s0-empty: every control in every tab responds without error
+[117/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s1-image: every control in every tab responds without error
+[118/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s2-dem: every control in every tab responds without error
+[119/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s3-msi: every control in every tab responds without error
+[120/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s4-sar: every control in every tab responds without error
+[121/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s5-pair: every control in every tab responds without error
+[122/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s6-stereo: every control in every tab responds without error
+[123/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s7-cloud: every control in every tab responds without error
+[124/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s8-video: every control in every tab responds without error
+[125/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s9-vector: every control in every tab responds without error
+[126/152] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s10-detect: every control in every tab responds without error
+[127/152] [chrome] › tests\e2e\gui-sweep.spec.js:141:5 › GUI sweep airgap › GUI menus airgap: every Workspace and File menu item opens, runs or refuses by name
+[128/152] [chrome] › tests\e2e\gui-sweep.spec.js:192:5 › GUI sweep airgap › GUI QAT and workspace toolbar airgap: every button responds
+[129/152] [chrome] › tests\e2e\gui-sweep.spec.js:215:5 › GUI sweep airgap › GUI docks airgap: every dock panel opens, moves left/right/bottom, floats and closes
+  13) [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s0-empty: every control in every tab responds without error 
+
+    Error: 188 controls swept
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "products hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    +   "addins ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    + ]
+
+      135 |         }
+      136 |         const bad = report(`ribbon-${build}-${info.project.name}-${st.id}`, rows);
+    > 137 |         expect(bad, `${rows.length} controls swept`).toEqual([]);
+          |                                                      ^
+      138 |       });
+      139 |     }
+      140 |
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-sweep.spec.js:137:54
+
+    Error Context: test-results\gui-sweep-GUI-sweep-airgap-9f4d6--tab-responds-without-error-chrome\error-context.md
+
+
+[130/152] [chrome] › tests\e2e\gui-sweep.spec.js:246:5 › GUI sweep airgap › GUI context menus airgap: panel, mini toolbar, layer row and status bar menus
+[131/152] [chrome] › tests\e2e\gui-sweep.spec.js:319:5 › GUI sweep airgap › GUI keyboard airgap: hot keys, KeyTips and Esc
+[132/152] [chrome] › tests\e2e\gui-sweep.spec.js:349:5 › GUI sweep airgap › GUI windows and layouts airgap: split layouts, tabbed panels, new/close Multiport, arrange
+[133/152] [chrome] › tests\e2e\gui2-fixes.spec.js:27:1 › GUI-028 after undoing "Open image" the report and AI draft still open
+[134/152] [chrome] › tests\e2e\gui2-fixes.spec.js:38:1 › GUI-029 Map Backgrounds and Prompt Helper name every control
+[135/152] [chrome] › tests\e2e\gui2-fixes.spec.js:50:1 › GUI-030 the radial menu slices do not overlap
+[136/152] [chrome] › tests\e2e\gui2-fixes.spec.js:66:1 › GUI-031 the light theme has a light status bar
+[137/152] [chrome] › tests\e2e\gui2-fixes.spec.js:73:1 › GUI-032 Triangulation steps that cannot run are greyed out and say why
+[138/152] [chrome] › tests\e2e\gui2-fixes.spec.js:83:1 › GUI-033 undoing an image of an open stereo pair closes stereo without draw errors
+[139/152] [chrome] › tests\e2e\gui2-fixes.spec.js:93:1 › GUI-034 the contextual pill offers the video tools over a video
+[140/152] [chrome] › tests\e2e\gui2-fixes.spec.js:101:1 › GUI-035 a wide editor docked in the Modern layout widens the dock
+[141/152] [chrome] › tests\e2e\gui2-fixes.spec.js:109:1 › GUI-036 About names the air-gapped edition
+[142/152] [chrome] › tests\e2e\gui2-fixes.spec.js:116:1 › GUI-037 a failure outside a command reaches the message log and the user once
+[143/152] [chrome] › tests\e2e\gui2-fixes.spec.js:129:1 › GUI-038 Modern hints name Modern controls: empty panel, AI connection
+[144/152] [chrome] › tests\e2e\gui2-fixes.spec.js:137:1 › GUI-039 every rail item has its own icon
+[145/152] [chrome] › tests\e2e\gui2-fixes.spec.js:143:1 › GUI-040 the AI attach options keep each label on one line
+[146/152] [chrome] › tests\e2e\gui2-fixes.spec.js:150:1 › GUI-041 About shows the worker pool in words
+[147/152] [chrome] › tests\e2e\gui2-fixes.spec.js:156:1 › GUI-042 New Project in the Modern layout raises no error
+[148/152] [chrome] › tests\e2e\gui2-fixes.spec.js:168:1 › GUI-045 after New Project and in a new window every dock panel is there
+[149/152] [chrome] › tests\e2e\gui2-fixes.spec.js:187:1 › GUI-043 a two-band image drapes in 3D
+[150/152] [chrome] › tests\e2e\gui2-fixes.spec.js:199:1 › GUI-044 Classify without training classes is a warning, not an error
+[151/152] [chrome] › tests\e2e\gui2-fixes.spec.js:209:1 › GUI-046 Lite greys out 2D / 3D and shows no 3D button
+[152/152] [chrome] › tests\e2e\gui2-fixes.spec.js:218:1 › GUI-047 greyed-out commands say what to open first
+  14) [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s1-image: every control in every tab responds without error 
+
+    Error: 244 controls swept
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "products hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    +   "addins ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    + ]
+
+      135 |         }
+      136 |         const bad = report(`ribbon-${build}-${info.project.name}-${st.id}`, rows);
+    > 137 |         expect(bad, `${rows.length} controls swept`).toEqual([]);
+          |                                                      ^
+      138 |       });
+      139 |     }
+      140 |
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-sweep.spec.js:137:54
+
+    Error Context: test-results\gui-sweep-GUI-sweep-lite-G-92a7f--tab-responds-without-error-chrome\error-context.md
+
+
+  15) [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s1-image: every control in every tab responds without error 
+
+    Error: 244 controls swept
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "products hub.relay: dialog \"Send to a Google Sheet\" has controls without a name: textarea[textarea].inp",
+    +   "addins ai.allowlist: dialog \"Network Allow-List\" has controls without a name: input[text].inp",
+    + ]
+
+      135 |         }
+      136 |         const bad = report(`ribbon-${build}-${info.project.name}-${st.id}`, rows);
+    > 137 |         expect(bad, `${rows.length} controls swept`).toEqual([]);
+          |                                                      ^
+      138 |       });
+      139 |     }
+      140 |
+        at C:\GIS Workbench\gis-workbench\tests\e2e\gui-sweep.spec.js:137:54
+
+    Error Context: test-results\gui-sweep-GUI-sweep-airgap-f0ede--tab-responds-without-error-chrome\error-context.md
+
+
+  15 failed
+    [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s0-empty: every command this state enables runs from Ctrl+K 
+    [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s5-pair: every command this state enables runs from Ctrl+K 
+    [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s6-stereo: every command this state enables runs from Ctrl+K 
+    [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern full › GUI modern docks full: every panel opens beside the imagery, every control in it responds, and it closes 
+    [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s0-empty: every command this state enables runs from Ctrl+K 
+    [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s1-image: every command this state enables runs from Ctrl+K 
+    [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern lite › GUI modern docks lite: every panel opens beside the imagery, every control in it responds, and it closes 
+    [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s0-empty: every command this state enables runs from Ctrl+K 
+    [chrome] › tests\e2e\gui-modern.spec.js:318:5 › GUI modern airgap › GUI modern docks airgap: every panel opens beside the imagery, every control in it responds, and it closes 
+    [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s0-empty: every control in every tab responds without error 
+    [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s1-image: every control in every tab responds without error 
+    [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s0-empty: every control in every tab responds without error 
+    [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s1-image: every control in every tab responds without error 
+    [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s0-empty: every control in every tab responds without error 
+    [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s1-image: every control in every tab responds without error 
+  3 skipped
+  134 passed (23.6m)

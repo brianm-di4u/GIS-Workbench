@@ -1,0 +1,116 @@
+[
+ {
+  "tab": "pill",
+  "id": "cmd:sar.remap",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:sar.speckle",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:sar.metadata",
+  "outcome": "clicked",
+  "dialogs": [
+   "tool:sar-metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:men.rangebearing",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "pill:more",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:nav.whole",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:men.rangebearing",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:draw.marker",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:enh.auto",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:cmp.swiper",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:hud.quickchip",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Quick chip 21HUB5775975770: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:bm.add",
+  "outcome": "clicked",
+  "dialogs": [
+   "Add 2D Bookmark"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:ui.palette",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

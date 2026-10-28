@@ -1,0 +1,757 @@
+[
+ {
+  "tab": "dock",
+  "id": "catalog",
+  "outcome": "7 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "Open",
+  "dialogs": [],
+  "toasts": [
+   "warn: Type an image address (https://, s3:// or gs://) first.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "Earth Search (Element 84)Microsoft Planetary Computer",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "sentinel-2-l2alandsat-c2-l2naipcop-dem-glo-30sentinel-1-grd",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "Search this view",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "List",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "Keys…",
+  "dialogs": [
+   "dialog:s3keys"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock catalog",
+  "id": "Add Folder…",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "catalog close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "convert",
+  "outcome": "1 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock convert",
+  "id": "Vector output",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "convert close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "layers",
+  "outcome": "1 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock layers",
+  "id": "Show fx01.ntf FX01",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "layers close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "toolbox",
+  "outcome": "35 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Point",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Line",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Polyline",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Polygon",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Rectangle",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Circle",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Arrow",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Text Box",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Callout",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Marker",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Point Position",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Range & Bearing",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Polyline Length",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Polygon Area",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Active vector layer",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "New Layer…",
+  "dialogs": [
+   "New Vector Layer"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Point",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Polyline",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Polygon",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "3-Point Rectangle",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Circle / N-gon",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Select Features",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Snap",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Orthogonal",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Square",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Constant elevation",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Repeat",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Snap Guard",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Edit Vertices",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Split",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Merge",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Reshape",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Square",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock toolbox",
+  "id": "Attribute Table",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "toolbox close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "cues",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "cues close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "menlog",
+  "outcome": "2 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock menlog",
+  "id": "Export CSV",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock menlog",
+  "id": "Export JSON",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "menlog close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "jobs",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "jobs close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "netlog",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "netlog close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "importlog",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "importlog close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "overview",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "overview close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "ai",
+  "outcome": "46 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock ai",
+  "id": "Chat",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock ai",
+  "id": "Proposals",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock ai",
+  "id": "Tools",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "ai close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "attrtable",
+  "outcome": "2 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock attrtable",
+  "id": "Layer",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock attrtable",
+  "id": "Add Field…",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "attrtable close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "imagelist",
+  "outcome": "10 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Name",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Image ID",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Acquired (UTC)",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Sensor",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Format",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Size",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Type",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Model",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Sort by Marking",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock imagelist",
+  "id": "Show the footprint of fx01.ntf FX01",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "imagelist close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "triangulation",
+  "outcome": "8 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock triangulation",
+  "id": "Hold FX01 fixed",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock triangulation",
+  "id": "Import Control…",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock triangulation",
+  "id": "New Tie Point",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock triangulation",
+  "id": "Bias model",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "triangulation close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "validation",
+  "outcome": "2 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock validation",
+  "id": "Validation session",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock validation",
+  "id": "Fix All Dangles",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "validation close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "spectral",
+  "outcome": "6 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock spectral",
+  "id": "point",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock spectral",
+  "id": "line",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock spectral",
+  "id": "polygon",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock spectral",
+  "id": "Pin",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock spectral",
+  "id": "Continuum removed",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "spectral close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "recipes",
+  "outcome": "6 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock recipes",
+  "id": "Recipe",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock recipes",
+  "id": "Open…",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "recipes close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "detections",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "detections close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "observations",
+  "outcome": "2 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock observations",
+  "id": "New observation…",
+  "dialogs": [
+   "dialog:obs-toolbox"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock observations",
+  "id": "Activity report…",
+  "dialogs": [
+   "dialog:activity-report"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "observations close",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "console",
+  "outcome": "0 controls",
+  "problems": []
+ },
+ {
+  "tab": "dock",
+  "id": "console close",
+  "problems": []
+ }
+]

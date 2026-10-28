@@ -365,3 +365,19 @@ test('GUI-056 a GeoTIFF DEM offers Use as Terrain, which brings up the Surface t
   expect(await frame.evaluate(() => window.gisworkbench.ribbonContext(window.gisworkbench.activeMp()).hasDem)).toBe(true);
   expect(await frame.evaluate(() => window.gisworkbench.commands.enabled('los.viewshed') || window.gisworkbench.commands.enabled('dem.volume') || window.gisworkbench.commands.enabled('dem.contourlines'))).toBe(true);
 });
+
+test('GUI-057 Auto Contrast reports gamma as a factor with its Tone value', async ({ page }) => {
+  const { frame } = await modern(page, [FX('fx01', 'fx01.ntf')]);
+  await frame.evaluate(() => window.gisworkbench.commands.run('lai.contrast'));
+  await expect(page.locator('.toasts .toast', { hasText: 'Auto Contrast' }).last()).toContainText(/gamma \d+\.\d\d \(Tone [+-]?\d+\)/);
+});
+
+test('GUI-058 a detections CSV dropped with its image goes to the review queue', async ({ page }) => {
+  const { frame } = await modern(page, [FX('fx08', 'fx08.tif'), FX('products', 'fx08_detections.csv')]);
+  await frame.waitForFunction(() => window.gisworkbench.store.all('detection').length > 0, null, { timeout: 20_000 });
+  expect((await toasts(page)).filter((t) => /no WKT column/.test(t.text))).toEqual([]);
+  await page.keyboard.press('Control+k');
+  await page.locator('[data-id="palette:input"]').fill('Review');
+  await page.locator('[data-id="palette:cmd:det.review"]').click();
+  await expect(page.locator('[data-id="det-queue"] tbody tr').first()).toBeVisible();
+});

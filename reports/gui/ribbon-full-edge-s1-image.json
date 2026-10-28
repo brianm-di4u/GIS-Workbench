@@ -1140,7 +1140,8 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×"
+   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×",
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
   ],
   "problems": []
  },
@@ -1150,9 +1151,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1669,7 +1668,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma +3.×"
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.04 (Tone +3).×"
   ],
   "problems": []
  },
@@ -1848,6 +1847,15 @@
   "toasts": [
    "warn: Cannot read properties of undefined (reading '1')×"
   ],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
   "problems": []
  },
  {

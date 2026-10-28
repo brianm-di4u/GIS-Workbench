@@ -35,6 +35,9 @@ export const MODELS = {
 };
 const PURPOSE = { slimsam: 'Smart select', sam2: 'SAM 2.1 smart select', owlv2: 'Find objects (AI)', clip: 'Search imagery (AI)', lightglue: 'Auto Align (AI)' };
 
+/** Gamma as a factor with the Tone slider value it sets, e.g. "2.03 (Tone +51)" (GUI-057). */
+const gammaText = (v) => `${(2 ** (v / 50)).toFixed(2)} (Tone ${v > 0 ? '+' : ''}${v})`;
+
 /** Auto Contrast parameters from a band histogram (REQ-LAI-07): {clip, gamma}. */
 export function autoContrastParams(hst) {
   const lo = histPercentile(hst, 0.02);
@@ -361,7 +364,7 @@ export function install(app) {
       }
       case 'contrast': {
         const p = autoContrast();
-        return { handled: true, text: `Auto Contrast: local contrast (CLAHE, clip ${p.clip}) and gamma ${p.gamma > 0 ? '+' : ''}${p.gamma}. Undo with Ctrl+Z; the classic DRA controls are under Enhance.` };
+        return { handled: true, text: `Auto Contrast: local contrast (CLAHE, clip ${p.clip}) and gamma ${gammaText(p.gamma)}. Undo with Ctrl+Z; the classic DRA controls are under Enhance.` };
       }
       case 'align': {
         if (!app.autoAlignAI) throw new Error('Auto Align (AI) is not available in this build');
@@ -428,7 +431,7 @@ export function install(app) {
     enabled: () => !!app.activeLayer()?.chain,
     run: busy('Auto Contrast', async () => {
       const p = autoContrast();
-      app.toast(`Auto Contrast: CLAHE clip ${p.clip}, gamma ${p.gamma > 0 ? '+' : ''}${p.gamma}.`);
+      app.toast(`Auto Contrast: CLAHE clip ${p.clip}, gamma ${gammaText(p.gamma)}.`);
     }),
   });
   C.implement('lai.square', { checked: () => !!app.prefs.get('samSquare'), run: () => app.prefs.set('samSquare', !app.prefs.get('samSquare')) });

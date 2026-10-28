@@ -1,0 +1,122 @@
+[
+ {
+  "tab": "pill",
+  "id": "cmd:enh.auto",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:men.rangebearing",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:draw.marker",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:hud.quickchip",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "cmd:ai.smartselect",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pill",
+  "id": "pill:more",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:nav.whole",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:men.rangebearing",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:draw.marker",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:enh.auto",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:cmp.swiper",
+  "outcome": "off",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:hud.quickchip",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (2).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:bm.add",
+  "outcome": "clicked",
+  "dialogs": [
+   "Add 2D Bookmark"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "radial",
+  "id": "radial:ui.palette",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ }
+]

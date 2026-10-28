@@ -1,0 +1,422 @@
+[
+ {
+  "tab": "scene3d",
+  "id": "3d.exag",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:3d-exag"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.sync",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.navorbit",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.navfree",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.navroute",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.measure",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 3D cursor: click two points on the terrain×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.los",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.import",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.tiles",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:3d-tiles"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.tiles3tz",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.qmesh",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:3d-qmesh"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.open",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:3d-open"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "scene3d",
+  "id": "3d.close",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.header",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-header"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.elevation",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.intensity",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.class",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.rgb",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.return",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.source",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.time",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colour.hag",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.classes",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-classes"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.budget",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-budget"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.edl",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.fit",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.shave",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-shave"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.profile",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Profile: click the start and end on the cloud (Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.measure",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Measure 3D: click two points (Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.dsm",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-dsm"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.dtm",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-dtm"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.ndsm",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-ndsm"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.intensity",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-intensity"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.density",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-density"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.dod",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.extract",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.groundfilter",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-smrf"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.classedit",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-classedit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.clip",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.colourise",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.export",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-export"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "pointcloud",
+  "id": "pc.close",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

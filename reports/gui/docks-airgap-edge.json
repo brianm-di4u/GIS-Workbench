@@ -1,0 +1,82 @@
+[
+ {
+  "id": "catalog",
+  "problems": []
+ },
+ {
+  "id": "convert",
+  "problems": []
+ },
+ {
+  "id": "layers",
+  "problems": []
+ },
+ {
+  "id": "toolbox",
+  "problems": []
+ },
+ {
+  "id": "cues",
+  "problems": []
+ },
+ {
+  "id": "menlog",
+  "problems": []
+ },
+ {
+  "id": "jobs",
+  "problems": []
+ },
+ {
+  "id": "netlog",
+  "problems": []
+ },
+ {
+  "id": "importlog",
+  "problems": []
+ },
+ {
+  "id": "overview",
+  "problems": []
+ },
+ {
+  "id": "ai",
+  "problems": []
+ },
+ {
+  "id": "attrtable",
+  "problems": []
+ },
+ {
+  "id": "imagelist",
+  "problems": []
+ },
+ {
+  "id": "triangulation",
+  "problems": []
+ },
+ {
+  "id": "validation",
+  "problems": []
+ },
+ {
+  "id": "spectral",
+  "problems": []
+ },
+ {
+  "id": "recipes",
+  "problems": []
+ },
+ {
+  "id": "detections",
+  "problems": []
+ },
+ {
+  "id": "observations",
+  "problems": []
+ },
+ {
+  "id": "console",
+  "problems": []
+ }
+]

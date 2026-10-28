@@ -4,10 +4,11 @@ All notable changes to GIS Workbench. The format follows [Keep a Changelog](http
 
 ## [2.0.1] - 2026-10-28
 
-The 2.0 GUI campaign. Every button, menu, panel, dialog and shortcut of the Modern and Classic layouts was driven by real pointer and keyboard input in the Standard, Lite and air-gapped files, in Chrome and Edge, and by hand in a browser with a GPU. This release fixes what it found and smooths what it showed could be easier.
+The 2.0 GUI campaign. Every button, menu, panel, dialog and shortcut of the Modern and Classic layouts was driven by real pointer and keyboard input in the Standard, Lite and air-gapped files, in Chrome and Edge, and checked hands-on in a browser with a GPU. This release fixes what it found and smooths what it showed could be easier.
 
 ### Added
 - **Use as Terrain…** is now a command, in the command palette and on Image Tools ▸ Visualize. Opening a GeoTIFF elevation model suggests it, and the Surface tools and line of sight then work from it. Before, only the Layer Manager’s right-click menu offered it. (GUI-056)
+- **Detections open like any file.** A CSV of ML detections (class, confidence and boxes) opened or dropped with its image goes to the detection review queue. Before, it was read as a map layer and failed. (GUI-058)
 
 ### Fixed
 - **New Project, Open Project and Window ▸ New Window** now bring every panel along. Before, Catalog, Convert, Recipes, Detections, Observations, Triangulation and four more could not open in the new window (“unknown dock panel”). (GUI-045)
@@ -35,6 +36,7 @@ The 2.0 GUI campaign. Every button, menu, panel, dialog and shortcut of the Mode
 - **Hints match the layout.** An empty panel in the Modern layout says “Open, drop files here, or press Ctrl+K”. The AI Assistant offers an **Add a connection…** button; the air-gapped file says it cannot reach a remote assistant. (GUI-038)
 - **Unexpected errors are reported.** A failure outside a command shows once as an error message and goes into Help ▸ About & Diagnostics ▸ Copy Diagnostics. (GUI-037)
 - **Catalog and Convert:** Open and List with an empty box say what to type; the date boxes are labelled From and To; the Convert drop zone says it can be clicked. (GUI-051)
+- **Auto Contrast** reports gamma as a factor with the Tone value it sets, for example “gamma 2.03 (Tone +51)”. (GUI-057)
 - Recipes has its own icon in the navigation rail. The AI Assistant's attach options no longer wrap in mid-phrase. (GUI-039, GUI-040)
 
 ## [2.0.0] - 2026-10-28

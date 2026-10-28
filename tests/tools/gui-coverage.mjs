@@ -57,18 +57,18 @@ for (const d of ['reports/gui', 'reports/gui2']) {
 }
 const hit = (pred) => new Set(rows.filter(pred).map((r) => r.id));
 const paletteRan = new Map();
-for (const r of rows.filter((r) => r.area === 'palette' && r.tab === 'palette')) {
+for (const r of rows.filter((r) => (r.area === 'palette' && r.tab === 'palette') || r.area === 'window')) {
   const k = r.id;
   if (!paletteRan.has(k)) paletteRan.set(k, new Set());
   paletteRan.get(k).add(`${r.build}:${/^ran/.test(r.outcome ?? '') ? 'ran' : 'shown'}`);
 }
 const dialogsSeen = new Set(rows.flatMap((r) => r.dialogs ?? []).filter((d) => d.startsWith('dialog:')).map((d) => d.slice(7)));
 const dialogButtons = rows.filter((r) => /^dialog of /.test(r.tab ?? '')).length;
-const ribbonHit = new Set(rows.filter((r) => r.area === 'ribbon').map((r) => String(r.id).replace(/:menu$/, '')));
+const ribbonHit = new Set(rows.filter((r) => r.area === 'ribbon' || r.area === 'windows').map((r) => String(r.id).replace(/:menu$/, '')));
 const dockHit = hit((r) => r.area === 'docks' && r.tab === 'dock');
 const railHit = new Set(rows.filter((r) => r.area === 'chrome' && r.tab === 'rail').map((r) => String(r.id).split(' ')[0]));
 const barHit = hit((r) => r.area === 'chrome' && r.tab === 'app bar');
-const radialHit = new Set(rows.filter((r) => r.area === 'pill' && r.tab === 'radial').map((r) => String(r.id).slice(7)));
+const radialHit = new Set(rows.filter((r) => (r.area === 'pill' && r.tab === 'radial') || r.area === 'radial').map((r) => String(r.id).slice(7)));
 
 const pct = (a, b) => `${a}/${b} (${b ? Math.round((100 * a) / b) : 100} %)`;
 const cmdsRun = live.commands.filter((c) => paletteRan.get(c)?.size);

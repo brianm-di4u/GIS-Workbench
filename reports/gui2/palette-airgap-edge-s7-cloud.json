@@ -1,0 +1,513 @@
+[
+ {
+  "tab": "palette",
+  "id": "pc.extract",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.syncalways",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.exag",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:3d-exag"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of 3d.exag",
+  "id": "dialog:3d-exag ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of 3d.exag",
+  "id": "dialog:3d-exag ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.navorbit",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.navfree",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.measure",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: 3D cursor: click two points on the terrain×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.header",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-header"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.header",
+  "id": "dialog:pc-header ▸ Close",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.fit",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.elevation",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.intensity",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.class",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.rgb",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.return",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
+   "info: From points: 30 building(s), 136 tree(s)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.source",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.colour.time",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.classes",
+  "outcome": "ran",
+  "dialogs": [
+   "tool:pc-classes"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.budget",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-budget"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.budget",
+  "id": "dialog:pc-budget ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.budget",
+  "id": "dialog:pc-budget ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.edl",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.shave",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-shave"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.shave",
+  "id": "dialog:pc-shave ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.shave",
+  "id": "dialog:pc-shave ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.profile",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Profile: click the start and end on the cloud (Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.measure",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Measure 3D: click two points (Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.dsm",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-dsm"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.dsm",
+  "id": "dialog:pc-dsm ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.dsm",
+  "id": "dialog:pc-dsm ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×",
+   "info: DSM 500 × 500 posts opened as fx09_ftus_DSM.tif×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.dtm",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-dtm"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.dtm",
+  "id": "dialog:pc-dtm ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.dtm",
+  "id": "dialog:pc-dtm ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.ndsm",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-ndsm"
+  ],
+  "toasts": [
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
+   "info: DTM 500 × 500 posts opened as fx09_ftus_DTM.tif×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.ndsm",
+  "id": "dialog:pc-ndsm ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.ndsm",
+  "id": "dialog:pc-ndsm ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.intensity",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-intensity"
+  ],
+  "toasts": [
+   "info: nDSM 500 × 500 posts opened as fx09_ftus_nDSM.tif×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.intensity",
+  "id": "dialog:pc-intensity ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Intensity 500 × 500 posts opened as fx09_ftus_Intensity.tif×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.intensity",
+  "id": "dialog:pc-intensity ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.density",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-density"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.density",
+  "id": "dialog:pc-density ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Density 500 × 500 posts opened as fx09_ftus_Density.tif×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.density",
+  "id": "dialog:pc-density ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.groundfilter",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-smrf"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.groundfilter",
+  "id": "dialog:pc-smrf ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.groundfilter",
+  "id": "dialog:pc-smrf ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.classedit",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-classedit"
+  ],
+  "toasts": [
+   "info: Ground filter: 45 points changed, 19,487 ground, 1795 ms×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.classedit",
+  "id": "dialog:pc-classedit ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.classedit",
+  "id": "dialog:pc-classedit ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.clip",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.export",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:pc-export"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.export",
+  "id": "dialog:pc-export ▸ OK",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of pc.export",
+  "id": "dialog:pc-export ▸ Cancel",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "glb.toggle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.open",
+  "outcome": "ran",
+  "dialogs": [
+   "dialog:3d-open"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "3d.close",
+  "outcome": "not now: show the 3D view first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "pc.close",
+  "outcome": "not now: open a point cloud (LAS, LAZ or COPC) first",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]

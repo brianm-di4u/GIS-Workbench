@@ -10,6 +10,15 @@
  },
  {
   "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
   "id": "img.vmosaic",
   "kind": "button",
   "outcome": "disabled",

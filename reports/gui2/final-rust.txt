@@ -1,0 +1,693 @@
+
+> gis-workbench@2.0.1 test:rust
+> cargo test --manifest-path crates/Cargo.toml --workspace
+
+warning: unused import: `self`
+ --> vendor\fax\src\lib.rs:4:15
+  |
+4 | use std::io::{self, Read};
+  |               ^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `std::iter::Map`
+ --> vendor\fax\src\lib.rs:5:5
+  |
+5 | use std::iter::Map;
+  |     ^^^^^^^^^^^^^^
+
+warning: unused imports: `Bytes` and `self`
+ --> vendor\fax\src\decoder.rs:2:15
+  |
+2 | use std::io::{self, Bytes, Read};
+  |               ^^^^  ^^^^^
+
+warning: unused imports: `EDFB_HALF` and `EOL`
+ --> vendor\fax\src\decoder.rs:4:45
+  |
+4 | use crate::maps::{black, mode, white, Mode, EDFB_HALF, EOL};
+  |                                             ^^^^^^^^^  ^^^
+
+warning: unused import: `Read`
+ --> vendor\fax\src\lib.rs:4:21
+  |
+4 | use std::io::{self, Read};
+  |                     ^^^^
+
+warning: unused import: `Read`
+ --> vendor\fax\src\decoder.rs:2:28
+  |
+2 | use std::io::{self, Bytes, Read};
+  |                            ^^^^
+
+warning: value assigned to `a0` is never read
+   --> vendor\fax\src\decoder.rs:566:29
+    |
+566 | ...                   a0 = a2;
+    |                       ^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor\fax\src\decoder.rs:339:17
+    |
+339 |     pub fn line(&self) -> Line {
+    |                 ^^^^^     ^^^^ the same lifetime is hidden here
+    |                 |
+    |                 the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+339 |     pub fn line(&self) -> Line<'_> {
+    |                               ++++
+
+warning: `fax` (lib) generated 8 warnings (run `cargo fix --lib -p fax` to apply 5 suggestions)
+   Compiling gw-bundle-core v0.0.1 (C:\GIS Workbench\gis-workbench\crates\bundles\core)
+   Compiling gw-pointcloud v0.0.1 (C:\GIS Workbench\gis-workbench\crates\gw-pointcloud)
+   Compiling gw-fuzz v0.0.1 (C:\GIS Workbench\gis-workbench\crates\gw-fuzz)
+   Compiling gw-bundle-pointcloud v0.0.1 (C:\GIS Workbench\gis-workbench\crates\bundles\pointcloud)
+warning: unused doc comment
+   --> bundles\pointcloud\src\lib.rs:231:1
+    |
+231 | / /// LOD index over positions (f32 ×3). Output: [tiles u32] then the permutation (u32 ×n) then per
+232 | | /// tile f64 [start, count, min ×3, max ×3, levels, counts…].
+233 | | /// # Safety
+234 | | /// `pos` must hold `len` floats.
+    | |_--------------------------------^
+    |   |
+    |   rustdoc does not generate documentation for macro invocations
+    |
+    = help: to document an item produced by a macro, the macro must produce the documentation as part of its expansion
+    = note: `#[warn(unused_doc_comments)]` (part of `#[warn(unused)]`) on by default
+
+warning: the `no_mangle` attribute cannot be used on macro calls
+   --> bundles\pointcloud\src\lib.rs:235:3
+    |
+235 | #[no_mangle]
+    |   ^^^^^^^^^
+    |
+    = help: the `no_mangle` attribute can be applied to functions and statics
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: placing this attribute on a macro invocation does nothing even if the macro expands to what would be a valid target for the attribute
+    = note: `#[warn(unused_attributes)]` (part of `#[warn(unused)]`) on by default
+
+warning: `gw-bundle-pointcloud` (lib test) generated 2 warnings (1 duplicate) (run `cargo fix --lib -p gw-bundle-pointcloud --tests` to apply 1 suggestion)
+warning: `gw-bundle-pointcloud` (lib) generated 2 warnings (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.00s
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_abi-affeb7132a5aa7a8.exe)
+
+running 5 tests
+test tests::json_shapes ... ok
+test tests::non_finite_numbers_become_null_and_markup_is_escaped ... ok
+test tests::nested_objects_in_arrays ... ok
+test tests::object_value_after_key ... ok
+test tests::status_records_error ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_adjust-f6b7d5369cacc3dd.exe)
+
+running 1 test
+test linalg::tests::cholesky_solves_and_inverts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\fx04.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\fx04-0f08c32260bf6e93.exe)
+
+running 4 tests
+test convergence_below_ten_degrees_is_reported ... ok
+test fx04_shift_adjustment_recovers_biases_and_checkpoints ... ok
+test fx04_blunder_is_flagged_and_removal_lowers_sigma0 ... ok
+test fx04_affine_block_and_multi_image_point ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_core-cd8354ef01837a72.exe)
+
+running 3 tests
+test tests::bad_epsg_reports_error ... ok
+test tests::geotransform_model_through_the_abi ... ok
+test tests::mgrs_round_trip_through_the_abi ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_j2k-90c11590f67b90ed.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_parse-d7c1cf93cdf12bb7.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_photo-fe30ccadad5469d6.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_pointcloud-be4e55dc345254d6.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_raster-06a6f94c69db06ca.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_sar-7675b35d969ec2d6.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_spectral-5aea3bcb5f1b2687.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_terrain-60cb0d2ce16723f8.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_bundle_vector-c5d9161d1a9235ab.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_codec-c81de6e8dde546ea.exe)
+
+running 3 tests
+test jpeg::tests::huffman_tables_build ... ok
+test jpeg::tests::garbage_is_refused_without_panic ... ok
+test vq::tests::kernel_expansion ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\htj2k.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\htj2k-883bfa66afdcc404.exe)
+
+running 7 tests
+test detects_part15_codestreams ... ok
+test truncated_streams_fail_cleanly ... ok
+test mono11_reduced_resolution_matches_openjpeg ... ok
+test mono16_lossless ... ok
+test rgb8_rct_lossless ... ok
+test mono11_tiled_lossless ... ok
+test rgb8_irreversible_matches_openjpeg ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests\samples.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\samples-aa3a36bd6ebde9a2.exe)
+
+running 5 tests
+test jpeg_default_tables_u_1005a ... ok
+test jpeg_12bit_u_4017a_matches_gdal_mean ... ok
+test j2k_p0_01a_matches_gdal_checksum ... ok
+test jpeg_rgb_u_2005a ... ok
+test j2k_wv3_chip_is_lossless_against_the_uncompressed_chip ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.10s
+
+     Running tests\te_t4.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\te_t4-de41185bc98671a8.exe)
+
+running 1 test
+test te020_jitc_u1050a_two_dimensional_t4_matches_gdal ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_extract-71aa56a9c5ff9afe.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\square.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\square-74ea4a67265516fe.exe)
+
+running 6 tests
+test diagonals_and_fallback ... ok
+test geographic_squaring_is_right_angled_in_enu ... ok
+test keeps_position_close ... ok
+test simplify_keeps_corners ... ok
+test squares_noisy_rotated_shapes_to_right_angles ... ok
+test medial_axis_strip_and_curve ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.55s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_fuzz-91bdb2049fd5a076.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\fuzz.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\fuzz-366993fac988be21.exe)
+
+running 1 test
+test fuzz_all_parsers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 53.97s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_geodesy-33bc156405d97928.exe)
+
+running 37 tests
+test coords::tests::formats ... ok
+test coords::tests::gars_and_georef_parse ... ok
+test geodesic::winding_tests::clockwise_and_counter_clockwise_rings_give_the_same_area ... ok
+test geodesic::tests::jfk_lhr ... ok
+test grids::tests::mgrs_reverse_centre ... ok
+test coords::tests::swaps_obvious_lon_lat ... ok
+test grids::equator_tests::denormal_south_latitude_is_the_equator ... ok
+test grids::tests::mgrs_round_trip_and_rejections ... ok
+test grids::tests::zone_exceptions ... ok
+test math::tests::exact_quadrants ... ok
+test coords::tests::parser_vectors ... ok
+test grids::tests::mgrs_reference_vectors ... ok
+test geodesic::tests::planimeter_quad ... ok
+test geodesic::tests::ten_km_distance ... ok
+test grids::tests::mgrs_truncates_not_rounds ... ok
+test geoid::tests::predictor_round_trip ... ok
+test grids::tests::usng_spacing ... ok
+test grids::tests::georef_reference ... ok
+test math::tests::tau_round_trip ... ok
+test projection::tests::ups_north_reference ... ok
+test projection::tests::utm_38n_reference ... ok
+test grids::tests::gars_reference ... ok
+test projection::tests::utm_far_from_central_meridian ... ok
+test projection::tests::utm_round_trip ... ok
+test stats::tests::erf_values ... ok
+test time::tests::civil_round_trip ... ok
+test stats::tests::circular_case ... ok
+test time::tests::gps_example ... ok
+test time::tests::sun_noon_equinox ... ok
+test wgs84::tests::curvature_values ... ok
+test wgs84::tests::ecef_round_trip ... ok
+test wgs84::tests::ecef_reference ... ok
+test wgs84::tests::slant_example ... ok
+test stats::tests::worked_example ... ok
+test geoid::tests::egm96_test_points ... ok
+test stats::tests::spherical_se90 ... ok
+test stats::tests::thin_ellipse_limit ... ok
+
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.44s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_match-952e5623379770d5.exe)
+
+running 6 tests
+test sgm::bench::sgm_1024_timing ... ignored
+test tests::harris_finds_corners_of_a_square ... ok
+test ncc::tests::plane_with_box ... ok
+test tests::ncc_and_lsm_recover_a_subpixel_shift ... ok
+test sgm::tests::sgm_recovers_a_plane_and_a_box_without_fattening ... ok
+test orb::tests::recovers_a_rotation_and_scale ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 4.15s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_parse-d2c2cfdd74a4f1a7.exe)
+
+running 31 tests
+test bytes::tests::bounds ... ok
+test dted::tests::rejects_garbage ... ok
+test klv::tests::st0601_examples ... ok
+test klv::tests::ber_forms ... ok
+test klv::tests::vmti_targets ... ok
+test klv::tests::packet_round_trip_and_checksum ... ok
+test nitf::tests::file_header_segments ... ok
+test envi::tests::header_with_multiline_lists ... ok
+test msimeta::tests::mtl_imd_and_mtd ... ok
+test pixels::tests::twelve_bit_packed ... ok
+test klv::tests::imapb_round_trip ... ok
+test nitf::tests::mask_table_parses ... ok
+test pixels::tests::abpp_justification ... ok
+test nitf::tests::rejects_non_nitf_and_encrypted ... ok
+test pdf::tests::us_topo_forms_chains_and_lgidict ... ok
+test pixels::tests::signed_float_and_bilevel ... ok
+test nitf::tests::igeolo_forms ... ok
+test s4607::tests::civil_days ... ok
+test pdf::tests::geopdf_page_viewport_and_images ... ok
+test s4607::tests::dwell_with_hires_and_delta_targets ... ok
+test pixels::tests::imodes_agree ... ok
+test pixels::tests::short_block_is_an_error ... ok
+test tre::tests::expressions ... ok
+test ts::tests::pts_wrap_and_garbage ... ok
+test ts::tests::demux_sync_klv_and_video ... ok
+test xml::tests::prefixes_are_dropped_and_entities_limited ... ok
+test xml::tests::hostile_input_is_refused ... ok
+test tre::tests::catalogue_loads ... ok
+test tre::tests::hostile_lengths_are_refused ... ok
+test tre::tests::rpc00b_decodes_exactly ... ok
+test dted::tests::sample_files ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests\fmv.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\fmv-4513792c16b123f4.exe)
+
+running 3 tests
+test fx11_gmti ... ok
+test fx10_index ... ok
+test fx10_variants ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests\samples.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\samples-fd819456fbf53eb9.exe)
+
+running 2 tests
+test truncation_and_mutation_never_panic ... ok
+test every_nitf_sample_parses ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests\te_geopdf.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\te_geopdf-db58a2de4b65093b.exe)
+
+running 2 tests
+test te007_2012_us_topo_lgidict_and_form_images ... ok
+test te001_current_us_topo_viewport_from_object_streams ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_pointcloud-d808f8029574fd62.exe)
+
+running 1 test
+test lod::te_tests::absurd_extent_stays_bounded ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests\fx09.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\fx09-43ddda40e14b75a8.exe)
+
+running 3 tests
+test us_feet_geokeys ... ok
+test las_and_laz_agree_with_the_truth ... ok
+test smrf_lod_grid_profile_and_write ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.43s
+
+     Running tests\te_las.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\te_las-ae703cdd07e9adb2.exe)
+
+running 1 test
+test te015_corpus_las_headers_parse_without_panic ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+
+     Running tests\te_laz_chunk_count.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\te_laz_chunk_count-d88ebd19bc4b559e.exe)
+
+running 1 test
+test te059_corrupt_chunk_count_is_refused ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\te_laz_stream.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\te_laz_stream-88c0d3d328bf0d9f.exe)
+
+running 1 test
+test te022_streamed_laz_without_chunk_table_decodes ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_raster-a8b5de06b5bb67f3.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\ortho.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\ortho-6550c70ac85b9a74.exe)
+
+running 2 tests
+test whole_image_ortho_error ... ignored
+test adaptive_grid_meets_the_bound ... ok
+
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_sar-97f72269d4e13084.exe)
+
+running 8 tests
+test fft::tests::fft_round_trip_and_tone ... ok
+test pairs::tests::ranks_the_matching_pair_first ... ok
+test change::tests::coherence_of_correlated_and_independent_speckle ... ok
+test subap::tests::frames_keep_energy_and_shape ... ok
+test change::tests::fringe_frequency_is_found ... ok
+test register::tests::subpixel_shift_is_recovered ... ok
+test speckle::tests::filters_reduce_variance_and_keep_the_mean ... ok
+test register::tests::coherent_shift_is_recovered_through_a_phase_ramp ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_sensor-7b5af537366de575.exe)
+
+running 14 tests
+test gcp::tests::projective_is_exact_at_corners ... ok
+test geotransform::tests::arc_polar_matches_gdal ... ok
+test geotransform::tests::utm_geotransform_round_trip ... ok
+test gcp::tests::affine_fit_rms ... ok
+test error::tests::rpc_point_error ... ok
+test geotransform::tests::web_mercator_round_trip ... ok
+test rpc::tests::centre_maps_to_offsets ... ok
+test rpc::tests::chip_offsets_apply ... ok
+test rpc::tests::rpc00a_remap_is_a_permutation ... ok
+test rpc::tests::round_trip_g2i_i2g ... ok
+test sicd::tests::poly2_eval_matches_power_series ... ok
+test terrain::tests::sample_bilinear ... ok
+test rpc::tests::affine_fit_and_invert ... ok
+test terrain::tests::flat_dem_single_crossing ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\frame_rsm.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\frame_rsm-bdc862961215b9fd.exe)
+
+running 3 tests
+test frame_round_trip_and_nadir ... ok
+test rsm_round_trip ... ok
+test pushbroom_round_trip ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\klv_frame.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\klv_frame-3c3c1b5bf8a48757.exe)
+
+running 1 test
+test fx10_frame0_footprint ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\sicd_oracle.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\sicd_oracle-c442577d01bac5a8.exe)
+
+running 9 tests
+test rgazim_rgazcomp ... ok
+test plane_grid_with_apos ... ok
+test rgzero_inca ... ok
+test xctyat ... ok
+test rgazim_pfa ... ok
+test umbra_pfa_slant ... ok
+test iceye_plane_ground ... ok
+test plane_grid_fx07 ... ok
+test xrgycr ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_spectral-358ae60d9bff4ac4.exe)
+
+running 8 tests
+test accuracy::tests::congalton_example_reconciles ... ok
+test linalg::tests::inverse_and_eigen ... ok
+test misc::tests::brightness_temperature_round_trips_planck ... ok
+test misc::tests::resample_and_continuum ... ok
+test misc::tests::template_finds_itself ... ok
+test tests::classes_and_anomaly ... ok
+test classify::tests::ml_regularises_when_classes_are_ill_conditioned ... ok
+test classify::tests::cleanup_on_noisy_labels_is_fast ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.87s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_terrain-82b81286bea99b3b.exe)
+
+running 1 test
+test rtin::tests::flat_and_bumpy ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\buildings.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\buildings-a8a7fa79185a0222.exe)
+
+running 1 test
+test finds_buildings_and_trees ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s
+
+     Running tests\viewshed.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\viewshed-7433b3c5ba903d93.exe)
+
+running 1 test
+test reference_planes_agree_with_ray_casting ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.49s
+
+     Running unittests src\lib.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\gw_vector-a87fd234d86ec7c4.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\validate.rs (C:\Users\brian\AppData\Local\qlab\cargo-target\debug\deps\validate-96199d50bbd34a83.exe)
+
+running 1 test
+test checks ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_abi
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_adjust
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_j2k
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_parse
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_photo
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_pointcloud
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_raster
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_sar
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_spectral
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_terrain
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_bundle_vector
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_codec
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_extract
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_fuzz
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_geodesy
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_match
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_parse
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_pointcloud
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_raster
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_sar
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_sensor
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_spectral
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_terrain
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests gw_vector
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+rust exit 0

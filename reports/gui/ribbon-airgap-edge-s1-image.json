@@ -1,0 +1,2393 @@
+[
+ {
+  "tab": "home",
+  "id": "nav.glove",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.recenter",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.roam",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.jump",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:jump"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.jumpbox",
+  "kind": "input",
+  "outcome": "input",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.zoombox",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.zoomin",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.zoomout",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Jumped to 34.050000°N 117.250000°W (DD, 1113 m precision)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.whole",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.onetoone",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "nav.magnifier",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "view.interpolation",
+  "kind": "combo",
+  "outcome": "combo ×4",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "rot.zero",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "rot.upisup",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "rot.north",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "rot.shadows",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "rot.mouse",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "rot.angle",
+  "kind": "input",
+  "outcome": "input",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "link.all",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "link.unlink",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "link.cursors",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:link-cursors"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "link.manager",
+  "kind": "launcher",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "ov.open",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "ov.pip",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "bm.add",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "Add 2D Bookmark"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "home",
+  "id": "bm.list",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:bookmarks"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "aoi.box",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "aoi.polygon",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "aoi.fromgraphic",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "sel.graphics",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "sel.features",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "sel.byattr",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "sel.byloc",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "sel.all",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 0 graphic(s) selected×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "select",
+  "id": "aoi.clear",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.point",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.line",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.polyline",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.polygon",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.rect",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.ellipse",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.circle",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.arrow",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.text",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.callout",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.marker",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.autolabels",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:autolabels"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.automap",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.point",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.bracket",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.rangebearing",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.length",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.area",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.height",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.height:menu",
+  "kind": "caret",
+  "outcome": "menu ×2",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.depth",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.target",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.medial",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.centre",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.log",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.tracking",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.log",
+  "kind": "launcher",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.sequence",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.count",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gfx.props",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:gfx-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "men.targettable",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:target-table"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gfx.legend",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:gfx-legend"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gfx.save",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gfx.load",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "draw.symbol",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:draw-symbol"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gps.route",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gps.waypoint",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "draw",
+  "id": "gps.load",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "align.glove",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "align.auto",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "align.ai",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "align.quick",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "align.poly",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "model.active",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:model-info"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "model.active:menu",
+  "kind": "caret",
+  "outcome": "menu ×2",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "model.info",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:model-info"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "model.error",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:error-budget"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "model.gcp",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:model-gcp"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "tri.mip",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "tri.tiepoints",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "tri.adjust",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "tri.frame",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tri-frame"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "tri.solutions",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tri-solutions"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "ortho.rectify",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ortho-rectify"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "ortho.true",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "ortho.mosaic",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "ortho.seam",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "ortho.balance",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "geo.convert",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:convert"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "geo.grid",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "geo.grid:menu",
+  "kind": "caret",
+  "outcome": "menu ×1",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "geo.datum",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:datum"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "online.add",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "geospatial",
+  "id": "online.backgrounds",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "chip.view",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:chip"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "chip.preset",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:chip-preset"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "chip.markers",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hud.quickchip",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "deck.export",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "deck.clear",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "tpl.apply",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tpl-apply"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "tpl.edit",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tpl-edit"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "tpl.props",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tpl-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "snap.pptx",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:snap-pptx"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "snap.pdf",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "snap.geopdf",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "snap.kmz",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.psd",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Photoshop: 793 × 857 px, 3 layers (Stretch (Levels), Graphics)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.tiff16",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 16-bit TIFF: 793 × 857 px, 1 band, 16-bit, with a Curves preset×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.pdf",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Layered PDF: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.svg",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.glb",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.usdz",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Layered SVG: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.atak",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.cot",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.relay",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:hub-relay"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "report.template",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:report"
+  ],
+  "toasts": [
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "report.template:menu",
+  "kind": "caret",
+  "outcome": "menu ×1",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "report.ai",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: AI draft failed: no AI connection is set up (AI Assistant ▸ Connections)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "obs.toolbox",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:obs-toolbox"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "obs.table",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "prod.gif",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:make-gif"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "prod.mediapptx",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "prod.pptxtemplate",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "meta.edit",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:metadata"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "meta.marking",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:marking"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "meta.redact",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:meta-redact"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "prod.finishing",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prod-finishing"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "win.split",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "win.split:menu",
+  "kind": "caret",
+  "outcome": "menu ×10",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "win.tabbed",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "win.workspace",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "panel.props",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:panel-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "panel.visibility",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:data-visibility"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "panel.legend",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "grid.map",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "grid.grg",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:grid-grg"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "grid.micro",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:grid-micro"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "grid.props",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:grid-props"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "bg.map",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "bg.online",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:map-backgrounds"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "deco.north",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "deco.sun",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "deco.sensor",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "deco.scalebar",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "deco.banners",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "3d.sync",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "3d.syncalways",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "display.theme",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "display.theme:menu",
+  "kind": "caret",
+  "outcome": "menu ×5",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "display.pixels",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pixel-matrix"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "input.devices",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:input-devices"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "ribbon.customize",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ribbon-customize"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "ui.palette",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "palette"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "ui.layout",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [
+   "info: Modern layout: clean canvas. Switch back from View ▸ Display or the palette (Ctrl+K).×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "hud.pill",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "hud.radial",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "3d.open",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.assistant",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.askselection",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.describe",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Describe View: no AI connection is set up (AI Assistant ▸ Connections)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.proposals",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.smartselect",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.square",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.find",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-find"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.search",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-search"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.contrast",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.04 (Tone +3).×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "lai.device",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:lai-device"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.open",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.airfield-triage",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.building-extraction",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "rcp.import",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.connections",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ai-connections"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.allowlist",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:allowlist"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.prompthelper",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:prompt-helper"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "ai.mcp",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:mcp-servers"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "wb.toggle",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "wb.review",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:wb-review"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "wb.import",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "auto.console",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "auto.mcpserver",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:mcp-server"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "pack.load",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "addins",
+  "id": "pack.list",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:packs"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.orthofly",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [
+   "warn: Cannot read properties of undefined (reading '1')×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "dem.useterrain",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.vmosaic",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.projection",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:ootf-projection"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.voids",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.footprint",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "visualize",
+  "id": "img.segments",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:segments"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.brightness",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.contrast",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.gamma",
+  "kind": "slider",
+  "outcome": "slider left at 3",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.saturation",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.sharpness",
+  "kind": "slider",
+  "outcome": "slider",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.invert",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.drascope",
+  "kind": "combo",
+  "outcome": "combo ×3",
+  "dialogs": [],
+  "toasts": [
+   "warn: Draw an AOI first (Home ▸ Area of Interest)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.dralock",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.drasettings",
+  "kind": "launcher",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:dra-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.stretch",
+  "kind": "combo",
+  "outcome": "combo ×9",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.curve",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:tone-curve"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.lut",
+  "kind": "combo",
+  "outcome": "combo ×8",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.histogram",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:histogram-editor"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.sharpen",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.edge",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.smooth",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.median",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.morph",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:filter-settings"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.clahe",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [
+   "dialog:clahe"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.auto",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.reset",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.remove",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.chain",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:chain-editor"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.pansharpen",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "enhance",
+  "id": "enh.pansharpen:menu",
+  "kind": "caret",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "search",
+  "id": "search.find",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "search",
+  "id": "search.template",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: draw an AOI around one example of the object first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.select",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:band-select"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.preview",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.stats",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:band-stats"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "bands.snr",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "clip.threshold",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:clip-threshold"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "clip.void",
+  "kind": "button",
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "profile.spectral",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "profile.elevation",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [
+   "warn: This needs a DEM (File ▸ Open DEM: DTED, SRTM or a DEM GeoTIFF)×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "display.pixels",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pixel-matrix"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "search.find",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.bandmath",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:bandmath"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.index.ndvi",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.radiometric",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:radiometric"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.stack",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.thermal",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:msi-thermal"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.cluster",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.detect",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.pca",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.xport",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.view",
+  "kind": "combo",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.anamorphic",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.ccd",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "sar.ccd:menu",
+  "kind": "caret",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ }
+]
