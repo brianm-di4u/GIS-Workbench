@@ -6,6 +6,9 @@ use laz::laszip::ChunkTable;
 use laz::{LazItemRecordBuilder, LazVlr};
 use std::io::{Cursor, Seek, SeekFrom, Write};
 
+/// Chunk-table entries are 16 bytes each in memory: 2^20 of them is 16 MB.
+const MAX_CHUNKS: u64 = 1 << 20;
+
 pub fn vlr(payload: &[u8]) -> Result<LazVlr> {
     LazVlr::from_buffer(payload).map_err(|e| Error::invalid(format!("LAZ: bad laszip VLR ({e})")))
 }
@@ -15,6 +18,13 @@ pub fn vlr(payload: &[u8]) -> Result<LazVlr> {
 /// VLR's chunk size and the last is trimmed to `n_points`.
 pub fn chunk_table(table: &[u8], v: &LazVlr, n_points: u64) -> Result<Vec<(u64, u64)>> {
     let variable = v.uses_variable_size_chunks();
+    // TE-059: the laz crate allocates the table from the file's chunk count before decoding it, so a
+    // corrupt count aborted the worker (a 67 GB allocation). A chunk holds at least one point.
+    let count = table.get(4..8).map_or(0, |b| u32::from_le_bytes([b[0], b[1], b[2], b[3]]) as u64);
+    let most = if variable { n_points } else { n_points.div_ceil(u64::from(v.chunk_size().max(1))) };
+    if count > most.saturating_add(1) || count > MAX_CHUNKS {
+        return Err(Error::invalid(format!("LAZ: chunk table claims {count} chunks for {n_points} points")));
+    }
     let t = ChunkTable::read(&mut Cursor::new(table), variable).map_err(|e| Error::invalid(format!("LAZ: unreadable chunk table ({e})")))?;
     let mut out: Vec<(u64, u64)> = t.as_ref().iter().map(|e| (if variable { e.point_count } else { u64::from(v.chunk_size()) }, e.byte_count)).collect();
     if !variable {

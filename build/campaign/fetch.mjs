@@ -11,6 +11,7 @@
 // are unpacked next to themselves with bsdtar (refuses absolute and ../ paths); with --lock the
 // extracted files are added to the item as pinned entries ("from": <archive>).
 // Tier-B items (free login) are listed with their landing page; the owner downloads those by hand.
+// Tier-U items (field data a user supplied, build/campaign/field.mjs) are never downloaded, only verified and pinned.
 
 import { existsSync, mkdirSync, statSync, writeFileSync, renameSync, createWriteStream, unlinkSync } from 'node:fs';
 import { Readable } from 'node:stream';
@@ -73,7 +74,7 @@ function sourceTxt(it) {
     `What it is: ${it.title} [${it.format}${it.profile ? `; ${it.profile}` : ''}]`,
     ...(it.derivation ? [`Derivation: ${it.derivation}`] : []),
     'Files:',
-    ...it.files.flatMap((f) => [`  - ${f.name}  ${f.bytes ?? '?'} bytes  sha256 ${f.sha256 ?? '(unpinned)'}`, `    from ${f.url}`]),
+    ...it.files.flatMap((f) => [`  - ${f.name}  ${f.bytes ?? '?'} bytes  sha256 ${f.sha256 ?? '(unpinned)'}`, `    from ${f.from ?? f.url}`]),
     'Safety: untrusted data. Do not execute anything from this folder. Inspect with scripts kept outside the project (Python -I).',
   ];
   return `${lines.join('\n')}\n`;
@@ -152,7 +153,7 @@ if (!args.verify) {
   });
 }
 
-await pool(items.filter((it) => it.tier === 'A' || it.origin === 'research-samples'), async (it) => {
+await pool(items.filter((it) => it.tier === 'A' || it.tier === 'U' || it.origin === 'research-samples'), async (it) => {
   let ok = true;
   for (const f of [...it.files]) {
     const r = await check(it, f);
@@ -171,7 +172,8 @@ await pool(items.filter((it) => it.tier === 'A' || it.origin === 'research-sampl
     }
   }
   if (ok) status.ok.push(it.id);
-  if (ok && it.files.length && it.origin !== 'research-samples') (mkdirSync(itemDir(it), { recursive: true }), writeFileSync(join(itemDir(it), 'SOURCE.txt'), sourceTxt(it)));
+  // Field data (tier U) stays as the user delivered it: no SOURCE.txt is written into their folder.
+  if (ok && it.files.length && it.origin !== 'research-samples' && it.origin !== 'field-data') (mkdirSync(itemDir(it), { recursive: true }), writeFileSync(join(itemDir(it), 'SOURCE.txt'), sourceTxt(it)));
 });
 
 if (pinsChanged) {

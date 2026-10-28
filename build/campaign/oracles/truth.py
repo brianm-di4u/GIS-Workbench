@@ -18,7 +18,7 @@ AREA_KIND = {
     'nitf': 'raster', 'eo': 'raster', 'landsat': 'raster', 'sentinel2': 'raster', 'naip': 'raster', 'dem': 'raster', 'hsi': 'raster',
     'raster': 'raster', 'geopdf': 'raster', 'sar': 'sar', 'lidar': 'lidar', 'vector': 'vector', 'fmv': 'fmv',
 }
-VECTOR_EXT = ('.geojson', '.json', '.kml', '.kmz', '.zip', '.shp', '.gpkg', '.csv', '.gpx')
+VECTOR_EXT = ('.geojson', '.json', '.kml', '.kmz', '.zip', '.shp', '.gpkg', '.csv', '.gpx', '.gml')
 LIDAR_EXT = ('.las', '.laz')
 FMV_EXT = ('.ts', '.mpg', '.mpeg', '.m2ts', '.mts', '.mp4')
 
@@ -35,6 +35,8 @@ def kind_for(item, path):
         return 'sar'
     if s.endswith(('.tif', '.tiff')):
         return 'raster'
+    if 'zip' in item.get('feeds', ()) and s.endswith('.zip'):
+        return None  # delivered raster packages (field data): the oracle reads the unpacked copy
     if item['area'] == 'hsi' and s.endswith('.zip'):
         return None  # spectral-library archives: input to msi.library, no oracle beyond the file itself
     if item['area'] == '3d':

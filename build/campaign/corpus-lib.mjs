@@ -11,11 +11,13 @@ export const REPO = resolve(HERE, '..', '..');
 export const MANIFEST = join(HERE, 'corpus.json');
 export const CORPUS = resolve(process.env.TE_CORPUS ?? join(REPO, '..', 'TE-corpus'));
 export const SAMPLES = resolve(REPO, '..', 'Research', 'samples');
+/** Field data supplied by a user (tier U): referenced in place, never copied or bundled. */
+export const FIELD = resolve(process.env.TE_FIELD ?? join(REPO, '..', 'Research', 'Additional Data Samples'));
 
 export const loadManifest = () => JSON.parse(readFileSync(MANIFEST, 'utf8'));
 
-/** Directory holding an item's files: Research/samples/<dir> for registered samples, else TE-corpus/<id>. */
-export const itemDir = (item) => (item.origin === 'research-samples' ? join(SAMPLES, item.dir) : join(CORPUS, item.id));
+/** Directory holding an item's files: Research/samples/<dir> for registered samples, the field-data folder for tier U, else TE-corpus/<id>. */
+export const itemDir = (item) => (item.origin === 'research-samples' ? join(SAMPLES, item.dir) : item.origin === 'field-data' ? join(FIELD, item.dir) : join(CORPUS, item.id));
 export const filePath = (item, f) => join(itemDir(item), ...f.name.split('/'));
 
 export function sha256File(p) {

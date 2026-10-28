@@ -52,7 +52,8 @@ const SKIP_EXT = /\.(txt|json|xml|html?|md|pdf\.aux\.xml)$/i;
 const cases = [];
 for (const it of manifest.items) {
   // Tier-B (login) items are ingested once the owner has downloaded them; absent files skip below.
-  if (!['A', 'B'].includes(it.tier) && it.origin !== 'research-samples') continue;
+  // Tier U is field data a user supplied (build/campaign/field.mjs, phase F).
+  if (!['A', 'B', 'U'].includes(it.tier) && it.origin !== 'research-samples') continue;
   const sidecars = paths(it, ['sidecar']);
   for (const f of it.files.filter((x) => (x.role ?? 'primary') === 'primary' && !SKIP_EXT.test(x.name))) {
     // By the full relative name: sample sets repeat one file name in several folders (glTF variants).

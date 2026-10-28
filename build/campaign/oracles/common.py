@@ -13,6 +13,7 @@ REPO = HERE.parents[2]
 MANIFEST = HERE.parent / 'corpus.json'
 CORPUS = Path(os.environ.get('TE_CORPUS', REPO.parent / 'TE-corpus')).resolve()
 SAMPLES = REPO.parent / 'Research' / 'samples'
+FIELD = Path(os.environ.get('TE_FIELD', REPO.parent / 'Research' / 'Additional Data Samples')).resolve()
 TRUTH = CORPUS / '_truth'
 
 
@@ -21,7 +22,9 @@ def manifest():
 
 
 def item_dir(item):
-    return SAMPLES / item['dir'] if item.get('origin') == 'research-samples' else CORPUS / item['id']
+    if item.get('origin') == 'research-samples':
+        return SAMPLES / item['dir']
+    return FIELD / item['dir'] if item.get('origin') == 'field-data' else CORPUS / item['id']
 
 
 def files(item, roles=('primary',)):

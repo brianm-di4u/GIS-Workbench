@@ -2,6 +2,13 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [1.2.1] - Unreleased
+
+Field-data campaign (phase F): real production imagery supplied by a first user: Pléiades and DigitalGlobe ortho packages (ZIP, DIMAP), JPEG-tiled GeoTIFF tile sets, Intermap dual-pol SAR intensity and MrSID mosaics. Findings TE-059 onward.
+
+### Fixed
+- A LAZ file whose chunk table claims an impossible number of chunks is refused by name; it used to abort the point-cloud worker on a multi-gigabyte allocation. (TE-059)
+
 ## [1.2.0] - 2026-10-27
 
 Validation on real data that the earlier campaigns could not reach: NASA EMIT hyperspectral scenes, IEEE GRSS Data Fusion Contest hyperspectral and LiDAR, Maxar WorldView-3 change pairs, real drone video with flight logs, Capella and Umbra SAR chips, and accuracy checks against GDAL and numpy that were planned but never run. The defects they found are fixed.

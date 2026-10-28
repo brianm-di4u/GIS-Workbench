@@ -4,8 +4,8 @@
 export function roleOf(name) {
   const n = name.toLowerCase();
   if (/_truth\.json$/.test(n)) return 'truth';
-  if (/\.(aux\.xml|[jpt]fw|[jp]gw|wld|prj|cpg|hdr|clr|ovr|imd|rpb)$/.test(n)) return 'sidecar';
-  if (/\.(txt|json|xml|html?|readme|info|plog|md|log)$|_eph$/.test(n) && !/\.geojson$/.test(n)) return 'metadata';
+  if (/\.(aux\.xml|[jpt]fw|[jp]gw|wld|prj|cpg|hdr|clr|ovr|imd|rpb|sdw|tifw)$/.test(n)) return 'sidecar';
+  if (/\.(txt|json|xml|xsl|html?|readme|info|plog|md|log)$|_eph$/.test(n) && !/\.geojson$/.test(n)) return 'metadata';
   if (/(^|\/)(readme|version|changelog|license|licence|copying|notice)[^/.]*$/i.test(name)) return 'metadata';
   return 'primary';
 }

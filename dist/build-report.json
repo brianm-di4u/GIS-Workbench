@@ -1,14 +1,14 @@
 {
   "build": {
-    "id": "5b6f417b5e14c28c",
-    "version": "1.2.0",
-    "date": "2026-10-28T01:44:42.157Z",
+    "id": "60e67859d7b3f259",
+    "version": "1.2.1",
+    "date": "2026-10-28T02:25:14.361Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5680365,
+    "total": 5680717,
     "eager": 2288414,
     "css": 40646,
     "boot": 2733,
@@ -46,8 +46,8 @@
         "load": "lazy"
       },
       "wasm-pointcloud": {
-        "raw": 353454,
-        "stored": 167392,
+        "raw": 353692,
+        "stored": 167556,
         "load": "lazy"
       },
       "wasm-vector": {
@@ -136,8 +136,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 7390,
-        "stored": 4668,
+        "raw": 7658,
+        "stored": 4856,
         "load": "lazy"
       }
     },
@@ -173,8 +173,8 @@
         "budget": 81920
       },
       "pointcloud": {
-        "raw": 353454,
-        "gzip": 125543,
+        "raw": 353692,
+        "gzip": 125666,
         "budget": 122880
       },
       "vector": {
@@ -193,10 +193,10 @@
         "budget": 102400
       }
     },
-    "rustTotalGzip": 874612,
-    "lite": 3954313,
-    "snippet": 6015298,
-    "snippetLite": 3954656
+    "rustTotalGzip": 874735,
+    "lite": 3954617,
+    "snippet": 6015650,
+    "snippetLite": 3954960
   },
   "gates": {
     "errors": [],

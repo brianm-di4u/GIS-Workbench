@@ -1,0 +1,2363 @@
+[
+ {
+  "id": "field-phr-millerovo",
+  "area": "eo",
+  "title": "Pléiades 1A/1B PMS ortho, Millerovo (RU), four dates Jan–Apr 2017 (folder is labelled Digital Globe)",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Pléiades © CNES 2017, Distribution Airbus DS",
+  "origin": "field-data",
+  "dir": "Digital Globe Imagery/Millerovo",
+  "format": "GeoTIFF",
+  "profile": "13375×12835 RGB u8, uncompressed strips, no overviews, UTM 38N",
+  "files": [
+   {
+    "name": "IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif",
+    "url": null,
+    "bytes": 515107439,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif",
+    "url": null,
+    "bytes": 412885066,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "IMG_PHR1B_PMS_201703010830561_ORT_2363111201-001_R1C1_DRA.tif",
+    "url": null,
+    "bytes": 515107439,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "IMG_PHR1B_PMS_201704290827053_ORT_2363112201-001_R1C1_DRA.tif",
+    "url": null,
+    "bytes": 515107439,
+    "sha256": null,
+    "role": "primary"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "change",
+   "compare",
+   "products"
+  ]
+ },
+ {
+  "id": "field-dg-panama",
+  "area": "eo",
+  "title": "DigitalGlobe ortho mosaic, Panama, 3×4 tile set (R1C1…R3C4)",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing",
+  "attribution": "© DigitalGlobe",
+  "origin": "field-data",
+  "dir": "Digital Globe Imagery/Panama",
+  "format": "GeoTIFF tile set",
+  "profile": "≤16384² RGB, JPEG/YCbCr 512-px tiles, no overviews, EPSG:4326",
+  "files": [
+   {
+    "name": "Panama_01_R1C1.tif",
+    "url": null,
+    "bytes": 103232219,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R1C2.tif",
+    "url": null,
+    "bytes": 37770840,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R1C3.tif",
+    "url": null,
+    "bytes": 20948227,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R1C4.tif",
+    "url": null,
+    "bytes": 21661579,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R2C1.tif",
+    "url": null,
+    "bytes": 52821233,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R2C2.tif",
+    "url": null,
+    "bytes": 23501432,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R2C3.tif",
+    "url": null,
+    "bytes": 19758659,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R2C4.tif",
+    "url": null,
+    "bytes": 33154572,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R3C1.tif",
+    "url": null,
+    "bytes": 5429752,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R3C2.tif",
+    "url": null,
+    "bytes": 5294120,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R3C3.tif",
+    "url": null,
+    "bytes": 5722185,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Panama_01_R3C4.tif",
+    "url": null,
+    "bytes": 20783198,
+    "sha256": null,
+    "role": "primary"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "products",
+   "perf"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-zip",
+  "area": "eo",
+  "title": "DigitalGlobe NextView deliveries, Spratly Islands (West, Subi, Mischief Reef 2014–15), as delivered: ZIP of 15 reef/date ZIPs",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-data",
+  "dir": "Digital Globe Imagery",
+  "format": "ZIP (nested ZIP of GeoTIFF tiles + shapefile ZIPs)",
+  "profile": "1.5 GB stored outer ZIP",
+  "files": [
+   {
+    "name": "Spratly Islands.zip",
+    "url": null,
+    "bytes": 1596657136,
+    "sha256": null,
+    "role": "primary"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "zip"
+  ]
+ },
+ {
+  "id": "field-phr-dimap-zip",
+  "area": "eo",
+  "title": "Pléiades 1B PMS ortho DIMAP package (E131 N43, 2018-04-21), as delivered: ZIP",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Pléiades © CNES 2018, Distribution Airbus DS",
+  "origin": "field-data",
+  "dir": "Pleiades",
+  "format": "ZIP (DIMAP v2 package)",
+  "profile": "388 MB ZIP, 654 MB deflated GeoTIFF + TFW + DIMAP XML + GML masks",
+  "files": [
+   {
+    "name": "APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip",
+    "url": null,
+    "bytes": 388428007,
+    "sha256": null,
+    "role": "primary"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "zip"
+  ]
+ },
+ {
+  "id": "field-intermap-sar",
+  "area": "sar",
+  "title": "Intermap airborne X-band SAR ortho intensity, HH / VH / VV polarisations (tile m4817p37s5)",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing",
+  "attribution": "© Intermap Technologies",
+  "origin": "field-data",
+  "dir": "Intermap SAR",
+  "format": "GeoTIFF float32",
+  "profile": "12000×6227 f32, one band per polarisation, uncompressed strips, EPSG:4326",
+  "files": [
+   {
+    "name": "m4817p37s5_HH_01.tif",
+    "url": null,
+    "bytes": 298946290,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "m4817p37s5_VH_01.tif",
+    "url": null,
+    "bytes": 298984228,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "m4817p37s5_VV_01.tif",
+    "url": null,
+    "bytes": 298946290,
+    "sha256": null,
+    "role": "primary"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "msi",
+   "sar-intensity"
+  ]
+ },
+ {
+  "id": "field-mrsid-hamilton",
+  "area": "eo",
+  "title": "OSIP 2018 Hamilton County (Ohio) 0.5 ft RGB orthoimagery, countywide MrSID mosaic",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Public domain (State of Ohio OGRIP, FGDC metadata)",
+  "attribution": "State of Ohio Office of Information Technology, OGRIP",
+  "origin": "field-data",
+  "dir": "Hamilton_2018_rgb_20x-002",
+  "format": "MrSID + .sdw + FGDC XML",
+  "profile": "10.7 GB MrSID, Ohio State Plane South ftUS",
+  "files": [
+   {
+    "name": "Hamilton_2018_rgb_20x.sdw",
+    "url": null,
+    "bytes": 126,
+    "sha256": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "Hamilton_2018_rgb_20x.sid",
+    "url": null,
+    "bytes": 11220042589,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Hamilton_2018_rgb_20x.sid.xml",
+    "url": null,
+    "bytes": 11981,
+    "sha256": null,
+    "role": "metadata"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "mrsid"
+  ]
+ },
+ {
+  "id": "field-mrsid-stlouis",
+  "area": "eo",
+  "title": "St. Louis City (MO) RGB orthomosaic, MrSID MG3 (GeoExpress 9.1) with GDAL PAM GeoKeys",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Unknown producer (client delivery)",
+  "origin": "field-data",
+  "dir": "StLouisCity-003",
+  "format": "MrSID MG3 + .sdw + .aux.xml",
+  "profile": "2.6 GB MrSID, NAD83(2011) Missouri East ftUS (user-defined GeoKeys)",
+  "files": [
+   {
+    "name": "Stl_City.sdw",
+    "url": null,
+    "bytes": 126,
+    "sha256": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "Stl_City.sid",
+    "url": null,
+    "bytes": 2778306969,
+    "sha256": null,
+    "role": "primary"
+   },
+   {
+    "name": "Stl_City.sid.aux.xml",
+    "url": null,
+    "bytes": 14231,
+    "sha256": null,
+    "role": "sidecar"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "mrsid"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-mischief-reef-20150131",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Mischief Reef (Spratly Islands) 2015-01-31: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Mischief Reef 20150131.zip",
+  "files": [
+   {
+    "name": "Mischief_Reef_20150131_BROWSE.tif",
+    "url": null,
+    "bytes": 256093,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R1C1.tif",
+    "url": null,
+    "bytes": 33055390,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R1C2.tif",
+    "url": null,
+    "bytes": 39283148,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R1C3.tif",
+    "url": null,
+    "bytes": 17677449,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R2C1.tif",
+    "url": null,
+    "bytes": 28676230,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R2C2.tif",
+    "url": null,
+    "bytes": 44994574,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R2C3.tif",
+    "url": null,
+    "bytes": 21715618,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R3C2.tif",
+    "url": null,
+    "bytes": 491002,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_R3C3.tif",
+    "url": null,
+    "bytes": 1428232,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2414,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150131_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1676,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   },
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Mischief Reef 20150131.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-mischief-reef-20150201",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Mischief Reef (Spratly Islands) 2015-02-01: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Mischief Reef 20150201.zip",
+  "files": [
+   {
+    "name": "Mischief_Reef_20150201_BROWSE.tif",
+    "url": null,
+    "bytes": 119230,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R1C1.tif",
+    "url": null,
+    "bytes": 19418926,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R1C2.tif",
+    "url": null,
+    "bytes": 25531451,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R1C3.tif",
+    "url": null,
+    "bytes": 17942919,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R2C1.tif",
+    "url": null,
+    "bytes": 32679619,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R2C2.tif",
+    "url": null,
+    "bytes": 32787130,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R2C3.tif",
+    "url": null,
+    "bytes": 21205908,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R3C1.tif",
+    "url": null,
+    "bytes": 7755209,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R3C2.tif",
+    "url": null,
+    "bytes": 4182906,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_R3C3.tif",
+    "url": null,
+    "bytes": 592560,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2404,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150201_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1712,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   },
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Mischief Reef 20150201.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-mischief-reef-20150425",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Mischief Reef (Spratly Islands) 2015-04-25: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Mischief Reef 20150425.zip",
+  "files": [
+   {
+    "name": "Mischief_Reef_20150425_BROWSE.tif",
+    "url": null,
+    "bytes": 245210,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R1C1.tif",
+    "url": null,
+    "bytes": 55510350,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R1C2.tif",
+    "url": null,
+    "bytes": 21431389,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R1C3.tif",
+    "url": null,
+    "bytes": 4250380,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R2C1.tif",
+    "url": null,
+    "bytes": 51477242,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R2C2.tif",
+    "url": null,
+    "bytes": 43465833,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R2C3.tif",
+    "url": null,
+    "bytes": 15115107,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R3C2.tif",
+    "url": null,
+    "bytes": 1317209,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_R3C3.tif",
+    "url": null,
+    "bytes": 2450684,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2410,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150425_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1674,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   },
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Mischief Reef 20150425.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-mischief-reef-20150527",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Mischief Reef (Spratly Islands) 2015-05-27: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Mischief Reef 20150527.zip",
+  "files": [
+   {
+    "name": "Mischief_Reef_20150527_BROWSE.tif",
+    "url": null,
+    "bytes": 154287,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R1C1.tif",
+    "url": null,
+    "bytes": 42339920,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R1C2.tif",
+    "url": null,
+    "bytes": 57330282,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R1C3.tif",
+    "url": null,
+    "bytes": 7425473,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R2C1.tif",
+    "url": null,
+    "bytes": 5884875,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R2C2.tif",
+    "url": null,
+    "bytes": 11548518,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R2C3.tif",
+    "url": null,
+    "bytes": 4584273,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R3C1.tif",
+    "url": null,
+    "bytes": 219991,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R3C2.tif",
+    "url": null,
+    "bytes": 509007,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_R3C3.tif",
+    "url": null,
+    "bytes": 110416,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2385,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150527_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1706,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   },
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Mischief Reef 20150527.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-mischief-reef-20150610",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Mischief Reef (Spratly Islands) 2015-06-10: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Mischief Reef 20150610.zip",
+  "files": [
+   {
+    "name": "Mischief_Reef_20150610_BROWSE.tif",
+    "url": null,
+    "bytes": 90016,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R1C1.tif",
+    "url": null,
+    "bytes": 6553003,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R1C2.tif",
+    "url": null,
+    "bytes": 9955854,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R1C3.tif",
+    "url": null,
+    "bytes": 7048597,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R2C1.tif",
+    "url": null,
+    "bytes": 8827074,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R2C2.tif",
+    "url": null,
+    "bytes": 7848269,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R2C3.tif",
+    "url": null,
+    "bytes": 3978373,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R3C1.tif",
+    "url": null,
+    "bytes": 1431813,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R3C2.tif",
+    "url": null,
+    "bytes": 2045009,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_R3C3.tif",
+    "url": null,
+    "bytes": 1322082,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2411,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "Mischief_Reef_20150610_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1710,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   },
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Mischief Reef 20150610.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-subi-reef-20150305",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Subi Reef (Spratly Islands) 2015-03-05: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Subi Reef 20150305.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_BROWSE.tif",
+    "url": null,
+    "bytes": 75464,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R1C1.tif",
+    "url": null,
+    "bytes": 21402952,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R1C2.tif",
+    "url": null,
+    "bytes": 17939363,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R1C3.tif",
+    "url": null,
+    "bytes": 6840057,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R2C1.tif",
+    "url": null,
+    "bytes": 22647052,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R2C2.tif",
+    "url": null,
+    "bytes": 22522374,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R2C3.tif",
+    "url": null,
+    "bytes": 9335409,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R3C1.tif",
+    "url": null,
+    "bytes": 5078797,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R3C2.tif",
+    "url": null,
+    "bytes": 7334190,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_R3C3.tif",
+    "url": null,
+    "bytes": 3515373,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2339,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   },
+   {
+    "name": "Subi_Reef_20150305_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1665,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150305.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-subi-reef-20150317",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Subi Reef (Spratly Islands) 2015-03-17: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Subi Reef 20150317.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_BROWSE.tif",
+    "url": null,
+    "bytes": 62911,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R1C1.tif",
+    "url": null,
+    "bytes": 6485594,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R1C2.tif",
+    "url": null,
+    "bytes": 8132589,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R1C3.tif",
+    "url": null,
+    "bytes": 4816951,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R2C1.tif",
+    "url": null,
+    "bytes": 10427014,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R2C2.tif",
+    "url": null,
+    "bytes": 9483589,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R2C3.tif",
+    "url": null,
+    "bytes": 4457435,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R3C1.tif",
+    "url": null,
+    "bytes": 11153513,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R3C2.tif",
+    "url": null,
+    "bytes": 8030922,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_R3C3.tif",
+    "url": null,
+    "bytes": 2931741,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2350,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   },
+   {
+    "name": "Subi_Reef_20150317_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1660,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150317.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-subi-reef-20150413",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Subi Reef (Spratly Islands) 2015-04-13: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Subi Reef 20150413.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_BROWSE.tif",
+    "url": null,
+    "bytes": 72510,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_R1C1.tif",
+    "url": null,
+    "bytes": 23752782,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_R1C2.tif",
+    "url": null,
+    "bytes": 26362388,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_R1C3.tif",
+    "url": null,
+    "bytes": 2193343,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_R2C1.tif",
+    "url": null,
+    "bytes": 18840633,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_R2C2.tif",
+    "url": null,
+    "bytes": 20313386,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_R2C3.tif",
+    "url": null,
+    "bytes": 1733684,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2342,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   },
+   {
+    "name": "Subi_Reef_20150413_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1532,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150413.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-subi-reef-20150424",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Subi Reef (Spratly Islands) 2015-04-24: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Subi Reef 20150424.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_BROWSE.tif",
+    "url": null,
+    "bytes": 126291,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R1C1.tif",
+    "url": null,
+    "bytes": 31682180,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R1C2.tif",
+    "url": null,
+    "bytes": 27244289,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R1C3.tif",
+    "url": null,
+    "bytes": 12734569,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R2C1.tif",
+    "url": null,
+    "bytes": 26082267,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R2C2.tif",
+    "url": null,
+    "bytes": 30659564,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R2C3.tif",
+    "url": null,
+    "bytes": 14649263,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R3C1.tif",
+    "url": null,
+    "bytes": 7483222,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R3C2.tif",
+    "url": null,
+    "bytes": 14955362,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_R3C3.tif",
+    "url": null,
+    "bytes": 7205841,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2374,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   },
+   {
+    "name": "Subi_Reef_20150424_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1660,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150424.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-subi-reef-20150605",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, Subi Reef (Spratly Islands) 2015-06-05: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / Subi Reef 20150605.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_BROWSE.tif",
+    "url": null,
+    "bytes": 91368,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R1C1.tif",
+    "url": null,
+    "bytes": 7135559,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R1C2.tif",
+    "url": null,
+    "bytes": 7954809,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R1C3.tif",
+    "url": null,
+    "bytes": 3804850,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R2C1.tif",
+    "url": null,
+    "bytes": 10265664,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R2C2.tif",
+    "url": null,
+    "bytes": 10541921,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R2C3.tif",
+    "url": null,
+    "bytes": 4036559,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R3C1.tif",
+    "url": null,
+    "bytes": 4966574,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R3C2.tif",
+    "url": null,
+    "bytes": 3072031,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_R3C3.tif",
+    "url": null,
+    "bytes": 775584,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2361,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   },
+   {
+    "name": "Subi_Reef_20150605_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1668,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/Subi Reef 20150605.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-west-reef-20140111",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, West Reef (Spratly Islands) 2014-01-11: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / West Reef 20140111.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_BROWSE.tif",
+    "url": null,
+    "bytes": 116971,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R1C1.tif",
+    "url": null,
+    "bytes": 22987769,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R1C2.tif",
+    "url": null,
+    "bytes": 25927598,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R1C3.tif",
+    "url": null,
+    "bytes": 1677999,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R2C1.tif",
+    "url": null,
+    "bytes": 19085770,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R2C2.tif",
+    "url": null,
+    "bytes": 14703930,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R2C3.tif",
+    "url": null,
+    "bytes": 1667783,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R3C1.tif",
+    "url": null,
+    "bytes": 6797158,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R3C2.tif",
+    "url": null,
+    "bytes": 8108173,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_R3C3.tif",
+    "url": null,
+    "bytes": 889398,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2327,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   },
+   {
+    "name": "West_Reef_20140111_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1662,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140111.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-west-reef-20140301",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, West Reef (Spratly Islands) 2014-03-01: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / West Reef 20140301.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_BROWSE.tif",
+    "url": null,
+    "bytes": 98483,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R1C1.tif",
+    "url": null,
+    "bytes": 14612214,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R1C2.tif",
+    "url": null,
+    "bytes": 13782205,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R1C3.tif",
+    "url": null,
+    "bytes": 3897471,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R2C1.tif",
+    "url": null,
+    "bytes": 15247862,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R2C2.tif",
+    "url": null,
+    "bytes": 15186294,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R2C3.tif",
+    "url": null,
+    "bytes": 4907306,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R3C1.tif",
+    "url": null,
+    "bytes": 3404711,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R3C2.tif",
+    "url": null,
+    "bytes": 4658185,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_R3C3.tif",
+    "url": null,
+    "bytes": 1698794,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2320,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   },
+   {
+    "name": "West_Reef_20140301_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1663,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140301.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-west-reef-20140430",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, West Reef (Spratly Islands) 2014-04-30: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / West Reef 20140430.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_BROWSE.tif",
+    "url": null,
+    "bytes": 179936,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R1C1.tif",
+    "url": null,
+    "bytes": 36210198,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R1C2.tif",
+    "url": null,
+    "bytes": 23546011,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R1C3.tif",
+    "url": null,
+    "bytes": 3093186,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R2C1.tif",
+    "url": null,
+    "bytes": 35187154,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R2C2.tif",
+    "url": null,
+    "bytes": 31021359,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R2C3.tif",
+    "url": null,
+    "bytes": 3974096,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R3C1.tif",
+    "url": null,
+    "bytes": 11266057,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R3C2.tif",
+    "url": null,
+    "bytes": 19055655,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_R3C3.tif",
+    "url": null,
+    "bytes": 3945372,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2356,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   },
+   {
+    "name": "West_Reef_20140430_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1664,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20140430.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-dg-spratly-west-reef-20150417",
+  "area": "eo",
+  "title": "DigitalGlobe NextView ortho, West Reef (Spratly Islands) 2015-04-17: R×C GeoTIFF tiles, browse, tile and seamline shapefiles",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing (NextView licence, see NEXTVIEW.TXT)",
+  "attribution": "© DigitalGlobe, NextView licence",
+  "origin": "field-extract",
+  "format": "GeoTIFF tile set + shapefile ZIPs",
+  "profile": "unpacked from Spratly Islands.zip / West Reef 20150417.zip",
+  "files": [
+   {
+    "name": "NEXTVIEW.TXT",
+    "url": null,
+    "bytes": 3446,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_BROWSE.tif",
+    "url": null,
+    "bytes": 142924,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_R1C1.tif",
+    "url": null,
+    "bytes": 38263311,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_R1C2.tif",
+    "url": null,
+    "bytes": 34756878,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_R1C3.tif",
+    "url": null,
+    "bytes": 1863896,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_R2C1.tif",
+    "url": null,
+    "bytes": 33619682,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_R2C2.tif",
+    "url": null,
+    "bytes": 23853284,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_R2C3.tif",
+    "url": null,
+    "bytes": 1665556,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_SEAMLINES_SHAPE.zip",
+    "url": null,
+    "bytes": 2339,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   },
+   {
+    "name": "West_Reef_20150417_TILE_SHAPE.zip",
+    "url": null,
+    "bytes": 1528,
+    "sha256": null,
+    "role": "primary",
+    "from": "Spratly Islands.zip/West Reef 20150417.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "mosaic",
+   "change",
+   "vector"
+  ]
+ },
+ {
+  "id": "field-phr-dimap",
+  "area": "eo",
+  "title": "Pléiades 1B PMS ortho DIMAP package (E131 N43, 2018-04-21), unpacked",
+  "source": "GIS Workbench user (field data, 2026-10-27)",
+  "landing": null,
+  "tier": "U",
+  "notes": "",
+  "licence": "Commercial licence held by the supplying user; test use only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Pléiades © CNES 2018, Distribution Airbus DS",
+  "origin": "field-extract",
+  "format": "DIMAP v2 (GeoTIFF + TFW + DIM XML + GML masks)",
+  "profile": "unpacked from the delivered ZIP",
+  "files": [
+   {
+    "name": "3132754101/DELIVERY.PDF",
+    "url": null,
+    "bytes": 88790,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/DIM_PHR1B_PMS_201804210157279_ORT_3132754101.XML",
+    "url": null,
+    "bytes": 132979,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/ICON_PHR1B_PMS_201804210157279_ORT_3132754101.JPG",
+    "url": null,
+    "bytes": 5202,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TFW",
+    "url": null,
+    "bytes": 129,
+    "sha256": null,
+    "role": "sidecar",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF",
+    "url": null,
+    "bytes": 653790710,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/INDEX.HTM",
+    "url": null,
+    "bytes": 20454,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LIBRARY/LOGO.JPG",
+    "url": null,
+    "bytes": 9272,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LIBRARY/STYLE.XSL",
+    "url": null,
+    "bytes": 38959,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LINEAGE/GROUND_R3D_OR_SPOTView_N43E131_DIM.XML",
+    "url": null,
+    "bytes": 2120,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LINEAGE/GROUND_R3D_OR_SPOTView_N43E132_DIM.XML",
+    "url": null,
+    "bytes": 2120,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LINEAGE/HEIGHT_R3D_DT2_N43E131_DIM.XML",
+    "url": null,
+    "bytes": 5494,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LINEAGE/HEIGHT_R3D_DT2_N43E132_DIM.XML",
+    "url": null,
+    "bytes": 5494,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LINEAGE/PROCESSING_PHR1B_PMS_201804210157279_ORT_3132754101_DIM.XML",
+    "url": null,
+    "bytes": 17741,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LINEAGE/STRIP_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070_DIM.XML",
+    "url": null,
+    "bytes": 18464,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/LUT_PHR1B_PMS_201804210157279_ORT_3132754101.XML",
+    "url": null,
+    "bytes": 11770,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/CLD_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 24,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/CLD_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 647,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/DET_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 24,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/DET_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 661,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/QTE_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 24,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/QTE_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 644,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/ROI_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 791,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/ROI_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 1485,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SLT_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 24,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SLT_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 725,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SNW_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 24,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/SNW_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 646,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/VIS_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.gfs",
+    "url": null,
+    "bytes": 24,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/MASKS/VIS_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
+    "url": null,
+    "bytes": 652,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/PREVIEW_PHR1B_PMS_201804210157279_ORT_3132754101.JPG",
+    "url": null,
+    "bytes": 10778,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/IMG_PHR1B_PMS_001/PREVIEW_PHR1B_PMS_201804210157279_ORT_3132754101.KMZ",
+    "url": null,
+    "bytes": 49307,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/INDEX.HTM",
+    "url": null,
+    "bytes": 3398,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/LIBRARY/LOGO.JPG",
+    "url": null,
+    "bytes": 9272,
+    "sha256": null,
+    "role": "primary",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/LIBRARY/VOL_STYL.XSL",
+    "url": null,
+    "bytes": 10892,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   },
+   {
+    "name": "3132754101/VOL_PHR.XML",
+    "url": null,
+    "bytes": 1969,
+    "sha256": null,
+    "role": "metadata",
+    "from": "Pleiades/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip"
+   }
+  ],
+  "feeds": [
+   "ingest",
+   "display",
+   "metadata",
+   "vector",
+   "products"
+  ]
+ }
+]
