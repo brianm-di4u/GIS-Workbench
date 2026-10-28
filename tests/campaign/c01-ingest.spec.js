@@ -4,13 +4,24 @@
 // Covers REQ-FMT-01..13, REQ-FMT-16 (every public sample opens), REQ-SEC-02, REQ-DEM-01, REQ-LDR-01,
 // REQ-SAR-01, REQ-MSI-01, REQ-FMV-01, REQ-EXT-21/22.
 import { test, expect } from '@playwright/test';
-import { existsSync, statSync } from 'node:fs';
+import { existsSync, statSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { openApp, openFiles, settledAny, registries, record, manifest, paths, truth } from './helpers.js';
 import { filePath } from '../../build/campaign/corpus-lib.mjs';
+
+// HDF5/NetCDF (EMIT, PRISMA) need the h5wasm data pack; a user opens it first (File ▸ Open Data Pack).
+const HDF5_PACK = (() => {
+  const dir = resolve('dist', 'packs');
+  const f = existsSync(dir) && readdirSync(dir).find((n) => /^hdf5-.*\.gwpack$/.test(n));
+  return f ? resolve(dir, f) : null;
+})();
 
 // Named refusals and per-layer gaps already accepted (keep in step with tests/e2e/samples.spec.js).
 const EXPECT = {
   'ns3114a.nsf': { refuse: /no displayable image/ },
+  // TE-047: 4607 files with neither dwells nor platform locations are refused by name, listing their segments.
+  'free_text_and_test_status.gmti': { refuse: /no dwell or platform location segments/ },
+  'processing_history_chain.gmti': { refuse: /no dwell or platform location segments/ },
   // TE-010: NITF 2.0 conformance files with no image segment (GDAL: 0 bands).
   ...Object.fromEntries(['U_1051e', 'U_1052a', 'U_1056a', 'U_1060a', 'U_1064a', 'U_1068a', 'U_0006a'].map((n) => [`${n}.ntf`, { refuse: /no displayable image/ }])),
   // TE-011: NITF 1.1 is a Could; refused by name.
@@ -40,7 +51,8 @@ const SKIP_EXT = /\.(txt|json|xml|html?|md|pdf\.aux\.xml)$/i;
 
 const cases = [];
 for (const it of manifest.items) {
-  if (it.tier !== 'A' && it.origin !== 'research-samples') continue;
+  // Tier-B (login) items are ingested once the owner has downloaded them; absent files skip below.
+  if (!['A', 'B'].includes(it.tier) && it.origin !== 'research-samples') continue;
   const sidecars = paths(it, ['sidecar']);
   for (const f of it.files.filter((x) => (x.role ?? 'primary') === 'primary' && !SKIP_EXT.test(x.name))) {
     // By the full relative name: sample sets repeat one file name in several folders (glTF variants).
@@ -50,7 +62,8 @@ for (const it of manifest.items) {
     const dir = (p) => p.replace(/[\\/][^\\/]*$/, '');
     // A .gltf is opened with the buffers and textures beside it, as a user would select them.
     const res = /\.gltf$/i.test(f.name) ? paths(it, ['primary', 'sidecar', 'test-vector']).filter((p) => p !== prim && dir(p) === dir(prim) && /\.(bin|png|jpe?g|webp|ktx2)$/i.test(p)) : [];
-    cases.push({ it, f, files: [prim, ...res, ...sidecars.filter((s) => base(s).startsWith(`${stem}.`) || base(s).startsWith(`${f.name.split('/').pop()}.`))] });
+    const pack = HDF5_PACK && /\.(nc|h5|he5|hdf5)$/i.test(f.name) ? [HDF5_PACK] : [];
+    cases.push({ it, f, files: [...pack, prim, ...res, ...sidecars.filter((s) => base(s).startsWith(`${stem}.`) || base(s).startsWith(`${f.name.split('/').pop()}.`))] });
   }
 }
 

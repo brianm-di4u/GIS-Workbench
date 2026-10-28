@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T23:35:21.767Z",
+ "key": "emit-l2a-rfl-cuprite/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc",
+ "item": "emit-l2a-rfl-cuprite",
+ "file": "EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc",
+ "format": "NetCDF4",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack HDF5 reader (h5wasm) 0.10.3 verified (1 entries, SHA-256 checked)",
+  "toast-info: Opened EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc in 2336 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "EMIT L2A reflectance (HDF5, BIP, f32)",
+   "w": 1242,
+   "h": 1280,
+   "bands": 285,
+   "model": "Geolocation grid (144 points, EMIT L2A reflectance)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3561,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

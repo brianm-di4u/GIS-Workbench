@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { HERE, MANIFEST, SAMPLES, fmtBytes } from './corpus-lib.mjs';
 import { roleOf } from './make-corpus-roles.mjs';
 
-const BUDGET = 20 * 2 ** 30;
+const BUDGET = 24 * 2 ** 30; // raised from 20 GiB for the 2026-10-27 supplemental data (sources/supplemental.json)
 
 // Research/samples folder → [area, format, feeds]
 const HELD = {

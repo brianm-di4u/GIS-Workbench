@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T23:27:44.553Z",
+ "key": "terrain-qmesh-heremaps-examples/5183.terrain",
+ "item": "terrain-qmesh-heremaps-examples",
+ "file": "5183.terrain",
+ "format": "Cesium quantized-mesh 1.0 (.terrain)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: 5183.terrain: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 126,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

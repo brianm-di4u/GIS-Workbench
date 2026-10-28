@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T23:32:01.689Z",
+ "key": "fmv-bambi-flights/DJI_20240709090401_0001_W_point0.ts",
+ "item": "fmv-bambi-flights",
+ "file": "DJI_20240709090401_0001_W_point0.ts",
+ "format": "MPEG-TS (H.264, remuxed) + platform metadata CSV; source MP4 + DJI SRT",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened DJI_20240709090401_0001_W_point0.ts: 410 frames, 0 KLV packets (0 bad) in 1262 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1317,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

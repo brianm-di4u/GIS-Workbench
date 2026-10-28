@@ -252,7 +252,11 @@ export async function install(app) {
     return ms - (leap - MISP_TAI) * 1000;
   }
 
+  /** Where a clip's platform metadata came from, for labels: 'CSV' after fmv.csv, else 'KLV' (TE-050). */
+  const metaSource = (clip) => (/^CSV\b/.test(clip?.metadataSource ?? '') ? 'CSV' : 'KLV');
+
   function basisLabel(clip) {
+    if (metaSource(clip) === 'CSV') return 'Metadata time: CSV (taken as UTC)';
     if (clip.basis.kind === 'utc') return 'KLV time: legacy UTC (no conversion)';
     const t = clip.states[0]?.time ?? 0;
     const off = (utcOf(clip, t) - t / 1000) / 1000;
@@ -339,7 +343,7 @@ export async function install(app) {
         };
         const comp = [[0, 0], [W, 0], [W, H], [0, H]].map(([x, y]) => at(x, y));
         const cc = at(W / 2, H / 2);
-        if (!out.corners && comp.every((p) => Number.isFinite(p[0]))) out = { ...out, corners: comp, source: dem?.coreId ? 'computed (KLV frame model + DEM)' : `computed (KLV frame model at ${h0.toFixed(1)} m HAE)` };
+        if (!out.corners && comp.every((p) => Number.isFinite(p[0]))) out = { ...out, corners: comp, source: dem?.coreId ? `computed (${metaSource(clip)} frame model + DEM)` : `computed (${metaSource(clip)} frame model at ${h0.toFixed(1)} m HAE)` };
         // Consistency check: the computed frame centre against Items 23/24 (default 50 m).
         if (Number.isFinite(st.fcLat) && Number.isFinite(cc[0])) {
           const d = app.core.inverse(st.fcLat, st.fcLon, cc[0], cc[1]).distance;
@@ -696,6 +700,14 @@ export async function install(app) {
     const ev = evs.filter((e) => Number.isFinite(e.lat)).flatMap((e) => marker(e.lat, e.lon, s));
     flat(ev, gl.TRIANGLES, COL.event);
     rec.events = evs.length;
+    // GMTI platform tracks from Platform Location segments (all times).
+    for (const g of gmti) {
+      if (g.visible === false || !g.data.platform?.length) continue;
+      const trk = g.data.platform.flatMap((p) => [p.lon, p.lat]);
+      if (trk.length >= 4) flat(trk, gl.LINE_STRIP, COL.path);
+      const last = g.data.platform[g.data.platform.length - 1];
+      flat(marker(last.lat, last.lon, s, 'cross'), gl.LINES, COL.platform);
+    }
     // GMTI: dwell areas (faint) and targets coloured by age or radial velocity; trails by window.
     if (Number.isFinite(gmtiNow)) {
       const shown = new Set();
@@ -1023,18 +1035,28 @@ export async function install(app) {
 
   // ---- STANAG 4607 (REQ-FMV-11) ----
 
+  /** STANAG 4607 segment names (Table 2) for messages about what a file holds. */
+  const SEG_NAMES = { 1: 'mission', 2: 'dwell', 3: 'HRR', 5: 'job definition', 6: 'free text', 7: 'low reflectivity index', 8: 'group', 9: 'attached target', 10: 'test and status', 11: 'system-specific', 12: 'processing history', 13: 'platform location', 101: 'job request', 102: 'job acknowledge' };
+
   async function openGmti(file) {
     const data = await decodeJob('s4607', { file });
-    if (!data.dwells.length) throw new Error(`${file.name}: no dwell segments`);
+    data.platform ??= [];
+    // Neither targets nor a platform track: say what the file holds instead of a silent no-op (TE-047).
+    if (!data.dwells.length && !data.platform.length) {
+      const segs = Object.entries(data.segments ?? {}).map(([t, n]) => `${n} ${SEG_NAMES[t] ?? `type ${t}`}`).join(', ');
+      const text = data.texts?.[0]?.text?.replace(/\s+/g, ' ').trim();
+      throw new Error(`no dwell or platform location segments to show (${data.packets} packet${data.packets === 1 ? '' : 's'}: ${segs || 'none'})${text ? `; free text: “${text.slice(0, 80)}”` : ''}`);
+    }
     data.dwells.sort((a, b) => (a.utcMs ?? a.timeMs) - (b.utcMs ?? b.timeMs));
     for (const d of data.dwells) if (d.utcMs === null) d.utcMs = d.timeMs; // no mission segment: ms of day only
+    for (const p of data.platform) p.utcMs ??= p.timeMs;
     const g = { id: `gmti${gmti.length + 1}`, name: file.name, data, visible: true };
     gmti.push(g);
     for (const c of clips.values()) basisHeuristic(c);
-    if (!Number.isFinite(gmtiNow)) gmtiNow = data.dwells[0].utcMs;
+    if (!Number.isFinite(gmtiNow)) gmtiNow = (data.dwells[0] ?? data.platform[0]).utcMs;
     const nT = data.dwells.reduce((s, d) => s + d.targets.length, 0);
-    app.importLog.push({ file: file.name, errors: data.errors, warnings: [] });
-    app.toast(`Opened ${file.name}: ${data.packets} packets, ${data.dwells.length} dwells, ${nT} target reports${data.header ? ` (${data.header.classificationText})` : ''}`);
+    app.importLog.push({ file: file.name, errors: data.errors, warnings: data.dwells.length ? [] : ['no dwell segments: platform track only'] });
+    app.toast(`Opened ${file.name}: ${data.packets} packets, ${data.dwells.length} dwells, ${nT} target reports${data.platform.length ? `, ${data.platform.length} platform locations` : ''}${data.header ? ` (${data.header.classificationText})` : ''}`);
     app.renderer.invalidate();
     app.emit('state');
     return g;
@@ -1071,6 +1093,7 @@ export async function install(app) {
     clip.basis = { kind: 'utc', source: 'CSV (times taken as UTC)' };
     clip.fpCache.clear();
     clip.metadataSource = `CSV ${file.name}`;
+    updateStatus(clip);
     const v = viewOf(clip);
     if (v) v._setFrame(v.frame, 'csv');
     return states.length;
@@ -1209,7 +1232,11 @@ export async function install(app) {
     return { video, gmti: gm, tracks, rest };
   };
   app.openMotionFiles = async ({ video = [], gmti: gm = [], tracks = [] }, pane) => {
-    for (const f of gm) await openGmti(f).catch((e) => app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 }));
+    for (const f of gm)
+      await openGmti(f).catch((e) => {
+        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+      });
     for (const f of tracks) await openTracks4676(f).catch((e) => app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 }));
     for (const f of video)
       await open(f, pane).catch((e) => {

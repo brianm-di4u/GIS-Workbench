@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-27T23:53:49.516Z",
+ "key": "gmti-stanag4607-trane293-fixtures/hrr_signature_parked_both_time_branches.gmti",
+ "item": "gmti-stanag4607-trane293-fixtures",
+ "file": "hrr_signature_parked_both_time_branches.gmti",
+ "format": "STANAG 4607 (.gmti)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120093,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

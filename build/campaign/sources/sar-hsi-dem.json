@@ -224,19 +224,21 @@
   "files": [
    {
     "name": "EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc",
-    "url": null,
+    "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.001/EMIT_L2A_RFL_001_20240727T213005_2420914_007/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc",
     "bytes": 1851048031,
-    "role": "primary"
+    "role": "primary",
+    "sha256": "064e721c67e59b26db6098ebea685fb07a8ef07e2356074cc31d4a9e5cb073b4"
    },
    {
     "name": "EMIT_L2A_MASK_001_20240727T213005_2420914_007.nc",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
+    "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.001/EMIT_L2A_RFL_001_20240727T213005_2420914_007/EMIT_L2A_MASK_001_20240727T213005_2420914_007.nc",
+    "bytes": 49311719,
+    "role": "sidecar",
+    "sha256": "916cf1c061958c7e63e19f3b459ae5707519137104e77b5306ab13580cb0d383"
    }
   ],
   "sign": null,
-  "notes": "Granule found via CMR (short_name EMITL2ARFL, version 001, bbox over Cuprite, sorted by cloud cover). Data URL https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.001/EMIT_L2A_RFL_001_20240727T213005_2420914_007/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc ; anonymous HEAD returns the size but GET redirects to urs.earthdata.nasa.gov. EMIT is NOT on Microsoft Planetary Computer (collection list checked 2026-10-26), so there is no pc: signing path. Mask size not checked.",
+  "notes": "Granule found via CMR (short_name EMITL2ARFL, version 001, bbox over Cuprite, sorted by cloud cover). Data URL https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.001/EMIT_L2A_RFL_001_20240727T213005_2420914_007/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc ; anonymous HEAD returns the size but GET redirects to urs.earthdata.nasa.gov. EMIT is NOT on Microsoft Planetary Computer (collection list checked 2026-10-26), so there is no pc: signing path. Mask size not checked. Downloaded by the owner's Earthdata Login session in Chrome on 2026-10-27; pins recorded.",
   "feeds": [
    "hsi.netcdf",
    "hsi.glt",
@@ -257,19 +259,21 @@
   "files": [
    {
     "name": "EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
-    "url": null,
+    "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL1BRAD.001/EMIT_L1B_RAD_001_20240727T213005_2420914_007/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
     "bytes": 1852486758,
-    "role": "primary"
+    "role": "primary",
+    "sha256": "d32ff5b82e87e1520e8a780205fdc8eb724d41d0bbad3991acf1fd06405f1cc2"
    },
    {
     "name": "EMIT_L1B_OBS_001_20240727T213005_2420914_007.nc",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
+    "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL1BRAD.001/EMIT_L1B_RAD_001_20240727T213005_2420914_007/EMIT_L1B_OBS_001_20240727T213005_2420914_007.nc",
+    "bytes": 108664889,
+    "role": "sidecar",
+    "sha256": "e6e2abb5d110cd705809125b323ba829e314d2694329fb1c84179b721dfd75b6"
    }
   ],
   "sign": null,
-  "notes": "Same scene as emit-l2a-rfl-cuprite. URL pattern https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL1BRAD.001/<granule>/<file>.nc ; Earthdata login needed.",
+  "notes": "Same scene as emit-l2a-rfl-cuprite. URL pattern https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL1BRAD.001/<granule>/<file>.nc ; Earthdata login needed. Downloaded by the owner's Earthdata Login session in Chrome on 2026-10-27; pins recorded.",
   "feeds": [
    "hsi.netcdf",
    "hsi.radiance"

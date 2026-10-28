@@ -1,18 +1,18 @@
 {
   "build": {
-    "id": "8051948bbe63136e",
+    "id": "9c9ae7f6558ad0b8",
     "version": "1.1.0",
-    "date": "2026-10-27T20:26:35.342Z",
+    "date": "2026-10-27T23:59:43.039Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5665377,
-    "eager": 2279401,
+    "total": 5666902,
+    "eager": 2280926,
     "css": 40646,
     "boot": 2733,
-    "app": 1967565,
+    "app": 1969090,
     "notices": 111945,
     "blocks": {
       "wasm-core": {
@@ -194,9 +194,9 @@
       }
     },
     "rustTotalGzip": 873167,
-    "lite": 3944757,
-    "snippet": 5998826,
-    "snippetLite": 3945100
+    "lite": 3945441,
+    "snippet": 6000697,
+    "snippetLite": 3945784
   },
   "gates": {
     "errors": [],
@@ -336,5 +336,5 @@
     }
   ],
   "rustCrates": [],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-hI6A6KWWYwBP65dIT1Fx1myK1HPaoif2+T3RdZebEPw=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-37Mkw8WAWe8PPA708+6j3etvx/OXJvoKQIF5ex0zgh0=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

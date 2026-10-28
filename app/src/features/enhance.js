@@ -111,7 +111,8 @@ export function install(app) {
     run: () => {
       const l = layer();
       const ch = autoChain({ bands: l.bands, sampleType: l.sampleType, abpp: l.info.subheader?.ABPP, irep: l.info.irep, icat: l.info.icat, bandRoles: l.info.subheader?.bands?.map((b) => b.IREPBAND), kind: l.kind });
-      app.setChain((c) => Object.assign(c, ch, { kernel: c.kernel }), 'Auto enhance');
+      // Enhancement only: keep the user's band composite and band math (TE-049).
+      app.setChain((c) => Object.assign(c, ch, { kernel: c.kernel, bands: c.bands ?? ch.bands, bandMath: c.bandMath ?? null }), 'Auto enhance');
     },
   });
   C.implement('enh.reset', {

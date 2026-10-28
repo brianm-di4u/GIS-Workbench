@@ -1,0 +1,226 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c01-ingest",
+      "--project=chrome",
+      "-g",
+      "emit-l2a-rfl-cuprite|emit-l1b-rad-cuprite"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-supplemental-c01-emit.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c01-ingest.spec.js",
+      "file": "c01-ingest.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C01 REQ-FMT-16 REQ-MSI-01 emit-l2a-rfl-cuprite/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc [NetCDF4]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4623,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:35:16.931Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-70f1eaa86d791b8830d2",
+          "file": "c01-ingest.spec.js",
+          "line": 87,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 REQ-MSI-01 emit-l1b-rad-cuprite/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc [NetCDF4]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 4680,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:35:16.984Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-612fee7d9b05e329cde3",
+          "file": "c01-ingest.spec.js",
+          "line": 87,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T23:35:16.325Z",
+    "duration": 5923.503,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

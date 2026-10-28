@@ -1,24 +1,24 @@
 # T&E data catalogue
 
-Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items). Tier A = anonymous download by `build/campaign/fetch.mjs`; tier B = free login, downloaded by the owner into `TE-corpus/<id>/`; RS = already held in `Research/samples`.
+Generated 2026-10-27T23:36:32.614Z from `build/campaign/corpus.json` (117 items). Tier A = anonymous download by `build/campaign/fetch.mjs`; tier B = free login, downloaded by the owner into `TE-corpus/<id>/`; RS = already held in `Research/samples`.
 
 | Area | Items | Size | On disk |
 |---|---|---|---|
-| 3d | 5 | 28.2 MB | 5 |
+| 3d | 6 | 38.0 MB | 6 |
 | dem | 13 | 853.3 MB | 12 |
-| eo | 9 | 2.41 GB | 9 |
-| fmv | 8 | 482.6 MB | 8 |
+| eo | 10 | 3.88 GB | 10 |
+| fmv | 9 | 1.97 GB | 9 |
 | geopdf | 2 | 80.6 MB | 2 |
-| gmti | 1 | 0 kB | 0 |
-| hsi | 9 | 5.11 GB | 5 |
+| gmti | 2 | 3 kB | 1 |
+| hsi | 10 | 17.86 GB | 8 |
 | landsat | 3 | 1.74 GB | 2 |
-| lidar | 6 | 1.32 GB | 6 |
-| live | 10 | 0 kB | 0 |
+| lidar | 8 | 1.78 GB | 8 |
+| live | 11 | 0 kB | 0 |
 | naip | 1 | 386.6 MB | 1 |
 | nitf | 16 | 58.6 MB | 15 |
 | raster | 1 | 130 kB | 1 |
 | robustness | 1 | 166 kB | 1 |
-| sar | 7 | 4.61 GB | 7 |
+| sar | 8 | 4.62 GB | 8 |
 | sentinel2 | 2 | 2.16 GB | 2 |
 | vector | 14 | 5.21 GB | 14 |
 
@@ -31,6 +31,7 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | `3d-tiles-sparse-implicit-quadtree` | 3D Tiles 1.1 (implicit, glb) (Implicit QUADTREE, subtreeLevels 3, sparse availability bitstreams (.subtree), 32 glb leaf contents at level 5) | [Cesium GS](https://github.com/CesiumGS/3d-tiles-samples/tree/main/1.1/SparseImplicitQuadtree) | CC0-1.0 | A | 43 kB | yes |
 | `3d-tiles-multiple-contents` | 3D Tiles 1.1 (glb) (tile.contents[] with point-cloud glb + triangle glb) | [Cesium GS](https://github.com/CesiumGS/3d-tiles-samples/tree/main/1.1/MultipleContents) | CC0-1.0 | A | 381 kB | yes |
 | `3d-cityjson-samples` | CityJSON (delft.json (BGT-derived, many CityObjects); DH_01_subs CityJSON 1.1 BuildingParts; multi_lod.json with multiple LoDs) | [CityJSON / TU Delft 3D geoinformation](https://www.cityjson.org/datasets/) | MIT (cjio repo); underlying Den Haag/Delft data is open municipal data (licence per source | A | 1.5 MB | yes |
+| `terrain-qmesh-heremaps-examples` | Cesium quantized-mesh 1.0 (.terrain) (TMS tile tree, no layer.json) | [GitHub heremaps/quantized-mesh-viewer @4fa86fe](https://github.com/heremaps/quantized-mesh-viewer) | MIT (repository LICENSE) | A | 9.8 MB | yes |
 
 ## dem
 
@@ -63,6 +64,7 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | `eo-maxar-libya-floods-wv3-prepost` | GeoTIFF/COG (WV03 ARD ortho, UTM 34N; ms = 8-band VNIR 16-bit (~1.2 m), pan = 16-bit (~0.3 m), visual = 3-band 8-bit; 0% cloud both dates) | [Maxar Open Data Program](https://www.maxar.com/open-data/libya-floods) | CC BY-NC 4.0 (Creative Commons Attribution Non Commercial 4.0; AWS Open Data Registry maxa | A | 968.8 MB | yes |
 | `eo-spacenet-vegas-wv3-pan-ms-r1c1` | GeoTIFF (DigitalGlobe LV2A Standard tile) + DG XML (WV03, PAN 16-bit 16384x16384 (~0.31 m), MS 8-band 16-bit (~1.24 m), RPC00B in XML <RPB> block, off-nadir 16.8, 0% cloud, 2015-10-22) | [SpaceNet (AWS Open Data)](https://spacenet.ai/spacenet-buildings-dataset-v2/) | CC BY-SA 4.0 (The SpaceNet Dataset by SpaceNet Partners, https://spacenet.ai/off-nadir-bui | A | 805.4 MB | yes |
 | `eo-spacenet-atlanta-wv2-l1b-rpc` | GeoTIFF (DigitalGlobe LV1B, sensor geometry) + RPB/IMD/ATT/EPH/GEO/TIL/XML (WV02 LV1B 16-bit; PAN + 8-band MUL; RPC00B (.RPB); off-nadir 52.5 / 53.7 deg, 2009-12-22, 0% cloud) | [SpaceNet (AWS Open Data)](https://spacenet.ai/off-nadir-building-detection/) | CC BY-SA 4.0 (The SpaceNet Dataset by SpaceNet Partners, https://spacenet.ai/off-nadir-bui | A | 581.8 MB | yes |
+| `ieee-dfc2019-track2-val` | GeoTIFF + METADATA.json (Archive kept whole; one tile set (JAX_163_001_006) extracted) | [IEEE DataPort (Open Access)](https://doi.org/10.21227/c6tm-vw12) | CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Servic | B | 1.47 GB | yes |
 
 ## fmv
 
@@ -76,6 +78,7 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | `fmv-jmisb-st0903-vector` | KLV binary / JSON (ST 0903 VMTI local set (650 B); ST 1201 IMAPB floating-point test cases (JSON)) | [WestRidge Systems (jmisb)](https://github.com/WestRidgeSystems/jmisb) | MIT | A | 667 kB | yes |
 | `fmv-klvdata-st0601-packets` | KLV binary (ST 0601 UAS Datalink LS packets (dynamic+constant, dynamic-only)) | [paretech/klvdata](https://github.com/paretech/klvdata) | MIT | A | 0 kB | yes |
 | `fmv-libmisbklv-fixtures` | KLV binary / MPEG-TS (VMTI ST0903 nested/standalone/VTarget (hand-authored; some omit mandatory items); ST0601 synthetic packets; synchronous (0x15) / asynchronous (0x06) metadata TS snippets) | [nitsuga/libmisbklv](https://github.com/nitsuga/libmisbklv) | Apache-2.0 | A | 19 kB | yes |
+| `fmv-bambi-flights` | MPEG-TS (H.264, remuxed) + platform metadata CSV; source MP4 + DJI SRT (derived/<flight>/*.ts are lossless -c copy remuxes; *.csv are the app's fmv.csv import built by build/campaign/bambi_to_fmv.py) | [Zenodo, BAMBI Raw Dataset (bambi.eco)](https://zenodo.org/records/18983480) | CC BY 4.0 (Zenodo record licence) | A | 1.49 GB | yes |
 
 ## geopdf
 
@@ -89,6 +92,7 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | Id | Format | Source | Licence | Tier | Size | On disk |
 |---|---|---|---|---|---|---|
 | `gmti-stanag4607-none` | STANAG 4607 (n/a) | [n/a](https://github.com/pentlandedge/s4607) | n/a | A | 0 kB | no |
+| `gmti-stanag4607-trane293-fixtures` | STANAG 4607 (.gmti) (8 small packets, independently encoded) | [GitHub trane293/stanag4607 @5a4cdbb](https://github.com/trane293/stanag4607/tree/main/tests/fixtures) | MIT (repository LICENSE) | A | 3 kB | yes |
 
 ## hsi
 
@@ -96,13 +100,14 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 |---|---|---|---|---|---|---|
 | `rs-envi-hsi-indian-pines` | ENVI BSQ | [derived](derived) | CC0 1.0 Universal. | RS | 9.3 MB | yes |
 | `rs-hsi-indian-pines` | GeoTIFF 220-band | [https://purr.purdue.edu/publications/1947/1](https://purr.purdue.edu/publications/1947/1) | CC0 1.0 Universal (public domain dedication). | RS | 9.3 MB | yes |
-| `emit-l2a-rfl-cuprite` | NetCDF4 (285 bands 381-2493 nm, 60 m, unorthorectified swath with GLT) | [NASA LP DAAC](https://lpdaac.usgs.gov/products/emitl2arflv001/) | NASA open data, no use restrictions; Earthdata Login required to download | B | 1.85 GB | no |
-| `emit-l1b-rad-cuprite` | NetCDF4 (radiance uW/cm2/sr/nm, 285 bands) | [NASA LP DAAC](https://lpdaac.usgs.gov/products/emitl1bradv001/) | NASA open data, no use restrictions; Earthdata Login required | B | 1.85 GB | no |
+| `emit-l2a-rfl-cuprite` | NetCDF4 (285 bands 381-2493 nm, 60 m, unorthorectified swath with GLT) | [NASA LP DAAC](https://lpdaac.usgs.gov/products/emitl2arflv001/) | NASA open data, no use restrictions; Earthdata Login required to download | B | 1.90 GB | yes |
+| `emit-l1b-rad-cuprite` | NetCDF4 (radiance uW/cm2/sr/nm, 285 bands) | [NASA LP DAAC](https://lpdaac.usgs.gov/products/emitl1bradv001/) | NASA open data, no use restrictions; Earthdata Login required | B | 1.96 GB | yes |
 | `aviris-classic-f130410t01p00r09` | ENVI (binary + .hdr) in tar.gz (224 bands 365-2500 nm; reflectance image uncompressed 430 MB) | [NASA JPL AVIRIS](https://aviris.jpl.nasa.gov/dataportal/) | NASA/JPL AVIRIS data, freely available with no usage restrictions (acknowledgement request | A | 1.32 GB | yes |
 | `enmap-potsdam-l2a-subset` | GeoTIFF (224-band Float32) + GeoPackage (EnMAP L2A scene ENMAP01-____L2A-DT0000001867_20220724T104526Z, 30 m, 224 bands 400-2450 nm, 330x200 px) | [DLR / EnMAP-Box (Humboldt-Universitat zu Berlin)](https://github.com/EnMAP-Box/enmap-box/tree/main/enmapbox/exampledata) | EnMAP data © DLR, redistributed in the EnMAP-Box repository (GPL-3.0); land-cover truth de | A | 38.5 MB | yes |
 | `usgs-splib07-ascii` | ASCII spectra (zip) (splib07a native resolution; cvAVIRISc2013 resampled to AVIRIS 2013 bands (matches aviris-classic-f130410t01p00r09)) | [USGS](https://www.sciencebase.gov/catalog/item/586e8c88e4b0f5ce109fccae) | US Government public domain (USGS) | A | 26.1 MB | yes |
 | `prisma-l2d-sample` | HDF5 (HE5) (~240 bands 400-2500 nm, 30 m, 30x30 km) | [ASI (Italian Space Agency)](https://prisma.asi.it/) | ASI PRISMA data licence (free for registered users; non-commercial/research) | B | 0 kB | no |
 | `enmap-l2a-full-scene` | GeoTIFF (SPECTRAL_IMAGE.TIF) + METADATA.XML (224 bands, 30 m, 30x30 km) | [DLR EOC](https://www.enmap.org/data_access/) | EnMAP data licence (free; registration via DLR EOWEB GeoPortal) | B | 0 kB | no |
+| `ieee-dfc2018-houston` | ENVI-style .pix/.hdr HSI + LAS 1.x + GeoTIFF/TFW (Archive kept whole; extracted subset: full HSI cube, training/test GT rasters, DSM_C12 and DEM_C123_3msr rasters, RGB tile 272652_3289689, LiDAR tiles C1 and C123 272652_3289689) | [IEEE DataPort (Open Access)](https://doi.org/10.21227/jnh9-nz89) | CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Servic | B | 12.60 GB | yes |
 
 ## landsat
 
@@ -122,6 +127,8 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | `lidar-autzen-classified-copc` | COPC (LAS 1.4 PDRF 7 (RGB), LAZ-compressed COPC, 10,653,336 pts, WKT CRS) | [Hobu Inc. / PDAL](https://github.com/PDAL/data/tree/main/autzen) | Public sample data distributed by PDAL (PDAL/data repo; no explicit data licence; source l | A | 81.1 MB | yes |
 | `lidar-las-version-matrix` | LAS1.0-1.4 / LAZ / COPC (Coverage: LAS 1.0,1.1,1.2,1.3,1.4; PDRF 0,1,2,3,4,6,7,8,10; extra bytes, EVLR, WKT CRS, GeoTIFF+WKT, 390 VLRs, negatives. NOT covered: PDRF 5 and 9 (none found in public test corpora).) | [PDAL / laspy / LAStools / laz-perf (GitHub)](https://github.com/PDAL/PDAL/tree/master/test/data/las) | Test data distributed in repos: PDAL BSD-3-Clause; laspy BSD-2-Clause; LAStools/LASzip LGP | A | 56.0 MB | yes |
 | `lidar-opentopo-co23-roumelis` | LAZ (LAS1.4 PDRF6) + LAX (LAS 1.4 PDRF 6, WKT, UTM 13N 1 km tiles, 0.25-7.4M pts/tile; LAStools .lax spatial index sidecars) | [OpenTopography / NCALM](https://doi.org/10.5069/G9HD7SMZ) | CC BY 4.0 | A | 44.6 MB | yes |
+| `ieee-dfc2019-track4-val` | ASCII XYZ point cloud + class truth (10 tiles; coordinates are tile-local offsets) | [IEEE DataPort (Open Access)](https://doi.org/10.21227/c6tm-vw12) | CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Servic | B | 349.9 MB | yes |
+| `ieee-flame2-sfm` | LAZ 1.2 (Agisoft Metashape) + JPEG (Point cloud WGS84 (EPSG:4326), ortho ~7.6 cm/pixel) | [IEEE DataPort (Open Access)](https://doi.org/10.21227/swyw-6j78) | CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Servic | B | 118.9 MB | yes |
 
 ## live
 
@@ -137,6 +144,7 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | `live-ngs-ncat` | REST/JSON (ncat) | [NOAA National Geodetic Survey](https://geodesy.noaa.gov/web_services/ncat/) | Public domain (US Government) | A | 0 kB | service |
 | `live-ngs-geoid` | REST/JSON (geoid) | [NOAA National Geodetic Survey](https://geodesy.noaa.gov/web_services/geoid.shtml) | Public domain (US Government) | A | 0 kB | service |
 | `live-copc-autzen-https` | COPC (copc-http) | [Hobu Inc.](https://s3.amazonaws.com/hobu-lidar/autzen-classified.copc.laz) | See lidar-autzen-classified-copc | A | 0 kB | service |
+| `live-ept-usgs-3dep-drcog` | EPT | [USGS 3DEP via AWS Open Data (usgs-lidar-public)](https://s3-us-west-2.amazonaws.com/usgs-lidar-public/CO_DRCOG_1_2020/ept.json) | Public domain (USGS) | A | 0 kB | no |
 
 ## naip
 
@@ -188,6 +196,7 @@ Generated 2026-10-27T15:48:43.718Z from `build/campaign/corpus.json` (108 items)
 | `umbra-bingham-20230821-repeat` | SICD1.2.1/NITF2.1 \| SIDD2.0.0/NITF2.1 \| GeoTIFF (GEC) (UMB-SPOTLIGHT-50-1, X-band VV, same satellite UMBRA-05, descending, left, az -32.1 deg, inc 40.7 deg, squint 135.5; matches 2023-09-25 within 0.7 deg incidence, 35-day baseline) | [Umbra Space](https://registry.opendata.aws/umbra-open-data/) | CC BY 4.0 (https://umbra.space/open-license) | A | 1.02 GB | yes |
 | `capella-c13-sm-20240924` | SICD1.3.0/NITF2.1 \| SIDD2.0.0/NITF2.1 \| GeoTIFF SLC + extended JSON \| GeoTIFF/COG GEO \| CPHD1.1.0 (Stripmap (SM), X-band VV, inc 13.3 deg, East African coast (~11 S, 40.7 E)) | [Capella Space](https://registry.opendata.aws/capella_opendata/) | CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) plus a Capella Open Data conditio | A | 578.6 MB | yes |
 | `iceye-x50-slf-20251027-sidd3` | SIDD3.0.0/NITF2.1 \| SICD1.3.0 XML (Spotlight Fine (SLF), X-band, ICEYE-X50) | [ICEYE](https://registry.opendata.aws/iceye-opendata/) | CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) | A | 400.0 MB | yes |
+| `sar-osml-sicd-sidd-chips` | SICD 1.2.1/1.3.0 and SIDD 2.0 in NITF 2.1 (single-pol chips (not quad-pol)) | [GitHub awslabs/osml-imagery-toolkit @cbe3e77 (Git LFS)](https://github.com/awslabs/osml-imagery-toolkit/tree/main/test/data) | Apache-2.0 (repository LICENSE) | A | 8.9 MB | yes |
 
 ## sentinel2
 

@@ -1,0 +1,192 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c01-ingest",
+      "--project=chrome",
+      "-g",
+      "20170218_UH_CASI"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-supplemental-c01-hsi.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c01-ingest.spec.js",
+      "file": "c01-ingest.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C01 REQ-FMT-16 REQ-MSI-01 ieee-dfc2018-houston/FullHSIDataset/20170218_UH_CASI_S4_NAD83.pix [ENVI-style .pix/.hdr HSI + LAS 1.x + GeoTIFF/TFW]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20020,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:55:59.078Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-1640324c4201237d65e6",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T23:55:58.593Z",
+    "duration": 20900.872,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

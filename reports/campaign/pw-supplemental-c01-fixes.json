@@ -1,0 +1,430 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c01-ingest",
+      "--project=chrome",
+      "-g",
+      "gmti-stanag4607-trane293|ieee-dfc2018-houston/20170218"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-supplemental-c01-fixes.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c01-ingest.spec.js",
+      "file": "c01-ingest.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/free_text_and_test_status.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1500,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:51:47.659Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-906e04bdae169d93bff7",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/full_mask_every_optional_group.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 121487,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:51:47.705Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-17d73cc223c3fc37b975",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/hrr_signature_parked_both_time_branches.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 121487,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:51:47.721Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-0dc15fb4ff84c591315c",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/mission_dwell_hi_res_targets.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 121500,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:51:47.685Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-3e67c60804b9856e1a4c",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/platform_location_mixed_time_basis.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 120513,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:51:49.455Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-8c33ae9fac96d35f885e",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/processing_history_chain.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 690,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:53:49.465Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-ae641917be834c44d9f6",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/repeated_mission_segment.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 120720,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:53:49.552Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-dc2e2887f3bb97986807",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        },
+        {
+          "title": "TE-C01 REQ-FMT-16 gmti-stanag4607-trane293-fixtures/reserved_and_extension_segments_recorded.gmti [STANAG 4607 (.gmti)]",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 120758,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T23:53:49.554Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "39ab46243de2018e43d6-35e85aa8ca69184f6472",
+          "file": "c01-ingest.spec.js",
+          "line": 90,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T23:51:47.068Z",
+    "duration": 243432.88100000002,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

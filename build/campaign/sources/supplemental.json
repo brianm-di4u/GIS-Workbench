@@ -1,0 +1,2688 @@
+[
+ {
+  "id": "ieee-dfc2018-houston",
+  "area": "hsi",
+  "title": "2018 IEEE GRSS Data Fusion Contest, University of Houston campus 2017-02-16: CASI 48-band hyperspectral (1 m), Optech Titan multispectral LiDAR (C1/C2/C3), 5 cm RGB, 20-class ground truth",
+  "source": "IEEE DataPort (Open Access)",
+  "landing": "https://doi.org/10.21227/jnh9-nz89",
+  "licence": "CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Service)",
+  "attribution": "2018 IEEE GRSS Data Fusion Contest data courtesy of the Hyperspectral Image Analysis Laboratory and NCALM, University of Houston, and the IEEE GRSS IADF TC (Prasad, Le Saux, Yokoya, Hänsch). IEEE DataPort, doi:10.21227/jnh9-nz89",
+  "tier": "B",
+  "origin": "download",
+  "format": "ENVI-style .pix/.hdr HSI + LAS 1.x + GeoTIFF/TFW",
+  "profile": "Archive kept whole; extracted subset: full HSI cube, training/test GT rasters, DSM_C12 and DEM_C123_3msr rasters, RGB tile 272652_3289689, LiDAR tiles C1 and C123 272652_3289689",
+  "files": [
+   {
+    "name": "2018IEEEGRSS_DataFusionChallenge.zip",
+    "url": null,
+    "bytes": 10845619964,
+    "sha256": "fa50a0084de97471f23402bbde34e65600e7949f5b9457217dda417fd5198a39",
+    "role": "archive"
+   },
+   {
+    "name": "C1/272652_3289689.las",
+    "url": null,
+    "bytes": 138011417,
+    "sha256": "796b653f4daaab1eb1408c9a6b5d71acefd507b4e00c4844633116427ca8b25e",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "C123/272652_3289689.las",
+    "url": null,
+    "bytes": 437840345,
+    "sha256": "f50cf94898e64e5286a6d9c76da453d2a59165acccb253476f2ae960bb16ebfc",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DEM_C123_3msr/UH17_GEG051.tfw",
+    "url": null,
+    "bytes": 90,
+    "sha256": "78d4dd0736ecce074e56f4e66f405cdd9c98fdd0a7ed9008a83c06ea6b3f2970",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DEM_C123_3msr/UH17_GEG051.tif",
+    "url": null,
+    "bytes": 82192612,
+    "sha256": "67b5c9e1eadda229a8573d57fb3ea50d1d5d7b6f236c081193efd0e298dbbdc0",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DEM_C123_3msr/UH17_GEG051.tif.aux.xml",
+    "url": null,
+    "bytes": 1743,
+    "sha256": "d55d02821105823f6fda51a7d1a2ce90afcefe7294b9e9cf8601316e76829e3e",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DEM_C123_3msr/UH17_GEG051.tif.ovr",
+    "url": null,
+    "bytes": 22325403,
+    "sha256": "5acad3186d03bf85ba7f9b022be1629866b9f1c17d4d93df984223c181fd8ab6",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DSM_C12/UH17c_GEF051.tfw",
+    "url": null,
+    "bytes": 90,
+    "sha256": "78d4dd0736ecce074e56f4e66f405cdd9c98fdd0a7ed9008a83c06ea6b3f2970",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DSM_C12/UH17c_GEF051.tif",
+    "url": null,
+    "bytes": 82192612,
+    "sha256": "7887f14dfa26252bd26e285a607236fef120cd0de41383a12b47b4ad620db873",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DSM_C12/UH17c_GEF051.tif.aux.xml",
+    "url": null,
+    "bytes": 1737,
+    "sha256": "1ab1cef657263b22cdf9a081230826373982400c37640a3446930186f02e9ac5",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "DSM_C12/UH17c_GEF051.tif.ovr",
+    "url": null,
+    "bytes": 28078741,
+    "sha256": "67fff200fe19d6418c894efee4aaca4278300389a5b28a584ce00b28f9198c5f",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "Final_RGB_HR_Imagery/UH_NAD83_272652_3289689.tfw",
+    "url": null,
+    "bytes": 76,
+    "sha256": "495962cd150c8ebebf4425066b2aca05e9e15140835ee9d8c3f66a728139c99a",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "Final_RGB_HR_Imagery/UH_NAD83_272652_3289689.tif",
+    "url": null,
+    "bytes": 429835552,
+    "sha256": "bb2e1aca79b31197e64990762b9002a06e6555cba118e3c18ae6a5c8b5720f81",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "FullHSIDataset/20170218_UH_CASI_S4_NAD83.hdr",
+    "url": null,
+    "bytes": 8264,
+    "sha256": "6d6435ca52441bcd5ec69089928ce716685ecdc7dd750f76d9f1b421494a16b7",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "FullHSIDataset/20170218_UH_CASI_S4_NAD83.pix",
+    "url": null,
+    "bytes": 501474400,
+    "sha256": "6f29fd1863ceb0cf4ae3b162ffc48e11ce02bad46780531a99ac2b29164b38e2",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "TestingGT/Test_Labels.tif",
+    "url": null,
+    "bytes": 20078593,
+    "sha256": "5f5c6f54cb232161c005fc1ba74f8a09cb00b792644f5346e5f3e839ba111d72",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "TrainingGT/2018_IEEE_GRSS_DFC_GT_TR",
+    "url": null,
+    "bytes": 5731136,
+    "sha256": "faaedac5166b213615d2ab10730598920606197e3ee514e4ec9e78fccd835dd5",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "TrainingGT/2018_IEEE_GRSS_DFC_GT_TR.hdr",
+    "url": null,
+    "bytes": 854,
+    "sha256": "b5ae867dcb8752025a1181dd933c8da0181786c646c41c382ef6402a00b5414a",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "TrainingGT/2018_IEEE_GRSS_DFC_GT_TR.tfw",
+    "url": null,
+    "bytes": 222,
+    "sha256": "1abd1b10b6359bc00f9b4ff91e06f33f45e5fced4ab78c2a790e479debb60c51",
+    "role": "sidecar",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   },
+   {
+    "name": "TrainingGT/2018_IEEE_GRSS_DFC_GT_TR.tif",
+    "url": null,
+    "bytes": 5741137,
+    "sha256": "025b3813a0a52855567debf4b1e294937fd9b1ff17e00b9acd9e794ef29696d0",
+    "role": "primary",
+    "from": "2018IEEEGRSS_DataFusionChallenge.zip"
+   }
+  ],
+  "notes": "Downloaded through the owner's IEEE DataPort session (signed S3 URLs), 2026-10-27. Archive is ZIP64 (19.3 GB uncompressed); Info-ZIP unzip on Windows cannot read it, Python zipfile can. Marketing candidate for the hyperspectral and LiDAR screenshots (CC BY, attribution required).",
+  "feeds": [
+   "ingest",
+   "hsi.envi",
+   "hsi.classify",
+   "hsi.truth",
+   "pc.read.las",
+   "pc.classify",
+   "dem.compare",
+   "display"
+  ]
+ },
+ {
+  "id": "ieee-dfc2019-track2-val",
+  "area": "eo",
+  "title": "2019 IEEE GRSS Data Fusion Contest Track 2 validation: epipolar-rectified WorldView-3 stereo pairs (RGB + 8-band MSI) with homographies and NITF metadata, Jacksonville/Omaha",
+  "source": "IEEE DataPort (Open Access)",
+  "landing": "https://doi.org/10.21227/c6tm-vw12",
+  "licence": "CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Service); the WorldView-3 imagery is Maxar/DigitalGlobe commercial imagery released for the contest: test use only, never on the website",
+  "attribution": "2019 IEEE GRSS Data Fusion Contest (IEEE GRSS IADF TC, JHU/APL, IARPA). IEEE DataPort, doi:10.21227/c6tm-vw12",
+  "tier": "B",
+  "origin": "download",
+  "format": "GeoTIFF + METADATA.json",
+  "profile": "Archive kept whole; one tile set (JAX_163_001_006) extracted",
+  "files": [
+   {
+    "name": "Track2/JAX_163_001_006_LEFT_MSI.tif",
+    "url": null,
+    "bytes": 11864963,
+    "sha256": "0bed07c722c532fd7e15b2a0b7b1467c8f707d33e39cba58b17ac6c2ba104101",
+    "role": "primary",
+    "from": "Validate-Track2.zip"
+   },
+   {
+    "name": "Track2/JAX_163_001_006_LEFT_RGB.tif",
+    "url": null,
+    "bytes": 2811432,
+    "sha256": "531d5733b0df2eca01aa494aa309fb5de6c440ba0d339f0c24e31a5c2b20c013",
+    "role": "primary",
+    "from": "Validate-Track2.zip"
+   },
+   {
+    "name": "Track2/JAX_163_001_006_METADATA.json",
+    "url": null,
+    "bytes": 4691,
+    "sha256": "3b8ac29a14d7a543abcf4c844cd82464583a08b78c2a066bcd5fc76759beb575",
+    "role": "metadata",
+    "from": "Validate-Track2.zip"
+   },
+   {
+    "name": "Track2/JAX_163_001_006_RIGHT_MSI.tif",
+    "url": null,
+    "bytes": 11693927,
+    "sha256": "bbaaa831439ebcec63f9502c040874dbee9dbddee954e2a7f6b147bf52982dc4",
+    "role": "primary",
+    "from": "Validate-Track2.zip"
+   },
+   {
+    "name": "Track2/JAX_163_001_006_RIGHT_RGB.tif",
+    "url": null,
+    "bytes": 2836411,
+    "sha256": "688f69c299bebb463794ce00d79f921090f00f3b114b26884767f90bfe8b1c59",
+    "role": "primary",
+    "from": "Validate-Track2.zip"
+   },
+   {
+    "name": "Validate-Track2.zip",
+    "url": null,
+    "bytes": 1443074281,
+    "sha256": "e2774f9df5e44b0e5600769d1dc323d9b796a5441b7efc9a3d35865d38a42127",
+    "role": "archive"
+   }
+  ],
+  "notes": "No disparity/DSM truth in the validation archive. S-14 against a reference needs 'Track 2 / Training data / Reference' (1.68 GB) plus a training image archive (smallest 3.42 GB): not downloaded, over the per-item cap.",
+  "feeds": [
+   "stereo",
+   "ingest"
+  ]
+ },
+ {
+  "id": "ieee-dfc2019-track4-val",
+  "area": "lidar",
+  "title": "2019 IEEE GRSS Data Fusion Contest Track 4 validation: classified airborne LiDAR tiles (ASCII x,y,z,intensity,returns) with per-point class truth, Jacksonville/Omaha",
+  "source": "IEEE DataPort (Open Access)",
+  "landing": "https://doi.org/10.21227/c6tm-vw12",
+  "licence": "CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Service)",
+  "attribution": "2019 IEEE GRSS Data Fusion Contest (IEEE GRSS IADF TC, JHU/APL, IARPA). IEEE DataPort, doi:10.21227/c6tm-vw12",
+  "tier": "B",
+  "origin": "download",
+  "format": "ASCII XYZ point cloud + class truth",
+  "profile": "10 tiles; coordinates are tile-local offsets",
+  "files": [
+   {
+    "name": "JAX_114_CLS.txt",
+    "url": null,
+    "bytes": 759139,
+    "sha256": "fe188ef540673dedb1aa0eb0a54aea47b7b77f248284eea3e07d0464dd85352a",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "JAX_215_CLS.txt",
+    "url": null,
+    "bytes": 1872929,
+    "sha256": "27d9e2b239b45a739aa6c532fb6be3b6533c09a90aa416a49cd9b792f4df16d3",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "JAX_250_CLS.txt",
+    "url": null,
+    "bytes": 2118874,
+    "sha256": "be19c4133e2efb56e8c98395e9d1602173d41779001b91961321558cffd04b98",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "JAX_328_CLS.txt",
+    "url": null,
+    "bytes": 1421713,
+    "sha256": "804c5126940e3a2783f46f8b487688780c52a8a52ea828f09ca81708f1b66d75",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "JAX_342_CLS.txt",
+    "url": null,
+    "bytes": 844096,
+    "sha256": "98bd019bf3091b9c37ca97006b68abd901afe5be03180a28cb7373c63362cacd",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "OMA_094_CLS.txt",
+    "url": null,
+    "bytes": 1154420,
+    "sha256": "12cf29e5fe48f8aeb5478ccb186d16a6962d8e6306519d47869b71b9d35d0a3f",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "OMA_099_CLS.txt",
+    "url": null,
+    "bytes": 1375150,
+    "sha256": "6ba1221a9548f8588b5a73d3790855cb5634f4099b830962b73fa67672deb8c5",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "OMA_241_CLS.txt",
+    "url": null,
+    "bytes": 3750037,
+    "sha256": "4993d9df470b7b17cda9bc8e600779e5b7ecaa712248799b91de7af13169b70f",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "OMA_243_CLS.txt",
+    "url": null,
+    "bytes": 3361742,
+    "sha256": "f1a503b3aeca62858f4dcd5ad3d909bceebfee1f079a163c1f5fd361264562b2",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "OMA_290_CLS.txt",
+    "url": null,
+    "bytes": 4076392,
+    "sha256": "970c48588c36834e94fc4c8a66e90c79449a4e83aed33f8442b2d876ad633d4f",
+    "role": "truth",
+    "from": "Validate-Track4-Truth.zip"
+   },
+   {
+    "name": "Track4/JAX_114_PC3.txt",
+    "url": null,
+    "bytes": 9349685,
+    "sha256": "699c1f0bfb8ca3608bd2a80fe49fba13edaa8c8f894c3aabdf228b62d852798b",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/JAX_215_PC3.txt",
+    "url": null,
+    "bytes": 22558134,
+    "sha256": "a370084961ad999c8486685d562d99cbead80720b56c86b02e9204b69426ac34",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/JAX_250_PC3.txt",
+    "url": null,
+    "bytes": 25743986,
+    "sha256": "113b0eceec009da8dd9506bbe68785e9e6c689e80be7624e39785f77ab60efd5",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/JAX_328_PC3.txt",
+    "url": null,
+    "bytes": 17281405,
+    "sha256": "b7c59c3dab60032a4a673ade5b91ced0fd84b074996b38413a6b3d259f131464",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/JAX_342_PC3.txt",
+    "url": null,
+    "bytes": 10264276,
+    "sha256": "044770df2ae197e3228d731ea940f016a6bad1c77b19e228a4a8cb2e38546e48",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/OMA_094_PC3.txt",
+    "url": null,
+    "bytes": 14582731,
+    "sha256": "9ef8bfea970d702f0a38a927b39bd713f03fa83d22b67f347ae9b9725ec17372",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/OMA_099_PC3.txt",
+    "url": null,
+    "bytes": 17635877,
+    "sha256": "11fdd23b5b62e79e5f95fcd9754fda226a5f777fcc6b8fc4f8d4079d1c4409a9",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/OMA_241_PC3.txt",
+    "url": null,
+    "bytes": 47845435,
+    "sha256": "0846d4bc402a84764d429170a9c4da4fbb9d4d2321e0c00181985f0dbd2842fa",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/OMA_243_PC3.txt",
+    "url": null,
+    "bytes": 42832801,
+    "sha256": "90fe2ec6d3e8828b222a02de78bb646fd424ae3b9a49f9072e4f7a75c2b5f519",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Track4/OMA_290_PC3.txt",
+    "url": null,
+    "bytes": 52421967,
+    "sha256": "f909170069164de86f4f17b663747f7e57d8a37ca574eb66af0ae0cb869899a5",
+    "role": "primary",
+    "from": "Validate-Track4.zip"
+   },
+   {
+    "name": "Validate-Track4-Truth.zip",
+    "url": null,
+    "bytes": 953017,
+    "sha256": "c699a328df562457a3532a9512ef159ea481f9e3964e7ed571cdf087c2c0ed52",
+    "role": "archive"
+   },
+   {
+    "name": "Validate-Track4.zip",
+    "url": null,
+    "bytes": 67649831,
+    "sha256": "c2f88e175b85910b05189665a909e7c89f8ac7f48127020a30b8b8d17cdfbe84",
+    "role": "archive"
+   }
+  ],
+  "notes": "Truth zip carries __MACOSX resource forks; only the *_CLS.txt files were extracted.",
+  "feeds": [
+   "ingest",
+   "pc.classify"
+  ]
+ },
+ {
+  "id": "ieee-flame2-sfm",
+  "area": "lidar",
+  "title": "FLAME 2 (Bluestem prescribed fire, AZ): georeferenced RGB structure-from-motion point cloud and orthomosaic from DJI pre-burn video",
+  "source": "IEEE DataPort (Open Access)",
+  "landing": "https://doi.org/10.21227/swyw-6j78",
+  "licence": "CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Service)",
+  "attribution": "FLAME 2 dataset, Clemson University and Northern Arizona University (Razi, Afghah, O'Neill et al.). IEEE DataPort, doi:10.21227/swyw-6j78",
+  "tier": "B",
+  "origin": "download",
+  "format": "LAZ 1.2 (Agisoft Metashape) + JPEG",
+  "profile": "Point cloud WGS84 (EPSG:4326), ortho ~7.6 cm/pixel",
+  "files": [
+   {
+    "name": "README.txt",
+    "url": null,
+    "bytes": 3152,
+    "sha256": "9b05cb246c03512e667b4a77efd561754c65bb01628ec9ab7f018f5c7ab0ec17",
+    "role": "metadata"
+   },
+   {
+    "name": "RGB_Orthomosaic.jpg",
+    "url": null,
+    "bytes": 5689906,
+    "sha256": "7a0009b2fd5c119c3c21c98bfa14600a829ac8313f475df54b15c8d7148d790f",
+    "role": "primary"
+   },
+   {
+    "name": "RGB_Pointcloud.laz",
+    "url": null,
+    "bytes": 113242809,
+    "sha256": "9f7ebe610734628cba767989e1c390a761f46d3016688f5150f0828b5e373b3a",
+    "role": "primary"
+   }
+  ],
+  "notes": "Marketing candidate for the LiDAR/3D screenshot. The orthomosaic JPEG has no world file.",
+  "feeds": [
+   "ingest",
+   "pc.read.laz",
+   "display"
+  ]
+ },
+ {
+  "id": "terrain-qmesh-heremaps-examples",
+  "area": "3d",
+  "title": "Real quantized-mesh terrain tiles (241 tiles, zoom 8-12) from the HERE quantized-mesh-viewer examples",
+  "source": "GitHub heremaps/quantized-mesh-viewer @4fa86fe",
+  "landing": "https://github.com/heremaps/quantized-mesh-viewer",
+  "licence": "MIT (repository LICENSE)",
+  "attribution": "HERE Europe B.V., quantized-mesh-viewer, MIT licence",
+  "tier": "A",
+  "origin": "download",
+  "format": "Cesium quantized-mesh 1.0 (.terrain)",
+  "profile": "TMS tile tree, no layer.json",
+  "files": [
+   {
+    "name": "LICENSE",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/LICENSE",
+    "bytes": 1061,
+    "sha256": "805019c6b90feef9e4d7d1d1fff6ea5472184bb02eb48ac6e153db6c53f4d9bc",
+    "role": "metadata"
+   },
+   {
+    "name": "example-tiles/10/163/646.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/163/646.terrain",
+    "bytes": 20628,
+    "sha256": "402880df53e8a846fd5c46c9748f73e742614424b44501fbfe9e5324ace41c6f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/163/647.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/163/647.terrain",
+    "bytes": 68956,
+    "sha256": "e5719f10aa613f5417b1a90af9ee0dd37aaeda1478d6d8cb68b765343751f9a4",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/163/648.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/163/648.terrain",
+    "bytes": 17924,
+    "sha256": "19a7fa1700798132f9af0a7667ea78c32262e4883dcc207efad5cf144cf21281",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/164/646.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/164/646.terrain",
+    "bytes": 124616,
+    "sha256": "ec3afff9b9e6269b75d10eabce68dabdb375b95822ddfcc5b9215533b1906fc3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/164/647.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/164/647.terrain",
+    "bytes": 474158,
+    "sha256": "760e465cae1223ab92e9d5204a688eb1d23f2259ae9051d4b6288b22c08782c6",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/164/648.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/164/648.terrain",
+    "bytes": 83978,
+    "sha256": "f29eea4ee4fd58280acdf8c40bec3c6c9034a54fb632ebbfa2eb7c36497cda86",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/165/646.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/165/646.terrain",
+    "bytes": 26612,
+    "sha256": "98c0ade55719c066c82a5d329ad29b707dbad29aea5f408ab0471e481a8a8de6",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/165/647.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/165/647.terrain",
+    "bytes": 75572,
+    "sha256": "464e7af32d3dac8f2091fb9dc3dcbf554d3aa558991149d533df4080615a145c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/10/165/648.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/10/165/648.terrain",
+    "bytes": 11960,
+    "sha256": "d7eef44abf1a24739f5295987d29e70718d16d91ab9cd284e7b48002bc45c251",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/327/1293.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/327/1293.terrain",
+    "bytes": 35652,
+    "sha256": "37356a43aa5d04fdd02113ace07274fcd4c9614ccadfc9a9f109e663a9a47b46",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/327/1294.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/327/1294.terrain",
+    "bytes": 52382,
+    "sha256": "c3846ec17b18ba86a06a20fd84586cd021156f952f205da358f237b361a67cb9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/327/1295.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/327/1295.terrain",
+    "bytes": 69112,
+    "sha256": "867db42a35f84383a335bb9ad5700eb0e4af4bdec15772186936a2861bc7ee97",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/327/1296.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/327/1296.terrain",
+    "bytes": 31466,
+    "sha256": "0256a308c0816d7452a13f0eb7c6afe427ac2d61d3dd27b8b6e37831704142f5",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/328/1293.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/328/1293.terrain",
+    "bytes": 158302,
+    "sha256": "f95a19b05f934d53a491f40d8a5e274969d500096e8c0820d6403d6c9f707531",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/328/1294.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/328/1294.terrain",
+    "bytes": 264746,
+    "sha256": "a162e9944e42263e7001a3a1fd20a3f6a40e6a4b0e4b8afdb9a00edc0ac34c9a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/328/1295.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/328/1295.terrain",
+    "bytes": 205812,
+    "sha256": "c27f306690447c2a36c538189141f5878d00a94481de3da8113952b822df2fef",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/328/1296.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/328/1296.terrain",
+    "bytes": 101738,
+    "sha256": "7d3991bc969b899c86e4ad943af6bd23e883a7d2c7236eb9d68aae8004590152",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/329/1293.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/329/1293.terrain",
+    "bytes": 75382,
+    "sha256": "004e74d889f6c8327a82a13dc338e68f90c112facb44c5b288d8552fae837009",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/329/1294.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/329/1294.terrain",
+    "bytes": 272504,
+    "sha256": "3ea5acc7ad6dc2984be7475dce743d04e415bd226d3fa78cb95ea73d3be42392",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/329/1295.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/329/1295.terrain",
+    "bytes": 154604,
+    "sha256": "99a6619c5be90a005c314be09c14cc8cb58258348fdd1c34b7d4e71ca9af95fa",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/329/1296.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/329/1296.terrain",
+    "bytes": 51580,
+    "sha256": "32c8fb3a8b73807644e583ecd57c741964ec54a4531392fe2fe9493f8f1058cf",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/330/1293.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/330/1293.terrain",
+    "bytes": 43494,
+    "sha256": "0b5cecd5f3c31b9976279b7c7e952aae21257737e1f21cc9478cb68055fb1b98",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/330/1294.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/330/1294.terrain",
+    "bytes": 81664,
+    "sha256": "a6ef366444c1f0bdf1d29d33692f47f8c384548cf4f1ee020690a4513e4d01c0",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/330/1295.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/330/1295.terrain",
+    "bytes": 46196,
+    "sha256": "d4f2f198dddb2256a415c8b14b533f75a790246d195fcbe5da23e7dd97ff9a24",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/11/330/1296.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/11/330/1296.terrain",
+    "bytes": 21378,
+    "sha256": "357642b51ed478196506cf4b3e08668d023ace43bac2a9d97717f74ba4743112",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2586.terrain",
+    "bytes": 808,
+    "sha256": "688aad388795a934aad9cecbf17540b29f670c99baa2f0bff548ec24995680de",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2587.terrain",
+    "bytes": 54250,
+    "sha256": "c5a83c382d6ad486c1b9e897da3c5afbc7be98b8d0044f010764f15105054dde",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2588.terrain",
+    "bytes": 43142,
+    "sha256": "4b97d4aa6226dd50b77e36a17e0a353a35869ea8a4a663b194c498eedd2115fd",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2589.terrain",
+    "bytes": 35422,
+    "sha256": "d462a9b322d6409af316af9066123959357222d9b595fdd2ec028c55f3bbc530",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2590.terrain",
+    "bytes": 54192,
+    "sha256": "450e9a67e0870f2d9bc4d7ed03b84a6eb6f2467cb06975a7740e88d095ac5ccc",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2591.terrain",
+    "bytes": 59878,
+    "sha256": "c8d9ea036e3b77a5a43dd5029438299c087974d32de0e96b1e358423978baaaf",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/655/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/655/2592.terrain",
+    "bytes": 48726,
+    "sha256": "dc5a885bbdb7339ab4a1c5469e119e67dce128f3a74d3fe3e2a58a0f5da4acc1",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2586.terrain",
+    "bytes": 188,
+    "sha256": "23cde8e4d46c9a71515643d9a3dcdd35338cc640006efcd5e116dadf941a24e9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2587.terrain",
+    "bytes": 148428,
+    "sha256": "9730c931811caa324114ef1e89e17378eb2e7fda8e0126e7d173508e876fd7b3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2588.terrain",
+    "bytes": 111390,
+    "sha256": "e0b4a33fa4cfde73545404fdb9d872f5767c626b0593d77771ad7c1b3bada9c9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2589.terrain",
+    "bytes": 106522,
+    "sha256": "64ebf681410fe8502f4ee02c2b1b5825c22c4323e3e7df265f0bda56e6f79c45",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2590.terrain",
+    "bytes": 108786,
+    "sha256": "bf2625d1fcb97fb66c4ce865898c9410ac58d030c8834c0b0626b19182a30894",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2591.terrain",
+    "bytes": 108860,
+    "sha256": "df9d5f98f1128b25643eff2ac8209ad9eff36358dfe2468eb59dd9c7b4fe512d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/656/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/656/2592.terrain",
+    "bytes": 98556,
+    "sha256": "8c2b54d73dcd2e2c5c50aa191a671fa26d8acd4c86da28e7dd0c10aa16a85abe",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2586.terrain",
+    "bytes": 272,
+    "sha256": "70be0b834c8e55995192e0ec9b665c526ba696af55d6ca35e4f89fb2ef22bb30",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2587.terrain",
+    "bytes": 114930,
+    "sha256": "797ee101de0541b6d5d02c0ddc161ee9482f8456d866a2b80be9a74a6569a91e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2588.terrain",
+    "bytes": 105930,
+    "sha256": "d5a6ef5af34ed9d18a94bea05bc427d62891b7ca72fbd80eac21ddb91bd8ef2c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2589.terrain",
+    "bytes": 113328,
+    "sha256": "e6aea769ff6ce043e7c3c265195b69f2ddfcdd4ab230330681f5d85d53cb5956",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2590.terrain",
+    "bytes": 68802,
+    "sha256": "b9f41af6caf14c462d6406613d24776e8afb108367b723d05d57c9a646254c20",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2591.terrain",
+    "bytes": 47628,
+    "sha256": "f6bbe46a92a18e05653657d4808e1e82c5ddf79aa1ccef3510adccbba9593946",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/657/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/657/2592.terrain",
+    "bytes": 59660,
+    "sha256": "6df2d88b58e959bff00b9cd3d7fd5a4db3624e4364321817df629815159e1989",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2586.terrain",
+    "bytes": 288,
+    "sha256": "3b9b605cf95326cb15f9fa633fc2ebe3c6e055da2aa6025a6f85dd2456fe1fa1",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2587.terrain",
+    "bytes": 82004,
+    "sha256": "32c8ec9731b62045cb25e4f525ee0a9311fe80062213a64c103bc2bb1412cc02",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2588.terrain",
+    "bytes": 133394,
+    "sha256": "d50854dd42723252f5aa37a3b9b5f762e793ccb3f0a41813f0595fb70863bc79",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2589.terrain",
+    "bytes": 114796,
+    "sha256": "b1e30358e0431251ac74514fc68993ec2475224b14758e36580234354be422e3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2590.terrain",
+    "bytes": 83392,
+    "sha256": "c1a39dd8c79ed84354c195872f84ffa883330a790ef2f60983db90abadbd8549",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2591.terrain",
+    "bytes": 43710,
+    "sha256": "cddfaf3cf5b9af2927e7769cde1d2627bc9c997b5adf6b86e52a44bebb764cdd",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/658/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/658/2592.terrain",
+    "bytes": 36422,
+    "sha256": "6a5e16f30eb44245d89c1b98286b54e8530c09afb0b1b207d385baee435f6a3b",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2586.terrain",
+    "bytes": 262,
+    "sha256": "dedbb6b1d03cf1400b68b7561d64280a547ef3f2598a4b170eb0d3af64105d68",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2587.terrain",
+    "bytes": 37764,
+    "sha256": "9b0396cc1bfd0a1040f3e4be2e7e1bd187b302413f2b03632875d3335833b551",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2588.terrain",
+    "bytes": 96974,
+    "sha256": "2646f266dfd0e5fbb8e42cf84ce1a5290c8f3f05bf60d7915abcfc890461f3a4",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2589.terrain",
+    "bytes": 111818,
+    "sha256": "e02dd6f5cd2257d5b51b6fc0ae777c298ba0c3a9c820389be8d31cec8ca0df24",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2590.terrain",
+    "bytes": 90710,
+    "sha256": "c419bebca03ecdfe6e8e479044c306693852bb3154172ce7ae8b0b6a8eac7604",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2591.terrain",
+    "bytes": 36142,
+    "sha256": "5e35aedc1f0da7f4741a938b1fee9285693fcbf2f76fd2c764d091a740374d13",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/659/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/659/2592.terrain",
+    "bytes": 37362,
+    "sha256": "f3cdfd4830b278231db110b4cf6b72bc8e8871aa86d78dd64aed6acc73ce6a11",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2586.terrain",
+    "bytes": 430,
+    "sha256": "93a9bae54635895acab3f8fbf13d7f1371f198617b095217536e1bd947f5fe1a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2587.terrain",
+    "bytes": 46400,
+    "sha256": "180060e82a3ac2d7ecf1f0cf397cc315427f7a0e4383a409e73d845f0fc976e9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2588.terrain",
+    "bytes": 45138,
+    "sha256": "3b026e262ababdc6133ce20d7ed7a3e1ee77e1b8ede29946904cb891e76effd7",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2589.terrain",
+    "bytes": 69404,
+    "sha256": "03cb444c00320bcadf448d00ae79f7de5d02a86dcf98386f9311824ec0216a0c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2590.terrain",
+    "bytes": 57966,
+    "sha256": "d8902425d7ac64f82f7254a0432e9129609d1ed4faf7166261a8bfe7e6c5021b",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2591.terrain",
+    "bytes": 7572,
+    "sha256": "7bf64b6f3c5818eda9d54080456b38d6829051b6565ecdbcbef58481c2cb4dda",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/660/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/660/2592.terrain",
+    "bytes": 29514,
+    "sha256": "e3daeed51bb9ac2490d5e227fee9b6b3b12b6f3ab46a486ac7e9abda26e3223c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2586.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2586.terrain",
+    "bytes": 444,
+    "sha256": "fe6d1b763d1155600b1e1169a0d98d59f1ac57fdd5b834fb120d537736e12429",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2587.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2587.terrain",
+    "bytes": 14066,
+    "sha256": "43bb54b34383c56a2489f59c334057cb62396f58b0182c1e4dc3273f53434e4f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2588.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2588.terrain",
+    "bytes": 4812,
+    "sha256": "8189ca2a03d50a2acbf1007ec7810531f03f97978b72080bcdbd06a1a0826e3f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2589.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2589.terrain",
+    "bytes": 4178,
+    "sha256": "4ff335e3c21e16a1240c2f89d41ecbf41a707715b262ca374e52f0ce413a7909",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2590.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2590.terrain",
+    "bytes": 3686,
+    "sha256": "8a492ff78503578eee1dea43737eaf9e5edde9a5a984844278c43b6e16ed1c98",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2591.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2591.terrain",
+    "bytes": 474,
+    "sha256": "c1bcda27c69644c686708931ba5cb927b45e6c48b9233f2970783176cb128183",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/12/661/2592.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/12/661/2592.terrain",
+    "bytes": 6630,
+    "sha256": "c179852f9e34e801465649b37999d79fe15440b1e251241cc677dac472411a1f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5173.terrain",
+    "bytes": 536,
+    "sha256": "602c2e0edf351f0e12596b5dfe55af5bde1177a26e42f59bb087edba8e98b925",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5174.terrain",
+    "bytes": 34190,
+    "sha256": "d144038643aa748be66eddb354ad9d884ab1bb2b34f81ebd943ea7b3e785acbe",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5175.terrain",
+    "bytes": 39130,
+    "sha256": "d3a28af629cf9baaa4a5a6a70eb117e3ea510031a856ce13533f2870a69360bf",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5176.terrain",
+    "bytes": 30574,
+    "sha256": "d3b1444e8c450daf393c95d84f600ed3531d5fc7a213be68ce62020fa75ce408",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5177.terrain",
+    "bytes": 23952,
+    "sha256": "eef5721ae569397959a31010df5b0cffd0331ef80f5c354db5d458aee9c57726",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5178.terrain",
+    "bytes": 18500,
+    "sha256": "b7ca003e243811f4bf71627592c8b50852f9e89bfb3f0e00224b6c259e32f8a0",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5179.terrain",
+    "bytes": 29224,
+    "sha256": "3bc558192c82a281177178631ff00c7e3da5925e7e6aef18bb2736aa942ec138",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5180.terrain",
+    "bytes": 36192,
+    "sha256": "cc0236189f920c73fe7f746318ce610f61386809eb025134feb260c229a9e99d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5181.terrain",
+    "bytes": 43270,
+    "sha256": "dd5d77920bac84e5df7dac608d95309b39aeb1cf0bae635795d4c402f3afd7d5",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5182.terrain",
+    "bytes": 40302,
+    "sha256": "78fe3a224245a4674645e59024e859b23a87c90d3088a6df8ea6e5248e704a97",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5183.terrain",
+    "bytes": 50302,
+    "sha256": "2714b0f16bf5600386a9b7dd021ca7e58e5ec0c2534ee680534fd3b486d4723a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5184.terrain",
+    "bytes": 45960,
+    "sha256": "2d26b92b972c79037190e2f766ec8bd89736d6dddb537b8e15c69d107d378a69",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1311/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1311/5185.terrain",
+    "bytes": 21868,
+    "sha256": "2799d0aafe30d8be4d440add2d04eea0c8845f985e81190fe2773772615ff03d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5173.terrain",
+    "bytes": 196,
+    "sha256": "f4e7827967492cd1f21c005a5ae5baa3875211bd4d659cef7a0fa36d5d80885a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5174.terrain",
+    "bytes": 47286,
+    "sha256": "aeb24ff4f7221574b009fa2e184076bb84b07fe397b365a989f281ee48dd2045",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5175.terrain",
+    "bytes": 76222,
+    "sha256": "ac0cb598e0d813bad8fd4af9355de6cbfacbeecc94c35076ccc46681ffc66384",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5176.terrain",
+    "bytes": 43992,
+    "sha256": "2b6d6182d7b8da6596d2768dc6b8223db3d267adf970a9c52f273953fa63fa1b",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5177.terrain",
+    "bytes": 27916,
+    "sha256": "9ed4bd1bd5fdfb9a47939765db1958702cc581c0be82e33def32e27c7ab9420d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5178.terrain",
+    "bytes": 43334,
+    "sha256": "4f58ee62adfb94fc3a8b292fb7f71c2ff16284a93ce40075bcc6d0b0ce71c454",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5179.terrain",
+    "bytes": 35464,
+    "sha256": "6c39f07ebe1a3c40643314fa114babc55d046a824191c09d4f51eeed94aa202b",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5180.terrain",
+    "bytes": 54632,
+    "sha256": "0857995cf0171ba0f04524c03fa5e74a78a7fed8cdfc34de5258ff40f17559ea",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5181.terrain",
+    "bytes": 34524,
+    "sha256": "01e15831173b082218aa44de979ae0e1e49d738fa00f6168dba1613c68b90cbc",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5182.terrain",
+    "bytes": 37408,
+    "sha256": "3992f969f33b49ea7ea237d43c036c8f88bc8514bc1ca04c5e00803cbd173a7a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5183.terrain",
+    "bytes": 41366,
+    "sha256": "e8b95ee950ccdca708274ebe8f70b14a29ead5457fb0f266d83824b5862f0d31",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5184.terrain",
+    "bytes": 35628,
+    "sha256": "fd2b703a1ff30c285644792289d950b4cb45aa7ee59fb69499758c04a0afa7a8",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1312/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1312/5185.terrain",
+    "bytes": 25238,
+    "sha256": "a11b95023569e4d1c7e7f80d67ecf3d0c0d6483a00127378f4b620783ae5e2fa",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5173.terrain",
+    "bytes": 266,
+    "sha256": "ad5b28608d33cb5334af7db8229015929df1fc7e240c14ff931f3cd936be4fd2",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5174.terrain",
+    "bytes": 30266,
+    "sha256": "2719faa5fcefdbfe215bdd89e5cac4e44925378ab5b6894942251bd45d7ab9c0",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5175.terrain",
+    "bytes": 66900,
+    "sha256": "54447f609fee12548e8b8ef599e551b9e845a971c976b1b477111589833ccb18",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5176.terrain",
+    "bytes": 39858,
+    "sha256": "309978c6a4f9b4dc68cbf5aed170d63da1795400b9e3a99ef077649ef6473ad4",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5177.terrain",
+    "bytes": 47026,
+    "sha256": "d717eba2d3287c8f76744a78b1f3975096fa75d96aa4da9128735c18903be63a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5178.terrain",
+    "bytes": 27060,
+    "sha256": "fdf200e552a602b9b76320412f4f825dd72e510152252369c7f9b7a7f6c5707a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5179.terrain",
+    "bytes": 45918,
+    "sha256": "951ae86fbe5f562b17e82cabdb5690f9352c3958c409d3539e601649d65e8a4a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5180.terrain",
+    "bytes": 37324,
+    "sha256": "ebd8e0090fb040989b5992f61e9475b6e8431e9883d3144240184a489e35779a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5181.terrain",
+    "bytes": 27138,
+    "sha256": "92c4d6ed1e62b4eba45199ce0306d3304a1d070d8690d144e6fce72d079de963",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5182.terrain",
+    "bytes": 46628,
+    "sha256": "08324bb875d035fdfc316cd0a170a84ddbd3c9022ad327b0f04fa6e827094c5c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5183.terrain",
+    "bytes": 37572,
+    "sha256": "cb197dae38e003e10280bd7dcab3c56cdf55430a9d7409c7801b509f2da5423a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5184.terrain",
+    "bytes": 51010,
+    "sha256": "215cbf3f09ab7021c057a6ddc2c0207b1d011099c6432735786da94ffc2ab8f5",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1313/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1313/5185.terrain",
+    "bytes": 34044,
+    "sha256": "31ea14f1a2b812e87dee60785ae09f3ea94bdf9e82c7ebf2a275619f00bc7fbc",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5173.terrain",
+    "bytes": 288,
+    "sha256": "ea4b4a8bf612bd87b1aa3ae83396df8e63560af8d17158f75ca88e519fdd5501",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5174.terrain",
+    "bytes": 41580,
+    "sha256": "d0f33e1a0353c9ffbf7afc06407a0058361fcf967470125df7ffed7164bc0a80",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5175.terrain",
+    "bytes": 56878,
+    "sha256": "c3d71dbc28262245b16f937e740979fb3b88177ad45a1c8ebbc41ca63cc2df7d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5176.terrain",
+    "bytes": 39266,
+    "sha256": "d7acc821162604ee44629187cdfa1d918553a0b70cd272a1e83920ce925fefc9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5177.terrain",
+    "bytes": 36906,
+    "sha256": "ff008ae5c8ed2604ab6a5c57713bfd3e299a0a6571658998edbd4df06304dbad",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5178.terrain",
+    "bytes": 49868,
+    "sha256": "14512e010dc636748cf643133a0988a5ed1d7f8b2195543d452b31c869f8e0da",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5179.terrain",
+    "bytes": 26486,
+    "sha256": "fa263dffea5bc94d9acdbc0f713aff626a3a0becb84d5581a4bb857698c3df6e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5180.terrain",
+    "bytes": 27554,
+    "sha256": "083b3bd6bd8030de69086b1f9e7467b2e8272f1d4063b6fd3b5570c1b06dcf38",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5181.terrain",
+    "bytes": 19596,
+    "sha256": "12154a885ebdbae60a2f0058c23428a0ce12444bb865963dc93881d64916e2a3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5182.terrain",
+    "bytes": 18628,
+    "sha256": "89bd89bcd6717e0b332f04d2c3c10a36894212ca9eb3800b3c1b4cf0d9afb966",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5183.terrain",
+    "bytes": 24652,
+    "sha256": "35a44d13727e3a34d9f718c5dd7973cdb3a17d316073540367bddae46321c31d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5184.terrain",
+    "bytes": 41504,
+    "sha256": "10a93b655f5cd2477f8decfaae02b2de9e4c1816db0f8bb4a56b6a4873efda75",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1314/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1314/5185.terrain",
+    "bytes": 25226,
+    "sha256": "8aa9d03c5a393a9fe0262e0f7d8c119aaef3ee8fdea0af3faf81b6ae0aaadbba",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5173.terrain",
+    "bytes": 266,
+    "sha256": "23947d5efc14afd1b4c35d97da981c81822028f780f4c97372b6995cbfe7dfa7",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5174.terrain",
+    "bytes": 27578,
+    "sha256": "78cad8c15443163dc7830d93c08277d6b400cefb032f4b87209918278002684f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5175.terrain",
+    "bytes": 41710,
+    "sha256": "13f71ae0996be0b3211ebfd16410d0b513fd77316855deb085b0065ea6f6098b",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5176.terrain",
+    "bytes": 43778,
+    "sha256": "ba33dc31bce4b4316b8935999f9f28d468cc7250f3935c23433eaf30947c4066",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5177.terrain",
+    "bytes": 33900,
+    "sha256": "d08e9be30ff6c412100033d7ab0e43ee3576878aca5deda312f2fb790f97da36",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5178.terrain",
+    "bytes": 41774,
+    "sha256": "665c94e5777205d9aabd14a362c3761d790d78fbb7a17491011a9e124e4480db",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5179.terrain",
+    "bytes": 37570,
+    "sha256": "67b96e4940ffadf6c98c0eb0b2cd48137fff99add71932d219aac2dcd69b3cd2",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5180.terrain",
+    "bytes": 40334,
+    "sha256": "1be180d1f95ceac18feead0d1546b5025a245b4fa1393e81608af70bdb3b179d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5181.terrain",
+    "bytes": 12516,
+    "sha256": "ebd1f985941000cbe3c28d06b5f7df47e16b7330faa59b7f0fca62b3d3332e95",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5182.terrain",
+    "bytes": 9086,
+    "sha256": "69f1007466129edd322e8e170a81f645faf1b9f1293ad499ef6fd773b9e62cb7",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5183.terrain",
+    "bytes": 15022,
+    "sha256": "81a44611418755b7d0c9ef4d91d0bfa360dd5b540f91135d8a038eb93d267132",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5184.terrain",
+    "bytes": 9868,
+    "sha256": "57649734b367054af62d3074e76e36bcf3e562715105dbcaac5cf874d81c0413",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1315/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1315/5185.terrain",
+    "bytes": 14360,
+    "sha256": "361fa6da7cd44c363fc0fe41e16d26f83fe8c43b29ef2d3ed345b8f8943fe6cf",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5173.terrain",
+    "bytes": 522,
+    "sha256": "097b33f8d9460ba32efffeda35230364d3ea95f7c60b633fbc93a9be820ecc81",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5174.terrain",
+    "bytes": 30982,
+    "sha256": "b2c73c6dae314eff35c2b63fb2fbea78189e9791e257949cc7010dacd9be0384",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5175.terrain",
+    "bytes": 33936,
+    "sha256": "c3e583a2dcd317ac40c34e50b9da2c87f6da93b1313626977ca8e1732e93ce26",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5176.terrain",
+    "bytes": 41640,
+    "sha256": "7337d550bd0d6f331a40d1ac101afb8ad7ff49643bd16b926f6ef5afc4d5951f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5177.terrain",
+    "bytes": 63974,
+    "sha256": "9d2f5fe694ea7475b966792ba1c4013e9309afe9eb7baf2cf0e1c104f867ec77",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5178.terrain",
+    "bytes": 42290,
+    "sha256": "db0dcd4f7c335e9567df86c4344e3f248a204808356228420cbad556640451a5",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5179.terrain",
+    "bytes": 50850,
+    "sha256": "dccc65197be741f530b867f0d60f4b974d81d6667356b1e07a30615800a3333c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5180.terrain",
+    "bytes": 62648,
+    "sha256": "3009b04570a44fd0b78943704c6e87289ebe7cb05ee6629dd690681d3c33df61",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5181.terrain",
+    "bytes": 32800,
+    "sha256": "abede1097356b28a5c674b02f5b5365cca1b6ef151c8c9af9f55255a37176b8e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5182.terrain",
+    "bytes": 12552,
+    "sha256": "ba3d3bf767df7aa14396a48fc9d386118980b1730e389fd60a3e73e48f1cd95d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5183.terrain",
+    "bytes": 28384,
+    "sha256": "4615ea9f040a4020211de6106699fdad539c80cff6eb0ba479c62706fa8498fc",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5184.terrain",
+    "bytes": 23198,
+    "sha256": "203084fd461b5feb86564441588053aa87376bd0074ec0b10e5015515b4242aa",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1316/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1316/5185.terrain",
+    "bytes": 6374,
+    "sha256": "134ab131848326dff50aa126631a7dd78f1f43ddb48fa44e9345149bca0e51b6",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5173.terrain",
+    "bytes": 188,
+    "sha256": "80ad55dcb002f101dff54cafc1bbe4f82c847f291c2fcfcc9aeb0b3e4cedf3b7",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5174.terrain",
+    "bytes": 22290,
+    "sha256": "216b727e86cdbce2e662937773944934ff501b32fa7ad0c1d0340a641749cccf",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5175.terrain",
+    "bytes": 32590,
+    "sha256": "11b60f27a624511384c1cc366e7261207bd4ed1805dde3b94a7399379c657622",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5176.terrain",
+    "bytes": 50014,
+    "sha256": "f1b98c18377d9fae7b475a9c67c9a4167914e46e53d1e050bbffd6f3da65a6e6",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5177.terrain",
+    "bytes": 51688,
+    "sha256": "34fae4284e441ff50771f2c58afae61c87beb91db97ed1888d3eb51291f497bb",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5178.terrain",
+    "bytes": 77574,
+    "sha256": "595a71d944e7308041ec1092e532dc0b283393a9a65d7bb3ad13c8b4abcf5a15",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5179.terrain",
+    "bytes": 12690,
+    "sha256": "63f731de68525bb59052a66aa76df32afcfd6c318581c0aa17dd4d3f42fc95ce",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5180.terrain",
+    "bytes": 950,
+    "sha256": "63f61ac0d0ea9a3ec3c64d1b40096d42568c591b2214d2076171efe987086630",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5181.terrain",
+    "bytes": 45988,
+    "sha256": "8cb64de2638394b4dcb6a3b5c7e963092c330bf77dc3d03707e140fa813d17c3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5182.terrain",
+    "bytes": 8528,
+    "sha256": "296ea391c597a00150e6ab042852b412ecd5a2faf8ee9491d4b0dd425e098416",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5183.terrain",
+    "bytes": 7552,
+    "sha256": "ab941d0c247e0c061d78d99cc2bf516cf6cef2dc2f0f805102b2055e8467ac28",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5184.terrain",
+    "bytes": 9912,
+    "sha256": "36d6e89b1d7fe4f90683fb9be927a26e0802a5ca1673a60dbe00a46959bb54fc",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1317/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1317/5185.terrain",
+    "bytes": 10306,
+    "sha256": "5edac9d1ae4eeb901a52e9abc8169647c913b07734741f76368033971747f26f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5173.terrain",
+    "bytes": 296,
+    "sha256": "8adf07835fab9c306c8dcda9a6851ea5b45ed9859e649e095e3ee4479b54acea",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5174.terrain",
+    "bytes": 4862,
+    "sha256": "ee59a2ad109ed95c7b4befbd50e082c1deaa05490e3f42c59c7cf28464b690dd",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5175.terrain",
+    "bytes": 17260,
+    "sha256": "9d8b478d949e39d6c77cc5adbcdef663bdadbcccae9706e9d41caa095cf70f5a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5176.terrain",
+    "bytes": 44272,
+    "sha256": "76f8cf484d28ca92b26eb855578db63005a888f369a2896c8bdccf0dfc3e3d70",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5177.terrain",
+    "bytes": 40816,
+    "sha256": "7b53b72fd8b03b6a999b802a126679785943769dd449da745a476fa4665a3a24",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5178.terrain",
+    "bytes": 40240,
+    "sha256": "423f8c64e52d2eacc6c7c80ca5c595c74a965e2f87867fe392f73b591e69c707",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5179.terrain",
+    "bytes": 62750,
+    "sha256": "a8b8b732bc6156bb86cc7bd654a1d3bc022afeaca2f41b50cd6b7ca6b298ff96",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5180.terrain",
+    "bytes": 44632,
+    "sha256": "102b243433bcc1dbab49627282668126a96023c57d30b679fbd2feb0eda1f813",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5181.terrain",
+    "bytes": 34958,
+    "sha256": "4dd3e49fdd232385118014f697cdb426d40072e7721ec10938ee5e0b2de27b1d",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5182.terrain",
+    "bytes": 12036,
+    "sha256": "f382a090aaa6e63df61f3aa3c01f7e13c2e4a0fc219439f2d76f407edc8617e0",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5183.terrain",
+    "bytes": 17100,
+    "sha256": "9edcfef1a48a476cdd08531900eccea01879ff33b4cdd7686f1d3430cf5e7d72",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5184.terrain",
+    "bytes": 10462,
+    "sha256": "f112641a37d83208196e2eafc3d6aab892acc30a99e7cb307b4467fc6935c836",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1318/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1318/5185.terrain",
+    "bytes": 20804,
+    "sha256": "98724631a7eeca92cae28fe6bf72e4be5f48541a6d131369e1501724ee9b5c4e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5173.terrain",
+    "bytes": 204,
+    "sha256": "fc40a07c3d84ba5d8887cec20cdb257a6151f094e54aecd0fda8132e13aa6136",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5174.terrain",
+    "bytes": 4666,
+    "sha256": "99807750b7c336759fdbcdd6f8bffd54aab6b64f0dc910cfe1db9594ab99c454",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5175.terrain",
+    "bytes": 24858,
+    "sha256": "100e0b3fce769b9d6a0b34d1e601ec043b283cf8f8449a936fc6749fd61d8371",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5176.terrain",
+    "bytes": 22220,
+    "sha256": "a7d8644a9fef8e73587c73c94a72195e5779109f21664a47034210a59f8ecbc3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5177.terrain",
+    "bytes": 36026,
+    "sha256": "3b1b23e871e84c8671eade4f8c87fcd817f25150e2bdc0ecd2120ce0bc2d2b49",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5178.terrain",
+    "bytes": 31130,
+    "sha256": "b7262b4173446d57cc2adfc7c266749ce46a3ef4ae216a5599d70423873f71de",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5179.terrain",
+    "bytes": 37286,
+    "sha256": "fe20e5c295ae45890f675f2cff643fe835eed5463f686ac0ce78e497efad88a3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5180.terrain",
+    "bytes": 35936,
+    "sha256": "8c18794078f89ac38e0a8b9b0212b860790138ae5f5cf27423977685bda1c335",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5181.terrain",
+    "bytes": 22966,
+    "sha256": "1dfc8f00406c95128a4554869602dd2d2d009897e5124688f5b005afd291ae47",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5182.terrain",
+    "bytes": 8238,
+    "sha256": "a79239bea88822a5ecc96bc7211897a3f4516a342cea967e7584dce3daf2a0e9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5183.terrain",
+    "bytes": 9708,
+    "sha256": "319b4738533adc1a990bfb76fd6c72165b1df972bb9377540036116da19feef0",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5184.terrain",
+    "bytes": 6664,
+    "sha256": "a7d2db768223b356e7fbc0dda989cdbaacda6c49fbe0703fcfffd21ef13d7122",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1319/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1319/5185.terrain",
+    "bytes": 13858,
+    "sha256": "8dffb3d355958266ca6396c26fcdd9b0b5500cf32df2f075e0a5cbecbeac8d91",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5173.terrain",
+    "bytes": 338,
+    "sha256": "0d4252f93dadea6ad5b454fabd655b03d5cc5f6faea05a6d7f1eeab01cb0396e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5174.terrain",
+    "bytes": 15932,
+    "sha256": "6d737e1aff5b424416a04f6913f663cbb0a885f11aec278f2c41d1e3b310b63f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5175.terrain",
+    "bytes": 12142,
+    "sha256": "96d9eff5e2f32a6b6e33114e6b9d69b1d9956f61eeb4a80c3b22839286f350ad",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5176.terrain",
+    "bytes": 11844,
+    "sha256": "2c5e347bfb4263fed966a45e6f7eecee310a9b7f89394bed036c0505a859664e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5177.terrain",
+    "bytes": 29100,
+    "sha256": "ba1fac80ddf199ae18650a0de7ed39f147d392062a7bfcb63b6abaaf23a7d45c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5178.terrain",
+    "bytes": 29890,
+    "sha256": "522cfa9bace8301403bdf58e916af171945d945ea786db59be7c476b8a14b805",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5179.terrain",
+    "bytes": 28014,
+    "sha256": "d3d8d5ff35e9c9c8b44e910df1dd08a68d46c28dce788a2838a3cd5a98ae5ca4",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5180.terrain",
+    "bytes": 21754,
+    "sha256": "f34dd287df868d3ae8be9892578d15634ccebfe208de0ddada7b7df9fd164ed3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5181.terrain",
+    "bytes": 20464,
+    "sha256": "868d65c4a4ee42d032625922a2bae7fdf7ed98e067663cab455c7193314ccdc6",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5182.terrain",
+    "bytes": 5030,
+    "sha256": "3defd17157cd085cb7cc117abc9f913b4d8bf65c22608932e9de9483c6745302",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5183.terrain",
+    "bytes": 4218,
+    "sha256": "b0421179b3239c07fee71f959ede882af03eab7b77b211de19872ba0cf266bf8",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5184.terrain",
+    "bytes": 7104,
+    "sha256": "176613b27bd456e394888c338953c8e0e4b01754b48310ad7327d79f709bc616",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1320/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1320/5185.terrain",
+    "bytes": 14618,
+    "sha256": "e1e9df2b4423f008e72f5f1b6e494a5baee8a84ecf66e4592fe0753931d5206c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5173.terrain",
+    "bytes": 196,
+    "sha256": "7e40549c49980fcceecefcff83fbdbf10b002053c40a9ec802bb8f5ce25d3c1e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5174.terrain",
+    "bytes": 12254,
+    "sha256": "8a8853cd208a19918786c11c8103ffda5f55d7fb750262be18f3f1b5148f7fdd",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5175.terrain",
+    "bytes": 15538,
+    "sha256": "c159131e3c09dfb7e15bd4e8d299818ff12960d26d91521dcd02715f4471afe7",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5176.terrain",
+    "bytes": 14526,
+    "sha256": "c5cd417b1568352e6ab0770caa42d64990b08d718d4761ad9f26ca6b720b70ee",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5177.terrain",
+    "bytes": 13772,
+    "sha256": "d397f1cf8c011fd896425d73652ee360a8c4c0f6aec6b3963a678a9523f02372",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5178.terrain",
+    "bytes": 17018,
+    "sha256": "d3c21c97986401e9f5b6985e03fb1e6d25fa7849010cb21f019d377415fc807a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5179.terrain",
+    "bytes": 21840,
+    "sha256": "5985933aedd96b36d7ad5378a458fd43edf925ab02465c38ece8382d0b9b6b4f",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5180.terrain",
+    "bytes": 22972,
+    "sha256": "0e6c030aa3345e1f01325bf3cc1bb024243ec61bcc497d4002600cb796ac55ad",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5181.terrain",
+    "bytes": 15842,
+    "sha256": "2a29d8bfeec97bad30d31a81ff7693393edc3008d37cdee70d54d244c28ab00c",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5182.terrain",
+    "bytes": 1320,
+    "sha256": "29ab792f491bc510d1bcf8b5c74402d6bc3e8ab836a4730480522eafced60782",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5183.terrain",
+    "bytes": 632,
+    "sha256": "465a8a6150ebb0b6f9ec31cc680e2c25283a82dca1bcbcb56b2c171d0f4a97f9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5184.terrain",
+    "bytes": 4912,
+    "sha256": "cdf0f8f75fce79e11f561de28accd5efdcfdebfcd0f1f0d40fdf8c83778997c2",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1321/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1321/5185.terrain",
+    "bytes": 19280,
+    "sha256": "877b892a5536c52f6609e4d61e502be92ea798c4c9a4937954130491e2c4c36a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5173.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5173.terrain",
+    "bytes": 346,
+    "sha256": "9b8c3f0715d6661a60b7044d12fa779e514a126bd61e90807cebcb1433179c78",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5174.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5174.terrain",
+    "bytes": 9692,
+    "sha256": "804f7728235d7ab992139d3a3cb5ef2e482cbe7fdaedb9cf8334d31c8ba3c76a",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5175.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5175.terrain",
+    "bytes": 9158,
+    "sha256": "e043e97e36fbca03c7ee81e87780b4818e5ddc726728b00d790fe3daa47ea469",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5176.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5176.terrain",
+    "bytes": 4596,
+    "sha256": "ace5d1742090c033a70391457b3d0fc04d0ba9dd0e12cfe0a7f12a285779d340",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5177.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5177.terrain",
+    "bytes": 1632,
+    "sha256": "ca31de3f903ebff1acdc250736ed50f74695ce31f639e63a3d196d3625d3ae02",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5178.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5178.terrain",
+    "bytes": 582,
+    "sha256": "a5dbcc8e037ecc800b68e2fcb1dc6af2c4d1083e0746f62e1662924fcc4dfba2",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5179.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5179.terrain",
+    "bytes": 5194,
+    "sha256": "e5b707599d10251cd8becd069ebd6addbec9d756bf43fa52e4efee753d4f97c1",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5180.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5180.terrain",
+    "bytes": 3794,
+    "sha256": "f6b950054038e9cd9a7e185e89896bdd52b65a7d497f329026bfee7d6fa6aa83",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5181.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5181.terrain",
+    "bytes": 552,
+    "sha256": "58baa85f1a9d8051ef7f22130e38a4cf76bf0751b0aea2175199b10066ec1552",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5182.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5182.terrain",
+    "bytes": 350,
+    "sha256": "089af74e832b7f18c3db3b76979a34c0bc3d7d58cadbdf0206cb51a739ad0d0b",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5183.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5183.terrain",
+    "bytes": 426,
+    "sha256": "3c2f8c0ea47dc4aafce26f5fa2f909e174636dc3ea93aeb276192e9c2056c681",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5184.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5184.terrain",
+    "bytes": 836,
+    "sha256": "9e942ffa9fb6eade7053c4f5e316aa8c9e33fe0c8807ef6be776d50da7b08d1e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/13/1322/5185.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/13/1322/5185.terrain",
+    "bytes": 8624,
+    "sha256": "e71c7435cbb8fcab8be8cea959e6dd6683ebc5dba6fccebed5188b4c4ad88a8e",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/7/20/80.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/7/20/80.terrain",
+    "bytes": 43932,
+    "sha256": "52f3d9ac0b2b5ede96b97b37c7e4c953281da076f8981d9b1d1b877d10f9fbb7",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/7/20/81.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/7/20/81.terrain",
+    "bytes": 6834,
+    "sha256": "cef8998da1230ca71a1774b86ff9efe9e218129668c7f6ece550d218a92819b3",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/8/40/161.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/8/40/161.terrain",
+    "bytes": 17042,
+    "sha256": "676d0cb86767f57c0aa4e21a3c49ea5c388a4d06a76a0c0ae91f4381ba34dacb",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/8/40/162.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/8/40/162.terrain",
+    "bytes": 3484,
+    "sha256": "2ac69d64ac4fe5c1d42defa29ec78779631ebc5959fa74f09275db2bd14299a9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/8/41/161.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/8/41/161.terrain",
+    "bytes": 120538,
+    "sha256": "1df431eb36f9645f2cbd1f4889f8404e4bb671b55c4f1ff9262eb9a8b021d095",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/8/41/162.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/8/41/162.terrain",
+    "bytes": 17806,
+    "sha256": "6e2e9a7d842a7d73d5d31b3e54cffaf346da889b51ccac844b0b98d95e7e20e6",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/9/81/323.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/9/81/323.terrain",
+    "bytes": 42934,
+    "sha256": "a011cdac67e0ec24b7059a4bf2bce81aa112110ab4d66c3d9e94fadc42048459",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/9/81/324.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/9/81/324.terrain",
+    "bytes": 9502,
+    "sha256": "4bd1b69fd1c8b11d25db2013b58fea3c4b215a2e2ce11bd335b0bc1737c40667",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/9/82/323.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/9/82/323.terrain",
+    "bytes": 310598,
+    "sha256": "c153370cdaba5e00987d0bc6e1d04fea6feba511b199c329099256938e1058e9",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/9/82/324.terrain",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/9/82/324.terrain",
+    "bytes": 44796,
+    "sha256": "55439df8e1ef76c3fca925bc4d84e10bbe61eca5365ef38f6212f51667addfd0",
+    "role": "test-vector"
+   },
+   {
+    "name": "example-tiles/dem_metadata.txt",
+    "url": "https://raw.githubusercontent.com/heremaps/quantized-mesh-viewer/4fa86fe4d13823efbd4aa3fe757317aa3c52a8ae/example-tiles/dem_metadata.txt",
+    "bytes": 22377,
+    "sha256": "34f2b8d83e03a5f65e8c8d66f92143d59b1428f551f48e5e524201f2c692a174",
+    "role": "metadata"
+   }
+  ],
+  "notes": "Real tiles, but tin-terrain output in a Web Mercator scheme (tile header centres are not geocentric for EPSG:4326 TMS); the app reads EPSG:4326 layers only, so these do not exercise 3d.qmesh yet (IMP). The real-quantized-mesh gap stays open.",
+  "feeds": [
+   "3d.qmesh"
+  ]
+ },
+ {
+  "id": "sar-osml-sicd-sidd-chips",
+  "area": "sar",
+  "title": "SICD/SIDD NITF chips from the AWS OSML imagery toolkit tests: Capella SICD 1.2.1 and 1.3.0, Umbra SICD 1.2.1, Umbra SIDD 2.0, PFA example",
+  "source": "GitHub awslabs/osml-imagery-toolkit @cbe3e77 (Git LFS)",
+  "landing": "https://github.com/awslabs/osml-imagery-toolkit/tree/main/test/data",
+  "licence": "Apache-2.0 (repository LICENSE)",
+  "attribution": "Amazon.com, Inc., OversightML Imagery Toolkit test data, Apache-2.0",
+  "tier": "A",
+  "origin": "download",
+  "format": "SICD 1.2.1/1.3.0 and SIDD 2.0 in NITF 2.1",
+  "profile": "single-pol chips (not quad-pol)",
+  "files": [
+   {
+    "name": "LICENSE",
+    "url": "https://raw.githubusercontent.com/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/LICENSE",
+    "bytes": 10174,
+    "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+    "role": "metadata"
+   },
+   {
+    "name": "capella-sicd121-chip1.ntf",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sicd/capella-sicd121-chip1.ntf",
+    "bytes": 1094244,
+    "sha256": "cd7cbc2eb7fcc1d92faabde2ee7b8e8679fa9b2d677a846b5314e2ae2207e9f8",
+    "role": "primary"
+   },
+   {
+    "name": "capella-sicd121-chip2.ntf",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sicd/capella-sicd121-chip2.ntf",
+    "bytes": 1064611,
+    "sha256": "b75503537b4e78419c2e9e19f9134d638c6f0abd2327a77a7ed3bdc37e2cea57",
+    "role": "primary"
+   },
+   {
+    "name": "capella-sicd130-chip1.ntf",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sicd/capella-sicd130-chip1.ntf",
+    "bytes": 1092304,
+    "sha256": "1993e8693fc96961ec4b65dd4ebb7ee975fe63f029a18282396852072ba81c48",
+    "role": "primary"
+   },
+   {
+    "name": "capella-sicd130-chip2.ntf",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sicd/capella-sicd130-chip2.ntf",
+    "bytes": 1088372,
+    "sha256": "393a166f78c30cc7ca108306f6e38771feb7c54bced301bdd598b1f73470ed09",
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_1_PFA_RE32F_IM32F_HH-0-0.NITF",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sicd_example_1_PFA_RE32F_IM32F_HH-0-0.NITF",
+    "bytes": 2122025,
+    "sha256": "981453d632aaeb3275ca2451814f8486681d1f23065ed9849285dc40b5647656",
+    "role": "primary"
+   },
+   {
+    "name": "umbra-sicd121-chip1.ntf",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sicd/umbra-sicd121-chip1.ntf",
+    "bytes": 2136682,
+    "sha256": "672fa8e5108f36e75207123ecff2d5035f560d119f61b749adaa7f9f58edf1c2",
+    "role": "primary"
+   },
+   {
+    "name": "umbra-sidd200-chip1.ntf",
+    "url": "https://media.githubusercontent.com/media/awslabs/osml-imagery-toolkit/cbe3e77320d27e3146b2edd4faa0cc9177c199f6/test/data/sidd/umbra-sidd200-chip1.ntf",
+    "bytes": 283610,
+    "sha256": "00d6e8ed7ea4348778ae68d2768b37c11a4f528a1ceb8deb188c7129fa3f5531",
+    "role": "primary"
+   }
+  ],
+  "notes": "Adds Capella SICD 1.3.0 and a second vendor's chips. Does not close the quad-pol (sar.pauli) gap.",
+  "feeds": [
+   "ingest",
+   "sar.sicd",
+   "sar.sidd"
+  ]
+ },
+ {
+  "id": "gmti-stanag4607-trane293-fixtures",
+  "area": "gmti",
+  "title": "STANAG 4607 test packets from trane293/stanag4607: mission, dwell, HRR, platform location, free text, processing history, reserved/extension segments",
+  "source": "GitHub trane293/stanag4607 @5a4cdbb",
+  "landing": "https://github.com/trane293/stanag4607/tree/main/tests/fixtures",
+  "licence": "MIT (repository LICENSE)",
+  "attribution": "trane293/stanag4607 contributors, MIT licence",
+  "tier": "A",
+  "origin": "download",
+  "format": "STANAG 4607 (.gmti)",
+  "profile": "8 small packets, independently encoded",
+  "files": [
+   {
+    "name": "LICENSE",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/LICENSE",
+    "bytes": 1081,
+    "sha256": "29902b0c3e3f8a5ebb26c912304348b0d42b392bf1288deff9039bbc56bbd18c",
+    "role": "metadata"
+   },
+   {
+    "name": "free_text_and_test_status.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/free_text_and_test_status.gmti",
+    "bytes": 164,
+    "sha256": "f3d6182ba005869f2806a8e9ae69e2cd00c21529fc7c0b7a1fe4299bcde2186f",
+    "role": "primary"
+   },
+   {
+    "name": "full_mask_every_optional_group.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/full_mask_every_optional_group.gmti",
+    "bytes": 286,
+    "sha256": "a014df23ce8d2146192561d09614f8a24dd60a7acf91cf8cf2a2431d0f75e7f6",
+    "role": "primary"
+   },
+   {
+    "name": "hrr_signature_parked_both_time_branches.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/hrr_signature_parked_both_time_branches.gmti",
+    "bytes": 230,
+    "sha256": "1dd187becfab9bd43c6d97b5385eb4f152f0e2ebbffb527a19973b0d78b12c7a",
+    "role": "primary"
+   },
+   {
+    "name": "mission_dwell_hi_res_targets.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/mission_dwell_hi_res_targets.gmti",
+    "bytes": 254,
+    "sha256": "cb170e15208b8b16add227fbc3c55e32d27f433d9dfbe1a4bddefe549c6b3953",
+    "role": "primary"
+   },
+   {
+    "name": "platform_location_mixed_time_basis.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/platform_location_mixed_time_basis.gmti",
+    "bytes": 189,
+    "sha256": "94f2ae1a89d4f83df7e501b5106c6a7a1891ec068b52bc0e5fe8453f9ad9b98b",
+    "role": "primary"
+   },
+   {
+    "name": "processing_history_chain.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/processing_history_chain.gmti",
+    "bytes": 148,
+    "sha256": "feb0589fcbaea97bf8b6c1f822ea1a937f93ae2b6321d70e5d7cdc087ab2d191",
+    "role": "primary"
+   },
+   {
+    "name": "repeated_mission_segment.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/repeated_mission_segment.gmti",
+    "bytes": 176,
+    "sha256": "4199e3b785fbe272696d39685d7ee6cfdbd51876cd068c7635f8374e7e89aa12",
+    "role": "primary"
+   },
+   {
+    "name": "reserved_and_extension_segments_recorded.gmti",
+    "url": "https://raw.githubusercontent.com/trane293/stanag4607/5a4cdbb5883473c4d6946f6106ffb77ee5ebe72b/tests/fixtures/reserved_and_extension_segments_recorded.gmti",
+    "bytes": 156,
+    "sha256": "d7df33dda9e235cd900228fa657769ec7ad6b5ead8de4b69fde69b38e5f9a350",
+    "role": "primary"
+   }
+  ],
+  "notes": "Synthetic but written by an independent encoder, so it cross-checks the reader against FX-11. Still no real radar GMTI.",
+  "feeds": [
+   "gmti.read"
+  ]
+ },
+ {
+  "id": "fmv-bambi-flights",
+  "area": "fmv",
+  "title": "BAMBI raw nadir/oblique UAV flights 258, 306, 316 (DJI M30T, Austria): wide/RGB and thermal H.264 video with per-frame SRT telemetry, Airdata flight logs and lens calibration; app-ready MPEG-TS + platform CSV derived",
+  "source": "Zenodo, BAMBI Raw Dataset (bambi.eco)",
+  "landing": "https://zenodo.org/records/18983480",
+  "licence": "CC BY 4.0 (Zenodo record licence)",
+  "attribution": "BAMBI project (Biodiversity Airborne Monitoring Based on Intelligent UAV sampling), https://www.bambi.eco/, CC BY 4.0",
+  "tier": "A",
+  "origin": "download",
+  "format": "MPEG-TS (H.264, remuxed) + platform metadata CSV; source MP4 + DJI SRT",
+  "profile": "derived/<flight>/*.ts are lossless -c copy remuxes; *.csv are the app's fmv.csv import built by build/campaign/bambi_to_fmv.py",
+  "files": [
+   {
+    "name": "derived/flight_258/DJI_20241021165448_0001_T_point0.csv",
+    "url": null,
+    "bytes": 49117,
+    "sha256": "ba8ac27fdb4ecc269998714a301d2de40997d91351158d704da430c440a077fa",
+    "role": "metadata",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_258/DJI_20241021165448_0001_T_point0.ts",
+    "url": null,
+    "bytes": 13053028,
+    "sha256": "ed0fdcc3f734febc10f6a01e29468474645ad9ea96f13665853564ea03b58c35",
+    "role": "primary",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_258/DJI_20241021165448_0001_V_point0.csv",
+    "url": null,
+    "bytes": 49061,
+    "sha256": "e2e349da5cd167699776ce5459c294bb05e8bade61ad2ed51d7a2fe2a5754b51",
+    "role": "metadata",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_258/DJI_20241021165448_0001_V_point0.ts",
+    "url": null,
+    "bytes": 182932836,
+    "sha256": "e47d67e4d138e539ab0996f1d8dcc132aef8189f3ae3c06e5a482b96bf43ee56",
+    "role": "primary",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_306/DJI_20241119101935_0003_T.csv",
+    "url": null,
+    "bytes": 29500,
+    "sha256": "3b3a16b8923171ba1e602cf37c5dc40bea58155dc1b781853fe0c43ff133326c",
+    "role": "metadata",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_306/DJI_20241119101935_0003_T.ts",
+    "url": null,
+    "bytes": 19476424,
+    "sha256": "f693a44459eba8be1ff8dd1a3b88029876eb394e3a9cd8d368f5e79ae5b2d320",
+    "role": "primary",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_306/DJI_20241119101935_0003_W.csv",
+    "url": null,
+    "bytes": 29292,
+    "sha256": "4410fc8d6c15fe6d79c2ea0487e67ff89cb25909d35270bb2e04049067fe459f",
+    "role": "metadata",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_306/DJI_20241119101935_0003_W.ts",
+    "url": null,
+    "bytes": 103360520,
+    "sha256": "8d286c1994e2f5554b95ccc4c259e5c4713b748ec87127ac50970e33202e83ac",
+    "role": "primary",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_316/DJI_20240709090401_0001_T_point0.csv",
+    "url": null,
+    "bytes": 34933,
+    "sha256": "6bc1cccb0ae2935303e6b445e2bb50d8a2dbc03cb16ff07799b781937d4db35b",
+    "role": "metadata",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_316/DJI_20240709090401_0001_T_point0.ts",
+    "url": null,
+    "bytes": 28048096,
+    "sha256": "61bafa5b073630d3d350f11358011f07d56920f75545602cbeb4241cfb588d45",
+    "role": "primary",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_316/DJI_20240709090401_0001_W_point0.csv",
+    "url": null,
+    "bytes": 34847,
+    "sha256": "4861dd37a8e77affacc56c90611eb2e2652b924ff747401ff389974a61c71e18",
+    "role": "metadata",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "derived/flight_316/DJI_20240709090401_0001_W_point0.ts",
+    "url": null,
+    "bytes": 147703892,
+    "sha256": "979a8b5788571dbf825f85d692a87f4ce9becb9d244ce9f20e6466c01f218e6f",
+    "role": "primary",
+    "from": "build/campaign/bambi_to_fmv.py"
+   },
+   {
+    "name": "flight_258.zip",
+    "url": "https://zenodo.org/records/18983480/files/flight_258.zip?download=1",
+    "bytes": 195551143,
+    "sha256": "bfc397c211213388fc49a52f70fdbff3a5596d80b119b9b1fe3c7108eb62cd7d",
+    "role": "archive"
+   },
+   {
+    "name": "flight_258/DJI_20241021165448_0001_T_point0.MP4",
+    "url": null,
+    "bytes": 13195593,
+    "sha256": "3fb85ed6baee41f8b2a9b99a04a2749da289a81ae7e5347fda6c7c4c080c9214",
+    "role": "source",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_258/DJI_20241021165448_0001_T_point0.SRT",
+    "url": null,
+    "bytes": 138496,
+    "sha256": "6b7aa6bf87c859b6d53523946774a56000d49f27fc382eab99080fbd6b90da79",
+    "role": "metadata",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_258/DJI_20241021165448_0001_V_point0.MP4",
+    "url": null,
+    "bytes": 182916035,
+    "sha256": "9e93d69c17e951cce26c536adde314220acc09773ef3d2dd199b8ec0af160661",
+    "role": "source",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_258/DJI_20241021165448_0001_V_point0.SRT",
+    "url": null,
+    "bytes": 183230,
+    "sha256": "f2fd0de5283f28bc469207ce4c54b16ec02efac4be08ab7468159bbed5c78b6a",
+    "role": "metadata",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_258/T_calib.json",
+    "url": null,
+    "bytes": 252,
+    "sha256": "aa44839c4a99dad03febfd38b1494e3a1d94587980fec670a04a9bec3c3c29af",
+    "role": "metadata",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_258/W_calib.json",
+    "url": null,
+    "bytes": 233,
+    "sha256": "4ab8cca4cfb13270b9a61a78faeaf2d7dfbb058884e10ebf715b273d982bbb9b",
+    "role": "metadata",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_258/air_data.csv",
+    "url": null,
+    "bytes": 1569342,
+    "sha256": "7c8120230b72b0047c3af999c57476d965111ded5a956185989d1be6921dd1c5",
+    "role": "metadata",
+    "from": "flight_258.zip"
+   },
+   {
+    "name": "flight_306.zip",
+    "url": "https://zenodo.org/records/19047570/files/flight_306.zip?download=1",
+    "bytes": 121842908,
+    "sha256": "3743c9dedb9cdf2f0377a0c040f087721e0155aecb2707fa5725170282b5cb91",
+    "role": "archive"
+   },
+   {
+    "name": "flight_306/DJI_20241119101935_0003_T.MP4",
+    "url": null,
+    "bytes": 19339322,
+    "sha256": "d0764525dfd729d9263e0366648d32670856bab594a92f95b14194cd20cdddeb",
+    "role": "source",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_306/DJI_20241119101935_0003_T.SRT",
+    "url": null,
+    "bytes": 78741,
+    "sha256": "c2ae7a1b43d400c034b74d4347fdb5c475a08b16512ef5e3ebb24331979f46b8",
+    "role": "metadata",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_306/DJI_20241119101935_0003_W.MP4",
+    "url": null,
+    "bytes": 101802844,
+    "sha256": "454a21a888d594581548c414f109a73d528ee2e4d2e9b8a2a071314d99c7c5c0",
+    "role": "source",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_306/DJI_20241119101935_0003_W.SRT",
+    "url": null,
+    "bytes": 103192,
+    "sha256": "f1323f8f71e29e2b87391733c2a00ad3750d77912e84fecf576e61ee6489f8e8",
+    "role": "metadata",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_306/T_calib.json",
+    "url": null,
+    "bytes": 246,
+    "sha256": "4f4a7590e316b957cf4d1d366164145c3e316cb1763940b147a6ec0932b153bd",
+    "role": "metadata",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_306/W_calib.json",
+    "url": null,
+    "bytes": 240,
+    "sha256": "19443d2c77c4e4ee9b557fdce51012d4f557ea6f97c129de8c98b2e7a1290317",
+    "role": "metadata",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_306/air_data.csv",
+    "url": null,
+    "bytes": 4322517,
+    "sha256": "57c4e2c1a6a62c5959004a9c52a0b6c0503834abee13162a5ecac92399fd6703",
+    "role": "metadata",
+    "from": "flight_306.zip"
+   },
+   {
+    "name": "flight_316.zip",
+    "url": "https://zenodo.org/records/19056538/files/flight_316.zip?download=1",
+    "bytes": 173424636,
+    "sha256": "db276a6d0035fbf60430ec914f00e1320a9f4e314f2b7767d64db4b9c081ed6e",
+    "role": "archive"
+   },
+   {
+    "name": "flight_316/DJI_20240709090401_0001_T_point0.MP4",
+    "url": null,
+    "bytes": 27754471,
+    "sha256": "676100ba601c48b21a20c0494eae2af7f6bc03bc3fee9f21d44bf154536a7d90",
+    "role": "source",
+    "from": "flight_316.zip"
+   },
+   {
+    "name": "flight_316/DJI_20240709090401_0001_T_point0.SRT",
+    "url": null,
+    "bytes": 113369,
+    "sha256": "5072ce3534b11d920e53f63c452f2aa2f3826874f89b637b72f700899f42cc76",
+    "role": "metadata",
+    "from": "flight_316.zip"
+   },
+   {
+    "name": "flight_316/DJI_20240709090401_0001_W_point0.MP4",
+    "url": null,
+    "bytes": 144861396,
+    "sha256": "b5aa93de914b3df6426fdd445dd5a9133887c21ac421023c42859241bbedc593",
+    "role": "source",
+    "from": "flight_316.zip"
+   },
+   {
+    "name": "flight_316/DJI_20240709090401_0001_W_point0.SRT",
+    "url": null,
+    "bytes": 149738,
+    "sha256": "6cfa3cb7dd8d98e6a544a48864f7126fc804b06d27bd630f5b96203c0a932423",
+    "role": "metadata",
+    "from": "flight_316.zip"
+   },
+   {
+    "name": "flight_316/T_calib.json",
+    "url": null,
+    "bytes": 246,
+    "sha256": "4f4a7590e316b957cf4d1d366164145c3e316cb1763940b147a6ec0932b153bd",
+    "role": "metadata",
+    "from": "flight_316.zip"
+   },
+   {
+    "name": "flight_316/W_calib.json",
+    "url": null,
+    "bytes": 240,
+    "sha256": "19443d2c77c4e4ee9b557fdce51012d4f557ea6f97c129de8c98b2e7a1290317",
+    "role": "metadata",
+    "from": "flight_316.zip"
+   },
+   {
+    "name": "flight_316/air_data.csv",
+    "url": null,
+    "bytes": 4302543,
+    "sha256": "5d2eb75ab6111fb9ad5a98f1e804965b6901e095e6c5b744569273ec7f3ef3d9",
+    "role": "metadata",
+    "from": "flight_316.zip"
+   }
+  ],
+  "notes": "Real drone video with real telemetry, no embedded KLV (the app's platform-CSV path). Flight 316's SRT reports gimbal pitch 0 throughout although the camera looks down ~15-20 deg (source metadata, not an app issue). Records: flight_258 18983480, flight_306 19047570, flight_316 19056538.",
+  "feeds": [
+   "ingest",
+   "fmv.ts.demux",
+   "fmv.footprint",
+   "fmv.sync"
+  ]
+ },
+ {
+  "id": "live-ept-usgs-3dep-drcog",
+  "area": "live",
+  "title": "USGS 3DEP Entwine Point Tile service, CO_DRCOG_1_2020 (Denver region)",
+  "source": "USGS 3DEP via AWS Open Data (usgs-lidar-public)",
+  "landing": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/CO_DRCOG_1_2020/ept.json",
+  "licence": "Public domain (USGS)",
+  "attribution": "U.S. Geological Survey 3D Elevation Program",
+  "tier": "A",
+  "origin": "download",
+  "format": "EPT",
+  "profile": "",
+  "files": [],
+  "notes": "ept.json 200 with Access-Control-Allow-Origin '*' (2026-10-27). Real EPT source for stream-pc tests, replacing the in-test synthetic EPT.",
+  "feeds": [
+   "online.add",
+   "pc.http.range"
+  ]
+ }
+]

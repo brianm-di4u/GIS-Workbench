@@ -410,8 +410,9 @@ function buildModels(app, kind, res, raster, ish, side) {
   if (kind === 'envi') {
     const mi = res.meta?.header?.mapInfo ?? [];
     const gt = enviGeotransform(mi);
-    if (gt) addMapModel(core, models, { gt: gt.gt, epsg: gt.epsg, wkt: res.meta.header.crs || side.prj || null, width: raster.width, height: raster.height, prefix: 'Map' });
-    else if (mi.length) models.push({ name: 'map info', error: `ENVI map info "${mi[0]}" is not read` });
+    const wkt = res.meta.header.crs || side.prj || null;
+    if (gt && (gt.epsg || wkt)) addMapModel(core, models, { gt: gt.gt, epsg: gt.epsg, wkt, width: raster.width, height: raster.height, prefix: 'Map' });
+    else if (mi.length) models.push({ name: 'map info', error: `ENVI map info "${mi[0]}"${gt ? ` on datum "${mi[9]}"` : ''} is not read` });
   }
   if (kind === 'dem') {
     const g = res.gridInfo;
@@ -445,8 +446,14 @@ function enviGeotransform(mi) {
   if (/^utm/i.test(mi[0])) {
     const zone = Number(mi[7]);
     const north = !/south/i.test(mi[8] ?? 'North');
-    if (!Number.isInteger(zone) || !/wgs.?84/i.test(mi[9] ?? 'WGS-84')) return null;
-    return { gt, epsg: (north ? 32600 : 32700) + zone };
+    if (!Number.isInteger(zone) || zone < 1 || zone > 60) return null;
+    // TE-048: the datum names ENVI writes ("North America 1983", "NAD 27", …), not WGS-84 only.
+    // Another datum keeps the grid and leaves the CRS to the header's coordinate system string.
+    const datum = mi[9] ?? 'WGS-84';
+    if (/wgs.?84/i.test(datum)) return { gt, epsg: (north ? 32600 : 32700) + zone };
+    if (/north america.?1983|nad.?83/i.test(datum) && north && zone <= 23) return { gt, epsg: 26900 + zone };
+    if (/north america.?1927|nad.?27/i.test(datum) && north && zone <= 22) return { gt, epsg: 26700 + zone };
+    return { gt, epsg: null };
   }
   if (/geographic/i.test(mi[0])) return { gt, epsg: 4326 };
   return null;

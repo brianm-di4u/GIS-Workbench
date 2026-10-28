@@ -27,6 +27,7 @@ Two rules apply:
 | IMP-09 | campaign | GeoTIFF GCPs | Projected (non-WGS84) GCPs converted through the CRS instead of refused | known limit in open.js | — | refused → model | Done | c20 (when data present) |
 | IMP-18 | TE-038 / 2 | Triangulation | Tie-point matcher: stage-2 cell margin, 9 in-bounds stage-1 candidates, rejection statistics; Stereo Align on an 8×8 grid at NCC 0.65 | SNS-10 | — | WV3 multi-date pair: 1 → 14 tie points | Done | TE-C06 stereo.align |
 | IMP-19 | TE-040/041 / 4 | Lidar | SMRF opening with PDAL's diamond structuring element; DTM posts as the cell mean | LDR-07/08 | — | 3DEP DTM RMSEz at USGS ground: 0.43 m → **0.128 m** (AT-14.x 0.15 m) | Done | TE-C30 SCN-14 |
+| IMP-20 | supplemental data pass (2026-10-27) | 3D terrain | Read quantized-mesh layers in Web Mercator (EPSG:3857 TMS, as written by tin-terrain), not only EPSG:4326 | ARC-16 | — | `terrain-qmesh-heremaps-examples` (241 real tiles): refused by name ("EPSG:4326 only") → — | Proposed | — |
 
 ## Candidates known at campaign design (to be confirmed in execution)
 
