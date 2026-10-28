@@ -62,7 +62,7 @@ export const MAIN_TABS = [
     label: 'Products',
     key: 'P',
     groups: [
-      { label: 'Chip', items: [L('chip.view'), S('chip.preset'), S('chip.markers')] },
+      { label: 'Chip', items: [L('chip.view'), S('chip.preset'), S('chip.markers'), S('hud.quickchip'), S('deck.export'), S('deck.clear')] },
       { label: 'Templates', items: [L('tpl.apply', { kind: 'gallery' }), S('tpl.edit'), S('tpl.props')] },
       { label: 'Snapshot', items: [S('snap.pptx'), S('snap.pdf'), S('snap.geopdf'), S('snap.kmz')] },
       { label: 'Reports', items: [L('report.template', { kind: 'split' }), S('report.ai'), S('obs.toolbox'), S('obs.table'), S('prod.gif'), S('prod.mediapptx'), S('prod.pptxtemplate')] },
@@ -81,7 +81,7 @@ export const MAIN_TABS = [
       { label: 'Background', items: [S('bg.map'), S('bg.online')] },
       { label: 'Decorations', items: [S('deco.north', { kind: 'toggle' }), S('deco.sun', { kind: 'toggle' }), S('deco.sensor', { kind: 'toggle' }), S('deco.scalebar', { kind: 'toggle' }), S('deco.banners', { kind: 'toggle' })] },
       { label: '3D', items: [S('3d.open'), S('3d.sync'), S('3d.syncalways')] },
-      { label: 'Display', items: [L('display.fullscreen'), S('display.theme', { kind: 'split' }), S('display.pixels'), S('input.devices'), S('ribbon.customize'), S('ui.palette'), S('ui.layout')] },
+      { label: 'Display', items: [L('display.fullscreen'), S('display.theme', { kind: 'split' }), S('display.pixels'), S('input.devices'), S('ribbon.customize'), S('ui.palette'), S('ui.layout'), S('hud.pill', { kind: 'toggle' }), S('hud.radial')] },
     ],
   },
   {

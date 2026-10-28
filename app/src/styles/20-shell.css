@@ -196,3 +196,27 @@
 .status-jobs.indeterminate .job-ring { animation: job-spin 1s linear infinite; }
 @keyframes job-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .status-jobs.indeterminate .job-ring { animation: none; } }
+/* Tiled docks (REQ-SHL-09): two panels per area, collapse to icons, drop zones while dragging a tab. */
+.dock-body { flex: 1; min-height: 0; min-width: 0; display: flex; flex-direction: column; }
+.dock-bottom .dock-body { flex-direction: row; }
+.dock-body > .dock-content { flex: 1 1 0; }
+.dock-second { flex: 1 1 0; min-height: 0; min-width: 0; display: flex; flex-direction: column; }
+.dock-second > .dock-content { flex: 1; }
+.dock-split { flex: none; height: 5px; cursor: row-resize; background: var(--c-dock-body); }
+.dock-bottom .dock-split { width: 5px; height: auto; cursor: col-resize; }
+.dock-split:focus-visible { outline: 2px solid var(--c-focus-ring); }
+.dock.collapsed > .dock-title, .dock.collapsed > .dock-body { display: none; }
+.dock-left.collapsed, .dock-right.collapsed { width: 34px !important; }
+.dock-left.collapsed .dock-tabs, .dock-right.collapsed .dock-tabs { flex-direction: column; flex-wrap: nowrap; flex: 1; align-items: stretch; }
+.dock.collapsed .dock-tab > span { display: none; }
+.dock.collapsed .dock-tab { justify-content: center; padding: 0; min-height: 30px; }
+.dock-bottom.collapsed { height: auto !important; }
+.dock-drops { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+.dock-drop { position: absolute; pointer-events: auto; display: grid; place-items: center; background: rgba(77, 163, 255, .14); border: 2px dashed rgba(77, 163, 255, .7); color: #fff; font-weight: 600; text-shadow: 0 0 3px #000; }
+.dock-drop.over { background: rgba(77, 163, 255, .35); }
+.dock-drop-left { left: 0; top: 0; bottom: 0; width: 18%; }
+.dock-drop-right { right: 0; top: 0; bottom: 0; width: 18%; }
+.dock-drop-bottom { left: 18%; right: 18%; bottom: 0; height: 22%; }
+.tool-panel { display: flex; flex-direction: column; height: 100%; }
+.tool-panel-body { flex: 1; overflow: auto; padding: 8px 10px; }
+.tool-panel .dlg-buttons { border-top: 1px solid var(--c-ribbon-groupSeparator); }

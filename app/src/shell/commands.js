@@ -479,7 +479,20 @@ const CATALOG = [
   // GIS Workbench 2.0 (release R4): modern shell.
   ['ui.palette', 'Command Palette…', 'search', 'REQ-SHL-05', 'R4', 'Mod+K', 'Find and run any command, or type a coordinate to fly there.'],
   ['win.workspace', 'Workspace Window', 'window', 'REQ-SHL-02', 'R4', '', 'Show or hide the Workspace window: data tree, map view and preview.'],
-  ['ui.layout', 'Interface Layout', 'layout', 'REQ-SHL-01', 'R4', '', 'Modern (clean canvas) or Classic (Ribbon, open docks, as in 1.x).'],
+  ['ui.layout', 'Interface Layout', 'layout', 'REQ-SHL-01', 'R4', '', 'Switches between Modern (clean canvas) and Classic (Ribbon, open docks, as in 1.x).'],
+  ['theme.m3light', 'Light', 'theme', 'REQ-SHL-13', 'R4', '', 'Material light theme.'],
+  ['theme.m3dark', 'Dark (Material)', 'theme', 'REQ-SHL-13', 'R4', '', 'Material dark theme.'],
+  ['hud.radial', 'Radial Menu', 'more', 'REQ-SHL-10', 'R4', 'Space', 'Opens a ring of tools at the cursor: tap Space, drag with the right button, or press `.'],
+  ['hud.pill', 'Contextual Tools', 'toolbox', 'REQ-SHL-08', 'R4', '', 'Shows or hides the floating bar of tools for what is selected.'],
+  ['hud.flicker', 'Hold to Flicker', 'flicker', 'REQ-SHL-11', 'R4', 'F (hold)', 'Hold F over the panel to see the image underneath; release to come back.'],
+  ['hud.quickchip', 'Quick Chip', 'chip', 'REQ-SHL-11', 'R4', 'C + drag', 'Drag a box with C held: a full-resolution chip with its caption goes to the clipboard and the session deck.'],
+  ['deck.export', 'Export Session Deck…', 'report', 'REQ-SHL-11', 'R4', '', 'Saves every quick chip of this session as PowerPoint slides.'],
+  ['deck.clear', 'Empty Session Deck', 'delete', 'REQ-SHL-11', 'R4', '', 'Removes the quick chips collected so far.'],
+  ['patrol.next', 'Next Target', 'jump', 'REQ-SHL-11', 'R4', 'J', 'Centres the next marker, detection or observation at the current zoom.'],
+  ['patrol.prev', 'Previous Target', 'jump', 'REQ-SHL-11', 'R4', 'K', 'Centres the previous marker, detection or observation at the current zoom.'],
+  ['triage.clear', 'Triage: Clear', 'check', 'REQ-SHL-11', 'R4', '1', 'Marks the current target as clear (nothing there).'],
+  ['triage.active', 'Triage: Active', 'target', 'REQ-SHL-11', 'R4', '2', 'Marks the current target as active.'],
+  ['triage.flag', 'Triage: Flag', 'marker', 'REQ-SHL-11', 'R4', '3', 'Flags the current target for a closer look.']
 ];
 
 /** Commands that need a module GIS Workbench Lite leaves out (build.mjs LITE_OMIT), by block (GUI-007). */

@@ -1,6 +1,6 @@
 // Navigation, rotation, linking, windows, themes and display commands (Home and View tabs).
 
-import { modal, field, confirmBox } from '../shell/dialogs.js';
+import { modal, field } from '../shell/dialogs.js';
 import { bannerMode } from '../shell/pane.js';
 import { h } from '../shell/dom.js';
 import { LAYOUTS } from '../shell/multiport.js';
@@ -211,9 +211,15 @@ export function install(app) {
   C.implement('theme.grey', theme('grey'));
   C.implement('theme.dark', theme('dark'));
   C.implement('theme.print', theme('print'));
+  C.implement('theme.m3light', theme('m3-light'));
+  C.implement('theme.m3dark', theme('m3-dark'));
   C.implement('display.theme', {
-    run: () => C.run(document.documentElement.dataset.theme === 'grey' ? 'theme.dark' : 'theme.grey'),
-    menu: () => [{ cmd: 'theme.grey' }, { cmd: 'theme.dark' }, { cmd: 'theme.print' }],
+    run: () => {
+      const t = document.documentElement.dataset.theme;
+      if (t?.startsWith('m3')) return C.run(t === 'm3-dark' ? 'theme.m3light' : 'theme.m3dark');
+      return C.run(t === 'grey' ? 'theme.dark' : 'theme.grey');
+    },
+    menu: () => [{ cmd: 'theme.m3light' }, { cmd: 'theme.m3dark' }, '-', { cmd: 'theme.grey' }, { cmd: 'theme.dark' }, { cmd: 'theme.print' }],
   });
 
   // Exploitation fullscreen with Keyboard Lock (REQ-UI-10).
@@ -280,17 +286,17 @@ export function install(app) {
     run: () => app.desktop.setWorkspaceCollapsed(!app.desktop.wsCollapsed),
     checked: () => !app.desktop.wsCollapsed,
   });
-  // Interface layout (REQ-SHL-01). In 1.3 the choice sets the start-up defaults (docks, Workspace
-  // window, north arrow) and applies on the next start; 2.0 switches the chrome live.
+  // Interface layout (REQ-SHL-01): switches the chrome live; the project, view and selection stay.
+  app.setLayout = (mode) => {
+    app.prefs.set('layout', mode === 'classic' ? 'classic' : 'modern');
+    app.shell?.apply(app.layoutMode());
+    app.emit('state');
+  };
   C.implement('ui.layout', {
-    run: async () => {
-      const cur = app.layoutMode();
-      const next = cur === 'modern' ? 'classic' : 'modern';
-      const ok = await confirmBox('Interface Layout', `Switch to the ${next === 'classic' ? 'Classic layout (Layer Manager and Cue Cards open, Workspace window shown, north arrow on the image, as in 1.x)' : 'Modern layout (clean canvas: no docks open, Workspace window collapsed, compass button)'}? It applies the next time GIS Workbench starts; your project is not affected.`, { ok: 'Switch' });
-      if (!ok) return;
-      app.prefs.set('layout', next);
-      for (const k of ['workspaceCollapsed', 'northStyle']) if (app.prefs.user(k) !== undefined) app.prefs.set(k, undefined);
-      app.toast(`The ${next === 'classic' ? 'Classic' : 'Modern'} layout applies when GIS Workbench next starts.`, { action: { label: 'Reload now', run: () => location.reload() } });
+    run: (mode) => {
+      const next = typeof mode === 'string' ? mode : app.layoutMode() === 'modern' ? 'classic' : 'modern';
+      app.setLayout(next);
+      app.toast(`${next === 'classic' ? 'Classic layout: Ribbon and docks as in 1.x' : 'Modern layout: clean canvas'}. Switch back from View ▸ Display or the palette (Ctrl+K).`);
     },
     checked: () => app.layoutMode() === 'classic',
   });

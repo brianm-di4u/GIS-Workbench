@@ -113,8 +113,15 @@ async function settle(page) {
         const b = top.querySelector('.dlg-body');
         overflow = !!b && b.scrollWidth > b.clientWidth + 2;
       }
-      return { dlg: top?.getAttribute('aria-label') ?? null, id: top?.dataset.id ?? null, fit, overflow, menu: !!document.querySelector('.menu-host'), wb: !!document.querySelector('.wb-overlay:not([hidden])'), palette: !!document.querySelector('[data-id="palette"]') };
+      return { dlg: top?.getAttribute('aria-label') ?? null, id: top?.dataset.id ?? null, fit, overflow, menu: !!document.querySelector('.menu-host'), wb: !!document.querySelector('.wb-overlay:not([hidden])'), palette: !!document.querySelector('[data-id="palette"]'), radial: !!document.querySelector('[data-id="radial"]') };
     });
+    // The radial menu (REQ-SHL-10) closes with Esc.
+    if (st.radial) {
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(100);
+      if (await page.locator('[data-id="radial"]').count()) seen.problems.push('the radial menu ignores Esc');
+      continue;
+    }
     // The command palette (REQ-SHL-05) closes with Esc like a dialog.
     if (st.palette) {
       seen.dialogs.push('palette');
@@ -150,6 +157,9 @@ async function settle(page) {
     }
     break;
   }
+  // View ▸ Display ▸ Interface Layout switches to the Modern layout at once (REQ-SHL-01); the
+  // sweep covers the Classic chrome, so switch back.
+  if (await page.evaluate(() => document.documentElement.dataset.layout === 'modern')) await page.evaluate(() => window.gisworkbench.setLayout('classic'));
   // View ▸ Workspace Window folds the Workspace window (and its menu bar) into a rail: open it
   // again so the sweep keeps its menus (REQ-SHL-02).
   if (await page.locator('[data-id="ws:rail"]').count()) await page.locator('[data-id="ws:rail"]').click();

@@ -40,6 +40,7 @@ const PREFIX_CAT = {
   stereo: 'stereo', '3d': 'scene3d', input: 'settings', display: 'view', ai: 'ai', wb: 'help', auto: 'ai', img: 'view', enh: 'enhance', search: 'analyze',
   bands: 'spectral', clip: 'enhance', profile: 'analyze', lay: 'view', cmp: 'compare', chg: 'compare', dem: 'terrain', los: 'terrain', msi: 'spectral',
   fmv: 'video', mie: 'video', sar: 'sar', pc: 'points', ext: 'extract', obs: 'extract', det: 'extract', vec: 'extract', tools: 'file', ui: 'view',
+  hud: 'view', deck: 'products', patrol: 'nav', triage: 'extract',
 };
 
 /** Plain-language names for jargon, searched by the palette (REQ-SHL-06, review item 9). */

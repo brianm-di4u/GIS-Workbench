@@ -68,9 +68,7 @@
   "tab": "keys",
   "id": "Mod+Alt+KeyT → pane.showname",
   "dialogs": [],
-  "toasts": [
-   "info: fx01.ntf×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -93,7 +91,9 @@
   "tab": "keys",
   "id": "Mod+F1 → ribbon.minimise",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx01.ntf×"
+  ],
   "problems": []
  },
  {
@@ -132,9 +132,7 @@
   "tab": "keys",
   "id": "F7 → nav.roam",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -155,7 +153,9 @@
   "tab": "keys",
   "id": "Minus → nav.zoomout",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {

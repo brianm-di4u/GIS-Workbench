@@ -17,17 +17,18 @@ test('REQ-SHL-01 REQ-SHL-02 the Modern layout starts on a clean canvas; Classic 
   const { frame } = await openApp(page, 'file', { prefs: {} });
   const modern = await frame.evaluate(() => ({
     layout: window.gisworkbench.layoutMode(),
-    rail: !!document.querySelector('[data-id="ws:rail"]'),
-    workspace: !!document.querySelector('.desktop > .workspace, .desktop > [data-id="ws:window"]') && !document.querySelector('[data-id="ws:rail"]'),
+    rail: !document.querySelector('[data-id="shell:rail"]').hidden,
+    workspace: !!document.querySelector('.desktop > .workspace'),
     docks: window.gisworkbench.activeMp().docks.isOpen('layers') || window.gisworkbench.activeMp().docks.isOpen('cues'),
     panes: window.gisworkbench.activeMp().panes.length,
   }));
   expect(modern).toEqual({ layout: 'modern', rail: true, workspace: false, docks: false, panes: 1 });
-  // The rail opens the Workspace window and the command closes it again.
-  await frame.locator('[data-id="ws:rail"]').click();
-  await expect(frame.locator('[data-id="ws:rail"]')).toHaveCount(0);
-  await frame.evaluate(() => window.gisworkbench.commands.run('win.workspace'));
-  await expect(frame.locator('[data-id="ws:rail"]')).toHaveCount(1);
+  // The navigation rail's Catalog opens the Workspace window and closes it again (2.0: the
+  // 1.3 Workspace rail is folded into the navigation rail).
+  await frame.locator('[data-id="shell:rail"] [data-rail="catalog"]').click();
+  await expect(frame.locator('.desktop > .workspace')).toHaveCount(1);
+  await frame.locator('[data-id="shell:rail"] [data-rail="catalog"]').click();
+  await expect(frame.locator('.desktop > .workspace')).toHaveCount(0);
 });
 
 test('REQ-SHL-01 Classic layout opens the Layer Manager and Cue Cards and the Workspace window', async ({ page }) => {

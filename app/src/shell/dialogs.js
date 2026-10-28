@@ -5,8 +5,18 @@ import { h, draggable } from './dom.js';
 import { icon } from './icons.js';
 
 const stack = [];
+let toolHost = null;
+
+/** In the Modern layout modeless tool editors open as docked panels (REQ-SHL-09); fn returns null to decline. */
+export function setToolHost(fn) {
+  toolHost = fn;
+}
 
 export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, onHelp, onReset, onApply, marking, modeless = false, id } = {}) {
+  if (modeless && toolHost) {
+    const hosted = toolHost({ title: marking ? `${title} - ${marking}` : title, body, buttons, id, onApply, onHelp, onReset });
+    if (hosted) return hosted;
+  }
   return new Promise((resolve) => {
     const opener = document.activeElement;
     const titleText = marking ? `${title} - ${marking}` : title;

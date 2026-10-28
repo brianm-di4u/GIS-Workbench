@@ -2,6 +2,37 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0-beta.1] - 2026-10-28
+
+The Modern shell, the second step of GIS Workbench 2.0 (phase P2). In the Modern layout the Ribbon makes way for an app bar and a navigation rail, tools come to the cursor, docked panels tile instead of floating over the image, and three workspace personas set everything up in one click. The Classic layout still runs every 1.x workflow, and it can be switched on and off without a restart. Requirements REQ-SHL-01 and REQ-SHL-08..13.
+
+### Added
+- **App bar and navigation rail** (Modern layout). The app bar holds the main menu, the search box (Ctrl+K), Open, Undo, Redo, Save, the workspace switcher, the theme toggle, feedback, settings and help. The rail opens the Catalog (Workspace window), Layers, Tools, Measure, AI and Products. The Multiport loses its title bar, Quick Access Toolbar and Ribbon, and the status bar shows one row. (REQ-SHL-01)
+- **Contextual tool pill**: a floating bar at the top of the active panel with the tools that matter for what is selected (image, DEM, multiband, SAR, video, stereo, point cloud, vectors or selected graphics). **More…** opens the palette. View ▸ Display ▸ Contextual Tools hides it. (REQ-SHL-08)
+- **Radial menu** at the cursor with 6–8 tools: tap Space, drag with the right button, press `, or long-press on pen and touch. Choose by pointing, clicking, the number keys or the arrows. Holding Space still pans and middle-drag still roams. (REQ-SHL-10)
+- **Cursor shortcuts** (REQ-SHL-11):
+  - Hold **F** to see the image underneath.
+  - Hold **S** for a swipe curtain at the cursor.
+  - **Alt + wheel** sets the layer's opacity.
+  - **C + drag** makes a full-resolution quick chip. It goes to the clipboard and to a session deck that **Export Session Deck** saves as PowerPoint.
+  - **Ctrl+V** on a panel flies to a coordinate found in the pasted text (MGRS or decimal degrees, even inside a sentence).
+  - **J / K** step through markers, detections and observations at the current zoom, and **1 / 2 / 3** triage the current one as clear, active or flagged.
+- **Workspace personas** (REQ-SHL-12):
+  - *Imagery Explorer & Converter*: a clean canvas.
+  - *AI & Exploitation Analyst*: the AI dock, smart selection and detection review.
+  - *Mensuration & Photogrammetry Pro*: Layers and the Mensuration Log docked, two status rows.
+
+  Each sets the layout, the open panels, the radial tools and the status rows. The first start offers the choice on a card over the empty panel. Save your own set-up from the workspace button; sites can ship one through Common preferences.
+- **Material 3 themes**, light and dark, from the design tokens. The Modern layout starts in dark, and the theme button switches. The GXP grey, dark and print themes stay for Classic. (REQ-SHL-13)
+
+### Changed
+- **Docks tile** (REQ-SHL-09):
+  - Drag a tab to the left, right or bottom edge, or onto the lower half of an open dock to show two panels at once.
+  - Collapse a dock to a strip of icons.
+  - Dock sizes are remembered.
+  - In the Modern layout the tool editors that used to float over the image (Tonal Curve, Blend, Brightness and the other modeless editors) open as panels in the right dock.
+- **Interface Layout** switches between Modern and Classic at once, keeping the project, the view and the selection. (REQ-SHL-01)
+
 ## [1.3.0] - 2026-10-28
 
 A clean canvas, the first step of GIS Workbench 2.0 (`Docs/SDP-2.0-modernization-plan.md`, phase P1), in answer to a first user's UI review. The app now starts on one edge-to-edge image panel and brings tools to you instead of showing them all at once. The 1.x layout is one setting away. Requirements REQ-SHL-01..07.

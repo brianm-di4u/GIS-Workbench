@@ -16,7 +16,7 @@ export const name = 'dialogs';
 
 export const HELP_TOPICS = [
   ['Getting started', 'Open imagery with File ▸ Open Image or by dropping files (with their world files, .aux.xml or .prj) on a panel. Press Ctrl+K to find any command by name, or type a coordinate there to fly to it. The Workspace window (the rail on the left) lists files and layers; its Map View shows footprints.'],
-  ['Modern and Classic layouts', 'GIS Workbench starts on a clean canvas: one image panel, no docks open, the Workspace window folded into a rail on the left, and a small compass at the bottom right of each panel (click it to turn the view north up). Ctrl+K opens the command palette. Hover any button to see what it does. Classification banners appear on their own when an image is marked above UNCLASSIFIED; View ▸ Decorations ▸ Classification Banners shows them always, and Preferences ▸ Security Markings can hide them. Preferences ▸ Display ▸ Interface layout switches to the Classic layout of 1.x (Layer Manager and Cue Cards open, Workspace window shown, north arrow on the image) at the next start.'],
+  ['Modern and Classic layouts', 'GIS Workbench starts on a clean canvas: an app bar on top, a navigation rail on the left (Catalog, Layers, Tools, Measure, AI, Products), one image panel and a small compass at the bottom right of each panel (click it to turn the view north up). Ctrl+K opens the command palette. Hover any button to see what it does. Over an image: tap Space (or press `) for the radial menu; hold F to see the image underneath; hold S for a swipe curtain; Alt + wheel changes the layer opacity; C + drag makes a quick chip for the session deck; Ctrl+V flies to a pasted coordinate; J and K step through markers and detections and 1, 2, 3 triage them. The workspace button in the top bar switches between the Explorer, AI Analyst and Pro set-ups or saves your own. Drag a dock tab to an edge, or onto the lower half of an open dock to see two panels at once; the dock menu collapses a dock to icons. Classification banners appear on their own when an image is marked above UNCLASSIFIED; View ▸ Decorations ▸ Classification Banners shows them always, and Preferences ▸ Security Markings can hide them. View ▸ Display ▸ Interface Layout (or Preferences ▸ Display) switches to the Classic layout of 1.x (Ribbon, Layer Manager and Cue Cards open, Workspace window shown, north arrow on the image) and back, without a restart.'],
   ['Navigation', 'Wheel zooms about the cursor. Hold the middle button to roam. W = whole scene, Ctrl+Alt+1 = 1:1, F7 = full roam. Home ▸ Rotate offers North Up, Up is Up and Shadows Down, computed from the sensor model at the view centre.'],
   ['Image chain', 'Image Tools ▸ Enhance holds brightness, contrast, gamma and saturation sliders, the SIPS-style DRA with full-image and viewport scopes and Lock DRA, stretches and pseudo-colour LUTs. Every change is undoable and recorded with chips and measurements.'],
   ['Mensuration', 'Draw ▸ Mensuration: Point Position, Range & Bearing, Polyline Length and Polygon Area. Results are geodesic on WGS 84 and go to the Mensuration Log with CE90/LE90 or "error not available".'],
@@ -329,7 +329,7 @@ export function install(app) {
     ['Mensuration', 'pickSigmaPx', 'Measurement σ (pixels)', 'number', null, 0.5],
     ['Mensuration', 'heightMethod', 'Default height method', 'select', [['layover', 'Layover'], ['shadow', 'Shadow']], 'layover'],
     ['Storage', 'journal', 'Recovery journal', 'select', [['on', 'On'], ['off', 'Off (nothing is written to browser storage)']], 'on'],
-    ['Display', 'layout', 'Interface layout (applies at the next start)', 'select', [['modern', 'Modern: clean canvas'], ['classic', 'Classic: Ribbon layout as in 1.x']], 'modern'],
+    ['Display', 'layout', 'Interface layout', 'select', [['modern', 'Modern: clean canvas'], ['classic', 'Classic: Ribbon layout as in 1.x']], 'modern'],
     ['Display', 'northStyle', 'North indicator', 'select', [['compass', 'Compass button (click for north up)'], ['arrow', 'North arrow on the image']], 'compass'],
     ['Security Markings', 'bannerMode', 'Classification banners', 'select', [['auto', 'Automatic: only above UNCLASSIFIED'], ['on', 'Always show'], ['off', 'Never show (products still carry markings)']], 'auto'],
     ['Display', 'gpuBudgetMB', 'GPU texture budget (MB)', 'number', null, 384],
@@ -418,6 +418,7 @@ export function install(app) {
         for (const [k, v] of Object.entries(edits.user)) {
           if (k === 'journal') app.journal?.setEnabled(v === 'on');
           P.set(k, v);
+          if (k === 'layout') app.setLayout?.(v);
         }
         for (const [k, v] of Object.entries(edits.common)) P.setCommon(k, v);
         for (const [k, v] of Object.entries(edits.lock)) P.setCommon(k, P.common.values[k] ?? edits.common[k] ?? P.get(k), { lock: v });

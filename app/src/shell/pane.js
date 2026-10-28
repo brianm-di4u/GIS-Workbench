@@ -334,6 +334,8 @@ export class ImagePane {
       gl.disable(gl.STENCIL_TEST);
     } else if (cmp.mode === 'blend') {
       drawLayer(cmp.top, { opacity: c.alpha ?? 0.5 });
+    } else if (cmp.mode === 'hold') {
+      // Hold F (REQ-SHL-11): only the images underneath while the key is down.
     } else if (cmp.mode === 'flicker') {
       const phase = Math.floor((performance.now() / 1000) * (c.rate ?? 2) * 2) % 2 === 0;
       c.showingTop = phase;

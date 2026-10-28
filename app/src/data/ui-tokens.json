@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "generated": "2026-10-26",
-  "notes": "Rebuilt design tokens for a GXP-like workbench (WS2). 'observed' = pixel-sampled from public BAE release-note screenshots (v4.5/4.6; scaled and compressed, so treat as +/- a few levels); 'estimated' = read by eye from screenshots or video frames; 'guess' = design choice where no evidence exists. Every value is [unverified] against a live SOCET GXP installation. Two palettes: 'colors' (observed GXP-grey look) and 'colorsDarkDerived' (derived dark theme for the workbench; all 'guess'). Sizes are given at 100% Windows scaling (CSS px). Do not copy GXP icons, logos or names into the tool. Source IDs refer to 02-ui-visual-language.md. GIS Workbench additions (2026-10-26): GW contextual captions, focus ring, banner colours and a print palette, all 'guess'.",
+  "notes": "Rebuilt design tokens for a GXP-like workbench (WS2). 'observed' = pixel-sampled from public BAE release-note screenshots (v4.5/4.6; scaled and compressed, so treat as +/- a few levels); 'estimated' = read by eye from screenshots or video frames; 'guess' = design choice where no evidence exists. Every value is [unverified] against a live SOCET GXP installation. Two palettes: 'colors' (observed GXP-grey look) and 'colorsDarkDerived' (derived dark theme for the workbench; all 'guess'). Sizes are given at 100% Windows scaling (CSS px). Do not copy GXP icons, logos or names into the tool. Source IDs refer to 02-ui-visual-language.md. GIS Workbench additions (2026-10-26): GW contextual captions, focus ring, banner colours and a print palette, all 'guess'. GIS Workbench 2.0 (2026-10-28): colorsM3Light and colorsM3Dark (Material 3 roles m3.* plus re-skins of the chrome tokens) and the shapes scale for the Modern layout (REQ-SHL-13); all 'guess'.",
   "colors": {
     "chrome.frame": {
       "hex": "#717171",
@@ -644,6 +644,102 @@
       "use": "Error text on content background (6.5:1 on white)",
       "confidence": "guess",
       "source": []
+    },
+    "m3.primary": {
+      "hex": "#2f5fb3",
+      "use": "Primary actions, selected nav item",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onPrimary": {
+      "hex": "#ffffff",
+      "use": "Text and icons on primary",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.primaryContainer": {
+      "hex": "#d8e2ff",
+      "use": "Selected chips, active nav indicator",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onPrimaryContainer": {
+      "hex": "#001a42",
+      "use": "Text on primary container",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.surface": {
+      "hex": "#f9f9ff",
+      "use": "App bar, nav rail, sheets",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.surfaceContainer": {
+      "hex": "#ededf4",
+      "use": "Cards, docks, pill",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.surfaceContainerHigh": {
+      "hex": "#e7e8ee",
+      "use": "Menus, raised surfaces",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onSurface": {
+      "hex": "#1a1b20",
+      "use": "Text on surfaces",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onSurfaceVariant": {
+      "hex": "#44474f",
+      "use": "Secondary text and icons",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.outline": {
+      "hex": "#74777f",
+      "use": "Borders of inputs and chips",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.outlineVariant": {
+      "hex": "#c4c6d0",
+      "use": "Dividers",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.scrim": {
+      "hex": "#000000",
+      "use": "Behind modal sheets",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
     }
   },
   "colorsDarkDerived": {
@@ -1698,5 +1794,690 @@
       "hex": "#111111",
       "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
     }
+  },
+  "colorsM3Light": {
+    "chrome.frame": {
+      "hex": "#ededf4",
+      "use": "M3 re-skin of chrome.frame",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.qatTop": {
+      "hex": "#f9f9ff",
+      "use": "M3 re-skin of chrome.qatTop",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.toolbar": {
+      "hex": "#e7e8ee",
+      "use": "M3 re-skin of chrome.toolbar",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.titlebar": {
+      "hex": "#f9f9ff",
+      "use": "M3 re-skin of chrome.titlebar",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.textOnFrame": {
+      "hex": "#1a1b20",
+      "use": "M3 re-skin of chrome.textOnFrame",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.bodyTop": {
+      "hex": "#f9f9ff",
+      "use": "M3 re-skin of ribbon.bodyTop",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.bodyBottom": {
+      "hex": "#f3f3fa",
+      "use": "M3 re-skin of ribbon.bodyBottom",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.captionBand": {
+      "hex": "#ededf4",
+      "use": "M3 re-skin of ribbon.captionBand",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.captionText": {
+      "hex": "#44474f",
+      "use": "M3 re-skin of ribbon.captionText",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.groupSeparator": {
+      "hex": "#c4c6d0",
+      "use": "M3 re-skin of ribbon.groupSeparator",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.borderBottom": {
+      "hex": "#c4c6d0",
+      "use": "M3 re-skin of ribbon.borderBottom",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.selectedTab": {
+      "hex": "#f9f9ff",
+      "use": "M3 re-skin of ribbon.selectedTab",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.fileTab": {
+      "hex": "#2f5fb3",
+      "use": "M3 re-skin of ribbon.fileTab",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.buttonHot": {
+      "hex": "#e1e6f5",
+      "use": "M3 re-skin of ribbon.buttonHot",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.buttonPressed": {
+      "hex": "#d8e2ff",
+      "use": "M3 re-skin of ribbon.buttonPressed",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.title": {
+      "hex": "#e7e8ee",
+      "use": "M3 re-skin of dock.title",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.titleText": {
+      "hex": "#1a1b20",
+      "use": "M3 re-skin of dock.titleText",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.body": {
+      "hex": "#f9f9ff",
+      "use": "M3 re-skin of dock.body",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.tabActive": {
+      "hex": "#d8e2ff",
+      "use": "M3 re-skin of dock.tabActive",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.tabInactive": {
+      "hex": "#ededf4",
+      "use": "M3 re-skin of dock.tabInactive",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "toolbox.drawerHeader": {
+      "hex": "#44474f",
+      "use": "M3 re-skin of toolbox.drawerHeader",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.bg": {
+      "hex": "#ffffff",
+      "use": "M3 re-skin of content.bg",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.text": {
+      "hex": "#1a1b20",
+      "use": "M3 re-skin of content.text",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.header": {
+      "hex": "#ededf4",
+      "use": "M3 re-skin of content.header",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.selected": {
+      "hex": "#d8e2ff",
+      "use": "M3 re-skin of content.selected",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.dropdownHover": {
+      "hex": "#e1e6f5",
+      "use": "M3 re-skin of content.dropdownHover",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.link": {
+      "hex": "#2f5fb3",
+      "use": "M3 re-skin of content.link",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "menu.bg": {
+      "hex": "#f3f3fa",
+      "use": "M3 re-skin of menu.bg",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "menu.hover": {
+      "hex": "#e1e6f5",
+      "use": "M3 re-skin of menu.hover",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "button.face": {
+      "hex": "#ffffff",
+      "use": "M3 re-skin of button.face",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.bg": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of status.bg",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.text": {
+      "hex": "#e2e2e9",
+      "use": "M3 re-skin of status.text",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.separator": {
+      "hex": "#44474f",
+      "use": "M3 re-skin of status.separator",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "focus.ring": {
+      "hex": "#2f5fb3",
+      "use": "M3 re-skin of focus.ring",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    }
+  },
+  "colorsM3Dark": {
+    "chrome.frame": {
+      "hex": "#111318",
+      "use": "M3 re-skin of chrome.frame",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.qatTop": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of chrome.qatTop",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.toolbar": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of chrome.toolbar",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.titlebar": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of chrome.titlebar",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "chrome.textOnFrame": {
+      "hex": "#e2e2e9",
+      "use": "M3 re-skin of chrome.textOnFrame",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.bodyTop": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of ribbon.bodyTop",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.bodyBottom": {
+      "hex": "#1a1c20",
+      "use": "M3 re-skin of ribbon.bodyBottom",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.captionBand": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of ribbon.captionBand",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.captionText": {
+      "hex": "#c4c6d0",
+      "use": "M3 re-skin of ribbon.captionText",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.groupSeparator": {
+      "hex": "#44474f",
+      "use": "M3 re-skin of ribbon.groupSeparator",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.borderBottom": {
+      "hex": "#44474f",
+      "use": "M3 re-skin of ribbon.borderBottom",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.selectedTab": {
+      "hex": "#282a2f",
+      "use": "M3 re-skin of ribbon.selectedTab",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.fileTab": {
+      "hex": "#284777",
+      "use": "M3 re-skin of ribbon.fileTab",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.buttonHot": {
+      "hex": "#2e3542",
+      "use": "M3 re-skin of ribbon.buttonHot",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "ribbon.buttonPressed": {
+      "hex": "#284777",
+      "use": "M3 re-skin of ribbon.buttonPressed",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.title": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of dock.title",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.titleText": {
+      "hex": "#e2e2e9",
+      "use": "M3 re-skin of dock.titleText",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.body": {
+      "hex": "#16181c",
+      "use": "M3 re-skin of dock.body",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.tabActive": {
+      "hex": "#284777",
+      "use": "M3 re-skin of dock.tabActive",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "dock.tabInactive": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of dock.tabInactive",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "toolbox.drawerHeader": {
+      "hex": "#282a2f",
+      "use": "M3 re-skin of toolbox.drawerHeader",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.bg": {
+      "hex": "#16181c",
+      "use": "M3 re-skin of content.bg",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.text": {
+      "hex": "#e2e2e9",
+      "use": "M3 re-skin of content.text",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.header": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of content.header",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.selected": {
+      "hex": "#284777",
+      "use": "M3 re-skin of content.selected",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.dropdownHover": {
+      "hex": "#2e3542",
+      "use": "M3 re-skin of content.dropdownHover",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.link": {
+      "hex": "#adc6ff",
+      "use": "M3 re-skin of content.link",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "menu.bg": {
+      "hex": "#1d2024",
+      "use": "M3 re-skin of menu.bg",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "menu.hover": {
+      "hex": "#2e3542",
+      "use": "M3 re-skin of menu.hover",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "button.face": {
+      "hex": "#282a2f",
+      "use": "M3 re-skin of button.face",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.bg": {
+      "hex": "#0c0e12",
+      "use": "M3 re-skin of status.bg",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.text": {
+      "hex": "#c4c6d0",
+      "use": "M3 re-skin of status.text",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.separator": {
+      "hex": "#2e3036",
+      "use": "M3 re-skin of status.separator",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "focus.ring": {
+      "hex": "#adc6ff",
+      "use": "M3 re-skin of focus.ring",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "layer.activeHighlight": {
+      "hex": "#c8b400",
+      "use": "M3 re-skin of layer.activeHighlight",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "content.errorText": {
+      "hex": "#ffb4ab",
+      "use": "M3 re-skin of content.errorText",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.ok": {
+      "hex": "#7ddc7a",
+      "use": "M3 re-skin of status.ok",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "status.bad": {
+      "hex": "#ffb4ab",
+      "use": "M3 re-skin of status.bad",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.primary": {
+      "hex": "#adc6ff",
+      "use": "M3 role m3.primary",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onPrimary": {
+      "hex": "#002e69",
+      "use": "M3 role m3.onPrimary",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.primaryContainer": {
+      "hex": "#284777",
+      "use": "M3 role m3.primaryContainer",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onPrimaryContainer": {
+      "hex": "#d8e2ff",
+      "use": "M3 role m3.onPrimaryContainer",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.surface": {
+      "hex": "#111318",
+      "use": "M3 role m3.surface",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.surfaceContainer": {
+      "hex": "#1d2024",
+      "use": "M3 role m3.surfaceContainer",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.surfaceContainerHigh": {
+      "hex": "#282a2f",
+      "use": "M3 role m3.surfaceContainerHigh",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onSurface": {
+      "hex": "#e2e2e9",
+      "use": "M3 role m3.onSurface",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.onSurfaceVariant": {
+      "hex": "#c4c6d0",
+      "use": "M3 role m3.onSurfaceVariant",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.outline": {
+      "hex": "#8e9099",
+      "use": "M3 role m3.outline",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.outlineVariant": {
+      "hex": "#44474f",
+      "use": "M3 role m3.outlineVariant",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "m3.scrim": {
+      "hex": "#000000",
+      "use": "M3 role m3.scrim",
+      "confidence": "guess",
+      "source": [
+        "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    }
+  },
+  "shapes": {
+    "corner": {
+      "small": "4px",
+      "medium": "8px",
+      "large": "12px",
+      "full": "999px"
+    },
+    "note": "M3 shape scale (REQ-SHL-13), used by the Modern layout only."
   }
 }

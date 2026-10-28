@@ -1,9 +1,9 @@
-# GIS Workbench embed kit (build 6959048a1cff6b6e)
+# GIS Workbench embed kit (build 3d5fdcad34f87481)
 
 Paste `snippet.html` into a hosting service's HTML/embed box, or host `gis-workbench.html` and embed it with
 `<iframe src="gis-workbench.html" allow="fullscreen; clipboard-read; clipboard-write; display-capture"></iframe>`.
 
-Snippet size: 6098225 bytes (snippet.html); Lite: 3991480 bytes (snippet-lite.html, REQ-HOST-05).
+Snippet size: 6157262 bytes (snippet.html); Lite: 4011791 bytes (snippet-lite.html, REQ-HOST-05).
 The Lite profile is the same application without the 3D, LiDAR, video and SAR modules, packed as one gzip payload behind a small loader; it starts a little slower.
 
 ## What works where (REQ-HOST-08)

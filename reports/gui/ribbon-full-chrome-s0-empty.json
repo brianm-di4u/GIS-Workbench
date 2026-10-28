@@ -932,6 +932,33 @@
  },
  {
   "tab": "products",
+  "id": "hud.quickchip",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "deck.export",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "deck.clear",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "products",
   "id": "tpl.apply",
   "kind": "button",
   "outcome": "disabled",
@@ -1312,7 +1339,7 @@
   "tab": "view",
   "id": "display.theme:menu",
   "kind": "caret",
-  "outcome": "menu ×3",
+  "outcome": "menu ×5",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1363,10 +1390,28 @@
   "tab": "view",
   "id": "ui.layout",
   "kind": "button",
-  "outcome": "clicked",
-  "dialogs": [
-   "Interface Layout"
+  "outcome": "toggled",
+  "dialogs": [],
+  "toasts": [
+   "info: Modern layout: clean canvas. Switch back from View ▸ Display or the palette (Ctrl+K).×"
   ],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "hud.pill",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "view",
+  "id": "hud.radial",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
   "toasts": [],
   "problems": []
  },

@@ -61,6 +61,7 @@ export function install(app) {
    * A PPTX from slides [{image: canvas, wIn, hIn, title, marking, notes}] (one layout: the first
    * slide's size). Returns Uint8Array.
    */
+  app.writePptx = (slides, opts) => writePptx(slides, opts); // session deck (features/hud.js)
   async function writePptx(slides, { title = 'GIS Workbench product', template = app.pptxTemplate ?? null } = {}) {
     const P = await loadPptx();
     const pptx = new P();

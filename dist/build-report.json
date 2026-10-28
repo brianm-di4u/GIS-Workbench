@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "6959048a1cff6b6e",
-    "version": "1.3.0",
-    "date": "2026-10-28T07:37:46.773Z",
+    "id": "3d5fdcad34f87481",
+    "version": "2.0.0-beta.1",
+    "date": "2026-10-28T08:57:35.647Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5747914,
-    "eager": 2350395,
-    "css": 45377,
+    "total": 5797851,
+    "eager": 2396646,
+    "css": 57470,
     "boot": 2733,
-    "app": 2033631,
-    "notices": 113900,
+    "app": 2067781,
+    "notices": 113907,
     "blocks": {
       "wasm-core": {
         "raw": 344926,
@@ -131,13 +131,13 @@
         "load": "eager"
       },
       "data-tokens": {
-        "raw": 40592,
-        "stored": 9304,
+        "raw": 60202,
+        "stored": 11260,
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 12512,
-        "stored": 7508,
+        "raw": 15811,
+        "stored": 9224,
         "load": "lazy"
       }
     },
@@ -194,9 +194,9 @@
       }
     },
     "rustTotalGzip": 874882,
-    "lite": 3991137,
-    "snippet": 6098225,
-    "snippetLite": 3991480
+    "lite": 4011448,
+    "snippet": 6157262,
+    "snippetLite": 4011791
   },
   "gates": {
     "errors": [],
@@ -499,5 +499,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-ziMlKt5LrAxM5tFY7PdZ65AxKbtWpdEvnnQAatNkdCQ=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-RpoXMRlcinczsSZFkuAxMMNbDcxh1wlMWCAlLdPCd6o=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }
