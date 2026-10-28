@@ -1,0 +1,227 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\GIS Workbench\\gis-workbench\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.campaign.config.js",
+      "c43-field-workflows",
+      "-g",
+      "W1|W4",
+      "--project=chrome",
+      "--workers=2"
+    ],
+    "configFile": "C:\\GIS Workbench\\gis-workbench\\playwright.campaign.config.js",
+    "rootDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chrome",
+        "name": "chrome",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/GIS Workbench/gis-workbench/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/GIS Workbench/gis-workbench/tests/campaign",
+        "testIgnore": [],
+        "testMatch": [
+          "/c\\d\\d-.*\\.spec\\.js$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\GIS Workbench\\gis-workbench\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "name": "chrome",
+        "testDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "snapshotDir": "C:\\GIS Workbench\\gis-workbench\\tests\\campaign",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "acceptDownloads": true,
+          "launchOptions": {
+            "args": [
+              "--ignore-gpu-blocklist",
+              "--enable-unsafe-swiftshader"
+            ]
+          },
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chrome"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/campaign/pw-field-c43-dev.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "c43-field-workflows.spec.js",
+      "file": "c43-field-workflows.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TE-C43 IMP-25 SCN-11 REQ-IMG-30 W1 Millerovo January pair: whole-scene change screening at reduced resolution, then an AOI at full resolution",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 1200000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 110286,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:23:35.773Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4c200f7d2e9b1a0f7e57-4ded4414c2b91ba49fd9",
+          "file": "c43-field-workflows.spec.js",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "TE-C43 IMP-21 IMP-22 REQ-FMT-20 REQ-FMT-21 W4 the Pléiades DIMAP volume opens from its delivery ZIP in product colours with sun and time",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 1200000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chrome",
+              "projectName": "chrome",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 9196,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T03:23:35.757Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4c200f7d2e9b1a0f7e57-51ce9d2f6eb8cbf17d5b",
+          "file": "c43-field-workflows.spec.js",
+          "line": 114,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T03:23:34.904Z",
+    "duration": 111854.47399999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

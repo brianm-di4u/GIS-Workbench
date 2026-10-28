@@ -1,0 +1,13 @@
+{
+ "spec": "c43-field-workflows",
+ "project": "chrome",
+ "when": "2026-10-28T03:22:32.060Z",
+ "key": "w5-intermap-sar",
+ "model": "GCPs (4, GeoTIFF)",
+ "gcps": 4,
+ "geoErrPx": 0.17293249866558524,
+ "stackBands": 3,
+ "dbCompared": 4096,
+ "dbMax": 4.7671582414920977e-7,
+ "error": null
+}

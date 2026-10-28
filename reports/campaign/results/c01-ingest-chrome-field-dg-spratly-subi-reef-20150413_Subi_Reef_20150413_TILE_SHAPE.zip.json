@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:22:20.759Z",
+ "key": "field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_TILE_SHAPE.zip",
+ "item": "field-dg-spratly-subi-reef-20150413",
+ "file": "Subi_Reef_20150413_TILE_SHAPE.zip",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Subi_Reef_20150413_TILE_SHAPE: 6 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 6,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 108,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

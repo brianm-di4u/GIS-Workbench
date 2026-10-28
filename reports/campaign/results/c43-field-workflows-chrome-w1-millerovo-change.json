@@ -1,7 +1,7 @@
 {
  "spec": "c43-field-workflows",
  "project": "chrome",
- "when": "2026-10-28T03:22:11.247Z",
+ "when": "2026-10-28T03:25:24.292Z",
  "key": "w1-millerovo-change",
  "dims": [
   [
@@ -10,39 +10,39 @@
    true
   ],
   [
-   13375,
-   12835,
+   13358,
+   10301,
    true
   ]
  ],
  "whole": {
-  "n": 2701,
+  "n": 5942,
   "method": {
-   "gain": -0.0751,
-   "offset": 153.13,
-   "threshold": 50.88,
+   "gain": 1.078,
+   "offset": -7,
+   "threshold": 37.51,
    "k": 4,
    "minArea": 30,
-   "sameGrid": true,
+   "sameGrid": false,
    "step": 3
   },
-  "ms": 41649
+  "ms": 88974
  },
  "aoi": {
-  "n": 523,
+  "n": 1218,
   "method": {
-   "gain": -0.4301,
-   "offset": 211.89,
-   "threshold": 63.93,
+   "gain": 1.0094,
+   "offset": 7.56,
+   "threshold": 41.19,
    "k": 4,
    "minArea": 30,
-   "sameGrid": true,
+   "sameGrid": false,
    "step": 1
   }
  },
  "run1": [],
  "run2": [],
  "toasts": [
-  "toast-info: 2701 change candidate(s) in 40281 ms (gain -0.075, offset 153.1); screened at 1/3 resolution — draw an AOI of up to 32 M pixels to compare it at full resolution"
+  "toast-info: 5942 change candidate(s) in 87214 ms (gain 1.078, offset -7.0); screened at 1/3 resolution — draw an AOI of up to 32 M pixels to compare it at full resolution"
  ]
 }

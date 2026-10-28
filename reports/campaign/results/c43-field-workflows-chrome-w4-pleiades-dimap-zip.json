@@ -1,0 +1,45 @@
+{
+ "spec": "c43-field-workflows",
+ "project": "chrome",
+ "when": "2026-10-28T03:23:45.357Z",
+ "key": "w4-pleiades-dimap-zip",
+ "ms": 7044,
+ "layers": [
+  {
+   "name": "IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF",
+   "error": null,
+   "w": 8694,
+   "h": 9400,
+   "nb": 4,
+   "type": "u16",
+   "bands": [
+    2,
+    1,
+    0
+   ],
+   "sun": {
+    "azimuth": 147.1604885866157,
+    "elevation": 55.00468562751193,
+    "source": "DIMAP"
+   },
+   "datetime": "20180421015732",
+   "model": "Map (EPSG:32652)"
+  }
+ ],
+ "log": [
+  {
+   "file": "APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip",
+   "errors": [],
+   "warnings": [
+    "opened 3 of 29 files from the ZIP"
+   ]
+  },
+  {
+   "file": "IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF",
+   "errors": [],
+   "warnings": [
+    "DIMAP PHR 1B ORTHO PMS, 2018-04-21T01:57:32.906Z, sun azimuth 147.2° elevation 55.0°"
+   ]
+  }
+ ]
+}

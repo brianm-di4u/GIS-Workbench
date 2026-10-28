@@ -665,7 +665,8 @@ export async function describe(app, file, sidecars = [], { merge = false } = {})
       info.dimap = dm;
       if (dm.sun) info.sun = dm.sun;
       const ts = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)/.exec(dm.time ?? '');
-      if (ts && !info.datetime) info.datetime = ts.slice(1).join('');
+      // TE-068: the acquisition time, not the TIFF DateTime tag (when the file was written).
+      if (ts) info.datetime = ts.slice(1).join('');
       if (dm.rgb && raster.bands > Math.max(...dm.rgb) && chain.bands?.length === 3) chain.bands = dm.rgb;
       report.warnings.push(`DIMAP ${[dm.mission, dm.level, dm.spectral].filter(Boolean).join(' ')}${dm.time ? `, ${dm.time}` : ''}${dm.sun ? `, sun azimuth ${dm.sun.azimuth.toFixed(1)}° elevation ${dm.sun.elevation.toFixed(1)}°` : ''}`);
     }

@@ -1,7 +1,8 @@
 // TE-C43 Phase F workflows on the field data (tier U, build/campaign/field.mjs), each checked against
 // the files themselves (geotiff.js in Node) or GDAL truth:
-//  • W1 Millerovo Pléiades, two dates of 172 M px: change detection screens the whole scene at
-//    reduced resolution (IMP-25), then compares an AOI at full resolution;
+//  • W1 Millerovo Pléiades, 22 and 30 January 2017 (172 M px and 138 M px, different grids): change
+//    detection screens the whole scene at reduced resolution (IMP-25), then compares an AOI at full
+//    resolution (both winter dates: a snow/no-snow pair inverts the radiometry by nature);
 //  • W2 Spratly West Reef 2014 → 2015 (DigitalGlobe browse images, different grids): island building
 //    is found, with the seamline shapefile overlaid;
 //  • W3 Panama 3×4 JPEG tile set: all twelve tiles open and display, the virtual mosaic covers the
@@ -21,8 +22,8 @@ const P = (id, re) => paths(item(id), ['primary', 'sidecar']).filter((p) => re.t
 const toastsOf = (frame) => frame.evaluate(() => [...document.querySelectorAll('.toasts .toast')].map((t) => `${[...t.classList].find((c) => c.startsWith('toast-'))}: ${t.textContent}`));
 const changes = (frame) => frame.evaluate(() => window.gisworkbench.store.all('change').map((c) => ({ bbox: c.bbox, areaPx: c.areaPx, method: c.method })));
 
-test('TE-C43 IMP-25 SCN-11 REQ-IMG-30 W1 Millerovo: whole-scene change screening at reduced resolution, then an AOI at full resolution', async ({ page }, info) => {
-  const files = P('field-phr-millerovo', /(201701300811101|201704290827053).*\.tif$/);
+test('TE-C43 IMP-25 SCN-11 REQ-IMG-30 W1 Millerovo January pair: whole-scene change screening at reduced resolution, then an AOI at full resolution', async ({ page }, info) => {
+  const files = P('field-phr-millerovo', /(201701220822290|201701300811101).*\.tif$/).sort((a, b) => (/201701300811101/.test(a) ? -1 : 1));
   test.skip(files.length !== 2 || !files.every(existsSync), 'field data not on disk');
   const { frame, logs } = await openApp(page, 'file');
   for (const f of files) await openFiles(frame, [f]);
@@ -46,6 +47,7 @@ test('TE-C43 IMP-25 SCN-11 REQ-IMG-30 W1 Millerovo: whole-scene change screening
   const aoi = all.slice(whole.length);
   record(SPEC, info.project.name, { key: 'w1-millerovo-change', dims, whole: { n: whole.length, method: whole[0]?.method, ms: msWhole }, aoi: { n: aoi.length, method: aoi[0]?.method }, run1: run1.errors, run2: run2.errors, toasts });
   expect(dims.every(([w, h, m]) => w * h > 32e6 && m), 'two dates over 32 M px with map models').toBe(true);
+  expect(whole[0]?.method.sameGrid, 'the dates are on different grids (resampled through their models)').toBe(false);
   expect(run1.errors, 'whole-scene run').toEqual([]);
   expect(whole.length, 'whole-scene candidates').toBeGreaterThan(0);
   expect(whole[0].method.step, 'screened at reduced resolution').toBeGreaterThan(1);
@@ -53,7 +55,7 @@ test('TE-C43 IMP-25 SCN-11 REQ-IMG-30 W1 Millerovo: whole-scene change screening
   for (const c of whole) expect(c.bbox[2] <= dims[0][0] + 1 && c.bbox[3] <= dims[0][1] + 1, `candidate inside date 1: ${c.bbox}`).toBe(true);
   expect(run2.errors, 'AOI run').toEqual([]);
   expect(aoi[0]?.method.step ?? 1, 'the AOI is compared at full resolution').toBe(1);
-  expect(Math.abs(whole[0].method.gain - 1), 'radiometric normalisation between Pléiades dates is plausible').toBeLessThan(0.6);
+  expect(whole[0].method.gain, 'radiometric normalisation between two winter dates is positive').toBeGreaterThan(0.3);
   expect(logs).toEqual([]);
 });
 

@@ -1,0 +1,73 @@
+{
+ "spec": "c43-field-workflows",
+ "project": "chrome",
+ "when": "2026-10-28T03:24:11.176Z",
+ "key": "w3-panama-tiles",
+ "settled": true,
+ "msDisplay": 163314,
+ "layers": [
+  {
+   "name": "Panama_01_R1C1.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R1C2.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R1C3.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R1C4.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R2C1.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R2C2.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R2C3.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R2C4.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R3C1.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R3C2.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R3C3.tif",
+   "error": null,
+   "ready": true
+  },
+  {
+   "name": "Panama_01_R3C4.tif",
+   "error": null,
+   "ready": true
+  }
+ ],
+ "mosaicSources": 0,
+ "extentErrorPx": 0,
+ "run": []
+}
