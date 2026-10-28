@@ -12,12 +12,14 @@ Field-data campaign (phase F): real production imagery supplied by a first user:
 - **GML** vector files open, including the DIMAP product masks (cloud, snow, footprint…); an empty mask opens with a note. (IMP-23, TE-065)
 
 ### Changed
+- **Change Detection** on images over 32 M pixels screens the whole scene at a reduced resolution instead of asking for an AOI first; an AOI is still compared at full resolution. (IMP-25)
 - JPEG-compressed GeoTIFFs without overviews display several times faster: the browser's own JPEG decoder is used, each block is decoded once for all bands, and statistics reuse the coarse levels (a 16384² DigitalGlobe tile: first full view 125 s → 28 s). (IMP-24, TE-066)
 
 ### Fixed
 - Big-endian GeoTIFFs with many tiles (DigitalGlobe/Maxar JPEG tile sets) failed with "SOI not found": the tile tables were read in the wrong byte order. (TE-060)
 - JPEG-compressed YCbCr GeoTIFFs were shown and analysed as raw Y/Cb/Cr instead of RGB (wrong colours and band values). (TE-062)
 - MrSID files are refused by name, with the image size and how to convert them, instead of as "unrecognised data". (TE-061)
+- A delivery ZIP whose packages are themselves deflated ZIPs (DigitalGlobe NextView) is recognised as imagery. (TE-067)
 - `.sdw` and `.tifw` world files are read as world files instead of failing as images. (TE-063)
 - A LAZ file whose chunk table claims an impossible number of chunks is refused by name; it used to abort the point-cloud worker on a multi-gigabyte allocation. (TE-059)
 

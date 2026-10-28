@@ -1,0 +1,19 @@
+{
+ "spec": "c43-field-workflows",
+ "project": "chrome",
+ "when": "2026-10-28T03:21:27.047Z",
+ "key": "w2-spratly-west-reef",
+ "n": 102,
+ "area": 56346,
+ "method": {
+  "gain": 0.0726,
+  "offset": 59.11,
+  "threshold": 35.26,
+  "k": 4,
+  "minArea": 30,
+  "sameGrid": false,
+  "step": 1
+ },
+ "vlayers": 1,
+ "errors": []
+}

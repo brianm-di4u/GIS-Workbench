@@ -1,7 +1,7 @@
 // Imagery delivered in ZIP packages (IMP-21, TE-060): DigitalGlobe/Maxar tile sets, Pléiades DIMAP
 // volumes and ZIPs of ZIPs open without unpacking. Only the central directory is read; a stored
-// entry (nested ZIPs usually are) is a zero-copy Blob slice, so a multi-gigabyte archive is never
-// loaded whole, and a deflated entry is inflated as a stream into a Blob the browser can page to disk.
+// entry is a zero-copy Blob slice, so a multi-gigabyte archive is never loaded whole, and a deflated
+// entry is inflated as a stream into a Blob the browser can page to disk.
 
 const MAX_DEPTH = 3;
 const MAX_ENTRIES = 100000;
@@ -103,21 +103,27 @@ export async function entryFile(blob, e) {
 /**
  * Every entry of a ZIP, with ZIPs inside it expanded (to MAX_DEPTH). Each entry gets `zipPath`
  * (outer.zip/inner.zip/name), `group` (the innermost ZIP it came from) and `open()` → File.
+ * Stored inner ZIPs are slices and always expanded; deflated ones are inflated while `budget`
+ * bytes last (a delivery of many deflated ZIPs is not inflated whole just to list it). The rest stay
+ * as `nested` entries: picked, they open as packages of their own.
  */
-export async function expandZip(file, depth = 0, prefix = file.name) {
+export async function expandZip(file, depth = 0, prefix = file.name, budget = { bytes: 256 << 20 }) {
   const out = [];
   for (const e of await listZip(file)) {
     e.zipPath = `${prefix}/${e.path}`;
     e.group = prefix;
     if (/\.zip$/i.test(e.name) && depth + 1 < MAX_DEPTH) {
-      const inner = await entryFile(file, e);
-      const kids = await expandZip(inner, depth + 1, e.zipPath).catch(() => null);
-      // A ZIP of vectors (shapefile set) stays one entry for the vector reader.
-      if (kids?.some((k) => RASTER_IN_ZIP.test(k.name))) {
-        out.push(...kids);
-        continue;
-      }
-      e.blob = inner;
+      if (e.method === 0 || e.size <= budget.bytes) {
+        if (e.method !== 0) budget.bytes -= e.size;
+        const inner = await entryFile(file, e);
+        const kids = await expandZip(inner, depth + 1, e.zipPath, budget).catch(() => null);
+        // A ZIP of vectors (shapefile set) stays one entry for the vector reader.
+        if (kids?.some((k) => RASTER_IN_ZIP.test(k.name) || k.nested)) {
+          out.push(...kids);
+          continue;
+        }
+        e.blob = inner;
+      } else e.nested = true;
     }
     e.open = () => (e.blob ? Object.assign(new File([e.blob], e.name), { __zipPath: e.zipPath }) : entryFile(file, e));
     out.push(e);
@@ -130,8 +136,10 @@ export async function isImageryZip(file) {
   try {
     const es = await listZip(file);
     if (es.some((e) => RASTER_IN_ZIP.test(e.name))) return true;
-    // Nested ZIPs: look one level down only when they are stored (a slice, no inflate).
-    for (const e of es.filter((x) => /\.zip$/i.test(x.name) && x.method === 0).slice(0, 4)) {
+    // ZIPs inside: the stored ones are slices; of the deflated ones, only the smallest is inflated.
+    const zips = es.filter((x) => /\.zip$/i.test(x.name));
+    const look = [...zips.filter((x) => x.method === 0).slice(0, 4), ...zips.filter((x) => x.method !== 0 && x.size <= 256 << 20).sort((p, q) => p.size - q.size).slice(0, 1)];
+    for (const e of look) {
       const inner = await entryFile(file, e);
       if ((await listZip(inner)).some((k) => RASTER_IN_ZIP.test(k.name))) return true;
     }
@@ -144,6 +152,8 @@ export async function isImageryZip(file) {
 /** Entries a user would open by default: the imagery with its sidecars, and the vector overlays. */
 export function defaultPick(entries, maxRasters = 24) {
   const main = entries.filter((e) => RASTER_IN_ZIP.test(e.name) && !QUICKLOOK.test(e.path));
+  // Packages not expanded (see expandZip) are offered, not opened by default.
+  entries = entries.filter((e) => !e.nested);
   const groups = [...new Set(main.map((e) => e.group))];
   // A big delivery (a ZIP of many packages) starts with its first package selected.
   const keep = main.length > maxRasters ? new Set([groups[0]]) : new Set(groups);

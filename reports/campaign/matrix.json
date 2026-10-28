@@ -1,11 +1,12 @@
 {
  "summary": {
-  "generated": "2026-10-27T14:26:58.168Z",
-  "commands": 448,
+  "generated": "2026-10-28T03:21:11.989Z",
+  "commands": 451,
   "implemented": 448,
   "placeholders": [],
   "unplaced": [
-   "packs.manage"
+   "packs.manage",
+   "ribbon.minimise"
   ],
   "oracleChecked": 40,
   "noEligibleData": [],
@@ -18,7 +19,7 @@
    "c06-stereo3d": 49,
    "c07-terrain": 21,
    "c08-sar": 15,
-   "c09-msi": 32,
+   "c09-msi": 33,
    "c10-lidar": 29,
    "c11-fmv": 20,
    "c12-vector": 37,
@@ -26,7 +27,7 @@
    "c14-annotate": 27,
    "c15-products": 21,
    "c16-ai-mcp": 14,
-   "c17-workspace": 33
+   "c17-workspace": 35
   }
  },
  "rows": [
@@ -197,9 +198,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -228,9 +231,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -711,6 +716,38 @@
    "locations": [
     "workspace-menu"
    ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "dock.importlog",
+   "label": "Import Log",
+   "req": "REQ-UI-05",
+   "rel": "R0",
+   "spec": "c17-workspace",
+   "implemented": null,
+   "locations": [
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "ribbon.minimise",
+   "label": "Minimise the Ribbon",
+   "req": "REQ-UI-03",
+   "rel": "R0",
+   "spec": "c17-workspace",
+   "implemented": null,
+   "locations": [],
    "context": [],
    "needs": null,
    "data": [],
@@ -2533,9 +2570,10 @@
     "live-osm-tiles",
     "live-esri-sampleserver6-wildfire",
     "live-wfst-geosolutions-gs-stable",
-    "live-copc-autzen-https"
+    "live-copc-autzen-https",
+    "live-ept-usgs-3dep-drcog"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -3210,23 +3248,39 @@
    "spec": "c06-stereo3d",
    "implemented": true,
    "locations": [
+    "ctx:layer",
     "ctx:stereo"
    ],
    "context": [
+    "layer",
     "stereo"
    ],
    "needs": {
     "areas": [
-     "eo"
+     "eo",
+     "nitf",
+     "landsat",
+     "sentinel2",
+     "naip",
+     "sar"
     ],
-    "tag": "stereo",
     "n": 2
    },
    "data": [
-    "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "rs-geotiff-gdal-small",
+    "rs-geotiff-wv3-rpc-cog",
+    "rs-jpeg-png-worldfile",
+    "rs-msi-spacenet2-wv3",
+    "rs-nitf-gdal-autotest-small",
+    "rs-nitf-gdal-rset",
+    "rs-nitf-jitc-bitdepth",
+    "rs-nitf-jitc-imode-bprs",
+    "rs-nitf-jitc-jpeg-c3",
+    "rs-nitf-jitc-masked-nm",
+    "rs-nitf-jitc-multiseg-graphics",
+    "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 2,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -3252,9 +3306,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3280,9 +3335,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3308,9 +3364,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3336,9 +3393,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3364,9 +3422,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3392,9 +3451,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3420,9 +3480,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3448,9 +3509,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3476,9 +3538,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3504,9 +3567,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3532,9 +3596,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3560,9 +3625,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3588,9 +3654,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3616,9 +3683,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3644,9 +3712,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3672,9 +3741,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3700,9 +3770,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3728,9 +3799,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3756,9 +3828,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3784,9 +3857,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3812,9 +3886,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3840,9 +3915,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3868,9 +3944,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3896,9 +3973,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3924,9 +4002,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3952,9 +4031,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -3980,9 +4060,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4008,9 +4089,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4036,9 +4118,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4064,9 +4147,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4092,9 +4176,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4120,9 +4205,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4148,9 +4234,10 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
-    "eo-spacenet-atlanta-wv2-l1b-rpc"
+    "eo-spacenet-atlanta-wv2-l1b-rpc",
+    "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 2,
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -4190,7 +4277,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4230,7 +4317,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4286,7 +4373,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4342,7 +4429,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4381,7 +4468,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4420,7 +4507,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4459,7 +4546,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4498,7 +4585,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4537,7 +4624,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4576,7 +4663,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4615,7 +4702,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4654,7 +4741,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4693,7 +4780,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4732,7 +4819,7 @@
     "3d-gltf-sample-assets",
     "3d-tiles-discrete-lod"
    ],
-   "dataCount": 24,
+   "dataCount": 27,
    "check": "smoke",
    "oracle": null
   },
@@ -4768,14 +4855,18 @@
    "data": [
     "rs-geotiff-gdal-small",
     "derived-gtiff-codec-matrix",
-    "nitf-ntb-nitf20-conformance",
-    "nitf-ntb-nitf21-conformance",
-    "nitf-rpf-cadrg-frames",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "naip-ca-m3812157-sw-2022",
-    "geopdf-ustopo-vinehill-honkerbay-current"
+    "field-phr-millerovo",
+    "field-dg-panama",
+    "field-intermap-sar",
+    "field-dg-spratly-mischief-reef-20150131",
+    "field-dg-spratly-mischief-reef-20150201",
+    "field-dg-spratly-mischief-reef-20150425",
+    "field-dg-spratly-mischief-reef-20150527",
+    "field-dg-spratly-mischief-reef-20150610",
+    "field-dg-spratly-subi-reef-20150305",
+    "field-dg-spratly-subi-reef-20150317"
    ],
-   "dataCount": 8,
+   "dataCount": 28,
    "check": "smoke",
    "oracle": null
   },
@@ -4794,14 +4885,18 @@
    "data": [
     "rs-geotiff-gdal-small",
     "derived-gtiff-codec-matrix",
-    "nitf-ntb-nitf20-conformance",
-    "nitf-ntb-nitf21-conformance",
-    "nitf-rpf-cadrg-frames",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "naip-ca-m3812157-sw-2022",
-    "geopdf-ustopo-vinehill-honkerbay-current"
+    "field-phr-millerovo",
+    "field-dg-panama",
+    "field-intermap-sar",
+    "field-dg-spratly-mischief-reef-20150131",
+    "field-dg-spratly-mischief-reef-20150201",
+    "field-dg-spratly-mischief-reef-20150425",
+    "field-dg-spratly-mischief-reef-20150527",
+    "field-dg-spratly-mischief-reef-20150610",
+    "field-dg-spratly-subi-reef-20150305",
+    "field-dg-spratly-subi-reef-20150317"
    ],
-   "dataCount": 8,
+   "dataCount": 28,
    "check": "smoke",
    "oracle": null
   },
@@ -4847,7 +4942,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5174,7 +5269,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5219,7 +5314,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5264,7 +5359,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5309,7 +5404,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5354,7 +5449,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5399,7 +5494,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5444,7 +5539,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5489,7 +5584,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5534,7 +5629,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5579,7 +5674,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5624,7 +5719,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5669,7 +5764,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5714,7 +5809,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5759,7 +5854,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5804,7 +5899,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5849,7 +5944,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5894,7 +5989,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5939,7 +6034,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -5984,7 +6079,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6029,7 +6124,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6074,7 +6169,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6119,7 +6214,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6164,7 +6259,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6209,7 +6304,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6254,7 +6349,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6299,7 +6394,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6344,7 +6439,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6389,7 +6484,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6434,7 +6529,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6479,7 +6574,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6526,7 +6621,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6573,7 +6668,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6620,7 +6715,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6667,7 +6762,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6712,7 +6807,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6759,7 +6854,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6804,7 +6899,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6849,7 +6944,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6896,7 +6991,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6941,7 +7036,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -6983,7 +7078,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7025,7 +7120,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7067,7 +7162,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7109,7 +7204,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7151,7 +7246,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7193,7 +7288,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7235,7 +7330,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7277,7 +7372,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7319,7 +7414,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7361,7 +7456,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7403,7 +7498,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -7445,7 +7540,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -8195,7 +8290,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -8242,7 +8337,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "oracle",
    "oracle": "NDVI vs numpy ± 0.01"
   },
@@ -8793,9 +8888,54 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "oracle",
    "oracle": "TOA reflectance vs MTL/MTD formula in numpy"
+  },
+  {
+   "id": "msi.stack",
+   "label": "Layer Stack…",
+   "req": "REQ-MSI-04",
+   "rel": "R3",
+   "spec": "c09-msi",
+   "implemented": null,
+   "locations": [
+    "ctx:image"
+   ],
+   "context": [
+    "image"
+   ],
+   "needs": {
+    "areas": [
+     "eo",
+     "nitf",
+     "landsat",
+     "sentinel2",
+     "naip",
+     "dem",
+     "sar",
+     "hsi",
+     "raster"
+    ],
+    "n": 1
+   },
+   "data": [
+    "rs-dem-derived-s35w059",
+    "rs-dted-gdal",
+    "rs-envi-hsi-indian-pines",
+    "rs-geotiff-gdal-small",
+    "rs-geotiff-wv3-rpc-cog",
+    "rs-gpkg-gdal-raster-tiles",
+    "rs-hsi-indian-pines",
+    "rs-jpeg-png-worldfile",
+    "rs-msi-spacenet2-wv3",
+    "rs-nitf-gdal-autotest-small",
+    "rs-nitf-gdal-rset",
+    "rs-nitf-jitc-bitdepth"
+   ],
+   "dataCount": 86,
+   "check": "smoke",
+   "oracle": null
   },
   {
    "id": "msi.threshold",
@@ -8882,7 +9022,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "oracle",
    "oracle": "overall accuracy ≥ 90 % on Indian Pines truth"
   },
@@ -9139,7 +9279,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -9186,7 +9326,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -9240,37 +9380,42 @@
    "spec": "c09-msi",
    "implemented": true,
    "locations": [
+    "ctx:image",
     "ctx:spectral"
    ],
    "context": [
+    "image",
     "spectral"
    ],
    "needs": {
     "areas": [
      "eo",
+     "nitf",
      "landsat",
      "sentinel2",
      "naip",
-     "hsi"
+     "dem",
+     "sar",
+     "hsi",
+     "raster"
     ],
-    "tag": "msi",
     "n": 1
    },
    "data": [
+    "rs-dem-derived-s35w059",
+    "rs-dted-gdal",
     "rs-envi-hsi-indian-pines",
+    "rs-geotiff-gdal-small",
+    "rs-geotiff-wv3-rpc-cog",
+    "rs-gpkg-gdal-raster-tiles",
     "rs-hsi-indian-pines",
+    "rs-jpeg-png-worldfile",
     "rs-msi-spacenet2-wv3",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "rs-nitf-gdal-autotest-small",
+    "rs-nitf-gdal-rset",
+    "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 12,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -9317,7 +9462,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -9452,9 +9597,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9485,9 +9631,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9518,9 +9665,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9551,9 +9699,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9584,9 +9733,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9617,9 +9767,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "oracle",
    "oracle": "ST 0601 tags vs klvdata"
   },
@@ -9650,9 +9801,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9683,9 +9835,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9716,9 +9869,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9749,9 +9903,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "oracle",
    "oracle": "footprint vs KLV corner tags ≤ 1 m"
   },
@@ -9782,9 +9937,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9815,9 +9971,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9848,9 +10005,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9881,9 +10039,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9914,9 +10073,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "oracle",
    "oracle": "map/video sync ≤ 33 ms"
   },
@@ -9947,9 +10107,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -9980,9 +10141,10 @@
     "fmv-impleotv-damaged-corpus",
     "fmv-jmisb-st0903-vector",
     "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures"
+    "fmv-libmisbklv-fixtures",
+    "fmv-bambi-flights"
    ],
-   "dataCount": 8,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10024,7 +10186,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -10066,7 +10228,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -10108,7 +10270,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 38,
+   "dataCount": 62,
    "check": "smoke",
    "oracle": null
   },
@@ -10135,12 +10297,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "oracle",
    "oracle": "SICD fields vs sarpy"
   },
@@ -10187,7 +10351,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -10214,12 +10378,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "oracle",
    "oracle": "remap switch < 200 ms, no file re-read"
   },
@@ -10266,7 +10432,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "smoke",
    "oracle": null
   },
@@ -10293,12 +10459,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "oracle",
    "oracle": "image→ground corners vs SARkit ≤ 0.01 m; round trip ≤ 0.05 px"
   },
@@ -10325,12 +10493,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10357,12 +10527,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10389,12 +10561,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10421,12 +10595,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10453,12 +10629,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10505,7 +10683,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 61,
+   "dataCount": 86,
    "check": "oracle",
    "oracle": "coherence ≥ 0.8 stable / ≤ 0.4 disturbed vs numpy"
   },
@@ -10532,12 +10710,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10564,12 +10744,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10596,12 +10778,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10628,12 +10812,14 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
+    "field-intermap-sar",
     "umbra-bingham-20230925-full",
     "umbra-bingham-20230821-repeat",
     "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3"
+    "iceye-x50-slf-20251027-sidd3",
+    "sar-osml-sicd-sidd-chips"
    ],
-   "dataCount": 7,
+   "dataCount": 9,
    "check": "smoke",
    "oracle": null
   },
@@ -10662,9 +10848,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "oracle",
    "oracle": "header fields vs laspy/PDAL"
   },
@@ -10693,9 +10881,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10724,9 +10914,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10755,9 +10947,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10786,9 +10980,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10817,9 +11013,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10848,9 +11046,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10879,9 +11079,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10910,9 +11112,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10941,9 +11145,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -10972,9 +11178,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11003,9 +11211,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11034,9 +11244,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11065,9 +11277,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11096,9 +11310,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11127,9 +11343,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11158,9 +11376,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11189,9 +11409,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "oracle",
    "oracle": "PDAL writers.gdal max-Z grid"
   },
@@ -11220,9 +11442,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "oracle",
    "oracle": "PDAL SMRF + writers.gdal min-Z grid"
   },
@@ -11251,9 +11475,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11282,9 +11508,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11313,9 +11541,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11344,9 +11574,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "oracle",
    "oracle": "PDAL filters.smrf class agreement; DTM RMSEz ≤ 0.15 m"
   },
@@ -11375,9 +11607,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11406,9 +11640,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11437,9 +11673,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -11468,9 +11706,11 @@
     "lidar-3dep-co-drcog-2020-2x2",
     "lidar-autzen-classified-copc",
     "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis"
+    "lidar-opentopo-co23-roumelis",
+    "ieee-dfc2019-track4-val",
+    "ieee-flame2-sfm"
    ],
-   "dataCount": 6,
+   "dataCount": 8,
    "check": "oracle",
    "oracle": "laspy re-read of written LAS 1.4 (point count, bbox, classes)"
   },
@@ -12425,6 +12665,7 @@
    "spec": "c12-vector",
    "implemented": true,
    "locations": [
+    "tab:products",
     "ctx:observation"
    ],
    "context": [
@@ -12452,7 +12693,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 25,
+   "dataCount": 47,
    "check": "smoke",
    "oracle": null
   },
@@ -12492,7 +12733,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 25,
+   "dataCount": 47,
    "check": "smoke",
    "oracle": null
   },
@@ -12533,7 +12774,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 25,
+   "dataCount": 47,
    "check": "smoke",
    "oracle": null
   },
@@ -12648,7 +12889,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 25,
+   "dataCount": 47,
    "check": "smoke",
    "oracle": null
   }

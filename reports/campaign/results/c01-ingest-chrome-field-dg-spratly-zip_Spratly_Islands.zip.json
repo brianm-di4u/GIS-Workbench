@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:16:49.117Z",
+ "key": "field-dg-spratly-zip/Spratly Islands.zip",
+ "item": "field-dg-spratly-zip",
+ "file": "Spratly Islands.zip",
+ "format": "ZIP (nested ZIP of GeoTIFF tiles + shapefile ZIPs)",
+ "rendered": false,
+ "errors": [
+  "1523 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: Spratly Islands.zip: 1523 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 46,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

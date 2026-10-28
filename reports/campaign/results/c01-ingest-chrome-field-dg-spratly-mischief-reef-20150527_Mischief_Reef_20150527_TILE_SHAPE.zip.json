@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:19:21.752Z",
+ "key": "field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_TILE_SHAPE.zip",
+ "item": "field-dg-spratly-mischief-reef-20150527",
+ "file": "Mischief_Reef_20150527_TILE_SHAPE.zip",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Mischief_Reef_20150527_TILE_SHAPE: 9 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 9,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 60,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

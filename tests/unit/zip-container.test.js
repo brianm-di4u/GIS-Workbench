@@ -1,4 +1,4 @@
-// TE-060 IMP-21 REQ-FMT-04: imagery in ZIP packages — central directory, stored and deflated entries,
+// TE-060 TE-067 IMP-21 REQ-FMT-20: imagery in ZIP packages — central directory, stored and deflated entries,
 // ZIPs inside ZIPs, damaged archives; TE-061: MrSID recognised by its header.
 import { describe, it, expect } from 'vitest';
 import { zipSync } from 'fflate';
@@ -38,6 +38,18 @@ describe('ZIP packages (TE-060)', () => {
     expect(pick).toContain('Reef_R1C1.tif');
     expect(pick).toContain('Reef_TILE_SHAPE.zip');
     expect(pick).not.toContain('Reef_BROWSE.tif');
+  });
+
+  it('TE-067 classifies a delivery of deflated ZIPs and expands them only within the budget', async () => {
+    const reef = (n) => zipSync({ [`R${n}_R1C1.tif`]: [bytes(4000, n), { level: 0 }] });
+    const outer = asFile(zipSync({ 'A.zip': [reef(1), { level: 6 }], 'B.zip': [reef(2), { level: 6 }], 'C.zip': [reef(3), { level: 6 }] }), 'D.zip');
+    expect(await isImageryZip(outer)).toBe(true);
+    const size = (await listZip(outer))[0].size;
+    const es = await expandZip(outer, 0, 'D.zip', { bytes: size * 2 + 10 });
+    expect(es.filter((e) => e.nested).map((e) => e.name)).toEqual(['C.zip']);
+    expect(defaultPick(es).map((e) => e.name).sort()).toEqual(['R1_R1C1.tif', 'R2_R1C1.tif']);
+    const inner = await es.find((e) => e.nested).open();
+    expect(await isImageryZip(inner)).toBe(true);
   });
 
   it('starts a large delivery with its first package selected', () => {

@@ -53,7 +53,7 @@ export async function install(app) {
         mine.map((e) => {
           const b = h('input', { type: 'checkbox', checked: def.has(e) });
           boxes.set(e, b);
-          return h('label', { class: 'chk', style: { display: 'block' } }, b, ` ${e.path.split('/').slice(-2).join('/')} `, h('small', { class: 'hint' }, fmtBytes(e.size)));
+          return h('label', { class: 'chk', style: { display: 'block' } }, b, ` ${e.path.split('/').slice(-2).join('/')} `, h('small', { class: 'hint' }, `${fmtBytes(e.size)}${e.nested ? ' — a package of its own: its files are listed when it opens' : ''}`));
         }));
     });
     const body = h('div', {}, h('p', { class: 'dlg-msg' }, `${zip.name} holds ${entries.length} files. Choose what to open; nothing is unpacked to disk.`), h('div', { style: { maxHeight: '50vh', overflow: 'auto' } }, rows));
@@ -74,7 +74,8 @@ export async function install(app) {
         const pick = await chooseEntries(f, entries);
         if (!pick?.length) continue;
         if (pick.some((e) => e.method === 8 && e.size > 64e6)) app.toast(`Unpacking ${f.name} in memory…`);
-        for (const e of pick) out.push(await e.open());
+        // A package inside the ZIP that was not expanded opens as its own package (and picker).
+        for (const e of pick) out.push(...(e.nested ? await expandPackages([await e.open()]) : [await e.open()]));
         app.importLog.push({ file: f.name, errors: [], warnings: [`opened ${pick.length} of ${entries.length} files from the ZIP`] });
       } catch (e) {
         app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 9000 });

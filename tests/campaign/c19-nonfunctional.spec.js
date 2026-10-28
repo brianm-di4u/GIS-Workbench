@@ -37,7 +37,8 @@ for (const id of FAMILY) {
 // PRF-03: first tile ≤ 1 s, measured on the five largest single-file rasters in the corpus.
 const big = manifest.items
   .filter((it) => ['eo', 'nitf', 'landsat', 'sentinel2', 'naip', 'dem', 'sar'].includes(it.area) && onDisk(it, ['primary']))
-  .flatMap((it) => paths(it, ['primary']).filter((p) => !/\.(cphd|xml|json)$/i.test(p)).map((p) => ({ it, p, bytes: existsSync(p) ? statSync(p).size : 0 })))
+  // Single-file rasters the app displays: not MrSID (refused, OD-10) or delivery ZIPs (a picker).
+  .flatMap((it) => paths(it, ['primary']).filter((p) => !/\.(cphd|xml|json|sid|zip)$/i.test(p)).map((p) => ({ it, p, bytes: existsSync(p) ? statSync(p).size : 0 })))
   .sort((a, b) => b.bytes - a.bytes)
   .slice(0, 5);
 for (const { it, p, bytes } of big) {

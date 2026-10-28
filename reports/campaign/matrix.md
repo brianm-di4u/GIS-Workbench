@@ -1,8 +1,8 @@
 # T&E functional coverage matrix
 
-Generated 2026-10-27T14:26:58.168Z from `app/src/shell/commands.js`, `ribbon-data.js` and `build/campaign/corpus.json`.
+Generated 2026-10-28T03:21:11.989Z from `app/src/shell/commands.js`, `ribbon-data.js` and `build/campaign/corpus.json`.
 
-Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0.
+Commands 451; implemented 448; oracle-checked 40; with no eligible corpus data 0.
 
 | Command | Label | REQ | Rel | Spec | Context | Impl | Data items | Check |
 |---|---|---|---|---|---|---|---|---|
@@ -14,8 +14,8 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `file.openproject` | Open Project… | REQ-ARC-08 | R0 | c01-ingest | — | yes | 0 | smoke |
 | `file.openvector` | Open Vector… | REQ-EXT-21 | R1 | c01-ingest | — | yes | 0 | smoke |
 | `file.openpointcloud` | Open Point Cloud… | REQ-LDR-01 | R2 | c01-ingest | — | yes | 0 | smoke |
-| `pc.dod` | DSM of Difference… | REQ-LDR-11 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.extract` | Buildings and Trees from Points | REQ-LDR-11 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
+| `pc.dod` | DSM of Difference… | REQ-LDR-11 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.extract` | Buildings and Trees from Points | REQ-LDR-11 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
 | `pc.stream` | Stream Point Cloud (COPC/EPT)… | REQ-LDR-02 | R3 | c01-ingest | — | yes | 0 | smoke |
 | `file.opendem` | Open DEM… | REQ-DEM-01 | R0 | c01-ingest | — | yes | 0 | smoke |
 | `file.openpack` | Open Data Pack… | REQ-ARC-14 | R3 | c01-ingest | — | yes | 0 | smoke |
@@ -44,6 +44,8 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `keys.customize` | Customize Hot Keys… | REQ-UI-09 | R1 | c17-workspace | — | yes | 0 | smoke |
 | `dock.jobs` | Job Queue | REQ-ARC-06 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.netlog` | Network Log | REQ-SEC-12 | R0 | c17-workspace | — | yes | 0 | smoke |
+| `dock.importlog` | Import Log | REQ-UI-05 | R0 | c17-workspace | — | ? | 0 | smoke |
+| `ribbon.minimise` | Minimise the Ribbon | REQ-UI-03 | R0 | c17-workspace | — | ? | 0 | smoke |
 | `dock.layers` | Layer Manager | REQ-UI-18 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.toolbox` | ToolBox | REQ-EXT-01 | R1 | c17-workspace | — | yes | 0 | smoke |
 | `theme.grey` | Grey (default) | REQ-UI-12 | R0 | c02-display | — | yes | 0 | smoke |
@@ -149,7 +151,7 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `geo.convert` | Convert Coordinates… | REQ-GEO-08 | R0 | c04-geodesy | — | yes | 0 | MGRS/UTM/UPS/GARS/GEOREF vs GeographicLib + NGS NCAT (truncation rule) |
 | `geo.grid` | Grid | REQ-IMG-22 | R1 | c02-display | — | yes | 0 | smoke |
 | `geo.datum` | Datum Info | REQ-GEO-01 | R0 | c04-geodesy | — | yes | 0 | HAE↔MSL vs NGS geoid API ≤ 0.2 m (EGM96) |
-| `online.add` | Add Online Source… | REQ-ARC-16 | R2 | c02-display | — | yes | 8 | smoke |
+| `online.add` | Add Online Source… | REQ-ARC-16 | R2 | c02-display | — | yes | 9 | smoke |
 | `online.backgrounds` | Map Backgrounds | REQ-UI-26 | R1 | c02-display | — | yes | 0 | smoke |
 | `chip.view` | Chip Current View | REQ-PRD-01 | R1 | c15-products | — | yes | 0 | chip geolocation vs gdalinfo of written GeoTIFF/NITF |
 | `chip.preset` | By Preset Area Size | REQ-PRD-01 | R1 | c15-products | — | yes | 0 | smoke |
@@ -189,60 +191,60 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `deco.sensor` | Sensor Azimuth | REQ-IMG-22 | R1 | c02-display | — | yes | 0 | smoke |
 | `deco.scalebar` | Scale Bar | REQ-IMG-22 | R0 | c02-display | — | yes | 0 | smoke |
 | `deco.banners` | Classification Banners | REQ-SEC-04 | R0 | c02-display | — | yes | 0 | smoke |
-| `stereo.open` | Stereo Panel | REQ-STR-03 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.manager` | Stereo Model Manager | REQ-STR-02 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.next` | Next Stereo Model | REQ-STR-02 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.finder` | Pair Finder… | REQ-STR-02 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.metrics` | Pair Metrics | REQ-STR-01 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.dubois` | Anaglyph (Dubois) | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.true` | True Anaglyph | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.grey` | Grey Anaglyph | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.half` | Half-Colour Anaglyph | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.split` | Split Screen | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.sbs` | Side-by-Side (Parallel) | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.cross` | Side-by-Side (Cross-Eyed) | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.spanned` | Spanned (Two Monitors) | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.dual` | Dual Output (Second Window) | REQ-STR-06 | R3 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.xr` | WebXR Stereo | REQ-STR-06 | R3 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.overunder` | Over-Under | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mode.interleaved` | Row-Interleaved | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.parity` | Interleave Parity | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.swap` | Swap Eyes | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.cursor` | Floating Cursor | REQ-STR-08 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.fixedcursor` | Fixed Cursor | REQ-STR-08 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.place` | Place on Ground | REQ-STR-09 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.snap` | Snap to Ground | REQ-STR-09 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.track` | Terrain Tracking | REQ-STR-09 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.align` | Stereo Align | REQ-SNS-10 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.epipolar` | Export Epipolar Pair… | REQ-STR-16 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.ypar` | Show Y-Parallax | REQ-STR-03 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mpoint` | Point | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mheight` | Height | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mdistance` | Distance | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mslope` | Slope | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mpolyline` | Polyline Z | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mpolygon` | Polygon Z | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `stereo.mvolume` | Volume | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 2 | smoke |
-| `3d.open` | Open 3D Multiport | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.sync` | Sync Now | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
+| `stereo.open` | Stereo Panel | REQ-STR-03 | R2 | c06-stereo3d | layer, stereo | yes | 62 | smoke |
+| `stereo.manager` | Stereo Model Manager | REQ-STR-02 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.next` | Next Stereo Model | REQ-STR-02 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.finder` | Pair Finder… | REQ-STR-02 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.metrics` | Pair Metrics | REQ-STR-01 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.dubois` | Anaglyph (Dubois) | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.true` | True Anaglyph | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.grey` | Grey Anaglyph | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.half` | Half-Colour Anaglyph | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.split` | Split Screen | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.sbs` | Side-by-Side (Parallel) | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.cross` | Side-by-Side (Cross-Eyed) | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.spanned` | Spanned (Two Monitors) | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.dual` | Dual Output (Second Window) | REQ-STR-06 | R3 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.xr` | WebXR Stereo | REQ-STR-06 | R3 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.overunder` | Over-Under | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mode.interleaved` | Row-Interleaved | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.parity` | Interleave Parity | REQ-STR-05 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.swap` | Swap Eyes | REQ-STR-04 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.cursor` | Floating Cursor | REQ-STR-08 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.fixedcursor` | Fixed Cursor | REQ-STR-08 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.place` | Place on Ground | REQ-STR-09 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.snap` | Snap to Ground | REQ-STR-09 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.track` | Terrain Tracking | REQ-STR-09 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.align` | Stereo Align | REQ-SNS-10 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.epipolar` | Export Epipolar Pair… | REQ-STR-16 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.ypar` | Show Y-Parallax | REQ-STR-03 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mpoint` | Point | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mheight` | Height | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mdistance` | Distance | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mslope` | Slope | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mpolyline` | Polyline Z | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mpolygon` | Polygon Z | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `stereo.mvolume` | Volume | REQ-MEN-12 | R2 | c06-stereo3d | stereo | yes | 3 | smoke |
+| `3d.open` | Open 3D Multiport | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.sync` | Sync Now | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
 | `3d.syncalways` | Sync Always | REQ-STR-11 | R2 | c06-stereo3d | — | yes | 0 | smoke |
-| `3d.close` | Close 3D View | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
+| `3d.close` | Close 3D View | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
 | `input.devices` | Input Devices… | REQ-UI-20 | R2 | c02-display | — | yes | 0 | smoke |
-| `3d.exag` | Vertical Exaggeration… | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.navorbit` | Orbit | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.navfree` | Free Flight | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.navroute` | Fly Route | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.measure` | 3D Cursor Measure | REQ-STR-12 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.los` | 3D Line of Sight | REQ-STR-12 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.import` | Import glTF/GLB… | REQ-STR-13 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.qmesh` | Add Quantized-Mesh Terrain… | REQ-ARC-16 | R3 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.tiles3tz` | Open 3D Tiles Archive (.3tz)… | REQ-STR-15 | R3 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.tiles` | Add 3D Tiles… | REQ-STR-15 | R3 | c06-stereo3d | scene3d | yes | 24 | smoke |
-| `3d.record` | Record WebM… | REQ-STR-14 | R2 | c06-stereo3d | scene3d | yes | 24 | smoke |
+| `3d.exag` | Vertical Exaggeration… | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.navorbit` | Orbit | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.navfree` | Free Flight | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.navroute` | Fly Route | REQ-STR-11 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.measure` | 3D Cursor Measure | REQ-STR-12 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.los` | 3D Line of Sight | REQ-STR-12 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.import` | Import glTF/GLB… | REQ-STR-13 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.qmesh` | Add Quantized-Mesh Terrain… | REQ-ARC-16 | R3 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.tiles3tz` | Open 3D Tiles Archive (.3tz)… | REQ-STR-15 | R3 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.tiles` | Add 3D Tiles… | REQ-STR-15 | R3 | c06-stereo3d | scene3d | yes | 27 | smoke |
+| `3d.record` | Record WebM… | REQ-STR-14 | R2 | c06-stereo3d | scene3d | yes | 27 | smoke |
 | `ribbon.customize` | Customize the Ribbon… | REQ-UI-24 | R2 | c17-workspace | — | yes | 0 | smoke |
-| `display.fullscreen` | Exploitation Fullscreen | REQ-UI-10 | R0 | c02-display | — | yes | 8 | smoke |
-| `display.theme` | Theme | REQ-UI-12 | R0 | c02-display | — | yes | 8 | smoke |
-| `display.pixels` | Pixel Matrix Viewer | REQ-IMG-21 | R1 | c02-display | image | yes | 61 | smoke |
+| `display.fullscreen` | Exploitation Fullscreen | REQ-UI-10 | R0 | c02-display | — | yes | 28 | smoke |
+| `display.theme` | Theme | REQ-UI-12 | R0 | c02-display | — | yes | 28 | smoke |
+| `display.pixels` | Pixel Matrix Viewer | REQ-IMG-21 | R1 | c02-display | image | yes | 86 | smoke |
 | `ai.assistant` | AI Assistant | REQ-AI-01 | R0 | c16-ai-mcp | — | yes | 0 | smoke |
 | `ai.smartselect` | Smart Select (local AI) | REQ-EXT-18 | R3 | c16-ai-mcp | — | yes | 0 | smoke |
 | `ai.askselection` | Ask About Selection | REQ-AI-01 | R1 | c16-ai-mcp | — | yes | 0 | smoke |
@@ -259,58 +261,58 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `auto.mcpserver` | Expose as MCP Server… | REQ-AI-15 | R1 | c16-ai-mcp | — | yes | 0 | smoke |
 | `pack.load` | Load Data Pack… | REQ-ARC-14 | R3 | c17-workspace | — | yes | 0 | smoke |
 | `pack.list` | Installed Packs | REQ-ARC-14 | R3 | c17-workspace | — | yes | 0 | smoke |
-| `img.orthofly` | Ortho On-the-Fly | REQ-IMG-18 | R2 | c03-enhance | image | yes | 61 | smoke |
-| `img.vmosaic` | Virtual Mosaic | REQ-IMG-18 | R2 | c03-enhance | image | yes | 61 | smoke |
-| `img.projection` | Projection | REQ-IMG-18 | R2 | c03-enhance | image | yes | 61 | smoke |
-| `img.voids` | Remove Void Pixels | REQ-IMG-19 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `img.footprint` | Footprint | REQ-IMG-19 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `img.segments` | Segments | REQ-IMG-20 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.brightness` | Brightness | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.contrast` | Contrast | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.gamma` | Gamma | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.saturation` | Saturation | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.sharpness` | Sharpness | REQ-IMG-06 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.invert` | Invert | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.drascope` | DRA Scope | REQ-IMG-05 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.dralock` | Lock DRA | REQ-IMG-05 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.drasettings` | DRA Settings… | REQ-IMG-05 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.stretch` | Histogram Stretch | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.curve` | Tonal Curve… | REQ-IMG-06 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.lut` | Pseudo-colour LUT | REQ-IMG-06 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.histogram` | Histogram Editor | REQ-IMG-06 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.sharpen` | Sharpen | REQ-IMG-08 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.edge` | Edge | REQ-IMG-08 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.smooth` | Smooth | REQ-IMG-08 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.median` | Median | REQ-IMG-08 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.morph` | Morphology | REQ-IMG-08 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.clahe` | CLAHE | REQ-IMG-08 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `enh.auto` | Auto Enhance | REQ-IMG-07 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.reset` | Reset | REQ-IMG-07 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.remove` | Remove Enhancements | REQ-IMG-07 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.chain` | Chain Editor… | REQ-IMG-04 | R0 | c03-enhance | image | yes | 61 | smoke |
-| `enh.pansharpen` | Pan Sharpen | REQ-IMG-10 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `search.find` | Find in Scene… | REQ-MSI-07 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
-| `search.template` | Template Match… | REQ-EXT-28 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
-| `bands.select` | Select Bands | REQ-IMG-09 | R0 | c03-enhance | image, spectral | yes | 61 | smoke |
-| `bands.preview` | Band Preview | REQ-MSI-03 | R3 | c03-enhance | image, spectral | yes | 61 | smoke |
-| `bands.stats` | Band Statistics | REQ-MSI-07 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `bands.snr` | Assess SNR | REQ-MSI-07 | R3 | c03-enhance | image, spectral | yes | 61 | smoke |
-| `clip.threshold` | Transparency Threshold | REQ-IMG-09 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `clip.void` | Void Pixels | REQ-IMG-19 | R1 | c03-enhance | image | yes | 61 | smoke |
-| `profile.spectral` | Spectral Profile | REQ-MSI-07 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
-| `profile.elevation` | Elevation Profile | REQ-DEM-12 | R1 | c07-terrain | image | yes | 61 | smoke |
-| `lay.prev` | Previous Image | REQ-UI-18 | R1 | c02-display | layer | yes | 38 | smoke |
-| `lay.next` | Next Image | REQ-UI-18 | R1 | c02-display | layer | yes | 38 | smoke |
-| `lay.order` | Order Images | REQ-UI-18 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.porthole` | Porthole | REQ-IMG-24 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.swiper` | Swiper | REQ-IMG-24 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.twocolour` | Multi-Colour | REQ-IMG-24 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.blend` | Blend | REQ-IMG-24 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.play` | Play (Flicker) | REQ-IMG-24 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.rate` | Flicker Rate | REQ-IMG-24 | R1 | c02-display | layer | yes | 38 | smoke |
-| `cmp.record` | Record | REQ-IMG-25 | R1 | c02-display | layer | yes | 38 | smoke |
-| `chg.detect` | Change Detection… | SCN-11 | R1 | c12-vector | layer | yes | 38 | smoke |
-| `chg.confirm` | Confirm Change | SCN-11 | R1 | c12-vector | layer | yes | 38 | smoke |
+| `img.orthofly` | Ortho On-the-Fly | REQ-IMG-18 | R2 | c03-enhance | image | yes | 86 | smoke |
+| `img.vmosaic` | Virtual Mosaic | REQ-IMG-18 | R2 | c03-enhance | image | yes | 86 | smoke |
+| `img.projection` | Projection | REQ-IMG-18 | R2 | c03-enhance | image | yes | 86 | smoke |
+| `img.voids` | Remove Void Pixels | REQ-IMG-19 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `img.footprint` | Footprint | REQ-IMG-19 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `img.segments` | Segments | REQ-IMG-20 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.brightness` | Brightness | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.contrast` | Contrast | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.gamma` | Gamma | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.saturation` | Saturation | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.sharpness` | Sharpness | REQ-IMG-06 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.invert` | Invert | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.drascope` | DRA Scope | REQ-IMG-05 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.dralock` | Lock DRA | REQ-IMG-05 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.drasettings` | DRA Settings… | REQ-IMG-05 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.stretch` | Histogram Stretch | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.curve` | Tonal Curve… | REQ-IMG-06 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.lut` | Pseudo-colour LUT | REQ-IMG-06 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.histogram` | Histogram Editor | REQ-IMG-06 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.sharpen` | Sharpen | REQ-IMG-08 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.edge` | Edge | REQ-IMG-08 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.smooth` | Smooth | REQ-IMG-08 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.median` | Median | REQ-IMG-08 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.morph` | Morphology | REQ-IMG-08 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.clahe` | CLAHE | REQ-IMG-08 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `enh.auto` | Auto Enhance | REQ-IMG-07 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.reset` | Reset | REQ-IMG-07 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.remove` | Remove Enhancements | REQ-IMG-07 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.chain` | Chain Editor… | REQ-IMG-04 | R0 | c03-enhance | image | yes | 86 | smoke |
+| `enh.pansharpen` | Pan Sharpen | REQ-IMG-10 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `search.find` | Find in Scene… | REQ-MSI-07 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
+| `search.template` | Template Match… | REQ-EXT-28 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
+| `bands.select` | Select Bands | REQ-IMG-09 | R0 | c03-enhance | image, spectral | yes | 86 | smoke |
+| `bands.preview` | Band Preview | REQ-MSI-03 | R3 | c03-enhance | image, spectral | yes | 86 | smoke |
+| `bands.stats` | Band Statistics | REQ-MSI-07 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `bands.snr` | Assess SNR | REQ-MSI-07 | R3 | c03-enhance | image, spectral | yes | 86 | smoke |
+| `clip.threshold` | Transparency Threshold | REQ-IMG-09 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `clip.void` | Void Pixels | REQ-IMG-19 | R1 | c03-enhance | image | yes | 86 | smoke |
+| `profile.spectral` | Spectral Profile | REQ-MSI-07 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
+| `profile.elevation` | Elevation Profile | REQ-DEM-12 | R1 | c07-terrain | image | yes | 86 | smoke |
+| `lay.prev` | Previous Image | REQ-UI-18 | R1 | c02-display | layer | yes | 62 | smoke |
+| `lay.next` | Next Image | REQ-UI-18 | R1 | c02-display | layer | yes | 62 | smoke |
+| `lay.order` | Order Images | REQ-UI-18 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.porthole` | Porthole | REQ-IMG-24 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.swiper` | Swiper | REQ-IMG-24 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.twocolour` | Multi-Colour | REQ-IMG-24 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.blend` | Blend | REQ-IMG-24 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.play` | Play (Flicker) | REQ-IMG-24 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.rate` | Flicker Rate | REQ-IMG-24 | R1 | c02-display | layer | yes | 62 | smoke |
+| `cmp.record` | Record | REQ-IMG-25 | R1 | c02-display | layer | yes | 62 | smoke |
+| `chg.detect` | Change Detection… | SCN-11 | R1 | c12-vector | layer | yes | 62 | smoke |
+| `chg.confirm` | Confirm Change | SCN-11 | R1 | c12-vector | layer | yes | 62 | smoke |
 | `dem.select` | Select Terrain File | REQ-DEM-03 | R0 | c07-terrain | surface | yes | 13 | smoke |
 | `dem.hillshade` | Hillshade | REQ-DEM-10 | R1 | c07-terrain | surface | yes | 13 | gdaldem hillshade ±1 DN |
 | `dem.slope` | Slope Map | REQ-DEM-10 | R1 | c07-terrain | surface | yes | 13 | gdaldem slope ±0.1° |
@@ -330,8 +332,8 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `dem.accuracy` | DEM Accuracy… | REQ-DEM-17 | R2 | c07-terrain | surface | yes | 13 | smoke |
 | `dem.save` | Save DEM As | REQ-DEM-16 | R2 | c07-terrain | surface | yes | 13 | gdalinfo of written COG/DTED (3601² posts for L2) |
 | `dem.r2v` | Raster to Vector | REQ-DEM-18 | R2 | c07-terrain | surface | yes | 13 | smoke |
-| `msi.bandmath` | Band Math… | REQ-MSI-04 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
-| `msi.index.ndvi` | NDVI | REQ-MSI-04 | R3 | c09-msi | image, spectral | yes | 61 | NDVI vs numpy ± 0.01 |
+| `msi.bandmath` | Band Math… | REQ-MSI-04 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
+| `msi.index.ndvi` | NDVI | REQ-MSI-04 | R3 | c09-msi | image, spectral | yes | 86 | NDVI vs numpy ± 0.01 |
 | `msi.index.ndwi` | NDWI (McFeeters) | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.index.ndwi_gao` | NDWI (Gao) / NDMI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.index.mndwi` | MNDWI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
@@ -344,84 +346,85 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `msi.preset.agriculture` | Agriculture | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.preset.rededge` | Red Edge | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.preset.bathymetric` | Bathymetric | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.radiometric` | Radiometric Conversion… | REQ-MSI-05 | R3 | c09-msi | image, spectral | yes | 61 | TOA reflectance vs MTL/MTD formula in numpy |
+| `msi.radiometric` | Radiometric Conversion… | REQ-MSI-05 | R3 | c09-msi | image, spectral | yes | 86 | TOA reflectance vs MTL/MTD formula in numpy |
+| `msi.stack` | Layer Stack… | REQ-MSI-04 | R3 | c09-msi | image | ? | 86 | smoke |
 | `msi.threshold` | Classifier Threshold… | REQ-MSI-08 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.cluster` | Unsupervised… | REQ-MSI-09 | R3 | c09-msi | image, spectral | yes | 61 | overall accuracy ≥ 90 % on Indian Pines truth |
+| `msi.cluster` | Unsupervised… | REQ-MSI-09 | R3 | c09-msi | image, spectral | yes | 86 | overall accuracy ≥ 90 % on Indian Pines truth |
 | `msi.majority` | Majority Filter | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.sieve` | Sieve | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.fill` | Fill Unclassified | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.vectors` | Class Vectors | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.accuracy` | Accuracy Assessment | REQ-MSI-10 | R3 | c09-msi | spectral | yes | 12 | OA/κ vs scikit-learn (3 decimals) |
-| `msi.detect` | Target / Anomaly Detection… | REQ-MSI-11 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
-| `msi.pca` | PCA / MNF… | REQ-MSI-12 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
+| `msi.detect` | Target / Anomaly Detection… | REQ-MSI-11 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
+| `msi.pca` | PCA / MNF… | REQ-MSI-12 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
 | `msi.library` | Spectral Library… | REQ-MSI-13 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.thermal` | Brightness Temperature… | REQ-MSI-14 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.xport` | Xport | REQ-MSI-15 | R3 | c09-msi | image, spectral | yes | 61 | smoke |
+| `msi.thermal` | Brightness Temperature… | REQ-MSI-14 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
+| `msi.xport` | Xport | REQ-MSI-15 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
 | `msi.destripe` | Destripe | REQ-MSI-16 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `msi.change` | Spectral Change… | REQ-MSI-16 | R3 | c09-msi | spectral | yes | 12 | smoke |
 | `fmv.open` | Open Video or GMTI… | REQ-FMV-01 | R3 | c01-ingest | — | yes | 1 | smoke |
-| `fmv.close` | Close Video | REQ-FMV-05 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.play` | Play / Pause | REQ-FMV-08 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.stepback` | Step Back | REQ-FMV-08 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.stepfwd` | Step Forward | REQ-FMV-08 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.loop` | Loop A–B | REQ-FMV-08 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.klv` | KLV Table | REQ-FMV-02 | R3 | c11-fmv | video | yes | 8 | ST 0601 tags vs klvdata |
-| `fmv.basis` | Time Basis… | REQ-FMV-04 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.hud` | HUD | REQ-FMV-08 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.vmti` | VMTI Boxes | REQ-FMV-12 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.capture` | Capture Frame | REQ-FMV-09 | R3 | c11-fmv | video | yes | 8 | footprint vs KLV corner tags ≤ 1 m |
-| `fmv.event` | Event Log… | REQ-FMV-10 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.gmti` | Open GMTI… | REQ-FMV-11 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.gmticolour` | Colour by Velocity | REQ-FMV-11 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.measure` | Measure on Video | REQ-FMV-13 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.link` | Link Video Panels | REQ-FMV-13 | R3 | c11-fmv | video | yes | 8 | map/video sync ≤ 33 ms |
-| `fmv.csv` | Import Metadata CSV… | REQ-FMV-14 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `fmv.export` | Export Clip (burn-in)… | REQ-FMV-13 | R3 | c11-fmv | video | yes | 8 | smoke |
-| `mie.play` | Play MIE4NITF Frames | REQ-FMT-14 | R3 | c11-fmv | layer | yes | 38 | smoke |
-| `mie.next` | Next MIE4NITF Frame | REQ-FMT-14 | R3 | c11-fmv | layer | yes | 38 | smoke |
-| `mie.prev` | Previous MIE4NITF Frame | REQ-FMT-14 | R3 | c11-fmv | layer | yes | 38 | smoke |
-| `sar.metadata` | SAR Metadata | REQ-SAR-02 | R3 | c08-sar | sar | yes | 7 | SICD fields vs sarpy |
-| `sar.view` | View SAR | REQ-SAR-03 | R3 | c08-sar | image, sar | yes | 61 | smoke |
-| `sar.remap` | SAR Remap | REQ-SAR-03 | R3 | c08-sar | sar | yes | 7 | remap switch < 200 ms, no file re-read |
-| `sar.anamorphic` | Anamorphic Correction | REQ-SAR-04 | R3 | c08-sar | image, sar | yes | 61 | smoke |
-| `sar.ground` | Ground Plane | REQ-SAR-04 | R3 | c08-sar | sar | yes | 7 | image→ground corners vs SARkit ≤ 0.01 m; round trip ≤ 0.05 px |
-| `sar.shadows` | Shadows Down | REQ-SAR-04 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.northup` | North Up | REQ-SAR-04 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.overlay` | SAR Overlay | REQ-SAR-04 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.speckle` | Speckle Filter… | REQ-SAR-07 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.acd` | Amplitude Change… | REQ-SAR-08 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.ccd` | Coherent Change… | REQ-SAR-09 | R3 | c08-sar | image, sar | yes | 61 | coherence ≥ 0.8 stable / ≤ 0.4 disturbed vs numpy |
-| `sar.pairs` | Pair Finder… | REQ-SAR-10 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.subap` | Sub-aperture Stack | REQ-SAR-11 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.csi` | Colour Sub-aperture | REQ-SAR-11 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `sar.pauli` | Pauli Composite | REQ-SAR-13 | R3 | c08-sar | sar | yes | 7 | smoke |
-| `pc.header` | Header | REQ-LDR-01 | R2 | c10-lidar | pointcloud | yes | 6 | header fields vs laspy/PDAL |
-| `pc.close` | Close 3D View | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.fit` | Fit Cloud | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.elevation` | Colour by Elevation | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.intensity` | Colour by Intensity | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.class` | Colour by Class | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.rgb` | Colour by RGB | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.return` | Colour by Return | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.source` | Colour by Point Source | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.time` | Colour by GPS Time | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colour.hag` | Colour by Height Above Ground | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.classes` | Class Visibility | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.budget` | Point Budget | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.edl` | Eye-Dome Lighting | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.shave` | Elevation Shaving | REQ-LDR-06 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.profile` | Profile / Cross-Section | REQ-LDR-07 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.measure` | Measure 3D | REQ-LDR-07 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.dsm` | DSM | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 6 | PDAL writers.gdal max-Z grid |
-| `pc.dtm` | DTM | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 6 | PDAL SMRF + writers.gdal min-Z grid |
-| `pc.ndsm` | nDSM | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.intensity` | Intensity Image | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.density` | Density Image | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.groundfilter` | Ground Filter | REQ-LDR-09 | R2 | c10-lidar | pointcloud | yes | 6 | PDAL filters.smrf class agreement; DTM RMSEz ≤ 0.15 m |
-| `pc.classedit` | Edit Classes | REQ-LDR-09 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.clip` | Clip Box/Polygon | REQ-LDR-09 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.colourise` | Colourise from Image | REQ-LDR-10 | R2 | c10-lidar | pointcloud | yes | 6 | smoke |
-| `pc.export` | Export LAS/LAZ | REQ-LDR-10 | R2 | c10-lidar | pointcloud | yes | 6 | laspy re-read of written LAS 1.4 (point count, bbox, classes) |
+| `fmv.close` | Close Video | REQ-FMV-05 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.play` | Play / Pause | REQ-FMV-08 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.stepback` | Step Back | REQ-FMV-08 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.stepfwd` | Step Forward | REQ-FMV-08 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.loop` | Loop A–B | REQ-FMV-08 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.klv` | KLV Table | REQ-FMV-02 | R3 | c11-fmv | video | yes | 9 | ST 0601 tags vs klvdata |
+| `fmv.basis` | Time Basis… | REQ-FMV-04 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.hud` | HUD | REQ-FMV-08 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.vmti` | VMTI Boxes | REQ-FMV-12 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.capture` | Capture Frame | REQ-FMV-09 | R3 | c11-fmv | video | yes | 9 | footprint vs KLV corner tags ≤ 1 m |
+| `fmv.event` | Event Log… | REQ-FMV-10 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.gmti` | Open GMTI… | REQ-FMV-11 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.gmticolour` | Colour by Velocity | REQ-FMV-11 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.measure` | Measure on Video | REQ-FMV-13 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.link` | Link Video Panels | REQ-FMV-13 | R3 | c11-fmv | video | yes | 9 | map/video sync ≤ 33 ms |
+| `fmv.csv` | Import Metadata CSV… | REQ-FMV-14 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `fmv.export` | Export Clip (burn-in)… | REQ-FMV-13 | R3 | c11-fmv | video | yes | 9 | smoke |
+| `mie.play` | Play MIE4NITF Frames | REQ-FMT-14 | R3 | c11-fmv | layer | yes | 62 | smoke |
+| `mie.next` | Next MIE4NITF Frame | REQ-FMT-14 | R3 | c11-fmv | layer | yes | 62 | smoke |
+| `mie.prev` | Previous MIE4NITF Frame | REQ-FMT-14 | R3 | c11-fmv | layer | yes | 62 | smoke |
+| `sar.metadata` | SAR Metadata | REQ-SAR-02 | R3 | c08-sar | sar | yes | 9 | SICD fields vs sarpy |
+| `sar.view` | View SAR | REQ-SAR-03 | R3 | c08-sar | image, sar | yes | 86 | smoke |
+| `sar.remap` | SAR Remap | REQ-SAR-03 | R3 | c08-sar | sar | yes | 9 | remap switch < 200 ms, no file re-read |
+| `sar.anamorphic` | Anamorphic Correction | REQ-SAR-04 | R3 | c08-sar | image, sar | yes | 86 | smoke |
+| `sar.ground` | Ground Plane | REQ-SAR-04 | R3 | c08-sar | sar | yes | 9 | image→ground corners vs SARkit ≤ 0.01 m; round trip ≤ 0.05 px |
+| `sar.shadows` | Shadows Down | REQ-SAR-04 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.northup` | North Up | REQ-SAR-04 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.overlay` | SAR Overlay | REQ-SAR-04 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.speckle` | Speckle Filter… | REQ-SAR-07 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.acd` | Amplitude Change… | REQ-SAR-08 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.ccd` | Coherent Change… | REQ-SAR-09 | R3 | c08-sar | image, sar | yes | 86 | coherence ≥ 0.8 stable / ≤ 0.4 disturbed vs numpy |
+| `sar.pairs` | Pair Finder… | REQ-SAR-10 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.subap` | Sub-aperture Stack | REQ-SAR-11 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.csi` | Colour Sub-aperture | REQ-SAR-11 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `sar.pauli` | Pauli Composite | REQ-SAR-13 | R3 | c08-sar | sar | yes | 9 | smoke |
+| `pc.header` | Header | REQ-LDR-01 | R2 | c10-lidar | pointcloud | yes | 8 | header fields vs laspy/PDAL |
+| `pc.close` | Close 3D View | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.fit` | Fit Cloud | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.elevation` | Colour by Elevation | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.intensity` | Colour by Intensity | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.class` | Colour by Class | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.rgb` | Colour by RGB | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.return` | Colour by Return | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.source` | Colour by Point Source | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.time` | Colour by GPS Time | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colour.hag` | Colour by Height Above Ground | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.classes` | Class Visibility | REQ-LDR-05 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.budget` | Point Budget | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.edl` | Eye-Dome Lighting | REQ-LDR-04 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.shave` | Elevation Shaving | REQ-LDR-06 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.profile` | Profile / Cross-Section | REQ-LDR-07 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.measure` | Measure 3D | REQ-LDR-07 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.dsm` | DSM | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 8 | PDAL writers.gdal max-Z grid |
+| `pc.dtm` | DTM | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 8 | PDAL SMRF + writers.gdal min-Z grid |
+| `pc.ndsm` | nDSM | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.intensity` | Intensity Image | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.density` | Density Image | REQ-LDR-08 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.groundfilter` | Ground Filter | REQ-LDR-09 | R2 | c10-lidar | pointcloud | yes | 8 | PDAL filters.smrf class agreement; DTM RMSEz ≤ 0.15 m |
+| `pc.classedit` | Edit Classes | REQ-LDR-09 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.clip` | Clip Box/Polygon | REQ-LDR-09 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.colourise` | Colourise from Image | REQ-LDR-10 | R2 | c10-lidar | pointcloud | yes | 8 | smoke |
+| `pc.export` | Export LAS/LAZ | REQ-LDR-10 | R2 | c10-lidar | pointcloud | yes | 8 | laspy re-read of written LAS 1.4 (point count, bbox, classes) |
 | `ext.toolbox` | ToolBox | REQ-EXT-01 | R1 | c12-vector | feature | yes | 14 | smoke |
 | `ext.repeat` | Repeat | REQ-EXT-01 | R1 | c12-vector | feature | yes | 14 | smoke |
 | `ext.custom` | Custom Tools | REQ-EXT-03 | R2 | c12-vector | feature | yes | 14 | smoke |
@@ -448,9 +451,9 @@ Commands 448; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `ext.arcgis` | Hand off to ArcGIS Pro | REQ-EXT-24 | R2 | c12-vector | feature | yes | 14 | smoke |
 | `ext.export3d` | 3D Export | REQ-EXT-25 | R2 | c12-vector | feature | yes | 14 | smoke |
 | `ext.texture` | Texture Buildings… | REQ-EXT-15 | R3 | c12-vector | feature | yes | 14 | smoke |
-| `obs.toolbox` | Observation Toolbox | REQ-EXT-20 | R3 | c12-vector | observation | yes | 25 | smoke |
-| `obs.table` | Observation Table | REQ-EXT-20 | R3 | c12-vector | observation | yes | 25 | smoke |
-| `det.import` | Import Detections… | REQ-EXT-19 | R3 | c01-ingest | observation | yes | 25 | smoke |
+| `obs.toolbox` | Observation Toolbox | REQ-EXT-20 | R3 | c12-vector | observation | yes | 47 | smoke |
+| `obs.table` | Observation Table | REQ-EXT-20 | R3 | c12-vector | observation | yes | 47 | smoke |
+| `det.import` | Import Detections… | REQ-EXT-19 | R3 | c01-ingest | observation | yes | 47 | smoke |
 | `vec.remoteopen` | Edit Online Layer… | REQ-EXT-26 | R3 | c12-vector | feature | yes | 14 | smoke |
 | `vec.remotesave` | Save Online Edits | REQ-EXT-26 | R3 | c12-vector | feature | yes | 14 | smoke |
-| `det.review` | Review Queue | REQ-EXT-19 | R3 | c12-vector | observation | yes | 25 | smoke |
+| `det.review` | Review Queue | REQ-EXT-19 | R3 | c12-vector | observation | yes | 47 | smoke |

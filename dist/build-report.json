@@ -1,18 +1,18 @@
 {
   "build": {
-    "id": "ead71e44402a6e7b",
+    "id": "0b35ae8633baf80e",
     "version": "1.2.1",
-    "date": "2026-10-28T03:16:15.793Z",
+    "date": "2026-10-28T03:21:08.514Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5695098,
-    "eager": 2299595,
+    "total": 5696032,
+    "eager": 2300529,
     "css": 40646,
     "boot": 2733,
-    "app": 1987759,
+    "app": 1988693,
     "notices": 113900,
     "blocks": {
       "wasm-core": {
@@ -194,9 +194,9 @@
       }
     },
     "rustTotalGzip": 874735,
-    "lite": 3964333,
-    "snippet": 6031765,
-    "snippetLite": 3964676
+    "lite": 3964737,
+    "snippet": 6032747,
+    "snippetLite": 3965080
   },
   "gates": {
     "errors": [],
@@ -499,5 +499,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-iWttKbwAC8IN3pSGs+Yv1t11D0WFamwGdFGpxtYrswg=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-E2bF4LyujDXDBFeqSMzqwaJCKCUeEIRIauAA7iHz+vY=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

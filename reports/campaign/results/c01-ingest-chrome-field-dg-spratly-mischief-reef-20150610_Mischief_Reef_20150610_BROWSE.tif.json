@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-28T03:19:22.750Z",
+ "key": "field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_BROWSE.tif",
+ "item": "field-dg-spratly-mischief-reef-20150610",
+ "file": "Mischief_Reef_20150610_BROWSE.tif",
+ "format": "GeoTIFF tile set + shapefile ZIPs",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Mischief_Reef_20150610_BROWSE.tif in 48 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1335,
+   "h": 1170,
+   "bands": 3,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 907,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

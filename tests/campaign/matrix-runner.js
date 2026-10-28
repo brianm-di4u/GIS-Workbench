@@ -6,7 +6,7 @@
 import { test, expect } from '@playwright/test';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { openApp, openFiles, settledAny, runCommand, record, item, paths, onDisk, matrix } from './helpers.js';
+import { openApp, openFiles, settledAny, runCommand, record, item, itemsBy, paths, onDisk, matrix } from './helpers.js';
 
 // Recipes: the files and in-page setup that satisfy a command's enable condition (Phase 2 run 2:
 // with data alone, 213 commands stayed disabled — navigation and drawing need an image, stereo a
@@ -121,7 +121,9 @@ function dataFor(row) {
   if (!row.needs) return [];
   let ids = row.data.filter((id) => onDisk(item(id)));
   if (ONLY) {
-    ids = ids.filter((id) => id.startsWith(ONLY) && item(id).files.some((f) => /\.(tif|tiff)$/i.test(f.name)));
+    // matrix.json lists at most 12 items per command: take the eligible ones from the manifest.
+    const fits = (it) => row.needs.areas.includes(it.area) && (!row.needs.tag || it.feeds?.some((f) => f.startsWith(row.needs.tag)));
+    ids = itemsBy((it) => it.id.startsWith(ONLY) && fits(it) && it.files.some((f) => /\.(tif|tiff)$/i.test(f.name))).map((it) => it.id).filter((id) => onDisk(item(id)));
     if (ids.length > row.needs.n) ids = [...ids.slice(spread(row.id, ids.length)), ...ids];
   }
   const pick = [...new Set(ids)].slice(0, row.needs.n);
