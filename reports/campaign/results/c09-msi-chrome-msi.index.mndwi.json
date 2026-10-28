@@ -1,7 +1,7 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:05:34.764Z",
+ "when": "2026-10-28T05:30:28.263Z",
  "key": "msi.index.mndwi",
  "id": "msi.index.mndwi",
  "enabled": false,
@@ -9,9 +9,7 @@
  "dialogs": [],
  "toasts": [],
  "errors": [],
- "changed": [
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [],
  "data": [

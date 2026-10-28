@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:33:27.644Z",
+ "when": "2026-10-28T04:31:30.199Z",
  "key": "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_BROWSE.tif",
  "item": "field-dg-spratly-subi-reef-20150317",
  "file": "Subi_Reef_20150317_BROWSE.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened Subi_Reef_20150317_BROWSE.tif in 48 ms"
+  "toast-info: Opened Subi_Reef_20150317_BROWSE.tif in 31 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 928,
+ "ms": 602,
  "logs": [],
  "requests": [],
  "csp": []

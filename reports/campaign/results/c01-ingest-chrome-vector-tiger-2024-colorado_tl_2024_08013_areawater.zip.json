@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:38.959Z",
+ "when": "2026-10-28T04:19:06.229Z",
  "key": "vector-tiger-2024-colorado/tl_2024_08013_areawater.zip",
  "item": "vector-tiger-2024-colorado",
  "file": "tl_2024_08013_areawater.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 154,
+ "ms": 177,
  "logs": [],
  "requests": [],
  "csp": []

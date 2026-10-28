@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:45:00.984Z",
+ "when": "2026-10-28T04:53:56.425Z",
  "key": "map-rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif",
  "kind": "map",
  "model": "Map (EPSG:4326)",

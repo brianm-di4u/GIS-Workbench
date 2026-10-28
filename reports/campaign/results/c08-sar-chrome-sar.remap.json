@@ -1,7 +1,7 @@
 {
  "spec": "c08-sar",
  "project": "chrome",
- "when": "2026-10-28T04:00:09.364Z",
+ "when": "2026-10-28T05:29:59.740Z",
  "key": "sar.remap",
  "id": "sar.remap",
  "enabled": false,

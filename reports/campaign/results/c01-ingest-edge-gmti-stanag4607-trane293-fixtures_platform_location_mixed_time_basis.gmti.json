@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:45:23.879Z",
+ "key": "gmti-stanag4607-trane293-fixtures/platform_location_mixed_time_basis.gmti",
+ "item": "gmti-stanag4607-trane293-fixtures",
+ "file": "platform_location_mixed_time_basis.gmti",
+ "format": "STANAG 4607 (.gmti)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120058,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

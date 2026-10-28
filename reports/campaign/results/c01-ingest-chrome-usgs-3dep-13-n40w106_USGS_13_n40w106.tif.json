@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:13.438Z",
+ "when": "2026-10-28T04:24:02.427Z",
  "key": "usgs-3dep-13-n40w106/USGS_13_n40w106.tif",
  "item": "usgs-3dep-13-n40w106",
  "file": "USGS_13_n40w106.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened USGS_13_n40w106.tif in 41 ms"
+  "toast-info: Opened USGS_13_n40w106.tif in 39 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 643,
+ "ms": 634,
  "logs": [],
  "requests": [],
  "csp": []

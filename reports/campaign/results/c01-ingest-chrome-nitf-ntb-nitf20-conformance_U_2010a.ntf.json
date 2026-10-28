@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:28.903Z",
+ "when": "2026-10-28T04:16:56.131Z",
  "key": "nitf-ntb-nitf20-conformance/U_2010a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_2010a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_2010a.ntf in 48 ms"
+  "toast-info: Opened U_2010a.ntf in 43 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 408,
+ "ms": 400,
  "logs": [],
  "requests": [],
  "csp": []

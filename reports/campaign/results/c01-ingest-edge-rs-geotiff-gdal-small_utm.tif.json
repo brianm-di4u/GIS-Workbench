@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:39.996Z",
+ "when": "2026-10-28T04:26:43.820Z",
  "key": "rs-geotiff-gdal-small/utm.tif",
  "item": "rs-geotiff-gdal-small",
  "file": "utm.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened utm.tif in 34 ms"
+  "toast-info: Opened utm.tif in 25 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 366,
+ "ms": 339,
  "logs": [],
  "requests": [],
  "csp": []

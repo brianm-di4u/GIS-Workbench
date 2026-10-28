@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:46:10.213Z",
+ "when": "2026-10-28T05:01:16.537Z",
  "key": "map-gdal-dted-samples/n43.dt0",
  "kind": "map",
  "model": "Map (EPSG:4326)",

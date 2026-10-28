@@ -1,17 +1,17 @@
 {
- "when": "2026-10-27T14:26:57.859Z",
+ "when": "2026-10-28T04:09:39.672Z",
  "build": {
-  "id": "10d1243ab32f720c",
-  "version": "0.0.1",
-  "date": "2026-10-27T14:19:15.612Z",
+  "id": "feb8e261b0de1379",
+  "version": "1.2.1",
+  "date": "2026-10-28T04:09:13.727Z",
   "dev": false,
   "defaultModel": "claude-opus-5-5",
   "profile": "standard"
  },
  "coverage": {
   "R0": {
-   "total": 107,
-   "implemented": 107
+   "total": 110,
+   "implemented": 110
   },
   "R1": {
    "total": 120,
@@ -22,8 +22,8 @@
    "implemented": 130
   },
   "R3": {
-   "total": 92,
-   "implemented": 92
+   "total": 93,
+   "implemented": 93
   }
  },
  "commands": [
@@ -294,6 +294,20 @@
    "implemented": true
   },
   {
+   "id": "dock.importlog",
+   "label": "Import Log",
+   "req": "REQ-UI-05",
+   "rel": "R0",
+   "implemented": true
+  },
+  {
+   "id": "ribbon.minimise",
+   "label": "Minimise the Ribbon",
+   "req": "REQ-UI-03",
+   "rel": "R0",
+   "implemented": true
+  },
+  {
    "id": "dock.layers",
    "label": "Layer Manager",
    "req": "REQ-UI-18",
@@ -374,6 +388,13 @@
    "id": "help.limits",
    "label": "Accuracy and Limits",
    "req": "REQ-SEC-07",
+   "rel": "R0",
+   "implemented": true
+  },
+  {
+   "id": "help.whatsnew",
+   "label": "What's New",
+   "req": "REQ-HOST-01",
    "rel": "R0",
    "implemented": true
   },
@@ -2397,6 +2418,13 @@
    "id": "msi.radiometric",
    "label": "Radiometric Conversion…",
    "req": "REQ-MSI-05",
+   "rel": "R3",
+   "implemented": true
+  },
+  {
+   "id": "msi.stack",
+   "label": "Layer Stack…",
+   "req": "REQ-MSI-04",
    "rel": "R3",
    "implemented": true
   },

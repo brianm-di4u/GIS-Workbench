@@ -1,0 +1,21 @@
+{
+ "spec": "c09-msi",
+ "project": "edge",
+ "when": "2026-10-28T05:20:27.592Z",
+ "key": "msi.stack",
+ "id": "msi.stack",
+ "enabled": false,
+ "outcome": "disabled",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:26.328Z",
+ "when": "2026-10-28T04:18:53.176Z",
  "key": "vector-natural-earth-10m-shp/ne_10m_lakes.zip",
  "item": "vector-natural-earth-10m-shp",
  "file": "ne_10m_lakes.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 407,
+ "ms": 401,
  "logs": [],
  "requests": [],
  "csp": []

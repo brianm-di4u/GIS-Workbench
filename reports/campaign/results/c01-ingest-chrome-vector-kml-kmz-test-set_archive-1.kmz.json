@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:30:03.360Z",
+ "when": "2026-10-28T04:19:31.300Z",
  "key": "vector-kml-kmz-test-set/archive-1.kmz",
  "item": "vector-kml-kmz-test-set",
  "file": "archive-1.kmz",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 115,
+ "ms": 74,
  "logs": [],
  "requests": [],
  "csp": []

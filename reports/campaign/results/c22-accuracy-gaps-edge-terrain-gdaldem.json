@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "edge",
- "when": "2026-10-28T01:18:29.192Z",
+ "when": "2026-10-28T05:58:00.326Z",
  "key": "terrain-gdaldem",
  "check": "terrain",
  "tol": "≥ 99 % of sampled posts within ±1 DN / ±0.1° / ±0.5° of gdaldem (Horn); aspect after turning gdaldem grid-north aspect to true north",

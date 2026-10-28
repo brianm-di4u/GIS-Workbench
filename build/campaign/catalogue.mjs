@@ -13,7 +13,7 @@ const esc = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ');
 const out = [
   '# T&E data catalogue',
   '',
-  `Generated ${new Date().toISOString()} from \`build/campaign/corpus.json\` (${m.items.length} items). Tier A = anonymous download by \`build/campaign/fetch.mjs\`; tier B = free login, downloaded by the owner into \`TE-corpus/<id>/\`; RS = already held in \`Research/samples\`.`,
+  `Generated ${new Date().toISOString()} from \`build/campaign/corpus.json\` (${m.items.length} items). Tier A = anonymous download by \`build/campaign/fetch.mjs\`; tier B = free login, downloaded by the owner into \`TE-corpus/<id>/\`; RS = already held in \`Research/samples\`; U = field data a user supplied, referenced in place and used for testing only (OD-09).`,
   '',
   '| Area | Items | Size | On disk |',
   '|---|---|---|---|',

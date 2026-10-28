@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:49.830Z",
+ "when": "2026-10-28T04:27:09.340Z",
  "key": "rs-nitf-jitc-jpeg-c3/U_4017a.ntf",
  "item": "rs-nitf-jitc-jpeg-c3",
  "file": "U_4017a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4017a.ntf in 34 ms"
+  "toast-info: Opened U_4017a.ntf in 26 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 346,
+ "ms": 331,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:54.751Z",
+ "when": "2026-10-28T04:27:22.461Z",
  "key": "rs-srtm-hgt-s35w059/S35W059.hgt.gz",
  "item": "rs-srtm-hgt-s35w059",
  "file": "S35W059.hgt.gz",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened S35W059.hgt.gz in 287 ms"
+  "toast-info: Opened S35W059.hgt.gz in 258 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 878,
+ "ms": 589,
  "logs": [],
  "requests": [],
  "csp": []

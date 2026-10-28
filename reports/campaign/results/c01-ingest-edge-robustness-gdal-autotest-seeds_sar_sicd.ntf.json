@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:10.557Z",
+ "when": "2026-10-28T04:35:51.038Z",
  "key": "robustness-gdal-autotest-seeds/sar_sicd.ntf",
  "item": "robustness-gdal-autotest-seeds",
  "file": "sar_sicd.ntf",
@@ -12,7 +12,7 @@
   "IGEOLO corners (approximate): degenerate corner points"
  ],
  "toasts": [
-  "toast-info: Opened sar_sicd.ntf in 36 ms (1 note in the import log)"
+  "toast-info: Opened sar_sicd.ntf in 43 ms (1 note in the import log)"
  ],
  "layers": [
   {
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 130,
+ "ms": 150,
  "logs": [],
  "requests": [],
  "csp": []

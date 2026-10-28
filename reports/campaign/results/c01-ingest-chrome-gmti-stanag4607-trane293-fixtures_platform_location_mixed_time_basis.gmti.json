@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:13:43.472Z",
+ "when": "2026-10-28T04:27:34.044Z",
  "key": "gmti-stanag4607-trane293-fixtures/platform_location_mixed_time_basis.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "platform_location_mixed_time_basis.gmti",
@@ -19,7 +19,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120063,
+ "ms": 120050,
  "logs": [],
  "requests": [],
  "csp": []

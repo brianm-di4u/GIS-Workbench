@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "edge",
- "when": "2026-10-28T01:17:50.098Z",
+ "when": "2026-10-28T05:57:09.835Z",
  "key": "thermal-landsat8-b10-b11",
  "check": "thermal",
  "tol": "UI path runs; max |ΔBT| ≤ 0.1 K",

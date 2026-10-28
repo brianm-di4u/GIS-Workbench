@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:05.135Z",
+ "when": "2026-10-28T04:09:47.556Z",
  "key": "rs-kml-iceye-footprint/ICEYE_U09WX2_20251028T000519Z_6785560_X56_SLF_QLK.kml",
  "item": "rs-kml-iceye-footprint",
  "file": "ICEYE_U09WX2_20251028T000519Z_6785560_X56_SLF_QLK.kml",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 63,
+ "ms": 56,
  "logs": [],
  "requests": [],
  "csp": []

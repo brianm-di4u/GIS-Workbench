@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:41:55.634Z",
+ "key": "ieee-dfc2018-houston/UH17_GEG051.tif",
+ "item": "ieee-dfc2018-houston",
+ "file": "UH17_GEG051.tif",
+ "format": "ENVI-style .pix/.hdr HSI + LAS 1.x + GeoTIFF/TFW",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened UH17_GEG051.tif in 37 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 8344,
+   "h": 2404,
+   "bands": 1,
+   "model": "Map (EPSG:26915)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2156,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

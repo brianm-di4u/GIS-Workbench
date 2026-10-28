@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:37.574Z",
+ "when": "2026-10-28T04:37:20.428Z",
  "key": "vector-nhd-hu4-1019-gpkg/NHD_H_1019_HU4_GPKG.gpkg",
  "item": "vector-nhd-hu4-1019-gpkg",
  "file": "NHD_H_1019_HU4_GPKG.gpkg",
@@ -242,7 +242,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 20990,
+ "ms": 23147,
  "logs": [],
  "requests": [],
  "csp": []

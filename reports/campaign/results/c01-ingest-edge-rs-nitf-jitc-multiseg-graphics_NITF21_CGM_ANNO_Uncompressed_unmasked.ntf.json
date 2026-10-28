@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:51.442Z",
+ "when": "2026-10-28T04:27:14.588Z",
  "key": "rs-nitf-jitc-multiseg-graphics/NITF21_CGM_ANNO_Uncompressed_unmasked.ntf",
  "item": "rs-nitf-jitc-multiseg-graphics",
  "file": "NITF21_CGM_ANNO_Uncompressed_unmasked.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened NITF21_CGM_ANNO_Uncompressed_unmasked.ntf in 56 ms"
+  "toast-info: Opened NITF21_CGM_ANNO_Uncompressed_unmasked.ntf in 57 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 375,
+ "ms": 376,
  "logs": [],
  "requests": [],
  "csp": []

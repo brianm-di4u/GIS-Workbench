@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:45.881Z",
+ "when": "2026-10-28T04:35:30.721Z",
  "key": "landsat8-c2-l2sp-044034-20240820/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B6.TIF",
  "item": "landsat8-c2-l2sp-044034-20240820",
  "file": "LC08_L2SP_044034_20240820_20240830_02_T1_SR_B6.TIF",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened LC08_L2SP_044034_20240820_20240830_02_T1_SR_B6.TIF in 42 ms"
+  "toast-info: Opened LC08_L2SP_044034_20240820_20240830_02_T1_SR_B6.TIF in 48 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 373,
+ "ms": 393,
  "logs": [],
  "requests": [],
  "csp": []

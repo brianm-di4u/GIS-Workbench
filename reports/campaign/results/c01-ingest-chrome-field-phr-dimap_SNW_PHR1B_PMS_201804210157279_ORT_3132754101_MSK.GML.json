@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:26:53.031Z",
+ "when": "2026-10-28T04:16:50.971Z",
  "key": "field-phr-dimap/SNW_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
  "item": "field-phr-dimap",
  "file": "SNW_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 116,
+ "ms": 52,
  "logs": [],
  "requests": [],
  "csp": []

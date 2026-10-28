@@ -1,16 +1,19 @@
 {
  "spec": "c07-terrain",
  "project": "edge",
- "when": "2026-10-27T15:41:37.676Z",
+ "when": "2026-10-28T05:19:59.242Z",
  "key": "dem.aspect",
  "id": "dem.aspect",
  "enabled": true,
  "outcome": "done",
  "dialogs": [],
- "toasts": [],
+ "toasts": [
+  "toast-info: Aspect: clockwise from true north (grid north turned by the meridian convergence; gdaldem uses grid north)"
+ ],
  "errors": [],
  "changed": [
-  "chain"
+  "chain",
+  "body"
  ],
  "downloads": [],
  "prepared": [

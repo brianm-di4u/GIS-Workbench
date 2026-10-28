@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:18.959Z",
+ "when": "2026-10-28T04:10:02.319Z",
  "key": "rs-vector-fx12-synthetic/fx12.kmz",
  "item": "rs-vector-fx12-synthetic",
  "file": "fx12.kmz",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 85,
+ "ms": 77,
  "logs": [],
  "requests": [],
  "csp": []

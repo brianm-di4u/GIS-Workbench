@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:36.754Z",
+ "when": "2026-10-28T04:37:19.486Z",
  "key": "vector-kml-google-samples/KML_Samples.kml",
  "item": "vector-kml-google-samples",
  "file": "KML_Samples.kml",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 74,
+ "ms": 60,
  "logs": [],
  "requests": [],
  "csp": []

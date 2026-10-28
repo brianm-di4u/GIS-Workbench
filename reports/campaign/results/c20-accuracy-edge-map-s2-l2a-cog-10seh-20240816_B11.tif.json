@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:45:47.811Z",
+ "when": "2026-10-28T05:00:57.087Z",
  "key": "map-s2-l2a-cog-10seh-20240816/B11.tif",
  "kind": "map",
  "model": "Map (EPSG:32610)",

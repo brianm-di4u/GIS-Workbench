@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:41:56.090Z",
+ "when": "2026-10-28T04:41:43.476Z",
  "key": "aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_e_obs",
  "item": "aviris-classic-f130410t01p00r09",
  "file": "f130410t01p00r09rdn_e_obs",
@@ -9,7 +9,9 @@
  "rendered": true,
  "errors": [],
  "warnings": [],
- "toasts": [],
+ "toasts": [
+  "toast-info: Opened f130410t01p00r09rdn_e_obs in 31 ms"
+ ],
  "layers": [
   {
    "error": null,
@@ -29,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 5929,
+ "ms": 3942,
  "logs": [],
  "requests": [],
  "csp": []

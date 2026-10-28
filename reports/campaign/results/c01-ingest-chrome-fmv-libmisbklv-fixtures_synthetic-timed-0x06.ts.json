@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:23.627Z",
+ "when": "2026-10-28T04:18:50.871Z",
  "key": "fmv-libmisbklv-fixtures/synthetic-timed-0x06.ts",
  "item": "fmv-libmisbklv-fixtures",
  "file": "synthetic-timed-0x06.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened synthetic-timed-0x06.ts: 0 frames, 6 KLV packets (0 bad) in 88 ms — metadata only"
+  "toast-info: Opened synthetic-timed-0x06.ts: 0 frames, 6 KLV packets (0 bad) in 70 ms — metadata only"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 227,
+ "ms": 148,
  "logs": [],
  "requests": [],
  "csp": []

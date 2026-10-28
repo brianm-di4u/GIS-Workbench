@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:09.364Z",
+ "when": "2026-10-28T04:34:55.586Z",
  "key": "nitf-ntb-nitf20-conformance/U_4018b.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_4018b.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4018b.ntf in 30 ms"
+  "toast-info: Opened U_4018b.ntf in 32 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 346,
+ "ms": 361,
  "logs": [],
  "requests": [],
  "csp": []

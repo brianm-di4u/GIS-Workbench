@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:53.076Z",
+ "when": "2026-10-28T04:27:19.341Z",
  "key": "rs-nsif-jitc/nsif_N_3001a.nsf",
  "item": "rs-nsif-jitc",
  "file": "nsif_N_3001a.nsf",
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 351,
+ "ms": 349,
  "logs": [],
  "requests": [],
  "csp": []

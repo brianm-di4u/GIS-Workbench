@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:58.479Z",
+ "when": "2026-10-28T04:27:32.007Z",
  "key": "derived-gtiff-codec-matrix/rgb_zstd.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "rgb_zstd.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rgb_zstd.tif in 26 ms"
+  "toast-info: Opened rgb_zstd.tif in 25 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 592,
+ "ms": 589,
  "logs": [],
  "requests": [],
  "csp": []

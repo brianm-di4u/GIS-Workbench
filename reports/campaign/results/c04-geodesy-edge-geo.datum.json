@@ -1,7 +1,7 @@
 {
  "spec": "c04-geodesy",
  "project": "edge",
- "when": "2026-10-27T15:41:01.552Z",
+ "when": "2026-10-28T05:19:22.400Z",
  "key": "geo.datum",
  "id": "geo.datum",
  "enabled": true,

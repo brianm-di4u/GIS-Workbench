@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:15.814Z",
+ "when": "2026-10-28T04:35:01.598Z",
  "key": "eo-maxar-libya-floods-wv3-prepost/104001008B282A00-pan.tif",
  "item": "eo-maxar-libya-floods-wv3-prepost",
  "file": "104001008B282A00-pan.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened 104001008B282A00-pan.tif in 43 ms"
+  "toast-info: Opened 104001008B282A00-pan.tif in 47 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 371,
+ "ms": 385,
  "logs": [],
  "requests": [],
  "csp": []

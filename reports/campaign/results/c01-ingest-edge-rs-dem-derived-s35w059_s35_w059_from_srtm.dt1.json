@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:38.432Z",
+ "when": "2026-10-28T04:26:40.339Z",
  "key": "rs-dem-derived-s35w059/s35_w059_from_srtm.dt1",
  "item": "rs-dem-derived-s35w059",
  "file": "s35_w059_from_srtm.dt1",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened s35_w059_from_srtm.dt1 in 59 ms"
+  "toast-info: Opened s35_w059_from_srtm.dt1 in 75 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 401,
+ "ms": 389,
  "logs": [],
  "requests": [],
  "csp": []

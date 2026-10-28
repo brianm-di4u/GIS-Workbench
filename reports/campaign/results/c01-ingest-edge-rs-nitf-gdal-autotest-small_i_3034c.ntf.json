@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:46.157Z",
+ "when": "2026-10-28T04:26:59.948Z",
  "key": "rs-nitf-gdal-autotest-small/i_3034c.ntf",
  "item": "rs-nitf-gdal-autotest-small",
  "file": "i_3034c.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened i_3034c.ntf in 35 ms"
+  "toast-info: Opened i_3034c.ntf in 24 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 140,
+ "ms": 328,
  "logs": [],
  "requests": [],
  "csp": []

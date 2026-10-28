@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:11.348Z",
+ "when": "2026-10-28T04:23:43.640Z",
  "key": "capella-c13-sm-20240924/capella_C13_SM_SLC.tif",
  "item": "capella-c13-sm-20240924",
  "file": "capella_C13_SM_SLC.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened capella_C13_SM_SLC.tif in 71 ms"
+  "toast-info: Opened capella_C13_SM_SLC.tif in 54 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1729,
+ "ms": 1408,
  "logs": [],
  "requests": [],
  "csp": []

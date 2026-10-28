@@ -1,7 +1,7 @@
 {
  "spec": "c21-viewshed",
  "project": "edge",
- "when": "2026-10-27T14:46:21.562Z",
+ "when": "2026-10-28T05:01:35.459Z",
  "key": "gdal-viewshed",
  "cc": {
   "n": 260459,
@@ -17,7 +17,7 @@
   "posts": 1043930,
   "visible": 24961,
   "visibleFraction": 0.023910607033038614,
-  "ms": 152,
+  "ms": 211,
   "engine": "webgpu",
   "curvature": 0.87,
   "inverse": false,

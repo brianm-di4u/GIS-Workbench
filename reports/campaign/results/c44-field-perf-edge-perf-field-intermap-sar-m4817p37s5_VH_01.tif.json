@@ -1,12 +1,12 @@
 {
  "spec": "c44-field-perf",
  "project": "edge",
- "when": "2026-10-28T04:03:46.829Z",
+ "when": "2026-10-28T05:32:36.718Z",
  "key": "perf-field-intermap-sar-m4817p37s5_VH_01.tif",
  "bytes": 298984228,
  "openMs": 130,
- "firstTileMs": 492,
- "settledMs": 623,
+ "firstTileMs": 507,
+ "settledMs": 621,
  "statsMsAfterDisplay": 0,
  "layer": {
   "ms": 0,
@@ -17,6 +17,6 @@
   "type": "f32"
  },
  "toasts": [
-  "Opened m4817p37s5_VH_01.tif in 55 ms"
+  "Opened m4817p37s5_VH_01.tif in 53 ms"
  ]
 }

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:35.767Z",
+ "when": "2026-10-28T04:24:06.840Z",
  "key": "gdal-dted-samples/l5102.dhm",
  "item": "gdal-dted-samples",
  "file": "l5102.dhm",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened l5102.dhm in 58 ms"
+  "toast-info: Opened l5102.dhm in 68 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 373,
+ "ms": 407,
  "logs": [],
  "requests": [],
  "csp": []

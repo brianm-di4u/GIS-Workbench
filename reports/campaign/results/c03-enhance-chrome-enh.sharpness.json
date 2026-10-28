@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:56:04.479Z",
+ "when": "2026-10-28T05:26:59.998Z",
  "key": "enh.sharpness",
  "id": "enh.sharpness",
  "enabled": true,

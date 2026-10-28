@@ -1,7 +1,7 @@
 {
  "spec": "c05-sensor",
  "project": "edge",
- "when": "2026-10-27T15:41:14.267Z",
+ "when": "2026-10-28T05:19:35.534Z",
  "key": "ortho.balance",
  "id": "ortho.balance",
  "enabled": true,

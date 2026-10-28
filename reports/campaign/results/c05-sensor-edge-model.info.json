@@ -1,7 +1,7 @@
 {
  "spec": "c05-sensor",
  "project": "edge",
- "when": "2026-10-27T15:41:06.304Z",
+ "when": "2026-10-28T05:19:26.800Z",
  "key": "model.info",
  "id": "model.info",
  "enabled": true,

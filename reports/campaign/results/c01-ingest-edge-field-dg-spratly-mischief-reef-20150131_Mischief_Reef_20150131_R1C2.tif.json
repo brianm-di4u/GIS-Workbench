@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:29:17.537Z",
+ "when": "2026-10-28T04:29:09.467Z",
  "key": "field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_R1C2.tif",
  "item": "field-dg-spratly-mischief-reef-20150131",
  "file": "Mischief_Reef_20150131_R1C2.tif",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 35876,
+ "ms": 18969,
  "logs": [],
  "requests": [],
  "csp": []

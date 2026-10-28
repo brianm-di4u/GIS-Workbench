@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:38.962Z",
+ "when": "2026-10-28T04:37:21.760Z",
  "key": "vector-kml-kmz-test-set/geometries.kml",
  "item": "vector-kml-kmz-test-set",
  "file": "geometries.kml",
@@ -47,7 +47,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 74,
+ "ms": 64,
  "logs": [],
  "requests": [],
  "csp": []

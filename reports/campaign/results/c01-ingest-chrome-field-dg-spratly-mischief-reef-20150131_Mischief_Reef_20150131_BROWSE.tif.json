@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:16:53.469Z",
+ "when": "2026-10-28T04:10:56.278Z",
  "key": "field-dg-spratly-mischief-reef-20150131/Mischief_Reef_20150131_BROWSE.tif",
  "item": "field-dg-spratly-mischief-reef-20150131",
  "file": "Mischief_Reef_20150131_BROWSE.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened Mischief_Reef_20150131_BROWSE.tif in 34 ms"
+  "toast-info: Opened Mischief_Reef_20150131_BROWSE.tif in 56 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 885,
+ "ms": 915,
  "logs": [],
  "requests": [],
  "csp": []

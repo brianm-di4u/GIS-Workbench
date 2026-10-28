@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:00.059Z",
+ "when": "2026-10-28T04:18:32.483Z",
  "key": "lidar-las-version-matrix/1.1_0.las",
  "item": "lidar-las-version-matrix",
  "file": "1.1_0.las",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened 1.1_0.las: 1 points in 45 ms (1 note in the import log)"
+  "toast-info: Opened 1.1_0.las: 1 points in 24 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 257,
+ "ms": 164,
  "logs": [],
  "requests": [],
  "csp": []

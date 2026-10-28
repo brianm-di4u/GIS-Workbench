@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:56.745Z",
+ "when": "2026-10-28T04:27:27.107Z",
  "key": "derived-gtiff-codec-matrix/rgb_lzw.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "rgb_lzw.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rgb_lzw.tif in 28 ms"
+  "toast-info: Opened rgb_lzw.tif in 23 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 858,
+ "ms": 606,
  "logs": [],
  "requests": [],
  "csp": []

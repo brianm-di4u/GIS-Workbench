@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:27.239Z",
+ "when": "2026-10-28T04:17:57.167Z",
  "key": "robustness-gdal-autotest-seeds/n43_partial_cols.dt0",
  "item": "robustness-gdal-autotest-seeds",
  "file": "n43_partial_cols.dt0",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 80,
+ "ms": 94,
  "logs": [],
  "requests": [],
  "csp": []

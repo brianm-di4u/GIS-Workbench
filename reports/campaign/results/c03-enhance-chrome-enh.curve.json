@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:57:06.722Z",
+ "when": "2026-10-28T05:27:32.557Z",
  "key": "enh.curve",
  "id": "enh.curve",
  "enabled": true,

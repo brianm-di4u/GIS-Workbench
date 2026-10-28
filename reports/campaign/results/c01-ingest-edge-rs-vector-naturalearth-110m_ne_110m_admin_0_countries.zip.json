@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:55.556Z",
+ "when": "2026-10-28T04:27:25.142Z",
  "key": "rs-vector-naturalearth-110m/ne_110m_admin_0_countries.zip",
  "item": "rs-vector-naturalearth-110m",
  "file": "ne_110m_admin_0_countries.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 113,
+ "ms": 89,
  "logs": [],
  "requests": [],
  "csp": []

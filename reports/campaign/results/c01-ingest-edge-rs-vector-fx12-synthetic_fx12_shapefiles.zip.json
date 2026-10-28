@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:54.869Z",
+ "when": "2026-10-28T04:27:23.384Z",
  "key": "rs-vector-fx12-synthetic/fx12_shapefiles.zip",
  "item": "rs-vector-fx12-synthetic",
  "file": "fx12_shapefiles.zip",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 55,
+ "ms": 44,
  "logs": [],
  "requests": [],
  "csp": []

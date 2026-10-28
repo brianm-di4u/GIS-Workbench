@@ -1,15 +1,13 @@
 {
  "spec": "c09-msi",
  "project": "chrome",
- "when": "2026-10-28T04:07:20.562Z",
+ "when": "2026-10-28T05:31:34.514Z",
  "key": "msi.destripe",
  "id": "msi.destripe",
  "enabled": true,
  "outcome": "done",
  "dialogs": [],
- "toasts": [
-  "toast-info: Destripe works at full resolution: the 4898×4898 pixels around the view centre (draw an AOI to choose the area)."
- ],
+ "toasts": [],
  "errors": [],
  "changed": [
   "layers",

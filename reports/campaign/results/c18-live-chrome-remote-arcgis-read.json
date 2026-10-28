@@ -1,9 +1,9 @@
 {
  "spec": "c18-live",
  "project": "chrome",
- "when": "2026-10-27T15:08:48.782Z",
+ "when": "2026-10-28T05:24:03.107Z",
  "key": "remote-arcgis-read",
- "n": 568,
+ "n": 570,
  "fields": 9,
  "idOk": true,
  "pending": {

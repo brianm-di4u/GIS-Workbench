@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:59:31.404Z",
+ "when": "2026-10-28T05:29:31.526Z",
  "key": "bands.stats",
  "id": "bands.stats",
  "enabled": true,

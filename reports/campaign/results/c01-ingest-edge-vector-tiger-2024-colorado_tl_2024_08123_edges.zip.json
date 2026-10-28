@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:18.725Z",
+ "when": "2026-10-28T04:36:59.808Z",
  "key": "vector-tiger-2024-colorado/tl_2024_08123_edges.zip",
  "item": "vector-tiger-2024-colorado",
  "file": "tl_2024_08123_edges.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 2872,
+ "ms": 3650,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:17.140Z",
+ "when": "2026-10-28T04:35:56.007Z",
  "key": "robustness-gdal-autotest-seeds/huge-implied-number-strips.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "huge-implied-number-strips.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened huge-implied-number-strips.tif in 36 ms",
+  "toast-info: Opened huge-implied-number-strips.tif in 35 ms",
   "toast-error: huge-implied-number-strips.tif cannot be displayed: the TIFF has an invalid sample layout (BitsPerSample / SamplesPerPixel)"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 136,
+ "ms": 112,
  "logs": [],
  "requests": [],
  "csp": []

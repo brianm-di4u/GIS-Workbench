@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:24.163Z",
+ "when": "2026-10-28T04:23:56.799Z",
  "key": "aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_e_ort_glt",
  "item": "aviris-classic-f130410t01p00r09",
  "file": "f130410t01p00r09rdn_e_ort_glt",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened f130410t01p00r09rdn_e_ort_glt in 29 ms"
+  "toast-info: Opened f130410t01p00r09rdn_e_ort_glt in 40 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 2141,
+ "ms": 1419,
  "logs": [],
  "requests": [],
  "csp": []

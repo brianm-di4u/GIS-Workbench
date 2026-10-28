@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "chrome",
- "when": "2026-10-28T01:17:10.047Z",
+ "when": "2026-10-28T05:56:38.626Z",
  "key": "toa-s2-l1c-jp2-safe-10seh-20240816",
  "check": "toa",
  "tol": "max |Δρ| ≤ 0.01, max |ΔNDVI| ≤ 0.01",

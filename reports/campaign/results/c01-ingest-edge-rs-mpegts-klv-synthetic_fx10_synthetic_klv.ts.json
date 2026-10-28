@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:43.733Z",
+ "when": "2026-10-28T04:26:53.996Z",
  "key": "rs-mpegts-klv-synthetic/fx10_synthetic_klv.ts",
  "item": "rs-mpegts-klv-synthetic",
  "file": "fx10_synthetic_klv.ts",
@@ -12,7 +12,7 @@
   "time basis: the first time stamp falls on a whole minute when read as UTC/POSIX: the encoder may write legacy UTC"
  ],
  "toasts": [
-  "toast-info: Opened fx10_synthetic_klv.ts: 300 frames, 300 KLV packets (0 bad) in 167 ms"
+  "toast-info: Opened fx10_synthetic_klv.ts: 300 frames, 300 KLV packets (0 bad) in 143 ms"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 224,
+ "ms": 185,
  "logs": [],
  "requests": [],
  "csp": []

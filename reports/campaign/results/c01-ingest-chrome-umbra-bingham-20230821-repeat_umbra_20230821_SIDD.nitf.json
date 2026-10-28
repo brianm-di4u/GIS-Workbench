@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:12.152Z",
+ "when": "2026-10-28T04:23:40.403Z",
  "key": "umbra-bingham-20230821-repeat/umbra_20230821_SIDD.nitf",
  "item": "umbra-bingham-20230821-repeat",
  "file": "umbra_20230821_SIDD.nitf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened umbra_20230821_SIDD.nitf in 33 ms"
+  "toast-info: Opened umbra_20230821_SIDD.nitf in 36 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 2393,
+ "ms": 2664,
  "logs": [],
  "requests": [],
  "csp": []

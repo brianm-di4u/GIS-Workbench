@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:01.130Z",
+ "when": "2026-10-28T04:36:39.922Z",
  "key": "fmv-impleotv-damaged-corpus/mpegts-max-pts-interval.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "mpegts-max-pts-interval.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened mpegts-max-pts-interval.ts: 208 frames, 0 KLV packets (0 bad) in 107 ms"
+  "toast-info: Opened mpegts-max-pts-interval.ts: 208 frames, 0 KLV packets (0 bad) in 125 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 187,
+ "ms": 188,
  "logs": [],
  "requests": [],
  "csp": []

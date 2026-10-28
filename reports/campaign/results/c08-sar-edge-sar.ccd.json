@@ -1,7 +1,7 @@
 {
  "spec": "c08-sar",
  "project": "edge",
- "when": "2026-10-27T15:41:55.266Z",
+ "when": "2026-10-28T05:20:18.463Z",
  "key": "sar.ccd",
  "id": "sar.ccd",
  "enabled": true,
@@ -10,7 +10,7 @@
   "Coherent Change Detection"
  ],
  "toasts": [
-  "toast-info: CCD: 1024 × 1024 in 3.1 s"
+  "toast-info: CCD: 1024 × 1024 in 3.5 s"
  ],
  "errors": [],
  "changed": [

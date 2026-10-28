@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:09.949Z",
+ "when": "2026-10-28T04:09:51.950Z",
  "key": "rs-nitf-gdal-autotest-small/fake_nsif.ntf",
  "item": "rs-nitf-gdal-autotest-small",
  "file": "fake_nsif.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened fake_nsif.ntf in 45 ms"
+  "toast-info: Opened fake_nsif.ntf in 43 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 168,
+ "ms": 151,
  "logs": [],
  "requests": [],
  "csp": []

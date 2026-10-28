@@ -1,7 +1,7 @@
 {
  "spec": "c12-vector",
  "project": "chrome",
- "when": "2026-10-27T15:38:03.485Z",
+ "when": "2026-10-28T05:16:12.684Z",
  "key": "vec.remotesave",
  "id": "vec.remotesave",
  "enabled": false,

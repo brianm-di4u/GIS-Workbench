@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:42:11.650Z",
+ "when": "2026-10-28T04:29:48.651Z",
  "key": "field-dg-spratly-zip/Spratly Islands.zip",
  "item": "field-dg-spratly-zip",
  "file": "Spratly Islands.zip",
@@ -103,7 +103,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 103367,
+ "ms": 65664,
  "logs": [],
  "requests": [],
  "csp": []

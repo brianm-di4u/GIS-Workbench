@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:26.567Z",
+ "when": "2026-10-28T04:10:08.989Z",
  "key": "derived-dem-utm13-viewshed/dem_utm13_30m.tif",
  "item": "derived-dem-utm13-viewshed",
  "file": "dem_utm13_30m.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened dem_utm13_30m.tif in 37 ms"
+  "toast-info: Opened dem_utm13_30m.tif in 36 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 636,
+ "ms": 624,
  "logs": [],
  "requests": [],
  "csp": []

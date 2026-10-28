@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:25.205Z",
+ "when": "2026-10-28T04:10:06.774Z",
  "key": "derived-gtiff-codec-matrix/dem_lzw.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "dem_lzw.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened dem_lzw.tif in 39 ms"
+  "toast-info: Opened dem_lzw.tif in 46 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 896,
+ "ms": 899,
  "logs": [],
  "requests": [],
  "csp": []

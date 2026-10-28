@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:28.204Z",
+ "when": "2026-10-28T04:18:54.859Z",
  "key": "vector-tiger-2024-colorado/tl_2024_08_prisecroads.zip",
  "item": "vector-tiger-2024-colorado",
  "file": "tl_2024_08_prisecroads.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 567,
+ "ms": 577,
  "logs": [],
  "requests": [],
  "csp": []

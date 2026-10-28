@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:36.891Z",
+ "when": "2026-10-28T04:17:04.699Z",
  "key": "nitf-rpf-cadrg-frames/testtest.on9",
  "item": "nitf-rpf-cadrg-frames",
  "file": "testtest.on9",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 117,
+ "ms": 107,
  "logs": [],
  "requests": [],
  "csp": []

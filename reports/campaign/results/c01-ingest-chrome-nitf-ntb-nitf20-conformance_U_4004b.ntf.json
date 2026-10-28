@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:31.334Z",
+ "when": "2026-10-28T04:16:58.319Z",
  "key": "nitf-ntb-nitf20-conformance/U_4004b.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_4004b.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4004b.ntf in 38 ms"
+  "toast-info: Opened U_4004b.ntf in 29 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 368,
+ "ms": 350,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:26:45.512Z",
+ "when": "2026-10-28T04:16:46.102Z",
  "key": "field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C1.tif",
  "item": "field-dg-spratly-west-reef-20150417",
  "file": "West_Reef_20150417_R1C1.tif",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 31195,
+ "ms": 16400,
  "logs": [],
  "requests": [],
  "csp": []

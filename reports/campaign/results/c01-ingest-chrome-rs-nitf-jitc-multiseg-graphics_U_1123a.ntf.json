@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:14.653Z",
+ "when": "2026-10-28T04:09:57.776Z",
  "key": "rs-nitf-jitc-multiseg-graphics/U_1123a.ntf",
  "item": "rs-nitf-jitc-multiseg-graphics",
  "file": "U_1123a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_1123a.ntf in 66 ms"
+  "toast-info: Opened U_1123a.ntf in 54 ms"
  ],
  "layers": [
   {
@@ -67,7 +67,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 429,
+ "ms": 398,
  "logs": [],
  "requests": [],
  "csp": []

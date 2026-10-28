@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:21:48.761Z",
+ "when": "2026-10-28T04:14:08.858Z",
  "key": "field-dg-spratly-subi-reef-20150413/Subi_Reef_20150413_R1C3.tif",
  "item": "field-dg-spratly-subi-reef-20150413",
  "file": "Subi_Reef_20150413_R1C3.tif",
@@ -9,7 +9,9 @@
  "rendered": true,
  "errors": [],
  "warnings": [],
- "toasts": [],
+ "toasts": [
+  "toast-info: Opened Subi_Reef_20150413_R1C3.tif in 36 ms"
+ ],
  "layers": [
   {
    "error": null,
@@ -29,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 4264,
+ "ms": 1652,
  "logs": [],
  "requests": [],
  "csp": []

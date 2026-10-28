@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:13:30.466Z",
+ "when": "2026-10-28T04:26:28.558Z",
  "key": "gmti-stanag4607-trane293-fixtures/full_mask_every_optional_group.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "full_mask_every_optional_group.gmti",
@@ -19,7 +19,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120087,
+ "ms": 120089,
  "logs": [],
  "requests": [],
  "csp": []

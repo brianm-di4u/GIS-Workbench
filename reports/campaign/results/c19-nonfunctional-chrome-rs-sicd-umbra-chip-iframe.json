@@ -1,7 +1,7 @@
 {
  "spec": "c19-nonfunctional",
  "project": "chrome",
- "when": "2026-10-27T14:48:22.458Z",
+ "when": "2026-10-28T05:03:40.637Z",
  "key": "rs-sicd-umbra-chip-iframe",
  "mode": "iframe",
  "errors": [],

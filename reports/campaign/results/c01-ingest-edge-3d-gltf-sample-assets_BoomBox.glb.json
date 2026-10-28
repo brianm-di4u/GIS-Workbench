@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:43:40.541Z",
+ "when": "2026-10-28T04:43:23.444Z",
  "key": "3d-gltf-sample-assets/BoomBox.glb",
  "item": "3d-gltf-sample-assets",
  "file": "BoomBox.glb",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120196,
+ "ms": 120240,
  "logs": [],
  "requests": [],
  "csp": []

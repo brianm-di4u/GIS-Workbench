@@ -1,7 +1,7 @@
 {
  "spec": "c18-live",
  "project": "chrome",
- "when": "2026-10-27T15:08:45.860Z",
+ "when": "2026-10-28T05:24:00.321Z",
  "key": "live-gibs-wmts-4326-reach",
  "url": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/1.0.0/WMTSCapabilities.xml",
  "status": 200,

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:41:47.906Z",
+ "when": "2026-10-28T04:41:31.746Z",
  "key": "umbra-bingham-20230821-repeat/umbra_20230821_SICD.nitf",
  "item": "umbra-bingham-20230821-repeat",
  "file": "umbra_20230821_SICD.nitf",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 4692,
+ "ms": 5487,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:57.395Z",
+ "when": "2026-10-28T04:27:30.055Z",
  "key": "derived-gtiff-codec-matrix/rgb_jpeg.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "rgb_jpeg.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rgb_jpeg.tif in 29 ms"
+  "toast-info: Opened rgb_jpeg.tif in 30 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 346,
+ "ms": 610,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:46.695Z",
+ "when": "2026-10-28T04:36:27.072Z",
  "key": "lidar-las-version-matrix/lots_of_vlr.las",
  "item": "lidar-las-version-matrix",
  "file": "lots_of_vlr.las",
@@ -13,7 +13,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened lots_of_vlr.las: 1 points in 27 ms (2 notes in the import log)"
+  "toast-info: Opened lots_of_vlr.las: 1 points in 34 ms (2 notes in the import log)"
  ],
  "layers": [],
  "others": {
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 133,
+ "ms": 167,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:20.197Z",
+ "when": "2026-10-28T04:09:46.552Z",
  "key": "rs-geotiff-wv3-rpc-cog/wv3_a_cog.tif",
  "item": "rs-geotiff-wv3-rpc-cog",
  "file": "wv3_a_cog.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened wv3_a_cog.tif in 49 ms"
+  "toast-info: Opened wv3_a_cog.tif in 55 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 390,
+ "ms": 385,
  "logs": [],
  "requests": [],
  "csp": []

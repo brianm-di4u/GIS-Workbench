@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:30:00.075Z",
+ "when": "2026-10-28T04:19:28.319Z",
  "key": "vector-geopackage-conformance-set/relation_mapping_table.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "relation_mapping_table.gpkg",
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 147,
+ "ms": 124,
  "logs": [],
  "requests": [],
  "csp": []

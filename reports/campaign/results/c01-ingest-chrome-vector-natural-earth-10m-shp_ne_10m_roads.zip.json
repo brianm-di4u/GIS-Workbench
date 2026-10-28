@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:28.563Z",
+ "when": "2026-10-28T04:18:55.472Z",
  "key": "vector-natural-earth-10m-shp/ne_10m_roads.zip",
  "item": "vector-natural-earth-10m-shp",
  "file": "ne_10m_roads.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 3465,
+ "ms": 3438,
  "logs": [],
  "requests": [],
  "csp": []

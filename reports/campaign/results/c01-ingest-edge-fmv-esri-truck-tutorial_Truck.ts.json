@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:57.544Z",
+ "when": "2026-10-28T04:36:35.994Z",
  "key": "fmv-esri-truck-tutorial/Truck.ts",
  "item": "fmv-esri-truck-tutorial",
  "file": "Truck.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened Truck.ts: 4439 frames, 711 KLV packets (0 bad) in 1210 ms"
+  "toast-info: Opened Truck.ts: 4439 frames, 711 KLV packets (0 bad) in 1589 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 1274,
+ "ms": 1646,
  "logs": [],
  "requests": [],
  "csp": []

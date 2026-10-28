@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:48.830Z",
+ "when": "2026-10-28T04:27:05.744Z",
  "key": "rs-nitf-jitc-imode-bprs/v_3301a.ntf",
  "item": "rs-nitf-jitc-imode-bprs",
  "file": "v_3301a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened v_3301a.ntf in 34 ms"
+  "toast-info: Opened v_3301a.ntf in 25 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 599,
+ "ms": 572,
  "logs": [],
  "requests": [],
  "csp": []

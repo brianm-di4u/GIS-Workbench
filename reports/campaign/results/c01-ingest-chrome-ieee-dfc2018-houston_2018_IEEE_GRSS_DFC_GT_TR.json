@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:11:28.736Z",
+ "when": "2026-10-28T04:24:18.456Z",
  "key": "ieee-dfc2018-houston/2018_IEEE_GRSS_DFC_GT_TR",
  "item": "ieee-dfc2018-houston",
  "file": "2018_IEEE_GRSS_DFC_GT_TR",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 10606,
+ "ms": 4682,
  "logs": [],
  "requests": [],
  "csp": []

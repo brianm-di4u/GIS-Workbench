@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:34.807Z",
+ "when": "2026-10-28T04:24:05.488Z",
  "key": "srtm-skadi-n39w106-n40w106/N40W106.hgt.gz",
  "item": "srtm-skadi-n39w106-n40w106",
  "file": "N40W106.hgt.gz",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened N40W106.hgt.gz in 350 ms"
+  "toast-info: Opened N40W106.hgt.gz in 394 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 947,
+ "ms": 1002,
  "logs": [],
  "requests": [],
  "csp": []

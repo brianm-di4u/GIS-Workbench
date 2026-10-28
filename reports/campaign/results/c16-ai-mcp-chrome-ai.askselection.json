@@ -1,7 +1,7 @@
 {
  "spec": "c16-ai-mcp",
  "project": "chrome",
- "when": "2026-10-27T15:38:39.819Z",
+ "when": "2026-10-28T05:16:53.179Z",
  "key": "ai.askselection",
  "id": "ai.askselection",
  "enabled": true,

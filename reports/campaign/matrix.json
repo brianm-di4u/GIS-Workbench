@@ -1,8 +1,8 @@
 {
  "summary": {
-  "generated": "2026-10-28T03:21:11.989Z",
+  "generated": "2026-10-28T04:09:40.005Z",
   "commands": 451,
-  "implemented": 448,
+  "implemented": 451,
   "placeholders": [],
   "unplaced": [
    "packs.manage",
@@ -729,7 +729,7 @@
    "req": "REQ-UI-05",
    "rel": "R0",
    "spec": "c17-workspace",
-   "implemented": null,
+   "implemented": true,
    "locations": [
     "workspace-menu"
    ],
@@ -746,7 +746,7 @@
    "req": "REQ-UI-03",
    "rel": "R0",
    "spec": "c17-workspace",
-   "implemented": null,
+   "implemented": true,
    "locations": [],
    "context": [],
    "needs": null,
@@ -8369,6 +8369,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8376,10 +8377,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8411,6 +8411,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8418,10 +8419,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8453,6 +8453,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8460,10 +8461,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8495,6 +8495,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8502,10 +8503,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8537,6 +8537,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8544,10 +8545,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8579,6 +8579,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8586,10 +8587,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8621,6 +8621,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8628,10 +8629,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8663,6 +8663,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8670,10 +8671,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8705,6 +8705,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8712,10 +8713,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8747,6 +8747,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8754,10 +8755,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8789,6 +8789,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8796,10 +8797,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8831,6 +8831,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8838,10 +8839,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -8898,7 +8898,7 @@
    "req": "REQ-MSI-04",
    "rel": "R3",
    "spec": "c09-msi",
-   "implemented": null,
+   "implemented": true,
    "locations": [
     "ctx:image"
    ],
@@ -8965,6 +8965,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -8972,10 +8973,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9054,6 +9054,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9061,10 +9062,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9096,6 +9096,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9103,10 +9104,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9138,6 +9138,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9145,10 +9146,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9180,6 +9180,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9187,10 +9188,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9222,6 +9222,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9229,10 +9230,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "oracle",
    "oracle": "OA/κ vs scikit-learn (3 decimals)"
   },
@@ -9358,6 +9358,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9365,10 +9366,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9494,6 +9494,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9501,10 +9502,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },
@@ -9536,6 +9536,7 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
+    "field-phr-dimap",
     "eo-maxar-libya-floods-wv3-prepost",
     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
@@ -9543,10 +9544,9 @@
     "landsat8-c2-l1tp-044034-20240820-tierb",
     "landsat8-c2-l2sp-044034-20240820",
     "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816",
-    "usgs-splib07-ascii"
+    "s2-l1c-jp2-safe-10seh-20240816"
    ],
-   "dataCount": 12,
+   "dataCount": 13,
    "check": "smoke",
    "oracle": null
   },

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:33.029Z",
+ "when": "2026-10-28T04:37:15.215Z",
  "key": "vector-geopackage-conformance-set/3857.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "3857.gpkg",
@@ -12,7 +12,7 @@
   "imagery: tile pyramid zoom 4 (2×6 matrix, tiles of 450×450, 12 decoded) opened as 3857_imagery_z4.png"
  ],
  "toasts": [
-  "toast-info: Opened 3857_imagery_z4.png in 70 ms"
+  "toast-info: Opened 3857_imagery_z4.png in 95 ms"
  ],
  "layers": [
   {
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 576,
+ "ms": 631,
  "logs": [],
  "requests": [],
  "csp": []

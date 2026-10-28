@@ -1,7 +1,7 @@
 {
  "spec": "c19-nonfunctional",
  "project": "chrome",
- "when": "2026-10-27T14:48:21.509Z",
+ "when": "2026-10-28T05:03:39.636Z",
  "key": "rs-sicd-umbra-chip-http",
  "mode": "http",
  "errors": [],

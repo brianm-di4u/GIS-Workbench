@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:30.486Z",
+ "when": "2026-10-28T04:37:12.256Z",
  "key": "vector-geofabrik-osm-dc/district-of-columbia.gpkg",
  "item": "vector-geofabrik-osm-dc",
  "file": "district-of-columbia.gpkg",
@@ -441,7 +441,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 11290,
+ "ms": 11826,
  "logs": [],
  "requests": [],
  "csp": []

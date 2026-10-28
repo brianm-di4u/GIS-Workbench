@@ -1,28 +1,28 @@
 {
  "summary": {
-  "generated": "2026-10-28T02:09:44.165Z",
+  "generated": "2026-10-28T05:54:22.402Z",
   "releases": [
    "R0",
-   "R1",
-   "R2",
-   "R3"
+   "R1"
   ],
-  "total": 348,
+  "total": 188,
   "status": {
-   "tested": 348
+   "tested": 188
   },
   "mustUntested": [],
   "lastResult": {
-   "passing": 324,
-   "passing (file)": 18,
-   "cited, no result in the reports": 1,
-   "failing": 5
+   "passing": 170,
+   "passing (file)": 14,
+   "failing (file)": 3,
+   "failing": 1
   },
   "mustWithoutPassingResult": [
-   "REQ-MSI-08 (R3, failing)",
-   "REQ-MSI-10 (R3, failing)"
+   "REQ-FMT-02 (R1, failing (file))",
+   "REQ-FMT-06 (R1, failing (file))",
+   "REQ-FMT-12 (R1, failing (file))",
+   "REQ-FMT-16 (R1, failing)"
   ],
-  "testResults": 2724,
+  "testResults": 4569,
   "families": {
    "PT": {
     "ids": 12,
@@ -38,11 +38,11 @@
    },
    "PRF": {
     "ids": 7,
-    "failing": 1
+    "failing": 0
    },
    "TE": {
-    "ids": 25,
-    "failing": 1
+    "ids": 34,
+    "failing": 2
    }
   }
  },
@@ -171,7 +171,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -218,7 +218,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 14,
     "failed": 0,
     "skipped": 0
    },
@@ -241,7 +241,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -331,162 +331,7 @@
    "results": {
     "passed": 7,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-ARC-14",
-   "text": "Load large or rarely used components (AI, HDF5, EGM2008, PROJ, larger basemaps, PDF fonts) as data packs that have a manifest and SHA-256 checks. Never execute code from a pack whose hash is not in the build manifest.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/features/files.js",
-    "app/src/features/packs.js",
-    "app/src/shell/commands.js",
-    "app/src/storage/packs.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "app/src/workers/pool.js",
-    "app/src/workers/worker-core.js",
-    "build/build.mjs",
-    "build/fixtures/fxpacks.mjs",
-    "build/packs.mjs"
-   ],
-   "tests": [
-    "tests/e2e/packs.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 16,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-ARC-15",
-   "text": "Offer Standard and Lite build profiles (Lite omits the lazy 3D, LiDAR, video and SAR modules).",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Build",
-   "verify": "E2E + Insp",
-   "code": [
-    "build/build.mjs"
-   ],
-   "tests": [
-    "tests/e2e/closeout-ui.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-ARC-16",
-   "text": "Add online sources (XYZ/WMTS/WMS tiles, quantized-mesh terrain, COPC/EPT, ArcGIS REST) only through \"add origin → test CORS → save file → reload\". Refuse wildcard origins.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/features/ai.js",
-    "app/src/features/online.js",
-    "app/src/features/pointcloud.js",
-    "app/src/features/scene3d.js",
-    "app/src/formats/copc.js",
-    "app/src/render/qmesh.js",
-    "app/src/shell/commands.js",
-    "app/src/storage/selfsave.js"
-   ],
-   "tests": [
-    "tests/campaign/c18-live.spec.js",
-    "tests/e2e/nav.spec.js",
-    "tests/e2e/r2-gaps.spec.js",
-    "tests/e2e/r2-platform.spec.js",
-    "tests/e2e/stream-pc.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 18,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-ARC-17",
-   "text": "Expose a small JavaScript automation API (load image, get ground point, create graphic, run a chain, export). It mirrors DevKit concepts.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/ai/registry.js",
-    "app/src/ai/tools-auto.js",
-    "app/src/features/automation.js",
-    "app/src/features/files.js",
-    "app/src/main.js",
-    "app/src/shell/commands.js",
-    "app/src/styles/20-shell.css"
-   ],
-   "tests": [
-    "tests/e2e/closeout-ui.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-ARC-18",
-   "text": "Reuse the baseline MCP registry so that an AI assistant can call the automation API through proposals the user accepts.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/ai/registry.js",
-    "app/src/ai/tools-auto.js"
-   ],
-   "tests": [
-    "tests/e2e/r3-review-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-ARC-19",
-   "text": "Export a self-contained snapshot (app + project + small chips in one HTML) for sharing.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/features/files.js",
-    "app/src/shell/commands.js",
-    "app/src/storage/selfsave.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-ui.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 3
    },
    "lastResult": "passing"
   },
@@ -508,27 +353,6 @@
     "skipped": 0
    },
    "lastResult": "passing (file)"
-  },
-  {
-   "id": "REQ-ARC-21",
-   "text": "Stream large products from workers to disk (`createWritable` in Chromium; chunked Blob download elsewhere).",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/storage/files.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-platform.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
   },
   {
    "id": "REQ-ARC-22",
@@ -586,16 +410,19 @@
     "crates/gw-fuzz/tests/fuzz.rs",
     "crates/gw-parse/src/bytes.rs",
     "crates/gw-parse/src/lib.rs",
-    "crates/gw-parse/src/xml.rs"
+    "crates/gw-parse/src/xml.rs",
+    "crates/gw-pointcloud/tests/te_laz_chunk_count.rs"
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
+    "tests/e2e/field-formats.spec.js",
     "tests/e2e/samples.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs"
+    "crates/gw-fuzz/tests/fuzz.rs",
+    "crates/gw-pointcloud/tests/te_laz_chunk_count.rs"
    ],
    "status": "tested",
    "results": {
-    "passed": 72,
+    "passed": 74,
     "failed": 0,
     "skipped": 0
    },
@@ -645,7 +472,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -688,7 +515,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -710,7 +537,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -760,75 +587,6 @@
    "lastResult": "passing"
   },
   {
-   "id": "REQ-SEC-10",
-   "text": "Keep user tokens for online services in memory unless the user opts to store them, and never write them into exported files.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/features/online.js",
-    "app/src/features/remote-edit.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-platform.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SEC-11",
-   "text": "Show a provenance and redaction notice when exporting a product that contains metadata. Provide an Image Splitter/Redaction tool that removes pixels and metadata from chips.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/features/release.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-platform.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SEC-12",
-   "text": "Never send data to the network unless the user has added the origin. Log every request in a network log dock.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + Insp",
-   "code": [
-    "app/src/ai/netlog.js",
-    "app/src/features/panels.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c18-live.spec.js",
-    "tests/e2e/platform.spec.js",
-    "tests/e2e/r2-platform.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 18,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-UI-01",
    "text": "Provide a Workspace area with Data, Windows and Map views and a Preview pane, beside one or more multiports.",
    "priority": "M",
@@ -845,7 +603,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 14,
     "failed": 0,
     "skipped": 0
    },
@@ -871,7 +629,7 @@
    "results": {
     "passed": 14,
     "failed": 0,
-    "skipped": 0
+    "skipped": 6
    },
    "lastResult": "passing"
   },
@@ -894,7 +652,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 3,
+    "passed": 6,
     "failed": 0,
     "skipped": 0
    },
@@ -918,9 +676,9 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -940,7 +698,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1010,7 +768,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -1033,7 +791,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 8,
     "failed": 0,
     "skipped": 0
    },
@@ -1056,7 +814,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1080,7 +838,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1104,7 +862,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 14,
     "failed": 0,
     "skipped": 0
    },
@@ -1145,11 +903,12 @@
     "app/src/styles/40-overlays.css"
    ],
    "tests": [
-    "tests/e2e/closeout-ui.spec.js"
+    "tests/e2e/closeout-ui.spec.js",
+    "tests/e2e/field-formats.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
+    "passed": 4,
     "failed": 0,
     "skipped": 0
    },
@@ -1171,7 +930,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
+    "passed": 3,
     "failed": 0,
     "skipped": 0
    },
@@ -1188,11 +947,12 @@
     "app/src/styles/20-shell.css"
    ],
    "tests": [
+    "tests/e2e/field-formats.spec.js",
     "tests/e2e/look.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 8,
     "failed": 0,
     "skipped": 0
    },
@@ -1217,7 +977,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -1238,9 +998,9 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 14,
+    "passed": 15,
     "failed": 0,
-    "skipped": 0
+    "skipped": 5
    },
    "lastResult": "passing"
   },
@@ -1261,71 +1021,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-UI-20",
-   "text": "Provide one input abstraction for mouse, keyboard, Gamepad and WebHID devices, with GXP-style X/Y/Z, wheel and keyboard gains.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + GC",
-   "code": [
-    "app/src/features/devices.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-platform.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-UI-21",
-   "text": "Map a 3Dconnexion SpaceMouse through WebHID with a Gamepad fallback.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + GC",
-   "code": [
-    "app/src/features/devices.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-platform.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-UI-22",
-   "text": "Support serial stereo mice (Stealth, TopoMouse) through Web Serial when their protocols are available.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + GC",
-   "code": [
-    "app/src/features/devices.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1353,29 +1049,6 @@
    "lastResult": "passing"
   },
   {
-   "id": "REQ-UI-24",
-   "text": "Customize the Ribbon: hide or show groups and add commands to a custom tab.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E + GC",
-   "code": [
-    "app/src/features/workspace-tools.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/ribbon.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-ui.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-UI-25",
    "text": "Load delimited ASCII point files (lat/lon/name/attributes) as point layers through a column-mapping dialog.",
    "priority": "S",
@@ -1391,7 +1064,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1416,9 +1089,9 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 16,
+    "passed": 17,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -1464,7 +1137,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -1480,11 +1153,12 @@
     "app/src/workers/decode/pyramid.js"
    ],
    "tests": [
+    "tests/campaign/c43-field-workflows.spec.js",
     "tests/e2e/r1-musts.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
+    "passed": 4,
     "failed": 0,
     "skipped": 0
    },
@@ -1507,7 +1181,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 3,
+    "passed": 4,
     "failed": 0,
     "skipped": 0
    },
@@ -1531,7 +1205,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 7,
+    "passed": 10,
     "failed": 0,
     "skipped": 0
    },
@@ -1558,7 +1232,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 27,
+    "passed": 37,
     "failed": 0,
     "skipped": 0
    },
@@ -1582,7 +1256,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 7,
+    "passed": 10,
     "failed": 0,
     "skipped": 0
    },
@@ -1612,7 +1286,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 20,
+    "passed": 26,
     "failed": 0,
     "skipped": 0
    },
@@ -1638,7 +1312,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 12,
     "failed": 0,
     "skipped": 0
    },
@@ -1663,7 +1337,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1688,7 +1362,7 @@
    "results": {
     "passed": 16,
     "failed": 0,
-    "skipped": 0
+    "skipped": 7
    },
    "lastResult": "passing"
   },
@@ -1712,7 +1386,7 @@
    "results": {
     "passed": 12,
     "failed": 0,
-    "skipped": 0
+    "skipped": 5
    },
    "lastResult": "passing"
   },
@@ -1736,7 +1410,7 @@
    "results": {
     "passed": 8,
     "failed": 0,
-    "skipped": 0
+    "skipped": 3
    },
    "lastResult": "passing"
   },
@@ -1762,7 +1436,7 @@
    "results": {
     "passed": 8,
     "failed": 0,
-    "skipped": 0
+    "skipped": 3
    },
    "lastResult": "passing"
   },
@@ -1786,23 +1460,9 @@
    "results": {
     "passed": 8,
     "failed": 0,
-    "skipped": 0
+    "skipped": 3
    },
    "lastResult": "passing"
-  },
-  {
-   "id": "REQ-IMG-16",
-   "text": "Provide Auto Roam along a drawn path at a set speed.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [],
-   "tests": [
-    "tests/campaign/c03-enhance.spec.js"
-   ],
-   "status": "tested",
-   "lastResult": "cited, no result in the reports"
   },
   {
    "id": "REQ-IMG-17",
@@ -1823,31 +1483,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-IMG-18",
-   "text": "Provide Ortho On-the-Fly display through the sensor model and a DEM, and virtual mosaics of several images in one map projection.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "GPU + Rust",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/ootf.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c03-enhance.spec.js",
-    "tests/e2e/closeout-geo.spec.js",
-    "tests/e2e/ootf.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 10,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -1869,7 +1505,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 8,
+    "passed": 11,
     "failed": 0,
     "skipped": 0
    },
@@ -1894,7 +1530,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1917,7 +1553,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -1943,30 +1579,7 @@
    "results": {
     "passed": 16,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-IMG-23",
-   "text": "Generate a Gridded Reference Graphic (GRG) with labelled cells over an AOI.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/symbology.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c03-enhance.spec.js",
-    "tests/e2e/r2-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 7
    },
    "lastResult": "passing"
   },
@@ -1991,7 +1604,7 @@
    "results": {
     "passed": 14,
     "failed": 0,
-    "skipped": 0
+    "skipped": 6
    },
    "lastResult": "passing"
   },
@@ -2014,7 +1627,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2037,7 +1650,7 @@
    "results": {
     "passed": 30,
     "failed": 0,
-    "skipped": 0
+    "skipped": 14
    },
    "lastResult": "passing"
   },
@@ -2060,7 +1673,7 @@
    "results": {
     "passed": 8,
     "failed": 0,
-    "skipped": 0
+    "skipped": 3
    },
    "lastResult": "passing"
   },
@@ -2084,7 +1697,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -2107,7 +1720,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -2127,61 +1740,15 @@
     "app/src/shell/commands.js"
    ],
    "tests": [
+    "tests/campaign/c43-field-workflows.spec.js",
     "tests/e2e/graphics.spec.js",
     "tests/e2e/shoulds.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 14,
+    "passed": 16,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-IMG-31",
-   "text": "Load GPS waypoints and routes from GPX as graphics layers.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/graphics.js",
-    "app/src/shell/commands.js",
-    "app/src/tools/tools.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-IMG-32",
-   "text": "Draw MIL-STD-2525 (C/D/E) symbols from lazy-loaded milsymbol. Do not claim 2525B rendering.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Lib (milsymbol)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/symbology.js",
-    "app/src/lazy/milsymbol.lazy.js",
-    "app/src/shell/commands.js",
-    "app/src/tools/tools.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 6
    },
    "lastResult": "passing"
   },
@@ -2229,7 +1796,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2253,7 +1820,7 @@
    "results": {
     "passed": 12,
     "failed": 0,
-    "skipped": 0
+    "skipped": 5
    },
    "lastResult": "passing"
   },
@@ -2275,7 +1842,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2297,7 +1864,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -2320,7 +1887,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2345,7 +1912,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2396,29 +1963,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MEN-09",
-   "text": "Provide depth measurement (negative height below a reference surface).",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/measure.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -2440,54 +1985,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MEN-11",
-   "text": "Provide a multi-image point (targeting-grade) from 2+ images, with per-image residuals, a convergence warning under 10°, and a 3×3 covariance.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "AT AC-07.1..AC-07.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/triangulation.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/core.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/gw-sensor/src/intersect.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn06-07.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MEN-12",
-   "text": "Provide stereo mensuration of point, height, distance, slope, polyline/polygon Z and volume, each logged with CE90/LE90.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "AT AC-05.4 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 16,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2512,7 +2010,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
+    "passed": 3,
     "failed": 0,
     "skipped": 0
    },
@@ -2654,7 +2152,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2675,29 +2173,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-GEO-09",
-   "text": "Carry a table of about 30 legacy datums as `towgs84` parameters. Flag every coordinate derived through a 3-parameter shift and add the shift σ to its error budget.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/readout.js",
-    "app/src/geo/crs.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -2737,31 +2213,6 @@
    ],
    "tests": [
     "tests/e2e/r1-musts.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-GEO-12",
-   "text": "Offer PROJ-WASM as an optional data pack for rare CRSs.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "C-WASM pack",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/packs.js",
-    "app/src/formats/open.js",
-    "app/src/geo/crs.js",
-    "build/fixtures/fxpacks.mjs",
-    "build/packs.mjs"
-   ],
-   "tests": [
-    "tests/e2e/packs.spec.js"
    ],
    "status": "tested",
    "results": {
@@ -2816,64 +2267,6 @@
    "lastResult": "passing"
   },
   {
-   "id": "REQ-SNS-03",
-   "text": "Implement RSM (polynomial, sections, ground-to-image grid, RSMECA/ECB and RSMAPA/APB) in JavaScript. Label the error output \"experimental\" until it passes the NGA samples.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/frames.js",
-    "app/src/formats/open.js",
-    "app/src/sensor/rsm.js",
-    "app/src/wasm/core.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/gw-sensor/src/lib.rs",
-    "crates/gw-sensor/src/rsm.rs",
-    "crates/gw-sensor/tests/frame_rsm.rs"
-   ],
-   "tests": [
-    "tests/campaign/c20-accuracy.spec.js",
-    "tests/e2e/sensors-r2.spec.js",
-    "tests/golden/rpc.test.js",
-    "crates/gw-sensor/tests/frame_rsm.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-04",
-   "text": "Support frame and line-scanner (pushbroom) models through rebuilt usgscsm WASM after spike S-05, with a JavaScript frame model as the fallback.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/frames.js",
-    "app/src/wasm/core.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/gw-sensor/src/frame.rs",
-    "crates/gw-sensor/src/lib.rs",
-    "crates/gw-sensor/tests/frame_rsm.rs"
-   ],
-   "tests": [
-    "tests/e2e/sensors-r2.spec.js",
-    "crates/gw-sensor/tests/frame_rsm.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-SNS-05",
    "text": "Provide generic models: affine, polynomial (1st–3rd order) and a projective model from GCPs, for unsupported imagery.",
    "priority": "M",
@@ -2893,7 +2286,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -2917,9 +2310,9 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 242,
+    "passed": 703,
     "failed": 0,
-    "skipped": 4
+    "skipped": 6
    },
    "lastResult": "passing"
   },
@@ -2983,694 +2376,15 @@
     "app/src/shell/pane.js"
    ],
    "tests": [
+    "tests/campaign/c43-field-workflows.spec.js",
+    "tests/e2e/field-formats.spec.js",
     "tests/e2e/register.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 14,
+    "passed": 17,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-10",
-   "text": "Provide Stereo Align, which removes y-parallax by adjusting one image of a pair.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/features/triangulation.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-11",
-   "text": "Provide an RPC bias-compensated block adjustment (shift, shift + drift or affine per image). It uses GCPs with σ, checkpoints, tie points, Levenberg–Marquardt, iterative blunder rejection, σ₀, residual tables, checkpoint RMSE and CE90/LE90.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-06.1..AC-06.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/triangulation.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/core.js",
-    "app/src/wasm/photo.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-adjust/src/block.rs",
-    "crates/gw-adjust/src/lib.rs",
-    "crates/gw-sensor/src/adjusted.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn06-07.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-12",
-   "text": "Adjust RSM and CSM parameters in the same solver through their partials and a priori covariance.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/frames.js"
-   ],
-   "tests": [
-    "tests/e2e/sensors-r2.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-13",
-   "text": "Measure tie points automatically (model-guided search, Harris, NCC and LSM, grid spread per overlap) and interactively (multi-image point measurement).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + GPU",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/triangulation.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/photo.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-match/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn06-07.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-14",
-   "text": "Provide a frame-import wizard (camera calibration, EO/GPS/IMU) for aerial frame blocks.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS + Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/frames.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/core.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/gw-sensor/src/frame.rs"
-   ],
-   "tests": [
-    "tests/e2e/sensors-r2.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-15",
-   "text": "Keep adjusted models non-destructively: the original support data plus an adjustment record with a solution ID, saved as a `.sup`-like sidecar. Write updated RPC00B and report the refit error.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-06.4, AC-06.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/triangulation.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/core.js",
-    "app/src/wasm/photo.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-adjust/src/lib.rs",
-    "crates/gw-adjust/src/rpcfit.rs",
-    "crates/gw-adjust/tests/fx04.rs",
-    "crates/gw-sensor/src/adjusted.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn06-07.spec.js",
-    "crates/gw-adjust/tests/fx04.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-16",
-   "text": "Fit an RPC from any rigorous model, with denominator regularization, a pole check and a stated RMS and maximum error.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/triangulation.js",
-    "app/src/wasm/photo.js",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-adjust/src/lib.rs",
-    "crates/gw-adjust/src/rpcfit.rs",
-    "crates/gw-adjust/tests/fx04.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn06-07.spec.js",
-    "crates/gw-adjust/tests/fx04.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-17",
-   "text": "Orthorectify by inverse mapping on an adaptive grid with an error bound (default 0.1 px) and NN, bilinear, cubic or Lanczos resampling. Write GeoTIFF/COG.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + GPU",
-   "verify": "AT AC-09.1..AC-09.4 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/ortho.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/raster.js",
-    "crates/bundles/raster/src/lib.rs",
-    "crates/gw-raster/src/lib.rs",
-    "crates/gw-raster/src/ortho.rs",
-    "crates/gw-raster/tests/ortho.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn09.spec.js",
-    "crates/gw-raster/tests/ortho.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-18",
-   "text": "Mosaic orthos with automatic seamlines, seamline editing and colour balance (gain/offset, histogram matching, feathering).",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/ortho.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/raster.js",
-    "crates/bundles/raster/src/lib.rs",
-    "crates/gw-raster/src/lib.rs",
-    "crates/gw-raster/src/mosaic.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn09.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-19",
-   "text": "Produce true orthos from a DSM, with occlusion handling.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/ortho.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-20",
-   "text": "Build frame models for motion imagery from KLV (sensor position, attitude, FOV) for footprints and mensuration over video.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/wasm/core.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/gw-sensor/src/frame.rs",
-    "crates/gw-sensor/tests/klv_frame.rs",
-    "build/fixtures/fx10.mjs"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js",
-    "crates/gw-sensor/tests/klv_frame.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-21",
-   "text": "Use a descriptor matcher (AKAZE/ORB, or WebGPU SIFT) for blocks with poor support data.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Rust / GPU",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/triangulation.js",
-    "app/src/wasm/photo.js",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-match/src/orb.rs"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SNS-22",
-   "text": "Read DigitalGlobe/Maxar .RPB sidecars as an RPC00B model, offset by the .TIL tile position for multi-tile products; accept .TIL/.IMD/.ATT/.EPH/.GEO/.XML sidecars without error.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS + Rust",
-   "verify": "E2E (c20 rpc)",
-   "code": [],
-   "tests": [
-    "tests/campaign/c20-accuracy.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-01",
-   "text": "Show pair metrics: convergence, BIE, named asymmetry, roll, effective B/H, off-nadir, Δt, sun difference, overlap and predicted LE90, coloured against `07` §3.2. Warn for convergence < 10°, BIE < 60° or predicted LE90 above target.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "AT AC-05.1, AC-07.3 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-02",
-   "text": "Provide a Stereo Model Manager with a pair list and \"next stereo model\". Provide a Stereo Pair Finder over loaded and folder metadata.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS + Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/stereo-extra.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-03",
-   "text": "Rectify epipolar pairs on the fly on the GPU through the sensor models. Both eyes share one display plane. Add a viewport-local affine when the heading difference is over 2° or the y-parallax over 0.3 px. Show the y-parallax at the cursor.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU + Rust",
-   "verify": "AT AC-05.2 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/pane.js"
-   ],
-   "tests": [
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-04",
-   "text": "Provide Dubois anaglyph (default), true, grey and half-colour anaglyph, split-screen, and side-by-side parallel and cross-eyed views, with eye swap (D7).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/render/renderer.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/pane.js"
-   ],
-   "tests": [
-    "tests/e2e/perf-r2.spec.js",
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 20,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-05",
-   "text": "Provide full-resolution spanned side-by-side for dual-input mirror monitors, plus row-interleaved (with a parity control) and over-under.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/render/renderer.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/stereo-extra.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 10,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-06",
-   "text": "Provide WebXR per-eye stereo and a two-window dual-output mode.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/stereo-out.js",
-    "app/src/render/renderer.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/stereo-out.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-08",
-   "text": "Provide a floating 3D cursor as a ground point projected into both eyes. Include Fixed Image and Fixed Cursor modes, zoom-scaled Z steps (Shift+wheel, keys, controller), place-on-ground and a parallax readout.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + GPU",
-   "verify": "AT AC-05.3 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/devices.js",
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/pane.js"
-   ],
-   "tests": [
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-09",
-   "text": "Provide snap to ground (an on-demand 1-D correlator) and terrain tracking with a Z offset.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js",
-    "crates/gw-match/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-10",
-   "text": "Link stereo panes to mono and map panes (stereo-mode linking). Draw cursors and graphics per eye before compositing.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/features/views.js"
-   ],
-   "tests": [
-    "tests/e2e/stereo-extra.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-11",
-   "text": "Provide a 3D pane (lazy three.js, local ENU) with RTIN terrain, image draping, vertical exaggeration, and Free/Orbit/Route navigation (D18).",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Lib (three.js) + Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/scene3d.js",
-    "app/src/lazy/three.lazy.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js",
-    "crates/bundles/terrain/src/lib.rs",
-    "crates/gw-terrain/src/rtin.rs"
-   ],
-   "tests": [
-    "tests/e2e/r2-gaps.spec.js",
-    "tests/e2e/str3d.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 20,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-12",
-   "text": "Provide a 3D cursor with mensuration and 3D line of sight in the 3D pane.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust + Lib",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/scene3d.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/str3d.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-13",
-   "text": "Import glTF/GLB models into the 3D pane.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Lib (three.js)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/scene3d.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/str3d.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-14",
-   "text": "Record fly-throughs to WebM.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/scene3d.js",
-    "app/src/media/webm.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/str3d.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-15",
-   "text": "Stream OGC 3D Tiles in the 3D pane when an online source is added.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Lib (three.js)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/scene3d.js",
-    "app/src/render/tiles3d.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c18-live.spec.js",
-    "tests/e2e/r2-gaps.spec.js",
-    "tests/e2e/tiles3d.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 10,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-STR-16",
-   "text": "Export epipolar-resampled pairs as GeoTIFF.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/stereo.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 4
    },
    "lastResult": "passing"
   },
@@ -3695,7 +2409,7 @@
    "results": {
     "passed": 38,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -3741,145 +2455,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-04",
-   "text": "Extract a DSM with census + 8-path SGM on a pyramid, with tSGM ranges, a left-right check, sub-pixel refinement and filtering. Use WebGPU when present, WASM SIMD otherwise (D5). Output a figure-of-merit band. Jobs are tiled, with progress and cancel.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU (WGSL) + Rust SIMD",
-   "verify": "AT AC-08.1..AC-08.3 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/terrain-extract.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/photo.js",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-match/src/dsm.rs",
-    "crates/gw-match/src/sgm.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-05",
-   "text": "Provide an NCC \"Fast\" engine, flagged as edge-poor, and multi-pair fusion.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust + GPU",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/dem-tools.js",
-    "app/src/features/terrain-extract.js",
-    "crates/bundles/photo/src/lib.rs",
-    "crates/gw-match/src/ncc.rs"
-   ],
-   "tests": [
-    "tests/e2e/dem05.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-06",
-   "text": "Provide a four-tab terrain extraction dialog with neutral names and strategy presets.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/terrain-extract.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-07",
-   "text": "Derive a DTM from a DSM with an SMRF ground filter (CSF optional), using NGATE-style height and width parameters.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/dem-tools.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-08",
-   "text": "Keep the source DEM immutable and store edits in sparse tiles with a command log and undo/redo.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/dem-tools.js",
-    "app/src/layers/terrain.js",
-    "app/src/shell/commands.js",
-    "app/src/workers/kinds/decode.worker.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-09",
-   "text": "Provide post edit, raise/lower with feather, flatten, plane fit, lake fill with islands, smooth, interpolate and spike/well removal. Provide breaklines, bare earth in a polygon, Block Status and a Post Query tool as Shoulds.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-08.4 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/dem-tools.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -3903,34 +2479,7 @@
    "results": {
     "passed": 12,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-11",
-   "text": "Generate contours with index lines and labels. Overlay them in stereo.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/dem-tools.js",
-    "app/src/features/dem.js",
-    "app/src/features/extract.js",
-    "app/src/features/stereo.js",
-    "app/src/render/shaders.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js",
-    "tests/e2e/surface.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 4
    },
    "lastResult": "passing"
   },
@@ -3952,1641 +2501,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-13",
-   "text": "Provide viewshed (360°, fan, range limits, inverse, overlap) equivalent to `gdal_viewshed` (D16), on the GPU when present with a worker fallback.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU + Rust",
-   "verify": "AT AC-18.2 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/terrain-analysis.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/terrain.js",
-    "crates/bundles/terrain/src/lib.rs",
-    "crates/gw-terrain/src/lib.rs",
-    "crates/gw-terrain/src/viewshed.rs",
-    "crates/gw-terrain/tests/viewshed.rs"
-   ],
-   "tests": [
-    "tests/campaign/c21-viewshed.spec.js",
-    "tests/e2e/scn18.spec.js",
-    "crates/gw-terrain/tests/viewshed.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-14",
-   "text": "Provide an HLZ tool that requires a DSM. It uses editable doctrine presets (slope class, zone size, buffer, obstructions).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-18.3 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/terrain-analysis.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/terrain.js",
-    "crates/bundles/terrain/src/lib.rs",
-    "crates/gw-terrain/src/hlz.rs",
-    "crates/gw-terrain/src/lib.rs",
-    "build/fixtures/fx05dsm.mjs"
-   ],
-   "tests": [
-    "tests/e2e/scn18.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-15",
-   "text": "Compute volumes (cut/fill) and DEM differences, compare and register DEMs, and report statistics.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/measure-extras.js",
-    "app/src/features/terrain-analysis.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js",
-    "tests/e2e/scn18.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-16",
-   "text": "Write float32 GeoTIFF/COG with VerticalGeoKey, and DTED L1/L2 for full cells.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-08.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/dem-tools.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-17",
-   "text": "Report DEM accuracy against checkpoints: RMSE, bias, LE90 (1.6449·RMSE and the empirical 90th percentile), NMAD, NVA/VVA split, the ASPRS statement, and a warning under 30 points.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-08.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/dem-tools.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn08.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-DEM-18",
-   "text": "Convert analysis rasters (viewshed, HLZ, classes) to vectors.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/terrain-analysis.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c21-viewshed.spec.js",
-    "tests/e2e/scn18.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-01",
-   "text": "Read SICD 1.0–1.5 from NITF/NSIF by reading only the header, the XML DES and the needed image segments. Support all three pixel types, multiple segments, big-endian data, and any XML namespace prefix.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/formats/open.js",
-    "app/src/workers/decode/nitf.js",
-    "app/src/workers/decode/sicd.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-parse/src/sicd.rs",
-    "crates/gw-parse/src/xml.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn12.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 39,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-02",
-   "text": "Show the SICD metadata tree and a summary card (version, collector, mode, time, grid, IFA, spacing, resolution, graze, slope, twist, layover, look side).",
-   "priority": "M",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-parse/src/sicd.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-03",
-   "text": "Provide magnitude, phase, I and Q views and the Density, Brighter, Darker, High-Contrast, Linear, Log, PEDF and NRL remaps from global statistics. A remap change must not re-read the file.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "GPU + Rust",
-   "verify": "AT AC-12.2 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/render/chain.js",
-    "app/src/shell/commands.js",
-    "app/src/workers/decode/sicd.js"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-04",
-   "text": "Provide anamorphic correction, a slant/ground plane toggle, shadows-down and north-up, and a SAR overlay legend (north, layover, look and shadow arrows from SCPCOA).",
-   "priority": "M",
-   "release": "R3",
-   "impl": "GPU + Rust",
-   "verify": "AT AC-12.5 + Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/render/renderer.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/pane.js"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 12,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-05",
-   "text": "Implement the SICD Volume 3 monostatic projections in JavaScript (ported from SARkit) for all grid types. Project to a ground plane, a constant HAE and a DEM, with every crossing returned (D17).",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "AT AC-12.1, AC-12.3 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/formats/open.js",
-    "app/src/wasm/core.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/gw-parse/src/sicd.rs",
-    "crates/gw-sensor/src/sicd.rs",
-    "crates/gw-sensor/tests/sicd_oracle.rs"
-   ],
-   "tests": [
-    "tests/campaign/c20-accuracy.spec.js",
-    "tests/e2e/scn12.spec.js",
-    "crates/gw-sensor/tests/sicd_oracle.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-06",
-   "text": "Provide RCS/β⁰/σ⁰/γ⁰ views when the Radiometric block allows. Disable them, with the reason shown, when it is absent.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust + GPU",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/workers/decode/sicd.js",
-    "crates/gw-parse/src/sicd.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-07",
-   "text": "Provide Lee, Kuan, Gamma-MAP, Frost, Refined Lee, median and mean speckle filters, with GPU preview and worker export. Never filter the complex data that CCD uses.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "GPU + Rust",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/render/chain.js",
-    "app/src/render/shaders.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/sar.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/lib.rs",
-    "crates/gw-sar/src/speckle.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-08",
-   "text": "Provide amplitude change detection (2CMV, log-ratio with threshold, change polygons).",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/sar.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/change.rs",
-    "crates/gw-sar/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-09",
-   "text": "Provide CCD on AOI chips with automatic registration, flat-earth removal, a 3×3–9×9 coherence window, a CNR mask and colour products.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "AT AC-12.4 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/sar.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/change.rs",
-    "crates/gw-sar/src/lib.rs",
-    "crates/gw-sar/src/register.rs"
-   ],
-   "tests": [
-    "tests/campaign/c22-accuracy-gaps.spec.js",
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-10",
-   "text": "Provide an interferometric pair finder using GXP's published criteria.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/sar.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/lib.rs",
-    "crates/gw-sar/src/pairs.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-11",
-   "text": "Provide a sub-aperture stack (frames, aperture fraction, animation) and a CSI composite on AOI chips.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/sar.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/lib.rs",
-    "crates/gw-sar/src/subap.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-12",
-   "text": "Read SIDD 2.0/3.0 (all pixel types, plane and polynomial projections) and show the display chain read-only. Read CPHD metadata as a Could.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/formats/open.js",
-    "app/src/workers/decode/nitf.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-parse/src/sicd.rs",
-    "crates/gw-parse/src/xml.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-13",
-   "text": "Show polarimetric composites (Pauli, HH/HV/VV RGB) for multi-channel SICD sets.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/sar.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/subap.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-SAR-14",
-   "text": "Provide Goldstein filtering and the Wahl CRCD estimator for CCD.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/sar.js",
-    "app/src/wasm/sar.js",
-    "crates/bundles/sar/src/lib.rs",
-    "crates/gw-sar/src/change.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-01",
-   "text": "Read multi-band NITF (all IMODEs, BANDSB), GeoTIFF/COG and ENVI (`.hdr` + raw, all data types and interleaves). Show band names, centre wavelengths and FWHM.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "AT AC-13.4 + Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/spectral.js",
-    "app/src/formats/geotiff-writer.js",
-    "app/src/formats/open.js",
-    "app/src/workers/decode/envi.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-parse/src/envi.rs",
-    "crates/gw-parse/src/nitf.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 128,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-02",
-   "text": "Read HDF5 (PRISMA, EnMAP, EMIT) through a lazily loaded h5wasm data pack.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "C-WASM pack (h5wasm)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/packs.js",
-    "app/src/workers/decode/hdf5.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "build/fixtures/fx08h5.mjs",
-    "build/packs.mjs"
-   ],
-   "tests": [
-    "tests/e2e/packs.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-03",
-   "text": "Provide sensor-aware composite presets (natural, CIR, SWIR, agriculture, red edge) with wavelength fallback, and a Band Preview that steps through bands.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/spectral.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 16,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-04",
-   "text": "Provide a Band Math language compiled to shaders, with NDVI, NDWI (both variants named), MNDWI, NDBI, SAVI and NBR presets. Divide-by-zero gives no-data.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "GPU + JS",
-   "verify": "AT AC-13.1 + Pixel + E2E",
-   "code": [
-    "app/src/features/spectral.js",
-    "app/src/layers/image-layer.js",
-    "app/src/render/bandmath.js",
-    "app/src/render/renderer.js",
-    "app/src/render/shaders.js",
-    "app/src/render/tiles.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c22-accuracy-gaps.spec.js",
-    "tests/campaign/c30-workflows.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 24,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-05",
-   "text": "Convert DN to radiance and TOA reflectance from metadata for Landsat L1/L2, Sentinel-2 (with BOA_ADD_OFFSET) and WorldView. Label the radiometric state of every product.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral.js",
-    "app/src/formats/open.js",
-    "app/src/layers/image-layer.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-parse/src/msimeta.rs",
-    "crates/gw-spectral/src/lib.rs"
-   ],
-   "tests": [
-    "tests/campaign/c22-accuracy-gaps.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-06",
-   "text": "Provide DOS, empirical line, IARR and flat-field correction as chain steps with stored parameters.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral.js",
-    "app/src/layers/image-layer.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/misc.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-07",
-   "text": "Provide band statistics, SNR, a scatter plot with region classification, and a dockable spectral plot (point, line, polygon) with pinning, library overlay and bad-band masking.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust + JS",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/analyze.js",
-    "app/src/features/spectral.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/stats.rs"
-   ],
-   "tests": [
-    "tests/e2e/imaging.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 12,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-08",
-   "text": "Provide the training-region workflow and minimum-distance and maximum-likelihood classifiers. Mahalanobis, SAM and SID with live thresholds are Shoulds.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "AT AC-13.2 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/classify.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/stats.rs"
-   ],
-   "tests": [
-    "tests/campaign/c22-accuracy-gaps.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 2,
-    "skipped": 0
-   },
-   "lastResult": "failing"
-  },
-  {
-   "id": "REQ-MSI-09",
-   "text": "Provide K-means and ISODATA, post-classification clean-up (majority, sieve, fill), and vector export of classes with area and perimeter.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/classify.rs",
-    "crates/gw-spectral/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 12,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-10",
-   "text": "Provide a confusion matrix with OA, PA/UA and κ to 3 decimals. Quantity/allocation disagreement and area-weighted accuracy with confidence intervals are Shoulds.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "AT AC-13.3 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/accuracy.rs",
-    "crates/gw-spectral/src/lib.rs"
-   ],
-   "tests": [
-    "tests/campaign/c22-accuracy-gaps.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 2,
-    "skipped": 0
-   },
-   "lastResult": "failing"
-  },
-  {
-   "id": "REQ-MSI-11",
-   "text": "Provide global RX with a threshold. Provide MF, ACE and CEM target detection, local RX and GMM anomaly detection as Shoulds and Coulds. Compute in PCA/MNF-reduced space above 32 bands.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "AT AC-13.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/core/src/lib.rs",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/detect.rs",
-    "crates/gw-spectral/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-12",
-   "text": "Provide PCA and MNF with an eigenvalue plot and component images. ICA, unmixing and decorrelation stretch are Coulds.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/transform.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-13",
-   "text": "Embed a curated USGS splib07 subset (≤ 1 MB) with acknowledgement. Import ENVI `.sli`, CSV and USGS ASCII libraries. Do not embed ECOSTRESS.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS (data)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-parse/src/envi.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/misc.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-14",
-   "text": "Compute brightness temperature for Landsat TIRS and other Planck-based sensors.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-parse/src/msimeta.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/misc.rs"
-   ],
-   "tests": [
-    "tests/campaign/c22-accuracy-gaps.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-15",
-   "text": "Provide an Xport-style multiport of up to 16 linked panes with different presets, indices or detectors.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "GPU + JS",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-MSI-16",
-   "text": "Provide destriping and spectral masks, and two-date spectral change detection.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/shell/commands.js",
-    "crates/gw-spectral/src/misc.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-01",
-   "text": "Read LAS 1.0–1.4 (PDRF 0–10) by header size and record length, and LAS 1.5. Read LAZ with laz-perf in parallel workers.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/files.js",
-    "app/src/features/pointcloud.js",
-    "app/src/formats/las.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "app/src/workers/kinds/pointcloud.worker.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-pointcloud/src/decode.rs",
-    "crates/gw-pointcloud/src/las.rs",
-    "crates/gw-pointcloud/src/laz.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn14.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 92,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-02",
-   "text": "Read COPC by range with copc.js. Stream COPC/EPT from added online origins.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Lib (copc.js) + Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/formats/copc.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs"
-   ],
-   "tests": [
-    "tests/campaign/c18-live.spec.js",
-    "tests/e2e/scn14.spec.js",
-    "tests/e2e/stream-pc.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-03",
-   "text": "Parse WKT 1/2 and GeoTIFF keys, including compound vertical CRSs and US survey feet. Convert heights to HAE for fusion.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/formats/las.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/decode.rs",
-    "crates/gw-pointcloud/src/las.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/tests/fx09.rs",
-    "build/fixtures/fx09.mjs"
-   ],
-   "tests": [
-    "tests/e2e/scn14.spec.js",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-04",
-   "text": "Render through an octree with a point budget (default 3 M), adaptive point size and EDL, in the shared three.js pane.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Lib (three.js) + Rust",
-   "verify": "AT AC-14.1 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/lazy/three.lazy.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/pane.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lod.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn14.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 10,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-05",
-   "text": "Colour points by elevation, intensity, classification, RGB and return number, with per-class visibility and an editable palette. Add point source, GPS time, height above ground and imagery.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn14.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 20,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-06",
-   "text": "Provide elevation shaving against a plane (Must) and against a terrain (Should).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "GPU",
-   "verify": "Pixel + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn14.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-07",
-   "text": "Provide a profile/cross-section tool with swath width, a linked cursor and point-snapped measurement, plus 3D distance, height difference and height above DTM.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "AT AC-14.2 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/render/view3d.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/profile.rs"
-   ],
-   "tests": [
-    "tests/campaign/c30-workflows.spec.js",
-    "tests/e2e/scn14.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-08",
-   "text": "Generate DSM, DTM (class 2) and nDSM grids in workers as DEM layers. Generate intensity and density images.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-14.4 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/grid.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "tests": [
-    "tests/campaign/c30-workflows.spec.js",
-    "tests/e2e/scn14.spec.js",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 14,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-09",
-   "text": "Provide SMRF ground classification (CSF optional), classification editing with undo, and clip boxes and polygons.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-14.3 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/smrf.rs",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn14.spec.js",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-10",
-   "text": "Colourise points from an orthoimage and export LAS 1.4 PDRF 7 (\"embed colour\").",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/pointcloud.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/lib.rs",
-    "crates/gw-pointcloud/src/write.rs",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn14.spec.js",
-    "crates/gw-pointcloud/tests/fx09.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-11",
-   "text": "Provide building/tree extraction from points, DoD change detection, and BPF and ASCII import.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/pointcloud.js",
-    "app/src/formats/points-io.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-LDR-13",
-   "text": "Open LAS/LAZ files that state no CRS, or a geographic CRS whose coordinates are not valid latitudes/longitudes, in a local metric frame, with a warning that geographic coordinates and CE90 are not meaningful.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E (c01)",
-   "code": [],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 88,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-01",
-   "text": "Demux MPEG-2 TS (PAT/PMT/PES; stream types 0x1B, 0x24, 0x06, 0x15; metadata AU cells) in a worker and build a KLV/PTS index.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/files.js",
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-parse/src/ts.rs",
-    "crates/gw-parse/tests/fmv.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn15.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-parse/tests/fmv.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 66,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-02",
-   "text": "Decode ST 0601 (BER/BER-OID, running-sum checksum, IMAPB, nested sets, unknown-item pass-through) and show a KLV table with raw values.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust + JS",
-   "verify": "AT AC-15.1 + Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-parse/src/klv.rs",
-    "crates/gw-parse/tests/fmv.rs"
-   ],
-   "tests": [
-    "tests/campaign/c30-workflows.spec.js",
-    "tests/e2e/scn15.spec.js",
-    "crates/gw-parse/tests/fmv.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 28,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-03",
-   "text": "Show ST 0102 classification banners and flag conflicts with the file's other markings.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/pane.js",
-    "app/src/shell/videoview.js",
-    "crates/gw-parse/src/klv.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-04",
-   "text": "Keep raw Precision Time Stamps and sync on them. Convert to UTC with a visible per-file time basis that defaults to MISP Time (D9) and uses Items 136/137 when present.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-05",
-   "text": "Play H.264 TS through mpegts.js + MSE from Blob URLs. Use WebCodecs for frame stepping, capture and export. Degrade to metadata-only when the codec is unsupported.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Lib (mpegts.js) + JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/lazy/mpegts.lazy.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/pane.js",
-    "app/src/shell/videoview.js",
-    "app/src/styles/30-panes.css"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-06",
-   "text": "Sync map, HUD and time slider to the video through `requestVideoFrameCallback`, within one frame.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "AT AC-15.2 + E2E",
-   "code": [
-    "app/src/features/fmv.js"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-07",
-   "text": "Draw sensor path, frame centre, LOS and footprint by the priority in `12` §12.2. Compute footprints from angles and the DEM when corners are absent.",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust + JS",
-   "verify": "AT AC-15.3 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/mappane.js",
-    "build/fixtures/fx10.mjs"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-08",
-   "text": "Provide an editable HUD and DVR controls (play, step, rate, loop, A–B).",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/videoview.js"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 12,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-09",
-   "text": "Capture frames as PNG + JSON and as NITF 2.1 with IGEOLO and an RPC fit.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust + JS",
-   "verify": "AT AC-15.4 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/photo.js",
-    "crates/bundles/photo/src/lib.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-10",
-   "text": "Provide an event log with tags and map plotting.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-11",
-   "text": "Read STANAG 4607 (mission, dwell, target report, job definition, platform location) and plot dwells and targets with age and velocity colouring, trails and the shared time slider.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "Rust + JS",
-   "verify": "AT AC-15.5 + Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-parse/src/s4607.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-12",
-   "text": "Overlay ST 0903 VMTI boxes and locations.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/videoview.js",
-    "crates/gw-parse/src/klv.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-13",
-   "text": "Provide mensuration over paused video, burn-in clip export, up to six linked video panes, STANAG 4676 tracks and occlusion overlays.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js",
-    "app/src/shell/videoview.js"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMV-14",
-   "text": "Import external platform metadata (CSV) for video without KLV.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/fmv.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn15.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -5608,9 +2523,9 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 11,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -5632,28 +2547,6 @@
    "status": "tested",
    "results": {
     "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-03",
-   "text": "Save modifier stacks as named custom tools.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
     "failed": 0,
     "skipped": 0
    },
@@ -5703,7 +2596,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -5725,29 +2618,7 @@
    "results": {
     "passed": 10,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-07",
-   "text": "Provide Drop to Ground with planimetric, topographic and geomorphic modes.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/extract-r2.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 4
    },
    "lastResult": "passing"
   },
@@ -5775,76 +2646,6 @@
    "lastResult": "passing (file)"
   },
   {
-   "id": "REQ-EXT-09",
-   "text": "Generate attribute forms from an open JSON schema (D11) with coded domains, ranges, units, TDS null conventions, persistent attribution, attribute sets and auto-attribution.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "AT AC-10.2 + E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/features/panels.js",
-    "app/src/shell/commands.js",
-    "app/src/vector/schema.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-10",
-   "text": "Ship `data/feature-catalog-subset.json` (TDS 7.1, 38 types) as the default schema. Offer an MGCP class cross-walk on export. Import schemas from GeoPackage.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/shell/commands.js",
-    "app/src/vector/schema.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js",
-    "tests/e2e/scn17-gpkg.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-11",
-   "text": "Provide style sheets as JSON rules keyed by class and attribute filters, mapped to KML styles on export.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-EXT-12",
    "text": "Provide a feature attribute table (sort, filter, edit, zoom to) and a feature query by attribute and location.",
    "priority": "M",
@@ -5862,199 +2663,7 @@
    "results": {
     "passed": 16,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-13",
-   "text": "Validate features in a worker (self-intersection, ring validity, duplicates, overlaps, dangles, domains, required fields). Gaps and slivers are Shoulds. Show results in a dock with saved sessions.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-10.3, AC-10.5 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/features/extract-r2.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/vector.js",
-    "crates/bundles/vector/src/lib.rs",
-    "crates/gw-vector/src/lib.rs",
-    "crates/gw-vector/tests/validate.rs"
-   ],
-   "tests": [
-    "tests/e2e/r2-gaps.spec.js",
-    "tests/e2e/scn10.spec.js",
-    "crates/gw-vector/tests/validate.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-14",
-   "text": "Model 3D buildings: flat LOD1 extrusion (Must); gable, hip and shed roofs (Should). Heights come from stereo, DSM or mono shadow/layover, with the method recorded.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust + JS",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/extract-r2.js",
-    "app/src/vector/mesh.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-15",
-   "text": "Texture building models automatically from orthos or oblique images.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "Rust + GPU",
-   "verify": "Unit + Diff + Pixel + E2E",
-   "code": [
-    "app/src/features/extract-r2.js",
-    "app/src/shell/commands.js",
-    "app/src/vector/mesh.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-gaps.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-16",
-   "text": "Extract buildings and trees from a DSM (nDSM, mask, components, trace, simplify, square, heights). Hand building heights back to the DSM used for LOS.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "AT AC-10.4 + Unit + Diff + E2E",
-   "code": [
-    "app/src/features/extract-r2.js",
-    "app/src/shell/commands.js",
-    "crates/bundles/terrain/src/lib.rs",
-    "crates/gw-terrain/src/buildings.rs",
-    "crates/gw-terrain/tests/buildings.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js",
-    "crates/gw-terrain/tests/buildings.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-17",
-   "text": "Provide edge-assisted digitising, region-grow magic wand, raster-to-vector and assisted road tracing.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/extract-r2.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-18",
-   "text": "Provide SAM-based smart select from the optional AI pack, on imagery or on DSM hillshade (D12).",
-   "priority": "C",
-   "release": "R3",
-   "impl": "C-WASM pack (ONNX)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/ai-sam.js",
-    "app/src/features/packs.js",
-    "app/src/shell/commands.js",
-    "app/src/workers/kinds/ai.worker.js",
-    "build/packs.mjs"
-   ],
-   "tests": [
-    "tests/e2e/packs.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-19",
-   "text": "Import ML detections (GeoJSON/CSV) with a confidence filter and a review queue (accept, reject, edit).",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/detections.js",
-    "app/src/shell/commands.js",
-    "build/fixtures/fxproducts.mjs"
-   ],
-   "tests": [
-    "tests/e2e/r3-review-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-20",
-   "text": "Provide an observation table (structured observations linked to graphics, chips and features) and an activity report export.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/observations.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/r3-review-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 7
    },
    "lastResult": "passing"
   },
@@ -6081,35 +2690,7 @@
    "results": {
     "passed": 166,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-22",
-   "text": "Read and write GeoPackage through lazy `rtree-sql.js` (SQLite with R*Tree), with the `ST_*` functions registered, spatial-index triggers kept, and coded domains.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "C-WASM (SQLite)",
-   "verify": "AT AC-17.3 + E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/lazy/sqlite.lazy.js",
-    "app/src/shell/commands.js",
-    "app/src/vector/gpkg.js",
-    "build/build.mjs",
-    "build/fixtures/fx12.mjs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn17-gpkg.spec.js",
-    "tests/e2e/scn17.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -6139,125 +2720,6 @@
    "lastResult": "passing"
   },
   {
-   "id": "REQ-EXT-24",
-   "text": "Read and write CSV with WKT. Lazy modules for FGDB read, GML, DXF and FlatGeobuf are Coulds.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/shell/commands.js",
-    "app/src/vector/csv.js"
-   ],
-   "tests": [
-    "tests/e2e/scn17-gpkg.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-25",
-   "text": "Export 3D buildings as glTF/GLB (Must), OBJ and CityJSON 2.0 LOD1/LOD2 (Should), and a single-tile `.3tz` (Could).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/extract-r2.js",
-    "app/src/shell/commands.js",
-    "app/src/vector/mesh.js"
-   ],
-   "tests": [
-    "tests/e2e/scn10.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-26",
-   "text": "Edit ArcGIS REST feature services and WFS-T layers from added origins, with user-typed tokens.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/remote-edit.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/campaign/c18-live.spec.js",
-    "tests/e2e/remote-edit.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 8,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-27",
-   "text": "Hand off to ArcGIS Pro as a GeoPackage with coded domains (an offline equivalent of SEE/SFA).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "C-WASM (SQLite)",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/attribution.js",
-    "app/src/lazy/sqlite.lazy.js",
-    "app/src/vector/gpkg.js"
-   ],
-   "tests": [
-    "tests/e2e/scn17-gpkg.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-EXT-28",
-   "text": "Provide simple template matching (NCC over a user chip) to find repeated objects.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + E2E",
-   "code": [
-    "app/src/features/spectral-analysis.js",
-    "app/src/shell/commands.js",
-    "app/src/wasm/spectral.js",
-    "app/src/workers/kinds/analysis.worker.js",
-    "crates/bundles/spectral/src/lib.rs",
-    "crates/gw-spectral/src/lib.rs",
-    "crates/gw-spectral/src/misc.rs"
-   ],
-   "tests": [
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-FMT-01",
    "text": "Read NITF 2.1 (JBP-2024.1 and MIL-STD-2500C files) and NSIF 1.0 with our own reader: file and image subheaders, all IMODEs, blocking, masks, LUTs, IGEOLO/ICORDS, multiple segments with IALVL/ILOC, graphic/text/DES segments and R-sets.",
    "priority": "M",
@@ -6274,7 +2736,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 187,
+    "passed": 201,
     "failed": 0,
     "skipped": 0
    },
@@ -6298,11 +2760,11 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 931,
-    "failed": 0,
-    "skipped": 0
+    "passed": 1797,
+    "failed": 2,
+    "skipped": 30
    },
-   "lastResult": "passing (file)"
+   "lastResult": "failing (file)"
   },
   {
    "id": "REQ-FMT-17",
@@ -6364,13 +2826,15 @@
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
     "tests/campaign/c20-accuracy.spec.js",
+    "tests/campaign/c43-field-workflows.spec.js",
+    "tests/e2e/field-formats.spec.js",
     "tests/e2e/imaging.spec.js"
    ],
    "status": "tested",
    "results": {
-    "passed": 203,
+    "passed": 835,
     "failed": 0,
-    "skipped": 0
+    "skipped": 24
    },
    "lastResult": "passing"
   },
@@ -6414,11 +2878,11 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 857,
-    "failed": 0,
-    "skipped": 0
+    "passed": 1723,
+    "failed": 2,
+    "skipped": 30
    },
-   "lastResult": "passing (file)"
+   "lastResult": "failing (file)"
   },
   {
    "id": "REQ-FMT-07",
@@ -6434,98 +2898,6 @@
     "tests/campaign/c01-ingest.spec.js",
     "tests/e2e/r1-musts.spec.js",
     "tests/e2e/samples.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMT-08",
-   "text": "Read SICD/SIDD/CPHD containers (REQ-SAR-01, REQ-SAR-12).",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-parse/src/sicd.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn12.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMT-09",
-   "text": "Read ENVI `.hdr` + raw and HDF5 through the pack (REQ-MSI-01, REQ-MSI-02).",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust + C-WASM pack",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/workers/decode/envi.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-parse/src/envi.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn13.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMT-10",
-   "text": "Read LAS/LAZ/COPC (REQ-LDR-01, REQ-LDR-02).",
-   "priority": "M",
-   "release": "R2",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/formats/las.js",
-    "crates/bundles/pointcloud/src/lib.rs",
-    "crates/gw-fuzz/tests/fuzz.rs"
-   ],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn14.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs"
-   ],
-   "status": "tested",
-   "fileResults": {
-    "passed": 856,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing (file)"
-  },
-  {
-   "id": "REQ-FMT-11",
-   "text": "Read MPEG-TS with KLV and STANAG 4607 (REQ-FMV-01, REQ-FMV-11).",
-   "priority": "M",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/e2e/scn15.spec.js"
    ],
    "status": "tested",
    "results": {
@@ -6552,11 +2924,11 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 853,
-    "failed": 0,
-    "skipped": 0
+    "passed": 1719,
+    "failed": 2,
+    "skipped": 30
    },
-   "lastResult": "passing (file)"
+   "lastResult": "failing (file)"
   },
   {
    "id": "REQ-FMT-13",
@@ -6575,36 +2947,6 @@
    "status": "tested",
    "results": {
     "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMT-14",
-   "text": "Read MIE4NITF, CADRG/CIB (RPF frames) and GeoPDF.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "Rust",
-   "verify": "Unit + Diff + Fuzz + E2E",
-   "code": [
-    "app/src/features/mie.js",
-    "app/src/formats/open.js",
-    "app/src/shell/commands.js",
-    "app/src/workers/decode/geopdf.js",
-    "app/src/workers/kinds/decode.worker.js",
-    "crates/bundles/parse/src/lib.rs",
-    "crates/gw-fuzz/tests/fuzz.rs",
-    "crates/gw-parse/src/pdf.rs",
-    "build/fixtures/fxformats.mjs"
-   ],
-   "tests": [
-    "tests/e2e/formats-r3.spec.js",
-    "crates/gw-fuzz/tests/fuzz.rs"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 10,
     "failed": 0,
     "skipped": 0
    },
@@ -6648,50 +2990,11 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 849,
-    "failed": 0,
-    "skipped": 0
+    "passed": 1715,
+    "failed": 2,
+    "skipped": 30
    },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMT-18",
-   "text": "Read standalone JPEG 2000 files (JP2/JPX boxes and raw J2K codestreams), georeferenced from the GeoJP2 UUID box or GMLJP2 (gml:RectifiedGrid). Decode coarse pyramid levels from the codestream's own reduced resolutions and the full resolution only when shown.",
-   "priority": "S",
-   "release": "R3",
-   "impl": "JS + Rust",
-   "verify": "E2E (c01, c20)",
-   "code": [],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js",
-    "tests/campaign/c20-accuracy.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 52,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-FMT-19",
-   "text": "Read GeoPackage tile pyramids (OGC 12-128 tiles): choose the finest zoom level whose occupied tiles fit the plain-image limit and open it as a georeferenced image; name gridded coverages that are not read.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E (c01, c20)",
-   "code": [],
-   "tests": [
-    "tests/campaign/c01-ingest.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 10,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
+   "lastResult": "failing"
   },
   {
    "id": "REQ-PRD-01",
@@ -6716,7 +3019,7 @@
    "results": {
     "passed": 20,
     "failed": 0,
-    "skipped": 0
+    "skipped": 4
    },
    "lastResult": "passing"
   },
@@ -6740,7 +3043,7 @@
    "results": {
     "passed": 12,
     "failed": 0,
-    "skipped": 0
+    "skipped": 4
    },
    "lastResult": "passing"
   },
@@ -6766,7 +3069,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -6789,52 +3092,7 @@
    "results": {
     "passed": 6,
     "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-PRD-05",
-   "text": "Export PPTX (pptxgenjs) from templates and as a snapshot of the current panel.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS + Lib",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/finishing.js",
-    "app/src/lazy/pptx.lazy.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-PRD-06",
-   "text": "Provide a Finishing-Tool-style multi-panel product canvas (several chips, text, arrows).",
-   "priority": "S",
-   "release": "R2",
-   "impl": "JS + Lib",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/finishing.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/r2-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
+    "skipped": 2
    },
    "lastResult": "passing"
   },
@@ -6856,56 +3114,9 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
-  },
-  {
-   "id": "REQ-PRD-08",
-   "text": "Export georeferenced PDF (ISO 32000-2 measure dictionary).",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS + Lib",
-   "verify": "E2E",
-   "code": [
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-geo.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 4,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-PRD-09",
-   "text": "Export DOCX reports and import `.pptx` templates.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS + Lib",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/finishing.js",
-    "app/src/features/media.js",
-    "app/src/products/docx.js",
-    "app/src/products/pptx-template.js",
-    "app/src/shell/commands.js",
-    "build/fixtures/fxproducts.mjs"
-   ],
-   "tests": [
-    "tests/e2e/r3-review-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 5,
-    "failed": 1,
-    "skipped": 0
-   },
-   "lastResult": "failing"
   },
   {
    "id": "REQ-PRD-10",
@@ -6950,35 +3161,11 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
     "skipped": 0
    },
    "lastResult": "passing"
-  },
-  {
-   "id": "REQ-PRD-12",
-   "text": "Embed short video clips or animated GIFs in HTML and PPTX products.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS + Lib",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/finishing.js",
-    "app/src/features/media.js",
-    "app/src/products/gif.js",
-    "app/src/shell/commands.js"
-   ],
-   "tests": [
-    "tests/e2e/r3-review-products.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 5,
-    "failed": 1,
-    "skipped": 0
-   },
-   "lastResult": "failing"
   },
   {
    "id": "REQ-PRF-01",
@@ -7063,70 +3250,6 @@
    "lastResult": "passing"
   },
   {
-   "id": "REQ-PRF-05",
-   "text": "Hold ≥ 30 fps with up to the point budget (default 3 M) of a 5 M-point cloud in view.",
-   "priority": "M",
-   "release": "R2",
-   "impl": "All",
-   "verify": "Perf (S-01 laptop)",
-   "code": [],
-   "tests": [
-    "tests/e2e/scn14.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-PRF-06",
-   "text": "Extract a 4k×4k DSM in ≤ 10 s with WebGPU and ≤ 60 s without it.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "All",
-   "verify": "Perf (S-01 laptop)",
-   "code": [
-    "app/src/analysis/gpu-sgm.js",
-    "app/src/features/terrain-extract.js",
-    "app/src/workers/kinds/analysis.worker.js"
-   ],
-   "tests": [
-    "tests/e2e/perf-r2.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 1,
-    "failed": 1,
-    "skipped": 0
-   },
-   "lastResult": "failing"
-  },
-  {
-   "id": "REQ-PRF-07",
-   "text": "Compute a 1025² viewshed in ≤ 250 ms with WebGPU and ≤ 2 s in a worker.",
-   "priority": "S",
-   "release": "R2",
-   "impl": "All",
-   "verify": "Perf (S-01 laptop)",
-   "code": [
-    "app/src/analysis/gpu-viewshed.js",
-    "app/src/features/terrain-analysis.js"
-   ],
-   "tests": [
-    "tests/e2e/scn18.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-PRF-08",
    "text": "Keep within the memory budget: GPU textures ≤ 384 MB by default, worker heaps 2–4 × ≤ 400 MiB, and a bounded tile cache. Show memory in an About/diagnostics panel.",
    "priority": "M",
@@ -7165,7 +3288,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -7328,7 +3451,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -7401,7 +3524,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
     "skipped": 0
    },
@@ -7514,9 +3637,9 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -7537,7 +3660,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -7606,7 +3729,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
     "skipped": 0
    },
@@ -7632,7 +3755,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 7,
+    "passed": 8,
     "failed": 0,
     "skipped": 0
    },
@@ -7701,7 +3824,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -7725,7 +3848,7 @@
    "results": {
     "passed": 4,
     "failed": 0,
-    "skipped": 0
+    "skipped": 1
    },
    "lastResult": "passing"
   },
@@ -7741,27 +3864,6 @@
    ],
    "tests": [
     "tests/e2e/shoulds.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-AI-12",
-   "text": "Assist the review of imported ML detections (summarise, sort, propose accept/reject).",
-   "priority": "C",
-   "release": "R3",
-   "impl": "JS",
-   "verify": "E2E (mock)",
-   "code": [
-    "app/src/features/detections.js"
-   ],
-   "tests": [
-    "tests/e2e/r3-review-products.spec.js"
    ],
    "status": "tested",
    "results": {
@@ -7788,7 +3890,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
     "skipped": 0
    },
@@ -7812,7 +3914,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 11,
     "failed": 0,
     "skipped": 0
    },
@@ -7836,29 +3938,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 7,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
-   "id": "REQ-AI-16",
-   "text": "Stream provider responses with a cancel button.",
-   "priority": "C",
-   "release": "R2",
-   "impl": "JS",
-   "verify": "Unit",
-   "code": [
-    "app/src/ai/assistant.js",
-    "app/src/ai/providers.js"
-   ],
-   "tests": [
-    "tests/e2e/closeout-ui.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
+    "passed": 8,
     "failed": 0,
     "skipped": 0
    },
@@ -7888,30 +3968,6 @@
    "lastResult": "passing"
   },
   {
-   "id": "REQ-AI-18",
-   "text": "Offer SAM-class smart selection only from the optional local AI pack (REQ-EXT-18). It runs on the device and sends nothing.",
-   "priority": "C",
-   "release": "R3",
-   "impl": "C-WASM",
-   "verify": "E2E",
-   "code": [
-    "app/src/features/ai-sam.js",
-    "app/src/features/packs.js",
-    "app/src/workers/kinds/ai.worker.js",
-    "build/packs.mjs"
-   ],
-   "tests": [
-    "tests/e2e/packs.spec.js"
-   ],
-   "status": "tested",
-   "results": {
-    "passed": 2,
-    "failed": 0,
-    "skipped": 0
-   },
-   "lastResult": "passing"
-  },
-  {
    "id": "REQ-HOST-01",
    "text": "Detect the run mode at start-up (file, top-level http(s), same-origin iframe, cross-origin iframe, sandboxed iframe, `srcdoc`). Show it in About/Diagnostics. Turn features on or off by detected capability, never by mode name.",
    "priority": "M",
@@ -7928,7 +3984,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 10,
+    "passed": 11,
     "failed": 0,
     "skipped": 0
    },

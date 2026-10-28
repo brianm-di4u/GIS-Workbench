@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:50.698Z",
+ "when": "2026-10-28T04:35:33.831Z",
  "key": "s2-l2a-cog-10seh-20240816/B05.tif",
  "item": "s2-l2a-cog-10seh-20240816",
  "file": "B05.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened B05.tif in 39 ms"
+  "toast-info: Opened B05.tif in 57 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 356,
+ "ms": 387,
  "logs": [],
  "requests": [],
  "csp": []

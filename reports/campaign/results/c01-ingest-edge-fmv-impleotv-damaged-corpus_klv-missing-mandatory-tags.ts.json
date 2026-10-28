@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:00.354Z",
+ "when": "2026-10-28T04:36:39.064Z",
  "key": "fmv-impleotv-damaged-corpus/klv-missing-mandatory-tags.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "klv-missing-mandatory-tags.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened klv-missing-mandatory-tags.ts: 297 frames, 319 KLV packets (0 bad) in 231 ms"
+  "toast-info: Opened klv-missing-mandatory-tags.ts: 297 frames, 319 KLV packets (0 bad) in 189 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 328,
+ "ms": 256,
  "logs": [],
  "requests": [],
  "csp": []

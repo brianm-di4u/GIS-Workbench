@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:27.588Z",
+ "when": "2026-10-28T04:17:05.878Z",
  "key": "eo-maxar-libya-floods-wv3-prepost/104001008B282A00-pan.tif",
  "item": "eo-maxar-libya-floods-wv3-prepost",
  "file": "104001008B282A00-pan.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened 104001008B282A00-pan.tif in 60 ms"
+  "toast-info: Opened 104001008B282A00-pan.tif in 62 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 428,
+ "ms": 398,
  "logs": [],
  "requests": [],
  "csp": []

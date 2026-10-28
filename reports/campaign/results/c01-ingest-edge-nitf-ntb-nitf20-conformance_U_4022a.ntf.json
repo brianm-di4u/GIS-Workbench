@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:10.575Z",
+ "when": "2026-10-28T04:34:57.542Z",
  "key": "nitf-ntb-nitf20-conformance/U_4022a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_4022a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4022a.ntf in 43 ms"
+  "toast-info: Opened U_4022a.ntf in 46 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 617,
+ "ms": 1388,
  "logs": [],
  "requests": [],
  "csp": []

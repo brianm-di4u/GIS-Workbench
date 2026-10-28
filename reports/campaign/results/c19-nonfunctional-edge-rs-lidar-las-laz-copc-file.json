@@ -1,7 +1,7 @@
 {
  "spec": "c19-nonfunctional",
  "project": "edge",
- "when": "2026-10-27T14:53:39.622Z",
+ "when": "2026-10-28T05:08:59.204Z",
  "key": "rs-lidar-las-laz-copc-file",
  "mode": "file",
  "errors": [],

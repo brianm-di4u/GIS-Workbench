@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:07.733Z",
+ "when": "2026-10-28T04:23:35.759Z",
  "key": "umbra-bingham-20230925-full/umbra_20230925_CPHD.cphd",
  "item": "umbra-bingham-20230925-full",
  "file": "umbra_20230925_CPHD.cphd",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 65,
+ "ms": 68,
  "logs": [],
  "requests": [],
  "csp": []

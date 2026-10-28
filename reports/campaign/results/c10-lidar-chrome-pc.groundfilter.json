@@ -1,7 +1,7 @@
 {
  "spec": "c10-lidar",
  "project": "chrome",
- "when": "2026-10-27T15:37:11.335Z",
+ "when": "2026-10-28T05:15:17.028Z",
  "key": "pc.groundfilter",
  "id": "pc.groundfilter",
  "enabled": true,
@@ -10,7 +10,7 @@
   "Ground Filter (SMRF)"
  ],
  "toasts": [
-  "toast-info: Ground filter: 57,745 points changed, 81,666 ground, 373 ms"
+  "toast-info: Ground filter: 57,745 points changed, 81,666 ground, 427 ms"
  ],
  "errors": [],
  "changed": [

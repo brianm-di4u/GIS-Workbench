@@ -191,12 +191,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 31973,
+                  "duration": 32533,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:15:33.868Z",
+                  "startTime": "2026-10-28T05:55:10.423Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -225,12 +225,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 57576,
+                  "duration": 56311,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:15:33.853Z",
+                  "startTime": "2026-10-28T05:55:10.457Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -259,12 +259,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 21220,
+                  "duration": 18971,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:15:33.884Z",
+                  "startTime": "2026-10-28T05:55:10.466Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -293,12 +293,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 3,
                   "status": "passed",
-                  "duration": 39782,
+                  "duration": 31184,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:15:33.868Z",
+                  "startTime": "2026-10-28T05:55:10.452Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -327,12 +327,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 78295,
+                  "duration": 77759,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:15:55.460Z",
+                  "startTime": "2026-10-28T05:55:29.778Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -358,15 +358,15 @@
               "projectName": "chrome",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
                   "status": "passed",
-                  "duration": 20650,
+                  "duration": 18498,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:16:06.203Z",
+                  "startTime": "2026-10-28T05:55:41.979Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -392,15 +392,15 @@
               "projectName": "chrome",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 3,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 56039,
+                  "duration": 55298,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:16:14.012Z",
+                  "startTime": "2026-10-28T05:55:43.336Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -426,10 +426,10 @@
               "projectName": "chrome",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
                   "status": "failed",
-                  "duration": 22118,
+                  "duration": 21390,
                   "error": {
                     "message": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m",
                     "stack": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m\n    at C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js:475:146",
@@ -453,7 +453,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:16:26.869Z",
+                  "startTime": "2026-10-28T05:56:00.487Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -493,12 +493,12 @@
                   "workerIndex": 4,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 30815,
+                  "duration": 31396,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:16:32.548Z",
+                  "startTime": "2026-10-28T05:56:07.801Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -525,14 +525,14 @@
               "results": [
                 {
                   "workerIndex": 5,
-                  "parallelIndex": 0,
+                  "parallelIndex": 3,
                   "status": "passed",
-                  "duration": 59729,
+                  "duration": 57705,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:16:49.677Z",
+                  "startTime": "2026-10-28T05:56:22.581Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -558,15 +558,15 @@
               "projectName": "edge",
               "results": [
                 {
-                  "workerIndex": 4,
-                  "parallelIndex": 1,
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 20650,
+                  "duration": 18493,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:17:03.808Z",
+                  "startTime": "2026-10-28T05:56:39.356Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -592,15 +592,15 @@
               "projectName": "edge",
               "results": [
                 {
-                  "workerIndex": 6,
-                  "parallelIndex": 3,
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 39055,
+                  "duration": 30251,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:17:10.751Z",
+                  "startTime": "2026-10-28T05:56:39.598Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -629,12 +629,12 @@
                   "workerIndex": 7,
                   "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 74414,
+                  "duration": 71766,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:17:14.465Z",
+                  "startTime": "2026-10-28T05:56:48.208Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -660,15 +660,15 @@
               "projectName": "edge",
               "results": [
                 {
-                  "workerIndex": 4,
-                  "parallelIndex": 1,
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 20376,
+                  "duration": 19804,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:17:24.472Z",
+                  "startTime": "2026-10-28T05:56:58.254Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -697,12 +697,12 @@
                   "workerIndex": 4,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 56539,
+                  "duration": 52095,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:17:44.864Z",
+                  "startTime": "2026-10-28T05:57:09.870Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -728,10 +728,10 @@
               "projectName": "edge",
               "results": [
                 {
-                  "workerIndex": 5,
+                  "workerIndex": 6,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 21422,
+                  "duration": 19722,
                   "error": {
                     "message": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m",
                     "stack": "Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m0.9\u001b[39m\nReceived:    \u001b[31m0.8703465982028241\u001b[39m\n    at C:\\GIS Workbench\\gis-workbench\\tests\\campaign\\c22-accuracy-gaps.spec.js:475:146",
@@ -755,7 +755,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-28T01:17:49.752Z",
+                  "startTime": "2026-10-28T05:57:18.073Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -784,8 +784,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-28T01:15:33.277Z",
-    "duration": 188393.688,
+    "startTime": "2026-10-28T05:55:09.868Z",
+    "duration": 172409.174,
     "expected": 14,
     "skipped": 0,
     "unexpected": 2,

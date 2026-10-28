@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:40.293Z",
+ "when": "2026-10-28T04:37:23.130Z",
  "key": "vector-gpx-csv-wkt-gdal/testcsvt.csv",
  "item": "vector-gpx-csv-wkt-gdal",
  "file": "testcsvt.csv",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 53,
+ "ms": 40,
  "logs": [],
  "requests": [],
  "csp": []

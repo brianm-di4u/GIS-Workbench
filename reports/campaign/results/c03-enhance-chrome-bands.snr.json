@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T04:00:02.531Z",
+ "when": "2026-10-28T05:29:49.984Z",
  "key": "bands.snr",
  "id": "bands.snr",
  "enabled": true,

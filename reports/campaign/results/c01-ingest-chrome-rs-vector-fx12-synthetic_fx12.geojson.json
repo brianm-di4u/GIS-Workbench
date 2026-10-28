@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:18.574Z",
+ "when": "2026-10-28T04:10:01.884Z",
  "key": "rs-vector-fx12-synthetic/fx12.geojson",
  "item": "rs-vector-fx12-synthetic",
  "file": "fx12.geojson",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 91,
+ "ms": 82,
  "logs": [],
  "requests": [],
  "csp": []

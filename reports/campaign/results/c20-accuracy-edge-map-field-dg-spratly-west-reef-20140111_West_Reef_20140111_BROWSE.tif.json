@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "edge",
+ "when": "2026-10-28T04:58:50.536Z",
+ "key": "map-field-dg-spratly-west-reef-20140111/West_Reef_20140111_BROWSE.tif",
+ "kind": "map",
+ "model": "Map (EPSG:4326)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 1.5803322852180122,
+ "gsd": 15.80332285218012,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

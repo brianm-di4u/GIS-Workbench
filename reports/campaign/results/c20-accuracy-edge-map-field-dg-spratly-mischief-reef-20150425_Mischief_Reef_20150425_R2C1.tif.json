@@ -1,0 +1,20 @@
+{
+ "spec": "c20-accuracy",
+ "project": "edge",
+ "when": "2026-10-28T04:55:59.495Z",
+ "key": "map-field-dg-spratly-mischief-reef-20150425/Mischief_Reef_20150425_R2C1.tif",
+ "kind": "map",
+ "model": "Map (EPSG:4326)",
+ "error": null,
+ "unit": "m",
+ "maxErrM": 0,
+ "tolM": 0.05,
+ "gsd": 0.4935278558717414,
+ "errs": [
+  0,
+  0,
+  0,
+  0,
+  0
+ ]
+}

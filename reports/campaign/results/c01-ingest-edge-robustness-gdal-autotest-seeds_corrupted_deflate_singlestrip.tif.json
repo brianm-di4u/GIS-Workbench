@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:16.258Z",
+ "when": "2026-10-28T04:35:55.226Z",
  "key": "robustness-gdal-autotest-seeds/corrupted_deflate_singlestrip.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "corrupted_deflate_singlestrip.tif",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 78,
+ "ms": 72,
  "logs": [],
  "requests": [],
  "csp": []

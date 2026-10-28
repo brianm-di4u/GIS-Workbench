@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:24.557Z",
+ "when": "2026-10-28T04:18:51.441Z",
  "key": "fmv-libmisbklv-fixtures/synthetic-video.ts",
  "item": "fmv-libmisbklv-fixtures",
  "file": "synthetic-video.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened synthetic-video.ts: 60 frames, 1 KLV packets (0 bad) in 162 ms"
+  "toast-info: Opened synthetic-video.ts: 60 frames, 1 KLV packets (0 bad) in 140 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 255,
+ "ms": 206,
  "logs": [],
  "requests": [],
  "csp": []

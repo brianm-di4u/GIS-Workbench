@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:44:14.201Z",
+ "key": "gmti-stanag4607-trane293-fixtures/processing_history_chain.gmti",
+ "item": "gmti-stanag4607-trane293-fixtures",
+ "file": "processing_history_chain.gmti",
+ "format": "STANAG 4607 (.gmti)",
+ "rendered": false,
+ "errors": [
+  "no dwell or platform location segments to show (1 packet: 1 mission, 1 processing history)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: processing_history_chain.gmti: no dwell or platform location segments to show (1 packet: 1 mission, 1 processing history)"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 81,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

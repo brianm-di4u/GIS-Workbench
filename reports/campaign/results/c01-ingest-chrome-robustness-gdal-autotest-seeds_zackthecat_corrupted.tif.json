@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:09.029Z",
+ "when": "2026-10-28T04:18:02.552Z",
  "key": "robustness-gdal-autotest-seeds/zackthecat_corrupted.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "zackthecat_corrupted.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened zackthecat_corrupted.tif in 38 ms",
+  "toast-info: Opened zackthecat_corrupted.tif in 40 ms",
   "toast-error: zackthecat_corrupted.tif cannot be displayed: old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 132,
+ "ms": 152,
  "logs": [],
  "requests": [],
  "csp": []

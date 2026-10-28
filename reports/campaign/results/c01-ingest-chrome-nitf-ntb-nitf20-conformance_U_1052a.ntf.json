@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:26.606Z",
+ "when": "2026-10-28T04:16:53.557Z",
  "key": "nitf-ntb-nitf20-conformance/U_1052a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_1052a.ntf",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 99,
+ "ms": 103,
  "logs": [],
  "requests": [],
  "csp": []

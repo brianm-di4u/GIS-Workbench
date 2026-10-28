@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:16:42.119Z",
+ "when": "2026-10-28T04:10:45.789Z",
  "key": "field-dg-panama/Panama_01_R2C3.tif",
  "item": "field-dg-panama",
  "file": "Panama_01_R2C3.tif",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 27978,
+ "ms": 16196,
  "logs": [],
  "requests": [],
  "csp": []

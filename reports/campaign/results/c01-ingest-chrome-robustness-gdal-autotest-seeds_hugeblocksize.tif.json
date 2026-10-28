@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:07.442Z",
+ "when": "2026-10-28T04:18:01.194Z",
  "key": "robustness-gdal-autotest-seeds/hugeblocksize.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "hugeblocksize.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened hugeblocksize.tif in 39 ms",
+  "toast-info: Opened hugeblocksize.tif in 35 ms",
   "toast-error: hugeblocksize.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 136,
+ "ms": 129,
  "logs": [],
  "requests": [],
  "csp": []

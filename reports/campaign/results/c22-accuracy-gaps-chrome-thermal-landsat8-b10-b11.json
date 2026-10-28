@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "chrome",
- "when": "2026-10-28T01:16:13.983Z",
+ "when": "2026-10-28T05:55:41.950Z",
  "key": "thermal-landsat8-b10-b11",
  "check": "thermal",
  "tol": "UI path runs; max |ΔBT| ≤ 0.1 K",

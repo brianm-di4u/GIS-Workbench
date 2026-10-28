@@ -1,7 +1,7 @@
 {
  "spec": "c04-geodesy",
  "project": "chrome",
- "when": "2026-10-28T03:59:50.722Z",
+ "when": "2026-10-28T05:29:42.841Z",
  "key": "geo.convert",
  "id": "geo.convert",
  "enabled": true,

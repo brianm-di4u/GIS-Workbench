@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:45:18.986Z",
+ "when": "2026-10-28T05:00:26.755Z",
  "key": "rpc-eo-spacenet-atlanta-wv2-l1b-rpc/09DEC22163912-M1BS-058332896010_01_P005.TIF",
  "kind": "rpc",
  "model": "RPC (.RPB sidecar)",

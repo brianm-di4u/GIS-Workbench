@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:41.701Z",
+ "when": "2026-10-28T04:26:49.450Z",
  "key": "rs-kml-iceye-footprint/ICEYE_U09WX2_20251028T000519Z_6785560_X56_SLF_QLK.kml",
  "item": "rs-kml-iceye-footprint",
  "file": "ICEYE_U09WX2_20251028T000519Z_6785560_X56_SLF_QLK.kml",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 40,
+ "ms": 38,
  "logs": [],
  "requests": [],
  "csp": []

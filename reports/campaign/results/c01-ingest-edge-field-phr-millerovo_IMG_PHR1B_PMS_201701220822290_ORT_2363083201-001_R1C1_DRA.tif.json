@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:27:00.049Z",
+ "when": "2026-10-28T04:27:40.761Z",
  "key": "field-phr-millerovo/IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif",
  "item": "field-phr-millerovo",
  "file": "IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif in 63 ms"
+  "toast-info: Opened IMG_PHR1B_PMS_201701220822290_ORT_2363083201-001_R1C1_DRA.tif in 39 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1736,
+ "ms": 1124,
  "logs": [],
  "requests": [],
  "csp": []

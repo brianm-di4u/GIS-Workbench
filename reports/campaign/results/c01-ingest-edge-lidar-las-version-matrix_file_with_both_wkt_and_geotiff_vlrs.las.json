@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:50.783Z",
+ "when": "2026-10-28T04:36:30.679Z",
  "key": "lidar-las-version-matrix/file_with_both_wkt_and_geotiff_vlrs.las",
  "item": "lidar-las-version-matrix",
  "file": "file_with_both_wkt_and_geotiff_vlrs.las",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened file_with_both_wkt_and_geotiff_vlrs.las: 25,408 points in 62 ms (1 note in the import log)"
+  "toast-info: Opened file_with_both_wkt_and_geotiff_vlrs.las: 25,408 points in 78 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 205,
+ "ms": 222,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:49.201Z",
+ "when": "2026-10-28T04:36:29.167Z",
  "key": "lidar-las-version-matrix/las_with_several_extra_byte_bloc.laz",
  "item": "lidar-las-version-matrix",
  "file": "las_with_several_extra_byte_bloc.laz",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened las_with_several_extra_byte_bloc.laz: 697,721 points in 1050 ms (1 note in the import log)"
+  "toast-info: Opened las_with_several_extra_byte_bloc.laz: 697,721 points in 1017 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1192,
+ "ms": 1171,
  "logs": [],
  "requests": [],
  "csp": []

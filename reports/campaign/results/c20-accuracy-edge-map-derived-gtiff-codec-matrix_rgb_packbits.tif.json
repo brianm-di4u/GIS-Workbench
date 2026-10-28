@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:45:07.958Z",
+ "when": "2026-10-28T04:54:03.325Z",
  "key": "map-derived-gtiff-codec-matrix/rgb_packbits.tif",
  "kind": "map",
  "model": "Map (EPSG:26910)",

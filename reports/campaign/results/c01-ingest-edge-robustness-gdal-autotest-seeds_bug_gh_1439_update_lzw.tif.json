@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:14.812Z",
+ "when": "2026-10-28T04:35:54.421Z",
  "key": "robustness-gdal-autotest-seeds/bug_gh_1439_update_lzw.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "bug_gh_1439_update_lzw.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened bug_gh_1439_update_lzw.tif in 28 ms"
+  "toast-info: Opened bug_gh_1439_update_lzw.tif in 39 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 344,
+ "ms": 372,
  "logs": [],
  "requests": [],
  "csp": []

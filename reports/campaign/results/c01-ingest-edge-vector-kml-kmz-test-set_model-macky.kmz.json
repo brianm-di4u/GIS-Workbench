@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:38.303Z",
+ "when": "2026-10-28T04:37:21.116Z",
  "key": "vector-kml-kmz-test-set/model-macky.kmz",
  "item": "vector-kml-kmz-test-set",
  "file": "model-macky.kmz",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 85,
+ "ms": 79,
  "logs": [],
  "requests": [],
  "csp": []

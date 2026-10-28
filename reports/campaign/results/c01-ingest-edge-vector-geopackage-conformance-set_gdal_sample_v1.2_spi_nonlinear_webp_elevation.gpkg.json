@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:31.754Z",
+ "when": "2026-10-28T04:37:13.982Z",
  "key": "vector-geopackage-conformance-set/gdal_sample_v1.2_spi_nonlinear_webp_elevation.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "gdal_sample_v1.2_spi_nonlinear_webp_elevation.gpkg",
@@ -681,9 +681,9 @@
   "gdal_sample_v1.2_spi_nonlinear_webp_elevation.gpkg: 2 gridded coverage table(s) not read (no ancillary table or no tiles)"
  ],
  "toasts": [
-  "toast-info: Opened gdal_sample_v1.2_spi_nonlinear_webp_elevation_byte_png_z0.png in 31 ms",
-  "toast-info: Opened gdal_sample_v1.2_spi_nonlinear_webp_elevation_byte_jpeg_z0.png in 4 ms",
-  "toast-info: Opened gdal_sample_v1.2_spi_nonlinear_webp_elevation_byte_webp_z0.png in 4 ms",
+  "toast-info: Opened gdal_sample_v1.2_spi_nonlinear_webp_elevation_byte_png_z0.png in 54 ms",
+  "toast-info: Opened gdal_sample_v1.2_spi_nonlinear_webp_elevation_byte_jpeg_z0.png in 6 ms",
+  "toast-info: Opened gdal_sample_v1.2_spi_nonlinear_webp_elevation_byte_webp_z0.png in 11 ms",
   "toast-info: point2d: 32 feature(s) from GeoPackage (29 note(s))",
   "toast-info: linestring2d: 32 feature(s) from GeoPackage (29 note(s))",
   "toast-info: polygon2d: 32 feature(s) from GeoPackage (29 note(s))",
@@ -745,7 +745,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 296,
+ "ms": 388,
  "logs": [],
  "requests": [],
  "csp": []

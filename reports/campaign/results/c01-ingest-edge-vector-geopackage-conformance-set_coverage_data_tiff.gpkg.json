@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:35.285Z",
+ "when": "2026-10-28T04:37:17.941Z",
  "key": "vector-geopackage-conformance-set/coverage_data_tiff.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "coverage_data_tiff.gpkg",
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 806,
+ "ms": 951,
  "logs": [],
  "requests": [],
  "csp": []

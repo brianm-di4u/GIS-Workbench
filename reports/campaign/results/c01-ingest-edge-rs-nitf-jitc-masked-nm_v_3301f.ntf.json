@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:51.018Z",
+ "when": "2026-10-28T04:27:13.068Z",
  "key": "rs-nitf-jitc-masked-nm/v_3301f.ntf",
  "item": "rs-nitf-jitc-masked-nm",
  "file": "v_3301f.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened v_3301f.ntf in 37 ms"
+  "toast-info: Opened v_3301f.ntf in 25 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 348,
+ "ms": 332,
  "logs": [],
  "requests": [],
  "csp": []

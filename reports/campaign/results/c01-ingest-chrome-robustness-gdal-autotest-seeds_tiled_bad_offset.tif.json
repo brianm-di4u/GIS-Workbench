@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:08.607Z",
+ "when": "2026-10-28T04:18:02.175Z",
  "key": "robustness-gdal-autotest-seeds/tiled_bad_offset.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "tiled_bad_offset.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened tiled_bad_offset.tif in 43 ms",
+  "toast-info: Opened tiled_bad_offset.tif in 44 ms",
   "toast-error: tiled_bad_offset.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 159,
+ "ms": 139,
  "logs": [],
  "requests": [],
  "csp": []

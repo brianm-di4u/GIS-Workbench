@@ -1,7 +1,7 @@
 {
  "spec": "c19-nonfunctional",
  "project": "edge",
- "when": "2026-10-27T14:54:40.201Z",
+ "when": "2026-10-28T05:09:59.815Z",
  "key": "rs-lidar-las-laz-copc-http",
  "mode": "http",
  "errors": [],

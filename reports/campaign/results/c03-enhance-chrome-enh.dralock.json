@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:56:40.044Z",
+ "when": "2026-10-28T05:27:16.407Z",
  "key": "enh.dralock",
  "id": "enh.dralock",
  "enabled": true,

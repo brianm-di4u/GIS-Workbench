@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:42:06.336Z",
+ "key": "ieee-dfc2019-track2-val/JAX_163_001_006_RIGHT_MSI.tif",
+ "item": "ieee-dfc2019-track2-val",
+ "file": "JAX_163_001_006_RIGHT_MSI.tif",
+ "format": "GeoTIFF + METADATA.json",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened JAX_163_001_006_RIGHT_MSI.tif in 931 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 8,
+   "h": 1024,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1253,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

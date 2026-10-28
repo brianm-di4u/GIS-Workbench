@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:42:07.683Z",
+ "when": "2026-10-28T04:41:51.344Z",
  "key": "gdal-dted-samples/n43.dt0",
  "item": "gdal-dted-samples",
  "file": "n43.dt0",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened n43.dt0 in 27 ms"
+  "toast-info: Opened n43.dt0 in 29 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 107,
+ "ms": 363,
  "logs": [],
  "requests": [],
  "csp": []

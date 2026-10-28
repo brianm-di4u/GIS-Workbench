@@ -1,12 +1,12 @@
 {
  "spec": "c44-field-perf",
  "project": "edge",
- "when": "2026-10-28T04:04:18.843Z",
+ "when": "2026-10-28T05:32:54.400Z",
  "key": "perf-field-dg-spratly-mischief-reef-20150131-Mischief_Reef_20150131_R2C2.tif",
  "bytes": 44994574,
- "openMs": 124,
- "firstTileMs": 31055,
- "settledMs": 31353,
+ "openMs": 111,
+ "firstTileMs": 16808,
+ "settledMs": 17057,
  "statsMsAfterDisplay": 0,
  "layer": {
   "ms": 0,

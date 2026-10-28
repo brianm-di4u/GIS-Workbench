@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:59:41.188Z",
+ "when": "2026-10-28T05:29:34.843Z",
  "key": "enh.chain",
  "id": "enh.chain",
  "enabled": true,

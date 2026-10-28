@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "edge",
+ "when": "2026-10-28T05:23:17.195Z",
+ "key": "ribbon.minimise",
+ "id": "ribbon.minimise",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

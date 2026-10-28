@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:25.306Z",
+ "when": "2026-10-28T04:10:06.325Z",
  "key": "derived-gtiff-codec-matrix/rgb_lerc_zstd.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "rgb_lerc_zstd.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rgb_lerc_zstd.tif in 37 ms"
+  "toast-info: Opened rgb_lerc_zstd.tif in 49 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1170,
+ "ms": 933,
  "logs": [],
  "requests": [],
  "csp": []

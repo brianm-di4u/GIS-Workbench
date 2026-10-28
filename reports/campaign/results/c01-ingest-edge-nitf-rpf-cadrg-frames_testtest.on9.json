@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:14.216Z",
+ "when": "2026-10-28T04:35:00.361Z",
  "key": "nitf-rpf-cadrg-frames/testtest.on9",
  "item": "nitf-rpf-cadrg-frames",
  "file": "testtest.on9",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 73,
+ "ms": 107,
  "logs": [],
  "requests": [],
  "csp": []

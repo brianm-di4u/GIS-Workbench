@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "chrome",
- "when": "2026-10-27T14:44:22.814Z",
+ "when": "2026-10-28T04:53:13.690Z",
  "key": "map-landsat8-c2-l2sp-044034-20240820/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B5.TIF",
  "kind": "map",
  "model": "Map (EPSG:32610)",

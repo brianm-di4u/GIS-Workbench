@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "chrome",
- "when": "2026-10-28T01:15:55.432Z",
+ "when": "2026-10-28T05:55:29.751Z",
  "key": "chg-detect-maxar-derna-crop",
  "check": "change",
  "tol": "gain ±1 %, offset ±5 DN, threshold ±2 %, candidates ±10 %, box-cover IoU ≥ 0.9",
@@ -24,7 +24,7 @@
  "run": {
   "outcome": "dialog",
   "toasts": [
-   "toast-info: 947 change candidate(s) in 13148 ms (gain 0.892, offset -82.9)"
+   "toast-info: 947 change candidate(s) in 12824 ms (gain 0.892, offset -82.9)"
   ],
   "errors": []
  },

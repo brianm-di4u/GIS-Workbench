@@ -1,7 +1,7 @@
 {
  "spec": "c06-stereo3d",
  "project": "chrome",
- "when": "2026-10-27T15:35:26.375Z",
+ "when": "2026-10-28T05:13:21.725Z",
  "key": "stereo.mode.true",
  "id": "stereo.mode.true",
  "enabled": true,
@@ -9,9 +9,7 @@
  "dialogs": [],
  "toasts": [],
  "errors": [],
- "changed": [
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [
   "stereo"

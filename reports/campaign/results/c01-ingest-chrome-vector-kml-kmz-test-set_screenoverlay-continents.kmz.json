@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:30:02.444Z",
+ "when": "2026-10-28T04:19:30.662Z",
  "key": "vector-kml-kmz-test-set/screenoverlay-continents.kmz",
  "item": "vector-kml-kmz-test-set",
  "file": "screenoverlay-continents.kmz",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 88,
+ "ms": 76,
  "logs": [],
  "requests": [],
  "csp": []

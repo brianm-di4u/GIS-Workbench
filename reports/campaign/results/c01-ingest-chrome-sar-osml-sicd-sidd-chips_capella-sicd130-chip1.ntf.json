@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:11:27.193Z",
+ "when": "2026-10-28T04:24:25.121Z",
  "key": "sar-osml-sicd-sidd-chips/capella-sicd130-chip1.ntf",
  "item": "sar-osml-sicd-sidd-chips",
  "file": "capella-sicd130-chip1.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened capella-sicd130-chip1.ntf in 44 ms"
+  "toast-info: Opened capella-sicd130-chip1.ntf in 41 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 381,
+ "ms": 368,
  "logs": [],
  "requests": [],
  "csp": []

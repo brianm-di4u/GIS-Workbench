@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:16.708Z",
+ "when": "2026-10-28T04:35:55.370Z",
  "key": "robustness-gdal-autotest-seeds/corrupted_gtiff_tags.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "corrupted_gtiff_tags.tif",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 87,
+ "ms": 71,
  "logs": [],
  "requests": [],
  "csp": []

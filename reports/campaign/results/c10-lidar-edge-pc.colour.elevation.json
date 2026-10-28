@@ -1,7 +1,7 @@
 {
  "spec": "c10-lidar",
  "project": "edge",
- "when": "2026-10-27T15:42:50.455Z",
+ "when": "2026-10-28T05:21:15.137Z",
  "key": "pc.colour.elevation",
  "id": "pc.colour.elevation",
  "enabled": true,

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:38.617Z",
+ "when": "2026-10-28T04:37:21.416Z",
  "key": "vector-kml-kmz-test-set/archive-1.kmz",
  "item": "vector-kml-kmz-test-set",
  "file": "archive-1.kmz",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 71,
+ "ms": 63,
  "logs": [],
  "requests": [],
  "csp": []

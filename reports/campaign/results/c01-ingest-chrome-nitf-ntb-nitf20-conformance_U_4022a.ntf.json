@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:33.557Z",
+ "when": "2026-10-28T04:17:01.204Z",
  "key": "nitf-ntb-nitf20-conformance/U_4022a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_4022a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4022a.ntf in 47 ms"
+  "toast-info: Opened U_4022a.ntf in 55 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 640,
+ "ms": 1145,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:21.953Z",
+ "when": "2026-10-28T04:09:51.314Z",
  "key": "rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif",
  "item": "rs-msi-spacenet2-wv3",
  "file": "SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif in 52 ms"
+  "toast-info: Opened SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif in 131 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1193,
+ "ms": 1536,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:19:18.453Z",
+ "when": "2026-10-28T04:12:44.722Z",
  "key": "field-dg-spratly-mischief-reef-20150527/Mischief_Reef_20150527_R2C3.tif",
  "item": "field-dg-spratly-mischief-reef-20150527",
  "file": "Mischief_Reef_20150527_R2C3.tif",
@@ -9,7 +9,9 @@
  "rendered": true,
  "errors": [],
  "warnings": [],
- "toasts": [],
+ "toasts": [
+  "toast-info: Opened Mischief_Reef_20150527_R2C3.tif in 36 ms"
+ ],
  "layers": [
   {
    "error": null,
@@ -29,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 4947,
+ "ms": 3170,
  "logs": [],
  "requests": [],
  "csp": []

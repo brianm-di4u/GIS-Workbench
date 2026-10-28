@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:05.221Z",
+ "when": "2026-10-28T04:17:59.341Z",
  "key": "robustness-gdal-autotest-seeds/byte_buggy_packbits.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "byte_buggy_packbits.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened byte_buggy_packbits.tif in 32 ms",
+  "toast-info: Opened byte_buggy_packbits.tif in 44 ms",
   "toast-error: byte_buggy_packbits.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 374,
+ "ms": 396,
  "logs": [],
  "requests": [],
  "csp": []

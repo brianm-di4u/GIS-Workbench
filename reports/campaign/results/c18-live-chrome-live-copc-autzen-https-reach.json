@@ -1,7 +1,7 @@
 {
  "spec": "c18-live",
  "project": "chrome",
- "when": "2026-10-27T15:08:40.593Z",
+ "when": "2026-10-28T05:23:54.757Z",
  "key": "live-copc-autzen-https-reach",
  "url": "https://s3.amazonaws.com/hobu-lidar/autzen-classified.copc.laz",
  "status": 200,

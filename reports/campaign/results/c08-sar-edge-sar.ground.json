@@ -1,7 +1,7 @@
 {
  "spec": "c08-sar",
  "project": "edge",
- "when": "2026-10-27T15:41:49.082Z",
+ "when": "2026-10-28T05:20:11.375Z",
  "key": "sar.ground",
  "id": "sar.ground",
  "enabled": true,

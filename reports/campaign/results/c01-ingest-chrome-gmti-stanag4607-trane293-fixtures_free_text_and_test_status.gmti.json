@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:11:29.894Z",
+ "when": "2026-10-28T04:24:28.148Z",
  "key": "gmti-stanag4607-trane293-fixtures/free_text_and_test_status.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "free_text_and_test_status.gmti",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 83,
+ "ms": 88,
  "logs": [],
  "requests": [],
  "csp": []

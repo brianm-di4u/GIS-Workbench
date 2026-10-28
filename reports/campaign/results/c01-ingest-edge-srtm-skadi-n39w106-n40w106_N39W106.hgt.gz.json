@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:42:07.218Z",
+ "when": "2026-10-28T04:41:51.425Z",
  "key": "srtm-skadi-n39w106-n40w106/N39W106.hgt.gz",
  "item": "srtm-skadi-n39w106-n40w106",
  "file": "N39W106.hgt.gz",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened N39W106.hgt.gz in 327 ms"
+  "toast-info: Opened N39W106.hgt.gz in 388 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 918,
+ "ms": 982,
  "logs": [],
  "requests": [],
  "csp": []

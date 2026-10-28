@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | Executing (started 2026-10-27, branch `te-field-data`, release 1.2.1) |
+| Status | Executed 2026-10-27/28 on branch `te-field-data` (release 1.2.1); results in [TE-report.md](TE-report.md) §2F |
 | Scope | `dist/gis-workbench.html` 1.2.x on the imagery a first user supplied (`Research/Additional Data Samples`) |
 | Basis | [TE-master-plan.md](TE-master-plan.md) (phases, findings loop, exit criteria), `Docs/PRD.md`, Appendix A |
 | Registers | [Findings](TE-findings.md) (phase **F**, TE-059 on) · [Improvements](TE-improvements.md) (IMP-21 on) · [Owner decisions](TE-owner-decisions.md) (OD-09, OD-10) · [MrSID spike](../design/mrsid-spike.md) |
@@ -55,3 +55,9 @@ As master plan §6: each defect is logged (`TE-nnn`, phase F), root-caused, fixe
 ## 6. Exit criteria
 
 Master plan §8, plus: every field file opens or is refused by name; every raster-applicable command exercised on at least one field item; OD-09 and OD-10 presented to the owner.
+
+## 7. Outcome (2026-10-28)
+
+- **Findings:** TE-059 … TE-069 (2 × S1, 5 × S2, 4 × S3), all Verified. **Improvements:** IMP-21 … IMP-25 done (REQ-FMT-20, REQ-FMT-21, REQ-EXT-30 added).
+- **Final regression on the 1.2.1 build** (`run-final.sh`, Chrome + Edge, field items included): ingest 1270 passed; accuracy 550; workflows/products 36; non-functional 66; functional sweep 882; live 24; golden suites pass; 0 failures. Field: workflows 5/5, field sweep 136/136, performance 10/10. E2E suite 521 passed, 1 failed (the pre-existing headless video-export failure, open since 1.2.0), 2 skipped.
+- **Open for the owner:** OD-09 (licence of the field data) and OD-10 (MrSID: refusal now, a footprint-and-metadata layer as a next-release Should).

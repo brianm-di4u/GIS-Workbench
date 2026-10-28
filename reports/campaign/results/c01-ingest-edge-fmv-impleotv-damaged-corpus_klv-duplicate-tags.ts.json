@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:59.875Z",
+ "when": "2026-10-28T04:36:38.936Z",
  "key": "fmv-impleotv-damaged-corpus/klv-duplicate-tags.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "klv-duplicate-tags.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened klv-duplicate-tags.ts: 299 frames, 299 KLV packets (0 bad) in 176 ms"
+  "toast-info: Opened klv-duplicate-tags.ts: 299 frames, 299 KLV packets (0 bad) in 227 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 249,
+ "ms": 293,
  "logs": [],
  "requests": [],
  "csp": []

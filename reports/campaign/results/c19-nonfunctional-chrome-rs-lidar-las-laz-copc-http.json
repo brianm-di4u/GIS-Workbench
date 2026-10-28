@@ -1,7 +1,7 @@
 {
  "spec": "c19-nonfunctional",
  "project": "chrome",
- "when": "2026-10-27T14:54:23.691Z",
+ "when": "2026-10-28T05:09:42.024Z",
  "key": "rs-lidar-las-laz-copc-http",
  "mode": "http",
  "errors": [],

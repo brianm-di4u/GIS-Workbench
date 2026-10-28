@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:41:40.060Z",
+ "key": "emit-l1b-rad-cuprite/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
+ "item": "emit-l1b-rad-cuprite",
+ "file": "EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
+ "format": "NetCDF4",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc in 4451 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "EMIT L1B radiance (HDF5, BIP, f32)",
+   "w": 1242,
+   "h": 1280,
+   "bands": 285,
+   "model": "Geolocation grid (144 points, EMIT L1B radiance)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 5895,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

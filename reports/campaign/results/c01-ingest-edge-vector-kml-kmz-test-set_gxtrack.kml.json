@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:39.192Z",
+ "when": "2026-10-28T04:37:22.049Z",
  "key": "vector-kml-kmz-test-set/gxtrack.kml",
  "item": "vector-kml-kmz-test-set",
  "file": "gxtrack.kml",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 86,
+ "ms": 70,
  "logs": [],
  "requests": [],
  "csp": []

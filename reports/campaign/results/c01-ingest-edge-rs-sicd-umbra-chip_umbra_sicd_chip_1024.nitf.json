@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:53.914Z",
+ "when": "2026-10-28T04:27:20.506Z",
  "key": "rs-sicd-umbra-chip/umbra_sicd_chip_1024.nitf",
  "item": "rs-sicd-umbra-chip",
  "file": "umbra_sicd_chip_1024.nitf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened umbra_sicd_chip_1024.nitf in 45 ms"
+  "toast-info: Opened umbra_sicd_chip_1024.nitf in 32 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 380,
+ "ms": 340,
  "logs": [],
  "requests": [],
  "csp": []

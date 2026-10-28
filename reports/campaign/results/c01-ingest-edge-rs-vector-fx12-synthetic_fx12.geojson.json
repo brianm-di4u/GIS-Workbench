@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:54.965Z",
+ "when": "2026-10-28T04:27:23.823Z",
  "key": "rs-vector-fx12-synthetic/fx12.geojson",
  "item": "rs-vector-fx12-synthetic",
  "file": "fx12.geojson",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 59,
+ "ms": 40,
  "logs": [],
  "requests": [],
  "csp": []

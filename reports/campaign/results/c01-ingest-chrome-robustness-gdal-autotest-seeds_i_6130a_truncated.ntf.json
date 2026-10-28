@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:24.563Z",
+ "when": "2026-10-28T04:17:53.760Z",
  "key": "robustness-gdal-autotest-seeds/i_6130a_truncated.ntf",
  "item": "robustness-gdal-autotest-seeds",
  "file": "i_6130a_truncated.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened i_6130a_truncated.ntf in 41 ms"
+  "toast-info: Opened i_6130a_truncated.ntf in 37 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 142,
+ "ms": 125,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:30:02.156Z",
+ "when": "2026-10-28T04:19:30.219Z",
  "key": "vector-kml-kmz-test-set/polygons2d.kml",
  "item": "vector-kml-kmz-test-set",
  "file": "polygons2d.kml",
@@ -73,7 +73,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 123,
+ "ms": 169,
  "logs": [],
  "requests": [],
  "csp": []

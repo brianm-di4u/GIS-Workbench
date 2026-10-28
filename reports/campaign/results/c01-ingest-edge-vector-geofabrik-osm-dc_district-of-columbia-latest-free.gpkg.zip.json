@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:30.927Z",
+ "when": "2026-10-28T04:37:13.013Z",
  "key": "vector-geofabrik-osm-dc/district-of-columbia-latest-free.gpkg.zip",
  "item": "vector-geofabrik-osm-dc",
  "file": "district-of-columbia-latest-free.gpkg.zip",
@@ -441,7 +441,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 12027,
+ "ms": 12787,
  "logs": [],
  "requests": [],
  "csp": []

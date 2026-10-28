@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:46:04.774Z",
+ "when": "2026-10-28T05:01:11.207Z",
  "key": "map-aviris-classic-f130410t01p00r09/f130410t01p00r09rdn_refl_img_corr",
  "kind": "map",
  "model": "Map (EPSG:32610)",

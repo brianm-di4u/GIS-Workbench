@@ -1,7 +1,7 @@
 {
  "spec": "c02-display",
  "project": "chrome",
- "when": "2026-10-27T15:33:25.893Z",
+ "when": "2026-10-28T05:11:17.215Z",
  "key": "win.split",
  "id": "win.split",
  "enabled": true,
@@ -10,6 +10,7 @@
  "toasts": [],
  "errors": [],
  "changed": [
+  "panes",
   "body"
  ],
  "downloads": [],

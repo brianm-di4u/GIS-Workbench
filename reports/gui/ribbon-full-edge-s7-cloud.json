@@ -394,7 +394,9 @@
   "kind": "button",
   "outcome": "disabled",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)"
+  ],
   "problems": []
  },
  {
@@ -414,9 +416,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)"
-  ],
+  "toasts": [],
   "problems": []
  }
 ]

@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:45:04.795Z",
+ "when": "2026-10-28T04:54:00.905Z",
  "key": "rpc-rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip_j2k.ntf",
  "kind": "rpc",
  "model": "RPC00B",

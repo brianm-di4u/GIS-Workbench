@@ -1,7 +1,7 @@
 {
  "spec": "c19-nonfunctional",
  "project": "edge",
- "when": "2026-10-27T14:48:31.328Z",
+ "when": "2026-10-28T05:03:50.204Z",
  "key": "rs-geotiff-wv3-rpc-cog-http",
  "mode": "http",
  "errors": [],

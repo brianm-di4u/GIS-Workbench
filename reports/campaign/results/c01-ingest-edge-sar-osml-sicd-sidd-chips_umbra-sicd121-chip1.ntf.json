@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:42:13.181Z",
+ "key": "sar-osml-sicd-sidd-chips/umbra-sicd121-chip1.ntf",
+ "item": "sar-osml-sicd-sidd-chips",
+ "file": "umbra-sicd121-chip1.ntf",
+ "format": "SICD 1.2.1/1.3.0 and SIDD 2.0 in NITF 2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened umbra-sicd121-chip1.ntf in 39 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD  (RE32F_IM32F)",
+   "w": 512,
+   "h": 512,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 353,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

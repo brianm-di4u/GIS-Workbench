@@ -1,7 +1,7 @@
 {
  "spec": "c12-vector",
  "project": "edge",
- "when": "2026-10-27T15:43:37.013Z",
+ "when": "2026-10-28T05:22:06.077Z",
  "key": "chg.detect",
  "id": "chg.detect",
  "enabled": true,
@@ -11,7 +11,7 @@
   "Change Candidates"
  ],
  "toasts": [
-  "toast-info: 17 change candidate(s) in 217 ms (gain 1.072, offset 10.0)"
+  "toast-info: 17 change candidate(s) in 238 ms (gain 1.072, offset 10.0)"
  ],
  "errors": [],
  "changed": [

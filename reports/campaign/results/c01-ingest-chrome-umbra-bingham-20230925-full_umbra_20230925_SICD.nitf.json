@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:11.112Z",
+ "when": "2026-10-28T04:23:39.394Z",
  "key": "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf",
  "item": "umbra-bingham-20230925-full",
  "file": "umbra_20230925_SICD.nitf",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 5447,
+ "ms": 5721,
  "logs": [],
  "requests": [],
  "csp": []

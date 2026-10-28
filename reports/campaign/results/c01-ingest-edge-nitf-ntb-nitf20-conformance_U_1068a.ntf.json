@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:04.349Z",
+ "when": "2026-10-28T04:34:50.811Z",
  "key": "nitf-ntb-nitf20-conformance/U_1068a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_1068a.ntf",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 60,
+ "ms": 108,
  "logs": [],
  "requests": [],
  "csp": []

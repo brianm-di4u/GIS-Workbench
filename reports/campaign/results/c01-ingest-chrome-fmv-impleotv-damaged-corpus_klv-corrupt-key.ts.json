@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:19.658Z",
+ "when": "2026-10-28T04:18:47.303Z",
  "key": "fmv-impleotv-damaged-corpus/klv-corrupt-key.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "klv-corrupt-key.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened klv-corrupt-key.ts: 298 frames, 288 KLV packets (0 bad) in 153 ms"
+  "toast-info: Opened klv-corrupt-key.ts: 298 frames, 288 KLV packets (0 bad) in 192 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 214,
+ "ms": 271,
  "logs": [],
  "requests": [],
  "csp": []

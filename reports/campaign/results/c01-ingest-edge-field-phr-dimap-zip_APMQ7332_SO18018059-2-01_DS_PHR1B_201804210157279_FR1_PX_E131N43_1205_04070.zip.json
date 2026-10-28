@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:40:34.831Z",
+ "when": "2026-10-28T04:28:49.737Z",
  "key": "field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip",
  "item": "field-phr-dimap-zip",
  "file": "APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip",
@@ -13,7 +13,7 @@
   "DIMAP PHR 1B ORTHO PMS, 2018-04-21T01:57:32.906Z, sun azimuth 147.2° elevation 55.0°"
  ],
  "toasts": [
-  "toast-info: Opened IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF in 97 ms (1 note in the import log)"
+  "toast-info: Opened IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF in 66 ms (1 note in the import log)"
  ],
  "layers": [
   {
@@ -34,7 +34,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 6547,
+ "ms": 6229,
  "logs": [],
  "requests": [],
  "csp": []

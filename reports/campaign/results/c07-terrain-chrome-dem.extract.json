@@ -1,7 +1,7 @@
 {
  "spec": "c07-terrain",
  "project": "chrome",
- "when": "2026-10-27T15:35:54.113Z",
+ "when": "2026-10-28T05:13:53.075Z",
  "key": "dem.extract",
  "id": "dem.extract",
  "enabled": true,
@@ -10,9 +10,8 @@
   "Terrain Extraction"
  ],
  "toasts": [
-  "toast-info: Terrain extraction started (Job Queue shows the tiles)",
   "toast-info: DSM_WV3CHIPA_WV3CHIPB.tif is now terrain (heights above the ellipsoid)",
-  "toast-info: DSM 1059×1030 posts at 0.74 m: 69 % matched in 2.9 s (DSM_WV3CHIPA_WV3CHIPB.tif)"
+  "toast-info: DSM 1059×1030 posts at 0.74 m: 69 % matched in 3.1 s (DSM_WV3CHIPA_WV3CHIPB.tif)"
  ],
  "errors": [],
  "changed": [

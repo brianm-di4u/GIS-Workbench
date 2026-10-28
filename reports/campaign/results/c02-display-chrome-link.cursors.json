@@ -1,7 +1,7 @@
 {
  "spec": "c02-display",
  "project": "chrome",
- "when": "2026-10-27T15:33:23.087Z",
+ "when": "2026-10-28T05:11:13.948Z",
  "key": "link.cursors",
  "id": "link.cursors",
  "enabled": true,
@@ -11,9 +11,7 @@
  ],
  "toasts": [],
  "errors": [],
- "changed": [
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [
   "split"

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:14.578Z",
+ "when": "2026-10-28T04:23:43.036Z",
  "key": "capella-c13-sm-20240924/capella_C13_SM_CPHD.cphd",
  "item": "capella-c13-sm-20240924",
  "file": "capella_C13_SM_CPHD.cphd",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 62,
+ "ms": 66,
  "logs": [],
  "requests": [],
  "csp": []

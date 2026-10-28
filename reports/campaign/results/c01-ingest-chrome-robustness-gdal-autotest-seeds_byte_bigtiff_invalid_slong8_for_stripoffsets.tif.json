@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:04.476Z",
+ "when": "2026-10-28T04:17:59.269Z",
  "key": "robustness-gdal-autotest-seeds/byte_bigtiff_invalid_slong8_for_stripoffsets.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "byte_bigtiff_invalid_slong8_for_stripoffsets.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened byte_bigtiff_invalid_slong8_for_stripoffsets.tif in 31 ms",
+  "toast-info: Opened byte_bigtiff_invalid_slong8_for_stripoffsets.tif in 35 ms",
   "toast-error: byte_bigtiff_invalid_slong8_for_stripoffsets.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 136,
+ "ms": 380,
  "logs": [],
  "requests": [],
  "csp": []

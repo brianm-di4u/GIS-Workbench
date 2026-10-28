@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:33.888Z",
+ "when": "2026-10-28T04:37:16.384Z",
  "key": "vector-geopackage-conformance-set/denver_tile.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "denver_tile.gpkg",
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 976,
+ "ms": 1070,
  "logs": [],
  "requests": [],
  "csp": []

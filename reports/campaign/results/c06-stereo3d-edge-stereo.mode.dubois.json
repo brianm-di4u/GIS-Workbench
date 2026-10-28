@@ -1,7 +1,7 @@
 {
  "spec": "c06-stereo3d",
  "project": "edge",
- "when": "2026-10-27T15:41:16.366Z",
+ "when": "2026-10-28T05:19:38.301Z",
  "key": "stereo.mode.dubois",
  "id": "stereo.mode.dubois",
  "enabled": true,
@@ -9,9 +9,7 @@
  "dialogs": [],
  "toasts": [],
  "errors": [],
- "changed": [
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [
   "stereo"

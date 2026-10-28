@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:42:09.884Z",
+ "when": "2026-10-28T04:11:58.058Z",
  "key": "field-dg-spratly-zip/Spratly Islands.zip",
  "item": "field-dg-spratly-zip",
  "file": "Spratly Islands.zip",
@@ -103,7 +103,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 101591,
+ "ms": 67142,
  "logs": [],
  "requests": [],
  "csp": []

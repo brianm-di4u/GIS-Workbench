@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:31.926Z",
+ "when": "2026-10-28T04:37:13.925Z",
  "key": "vector-geopackage-conformance-set/states10.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "states10.gpkg",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 133,
+ "ms": 143,
  "logs": [],
  "requests": [],
  "csp": []

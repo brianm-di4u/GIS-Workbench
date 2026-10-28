@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:42:04.790Z",
+ "when": "2026-10-28T04:41:48.806Z",
  "key": "usgs-3dep-13-n40w106/USGS_13_n40w106.tif",
  "item": "usgs-3dep-13-n40w106",
  "file": "USGS_13_n40w106.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened USGS_13_n40w106.tif in 35 ms"
+  "toast-info: Opened USGS_13_n40w106.tif in 38 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 608,
+ "ms": 642,
  "logs": [],
  "requests": [],
  "csp": []

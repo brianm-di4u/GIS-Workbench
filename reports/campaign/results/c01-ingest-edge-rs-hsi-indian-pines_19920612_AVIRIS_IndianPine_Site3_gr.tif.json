@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:41.201Z",
+ "when": "2026-10-28T04:26:47.540Z",
  "key": "rs-hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3_gr.tif",
  "item": "rs-hsi-indian-pines",
  "file": "19920612_AVIRIS_IndianPine_Site3_gr.tif",
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 334,
+ "ms": 330,
  "logs": [],
  "requests": [],
  "csp": []

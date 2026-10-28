@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:02.525Z",
+ "when": "2026-10-28T04:36:41.454Z",
  "key": "fmv-libmisbklv-fixtures/synthetic-timed-0x06.ts",
  "item": "fmv-libmisbklv-fixtures",
  "file": "synthetic-timed-0x06.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened synthetic-timed-0x06.ts: 0 frames, 6 KLV packets (0 bad) in 52 ms — metadata only"
+  "toast-info: Opened synthetic-timed-0x06.ts: 0 frames, 6 KLV packets (0 bad) in 56 ms — metadata only"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 135,
+ "ms": 129,
  "logs": [],
  "requests": [],
  "csp": []

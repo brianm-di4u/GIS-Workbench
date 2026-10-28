@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:38.231Z",
+ "when": "2026-10-28T04:26:39.548Z",
  "key": "rs-dem-derived-s35w059/S35W059_crop1201_float32_cog.tif",
  "item": "rs-dem-derived-s35w059",
  "file": "S35W059_crop1201_float32_cog.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened S35W059_crop1201_float32_cog.tif in 61 ms"
+  "toast-info: Opened S35W059_crop1201_float32_cog.tif in 30 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 638,
+ "ms": 596,
  "logs": [],
  "requests": [],
  "csp": []

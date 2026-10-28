@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:46:07.009Z",
+ "when": "2026-10-28T05:01:14.250Z",
  "key": "map-usgs-3dep-13-n40w106/USGS_13_n40w106.tif",
  "kind": "map",
  "model": "Map (EPSG:4269, fitted)",

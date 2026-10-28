@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "edge",
- "when": "2026-10-27T15:40:55.493Z",
+ "when": "2026-10-28T05:19:15.928Z",
  "key": "enh.smooth",
  "id": "enh.smooth",
  "enabled": true,
@@ -10,7 +10,8 @@
  "toasts": [],
  "errors": [],
  "changed": [
-  "chain"
+  "chain",
+  "body"
  ],
  "downloads": [],
  "prepared": [],

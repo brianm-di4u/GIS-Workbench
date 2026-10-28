@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:05.232Z",
+ "when": "2026-10-28T04:17:59.231Z",
  "key": "robustness-gdal-autotest-seeds/byte_truncated.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "byte_truncated.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened byte_truncated.tif in 32 ms",
+  "toast-info: Opened byte_truncated.tif in 30 ms",
   "toast-error: byte_truncated.tif cannot be displayed: the TIFF is truncated or damaged: a tag or block points outside the file"
  ],
  "layers": [
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 137,
+ "ms": 129,
  "logs": [],
  "requests": [],
  "csp": []

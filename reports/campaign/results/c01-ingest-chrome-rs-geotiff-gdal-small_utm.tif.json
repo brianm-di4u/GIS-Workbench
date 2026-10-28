@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:19.217Z",
+ "when": "2026-10-28T04:09:45.523Z",
  "key": "rs-geotiff-gdal-small/utm.tif",
  "item": "rs-geotiff-gdal-small",
  "file": "utm.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened utm.tif in 37 ms"
+  "toast-info: Opened utm.tif in 34 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 410,
+ "ms": 368,
  "logs": [],
  "requests": [],
  "csp": []

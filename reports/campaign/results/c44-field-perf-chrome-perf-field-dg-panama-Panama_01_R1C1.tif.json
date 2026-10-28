@@ -1,12 +1,12 @@
 {
  "spec": "c44-field-perf",
  "project": "chrome",
- "when": "2026-10-28T04:04:12.095Z",
+ "when": "2026-10-28T05:32:48.613Z",
  "key": "perf-field-dg-panama-Panama_01_R1C1.tif",
  "bytes": 103232219,
- "openMs": 184,
- "firstTileMs": 31703,
- "settledMs": 32034,
+ "openMs": 140,
+ "firstTileMs": 18477,
+ "settledMs": 18773,
  "statsMsAfterDisplay": 0,
  "layer": {
   "ms": 0,

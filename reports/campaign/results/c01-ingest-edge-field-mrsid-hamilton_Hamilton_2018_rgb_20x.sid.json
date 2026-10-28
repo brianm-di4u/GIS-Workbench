@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:28:38.519Z",
+ "when": "2026-10-28T04:28:48.860Z",
  "key": "field-mrsid-hamilton/Hamilton_2018_rgb_20x.sid",
  "item": "field-mrsid-hamilton",
  "file": "Hamilton_2018_rgb_20x.sid",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 223,
+ "ms": 112,
  "logs": [],
  "requests": [],
  "csp": []

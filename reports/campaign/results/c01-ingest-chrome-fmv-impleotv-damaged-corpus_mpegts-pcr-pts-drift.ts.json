@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:22.619Z",
+ "when": "2026-10-28T04:18:50.097Z",
  "key": "fmv-impleotv-damaged-corpus/mpegts-pcr-pts-drift.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "mpegts-pcr-pts-drift.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened mpegts-pcr-pts-drift.ts: 600 frames, 0 KLV packets (0 bad) in 176 ms"
+  "toast-info: Opened mpegts-pcr-pts-drift.ts: 600 frames, 0 KLV packets (0 bad) in 160 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 260,
+ "ms": 227,
  "logs": [],
  "requests": [],
  "csp": []

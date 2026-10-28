@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:06.199Z",
+ "when": "2026-10-28T04:09:48.536Z",
  "key": "rs-lidar-las-laz-copc/simple.copc.laz",
  "item": "rs-lidar-las-laz-copc",
  "file": "simple.copc.laz",
@@ -12,7 +12,7 @@
   "NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty"
  ],
  "toasts": [
-  "toast-info: Opened simple.copc.laz: 1,065 points in 131 ms (1 note in the import log)"
+  "toast-info: Opened simple.copc.laz: 1,065 points in 144 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 301,
+ "ms": 314,
  "logs": [],
  "requests": [],
  "csp": []

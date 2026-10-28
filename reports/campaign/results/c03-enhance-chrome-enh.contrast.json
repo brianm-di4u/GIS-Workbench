@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:55:58.024Z",
+ "when": "2026-10-28T05:26:56.234Z",
  "key": "enh.contrast",
  "id": "enh.contrast",
  "enabled": true,

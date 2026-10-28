@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:32.311Z",
+ "when": "2026-10-28T04:16:59.337Z",
  "key": "nitf-ntb-nitf20-conformance/U_4018b.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_4018b.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4018b.ntf in 37 ms"
+  "toast-info: Opened U_4018b.ntf in 35 ms"
  ],
  "layers": [
   {

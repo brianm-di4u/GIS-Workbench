@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:25.078Z",
+ "when": "2026-10-28T04:17:54.691Z",
  "key": "robustness-gdal-autotest-seeds/invalid_udid.ntf",
  "item": "robustness-gdal-autotest-seeds",
  "file": "invalid_udid.ntf",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 109,
+ "ms": 108,
  "logs": [],
  "requests": [],
  "csp": []

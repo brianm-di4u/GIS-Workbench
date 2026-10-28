@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:42:01.273Z",
+ "when": "2026-10-28T04:41:47.353Z",
  "key": "cop-dem-glo30-n39w106/Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
  "item": "cop-dem-glo30-n39w106",
  "file": "Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif in 33 ms"
+  "toast-info: Opened Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif in 35 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 608,
+ "ms": 637,
  "logs": [],
  "requests": [],
  "csp": []

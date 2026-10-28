@@ -1,7 +1,7 @@
 {
  "spec": "c18-live",
  "project": "chrome",
- "when": "2026-10-27T15:08:40.861Z",
+ "when": "2026-10-28T05:23:55.039Z",
  "key": "live-wfst-geosolutions-gs-stable-reach",
  "url": "https://gs-stable.geo-solutions.it/geoserver/wfs?service=WFS&request=GetCapabilities&version=1.1.0",
  "status": 200,

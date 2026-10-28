@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:07.493Z",
+ "when": "2026-10-28T04:09:49.708Z",
  "key": "rs-lidar-las-laz-copc/ellipsoid.copc.laz",
  "item": "rs-lidar-las-laz-copc",
  "file": "ellipsoid.copc.laz",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened ellipsoid.copc.laz: 100,000 points in 306 ms (1 note in the import log)"
+  "toast-info: Opened ellipsoid.copc.laz: 100,000 points in 289 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 478,
+ "ms": 468,
  "logs": [],
  "requests": [],
  "csp": []

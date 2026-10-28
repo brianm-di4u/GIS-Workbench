@@ -1,7 +1,7 @@
 {
  "spec": "c10-lidar",
  "project": "edge",
- "when": "2026-10-27T15:42:47.325Z",
+ "when": "2026-10-28T05:21:11.973Z",
  "key": "pc.header",
  "id": "pc.header",
  "enabled": true,

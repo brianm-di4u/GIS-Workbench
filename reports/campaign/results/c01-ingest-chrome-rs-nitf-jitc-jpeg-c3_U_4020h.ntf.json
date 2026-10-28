@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:14.073Z",
+ "when": "2026-10-28T04:09:57.859Z",
  "key": "rs-nitf-jitc-jpeg-c3/U_4020h.ntf",
  "item": "rs-nitf-jitc-jpeg-c3",
  "file": "U_4020h.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4020h.ntf in 48 ms"
+  "toast-info: Opened U_4020h.ntf in 50 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 658,
+ "ms": 1404,
  "logs": [],
  "requests": [],
  "csp": []

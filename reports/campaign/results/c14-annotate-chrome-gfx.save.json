@@ -1,7 +1,7 @@
 {
  "spec": "c14-annotate",
  "project": "chrome",
- "when": "2026-10-27T15:38:21.573Z",
+ "when": "2026-10-28T05:16:33.032Z",
  "key": "gfx.save",
  "id": "gfx.save",
  "enabled": true,

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:04.844Z",
+ "when": "2026-10-28T04:23:32.862Z",
  "key": "3d-gltf-sample-assets/Box.gltf",
  "item": "3d-gltf-sample-assets",
  "file": "Box.gltf",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120107,
+ "ms": 120112,
  "logs": [],
  "requests": [],
  "csp": []

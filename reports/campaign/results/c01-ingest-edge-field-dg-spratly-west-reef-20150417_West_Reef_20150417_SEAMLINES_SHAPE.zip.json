@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:39:14.344Z",
+ "when": "2026-10-28T04:34:44.140Z",
  "key": "field-dg-spratly-west-reef-20150417/West_Reef_20150417_SEAMLINES_SHAPE.zip",
  "item": "field-dg-spratly-west-reef-20150417",
  "file": "West_Reef_20150417_SEAMLINES_SHAPE.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 72,
+ "ms": 49,
  "logs": [],
  "requests": [],
  "csp": []

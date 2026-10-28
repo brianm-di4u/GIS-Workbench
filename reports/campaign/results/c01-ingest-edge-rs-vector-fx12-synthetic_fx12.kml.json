@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:55.274Z",
+ "when": "2026-10-28T04:27:24.249Z",
  "key": "rs-vector-fx12-synthetic/fx12.kml",
  "item": "rs-vector-fx12-synthetic",
  "file": "fx12.kml",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 46,
+ "ms": 38,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:46.612Z",
+ "when": "2026-10-28T04:36:26.912Z",
  "key": "lidar-las-version-matrix/epsg_4326.las",
  "item": "lidar-las-version-matrix",
  "file": "epsg_4326.las",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened epsg_4326.las: 5,380 points in 30 ms (1 note in the import log)"
+  "toast-info: Opened epsg_4326.las: 5,380 points in 38 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 130,
+ "ms": 172,
  "logs": [],
  "requests": [],
  "csp": []

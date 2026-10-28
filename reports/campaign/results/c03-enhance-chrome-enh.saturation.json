@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:56:03.568Z",
+ "when": "2026-10-28T05:26:59.143Z",
  "key": "enh.saturation",
  "id": "enh.saturation",
  "enabled": true,

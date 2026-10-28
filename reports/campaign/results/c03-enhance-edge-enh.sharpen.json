@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "edge",
- "when": "2026-10-27T15:40:53.618Z",
+ "when": "2026-10-28T05:19:13.339Z",
  "key": "enh.sharpen",
  "id": "enh.sharpen",
  "enabled": true,
@@ -10,7 +10,8 @@
  "toasts": [],
  "errors": [],
  "changed": [
-  "chain"
+  "chain",
+  "body"
  ],
  "downloads": [],
  "prepared": [],

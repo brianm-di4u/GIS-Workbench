@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:28:39.190Z",
+ "when": "2026-10-28T04:28:49.651Z",
  "key": "field-mrsid-stlouis/Stl_City.sid",
  "item": "field-mrsid-stlouis",
  "file": "Stl_City.sid",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 379,
+ "ms": 111,
  "logs": [],
  "requests": [],
  "csp": []

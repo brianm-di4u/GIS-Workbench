@@ -1,10 +1,10 @@
 {
  "spec": "c43-field-workflows",
  "project": "chrome",
- "when": "2026-10-28T03:56:55.460Z",
+ "when": "2026-10-28T05:25:29.504Z",
  "key": "w3-panama-tiles",
  "settled": true,
- "msDisplay": 82858,
+ "msDisplay": 63551,
  "layers": [
   {
    "name": "Panama_01_R1C1.tif",

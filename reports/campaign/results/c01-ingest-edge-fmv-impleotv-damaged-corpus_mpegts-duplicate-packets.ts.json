@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:00.979Z",
+ "when": "2026-10-28T04:36:39.789Z",
  "key": "fmv-impleotv-damaged-corpus/mpegts-duplicate-packets.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "mpegts-duplicate-packets.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened mpegts-duplicate-packets.ts: 300 frames, 0 KLV packets (0 bad) in 138 ms"
+  "toast-info: Opened mpegts-duplicate-packets.ts: 300 frames, 0 KLV packets (0 bad) in 142 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 213,
+ "ms": 200,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:39:17.545Z",
+ "when": "2026-10-28T04:34:46.700Z",
  "key": "field-phr-dimap/QTE_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
  "item": "field-phr-dimap",
  "file": "QTE_PHR1B_PMS_201804210157279_ORT_3132754101_MSK.GML",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 81,
+ "ms": 55,
  "logs": [],
  "requests": [],
  "csp": []

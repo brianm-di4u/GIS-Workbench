@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:10.166Z",
+ "when": "2026-10-28T04:09:52.396Z",
  "key": "rs-nitf-gdal-autotest-small/sar_sicd.ntf",
  "item": "rs-nitf-gdal-autotest-small",
  "file": "sar_sicd.ntf",
@@ -12,7 +12,7 @@
   "IGEOLO corners (approximate): degenerate corner points"
  ],
  "toasts": [
-  "toast-info: Opened sar_sicd.ntf in 51 ms (1 note in the import log)"
+  "toast-info: Opened sar_sicd.ntf in 102 ms (1 note in the import log)"
  ],
  "layers": [
   {
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 170,
+ "ms": 334,
  "logs": [],
  "requests": [],
  "csp": []

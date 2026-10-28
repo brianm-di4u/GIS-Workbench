@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "chrome",
- "when": "2026-10-27T14:43:45.928Z",
+ "when": "2026-10-28T04:46:21.968Z",
  "key": "tiles-rs-gpkg-gdal-raster-tiles/small_world_png.gpkg",
  "kind": "tiles",
  "model": "World file (EPSG:4326)",

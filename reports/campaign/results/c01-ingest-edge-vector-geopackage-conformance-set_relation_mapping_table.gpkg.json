@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:36.182Z",
+ "when": "2026-10-28T04:37:18.853Z",
  "key": "vector-geopackage-conformance-set/relation_mapping_table.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "relation_mapping_table.gpkg",
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 105,
+ "ms": 134,
  "logs": [],
  "requests": [],
  "csp": []

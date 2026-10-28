@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:03.560Z",
+ "when": "2026-10-28T04:17:58.265Z",
  "key": "robustness-gdal-autotest-seeds/6band_wrong_number_extrasamples.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "6band_wrong_number_extrasamples.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened 6band_wrong_number_extrasamples.tif in 34 ms"
+  "toast-info: Opened 6band_wrong_number_extrasamples.tif in 33 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 387,
+ "ms": 379,
  "logs": [],
  "requests": [],
  "csp": []

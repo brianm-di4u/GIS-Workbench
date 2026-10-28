@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:44.227Z",
+ "when": "2026-10-28T04:26:56.541Z",
  "key": "rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson",
  "item": "rs-msi-spacenet2-wv3",
  "file": "SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 53,
+ "ms": 72,
  "logs": [],
  "requests": [],
  "csp": []

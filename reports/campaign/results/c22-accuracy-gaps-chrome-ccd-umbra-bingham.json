@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "chrome",
- "when": "2026-10-28T01:16:06.174Z",
+ "when": "2026-10-28T05:55:43.300Z",
  "key": "ccd-umbra-bingham",
  "check": "ccd",
  "tol": "≥ 0.8 stable, ≤ 0.4 disturbed (32² tiles; stable/disturbed = numpy tile ≥ 0.85 / ≤ 0.35)",
@@ -70,7 +70,7 @@
    0.13636640569319478,
    -0.01869463938081142
   ],
-  "ms": 14958.399999976158,
+  "ms": 15385.699999988079,
   "warnings": [
    "perpendicular baseline ≈ 8.1 km (height of ambiguity 0.8 m, range-spectrum overlap 63 %): geometric decorrelation will keep coherence low even where nothing changed",
    "registration residual 6.2 px RMS: the affine warp does not follow the terrain, so coherence is biased low"

@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:45:14.456Z",
+ "when": "2026-10-28T05:00:22.850Z",
  "key": "map-nitf-misc-gdal-server/bug3337.ntf",
  "kind": "map",
  "model": "RPF frame, ARC zone 9 (polar azimuthal equidistant)",

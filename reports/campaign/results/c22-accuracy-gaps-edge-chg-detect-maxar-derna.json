@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "edge",
- "when": "2026-10-28T01:17:49.720Z",
+ "when": "2026-10-28T05:57:20.635Z",
  "key": "chg-detect-maxar-derna",
  "check": "change",
  "tol": "gain ±1 %, offset ±5 DN, threshold ±2 %, candidates ±10 %, box-cover IoU ≥ 0.9",
@@ -24,7 +24,7 @@
  "run": {
   "outcome": "dialog",
   "toasts": [
-   "toast-info: 4025 change candidate(s) in 54863 ms (gain 0.909, offset -76.6)"
+   "toast-info: 4025 change candidate(s) in 53680 ms (gain 0.909, offset -76.6)"
   ],
   "errors": []
  },

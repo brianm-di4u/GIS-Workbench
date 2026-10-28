@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:17.851Z",
+ "when": "2026-10-28T04:10:01.272Z",
  "key": "rs-vector-fx12-synthetic/fx12.gpkg",
  "item": "rs-vector-fx12-synthetic",
  "file": "fx12.gpkg",
@@ -37,7 +37,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 135,
+ "ms": 156,
  "logs": [],
  "requests": [],
  "csp": []

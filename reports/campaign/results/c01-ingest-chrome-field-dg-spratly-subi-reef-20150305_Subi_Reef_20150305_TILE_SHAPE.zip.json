@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:20:44.519Z",
+ "when": "2026-10-28T04:13:36.256Z",
  "key": "field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_TILE_SHAPE.zip",
  "item": "field-dg-spratly-subi-reef-20150305",
  "file": "Subi_Reef_20150305_TILE_SHAPE.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 63,
+ "ms": 84,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:47.001Z",
+ "when": "2026-10-28T04:27:01.908Z",
  "key": "rs-nitf-gdal-rset/rset.ntf.r1",
  "item": "rs-nitf-gdal-rset",
  "file": "rset.ntf.r1",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rset.ntf.r1 in 37 ms"
+  "toast-info: Opened rset.ntf.r1 in 24 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 129,
+ "ms": 328,
  "logs": [],
  "requests": [],
  "csp": []

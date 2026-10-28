@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:11:21.898Z",
+ "when": "2026-10-28T04:24:20.500Z",
  "key": "ieee-dfc2019-track2-val/JAX_163_001_006_RIGHT_MSI.tif",
  "item": "ieee-dfc2019-track2-val",
  "file": "JAX_163_001_006_RIGHT_MSI.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened JAX_163_001_006_RIGHT_MSI.tif in 1057 ms"
+  "toast-info: Opened JAX_163_001_006_RIGHT_MSI.tif in 1044 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1400,
+ "ms": 1385,
  "logs": [],
  "requests": [],
  "csp": []

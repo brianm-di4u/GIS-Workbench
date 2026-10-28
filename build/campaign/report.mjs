@@ -140,7 +140,7 @@ const corpusBytes = corpus.items.filter((i) => i.origin !== 'research-samples').
 const fieldPhases = Object.fromEntries(['ingest', 'zip', 'accuracy', 'field', 'sweep', 'perf'].map((p) => [p, pwStats(`reports/campaign/pw-field-${p}.json`)]));
 const isField = (r) => /^field-/.test(String(r.item ?? '')) || /field-/.test(JSON.stringify(r.data ?? ''));
 const fieldIngest = records.filter((r) => r.spec === 'c01-ingest' && isField(r));
-const fieldAcc = records.filter((r) => r.spec === 'c20-accuracy' && /^field-/.test(String(r.item ?? r.key ?? '')));
+const fieldAcc = records.filter((r) => r.spec === 'c20-accuracy' && /^\w+-field-/.test(String(r.key ?? '')));
 const fieldWf = [...new Map(bySpec('c43-field-workflows').map((r) => [r.key, r])).values()];
 const fieldPerf = bySpec('c44-field-perf');
 const fieldFindings = () => findings.filter((r) => r[3] === 'F');
@@ -211,14 +211,16 @@ const lines = [
   '',
   '| Phase F run | Passed | Failed | Skipped | Flaky |',
   '|---|---|---|---|---|',
-  fph('ingest', 'F1 Ingest, every field file (c01, Chrome + Edge)'),
+  fph('ingest', 'F1 Ingest, every field file, first pass on the fixed build (c01, Chrome + Edge; the 2 failures are TE-067)'),
   fph('zip', 'F1 Ingest re-check, delivery ZIPs after TE-067 (c01, Chrome + Edge)'),
   fph('accuracy', 'F3 Corners vs GDAL (c20, Chrome)'),
   fph('sweep', 'F2 Functional sweep on field data (c02–c17, TE_ITEMS=field, Chrome)'),
   fph('field', 'F4 Workflows W1–W5 (c43, Chrome)'),
   fph('perf', 'F5 Performance (c44, Chrome + Edge)'),
   '',
-  `Ingest records: ${fieldIngest.length} (${fieldIngest.filter((r) => r.rendered).length} displayed, ${fieldIngest.filter((r) => !r.rendered && (r.errors?.length || r.toasts?.some((t) => /^toast-(warn|error)/.test(t)))).length} refused or reported by name). Sweep records with field data: ${records.filter((r) => /^c(0[2-9]|1[0-7])-/.test(r.spec) && isField(r)).length}. Corner checks: ${fieldAcc.length} (${fieldAcc.filter((r) => r.pass !== false && !r.errors?.length).length} within tolerance).`,
+  'The final regression run (phase 1 above) ingested every field file again on the final build.',
+  '',
+  `Ingest records (final run): ${fieldIngest.length} (${fieldIngest.filter((r) => r.rendered).length} displayed, ${fieldIngest.filter((r) => !r.rendered && (r.errors?.length || r.toasts?.some((t) => /^toast-(warn|error)/.test(t)))).length} refused or reported by name). Sweep records with field data: ${records.filter((r) => /^c(0[2-9]|1[0-7])-/.test(r.spec) && isField(r)).length}. Corner checks vs GDAL: ${fieldAcc.length} (Chrome + Edge), ${fieldAcc.filter((r) => !r.error && r.maxErrM <= r.tolM).length} within tolerance, worst ${Math.max(0, ...fieldAcc.map((r) => r.maxErrM).filter(Number.isFinite)).toFixed(3)} m.`,
   '',
   '| Workflow | Result |',
   '|---|---|',

@@ -1,8 +1,8 @@
 {
  "spec": "c19-nonfunctional",
  "project": "edge",
- "when": "2026-10-27T14:49:40.220Z",
+ "when": "2026-10-28T05:05:00.196Z",
  "key": "prf03-umbra-bingham-20230925-full-umbra_20230925_SICD.nitf",
  "bytes": 953329244,
- "firstTileMs": 3018
+ "firstTileMs": 3475
 }

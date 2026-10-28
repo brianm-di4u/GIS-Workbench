@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:15:31.353Z",
+ "when": "2026-10-28T04:28:29.245Z",
  "key": "gmti-stanag4607-trane293-fixtures/repeated_mission_segment.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "repeated_mission_segment.gmti",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120098,
+ "ms": 120071,
  "logs": [],
  "requests": [],
  "csp": []

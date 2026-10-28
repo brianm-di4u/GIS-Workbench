@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:13:31.944Z",
+ "when": "2026-10-28T04:26:30.065Z",
  "key": "fmv-bambi-flights/DJI_20241021165448_0001_T_point0.ts",
  "item": "fmv-bambi-flights",
  "file": "DJI_20241021165448_0001_T_point0.ts",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened DJI_20241021165448_0001_T_point0.ts: 503 frames, 0 KLV packets (0 bad) in 350 ms"
+  "toast-info: Opened DJI_20241021165448_0001_T_point0.ts: 503 frames, 0 KLV packets (0 bad) in 308 ms"
  ],
  "layers": [],
  "others": {
@@ -21,7 +21,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 387,
+ "ms": 346,
  "logs": [],
  "requests": [],
  "csp": []

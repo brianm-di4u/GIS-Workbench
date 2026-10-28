@@ -1,7 +1,7 @@
 {
  "spec": "c06-stereo3d",
  "project": "chrome",
- "when": "2026-10-27T15:35:27.642Z",
+ "when": "2026-10-28T05:13:23.173Z",
  "key": "stereo.mode.sbs",
  "id": "stereo.mode.sbs",
  "enabled": true,

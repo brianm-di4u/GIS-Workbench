@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:42:08.431Z",
+ "key": "ieee-flame2-sfm/RGB_Orthomosaic.jpg",
+ "item": "ieee-flame2-sfm",
+ "file": "RGB_Orthomosaic.jpg",
+ "format": "LAZ 1.2 (Agisoft Metashape) + JPEG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened RGB_Orthomosaic.jpg in 305 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 4855,
+   "h": 3681,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1662,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

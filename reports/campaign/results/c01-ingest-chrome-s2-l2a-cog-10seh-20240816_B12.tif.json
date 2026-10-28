@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:02.801Z",
+ "when": "2026-10-28T04:17:38.317Z",
  "key": "s2-l2a-cog-10seh-20240816/B12.tif",
  "item": "s2-l2a-cog-10seh-20240816",
  "file": "B12.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened B12.tif in 63 ms"
+  "toast-info: Opened B12.tif in 46 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 443,
+ "ms": 374,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:05.257Z",
+ "when": "2026-10-28T04:23:33.161Z",
  "key": "3d-gltf-sample-assets/Duck.gltf",
  "item": "3d-gltf-sample-assets",
  "file": "Duck.gltf",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120087,
+ "ms": 120115,
  "logs": [],
  "requests": [],
  "csp": []

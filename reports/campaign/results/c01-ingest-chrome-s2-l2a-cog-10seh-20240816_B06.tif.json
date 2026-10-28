@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:01.762Z",
+ "when": "2026-10-28T04:17:37.333Z",
  "key": "s2-l2a-cog-10seh-20240816/B06.tif",
  "item": "s2-l2a-cog-10seh-20240816",
  "file": "B06.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened B06.tif in 51 ms"
+  "toast-info: Opened B06.tif in 41 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 420,
+ "ms": 362,
  "logs": [],
  "requests": [],
  "csp": []

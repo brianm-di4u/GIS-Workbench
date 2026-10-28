@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:16.357Z",
+ "when": "2026-10-28T04:09:59.511Z",
  "key": "rs-nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf",
  "item": "rs-nitf-wv3-mvs-stereo-chips",
  "file": "wv3_b_chip.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened wv3_b_chip.ntf in 51 ms"
+  "toast-info: Opened wv3_b_chip.ntf in 62 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 410,
+ "ms": 442,
  "logs": [],
  "requests": [],
  "csp": []

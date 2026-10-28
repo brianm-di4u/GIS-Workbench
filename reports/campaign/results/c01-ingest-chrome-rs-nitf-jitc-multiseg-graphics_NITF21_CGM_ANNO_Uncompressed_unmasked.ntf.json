@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:15.372Z",
+ "when": "2026-10-28T04:09:58.459Z",
  "key": "rs-nitf-jitc-multiseg-graphics/NITF21_CGM_ANNO_Uncompressed_unmasked.ntf",
  "item": "rs-nitf-jitc-multiseg-graphics",
  "file": "NITF21_CGM_ANNO_Uncompressed_unmasked.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened NITF21_CGM_ANNO_Uncompressed_unmasked.ntf in 73 ms"
+  "toast-info: Opened NITF21_CGM_ANNO_Uncompressed_unmasked.ntf in 105 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 685,
+ "ms": 452,
  "logs": [],
  "requests": [],
  "csp": []

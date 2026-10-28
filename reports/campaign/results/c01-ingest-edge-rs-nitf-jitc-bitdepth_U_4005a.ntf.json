@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:47.761Z",
+ "when": "2026-10-28T04:27:03.343Z",
  "key": "rs-nitf-jitc-bitdepth/U_4005a.ntf",
  "item": "rs-nitf-jitc-bitdepth",
  "file": "U_4005a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4005a.ntf in 36 ms"
+  "toast-info: Opened U_4005a.ntf in 26 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 351,
+ "ms": 328,
  "logs": [],
  "requests": [],
  "csp": []

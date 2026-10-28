@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "edge",
- "when": "2026-10-27T14:46:05.377Z",
+ "when": "2026-10-28T05:01:12.502Z",
  "key": "map-cop-dem-glo30-n39w106/Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif",
  "kind": "map",
  "model": "Map (EPSG:4326)",

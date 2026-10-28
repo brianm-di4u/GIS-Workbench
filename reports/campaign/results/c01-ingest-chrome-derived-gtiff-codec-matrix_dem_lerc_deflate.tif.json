@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:04:26.417Z",
+ "when": "2026-10-28T04:10:07.640Z",
  "key": "derived-gtiff-codec-matrix/dem_lerc_deflate.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "dem_lerc_deflate.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened dem_lerc_deflate.tif in 38 ms"
+  "toast-info: Opened dem_lerc_deflate.tif in 41 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 636,
+ "ms": 667,
  "logs": [],
  "requests": [],
  "csp": []

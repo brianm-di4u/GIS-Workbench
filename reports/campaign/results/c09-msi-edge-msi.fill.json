@@ -1,7 +1,7 @@
 {
  "spec": "c09-msi",
  "project": "edge",
- "when": "2026-10-27T15:42:38.316Z",
+ "when": "2026-10-28T05:21:02.093Z",
  "key": "msi.fill",
  "id": "msi.fill",
  "enabled": true,
@@ -9,9 +9,7 @@
  "dialogs": [],
  "toasts": [],
  "errors": [],
- "changed": [
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [
   "classify"

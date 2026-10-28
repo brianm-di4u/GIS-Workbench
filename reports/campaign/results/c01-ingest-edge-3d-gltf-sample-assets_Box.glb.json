@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:39:40.827Z",
+ "when": "2026-10-28T04:39:23.691Z",
  "key": "3d-gltf-sample-assets/Box.glb",
  "item": "3d-gltf-sample-assets",
  "file": "Box.glb",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120092,
+ "ms": 120103,
  "logs": [],
  "requests": [],
  "csp": []

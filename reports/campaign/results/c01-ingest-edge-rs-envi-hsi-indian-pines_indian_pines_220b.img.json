@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:39.563Z",
+ "when": "2026-10-28T04:26:42.344Z",
  "key": "rs-envi-hsi-indian-pines/indian_pines_220b.img",
  "item": "rs-envi-hsi-indian-pines",
  "file": "indian_pines_220b.img",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened indian_pines_220b.img in 39 ms"
+  "toast-info: Opened indian_pines_220b.img in 27 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 603,
+ "ms": 336,
  "logs": [],
  "requests": [],
  "csp": []

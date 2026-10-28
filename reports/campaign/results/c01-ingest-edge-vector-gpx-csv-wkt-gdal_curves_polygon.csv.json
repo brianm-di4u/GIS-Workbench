@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:40.137Z",
+ "when": "2026-10-28T04:37:22.937Z",
  "key": "vector-gpx-csv-wkt-gdal/curves_polygon.csv",
  "item": "vector-gpx-csv-wkt-gdal",
  "file": "curves_polygon.csv",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 48,
+ "ms": 43,
  "logs": [],
  "requests": [],
  "csp": []

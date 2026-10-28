@@ -1,12 +1,12 @@
 {
  "spec": "c44-field-perf",
  "project": "edge",
- "when": "2026-10-28T04:04:18.862Z",
+ "when": "2026-10-28T05:32:54.728Z",
  "key": "perf-field-dg-panama-Panama_01_R1C1.tif",
  "bytes": 103232219,
- "openMs": 195,
- "firstTileMs": 31537,
- "settledMs": 31768,
+ "openMs": 142,
+ "firstTileMs": 17697,
+ "settledMs": 17959,
  "statsMsAfterDisplay": 0,
  "layer": {
   "ms": 0,

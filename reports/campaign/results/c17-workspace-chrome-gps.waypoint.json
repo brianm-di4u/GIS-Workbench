@@ -1,7 +1,7 @@
 {
  "spec": "c17-workspace",
  "project": "chrome",
- "when": "2026-10-27T15:38:55.945Z",
+ "when": "2026-10-28T05:17:12.091Z",
  "key": "gps.waypoint",
  "id": "gps.waypoint",
  "enabled": true,

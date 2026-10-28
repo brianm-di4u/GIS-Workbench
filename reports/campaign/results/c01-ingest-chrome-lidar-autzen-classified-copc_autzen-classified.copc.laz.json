@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:07.023Z",
+ "when": "2026-10-28T04:18:37.207Z",
  "key": "lidar-autzen-classified-copc/autzen-classified.copc.laz",
  "item": "lidar-autzen-classified-copc",
  "file": "autzen-classified.copc.laz",
@@ -12,7 +12,7 @@
   "NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty"
  ],
  "toasts": [
-  "toast-info: Opened autzen-classified.copc.laz: 10,653,336 points in 9211 ms (1 note in the import log)"
+  "toast-info: Opened autzen-classified.copc.laz: 10,653,336 points in 7255 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 9509,
+ "ms": 7541,
  "logs": [],
  "requests": [],
  "csp": []

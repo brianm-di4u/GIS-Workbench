@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:41:42.748Z",
+ "when": "2026-10-28T04:41:25.765Z",
  "key": "umbra-bingham-20230925-full/umbra_20230925_CPHD.cphd",
  "item": "umbra-bingham-20230925-full",
  "file": "umbra_20230925_CPHD.cphd",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 65,
+ "ms": 74,
  "logs": [],
  "requests": [],
  "csp": []

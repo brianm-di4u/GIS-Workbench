@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:59.081Z",
+ "when": "2026-10-28T04:19:27.401Z",
  "key": "vector-geopackage-conformance-set/coverage_data_tiff.gpkg",
  "item": "vector-geopackage-conformance-set",
  "file": "coverage_data_tiff.gpkg",
@@ -12,7 +12,7 @@
   "DSM_N6130W14900: gridded coverage zoom 3 (float, 15 tile(s)) opened as coverage_data_tiff_DSM_N6130W14900_z3.tif, 1114×656"
  ],
  "toasts": [
-  "toast-info: Opened coverage_data_tiff_DSM_N6130W14900_z3.tif in 19 ms"
+  "toast-info: Opened coverage_data_tiff_DSM_N6130W14900_z3.tif in 9 ms"
  ],
  "layers": [
   {
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 926,
+ "ms": 923,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:38:51.361Z",
+ "when": "2026-10-28T04:34:28.071Z",
  "key": "field-dg-spratly-west-reef-20150417/West_Reef_20150417_R1C3.tif",
  "item": "field-dg-spratly-west-reef-20150417",
  "file": "West_Reef_20150417_R1C3.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened West_Reef_20150417_R1C3.tif in 39 ms"
+  "toast-info: Opened West_Reef_20150417_R1C3.tif in 38 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 2654,
+ "ms": 1919,
  "logs": [],
  "requests": [],
  "csp": []

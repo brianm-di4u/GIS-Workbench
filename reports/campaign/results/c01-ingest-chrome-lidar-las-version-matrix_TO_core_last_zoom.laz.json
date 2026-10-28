@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:10.413Z",
+ "when": "2026-10-28T04:18:39.866Z",
  "key": "lidar-las-version-matrix/TO_core_last_zoom.laz",
  "item": "lidar-las-version-matrix",
  "file": "TO_core_last_zoom.laz",
@@ -13,7 +13,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened TO_core_last_zoom.laz: 213,093 points in 369 ms (2 notes in the import log)"
+  "toast-info: Opened TO_core_last_zoom.laz: 213,093 points in 418 ms (2 notes in the import log)"
  ],
  "layers": [],
  "others": {
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 510,
+ "ms": 573,
  "logs": [],
  "requests": [],
  "csp": []

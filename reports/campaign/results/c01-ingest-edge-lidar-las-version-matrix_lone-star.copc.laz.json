@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:49.383Z",
+ "when": "2026-10-28T04:36:29.147Z",
  "key": "lidar-las-version-matrix/lone-star.copc.laz",
  "item": "lidar-las-version-matrix",
  "file": "lone-star.copc.laz",
@@ -13,7 +13,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened lone-star.copc.laz: 518,862 points in 759 ms (2 notes in the import log)"
+  "toast-info: Opened lone-star.copc.laz: 518,862 points in 736 ms (2 notes in the import log)"
  ],
  "layers": [],
  "others": {
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 909,
+ "ms": 866,
  "logs": [],
  "requests": [],
  "csp": []

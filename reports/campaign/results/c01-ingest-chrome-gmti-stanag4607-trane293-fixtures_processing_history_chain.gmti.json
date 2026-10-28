@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:13:31.054Z",
+ "when": "2026-10-28T04:26:29.245Z",
  "key": "gmti-stanag4607-trane293-fixtures/processing_history_chain.gmti",
  "item": "gmti-stanag4607-trane293-fixtures",
  "file": "processing_history_chain.gmti",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 70,
+ "ms": 78,
  "logs": [],
  "requests": [],
  "csp": []

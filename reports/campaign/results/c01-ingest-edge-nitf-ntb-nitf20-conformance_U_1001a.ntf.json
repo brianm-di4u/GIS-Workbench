@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:01.933Z",
+ "when": "2026-10-28T04:34:48.955Z",
  "key": "nitf-ntb-nitf20-conformance/U_1001a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_1001a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_1001a.ntf in 31 ms"
+  "toast-info: Opened U_1001a.ntf in 41 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 348,
+ "ms": 391,
  "logs": [],
  "requests": [],
  "csp": []

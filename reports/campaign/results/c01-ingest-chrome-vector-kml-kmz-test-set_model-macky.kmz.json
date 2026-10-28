@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:30:02.854Z",
+ "when": "2026-10-28T04:19:30.686Z",
  "key": "vector-kml-kmz-test-set/model-macky.kmz",
  "item": "vector-kml-kmz-test-set",
  "file": "model-macky.kmz",
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 146,
+ "ms": 78,
  "logs": [],
  "requests": [],
  "csp": []

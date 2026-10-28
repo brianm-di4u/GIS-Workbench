@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:28:37.272Z",
+ "when": "2026-10-28T04:28:48.001Z",
  "key": "field-intermap-sar/m4817p37s5_VH_01.tif",
  "item": "field-intermap-sar",
  "file": "m4817p37s5_VH_01.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened m4817p37s5_VH_01.tif in 60 ms"
+  "toast-info: Opened m4817p37s5_VH_01.tif in 48 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 1226,
+ "ms": 926,
  "logs": [],
  "requests": [],
  "csp": []

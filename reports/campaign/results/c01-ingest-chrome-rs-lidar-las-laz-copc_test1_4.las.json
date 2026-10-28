@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:06.189Z",
+ "when": "2026-10-28T04:09:48.821Z",
  "key": "rs-lidar-las-laz-copc/test1_4.las",
  "item": "rs-lidar-las-laz-copc",
  "file": "test1_4.las",
@@ -12,7 +12,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened test1_4.las: 1,000 points in 26 ms (1 note in the import log)"
+  "toast-info: Opened test1_4.las: 1,000 points in 35 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 191,
+ "ms": 257,
  "logs": [],
  "requests": [],
  "csp": []

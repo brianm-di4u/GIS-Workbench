@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:24:11.450Z",
+ "when": "2026-10-28T04:15:14.620Z",
  "key": "field-dg-spratly-west-reef-20140111/West_Reef_20140111_BROWSE.tif",
  "item": "field-dg-spratly-west-reef-20140111",
  "file": "West_Reef_20140111_BROWSE.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened West_Reef_20140111_BROWSE.tif in 38 ms"
+  "toast-info: Opened West_Reef_20140111_BROWSE.tif in 34 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 628,
+ "ms": 382,
  "logs": [],
  "requests": [],
  "csp": []

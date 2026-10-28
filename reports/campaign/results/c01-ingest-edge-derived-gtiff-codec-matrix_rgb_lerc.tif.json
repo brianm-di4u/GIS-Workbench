@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:58.747Z",
+ "when": "2026-10-28T04:27:32.982Z",
  "key": "derived-gtiff-codec-matrix/rgb_lerc.tif",
  "item": "derived-gtiff-codec-matrix",
  "file": "rgb_lerc.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened rgb_lerc.tif in 29 ms"
+  "toast-info: Opened rgb_lerc.tif in 26 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 852,
+ "ms": 586,
  "logs": [],
  "requests": [],
  "csp": []

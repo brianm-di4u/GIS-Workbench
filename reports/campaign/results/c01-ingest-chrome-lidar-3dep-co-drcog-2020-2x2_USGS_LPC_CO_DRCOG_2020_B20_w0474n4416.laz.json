@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:28:55.756Z",
+ "when": "2026-10-28T04:18:28.467Z",
  "key": "lidar-3dep-co-drcog-2020-2x2/USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz",
  "item": "lidar-3dep-co-drcog-2020-2x2",
  "file": "USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz",
@@ -12,7 +12,7 @@
   "NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty"
  ],
  "toasts": [
-  "toast-info: Opened USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz: 36,705,037 points in 21471 ms (1 note in the import log)"
+  "toast-info: Opened USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz: 36,705,037 points in 24933 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 22113,
+ "ms": 25809,
  "logs": [],
  "requests": [],
  "csp": []

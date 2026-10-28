@@ -1,7 +1,7 @@
 {
  "spec": "c12-vector",
  "project": "chrome",
- "when": "2026-10-27T15:37:46.607Z",
+ "when": "2026-10-28T05:15:54.230Z",
  "key": "chg.confirm",
  "id": "chg.confirm",
  "enabled": true,

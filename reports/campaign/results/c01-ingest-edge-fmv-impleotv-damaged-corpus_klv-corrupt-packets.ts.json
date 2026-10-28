@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:59.761Z",
+ "when": "2026-10-28T04:36:38.577Z",
  "key": "fmv-impleotv-damaged-corpus/klv-corrupt-packets.ts",
  "item": "fmv-impleotv-damaged-corpus",
  "file": "klv-corrupt-packets.ts",
@@ -12,7 +12,7 @@
   "4 KLV packet(s) failed the checksum and were not used"
  ],
  "toasts": [
-  "toast-info: Opened klv-corrupt-packets.ts: 298 frames, 298 KLV packets (4 bad) in 200 ms"
+  "toast-info: Opened klv-corrupt-packets.ts: 298 frames, 298 KLV packets (4 bad) in 160 ms"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 1
  },
  "diffs": [],
- "ms": 302,
+ "ms": 230,
  "logs": [],
  "requests": [],
  "csp": []

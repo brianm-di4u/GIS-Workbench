@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:42:01.274Z",
+ "key": "ieee-dfc2018-houston/2018_IEEE_GRSS_DFC_GT_TR.tif",
+ "item": "ieee-dfc2018-houston",
+ "file": "2018_IEEE_GRSS_DFC_GT_TR.tif",
+ "format": "ENVI-style .pix/.hdr HSI + LAS 1.x + GeoTIFF/TFW",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 2018_IEEE_GRSS_DFC_GT_TR.tif in 47 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 4768,
+   "h": 1202,
+   "bands": 1,
+   "model": "Map (EPSG:26915)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 888,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

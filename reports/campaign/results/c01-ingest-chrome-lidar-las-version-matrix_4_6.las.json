@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:05.457Z",
+ "when": "2026-10-28T04:18:35.823Z",
  "key": "lidar-las-version-matrix/4_6.las",
  "item": "lidar-las-version-matrix",
  "file": "4_6.las",
@@ -12,7 +12,7 @@
   "NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty"
  ],
  "toasts": [
-  "toast-info: Opened 4_6.las: 198,975 points in 259 ms (1 note in the import log)"
+  "toast-info: Opened 4_6.las: 198,975 points in 248 ms (1 note in the import log)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 368,
+ "ms": 394,
  "logs": [],
  "requests": [],
  "csp": []

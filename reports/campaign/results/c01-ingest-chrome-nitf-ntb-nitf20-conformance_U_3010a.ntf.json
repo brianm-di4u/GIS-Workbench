@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:29.907Z",
+ "when": "2026-10-28T04:16:57.131Z",
  "key": "nitf-ntb-nitf20-conformance/U_3010a.ntf",
  "item": "nitf-ntb-nitf20-conformance",
  "file": "U_3010a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_3010a.ntf in 38 ms"
+  "toast-info: Opened U_3010a.ntf in 39 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 386,
+ "ms": 374,
  "logs": [],
  "requests": [],
  "csp": []

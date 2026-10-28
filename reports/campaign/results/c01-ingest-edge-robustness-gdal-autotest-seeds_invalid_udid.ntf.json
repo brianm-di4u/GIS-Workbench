@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:09.403Z",
+ "when": "2026-10-28T04:35:50.234Z",
  "key": "robustness-gdal-autotest-seeds/invalid_udid.ntf",
  "item": "robustness-gdal-autotest-seeds",
  "file": "invalid_udid.ntf",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 75,
+ "ms": 78,
  "logs": [],
  "requests": [],
  "csp": []

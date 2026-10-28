@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:16.488Z",
+ "when": "2026-10-28T04:09:59.824Z",
  "key": "rs-nsif-jitc/ns3114a.nsf",
  "item": "rs-nsif-jitc",
  "file": "ns3114a.nsf",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 98,
+ "ms": 96,
  "logs": [],
  "requests": [],
  "csp": []

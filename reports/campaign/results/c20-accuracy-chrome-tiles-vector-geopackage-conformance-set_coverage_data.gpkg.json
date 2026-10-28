@@ -1,7 +1,7 @@
 {
  "spec": "c20-accuracy",
  "project": "chrome",
- "when": "2026-10-27T14:44:36.036Z",
+ "when": "2026-10-28T04:53:27.458Z",
  "key": "tiles-vector-geopackage-conformance-set/coverage_data.gpkg",
  "kind": "tiles",
  "model": "Map (EPSG:3857)",

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:11.102Z",
+ "when": "2026-10-28T04:34:56.826Z",
  "key": "nitf-ntb-nitf11-legacy/U_0001b.ntf",
  "item": "nitf-ntb-nitf11-legacy",
  "file": "U_0001b.ntf",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 85,
+ "ms": 66,
  "logs": [],
  "requests": [],
  "csp": []

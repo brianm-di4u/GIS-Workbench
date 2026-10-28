@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:05.972Z",
+ "when": "2026-10-28T04:18:00.022Z",
  "key": "robustness-gdal-autotest-seeds/corrupted_deflate_singlestrip.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "corrupted_deflate_singlestrip.tif",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 90,
+ "ms": 73,
  "logs": [],
  "requests": [],
  "csp": []

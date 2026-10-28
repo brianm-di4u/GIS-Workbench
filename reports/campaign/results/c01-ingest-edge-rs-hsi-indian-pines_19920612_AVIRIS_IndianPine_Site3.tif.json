@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:41.011Z",
+ "when": "2026-10-28T04:26:46.809Z",
  "key": "rs-hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3.tif",
  "item": "rs-hsi-indian-pines",
  "file": "19920612_AVIRIS_IndianPine_Site3.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened 19920612_AVIRIS_IndianPine_Site3.tif in 30 ms"
+  "toast-info: Opened 19920612_AVIRIS_IndianPine_Site3.tif in 27 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 350,
+ "ms": 338,
  "logs": [],
  "requests": [],
  "csp": []

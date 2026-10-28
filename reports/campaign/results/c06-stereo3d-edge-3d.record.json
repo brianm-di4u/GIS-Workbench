@@ -1,7 +1,7 @@
 {
  "spec": "c06-stereo3d",
  "project": "edge",
- "when": "2026-10-27T15:41:38.879Z",
+ "when": "2026-10-28T05:19:57.325Z",
  "key": "3d.record",
  "id": "3d.record",
  "enabled": true,
@@ -11,9 +11,7 @@
  ],
  "toasts": [],
  "errors": [],
- "changed": [
-  "body"
- ],
+ "changed": [],
  "downloads": [],
  "prepared": [
   "terrain",

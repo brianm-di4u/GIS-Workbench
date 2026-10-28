@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:45.951Z",
+ "when": "2026-10-28T04:26:59.217Z",
  "key": "rs-nitf-gdal-autotest-small/fake_nsif.ntf",
  "item": "rs-nitf-gdal-autotest-small",
  "file": "fake_nsif.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened fake_nsif.ntf in 60 ms"
+  "toast-info: Opened fake_nsif.ntf in 27 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 177,
+ "ms": 88,
  "logs": [],
  "requests": [],
  "csp": []

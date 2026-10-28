@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:07.893Z",
+ "when": "2026-10-28T04:18:01.776Z",
  "key": "robustness-gdal-autotest-seeds/many_blocks_truncated.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "many_blocks_truncated.tif",
@@ -32,7 +32,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 400,
+ "ms": 376,
  "logs": [],
  "requests": [],
  "csp": []

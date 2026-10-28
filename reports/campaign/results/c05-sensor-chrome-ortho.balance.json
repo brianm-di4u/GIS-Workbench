@@ -1,7 +1,7 @@
 {
  "spec": "c05-sensor",
  "project": "chrome",
- "when": "2026-10-27T15:35:23.919Z",
+ "when": "2026-10-28T05:13:18.238Z",
  "key": "ortho.balance",
  "id": "ortho.balance",
  "enabled": true,

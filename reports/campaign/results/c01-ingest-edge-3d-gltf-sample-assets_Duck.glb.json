@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:41:41.196Z",
+ "when": "2026-10-28T04:41:24.128Z",
  "key": "3d-gltf-sample-assets/Duck.glb",
  "item": "3d-gltf-sample-assets",
  "file": "Duck.glb",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120098,
+ "ms": 120119,
  "logs": [],
  "requests": [],
  "csp": []

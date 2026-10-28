@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:12.831Z",
+ "when": "2026-10-28T04:09:55.739Z",
  "key": "rs-nitf-jitc-imode-bprs/U_3002a.ntf",
  "item": "rs-nitf-jitc-imode-bprs",
  "file": "U_3002a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_3002a.ntf in 38 ms"
+  "toast-info: Opened U_3002a.ntf in 35 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 403,
+ "ms": 379,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c03-enhance",
  "project": "chrome",
- "when": "2026-10-28T03:59:26.334Z",
+ "when": "2026-10-28T05:29:27.939Z",
  "key": "enh.remove",
  "id": "enh.remove",
  "enabled": true,

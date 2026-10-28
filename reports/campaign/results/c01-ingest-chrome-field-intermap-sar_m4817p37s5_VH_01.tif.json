@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:16:51.832Z",
+ "when": "2026-10-28T04:10:53.846Z",
  "key": "field-intermap-sar/m4817p37s5_VH_01.tif",
  "item": "field-intermap-sar",
  "file": "m4817p37s5_VH_01.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened m4817p37s5_VH_01.tif in 67 ms"
+  "toast-info: Opened m4817p37s5_VH_01.tif in 45 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 964,
+ "ms": 876,
  "logs": [],
  "requests": [],
  "csp": []

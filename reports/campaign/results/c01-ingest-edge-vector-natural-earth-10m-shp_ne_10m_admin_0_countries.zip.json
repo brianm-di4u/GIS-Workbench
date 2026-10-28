@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:03.687Z",
+ "when": "2026-10-28T04:36:42.672Z",
  "key": "vector-natural-earth-10m-shp/ne_10m_admin_0_countries.zip",
  "item": "vector-natural-earth-10m-shp",
  "file": "ne_10m_admin_0_countries.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 541,
+ "ms": 575,
  "logs": [],
  "requests": [],
  "csp": []

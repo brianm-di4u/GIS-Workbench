@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:36:18.686Z",
+ "when": "2026-10-28T04:35:57.006Z",
  "key": "robustness-gdal-autotest-seeds/spaf27_brokengdal.tif",
  "item": "robustness-gdal-autotest-seeds",
  "file": "spaf27_brokengdal.tif",
@@ -12,7 +12,7 @@
   "geotransform: the file has a geotransform but no CRS (no EPSG code, .prj or .aux.xml)"
  ],
  "toasts": [
-  "toast-info: Opened spaf27_brokengdal.tif in 43 ms (1 note in the import log)"
+  "toast-info: Opened spaf27_brokengdal.tif in 40 ms (1 note in the import log)"
  ],
  "layers": [
   {
@@ -33,7 +33,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 390,
+ "ms": 383,
  "logs": [],
  "requests": [],
  "csp": []

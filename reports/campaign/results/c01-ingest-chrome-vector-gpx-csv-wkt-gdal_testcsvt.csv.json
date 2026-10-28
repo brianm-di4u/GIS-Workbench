@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:30:05.120Z",
+ "when": "2026-10-28T04:19:32.940Z",
  "key": "vector-gpx-csv-wkt-gdal/testcsvt.csv",
  "item": "vector-gpx-csv-wkt-gdal",
  "file": "testcsvt.csv",
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 64,
+ "ms": 42,
  "logs": [],
  "requests": [],
  "csp": []

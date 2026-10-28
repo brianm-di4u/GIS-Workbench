@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:18.803Z",
+ "when": "2026-10-28T04:23:47.790Z",
  "key": "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf",
  "item": "iceye-x50-slf-20251027-sidd3",
  "file": "iceye_X50_SIDD_GRD_SLF.nitf",
@@ -9,9 +9,7 @@
  "rendered": true,
  "errors": [],
  "warnings": [],
- "toasts": [
-  "toast-info: Opened iceye_X50_SIDD_GRD_SLF.nitf in 38 ms"
- ],
+ "toasts": [],
  "layers": [
   {
    "error": null,
@@ -31,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 3705,
+ "ms": 4223,
  "logs": [],
  "requests": [],
  "csp": []

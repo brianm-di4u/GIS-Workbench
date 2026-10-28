@@ -1,7 +1,7 @@
 {
  "spec": "c11-fmv",
  "project": "chrome",
- "when": "2026-10-28T04:02:19.805Z",
+ "when": "2026-10-28T05:31:33.694Z",
  "key": "mie.prev",
  "id": "mie.prev",
  "enabled": false,
@@ -9,7 +9,9 @@
  "dialogs": [],
  "toasts": [],
  "errors": [],
- "changed": [],
+ "changed": [
+  "body"
+ ],
  "downloads": [],
  "prepared": [],
  "data": [

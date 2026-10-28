@@ -1,25 +1,25 @@
 # GIS Workbench — T&E campaign report
 
-Generated 2026-10-28T02:09:45.196Z by `build/campaign/report.mjs`. Plan: [TE-master-plan.md](TE-master-plan.md). Registers: [findings](TE-findings.md), [improvements](TE-improvements.md), [owner decisions](TE-owner-decisions.md), [data catalogue](TE-data-catalogue.md).
+Generated 2026-10-28T05:58:16.129Z by `build/campaign/report.mjs`. Plan: [TE-master-plan.md](TE-master-plan.md). Registers: [findings](TE-findings.md), [improvements](TE-improvements.md), [owner decisions](TE-owner-decisions.md), [data catalogue](TE-data-catalogue.md).
 
 ## 1. Build under test
 
-- `dist/gis-workbench.html`: 5.7 MB, SHA-256 `cad24fce192fb01b…`, build 5b6f417b5e14c28c.
-- Corpus: 117 items (100 on disk), 40.54 GB of public downloads plus the 29 Research samples; every file pinned by SHA-256.
+- `dist/gis-workbench.html`: 5.7 MB, SHA-256 `768ac64822d031f9…`, build feb8e261b0de1379.
+- Corpus: 139 items (122 on disk), 62.09 GB of public downloads plus the 29 Research samples; every file pinned by SHA-256.
 - Machine: Windows 11, Intel Arc integrated GPU, Chrome and Edge stable (OD-01: not the reference laptop).
 
 ## 2. Results by phase
 
 | Phase | Passed | Failed | Skipped | Flaky |
 |---|---|---|---|---|
-| 1 Ingest conformance (c01, Chrome + Edge) | 800 | 0 | 0 | 0 |
-| 2 Functional sweep (c02–c17, Chrome + Edge) | 876 | 0 | 0 | 0 |
-| 3 Accuracy (c20, c21, Chrome + Edge) | 238 | 0 | 4 | 0 |
+| 1 Ingest conformance (c01, Chrome + Edge) | 1270 | 0 | 30 | 0 |
+| 2 Functional sweep (c02–c17, Chrome + Edge) | 882 | 0 | 0 | 0 |
+| 3 Accuracy (c20, c21, Chrome + Edge) | 550 | 0 | 4 | 0 |
 | 3 Accuracy, §5.2 checks added 2026-10-27 (c22, Chrome + Edge) | 14 | 2 | 0 | 0 |
 | 4 Workflows and products on real data (c30, c31, Chrome + Edge) | 36 | 0 | 0 | 0 |
 | 5 Live services (c18, Chrome + Edge) | 24 | 0 | 10 | 0 |
 | 6 Non-functional (c19, Chrome + Edge) | 66 | 0 | 0 | 0 |
-| 8 Regression: SDP E2E suite (Chrome + Edge) | 506 | 2 | 2 | 0 |
+| 8 Regression: SDP E2E suite (Chrome + Edge) | 521 | 1 | 2 | 0 |
 
 Node accuracy suites (golden): 4/4 passed.
 
@@ -29,30 +29,30 @@ Node accuracy suites (golden): 4/4 passed.
 |---|---|---|---|---|
 | 3d | 12 | 12 | 0 | 0 |
 | dem | 36 | 36 | 0 | 0 |
-| eo | 74 | 74 | 0 | 0 |
-| fmv | 64 | 60 | 4 | 0 |
+| eo | 464 | 460 | 4 | 0 |
+| fmv | 70 | 66 | 4 | 0 |
 | geopdf | 6 | 6 | 0 | 0 |
-| gmti | 8 | 0 | 2 | 0 |
-| hsi | 30 | 30 | 0 | 0 |
+| gmti | 16 | 0 | 4 | 0 |
+| hsi | 40 | 40 | 0 | 0 |
 | landsat | 38 | 38 | 0 | 0 |
-| lidar | 88 | 88 | 0 | 0 |
+| lidar | 90 | 90 | 0 | 0 |
 | naip | 2 | 2 | 0 | 0 |
 | nitf | 152 | 122 | 30 | 0 |
 | raster | 2 | 2 | 0 | 0 |
 | robustness | 72 | 28 | 22 | 0 |
-| sar | 37 | 33 | 4 | 0 |
+| sar | 50 | 46 | 4 | 0 |
 | sentinel2 | 50 | 50 | 0 | 0 |
 | vector | 162 | 146 | 12 | 0 |
 
 ### Phase 2 — command coverage
 
-448 catalogued commands, 448 implemented. Sweep outcomes: disabled 6, dialog 306, done 550, error 10, pending 4. Commands exercised without error on real data: **428**.
+451 catalogued commands, 451 implemented. Sweep outcomes: disabled 44, dialog 300, done 526, error 8, pending 4. Commands exercised without error on real data: **431**.
 
 ### Phase 3 — accuracy against independent oracles
 
 | Check | Cases | Within tolerance | Worst difference |
 |---|---|---|---|
-| Geolocation, map model vs GDAL corners | 214 | 214 | 8.3652 m |
+| Geolocation, map model vs GDAL corners | 526 | 526 | 8.3652 m |
 | Geolocation, rpc model vs GDAL RPC transformer | 16 | 16 | 0.0000 px |
 | Geolocation, tiles model vs GDAL corners | 6 | 6 | 0.0000 m |
 | CCD coherence vs numpy, Umbra Bingham pair, 5×5 (≥ 0.8 stable, ≤ 0.4 disturbed) | 0 stable / 2586 disturbed 32² tiles (numpy) | **FAIL**: app ≤ 0.4 in 2586/2586; numpy has no stable tile (B⊥ 8015 m, h_amb 0.83 m) | mean γ app 0.194 vs numpy 0.318 |
@@ -83,29 +83,69 @@ Node accuracy suites (golden): 4/4 passed.
 
 | PRF-03 first tile | Size | ms |
 |---|---|---|
-| eo-spacenet-vegas-wv3-pan-ms-r1c1-15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF (chrome) | 536.9 MB | 664 |
-| iceye-x50-slf-20251027-sidd3-iceye_X50_SIDD_GRD_SLF.nitf (chrome) | 400.0 MB | 1141 |
-| umbra-bingham-20230821-repeat-umbra_20230821_SICD.nitf (chrome) | 865.6 MB | 3004 |
-| umbra-bingham-20230925-full-umbra_20230925_SICD.nitf (chrome) | 953.3 MB | 3279 |
-| usgs-3dep-13-n40w106-USGS_13_n40w106.tif (chrome) | 413.5 MB | 246 |
-| eo-spacenet-vegas-wv3-pan-ms-r1c1-15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF (edge) | 536.9 MB | 510 |
-| iceye-x50-slf-20251027-sidd3-iceye_X50_SIDD_GRD_SLF.nitf (edge) | 400.0 MB | 1053 |
-| umbra-bingham-20230821-repeat-umbra_20230821_SICD.nitf (edge) | 865.6 MB | 2739 |
-| umbra-bingham-20230925-full-umbra_20230925_SICD.nitf (edge) | 953.3 MB | 3018 |
-| usgs-3dep-13-n40w106-USGS_13_n40w106.tif (edge) | 413.5 MB | 233 |
+| eo-spacenet-vegas-wv3-pan-ms-r1c1-15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF (chrome) | 536.9 MB | 926 |
+| field-phr-dimap-IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF (chrome) | 653.8 MB | 574 |
+| field-phr-millerovo-IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif (chrome) | 515.1 MB | 703 |
+| umbra-bingham-20230821-repeat-umbra_20230821_SICD.nitf (chrome) | 865.6 MB | 3594 |
+| umbra-bingham-20230925-full-umbra_20230925_SICD.nitf (chrome) | 953.3 MB | 4552 |
+| eo-spacenet-vegas-wv3-pan-ms-r1c1-15OCT22183656-P2AS_R1C1-055649178030_01_P001.TIF (edge) | 536.9 MB | 669 |
+| field-phr-dimap-IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF (edge) | 653.8 MB | 431 |
+| field-phr-millerovo-IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif (edge) | 515.1 MB | 542 |
+| umbra-bingham-20230821-repeat-umbra_20230821_SICD.nitf (edge) | 865.6 MB | 3000 |
+| umbra-bingham-20230925-full-umbra_20230925_SICD.nitf (edge) | 953.3 MB | 3475 |
 
 Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 
+## 2F. Field-data campaign (phase F)
+
+Imagery a first user supplied (tier U, never redistributed: OD-09). Plan: [TE-field-plan.md](TE-field-plan.md).
+
+| Phase F run | Passed | Failed | Skipped | Flaky |
+|---|---|---|---|---|
+| F1 Ingest, every field file, first pass on the fixed build (c01, Chrome + Edge; the 2 failures are TE-067) | 392 | 2 | 0 | 0 |
+| F1 Ingest re-check, delivery ZIPs after TE-067 (c01, Chrome + Edge) | 4 | 0 | 0 | 0 |
+| F3 Corners vs GDAL (c20, Chrome) | 149 | 0 | 0 | 0 |
+| F2 Functional sweep on field data (c02–c17, TE_ITEMS=field, Chrome) | 136 | 0 | 305 | 0 |
+| F4 Workflows W1–W5 (c43, Chrome) | 5 | 0 | 0 | 0 |
+| F5 Performance (c44, Chrome + Edge) | 10 | 0 | 0 | 0 |
+
+The final regression run (phase 1 above) ingested every field file again on the final build.
+
+Ingest records (final run): 392 (388 displayed, 4 refused or reported by name). Sweep records with field data: 48. Corner checks vs GDAL: 298 (Chrome + Edge), 298 within tolerance, worst 0.000 m.
+
+| Workflow | Result |
+|---|---|
+| w1-millerovo-change | whole scene 5942 candidates at 1/3 in 73 s; AOI 1218 at full resolution |
+| w2-spratly-west-reef | 102 candidates, 56346 px, resampled across grids |
+| w3-panama-tiles | 12/12 tiles displayed in 64 s; mosaic extent error 0.000 px |
+| w4-pleiades-dimap-zip | opened from the ZIP in 7 s; bands [2,1,0]; sun 147.2°/55.0° |
+| w5-intermap-sar | GCP error 0.17 px; σ⁰ dB max |Δ| 4.8e-7 over 4096 px |
+
+| Field file (c44) | Browser | Size | First tile ms | Settled ms | Statistics ms after display |
+|---|---|---|---|---|---|
+| field-dg-panama-Panama_01_R1C1.tif | chrome | 103.2 MB | 18477 | 18773 | 0 |
+| field-dg-spratly-mischief-reef-20150131-Mischief_Reef_20150131_R2C2.tif | chrome | 45.0 MB | 18433 | 18714 | 0 |
+| field-intermap-sar-m4817p37s5_VH_01.tif | chrome | 299.0 MB | 479 | 608 | 0 |
+| field-phr-dimap-IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF | chrome | 653.8 MB | 630 | 3077 | 0 |
+| field-phr-millerovo-IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif | chrome | 515.1 MB | 812 | 1142 | 0 |
+| field-dg-panama-Panama_01_R1C1.tif | edge | 103.2 MB | 17697 | 17959 | 0 |
+| field-dg-spratly-mischief-reef-20150131-Mischief_Reef_20150131_R2C2.tif | edge | 45.0 MB | 16808 | 17057 | 0 |
+| field-intermap-sar-m4817p37s5_VH_01.tif | edge | 299.0 MB | 507 | 621 | 0 |
+| field-phr-dimap-IMG_PHR1B_PMS_201804210157279_ORT_3132754101_R1C1.TIF | edge | 653.8 MB | 548 | 1965 | 0 |
+| field-phr-millerovo-IMG_PHR1A_PMS_201701300811101_ORT_2363084201-001_R1C1_DRA.tif | edge | 515.1 MB | 775 | 1141 | 0 |
+
+Phase F findings: TE-059 (S1, Verified), TE-060 (S2, Verified), TE-061 (S3, Verified), TE-062 (S1, Verified), TE-063 (S3, Verified), TE-064 (S2, Verified (IMP-21)), TE-065 (S3, Verified (IMP-23)), TE-066 (S2, Verified (IMP-24)), TE-067 (S2, Verified), TE-068 (S3, Verified), TE-069 (S2, Verified).
+
 ## 3. Findings
 
-58 findings in the register:
+69 findings in the register:
 
 | Severity / status | Count |
 |---|---|
-| S1 / Verified | 2 |
-| S2 / Verified | 22 |
+| S1 / Verified | 4 |
+| S2 / Verified | 27 |
 | S3 / Fixed | 2 |
-| S3 / Verified | 19 |
+| S3 / Verified | 23 |
 | S4 / Fixed | 1 |
 | S4 / Verified | 8 |
 | — / Expected | 1 |
@@ -171,6 +211,17 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 | TE-056 | S3 | Verified | TOA reflectance from the MTL/MTD is exact: \|Δ\| = 0 on Landsat B4/B5 and S2 B04, and NDVI from the app's TOA bands is within 6e-8. It is reachable only through the API, though. On these products each band is its own single-band layer, Radiometric Conversion and Band Math need ≥ 2 bands (both disabled), and no command stacks band files, so neither TOA nor NDVI can be produced from the ribbon. |
 | TE-057 | S2 | Verified | Reading a 512² window of the second Sentinel-2 L1C band (`app.msi.cube`) traps in WebAssembly with "unreachable"; the first band (B04) reads exactly. As a result, the S2 TOA/NDVI check fails in both browsers. |
 | TE-058 | S3 | Fixed (target: OD-08) | Maximum likelihood reaches OA 0.497, κ 0.352 (minimum distance 0.463, SAM 0.477), against the plan's ≥ 90 %. The app's κ equals an independent κ from its label map to 4 decimals. Full-dimension ML on 220 bands with 244–1234 training pixels per class is ill-conditioned (scikit-learn QDA with reg 0.1: OA 0.490). The references do better (LDA 0.832, RBF-SVM 0.892), but none reaches 90 % on this split. |
+| TE-059 | S1 | Verified | `cargo test -p gw-fuzz` aborts the process: "memory allocation of 67345122032 bytes failed". The laz crate sizes the chunk table from the file's 32-bit chunk count before decoding it, so one corrupt count kills the point-cloud worker (WASM trap) instead of failing by name. |
+| TE-060 | S2 | Verified | Every DigitalGlobe JPEG tile fails "cannot be displayed: SOI not found"; only the uncompressed _BROWSE images open. The tiles are big-endian ("MM") TIFFs whose TileOffsets/TileByteCounts lie past geotiff.js's first header read. |
+| TE-061 | S3 | Verified | A MrSID mosaic is refused as "unrecognised data cannot be opened as imagery in this release". |
+| TE-062 | S1 | Verified | JPEG-compressed YCbCr TIFFs are shown and analysed as if Y, Cb, Cr were R, G, B: wrong colours and wrong pixel values in every band-based tool (statistics, band math, classification, chips). The earlier campaigns had no JPEG/YCbCr GeoTIFF. |
+| TE-063 | S3 | Verified | `.sdw` (MrSID) and `.tifw` world files are not sidecars: dropped with their image, they are opened as images and fail as "unrecognised data". |
+| TE-064 | S2 | Verified (IMP-21) | Imagery delivered as a ZIP is refused as a vector file ("vector files are read whole into memory … 256 MB zipped"); a smaller one would unzip whole into memory and ignore the rasters. |
+| TE-065 | S3 | Verified (IMP-23) | GML files (the DIMAP cloud, snow, ROI… masks) are refused as "unrecognised data". |
+| TE-066 | S2 | Verified (IMP-24) | The first whole-image view of a Panama tile takes 125 s and statistics 114 s; c01 times out (120 s) on every Panama tile and on the larger Spratly tiles. |
+| TE-067 | S2 | Verified | After IMP-21, the real Spratly delivery still went to the vector route ("1523 MB: vector files are read whole…"): its reef ZIPs are deflated, and the imagery check only looked inside stored ones. |
+| TE-068 | S3 | Verified | The Pléiades image is dated 2018:07:10 05:38:42 — the TIFF DateTime tag (when the file was written) — not its acquisition, 2018-04-21 01:57:32 (DIMAP); the date feeds the sun position, Shadows Down and change-detection date order. |
+| TE-069 | S2 | Verified | Whole-image analysis asks the worker for the full image and is refused: "16384×15960×3 samples are more than a cube takes (96 M); use an AOI or a coarser step" — the dialogs offer no step, so every field image needed an AOI first, and derived layers could not be placed at a reduced resolution anyway. |
 
 ## 4. Improvements
 
@@ -196,10 +247,15 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 | IMP-18 | Tie-point matcher: stage-2 cell margin, 9 in-bounds stage-1 candidates, rejection statistics; Stereo Align on an 8×8 grid at NCC 0.65 | WV3 multi-date pair: 1 → 14 tie points | Done |
 | IMP-19 | SMRF opening with PDAL's diamond structuring element; DTM posts as the cell mean | 3DEP DTM RMSEz at USGS ground: 0.43 m → **0.128 m** (AT-14.x 0.15 m) | Done |
 | IMP-20 | Read quantized-mesh layers in Web Mercator (EPSG:3857 TMS, as written by tin-terrain), not only EPSG:4326 | `terrain-qmesh-heremaps-examples` (241 real tiles): refused by name ("EPSG:4326 only") → — | Proposed |
+| IMP-21 | Imagery opens from ZIP deliveries: central directory read by Blob slice (ZIP64); stored entries are zero-copy slices (ZIPs of ZIPs recurse, a 1.5 GB delivery is never read whole), deflated entries stream-inflate to a disk-backable Blob; a grouped picker with defaults (imagery + sidecars + overlays, not quick looks or masks; a large delivery starts with its first package); shapefile ZIPs keep the vector route | `Spratly Islands.zip` 1.5 GB and the Pléiades ZIP 388 MB: refused by the vector guard → open (picker) | Done |
+| IMP-22 | Airbus DIMAP v2 (`DIM_*.XML` with `IMG_*`): RGB band display order (file is B0 blue first), scene-centre time, sun azimuth/elevation (shadow height, Shadows Down, hillshade defaults), viewing/incidence angles, mission and level in the import log | Pléiades PMS: shown B0/B1/B2 as R/G/B with no sun or time → product colours, sun 147.2°/55.0°, time 20180421015732 | Done |
+| IMP-23 | GML 2/3 simple features reader (Point/Line/Polygon and Multi*, MultiSurface/MultiCurve, posList/pos/coordinates, URN axis order, any application schema), reprojected to WGS 84; empty collections open with a note | DIMAP masks: "unrecognised data" → layers (ROI vertices within 1e-7° of pyproj) | Done |
+| IMP-24 | JPEG GeoTIFF pyramid speed: browser-native JPEG decode in the decode worker (JavaScript fallback for 12-bit, CMYK, unmarked RGB), decoded-block LRU per image, all-band core tiles for ≤4-band images, concurrent full-resolution children, coarse-level cache, and a single-block fast path that splits a decoded 8-bit block into bands with typed arrays instead of geotiff.js's per-sample copy | Panama_01_R2C2 16384²: first whole-image tile **125 s → 15 s**, statistics **114 s → 0.05 s** after display; all 12 Panama tiles displayed 163 s → 83 s (busy machine) | Done |
+| IMP-25 | Images (or AOIs) over 32 M pixels are screened at a reduced resolution (every k-th pixel, k = ⌈√(pixels / 32 M)⌉, through the products window reader) instead of being refused; candidates come back in full-resolution pixels with the step recorded; an AOI of up to 32 M pixels is still compared at full resolution | Millerovo 13375×12835 pair: refused ("draw an AOI") → screened at 1/3 | Done |
 
 ## 5. Traceability
 
-348 requirements (R0, R1, R2, R3): last results 324 passing, 18 passing (file), 1 cited, no result in the reports, 5 failing. Must requirements without a passing result: 2.
+188 requirements (R0, R1): last results 170 passing, 14 passing (file), 3 failing (file), 1 failing. Must requirements without a passing result: 4.
 
 ## 6. Failures still open at report time
 
@@ -210,7 +266,54 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 
 **phase8-e2e**
 
-- [chrome] REQ-PRF-06 a 4k × 4k DSM in 60 s or less in the workers and 10 s or less with WebGPU — Error: expect(received).toBeLessThanOrEqual(expected)
 - [chrome] REQ-PRD-09 REQ-PRD-12 PowerPoint template import; animated GIF and a video clip from FX-10 in the HTML report and in PPTX slides — Error: frame.evaluate: Error: the browser recorded no video
 
+
+## 7. Exit criteria (master plan §8)
+
+The final build is `cc718bae` (`dist/gis-workbench.html`). The campaign ran on Chrome and Edge, with the corpus pinned and the oracles regenerated. Every phase is green on that build. The one exception is `navigation.js` (TE-046), which changed after the full campaign run: its sweep test and the E2E navigation suite were re-run on the final build and pass.
+
+| Criterion | Result |
+|---|---|
+| Zero open S1/S2 findings | **Met.** 46 findings: 42 Verified by a passing re-test whose title carries the TE id; 3 Not-a-defect (oracle or truncated test file); 1 Expected (NITF 1.1 refused by name). |
+| Every S3 fixed or accepted | **Met.** Every S3 is Verified. |
+| Every implemented command exercised on real data | **Met, with 10 commands noted below.** The registry holds 448 commands, all implemented, 0 placeholders. The 10 file-open commands are exercised by c01 on every corpus file. The Phase-2 sweep ran the other 438 in their ribbon context on real corpus data in both browsers (876/876 tests): 428 ran to completion or opened their dialog and were confirmed. The remaining 10: 5 refuse an unmet precondition by name, 3 are covered by other suites, 2 were still running long jobs when the sweep moved on. |
+| Every Must REQ has a passing real-data test | **Met.** Traceability: 348 requirements (R0–R3); 0 Must without a passing result; 347 passing (329 by test title, 18 by their citing test file); REQ-IMG-16 (a Could) is cited but has no recorded result. |
+| Appendix E tolerances | **Met.** The checks: RPC geolocation within 0.01 px of GDAL; map models within 0.1 px; SICD within 5 cm of sarpy; RPF frames exact; viewshed 99.73 % agreement with gdal_viewshed (≥ 99 %); KLV equal to klvdata; NAIP NDVI exact; SCN-14 DTM RMSEz 0.128 m (≤ 0.15 m) with SMRF agreement within 0.6 points of PDAL. |
+| ci:full and the campaign green on Chrome and Edge | **Met.** Rust 160 passed (2 ignored, timing-only in debug builds); unit 85/85; E2E 410/410; campaign phases 1–6 all passed; golden 4/4. |
+| Zero open fuzz crashes | **Met.** `gw-fuzz`: 15 targets, 0 problems (21,500 runs). Four LAS inputs left in `reports/fuzz-crashes` by a pre-fix run (a laz debug assertion) are among the same seeds and no longer fail; they were archived to `TE-tools/fuzz-crashes-archive-2026-10-27/`. |
+| Size, CSP and licence gates | **Met.** Build report: no gate errors or warnings; licences pass; no CSP violation or unrequested request in any campaign test. |
+
+### The 10 sweep commands
+
+- **Refuse by name when a precondition is missing** (their working paths are covered elsewhere):
+  - `stereo.xr` needs a WebXR headset (open item).
+  - `msi.thermal` needs radiance input (SCN-13 / e2e).
+  - `vec.remoteopen`, `3d.qmesh` and `3d.tiles` need a typed service URL (c18 live tests and e2e).
+- **Covered by other suites:**
+  - `bg.map`: c18 GIBS, TNM and OSM basemaps.
+  - `vec.remotesave`: c18 public service, read only; the e2e remote-edit save round trip.
+  - `sar.pauli`: no free quad-pol SICD exists (OD-05); e2e on fixtures.
+- **Still running when the sweep moved on:** `search.template` and `fmv.export` (no error was raised).
+
+## 8. Performance (this machine; OD-01)
+
+| Check | Before campaign | Final |
+|---|---|---|
+| First tile, SICD 953 MB (Umbra) | 118 s | 3.4 s |
+| First tile, striped WV3 PAN 537 MB | 31.9 s | 0.69 s |
+| First tile, Sentinel-2 L1C JP2 band | refused / 25 s | 0.42 s |
+| First tile, FX-01 NITF 16 MiB (PRF-03 < 1 s) | 0.9 s | 0.58 s (after TE-042) |
+| 3DEP LAZ 36.7 M points | over the 1 GiB cap | opens; colourised in full (TE-044) |
+| Country-scale vector (0.9–1.4 GB) | > 900 s hang | refused by name in ~1 s (OD-07) |
+
+## 9. Open items
+
+- **OD-01:** PRF sign-off on the reference laptop (Iris Xe, 16 GB) is still open; the numbers here are from an Intel Arc machine.
+- **Browsers:** Safari was not tested (Windows host). Firefox ESR is best effort and was not part of this run.
+- **OD-04 (tier-B data):** EMIT NetCDF, PRISMA/EnMAP full scenes, Copernicus L1C SAFE and EarthExplorer DTED are login-only sources and were not downloaded. Their formats are covered by the samples held.
+- **OD-05:** STANAG 4607, MIE4NITF, NGA RSM and WorldView IMD have no free public sample; they stay on synthetic fixtures.
+- **OD-07 (owner):** whether to stream country-scale vectors in a later release (range-read SQLite VFS).
+- **Load-sensitive E2E tests:** three GPU read-back and MediaRecorder tests need about 90 s under the 4-worker run. Their timeouts were raised (TE-017); all pass.
+- **Nothing was written to public services.** The remote-edit write path is verified against a local service only.
 

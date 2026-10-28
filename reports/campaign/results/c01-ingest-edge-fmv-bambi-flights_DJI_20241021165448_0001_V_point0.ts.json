@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "edge",
+ "when": "2026-10-28T04:44:16.982Z",
+ "key": "fmv-bambi-flights/DJI_20241021165448_0001_V_point0.ts",
+ "item": "fmv-bambi-flights",
+ "file": "DJI_20241021165448_0001_V_point0.ts",
+ "format": "MPEG-TS (H.264, remuxed) + platform metadata CSV; source MP4 + DJI SRT",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened DJI_20241021165448_0001_V_point0.ts: 503 frames, 0 KLV packets (0 bad) in 1436 ms"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1475,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

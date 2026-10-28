@@ -1,8 +1,8 @@
 # T&E functional coverage matrix
 
-Generated 2026-10-28T03:21:11.989Z from `app/src/shell/commands.js`, `ribbon-data.js` and `build/campaign/corpus.json`.
+Generated 2026-10-28T04:09:40.005Z from `app/src/shell/commands.js`, `ribbon-data.js` and `build/campaign/corpus.json`.
 
-Commands 451; implemented 448; oracle-checked 40; with no eligible corpus data 0.
+Commands 451; implemented 451; oracle-checked 40; with no eligible corpus data 0.
 
 | Command | Label | REQ | Rel | Spec | Context | Impl | Data items | Check |
 |---|---|---|---|---|---|---|---|---|
@@ -44,8 +44,8 @@ Commands 451; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `keys.customize` | Customize Hot Keys… | REQ-UI-09 | R1 | c17-workspace | — | yes | 0 | smoke |
 | `dock.jobs` | Job Queue | REQ-ARC-06 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.netlog` | Network Log | REQ-SEC-12 | R0 | c17-workspace | — | yes | 0 | smoke |
-| `dock.importlog` | Import Log | REQ-UI-05 | R0 | c17-workspace | — | ? | 0 | smoke |
-| `ribbon.minimise` | Minimise the Ribbon | REQ-UI-03 | R0 | c17-workspace | — | ? | 0 | smoke |
+| `dock.importlog` | Import Log | REQ-UI-05 | R0 | c17-workspace | — | yes | 0 | smoke |
+| `ribbon.minimise` | Minimise the Ribbon | REQ-UI-03 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.layers` | Layer Manager | REQ-UI-18 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.toolbox` | ToolBox | REQ-EXT-01 | R1 | c17-workspace | — | yes | 0 | smoke |
 | `theme.grey` | Grey (default) | REQ-UI-12 | R0 | c02-display | — | yes | 0 | smoke |
@@ -334,34 +334,34 @@ Commands 451; implemented 448; oracle-checked 40; with no eligible corpus data 0
 | `dem.r2v` | Raster to Vector | REQ-DEM-18 | R2 | c07-terrain | surface | yes | 13 | smoke |
 | `msi.bandmath` | Band Math… | REQ-MSI-04 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
 | `msi.index.ndvi` | NDVI | REQ-MSI-04 | R3 | c09-msi | image, spectral | yes | 86 | NDVI vs numpy ± 0.01 |
-| `msi.index.ndwi` | NDWI (McFeeters) | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.index.ndwi_gao` | NDWI (Gao) / NDMI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.index.mndwi` | MNDWI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.index.ndbi` | NDBI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.index.savi` | SAVI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.index.nbr` | NBR | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.preset.natural` | Natural Colour | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.preset.cir` | Colour Infrared | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.preset.swir` | SWIR | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.preset.agriculture` | Agriculture | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.preset.rededge` | Red Edge | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.preset.bathymetric` | Bathymetric | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 12 | smoke |
+| `msi.index.ndwi` | NDWI (McFeeters) | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.index.ndwi_gao` | NDWI (Gao) / NDMI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.index.mndwi` | MNDWI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.index.ndbi` | NDBI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.index.savi` | SAVI | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.index.nbr` | NBR | REQ-MSI-04 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.preset.natural` | Natural Colour | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.preset.cir` | Colour Infrared | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.preset.swir` | SWIR | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.preset.agriculture` | Agriculture | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.preset.rededge` | Red Edge | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.preset.bathymetric` | Bathymetric | REQ-MSI-03 | R3 | c09-msi | spectral | yes | 13 | smoke |
 | `msi.radiometric` | Radiometric Conversion… | REQ-MSI-05 | R3 | c09-msi | image, spectral | yes | 86 | TOA reflectance vs MTL/MTD formula in numpy |
-| `msi.stack` | Layer Stack… | REQ-MSI-04 | R3 | c09-msi | image | ? | 86 | smoke |
-| `msi.threshold` | Classifier Threshold… | REQ-MSI-08 | R3 | c09-msi | spectral | yes | 12 | smoke |
+| `msi.stack` | Layer Stack… | REQ-MSI-04 | R3 | c09-msi | image | yes | 86 | smoke |
+| `msi.threshold` | Classifier Threshold… | REQ-MSI-08 | R3 | c09-msi | spectral | yes | 13 | smoke |
 | `msi.cluster` | Unsupervised… | REQ-MSI-09 | R3 | c09-msi | image, spectral | yes | 86 | overall accuracy ≥ 90 % on Indian Pines truth |
-| `msi.majority` | Majority Filter | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.sieve` | Sieve | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.fill` | Fill Unclassified | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.vectors` | Class Vectors | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.accuracy` | Accuracy Assessment | REQ-MSI-10 | R3 | c09-msi | spectral | yes | 12 | OA/κ vs scikit-learn (3 decimals) |
+| `msi.majority` | Majority Filter | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.sieve` | Sieve | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.fill` | Fill Unclassified | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.vectors` | Class Vectors | REQ-MSI-09 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.accuracy` | Accuracy Assessment | REQ-MSI-10 | R3 | c09-msi | spectral | yes | 13 | OA/κ vs scikit-learn (3 decimals) |
 | `msi.detect` | Target / Anomaly Detection… | REQ-MSI-11 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
 | `msi.pca` | PCA / MNF… | REQ-MSI-12 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
-| `msi.library` | Spectral Library… | REQ-MSI-13 | R3 | c09-msi | spectral | yes | 12 | smoke |
+| `msi.library` | Spectral Library… | REQ-MSI-13 | R3 | c09-msi | spectral | yes | 13 | smoke |
 | `msi.thermal` | Brightness Temperature… | REQ-MSI-14 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
 | `msi.xport` | Xport | REQ-MSI-15 | R3 | c09-msi | image, spectral | yes | 86 | smoke |
-| `msi.destripe` | Destripe | REQ-MSI-16 | R3 | c09-msi | spectral | yes | 12 | smoke |
-| `msi.change` | Spectral Change… | REQ-MSI-16 | R3 | c09-msi | spectral | yes | 12 | smoke |
+| `msi.destripe` | Destripe | REQ-MSI-16 | R3 | c09-msi | spectral | yes | 13 | smoke |
+| `msi.change` | Spectral Change… | REQ-MSI-16 | R3 | c09-msi | spectral | yes | 13 | smoke |
 | `fmv.open` | Open Video or GMTI… | REQ-FMV-01 | R3 | c01-ingest | — | yes | 1 | smoke |
 | `fmv.close` | Close Video | REQ-FMV-05 | R3 | c11-fmv | video | yes | 9 | smoke |
 | `fmv.play` | Play / Pause | REQ-FMV-08 | R3 | c11-fmv | video | yes | 9 | smoke |

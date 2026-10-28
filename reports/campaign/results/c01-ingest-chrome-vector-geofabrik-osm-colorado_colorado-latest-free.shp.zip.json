@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:29:39.523Z",
+ "when": "2026-10-28T04:19:06.852Z",
  "key": "vector-geofabrik-osm-colorado/colorado-latest-free.shp.zip",
  "item": "vector-geofabrik-osm-colorado",
  "file": "colorado-latest-free.shp.zip",
@@ -12,7 +12,7 @@
  ],
  "warnings": [],
  "toasts": [
-  "toast-error: colorado-latest-free.shp.zip: 686 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
+  "toast-warn: colorado-latest-free.shp.zip: 686 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
  ],
  "layers": [],
  "others": {
@@ -23,7 +23,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 36,
+ "ms": 50,
  "logs": [],
  "requests": [],
  "csp": []

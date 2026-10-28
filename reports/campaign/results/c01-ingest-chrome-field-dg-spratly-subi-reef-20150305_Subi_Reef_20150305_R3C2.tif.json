@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T03:20:46.089Z",
+ "when": "2026-10-28T04:13:35.514Z",
  "key": "field-dg-spratly-subi-reef-20150305/Subi_Reef_20150305_R3C2.tif",
  "item": "field-dg-spratly-subi-reef-20150305",
  "file": "Subi_Reef_20150305_R3C2.tif",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 9525,
+ "ms": 5495,
  "logs": [],
  "requests": [],
  "csp": []

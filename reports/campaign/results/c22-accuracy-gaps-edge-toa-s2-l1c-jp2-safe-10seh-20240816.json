@@ -1,7 +1,7 @@
 {
  "spec": "c22-accuracy-gaps",
  "project": "edge",
- "when": "2026-10-28T01:18:41.393Z",
+ "when": "2026-10-28T05:58:01.945Z",
  "key": "toa-s2-l1c-jp2-safe-10seh-20240816",
  "check": "toa",
  "tol": "max |Δρ| ≤ 0.01, max |ΔNDVI| ≤ 0.01",

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:35:01.690Z",
+ "when": "2026-10-28T04:27:39.194Z",
  "key": "derived-dem-utm13-viewshed/dem_utm13_30m.tif",
  "item": "derived-dem-utm13-viewshed",
  "file": "dem_utm13_30m.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened dem_utm13_30m.tif in 35 ms"
+  "toast-info: Opened dem_utm13_30m.tif in 31 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 374,
+ "ms": 612,
  "logs": [],
  "requests": [],
  "csp": []

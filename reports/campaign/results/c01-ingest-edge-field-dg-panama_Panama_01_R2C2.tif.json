@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-28T03:28:23.435Z",
+ "when": "2026-10-28T04:28:28.596Z",
  "key": "field-dg-panama/Panama_01_R2C2.tif",
  "item": "field-dg-panama",
  "file": "Panama_01_R2C2.tif",
@@ -29,7 +29,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 41030,
+ "ms": 15150,
  "logs": [],
  "requests": [],
  "csp": []

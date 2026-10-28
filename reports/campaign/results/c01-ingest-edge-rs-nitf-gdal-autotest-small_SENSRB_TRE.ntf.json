@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:46.036Z",
+ "when": "2026-10-28T04:26:58.740Z",
  "key": "rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf",
  "item": "rs-nitf-gdal-autotest-small",
  "file": "SENSRB_TRE.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened SENSRB_TRE.ntf in 84 ms"
+  "toast-info: Opened SENSRB_TRE.ntf in 28 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 445,
+ "ms": 335,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:51.426Z",
+ "when": "2026-10-28T04:27:13.810Z",
  "key": "rs-nitf-jitc-multiseg-graphics/U_1123a.ntf",
  "item": "rs-nitf-jitc-multiseg-graphics",
  "file": "U_1123a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_1123a.ntf in 46 ms"
+  "toast-info: Opened U_1123a.ntf in 34 ms"
  ],
  "layers": [
   {
@@ -67,7 +67,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 369,
+ "ms": 342,
  "logs": [],
  "requests": [],
  "csp": []

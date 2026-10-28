@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:11:17.531Z",
+ "when": "2026-10-28T04:24:14.285Z",
  "key": "ieee-dfc2018-houston/272652_3289689.las",
  "item": "ieee-dfc2018-houston",
  "file": "272652_3289689.las",
@@ -13,7 +13,7 @@
   "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
  ],
  "toasts": [
-  "toast-info: Opened 272652_3289689.las: 15,637,147 points in 9015 ms (2 notes in the import log)"
+  "toast-info: Opened 272652_3289689.las: 15,637,147 points in 6896 ms (2 notes in the import log)"
  ],
  "layers": [],
  "others": {
@@ -24,7 +24,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 9480,
+ "ms": 7224,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-28T01:05:03.549Z",
+ "when": "2026-10-28T04:17:44.768Z",
  "key": "naip-ca-m3812157-sw-2022/m_3812157_sw_10_060_20220519.tif",
  "item": "naip-ca-m3812157-sw-2022",
  "file": "m_3812157_sw_10_060_20220519.tif",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened m_3812157_sw_10_060_20220519.tif in 47 ms"
+  "toast-info: Opened m_3812157_sw_10_060_20220519.tif in 43 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 660,
+ "ms": 623,
  "logs": [],
  "requests": [],
  "csp": []

@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:37:14.439Z",
+ "when": "2026-10-28T04:36:54.421Z",
  "key": "vector-tiger-2024-colorado/tl_2024_08069_roads.zip",
  "item": "vector-tiger-2024-colorado",
  "file": "tl_2024_08069_roads.zip",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 858,
+ "ms": 1114,
  "logs": [],
  "requests": [],
  "csp": []

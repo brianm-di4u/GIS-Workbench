@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:17.655Z",
+ "when": "2026-10-28T04:10:00.846Z",
  "key": "rs-sicd-umbra-chip/umbra_sicd_chip_1024.nitf",
  "item": "rs-sicd-umbra-chip",
  "file": "umbra_sicd_chip_1024.nitf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened umbra_sicd_chip_1024.nitf in 42 ms"
+  "toast-info: Opened umbra_sicd_chip_1024.nitf in 62 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 657,
+ "ms": 693,
  "logs": [],
  "requests": [],
  "csp": []

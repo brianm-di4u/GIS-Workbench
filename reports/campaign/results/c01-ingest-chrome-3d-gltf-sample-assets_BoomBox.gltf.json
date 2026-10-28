@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:34:06.333Z",
+ "when": "2026-10-28T04:23:34.227Z",
  "key": "3d-gltf-sample-assets/BoomBox.gltf",
  "item": "3d-gltf-sample-assets",
  "file": "BoomBox.gltf",
@@ -21,7 +21,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 120170,
+ "ms": 120159,
  "logs": [],
  "requests": [],
  "csp": []

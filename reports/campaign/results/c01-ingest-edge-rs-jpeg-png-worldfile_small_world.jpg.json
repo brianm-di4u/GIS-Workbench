@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "edge",
- "when": "2026-10-27T14:34:41.745Z",
+ "when": "2026-10-28T04:26:48.273Z",
  "key": "rs-jpeg-png-worldfile/small_world.jpg",
  "item": "rs-jpeg-png-worldfile",
  "file": "small_world.jpg",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened small_world.jpg in 35 ms"
+  "toast-info: Opened small_world.jpg in 25 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 386,
+ "ms": 334,
  "logs": [],
  "requests": [],
  "csp": []

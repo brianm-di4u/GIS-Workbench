@@ -1,7 +1,7 @@
 {
  "spec": "c01-ingest",
  "project": "chrome",
- "when": "2026-10-27T14:27:13.257Z",
+ "when": "2026-10-28T04:09:56.489Z",
  "key": "rs-nitf-jitc-jpeg-c3/U_4017a.ntf",
  "item": "rs-nitf-jitc-jpeg-c3",
  "file": "U_4017a.ntf",
@@ -10,7 +10,7 @@
  "errors": [],
  "warnings": [],
  "toasts": [
-  "toast-info: Opened U_4017a.ntf in 44 ms"
+  "toast-info: Opened U_4017a.ntf in 39 ms"
  ],
  "layers": [
   {
@@ -31,7 +31,7 @@
   "clips": 0
  },
  "diffs": [],
- "ms": 384,
+ "ms": 375,
  "logs": [],
  "requests": [],
  "csp": []
