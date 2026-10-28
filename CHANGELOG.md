@@ -2,6 +2,26 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.0-beta.3] - 2026-10-28
+
+The data hub, the fourth step of GIS Workbench 2.0 (phase P4). Imagery in the cloud opens by range, catalogues can be searched over the view, folders are watched, and legacy formats convert to cloud-native ones from one drop zone. Requirements REQ-CON-01..06, REQ-ING-01..03 and REQ-CNV-01..03.
+
+### Added
+- **Open from URL** (top bar, palette or Catalog): an https, `s3://` or `gs://` address of a GeoTIFF, COG or NITF opens by byte range. Only the header, the overviews and the tiles in view are read, never the whole file. Paste an address into Ctrl+K to open it. (REQ-CON-03)
+- **Catalog panel** (navigation rail ▸ Catalog). (REQ-CON-02, REQ-CON-04, REQ-CON-06)
+  - Search **Earth Search** or **Microsoft Planetary Computer** over the view by collection and dates. Footprints draw on the map and an item opens with one click, with Planetary Computer assets signed automatically.
+  - Browse **S3 buckets** (public ones as they are; private and MinIO ones with keys held in memory for the session; GCS through its S3 interface).
+  - Bookmark **local folders**, catalogued and watched for new files while the app is open.
+- **Convert** (navigation rail ▸ Convert): drop Shapefile zips, KML/KMZ, GPX, GeoPackage, CSV or GML to get **GeoJSON** or **GeoParquet 1.1**. Drop GeoTIFF, NITF, JPEG 2000 or DTED to get a **Cloud-Optimized GeoTIFF** (512 px tiles, Deflate, overviews). Opening a large raster that is not cloud-optimized offers to make a COG copy. (REQ-CNV-01..03)
+- Dropped **folders** are walked, and files whose names say nothing are recognised by their content. (REQ-ING-03)
+- The **Job Queue** shows a progress bar and time left for each job, network throughput, and **Retry** for a file that failed to open. (REQ-ING-02)
+
+### Changed
+- A new image shows its outline with a moving dash as soon as its header is read, and the file fingerprint is computed in the background. (REQ-ING-01)
+
+### Known limits
+- COG conversion works in memory up to 256 million samples (for example 9 200 × 9 200 × 3). A streaming converter for larger images is planned. FlatGeobuf output and GeoParquet input are not available yet.
+
 ## [2.0.0-beta.2] - 2026-10-28
 
 Network, basemaps and 3D, the third step of GIS Workbench 2.0 (phase P3). Basemaps work out of the box once you choose to work online. An air-gapped file never touches the network. A 3D button shows the place in perspective. Requirements REQ-NET-01..05 and REQ-GLB-01..02.

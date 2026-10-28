@@ -23,11 +23,11 @@ test('REQ-SHL-01 REQ-SHL-02 the Modern layout starts on a clean canvas; Classic 
     panes: window.gisworkbench.activeMp().panes.length,
   }));
   expect(modern).toEqual({ layout: 'modern', rail: true, workspace: false, docks: false, panes: 1 });
-  // The navigation rail's Catalog opens the Workspace window and closes it again (2.0: the
+  // The navigation rail's Data item opens the Workspace window and closes it again (2.0: the
   // 1.3 Workspace rail is folded into the navigation rail).
-  await frame.locator('[data-id="shell:rail"] [data-rail="catalog"]').click();
+  await frame.locator('[data-id="shell:rail"] [data-rail="data"]').click();
   await expect(frame.locator('.desktop > .workspace')).toHaveCount(1);
-  await frame.locator('[data-id="shell:rail"] [data-rail="catalog"]').click();
+  await frame.locator('[data-id="shell:rail"] [data-rail="data"]').click();
   await expect(frame.locator('.desktop > .workspace')).toHaveCount(0);
 });
 

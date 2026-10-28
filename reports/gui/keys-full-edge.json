@@ -52,9 +52,7 @@
   "tab": "keys",
   "id": "Mod+Shift+KeyZ → qat.redo",
   "dialogs": [],
-  "toasts": [
-   "info: Redo is not available right now.×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -92,7 +90,7 @@
   "id": "Mod+F1 → ribbon.minimise",
   "dialogs": [],
   "toasts": [
-   "info: fx01.ntf×"
+   "info: Redo is not available right now.×"
   ],
   "problems": []
  },
@@ -100,9 +98,7 @@
   "tab": "keys",
   "id": "KeyB → wb.toggle",
   "dialogs": [],
-  "toasts": [
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -147,6 +143,8 @@
   "id": "NumpadAdd → nav.zoomin",
   "dialogs": [],
   "toasts": [
+   "info: fx01.ntf×",
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×",
    "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
   ],
   "problems": []
@@ -176,9 +174,7 @@
   "tab": "keys",
   "id": "Mod+KeyA → sel.all",
   "dialogs": [],
-  "toasts": [
-   "info: 0 graphic(s) selected×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -192,9 +188,7 @@
   "tab": "keys",
   "id": "Mod+KeyC → edit.copy",
   "dialogs": [],
-  "toasts": [
-   "info: Delete is not available right now.×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

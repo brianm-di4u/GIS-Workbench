@@ -56,7 +56,7 @@ export class NetLog {
       const url = typeof input === 'string' ? input : input.url;
       const method = (init.method ?? (typeof input === 'object' ? input.method : null) ?? 'GET').toUpperCase();
       const origin = originOf(url);
-      const entry = { time: new Date().toISOString().slice(11, 19), method, origin, path: (() => { try { return new URL(url).pathname; } catch { return url; } })(), status: 'blocked', sent: init.body ? (typeof init.body === 'string' ? init.body.length : init.body.byteLength ?? init.body.size ?? '?') : 0, received: 0, purpose };
+      const entry = { at: Date.now(), time: new Date().toISOString().slice(11, 19), method, origin, path: (() => { try { return new URL(url).pathname; } catch { return url; } })(), status: 'blocked', sent: init.body ? (typeof init.body === 'string' ? init.body.length : init.body.byteLength ?? init.body.size ?? '?') : 0, received: 0, purpose };
       // The Online/Offline switch gates every request, whatever the CSP allows (REQ-NET-02).
       if (this.app.network && !this.app.network.isOnline()) {
         entry.status = 'offline';
@@ -75,7 +75,7 @@ export class NetLog {
       try {
         const r = await fetch(input, init);
         entry.status = r.status;
-        entry.received = Number(r.headers.get('content-length') ?? 0) || '?';
+        entry.received = method === 'HEAD' ? 0 : Number(r.headers.get('content-length') ?? 0) || '?';
         this.record(entry);
         return r;
       } catch (e) {

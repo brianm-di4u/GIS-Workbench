@@ -495,6 +495,12 @@ const CATALOG = [
   ['triage.flag', 'Triage: Flag', 'marker', 'REQ-SHL-11', 'R4', '3', 'Flags the current target for a closer look.'],
   ['net.toggle', 'Online', 'network', 'REQ-NET-02', 'R4', '', 'Switches between Online (basemaps, cloud catalogs) and Offline (no request leaves this computer).'],
   ['bm.basemap', 'Basemap', 'globe', 'REQ-NET-04', 'R4', '', 'Chooses the map shown under and around georeferenced imagery.'],
+  ['file.openurl', 'Open from URL…', 'network', 'REQ-CON-03', 'R4', '', 'Opens imagery from an https, s3:// or gs:// address by range: only what is shown is read.'],
+  ['cat.panel', 'Catalog', 'list', 'REQ-CON-06', 'R4', '', 'Shows the Catalog: open a URL, search STAC catalogues, browse buckets and local folders.'],
+  ['cat.folder', 'Add Folder…', 'open', 'REQ-CON-02', 'R4', '', 'Catalogues a folder on this computer and watches it for new files while the app is open.'],
+  ['cat.s3keys', 'Connect a Bucket…', 'network', 'REQ-CON-04', 'R4', '', 'Keys for a private S3, MinIO or GCS bucket, held in memory for this session only.'],
+  ['cnv.open', 'Convert…', 'save', 'REQ-CNV-02', 'R4', '', 'One drop zone: vectors to GeoJSON or GeoParquet, rasters to Cloud-Optimized GeoTIFF.'],
+  ['cnv.cog', 'Make Cloud-Optimized Copy', 'save', 'REQ-CNV-01', 'R4', '', 'Writes the active image as a Cloud-Optimized GeoTIFF: tiled, compressed, with overviews.'],
   ['glb.toggle', '2D / 3D', 'globe', 'REQ-GLB-02', 'R4', '', 'Turns the view into an oblique 3D scene of the same place, and back.'],
   ['bm.pmtiles', 'Open PMTiles Basemap…', 'open', 'REQ-NET-05', 'R4', '', 'Uses a raster PMTiles file on this computer as the basemap; it works offline.']
 ];

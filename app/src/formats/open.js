@@ -2,6 +2,7 @@
 // decode in a worker, fingerprints for relink, sensor models in the Rust core, marking.
 
 import { fromNitf, highest, checkConsistency } from '../security/marking.js';
+import { forWorker } from '../connectors/remote.js';
 import { autoChain } from '../render/chain.js';
 import { ImageLayer } from '../layers/image-layer.js';
 import { newId } from '../core/util.js';
@@ -582,8 +583,13 @@ export async function describe(app, file, sidecars = [], { merge = false } = {})
   const t0 = performance.now();
   // An ENVI .hdr sidecar makes the file an ENVI raw image (REQ-MSI-01).
   const hdr = sidecars.find((s) => /\.hdr$/i.test(s.name)) ?? null;
-  const job = app.pool.run('open', { file, name: file.name, merge, hdr }, { label: `open ${file.name}`, timeout: 120000 });
-  const [res, fp, side] = await Promise.all([job, fingerprint(file), readSidecars(sidecars)]);
+  const job = app.pool.run('open', { file: forWorker(file), name: file.name, merge, hdr }, { label: `open ${file.name}`, timeout: 120000 });
+  // Staged ingest (REQ-ING-01): the fingerprint (first and last MiB) runs beside the header read
+  // and is stored when it is ready, so the footprint never waits for it.
+  const fpP = fingerprint(file);
+  fpP.catch(() => {});
+  const [res, side] = await Promise.all([job, readSidecars(sidecars)]);
+  const fp = await Promise.race([fpP, new Promise((r) => setTimeout(() => r(null), 30))]);
   side.fileName = file.name;
   const affinity = app.pool.lastAffinity?.(job.jobId);
   const kind = res.kind;
@@ -675,7 +681,7 @@ export async function describe(app, file, sidecars = [], { merge = false } = {})
   report.warnings.push(...checkConsistency(fileMarking, segMarks));
   if (res.merged) report.warnings.push(res.mergeNote);
   report.ms = Math.round(performance.now() - t0);
-  return { res, fp, side, kind, rasters, report };
+  return { res, fp, fpP, side, kind, rasters, report };
 }
 
 /** Create the runtime for a layer record from a described raster. */
@@ -725,7 +731,7 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
   const refId = newId('file');
   const ids = d.rasters.map(() => newId('lyr'));
   app.store.transact(`Open ${file.name}`, (tx) => {
-    tx.create('fileref', { merged: !!d.res.merged, name: file.name, size: file.size, lastModified: file.lastModified, fingerprint: d.fp, kind: d.kind, pathHint: file.webkitRelativePath || file.name, sidecars: sidecars.map((s) => s.name) }, refId);
+    tx.create('fileref', { merged: !!d.res.merged, name: file.name, size: file.size, url: file.remote ? file.url : null, lastModified: file.lastModified, fingerprint: d.fp, kind: d.kind, pathHint: file.webkitRelativePath || file.name, sidecars: sidecars.map((s) => s.name) }, refId);
     d.rasters.forEach((r, i) => {
       tx.create('layer', { pane: p.id, kind: r.info.kind === 'dem' ? 'dem' : 'image', name: r.name, file: refId, imageIndex: r.raster.imageIndex, chain: r.chain, visible: true, opacity: 1, saved: false, model: null }, ids[i]);
       tx.set(p.id, 'layers', [...(tx.get(p.id).layers ?? []), ids[i]]);
@@ -733,6 +739,7 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
     });
   });
   app.files.set(refId, { file, handle, sidecars, result: d.res });
+  if (!d.fp) d.fpP?.then((fp) => app.store.get(refId) && app.store.transact('Fingerprint', (tx) => tx.set(refId, 'fingerprint', fp), { kind: 'load' })).catch((e) => app.log('warn', `fingerprint ${file.name}: ${e.message}`));
   const layers = d.rasters.map((r, i) => makeRuntime(app, app.store.get(ids[i]), r, d));
   for (const l of layers) l.rec && app.store.transact('Set model', (tx) => tx.set(l.id, 'model', l.modelName), { kind: 'load' });
   app.importLog.push(d.report);

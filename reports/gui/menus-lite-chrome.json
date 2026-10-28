@@ -66,9 +66,7 @@
   "id": "Open ▸ Stream Point Cloud (COPC/EPT)…",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Stream Point Cloud (COPC/EPT)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -84,7 +82,9 @@
   "id": "Open ▸ Import Detections…",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Stream Point Cloud (COPC/EPT)… needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file×"
+  ],
   "problems": []
  },
  {

@@ -1,5 +1,13 @@
 [
  {
+  "id": "catalog",
+  "problems": []
+ },
+ {
+  "id": "convert",
+  "problems": []
+ },
+ {
   "id": "layers",
   "problems": []
  },

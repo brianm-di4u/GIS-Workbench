@@ -2,6 +2,7 @@
 // relink imagery by fingerprint, project properties, recovery offer (REQ-ARC-08..11).
 
 import { pickFiles, saveBlob } from '../storage/files.js';
+import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
 import { serialiseProject, readProject, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
@@ -86,6 +87,12 @@ export async function install(app) {
   }
 
   async function openFiles(files, pane) {
+    // Files whose name says nothing are identified by their first bytes (REQ-ING-03).
+    files = await Promise.all([...files].map((f) => sniffName(f).catch(() => f)));
+    const parquet = files.filter((f) => /.parquet$/i.test(f.name));
+    for (const f of parquet) app.toast(`${f.name}: GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version`, { kind: 'warn', ms: 8000 });
+    files = files.filter((f) => !parquet.includes(f));
+    if (!files.length) return;
     // Imagery packages delivered as ZIPs open from inside the archive (IMP-21).
     if ([...files].some((f) => /\.zip$/i.test(f.name))) {
       files = await expandPackages([...files]);
@@ -161,6 +168,12 @@ export async function install(app) {
         const lid = layers?.[0]?.id ?? layers?.[0];
         const zoom = lid ? { label: 'Zoom to layer', run: () => app.zoomToLayer?.(lid) } : undefined;
         app.toast(`Opened ${g.file.name} in ${report.ms} ms${extra}`, { action: zoom });
+        // A large raster that is not cloud-optimized: offer a COG copy (REQ-CNV-03).
+        const L0 = layers?.[0];
+        const fmt = L0?.info?.meta?.format ?? '';
+        if (L0 && !g.file.remote && L0.width * L0.height > 4e6 && !/COG/.test(fmt) && app.convertToCog) {
+          app.toast(`${g.file.name} is not cloud-optimized: a COG copy pans faster and can be streamed from a server.`, { action: { label: 'Make COG copy', run: () => app.convertToCog(L0.id).then((m) => app.toast(m)).catch((e) => app.toast(e.message, { kind: 'warn', ms: 8000 })) } });
+        }
       } catch (e) {
         app.log('warn', `${g.file.name}: ${e.message}`); // a user-facing outcome, shown as a toast
         app.toast(`${g.file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
@@ -177,12 +190,18 @@ export async function install(app) {
     const files = [];
     for (const it of dt.items ?? []) {
       if (it.kind !== 'file') continue;
+      let hd = null;
+      try {
+        hd = await it.getAsFileSystemHandle?.();
+      } catch {}
+      // A dropped folder is walked (REQ-ING-03): every file in it is routed by its content.
+      if (hd?.kind === 'directory') {
+        files.push(...(await walkFolder(hd)));
+        continue;
+      }
       const f = it.getAsFile();
       if (!f) continue;
-      try {
-        const hd = await it.getAsFileSystemHandle?.();
-        if (hd?.kind === 'file') f.__handle = hd;
-      } catch {}
+      if (hd?.kind === 'file') f.__handle = hd;
       files.push(f);
     }
     if (!files.length && dt.files) files.push(...dt.files);

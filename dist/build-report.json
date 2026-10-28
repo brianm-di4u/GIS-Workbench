@@ -1,19 +1,19 @@
 {
   "build": {
-    "id": "ce5f3775cf0e068d",
-    "version": "2.0.0-beta.2",
-    "date": "2026-10-28T09:55:25.115Z",
+    "id": "a7025c646c830121",
+    "version": "2.0.0-beta.3",
+    "date": "2026-10-28T11:17:55.991Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5835836,
-    "eager": 2432919,
-    "css": 59353,
+    "total": 5901114,
+    "eager": 2465502,
+    "css": 60548,
     "boot": 2733,
-    "app": 2101532,
-    "notices": 113989,
+    "app": 2132741,
+    "notices": 116152,
     "blocks": {
       "wasm-core": {
         "raw": 344926,
@@ -66,8 +66,8 @@
         "load": "lazy"
       },
       "js-worker-core": {
-        "raw": 11850,
-        "stored": 5084,
+        "raw": 12415,
+        "stored": 5352,
         "load": "lazy"
       },
       "js-worker-ai": {
@@ -81,8 +81,8 @@
         "load": "lazy"
       },
       "js-worker-decode": {
-        "raw": 360088,
-        "stored": 178704,
+        "raw": 370736,
+        "stored": 183072,
         "load": "lazy"
       },
       "js-worker-pointcloud": {
@@ -98,6 +98,11 @@
       "js-mpegts": {
         "raw": 277673,
         "stored": 85444,
+        "load": "lazy"
+      },
+      "js-parquet": {
+        "raw": 60281,
+        "stored": 24576,
         "load": "lazy"
       },
       "js-pptx": {
@@ -136,8 +141,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 17817,
-        "stored": 10260,
+        "raw": 19978,
+        "stored": 11416,
         "load": "lazy"
       }
     },
@@ -194,10 +199,10 @@
       }
     },
     "rustTotalGzip": 874882,
-    "airgap": 5834615,
-    "lite": 4030342,
-    "snippet": 6199467,
-    "snippetLite": 4030685
+    "airgap": 5899893,
+    "lite": 4078450,
+    "snippet": 6271718,
+    "snippetLite": 4078793
   },
   "gates": {
     "errors": [],
@@ -238,6 +243,16 @@
     {
       "name": "geotiff",
       "version": "3.0.5",
+      "license": "MIT"
+    },
+    {
+      "name": "hyparquet",
+      "version": "1.31.5",
+      "license": "MIT"
+    },
+    {
+      "name": "hyparquet-writer",
+      "version": "0.17.0",
       "license": "MIT"
     },
     {
@@ -505,5 +520,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-AV1GnAgXF57M2UO3+bv63/EDf7UnIa2Xf9ETqtaVLNM=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-kXke+4w1LEM+JYHv27Y7YcAqrC+QBdqoy/ZEHBievNk=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

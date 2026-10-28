@@ -241,16 +241,35 @@ function jobQueue(app, el) {
     t = 0;
     clear(wrap);
     const running = [...app.pool.jobs.values()];
+    // Network throughput over the last 3 s (remote reads, tiles, catalogues) (REQ-ING-02).
+    const now = Date.now();
+    const recent = (app.netlog?.entries ?? []).filter((e) => e.at && now - e.at < 3000);
+    const mbps = recent.reduce((a, e) => a + (Number(e.received) || 0), 0) / 3 / 1048576;
+    wrap.appendChild(h('div', { class: 'jobs-head small' }, `${running.length} running · ${app.pool.queue?.length ?? 0} queued${mbps > 0.01 ? ` · network ${mbps.toFixed(1)} MB/s` : ''}`));
     const tbl = h('table', { class: 'grid-table', 'aria-label': 'Job Queue' }, h('thead', {}, h('tr', {}, ['Job', 'State', 'Progress', 'Time (ms)', ''].map((x) => h('th', {}, x)))));
     const tb = h('tbody');
+    const eta = (ms) => (ms > 90000 ? `${Math.round(ms / 60000)} min left` : ms > 1500 ? `${Math.round(ms / 1000)} s left` : '');
     for (const j of running) {
       const c = h('button', { class: 'btn btn-small' }, 'Cancel');
       c.addEventListener('click', () => app.pool.cancel(j.id));
-      tb.appendChild(h('tr', {}, h('td', {}, j.label), h('td', {}, j.state), h('td', {}, `${Math.round((j.progress ?? 0) * 100)} %`), h('td', {}, String(Math.round(performance.now() - j.created))), h('td', {}, c)));
+      const pct = Math.round((j.progress ?? 0) * 100);
+      const bar = h('progress', { max: '100', value: String(pct), 'aria-label': `${j.label} progress` });
+      tb.appendChild(h('tr', {}, h('td', {}, j.label), h('td', {}, j.state), h('td', { class: 'job-progress' }, bar, ` ${pct} %${j.eta ? ` · ${eta(j.eta)}` : ''}`), h('td', {}, String(Math.round(performance.now() - j.created))), h('td', {}, c)));
     }
     for (const j of app.pool.history.slice(0, 40)) {
       if (j.op === 'tile' && j.state === 'done') continue;
-      tb.appendChild(h('tr', { class: j.state }, h('td', {}, j.label), h('td', {}, `${j.state}${j.trapped ? ' (WASM trap, module restarted)' : ''}${j.error ? `: ${j.error}` : ''}`), h('td', {}, ''), h('td', {}, String(Math.round(j.ms))), h('td', {}, '')));
+      let act = '';
+      if (j.retry) {
+        act = h('button', { class: 'btn btn-small', 'data-id': `job:retry:${j.id}` }, 'Retry');
+        act.addEventListener('click', () => {
+          const f = j.retry;
+          j.retry = null;
+          if (f?.remoteId) app.toast('Open the address again from the Catalog to retry a remote file.', { kind: 'info' });
+          else app.openFiles([f]);
+          render();
+        });
+      }
+      tb.appendChild(h('tr', { class: j.state }, h('td', {}, j.label), h('td', {}, `${j.state}${j.trapped ? ' (WASM trap, module restarted)' : ''}${j.error ? `: ${j.error}` : ''}`), h('td', {}, ''), h('td', {}, String(Math.round(j.ms))), h('td', {}, act)));
     }
     tbl.appendChild(tb);
     wrap.appendChild(tbl);

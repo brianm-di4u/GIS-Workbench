@@ -603,3 +603,42 @@ Implementation rules for the 2.0 work:
   three times wider, 2 m lower. **S-27 is only partly answered:** this is a local-frame scene, not
   a whole-earth globe. A WGS 84 globe for small scales (tiles placed through ECEF) remains open
   and is tracked for P8.
+
+## DN-55 Data hub, staged ingest and conversion (2.0 P4; REQ-CON, REQ-ING, REQ-CNV)
+- **One read path for remote data.** `connectors/remote.js` gives a File-like object over HTTP
+  Range requests. Every reader that uses `slice().arrayBuffer()` (geotiff.js through a custom
+  client with 64 KiB block caching, the NITF parser, the fingerprint) reads remote imagery
+  unchanged. Workers never fetch. They ask the pool for byte ranges (`range` messages) and the
+  main thread fetches them through the logged, Online-gated `netlog`, signing where needed. Logs,
+  the Offline switch and keys therefore stay in one place.
+- **Paths.** `s3://bucket/key` maps to path-style regional endpoints (`KNOWN_REGIONS`), so the CSP
+  needs no wildcards. `gs://` maps to `storage.googleapis.com`.
+- **Signing.** SigV4 uses SubtleCrypto and is checked against AWS's published GET example. Keys
+  stay in memory, and GCS uses HMAC keys over its S3 API; service-account JSON is never
+  accepted. Planetary Computer assets get a per-collection SAS token, kept until it expires.
+- **Catalogues.** STAC search posts to `/search` with the view's ground box, and retries without
+  `sortby` when an API refuses it. Item footprints become graphics tagged `stac`. The asset
+  chosen is visual, then RGB, then the first GeoTIFF data asset. Bucket listing uses
+  ListObjectsV2 with `/` as delimiter. Requester-pays and no-CORS buckets say why they cannot
+  be read.
+- **Folders.** `showDirectoryPicker` with a recursive `FileSystemObserver` where the browser has
+  one, otherwise a 10 s poll. A file is taken once its size is stable over two scans. Handles are
+  kept in the journal store.
+- **Staged ingest (partial).** The fingerprint now runs beside the header read and is stored
+  when ready. A loading layer shows its outline with a moving dash until its first statistics
+  arrive. The worker `open` itself is unchanged: a very large NITF still parses its header
+  before the footprint appears.
+- **Progress.** Time left comes from the progress rate since the first report. Network
+  throughput is the Network Log's received bytes over 3 s. A failed open keeps its file for
+  Retry.
+- **Content routing.** `formats/sniff.js` renames files whose names say nothing, from their first
+  4 KiB (GeoJSON, KML, GPX, GML, GeoPackage, zip, shapefile, LAS, Parquet). Dropped folders are
+  walked: 4 levels, 2000 files at most.
+- **Conversion (partial).**
+  - Vectors are converted through the existing readers into GeoJSON or GeoParquet 1.1 (WKB, `geo`
+    metadata, written with hyparquet-writer, MIT, as a lazy block). FlatGeobuf is not written yet.
+  - Rasters become a 512 px tiled, Deflate and predictor COG with overviews, using the existing
+    writer in memory up to 256 M samples. Map grids keep their geotransform; sensor images get a
+    9 × 9 GCP grid.
+  - **The streaming BigTIFF converter for larger images (S-32) is still open.**
+  - GeoParquet is written, not read.

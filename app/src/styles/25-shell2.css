@@ -91,3 +91,15 @@
 .fab-3d { position: absolute; right: 8px; bottom: 44px; z-index: 6; width: 44px; height: 44px; border: 0; border-radius: 14px; background: var(--c-m3-primaryContainer, #284777); color: var(--c-m3-onPrimaryContainer, #d8e2ff); font-weight: 700; box-shadow: 0 4px 14px rgba(0, 0, 0, .4); }
 .fab-3d:hover { filter: brightness(1.1); }
 .pane .pane-3d ~ .pane-compass { display: none; }
+/* Catalog panel (REQ-CON-01..06). */
+.cat { padding: 6px 10px 12px; font-size: 12px; }
+.cat h4 { margin: 12px 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; opacity: .8; }
+.cat .btn-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 4px 0; }
+.cat .btn-row .inp { flex: 1; min-width: 120px; }
+.cat-results { list-style: none; margin: 4px 0; padding: 0; max-height: 260px; overflow: auto; }
+.cat-item { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 2px; border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+.cat-head { font-weight: 600; margin-top: 6px; }
+.drop-zone { display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center; padding: 22px 12px; margin: 8px 0; border: 2px dashed color-mix(in srgb, currentColor 35%, transparent); border-radius: var(--shape-medium, 8px); cursor: pointer; }
+.drop-zone.over, .drop-zone:hover, .drop-zone:focus-visible { border-color: var(--c-m3-primary, #2f5fb3); background: color-mix(in srgb, var(--c-m3-primary, #2f5fb3) 10%, transparent); }
+.drop-zone span { font-size: 11px; opacity: .8; }
+.cv-failed { color: var(--c-content-errorText); }

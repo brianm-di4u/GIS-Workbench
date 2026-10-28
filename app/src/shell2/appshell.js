@@ -11,11 +11,13 @@ import { WORKSPACE_MENUS } from '../shell/ribbon-data.js';
 
 /** Navigation rail: each item toggles a panel and shows whether it is open. */
 const RAIL = [
-  { id: 'catalog', label: 'Catalog', icon: 'list', cmd: 'win.workspace', open: (app) => !app.desktop.wsCollapsed },
+  { id: 'catalog', label: 'Catalog', icon: 'globe', cmd: 'cat.panel', open: (app) => !!app.activeMp()?.docks.isOpen('catalog') },
+  { id: 'data', label: 'Data', icon: 'list', cmd: 'win.workspace', open: (app) => !app.desktop.wsCollapsed },
   { id: 'layers', label: 'Layers', icon: 'layers', cmd: 'dock.layers', open: (app) => !!app.activeMp()?.docks.isOpen('layers') },
   { id: 'tools', label: 'Tools', icon: 'toolbox', cmd: 'dock.toolbox', open: (app) => !!app.activeMp()?.docks.isOpen('toolbox') },
   { id: 'measure', label: 'Measure', icon: 'ruler', cmd: 'men.log', open: (app) => !!app.activeMp()?.docks.isOpen('menlog') },
   { id: 'ai', label: 'AI', icon: 'ai', cmd: 'ai.assistant', open: (app) => !!app.activeMp()?.docks.isOpen('ai') },
+  { id: 'convert', label: 'Convert', icon: 'save', cmd: 'cnv.open', open: (app) => !!app.activeMp()?.docks.isOpen('convert') },
   {
     id: 'products',
     label: 'Products',
@@ -82,6 +84,7 @@ export class AppShell {
       search,
       h('span', { class: 'ab-spacer' }),
       btn('file.openimage', 'open', 'Open imagery', { primary: true, text: 'Open' }),
+      btn('file.openurl', 'network', 'Open from a URL'),
       btn('qat.undo', 'undo', 'Undo'),
       btn('qat.redo', 'redo', 'Redo'),
       btn('file.save', 'save', 'Save project'),
