@@ -1,10 +1,10 @@
 # GIS Workbench — T&E campaign report
 
-Generated 2026-10-28T01:18:55.912Z by `build/campaign/report.mjs`. Plan: [TE-master-plan.md](TE-master-plan.md). Registers: [findings](TE-findings.md), [improvements](TE-improvements.md), [owner decisions](TE-owner-decisions.md), [data catalogue](TE-data-catalogue.md).
+Generated 2026-10-28T02:09:45.196Z by `build/campaign/report.mjs`. Plan: [TE-master-plan.md](TE-master-plan.md). Registers: [findings](TE-findings.md), [improvements](TE-improvements.md), [owner decisions](TE-owner-decisions.md), [data catalogue](TE-data-catalogue.md).
 
 ## 1. Build under test
 
-- `dist/gis-workbench.html`: 5.7 MB, SHA-256 `4000ea66b842f45e…`, build cade05c922ef9282.
+- `dist/gis-workbench.html`: 5.7 MB, SHA-256 `cad24fce192fb01b…`, build 5b6f417b5e14c28c.
 - Corpus: 117 items (100 on disk), 40.54 GB of public downloads plus the 29 Research samples; every file pinned by SHA-256.
 - Machine: Windows 11, Intel Arc integrated GPU, Chrome and Edge stable (OD-01: not the reference laptop).
 
@@ -19,7 +19,7 @@ Generated 2026-10-28T01:18:55.912Z by `build/campaign/report.mjs`. Plan: [TE-mas
 | 4 Workflows and products on real data (c30, c31, Chrome + Edge) | 36 | 0 | 0 | 0 |
 | 5 Live services (c18, Chrome + Edge) | 24 | 0 | 10 | 0 |
 | 6 Non-functional (c19, Chrome + Edge) | 66 | 0 | 0 | 0 |
-| 8 Regression: SDP E2E suite (Chrome + Edge) | 508 | 0 | 2 | 0 |
+| 8 Regression: SDP E2E suite (Chrome + Edge) | 506 | 2 | 2 | 0 |
 
 Node accuracy suites (golden): 4/4 passed.
 
@@ -199,7 +199,7 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 
 ## 5. Traceability
 
-188 requirements (R0, R1): last results 171 passing, 17 passing (file). Must requirements without a passing result: 0.
+348 requirements (R0, R1, R2, R3): last results 324 passing, 18 passing (file), 1 cited, no result in the reports, 5 failing. Must requirements without a passing result: 2.
 
 ## 6. Failures still open at report time
 
@@ -207,5 +207,10 @@ Run modes (file, http, cross-origin iframe, srcdoc): 56 records, 56 clean.
 
 - [chrome] TE-C22 REQ-MSI-08 REQ-MSI-10 Indian Pines maximum-likelihood classification vs delivered truth (OA ≥ 90 %, κ to 3 decimals) — Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)
 - [edge] TE-C22 REQ-MSI-08 REQ-MSI-10 Indian Pines maximum-likelihood classification vs delivered truth (OA ≥ 90 %, κ to 3 decimals) — Error: maximum-likelihood OA (sklearn refs: lda 0.832, qda_reg0.1 0.490, svm_rbf 0.892)
+
+**phase8-e2e**
+
+- [chrome] REQ-PRF-06 a 4k × 4k DSM in 60 s or less in the workers and 10 s or less with WebGPU — Error: expect(received).toBeLessThanOrEqual(expected)
+- [chrome] REQ-PRD-09 REQ-PRD-12 PowerPoint template import; animated GIF and a video clip from FX-10 in the HTML report and in PPTX slides — Error: frame.evaluate: Error: the browser recorded no video
 
 

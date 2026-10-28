@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generated": "2026-10-28T01:24:56.680Z",
+  "generated": "2026-10-28T02:09:44.165Z",
   "releases": [
    "R0",
    "R1",
@@ -13,10 +13,10 @@
   },
   "mustUntested": [],
   "lastResult": {
-   "passing": 327,
+   "passing": 324,
    "passing (file)": 18,
    "cited, no result in the reports": 1,
-   "failing": 2
+   "failing": 5
   },
   "mustWithoutPassingResult": [
    "REQ-MSI-08 (R3, failing)",
@@ -38,7 +38,7 @@
    },
    "PRF": {
     "ids": 7,
-    "failing": 0
+    "failing": 1
    },
    "TE": {
     "ids": 25,
@@ -6901,11 +6901,11 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
-    "failed": 0,
+    "passed": 5,
+    "failed": 1,
     "skipped": 0
    },
-   "lastResult": "passing"
+   "lastResult": "failing"
   },
   {
    "id": "REQ-PRD-10",
@@ -6974,11 +6974,11 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 6,
-    "failed": 0,
+    "passed": 5,
+    "failed": 1,
     "skipped": 0
    },
-   "lastResult": "passing"
+   "lastResult": "failing"
   },
   {
    "id": "REQ-PRF-01",
@@ -7098,11 +7098,11 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
-    "failed": 0,
+    "passed": 1,
+    "failed": 1,
     "skipped": 0
    },
-   "lastResult": "passing"
+   "lastResult": "failing"
   },
   {
    "id": "REQ-PRF-07",

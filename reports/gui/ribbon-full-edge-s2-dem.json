@@ -418,8 +418,10 @@
   "tab": "analyze",
   "id": "msi.bandmath",
   "kind": "button",
-  "outcome": "disabled",
-  "dialogs": [],
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:bandmath"
+  ],
   "toasts": [],
   "problems": []
  },
@@ -436,8 +438,30 @@
   "tab": "analyze",
   "id": "msi.radiometric",
   "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:radiometric"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.stack",
+  "kind": "button",
   "outcome": "disabled",
   "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.thermal",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:msi-thermal"
+  ],
   "toasts": [],
   "problems": []
  },

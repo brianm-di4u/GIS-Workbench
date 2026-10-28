@@ -392,13 +392,9 @@
   "tab": "pointcloud",
   "id": "pc.colourise",
   "kind": "button",
-  "outcome": "clicked",
-  "dialogs": [
-   "dialog:pc-colourise"
-  ],
-  "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)"
-  ],
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
   "problems": []
  },
  {
@@ -418,7 +414,9 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)"
+  ],
   "problems": []
  }
 ]

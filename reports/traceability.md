@@ -1,8 +1,8 @@
 # Traceability — R0, R1, R2, R3
 
-Generated 2026-10-28T01:24:56.680Z. 348 requirements; 348 tested.
+Generated 2026-10-28T02:09:44.165Z. 348 requirements; 348 tested.
 
-Last results from 2724 test results: 327 passing; 18 passing (file); 1 cited, no result in the reports; 2 failing. Must requirements without a passing result: 2.
+Last results from 2724 test results: 324 passing; 18 passing (file); 1 cited, no result in the reports; 5 failing. Must requirements without a passing result: 2.
 
 | Requirement | P | Rel | Status | Last result | Tests | Code |
 |---|---|---|---|---|---|---|
@@ -289,16 +289,16 @@ Last results from 2724 test results: 327 passing; 18 passing (file); 1 cited, no
 | REQ-PRD-06 | S | R2 | tested | passing (4✓ 0✗) | r2-products.spec.js | finishing.js, commands.js |
 | REQ-PRD-07 | S | R1 | tested | passing (4✓ 0✗) | pages.spec.js | product-pages.js, commands.js |
 | REQ-PRD-08 | C | R2 | tested | passing (4✓ 0✗) | closeout-geo.spec.js | commands.js |
-| REQ-PRD-09 | C | R3 | tested | passing (6✓ 0✗) | r3-review-products.spec.js | finishing.js, media.js, docx.js +3 |
+| REQ-PRD-09 | C | R3 | tested | failing (5✓ 1✗) | r3-review-products.spec.js | finishing.js, media.js, docx.js +3 |
 | REQ-PRD-10 | M | R1 | tested | passing (14✓ 0✗) | c31-products.spec.js, products.spec.js, writers.test.js | products.js, geotiff-writer.js, nitf-writer.js +1 |
 | REQ-PRD-11 | S | R1 | tested | passing (6✓ 0✗) | pages.spec.js | product-pages.js, report.js, commands.js |
-| REQ-PRD-12 | C | R3 | tested | passing (6✓ 0✗) | r3-review-products.spec.js | finishing.js, media.js, gif.js +1 |
+| REQ-PRD-12 | C | R3 | tested | failing (5✓ 1✗) | r3-review-products.spec.js | finishing.js, media.js, gif.js +1 |
 | REQ-PRF-01 | M | R1 | tested | passing (file) | platform.spec.js | main.js |
 | REQ-PRF-02 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js, perf-swiftshader.mjs |  |
 | REQ-PRF-03 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js |  |
 | REQ-PRF-04 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js | readout.js, core.js |
 | REQ-PRF-05 | M | R2 | tested | passing (2✓ 0✗) | scn14.spec.js |  |
-| REQ-PRF-06 | S | R2 | tested | passing (2✓ 0✗) | perf-r2.spec.js | gpu-sgm.js, terrain-extract.js, analysis.worker.js |
+| REQ-PRF-06 | S | R2 | tested | failing (1✓ 1✗) | perf-r2.spec.js | gpu-sgm.js, terrain-extract.js, analysis.worker.js |
 | REQ-PRF-07 | S | R2 | tested | passing (2✓ 0✗) | scn18.spec.js | gpu-viewshed.js, terrain-analysis.js |
 | REQ-PRF-08 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js | dialogs.js |
 | REQ-WB-01 | M | R0 | tested | passing (4✓ 0✗) | feedback-ai.spec.js | whiteboard.js, commands.js, 50-feedback.css +1 |

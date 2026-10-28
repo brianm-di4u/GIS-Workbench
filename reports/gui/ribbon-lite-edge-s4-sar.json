@@ -455,6 +455,26 @@
  },
  {
   "tab": "analyze",
+  "id": "msi.stack",
+  "kind": "button",
+  "outcome": "disabled",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
+  "id": "msi.thermal",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:msi-thermal"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "analyze",
   "id": "msi.cluster",
   "kind": "button",
   "outcome": "clicked",

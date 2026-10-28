@@ -12,6 +12,8 @@ reports/campaign/out/
 reports/campaign/results/verify/
 reports/campaign/verify-*.json
 reports/fuzz-crashes/
+# Website screenshot captures (tests/tools/capture-marketing.mjs); the chosen ones go to the site repo
+reports/marketing/
 
 # GUI campaign run logs (the per-run JSON summaries in reports/gui are kept)
 reports/gui/*.txt

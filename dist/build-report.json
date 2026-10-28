@@ -1,14 +1,14 @@
 {
   "build": {
-    "id": "cade05c922ef9282",
-    "version": "1.1.0",
-    "date": "2026-10-28T00:48:09.866Z",
+    "id": "5b6f417b5e14c28c",
+    "version": "1.2.0",
+    "date": "2026-10-28T01:44:42.157Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 5678681,
+    "total": 5680365,
     "eager": 2288414,
     "css": 40646,
     "boot": 2733,
@@ -136,8 +136,8 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 4535,
-        "stored": 2984,
+        "raw": 7390,
+        "stored": 4668,
         "load": "lazy"
       }
     },
@@ -194,9 +194,9 @@
       }
     },
     "rustTotalGzip": 874612,
-    "lite": 3951869,
-    "snippet": 6013614,
-    "snippetLite": 3952212
+    "lite": 3954313,
+    "snippet": 6015298,
+    "snippetLite": 3954656
   },
   "gates": {
     "errors": [],

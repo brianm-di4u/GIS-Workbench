@@ -1,6 +1,32 @@
 # Changelog
 
-All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the GUI campaign finding id they close (see `docs/validation/GUI-findings.md`).
+All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
+
+## [1.2.0] - 2026-10-27
+
+Validation on real data that the earlier campaigns could not reach: NASA EMIT hyperspectral scenes, IEEE GRSS Data Fusion Contest hyperspectral and LiDAR, Maxar WorldView-3 change pairs, real drone video with flight logs, Capella and Umbra SAR chips, and accuracy checks against GDAL and numpy that were planned but never run. The defects they found are fixed.
+
+### Added
+- **Layer Stack** (Analyze ▸ Spectral) combines one-band files on the same grid, such as Landsat and Sentinel-2 band files, into one multiband image, so composites, indices such as NDVI and Band Math work across them. Each band keeps its radiometry and metadata. (TE-056)
+- Landsat 8/9 and Sentinel-2 band files are recognised by name (`…_B10.TIF`, `…_B8A.jp2`): sensor metadata maps to the right band, and band names and centre wavelengths are filled in. (TE-054, TE-056)
+- **Brightness Temperature** asks for the Landsat MTL when the band is still DN and converts it to radiance first; it is also on Analyze ▸ Spectral. (TE-054)
+- CCD warns when a pair cannot be coherent: it estimates the perpendicular baseline, height of ambiguity and range-spectrum overlap, and flags a large registration residual. (TE-051)
+- A STANAG 4607 file with platform locations but no dwells opens as a platform track. (TE-047)
+
+### Changed
+- Maximum-likelihood classification regularises each class covariance toward the pooled covariance, with the weight chosen by cross-validation on the training pixels; on 220-band Indian Pines overall accuracy rises from 0.50 to 0.87. (TE-058)
+- Change Detection takes images up to 32 M pixels, scopes a larger image to the active AOI, and reads only the part of date 2 that covers date 1. (TE-052)
+- Radiometric Conversion and Band Math work on one-band images. (TE-054, TE-056)
+- Aspect and the hillshade sun azimuth say they are measured from true north. (TE-055)
+- Video metadata imported from a CSV is labelled as CSV, not KLV, in the HUD and status bar. (TE-050)
+
+### Fixed
+- GeoTIFF internal masks (GDAL PER_DATASET mask bands) are honoured: masked pixels are no-data, so statistics and change detection no longer count fill. (TE-053)
+- ENVI headers with UTM map info on NAD83 or NAD27, or any datum with a coordinate system string, are georeferenced; they used to open without a map model. (TE-048)
+- Reading a second full-resolution Sentinel-2 JPEG 2000 band no longer fails with "unreachable". (TE-057)
+- Brightness temperature on a Landsat B10/B11 file uses that band's K1/K2 instead of returning no-data. (TE-054)
+- Auto Enhance keeps the current band composite; it used to restore the default bands after a preset. (TE-049)
+- A STANAG 4607 file with no dwell or platform location segments is refused by name, listing what it holds, instead of opening as nothing. (TE-047)
 
 ## [1.1.0] - 2026-10-27
 

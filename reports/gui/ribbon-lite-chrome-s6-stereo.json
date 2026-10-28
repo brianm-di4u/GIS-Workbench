@@ -919,7 +919,8 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Residual y-parallax of the epipolar fit over the view: 0.347 px RMS"
+   "info: Residual y-parallax of the epipolar fit over the view: 0.347 px RMS",
+   "info: Stereo Align: 46 tie points, σ₀ 0.04; FX02B adjusted (SOL-0001); 46 points added"
   ],
   "problems": []
  },
@@ -929,9 +930,7 @@
   "kind": "button",
   "outcome": "toggled",
   "dialogs": [],
-  "toasts": [
-   "info: Stereo Align: 46 tie points, σ₀ 0.04; FX02B adjusted (SOL-0001); 46 points added"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
