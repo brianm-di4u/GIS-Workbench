@@ -1,23 +1,23 @@
 # T&E data catalogue
 
-Generated 2026-10-29T02:03:14.079Z from `build/campaign/corpus.json` (301 items). Tier A = anonymous download by `build/campaign/fetch.mjs`; tier B = free login, downloaded by the owner into `TE-corpus/<id>/`; RS = already held in `Research/samples`; U = field data a user supplied, referenced in place and used for testing only (OD-09).
+Generated 2026-10-29T14:11:03.680Z from `build/campaign/corpus.json` (303 items). Tier A = anonymous download by `build/campaign/fetch.mjs`; tier B = free login, downloaded by the owner into `TE-corpus/<id>/`; RS = already held in `Research/samples`; U = field data a user supplied, referenced in place and used for testing only (OD-09).
 
 | Area | Items | Size | On disk |
 |---|---|---|---|
 | 3d | 20 | 95.6 MB | 20 |
 | control | 3 | 1.4 MB | 3 |
-| dem | 38 | 21.48 GB | 36 |
+| dem | 38 | 21.56 GB | 37 |
 | eo | 38 | 29.26 GB | 38 |
 | fmv | 15 | 3.94 GB | 15 |
 | frames | 4 | 1.84 GB | 4 |
 | geopdf | 5 | 136.8 MB | 5 |
 | gmti | 4 | 9.4 MB | 3 |
-| hsi | 18 | 26.03 GB | 15 |
-| landsat | 4 | 2.06 GB | 3 |
+| hsi | 19 | 27.64 GB | 16 |
+| landsat | 4 | 4.41 GB | 4 |
 | lidar | 17 | 2.20 GB | 17 |
 | live | 11 | 0 kB | 0 |
 | naip | 4 | 15.57 GB | 4 |
-| nitf | 21 | 11.88 GB | 20 |
+| nitf | 22 | 12.22 GB | 22 |
 | perf | 2 | 42.60 GB | 1 |
 | raster | 20 | 1.91 GB | 20 |
 | robustness | 2 | 5.2 MB | 2 |
@@ -100,7 +100,7 @@ Generated 2026-10-29T02:03:14.079Z from `build/campaign/corpus.json` (301 items)
 | `srtm-skadi-n39w106-n40w106` | SRTM HGT (gzip) (3601x3601 Int16 big-endian, EGM96, 1 arcsec) | [NASA/USGS SRTM via Mapzen / AWS Terrain Tiles](https://registry.opendata.aws/terrain-tiles/) | SRTM is US Government public domain; Terrain Tiles attribution terms https://github.com/ti | A | 27.5 MB | yes |
 | `gdal-dted-samples` | DTED0 \| DTED1 \| DTED (1-arcsec) (n43.dt0 (W080 N43, 30 arcsec); n48.dt1 (W124 N48, 3 arcsec); w118n033.dt1 (starts with an 80-byte HDR1 tape label before UHL, an edge case); l5102.dhm (E005 N47, 1 arcsec spacing in UHL = DTED2-like, .dhm extension)) | [OSGeo / GDAL project](https://download.osgeo.org/gdal/data/dted/) | Redistributed by OSGeo as GDAL test data (originally US Government DTED); no explicit lice | A | 7.6 MB | yes |
 | `gdal-autotest-dted-edge` | DTED0 \| DTED1 (malformed) (negative / robustness tests) | [OSGeo GDAL (GitHub)](https://github.com/OSGeo/gdal/tree/master/autotest/gdrivers/data/dted) | GDAL autotest data under the GDAL MIT/X licence (https://github.com/OSGeo/gdal/blob/master | A | 83 kB | yes |
-| `usgs-srtm-dted2-n39w106` | DTED2 (3601x3601, 1 arcsec, EGM96) | [USGS EROS EarthExplorer](https://earthexplorer.usgs.gov/) | US Government public domain; free USGS ERS login required | B | 0 kB | no |
+| `usgs-srtm-dted2-n39w106` | DTED2 / DTED1 (Three 3601x3601 1-arcsec DTED2 cells (Colorado, Las Vegas, California cluster) and one 1201x1201 3-arcsec DTED1 cell; EGM96, WGS84; USGS EROS producer) | [USGS EROS EarthExplorer](https://earthexplorer.usgs.gov/) | US Government public domain; free USGS ERS login required | B | 80.8 MB | yes |
 
 ## eo
 
@@ -202,6 +202,7 @@ Generated 2026-10-29T02:03:14.079Z from `build/campaign/corpus.json` (301 items)
 | `derived-envi-variants` | ENVI raw + .hdr (INTERLEAVE=BIL/BIP; byte order = 1) | [Derived from enmap-potsdam-l2a-subset, rs-hsi-indian-pines, landsat8-c2-l2sp-044034-20240820](build/campaign/derive_archive.py) | EnMAP data © DLR (EnMAP-Box GPL-3.0 redistribution); Indian Pines CC0; Landsat public doma | A | 249.2 MB | yes |
 | `derived-speclib-envi-sli` | ENVI spectral library / CSV (224 bands) | [Derived from usgs-splib07-ascii](build/campaign/derive_archive.py) | US Government public domain (USGS) | A | 551 kB | yes |
 | `derived-hsi-cube-geotiff` | GeoTIFF (≥30 bands) (Band-interleaved, wavelengths kept in GDAL metadata where the source has them) | [Derived from aviris-classic-f130410t01p00r09, ieee-dfc2018-houston](build/campaign/derive_archive.py) | NASA/JPL AVIRIS (no restrictions); CC BY 4.0 (IEEE DataPort Open Access) | A | 52.5 MB | yes |
+| `eo1-hyperion-l1t-043034-20170312` | GeoTIFF (one file per band) + MTL (242 bands 357-2576 nm, 30 m, UTM, Int16 scaled radiance; pushbroom column striping in the SWIR bands) | [USGS EROS EarthExplorer](https://earthexplorer.usgs.gov/) | Public domain (USGS); free USGS ERS login required | B | 1.61 GB | yes |
 | `hsi-avirisng-cuprite-20200712-rfl` | ENVI (binary + .hdr) in tar.gz (Reflectance v2y1: 737 samples x 3681 lines x 425 bands, Float32, interleave bil, byte order 0, map info UTM 11N WGS-84 3.0 m) | [NASA JPL AVIRIS-NG](https://avirisng.jpl.nasa.gov/dataportal/) | NASA/JPL AVIRIS-NG data, freely available with no usage restrictions (acknowledgement requ | A | 7.84 GB | yes |
 | `hsi-speclib-splib07b-envi-hyperspectralpy` | ENVI Spectral Library (file type = ENVI Spectral Library, Float32 BSQ) (splib07b_aviris (39 spectra x 2151 samples), splib07b_asdng (71 spectra), splib07b_asdhr, splib07b_asdfr, splib07b_beck, splib07b_nic4) | [hyperspectralpy (wbasener/hyperspectralpy, GitHub), data from USGS splib07](https://github.com/wbasener/hyperspectralpy/tree/main/data) | MIT (wbasener/hyperspectralpy LICENSE); underlying spectra are US Government public domain | A | 21.5 MB | yes |
 | `hsi-speclib-splib06-envi-emit-sds` | ENVI Spectral Library (Float32 BSQ) (s06av18a_envi: 1367 spectra x 224 AVIRIS-2018 bands; r06av18a_envi: companion resolution/wavelength library) | [NASA JPL EMIT SDS (emit-sds/emit-sds-l2b, GitHub)](https://github.com/emit-sds/emit-sds-l2b/tree/develop/Spectral-Library-Reader-master) | Apache-2.0 (emit-sds/emit-sds-l2b LICENSE); underlying USGS splib06 spectra are US Governm | A | 1.4 MB | yes |
@@ -222,7 +223,7 @@ Generated 2026-10-29T02:03:14.079Z from `build/campaign/corpus.json` (301 items)
 |---|---|---|---|---|---|---|
 | `landsat7-c2-l2sp-044034-20210617-slcoff` | GeoTIFF COG + MTL (6 SR bands (B1-B5, B7) at 30 m, QA_PIXEL with fill for the SLC-off gaps, UTM 10N; same path/row as the Landsat 8 items) | [Microsoft Planetary Computer, collection landsat-c2-l2 (USGS Collection 2)](https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2) | Public domain (USGS) | A | 316.5 MB | yes |
 | `landsat8-c1-l1tp-044034-20210508` | GeoTIFF (C1 L1TP, 16-bit DN, B1-B11 (B8 pan 15 m), BQA, MTL.txt (radiance/reflectance rescaling), ANG.txt; cloud cover 0.07%) | [USGS, via Google Cloud Public Datasets (gcp-public-data-landsat)](https://cloud.google.com/storage/docs/public-datasets/landsat) | Public domain (USGS Landsat data, no restrictions; https://www.usgs.gov/information-polici | A | 1.04 GB | yes |
-| `landsat8-c2-l1tp-044034-20240820-tierb` | GeoTIFF/COG (C2 L1TP 16-bit DN, B1-B11, QA_PIXEL, QA_RADSAT, MTL.txt/xml/json, ANG.txt, per-pixel angle bands) | [USGS EROS (LandsatLook / EarthExplorer)](https://landsatlook.usgs.gov/stac-browser/collection02/level-1/standard/oli-tirs/2024/044/034/LC08_L1TP_044034_20240820_20240830_02_T1) | Public domain (USGS) | B | 0 kB | no |
+| `landsat8-c2-l1tp-044034-20240820-tierb` | GeoTIFF/COG (C2 L1TP 16-bit DN, B1-B11, QA_PIXEL, QA_RADSAT, MTL.txt/xml/json, ANG.txt, per-pixel angle bands) | [USGS EROS (LandsatLook / EarthExplorer)](https://landsatlook.usgs.gov/stac-browser/collection02/level-1/standard/oli-tirs/2024/044/034/LC08_L1TP_044034_20240820_20240830_02_T1) | Public domain (USGS) | B | 2.36 GB | yes |
 | `landsat8-c2-l2sp-044034-20240820` | GeoTIFF/COG (C2 L2SP: SR_B1-B7 (scaled reflectance uint16), ST_B10, ST_QA, QA_PIXEL, QA_RADSAT, SR_QA_AEROSOL, C2 MTL.txt/xml/json, ANG.txt; cloud 0.03%) | [USGS, via Microsoft Planetary Computer (landsat-c2-l2)](https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2) | Public domain (USGS; https://www.usgs.gov/core-science-systems/hdds/data-policy) | A | 698.6 MB | yes |
 
 ## lidar
@@ -289,6 +290,7 @@ Generated 2026-10-29T02:03:14.079Z from `build/campaign/corpus.json` (301 items)
 | `derived-nitf-variants` | NITF 2.1 / NSIF 1.0 (Markings are synthetic test values on public data) | [Derived from naip-ca-m3812157-sw-2022, cop-dem-glo30-n39w106, s2-l1c-jp2-safe-10seh-20240816, eo-maxar-libya-floods-wv3-prepost](build/campaign/derive_archive.py) | Public domain (USDA NAIP); Copernicus DEM licence; Copernicus Sentinel data terms; Maxar O | A | 23.5 MB | yes |
 | `derived-nitf-bandsb-msi` | NITF 2.1 (IC=NC, BANDSB TRE) (512² uint16 chips, 7-9 bands (the writer takes at most 9; S2 drops B8A), ABPP 16; band centre wavelengths and FWHM (µm) in BANDSB and ISUBCAT (nm); written by app/src/formats/nitf-writer.js writeNitf) | [Derived from eo-spacenet-vegas-wv3-pan-ms-r1c1, landsat8-c2-l2sp-044034-20240820, s2-l2a-cog-10seh-20240816](build/campaign/derive_nitf_msi.mjs) | CC BY-SA 4.0 (SpaceNet); public domain (USGS Landsat); Copernicus Sentinel data terms | A | 34.1 MB | yes |
 | `derived-nitf-rsm` | NITF 2.1 (RSMIDA, RSMPCA) (2048² PAN chips; one RSM section, cubic tensor, geodetic radians; RPC00B absent except in the _rpc00b copy) | [Derived from nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, eo-spacenet-atlanta-wv2-l1b-rpc](build/campaign/derive_archive.py) | IARPA MVS / CORE3D public release terms (see items); CC BY-SA 4.0 (SpaceNet) | A | 33.6 MB | yes |
+| `derived-rpf-cadrg-from-cib10` | RPF CADRG (NITF 2.1, IC=C4 VQ) + A.TOC (1:50k CADRG frames (series MM), greyscale imagery through a colour-table VQ; not CIB (GDAL has no CIB writer)) | [Derived from nitf-rpf-cib-usgs](build/campaign/derive_archive.py) | Public domain (USGS EROS archive) | A | 42.8 MB | yes |
 | `nitf-mvs-wv3-buenos-aires` | NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM (Views (off-nadir, sat azimuth): 18DEC15 single-pass sweep 140455 (24.2, 48.8), 140510 (18.3, 65.2), 140522 (15.1, 88.2), 140533 (14.8, 113.7), 140544 (17.2, 135.8), 140554 (21.1, 151.1); 19DEC15 142039 (15.7, 278.3); 07JAN16 along-track triplet 142142 (37.0, 211.2), 142152 (40.3, 208.7), 142202 (43.3, 206.7). Lidar truth: MasterProvisional1-3 and Explorer DSM GeoTIFFs) | [IARPA / JHU-APL MVS benchmark (SpaceNet AWS bucket)](https://spacenet.ai/iarpa-multi-view-stereo-3d-mapping/) | IARPA Multi-View Stereo 3D Mapping benchmark (JHU/APL), hosted in the SpaceNet AWS bucket. | A | 7.42 GB | yes |
 | `nitf-core3d-jacksonville-wv3` | NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels) (PAN 46080x43008 (and siblings) and MSI 12288x11264x8 from catalog strips acquired 16:12:43-16:13:08 UTC on 2015-01-21 (one pass, three looks); Urban3D JAX_Tile_000 2048x2048 at 0.5 m: DSM, DTM, RGB (challenge inputs) and GTL/GTI/GTC ground truth) | [IARPA CORE3D (SpaceNet AWS bucket)](https://spacenet.ai/core3d/) | SpaceNet AWS Open Data bucket, CC BY-SA 4.0 per the Registry of Open Data entry for spacen | A | 4.31 GB | yes |
 | `nitf-ntb-nitf20-conformance` | NITF2.0 (Mixed: uncompressed mono/RGB/multiband, LUT, C3/M3 JPEG, VQ (C4), bi-level C1, CGM/text segments, TREs, multi-image) | [OSGeo / GDAL (mirror of NITFS Technical Board test suite)](https://download.osgeo.org/gdal/data/nitf/nitf2.0/) | GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osg | A | 20.1 MB | yes |
@@ -296,7 +298,7 @@ Generated 2026-10-29T02:03:14.079Z from `build/campaign/corpus.json` (301 items)
 | `nitf-ntb-nitf21-conformance` | NITF2.1 + BMP truth (v_3001a (1024x1024 mono), v_3303a (large multi-image); *r.bmp = expected rendering) | [OSGeo / GDAL (mirror of NITFS Technical Board test suite)](https://download.osgeo.org/gdal/data/nitf/nitf2.1/) | GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osg | A | 6.9 MB | yes |
 | `nitf-misc-gdal-server` | NITF2.1 (u_3054a: 13 MB multi-segment; bug3337: GDAL bug #3337 repro; p0_01syntax.txt describes p0_01a.ntf (J2K codestream conformance)) | [OSGeo / GDAL](https://download.osgeo.org/gdal/data/nitf/) | GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osg | A | 13.9 MB | yes |
 | `nitf-rpf-cadrg-frames` | RPF (CADRG) / NITF-wrapped frames (CADRG ONC 1:1M frame (.on1), GNC frame (.GN3), RPF overview (.ovr), A.TOC + RPFTOC01.ON2 frame, testtest.on9) | [OSGeo / GDAL (download server + autotest)](https://download.osgeo.org/gdal/data/nitf/cadrg/) | GDAL sample-data server: 'public and freely redistributable geodata' (https://download.osg | A | 591 kB | yes |
-| `nitf-rpf-cib-usgs` | RPF CIB (expected) / GeoTIFF (10 m panchromatic orthoimage, 1986-1993, partial coverage) | [USGS EROS](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-commercial-satellites-spot-controlled-image-base-10-meter) | USGS EROS archive, public access (free EarthExplorer login required) | B | 0 kB | no |
+| `nitf-rpf-cib-usgs` | GeoTIFF + NIMA text header (EE distribution of CIB-10) (8-bit panchromatic, geographic WGS84, 10 m, NIMA production 2000 (source imagery 1986-1995); RPF zones 2, 3 and 6 by latitude) | [USGS EROS](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-commercial-satellites-spot-controlled-image-base-10-meter) | USGS EROS archive, public access (free EarthExplorer login required) | B | 297.6 MB | yes |
 
 ## perf
 

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T14:19:55.743Z",
+ "key": "usgs-srtm-dted2-n39w106/n39_w106_3arc_v2.dt1",
+ "item": "usgs-srtm-dted2-n39w106",
+ "file": "n39_w106_3arc_v2.dt1",
+ "format": "DTED2 / DTED1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened n39_w106_3arc_v2.dt1 in 57 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 1201,
+   "h": 1201,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 373,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -2574,7 +2574,7 @@
 "file": "TilesetWithDiscreteLOD.3tz",
 "role": "primary",
 "bytes": 4791686,
-"mtime": 1793218132,
+"mtime": 1793248473,
 "keys": [
 "tiles3d.3tz"
 ]
@@ -2583,8 +2583,8 @@
 "id": "derived-3d-tiles-3tz",
 "file": "MultipleContents.3tz",
 "role": "primary",
-"bytes": 381382,
-"mtime": 1793218132,
+"bytes": 381726,
+"mtime": 1793248473,
 "keys": [
 "tiles3d.3tz"
 ]
@@ -2594,7 +2594,7 @@
 "file": "DuckGlb.3tz",
 "role": "primary",
 "bytes": 121381,
-"mtime": 1793218133,
+"mtime": 1793248473,
 "keys": [
 "tiles3d.3tz"
 ]
@@ -5707,6 +5707,2216 @@
 ]
 },
 {
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/A.TOC",
+"role": "sidecar",
+"bytes": 3540,
+"mtime": 1793282816,
+"keys": [
+"rpf.toc"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CN9010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CNA010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CNB010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CNC010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CND010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CNE010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CNF010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01CNG010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282812,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXJ010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXK010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXL010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXM010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXN010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXP010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXQ010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01EXR010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6T010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6U010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6V010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6W010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6X010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6Y010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H6Z010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01H70010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG2010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG3010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG4010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG5010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG6010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG7010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG8010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01KG9010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRB010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRC010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRD010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRE010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRF010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRG010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRH010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01MRJ010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282813,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0L010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0M010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0N010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0P010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0Q010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0R010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0S010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Q0T010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01S9V010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01S9W010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01S9X010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01S9Y010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01S9Z010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01SA0010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01SA1010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01SA2010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UK4010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UK5010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UK6010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UK7010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UK8010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UK9010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UKA010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01UKB010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUD010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUE010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUF010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUG010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282814,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUH010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUJ010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUK010.MM2",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01WUL010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3N010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3P010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3Q010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3R010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3S010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3T010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3U010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n35e011/RPF/ZONE2/01Z3V010.MM2",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282815,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/A.TOC",
+"role": "sidecar",
+"bytes": 3078,
+"mtime": 1793282820,
+"keys": [
+"rpf.toc"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/019G4010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282816,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/019G5010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282816,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/019G6010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282816,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/019G7010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282816,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/019G8010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282816,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/019G9010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282816,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01AYZ010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01AZ0010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01AZ1010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01AZ2010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01AZ3010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01AZ4010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01CFU010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01CFV010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01CFW010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01CFX010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01CFY010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01CFZ010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01DYP010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01DYQ010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01DYR010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01DYS010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01DYT010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01DYU010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01FFJ010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01FFK010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01FFL010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01FFM010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01FFN010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01FFP010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01GYD010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01GYE010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01GYF010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01GYG010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01GYH010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01GYJ010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01JF8010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01JF9010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01JFA010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282817,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01JFB010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01JFC010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01JFD010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01KY3010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01KY4010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01KY5010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01KY6010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01KY7010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01KY8010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01MEY010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01MEZ010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01MF0010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01MF1010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01MF2010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01MF3010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282818,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01NXT010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01NXU010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01NXV010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01NXW010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01NXX010.MM4",
+"role": "primary",
+"bytes": 292955,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01NXY010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01QEN010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01QEP010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01QEQ010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01QER010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01QES010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
+"id": "derived-rpf-cadrg-from-cib10",
+"file": "n60w156/RPF/ZONE4/01QET010.MM4",
+"role": "primary",
+"bytes": 293115,
+"mtime": 1793282819,
+"keys": [
+"nitf",
+"nitf.ic.c4",
+"nitf.imode.b",
+"nitf.v20",
+"tre.RPFHDR",
+"tre.RPFIMG"
+]
+},
+{
 "id": "s2-l2a-mtd-10seh-pc",
 "file": "20240816/MTD_MSIL2A.xml",
 "role": "primary",
@@ -8216,6 +10426,2937 @@
 "tiles3d.implicit",
 "tiles3d.tileset"
 ]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_1T.ZIP",
+"role": "archive",
+"bytes": 219773581,
+"mtime": 1793282589,
+"keys": [
+"zip",
+"zip.imagery"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B001_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458564,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B002_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458564,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B003_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458564,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B004_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458565,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B005_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458565,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B006_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458565,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B007_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458565,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B008_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458566,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B009_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458566,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B010_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458566,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B011_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458567,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B012_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458567,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B013_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458567,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B014_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458567,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B015_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458568,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B016_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458568,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B017_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458568,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B018_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458569,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B019_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458569,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B020_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458569,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B021_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458569,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B022_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458570,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B023_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458570,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B024_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458570,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B025_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458571,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B026_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458571,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B027_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458571,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B028_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458571,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B029_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458572,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B030_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458572,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B031_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458563,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B032_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458572,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B033_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458573,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B034_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458573,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B035_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458573,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B036_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458574,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B037_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458574,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B038_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458574,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B039_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458575,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B040_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458575,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B041_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458575,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B042_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458575,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B043_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458576,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B044_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458576,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B045_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458576,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B046_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458577,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B047_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458577,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B048_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458577,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B049_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458577,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B050_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458578,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B051_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458578,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B052_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458578,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B053_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458579,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B054_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458579,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B055_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458579,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B056_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458579,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B057_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458580,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B058_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458580,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B059_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458580,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B060_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458581,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B061_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458581,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B062_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458581,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B063_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458581,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B064_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458582,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B065_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458582,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B066_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458582,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B067_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458583,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B068_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458583,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B069_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458583,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B070_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458584,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B071_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458584,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B072_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458584,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B073_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458584,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B074_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458585,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B075_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458585,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B076_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458585,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B077_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458586,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B078_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458586,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B079_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458586,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B080_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458586,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B081_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458587,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B082_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458587,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B083_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458587,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B084_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458588,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B085_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458588,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B086_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458588,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B087_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458589,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B088_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458589,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B089_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458589,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B090_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458589,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B091_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458590,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B092_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458590,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B093_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458590,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B094_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458591,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B095_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458591,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B096_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458591,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B097_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458592,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B098_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458592,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B099_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458592,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B100_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458592,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B101_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458593,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B102_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458593,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B103_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458593,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B104_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458594,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B105_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458594,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B106_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458594,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B107_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458595,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B108_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458595,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B109_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458595,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B110_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458595,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B111_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458596,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B112_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458596,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B113_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458596,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B114_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458597,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B115_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458597,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B116_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458597,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B117_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458597,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B118_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458598,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B119_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458598,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B120_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458598,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B121_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458599,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B122_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458599,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B123_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458599,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B124_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458599,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B125_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458600,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B126_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458600,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B127_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458600,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B128_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458600,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B129_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458601,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B130_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458601,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B131_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458601,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B132_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458602,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B133_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458602,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B134_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458602,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B135_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458602,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B136_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458603,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B137_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458603,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B138_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458603,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B139_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458603,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B140_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458604,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B141_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458604,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B142_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458604,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B143_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458604,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B144_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458605,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B145_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458605,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B146_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458605,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B147_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458606,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B148_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458606,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B149_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458606,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B150_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458572,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B151_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458606,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B152_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458607,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B153_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458607,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B154_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458607,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B155_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458608,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B156_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458608,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B157_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458608,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B158_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458608,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B159_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458609,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B160_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458609,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B161_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458609,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B162_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458609,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B163_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458610,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B164_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458610,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B165_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458610,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B166_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458610,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B167_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458611,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B168_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458611,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B169_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458611,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B170_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458611,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B171_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458612,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B172_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458612,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B173_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458612,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B174_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458613,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B175_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458613,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B176_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458613,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B177_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458613,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B178_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458614,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B179_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458614,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B180_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458614,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B181_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458614,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B182_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458615,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B183_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458615,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B184_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458615,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B185_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458616,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B186_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458616,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B187_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458616,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B188_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458616,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B189_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458617,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B190_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458617,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B191_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458617,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B192_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458618,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B193_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458618,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B194_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458618,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B195_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458618,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B196_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458619,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B197_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458619,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B198_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458619,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B199_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458619,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B200_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458620,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B201_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458620,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B202_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458620,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B203_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458620,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B204_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458621,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B205_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458621,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B206_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458621,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B207_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458621,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B208_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458622,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B209_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458622,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B210_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458622,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B211_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458622,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B212_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458623,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B213_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458623,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B214_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458623,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B215_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458623,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B216_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458624,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B217_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458624,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B218_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458624,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B219_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458624,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B220_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458625,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B221_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458625,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B222_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458625,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B223_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458626,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B224_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458626,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B225_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458626,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B226_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458626,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B227_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458627,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B228_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458627,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B229_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458627,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B230_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458628,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B231_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458628,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B232_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458628,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B233_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458628,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B234_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458629,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B235_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458629,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B236_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458629,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B237_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458629,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B238_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458630,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B239_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458630,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B240_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458630,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B241_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458630,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_B242_L1T.TIF",
+"role": "primary",
+"bytes": 5724682,
+"mtime": 1489458631,
+"keys": [
+"gtiff",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "EO1H0430342017071110KF_MTL_L1T.TXT",
+"role": "metadata",
+"bytes": 17538,
+"mtime": 1489458717,
+"keys": []
+},
+{
+"id": "eo1-hyperion-l1t-043034-20170312",
+"file": "README.txt",
+"role": "metadata",
+"bytes": 5804,
+"mtime": 1489458202,
+"keys": []
 },
 {
 "id": "raster-bigtiff-gdal-autotest",
@@ -36698,6 +41839,102 @@
 ]
 },
 {
+"id": "nitf-rpf-cib-usgs",
+"file": "n20e102.hdr",
+"role": "sidecar",
+"bytes": 487,
+"mtime": 972063642,
+"keys": []
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n20e102.tif",
+"role": "primary",
+"bytes": 114313120,
+"mtime": 972063658,
+"keys": [
+"gtiff",
+"gtiff.bigendian",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n20e102.zip",
+"role": "archive",
+"bytes": 21498970,
+"mtime": 1793282506,
+"keys": [
+"zip",
+"zip.imagery"
+]
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n35e011.hdr",
+"role": "sidecar",
+"bytes": 486,
+"mtime": 971891733,
+"keys": []
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n35e011.tif",
+"role": "primary",
+"bytes": 93590970,
+"mtime": 971891744,
+"keys": [
+"gtiff",
+"gtiff.bigendian",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n35e011.zip",
+"role": "archive",
+"bytes": 1986601,
+"mtime": 1793282367,
+"keys": [
+"zip",
+"zip.imagery"
+]
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n60w156.hdr",
+"role": "sidecar",
+"bytes": 487,
+"mtime": 971820994,
+"keys": []
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n60w156.tif",
+"role": "primary",
+"bytes": 61634592,
+"mtime": 971821311,
+"keys": [
+"gtiff",
+"gtiff.bigendian",
+"gtiff.codec.none",
+"gtiff.striped"
+]
+},
+{
+"id": "nitf-rpf-cib-usgs",
+"file": "n60w156.zip",
+"role": "archive",
+"bytes": 4571493,
+"mtime": 1793282398,
+"keys": [
+"zip",
+"zip.imagery"
+]
+},
+{
 "id": "eo-maxar-libya-floods-wv3-prepost",
 "file": "2023-08-01/1040010087AB7E00-data-mask.gpkg",
 "role": "sidecar",
@@ -37273,6 +42510,313 @@
 "mtime": 1793077225,
 "keys": [
 "meta.landsat-mtl"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_ANG.txt",
+"role": "metadata",
+"bytes": 117265,
+"mtime": 1793281943,
+"keys": []
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B1.TIF",
+"role": "primary",
+"bytes": 80767125,
+"mtime": 1793281944,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B10.TIF",
+"role": "primary",
+"bytes": 81777591,
+"mtime": 1793281946,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF",
+"role": "primary",
+"bytes": 79463969,
+"mtime": 1793281948,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B2.TIF",
+"role": "primary",
+"bytes": 82859195,
+"mtime": 1793281950,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B3.TIF",
+"role": "primary",
+"bytes": 85473470,
+"mtime": 1793281952,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B4.TIF",
+"role": "primary",
+"bytes": 88031639,
+"mtime": 1793281954,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B5.TIF",
+"role": "primary",
+"bytes": 90242858,
+"mtime": 1793281956,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B6.TIF",
+"role": "primary",
+"bytes": 90066061,
+"mtime": 1793281958,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B7.TIF",
+"role": "primary",
+"bytes": 87585482,
+"mtime": 1793281961,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B8.TIF",
+"role": "primary",
+"bytes": 347066903,
+"mtime": 1793281965,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_B9.TIF",
+"role": "primary",
+"bytes": 46667041,
+"mtime": 1793281972,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.json",
+"role": "metadata",
+"bytes": 15034,
+"mtime": 1793281973,
+"keys": [
+"meta.landsat-mtl"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.txt",
+"role": "metadata",
+"bytes": 12367,
+"mtime": 1793281973,
+"keys": [
+"meta.landsat-mtl"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.xml",
+"role": "metadata",
+"bytes": 18063,
+"mtime": 1793281973,
+"keys": [
+"meta.landsat-mtl"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_PIXEL.TIF",
+"role": "primary",
+"bytes": 717696,
+"mtime": 1793281973,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_RADSAT.TIF",
+"role": "primary",
+"bytes": 223602,
+"mtime": 1793281973,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_SAA.TIF",
+"role": "primary",
+"bytes": 2584440,
+"mtime": 1793281973,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_SZA.TIF",
+"role": "primary",
+"bytes": 1909442,
+"mtime": 1793281974,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_VAA.TIF",
+"role": "primary",
+"bytes": 8952662,
+"mtime": 1793281974,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_VZA.TIF",
+"role": "primary",
+"bytes": 3413834,
+"mtime": 1793281974,
+"keys": [
+"gtiff",
+"gtiff.codec.deflate",
+"gtiff.cog",
+"gtiff.overviews",
+"gtiff.tiled"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_stac.json",
+"role": "metadata",
+"bytes": 49897,
+"mtime": 1793281975,
+"keys": [
+"vec.geojson",
+"vec.geojson.jsonext"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_thumb_large.jpeg",
+"role": "primary",
+"bytes": 42010,
+"mtime": 1793281975,
+"keys": [
+"img.jpg"
+]
+},
+{
+"id": "landsat8-c2-l1tp-044034-20240820-tierb",
+"file": "LC08_L1TP_044034_20240820_20240830_02_T1_thumb_small.jpeg",
+"role": "primary",
+"bytes": 5140,
+"mtime": 1793281975,
+"keys": [
+"img.jpg"
 ]
 },
 {
@@ -42410,6 +47954,50 @@
 "keys": [
 "dted",
 "dted.hdr1",
+"dted.l1"
+]
+},
+{
+"id": "usgs-srtm-dted2-n39w106",
+"file": "n36_w116_1arc_v3.dt2",
+"role": "primary",
+"bytes": 25981042,
+"mtime": 1793281909,
+"keys": [
+"dted",
+"dted.l2"
+]
+},
+{
+"id": "usgs-srtm-dted2-n39w106",
+"file": "n38_w122_1arc_v3.dt2",
+"role": "primary",
+"bytes": 25981042,
+"mtime": 1793281934,
+"keys": [
+"dted",
+"dted.l2"
+]
+},
+{
+"id": "usgs-srtm-dted2-n39w106",
+"file": "n39_w106_1arc_v3.dt2",
+"role": "primary",
+"bytes": 25981042,
+"mtime": 1793281897,
+"keys": [
+"dted",
+"dted.l2"
+]
+},
+{
+"id": "usgs-srtm-dted2-n39w106",
+"file": "n39_w106_3arc_v2.dt1",
+"role": "primary",
+"bytes": 2902642,
+"mtime": 1793281871,
+"keys": [
+"dted",
 "dted.l1"
 ]
 },

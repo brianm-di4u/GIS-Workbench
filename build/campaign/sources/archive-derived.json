@@ -3119,5 +3119,773 @@
     ]
    }
   ]
+ },
+ {
+  "id": "derived-rpf-cadrg-from-cib10",
+  "area": "nitf",
+  "title": "RPF CADRG frames + A.TOC written by GDAL from USGS SPOT CIB-10 tiles (zones 2 and 6)",
+  "source": "Derived from nitf-rpf-cib-usgs",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USGS EROS archive)",
+  "attribution": "SPOT CIB-10 courtesy of the U.S. Geological Survey",
+  "tier": "A",
+  "origin": "derived",
+  "format": "RPF CADRG (NITF 2.1, IC=C4 VQ) + A.TOC",
+  "profile": "1:50k CADRG frames (series MM), greyscale imagery through a colour-table VQ; not CIB (GDAL has no CIB writer)",
+  "files": [
+   {
+    "name": "n35e011/RPF/A.TOC",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CN9010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CNA010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CNB010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CNC010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CND010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CNE010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CNF010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01CNG010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXJ010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXK010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXL010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXM010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXN010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXP010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXQ010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01EXR010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6T010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6U010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6V010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6W010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6X010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6Y010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H6Z010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01H70010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG2010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG3010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG4010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG5010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG6010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG7010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG8010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01KG9010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRB010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRC010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRD010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRE010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRF010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRG010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRH010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01MRJ010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0L010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0M010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0N010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0P010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0Q010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0R010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0S010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Q0T010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01S9V010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01S9W010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01S9X010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01S9Y010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01S9Z010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01SA0010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01SA1010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01SA2010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UK4010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UK5010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UK6010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UK7010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UK8010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UK9010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UKA010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01UKB010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUD010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUE010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUF010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUG010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUH010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUJ010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUK010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01WUL010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3N010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3P010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3Q010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3R010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3S010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3T010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3U010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n35e011/RPF/ZONE2/01Z3V010.MM2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/A.TOC",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/019G4010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/019G5010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/019G6010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/019G7010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/019G8010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/019G9010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01AYZ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01AZ0010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01AZ1010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01AZ2010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01AZ3010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01AZ4010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01CFU010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01CFV010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01CFW010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01CFX010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01CFY010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01CFZ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01DYP010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01DYQ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01DYR010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01DYS010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01DYT010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01DYU010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01FFJ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01FFK010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01FFL010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01FFM010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01FFN010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01FFP010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01GYD010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01GYE010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01GYF010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01GYG010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01GYH010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01GYJ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01JF8010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01JF9010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01JFA010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01JFB010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01JFC010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01JFD010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01KY3010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01KY4010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01KY5010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01KY6010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01KY7010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01KY8010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01MEY010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01MEZ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01MF0010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01MF1010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01MF2010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01MF3010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01NXT010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01NXU010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01NXV010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01NXW010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01NXX010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01NXY010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01QEN010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01QEP010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01QEQ010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01QER010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01QES010.MM4",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "n60w156/RPF/ZONE4/01QET010.MM4",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of NITF -co PRODUCT_TYPE=CADRG -co SCALE=50000 -co DPI=169.333 n35e011.tif n35e011/; gdal_translate -of NITF -co PRODUCT_TYPE=CADRG -co SCALE=50000 -co DPI=169.333 n60w156.tif n60w156/",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "nitf.decode.vq"
+  ],
+  "covers": [
+   "fmt:rpf.frame",
+   "fmt:rpf.toc",
+   "fmt:nitf.ic.c4"
+  ],
+  "pairs": []
  }
 ]

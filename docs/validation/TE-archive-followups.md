@@ -4,12 +4,11 @@ These items came out of the archive expansion of 2026-10-28 (branch `te-archive`
 
 ## Coverage after the expansion
 
-174 of 179 format keys have at least the minimum number of samples. Two role gaps remain.
+175 of 179 format keys have at least the minimum number of samples (after the EarthExplorer downloads of 2026-10-29, below). Two role gaps remain.
 
 | Gap | Why | Closes with |
 |---|---|---|
-| `rpf.cib` 0/3 | No anonymous CIB anywhere | Tier B: USGS EarthExplorer "SPOT CIB-10" (`nitf-rpf-cib-usgs`) |
-| `rpf.toc` 2/3 | GDAL ships only two A.TOC files, both already held. The app does not read A.TOC (`app/src/features/dialogs.js:49`), so a crafted TOC adds little | The CIB download includes its own A.TOC from an independent producer |
+| `rpf.cib` 0/3 | No anonymous CIB anywhere, and EarthExplorer delivers SPOT CIB-10 only as GeoTIFF + NIMA `.hdr` (checked 2026-10-29: three tiles in `nitf-rpf-cib-usgs`). GDAL 3.13 writes RPF CADRG frames but has no CIB series (I1/I2/I5) | Unobtainable as RPF from public sources. An RPF CIB writer (greyscale VQ, CIB series codes, MIL-PRF-89041) would have to be written |
 | `nitf.ic.c5`, `nitf.ic.c2`, `nitf.ic.m8` 0/1 | No public sample exists: not in the GDAL autotest, the download.osgeo.org NITF mirror, JITC/NTB or six-library | Unobtainable. They are refused codecs; an encoder for a negative sample would have to be written from the spec |
 | role `sar: pair:repeat-pass` | The only pair (TE-051) is incoherent | Tier B: Sentinel-1 IW SLC 12-day pair from ASF (Earthdata login), then sarpy → SICD bursts |
 | role `ingest: fmt:*` | Aggregate of the format rows above | Closes when they do |
@@ -23,7 +22,12 @@ These items came out of the archive expansion of 2026-10-28 (branch `te-archive`
 - OB.DAAC PACE OCI and HICO.
 
 **New accounts:**
-- **USGS ERS:** CIB-10 (`nitf-rpf-cib-usgs`), SRTM DTED2 (`usgs-srtm-dted2-n39w106`), Landsat 8/9 C2 L1 (`landsat8-c2-l1tp-044034-20240820-tierb`), Hyperion.
+- **USGS ERS: done 2026-10-29** (account `gisworkbench`).
+  - SRTM DTED2 ×3 (Colorado, Las Vegas, California cluster) and a void-filled DTED1 (`usgs-srtm-dted2-n39w106`).
+  - CIB-10 GeoTIFF ×3 (`nitf-rpf-cib-usgs`). RPF CADRG frames and a third, independent A.TOC were derived from two of them with GDAL (`derived-rpf-cadrg-from-cib10`); this closes `rpf.toc`.
+  - Landsat 8 C2 L1 product bundle (`landsat8-c2-l1tp-044034-20240820-tierb`).
+  - EO-1 Hyperion L1T, 242 bands (`eo1-hyperion-l1t-043034-20170312`), a second destripe target.
+  - Mechanics: EE `/scene/downloadoptions/<datasetId>/<entityId>` lists the products, and navigating the signed-in tab to `/download/<productId>/<entityId>/` downloads one. Chrome holds back further downloads while a large one runs, so retry any that did not land.
 - **ASI:** PRISMA L2D (`prisma-l2d-sample`).
 - **DLR EOWEB:** EnMAP full scene (`enmap-l2a-full-scene`).
 - **ESA:** Third Party Missions.

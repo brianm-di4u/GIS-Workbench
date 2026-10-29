@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T14:19:56.161Z",
+ "key": "usgs-srtm-dted2-n39w106/n39_w106_1arc_v3.dt2",
+ "item": "usgs-srtm-dted2-n39w106",
+ "file": "n39_w106_1arc_v3.dt2",
+ "format": "DTED2 / DTED1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened n39_w106_1arc_v3.dt2 in 269 msZoom to layer×",
+  "toast-info: n39_w106_1arc_v3.dt2 is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 857,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

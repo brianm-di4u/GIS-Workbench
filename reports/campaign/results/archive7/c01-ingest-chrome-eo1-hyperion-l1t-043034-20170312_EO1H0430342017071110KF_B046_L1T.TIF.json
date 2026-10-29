@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T14:11:54.617Z",
+ "key": "eo1-hyperion-l1t-043034-20170312/EO1H0430342017071110KF_B046_L1T.TIF",
+ "item": "eo1-hyperion-l1t-043034-20170312",
+ "file": "EO1H0430342017071110KF_B046_L1T.TIF",
+ "format": "GeoTIFF (one file per band) + MTL",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened EO1H0430342017071110KF_B046_L1T.TIF in 37 msZoom to layer×",
+  "toast-info: EO1H0430342017071110KF_B046_L1T.TIF looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 871,
+   "h": 3271,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3941,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

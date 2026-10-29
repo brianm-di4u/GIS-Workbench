@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T14:19:45.728Z",
+ "key": "landsat8-c2-l1tp-044034-20240820-tierb/LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF",
+ "item": "landsat8-c2-l1tp-044034-20240820-tierb",
+ "file": "LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF in 35 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 7671,
+   "h": 7811,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 339,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}
