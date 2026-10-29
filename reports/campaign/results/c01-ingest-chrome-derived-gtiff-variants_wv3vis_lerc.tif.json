@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:51.691Z",
+ "key": "derived-gtiff-variants/wv3vis_lerc.tif",
+ "item": "derived-gtiff-variants",
+ "file": "wv3vis_lerc.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened wv3vis_lerc.tif in 49 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2048,
+   "h": 2048,
+   "bands": 3,
+   "model": "Map (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1664,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

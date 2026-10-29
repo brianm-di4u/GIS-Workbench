@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:08:12.122Z",
+ "key": "derived-pictures-worldfile/wv3vis.bmp",
+ "item": "derived-pictures-worldfile",
+ "file": "wv3vis.bmp",
+ "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened wv3vis.bmp in 59 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "bmp",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "World file (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 679,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

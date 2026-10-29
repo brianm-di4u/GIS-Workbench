@@ -1,0 +1,28 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:19.835Z",
+ "key": "stereo.epipolar",
+ "id": "stereo.epipolar",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Epipolar pair: 2136 × 1899 px at 1 display px per pixel×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "stereo"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

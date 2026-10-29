@@ -1,0 +1,27 @@
+{
+ "spec": "c07-terrain",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:36.294Z",
+ "key": "dem.useterrain",
+ "id": "dem.useterrain",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Use as Terrain — S35W059_crop1201_float32_cog.tif"
+ ],
+ "toasts": [
+  "toast-info: S35W059_crop1201_float32_cog.tif is now terrain (EGM96 heights converted to HAE)×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

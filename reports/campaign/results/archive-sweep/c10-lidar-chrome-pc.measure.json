@@ -1,0 +1,25 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:42.079Z",
+ "key": "pc.measure",
+ "id": "pc.measure",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Measure 3D: click two points (Esc to stop)×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-bpf-pdal-v3/autzen-utm.bpf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:04.419Z",
+ "key": "derived-hgt-variants/N39W106.hgt",
+ "item": "derived-hgt-variants",
+ "file": "N39W106.hgt",
+ "format": "SRTM HGT",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened N39W106.hgt in 354 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "SRTM HGT",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1014,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

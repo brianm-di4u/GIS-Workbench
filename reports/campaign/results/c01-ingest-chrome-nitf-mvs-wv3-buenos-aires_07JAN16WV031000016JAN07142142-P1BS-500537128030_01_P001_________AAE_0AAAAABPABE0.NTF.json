@@ -1,0 +1,48 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:35:24.911Z",
+ "key": "nitf-mvs-wv3-buenos-aires/07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.NTF",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.NTF",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.NTF in 82 ms",
+  "toast-error: 07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.NTF [1] P116D30600 cannot be displayed: JPEG 2000 image 43008×31744×1 is too large for the whole-image decoder (R1 limit 400 M samples)"
+ ],
+ "layers": [
+  {
+   "error": "JPEG 2000 image 43008×31744×1 is too large for the whole-image decoder (R1 limit 400 M samples)",
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 43008,
+   "h": 31744,
+   "bands": 1,
+   "model": "RPC00B"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 98,
+   "h": 75,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 151,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

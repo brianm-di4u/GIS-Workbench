@@ -1,0 +1,23 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:28.175Z",
+ "key": "cnv.open",
+ "id": "cnv.open",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:26.104Z",
+ "key": "vector-shp-zm-gdal-autotest/gh15122_polys.shp",
+ "item": "vector-shp-zm-gdal-autotest",
+ "file": "gh15122_polys.shp",
+ "format": "ESRI Shapefile (Z, M, MultiPatch, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: gh15122_polys: 3 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 3,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 54,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

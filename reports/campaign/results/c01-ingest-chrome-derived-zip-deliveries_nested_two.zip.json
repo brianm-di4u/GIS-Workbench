@@ -1,0 +1,50 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:12:17.919Z",
+ "key": "derived-zip-deliveries/nested_two.zip",
+ "item": "derived-zip-deliveries",
+ "file": "nested_two.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 2 of 4 files from the ZIP"
+ ],
+ "toasts": [
+  "toast-info: Opened s2tci_gmljp2.jp2 in 36 ms",
+  "toast-info: Opened naip_ic_c8.ntf in 351 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GMLJP2; 1024×1024×3, 8-bit, 4 resolution levels)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "Map (EPSG:32610)"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1930,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

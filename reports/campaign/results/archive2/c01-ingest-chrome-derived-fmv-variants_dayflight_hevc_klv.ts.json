@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:22.229Z",
+ "key": "derived-fmv-variants/dayflight_hevc_klv.ts",
+ "item": "derived-fmv-variants",
+ "file": "dayflight_hevc_klv.ts",
+ "format": "MPEG-TS (H.265 / MPEG-2 / BDAV)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened dayflight_hevc_klv.ts: 3600 frames, 6 KLV packets (0 bad) in 355 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 394,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

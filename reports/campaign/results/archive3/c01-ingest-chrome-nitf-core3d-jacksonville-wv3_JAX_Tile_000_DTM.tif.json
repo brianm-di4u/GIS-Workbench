@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:17:31.188Z",
+ "key": "nitf-core3d-jacksonville-wv3/JAX_Tile_000_DTM.tif",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "JAX_Tile_000_DTM.tif",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened JAX_Tile_000_DTM.tif in 165 msZoom to layer×",
+  "toast-info: JAX_Tile_000_DTM.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+  "toast-info: JAX_Tile_000_DTM.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2048,
+   "h": 2048,
+   "bands": 1,
+   "model": "Map (EPSG:32617)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 7375,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

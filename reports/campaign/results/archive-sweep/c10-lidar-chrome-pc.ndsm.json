@@ -1,0 +1,30 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:47.853Z",
+ "key": "pc.ndsm",
+ "id": "pc.ndsm",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Generate nDSM"
+ ],
+ "toasts": [
+  "toast-info: nDSM 621 × 623 posts opened as 0-0-0-0_nDSM.tif×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "ept-data/0-0-0-0.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

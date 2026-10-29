@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:10:47.482Z",
+ "key": "nitf-core3d-jacksonville-wv3/15JAN21161243-M1BS-500648061050_01_P001.EPH",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "15JAN21161243-M1BS-500648061050_01_P001.EPH",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120077,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

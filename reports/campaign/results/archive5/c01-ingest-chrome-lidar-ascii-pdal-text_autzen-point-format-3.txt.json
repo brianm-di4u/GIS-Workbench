@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:15.535Z",
+ "key": "lidar-ascii-pdal-text/autzen-point-format-3.txt",
+ "item": "lidar-ascii-pdal-text",
+ "file": "autzen-point-format-3.txt",
+ "format": "ASCII point cloud (.pts, .xyz, .txt)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack PROJ (proj-wasm with proj.db) 0.1.0 verified (3 entries, SHA-256 checked)×",
+  "toast-info: Opened autzen-point-format-3.txt: 106 points in 31 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 537,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

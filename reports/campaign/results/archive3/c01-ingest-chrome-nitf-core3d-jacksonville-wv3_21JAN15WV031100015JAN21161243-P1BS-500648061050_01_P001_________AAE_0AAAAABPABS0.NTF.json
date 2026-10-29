@@ -1,0 +1,45 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:19:20.409Z",
+ "key": "nitf-core3d-jacksonville-wv3/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 43008,
+   "h": 46080,
+   "bands": 1,
+   "model": "RPC00B"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 70,
+   "h": 76,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 138011,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

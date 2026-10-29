@@ -90,6 +90,15 @@ export function install(app) {
   };
   app.productTemplate = activeTemplate;
   app.renderProductPage = (t = activeTemplate(), o) => renderPage(app, t, pane(), o);
+  /** A .gwt.json product template (Apply Template ▸ From a file…, or a drop): added to the project and made active. */
+  async function loadTemplateFile(f) {
+    const body = normalizeTemplate(JSON.parse(await f.text()));
+    let id;
+    app.store.transact('Load template', (tx) => (id = tx.create('template', { name: body.name, body })));
+    app.prefs.set('templateActive', id);
+    return body;
+  }
+  app.loadTemplateFile = loadTemplateFile;
 
   C.implement('tpl.new', {
     run: async () => {
@@ -198,10 +207,7 @@ export function install(app) {
         const [f] = await pickFiles(app, { multiple: false, accept: ['.json'], description: 'Template' });
         if (!f) return;
         try {
-          const body = normalizeTemplate(JSON.parse(await f.text()));
-          let id;
-          app.store.transact('Load template', (tx) => (id = tx.create('template', { name: body.name, body })));
-          app.prefs.set('templateActive', id);
+          await loadTemplateFile(f);
         } catch (e) {
           return app.toast(`Not a template: ${e.message}`, { kind: 'error' });
         }

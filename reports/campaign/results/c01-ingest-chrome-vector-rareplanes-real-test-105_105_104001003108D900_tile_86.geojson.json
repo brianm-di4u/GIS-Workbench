@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:26.617Z",
+ "key": "vector-rareplanes-real-test-105/105_104001003108D900_tile_86.geojson",
+ "item": "vector-rareplanes-real-test-105",
+ "file": "105_104001003108D900_tile_86.geojson",
+ "format": "GeoTIFF COG (PS-RGB) + GeoJSON (CRS84) labels; tiled PNG with .aux.xml georeferencing + per-tile GeoJSON",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 105_104001003108D900_tile_86: 1 feature(s) from GeoJSON"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 358,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

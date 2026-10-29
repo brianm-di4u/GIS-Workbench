@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:34:49.168Z",
+ "key": "jp2-gdal-server-samples/gmljp2_dted_epsg_4326_axes.jp2",
+ "item": "jp2-gdal-server-samples",
+ "file": "gmljp2_dted_epsg_4326_axes.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened gmljp2_dted_epsg_4326_axes.jp2 in 30 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GMLJP2; 1201×1201×1, 16-bit, 5 resolution levels)",
+   "w": 1201,
+   "h": 1201,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 340,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

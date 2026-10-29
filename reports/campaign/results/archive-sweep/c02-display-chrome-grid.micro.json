@@ -1,0 +1,29 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:05:51.915Z",
+ "key": "grid.micro",
+ "id": "grid.micro",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Micro GRG"
+ ],
+ "toasts": [
+  "toast-info: GRG: 3 × 3 cells×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

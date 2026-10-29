@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:09:30.082Z",
+ "key": "derived-vector-variants/ne_countries_gml2.gml",
+ "item": "derived-vector-variants",
+ "file": "ne_countries_gml2.gml",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_countries_gml2: 15 feature(s) from GML",
+  "toast-error: ne_countries_gml2.xsd: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 15,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1103,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

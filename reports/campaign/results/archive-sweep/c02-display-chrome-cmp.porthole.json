@@ -1,0 +1,28 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:05:58.313Z",
+ "key": "cmp.porthole",
+ "id": "cmp.porthole",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Porthole: the lower image shows through the circle around the cursor. Alt + wheel changes its size.×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

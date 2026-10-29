@@ -111,7 +111,18 @@ export function install(app) {
   app.basemapCurrent = current;
   app.openPmtiles = async (file) => {
     const pm = new PMTiles(new FileSource(file));
-    const hd = await pm.getHeader();
+    let hd;
+    try {
+      hd = await pm.getHeader();
+    } catch (e) {
+      // The library has gzip only: name the compression from the v3 header (bytes 97, 98) instead
+      // of "Compression method not supported".
+      const h = new Uint8Array(await file.slice(0, 127).arrayBuffer());
+      const names = { 3: 'Brotli', 4: 'Zstandard' };
+      const c = names[h[97]] ?? names[h[98]];
+      if (c) throw new Error(`${c}-compressed PMTiles (${names[h[97]] ? 'directories' : 'tiles'}) are not read; gzip and uncompressed are (re-write it with pmtiles convert)`);
+      throw e;
+    }
     if (hd.tileType === TileType.Mvt) throw new Error(`${file.name} holds vector tiles; GIS Workbench draws raster PMTiles (PNG, JPEG, WebP) as basemaps`);
     const meta = await pm.getMetadata().catch(() => ({}));
     const id = `local:${file.name}`;

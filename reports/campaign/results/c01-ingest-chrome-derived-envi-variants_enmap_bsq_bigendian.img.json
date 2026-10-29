@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:54.789Z",
+ "key": "derived-envi-variants/enmap_bsq_bigendian.img",
+ "item": "derived-envi-variants",
+ "file": "enmap_bsq_bigendian.img",
+ "format": "ENVI raw + .hdr",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened enmap_bsq_bigendian.img in 67 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BSQ (data type 4)",
+   "w": 330,
+   "h": 200,
+   "bands": 224,
+   "model": "Map (EPSG:32633)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 910,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

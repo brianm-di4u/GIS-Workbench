@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:18:15.098Z",
+ "key": "dem-under-california/Copernicus_DSM_COG_10_N37_00_W121_00_DEM.tif",
+ "item": "dem-under-california",
+ "file": "Copernicus_DSM_COG_10_N37_00_W121_00_DEM.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Copernicus_DSM_COG_10_N37_00_W121_00_DEM.tif in 192 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 3600,
+   "h": 3600,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 790,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

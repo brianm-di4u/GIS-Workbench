@@ -1,0 +1,27 @@
+{
+ "spec": "c13-measure",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:51.020Z",
+ "key": "men.medial",
+ "id": "men.medial",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Medial axis: 22.2 m long, 18.4 m wide (18.4–18.4 m)×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

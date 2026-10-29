@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:19:09.969Z",
+ "key": "s2-l2a-cog-10seh-20250123/B03.tif",
+ "item": "s2-l2a-cog-10seh-20250123",
+ "file": "B03.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened B03.tif in 740 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10980,
+   "h": 10980,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1061,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:19.185Z",
+ "key": "jp2-gdal-server-samples/thorax_small.jp2",
+ "item": "jp2-gdal-server-samples",
+ "file": "thorax_small.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened thorax_small.jp2 in 41 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2; 200×100×1, 8-bit, 0 resolution levels)",
+   "w": 200,
+   "h": 100,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 357,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

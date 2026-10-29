@@ -1,0 +1,25 @@
+{
+ "spec": "c13-measure",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:50.675Z",
+ "key": "men.targettable",
+ "id": "men.targettable",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Target Table"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

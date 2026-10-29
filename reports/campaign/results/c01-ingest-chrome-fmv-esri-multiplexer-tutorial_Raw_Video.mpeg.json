@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:37:45.950Z",
+ "key": "fmv-esri-multiplexer-tutorial/Raw_Video.mpeg",
+ "item": "fmv-esri-multiplexer-tutorial",
+ "file": "Raw_Video.mpeg",
+ "format": "ZIP: Raw_Video.mpeg (MPEG program stream, MPEG-2 video + audio, no KLV), Raw_Metadata.csv, Custom_FMV_Field_Mappings.csv, FMV_Multiplexer_TimeShift_Template.csv",
+ "rendered": false,
+ "errors": [
+  "no programme tables (PAT/PMT) and no recognisable video or KLV in 30469 transport packets: the stream is damaged or not MPEG-TS"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: Raw_Video.mpeg: no programme tables (PAT/PMT) and no recognisable video or KLV in 30469 transport packets: the stream is damaged or not MPEG-TS"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 9683,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

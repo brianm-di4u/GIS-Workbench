@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:42.032Z",
+ "key": "derived-vmti-video/cheyenne_vmti.ts",
+ "item": "derived-vmti-video",
+ "file": "cheyenne_vmti.ts",
+ "format": "MPEG-TS H.264 + ST 0601 KLV with ST 0903 VMTI (Item 74)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened cheyenne_vmti.ts: 3597 frames, 575 KLV packets (0 bad) in 995 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1054,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

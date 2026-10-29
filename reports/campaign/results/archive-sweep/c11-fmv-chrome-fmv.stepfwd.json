@@ -1,0 +1,28 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:20.320Z",
+ "key": "fmv.stepfwd",
+ "id": "fmv.stepfwd",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left fmv.stepfwd disabled; recipe data added: Day Flight.mpg"
+ ],
+ "data": [
+  "FMV_Multiplexer_Tutorial/Custom_FMV_Field_Mappings.csv",
+  "fmv-ffmpeg-day-flight/Day Flight.mpg"
+ ],
+ "openErrors": [
+  "no WKT column and no longitude/latitude columns"
+ ],
+ "requests": [],
+ "csp": []
+}

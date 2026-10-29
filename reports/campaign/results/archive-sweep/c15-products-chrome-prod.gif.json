@@ -1,0 +1,27 @@
+{
+ "spec": "c15-products",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:08.921Z",
+ "key": "prod.gif",
+ "id": "prod.gif",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Make Animation"
+ ],
+ "toasts": [
+  "toast-info: GIF (21 frames) added to the report and the media slides×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fmv-ffmpeg-day-flight/Day Flight.mpg"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

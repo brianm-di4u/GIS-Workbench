@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:25:56.343Z",
+ "key": "lidar-3dep-co-soplatte-2013-2x2/USGS_LPC_South_Platte_River_Flood_LiDAR_13SDE475416.laz",
+ "item": "lidar-3dep-co-soplatte-2013-2x2",
+ "file": "USGS_LPC_South_Platte_River_Flood_LiDAR_13SDE475416.laz",
+ "format": "LAZ (LAS 1.2 PDRF1)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened USGS_LPC_South_Platte_River_Flood_LiDAR_13SDE475416.laz: 7,275,802 points in 6115 ms (1 note in the import log)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 6324,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:34:17.224Z",
+ "key": "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif",
+ "item": "sar-capella-c10-sp-20240329",
+ "file": "capella_C10_SP_SLC.tif",
+ "format": "GeoTIFF SLC (CInt16, deflate, 512x512 tiles, GCP grid) + extended JSON | SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF GEO",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "Complex GeoTIFF (CInt16 SLC)",
+   "w": 9506,
+   "h": 12197,
+   "bands": 9,
+   "model": "GCPs (225, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 9279,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

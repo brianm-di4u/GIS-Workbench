@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:25.162Z",
+ "key": "jp2-htj2k-iso-conformance/hifi_ht1_02.j2k",
+ "item": "jp2-htj2k-iso-conformance",
+ "file": "hifi_ht1_02.j2k",
+ "format": "JPH (HTJ2K in JP2-family box) / J2K HT codestream",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened hifi_ht1_02.j2k in 42 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (codestream; 128×128×3, 12-bit, 6 resolution levels)",
+   "w": 128,
+   "h": 128,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 384,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:09.836Z",
+ "key": "vector-mbtiles-mbtileserver-testdata/geography-class-jpg.mbtiles",
+ "item": "vector-mbtiles-mbtileserver-testdata",
+ "file": "geography-class-jpg.mbtiles",
+ "format": "MBTiles (SQLite)",
+ "rendered": false,
+ "errors": [
+  "MBTiles tile sets are not read; convert it to PMTiles (pmtiles convert in.mbtiles out.pmtiles) and open that as a basemap"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: geography-class-jpg.mbtiles: MBTiles tile sets are not read; convert it to PMTiles (pmtiles convert in.mbtiles out.pmtiles) and open that as a basemap×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 42,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

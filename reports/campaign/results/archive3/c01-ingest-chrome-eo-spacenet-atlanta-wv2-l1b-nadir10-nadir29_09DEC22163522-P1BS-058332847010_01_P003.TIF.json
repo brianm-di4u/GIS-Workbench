@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:20:47.665Z",
+ "key": "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/09DEC22163522-P1BS-058332847010_01_P003.TIF",
+ "item": "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
+ "file": "09DEC22163522-P1BS-058332847010_01_P003.TIF",
+ "format": "GeoTIFF (DigitalGlobe LV1B, sensor geometry) + RPB/IMD/ATT/EPH/GEO/TIL/XML",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 35180,
+   "h": 17232,
+   "bands": 1,
+   "model": "RPC (.RPB sidecar)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 12749,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

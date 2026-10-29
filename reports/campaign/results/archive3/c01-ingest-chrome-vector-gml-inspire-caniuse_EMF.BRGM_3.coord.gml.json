@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:10.296Z",
+ "key": "vector-gml-inspire-caniuse/EMF.BRGM_3.coord.gml",
+ "item": "vector-gml-inspire-caniuse",
+ "file": "EMF.BRGM_3.coord.gml",
+ "format": "GML 3.2 (INSPIRE application schemas)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: EMF.BRGM_3.coord: 2 feature(s) from GML×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 64,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

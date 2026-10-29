@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:28.484Z",
+ "key": "cat.s3keys",
+ "id": "cat.s3keys",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Connect a Bucket"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

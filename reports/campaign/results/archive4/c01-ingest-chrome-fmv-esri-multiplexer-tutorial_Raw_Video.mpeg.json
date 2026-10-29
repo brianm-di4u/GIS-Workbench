@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:42.196Z",
+ "key": "fmv-esri-multiplexer-tutorial/Raw_Video.mpeg",
+ "item": "fmv-esri-multiplexer-tutorial",
+ "file": "Raw_Video.mpeg",
+ "format": "ZIP: Raw_Video.mpeg (MPEG program stream, MPEG-2 video + audio, no KLV), Raw_Metadata.csv, Custom_FMV_Field_Mappings.csv, FMV_Multiplexer_TimeShift_Template.csv",
+ "rendered": false,
+ "errors": [
+  "an MPEG program stream (DVD/.mpeg), not MPEG-TS: it carries no KLV; remux it to TS (ffmpeg -i in.mpeg -c copy out.ts) to view it"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: Raw_Video.mpeg: an MPEG program stream (DVD/.mpeg), not MPEG-TS: it carries no KLV; remux it to TS (ffmpeg -i in.mpeg -c copy out.ts) to view it×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 27,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

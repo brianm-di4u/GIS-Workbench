@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:26.883Z",
+ "key": "vector-shp-z-cpg-shapelib-mapshaper/utf8-property.shp",
+ "item": "vector-shp-z-cpg-shapelib-mapshaper",
+ "file": "utf8-property.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: utf8-property: 1 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 71,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

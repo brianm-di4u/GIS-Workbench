@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:20:24.273Z",
+ "key": "derived-pc-ascii/houston_c1.xyz",
+ "item": "derived-pc-ascii",
+ "file": "houston_c1.xyz",
+ "format": "ASCII point cloud",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack PROJ (proj-wasm with proj.db) 0.1.0 verified (3 entries, SHA-256 checked)×",
+  "toast-info: Opened houston_c1.xyz: 200,000 points in 351 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 956,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

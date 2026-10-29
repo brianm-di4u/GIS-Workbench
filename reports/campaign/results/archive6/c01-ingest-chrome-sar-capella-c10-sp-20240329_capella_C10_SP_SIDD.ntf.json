@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:39.108Z",
+ "key": "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf",
+ "item": "sar-capella-c10-sp-20240329",
+ "file": "capella_C10_SP_SIDD.ntf",
+ "format": "GeoTIFF SLC (CInt16, deflate, 512x512 tiles, GCP grid) + extended JSON | SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF GEO",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SIDD 2.0.0 (MONO16I)",
+   "w": 12115,
+   "h": 10592,
+   "bands": 1,
+   "model": "SIDD PlaneProjection"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 10069,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

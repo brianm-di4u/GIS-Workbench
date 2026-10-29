@@ -1,0 +1,28 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:09:32.786Z",
+ "key": "msi.index.ndwi",
+ "id": "msi.index.ndwi",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left msi.index.ndwi disabled; recipe data added: indian_pines_220b.img, indian_pines_220b.hdr"
+ ],
+ "data": [
+  "hsi-speclib-splib06-envi-emit-sds/s06av18a_envi",
+  "hsi-speclib-splib06-envi-emit-sds/s06av18a_envi.hdr",
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

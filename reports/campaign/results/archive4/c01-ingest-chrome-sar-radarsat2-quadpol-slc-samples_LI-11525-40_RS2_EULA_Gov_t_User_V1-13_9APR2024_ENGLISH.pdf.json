@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:36:56.683Z",
+ "key": "sar-radarsat2-quadpol-slc-samples/LI-11525-40 RS2 EULA_Gov't User_V1-13_9APR2024_ENGLISH.pdf",
+ "item": "sar-radarsat2-quadpol-slc-samples",
+ "file": "LI-11525-40 RS2 EULA_Gov't User_V1-13_9APR2024_ENGLISH.pdf",
+ "format": "RADARSAT-2 SLC product (product.xml + per-polarisation GeoTIFF I/Q + LUTs) in ZIP",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened LI-11525-40 RS2 EULA_Gov't User_V1-13_9APR2024_ENGLISH.pdf in 80 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (40 objects; no georeferencing; 1 image)",
+   "w": 1319,
+   "h": 1706,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 653,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

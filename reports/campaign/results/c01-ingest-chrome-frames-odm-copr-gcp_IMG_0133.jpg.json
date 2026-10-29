@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:22:39.245Z",
+ "key": "frames-odm-copr-gcp/IMG_0133.jpg",
+ "item": "frames-odm-copr-gcp",
+ "file": "IMG_0133.jpg",
+ "format": "JPEG stills (EXIF)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened IMG_0133.jpg in 233 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 4272,
+   "h": 2848,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1086,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

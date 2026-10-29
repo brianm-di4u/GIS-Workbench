@@ -4,17 +4,10 @@
 // Covers REQ-FMT-01..13, REQ-FMT-16 (every public sample opens), REQ-SEC-02, REQ-DEM-01, REQ-LDR-01,
 // REQ-SAR-01, REQ-MSI-01, REQ-FMV-01, REQ-EXT-21/22.
 import { test, expect } from '@playwright/test';
-import { existsSync, statSync, readdirSync } from 'node:fs';
+import { existsSync, statSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { openApp, openFiles, settledAny, registries, record, manifest, paths, truth } from './helpers.js';
+import { openApp, openFiles, settledAny, registries, record, manifest, paths, truth, HDF5_PACK, PROJ_PACK, ASCII_CRS, isAscii } from './helpers.js';
 import { filePath } from '../../build/campaign/corpus-lib.mjs';
-
-// HDF5/NetCDF (EMIT, PRISMA) need the h5wasm data pack; a user opens it first (File ▸ Open Data Pack).
-const HDF5_PACK = (() => {
-  const dir = resolve('dist', 'packs');
-  const f = existsSync(dir) && readdirSync(dir).find((n) => /^hdf5-.*\.gwpack$/.test(n));
-  return f ? resolve(dir, f) : null;
-})();
 
 // Named refusals and per-layer gaps already accepted (keep in step with tests/e2e/samples.spec.js).
 const EXPECT = {
@@ -47,7 +40,36 @@ const EXPECT = {
   // TE-061: MrSID (proprietary wavelet codec) is refused by name with its size; decoding is OD-10.
   'Hamilton_2018_rgb_20x.sid': { refuse: /MrSID \(MG3; 340,000 × 220,000 px, 3 bands, 8-bit\)/ },
   'Stl_City.sid': { refuse: /MrSID \(MG3; 98,304 × 188,416 px, 3 bands, 8-bit\)/ },
+  // TE archive (2026-10-28): limits that are by design, each refused with its reason.
+  'simple-extra.bpf': { refuse: /coordinate type Cartesian is not read/ }, // no CRS to place it
+  'AIS_2023_06_01.csv': { refuse: /read whole into memory/ }, // 900 MB, above the OD-07 cap
+  'A.TOC': { refuse: /table of contents \(A\.TOC\) is not read/ },
+  'Raw_Video.mpeg': { refuse: /MPEG program stream/ },
+  'Custom_FMV_Field_Mappings.csv': { refuse: /no WKT column/ }, // Esri multiplexer configuration, not data
+  'FMV_Multiplexer_TimeShift_Template.csv': { refuse: /no WKT column/ },
+  'byte_one_poc.j2k': { refuse: /progression order change \(POC marker\) is not decoded/ },
+  'single_tile_brotli.pmtiles': { refuse: /Brotli-compressed PMTiles/ }, // the pmtiles library has gzip only
+  'data.xyz': { refuse: /coordinate system is not set/ }, // GDAL's XYZ sample: projected, CRS unknown
+  // DFC2019 Track 4 clouds: metres from each tile's own origin (no CRS), refused by name.
+  ...Object.fromEntries(['JAX_114', 'JAX_215', 'JAX_250', 'JAX_328', 'JAX_342', 'OMA_094', 'OMA_099', 'OMA_241', 'OMA_243', 'OMA_290'].map((n) => [`${n}_PC3.txt`, { refuse: /coordinate system is not set/ }])),
+  // CesiumJS 3TZ test packages: unit-box tilesets with no transform to ECEF (nothing places them).
+  ...Object.fromEntries(['simple', 'tilesetA', 'tilesetB', 'tilesetC', 'tilesetD', 'validTilesetPackage', 'validTilesetPackageZipped', 'tilesetPackageWithWarnings'].map((n) => [`${n}.3tz`, { refuse: /not georeferenced/ }])),
+  // Point-cloud exports with projected X/Y as CSV: refused by the vector reader with the ASCII route.
+  'autzen.csv': { refuse: /projected coordinates, not longitude\/latitude/ },
+  'test1_4.csv': { refuse: /projected coordinates, not longitude\/latitude/ },
+  'houston_c1.csv': { refuse: /projected coordinates, not longitude\/latitude/ },
+  'sicd_example_1_PFA_AMP8I_PHS8I_VV_no_amplitude_table_SICD.nitf': { refuse: /need ImageData\/AmpTable/ },
 };
+// Negative samples (TE archive): a file whose census keys include a format the app refuses
+// (formats.json status "refused": ECW, HFA, NetCDF-3, OJPEG, CPHD, MBTiles, Draco glTF…) must be
+// refused with a message that names what it is — the generic "unrecognised data" does not count.
+const FORMATS = JSON.parse(readFileSync(resolve('build/campaign/formats.json'), 'utf8')).formats;
+const CENSUS = (() => {
+  const p = resolve('reports/campaign/format-census.json');
+  return existsSync(p) ? new Map(JSON.parse(readFileSync(p, 'utf8')).files.map((r) => [`${r.id}/${r.file}`, r.keys])) : new Map();
+})();
+const refusedKeys = (it, f) => (CENSUS.get(`${it.id}/${f.name}`) ?? []).filter((k) => FORMATS[k]?.status === 'refused');
+const GENERIC = /unrecognised data cannot be opened/;
 // Robustness seeds are malformed on purpose: they must fail by name (no console error, no hang).
 const ROBUST = (it) => it.area === 'robustness' || it.id === 'gdal-autotest-dted-edge';
 const SKIP_EXT = /\.(txt|json|xml|html?|md|pdf\.aux\.xml)$/i;
@@ -58,7 +80,8 @@ for (const it of manifest.items) {
   // Tier U is field data a user supplied (build/campaign/field.mjs, phase F).
   if (!['A', 'B', 'U'].includes(it.tier) && it.origin !== 'research-samples') continue;
   const sidecars = paths(it, ['sidecar']);
-  for (const f of it.files.filter((x) => (x.role ?? 'primary') === 'primary' && !SKIP_EXT.test(x.name))) {
+  // ASCII clouds (.txt in a lidar item) and the app's own JSON files (recipes, templates) are data here.
+  for (const f of it.files.filter((x) => (x.role ?? 'primary') === 'primary' && (!SKIP_EXT.test(x.name) || isAscii(it, x) || /\.(gwrecipe|gwt)\.json$/i.test(x.name)))) {
     // By the full relative name: sample sets repeat one file name in several folders (glTF variants).
     const prim = filePath(it, f);
     const stem = f.name.split('/').pop().replace(/\.[^.]+$/, '');
@@ -66,7 +89,7 @@ for (const it of manifest.items) {
     const dir = (p) => p.replace(/[\\/][^\\/]*$/, '');
     // A .gltf is opened with the buffers and textures beside it, as a user would select them.
     const res = /\.gltf$/i.test(f.name) ? paths(it, ['primary', 'sidecar', 'test-vector']).filter((p) => p !== prim && dir(p) === dir(prim) && /\.(bin|png|jpe?g|webp|ktx2)$/i.test(p)) : [];
-    const pack = HDF5_PACK && /\.(nc|h5|he5|hdf5)$/i.test(f.name) ? [HDF5_PACK] : [];
+    const pack = HDF5_PACK && /\.(nc|h5|he5|hdf5)$/i.test(f.name) ? [HDF5_PACK] : PROJ_PACK && ASCII_CRS[f.name.split('/').pop()] ? [PROJ_PACK] : [];
     cases.push({ it, f, files: [...pack, prim, ...res, ...sidecars.filter((s) => base(s).startsWith(`${stem}.`) || base(s).startsWith(`${f.name.split('/').pop()}.`))] });
   }
 }
@@ -99,7 +122,8 @@ for (const { it, f, files } of cases) {
     if (bytes > 200e6) test.setTimeout(900_000);
     const { frame, logs, requests, csp } = await openApp(page, 'file');
     // Imagery ZIPs open their default selection without the picker (IMP-21).
-    await frame.evaluate(() => (window.gisworkbench.zipPick = 'default'));
+    const epsg = ASCII_CRS[f.name.split('/').pop()] ?? null;
+    await frame.evaluate((e) => Object.assign(window.gisworkbench, { zipPick: 'default', asciiPick: e ? { epsg: e } : 'default', relinkPick: 'skip' }), epsg);
     const t0 = Date.now();
     const log = await openFiles(frame, files);
     const errors = log.flatMap((r) => r.errors ?? []);
@@ -112,8 +136,12 @@ for (const { it, f, files } of cases) {
     // What the user saw: vector/point-cloud/motion routes report through toasts, not only importLog.
     const toasts = await frame.evaluate(() => [...document.querySelectorAll('.toasts .toast')].map((t) => `${[...t.classList].find((c) => c.startsWith('toast-'))}: ${t.textContent}`));
     const name = f.name.split('/').pop();
-    const exp = EXPECT[`${name}#${f.name.split('/').slice(-2, -1)[0] ?? ''}`] ?? EXPECT[name] ?? {};
-    const gdal = truth(it.id)?.files?.[name];
+    // A single 3D Tiles content file or terrain tile is refused with the way to open its tile set.
+    const tilePart = /\.(b3dm|i3dm|pnts|cmpt|subtree|terrain)$/i.test(name) ? { refuse: /3D Tiles content tile|quantized-mesh terrain tile/ } : null;
+    const exp = EXPECT[`${name}#${f.name.split('/').slice(-2, -1)[0] ?? ''}`] ?? EXPECT[name] ?? tilePart ?? {};
+    // Truth is keyed by the path in the item when a file name repeats in several folders.
+    const tf = truth(it.id)?.files;
+    const gdal = tf?.[f.name] ?? tf?.[name];
     const diffs = [];
     const img = layers.find((l) => !l.error && l.w);
     // GDAL rasterises PDFs at 150 DPI; the app composites at the images' native resolution.
@@ -130,6 +158,12 @@ for (const { it, f, files } of cases) {
     expect(requests, 'network requests').toEqual([]);
     expect(cspv, 'CSP violations').toEqual([]);
     if (exp.refuse) return expect([...errors, ...layers.filter((l) => l.error).map((l) => l.error), ...toasts].join(' ')).toMatch(exp.refuse);
+    const refused = refusedKeys(it, f);
+    if (refused.length) {
+      const said = [...errors, ...layers.filter((l) => l.error).map((l) => l.error), ...toasts.filter((t) => /^toast-(error|warn)/.test(t))].join(' | ');
+      expect(said, `a ${refused.join('/')} sample is refused`).not.toBe('');
+      return expect(said, `the refusal names the format (${refused.join('/')})`).not.toMatch(GENERIC);
+    }
     if (ROBUST(it)) {
       // Either a clean open (some seeds are recoverable) or a named refusal; never a raw JS exception.
       const said = [...errors, ...layers.filter((l) => l.error).map((l) => l.error)].join(' | ');

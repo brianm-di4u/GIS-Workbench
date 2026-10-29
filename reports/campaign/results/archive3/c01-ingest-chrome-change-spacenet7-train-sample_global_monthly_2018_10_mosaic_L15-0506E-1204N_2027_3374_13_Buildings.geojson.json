@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:23:04.532Z",
+ "key": "change-spacenet7-train-sample/global_monthly_2018_10_mosaic_L15-0506E-1204N_2027_3374_13_Buildings.geojson",
+ "item": "change-spacenet7-train-sample",
+ "file": "global_monthly_2018_10_mosaic_L15-0506E-1204N_2027_3374_13_Buildings.geojson",
+ "format": "tar.gz of GeoTIFF + GeoJSON",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: global_monthly_2018_10_mosaic_L15-0506E-1204N_2027_3374_13_Buildings: 2389 feature(s) from GeoJSON×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2389,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 163,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

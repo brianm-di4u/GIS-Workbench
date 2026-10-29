@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:29.587Z",
+ "key": "derived-app-artifacts/umbra_sicd_chip.gwb",
+ "item": "derived-app-artifacts",
+ "file": "umbra_sicd_chip.gwb",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 image file(s) to relink (File ▸ Relink Imagery)"
+ ],
+ "toasts": [
+  "toast-info: Opened project umbra_sicd_chip×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 73,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

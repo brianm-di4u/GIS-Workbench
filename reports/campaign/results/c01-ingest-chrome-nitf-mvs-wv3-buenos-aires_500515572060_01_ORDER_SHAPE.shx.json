@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:48:06.714Z",
+ "key": "nitf-mvs-wv3-buenos-aires/500515572060_01_ORDER_SHAPE.shx",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "500515572060_01_ORDER_SHAPE.shx",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: 500515572060_01_ORDER_SHAPE.shx: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 91,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

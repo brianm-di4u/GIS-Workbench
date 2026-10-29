@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:16:21.179Z",
+ "key": "derived-app-artifacts/ai-1.30.0+slimsam77.webgpu.gwpack",
+ "item": "derived-app-artifacts",
+ "file": "ai-1.30.0+slimsam77.webgpu.gwpack",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": false,
+ "errors": [
+  "ai-1.30.0+slimsam77.webgpu.gwpack: js entry ort.webgpu.min.js is not listed in this build's manifest; the tool runs no code from outside its build"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: ai-1.30.0+slimsam77.webgpu.gwpack: js entry ort.webgpu.min.js is not listed in this build's manifest; the tool runs no code from outside its build"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2592,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

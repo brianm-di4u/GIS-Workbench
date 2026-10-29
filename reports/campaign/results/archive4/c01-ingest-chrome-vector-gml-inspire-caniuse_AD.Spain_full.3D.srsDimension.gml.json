@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:51.675Z",
+ "key": "vector-gml-inspire-caniuse/AD.Spain_full.3D.srsDimension.gml",
+ "item": "vector-gml-inspire-caniuse",
+ "file": "AD.Spain_full.3D.srsDimension.gml",
+ "format": "GML 3.2 (INSPIRE application schemas)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: AD.Spain_full.3D.srsDimension: 1 feature(s) from GML×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 66,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

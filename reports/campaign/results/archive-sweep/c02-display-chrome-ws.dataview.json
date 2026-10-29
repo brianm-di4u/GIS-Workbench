@@ -1,0 +1,19 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:05:34.304Z",
+ "key": "ws.dataview",
+ "id": "ws.dataview",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

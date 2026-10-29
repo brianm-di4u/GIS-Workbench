@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:07.571Z",
+ "key": "vector-gml-gdal-autotest/expected_gml_gml32.gml",
+ "item": "vector-gml-gdal-autotest",
+ "file": "expected_gml_gml32.gml",
+ "format": "GML 2 / 3.1 / 3.2 (+ application-schema .xsd where present)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "the GML holds no features (an empty mask or collection)"
+ ],
+ "toasts": [
+  "toast-info: expected_gml_gml32: 2 feature(s) from GML×",
+  "toast-info: expected_gml_gml32.xsd: 0 feature(s) from GML (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 2,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 246,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

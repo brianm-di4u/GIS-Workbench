@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:35:56.617Z",
+ "key": "sar-sicd-sidd-six-library/cropped_sicd_041.nitf",
+ "item": "sar-sicd-sidd-six-library",
+ "file": "cropped_sicd_041.nitf",
+ "format": "SICD/NITF2.1 and SIDD/NITF2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "IGEOLO corners (approximate): degenerate corner points"
+ ],
+ "toasts": [
+  "toast-info: Opened cropped_sicd_041.nitf in 42 ms (1 note in the import log)Zoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 5,
+   "h": 5,
+   "bands": 2,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 383,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

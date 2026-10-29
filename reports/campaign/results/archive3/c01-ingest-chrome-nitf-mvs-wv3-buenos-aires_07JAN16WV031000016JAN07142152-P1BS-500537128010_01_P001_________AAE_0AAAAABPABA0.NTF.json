@@ -1,0 +1,45 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:16:04.952Z",
+ "key": "nitf-mvs-wv3-buenos-aires/07JAN16WV031000016JAN07142152-P1BS-500537128010_01_P001_________AAE_0AAAAABPABA0.NTF",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "07JAN16WV031000016JAN07142152-P1BS-500537128010_01_P001_________AAE_0AAAAABPABA0.NTF",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 43008,
+   "h": 27648,
+   "bands": 1,
+   "model": "RPC00B"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 107,
+   "h": 75,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 117429,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

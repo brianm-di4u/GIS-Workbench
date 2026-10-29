@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:08:20.248Z",
+ "key": "derived-gtiff-variants/naip_bigtiff_tiled.tif",
+ "item": "derived-gtiff-variants",
+ "file": "naip_bigtiff_tiled.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip_bigtiff_tiled.tif in 40 msZoom to layer×",
+  "toast-info: naip_bigtiff_tiled.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 4096,
+   "h": 4096,
+   "bands": 4,
+   "model": "Map (EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3474,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

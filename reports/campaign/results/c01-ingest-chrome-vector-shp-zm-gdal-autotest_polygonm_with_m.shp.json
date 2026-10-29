@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:24.533Z",
+ "key": "vector-shp-zm-gdal-autotest/polygonm_with_m.shp",
+ "item": "vector-shp-zm-gdal-autotest",
+ "file": "polygonm_with_m.shp",
+ "format": "ESRI Shapefile (Z, M, MultiPatch, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "12 M value(s) are not kept (the workbench keeps X, Y and Z)"
+ ],
+ "toasts": [
+  "toast-info: polygonm_with_m: 2 feature(s) from ESRI Shapefile (1 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 39,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

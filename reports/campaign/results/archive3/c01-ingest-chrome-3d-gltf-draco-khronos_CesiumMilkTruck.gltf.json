@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:10:57.163Z",
+ "key": "3d-gltf-draco-khronos/CesiumMilkTruck.gltf",
+ "item": "3d-gltf-draco-khronos",
+ "file": "CesiumMilkTruck.gltf",
+ "format": "glTF 2.0 + Draco",
+ "rendered": false,
+ "errors": [
+  "CesiumMilkTruck.gltf: Draco-compressed meshes (KHR_draco_mesh_compression) are not decoded in this release; re-export the model without Draco"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: CesiumMilkTruck.gltf: CesiumMilkTruck.gltf: Draco-compressed meshes (KHR_draco_mesh_compression) are not decoded in this release; re-export the model without Draco×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 7381,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

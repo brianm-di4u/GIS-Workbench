@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:20:24.395Z",
+ "key": "support-proj-grids-geoid/us_nga_egm08_25.tif",
+ "item": "support-proj-grids-geoid",
+ "file": "us_nga_egm08_25.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 8640,
+   "h": 4321,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 7402,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

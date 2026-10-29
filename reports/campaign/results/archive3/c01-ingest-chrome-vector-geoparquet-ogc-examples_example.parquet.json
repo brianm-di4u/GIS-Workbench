@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:19.983Z",
+ "key": "vector-geoparquet-ogc-examples/example.parquet",
+ "item": "vector-geoparquet-ogc-examples",
+ "file": "example.parquet",
+ "format": "GeoParquet 1.x",
+ "rendered": false,
+ "errors": [
+  "GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: example.parquet: GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 38,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

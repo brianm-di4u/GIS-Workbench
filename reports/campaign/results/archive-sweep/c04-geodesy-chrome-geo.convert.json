@@ -1,0 +1,21 @@
+{
+ "spec": "c04-geodesy",
+ "project": "chrome",
+ "when": "2026-10-29T07:07:48.081Z",
+ "key": "geo.convert",
+ "id": "geo.convert",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Convert Coordinates"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

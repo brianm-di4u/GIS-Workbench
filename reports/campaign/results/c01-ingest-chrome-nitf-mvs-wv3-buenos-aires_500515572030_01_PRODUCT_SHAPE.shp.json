@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:50:30.722Z",
+ "key": "nitf-mvs-wv3-buenos-aires/500515572030_01_PRODUCT_SHAPE.shp",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "500515572030_01_PRODUCT_SHAPE.shp",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 500515572030_01_PRODUCT_SHAPE: 1 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 117,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

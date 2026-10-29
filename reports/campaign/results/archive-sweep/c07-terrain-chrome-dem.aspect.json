@@ -1,0 +1,27 @@
+{
+ "spec": "c07-terrain",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:38.216Z",
+ "key": "dem.aspect",
+ "id": "dem.aspect",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

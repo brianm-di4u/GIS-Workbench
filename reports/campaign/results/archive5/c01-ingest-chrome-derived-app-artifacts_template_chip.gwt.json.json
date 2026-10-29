@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:29.706Z",
+ "key": "derived-app-artifacts/template_chip.gwt.json",
+ "item": "derived-app-artifacts",
+ "file": "template_chip.gwt.json",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: template_chip.gwt.json: product template \"Chip page (A4 portrait)\" is now the active template×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 58,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

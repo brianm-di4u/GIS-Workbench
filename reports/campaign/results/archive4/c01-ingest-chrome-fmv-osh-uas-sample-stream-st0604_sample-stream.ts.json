@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:41.447Z",
+ "key": "fmv-osh-uas-sample-stream-st0604/sample-stream.ts",
+ "item": "fmv-osh-uas-sample-stream-st0604",
+ "file": "sample-stream.ts",
+ "format": "MPEG-2 TS: H.264 (stream_type 0x1B, PID 256) + KLV (stream_type 0x06 with KLVA registration descriptor, PID 257)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened sample-stream.ts: 277 frames, 277 KLV packets (0 bad) in 233 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 302,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

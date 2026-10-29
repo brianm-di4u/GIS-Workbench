@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:12.556Z",
+ "key": "raster-pmtiles-protomaps-spec/stamen_toner_raster_CC-BY+ODbL_z3.pmtiles",
+ "item": "raster-pmtiles-protomaps-spec",
+ "file": "stamen_toner_raster_CC-BY+ODbL_z3.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: stamen_toner_raster_CC-BY+ODbL_z3.pmtiles: zoom 0–3 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 52,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

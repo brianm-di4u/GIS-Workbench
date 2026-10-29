@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:43.964Z",
+ "key": "dem-under-vegas-3dep/USGS_1M_11_x66y401_NV_Las_Vegas_Region_2016_A16.tif",
+ "item": "dem-under-vegas-3dep",
+ "file": "USGS_1M_11_x66y401_NV_Las_Vegas_Region_2016_A16.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_1M_11_x66y401_NV_Las_Vegas_Region_2016_A16.tif in 113 msZoom to layer×",
+  "toast-info: USGS_1M_11_x66y401_NV_Las_Vegas_Region_2016_A16.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10012,
+   "h": 10012,
+   "bands": 1,
+   "model": "Map (EPSG:26911)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1198,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:31.552Z",
+ "key": "derived-pptx-templates/branded_navy_16x9.pptx",
+ "item": "derived-pptx-templates",
+ "file": "branded_navy_16x9.pptx",
+ "format": "PPTX / POTX",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: PowerPoint template branded_navy_16x9.pptx: 13.33 × 7.50 in, fonts Calibri/Calibri, 0 picture(s)×",
+  "toast-info: branded_navy_16x9.pptx: PowerPoint template in use for product slides×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 72,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

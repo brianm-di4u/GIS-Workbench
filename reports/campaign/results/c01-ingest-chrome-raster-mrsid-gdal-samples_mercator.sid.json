@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:17:47.141Z",
+ "key": "raster-mrsid-gdal-samples/mercator.sid",
+ "item": "raster-mrsid-gdal-samples",
+ "file": "mercator.sid",
+ "format": "MrSID (msid magic), MG2 and MG3",
+ "rendered": false,
+ "errors": [
+  "MrSID (MG3; 515 × 515 px, 1 band, 8-bit) is a proprietary wavelet format with no open decoder and cannot be opened in this release. Convert it to a Cloud-Optimized GeoTIFF first, e.g. gdal_translate -of COG with a MrSID-enabled GDAL, or with Extensis GeoExpress"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: mercator.sid: MrSID (MG3; 515 × 515 px, 1 band, 8-bit) is a proprietary wavelet format with no open decoder and cannot be opened in this release. Convert it to a Cloud-Optimized GeoTIFF first, e.g. gdal_translate -of COG with a MrSID-enabled GDAL, or with Extensis GeoExpress"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 95,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

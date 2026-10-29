@@ -1,0 +1,28 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:10:08.279Z",
+ "key": "msi.preset.natural",
+ "id": "msi.preset.natural",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left msi.preset.natural disabled; recipe data added: indian_pines_220b.img, indian_pines_220b.hdr"
+ ],
+ "data": [
+  "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_aviris.sli",
+  "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_aviris.hdr",
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

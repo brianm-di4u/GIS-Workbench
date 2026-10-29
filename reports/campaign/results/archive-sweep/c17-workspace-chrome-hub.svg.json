@@ -1,0 +1,25 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:33.480Z",
+ "key": "hub.svg",
+ "id": "hub.svg",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Layered SVG: 3 layers (Imagery, Neatline, Scale bar)×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

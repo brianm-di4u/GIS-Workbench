@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:10.751Z",
+ "key": "raster-pmtiles-gdal-autotest/byte_png.pmtiles",
+ "item": "raster-pmtiles-gdal-autotest",
+ "file": "byte_png.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: byte_png.pmtiles: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 77,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

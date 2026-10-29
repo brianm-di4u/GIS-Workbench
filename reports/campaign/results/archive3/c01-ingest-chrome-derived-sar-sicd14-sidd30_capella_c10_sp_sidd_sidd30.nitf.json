@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:47.645Z",
+ "key": "derived-sar-sicd14-sidd30/capella_c10_sp_sidd_sidd30.nitf",
+ "item": "derived-sar-sicd14-sidd30",
+ "file": "capella_c10_sp_sidd_sidd30.nitf",
+ "format": "SICD 1.4.0 / 1.5 NITF, SIDD 3.0 NITF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SIDD  (MONO16I)",
+   "w": 12115,
+   "h": 10592,
+   "bands": 1,
+   "model": "SIDD PlaneProjection"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 10583,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

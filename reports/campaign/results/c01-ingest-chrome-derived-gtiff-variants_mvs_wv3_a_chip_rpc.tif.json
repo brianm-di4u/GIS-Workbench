@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:52.970Z",
+ "key": "derived-gtiff-variants/mvs_wv3_a_chip_rpc.tif",
+ "item": "derived-gtiff-variants",
+ "file": "mvs_wv3_a_chip_rpc.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened mvs_wv3_a_chip_rpc.tif in 55 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1536,
+   "h": 1536,
+   "bands": 1,
+   "model": "RPC (GeoTIFF tag)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 654,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

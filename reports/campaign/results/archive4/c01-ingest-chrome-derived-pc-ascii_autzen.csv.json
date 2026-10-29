@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:41.292Z",
+ "key": "derived-pc-ascii/autzen.csv",
+ "item": "derived-pc-ascii",
+ "file": "autzen.csv",
+ "format": "ASCII point cloud",
+ "rendered": false,
+ "errors": [
+  "the X/Y columns hold projected coordinates, not longitude/latitude (e.g. 637177.980, 849393.950): open the file as an ASCII point cloud (.xyz/.txt) with its EPSG code, or convert it to WGS 84"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: autzen.csv: the X/Y columns hold projected coordinates, not longitude/latitude (e.g. 637177.980, 849393.950): open the file as an ASCII point cloud (.xyz/.txt) with its EPSG code, or convert it to WGS 84×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 268,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

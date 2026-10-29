@@ -1,0 +1,33 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:01.283Z",
+ "key": "3d-tiles-3tz-cesium-test-packages/validTilesetPackage.3tz",
+ "item": "3d-tiles-3tz-cesium-test-packages",
+ "file": "validTilesetPackage.3tz",
+ "format": "3D Tiles archive (.3tz, ZIP with @3dtilesIndex1@)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: validTilesetPackage.3tz: 3D Tiles 1.1 in the 3D view×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 165,
+ "logs": [
+  "Connecting to 'file:///C:/GIS%20Workbench/gis-workbench/dist-archive/simpleTriangle.bin' violates the following Content Security Policy directive: \"connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com\". The action has been blocked.",
+  "Fetch API cannot load file:///C:/GIS%20Workbench/gis-workbench/dist-archive/simpleTriangle.bin. Refused to connect because it violates the document's Content Security Policy."
+ ],
+ "requests": [],
+ "csp": [
+  "connect-src file"
+ ]
+}

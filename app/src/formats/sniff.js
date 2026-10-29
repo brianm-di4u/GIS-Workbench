@@ -1,8 +1,9 @@
 // Content-based routing (REQ-ING-03): a file whose name says nothing is identified by its first
 // bytes and given the extension its route expects; a dropped folder is walked.
 
-/** Names the routes know; anything else is identified by content. */
-const KNOWN_EXT = /\.(gwb|gwpack|pmtiles|geojson|json|kml|kmz|shp|shx|dbf|prj|cpg|zip|gpkg|csv|gpx|gml|xml|las|laz|copc|glb|gltf|ts|mpg|mpeg|m2ts|4607|ntf|nitf|nsf|r0|tif|tiff|jp2|j2k|jpg|jpeg|png|gif|bmp|webp|dt0|dt1|dt2|hgt|img|hdr|h5|he5|nc|pdf|sid|aux|tfw|jgw|pgw|wld|rpb|til|imd|txt|parquet)$/i;
+/** Names the routes know; anything else is identified by content (a .3tz or .pptx is a ZIP and an
+ * .mbtiles is SQLite by content, but each has its own route, so its name must stand). */
+const KNOWN_EXT = /\.(gwb|gwpack|pmtiles|geojson|json|kml|kmz|shp|shx|dbf|prj|cpg|zip|gpkg|csv|gpx|gml|xml|las|laz|copc|glb|gltf|ts|mpg|mpeg|m2ts|4607|ntf|nitf|nsf|r0|tif|tiff|jp2|j2k|jpg|jpeg|png|gif|bmp|webp|dt0|dt1|dt2|hgt|img|hdr|h5|he5|nc|pdf|sid|aux|tfw|jgw|pgw|wld|rpb|til|imd|txt|parquet|3tz|pptx|potx|b3dm|i3dm|pnts|cmpt|subtree|terrain|bpf|xyz|pts|fgb|mbtiles|ecw|j2c|jpx|jpf|gtiff|tifw|gfw|bpw|j2w|ovr|clr|att|eph|geo|sbn|sbx|dat|bsq|bil|bip|raw|hdf5|gwrecipe|cphd|sicd|sidd|geojsonl|geojsons|ndjson)$/i;
 
 /** The extension a file's content calls for, or null when it is unknown or already right. */
 export function sniffExt(name, head) {

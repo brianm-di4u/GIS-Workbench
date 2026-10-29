@@ -1,0 +1,23 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:55.739Z",
+ "key": "sar.speckle",
+ "id": "sar.speckle",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Speckle Filter"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-sar-sicd14-sidd30/capella_chip1_sicd14.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

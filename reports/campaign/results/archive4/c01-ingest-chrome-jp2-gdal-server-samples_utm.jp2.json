@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:12.726Z",
+ "key": "jp2-gdal-server-samples/utm.jp2",
+ "item": "jp2-gdal-server-samples",
+ "file": "utm.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened utm.jp2 in 54 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GeoJP2; 512×512×1, 8-bit, 5 resolution levels)",
+   "w": 512,
+   "h": 512,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 383,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

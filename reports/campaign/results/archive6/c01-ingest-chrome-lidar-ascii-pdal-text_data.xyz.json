@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:40.394Z",
+ "key": "lidar-ascii-pdal-text/data.xyz",
+ "item": "lidar-ascii-pdal-text",
+ "file": "data.xyz",
+ "format": "ASCII point cloud (.pts, .xyz, .txt)",
+ "rendered": false,
+ "errors": [
+  "the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: data.xyz: the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 42,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

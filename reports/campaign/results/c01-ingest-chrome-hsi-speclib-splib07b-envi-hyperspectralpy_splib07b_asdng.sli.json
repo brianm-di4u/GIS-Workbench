@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:17:27.444Z",
+ "key": "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_asdng.sli",
+ "item": "hsi-speclib-splib07b-envi-hyperspectralpy",
+ "file": "splib07b_asdng.sli",
+ "format": "ENVI Spectral Library (file type = ENVI Spectral Library, Float32 BSQ)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened splib07b_asdng.sli in 106 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BSQ (data type 4)",
+   "w": 2151,
+   "h": 71,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 439,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

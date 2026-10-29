@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:50:16.187Z",
+ "key": "derived-pictures-worldfile/naip.bmp",
+ "item": "derived-pictures-worldfile",
+ "file": "naip.bmp",
+ "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip.bmp in 76 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "bmp",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "World file (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 707,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

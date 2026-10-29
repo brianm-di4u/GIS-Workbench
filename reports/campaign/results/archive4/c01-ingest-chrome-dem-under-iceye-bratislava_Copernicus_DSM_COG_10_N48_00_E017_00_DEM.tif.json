@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:35.660Z",
+ "key": "dem-under-iceye-bratislava/Copernicus_DSM_COG_10_N48_00_E017_00_DEM.tif",
+ "item": "dem-under-iceye-bratislava",
+ "file": "Copernicus_DSM_COG_10_N48_00_E017_00_DEM.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Copernicus_DSM_COG_10_N48_00_E017_00_DEM.tif in 70 msZoom to layer×",
+  "toast-info: Copernicus_DSM_COG_10_N48_00_E017_00_DEM.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 3600,
+   "h": 3600,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 393,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

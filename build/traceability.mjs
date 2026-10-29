@@ -65,11 +65,14 @@ const results = []; // {title, status: passed|failed|skipped, source}
 function playwright(file, source, dir) {
   if (!existsSync(file)) return;
   const j = JSON.parse(readFileSync(file, 'utf8'));
+  const when = statSync(file).mtimeMs;
   const visit = (suite, prefix) => {
     for (const sp of suite.specs ?? [])
       for (const t of sp.tests ?? []) {
-        const st = t.status === 'expected' || t.status === 'flaky' ? 'passed' : t.status === 'skipped' ? 'skipped' : t.results?.length ? 'failed' : 'skipped';
-        results.push({ title: `${prefix} ${sp.title}`.trim(), status: st, source: `${source}:${t.projectName ?? ''}`, file: `${dir}/${sp.file ?? suite.file ?? ''}` });
+        // A test that never ran in this report (filtered out, --list) is not a result.
+        if (!t.results?.length && t.status !== 'skipped') continue;
+        const st = t.status === 'expected' || t.status === 'flaky' ? 'passed' : t.status === 'skipped' ? 'skipped' : 'failed';
+        results.push({ title: `${prefix} ${sp.title}`.trim(), status: st, source: `${source}:${t.projectName ?? ''}`, file: `${dir}/${sp.file ?? suite.file ?? ''}`, when });
       }
     for (const s2 of suite.suites ?? []) visit(s2, `${prefix} ${s2.title ?? ''}`);
   };
@@ -87,6 +90,17 @@ const campaignDir = join(root, 'reports', 'campaign');
 if (existsSync(campaignDir)) for (const f of readdirSync(campaignDir).filter((n) => /^pw-.+\.json$/.test(n))) playwright(join(campaignDir, f), 'campaign', 'tests/campaign');
 vitest(join(root, 'reports', 'unit.json'), 'unit');
 vitest(join(root, 'reports', 'campaign', 'golden.json'), 'golden');
+// "Last result": a test found in several reports (a phase report and a later re-run) counts once,
+// from the newest report — a stale pw-*.json no longer outvotes the run that superseded it.
+{
+  const newest = new Map();
+  for (const t of results) {
+    const k = `${t.source}\u0000${t.file}\u0000${t.title}`;
+    const prev = newest.get(k);
+    if (!prev || (t.when ?? 0) >= (prev.when ?? 0)) newest.set(k, t);
+  }
+  results.splice(0, results.length, ...newest.values());
+}
 for (const t of results)
   for (const id of cited(t.title)) {
     const r = reqs.get(id);

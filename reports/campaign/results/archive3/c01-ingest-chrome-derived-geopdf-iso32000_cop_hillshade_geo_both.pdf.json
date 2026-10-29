@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:27.361Z",
+ "key": "derived-geopdf-iso32000/cop_hillshade_geo_both.pdf",
+ "item": "derived-geopdf-iso32000",
+ "file": "cop_hillshade_geo_both.pdf",
+ "format": "GeoPDF (ISO 32000)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened cop_hillshade_geo_both.pdf in 183 msZoom to layer×",
+  "toast-info: cop_hillshade_geo_both.pdf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (13 objects; ISO 32000 /GEO viewport; 1 image)",
+   "w": 2048,
+   "h": 2048,
+   "bands": 3,
+   "model": "GeoPDF viewport (4 points, WGS 84)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1025,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

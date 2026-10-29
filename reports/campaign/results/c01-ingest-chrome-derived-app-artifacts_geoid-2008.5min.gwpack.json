@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:18:06.279Z",
+ "key": "derived-app-artifacts/geoid-2008.5min.gwpack",
+ "item": "derived-app-artifacts",
+ "file": "geoid-2008.5min.gwpack",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 130162,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

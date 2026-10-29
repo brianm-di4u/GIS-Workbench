@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:08.461Z",
+ "key": "derived-sar-complex-slc/capella_slc_cfloat32.tif",
+ "item": "derived-sar-complex-slc",
+ "file": "capella_slc_cfloat32.tif",
+ "format": "Complex GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened capella_slc_cfloat32.tif in 70 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "Complex GeoTIFF (CFloat32 SLC)",
+   "w": 2048,
+   "h": 1871,
+   "bands": 9,
+   "model": "GCPs (4, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1160,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

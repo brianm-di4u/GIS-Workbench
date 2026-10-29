@@ -1,0 +1,21 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:54.259Z",
+ "key": "sar.overlay",
+ "id": "sar.overlay",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-sar-sicd14-sidd30/capella_chip1_sicd14.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

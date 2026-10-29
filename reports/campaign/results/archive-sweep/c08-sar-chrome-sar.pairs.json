@@ -1,0 +1,31 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:09:03.746Z",
+ "key": "sar.pairs",
+ "id": "sar.pairs",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Interferometric Pair Finder"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left sar.pairs disabled; recipe data added: fx07_a.nitf, fx07_b.nitf"
+ ],
+ "data": [
+  "sar-capella-c09-sm-cphd-20240923/capella_C09_SM_CPHD.cphd",
+  "fx07/fx07_a.nitf",
+  "fx07/fx07_b.nitf"
+ ],
+ "openErrors": [
+  "CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release"
+ ],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:36:55.281Z",
+ "key": "sar-radarsat2-quadpol-slc-samples/imagery_HH.tif",
+ "item": "sar-radarsat2-quadpol-slc-samples",
+ "file": "imagery_HH.tif",
+ "format": "RADARSAT-2 SLC product (product.xml + per-polarisation GeoTIFF I/Q + LUTs) in ZIP",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened imagery_HH.tif in 181 msZoom to layer×",
+  "toast-info: imagery_HH.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1141,
+   "h": 6537,
+   "bands": 2,
+   "model": "GCPs (143, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2782,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

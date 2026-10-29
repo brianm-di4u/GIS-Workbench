@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:03:44.282Z",
+ "key": "derived-vmti-video/osh_sample_vmti.ts",
+ "item": "derived-vmti-video",
+ "file": "osh_sample_vmti.ts",
+ "format": "MPEG-TS H.264 + ST 0601 KLV with ST 0903 VMTI (Item 74)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened osh_sample_vmti.ts: 277 frames, 277 KLV packets (0 bad) in 996 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 1037,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

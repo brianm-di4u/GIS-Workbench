@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:35.824Z",
+ "key": "vector-geojson-natural-earth-nvkelso/ne_110m_rivers_lake_centerlines.geojson",
+ "item": "vector-geojson-natural-earth-nvkelso",
+ "file": "ne_110m_rivers_lake_centerlines.geojson",
+ "format": "GeoJSON FeatureCollection",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_110m_rivers_lake_centerlines: 13 feature(s) from GeoJSON"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 13,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 10147,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

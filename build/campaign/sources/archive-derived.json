@@ -1,0 +1,3123 @@
+[
+ {
+  "id": "derived-pictures-worldfile",
+  "area": "eo",
+  "title": "JPEG/PNG/GIF/BMP/WebP chips with world files and .prj (NAIP, Sentinel-2 TCI, WorldView-3 visual)",
+  "source": "Derived from naip-ca-m3812157-sw-2022, s2-l1c-jp2-safe-10seh-20240816, eo-maxar-libya-floods-wv3-prepost",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP, USGS); Copernicus Sentinel data terms; Maxar Open Data CC BY-NC 4.0 → test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "USDA NAIP; contains modified Copernicus Sentinel data 2024; Maxar Open Data Program (CC BY-NC 4.0)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+  "profile": "1024² chips; GIF is band 1 only; world files .jgw/.pgw/.gfw/.bpw/.wld",
+  "files": [
+   {
+    "name": "naip.jpg",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip.jgw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.png",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip.pgw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.gif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip.gfw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.bmp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip.bpw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.webp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip.wld",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.jpg",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci.jgw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.png",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci.pgw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.gif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci.gfw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.bmp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci.bpw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.webp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci.wld",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.jpg",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis.jgw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.png",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis.pgw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.gif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis.gfw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.bmp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis.bpw",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.webp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis.wld",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis.prj",
+    "url": null,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of JPEG -srcwin 4458 5653 1024 1024 -b 1 -b 2 -b 3 m_3812157_sw_10_060_20220519.tif naip.jpg (+ .jgw world file, .prj); gdal_translate -of PNG -srcwin 4458 5653 1024 1024 -b 1 -b 2 -b 3 m_3812157_sw_10_060_20220519.tif naip.png (+ .pgw world file, .prj); gdal_translate -of GIF -srcwin 4458 5653 1024 1024 -b 1 m_3812157_sw_10_060_20220519.tif naip.gif (+ .gfw world file, .prj); gdal_translate -of BMP -srcwin 4458 5653 1024 1024 -b 1 -b 2 -b 3 m_3812157_sw_10_060_20220519.tif naip.bmp (+ .bpw world file, .prj); gdal_translate -of WEBP -srcwin 4458 5653 1024 1024 -b 1 -b 2 -b 3 m_3812157_sw_10_060_20220519.tif naip.webp (+ .wld world file, .prj); gdal_translate -of JPEG -srcwin 4978 4978 1024 1024 -b 1 -b 2 -b 3 T10SEH_20240816T184919_TCI.jp2 s2tci.jpg (+ .jgw world file, .prj); gdal_translate -of PNG -srcwin 4978 4978 1024 1024 -b 1 -b 2 -b 3 T10SEH_20240816T184919_TCI.jp2 s2tci.png (+ .pgw world file, .prj); gdal_translate -of GIF -srcwin 4978 4978 1024 1024 -b 1 T10SEH_20240816T184919_TCI.jp2 s2tci.gif (+ .gfw world file, .prj); gdal_translate -of BMP -srcwin 4978 4978 1024 1024 -b 1 -b 2 -b 3 T10SEH_20240816T184919_TCI.jp2 s2tci.bmp (+ .bpw world file, .prj); gdal_translate -of WEBP -srcwin 4978 4978 1024 1024 -b 1 -b 2 -b 3 T10SEH_20240816T184919_TCI.jp2 s2tci.webp (+ .wld world file, .prj); gdal_translate -of JPEG -srcwin 8192 8192 1024 1024 -b 1 -b 2 -b 3 104001008B282A00-visual.tif wv3vis.jpg (+ .jgw world file, .prj); gdal_translate -of PNG -srcwin 8192 8192 1024 1024 -b 1 -b 2 -b 3 104001008B282A00-visual.tif wv3vis.png (+ .pgw world file, .prj); gdal_translate -of GIF -srcwin 8192 8192 1024 1024 -b 1 104001008B282A00-visual.tif wv3vis.gif (+ .gfw world file, .prj); gdal_translate -of BMP -srcwin 8192 8192 1024 1024 -b 1 -b 2 -b 3 104001008B282A00-visual.tif wv3vis.bmp (+ .bpw world file, .prj); gdal_translate -of WEBP -srcwin 8192 8192 1024 1024 -b 1 -b 2 -b 3 104001008B282A00-visual.tif wv3vis.webp (+ .wld world file, .prj)",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "display"
+  ],
+  "covers": [
+   "fmt:img.jpg",
+   "fmt:img.jpg.world",
+   "fmt:img.png",
+   "fmt:img.png.world",
+   "fmt:img.gif.world",
+   "fmt:img.bmp.world",
+   "fmt:img.webp.world"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-jp2-variants",
+  "area": "eo",
+  "title": "JPEG 2000 variants: GeoJP2-only, GMLJP2-only, raw J2K codestream + .j2w, HTJ2K (OpenJPH, reversible) + .j2w",
+  "source": "Derived from naip-ca-m3812157-sw-2022, s2-l1c-jp2-safe-10seh-20240816, eo-maxar-libya-floods-wv3-prepost",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP, USGS); Copernicus Sentinel data terms; Maxar Open Data CC BY-NC 4.0 → test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "USDA NAIP; contains modified Copernicus Sentinel data 2024; Maxar Open Data Program (CC BY-NC 4.0)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "JPEG 2000 (JP2 / J2K / HTJ2K)",
+  "profile": "1024² RGB chips from three sensors",
+  "files": [
+   {
+    "name": "naip_geojp2.jp2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_gmljp2.jp2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_codestream.j2k",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_codestream.j2w",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip_codestream.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip_htj2k.j2c",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_htj2k.j2w",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "naip_htj2k.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci_geojp2.jp2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_gmljp2.jp2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_codestream.j2k",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_codestream.j2w",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci_codestream.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci_htj2k.j2c",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_htj2k.j2w",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "s2tci_htj2k.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis_geojp2.jp2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_gmljp2.jp2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_codestream.j2k",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_codestream.j2w",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis_codestream.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis_htj2k.j2c",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_htj2k.j2w",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "wv3vis_htj2k.prj",
+    "url": null,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of JP2OpenJPEG -co GMLJP2=NO -co GeoJP2=YES -srcwin 4458 5653 1024 1024 m_3812157_sw_10_060_20220519.tif naip_geojp2.jp2; gdal_translate -of JP2OpenJPEG -co GMLJP2=YES -co GeoJP2=NO -srcwin 4458 5653 1024 1024 m_3812157_sw_10_060_20220519.tif naip_gmljp2.jp2; gdal_translate -of JP2OpenJPEG -co CODEC=J2K m_3812157_sw_10_060_20220519.tif naip_codestream.j2k (+ .j2w); ojph_compress.exe -i _naip.ppm -o naip_htj2k.j2c -num_decomps 5 -reversible true; gdal_translate -of JP2OpenJPEG -co GMLJP2=NO -co GeoJP2=YES -srcwin 4978 4978 1024 1024 T10SEH_20240816T184919_TCI.jp2 s2tci_geojp2.jp2; gdal_translate -of JP2OpenJPEG -co GMLJP2=YES -co GeoJP2=NO -srcwin 4978 4978 1024 1024 T10SEH_20240816T184919_TCI.jp2 s2tci_gmljp2.jp2; gdal_translate -of JP2OpenJPEG -co CODEC=J2K T10SEH_20240816T184919_TCI.jp2 s2tci_codestream.j2k (+ .j2w); ojph_compress.exe -i _s2tci.ppm -o s2tci_htj2k.j2c -num_decomps 5 -reversible true; gdal_translate -of JP2OpenJPEG -co GMLJP2=NO -co GeoJP2=YES -srcwin 8192 8192 1024 1024 104001008B282A00-visual.tif wv3vis_geojp2.jp2; gdal_translate -of JP2OpenJPEG -co GMLJP2=YES -co GeoJP2=NO -srcwin 8192 8192 1024 1024 104001008B282A00-visual.tif wv3vis_gmljp2.jp2; gdal_translate -of JP2OpenJPEG -co CODEC=J2K 104001008B282A00-visual.tif wv3vis_codestream.j2k (+ .j2w); ojph_compress.exe -i _wv3vis.ppm -o wv3vis_htj2k.j2c -num_decomps 5 -reversible true",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "display"
+  ],
+  "covers": [
+   "fmt:jp2",
+   "fmt:jp2.geojp2",
+   "fmt:jp2.gmljp2",
+   "fmt:jp2.codestream",
+   "fmt:jp2.htj2k"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-gtiff-variants",
+  "area": "eo",
+  "title": "GeoTIFF variants: BigTIFF (tiled/striped), big-endian, extra codec samples (S2 TCI, WV3), GCP-only and RPC-tag georeferencing",
+  "source": "Derived from naip-ca-m3812157-sw-2022, cop-dem-glo30-n39w106, landsat8-c2-l2sp-044034-20240820, s2-l1c-jp2-safe-10seh-20240816, eo-maxar-libya-floods-wv3-prepost, rs-nitf-wv3-mvs-stereo-chips",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP, USGS); Copernicus Sentinel data terms; Maxar Open Data CC BY-NC 4.0 → test-only (OD-09): never bundled, published or used in marketing; IARPA MVS benchmark (JHU/APL)",
+  "attribution": "USDA NAIP; contains modified Copernicus Sentinel data 2024; Maxar Open Data Program (CC BY-NC 4.0); IARPA MVS 3D Mapping benchmark",
+  "tier": "A",
+  "origin": "derived",
+  "format": "GeoTIFF / BigTIFF",
+  "profile": "BIGTIFF=YES, ENDIANNESS=BIG, LZW/PACKBITS/JPEG/WEBP/ZSTD/LERC, 16 GCPs, RPC tag",
+  "files": [
+   {
+    "name": "naip_bigtiff_tiled.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_bigtiff_striped.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_b4_bigtiff_bigendian.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_bigendian.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_bigendian_striped.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_lzw.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_packbits.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_jpeg.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_webp.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_zstd.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_lerc.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_lzw.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_packbits.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_jpeg.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_webp.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_zstd.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_lerc.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_gcps.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_b4_gcps.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_gcps.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "mvs_wv3_a_chip_rpc.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "mvs_wv3_b_chip_rpc.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "mvs_wv3_a_chip_j2k_rpc.tif",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -co BIGTIFF=YES -co TILED=YES -co COMPRESS=DEFLATE [2922, 4117, 4096, 4096] m_3812157_sw_10_060_20220519.tif naip_bigtiff_tiled.tif; gdal_translate -co BIGTIFF=YES -co TILED=NO -co COMPRESS=LZW -co PREDICTOR=3 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_bigtiff_striped.tif; gdal_translate -co BIGTIFF=YES -co ENDIANNESS=BIG -co TILED=YES -co COMPRESS=ZSTD LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF landsat_b4_bigtiff_bigendian.tif; gdal_translate -co ENDIANNESS=BIG -co TILED=YES -co COMPRESS=DEFLATE -co PREDICTOR=3 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_bigendian.tif; gdal_translate -co ENDIANNESS=BIG -co COMPRESS=PACKBITS [3946, 5141, 2048, 2048] m_3812157_sw_10_060_20220519.tif naip_bigendian_striped.tif; gdal_translate -srcwin 4466 4466 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=LZW -co PREDICTOR=2 T10SEH_20240816T184919_TCI.jp2 s2tci_lzw.tif; gdal_translate -srcwin 4466 4466 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=PACKBITS  T10SEH_20240816T184919_TCI.jp2 s2tci_packbits.tif; gdal_translate -srcwin 4466 4466 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=JPEG -co PHOTOMETRIC=YCBCR -co JPEG_QUALITY=85 T10SEH_20240816T184919_TCI.jp2 s2tci_jpeg.tif; gdal_translate -srcwin 4466 4466 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=WEBP -co WEBP_LEVEL=85 T10SEH_20240816T184919_TCI.jp2 s2tci_webp.tif; gdal_translate -srcwin 4466 4466 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=ZSTD -co PREDICTOR=2 T10SEH_20240816T184919_TCI.jp2 s2tci_zstd.tif; gdal_translate -srcwin 4466 4466 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=LERC -co MAX_Z_ERROR=0 T10SEH_20240816T184919_TCI.jp2 s2tci_lerc.tif; gdal_translate -srcwin 7680 7680 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=LZW -co PREDICTOR=2 104001008B282A00-visual.tif wv3vis_lzw.tif; gdal_translate -srcwin 7680 7680 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=PACKBITS  104001008B282A00-visual.tif wv3vis_packbits.tif; gdal_translate -srcwin 7680 7680 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=JPEG -co PHOTOMETRIC=YCBCR -co JPEG_QUALITY=85 104001008B282A00-visual.tif wv3vis_jpeg.tif; gdal_translate -srcwin 7680 7680 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=WEBP -co WEBP_LEVEL=85 104001008B282A00-visual.tif wv3vis_webp.tif; gdal_translate -srcwin 7680 7680 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=ZSTD -co PREDICTOR=2 104001008B282A00-visual.tif wv3vis_zstd.tif; gdal_translate -srcwin 7680 7680 2048 2048 -b 1 -b 2 -b 3 -co TILED=YES -co COMPRESS=LERC -co MAX_Z_ERROR=0 104001008B282A00-visual.tif wv3vis_lerc.tif; gdal_translate -srcwin 4458 5653 1024 1024 -gcp ×16 (from the source geotransform) -a_srs <source> m_3812157_sw_10_060_20220519.tif naip_gcps.tif; gdal_translate -srcwin 3323 3393 1024 1024 -gcp ×16 (from the source geotransform) -a_srs <source> LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF landsat_b4_gcps.tif; gdal_translate -srcwin 1288 1288 1024 1024 -gcp ×16 (from the source geotransform) -a_srs <source> Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_gcps.tif; gdal_translate -of GTiff wv3_a_chip.ntf mvs_wv3_a_chip_rpc.tif (RPC00B → RPCCoefficientTag); gdal_translate -of GTiff wv3_b_chip.ntf mvs_wv3_b_chip_rpc.tif (RPC00B → RPCCoefficientTag); gdal_translate -of GTiff wv3_a_chip_j2k.ntf mvs_wv3_a_chip_j2k_rpc.tif (RPC00B → RPCCoefficientTag)",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "display",
+   "sensor-model"
+  ],
+  "covers": [
+   "fmt:gtiff.bigtiff",
+   "fmt:gtiff.bigendian",
+   "fmt:gtiff.codec.lzw",
+   "fmt:gtiff.codec.packbits",
+   "fmt:gtiff.codec.jpeg",
+   "fmt:gtiff.codec.webp",
+   "fmt:gtiff.codec.zstd",
+   "fmt:gtiff.codec.lerc",
+   "fmt:georef.gcps",
+   "fmt:rpc.gtiff"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-envi-variants",
+  "area": "hsi",
+  "title": "ENVI raw variants: BIL, BIP and big-endian BSQ (EnMAP 224-band, AVIRIS Indian Pines 220-band, Landsat 8 SR 7-band)",
+  "source": "Derived from enmap-potsdam-l2a-subset, rs-hsi-indian-pines, landsat8-c2-l2sp-044034-20240820",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "EnMAP data © DLR (EnMAP-Box GPL-3.0 redistribution); Indian Pines CC0; Landsat public domain → test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "DLR EnMAP; Purdue (Baumgardner, Biehl, Landgrebe); USGS Landsat",
+  "tier": "A",
+  "origin": "derived",
+  "format": "ENVI raw + .hdr",
+  "profile": "INTERLEAVE=BIL/BIP; byte order = 1",
+  "files": [
+   {
+    "name": "enmap_bil.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "enmap_bil.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "enmap_bip.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "enmap_bip.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "enmap_bsq_bigendian.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "enmap_bsq_bigendian.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "indianpines_bil.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "indianpines_bil.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "indianpines_bip.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "indianpines_bip.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "indianpines_bsq_bigendian.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "indianpines_bsq_bigendian.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "landsat_sr_bil.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_sr_bil.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "landsat_sr_bip.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_sr_bip.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "landsat_sr_bsq_bigendian.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_sr_bsq_bigendian.hdr",
+    "url": null,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of ENVI -co INTERLEAVE=BIL enmap_potsdam.tif enmap_bil.img; gdal_translate -of ENVI -co INTERLEAVE=BIP enmap_potsdam.tif enmap_bip.img; gdal_translate -of ENVI -co INTERLEAVE=BSQ enmap_potsdam.tif enmap_bsq_bigendian.img; byte-swap samples, header byte order = 1; gdal_translate -of ENVI -co INTERLEAVE=BIL 19920612_AVIRIS_IndianPine_Site3.tif indianpines_bil.img; gdal_translate -of ENVI -co INTERLEAVE=BIP 19920612_AVIRIS_IndianPine_Site3.tif indianpines_bip.img; gdal_translate -of ENVI -co INTERLEAVE=BSQ 19920612_AVIRIS_IndianPine_Site3.tif indianpines_bsq_bigendian.img; byte-swap samples, header byte order = 1; gdal_translate -of ENVI -co INTERLEAVE=BIL _stack.tif landsat_sr_bil.img; gdal_translate -of ENVI -co INTERLEAVE=BIP _stack.tif landsat_sr_bip.img; gdal_translate -of ENVI -co INTERLEAVE=BSQ _stack.tif landsat_sr_bsq_bigendian.img; byte-swap samples, header byte order = 1",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "msi"
+  ],
+  "covers": [
+   "fmt:envi",
+   "fmt:envi.bil",
+   "fmt:envi.bip",
+   "fmt:envi.bigendian",
+   "fmt:envi.mapinfo"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-hgt-variants",
+  "area": "dem",
+  "title": "SRTM HGT variants: 3-arcsec 1201² and 1-arcsec 3601² cells resampled from Copernicus GLO-30, plus an uncompressed Skadi cell",
+  "source": "Derived from cop-dem-glo30-n39w106, srtm-skadi-n39w106-n40w106",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Copernicus DEM licence (free use with attribution); SRTM public domain",
+  "attribution": "© DLR e.V. / Airbus DS under COPERNICUS (EU/ESA); NASA/USGS SRTM via Mapzen",
+  "tier": "A",
+  "origin": "derived",
+  "format": "SRTM HGT",
+  "profile": "1201² and 3601² Int16 big-endian, EGM2008 heights (Copernicus source)",
+  "files": [
+   {
+    "name": "srtm3-1201/N39W106.hgt",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "srtm1-3601/N39W106.hgt",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "N40W106.hgt",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdalwarp -of SRTMHGT -ts 1201 1201 -ot Int16 -r bilinear Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif srtm3-1201/N39W106.hgt (pixel-is-point cell edges); gdalwarp -of SRTMHGT -ts 3601 3601 -ot Int16 -r bilinear Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif srtm1-3601/N39W106.hgt (pixel-is-point cell edges); gunzip N40W106.hgt.gz (uncompressed 3601² HGT)",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "dem"
+  ],
+  "covers": [
+   "fmt:hgt"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-raster-negatives",
+  "area": "robustness",
+  "title": "Formats the app must refuse by name: NetCDF-3 classic, ERDAS Imagine HFA .img, PDF without georeferencing",
+  "source": "Derived from cop-dem-glo30-n39w106, naip-ca-m3812157-sw-2022, landsat8-c2-l2sp-044034-20240820",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Copernicus DEM licence; public domain (USDA NAIP, USGS Landsat)",
+  "attribution": "© DLR e.V. / Airbus DS under COPERNICUS (EU/ESA); USDA NAIP; USGS Landsat",
+  "tier": "A",
+  "origin": "derived",
+  "format": "NetCDF-3 / HFA / PDF (negative)",
+  "profile": "512² chips",
+  "files": [
+   {
+    "name": "cop_dem_netcdf3.nc",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_hfa.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_pdf.pdf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_b1_netcdf3.nc",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_b1_hfa.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_b1_pdf.pdf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_b4_netcdf3.nc",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_b4_hfa.img",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat_b4_pdf.pdf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of netCDF -co FORMAT=NC -srcwin 1544 1544 512 512 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_netcdf3.nc; gdal_translate -of HFA  -srcwin 1544 1544 512 512 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_hfa.img; gdal_translate -of PDF -co GEO_ENCODING=NONE -srcwin 1544 1544 512 512 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_pdf.pdf; gdal_translate -of netCDF -co FORMAT=NC -srcwin 4714 5909 512 512 m_3812157_sw_10_060_20220519.tif naip_b1_netcdf3.nc; gdal_translate -of HFA  -srcwin 4714 5909 512 512 m_3812157_sw_10_060_20220519.tif naip_b1_hfa.img; gdal_translate -of PDF -co GEO_ENCODING=NONE -srcwin 4714 5909 512 512 m_3812157_sw_10_060_20220519.tif naip_b1_pdf.pdf; gdal_translate -of netCDF -co FORMAT=NC -srcwin 3579 3649 512 512 LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF landsat_b4_netcdf3.nc; gdal_translate -of HFA  -srcwin 3579 3649 512 512 LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF landsat_b4_hfa.img; gdal_translate -of PDF -co GEO_ENCODING=NONE -srcwin 3579 3649 512 512 LC08_L2SP_044034_20240820_20240830_02_T1_SR_B4.TIF landsat_b4_pdf.pdf",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "robustness"
+  ],
+  "covers": [
+   "fmt:refused.netcdf3",
+   "fmt:refused.hfa",
+   "fmt:pdf.nogeo"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-sar-complex-slc",
+  "area": "sar",
+  "title": "Complex SLC GeoTIFF (CFloat32, CInt32, CInt16) chips from Umbra and Capella SICD, georeferenced by the SICD image-corner GCPs",
+  "source": "Derived from umbra-bingham-20230925-full, capella-c13-sm-20240924, sar-osml-sicd-sidd-chips",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "CC BY 4.0 (Umbra, Capella Open Data); Apache-2.0 (OSML)",
+  "attribution": "Umbra Space; Capella Space; AWS OSML imagery toolkit test data",
+  "tier": "A",
+  "origin": "derived",
+  "format": "Complex GeoTIFF",
+  "profile": "2048² chips; corner GCPs are approximate for a chip (projective)",
+  "files": [
+   {
+    "name": "umbra_slc_cfloat32.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_slc_cint32.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_slc_cint16.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "capella_slc_cfloat32.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "capella_slc_cint32.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "capella_slc_cint16.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "osml_umbra_slc_cfloat32.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "osml_umbra_slc_cint32.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "osml_umbra_slc_cint16.tif",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -ot CFloat32 -srcwin 5664 3430 2048 2048 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 umbra_20230925_SICD.nitf umbra_slc_cfloat32.tif; gdal_translate -ot CInt32 -srcwin 5664 3430 2048 2048 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 umbra_20230925_SICD.nitf umbra_slc_cint32.tif; gdal_translate -ot CInt16 -srcwin 5664 3430 2048 2048 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 umbra_20230925_SICD.nitf umbra_slc_cint16.tif; gdal_translate -ot CFloat32 -srcwin 1489 0 2048 1871 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 capella_C13_SM_SICD.ntf capella_slc_cfloat32.tif; gdal_translate -ot CInt32 -srcwin 1489 0 2048 1871 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 capella_C13_SM_SICD.ntf capella_slc_cint32.tif; gdal_translate -ot CInt16 -srcwin 1489 0 2048 1871 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 capella_C13_SM_SICD.ntf capella_slc_cint16.tif; gdal_translate -ot CFloat32 -srcwin 0 0 512 512 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 umbra-sicd121-chip1.ntf osml_umbra_slc_cfloat32.tif; gdal_translate -ot CInt32 -srcwin 0 0 512 512 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 umbra-sicd121-chip1.ntf osml_umbra_slc_cint32.tif; gdal_translate -ot CInt16 -srcwin 0 0 512 512 -gcp ×4 (SICD GeoData ImageCorners) -a_srs EPSG:4326 umbra-sicd121-chip1.ntf osml_umbra_slc_cint16.tif",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "sar"
+  ],
+  "covers": [
+   "fmt:gtiff.complex.cfloat32",
+   "fmt:gtiff.complex.cint32",
+   "fmt:gtiff.complex.cint16"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-pmtiles-raster",
+  "area": "raster",
+  "title": "Raster PMTiles v3 (PNG, JPEG, WebP tiles from three sources) and their MBTiles sources (MBTiles is refused by the app)",
+  "source": "Derived from naip-ca-m3812157-sw-2022, s2-l1c-jp2-safe-10seh-20240816, cop-dem-glo30-n39w106",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP); Copernicus Sentinel data terms; Copernicus DEM licence",
+  "attribution": "USDA NAIP; contains modified Copernicus Sentinel data 2024; © DLR e.V. / Airbus DS under COPERNICUS",
+  "tier": "A",
+  "origin": "derived",
+  "format": "PMTiles / MBTiles",
+  "profile": "EPSG:3857 tile pyramids",
+  "files": [
+   {
+    "name": "naip_png.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_png.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_jpeg.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_jpeg.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_webp.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_webp.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_png.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_png.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_jpeg.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_jpeg.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_webp.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_webp.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_png.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_png.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_jpeg.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_jpeg.mbtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_webp.pmtiles",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_webp.mbtiles",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdalwarp -t_srs EPSG:3857 m_3812157_sw_10_060_20220519.tif; gdal_translate -of MBTiles -co TILE_FORMAT=PNG; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert naip_png.mbtiles naip_png.pmtiles; gdalwarp -t_srs EPSG:3857 m_3812157_sw_10_060_20220519.tif; gdal_translate -of MBTiles -co TILE_FORMAT=JPEG; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert naip_jpeg.mbtiles naip_jpeg.pmtiles; gdalwarp -t_srs EPSG:3857 m_3812157_sw_10_060_20220519.tif; gdal_translate -of MBTiles -co TILE_FORMAT=WEBP; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert naip_webp.mbtiles naip_webp.pmtiles; gdalwarp -t_srs EPSG:3857 T10SEH_20240816T184919_TCI.jp2; gdal_translate -of MBTiles -co TILE_FORMAT=PNG; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert s2tci_png.mbtiles s2tci_png.pmtiles; gdalwarp -t_srs EPSG:3857 T10SEH_20240816T184919_TCI.jp2; gdal_translate -of MBTiles -co TILE_FORMAT=JPEG; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert s2tci_jpeg.mbtiles s2tci_jpeg.pmtiles; gdalwarp -t_srs EPSG:3857 T10SEH_20240816T184919_TCI.jp2; gdal_translate -of MBTiles -co TILE_FORMAT=WEBP; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert s2tci_webp.mbtiles s2tci_webp.pmtiles; gdalwarp -t_srs EPSG:3857 _hillshade.tif; gdal_translate -of MBTiles -co TILE_FORMAT=PNG; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert cop_hillshade_png.mbtiles cop_hillshade_png.pmtiles; gdalwarp -t_srs EPSG:3857 _hillshade.tif; gdal_translate -of MBTiles -co TILE_FORMAT=JPEG; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert cop_hillshade_jpeg.mbtiles cop_hillshade_jpeg.pmtiles; gdalwarp -t_srs EPSG:3857 _hillshade.tif; gdal_translate -of MBTiles -co TILE_FORMAT=WEBP; gdaladdo 2..64; metadata format jpg→jpeg; pmtiles convert cop_hillshade_webp.mbtiles cop_hillshade_webp.pmtiles",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "bm.pmtiles",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:pmtiles.png",
+   "fmt:pmtiles.jpeg",
+   "fmt:pmtiles.webp",
+   "fmt:refused.mbtiles"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-3d-tiles-3tz",
+  "area": "3d",
+  "title": "3D Tiles archives (.3tz): discrete-LOD b3dm, multiple-contents glb, single glb tile",
+  "source": "Derived from 3d-tiles-discrete-lod, 3d-tiles-multiple-contents, 3d-gltf-sample-assets",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "CC0-1.0 (Cesium samples); Duck: SCEA Shared Source 1.0 + CC-BY-4.0",
+  "attribution": "Cesium GS 3d-tiles-samples; Khronos glTF Sample Assets (Duck © Sony)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "3D Tiles 3TZ",
+  "profile": "ZIP_STORED with MD5 index",
+  "files": [
+   {
+    "name": "TilesetWithDiscreteLOD.3tz",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "MultipleContents.3tz",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "DuckGlb.3tz",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "3TZ (stored ZIP + @3dtilesIndex1@) of 3d-tiles-discrete-lod/TilesetWithDiscreteLOD; 3d-tiles-multiple-contents/MultipleContents with a root ENU→ECEF transform near Golden CO → 3TZ; tileset.json (3D Tiles 1.1, one glb tile placed near Golden CO) + Duck.glb → 3TZ",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "3d.tiles3tz",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:tiles3d.3tz"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-qmesh-geodetic",
+  "area": "dem",
+  "title": "Quantized-mesh 1.0 terrain in EPSG:4326 (geodetic TMS, z0–9, Colorado N39W106): plain, octvertexnormals, watermask",
+  "source": "Derived from cop-dem-glo30-n39w106",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Copernicus DEM licence (free use with attribution)",
+  "attribution": "© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA",
+  "tier": "A",
+  "origin": "derived",
+  "format": "Cesium quantized-mesh 1.0 + layer.json",
+  "profile": "Uncompressed .terrain files; serve with the test server for 3d.qmesh",
+  "files": [
+   {
+    "name": "plain/0/0/0.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/1/0/1.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/2/1/2.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/3/3/5.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/4/6/11.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/5/13/22.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/5/13/23.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/6/26/45.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/6/26/46.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/7/52/91.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/7/52/92.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/7/53/91.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/7/53/92.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/8/105/183.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/8/105/184.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/8/106/183.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/8/106/184.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/210/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/210/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/210/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/210/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/211/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/211/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/211/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/211/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/212/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/212/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/212/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/212/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/213/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/213/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/213/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/9/213/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "plain/layer.json",
+    "url": null,
+    "role": "metadata"
+   },
+   {
+    "name": "normals/0/0/0.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/1/0/1.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/2/1/2.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/3/3/5.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/4/6/11.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/5/13/22.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/5/13/23.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/6/26/45.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/6/26/46.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/7/52/91.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/7/52/92.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/7/53/91.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/7/53/92.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/8/105/183.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/8/105/184.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/8/106/183.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/8/106/184.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/210/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/210/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/210/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/210/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/211/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/211/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/211/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/211/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/212/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/212/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/212/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/212/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/213/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/213/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/213/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/9/213/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "normals/layer.json",
+    "url": null,
+    "role": "metadata"
+   },
+   {
+    "name": "watermask/0/0/0.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/1/0/1.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/2/1/2.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/3/3/5.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/4/6/11.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/5/13/22.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/5/13/23.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/6/26/45.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/6/26/46.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/7/52/91.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/7/52/92.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/7/53/91.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/7/53/92.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/8/105/183.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/8/105/184.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/8/106/183.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/8/106/184.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/210/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/210/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/210/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/210/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/211/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/211/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/211/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/211/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/212/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/212/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/212/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/212/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/213/366.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/213/367.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/213/368.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/9/213/369.terrain",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "watermask/layer.json",
+    "url": null,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "derivation": "Copernicus GLO-30 → 65² grid per geodetic TMS tile (z0–9) → pydelatin TIN → quantized-mesh-encoder; layer.json EPSG:4326; Copernicus GLO-30 → 65² grid per geodetic TMS tile (z0–9) → pydelatin TIN → quantized-mesh-encoder + octvertexnormals; layer.json EPSG:4326; Copernicus GLO-30 → 65² grid per geodetic TMS tile (z0–9) → pydelatin TIN → quantized-mesh-encoder + watermask; layer.json EPSG:4326",
+  "notes": "The existing heremaps tiles are EPSG:3857 (refused, IMP-20); these are the geodetic layout the app reads.",
+  "feeds": [
+   "3d.qmesh",
+   "dem"
+  ],
+  "covers": [
+   "fmt:qmesh.tile",
+   "fmt:qmesh.geodetic"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-pc-ascii",
+  "area": "lidar",
+  "title": "ASCII point clouds (.xyz, .csv, .pts) from Autzen, the LAS 1.4 test file and DFC2018 Houston Optech Titan C1",
+  "source": "Derived from rs-lidar-las-laz-copc, ieee-dfc2018-houston",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "PDAL/laspy test data (BSD); CC BY 4.0 (IEEE DataPort Open Access)",
+  "attribution": "PDAL and laspy test data; 2018 IEEE GRSS Data Fusion Contest (University of Houston, NCALM)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "ASCII point cloud",
+  "profile": "≤200k points each",
+  "files": [
+   {
+    "name": "autzen.xyz",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen.pts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "test1_4.xyz",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "test1_4.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "test1_4.pts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1.xyz",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1.pts",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "laspy read autzen_trim.las, first 110000 points → .xyz (X Y Z), .csv (X,Y,Z,Intensity,Classification), .pts (count + X Y Z I); laspy read test1_4.las, first 1000 points → .xyz (X Y Z), .csv (X,Y,Z,Intensity,Classification), .pts (count + X Y Z I); laspy read 272652_3289689.las, first 200000 points → .xyz (X Y Z), .csv (X,Y,Z,Intensity,Classification), .pts (count + X Y Z I)",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "lidar",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:pc.ascii"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-speclib-envi-sli",
+  "area": "hsi",
+  "title": "ENVI spectral libraries (.sli + .hdr) and CSV from USGS splib07 (AVIRIS-2013 convolved): minerals, vegetation, artificial materials",
+  "source": "Derived from usgs-splib07-ascii",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "US Government public domain (USGS)",
+  "attribution": "Kokaly et al. 2017, USGS Spectral Library Version 7, USGS Data Series 1035",
+  "tier": "A",
+  "origin": "derived",
+  "format": "ENVI spectral library / CSV",
+  "profile": "224 bands",
+  "files": [
+   {
+    "name": "splib07_minerals.sli",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "splib07_minerals.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07_minerals.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "splib07_vegetation.sli",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "splib07_vegetation.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07_vegetation.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "splib07_artificial.sli",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "splib07_artificial.hdr",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07_artificial.csv",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "ChapterM_Minerals: first ≤60 spectra of ASCIIdata_splib07b_cvAVIRISc2013.zip → ENVI .sli (float32, 224 bands) + CSV; ChapterV_Vegetation: first ≤60 spectra of ASCIIdata_splib07b_cvAVIRISc2013.zip → ENVI .sli (float32, 224 bands) + CSV; ChapterA_ArtificialMaterials: first ≤60 spectra of ASCIIdata_splib07b_cvAVIRISc2013.zip → ENVI .sli (float32, 224 bands) + CSV",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "msi.library",
+   "msi.detect"
+  ],
+  "covers": [
+   "fmt:speclib.envi-sli"
+  ],
+  "pairs": [
+   {
+    "role": "spectral-lib",
+    "with": [
+     "aviris-classic-f130410t01p00r09"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "derived-nitf-variants",
+  "area": "nitf",
+  "title": "NITF variants: security markings for banner tests (TEST, data unclassified), IC=C3/M3/C8, NSIF 1.0 headers",
+  "source": "Derived from naip-ca-m3812157-sw-2022, cop-dem-glo30-n39w106, s2-l1c-jp2-safe-10seh-20240816, eo-maxar-libya-floods-wv3-prepost",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP); Copernicus DEM licence; Copernicus Sentinel data terms; Maxar Open Data CC BY-NC 4.0 → test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "USDA NAIP; © DLR e.V. / Airbus DS under COPERNICUS; contains modified Copernicus Sentinel data 2024; Maxar Open Data Program (CC BY-NC 4.0)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "NITF 2.1 / NSIF 1.0",
+  "profile": "Markings are synthetic test values on public data",
+  "files": [
+   {
+    "name": "naip_marked_confidential.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_marked_secret.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_marked_restricted_nato.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_ic_c3.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_ic_m3.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_ic_c8.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_nsif.nsf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_ic_c8.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_dem_nsif.nsf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_ic_c3.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_ic_m3.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_ic_c8.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_nsif.nsf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3vis_ic_m3.ntf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of NITF -co FSCLAS=C -co FSCLSY=US -co FSCTLH=TS -co FSDCTP=X -co ISCLAS=C -co FTITLE=TEST MARKINGS ONLY - UNCLASSIFIED DATA m_3812157_sw_10_060_20220519.tif naip_marked_confidential.ntf; gdal_translate -of NITF -co FSCLAS=S -co FSCLSY=US -co FSCODE=TK -co FSREL=USA -co ISCLAS=S -co FTITLE=TEST MARKINGS ONLY - UNCLASSIFIED DATA m_3812157_sw_10_060_20220519.tif naip_marked_secret.ntf; gdal_translate -of NITF -co FSCLAS=R -co FSCLSY=NA -co FSCTLH=RL -co ISCLAS=R -co FTITLE=TEST MARKINGS ONLY - UNCLASSIFIED DATA m_3812157_sw_10_060_20220519.tif naip_marked_restricted_nato.ntf; gdal_translate -of NITF -co IC=C3 m_3812157_sw_10_060_20220519.tif naip_ic_c3.ntf; gdal_translate -of NITF -co IC=M3 m_3812157_sw_10_060_20220519.tif naip_ic_m3.ntf; gdal_translate -of NITF -co IC=C8 m_3812157_sw_10_060_20220519.tif naip_ic_c8.ntf; gdal_translate -of NITF -co FHDR=NSIF01.00 m_3812157_sw_10_060_20220519.tif naip_nsif.nsf; gdal_translate -of NITF -co IC=C8 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_ic_c8.ntf; gdal_translate -of NITF -co FHDR=NSIF01.00 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif cop_dem_nsif.nsf; gdal_translate -of NITF -co IC=C3 T10SEH_20240816T184919_TCI.jp2 s2tci_ic_c3.ntf; gdal_translate -of NITF -co IC=M3 T10SEH_20240816T184919_TCI.jp2 s2tci_ic_m3.ntf; gdal_translate -of NITF -co IC=C8 T10SEH_20240816T184919_TCI.jp2 s2tci_ic_c8.ntf; gdal_translate -of NITF -co FHDR=NSIF01.00 T10SEH_20240816T184919_TCI.jp2 s2tci_nsif.nsf; gdal_translate -of NITF -co IC=M3 104001008B282A00-visual.tif wv3vis_ic_m3.ntf",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "meta.marking"
+  ],
+  "covers": [
+   "fmt:nitf.v21",
+   "fmt:nsif.v10",
+   "fmt:nitf.ic.c3",
+   "fmt:nitf.ic.m3",
+   "fmt:nitf.ic.c8"
+  ],
+  "pairs": [
+   {
+    "role": "security-marked",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "derived-fmv-variants",
+  "area": "fmv",
+  "title": "MPEG-TS motion imagery re-encoded to H.265 and MPEG-2 with the original KLV data stream copied; BDAV .m2ts/.mts (192-byte packets)",
+  "source": "Derived from fmv-esri-truck-tutorial, fmv-ffmpeg-day-flight, fmv-ffmpeg-night-flight-ir",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Esri tutorial data and FFmpeg samples (no explicit licence) → test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Esri FMV tutorial data; FFmpeg samples archive",
+  "tier": "A",
+  "origin": "derived",
+  "format": "MPEG-TS (H.265 / MPEG-2 / BDAV)",
+  "profile": "First 60 s of each source; KLV PIDs copied unchanged",
+  "files": [
+   {
+    "name": "truck_hevc_klv.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "truck_mpeg2_klv.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "dayflight_hevc_klv.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "dayflight_mpeg2_klv.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nightir_hevc_klv.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nightir_mpeg2_klv.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "truck_h264_klv.m2ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "truck_h264_klv.mts",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Truck.ts -map 0:v:0 -map 0:d? -c:v libx265 -preset veryfast -x265-params log-level=error -c:d copy -f mpegts truck_hevc_klv.ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Truck.ts -map 0:v:0 -map 0:d? -c:v mpeg2video -q:v 4 -c:d copy -f mpegts truck_mpeg2_klv.ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Day Flight.mpg -map 0:v:0 -map 0:d? -c:v libx265 -preset veryfast -x265-params log-level=error -c:d copy -f mpegts dayflight_hevc_klv.ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Day Flight.mpg -map 0:v:0 -map 0:d? -c:v mpeg2video -q:v 4 -c:d copy -f mpegts dayflight_mpeg2_klv.ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Night Flight IR.mpg -map 0:v:0 -map 0:d? -c:v libx265 -preset veryfast -x265-params log-level=error -c:d copy -f mpegts nightir_hevc_klv.ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Night Flight IR.mpg -map 0:v:0 -map 0:d? -c:v mpeg2video -q:v 4 -c:d copy -f mpegts nightir_mpeg2_klv.ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Truck.ts -map 0:v:0 -map 0:d? -c copy -mpegts_m2ts_mode 1 -streamid 0:0x1011 -streamid 1:0x1013 -f mpegts truck_h264_klv.m2ts; ffmpeg.exe -hide_banner -loglevel error -y -t 60 -i Truck.ts -map 0:v:0 -map 0:d? -c copy -mpegts_m2ts_mode 1 -streamid 0:0x1011 -streamid 1:0x1013 -f mpegts truck_h264_klv.mts",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "fmv",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:fmv.ts",
+   "fmt:fmv.klv",
+   "fmt:fmv.codec.hevc",
+   "fmt:fmv.codec.mpeg2video"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-vector-variants",
+  "area": "vector",
+  "title": "Vector variants: GeoJSON legacy crs and .json extension, Shapefile Z/M with .cpg, GML 2/3.1/3.2, CSV lon/lat and WKT, GPX tracks, detections CSV, GeoParquet/FlatGeobuf negatives",
+  "source": "Derived from vector-natural-earth-10m-shp, vector-nhd-hu4-1019-gpkg, fmv-bambi-flights, rs-msi-spacenet2-wv3",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (Natural Earth, USGS NHD); CC BY 4.0 (BAMBI); CC BY-SA 4.0 (SpaceNet)",
+  "attribution": "Natural Earth; USGS NHD; BAMBI (Zenodo); SpaceNet Partners",
+  "tier": "A",
+  "origin": "derived",
+  "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+  "profile": "Subsets; GeoJSON non-RFC7946 keeps the crs member",
+  "files": [
+   {
+    "name": "nhd_waterbody_epsg4269.geojson",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries_epsg3857.geojson",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_places_epsg32613.geojson",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_places.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_rivers.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_flowline_sample.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdflowline_z.shp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdflowline_z.shx",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_z.dbf",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_z.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_z.cpg",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_z.shp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdline_z.shx",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_z.dbf",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_z.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_z.cpg",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_z.shp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdarea_z.shx",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_z.dbf",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_z.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_z.cpg",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_m.shp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdflowline_m.shx",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_m.dbf",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_m.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdflowline_m.cpg",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_m.shp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdline_m.shx",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_m.dbf",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_m.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdline_m.cpg",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_m.shp",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_nhdarea_m.shx",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_m.dbf",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_m.prj",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "nhd_nhdarea_m.cpg",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "ne_countries_gml2.gml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries_gml2.xsd",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "ne_countries_gml3.gml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries_gml3.xsd",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "ne_countries_gml32.gml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries_gml32.xsd",
+    "url": null,
+    "role": "sidecar"
+   },
+   {
+    "name": "ne_places_lonlat.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_rivers_wkt.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_waterbody_wkt.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries_lonlat_centroids.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "bambi_DJI_20241021165448_0001_T_point0.gpx",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "bambi_DJI_20241119101935_0003_T.gpx",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "bambi_DJI_20240709090401_0001_T_point0.gpx",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "spacenet_vegas_img10_detections.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries.parquet",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_places.parquet",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_flowline.parquet",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_countries.fgb",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ne_places.fgb",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nhd_flowline.fgb",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "ogr2ogr -f GeoJSON -lco RFC7946=NO -limit 500 NHDWaterbody nhd_waterbody_epsg4269.geojson NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f GeoJSON -t_srs EPSG:3857 -lco RFC7946=NO -where CONTINENT='Africa' ne_countries_epsg3857.geojson ne_10m_admin_0_countries.shp; ogr2ogr -f GeoJSON -t_srs EPSG:32613 -lco RFC7946=NO -spat -108 37 -102 41 ne_places_epsg32613.geojson ne_10m_populated_places.shp; ogr2ogr -f GeoJSON -lco RFC7946=YES ne_places.json ne_10m_populated_places.shp; ogr2ogr -f GeoJSON -lco RFC7946=YES -where scalerank<=4 ne_rivers.json ne_10m_rivers_lake_centerlines.shp; ogr2ogr -f GeoJSON -lco RFC7946=YES -limit 2000 NHDFlowline nhd_flowline_sample.json NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f ESRI Shapefile -dim XYZ -limit 2000 -lco ENCODING=UTF-8 NHDFlowline nhd_nhdflowline_z.shp NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f ESRI Shapefile -dim XYZ -limit 500 -lco ENCODING=UTF-8 NHDLine nhd_nhdline_z.shp NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f ESRI Shapefile -dim XYZ -limit 200 -lco ENCODING=UTF-8 NHDArea nhd_nhdarea_z.shp NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f ESRI Shapefile -dim XYM -limit 2000 -lco ENCODING=UTF-8 NHDFlowline nhd_nhdflowline_m.shp NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f ESRI Shapefile -dim XYM -limit 500 -lco ENCODING=UTF-8 NHDLine nhd_nhdline_m.shp NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f ESRI Shapefile -dim XYM -limit 200 -lco ENCODING=UTF-8 NHDArea nhd_nhdarea_m.shp NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f GML -dsco FORMAT=GML2 -where CONTINENT='South America' ne_countries_gml2.gml ne_10m_admin_0_countries.shp; ogr2ogr -f GML -dsco FORMAT=GML3 -where CONTINENT='South America' ne_countries_gml3.gml ne_10m_admin_0_countries.shp; ogr2ogr -f GML -dsco FORMAT=GML3.2 -where CONTINENT='South America' ne_countries_gml32.gml ne_10m_admin_0_countries.shp; ogr2ogr -f CSV -lco GEOMETRY=AS_XY -select NAME,ADM0NAME,POP_MAX ne_places_lonlat.csv ne_10m_populated_places.shp; ogr2ogr -f CSV -lco GEOMETRY=AS_WKT -where scalerank<=3 -select name ne_rivers_wkt.csv ne_10m_rivers_lake_centerlines.shp; ogr2ogr -f CSV -lco GEOMETRY=AS_WKT -limit 300 -select gnis_name NHDWaterbody nhd_waterbody_wkt.csv NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f CSV -dialect SQLite -sql SELECT NAME, ST_X(ST_Centroid(geometry)) AS lon, ST_Y(ST_Centroid(geometry)) AS lat FROM ne_10m_admin_0_countries ne_countries_lonlat_centroids.csv ne_10m_admin_0_countries.shp; GPX 1.1 track from derived/flight_258/DJI_20241021165448_0001_T_point0.csv (every 10th row: sensor lat/lon/altitude/time); GPX 1.1 track from derived/flight_306/DJI_20241119101935_0003_T.csv (every 10th row: sensor lat/lon/altitude/time); GPX 1.1 track from derived/flight_316/DJI_20240709090401_0001_T_point0.csv (every 10th row: sensor lat/lon/altitude/time); ogr2ogr -f CSV -dialect SQLite -sql SELECT 'building' AS class, 1.0 AS confidence, ST_X(ST_Centroid(geometry)) AS lon, ST_Y(ST_Centroid(geometry)) AS lat FROM \"SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10\" spacenet_vegas_img10_detections.csv SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson; ogr2ogr -f Parquet ne_countries.parquet ne_10m_admin_0_countries.shp; ogr2ogr -f Parquet ne_places.parquet ne_10m_populated_places.shp; ogr2ogr -f Parquet -dim XYZ -limit 2000 NHDFlowline nhd_flowline.parquet NHD_H_1019_HU4_GPKG.gpkg; ogr2ogr -f FlatGeobuf -nlt PROMOTE_TO_MULTI ne_countries.fgb ne_10m_admin_0_countries.shp; ogr2ogr -f FlatGeobuf -nlt PROMOTE_TO_MULTI ne_places.fgb ne_10m_populated_places.shp; ogr2ogr -f FlatGeobuf -nlt PROMOTE_TO_MULTI -limit 2000 NHDFlowline nhd_flowline.fgb NHD_H_1019_HU4_GPKG.gpkg",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "vector",
+   "ingest",
+   "cnv"
+  ],
+  "covers": [
+   "fmt:vec.geojson",
+   "fmt:vec.geojson.legacycrs",
+   "fmt:vec.geojson.jsonext",
+   "fmt:vec.shp",
+   "fmt:vec.shp.z",
+   "fmt:vec.shp.m",
+   "fmt:vec.shp.cpg",
+   "fmt:vec.gml",
+   "fmt:vec.csv.lonlat",
+   "fmt:vec.csv.wkt",
+   "fmt:vec.gpx",
+   "fmt:det.csv",
+   "fmt:refused.geoparquet",
+   "fmt:refused.flatgeobuf"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-las-pdrf-matrix",
+  "area": "lidar",
+  "title": "LAS point formats 2, 4, 5, 8, 9, 10 converted from Autzen and DFC2018 Houston (Optech Titan C1, first 500k points)",
+  "source": "Derived from rs-lidar-las-laz-copc, ieee-dfc2018-houston",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "PDAL/laspy test data (BSD); CC BY 4.0 (IEEE DataPort Open Access)",
+  "attribution": "PDAL and laspy test data; 2018 IEEE GRSS Data Fusion Contest (University of Houston, NCALM)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "LAS 1.2–1.4",
+  "profile": "Waveform packet fields zeroed (no waveform data)",
+  "files": [
+   {
+    "name": "autzen_pdrf2_las12.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen_pdrf4_las13.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen_pdrf5_las13.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen_pdrf8_las14.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen_pdrf9_las14.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "autzen_pdrf10_las14.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1_pdrf2_las12.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1_pdrf4_las13.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1_pdrf5_las13.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1_pdrf8_las14.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1_pdrf9_las14.las",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_c1_pdrf10_las14.las",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "laspy.convert(autzen_trim.las, point_format_id=2, file_version=1.2); laspy.convert(autzen_trim.las, point_format_id=4, file_version=1.3); laspy.convert(autzen_trim.las, point_format_id=5, file_version=1.3); laspy.convert(autzen_trim.las, point_format_id=8, file_version=1.4); laspy.convert(autzen_trim.las, point_format_id=9, file_version=1.4); laspy.convert(autzen_trim.las, point_format_id=10, file_version=1.4); laspy.convert(C1/272652_3289689.las, point_format_id=2, file_version=1.2); laspy.convert(C1/272652_3289689.las, point_format_id=4, file_version=1.3); laspy.convert(C1/272652_3289689.las, point_format_id=5, file_version=1.3); laspy.convert(C1/272652_3289689.las, point_format_id=8, file_version=1.4); laspy.convert(C1/272652_3289689.las, point_format_id=9, file_version=1.4); laspy.convert(C1/272652_3289689.las, point_format_id=10, file_version=1.4)",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "lidar",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:las.pdrf2",
+   "fmt:las.pdrf4",
+   "fmt:las.pdrf5",
+   "fmt:las.pdrf8",
+   "fmt:las.pdrf9",
+   "fmt:las.pdrf10"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-dted-level2",
+  "area": "dem",
+  "title": "DTED Level 2 cells (3601², 1 arcsec) written by GDAL from Copernicus GLO-30, USGS 3DEP 1-arcsec and SRTM",
+  "source": "Derived from cop-dem-glo30-n39w106, usgs-3dep-13-n40w106, srtm-skadi-n39w106-n40w106",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Copernicus DEM licence; public domain (USGS 3DEP, SRTM)",
+  "attribution": "© DLR e.V. / Airbus DS under COPERNICUS; USGS 3DEP; NASA/USGS SRTM",
+  "tier": "A",
+  "origin": "derived",
+  "format": "DTED Level 2",
+  "profile": "GDAL DTED writer (UHL/DSI/ACC records, WGS84); real USGS DTED2 remains tier B",
+  "files": [
+   {
+    "name": "copernicus/w106/n39.dt2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "usgs-3dep-1arcsec/w106/n39.dt2",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "srtm-skadi/w106/n40.dt2",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdalwarp -te -106.00013888888888 38.99986111111111 -104.99986111111112 40.00013888888889 -ts 3601 3601 -ot Int16 Copernicus_DSM_COG_10_N39_00_W106_00_DEM.tif; gdal_translate -of DTED → copernicus/w106/n39.dt2; gdalwarp -te -106.00013888888888 38.99986111111111 -104.99986111111112 40.00013888888889 -ts 3601 3601 -ot Int16 USGS_1_n40w106.tif; gdal_translate -of DTED → usgs-3dep-1arcsec/w106/n39.dt2; gdalwarp -te -106.00013888888888 39.99986111111111 -104.99986111111112 41.00013888888889 -ts 3601 3601 -ot Int16 N40W106.hgt; gdal_translate -of DTED → srtm-skadi/w106/n40.dt2",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "dem",
+   "dem.save",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:dted.l2"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-zip-deliveries",
+  "area": "eo",
+  "title": "Imagery delivered in ZIP files (GeoTIFF, GMLJP2, NITF C8, JPEG + world file) and ZIPs nested one and two levels deep",
+  "source": "Derived from derived-gtiff-variants, derived-jp2-variants, derived-nitf-variants, derived-pictures-worldfile",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP, USGS); Copernicus Sentinel data terms; Maxar Open Data CC BY-NC 4.0 → test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "USDA NAIP; contains modified Copernicus Sentinel data 2024; Maxar Open Data Program (CC BY-NC 4.0)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "ZIP (imagery package)",
+  "profile": "Deflated and stored entries",
+  "files": [
+   {
+    "name": "naip_geotiff_delivery.zip",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_jp2_delivery.zip",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "naip_nitf_delivery.zip",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3_jpeg_worldfile_delivery.zip",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nested_naip.zip",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nested_two.zip",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "nested_deep.zip",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "zip -9 naip_geotiff_delivery.zip IMAGERY/naip_gcps.tif README.txt; zip -9 s2tci_jp2_delivery.zip IMG_DATA/s2tci_gmljp2.jp2 README.txt; zip -9 naip_nitf_delivery.zip NITF/naip_ic_c8.ntf README.txt; zip -9 wv3_jpeg_worldfile_delivery.zip wv3vis.jpg wv3vis.jgw wv3vis.prj README.txt; zip nested_naip.zip naip_geotiff_delivery.zip (ZIP inside ZIP); zip -0 nested_two.zip s2tci_jp2_delivery.zip naip_nitf_delivery.zip (ZIP inside ZIP); zip nested_deep.zip nested_naip.zip (ZIP inside ZIP)",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "zip"
+  ],
+  "covers": [
+   "fmt:zip.imagery",
+   "fmt:zip.nested"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-geopdf-iso32000",
+  "area": "geopdf",
+  "title": "GeoPDF raster pages with ISO 32000 (and ISO 32000 + OGC best practice) georeferencing, written by GDAL",
+  "source": "Derived from naip-ca-m3812157-sw-2022, s2-l1c-jp2-safe-10seh-20240816, cop-dem-glo30-n39w106",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USDA NAIP); Copernicus Sentinel data terms; Copernicus DEM licence",
+  "attribution": "USDA NAIP; contains modified Copernicus Sentinel data 2024; © DLR e.V. / Airbus DS under COPERNICUS",
+  "tier": "A",
+  "origin": "derived",
+  "format": "GeoPDF (ISO 32000)",
+  "profile": "JPEG-compressed raster page, 150 dpi",
+  "files": [
+   {
+    "name": "naip_geo_iso32000.pdf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2tci_geo_iso32000.pdf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cop_hillshade_geo_both.pdf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -of PDF -co GEO_ENCODING=ISO32000 -co COMPRESS=JPEG -srcwin 3946 5141 2048 2048 m_3812157_sw_10_060_20220519.tif naip_geo_iso32000.pdf; gdal_translate -of PDF -co GEO_ENCODING=ISO32000 -co COMPRESS=JPEG -srcwin 4466 4466 2048 2048 T10SEH_20240816T184919_TCI.jp2 s2tci_geo_iso32000.pdf; gdal_translate -of PDF -co GEO_ENCODING=BOTH -co COMPRESS=JPEG -srcwin 776 776 2048 2048 _hs.tif cop_hillshade_geo_both.pdf",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "geopdf"
+  ],
+  "covers": [
+   "fmt:geopdf.iso32000"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-hsi-cube-geotiff",
+  "area": "hsi",
+  "title": "Hyperspectral GeoTIFF cubes (512² chips): AVIRIS-Classic 224-band reflectance and DFC2018 CASI 48-band",
+  "source": "Derived from aviris-classic-f130410t01p00r09, ieee-dfc2018-houston",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "NASA/JPL AVIRIS (no restrictions); CC BY 4.0 (IEEE DataPort Open Access)",
+  "attribution": "NASA/JPL AVIRIS; 2018 IEEE GRSS Data Fusion Contest (University of Houston, NCALM)",
+  "tier": "A",
+  "origin": "derived",
+  "format": "GeoTIFF (≥30 bands)",
+  "profile": "Band-interleaved, wavelengths kept in GDAL metadata where the source has them",
+  "files": [
+   {
+    "name": "aviris_refl_chip.tif",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "dfc2018_casi_chip.tif",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "gdal_translate -srcwin 115 390 512 512 -co INTERLEAVE=BAND -co COMPRESS=DEFLATE f130410t01p00r09rdn_refl_img_corr aviris_refl_chip.tif; gdal_translate -srcwin 1830 345 512 512 -co INTERLEAVE=BAND -co COMPRESS=DEFLATE 20170218_UH_CASI_S4_NAD83.pix dfc2018_casi_chip.tif",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "ingest",
+   "msi"
+  ],
+  "covers": [
+   "fmt:raster.cube"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-gmti-tracks-ais",
+  "area": "gmti",
+  "title": "STANAG 4607 GMTI and STANAG 4676 tracks derived from real AIS vessel kinematics (Los Angeles/Long Beach, San Francisco Bay, Houston/Galveston; 2023-06-01 14:00–14:20 UTC)",
+  "source": "Derived from support-ais-marinecadastre-20230601",
+  "landing": "build/campaign/derive_tracks.mjs",
+  "licence": "Public domain (MarineCadastre.gov AIS); derived encodings free to use",
+  "attribution": "BOEM and NOAA, MarineCadastre.gov",
+  "tier": "A",
+  "origin": "derived",
+  "format": "STANAG 4607 (.4607) / STANAG 4676 XML (.4676.xml)",
+  "profile": "Dwell every 10 s, high-resolution target reports with radial velocity; 4676 in schema-style and simple encodings",
+  "files": [
+   {
+    "name": "la_longbeach_ais_20230601.4607",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "la_longbeach_ais_20230601_truth.json",
+    "url": null,
+    "role": "truth"
+   },
+   {
+    "name": "la_longbeach_ais_20230601_schema.4676.xml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "la_longbeach_ais_20230601_simple.4676.xml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "sf_bay_ais_20230601.4607",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "sf_bay_ais_20230601_truth.json",
+    "url": null,
+    "role": "truth"
+   },
+   {
+    "name": "sf_bay_ais_20230601_schema.4676.xml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "sf_bay_ais_20230601_simple.4676.xml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_galveston_ais_20230601.4607",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_galveston_ais_20230601_truth.json",
+    "url": null,
+    "role": "truth"
+   },
+   {
+    "name": "houston_galveston_ais_20230601_schema.4676.xml",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "houston_galveston_ais_20230601_simple.4676.xml",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "Los Angeles / Long Beach: 24 moving vessels, 120 dwells every 10 s from 2023-06-01T14:00:00.000Z; stand-off sensor 33.625, -118.650, 8 km; San Francisco Bay: 23 moving vessels, 120 dwells every 10 s from 2023-06-01T14:00:00.000Z; stand-off sensor 37.800, -122.900, 8 km; Houston Ship Channel / Galveston Bay: 94 moving vessels, 120 dwells every 10 s from 2023-06-01T14:00:00.000Z; stand-off sensor 29.150, -94.875, 8 km",
+  "notes": "Generated by build/campaign/derive_tracks.mjs. Truth JSON lists every target per dwell (MMSI, lat, lon, radial velocity).",
+  "feeds": [
+   "fmv.gmti",
+   "fmv.gmticolour",
+   "tracks"
+  ],
+  "covers": [
+   "fmt:gmti.4607",
+   "fmt:tracks.4676"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-mie4nitf-bambi",
+  "area": "fmv",
+  "title": "MIE4NITF frame sequences from the three BAMBI thermal drone flights (2 frames/s, MTIMSA timing, telemetry footprints)",
+  "source": "Derived from fmv-bambi-flights",
+  "landing": "build/campaign/derive_mie.mjs",
+  "licence": "CC BY 4.0 (BAMBI Raw Dataset, Zenodo)",
+  "attribution": "BAMBI project (bambi.eco), Zenodo record 18983480",
+  "tier": "A",
+  "origin": "derived",
+  "format": "NITF 2.1 MIE4NITF (MTIMSA)",
+  "profile": "640×512 8-bit IR frames, one image segment per frame; written by app/src/formats/nitf-writer.js writeNitfSegments",
+  "files": [
+   {
+    "name": "flight_258_thermal_mie4nitf.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "flight_306_thermal_mie4nitf.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "flight_316_thermal_mie4nitf.ntf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "ffmpeg -vf fps=2,scale=640:512,format=gray DJI_20241021165448_0001_T_point0.ts → 34 frames; MTIMSA per segment; IGEOLO from DJI_20241021165448_0001_T_point0.csv; ffmpeg -vf fps=2,scale=640:512,format=gray DJI_20241119101935_0003_T.ts → 19 frames; MTIMSA per segment; IGEOLO from DJI_20241119101935_0003_T.csv; segments written out of time order; ffmpeg -vf fps=2,scale=640:512,format=gray DJI_20240709090401_0001_T_point0.ts → 27 frames; MTIMSA per segment; IGEOLO from DJI_20240709090401_0001_T_point0.csv",
+  "notes": "Generated by build/campaign/derive_mie.mjs. Footprints are approximate (nadir assumption, heading rotation).",
+  "feeds": [
+   "mie.play",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:nitf.mie4nitf",
+   "fmt:nitf.v21",
+   "fmt:nitf.multiimage"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-app-artifacts",
+  "area": "raster",
+  "title": "App-written supporting files from GIS Workbench 2.0.1: projects (.gwb), built-in recipes (.gwrecipe.json), templates (.gwt.json), data packs (.gwpack)",
+  "source": "Derived (GIS Workbench 2.0.1 dist/gis-workbench.html, Playwright)",
+  "landing": "tests/tools/make-app-artifacts.mjs",
+  "licence": "Project files reference public corpus data; packs carry their own licences (see pack.json)",
+  "attribution": "GIS Workbench",
+  "tier": "A",
+  "origin": "derived",
+  "format": "GWB / GWRECIPE / GWT / GWPACK",
+  "profile": "Written by the app's own save paths; packs copied from dist/packs (minTool 2.0.1)",
+  "files": [
+   {
+    "name": "naip_vegas_buildings.gwb",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_sicd_chip.gwb",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "colorado_dem_dted2.gwb",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "airfield-triage.gwrecipe.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "damage-triage.gwrecipe.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "folder-to-cog.gwrecipe.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "building-extraction.gwrecipe.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "template_sheet.gwt.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "template_slide.gwt.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "template_chip.gwt.json",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "proj-0.1.0.gwpack",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "hdf5-0.10.3.gwpack",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "geoid-2008.5min.gwpack",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ai-1.30.0+slimsam77.webgpu.gwpack",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "node tests/tools/make-app-artifacts.mjs --dist dist",
+  "notes": "Packs embed minTool and hashes per release: regenerate after each release. Projects reference imagery by fingerprint (relink needed on another machine).",
+  "feeds": [
+   "file.openproject",
+   "packs.manage",
+   "tpl.apply",
+   "rcp.import"
+  ],
+  "covers": [],
+  "pairs": []
+ },
+ {
+  "id": "derived-pptx-templates",
+  "area": "raster",
+  "title": "PowerPoint templates (16:9, 4:3, branded master) and a .potx for product and report export",
+  "source": "Derived from python-pptx defaults",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Generated; no third-party content",
+  "attribution": "GIS Workbench test data",
+  "tier": "A",
+  "origin": "derived",
+  "format": "PPTX / POTX",
+  "profile": "python-pptx default theme",
+  "files": [
+   {
+    "name": "widescreen_16x9.pptx",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "standard_4x3.pptx",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "branded_navy_16x9.pptx",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "widescreen_16x9.potx",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "python-pptx Presentation() 13.333x7.5 in → widescreen_16x9.pptx; python-pptx Presentation() 10x7.5 in → standard_4x3.pptx; python-pptx Presentation() 13.333x7.5 in + navy layout backgrounds and slide footer → branded_navy_16x9.pptx; widescreen_16x9.pptx with [Content_Types].xml main part re-typed to presentationml.template.main+xml → .potx",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "report.template",
+   "deck"
+  ],
+  "covers": [
+   "fmt:app.pptx-template"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-control-points",
+  "area": "support",
+  "title": "Survey control in the app formats: USGS DRCOG 2020 lidar QA checkpoints (219, NVA/VVA) and NGS monuments around Golden CO and Las Vegas as GCP/checkpoint files",
+  "source": "Derived from control-usgs-3dep-co-drcog2020-checkpoints, control-ngs-co-golden-x48y441, control-ngs-vegas, support-proj-grids-geoid",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "Public domain (USGS, NOAA NGS)",
+  "attribution": "USGS 3D Elevation Program (CO DRCOG 2020 QA survey); NOAA National Geodetic Survey datasheets; NOAA GEOID18",
+  "tier": "A",
+  "origin": "derived",
+  "format": "CSV (control points)",
+  "profile": "Ellipsoid heights via GEOID18; NGS sigmas from datum quality",
+  "files": [
+   {
+    "name": "usgs_drcog2020_lidar_checkpoints.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ngs_golden_co_control.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "ngs_las_vegas_control.csv",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "USGS_Final_checkpoints.shp (219 pts): UTM 13N NAD83(2011) → lat/lon; hae = NAVD88 Z + GEOID18 (us_noaa_g2018u0.tif bilinear); ngs-nde-x48y441-ring30km.json: 315 NAVD88 monuments → hae = ellipHeight, else orthoHt + geoidHt (GEOID18); σh 0.05 m for NAD83(2011) positions else 0.5 m; every third point a checkpoint; ngs-nde-vegas-wide.json: 248 NAVD88 monuments → hae = ellipHeight, else orthoHt + geoidHt (GEOID18); σh 0.05 m for NAD83(2011) positions else 0.5 m; every third point a checkpoint",
+  "notes": "Generated by build/campaign/derive_archive.py",
+  "feeds": [
+   "model.gcp",
+   "tri.adjust",
+   "dem.accuracy"
+  ],
+  "covers": [
+   "fmt:control.gcp"
+  ],
+  "pairs": [
+   {
+    "role": "checkpoints",
+    "with": [
+     "usgs-3dep-1m-x48y441-drcog2020",
+     "lidar-3dep-co-drcog-2020-2x2"
+    ]
+   },
+   {
+    "role": "gcp",
+    "with": [
+     "naip-co-golden-x48y441-2023",
+     "eo-spacenet-vegas-wv3-pan-ms-r1c1"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "derived-nitf-bandsb-msi",
+  "area": "nitf",
+  "title": "Multispectral NITF chips with BANDSB (WorldView-3 MS DN, Landsat 8 SR, Sentinel-2 L2A) in IMODE B, R, P and S",
+  "source": "Derived from eo-spacenet-vegas-wv3-pan-ms-r1c1, landsat8-c2-l2sp-044034-20240820, s2-l2a-cog-10seh-20240816",
+  "landing": "build/campaign/derive_nitf_msi.mjs",
+  "licence": "CC BY-SA 4.0 (SpaceNet); public domain (USGS Landsat); Copernicus Sentinel data terms",
+  "attribution": "SpaceNet / Maxar; USGS; contains modified Copernicus Sentinel data 2024",
+  "tier": "A",
+  "origin": "derived",
+  "format": "NITF 2.1 (IC=NC, BANDSB TRE)",
+  "profile": "512² uint16 chips, 7-9 bands (the writer takes at most 9; S2 drops B8A), ABPP 16; band centre wavelengths and FWHM (µm) in BANDSB and ISUBCAT (nm); written by app/src/formats/nitf-writer.js writeNitf",
+  "files": [
+   {
+    "name": "wv3_vegas_ms_bandsb_imodeB.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3_vegas_ms_bandsb_imodeR.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "wv3_vegas_ms_bandsb_imodeS.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat8_sr_bandsb_imodeB.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "landsat8_sr_bandsb_imodeR.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2b_l2a_10seh_bandsb_imodeB.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2b_l2a_10seh_bandsb_imodeR.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "s2b_l2a_10seh_bandsb_imodeP.ntf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "eo-spacenet-vegas-wv3-pan-ms-r1c1: gdalbuildvrt -separate -resolution highest; gdal_translate -srcwin 1792 1792 512 512 → writeNitf IMODE B/R/S, BANDSB DN scale 1 offset 0; landsat8-c2-l2sp-044034-20240820: gdalbuildvrt -separate -resolution highest; gdal_translate -srcwin 3579 3649 512 512 → writeNitf IMODE B/R, BANDSB REFLECTANCE scale 0.0000275 offset -0.2; s2-l2a-cog-10seh-20240816: gdalbuildvrt -separate -resolution highest; gdal_translate -srcwin 5234 5234 512 512 → writeNitf IMODE B/R/P, BANDSB REFLECTANCE scale 0.0001 offset -0.1",
+  "notes": "Generated by build/campaign/derive_nitf_msi.mjs. Reflectance = DN × scale + offset per BANDSB (Landsat C2 L2: 2.75e-5, −0.2; S2 N0511: 1e-4, −0.1). WV3 band edges are nominal; the WV3 chip stays DN (per-band absCalFactor does not fit BANDSB one scale).",
+  "feeds": [
+   "msi.radiometric",
+   "msi.index.ndvi",
+   "msi.library",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:tre.BANDSB",
+   "fmt:nitf.imode.r",
+   "fmt:nitf.v21"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-sar-sicd14-sidd30",
+  "area": "sar",
+  "title": "SICD 1.4.0 and 1.5 NITF (Capella, Umbra, six-library) and SIDD 3.0 NITF (Umbra, six-library), re-versioned from real products with SARkit",
+  "source": "Derived from sar-osml-sicd-sidd-chips and sar-sicd-sidd-six-library",
+  "landing": "build/campaign/derive_sar_versions.py",
+  "licence": "Apache-2.0 (OSML test chips); MIT (six-library); source imagery CC BY 4.0 (Capella, Umbra open data)",
+  "attribution": "Capella Space, Umbra Space open data; aws-solutions-library-samples/osml; ngageoint/six-library",
+  "tier": "A",
+  "origin": "derived",
+  "format": "SICD 1.4.0 / 1.5 NITF, SIDD 3.0 NITF",
+  "profile": "Pixels and NITF subheaders copied; XML moved to the newer namespace and validated against the SARkit XSD; written by sarkit NitfWriter",
+  "files": [
+   {
+    "name": "capella_chip1_sicd14.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_chip1_sicd14.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "six_50x50_sicd14.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "capella_chip1_sicd15.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_chip1_sicd15.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "six_50x50_sicd15.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "capella_c10_sp_sidd_sidd30.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "capella_c13_sm_sidd_sidd30.nitf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "umbra_bingham_sidd_sidd30.nitf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "sar-osml-sicd-sidd-chips/capella-sicd130-chip1.ntf (urn:SICD:1.3.0) → urn:SICD:1.4.0; sar-osml-sicd-sidd-chips/umbra-sicd121-chip1.ntf (urn:SICD:1.2.1) → urn:SICD:1.4.0; sar-sicd-sidd-six-library/SICD/sicd_50x50.nitf (urn:SICD:1.2.1) → urn:SICD:1.4.0; sar-osml-sicd-sidd-chips/capella-sicd130-chip1.ntf (urn:SICD:1.3.0) → urn:SICD:1.5; sar-osml-sicd-sidd-chips/umbra-sicd121-chip1.ntf (urn:SICD:1.2.1) → urn:SICD:1.5; sar-sicd-sidd-six-library/SICD/sicd_50x50.nitf (urn:SICD:1.2.1) → urn:SICD:1.5; sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf (urn:SIDD:2.0.0) → urn:SIDD:3.0.0; capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf (urn:SIDD:2.0.0) → urn:SIDD:3.0.0; umbra-bingham-20230821-repeat/umbra_20230821_SIDD.nitf (urn:SIDD:2.0.0) → urn:SIDD:3.0.0",
+  "notes": "Generated by build/campaign/derive_sar_versions.py. Only the namespace changes, so the metadata uses no field new in 1.4/1.5/3.0.",
+  "feeds": [
+   "ingest",
+   "sar.pauli",
+   "sar.metadata"
+  ],
+  "covers": [
+   "fmt:sar.sicd.v1.4.0",
+   "fmt:sar.sidd.v3.0.0"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "derived-vmti-video",
+  "area": "fmv",
+  "title": "Real KLV motion imagery with injected MISB ST 0903 VMTI (Esri Truck, Esri Cheyenne inspection, OSH UAS sample stream): three moving targets per packet, truth JSON",
+  "source": "Derived from fmv-esri-truck-tutorial, fmv-esri-cheyenne-inspection, fmv-osh-uas-sample-stream-st0604",
+  "landing": "build/campaign/derive_vmti.mjs",
+  "licence": "Esri sample data terms; OSH sample stream (see its item) — test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Esri; Open Sensor Hub",
+  "tier": "A",
+  "origin": "derived",
+  "format": "MPEG-TS H.264 + ST 0601 KLV with ST 0903 VMTI (Item 74)",
+  "profile": "Video/audio packets byte-identical; KLV PES rebuilt; VMTI 0903.5 with centroid, bbox, confidence and location (from the packet corners at the frame-centre elevation)",
+  "files": [
+   {
+    "name": "truck_vmti.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "truck_vmti_truth.json",
+    "url": null,
+    "role": "metadata"
+   },
+   {
+    "name": "cheyenne_vmti.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "cheyenne_vmti_truth.json",
+    "url": null,
+    "role": "metadata"
+   },
+   {
+    "name": "osh_sample_vmti.ts",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "osh_sample_vmti_truth.json",
+    "url": null,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "derivation": "fmv-esri-truck-tutorial/FMV tutorial data/Truck.ts: 711 ST 0601 packets on PID 0x102 + Item 74 (3 targets), checksum recomputed; fmv-esri-cheyenne-inspection/cheyenne-inspection/cheyenne-inspection.mpg: 575 ST 0601 packets on PID 0x101 + Item 74 (3 targets), checksum recomputed; fmv-osh-uas-sample-stream-st0604/sample-stream.ts: 277 ST 0601 packets on PID 0x101 + Item 74 (3 targets), checksum recomputed",
+  "notes": "Generated by build/campaign/derive_vmti.mjs. Targets are synthetic tracks in pixel space; their ground positions agree with each packet's corners, so overlay tests compare the two.",
+  "feeds": [
+   "fmv.vmti",
+   "fmv.open",
+   "det.review"
+  ],
+  "covers": [
+   "fmt:fmv.ts",
+   "fmt:fmv.klv",
+   "fmt:fmv.vmti"
+  ],
+  "pairs": [
+   {
+    "role": "vmti-video",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "derived-nitf-rsm",
+  "area": "nitf",
+  "title": "NITF chips with RSM sensor models (RSMIDA + RSMPCA) built exactly from real WorldView-3 / WorldView-2 RPCs (IARPA MVS, CORE3D Jacksonville, SpaceNet Atlanta)",
+  "source": "Derived from nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, eo-spacenet-atlanta-wv2-l1b-rpc",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "IARPA MVS / CORE3D public release terms (see items); CC BY-SA 4.0 (SpaceNet)",
+  "attribution": "IARPA, JHU/APL; SpaceNet / Maxar",
+  "tier": "A",
+  "origin": "derived",
+  "format": "NITF 2.1 (RSMIDA, RSMPCA)",
+  "profile": "2048² PAN chips; one RSM section, cubic tensor, geodetic radians; RPC00B absent except in the _rpc00b copy",
+  "files": [
+   {
+    "name": "mvs_wv3_rsm.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "mvs_wv3_rsm_rpc00b.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "core3d_jax_wv3_rsm.ntf",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "atlanta_wv2_rsm.ntf",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_________AAE_0AAAAABPABJ0.NTF: srcwin 20480 17408 2048 2048; RPC offsets shifted; RSMIDA/RSMPCA from the RPC (geodetic, 333 tensor); also RSM + RPC00B; nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: srcwin 20480 22016 2048 2048; RPC offsets shifted; RSMIDA/RSMPCA from the RPC (geodetic, 333 tensor); eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_PAN/09DEC22163912-P1BS-058332896010_01_P005.TIF: srcwin 16566 98 2048 2048; RPC offsets shifted; RSMIDA/RSMPCA from the RPC (geodetic, 333 tensor)",
+  "notes": "Generated by build/campaign/derive_archive.py rsm_nitf. RSM ground coordinates = RPC ground coordinates, so an RSM evaluator must match GDAL's RPC transformer on the same chip to < 1e-6 px.",
+  "feeds": [
+   "model.info",
+   "model.active",
+   "model.error",
+   "tri.adjust"
+  ],
+  "covers": [
+   "fmt:sensor.rsm",
+   "fmt:nitf.v21"
+  ],
+  "pairs": [
+   {
+    "role": "dem-under",
+    "with": [
+     "rs-dem-derived-s35w059",
+     "dem-under-dfc2019-jax-omaha"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "derived-detections-csv",
+  "area": "vector",
+  "title": "ML detections CSV in the three parsed layouts (lat/lon, xmin…ymax, x/y/w/h with label/score aliases) from RarePlanes real aircraft labels, with truth flags",
+  "source": "Derived from vector-rareplanes-real-test-105, vector-rareplanes-real-test-108",
+  "landing": "build/campaign/derive_archive.py",
+  "licence": "CC BY-SA 4.0 (RarePlanes, In-Q-Tel CosmiQ Works / AI.Reverie)",
+  "attribution": "RarePlanes (CosmiQ Works, AI.Reverie); imagery Maxar WorldView-3",
+  "tier": "A",
+  "origin": "derived",
+  "format": "CSV (ML detections)",
+  "profile": "Confidence seeded N(0.82, 0.1) for labels and U(0.05, 0.6) for false alarms; pixel coordinates in the PS-RGB COG",
+  "files": [
+   {
+    "name": "rareplanes_105_detections_latlon.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "rareplanes_108_detections_xyxy.csv",
+    "url": null,
+    "role": "primary"
+   },
+   {
+    "name": "rareplanes_108_detections_xywh.csv",
+    "url": null,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "derivation": "vector-rareplanes-real-test-105 105_104001003108D900.geojson → latlon (20 labels + 3 false alarms, seed 20261028); vector-rareplanes-real-test-108 108_10400100457A8A00.geojson → xyxy (136 labels + 17 false alarms, seed 20261028); vector-rareplanes-real-test-108 108_10400100457A8A00.geojson → xywh (136 labels + 17 false alarms, seed 20261028)",
+  "notes": "Generated by build/campaign/derive_archive.py detections_csvs. Open the PS-RGB COG first for the pixel layouts (files.js asks for the image).",
+  "feeds": [
+   "det.import",
+   "triage.flag",
+   "lai.find"
+  ],
+  "covers": [
+   "fmt:det.csv"
+  ],
+  "pairs": [
+   {
+    "role": "labels-detect",
+    "with": [
+     "vector-rareplanes-real-test-105",
+     "vector-rareplanes-real-test-108"
+    ]
+   }
+  ]
+ }
+]

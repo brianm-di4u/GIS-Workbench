@@ -1,0 +1,48 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:41.406Z",
+ "key": "nitf-mvs-wv3-buenos-aires/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF in 65 msZoom to layer×",
+  "toast-info: 18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 43008,
+   "h": 36864,
+   "bands": 1,
+   "model": "RPC00B"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 72,
+   "h": 59,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3258,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

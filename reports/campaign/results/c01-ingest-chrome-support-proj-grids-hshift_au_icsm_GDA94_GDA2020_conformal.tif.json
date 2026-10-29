@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:20:19.077Z",
+ "key": "support-proj-grids-hshift/au_icsm_GDA94_GDA2020_conformal.tif",
+ "item": "support-proj-grids-hshift",
+ "file": "au_icsm_GDA94_GDA2020_conformal.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened au_icsm_GDA94_GDA2020_conformal.tif in 307 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 1101,
+   "h": 1481,
+   "bands": 2,
+   "model": "Map (EPSG:4283, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 912,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

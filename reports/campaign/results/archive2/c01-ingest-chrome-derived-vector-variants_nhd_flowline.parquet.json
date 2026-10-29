@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:59:36.496Z",
+ "key": "derived-vector-variants/nhd_flowline.parquet",
+ "item": "derived-vector-variants",
+ "file": "nhd_flowline.parquet",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120039,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

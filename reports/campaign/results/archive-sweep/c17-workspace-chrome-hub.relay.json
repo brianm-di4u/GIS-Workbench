@@ -1,0 +1,23 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:36.416Z",
+ "key": "hub.relay",
+ "id": "hub.relay",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Send to a Google Sheet"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,27 @@
+{
+ "spec": "c14-annotate",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:58.574Z",
+ "key": "gfx.props",
+ "id": "gfx.props",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Common Properties"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

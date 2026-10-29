@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:47.751Z",
+ "key": "vector-geojson-inspire-caniuse/ads_example_1_EPSG.3857.geojson",
+ "item": "vector-geojson-inspire-caniuse",
+ "file": "ads_example_1_EPSG.3857.geojson",
+ "format": "GeoJSON (INSPIRE GeoJSON encoding rules)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "legacy \"crs\" member urn:ogc:def:crs:EPSG::3857: reprojected to WGS 84"
+ ],
+ "toasts": [
+  "toast-info: ads_example_1_EPSG.3857: 1 feature(s) from GeoJSON (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 63,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

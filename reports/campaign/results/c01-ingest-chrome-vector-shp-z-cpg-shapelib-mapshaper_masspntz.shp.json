@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:26.817Z",
+ "key": "vector-shp-z-cpg-shapelib-mapshaper/masspntz.shp",
+ "item": "vector-shp-z-cpg-shapelib-mapshaper",
+ "file": "masspntz.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: masspntz: 815 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 815,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 198,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

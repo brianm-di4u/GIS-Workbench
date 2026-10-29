@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:25.459Z",
+ "key": "derived-3d-tiles-3tz/DuckGlb.3tz",
+ "item": "derived-3d-tiles-3tz",
+ "file": "DuckGlb.3tz",
+ "format": "3D Tiles 3TZ",
+ "rendered": false,
+ "errors": [
+  "ZIP container cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: DuckGlb.3tz: ZIP container cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 78,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

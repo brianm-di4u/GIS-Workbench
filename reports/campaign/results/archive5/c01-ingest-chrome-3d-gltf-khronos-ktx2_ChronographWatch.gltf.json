@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:32.051Z",
+ "key": "3d-gltf-khronos-ktx2/ChronographWatch.gltf",
+ "item": "3d-gltf-khronos-ktx2",
+ "file": "ChronographWatch.gltf",
+ "format": "glTF 2.0 (.gltf + .bin + .ktx2)",
+ "rendered": false,
+ "errors": [
+  "ChronographWatch.gltf: KTX2 / Basis Universal textures (KHR_texture_basisu, required) are not decoded in this release; re-export with PNG or JPEG textures"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: ChronographWatch.gltf: ChronographWatch.gltf: KTX2 / Basis Universal textures (KHR_texture_basisu, required) are not decoded in this release; re-export with PNG or JPEG textures×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 159,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

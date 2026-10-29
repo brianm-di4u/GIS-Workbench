@@ -1,0 +1,23 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:51.049Z",
+ "key": "fmv.close",
+ "id": "fmv.close",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-fmv-variants/truck_hevc_klv.ts"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

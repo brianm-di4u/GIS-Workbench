@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:07.639Z",
+ "key": "vector-mbtiles-gdal-autotest/world_l1.mbtiles",
+ "item": "vector-mbtiles-gdal-autotest",
+ "file": "world_l1.mbtiles",
+ "format": "MBTiles (SQLite)",
+ "rendered": false,
+ "errors": [
+  "MBTiles tile sets are not read; convert it to PMTiles (pmtiles convert in.mbtiles out.pmtiles) and open that as a basemap"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: world_l1.mbtiles: MBTiles tile sets are not read; convert it to PMTiles (pmtiles convert in.mbtiles out.pmtiles) and open that as a basemap×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 46,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

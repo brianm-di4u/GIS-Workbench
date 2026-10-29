@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:14.976Z",
+ "key": "derived-vector-variants/bambi_DJI_20241021165448_0001_T_point0.gpx",
+ "item": "derived-vector-variants",
+ "file": "bambi_DJI_20241021165448_0001_T_point0.gpx",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: bambi_DJI_20241021165448_0001_T_point0.gpx: 0 waypoint(s), 0 route(s), 1 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 58,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

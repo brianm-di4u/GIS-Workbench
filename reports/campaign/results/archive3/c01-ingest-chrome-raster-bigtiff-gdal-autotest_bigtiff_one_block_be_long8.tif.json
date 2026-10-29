@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:10:59.527Z",
+ "key": "raster-bigtiff-gdal-autotest/bigtiff_one_block_be_long8.tif",
+ "item": "raster-bigtiff-gdal-autotest",
+ "file": "bigtiff_one_block_be_long8.tif",
+ "format": "BigTIFF (TIFF magic 43)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened bigtiff_one_block_be_long8.tif in 40 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1,
+   "h": 1,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 361,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

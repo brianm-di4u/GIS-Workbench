@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:00.423Z",
+ "key": "vector-mbtiles-mbtileserver-testdata/world_cities.mbtiles",
+ "item": "vector-mbtiles-mbtileserver-testdata",
+ "file": "world_cities.mbtiles",
+ "format": "MBTiles (SQLite)",
+ "rendered": false,
+ "errors": [
+  "GeoPackage (R2) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: world_cities.mbtiles: GeoPackage (R2) cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 101,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

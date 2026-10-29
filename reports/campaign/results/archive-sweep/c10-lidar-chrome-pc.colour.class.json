@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:35.286Z",
+ "key": "pc.colour.class",
+ "id": "pc.colour.class",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-bpf-pdal-v3/autzen-utm.bpf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

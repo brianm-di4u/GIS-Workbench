@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:52.924Z",
+ "key": "vector-gml-inspire-caniuse/EMF.BRGM_1.geom.gml",
+ "item": "vector-gml-inspire-caniuse",
+ "file": "EMF.BRGM_1.geom.gml",
+ "format": "GML 3.2 (INSPIRE application schemas)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: EMF.BRGM_1.geom: 5 feature(s) from GML×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 5,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 60,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

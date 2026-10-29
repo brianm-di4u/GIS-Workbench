@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:02.179Z",
+ "key": "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_asdfr.sli",
+ "item": "hsi-speclib-splib07b-envi-hyperspectralpy",
+ "file": "splib07b_asdfr.sli",
+ "format": "ENVI Spectral Library (file type = ENVI Spectral Library, Float32 BSQ)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 966 library spectra from splib07b_asdfr.sli, splib07b_asdfr.hdr×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1034,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

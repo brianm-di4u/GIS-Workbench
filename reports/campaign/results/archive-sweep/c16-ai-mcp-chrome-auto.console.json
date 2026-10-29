@@ -1,0 +1,21 @@
+{
+ "spec": "c16-ai-mcp",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:12.944Z",
+ "key": "auto.console",
+ "id": "auto.console",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

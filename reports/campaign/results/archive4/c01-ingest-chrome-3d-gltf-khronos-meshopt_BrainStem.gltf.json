@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:39.060Z",
+ "key": "3d-gltf-khronos-meshopt/BrainStem.gltf",
+ "item": "3d-gltf-khronos-meshopt",
+ "file": "BrainStem.gltf",
+ "format": "glTF 2.0 (.gltf + .bin) with meshopt-compressed buffers",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "placed by its centre"
+ ],
+ "toasts": [
+  "toast-info: BrainStem.gltf: 49 mesh(es), placed by its centre×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 198,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

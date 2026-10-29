@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:30:59.103Z",
+ "key": "derived-pictures-worldfile/naip.webp",
+ "item": "derived-pictures-worldfile",
+ "file": "naip.webp",
+ "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip.webp in 65 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "webp",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "World file (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 675,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

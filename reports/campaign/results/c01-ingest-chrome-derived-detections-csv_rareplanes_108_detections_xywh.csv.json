@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:17:07.386Z",
+ "key": "derived-detections-csv/rareplanes_108_detections_xywh.csv",
+ "item": "derived-detections-csv",
+ "file": "rareplanes_108_detections_xywh.csv",
+ "format": "CSV (ML detections)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: rareplanes_108_detections_xywh: 153 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 153,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 62,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

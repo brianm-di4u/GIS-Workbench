@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:01.431Z",
+ "key": "3d-tiles-3tz-cesium-test-packages/validTilesetPackageZipped.3tz",
+ "item": "3d-tiles-3tz-cesium-test-packages",
+ "file": "validTilesetPackageZipped.3tz",
+ "format": "3D Tiles archive (.3tz, ZIP with @3dtilesIndex1@)",
+ "rendered": false,
+ "errors": [
+  "Failed to execute 'json' on 'Response': Unexpected token '\u001f', \"\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\n\"... is not valid JSON"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: validTilesetPackageZipped.3tz: Failed to execute 'json' on 'Response': Unexpected token '\u001f', \"\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\n\"... is not valid JSON×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 232,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

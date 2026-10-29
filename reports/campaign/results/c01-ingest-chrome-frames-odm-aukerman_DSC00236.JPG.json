@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:20:27.127Z",
+ "key": "frames-odm-aukerman/DSC00236.JPG",
+ "item": "frames-odm-aukerman",
+ "file": "DSC00236.JPG",
+ "format": "JPEG stills (EXIF)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened DSC00236.JPG in 1061 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 4896,
+   "h": 3672,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2161,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

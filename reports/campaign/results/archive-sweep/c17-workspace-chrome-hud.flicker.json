@@ -1,0 +1,26 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:24.965Z",
+ "key": "hud.flicker",
+ "id": "hud.flicker",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Hold F over the panel to see the image underneath; release to come back.×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

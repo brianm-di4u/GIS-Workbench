@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:46.305Z",
+ "key": "derived-detections-csv/rareplanes_108_detections_xyxy.csv",
+ "item": "derived-detections-csv",
+ "file": "rareplanes_108_detections_xyxy.csv",
+ "format": "CSV (ML detections)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "open the image these detections belong to first, then open the file again"
+ ],
+ "toasts": [
+  "toast-warn: rareplanes_108_detections_xyxy.csv: open the image these detections belong to first, then open the file again×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 63,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

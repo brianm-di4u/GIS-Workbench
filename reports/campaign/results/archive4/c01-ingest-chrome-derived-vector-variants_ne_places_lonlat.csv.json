@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:05.568Z",
+ "key": "derived-vector-variants/ne_places_lonlat.csv",
+ "item": "derived-vector-variants",
+ "file": "ne_places_lonlat.csv",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_places_lonlat: 7342 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 7342,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 260,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

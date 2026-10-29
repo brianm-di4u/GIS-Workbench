@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:16:37.809Z",
+ "key": "derived-nitf-bandsb-msi/landsat8_sr_bandsb_imodeR.ntf",
+ "item": "derived-nitf-bandsb-msi",
+ "file": "landsat8_sr_bandsb_imodeR.ntf",
+ "format": "NITF 2.1 (IC=NC, BANDSB TRE)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened landsat8_sr_bandsb_imodeR.ntf in 748 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 512,
+   "h": 512,
+   "bands": 7,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1845,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

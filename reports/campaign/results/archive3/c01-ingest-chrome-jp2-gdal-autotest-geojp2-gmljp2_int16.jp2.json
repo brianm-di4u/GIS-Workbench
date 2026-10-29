@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:13.110Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/int16.jp2",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "int16.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened int16.jp2 in 48 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GeoJP2; 20×20×1, 16-bit, 5 resolution levels)",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 387,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

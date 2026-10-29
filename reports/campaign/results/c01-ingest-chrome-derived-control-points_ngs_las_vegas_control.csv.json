@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:16:34.897Z",
+ "key": "derived-control-points/ngs_las_vegas_control.csv",
+ "item": "derived-control-points",
+ "file": "ngs_las_vegas_control.csv",
+ "format": "CSV (control points)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ngs_las_vegas_control: 248 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 248,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 92,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

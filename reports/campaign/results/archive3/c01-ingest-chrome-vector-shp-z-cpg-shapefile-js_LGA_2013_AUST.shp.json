@@ -1,0 +1,41 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:19.869Z",
+ "key": "vector-shp-z-cpg-shapefile-js/LGA_2013_AUST.shp",
+ "item": "vector-shp-z-cpg-shapefile-js",
+ "file": "LGA_2013_AUST.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "record 1 is a null shape; skipped",
+  "record 2 is a null shape; skipped",
+  "record 3 is a null shape; skipped",
+  "record 4 is a null shape; skipped",
+  "record 6 is a null shape; skipped",
+  "record 7 is a null shape; skipped",
+  "record 8 is a null shape; skipped",
+  "record 9 is a null shape; skipped",
+  "record 10 is a null shape; skipped",
+  "record 11 is a null shape; skipped",
+  "record 12 is a null shape; skipped",
+  "record 13 is a null shape; skipped"
+ ],
+ "toasts": [
+  "toast-info: LGA_2013_AUST: 1 feature(s) from ESRI Shapefile (12 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 390,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

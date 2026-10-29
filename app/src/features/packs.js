@@ -48,6 +48,7 @@ export async function install(app) {
         throw e;
       }
       out.push(p);
+      app.importLog.push({ file: f.name, errors: [], warnings: [] });
       app.toast(`Data pack ${p.title} ${p.version} verified (${p.entries.size} entries, SHA-256 checked)`);
       if (p.name === 'geoid') await useGeoid(p);
       if (p.name === 'proj') await proj.ensure();

@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:29:01.898Z",
+ "key": "vector-gpx-topografix-fells-loop/fells_loop.gpx",
+ "item": "vector-gpx-topografix-fells-loop",
+ "file": "fells_loop.gpx",
+ "format": "GPX 1.0",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120058,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

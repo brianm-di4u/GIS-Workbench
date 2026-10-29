@@ -1,0 +1,19 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:06:00.809Z",
+ "key": "theme.m3light",
+ "id": "theme.m3light",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:02.516Z",
+ "key": "sar-cphd-gdal-autotest/test.cphd",
+ "item": "sar-cphd-gdal-autotest",
+ "file": "test.cphd",
+ "format": "CPHD (XML header edited, zero signal)",
+ "rendered": false,
+ "errors": [
+  "CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: test.cphd: CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 58,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

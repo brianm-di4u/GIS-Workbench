@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:39:37.517Z",
+ "key": "gmti-stanag4607-pentlandedge-list1/list1.4607",
+ "item": "gmti-stanag4607-pentlandedge-list1",
+ "file": "list1.4607",
+ "format": "STANAG 4607 binary",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120069,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

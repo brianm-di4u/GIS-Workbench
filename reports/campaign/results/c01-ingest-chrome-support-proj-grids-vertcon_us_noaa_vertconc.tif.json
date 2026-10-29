@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:20:20.091Z",
+ "key": "support-proj-grids-vertcon/us_noaa_vertconc.tif",
+ "item": "support-proj-grids-vertcon",
+ "file": "us_noaa_vertconc.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened us_noaa_vertconc.tif in 111 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 461,
+   "h": 521,
+   "bands": 1,
+   "model": "Map (EPSG:4267, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 450,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

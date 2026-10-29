@@ -1,0 +1,25 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:14.836Z",
+ "key": "stereo.parity",
+ "id": "stereo.parity",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "stereo",
+  "stereo.mode.interleaved: done"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

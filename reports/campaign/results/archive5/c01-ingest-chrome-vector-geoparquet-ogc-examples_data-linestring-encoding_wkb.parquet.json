@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:17.254Z",
+ "key": "vector-geoparquet-ogc-examples/data-linestring-encoding_wkb.parquet",
+ "item": "vector-geoparquet-ogc-examples",
+ "file": "data-linestring-encoding_wkb.parquet",
+ "format": "GeoParquet 1.x",
+ "rendered": false,
+ "errors": [
+  "GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: data-linestring-encoding_wkb.parquet: GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 54,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

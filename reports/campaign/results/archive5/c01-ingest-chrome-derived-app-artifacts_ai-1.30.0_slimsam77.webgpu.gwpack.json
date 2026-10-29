@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:30.984Z",
+ "key": "derived-app-artifacts/ai-1.30.0+slimsam77.webgpu.gwpack",
+ "item": "derived-app-artifacts",
+ "file": "ai-1.30.0+slimsam77.webgpu.gwpack",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack Local AI runtime (WebGPU / WASM) and SlimSAM 1.30.0+slimsam77.webgpu verified (9 entries, SHA-256 checked)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 549,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:23.605Z",
+ "key": "derived-zip-deliveries/wv3_jpeg_worldfile_delivery.zip",
+ "item": "derived-zip-deliveries",
+ "file": "wv3_jpeg_worldfile_delivery.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 3 of 4 files from the ZIP"
+ ],
+ "toasts": [
+  "toast-info: Opened wv3vis.jpg in 66 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "World file (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 689,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

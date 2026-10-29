@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:09:34.224Z",
+ "key": "derived-vector-variants/nhd_waterbody_wkt.csv",
+ "item": "derived-vector-variants",
+ "file": "nhd_waterbody_wkt.csv",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: nhd_waterbody_wkt: 300 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 300,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 72,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -5,6 +5,7 @@
 import { describe, it, expect } from 'vitest';
 import { readGeoJSON, writeGeoJSON, writeShapefile, readShapefile, shapefileSets, dbfNames, utf8Cut } from '../../app/src/vector/io.js';
 import { fromParts, parts, signedArea, setVertex, insertVertex, deleteVertex, toGeoJSON, fromGeoJSON } from '../../app/src/vector/geom.js';
+import { readCsv } from '../../app/src/vector/csv.js';
 
 const layer = () => ({
   name: 'fx12',
@@ -108,5 +109,25 @@ describe('Shapefile', () => {
     expect(Object.keys(files).filter((k) => k.endsWith('.shp')).sort()).toEqual(['fx12_lines.shp', 'fx12_points.shp', 'fx12_polygons.shp']);
     expect(report.features_out).toBe(4);
     expect(report.by_geometry).toMatchObject({ PointZ: 1, PolyLine: 1, PolygonZ: 2 });
+  });
+});
+
+describe('CSV and non-GeoJSON JSON', () => {
+  it('reads prefixed latitude/longitude pairs (FMV sensor metadata) and names the columns', () => {
+    const { report } = readCsv('TimeStamp,SensorLatitude,SensorLongitude,SensorAltitude,FrameCenterLatitude\n1,27.4,-82.1,174,27.39\n2,27.5,-82.2,175,27.49\n');
+    expect(report.features_out ?? 2).toBe(2);
+    expect(report.warnings[0]).toBe('points from SensorLongitude / SensorLatitude / SensorAltitude');
+  });
+  it('still refuses a CSV with no coordinates by name', () => {
+    expect(() => readCsv('a,b\n1,2\n')).toThrow(/no WKT column and no longitude\/latitude columns/);
+  });
+  it('refuses projected X/Y columns as longitude/latitude, and skips stray rows', () => {
+    expect(() => readCsv('X,Y,Z\n637177.98,849393.95,411.19\n')).toThrow(/X\/Y columns hold projected coordinates, not longitude\/latitude \(e\.g\. 637177\.98, 849393\.95\)/);
+    const { report } = readCsv('lon,lat\n10,50\n999,50\n');
+    expect(report.warnings[0]).toMatch(/1 row\(s\) skipped/);
+  });
+  it('refuses JSON that is not GeoJSON by name', () => {
+    expect(() => readGeoJSON('{"asset":{"version":"1.1"},"root":{}}')).toThrow(/not GeoJSON .*no "type" member/);
+    expect(() => readGeoJSON('{"type":"Catalog"}')).toThrow(/type "Catalog"/);
   });
 });

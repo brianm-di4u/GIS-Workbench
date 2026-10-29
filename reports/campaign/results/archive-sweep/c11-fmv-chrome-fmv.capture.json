@@ -1,0 +1,25 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:23.795Z",
+ "key": "fmv.capture",
+ "id": "fmv.capture",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Captured frame 1 (NITF, RPC fit 0.000 px RMS)×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-fmv-variants/truck_hevc_klv.ts"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:53.140Z",
+ "key": "derived-gtiff-variants/cop_dem_gcps.tif",
+ "item": "derived-gtiff-variants",
+ "file": "cop_dem_gcps.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened cop_dem_gcps.tif in 42 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "GCPs (16, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1411,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

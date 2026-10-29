@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:59.325Z",
+ "key": "vector-csv-noaa-ibtracs-last3years/ibtracs.last3years.list.v04r01.csv",
+ "item": "vector-csv-noaa-ibtracs-last3years",
+ "file": "ibtracs.last3years.list.v04r01.csv",
+ "format": "CSV (LAT, LON columns + 160 others)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ibtracs.last3years.list.v04r01: 24203 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 24203,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2392,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

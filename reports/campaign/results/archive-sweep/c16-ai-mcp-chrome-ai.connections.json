@@ -1,0 +1,21 @@
+{
+ "spec": "c16-ai-mcp",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:11.580Z",
+ "key": "ai.connections",
+ "id": "ai.connections",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "AI Connections"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

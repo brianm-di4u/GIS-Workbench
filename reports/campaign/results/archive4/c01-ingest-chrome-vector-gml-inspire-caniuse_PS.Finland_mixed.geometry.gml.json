@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:52.149Z",
+ "key": "vector-gml-inspire-caniuse/PS.Finland_mixed.geometry.gml",
+ "item": "vector-gml-inspire-caniuse",
+ "file": "PS.Finland_mixed.geometry.gml",
+ "format": "GML 3.2 (INSPIRE application schemas)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "EPSG:3067 is not defined here; coordinates kept as they are (load the PROJ data pack)"
+ ],
+ "toasts": [
+  "toast-info: PS.Finland_mixed.geometry: 10 feature(s) from GML (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 10,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 56,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

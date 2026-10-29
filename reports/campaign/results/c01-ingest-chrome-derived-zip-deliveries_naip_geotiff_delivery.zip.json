@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:12:15.528Z",
+ "key": "derived-zip-deliveries/naip_geotiff_delivery.zip",
+ "item": "derived-zip-deliveries",
+ "file": "naip_geotiff_delivery.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 1 of 2 files from the ZIP"
+ ],
+ "toasts": [
+  "toast-info: Opened naip_gcps.tif in 44 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1024,
+   "h": 1024,
+   "bands": 4,
+   "model": "GCPs (16, EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3172,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

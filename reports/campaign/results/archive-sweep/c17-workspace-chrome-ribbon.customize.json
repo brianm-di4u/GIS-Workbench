@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:23.114Z",
+ "key": "ribbon.customize",
+ "id": "ribbon.customize",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Customize the Ribbon"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

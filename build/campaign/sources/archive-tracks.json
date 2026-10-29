@@ -1,0 +1,22 @@
+[
+ {
+  "id": "support-ais-marinecadastre-20230601",
+  "area": "support",
+  "title": "U.S. vessel traffic (AIS) for 2023-06-01, all U.S. coastal waters: real ship tracks used as truth for derived STANAG 4607 GMTI and STANAG 4676 track files",
+  "source": "NOAA Office for Coastal Management / BOEM MarineCadastre.gov",
+  "landing": "https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2023/index.html",
+  "licence": "Public domain (U.S. Government; MarineCadastre.gov data are free of use restrictions)",
+  "attribution": "Bureau of Ocean Energy Management (BOEM) and National Oceanic and Atmospheric Administration (NOAA), MarineCadastre.gov",
+  "tier": "A",
+  "format": "CSV (AIS position reports) in ZIP",
+  "profile": "Columns MMSI, BaseDateTime, LAT, LON, SOG, COG, Heading, VesselName, IMO, CallSign, VesselType, Status, Length, Width, Draft, Cargo, TransceiverClass; 1-minute filtered reports",
+  "files": [
+   { "name": "AIS_2023_06_01.zip", "url": "https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2023/AIS_2023_06_01.zip", "bytes": 343949892, "role": "archive", "extract": true }
+  ],
+  "sign": null,
+  "notes": "The 2024 directory index lists files that return 404 (2026-10-28); 2023 files download. Input to build/campaign/derive_tracks.mjs (not opened by the app: no AIS reader).",
+  "feeds": ["fmv.gmti", "tracks"],
+  "covers": [],
+  "pairs": []
+ }
+]

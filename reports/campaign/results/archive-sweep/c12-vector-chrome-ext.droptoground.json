@@ -1,0 +1,32 @@
+{
+ "spec": "c12-vector",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:40.867Z",
+ "key": "ext.droptoground",
+ "id": "ext.droptoground",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Drop to Ground"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "terrain",
+  "3d",
+  "select-feature"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif",
+  "vector-fx12-synthetic/fx12.gpkg",
+  "vector-fx12-synthetic/fx12.geojson",
+  "vector-fx12-synthetic/fx12.kml",
+  "vector-fx12-synthetic/fx12.kmz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

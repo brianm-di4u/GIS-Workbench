@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:21.506Z",
+ "key": "jp2-openjpeg-conformance/file8.jp2",
+ "item": "jp2-openjpeg-conformance",
+ "file": "file8.jp2",
+ "format": "JP2 / J2K (no georeferencing)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened file8.jp2 in 49 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2; 700×400×1, 8-bit, 5 resolution levels)",
+   "w": 700,
+   "h": 400,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 380,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

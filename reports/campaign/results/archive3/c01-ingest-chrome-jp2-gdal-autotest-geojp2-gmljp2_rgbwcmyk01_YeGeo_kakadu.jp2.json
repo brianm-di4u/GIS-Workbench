@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:15.111Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/rgbwcmyk01_YeGeo_kakadu.jp2",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "rgbwcmyk01_YeGeo_kakadu.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened rgbwcmyk01_YeGeo_kakadu.jp2 in 39 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GeoJP2; 800×100×3, 8-bit, 5 resolution levels)",
+   "w": 800,
+   "h": 100,
+   "bands": 3,
+   "model": "Map (EPSG:26918)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 364,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

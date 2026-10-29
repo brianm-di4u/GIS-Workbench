@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:10.627Z",
+ "key": "derived-pmtiles-raster/naip_jpeg.mbtiles",
+ "item": "derived-pmtiles-raster",
+ "file": "naip_jpeg.mbtiles",
+ "format": "PMTiles / MBTiles",
+ "rendered": false,
+ "errors": [
+  "GeoPackage (R2) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: naip_jpeg.mbtiles: GeoPackage (R2) cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 71,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

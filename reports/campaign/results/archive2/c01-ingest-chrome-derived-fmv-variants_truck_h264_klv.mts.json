@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:26.258Z",
+ "key": "derived-fmv-variants/truck_h264_klv.mts",
+ "item": "derived-fmv-variants",
+ "file": "truck_h264_klv.mts",
+ "format": "MPEG-TS (H.265 / MPEG-2 / BDAV)",
+ "rendered": false,
+ "errors": [
+  "no programme tables (PAT/PMT) and no recognisable video or KLV in 2002 transport packets: the stream is damaged or not MPEG-TS"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: truck_h264_klv.mts: no programme tables (PAT/PMT) and no recognisable video or KLV in 2002 transport packets: the stream is damaged or not MPEG-TS×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 595,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

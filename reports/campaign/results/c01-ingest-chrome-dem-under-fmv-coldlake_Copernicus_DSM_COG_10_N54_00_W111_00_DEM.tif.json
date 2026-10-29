@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:18:21.795Z",
+ "key": "dem-under-fmv-coldlake/Copernicus_DSM_COG_10_N54_00_W111_00_DEM.tif",
+ "item": "dem-under-fmv-coldlake",
+ "file": "Copernicus_DSM_COG_10_N54_00_W111_00_DEM.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Copernicus_DSM_COG_10_N54_00_W111_00_DEM.tif in 282 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 2400,
+   "h": 3600,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 867,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

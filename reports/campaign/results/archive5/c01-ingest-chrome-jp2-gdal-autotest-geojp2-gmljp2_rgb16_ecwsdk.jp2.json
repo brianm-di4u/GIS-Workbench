@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:35.966Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/rgb16_ecwsdk.jp2",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "rgb16_ecwsdk.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened rgb16_ecwsdk.jp2 in 52 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GeoJP2; 64×64×3, 16-bit, 1 resolution levels)",
+   "w": 64,
+   "h": 64,
+   "bands": 3,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 388,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -315,7 +315,10 @@ export function install(app) {
     const serve = async (url) => {
       const path = decodeURIComponent(new URL(url).pathname.slice(1));
       const b = files[path];
-      return b ? new Response(b, { status: 200 }) : new Response('', { status: 404 });
+      if (!b) return new Response('', { status: 404 });
+      // 3TZ entries may be gzip-compressed on their own (Content-Encoding gzip in a web server).
+      if (b[0] === 0x1f && b[1] === 0x8b) return new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip')), { status: 200 });
+      return new Response(b, { status: 200 });
     };
     const v = await ensureView(p);
     const t = await v.addTileset(base, serve, { maxSse, name: file.name });

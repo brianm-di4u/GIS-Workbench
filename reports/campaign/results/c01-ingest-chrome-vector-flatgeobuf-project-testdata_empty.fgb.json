@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:42.271Z",
+ "key": "vector-flatgeobuf-project-testdata/empty.fgb",
+ "item": "vector-flatgeobuf-project-testdata",
+ "file": "empty.fgb",
+ "format": "FlatGeobuf",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: empty.fgb: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 108,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

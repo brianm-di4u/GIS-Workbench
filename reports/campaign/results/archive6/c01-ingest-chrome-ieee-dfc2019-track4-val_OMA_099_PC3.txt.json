@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:46.236Z",
+ "key": "ieee-dfc2019-track4-val/OMA_099_PC3.txt",
+ "item": "ieee-dfc2019-track4-val",
+ "file": "OMA_099_PC3.txt",
+ "format": "ASCII XYZ point cloud + class truth",
+ "rendered": false,
+ "errors": [
+  "the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: OMA_099_PC3.txt: the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 103,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

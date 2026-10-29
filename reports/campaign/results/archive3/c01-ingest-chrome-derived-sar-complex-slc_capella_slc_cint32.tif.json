@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:08:46.128Z",
+ "key": "derived-sar-complex-slc/capella_slc_cint32.tif",
+ "item": "derived-sar-complex-slc",
+ "file": "capella_slc_cint32.tif",
+ "format": "Complex GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened capella_slc_cint32.tif in 45 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "Complex GeoTIFF (CInt32 SLC)",
+   "w": 2048,
+   "h": 1871,
+   "bands": 9,
+   "model": "GCPs (4, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 894,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:44.313Z",
+ "key": "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf",
+ "item": "capella-c13-sm-20240924",
+ "file": "capella_C13_SM_SIDD.ntf",
+ "format": "SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF SLC + extended JSON | GeoTIFF/COG GEO | CPHD1.1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened capella_C13_SM_SIDD.ntf in 43 msZoom to layer×",
+  "toast-info: capella_C13_SM_SIDD.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SIDD 2.0.0 (MONO16I)",
+   "w": 4972,
+   "h": 4558,
+   "bands": 1,
+   "model": "SIDD PlaneProjection"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1394,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

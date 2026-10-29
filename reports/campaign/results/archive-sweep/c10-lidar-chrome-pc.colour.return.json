@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:40.371Z",
+ "key": "pc.colour.return",
+ "id": "pc.colour.return",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-3dep-co-soplatte-2013-2x2/USGS_LPC_South_Platte_River_Flood_LiDAR_13SDE474416.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

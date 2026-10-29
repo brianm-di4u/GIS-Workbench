@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:43.902Z",
+ "key": "vector-gml-gdal-autotest/archsites.gml",
+ "item": "vector-gml-gdal-autotest",
+ "file": "archsites.gml",
+ "format": "GML 2 / 3.1 / 3.2 (+ application-schema .xsd where present)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-info: archsites: 1 feature(s) from GML",
+  "toast-error: archsites.xsd: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 64,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

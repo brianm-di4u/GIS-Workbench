@@ -1,0 +1,24 @@
+{
+ "spec": "c03-enhance",
+ "project": "chrome",
+ "when": "2026-10-29T07:07:44.683Z",
+ "key": "bands.preview",
+ "id": "bands.preview",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:18:55.443Z",
+ "key": "3d-gltf-draco-khronos/VirtualCity.gltf",
+ "item": "3d-gltf-draco-khronos",
+ "file": "VirtualCity.gltf",
+ "format": "glTF 2.0 + Draco",
+ "rendered": false,
+ "errors": [
+  "THREE.GLTFLoader: No DRACOLoader instance provided."
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: VirtualCity.gltf: THREE.GLTFLoader: No DRACOLoader instance provided."
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 310,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

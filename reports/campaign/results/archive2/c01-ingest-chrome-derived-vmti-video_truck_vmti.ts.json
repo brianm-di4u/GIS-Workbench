@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:03:40.865Z",
+ "key": "derived-vmti-video/truck_vmti.ts",
+ "item": "derived-vmti-video",
+ "file": "truck_vmti.ts",
+ "format": "MPEG-TS H.264 + ST 0601 KLV with ST 0903 VMTI (Item 74)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened truck_vmti.ts: 4439 frames, 711 KLV packets (0 bad) in 1992 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 2041,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -2,9 +2,11 @@
 // by the Rust `parse` bundle from byte ranges; pixels are read block by block with
 // File.slice. Rust decodes every block: uncompressed (any NBPP), JPEG 8/12-bit with the NITF
 // default tables (C3/M3), VQ (C4/M4, RPF tables), T.4 1-D bi-level (C1/M1); JPEG 2000 and
-// HTJ2K (C8/M8) go through the lazily loaded `j2k` bundle as one whole-image decode.
+// HTJ2K (C8/M8) go through the lazily loaded `j2k` bundle: tile by tile (full and reduced
+// resolutions) when the codestream is tiled, otherwise as one whole-image decode.
 
 import { LRU } from './pyramid.js';
+import { j2kTileIndex, j2kTileReader } from './j2ktiles.js';
 
 const PV = { INT: 0, SI: 1, R: 2, C: 3, B: 4 };
 const TYPE = { 1: 'u8', 2: 'u16', 3: 'i16', 4: 'u32', 5: 'i32', 6: 'f32', 7: 'cf32' };
@@ -143,6 +145,8 @@ async function makeImageSource(file, parse, im) {
   if (codec === 'vq') vq = await loadVq(file, parse, s, im, bw, bh);
   if (codec === 't4' && !blockOffsets && NBPR * NBPC * (IMODE === 'S' ? nb : 1) > 1) throw new Error('T.4 bi-level images with several blocks need a block mask (IC=M1)');
   let j2kWhole = null; // whole-image planes after the first request
+  // Tiled codestreams (WorldView C8: 1024² tiles) decode tile by tile, coarse levels included.
+  const j2kIx = codec === 'j2k' ? await j2kTileIndex((o, l) => readRange(file, o, l), dataOff + imdatoff, dataOff + im.seg.dataLength).catch(() => null) : null;
   if (type === 'cf32') type = 'f32'; // complex shown as magnitude until the SAR tools (R3)
   // LUT expansion: RGB/LUT single band → three bands at decode time.
   const lutBand = s.IREP === 'RGB/LUT' && nb === 1 && s.bands[0]?.LUT?.length >= 3 ? s.bands[0].LUT : null;
@@ -295,6 +299,36 @@ async function makeImageSource(file, parse, im) {
     }
   }
 
+  /**
+   * Columns lx0…lx1 of row r of a block (uncompressed, byte-aligned, IMODE B/S/P): only that run is
+   * read and unpacked, so a coarse level's tiles each read their own span of a row instead of the
+   * whole block row (a 14k-wide complex SICD row is 113 KB; one tile needs a quarter of it or less).
+   * → planes for every band (P) or the one band (B, S); null for an omitted block.
+   */
+  async function readSpan(br, bc, band, r, lx0, lx1) {
+    const bi = br * NBPR + bc;
+    const entry = IMODE === 'S' ? band * NBPR * NBPC + bi : bi;
+    let base;
+    if (blockOffsets) {
+      const o = blockOffsets[entry];
+      if (o === undefined || o < 0) return null;
+      base = dataOff + imdatoff + o;
+    } else base = dataOff + imdatoff + (IMODE === 'S' ? band * NBPR * NBPC * rawBandBytes + bi * rawBandBytes : bi * blockBytesTotal);
+    const n = lx1 - lx0 + 1;
+    const bandsIn = IMODE === 'P' ? nb : 1;
+    const at = IMODE === 'B' ? base + band * rawBandBytes + (r * bw + lx0) * bps : IMODE === 'S' ? base + (r * bw + lx0) * bps : base + (r * bw + lx0) * nb * bps;
+    const raw = await readRange(file, at, n * bandsIn * bps);
+    const [p, len] = parse.put(raw);
+    try {
+      if (parse.x.gw_nitf_unpack(p, len, n, 1, bandsIn, NBPP, ABPP, s.PJUST === 'L' ? 1 : 0, pv, (IMODE === 'P' ? 'P' : 'B').charCodeAt(0)) !== 0) throw new Error(`row ${r} of block ${br},${bc}: ${parse.lastError()}`);
+      return splitPlanes(parse.outBytes(), TYPE[tcode], n, bandsIn);
+    } finally {
+      parse.free(p, len);
+    }
+  }
+
+  const readJ2kTiles = j2kIx ? j2kTileReader({ ix: j2kIx, readRange: (o, l) => readRange(file, o, l), cache: blockCache, bundle: () => self.GW.ensure('j2k'), width, height, C, nodata, lutBand }) : null;
+
   async function wholeJ2k() {
     if (!j2kWhole) {
       j2kWhole = (async () => {
@@ -324,8 +358,11 @@ async function makeImageSource(file, parse, im) {
     // first display reads ~1/16 of it at level 4. JPEG/VQ/J2K blocks must be decoded whole and keep
     // the averaged pyramid. Images under 256 MB keep it too: one read is faster than strided ones,
     // and averaged levels keep viewport/AOI DRA histograms faithful (TE-042).
-    hasLevel: (L) => codec === 'raw' && NBPP % 8 === 0 && L >= 2 && width * height * nb * (NBPP / 8) > 256 * 2 ** 20,
+    // Tiled JPEG 2000: every level down to the codestream's coarsest resolution comes from the tiles' own
+    // reduced resolutions (no full-resolution decode for an overview).
+    hasLevel: (L) => (codec === 'raw' && NBPP % 8 === 0 && L >= 2 && width * height * nb * (NBPP / 8) > 256 * 2 ** 20) || (!!j2kIx && L >= 1 && L <= j2kIx.levels && 2 ** L <= Math.min(j2kIx.tx, j2kIx.ty)),
     async readLevel(L, x0, y0, w, h, bands, job) {
+      if (j2kIx) return readJ2kTiles(L, x0, y0, w, h, bands, job);
       const sc = 2 ** L;
       const half = sc >> 1;
       const out = bands.map(() => new C(w * h).fill(nodata ?? 0));
@@ -337,16 +374,28 @@ async function makeImageSource(file, parse, im) {
         const xa = Math.min(width - 1, x0 * sc + half);
         const xb = Math.min(width - 1, (x0 + w - 1) * sc + half);
         for (let bc = Math.floor(xa / bw); bc <= Math.floor(xb / bw); bc++) {
+          // The columns of this block the level samples: one span per row (R keeps whole-row reads).
+          const lx0 = Math.max(xa, bc * bw) - bc * bw;
+          const lx1 = Math.min(xb, bc * bw + bw - 1) - bc * bw;
+          let pixel = null; // P: every band from one span read
           for (let k = 0; k < bands.length; k++) {
             const srcBand = lutBand ? 0 : bands[k];
-            const row = await readStrip(`l:${br},${bc},${IMODE === 'P' || IMODE === 'R' ? '*' : srcBand},${r}`, br, bc, srcBand, r, r + 1);
+            let row;
+            let o0 = 0;
+            if (IMODE === 'R') row = await readStrip(`l:${br},${bc},*,${r}`, br, bc, srcBand, r, r + 1);
+            else {
+              if (IMODE === 'P') pixel ??= await readSpan(br, bc, srcBand, r, lx0, lx1);
+              const planes = IMODE === 'P' ? pixel : await readSpan(br, bc, srcBand, r, lx0, lx1);
+              row = planes ? planes[IMODE === 'P' ? srcBand : 0] : null;
+              o0 = lx0;
+            }
             if (!row) continue;
             const lut = lutBand ? lutBand[bands[k]] : null;
             const dst = out[k];
             for (let i = 0; i < w; i++) {
               const X = Math.min(width - 1, (x0 + i) * sc + half);
               if (Math.floor(X / bw) !== bc) continue;
-              const v = row[X - bc * bw];
+              const v = row[X - bc * bw - o0];
               dst[j * w + i] = lut ? (lut[v] ?? 0) : v;
             }
           }
@@ -356,6 +405,7 @@ async function makeImageSource(file, parse, im) {
     },
     async readWindow(x0, y0, w, h, bands, job) {
       const out = bands.map(() => new C(w * h).fill(nodata ?? 0));
+      if (j2kIx) return readJ2kTiles(0, x0, y0, w, h, bands, job);
       if (codec === 'j2k') {
         const r = await wholeJ2k();
         for (let k = 0; k < bands.length; k++) {

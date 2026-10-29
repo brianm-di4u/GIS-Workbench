@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:27.582Z",
+ "key": "derived-gmti-tracks-ais/la_longbeach_ais_20230601.4607",
+ "item": "derived-gmti-tracks-ais",
+ "file": "la_longbeach_ais_20230601.4607",
+ "format": "STANAG 4607 (.4607) / STANAG 4676 XML (.4676.xml)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened la_longbeach_ais_20230601.4607: 121 packets, 120 dwells, 2782 target reports, 120 platform locations (UNCLASSIFIED)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 119,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

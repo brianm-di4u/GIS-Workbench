@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:39:56.934Z",
+ "key": "frames-odm-seneca/IMG_0446.jpg",
+ "item": "frames-odm-seneca",
+ "file": "IMG_0446.jpg",
+ "format": "JPEG stills (EXIF)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened IMG_0446.jpg in 189 msZoom to layer×",
+  "toast-info: IMG_0446.jpg is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 3240,
+   "h": 2430,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1029,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

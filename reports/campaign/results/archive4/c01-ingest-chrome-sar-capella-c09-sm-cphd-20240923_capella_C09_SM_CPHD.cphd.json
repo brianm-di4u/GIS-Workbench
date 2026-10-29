@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:11.689Z",
+ "key": "sar-capella-c09-sm-cphd-20240923/capella_C09_SM_CPHD.cphd",
+ "item": "sar-capella-c09-sm-cphd-20240923",
+ "file": "capella_C09_SM_CPHD.cphd",
+ "format": "CPHD 1.x",
+ "rendered": false,
+ "errors": [
+  "CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: capella_C09_SM_CPHD.cphd: CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 68,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:15.275Z",
+ "key": "lidar-ascii-pdal-text/utm17_3.txt",
+ "item": "lidar-ascii-pdal-text",
+ "file": "utm17_3.txt",
+ "format": "ASCII point cloud (.pts, .xyz, .txt)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack PROJ (proj-wasm with proj.db) 0.1.0 verified (3 entries, SHA-256 checked)×",
+  "toast-info: Opened utm17_3.txt: 11 points in 18 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 390,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

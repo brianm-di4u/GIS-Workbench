@@ -1,0 +1,23 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:28.581Z",
+ "key": "pc.header",
+ "id": "pc.header",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Point Cloud Header — autzen_pdrf2_las12.las"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-las-pdrf-matrix/autzen_pdrf2_las12.las"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

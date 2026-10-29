@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:00.474Z",
+ "key": "raster-ojpeg-libtiff-negatives/ojpeg_zackthecat_subsamp22_single_strip.tiff",
+ "item": "raster-ojpeg-libtiff-negatives",
+ "file": "ojpeg_zackthecat_subsamp22_single_strip.tiff",
+ "format": "TIFF, Compression 6 (OJPEG)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened ojpeg_zackthecat_subsamp22_single_strip.tiff in 35 msZoom to layer×",
+  "toast-error: ojpeg_zackthecat_subsamp22_single_strip.tiff cannot be displayed: old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7×"
+ ],
+ "layers": [
+  {
+   "error": "old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 234,
+   "h": 213,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 107,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:12.797Z",
+ "key": "raster-pmtiles-protomaps-spec/usgs-mt-whitney-8-15-webp-512.pmtiles",
+ "item": "raster-pmtiles-protomaps-spec",
+ "file": "usgs-mt-whitney-8-15-webp-512.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: usgs-mt-whitney-8-15-webp-512.pmtiles: zoom 8–15 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 63,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

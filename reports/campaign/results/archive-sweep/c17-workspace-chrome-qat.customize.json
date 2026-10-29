@@ -1,0 +1,25 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:14.959Z",
+ "key": "qat.customize",
+ "id": "qat.customize",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Customize Quick Access Toolbar"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:20.313Z",
+ "key": "derived-speclib-envi-sli/splib07_vegetation.csv",
+ "item": "derived-speclib-envi-sli",
+ "file": "splib07_vegetation.csv",
+ "format": "ENVI spectral library / CSV",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 60 library spectra from splib07_vegetation.csv×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 64,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

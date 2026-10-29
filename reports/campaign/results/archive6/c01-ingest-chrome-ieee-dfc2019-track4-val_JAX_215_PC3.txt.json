@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:45.177Z",
+ "key": "ieee-dfc2019-track4-val/JAX_215_PC3.txt",
+ "item": "ieee-dfc2019-track4-val",
+ "file": "JAX_215_PC3.txt",
+ "format": "ASCII XYZ point cloud + class truth",
+ "rendered": false,
+ "errors": [
+  "the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: JAX_215_PC3.txt: the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 105,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

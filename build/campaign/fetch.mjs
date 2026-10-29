@@ -35,12 +35,15 @@ async function signed(url, sign) {
   if (!sign) return url;
   const [kind, coll] = sign.split(':');
   if (kind !== 'pc') throw new Error(`unknown signer ${sign}`);
-  if (!tokens.has(coll)) {
+  // Tokens last about an hour; a long fetch (the 42 GB COG) outlives one, so renew 5 min before expiry.
+  const t = tokens.get(coll);
+  if (!t || Date.parse(t.expiry) - Date.now() < 5 * 60e3) {
     const r = await fetch(`https://planetarycomputer.microsoft.com/api/sas/v1/token/${coll}`);
     if (!r.ok) throw new Error(`SAS token for ${coll}: HTTP ${r.status}`);
-    tokens.set(coll, (await r.json()).token);
+    const j = await r.json();
+    tokens.set(coll, { token: j.token, expiry: j['msft:expiry'] });
   }
-  return `${url}${url.includes('?') ? '&' : '?'}${tokens.get(coll)}`;
+  return `${url}${url.includes('?') ? '&' : '?'}${tokens.get(coll).token}`;
 }
 
 async function download(url, dest, expectBytes) {

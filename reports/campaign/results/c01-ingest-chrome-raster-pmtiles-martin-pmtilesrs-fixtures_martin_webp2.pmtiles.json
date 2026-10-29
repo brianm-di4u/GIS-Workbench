@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:15.843Z",
+ "key": "raster-pmtiles-martin-pmtilesrs-fixtures/martin_webp2.pmtiles",
+ "item": "raster-pmtiles-martin-pmtilesrs-fixtures",
+ "file": "martin_webp2.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: martin_webp2.pmtiles: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 79,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:50:15.867Z",
+ "key": "derived-pictures-worldfile/naip.gif",
+ "item": "derived-pictures-worldfile",
+ "file": "naip.gif",
+ "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip.gif in 71 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "gif",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "World file (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 414,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

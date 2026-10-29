@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:54.567Z",
+ "key": "vector-gpx-gpxpy-tests/Mojstrovka.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "Mojstrovka.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Mojstrovka.gpx: 0 waypoint(s), 0 route(s), 1 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 67,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

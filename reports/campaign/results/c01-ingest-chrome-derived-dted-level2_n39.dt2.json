@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:12:12.104Z",
+ "key": "derived-dted-level2/n39.dt2",
+ "item": "derived-dted-level2",
+ "file": "n39.dt2",
+ "format": "DTED Level 2",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened n39.dt2 in 728 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1113,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

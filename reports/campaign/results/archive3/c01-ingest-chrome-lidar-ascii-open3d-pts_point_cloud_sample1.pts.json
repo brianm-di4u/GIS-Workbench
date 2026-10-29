@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:25:48.032Z",
+ "key": "lidar-ascii-open3d-pts/point_cloud_sample1.pts",
+ "item": "lidar-ascii-open3d-pts",
+ "file": "point_cloud_sample1.pts",
+ "format": "ASCII point cloud (.pts)",
+ "rendered": false,
+ "errors": [
+  "EPSG:0 is not known here (load the PROJ data pack for more codes)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: point_cloud_sample1.pts: EPSG:0 is not known here (load the PROJ data pack for more codes)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 50,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

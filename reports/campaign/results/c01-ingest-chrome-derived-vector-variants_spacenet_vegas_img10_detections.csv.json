@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:11:45.404Z",
+ "key": "derived-vector-variants/spacenet_vegas_img10_detections.csv",
+ "item": "derived-vector-variants",
+ "file": "spacenet_vegas_img10_detections.csv",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: spacenet_vegas_img10_detections: 28 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 28,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 8074,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:22.210Z",
+ "key": "derived-dted-level2/n40.dt2",
+ "item": "derived-dted-level2",
+ "file": "n40.dt2",
+ "format": "DTED Level 2",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened n40.dt2 in 343 msZoom to layer×",
+  "toast-info: n40.dt2 is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "DTED",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 991,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

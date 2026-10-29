@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:39.849Z",
+ "key": "vector-geojson-inspire-caniuse/efs_example_1.geojson",
+ "item": "vector-geojson-inspire-caniuse",
+ "file": "efs_example_1.geojson",
+ "format": "GeoJSON (INSPIRE GeoJSON encoding rules)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: efs_example_1: 1 feature(s) from GeoJSON"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 39,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

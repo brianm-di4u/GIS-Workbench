@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:29.663Z",
+ "key": "lidar-bpf-pdal-v3/simple-extra.bpf",
+ "item": "lidar-bpf-pdal-v3",
+ "file": "simple-extra.bpf",
+ "format": "BPF v3 (NGA Binary Point Format)",
+ "rendered": false,
+ "errors": [
+  "simple-extra.bpf: BPF coordinate type Cartesian is not read (UTM only)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: simple-extra.bpf: simple-extra.bpf: BPF coordinate type Cartesian is not read (UTM only)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 62,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

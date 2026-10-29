@@ -1,0 +1,24 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:10:48.553Z",
+ "key": "msi.majority",
+ "id": "msi.majority",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "classify"
+ ],
+ "data": [
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,41 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:23:14.748Z",
+ "key": "support-proj-grids-geoid/us_noaa_g2018u0.tif",
+ "item": "support-proj-grids-geoid",
+ "file": "us_noaa_g2018u0.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "Map (EPSG:6318): EPSG:6318 is not in the embedded EPSG table and no usable WKT came with the file"
+ ],
+ "toasts": [
+  "toast-info: Opened us_noaa_g2018u0.tif in 80 ms (1 note in the import log)Zoom to layer×",
+  "toast-info: us_noaa_g2018u0.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 4201,
+   "h": 2041,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2233,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

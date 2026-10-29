@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:04.856Z",
+ "key": "3d-tiles-3tz-cesium-test-packages/tilesetA.3tz",
+ "item": "3d-tiles-3tz-cesium-test-packages",
+ "file": "tilesetA.3tz",
+ "format": "3D Tiles archive (.3tz, ZIP with @3dtilesIndex1@)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: tilesetA.3tz: 3D Tiles 1.1 in the 3D view×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 248,
+ "logs": [
+  "THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The \"position\" attribute is likely to have NaN values. i"
+ ],
+ "requests": [],
+ "csp": []
+}

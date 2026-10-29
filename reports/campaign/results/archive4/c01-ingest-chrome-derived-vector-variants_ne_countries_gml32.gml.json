@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:05.231Z",
+ "key": "derived-vector-variants/ne_countries_gml32.gml",
+ "item": "derived-vector-variants",
+ "file": "ne_countries_gml32.gml",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "the GML holds no features (an empty mask or collection)"
+ ],
+ "toasts": [
+  "toast-info: ne_countries_gml32: 15 feature(s) from GML×",
+  "toast-info: ne_countries_gml32.xsd: 0 feature(s) from GML (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 2,
+  "features": 15,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 255,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

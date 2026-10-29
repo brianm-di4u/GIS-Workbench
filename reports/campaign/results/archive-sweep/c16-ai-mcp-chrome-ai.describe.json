@@ -1,0 +1,26 @@
+{
+ "spec": "c16-ai-mcp",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:11.650Z",
+ "key": "ai.describe",
+ "id": "ai.describe",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Send to an AI provider?"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic",
+  "ai-mock"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

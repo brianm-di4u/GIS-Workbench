@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:26.427Z",
+ "key": "support-ais-marinecadastre-20230601/AIS_2023_06_01.csv",
+ "item": "support-ais-marinecadastre-20230601",
+ "file": "AIS_2023_06_01.csv",
+ "format": "CSV (AIS position reports) in ZIP",
+ "rendered": false,
+ "errors": [
+  "900 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: AIS_2023_06_01.csv: 900 MB: vector files are read whole into memory and this release opens up to 512 MB (256 MB zipped) — clip or split it first (e.g. ogr2ogr -spat, or one layer per file)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 45,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

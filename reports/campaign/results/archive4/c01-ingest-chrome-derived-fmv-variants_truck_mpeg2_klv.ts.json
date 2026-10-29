@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:01.741Z",
+ "key": "derived-fmv-variants/truck_mpeg2_klv.ts",
+ "item": "derived-fmv-variants",
+ "file": "truck_mpeg2_klv.ts",
+ "format": "MPEG-TS (H.265 / MPEG-2 / BDAV)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened truck_mpeg2_klv.ts: 1799 frames, 288 KLV packets (0 bad) in 8786 ms — metadata only×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 8840,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

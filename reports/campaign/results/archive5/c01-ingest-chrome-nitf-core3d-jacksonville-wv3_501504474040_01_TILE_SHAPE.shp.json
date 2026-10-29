@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:03.918Z",
+ "key": "nitf-core3d-jacksonville-wv3/501504474040_01_TILE_SHAPE.shp",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "501504474040_01_TILE_SHAPE.shp",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 501504474040_01_TILE_SHAPE: 2 feature(s) from ESRI Shapefile×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 71,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:38.085Z",
+ "key": "derived-pmtiles-raster/s2tci_jpeg.pmtiles",
+ "item": "derived-pmtiles-raster",
+ "file": "s2tci_jpeg.pmtiles",
+ "format": "PMTiles / MBTiles",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: s2tci_jpeg.pmtiles: zoom 8–14 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 61,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

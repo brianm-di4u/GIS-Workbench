@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:26.699Z",
+ "key": "perf-large-lroc-nac-south-pole-cog/NAC_SPOLE_mosaic_1m_cog.tif",
+ "item": "perf-large-lroc-nac-south-pole-cog",
+ "file": "NAC_SPOLE_mosaic_1m_cog.tif",
+ "format": "GeoTIFF/COG (BigTIFF)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "geotransform: the file has a geotransform but no CRS (no EPSG code, .prj or .aux.xml)"
+ ],
+ "toasts": [
+  "toast-info: Opened NAC_SPOLE_mosaic_1m_cog.tif in 56 ms (1 note in the import log)Zoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 272631,
+   "h": 272631,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 408,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

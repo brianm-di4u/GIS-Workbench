@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:39:38.047Z",
+ "key": "frames-odm-aukerman/DSC00278.JPG",
+ "item": "frames-odm-aukerman",
+ "file": "DSC00278.JPG",
+ "format": "JPEG stills (EXIF)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened DSC00278.JPG in 386 msZoom to layer×",
+  "toast-info: DSC00278.JPG is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 4896,
+   "h": 3672,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1727,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

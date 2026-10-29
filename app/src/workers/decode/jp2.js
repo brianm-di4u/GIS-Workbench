@@ -1,10 +1,13 @@
 // Standalone JPEG 2000 (TE-003, REQ-FMT-02): JP2/JPX files (e.g. Sentinel-2 L1C bands) and raw
 // J2K codestreams. The box structure gives size, components and georeferencing — the GeoJP2
 // UUID box (a degenerate GeoTIFF) or GMLJP2 (gml:RectifiedGrid in an asoc/xml box). Pixels come
-// from the `j2k` bundle as one decode, at full resolution up to 400 M samples or at the coarsest
-// reduced resolution that fits.
+// from the `j2k` bundle: tile by tile when the codestream is tiled (any size; coarse levels from the
+// tiles' reduced resolutions), otherwise as one decode, at full resolution up to 400 M samples or
+// at the coarsest reduced resolution that fits.
 
 import { fromArrayBuffer } from 'geotiff';
+import { LRU } from './pyramid.js';
+import { j2kTileIndex, j2kTileReader } from './j2ktiles.js';
 
 const GEOJP2_UUID = 'b14bf8bd083d4b43a5ae8cd7d5a6ce03';
 const MAX_SAMPLES = 400e6;
@@ -186,6 +189,12 @@ export async function openJp2(file, j2k, kind) {
     return p;
   };
   const C = st === 'u8' ? Uint8Array : Uint16Array;
+  // Tiled codestreams (Sentinel-2: 1024² tiles) decode only the tiles a view touches.
+  const jp2c = top?.find((b) => b.type === 'jp2c');
+  const sub = async (o, l) => bytes.subarray(o, o + l);
+  const ix = await j2kTileIndex(sub, csStart, jp2c ? jp2c.off + jp2c.len : bytes.length).catch(() => null);
+  const tiles = ix ? j2kTileReader({ ix, readRange: sub, cache: new LRU(96 << 20), bundle: async () => j2k, width, height, C, nodata: null }) : null;
+  const tileLevel = (L) => !!tiles && L <= Math.min(ix.levels, Math.log2(Math.min(ix.tx, ix.ty)));
   const crop = (r, x0, y0, w, h, sel) =>
     sel.map((b) => {
       const src = r.planes[Math.min(b, r.planes.length - 1)];
@@ -203,9 +212,9 @@ export async function openJp2(file, j2k, kind) {
     bands: comps,
     sampleType: st,
     nodata: null,
-    readWindow: async (x0, y0, w, h, sel) => crop(await decodeAt(0), x0, y0, w, h, sel),
+    readWindow: async (x0, y0, w, h, sel, job) => (tiles ? tiles(0, x0, y0, w, h, sel, job) : crop(await decodeAt(0), x0, y0, w, h, sel)),
     hasLevel: (L) => L >= 1 && L <= levels,
-    readLevel: async (L, x0, y0, w, h, sel) => crop(await decodeAt(L), x0, y0, w, h, sel),
+    readLevel: async (L, x0, y0, w, h, sel, job) => (tileLevel(L) ? tiles(L, x0, y0, w, h, sel, job) : crop(await decodeAt(L), x0, y0, w, h, sel)),
   };
   const scale = 1;
   const w = width;

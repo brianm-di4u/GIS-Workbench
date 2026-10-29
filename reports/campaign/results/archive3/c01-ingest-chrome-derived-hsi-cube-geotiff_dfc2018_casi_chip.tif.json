@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:26.897Z",
+ "key": "derived-hsi-cube-geotiff/dfc2018_casi_chip.tif",
+ "item": "derived-hsi-cube-geotiff",
+ "file": "dfc2018_casi_chip.tif",
+ "format": "GeoTIFF (≥30 bands)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened dfc2018_casi_chip.tif in 58 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 512,
+   "h": 512,
+   "bands": 50,
+   "model": "Map (EPSG:26915)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 409,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

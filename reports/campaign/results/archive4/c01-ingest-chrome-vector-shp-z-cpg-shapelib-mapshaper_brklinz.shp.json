@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:00.165Z",
+ "key": "vector-shp-z-cpg-shapelib-mapshaper/brklinz.shp",
+ "item": "vector-shp-z-cpg-shapelib-mapshaper",
+ "file": "brklinz.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: brklinz: 122 feature(s) from ESRI Shapefile×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 122,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 74,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

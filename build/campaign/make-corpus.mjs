@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { HERE, MANIFEST, SAMPLES, fmtBytes } from './corpus-lib.mjs';
 import { roleOf } from './make-corpus-roles.mjs';
 
-const BUDGET = 24 * 2 ** 30; // raised from 20 GiB for the 2026-10-27 supplemental data (sources/supplemental.json)
+const BUDGET = 2 * 2 ** 40; // 2 TiB: the owner set no size limit for the 2026-10-28 archive expansion (sources/archive-*.json); TE-corpus lives on D:
 
 // Research/samples folder → [area, format, feeds]
 const HELD = {
@@ -71,12 +71,14 @@ for (const f of readdirSync(srcDir).filter((x) => x.endsWith('.json')).sort()) {
     it.files ??= [];
     for (const file of it.files) {
       file.role ??= roleOf(file.name);
+      // Tiles of a tile set are never opened one by one, whatever role a generator gave them.
+      if (roleOf(file.name) === 'tile') file.role = 'tile';
       const p = pins.get(`${it.id}/${file.name}`);
       if (p) Object.assign(file, { sha256: p.sha256, bytes: p.bytes, ...(['archive', 'test-vector', 'library'].includes(p.role) ? { role: p.role } : {}) });
       else if (file.extract) file.role = file.role === 'archive' ? 'archive' : file.role;
     }
     // Field packages are listed whole by field.mjs from what is on disk; nothing to carry over.
-    if (it.origin !== 'field-extract') for (const x of extracted.get(it.id) ?? []) if (!it.files.some((f) => f.name === x.name)) it.files.push(x);
+    if (it.origin !== 'field-extract') for (const x of extracted.get(it.id) ?? []) if (!it.files.some((f) => f.name === x.name)) it.files.push({ ...x, role: ['archive', 'test-vector', 'library'].includes(x.role) ? x.role : roleOf(x.name) });
     items.push(it);
   }
 }

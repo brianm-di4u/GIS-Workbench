@@ -611,13 +611,18 @@ export function install(app) {
     enabled: () => true,
     run: run(async () => {
       const files = await pickFiles(app, { accept: ['.sli', '.hdr', '.csv', '.txt'], description: 'Spectral library (ENVI .sli + .hdr, CSV, USGS ASCII)' });
-      const s = await importLibrary(files);
-      const l = layer();
-      if (l && s.length) for (const x of s.slice(0, 4)) app.msi.plot.library.push(await resampled(l, x).catch(() => ({ ...x, bands: x.wl.map((cw) => ({ cw })) })));
-      app.msi.drawPlot();
-      toast(`${s.length} library spectra`);
+      toast(`${(await libraryFiles(files)).length} library spectra`);
     }),
   });
+  /** Library files (picker or drop) → spectra; the first four go on the spectral plot of the active image. */
+  async function libraryFiles(files) {
+    const s = await importLibrary(files);
+    const l = layer();
+    if (l && s.length) for (const x of s.slice(0, 4)) app.msi.plot.library.push(await resampled(l, x).catch(() => ({ ...x, bands: x.wl.map((cw) => ({ cw })) })));
+    app.msi.drawPlot();
+    return s;
+  }
+  app.msi.importLibraryFiles = libraryFiles;
   C.implement('msi.thermal', {
     enabled: () => !!layer(),
     run: run(async () => {

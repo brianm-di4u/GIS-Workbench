@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:20:55.453Z",
+ "key": "3d-tiles-implicit-octree-metadata/content_1__0_0_0.glb",
+ "item": "3d-tiles-implicit-octree-metadata",
+ "file": "content_1__0_0_0.glb",
+ "format": "3D Tiles 1.1 implicitTiling (subtrees)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [
+  "placed by its centre"
+ ],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120114,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

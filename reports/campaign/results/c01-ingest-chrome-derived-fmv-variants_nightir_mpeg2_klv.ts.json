@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:09:20.067Z",
+ "key": "derived-fmv-variants/nightir_mpeg2_klv.ts",
+ "item": "derived-fmv-variants",
+ "file": "nightir_mpeg2_klv.ts",
+ "format": "MPEG-TS (H.265 / MPEG-2 / BDAV)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened nightir_mpeg2_klv.ts: 3005 frames, 18 KLV packets (0 bad) in 3459 ms — metadata only"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 3524,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

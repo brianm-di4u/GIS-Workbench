@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:28.092Z",
+ "key": "vector-shp-z-cpg-shapefile-js/htmlcpg.shp",
+ "item": "vector-shp-z-cpg-shapefile-js",
+ "file": "htmlcpg.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "code page \"<!DOCTYPE html><html><head>\n<meta charset='utf-8'/>\n\n\t <title>Projected Shapefiles in Leaflet!</title>   <style>\n      html { height: 100% }\n      body { height: 100%; margin: 0; padding: 0;}\n      #map{ height: 100% }\n    </style>\n\t <link rel=\"stylesheet\" href=\"leaflet.css\" />\n<!--[if lte IE 8]>\n    <link rel=\"stylesheet\" href=\"leaflet.ie.css\" />\n<![endif]-->\n<link rel=\"stylesheet\" href=\"gh-fork-ribbon.css\" />\n<script src=\"leaflet.js\"></script>\n\t </head><body><div class=\"github-fork-ribbon-wrapper right\">\n\t\t<div class=\"github-fork-ribbon\">\n\t\t\t<a href=\"https://github.com/calvinmetcalf/shapefile-js\">Fork me on GitHub</a>\n\t\t</div>\n\t</div>  <div id=\"map\"></div>\n<script src=\"catiline.js\"> </script>\n      <script type=\"text/javascript\">\n\t var m= L.map('map').setView([40.59935608796518,-73.56],8);\nvar watercolor = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',{attribution:'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, <a href=\"http://creativecommons.org/licenses/by/3.0\">CC BY 3.0</a> &mdash; Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>'})\nwatercolor.addTo(m);\n      var geo = L.geoJson({features:[]},{onEachFeature:function popUp(f,l){\n    \t\tvar out = [];\n    \t\tif (f.properties){\n        \t\tfor(var key in f.properties){\n            \tout.push(key+\": \"+f.properties[key]);\n        }\n        l.bindPopup(out.join(\"<br />\"));\n    }\n}}).addTo(m);\nvar wfunc = function(base,cb){\n\timportScripts('../dist/shp.js');\n\tshp(base).then(cb);\n}\nvar worker = cw({data:wfunc},2);\n\t\tworker.data(cw.makeUrl('../files/nj_muni.zip')).then(function(data){\n\t\tgeo.addData(data);\n\t\t},function(a){console.log(a)});\n\tworker.data(cw.makeUrl('../files/maSP.zip')).then(function(data){\n\t\tgeo.addData(data);\n\t\t},function(a){console.log(a)});\n</script><script>\n  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n\n  ga('create', 'UA-40454900-1', 'calvinmetcalf.github.io');\n  ga('send', 'pageview');\n\n</script>\n</body></html>\" not known; read as UTF-8"
+ ],
+ "toasts": [
+  "toast-info: htmlcpg: 2 feature(s) from ESRI Shapefile (1 note(s))"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 56,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

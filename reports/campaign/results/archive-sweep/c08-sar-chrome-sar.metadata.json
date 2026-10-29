@@ -1,0 +1,23 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:09:02.154Z",
+ "key": "sar.metadata",
+ "id": "sar.metadata",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "SICD Metadata — sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf SICD000"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

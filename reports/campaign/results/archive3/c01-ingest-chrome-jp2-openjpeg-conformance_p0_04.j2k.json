@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:22.643Z",
+ "key": "jp2-openjpeg-conformance/p0_04.j2k",
+ "item": "jp2-openjpeg-conformance",
+ "file": "p0_04.j2k",
+ "format": "JP2 / J2K (no georeferencing)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened p0_04.j2k in 238 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (codestream; 640×480×3, 8-bit, 6 resolution levels)",
+   "w": 640,
+   "h": 480,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 570,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

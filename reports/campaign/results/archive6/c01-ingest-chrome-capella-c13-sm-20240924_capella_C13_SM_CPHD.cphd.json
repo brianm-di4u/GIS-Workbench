@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:44.505Z",
+ "key": "capella-c13-sm-20240924/capella_C13_SM_CPHD.cphd",
+ "item": "capella-c13-sm-20240924",
+ "file": "capella_C13_SM_CPHD.cphd",
+ "format": "SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF SLC + extended JSON | GeoTIFF/COG GEO | CPHD1.1.0",
+ "rendered": false,
+ "errors": [
+  "CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: capella_C13_SM_CPHD.cphd: CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release) cannot be opened as imagery in this release×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 96,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

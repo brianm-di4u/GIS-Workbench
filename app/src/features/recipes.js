@@ -229,7 +229,10 @@ export function install(app) {
   }
   async function importRecipe() {
     const [f] = await pickFiles(app, { accept: ['.json'], description: 'GIS Workbench recipe' });
-    if (!f) return;
+    if (f) await importRecipeFile(f);
+  }
+  /** A .gwrecipe.json file (Open… or a drop): validated, kept with the user's recipes and opened. */
+  async function importRecipeFile(f) {
     const r = validateRecipe(JSON.parse(await f.text()), OPS);
     const mine = (app.prefs.get('recipes') ?? []).filter((x) => x.id !== r.id);
     app.prefs.set('recipes', [...mine, r].slice(-20));
@@ -255,5 +258,5 @@ export function install(app) {
   C.implement('rcp.open', { run: () => app.panels?.toggle('recipes', 'bottom'), checked: () => !!app.activeMp()?.docks.isOpen('recipes') });
   for (const r of BUILTIN) C.implement(`rcp.${r.id}`, { run: () => (open(r), go(0)) });
   C.implement('rcp.import', { run: importRecipe });
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS) };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile };
 }

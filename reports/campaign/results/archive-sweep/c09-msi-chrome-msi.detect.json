@@ -1,0 +1,30 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:12.973Z",
+ "key": "msi.detect",
+ "id": "msi.detect",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Target and Anomaly Detection"
+ ],
+ "toasts": [
+  "toast-info: 16 detection(s) above 96.29×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

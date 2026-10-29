@@ -1,0 +1,23 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:46.106Z",
+ "key": "pc.shave",
+ "id": "pc.shave",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Elevation Shaving"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-3dep-co-denver-2008-2x1/USGS_LPC_CO_DENVER_2008_000016.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

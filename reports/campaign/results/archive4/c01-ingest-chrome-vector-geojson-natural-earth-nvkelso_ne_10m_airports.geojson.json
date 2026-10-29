@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:46.917Z",
+ "key": "vector-geojson-natural-earth-nvkelso/ne_10m_airports.geojson",
+ "item": "vector-geojson-natural-earth-nvkelso",
+ "file": "ne_10m_airports.geojson",
+ "format": "GeoJSON FeatureCollection",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_10m_airports: 893 feature(s) from GeoJSON×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 893,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 109,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

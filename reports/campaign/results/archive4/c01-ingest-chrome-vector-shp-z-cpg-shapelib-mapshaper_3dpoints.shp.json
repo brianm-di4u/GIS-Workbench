@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:00.170Z",
+ "key": "vector-shp-z-cpg-shapelib-mapshaper/3dpoints.shp",
+ "item": "vector-shp-z-cpg-shapelib-mapshaper",
+ "file": "3dpoints.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 3dpoints: 22 feature(s) from ESRI Shapefile×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 22,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 73,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

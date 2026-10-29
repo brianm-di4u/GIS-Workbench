@@ -1,0 +1,28 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:20.898Z",
+ "key": "fmv.klv",
+ "id": "fmv.klv",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "KLV — Day Flight.mpg"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left fmv.klv disabled; recipe data added: Day Flight.mpg"
+ ],
+ "data": [
+  "derived-mie4nitf-bambi/flight_258_thermal_mie4nitf.ntf",
+  "fmv-ffmpeg-day-flight/Day Flight.mpg"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:13.326Z",
+ "key": "raster-pmtiles-gdal-autotest/small_world_jpg.pmtiles",
+ "item": "raster-pmtiles-gdal-autotest",
+ "file": "small_world_jpg.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: small_world_jpg.pmtiles: zoom 0–0 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 43,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

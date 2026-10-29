@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:32.191Z",
+ "key": "derived-pptx-templates/widescreen_16x9.potx",
+ "item": "derived-pptx-templates",
+ "file": "widescreen_16x9.potx",
+ "format": "PPTX / POTX",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: PowerPoint template widescreen_16x9.potx: 13.33 × 7.50 in, fonts Calibri/Calibri, 0 picture(s)×",
+  "toast-info: widescreen_16x9.potx: PowerPoint template in use for product slides×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 46,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

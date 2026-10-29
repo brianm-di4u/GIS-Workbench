@@ -1,0 +1,227 @@
+{
+ "_comment": "covers/pairs for corpus items whose source entry is generated (field.json) or parsed from Research/samples SOURCE.txt, or that predate the 2026-10-28 archive fields. New items carry covers/pairs inline in sources/archive-*.json. Read by coverage.mjs. An empty 'with' means the partner data is inside the same item.",
+ "eo-spacenet-vegas-wv3-pan-ms-r1c1": {
+  "pairs": [
+   {
+    "role": "pan-ms",
+    "with": []
+   },
+   {
+    "role": "labels-detect",
+    "with": [
+     "rs-msi-spacenet2-wv3"
+    ]
+   }
+  ]
+ },
+ "eo-maxar-libya-floods-wv3-prepost": {
+  "pairs": [
+   {
+    "role": "pan-ms",
+    "with": []
+   },
+   {
+    "role": "pre-post",
+    "with": []
+   },
+   {
+    "role": "co-register",
+    "with": []
+   }
+  ]
+ },
+ "landsat8-c1-l1tp-044034-20210508": {
+  "pairs": [
+   {
+    "role": "pan-ms",
+    "with": []
+   },
+   {
+    "role": "pre-post",
+    "with": [
+     "landsat8-c2-l2sp-044034-20240820"
+    ]
+   },
+   {
+    "role": "co-register",
+    "with": [
+     "landsat8-c2-l2sp-044034-20240820"
+    ]
+   }
+  ]
+ },
+ "ieee-dfc2019-track2-val": {
+  "pairs": [
+   {
+    "role": "stereo-mate",
+    "with": []
+   },
+   {
+    "role": "co-register",
+    "with": []
+   }
+  ]
+ },
+ "rs-nitf-wv3-mvs-stereo-chips": {
+  "pairs": [
+   {
+    "role": "stereo-mate",
+    "with": []
+   }
+  ]
+ },
+ "eo-spacenet-atlanta-wv2-l1b-rpc": {
+  "pairs": [
+   {
+    "role": "stereo-mate",
+    "with": []
+   }
+  ]
+ },
+ "rs-dem-derived-s35w059": {
+  "pairs": [
+   {
+    "role": "dem-under",
+    "with": [
+     "rs-nitf-wv3-mvs-stereo-chips",
+     "rs-geotiff-wv3-rpc-cog"
+    ]
+   }
+  ]
+ },
+ "usgs-3dep-1m-x48y441-drcog2020": {
+  "pairs": [
+   {
+    "role": "dem-under",
+    "with": [
+     "lidar-3dep-co-drcog-2020-2x2"
+    ]
+   }
+  ]
+ },
+ "cop-dem-glo30-n39w106": {
+  "pairs": [
+   {
+    "role": "dem-epoch",
+    "with": [
+     "srtm-skadi-n39w106-n40w106"
+    ]
+   }
+  ]
+ },
+ "usgs-3dep-13-n40w106": {
+  "pairs": [
+   {
+    "role": "dem-epoch",
+    "with": [
+     "cop-dem-glo30-n40w106"
+    ]
+   }
+  ]
+ },
+ "ieee-dfc2018-houston": {
+  "pairs": [
+   {
+    "role": "imagery-over",
+    "with": []
+   },
+   {
+    "role": "labels-raster",
+    "with": []
+   },
+   {
+    "role": "dsm-truth",
+    "with": []
+   }
+  ]
+ },
+ "ieee-flame2-sfm": {
+  "pairs": [
+   {
+    "role": "imagery-over",
+    "with": []
+   }
+  ]
+ },
+ "rs-hsi-indian-pines": {
+  "pairs": [
+   {
+    "role": "labels-raster",
+    "with": []
+   }
+  ]
+ },
+ "enmap-potsdam-l2a-subset": {
+  "pairs": [
+   {
+    "role": "labels-raster",
+    "with": []
+   }
+  ]
+ },
+ "usgs-splib07-ascii": {
+  "pairs": [
+   {
+    "role": "spectral-lib",
+    "with": [
+     "aviris-classic-f130410t01p00r09",
+     "emit-l2a-rfl-cuprite"
+    ]
+   }
+  ]
+ },
+ "umbra-bingham-20230925-full": {
+  "pairs": [
+   {
+    "role": "repeat-pass-incoherent",
+    "with": [
+     "umbra-bingham-20230821-repeat"
+    ]
+   }
+  ]
+ },
+ "dem-under-fmv-cheyenne": {
+  "pairs": [
+   {
+    "role": "dem-under",
+    "with": [
+     "fmv-esri-cheyenne-inspection"
+    ]
+   }
+  ]
+ },
+ "dem-under-fmv-cheyenne-3dep": {
+  "pairs": [
+   {
+    "role": "dem-under",
+    "with": [
+     "fmv-esri-cheyenne-inspection"
+    ]
+   }
+  ]
+ },
+ "nitf-mvs-wv3-buenos-aires": {
+  "pairs": [
+   {
+    "role": "height-truth",
+    "with": []
+   },
+   {
+    "role": "dsm-truth",
+    "with": []
+   }
+  ]
+ },
+ "nitf-core3d-jacksonville-wv3": {
+  "pairs": [
+   {
+    "role": "height-truth",
+    "with": []
+   },
+   {
+    "role": "dsm-truth",
+    "with": []
+   }
+  ]
+ }
+}

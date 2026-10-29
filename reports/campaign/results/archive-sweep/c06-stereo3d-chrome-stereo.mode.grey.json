@@ -1,0 +1,26 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:10.976Z",
+ "key": "stereo.mode.grey",
+ "id": "stereo.mode.grey",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "stereo"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

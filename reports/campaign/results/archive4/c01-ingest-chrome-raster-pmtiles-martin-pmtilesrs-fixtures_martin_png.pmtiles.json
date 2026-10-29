@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:14.070Z",
+ "key": "raster-pmtiles-martin-pmtilesrs-fixtures/martin_png.pmtiles",
+ "item": "raster-pmtiles-martin-pmtilesrs-fixtures",
+ "file": "martin_png.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: martin_png.pmtiles: zoom 0–1 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 42,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:18:50.642Z",
+ "key": "landsat7-c2-l2sp-044034-20210617-slcoff/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B4.TIF",
+ "item": "landsat7-c2-l2sp-044034-20210617-slcoff",
+ "file": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B4.TIF",
+ "format": "GeoTIFF COG + MTL",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened LE07_L2SP_044034_20210617_20210713_02_T1_SR_B4.TIF in 787 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 8151,
+   "h": 7101,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1381,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

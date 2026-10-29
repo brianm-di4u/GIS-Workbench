@@ -1,0 +1,21 @@
+{
+ "spec": "c04-geodesy",
+ "project": "chrome",
+ "when": "2026-10-29T07:07:48.223Z",
+ "key": "geo.datum",
+ "id": "geo.datum",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Datum Info"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

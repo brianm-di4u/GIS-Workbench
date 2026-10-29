@@ -1,0 +1,29 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:17.361Z",
+ "key": "msi.destripe",
+ "id": "msi.destripe",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left msi.destripe disabled; recipe data added: SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "data": [
+  "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_aviris.sli",
+  "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_aviris.hdr",
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

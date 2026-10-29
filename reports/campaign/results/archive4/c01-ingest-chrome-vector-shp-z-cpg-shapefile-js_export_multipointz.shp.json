@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:01.029Z",
+ "key": "vector-shp-z-cpg-shapefile-js/export_multipointz.shp",
+ "item": "vector-shp-z-cpg-shapefile-js",
+ "file": "export_multipointz.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: export_multipointz: 1 feature(s) from ESRI Shapefile×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 68,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:20.713Z",
+ "key": "vector-rareplanes-real-test-105/105_104001003108D900_tile_55.png",
+ "item": "vector-rareplanes-real-test-105",
+ "file": "105_104001003108D900_tile_55.png",
+ "format": "GeoTIFF COG (PS-RGB) + GeoJSON (CRS84) labels; tiled PNG with .aux.xml georeferencing + per-tile GeoJSON",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 105_104001003108D900_tile_55.png in 46 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "png",
+   "w": 512,
+   "h": 512,
+   "bands": 3,
+   "model": "World file (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 392,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:05.578Z",
+ "key": "jp2-gdal-server-samples/gcp.jp2",
+ "item": "jp2-gdal-server-samples",
+ "file": "gcp.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened gcp.jp2 in 39 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2; 250×250×1, 16-bit, 5 resolution levels)",
+   "w": 250,
+   "h": 250,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 357,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

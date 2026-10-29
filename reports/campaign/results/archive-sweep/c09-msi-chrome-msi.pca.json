@@ -1,0 +1,29 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:14.774Z",
+ "key": "msi.pca",
+ "id": "msi.pca",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Spectral Transforms",
+  "PCA Eigenvalues"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_MS_img10.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

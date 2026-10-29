@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:10.436Z",
+ "key": "derived-vector-variants/ne_countries_epsg3857.geojson",
+ "item": "derived-vector-variants",
+ "file": "ne_countries_epsg3857.geojson",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "legacy \"crs\" member urn:ogc:def:crs:EPSG::3857: reprojected to WGS 84"
+ ],
+ "toasts": [
+  "toast-info: ne_countries_epsg3857: 55 feature(s) from GeoJSON (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 55,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 217,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

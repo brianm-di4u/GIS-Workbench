@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:29.133Z",
+ "key": "derived-app-artifacts/template_sheet.gwt.json",
+ "item": "derived-app-artifacts",
+ "file": "template_sheet.gwt.json",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: template_sheet.gwt.json: product template \"Map sheet (A4 landscape)\" is now the active template×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 58,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

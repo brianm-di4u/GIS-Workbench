@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:30.625Z",
+ "key": "derived-app-artifacts/geoid-2008.5min.gwpack",
+ "item": "derived-app-artifacts",
+ "file": "geoid-2008.5min.gwpack",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack EGM2008 geoid (5′ grid) 2008.5min verified (1 entries, SHA-256 checked)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 437,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

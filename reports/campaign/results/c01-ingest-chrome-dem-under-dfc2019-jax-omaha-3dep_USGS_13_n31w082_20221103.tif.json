@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:18:55.284Z",
+ "key": "dem-under-dfc2019-jax-omaha-3dep/USGS_13_n31w082_20221103.tif",
+ "item": "dem-under-dfc2019-jax-omaha-3dep",
+ "file": "USGS_13_n31w082_20221103.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_13_n31w082_20221103.tif in 258 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10812,
+   "h": 10812,
+   "bands": 1,
+   "model": "Map (EPSG:4269, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 848,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

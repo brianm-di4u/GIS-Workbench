@@ -64,10 +64,16 @@ export function install(app) {
     const dlat = (n - s) / (size - 1);
     const dlon = (e - w) / (size - 1);
     const out = new Float32Array(size * size);
-    const dem = app.terrain?.dems?.find((d) => d.bounds && d.bounds.south <= s && d.bounds.north >= n && d.bounds.west <= w && d.bounds.east >= e);
+    // The loaded DEM that overlaps the box most; past its edge it is held at the edge value, so a
+    // local DEM under the image is used rather than going online for the margin around it.
+    const overlap = (b) => Math.max(0, Math.min(n, b.north) - Math.max(s, b.south)) * Math.max(0, Math.min(e, b.east) - Math.max(w, b.west));
+    const dem = (app.terrain?.dems ?? []).filter((d) => d.bounds && overlap(d.bounds) > 0).sort((a, b) => overlap(b.bounds) - overlap(a.bounds))[0];
     if (dem) {
-      for (let j = 0; j < size; j++) for (let i = 0; i < size; i++) out[j * size + i] = app.core.demHae(dem.coreId, n - j * dlat, w + i * dlon);
-      return { heights: fill(out, level), source: dem.name };
+      const b = dem.bounds;
+      const inside = b.south <= s && b.north >= n && b.west <= w && b.east >= e;
+      const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+      for (let j = 0; j < size; j++) for (let i = 0; i < size; i++) out[j * size + i] = app.core.demHae(dem.coreId, clamp(n - j * dlat, b.south, b.north), clamp(w + i * dlon, b.west, b.east));
+      return { heights: fill(out, level), source: inside ? dem.name : `${dem.name} (held level past its edge)` };
     }
     if (app.network?.isOnline()) {
       try {

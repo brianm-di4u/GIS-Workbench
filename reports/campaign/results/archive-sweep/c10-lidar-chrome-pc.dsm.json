@@ -1,0 +1,31 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:48.534Z",
+ "key": "pc.dsm",
+ "id": "pc.dsm",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Generate DSM"
+ ],
+ "toasts": [
+  "toast-info: autzen-utm.bpf_DSM.tif is now terrain (heights above the ellipsoid)×",
+  "toast-info: DSM 999 × 1388 posts opened as autzen-utm.bpf_DSM.tif×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-bpf-pdal-v3/autzen-utm.bpf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

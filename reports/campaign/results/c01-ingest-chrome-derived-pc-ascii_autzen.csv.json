@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:05:50.270Z",
+ "key": "derived-pc-ascii/autzen.csv",
+ "item": "derived-pc-ascii",
+ "file": "autzen.csv",
+ "format": "ASCII point cloud",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: autzen: 110000 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 110000,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 2013,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

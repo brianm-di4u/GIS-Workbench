@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:51:07.802Z",
+ "key": "derived-pmtiles-raster/naip_webp.mbtiles",
+ "item": "derived-pmtiles-raster",
+ "file": "naip_webp.mbtiles",
+ "format": "PMTiles / MBTiles",
+ "rendered": false,
+ "errors": [
+  "no such table: gpkg_spatial_ref_sys"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: naip_webp.mbtiles.gpkg: no such table: gpkg_spatial_ref_sys×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 5655,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

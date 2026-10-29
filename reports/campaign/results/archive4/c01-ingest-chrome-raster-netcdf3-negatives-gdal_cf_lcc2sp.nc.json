@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:36:58.451Z",
+ "key": "raster-netcdf3-negatives-gdal/cf_lcc2sp.nc",
+ "item": "raster-netcdf3-negatives-gdal",
+ "file": "cf_lcc2sp.nc",
+ "format": "NetCDF classic (magic CDF\\x01)",
+ "rendered": false,
+ "errors": [
+  "NetCDF-3 (classic CDF) is not read — NetCDF-4 / HDF5 is; convert it with nccopy -k nc4"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack HDF5 reader (h5wasm) 0.10.3 verified (1 entries, SHA-256 checked)×",
+  "toast-error: cf_lcc2sp.nc: NetCDF-3 (classic CDF) is not read — NetCDF-4 / HDF5 is; convert it with nccopy -k nc4×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 170,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

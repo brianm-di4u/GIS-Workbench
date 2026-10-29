@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:51:20.455Z",
+ "key": "derived-pmtiles-raster/cop_hillshade_jpeg.mbtiles",
+ "item": "derived-pmtiles-raster",
+ "file": "cop_hillshade_jpeg.mbtiles",
+ "format": "PMTiles / MBTiles",
+ "rendered": false,
+ "errors": [
+  "no such table: gpkg_spatial_ref_sys"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: cop_hillshade_jpeg.mbtiles.gpkg: no such table: gpkg_spatial_ref_sys×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 533,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

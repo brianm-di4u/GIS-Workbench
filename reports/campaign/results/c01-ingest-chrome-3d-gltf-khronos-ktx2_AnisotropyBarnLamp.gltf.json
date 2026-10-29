@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:35:13.878Z",
+ "key": "3d-gltf-khronos-ktx2/AnisotropyBarnLamp.gltf",
+ "item": "3d-gltf-khronos-ktx2",
+ "file": "AnisotropyBarnLamp.gltf",
+ "format": "glTF 2.0 (.gltf + .bin + .ktx2)",
+ "rendered": false,
+ "errors": [
+  "THREE.GLTFLoader: setKTX2Loader must be called before loading KTX2 textures"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: AnisotropyBarnLamp.gltf: THREE.GLTFLoader: setKTX2Loader must be called before loading KTX2 textures"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 119,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

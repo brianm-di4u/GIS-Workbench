@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:51:02.020Z",
+ "key": "derived-pmtiles-raster/naip_webp.pmtiles",
+ "item": "derived-pmtiles-raster",
+ "file": "naip_webp.pmtiles",
+ "format": "PMTiles / MBTiles",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: naip_webp.pmtiles: zoom 12–18 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 50,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

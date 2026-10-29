@@ -71,7 +71,7 @@ export function install(app) {
         // FlatGeobuf from the layer's GeoJSON (WGS 84), without a spatial index (DN-59).
         Fgb ??= await app.gw.runScript('js-fgb');
         const fc = JSON.parse(await app.encodeLayer(v.id, 'geojson').blob.text());
-        const stem = (v.name || 'layer').replace(/[^w.-]+/g, '_');
+        const stem = (v.name || 'layer').replace(/[^\w.-]+/g, '_');
         await saveBlob(app, new Blob([Fgb.serialize(fc, 4326)], { type: 'application/flatgeobuf' }), { name: `${stem}.fgb`, types: ['.fgb'], description: 'FlatGeobuf' });
       } else {
         const out = app.encodeLayer(v.id, 'geojson');

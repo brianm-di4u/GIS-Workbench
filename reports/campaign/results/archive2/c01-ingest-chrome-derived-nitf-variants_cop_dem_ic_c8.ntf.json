@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:16.197Z",
+ "key": "derived-nitf-variants/cop_dem_ic_c8.ntf",
+ "item": "derived-nitf-variants",
+ "file": "cop_dem_ic_c8.ntf",
+ "format": "NITF 2.1 / NSIF 1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened cop_dem_ic_c8.ntf in 33 msZoom to layer×",
+  "toast-info: cop_dem_ic_c8.ntf looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 347,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

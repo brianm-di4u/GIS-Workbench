@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:13.424Z",
+ "key": "vector-gpx-gpxpy-tests/route.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "route.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: route.gpx: 0 waypoint(s), 1 route(s), 0 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 82,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

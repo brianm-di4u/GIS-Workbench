@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:30.657Z",
+ "key": "derived-envi-variants/landsat_sr_bil.img",
+ "item": "derived-envi-variants",
+ "file": "landsat_sr_bil.img",
+ "format": "ENVI raw + .hdr",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened landsat_sr_bil.img in 48 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BIL (data type 12)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 7,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 6219,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

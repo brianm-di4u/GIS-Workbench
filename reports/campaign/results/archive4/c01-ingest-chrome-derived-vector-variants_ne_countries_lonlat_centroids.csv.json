@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:06.147Z",
+ "key": "derived-vector-variants/ne_countries_lonlat_centroids.csv",
+ "item": "derived-vector-variants",
+ "file": "ne_countries_lonlat_centroids.csv",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_countries_lonlat_centroids: 258 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 258,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 108,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

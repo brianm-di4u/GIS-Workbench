@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:01.360Z",
+ "key": "vector-usgs-earthquakes-month/all_month.geojson",
+ "item": "vector-usgs-earthquakes-month",
+ "file": "all_month.geojson",
+ "format": "GeoJSON FeatureCollection (Point, lon/lat/depth) + CSV (time,latitude,longitude,depth,mag,...)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: all_month: 9910 feature(s) from GeoJSON×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 9910,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1681,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

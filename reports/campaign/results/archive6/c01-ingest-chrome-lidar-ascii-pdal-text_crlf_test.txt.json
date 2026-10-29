@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:41.911Z",
+ "key": "lidar-ascii-pdal-text/crlf_test.txt",
+ "item": "lidar-ascii-pdal-text",
+ "file": "crlf_test.txt",
+ "format": "ASCII point cloud (.pts, .xyz, .txt)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack PROJ (proj-wasm with proj.db) 0.1.0 verified (3 entries, SHA-256 checked)×",
+  "toast-info: Opened crlf_test.txt: 10 points in 26 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 431,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

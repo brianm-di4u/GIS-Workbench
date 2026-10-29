@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:35:07.908Z",
+ "key": "jp2-htj2k-iso-conformance/file9_b11.jph",
+ "item": "jp2-htj2k-iso-conformance",
+ "file": "file9_b11.jph",
+ "format": "JPH (HTJ2K in JP2-family box) / J2K HT codestream",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened file9_b11.jph in 38 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2; 768×512×1, 8-bit, 5 resolution levels)",
+   "w": 768,
+   "h": 512,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 339,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

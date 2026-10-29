@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:42.777Z",
+ "key": "3d-tiles-samples-i3dm-pnts/ur.b3dm",
+ "item": "3d-tiles-samples-i3dm-pnts",
+ "file": "ur.b3dm",
+ "format": "3D Tiles 1.0 (tileset.json, i3dm, pnts, b3dm)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: ur.b3dm: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 79,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

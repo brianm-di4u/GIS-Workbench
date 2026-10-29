@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:32.075Z",
+ "key": "raster-pmtiles-gdal-autotest/byte_jpg.pmtiles",
+ "item": "raster-pmtiles-gdal-autotest",
+ "file": "byte_jpg.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: byte_jpg.pmtiles: zoom 11–11 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 81,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

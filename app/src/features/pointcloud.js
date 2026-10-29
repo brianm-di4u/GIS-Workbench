@@ -89,23 +89,42 @@ export function install(app) {
     const text = await file.text();
     let o = ascii;
     if (!o) {
-      const first = text.split(/\r?\n/).find((l) => l.trim() && !/^[#/]/.test(l.trim())) ?? '';
-      const nums = first.trim().split(/\s*[,;\t|]\s*|\s+/).map(Number);
-      const geo = Math.abs(nums[0]) <= 180 && Math.abs(nums[1]) <= 90;
+      const lines = text.slice(0, 1 << 16).split(/\r?\n/).filter((l) => l.trim() && !/^[#/]/.test(l.trim()));
+      const first = lines[0] ?? '';
+      const split = (l) => l.trim().split(/\s*[,;\t|]\s*|\s+/);
       const inp = (v, label) => h('input', { class: 'inp inp-num', type: 'number', min: '0', value: v, 'aria-label': label });
-      const cx = inp('0', 'X column');
-      const cy = inp('1', 'Y column');
-      const cz = inp('2', 'Z column');
-      const ci = inp('', 'Intensity column');
-      const cc = inp('', 'Class column');
+      // A header line names the columns (PDAL text writer: "Red","Green","X","Y","Blue","Z"): propose
+      // them by name rather than 0, 1, 2.
+      const names = /[a-df-z]/i.test(first) ? first.trim().split(/\s*[,;\t|]\s*|\s+/).map((t) => t.replace(/^"|"$/g, '').toLowerCase()) : [];
+      const by = (...ks) => {
+        const i = names.findIndex((t) => ks.includes(t));
+        return i >= 0 ? String(i) : null;
+      };
+      const cx = inp(by('x', 'easting', 'lon', 'longitude') ?? '0', 'X column');
+      const cy = inp(by('y', 'northing', 'lat', 'latitude') ?? '1', 'Y column');
+      const cz = inp(by('z', 'elevation', 'height', 'alt') ?? '2', 'Z column');
+      const ci = inp(by('intensity', 'i') ?? '', 'Intensity column');
+      const cc = inp(by('classification', 'class') ?? '', 'Class column');
       const skip = inp(/[a-df-z]/i.test(first) ? '1' : '0', 'Header lines');
+      // Longitude/latitude is proposed when the first data row (not a header or a .pts point count)
+      // has X and Y in range in the proposed columns.
+      const row = lines.map(split).find((t) => t.length >= 3 && t.every((v) => v === '' || Number.isFinite(Number(v.replace(/^"|"$/g, ''))))) ?? [];
+      const geo = Math.abs(Number(row[Number(cx.value)])) <= 180 && Math.abs(Number(row[Number(cy.value)])) <= 90;
       const epsg = h('input', { class: 'inp inp-num', type: 'number', value: geo ? '4326' : '', placeholder: 'e.g. 32611', 'aria-label': 'EPSG code' });
       const vert = h('select', { class: 'inp', 'aria-label': 'Heights' }, h('option', { value: 'hae' }, 'Ellipsoidal (HAE)'), h('option', { value: 'egm96' }, 'EGM96 (MSL)'));
       const body = h('div', {}, h('p', { class: 'hint mono' }, first.slice(0, 120)), field('X, Y, Z columns (0 = first)', h('span', { class: 'btn-row' }, cx, cy, cz)), field('Intensity, class columns (blank = none)', h('span', { class: 'btn-row' }, ci, cc)), field('Header lines to skip', skip), field('Coordinate system (EPSG)', epsg), field('Heights', vert));
-      if ((await modal({ title: `ASCII Points — ${file.name}`, body, id: 'pc-ascii' })) !== 'OK') return null;
+      // Automation and tests (like zipPick): 'default' takes the proposed columns without the dialog;
+      // an object ({epsg, vertical}) also sets those fields.
+      const auto = app.asciiPick === 'default' || (app.asciiPick && typeof app.asciiPick === 'object');
+      if (app.asciiPick?.epsg) epsg.value = String(app.asciiPick.epsg);
+      if (app.asciiPick?.vertical) vert.value = app.asciiPick.vertical;
+      if (!auto && (await modal({ title: `ASCII Points — ${file.name}`, body, id: 'pc-ascii' })) !== 'OK') return null;
       const col = (e) => (e.value.trim() === '' ? undefined : Number(e.value));
       o = { columns: { x: col(cx), y: col(cy), z: col(cz), intensity: col(ci), class: col(cc) }, skip: Number(skip.value) || 0, epsg: Number(epsg.value), vertical: vert.value };
     }
+    if (!(o.epsg > 0)) throw new Error('the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)');
+    // Codes only the PROJ pack knows (state planes in feet) are defined before the cloud is placed.
+    await app.proj?.prepare?.([o.epsg]);
     const src = parseAscii(text, { columns: o.columns, skip: o.skip ?? 0, delimiter: o.delimiter ?? null, name: file.name });
     return cloudFromXyz({ ...src, size: file.size }, { epsg: o.epsg, vertical: o.vertical ?? 'hae', ...geoOpts() });
   }
@@ -168,15 +187,16 @@ export function install(app) {
     return out;
   };
   app.splitPointCloudFiles = (files) => {
-    const clouds = files.filter((f) => POINTCLOUD_EXT.test(f.name));
+    // .txt is a cloud only when openFiles found X/Y/Z rows in it (f.__asciiCloud).
+    const clouds = files.filter((f) => POINTCLOUD_EXT.test(f.name) || f.__asciiCloud);
     // TE-014: companions of a cloud (LAStools .lax index, .wdp waveform packets, .prj/.xml/.txt
     // metadata) travel with it instead of falling through to the image reader as "unrecognised".
     const stems = new Set(clouds.map((f) => f.name.replace(/\.(copc\.)?[^.]+$/i, '').toLowerCase()));
     const stemOf = (n) => n.replace(/\.[^.]+$/, '').replace(/\.(copc\.)?la[sz]$/i, '').toLowerCase(); // a.lax, a.laz.xml → a
     const companion = (f) => /\.(lax|wdp|prj|xml|txt|sha256|md5)$/i.test(f.name) && stems.has(stemOf(f.name));
-    const extra = files.filter((f) => !POINTCLOUD_EXT.test(f.name) && companion(f));
+    const extra = files.filter((f) => !clouds.includes(f) && companion(f));
     for (const f of extra) app.importLog.push({ file: f.name, errors: [], warnings: [`${f.name}: kept with its point cloud (not read)`] });
-    return { clouds, rest: files.filter((f) => !POINTCLOUD_EXT.test(f.name) && !companion(f)) };
+    return { clouds, rest: files.filter((f) => !clouds.includes(f) && !companion(f)) };
   };
 
   function close(p = pane()) {

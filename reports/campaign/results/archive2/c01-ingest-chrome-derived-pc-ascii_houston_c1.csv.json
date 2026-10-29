@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:54:40.586Z",
+ "key": "derived-pc-ascii/houston_c1.csv",
+ "item": "derived-pc-ascii",
+ "file": "houston_c1.csv",
+ "format": "ASCII point cloud",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: houston_c1: 200000 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 200000,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 9762,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}
