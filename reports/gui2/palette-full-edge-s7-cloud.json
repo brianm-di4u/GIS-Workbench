@@ -38,7 +38,9 @@
   "id": "dialog:3d-exag ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
+  ],
   "problems": []
  },
  {
@@ -46,9 +48,7 @@
   "id": "3d.navorbit",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -116,7 +116,9 @@
   "id": "pc.colour.class",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×"
+  ],
   "problems": []
  },
  {
@@ -124,7 +126,9 @@
   "id": "pc.colour.rgb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: From points: 30 building(s), 136 tree(s)×"
+  ],
   "problems": []
  },
  {
@@ -158,10 +162,7 @@
   "dialogs": [
    "tool:pc-classes"
   ],
-  "toasts": [
-   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
-   "info: From points: 30 building(s), 136 tree(s)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -419,7 +420,9 @@
   "dialogs": [
    "dialog:pc-classedit"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Ground filter: 45 points changed, 19,487 ground, 1640 ms×"
+  ],
   "problems": []
  },
  {

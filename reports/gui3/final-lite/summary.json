@@ -1,0 +1,30 @@
+[
+ {
+  "kind": "hover",
+  "el": ".ab-btn",
+  "n": 20,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".ab-btn",
+   "text": "Open",
+   "fg": "#78a1e2",
+   "bg": "#8ab4f8",
+   "value": 7.2,
+   "need": 12
+  }
+ }
+]

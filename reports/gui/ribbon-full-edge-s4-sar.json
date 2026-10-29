@@ -537,7 +537,7 @@
   "tab": "analyze",
   "id": "sar.anamorphic",
   "kind": "button",
-  "outcome": "clicked",
+  "outcome": "toggled",
   "dialogs": [],
   "toasts": [],
   "problems": []

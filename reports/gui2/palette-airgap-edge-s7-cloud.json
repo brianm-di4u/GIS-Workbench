@@ -132,10 +132,7 @@
   "id": "pc.colour.return",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
-   "info: From points: 30 building(s), 136 tree(s)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -143,7 +140,10 @@
   "id": "pc.colour.source",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
+   "info: From points: 30 building(s), 136 tree(s)×"
+  ],
   "problems": []
  },
  {
@@ -306,10 +306,7 @@
   "dialogs": [
    "dialog:pc-ndsm"
   ],
-  "toasts": [
-   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
-   "info: DTM 500 × 500 posts opened as fx09_ftus_DTM.tif×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -419,9 +416,7 @@
   "dialogs": [
    "dialog:pc-classedit"
   ],
-  "toasts": [
-   "info: Ground filter: 45 points changed, 19,487 ground, 1795 ms×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

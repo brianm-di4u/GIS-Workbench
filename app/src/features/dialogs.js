@@ -11,6 +11,7 @@ import { NOT_ACCREDITED, LEVELS, LEVEL_NAME, bannerText } from '../security/mark
 import { saveBlob, textBlob, pickFiles } from '../storage/files.js';
 import { fmtBytes } from '../core/util.js';
 import { FMT } from '../wasm/core.js';
+import { applyTheme } from '../shell/theme.js';
 
 export const name = 'dialogs';
 
@@ -338,6 +339,7 @@ export function install(app) {
     ['Mensuration', 'heightMethod', 'Default height method', 'select', [['layover', 'Layover'], ['shadow', 'Shadow']], 'layover'],
     ['Storage', 'journal', 'Recovery journal', 'select', [['on', 'On'], ['off', 'Off (nothing is written to browser storage)']], 'on'],
     ['Display', 'layout', 'Interface layout', 'select', [['modern', 'Modern: clean canvas'], ['classic', 'Classic: Ribbon layout as in 1.x']], 'modern'],
+    ['Display', 'theme', 'Theme', 'select', [['system', 'Follow system (light or dark)'], ['m3-light', 'Light'], ['m3-dark', 'Dark (Material)'], ['grey', 'Grey'], ['dark', 'Dark'], ['print', 'Print']], 'system'],
     ['Display', 'northStyle', 'North indicator', 'select', [['compass', 'Compass button (click for north up)'], ['arrow', 'North arrow on the image']], 'compass'],
     ['Security Markings', 'bannerMode', 'Classification banners', 'select', [['auto', 'Automatic: only above UNCLASSIFIED'], ['on', 'Always show'], ['off', 'Never show (products still carry markings)']], 'auto'],
     ['Display', 'gpuBudgetMB', 'GPU texture budget (MB)', 'number', null, 384],
@@ -427,6 +429,7 @@ export function install(app) {
           if (k === 'journal') app.journal?.setEnabled(v === 'on');
           P.set(k, v);
           if (k === 'layout') app.setLayout?.(v);
+          if (k === 'theme') applyTheme(app);
         }
         for (const [k, v] of Object.entries(edits.common)) P.setCommon(k, v);
         for (const [k, v] of Object.entries(edits.lock)) P.setCommon(k, P.common.values[k] ?? edits.common[k] ?? P.get(k), { lock: v });

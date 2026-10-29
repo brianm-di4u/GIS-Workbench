@@ -8,6 +8,7 @@ import { h, clear } from '../shell/dom.js';
 import { icon } from '../shell/icons.js';
 import { openMenu } from '../shell/menu.js';
 import { WORKSPACE_MENUS } from '../shell/ribbon-data.js';
+import { applyTheme, themePref } from '../shell/theme.js';
 
 /** Navigation rail: each item toggles a panel and shows whether it is open. */
 const RAIL = [
@@ -72,8 +73,10 @@ export class AppShell {
     search.addEventListener('click', () => C.run('ui.palette'));
     this.persona = h('button', { class: 'ab-chip', type: 'button', 'data-id': 'shell:persona', 'aria-haspopup': 'menu' });
     this.persona.addEventListener('click', () => this.app.personas?.menu(this.persona));
-    const themeBtn = h('button', { class: 'ab-btn', type: 'button', 'aria-label': 'Light or dark theme', 'data-id': 'shell:theme' }, icon('theme', 18));
-    themeBtn.addEventListener('click', () => C.run(document.documentElement.dataset.theme === 'm3-light' ? 'theme.m3dark' : 'theme.m3light'));
+    // Cycles Light → Dark → Follow system; the label says what is shown and what a click does (DN-60).
+    const themeBtn = h('button', { class: 'ab-btn', type: 'button', 'aria-label': 'Theme', 'data-id': 'shell:theme' }, icon('theme', 18));
+    themeBtn.addEventListener('click', () => C.run({ 'm3-light': 'theme.m3dark', 'm3-dark': 'theme.system' }[themePref(this.app)] ?? 'theme.m3light'));
+    this.themeBtn = themeBtn;
     const helpBtn = h('button', { class: 'ab-btn', type: 'button', 'aria-label': 'Help', 'aria-haspopup': 'menu', 'data-id': 'shell:help' }, icon('help', 18));
     helpBtn.addEventListener('click', () => openMenu(WORKSPACE_MENUS.find((m) => m.label === 'Help').items, this.app, { anchor: helpBtn }));
     return h(
@@ -128,6 +131,13 @@ export class AppShell {
     const per = this.app.personas?.current();
     const label = per ? per.short : 'Workspace';
     if (this.persona.textContent !== label) this.persona.textContent = label;
+    const pref = themePref(this.app);
+    const next = { 'm3-light': 'dark', 'm3-dark': 'follow system' }[pref] ?? 'light';
+    const tl = `Theme: ${pref === 'system' ? 'follow system' : pref.replace('m3-', '')}. Click for ${next}.`;
+    if (this.themeBtn.getAttribute('aria-label') !== tl) {
+      this.themeBtn.setAttribute('aria-label', tl);
+      this.themeBtn.title = tl;
+    }
   }
 
   /** Switch the chrome between 'modern' and 'classic' without a reload. */
@@ -137,8 +147,8 @@ export class AppShell {
     html.dataset.layout = mode;
     this.bar.hidden = mode !== 'modern';
     this.rail.hidden = mode !== 'modern';
-    // A theme the user chose stays; otherwise each layout has its own default.
-    if (!app.prefs.get('theme')) html.dataset.theme = mode === 'modern' ? 'm3-dark' : 'grey';
+    // A palette the user chose stays; Follow system (the default) picks the layout's own pair.
+    applyTheme(app);
     if (!initial) {
       if (app.prefs.user('workspaceCollapsed') === undefined) app.desktop.setWorkspaceCollapsed(mode === 'modern');
       if (mode === 'classic') {

@@ -7,6 +7,8 @@ import { openApp, openFiles } from './helpers.js';
 const FX01 = resolve('fixtures/fx01/fx01.ntf');
 const FX06 = [resolve('fixtures/fx06/fx06_date1.tif'), resolve('fixtures/fx06/fx06_date2.tif')];
 const MODERN = { prefs: { welcomeDone: true } };
+// The default theme follows the OS (DN-60): with a dark OS the Modern layout shows Material dark.
+test.use({ colorScheme: 'dark' });
 
 async function withImages(page, files = [FX01], opts = MODERN) {
   const { frame } = await openApp(page, 'file', opts);
@@ -28,12 +30,14 @@ test('REQ-SHL-01 REQ-SHL-13 Modern chrome: app bar, rail, no Ribbon, Material th
     rail: !document.querySelector('[data-id="shell:rail"]').hidden,
     ribbon: getComputedStyle(document.querySelector('.multiport > .ribbon')).display,
     theme: document.documentElement.dataset.theme,
+    pref: document.documentElement.dataset.themePref,
     barBg: getComputedStyle(document.querySelector('.app-bar')).backgroundColor,
     surface: getComputedStyle(document.documentElement).getPropertyValue('--c-m3-surface').trim(),
   }));
   expect(s.bar && s.rail).toBe(true);
   expect(s.ribbon).toBe('none');
   expect(s.theme).toBe('m3-dark');
+  expect(s.pref).toBe('system');
   expect(s.surface).toBe('#111318');
   expect(s.barBg).toBe('rgb(17, 19, 24)');
   const view = await frame.evaluate(() => JSON.stringify(window.gisworkbench.activePane().view));

@@ -384,7 +384,8 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
+   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×",
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
   ],
   "problems": []
  },
@@ -392,11 +393,11 @@
   "tab": "pointcloud",
   "id": "pc.colourise",
   "kind": "button",
-  "outcome": "disabled",
-  "dialogs": [],
-  "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
+  "outcome": "clicked",
+  "dialogs": [
+   "dialog:pc-colourise"
   ],
+  "toasts": [],
   "problems": []
  },
  {

@@ -205,7 +205,7 @@ export const WORKSPACE_MENUS = [
       { cmd: 'dock.jobs' },
       { cmd: 'dock.netlog' },
       { cmd: 'dock.importlog' },
-      { label: 'Theme', items: [{ cmd: 'theme.grey' }, { cmd: 'theme.dark' }, { cmd: 'theme.print' }] },
+      { label: 'Theme', items: [{ cmd: 'theme.system' }, '-', { cmd: 'theme.m3light' }, { cmd: 'theme.m3dark' }, '-', { cmd: 'theme.grey' }, { cmd: 'theme.dark' }, { cmd: 'theme.print' }] },
       { cmd: 'view.uiscale' },
     ],
   },

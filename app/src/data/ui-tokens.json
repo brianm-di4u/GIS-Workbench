@@ -60,20 +60,22 @@
       ]
     },
     "ribbon.captionBand": {
-      "hex": "#a6a6a6",
+      "hex": "#929292",
       "use": "Group caption band",
       "confidence": "observed",
       "source": [
         "WS2-03"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionText": {
-      "hex": "#3b3b3b",
+      "hex": "#141414",
       "use": "Group caption text",
       "confidence": "estimated",
       "source": [
         "WS2-03"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.groupSeparator": {
       "hex": "#8f8f8f",
@@ -172,14 +174,15 @@
       ]
     },
     "dock.title": {
-      "hex": "#767676",
+      "hex": "#5f5f5f",
       "use": "Dock window title bar (white text)",
       "confidence": "observed",
       "source": [
         "WS2-04"
       ],
       "measured": "#7c7c7c",
-      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)",
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.body": {
       "hex": "#a1a1a1",
@@ -191,20 +194,22 @@
       ]
     },
     "dock.tabActive": {
-      "hex": "#a3a3a3",
+      "hex": "#ffffff",
       "use": "Active bottom tab",
       "confidence": "observed",
       "source": [
         "WS2-03"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabInactive": {
-      "hex": "#e9e9e9",
+      "hex": "#c8c8c8",
       "use": "Inactive bottom tab",
       "confidence": "observed",
       "source": [
         "WS2-03"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "toolbox.drawerHeader": {
       "hex": "#4a4a4a",
@@ -586,10 +591,11 @@
       ]
     },
     "focus.ring": {
-      "hex": "#1a5fb4",
+      "hex": "#0b3d91",
       "use": "Keyboard focus ring (accessibility addition, grey theme)",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "banner.U": {
       "hex": "#007a33",
@@ -621,7 +627,8 @@
       "confidence": "guess",
       "source": [
         "Research/14 §2.3"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "banner.R": {
       "hex": "#6f2da8",
@@ -686,20 +693,22 @@
       ]
     },
     "m3.surfaceContainer": {
-      "hex": "#ededf4",
+      "hex": "#e6e7ef",
       "use": "Cards, docks, pill",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "m3.surfaceContainerHigh": {
-      "hex": "#e7e8ee",
+      "hex": "#dcdde6",
       "use": "Menus, raised surfaces",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "m3.onSurface": {
       "hex": "#1a1b20",
@@ -740,44 +749,393 @@
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
       ]
+    },
+    "menu.text": {
+      "hex": "#000000",
+      "use": "Menu item text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.hoverText": {
+      "hex": "#000000",
+      "use": "Menu item text under the pointer or keyboard focus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.keyText": {
+      "hex": "#595959",
+      "use": "Shortcut keys and submenu arrows in menus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.border": {
+      "hex": "#8a8a8a",
+      "use": "Menu outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.separator": {
+      "hex": "#c4c4c4",
+      "use": "Rule between menu groups",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.toolbarText": {
+      "hex": "#000000",
+      "use": "Text and icons on the Workspace toolbar",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarText": {
+      "hex": "#000000",
+      "use": "Window and dialog title text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarBorder": {
+      "hex": "#9a9a9a",
+      "use": "Rule under window and dialog title bars",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.text": {
+      "hex": "#000000",
+      "use": "Ribbon labels and icons; selected tab label",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotText": {
+      "hex": "#000000",
+      "use": "Text and icons on a hot or pressed button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotBorder": {
+      "hex": "#b08c3c",
+      "use": "Outline of a hot button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.border": {
+      "hex": "#767676",
+      "use": "Input, select and button outline (3:1 against its surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.borderStrong": {
+      "hex": "#1f1f1f",
+      "use": "Default (primary) button outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "button.hover": {
+      "hex": "#ffe79c",
+      "use": "Dialog and panel button under the pointer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "divider": {
+      "hex": "#8f8f8f",
+      "use": "Section and button-row rules in dialogs and panels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.warnText": {
+      "hex": "#8a5a00",
+      "use": "Warning text on content background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.successText": {
+      "hex": "#2e7d32",
+      "use": "Success text on content background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.bg": {
+      "hex": "#20242a",
+      "use": "Two-line tooltip background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.text": {
+      "hex": "#f2f4f7",
+      "use": "Tooltip first line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.textSecondary": {
+      "hex": "#d6dbe2",
+      "use": "Tooltip outcome line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.textMuted": {
+      "hex": "#9aa3ad",
+      "use": "Tooltip footer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.accent": {
+      "hex": "#ffcb5f",
+      "use": "Tooltip \"why it is greyed out\" line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.border": {
+      "hex": "#5a6370",
+      "use": "Tooltip outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.bg": {
+      "hex": "#2b2f36",
+      "use": "Snackbar background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.text": {
+      "hex": "#f0f2f5",
+      "use": "Snackbar text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.action": {
+      "hex": "#8ab4f8",
+      "use": "Snackbar action button text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.border": {
+      "hex": "#5a6370",
+      "use": "Snackbar outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.info": {
+      "hex": "#4da3ff",
+      "use": "Snackbar stripe, information",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.warn": {
+      "hex": "#e0b050",
+      "use": "Snackbar stripe, warning",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.error": {
+      "hex": "#ff5a5a",
+      "use": "Snackbar stripe, error",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "focus.halo": {
+      "hex": "#ffffff",
+      "use": "Contrasting halo inside the focus ring (two-tone ring, 3:1 on any surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.grid": {
+      "hex": "#0000002e",
+      "use": "Chart guide lines",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.axis": {
+      "hex": "#4d4d4d",
+      "use": "Chart axis labels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.fill": {
+      "hex": "#7d828c",
+      "use": "Histogram fill",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.mask": {
+      "hex": "#80808059",
+      "use": "Out-of-range shading over a histogram",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.handle": {
+      "hex": "#a35f00",
+      "use": "Draggable limit handles and the selected curve point",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.terrain": {
+      "hex": "#8a6a2a",
+      "use": "Elevation profile ground fill",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.losOk": {
+      "hex": "#1a7f1a",
+      "use": "Line of sight, visible",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.losBlocked": {
+      "hex": "#c62828",
+      "use": "Line of sight, blocked",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.cursor": {
+      "hex": "#1565c0",
+      "use": "Linked cursor on charts",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.red": {
+      "hex": "#c62828",
+      "use": "Red band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.green": {
+      "hex": "#2e7d32",
+      "use": "Green band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.blue": {
+      "hex": "#1565c0",
+      "use": "Blue band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
     }
   },
   "colorsDarkDerived": {
     "dock.tabInactive": {
-      "hex": "#3a3a3a",
+      "hex": "#474747",
       "use": "Inactive dock and Workspace tabs in the dark theme (GUI-049)",
       "confidence": "guess",
       "source": [
         "derived: readable with content.text #e6e6e6"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabActive": {
-      "hex": "#5a5a5a",
+      "hex": "#2e5070",
       "use": "Active dock and Workspace tabs in the dark theme (GUI-049)",
       "confidence": "guess",
       "source": [
         "derived: readable with content.text #e6e6e6"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "button.face": {
-      "hex": "#3c3c3c",
+      "hex": "#474747",
       "use": "Dialog and panel buttons in the dark theme (GUI-048)",
       "confidence": "guess",
       "source": [
         "derived: readable with content.text #e6e6e6"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.frame": {
-      "hex": "#2b2b2b",
+      "hex": "#292929",
       "use": "Frame, menu bar, tab strip",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.toolbar": {
-      "hex": "#333333",
+      "hex": "#373737",
       "use": "Toolbars",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.textOnFrame": {
       "hex": "#e6e6e6",
@@ -789,19 +1147,22 @@
       "hex": "#3a3a3a",
       "use": "Ribbon gradient top",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.bodyBottom": {
-      "hex": "#323232",
+      "hex": "#363636",
       "use": "Ribbon gradient bottom",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionBand": {
-      "hex": "#2f2f2f",
+      "hex": "#272727",
       "use": "Group caption band",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.fileTab": {
       "hex": "#2a5aa8",
@@ -810,18 +1171,20 @@
       "source": []
     },
     "ribbon.buttonHot": {
-      "hex": "#5a4a1e",
+      "hex": "#574726",
       "use": "Hover",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.buttonPressed": {
-      "hex": "#94722a",
+      "hex": "#775d27",
       "use": "Pressed/checked",
       "confidence": "guess",
       "source": [],
       "measured": "#8a6a1a",
-      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)",
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ctx.imageTools": {
       "hex": "#5d728f",
@@ -854,22 +1217,25 @@
       "source": []
     },
     "dock.title": {
-      "hex": "#3c3c3c",
+      "hex": "#474747",
       "use": "Dock title",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.body": {
-      "hex": "#2e2e2e",
+      "hex": "#373737",
       "use": "Dock body",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.bg": {
-      "hex": "#1e1e1e",
+      "hex": "#1b1b1b",
       "use": "Trees, tables, inputs",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.text": {
       "hex": "#e6e6e6",
@@ -878,22 +1244,25 @@
       "source": []
     },
     "content.header": {
-      "hex": "#2a2a2a",
+      "hex": "#373737",
       "use": "Table header",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.selected": {
-      "hex": "#4a4a4a",
+      "hex": "#36506a",
       "use": "Selection",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "menu.hover": {
-      "hex": "#4d4426",
+      "hex": "#574726",
       "use": "Menu hover",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "layer.activeHighlight": {
       "hex": "#c8b400",
@@ -902,10 +1271,11 @@
       "source": []
     },
     "status.bg": {
-      "hex": "#151515",
+      "hex": "#131313",
       "use": "Status bars",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "status.ok": {
       "hex": "#3fbf3a",
@@ -961,14 +1331,504 @@
       "use": "Selected ribbon tab (dark)",
       "confidence": "guess",
       "source": [],
-      "hex": "#4a4a4a",
-      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+      "hex": "#4e4e4e",
+      "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)",
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.errorText": {
       "hex": "#ff8a80",
       "use": "Error text on dark content background",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
+    },
+    "chrome.titlebar": {
+      "hex": "#1b1b1b",
+      "use": "chrome.titlebar (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.qatTop": {
+      "hex": "#2e2e2e",
+      "use": "chrome.qatTop (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.bg": {
+      "hex": "#373737",
+      "use": "menu.bg (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.dropdownHover": {
+      "hex": "#36506a",
+      "use": "content.dropdownHover (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "button.hover": {
+      "hex": "#574726",
+      "use": "Dialog and panel button under the pointer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotBorder": {
+      "hex": "#b08c3c",
+      "use": "Outline of a hot button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.text": {
+      "hex": "#e6e6e6",
+      "use": "Menu item text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.hoverText": {
+      "hex": "#ffffff",
+      "use": "Menu item text under the pointer or keyboard focus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.keyText": {
+      "hex": "#c8c8c8",
+      "use": "Shortcut keys and submenu arrows in menus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.border": {
+      "hex": "#5c5c5c",
+      "use": "Menu outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.separator": {
+      "hex": "#555555",
+      "use": "Rule between menu groups",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.toolbarText": {
+      "hex": "#e6e6e6",
+      "use": "Text and icons on the Workspace toolbar",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarText": {
+      "hex": "#e6e6e6",
+      "use": "Window and dialog title text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarBorder": {
+      "hex": "#555555",
+      "use": "Rule under window and dialog title bars",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.text": {
+      "hex": "#e6e6e6",
+      "use": "Ribbon labels and icons; selected tab label",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotText": {
+      "hex": "#ffffff",
+      "use": "Text and icons on a hot or pressed button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.captionText": {
+      "hex": "#c8c8c8",
+      "use": "ribbon.captionText (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.groupSeparator": {
+      "hex": "#5c5c5c",
+      "use": "ribbon.groupSeparator (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.borderBottom": {
+      "hex": "#5c5c5c",
+      "use": "ribbon.borderBottom (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.border": {
+      "hex": "#9a9a9a",
+      "use": "Input, select and button outline (3:1 against its surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.borderStrong": {
+      "hex": "#cfcfcf",
+      "use": "Default (primary) button outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "divider": {
+      "hex": "#5f5f5f",
+      "use": "Section and button-row rules in dialogs and panels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "status.separator": {
+      "hex": "#5c5c5c",
+      "use": "status.separator (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.link": {
+      "hex": "#8ab4f8",
+      "use": "content.link (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.warnText": {
+      "hex": "#e0b050",
+      "use": "Warning text on content background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.successText": {
+      "hex": "#6fcf73",
+      "use": "Success text on content background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.bg": {
+      "hex": "#3a3f47",
+      "use": "Two-line tooltip background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.text": {
+      "hex": "#f2f4f7",
+      "use": "Tooltip first line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.textSecondary": {
+      "hex": "#d6dbe2",
+      "use": "Tooltip outcome line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.textMuted": {
+      "hex": "#b4bcc6",
+      "use": "Tooltip footer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.accent": {
+      "hex": "#ffcb5f",
+      "use": "Tooltip \"why it is greyed out\" line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.border": {
+      "hex": "#7a8290",
+      "use": "Tooltip outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.bg": {
+      "hex": "#3a3f47",
+      "use": "Snackbar background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.text": {
+      "hex": "#f0f2f5",
+      "use": "Snackbar text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.action": {
+      "hex": "#a8c7fa",
+      "use": "Snackbar action button text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.border": {
+      "hex": "#7a8290",
+      "use": "Snackbar outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "focus.halo": {
+      "hex": "#000000",
+      "use": "Contrasting halo inside the focus ring (two-tone ring, 3:1 on any surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toolbox.drawerHeader": {
+      "hex": "#555555",
+      "use": "toolbox.drawerHeader (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.grid": {
+      "hex": "#ffffff2e",
+      "use": "Chart guide lines",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.axis": {
+      "hex": "#c8c8c8",
+      "use": "Chart axis labels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.fill": {
+      "hex": "#8f95a0",
+      "use": "Histogram fill",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.handle": {
+      "hex": "#ffcb5f",
+      "use": "Draggable limit handles and the selected curve point",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.terrain": {
+      "hex": "#b08a4a",
+      "use": "Elevation profile ground fill",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.losOk": {
+      "hex": "#5cc45f",
+      "use": "Line of sight, visible",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.losBlocked": {
+      "hex": "#ff6b6b",
+      "use": "Line of sight, blocked",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.cursor": {
+      "hex": "#64b5f6",
+      "use": "Linked cursor on charts",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.red": {
+      "hex": "#ff6b6b",
+      "use": "Red band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.green": {
+      "hex": "#5cd65c",
+      "use": "Green band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.blue": {
+      "hex": "#6ea8ff",
+      "use": "Blue band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.surface": {
+      "hex": "#1b1b1b",
+      "use": "m3.surface (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.surfaceContainer": {
+      "hex": "#373737",
+      "use": "m3.surfaceContainer (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.surfaceContainerHigh": {
+      "hex": "#474747",
+      "use": "m3.surfaceContainerHigh (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.onSurface": {
+      "hex": "#e6e6e6",
+      "use": "m3.onSurface (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.onSurfaceVariant": {
+      "hex": "#bdbdbd",
+      "use": "m3.onSurfaceVariant (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.outline": {
+      "hex": "#9a9a9a",
+      "use": "m3.outline (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.outlineVariant": {
+      "hex": "#555555",
+      "use": "m3.outlineVariant (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.primary": {
+      "hex": "#8ab4f8",
+      "use": "m3.primary (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.onPrimary": {
+      "hex": "#0b2a5c",
+      "use": "m3.onPrimary (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.primaryContainer": {
+      "hex": "#2e5070",
+      "use": "m3.primaryContainer (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.onPrimaryContainer": {
+      "hex": "#dbe6ff",
+      "use": "m3.onPrimaryContainer (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.scrim": {
+      "hex": "#000000",
+      "use": "m3.scrim (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
     }
   },
   "fonts": {
@@ -1740,16 +2600,18 @@
   },
   "colorsPrintDerived": {
     "chrome.frame": {
-      "hex": "#e6e6e6",
+      "hex": "#ebebeb",
       "use": "Frame (print/light)",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.toolbar": {
-      "hex": "#f2f2f2",
+      "hex": "#d8d8d8",
       "use": "Toolbars",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.textOnFrame": {
       "hex": "#111111",
@@ -1758,58 +2620,67 @@
       "source": []
     },
     "chrome.qatTop": {
-      "hex": "#ececec",
+      "hex": "#f6f6f6",
       "use": "QAT",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.bodyTop": {
       "hex": "#ffffff",
       "use": "Ribbon",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.bodyBottom": {
-      "hex": "#f0f0f0",
+      "hex": "#ffffff",
       "use": "Ribbon",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionBand": {
-      "hex": "#e2e2e2",
+      "hex": "#ebebeb",
       "use": "Caption band",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.selectedTab": {
       "hex": "#ffffff",
       "use": "Selected tab",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.title": {
-      "hex": "#d0d0d0",
+      "hex": "#d8d8d8",
       "use": "Dock title",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.body": {
-      "hex": "#f4f4f4",
+      "hex": "#ebebeb",
       "use": "Dock body",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabActive": {
       "hex": "#ffffff",
       "use": "Tab",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabInactive": {
-      "hex": "#e4e4e4",
+      "hex": "#d8d8d8",
       "use": "Tab",
       "confidence": "guess",
-      "source": []
+      "source": [],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.titleText": {
       "use": "Dock title text (print)",
@@ -1817,40 +2688,100 @@
       "source": [],
       "hex": "#111111",
       "a11y": "Adjusted for WCAG 2.2 AA (REQ-UI-16 overrides look fidelity, design note DN-07)"
+    },
+    "content.bg": {
+      "hex": "#ffffff",
+      "use": "content.bg (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.header": {
+      "hex": "#ebebeb",
+      "use": "content.header (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "status.bg": {
+      "hex": "#3b3b3b",
+      "use": "status.bg (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "button.face": {
+      "hex": "#ffffff",
+      "use": "button.face (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.bg": {
+      "hex": "#ffffff",
+      "use": "menu.bg (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebar": {
+      "hex": "#ffffff",
+      "use": "chrome.titlebar (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.selected": {
+      "hex": "#c9d6ea",
+      "use": "content.selected (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
     }
   },
   "colorsM3Light": {
     "chrome.frame": {
-      "hex": "#ededf4",
+      "hex": "#e9ebf0",
       "use": "M3 re-skin of chrome.frame",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.qatTop": {
-      "hex": "#f9f9ff",
+      "hex": "#f6f8fb",
       "use": "M3 re-skin of chrome.qatTop",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.toolbar": {
-      "hex": "#e7e8ee",
+      "hex": "#d6d9dd",
       "use": "M3 re-skin of chrome.toolbar",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.titlebar": {
-      "hex": "#f9f9ff",
+      "hex": "#f6f8fb",
       "use": "M3 re-skin of chrome.titlebar",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.textOnFrame": {
       "hex": "#1a1b20",
@@ -1861,28 +2792,31 @@
       ]
     },
     "ribbon.bodyTop": {
-      "hex": "#f9f9ff",
+      "hex": "#ffffff",
       "use": "M3 re-skin of ribbon.bodyTop",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.bodyBottom": {
-      "hex": "#f3f3fa",
+      "hex": "#ffffff",
       "use": "M3 re-skin of ribbon.bodyBottom",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionBand": {
-      "hex": "#ededf4",
+      "hex": "#e9ebf0",
       "use": "M3 re-skin of ribbon.captionBand",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionText": {
       "hex": "#44474f",
@@ -1909,12 +2843,13 @@
       ]
     },
     "ribbon.selectedTab": {
-      "hex": "#f9f9ff",
+      "hex": "#ffffff",
       "use": "M3 re-skin of ribbon.selectedTab",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.fileTab": {
       "hex": "#2f5fb3",
@@ -1925,12 +2860,13 @@
       ]
     },
     "ribbon.buttonHot": {
-      "hex": "#e1e6f5",
+      "hex": "#c7d8f5",
       "use": "M3 re-skin of ribbon.buttonHot",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.buttonPressed": {
       "hex": "#d8e2ff",
@@ -1941,12 +2877,13 @@
       ]
     },
     "dock.title": {
-      "hex": "#e7e8ee",
+      "hex": "#d6d9dd",
       "use": "M3 re-skin of dock.title",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.titleText": {
       "hex": "#1a1b20",
@@ -1957,28 +2894,31 @@
       ]
     },
     "dock.body": {
-      "hex": "#f9f9ff",
+      "hex": "#e9ebf0",
       "use": "M3 re-skin of dock.body",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabActive": {
-      "hex": "#d8e2ff",
+      "hex": "#ffffff",
       "use": "M3 re-skin of dock.tabActive",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabInactive": {
-      "hex": "#ededf4",
+      "hex": "#d6d9dd",
       "use": "M3 re-skin of dock.tabInactive",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "toolbox.drawerHeader": {
       "hex": "#44474f",
@@ -1994,7 +2934,8 @@
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.text": {
       "hex": "#1a1b20",
@@ -2005,12 +2946,13 @@
       ]
     },
     "content.header": {
-      "hex": "#ededf4",
+      "hex": "#e9ebf0",
       "use": "M3 re-skin of content.header",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.selected": {
       "hex": "#d8e2ff",
@@ -2018,15 +2960,17 @@
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.dropdownHover": {
-      "hex": "#e1e6f5",
+      "hex": "#c7d8f5",
       "use": "M3 re-skin of content.dropdownHover",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.link": {
       "hex": "#2f5fb3",
@@ -2037,20 +2981,22 @@
       ]
     },
     "menu.bg": {
-      "hex": "#f3f3fa",
+      "hex": "#f8f9fc",
       "use": "M3 re-skin of menu.bg",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "menu.hover": {
-      "hex": "#e1e6f5",
+      "hex": "#c7d8f5",
       "use": "M3 re-skin of menu.hover",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "button.face": {
       "hex": "#ffffff",
@@ -2058,15 +3004,17 @@
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "status.bg": {
-      "hex": "#ededf4",
+      "hex": "#d6d9dd",
       "use": "M3 re-skin of status.bg (surface container, GUI-031)",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "status.text": {
       "hex": "#44474f",
@@ -2077,12 +3025,13 @@
       ]
     },
     "status.separator": {
-      "hex": "#c4c6d0",
+      "hex": "#a9acb6",
       "use": "M3 re-skin of status.separator",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "status.ok": {
       "hex": "#c4eed0",
@@ -2107,6 +3056,166 @@
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
       ]
+    },
+    "m3.surface": {
+      "hex": "#f6f8fb",
+      "use": "m3.surface (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.surfaceContainer": {
+      "hex": "#e3e5ea",
+      "use": "m3.surfaceContainer (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.surfaceContainerHigh": {
+      "hex": "#d8dadf",
+      "use": "m3.surfaceContainerHigh (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "button.hover": {
+      "hex": "#c7d8f5",
+      "use": "Dialog and panel button under the pointer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.text": {
+      "hex": "#1a1b20",
+      "use": "Menu item text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.hoverText": {
+      "hex": "#1a1b20",
+      "use": "Menu item text under the pointer or keyboard focus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.keyText": {
+      "hex": "#4f525a",
+      "use": "Shortcut keys and submenu arrows in menus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.border": {
+      "hex": "#a9acb6",
+      "use": "Menu outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.separator": {
+      "hex": "#c4c6d0",
+      "use": "Rule between menu groups",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.toolbarText": {
+      "hex": "#1a1b20",
+      "use": "Text and icons on the Workspace toolbar",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarText": {
+      "hex": "#1a1b20",
+      "use": "Window and dialog title text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarBorder": {
+      "hex": "#c4c6d0",
+      "use": "Rule under window and dialog title bars",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.text": {
+      "hex": "#1a1b20",
+      "use": "Ribbon labels and icons; selected tab label",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotText": {
+      "hex": "#1a1b20",
+      "use": "Text and icons on a hot or pressed button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotBorder": {
+      "hex": "#74777f",
+      "use": "Outline of a hot button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.border": {
+      "hex": "#74777f",
+      "use": "Input, select and button outline (3:1 against its surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.borderStrong": {
+      "hex": "#2f5fb3",
+      "use": "Default (primary) button outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "divider": {
+      "hex": "#b4b7c1",
+      "use": "Section and button-row rules in dialogs and panels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "m3.outlineVariant": {
+      "hex": "#b4b7c1",
+      "use": "m3.outlineVariant (GUI3)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "focus.halo": {
+      "hex": "#ffffff",
+      "use": "Contrasting halo inside the focus ring (two-tone ring, 3:1 on any surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
     }
   },
   "colorsM3Dark": {
@@ -2116,31 +3225,35 @@
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.qatTop": {
-      "hex": "#1d2024",
+      "hex": "#1e2125",
       "use": "M3 re-skin of chrome.qatTop",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.toolbar": {
-      "hex": "#1d2024",
+      "hex": "#2c2e33",
       "use": "M3 re-skin of chrome.toolbar",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.titlebar": {
-      "hex": "#1d2024",
+      "hex": "#2c2e33",
       "use": "M3 re-skin of chrome.titlebar",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "chrome.textOnFrame": {
       "hex": "#e2e2e9",
@@ -2151,28 +3264,31 @@
       ]
     },
     "ribbon.bodyTop": {
-      "hex": "#1d2024",
+      "hex": "#3a3d42",
       "use": "M3 re-skin of ribbon.bodyTop",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.bodyBottom": {
-      "hex": "#1a1c20",
+      "hex": "#3a3d42",
       "use": "M3 re-skin of ribbon.bodyBottom",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionBand": {
-      "hex": "#1d2024",
+      "hex": "#2c2e33",
       "use": "M3 re-skin of ribbon.captionBand",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.captionText": {
       "hex": "#c4c6d0",
@@ -2183,28 +3299,31 @@
       ]
     },
     "ribbon.groupSeparator": {
-      "hex": "#44474f",
+      "hex": "#4f5561",
       "use": "M3 re-skin of ribbon.groupSeparator",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.borderBottom": {
-      "hex": "#44474f",
+      "hex": "#4f5561",
       "use": "M3 re-skin of ribbon.borderBottom",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.selectedTab": {
-      "hex": "#282a2f",
+      "hex": "#42454a",
       "use": "M3 re-skin of ribbon.selectedTab",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.fileTab": {
       "hex": "#284777",
@@ -2215,12 +3334,13 @@
       ]
     },
     "ribbon.buttonHot": {
-      "hex": "#2e3542",
+      "hex": "#46566c",
       "use": "M3 re-skin of ribbon.buttonHot",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "ribbon.buttonPressed": {
       "hex": "#284777",
@@ -2231,12 +3351,13 @@
       ]
     },
     "dock.title": {
-      "hex": "#1d2024",
+      "hex": "#3a3d42",
       "use": "M3 re-skin of dock.title",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.titleText": {
       "hex": "#e2e2e9",
@@ -2247,12 +3368,13 @@
       ]
     },
     "dock.body": {
-      "hex": "#16181c",
+      "hex": "#2c2e33",
       "use": "M3 re-skin of dock.body",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "dock.tabActive": {
       "hex": "#284777",
@@ -2263,28 +3385,31 @@
       ]
     },
     "dock.tabInactive": {
-      "hex": "#1d2024",
+      "hex": "#3a3d42",
       "use": "M3 re-skin of dock.tabInactive",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "toolbox.drawerHeader": {
-      "hex": "#282a2f",
+      "hex": "#494b51",
       "use": "M3 re-skin of toolbox.drawerHeader",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.bg": {
-      "hex": "#16181c",
+      "hex": "#1e2125",
       "use": "M3 re-skin of content.bg",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.text": {
       "hex": "#e2e2e9",
@@ -2295,12 +3420,13 @@
       ]
     },
     "content.header": {
-      "hex": "#1d2024",
+      "hex": "#2c2e33",
       "use": "M3 re-skin of content.header",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.selected": {
       "hex": "#284777",
@@ -2311,12 +3437,13 @@
       ]
     },
     "content.dropdownHover": {
-      "hex": "#2e3542",
+      "hex": "#46566c",
       "use": "M3 re-skin of content.dropdownHover",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "content.link": {
       "hex": "#adc6ff",
@@ -2327,36 +3454,40 @@
       ]
     },
     "menu.bg": {
-      "hex": "#1d2024",
+      "hex": "#3a3d42",
       "use": "M3 re-skin of menu.bg",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "menu.hover": {
-      "hex": "#2e3542",
+      "hex": "#46566c",
       "use": "M3 re-skin of menu.hover",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "button.face": {
-      "hex": "#282a2f",
+      "hex": "#3a3d42",
       "use": "M3 re-skin of button.face",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "status.bg": {
-      "hex": "#0c0e12",
+      "hex": "#1e2125",
       "use": "M3 re-skin of status.bg",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "status.text": {
       "hex": "#c4c6d0",
@@ -2367,12 +3498,13 @@
       ]
     },
     "status.separator": {
-      "hex": "#2e3036",
+      "hex": "#4f5561",
       "use": "M3 re-skin of status.separator",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "focus.ring": {
       "hex": "#adc6ff",
@@ -2452,23 +3584,26 @@
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "m3.surfaceContainer": {
-      "hex": "#1d2024",
+      "hex": "#2c2e33",
       "use": "M3 role m3.surfaceContainer",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "m3.surfaceContainerHigh": {
-      "hex": "#282a2f",
+      "hex": "#3a3d42",
       "use": "M3 role m3.surfaceContainerHigh",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "m3.onSurface": {
       "hex": "#e2e2e9",
@@ -2495,12 +3630,13 @@
       ]
     },
     "m3.outlineVariant": {
-      "hex": "#44474f",
+      "hex": "#4f5561",
       "use": "M3 role m3.outlineVariant",
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
-      ]
+      ],
+      "gui3": "Re-tiered for separation and contrast (DN-60)"
     },
     "m3.scrim": {
       "hex": "#000000",
@@ -2508,6 +3644,342 @@
       "confidence": "guess",
       "source": [
         "M3 baseline scheme, 2.0 plan §3.4"
+      ]
+    },
+    "button.hover": {
+      "hex": "#46566c",
+      "use": "Dialog and panel button under the pointer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.text": {
+      "hex": "#e2e2e9",
+      "use": "Menu item text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.hoverText": {
+      "hex": "#ffffff",
+      "use": "Menu item text under the pointer or keyboard focus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.keyText": {
+      "hex": "#ccd0da",
+      "use": "Shortcut keys and submenu arrows in menus",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.border": {
+      "hex": "#4f5561",
+      "use": "Menu outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "menu.separator": {
+      "hex": "#4f5561",
+      "use": "Rule between menu groups",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.toolbarText": {
+      "hex": "#e2e2e9",
+      "use": "Text and icons on the Workspace toolbar",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarText": {
+      "hex": "#e2e2e9",
+      "use": "Window and dialog title text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chrome.titlebarBorder": {
+      "hex": "#4f5561",
+      "use": "Rule under window and dialog title bars",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.text": {
+      "hex": "#e2e2e9",
+      "use": "Ribbon labels and icons; selected tab label",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotText": {
+      "hex": "#ffffff",
+      "use": "Text and icons on a hot or pressed button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "ribbon.hotBorder": {
+      "hex": "#8e9099",
+      "use": "Outline of a hot button",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.border": {
+      "hex": "#8e9099",
+      "use": "Input, select and button outline (3:1 against its surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "control.borderStrong": {
+      "hex": "#adc6ff",
+      "use": "Default (primary) button outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "divider": {
+      "hex": "#4f5561",
+      "use": "Section and button-row rules in dialogs and panels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.warnText": {
+      "hex": "#f0c060",
+      "use": "Warning text on content background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "content.successText": {
+      "hex": "#7ddc7a",
+      "use": "Success text on content background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.bg": {
+      "hex": "#e2e2e9",
+      "use": "Two-line tooltip background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.text": {
+      "hex": "#1a1b20",
+      "use": "Tooltip first line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.textSecondary": {
+      "hex": "#3d4048",
+      "use": "Tooltip outcome line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.textMuted": {
+      "hex": "#53575f",
+      "use": "Tooltip footer",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.accent": {
+      "hex": "#7a4f00",
+      "use": "Tooltip \"why it is greyed out\" line",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "tooltip.border": {
+      "hex": "#8e9099",
+      "use": "Tooltip outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.bg": {
+      "hex": "#e2e2e9",
+      "use": "Snackbar background",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.text": {
+      "hex": "#1a1b20",
+      "use": "Snackbar text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.action": {
+      "hex": "#2f5fb3",
+      "use": "Snackbar action button text",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.border": {
+      "hex": "#8e9099",
+      "use": "Snackbar outline",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.info": {
+      "hex": "#2f5fb3",
+      "use": "Snackbar stripe, information",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.warn": {
+      "hex": "#9a6700",
+      "use": "Snackbar stripe, warning",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "toast.error": {
+      "hex": "#b3261e",
+      "use": "Snackbar stripe, error",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "focus.halo": {
+      "hex": "#000000",
+      "use": "Contrasting halo inside the focus ring (two-tone ring, 3:1 on any surface)",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.grid": {
+      "hex": "#ffffff2e",
+      "use": "Chart guide lines",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.axis": {
+      "hex": "#c4c6d0",
+      "use": "Chart axis labels",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.fill": {
+      "hex": "#8f95a0",
+      "use": "Histogram fill",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.handle": {
+      "hex": "#ffcb5f",
+      "use": "Draggable limit handles and the selected curve point",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.terrain": {
+      "hex": "#b08a4a",
+      "use": "Elevation profile ground fill",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.losOk": {
+      "hex": "#5cc45f",
+      "use": "Line of sight, visible",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.losBlocked": {
+      "hex": "#ff8a80",
+      "use": "Line of sight, blocked",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.cursor": {
+      "hex": "#64b5f6",
+      "use": "Linked cursor on charts",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.red": {
+      "hex": "#ff6b6b",
+      "use": "Red band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.green": {
+      "hex": "#5cd65c",
+      "use": "Green band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
+      ]
+    },
+    "chart.blue": {
+      "hex": "#7cb0ff",
+      "use": "Blue band series",
+      "confidence": "guess",
+      "source": [
+        "GUI3 campaign 2.0.2, DN-60"
       ]
     }
   },

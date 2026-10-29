@@ -29,3 +29,11 @@ dist/packs/ai-sam2-*.gwpack
 dist/packs/ai-detect-*.gwpack
 dist/packs/ai-search-*.gwpack
 dist/packs/ai-match-*.gwpack
+dist-gui3/
+reports/gui3/*/shots/
+reports/gui3/strips/
+reports/gui3/*.html
+reports/gui3/*.err
+reports/gui3/*.log
+dist-gui3b/
+dist-gui3c/

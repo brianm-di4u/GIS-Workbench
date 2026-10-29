@@ -118,9 +118,12 @@ export function install(app) {
         const hst = l?.stats?.[l.chain.bands[0]];
         if (hst) {
           const r = stretchRange(hst, l.chain, l.chain.bands[0]);
-          drawHist(g, hst, W, H, r.lo, r.hi, 'rgba(128,128,128,0.35)');
+          g.globalAlpha = 0.45;
+          drawHist(g, hst, W, H, r.lo, r.hi, css('--c-chart-fill'));
+          g.globalAlpha = 1;
         }
-        g.strokeStyle = 'rgba(128,128,128,0.5)';
+        // Chart colours are theme tokens (DN-60), read at each draw.
+        g.strokeStyle = css('--c-chart-grid');
         g.beginPath();
         for (let i = 1; i < 4; i++) {
           g.moveTo((i * W) / 4, 0);
@@ -140,7 +143,7 @@ export function install(app) {
         }
         g.stroke();
         p.forEach(([x, y], i) => {
-          g.fillStyle = i === sel ? '#ffcb5f' : css('--c-content-text');
+          g.fillStyle = i === sel ? css('--c-chart-handle') : css('--c-content-text');
           g.fillRect(x * W - 4, H - y * H - 4, 8, 8);
         });
       };
@@ -213,11 +216,13 @@ export function install(app) {
         presets.appendChild(b);
       }
       const off = app.store.on('change', () => draw());
+      const offTheme = app.on('theme', () => draw());
       const p = modal({ title: 'Tonal Curve', body: h('div', { class: 'curve-editor' }, cv, presets, h('p', { class: 'hint' }, 'The curve applies after the stretch and before gamma, contrast and brightness. It is folded into the band LUT.')), buttons: ['Close'], width: 330, modeless: true, id: 'tone-curve' });
       curveDlg = cv;
       draw();
       p.then(() => {
         off?.();
+        offTheme();
         curveDlg = null;
         app.emit('state');
       });
@@ -241,7 +246,7 @@ export function install(app) {
         const l = layer();
         if (!l?.stats) return host.appendChild(h('p', { class: 'hint' }, 'Statistics are still being computed…'));
         const ch = l.chain;
-        const colours = ch.bands.length === 3 ? ['#e04040', '#40c040', '#4080ff'] : [css('--c-content-text')];
+        const colours = ch.bands.length === 3 ? [css('--c-chart-red'), css('--c-chart-green'), css('--c-chart-blue')] : [css('--c-chart-fill')];
         ch.bands.forEach((b, i) => {
           const hst = l.stats[b];
           if (!hst?.count) return;
@@ -261,10 +266,10 @@ export function install(app) {
             g.fillStyle = css('--c-content-bg');
             g.fillRect(0, 0, W, H);
             drawHist(g, hst, W, H, x0, x1, colours[i]);
-            g.fillStyle = 'rgba(0,0,0,0.35)';
+            g.fillStyle = css('--c-chart-mask');
             g.fillRect(0, 0, toX(a), H);
             g.fillRect(toX(z), 0, W - toX(z), H);
-            g.strokeStyle = '#ffcb5f';
+            g.strokeStyle = css('--c-chart-handle');
             g.lineWidth = 2;
             g.beginPath();
             g.moveTo(toX(a), 0);
@@ -327,10 +332,12 @@ export function install(app) {
       const off = app.on('state', () => {
         if (layer() !== l0) build();
       });
+      const offTheme = app.on('theme', build);
       const p = modal({ title: 'Histogram Editor', body: host, buttons: ['Close'], width: 410, modeless: true, id: 'histogram-editor' });
       histDlg = host;
       p.then(() => {
         off?.();
+        offTheme();
         histDlg = null;
         app.emit('state');
       });

@@ -1,0 +1,53 @@
+[
+ {
+  "kind": "hover",
+  "el": ".ab-btn",
+  "n": 4,
+  "combos": [
+   "airgap/modern-dark",
+   "airgap/modern-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".ab-btn",
+   "text": "Open",
+   "fg": "#78a1e2",
+   "bg": "#8ab4f8",
+   "value": 7.2,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".btn",
+  "n": 20,
+  "combos": [
+   "airgap/classic-dark",
+   "airgap/classic-grey",
+   "airgap/classic-m3-dark",
+   "airgap/classic-m3-light",
+   "airgap/classic-print",
+   "airgap/modern-dark",
+   "airgap/modern-grey",
+   "airgap/modern-m3-dark",
+   "airgap/modern-m3-light",
+   "airgap/modern-print"
+  ],
+  "surfaces": [
+   "context-menu@s1-image"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".btn",
+   "text": "Zoom to layer",
+   "fg": "#2f5fb3",
+   "bg": "#b7c3dc",
+   "value": 3.47,
+   "need": 4.5
+  }
+ }
+]

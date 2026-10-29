@@ -1,18 +1,18 @@
 {
   "build": {
-    "id": "d0a1438a6079e0d1",
-    "version": "2.0.1",
-    "date": "2026-10-29T07:01:01.468Z",
+    "id": "df4127bf710c0858",
+    "version": "2.0.2",
+    "date": "2026-10-28T23:42:28.170Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 6198726,
-    "eager": 2573104,
-    "css": 63076,
+    "total": 6178562,
+    "eager": 2568028,
+    "css": 70560,
     "boot": 2733,
-    "app": 2233590,
+    "app": 2221029,
     "notices": 133234,
     "blocks": {
       "wasm-core": {
@@ -26,8 +26,8 @@
         "load": "lazy"
       },
       "wasm-j2k": {
-        "raw": 291282,
-        "stored": 131048,
+        "raw": 277317,
+        "stored": 123664,
         "load": "lazy"
       },
       "wasm-photo": {
@@ -81,8 +81,8 @@
         "load": "lazy"
       },
       "js-worker-decode": {
-        "raw": 376930,
-        "stored": 186508,
+        "raw": 370736,
+        "stored": 183072,
         "load": "lazy"
       },
       "js-worker-pointcloud": {
@@ -126,8 +126,8 @@
         "load": "lazy"
       },
       "js-three": {
-        "raw": 691391,
-        "stored": 237500,
+        "raw": 664904,
+        "stored": 227668,
         "load": "lazy"
       },
       "wasm-sqlite": {
@@ -146,13 +146,13 @@
         "load": "eager"
       },
       "data-tokens": {
-        "raw": 61480,
-        "stored": 11488,
+        "raw": 100201,
+        "stored": 15608,
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 34556,
-        "stored": 18304,
+        "raw": 37689,
+        "stored": 19748,
         "load": "lazy"
       }
     },
@@ -168,8 +168,8 @@
         "budget": 204800
       },
       "j2k": {
-        "raw": 291282,
-        "gzip": 98284,
+        "raw": 277317,
+        "gzip": 92747,
         "budget": 307200
       },
       "photo": {
@@ -208,11 +208,11 @@
         "budget": 102400
       }
     },
-    "rustTotalGzip": 880419,
-    "airgap": 6197375,
-    "lite": 4283226,
-    "snippet": 6588054,
-    "snippetLite": 4283569
+    "rustTotalGzip": 874882,
+    "airgap": 6177211,
+    "lite": 4274278,
+    "snippet": 6566804,
+    "snippetLite": 4274621
   },
   "gates": {
     "errors": [],
@@ -560,5 +560,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-C/HtdX0GDqpnIg2lGrbVADeGoIalw5itLpZiylAfFNQ=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-2FyVXAhDj3KK2iqfQaSce27eSOJ0D6i4fUYTDJlgX8g=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

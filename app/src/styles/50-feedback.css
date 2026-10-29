@@ -12,12 +12,12 @@ body.wb-on #app { outline: 3px solid #e53935; outline-offset: -3px; }
 .wb-width[aria-pressed="true"] { background: #ffcb5f; }
 .wb-width[aria-pressed="true"] span { background: #000; }
 .wb-sep { width: 1px; height: 22px; background: #555; margin: 0 3px; }
-.wb-method { height: 24px; background: #3a3a3a; color: #eee; border: 1px solid #555; font-size: 11px; }
+.wb-method { height: 24px; background: #3a3a3a; color: #eee; border: 1px solid #8a8a8a; font-size: 11px; }
 .wb-text-input { position: absolute; pointer-events: auto; z-index: 2; font: bold 14px Segoe UI, sans-serif; padding: 2px 4px; min-width: 160px; }
 .wb-flash { outline: 3px solid #e53935 !important; outline-offset: -2px; }
 .wb-review .wb-steps { margin-bottom: 8px; }
 .wb-review .wb-steps .on { font-weight: 700; text-decoration: underline; }
-.wb-page { display: grid; grid-template-columns: 220px 1fr; gap: 10px; border-top: 1px solid #8f8f8f; padding: 8px 0; }
+.wb-page { display: grid; grid-template-columns: 220px 1fr; gap: 10px; border-top: 1px solid var(--c-divider); padding: 8px 0; }
 .wb-thumb { width: 220px; border: 1px solid #333; background: #000; }
 .wb-page-fields { display: flex; flex-direction: column; gap: 4px; }
 .wb-row { display: flex; gap: 6px; align-items: center; }

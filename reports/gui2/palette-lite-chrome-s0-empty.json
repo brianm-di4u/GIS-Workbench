@@ -712,6 +712,14 @@
  },
  {
   "tab": "palette",
+  "id": "theme.system",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
   "id": "theme.grey",
   "outcome": "ran",
   "dialogs": [],
@@ -5168,9 +5176,7 @@
   "id": "aoi.clear",
   "outcome": "not now: open an image first",
   "dialogs": [],
-  "toasts": [
-   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -5179,7 +5185,7 @@
   "outcome": "not now: open two images with 3-D sensor models in this panel first",
   "dialogs": [],
   "toasts": [
-   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
   ],
   "problems": []
  },
@@ -5188,7 +5194,9 @@
   "id": "3d.open",
   "outcome": "not now: Open 3D Multiport needs the 3D/LiDAR module, which GIS Workbench Lite leaves out: open the Standard file",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
   "problems": []
  },
  {

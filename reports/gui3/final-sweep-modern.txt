@@ -1,0 +1,92 @@
+
+Running 87 tests using 4 workers
+
+[1/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s1-image: every command this state enables runs from Ctrl+K
+[2/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s1-image: every button responds
+[3/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s0-empty: every button responds
+[4/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s0-empty: every command this state enables runs from Ctrl+K
+[5/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s2-dem: every command this state enables runs from Ctrl+K
+[6/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s2-dem: every button responds
+[7/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s3-msi: every command this state enables runs from Ctrl+K
+[8/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s3-msi: every button responds
+[9/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s4-sar: every command this state enables runs from Ctrl+K
+[10/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s4-sar: every button responds
+[11/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s5-pair: every command this state enables runs from Ctrl+K
+[12/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s5-pair: every button responds
+[13/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s6-stereo: every command this state enables runs from Ctrl+K
+[14/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s6-stereo: every button responds
+[15/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s7-cloud: every command this state enables runs from Ctrl+K
+[16/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s7-cloud: every button responds
+[17/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s8-video: every command this state enables runs from Ctrl+K
+[18/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s8-video: every button responds
+[19/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s9-vector: every command this state enables runs from Ctrl+K
+[20/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s9-vector: every button responds
+[21/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern full › GUI modern palette full s10-detect: every command this state enables runs from Ctrl+K
+[22/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern full › GUI modern pill and radial full s10-detect: every button responds
+[23/87] [chrome] › tests\e2e\gui-modern.spec.js:220:5 › GUI modern full › GUI modern chrome full: app bar, menus, workspace chip, rail, Products, status bar
+[24/87] [chrome] › tests\e2e\gui-modern.spec.js:320:5 › GUI modern full › GUI modern docks full: every panel opens beside the imagery, every control in it responds, and it closes
+[25/87] [chrome] › tests\e2e\gui-modern.spec.js:406:5 › GUI modern full › GUI modern cursor shortcuts full: flicker, swipe, quick chip, patrol, paste-to-pan
+[26/87] [chrome] › tests\e2e\gui-modern.spec.js:476:5 › GUI modern full › GUI modern workspaces and radial full: each workspace's radial tools respond
+[27/87] [chrome] › tests\e2e\gui-modern.spec.js:513:5 › GUI modern full › GUI modern window commands full: new, clone, separate and close window, full screen, print, recordings, XR
+[28/87] [chrome] › tests\e2e\gui-modern.spec.js:546:5 › GUI modern full › GUI modern welcome full: every choice on the first-run card
+[29/87] [chrome] › tests\e2e\gui-modern.spec.js:574:5 › GUI modern full › GUI modern sizes full: the chrome fits and every control is named at 1920, 1440, 1280 and 1024 px
+[30/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s0-empty: every command this state enables runs from Ctrl+K
+[31/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s0-empty: every button responds
+[32/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s1-image: every command this state enables runs from Ctrl+K
+[33/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s1-image: every button responds
+[34/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s2-dem: every command this state enables runs from Ctrl+K
+[35/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s2-dem: every button responds
+[36/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s3-msi: every command this state enables runs from Ctrl+K
+[37/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s3-msi: every button responds
+[38/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s4-sar: every command this state enables runs from Ctrl+K
+[39/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s4-sar: every button responds
+[40/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s5-pair: every command this state enables runs from Ctrl+K
+[41/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s5-pair: every button responds
+[42/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s6-stereo: every command this state enables runs from Ctrl+K
+[43/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s6-stereo: every button responds
+[44/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s7-cloud: every command this state enables runs from Ctrl+K
+[45/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s7-cloud: every button responds
+[46/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s8-video: every command this state enables runs from Ctrl+K
+[47/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s8-video: every button responds
+[48/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s9-vector: every command this state enables runs from Ctrl+K
+[49/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s9-vector: every button responds
+[50/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern lite › GUI modern palette lite s10-detect: every command this state enables runs from Ctrl+K
+[51/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern lite › GUI modern pill and radial lite s10-detect: every button responds
+[52/87] [chrome] › tests\e2e\gui-modern.spec.js:220:5 › GUI modern lite › GUI modern chrome lite: app bar, menus, workspace chip, rail, Products, status bar
+[53/87] [chrome] › tests\e2e\gui-modern.spec.js:320:5 › GUI modern lite › GUI modern docks lite: every panel opens beside the imagery, every control in it responds, and it closes
+[54/87] [chrome] › tests\e2e\gui-modern.spec.js:406:5 › GUI modern lite › GUI modern cursor shortcuts lite: flicker, swipe, quick chip, patrol, paste-to-pan
+[55/87] [chrome] › tests\e2e\gui-modern.spec.js:476:5 › GUI modern lite › GUI modern workspaces and radial lite: each workspace's radial tools respond
+[56/87] [chrome] › tests\e2e\gui-modern.spec.js:513:5 › GUI modern lite › GUI modern window commands lite: new, clone, separate and close window, full screen, print, recordings, XR
+[57/87] [chrome] › tests\e2e\gui-modern.spec.js:546:5 › GUI modern lite › GUI modern welcome lite: every choice on the first-run card
+[58/87] [chrome] › tests\e2e\gui-modern.spec.js:574:5 › GUI modern lite › GUI modern sizes lite: the chrome fits and every control is named at 1920, 1440, 1280 and 1024 px
+[59/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s0-empty: every command this state enables runs from Ctrl+K
+[60/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s0-empty: every button responds
+[61/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s1-image: every command this state enables runs from Ctrl+K
+[62/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s1-image: every button responds
+[63/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s2-dem: every command this state enables runs from Ctrl+K
+[64/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s2-dem: every button responds
+[65/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s3-msi: every command this state enables runs from Ctrl+K
+[66/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s3-msi: every button responds
+[67/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s4-sar: every command this state enables runs from Ctrl+K
+[68/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s4-sar: every button responds
+[69/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s5-pair: every command this state enables runs from Ctrl+K
+[70/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s5-pair: every button responds
+[71/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s6-stereo: every command this state enables runs from Ctrl+K
+[72/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s6-stereo: every button responds
+[73/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s7-cloud: every command this state enables runs from Ctrl+K
+[74/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s7-cloud: every button responds
+[75/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s8-video: every command this state enables runs from Ctrl+K
+[76/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s8-video: every button responds
+[77/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s9-vector: every command this state enables runs from Ctrl+K
+[78/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s9-vector: every button responds
+[79/87] [chrome] › tests\e2e\gui-modern.spec.js:98:7 › GUI modern airgap › GUI modern palette airgap s10-detect: every command this state enables runs from Ctrl+K
+[80/87] [chrome] › tests\e2e\gui-modern.spec.js:165:7 › GUI modern airgap › GUI modern pill and radial airgap s10-detect: every button responds
+[81/87] [chrome] › tests\e2e\gui-modern.spec.js:220:5 › GUI modern airgap › GUI modern chrome airgap: app bar, menus, workspace chip, rail, Products, status bar
+[82/87] [chrome] › tests\e2e\gui-modern.spec.js:320:5 › GUI modern airgap › GUI modern docks airgap: every panel opens beside the imagery, every control in it responds, and it closes
+[83/87] [chrome] › tests\e2e\gui-modern.spec.js:406:5 › GUI modern airgap › GUI modern cursor shortcuts airgap: flicker, swipe, quick chip, patrol, paste-to-pan
+[84/87] [chrome] › tests\e2e\gui-modern.spec.js:476:5 › GUI modern airgap › GUI modern workspaces and radial airgap: each workspace's radial tools respond
+[85/87] [chrome] › tests\e2e\gui-modern.spec.js:513:5 › GUI modern airgap › GUI modern window commands airgap: new, clone, separate and close window, full screen, print, recordings, XR
+[86/87] [chrome] › tests\e2e\gui-modern.spec.js:546:5 › GUI modern airgap › GUI modern welcome airgap: every choice on the first-run card
+[87/87] [chrome] › tests\e2e\gui-modern.spec.js:574:5 › GUI modern airgap › GUI modern sizes airgap: the chrome fits and every control is named at 1920, 1440, 1280 and 1024 px
+  2 skipped
+  85 passed (27.1m)

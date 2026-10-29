@@ -190,9 +190,7 @@
   "id": "rot.mouse",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -200,7 +198,9 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -209,8 +209,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
-   "info: Full roam off×"
+   "warn: Jump to Point: type a coordinate first×"
   ],
   "problems": []
  },
@@ -219,7 +218,9 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -253,9 +254,7 @@
   "id": "draw.point",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -263,7 +262,9 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -2051,9 +2052,7 @@
   "id": "glb.toggle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: 4.2 MB COG written×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2063,7 +2062,9 @@
   "dialogs": [
    "dialog:lai-find"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: 4.2 MB COG written×"
+  ],
   "problems": []
  },
  {
@@ -2071,7 +2072,9 @@
   "id": "dialog:lai-find ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Building the 3D view…×"
+  ],
   "problems": []
  },
  {
@@ -2141,9 +2144,7 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2151,7 +2152,9 @@
   "id": "hub.glb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
   "problems": []
  },
  {
@@ -2159,9 +2162,7 @@
   "id": "hub.usdz",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Photoshop: 987 × 836 px, 3 layers (Stretch (Levels), Graphics)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2170,6 +2171,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Photoshop: 987 × 836 px, 3 layers (Stretch (Levels), Graphics)×",
    "info: 16-bit TIFF: 987 × 836 px, 1 band, 16-bit, with a Curves preset×"
   ],
   "problems": []

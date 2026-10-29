@@ -74,10 +74,7 @@
   "id": "dialog:jump ▸ Jump",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Saved chip1_fx06_date1.tif.zip×",
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -127,7 +124,9 @@
   "id": "nav.whole",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -144,7 +143,6 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Full roam off×",
    "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
   ],
   "problems": []

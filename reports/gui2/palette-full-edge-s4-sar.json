@@ -142,9 +142,7 @@
   "id": "nav.magnifier",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -152,7 +150,9 @@
   "id": "view.interpolation",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×"
+  ],
   "problems": []
  },
  {
@@ -1373,7 +1373,9 @@
   "tab": "dialog of search.find",
   "id": "dialog:find-in-scene ▸ Separability",
   "outcome": "clicked",
-  "dialogs": [],
+  "dialogs": [
+   "dialog:jm"
+  ],
   "toasts": [],
   "problems": []
  },
@@ -1381,9 +1383,7 @@
   "tab": "dialog of search.find",
   "id": "dialog:find-in-scene ▸ Classify",
   "outcome": "clicked",
-  "dialogs": [
-   "dialog:jm"
-  ],
+  "dialogs": [],
   "toasts": [
    "warn: add at least two training classes first (Find in Scene ▸ Add Region)×"
   ],
@@ -1865,8 +1865,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 3.5, gamma 2.30 (Tone +60).×",
-   "info: Photoshop: 985 × 1024 px, 3 layers (Stretch (Levels), Graphics)×"
+   "info: Auto Contrast: CLAHE clip 3.5, gamma 2.30 (Tone +60).×"
   ],
   "problems": []
  },
@@ -1876,6 +1875,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Photoshop: 985 × 1024 px, 3 layers (Stretch (Levels), Graphics)×",
    "info: 16-bit TIFF: 985 × 1024 px, 1 band, 16-bit, with a Curves preset×"
   ],
   "problems": []

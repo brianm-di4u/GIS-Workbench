@@ -100,9 +100,7 @@
   "id": "nav.zoombox",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -110,7 +108,9 @@
   "id": "nav.zoomin",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -212,9 +212,7 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -224,7 +222,9 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -1373,7 +1373,9 @@
   "tab": "dialog of search.find",
   "id": "dialog:find-in-scene ▸ Separability",
   "outcome": "clicked",
-  "dialogs": [],
+  "dialogs": [
+   "dialog:jm"
+  ],
   "toasts": [],
   "problems": []
  },
@@ -1381,9 +1383,7 @@
   "tab": "dialog of search.find",
   "id": "dialog:find-in-scene ▸ Classify",
   "outcome": "clicked",
-  "dialogs": [
-   "dialog:jm"
-  ],
+  "dialogs": [],
   "toasts": [
    "warn: add at least two training classes first (Find in Scene ▸ Add Region)×"
   ],

@@ -732,6 +732,14 @@
  },
  {
   "tab": "palette",
+  "id": "theme.system",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
   "id": "theme.grey",
   "outcome": "ran",
   "dialogs": [],
@@ -5045,16 +5053,6 @@
   "tab": "palette",
   "id": "lai.device",
   "outcome": "ran",
-  "dialogs": [
-   "dialog:lai-device"
-  ],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "dialog of lai.device",
-  "id": "dialog:lai-device ▸ Close",
-  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -5063,7 +5061,9 @@
   "tab": "palette",
   "id": "align.ai",
   "outcome": "not now: open an image first",
-  "dialogs": [],
+  "dialogs": [
+   "palette"
+  ],
   "toasts": [],
   "problems": []
  },
