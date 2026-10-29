@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1535,7 +1535,7 @@
  {
   "tab": "palette",
   "id": "los.hlz",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:hlz"
   ],
@@ -1553,7 +1553,7 @@
  {
   "tab": "palette",
   "id": "dem.groundfilter",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:ground-filter"
   ],
@@ -1571,7 +1571,7 @@
  {
   "tab": "palette",
   "id": "dem.edit",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:dem-edit"
   ],
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1751,7 +1751,7 @@
  {
   "tab": "palette",
   "id": "hud.quickchip",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1780,7 +1780,7 @@
  {
   "tab": "palette",
   "id": "lai.find",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:lai-find"
   ],
@@ -1798,7 +1798,7 @@
  {
   "tab": "palette",
   "id": "lai.search",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:lai-search"
   ],
@@ -1826,7 +1826,7 @@
  {
   "tab": "palette",
   "id": "hub.psd",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
@@ -1836,6 +1836,14 @@
  {
   "tab": "palette",
   "id": "hub.tiff16",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.pdf",
   "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
@@ -1845,16 +1853,8 @@
  },
  {
   "tab": "palette",
-  "id": "hub.pdf",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
   "id": "hub.svg",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []

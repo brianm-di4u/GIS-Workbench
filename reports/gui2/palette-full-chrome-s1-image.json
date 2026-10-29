@@ -141,9 +141,7 @@
   "id": "nav.whole",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -159,7 +157,9 @@
   "id": "nav.magnifier",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -199,6 +199,14 @@
   "id": "rot.shadows",
   "outcome": "ran",
   "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.mouse",
+  "outcome": "ran",
+  "dialogs": [],
   "toasts": [
    "warn: Jump to Point: type a coordinate first×"
   ],
@@ -206,7 +214,15 @@
  },
  {
   "tab": "palette",
-  "id": "rot.mouse",
+  "id": "rot.angle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ov.open",
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
@@ -216,28 +232,12 @@
  },
  {
   "tab": "palette",
-  "id": "rot.angle",
+  "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
   ],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "ov.open",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "ov.pip",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
   "problems": []
  },
  {
@@ -263,9 +263,7 @@
   "id": "aoi.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -281,7 +279,9 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {

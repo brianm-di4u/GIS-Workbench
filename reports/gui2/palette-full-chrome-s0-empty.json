@@ -732,6 +732,14 @@
  },
  {
   "tab": "palette",
+  "id": "theme.system",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
   "id": "theme.grey",
   "outcome": "ran",
   "dialogs": [],

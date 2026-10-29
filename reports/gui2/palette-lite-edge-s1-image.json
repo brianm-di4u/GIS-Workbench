@@ -90,10 +90,7 @@
   "id": "dialog:jump ▸ Jump",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Snapshot: 1 file(s) embedded×",
-   "info: Saved chip1_FX01_SYNTHETIC_PAN_4096.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -101,7 +98,10 @@
   "id": "dialog:jump ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Snapshot: 1 file(s) embedded×",
+   "info: Saved chip1_FX01_SYNTHETIC_PAN_4096.zip×"
+  ],
   "problems": []
  },
  {
@@ -217,9 +217,7 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -227,7 +225,9 @@
   "id": "ov.open",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -271,9 +271,7 @@
   "id": "draw.point",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -281,7 +279,9 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {

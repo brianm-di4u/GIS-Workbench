@@ -179,7 +179,8 @@ export function install(app) {
   C.implement('input.devices', {
     run: async () => {
       const g = gains();
-      const num = (k, lbl) => h('input', { class: 'inp inp-num', type: 'number', step: '0.1', min: '0', max: '10', value: String(g[k]), 'aria-label': lbl, 'data-k': k });
+      // Gains are 0–10: short boxes keep each set of three on one row (GUI-080).
+      const num = (k, lbl) => h('input', { class: 'inp inp-small', type: 'number', step: '0.1', min: '0', max: '10', value: String(g[k]), 'aria-label': lbl, 'data-k': k });
       const inputs = [num('x', 'X gain'), num('y', 'Y gain'), num('z', 'Z gain'), num('rotate', 'Rotation gain'), num('wheel', 'Wheel gain'), num('keyboard', 'Keyboard gain')];
       const connect = h('button', { class: 'btn' }, 'Connect SpaceMouse (WebHID)…');
       connect.addEventListener('click', () => connectSpaceMouse().catch((e) => app.toast(e.message, { kind: 'error' })));

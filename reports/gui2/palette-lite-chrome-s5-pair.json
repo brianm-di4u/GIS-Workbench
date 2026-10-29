@@ -135,7 +135,9 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -144,7 +146,6 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Full roam off×",
    "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
   ],
   "problems": []
@@ -1766,10 +1767,7 @@
   "id": "align.ai",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Align (AI): matching learned keypoints…×",
-   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1778,7 +1776,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
+   "info: Auto Align (AI): matching learned keypoints…×"
   ],
   "problems": []
  },
@@ -1795,7 +1793,9 @@
   "id": "hub.pdf",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
   "problems": []
  },
  {

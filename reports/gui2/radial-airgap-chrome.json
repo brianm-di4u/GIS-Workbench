@@ -124,17 +124,16 @@
   "tab": "radial analyst",
   "id": "radial:rcp.airfield-triage",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.04 (Tone +3).×",
-   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
   "tab": "radial pro",
   "id": "radial:men.rangebearing",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.04 (Tone +3).×"
+  ],
   "problems": []
  },
  {
@@ -171,7 +170,10 @@
   "tab": "radial pro",
   "id": "radial:cmp.swiper",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×",
+   "info: Mensuration & Photogrammetry Pro: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
   "problems": []
  },
  {

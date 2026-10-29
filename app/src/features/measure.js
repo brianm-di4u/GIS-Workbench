@@ -519,7 +519,8 @@ export function install(app) {
       g.fillText(`${(hi + pad).toFixed(0)} m HAE`, 2, 12);
       g.fillText(`${(lo - pad).toFixed(0)}`, 2, H - 22);
       g.fillText(fmtLen(prof.total), W - 70, H - 4);
-      g.fillStyle = 'rgba(120, 90, 40, 0.5)';
+      // Chart colours are theme tokens (DN-60).
+      g.fillStyle = css('--c-chart-terrain') || '#8a6a2a';
       g.beginPath();
       g.moveTo(X(0), H - 20);
       for (const q of v) g.lineTo(X(q.d), Y(q.hae));
@@ -527,21 +528,21 @@ export function install(app) {
       g.closePath();
       g.fill();
       if (los) {
-        g.strokeStyle = los.visible ? '#00a000' : '#d00000';
+        g.strokeStyle = css(los.visible ? '--c-chart-losOk' : '--c-chart-losBlocked');
         g.lineWidth = 2;
         g.beginPath();
         g.moveTo(X(0), Y(los.za));
         g.lineTo(X(prof.total), Y(los.zb));
         g.stroke();
         if (los.blocked) {
-          g.fillStyle = '#d00000';
+          g.fillStyle = css('--c-chart-losBlocked');
           g.beginPath();
           g.arc(X(los.blocked.d), Y(los.blocked.hae), 4, 0, Math.PI * 2);
           g.fill();
         }
       }
       if (cursor) {
-        g.strokeStyle = '#1e88e5';
+        g.strokeStyle = css('--c-chart-cursor');
         g.beginPath();
         g.moveTo(X(cursor.d), 0);
         g.lineTo(X(cursor.d), H - 20);
@@ -562,6 +563,7 @@ export function install(app) {
       onHover?.(null);
     });
     draw(null);
+    const offTheme = app.on('theme', () => (cv.isConnected ? draw(null) : offTheme()));
     return cv;
   }
 

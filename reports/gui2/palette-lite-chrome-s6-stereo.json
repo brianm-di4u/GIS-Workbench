@@ -271,9 +271,7 @@
   "id": "draw.polyline",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -281,7 +279,9 @@
   "id": "draw.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -2053,9 +2053,7 @@
   "dialogs": [
    "dialog:lai-find"
   ],
-  "toasts": [
-   "info: 4.2 MB COG written×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2100,8 +2098,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Align (AI): matching learned keypoints…×",
-   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+   "info: Auto Align (AI): matching learned keypoints…×"
   ],
   "problems": []
  },
@@ -2110,7 +2107,9 @@
   "id": "hub.psd",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
   "problems": []
  },
  {

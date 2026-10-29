@@ -6,6 +6,7 @@ import { h } from '../shell/dom.js';
 import { LAYOUTS } from '../shell/multiport.js';
 import { KERNELS } from '../render/chain.js';
 import { newId } from '../core/util.js';
+import { setTheme, themePref } from '../shell/theme.js';
 
 export const name = 'navigation';
 
@@ -199,15 +200,12 @@ export function install(app) {
     ...app.desktop.multiports.map((mp) => ({ label: mp.rec.name, run: () => app.desktop.focus(mp) })),
   ];
 
-  // Themes (REQ-UI-12).
+  // Themes (REQ-UI-12); 'system' follows the OS light or dark setting (DN-60).
   const theme = (t) => ({
-    run: () => {
-      document.documentElement.dataset.theme = t;
-      app.prefs.set('theme', t);
-      app.emit('state');
-    },
-    checked: () => document.documentElement.dataset.theme === t,
+    run: () => setTheme(app, t),
+    checked: () => themePref(app) === t,
   });
+  C.implement('theme.system', theme('system'));
   C.implement('theme.grey', theme('grey'));
   C.implement('theme.dark', theme('dark'));
   C.implement('theme.print', theme('print'));
@@ -219,7 +217,7 @@ export function install(app) {
       if (t?.startsWith('m3')) return C.run(t === 'm3-dark' ? 'theme.m3light' : 'theme.m3dark');
       return C.run(t === 'grey' ? 'theme.dark' : 'theme.grey');
     },
-    menu: () => [{ cmd: 'theme.m3light' }, { cmd: 'theme.m3dark' }, '-', { cmd: 'theme.grey' }, { cmd: 'theme.dark' }, { cmd: 'theme.print' }],
+    menu: () => [{ cmd: 'theme.system' }, '-', { cmd: 'theme.m3light' }, { cmd: 'theme.m3dark' }, '-', { cmd: 'theme.grey' }, { cmd: 'theme.dark' }, { cmd: 'theme.print' }],
   });
 
   // Exploitation fullscreen with Keyboard Lock (REQ-UI-10).

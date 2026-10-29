@@ -90,10 +90,7 @@
   "id": "dialog:jump ▸ Jump",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Snapshot: 1 file(s) embedded×",
-   "info: Saved chip1_FX01_SYNTHETIC_PAN_4096.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -101,7 +98,10 @@
   "id": "dialog:jump ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Snapshot: 1 file(s) embedded×",
+   "info: Saved chip1_FX01_SYNTHETIC_PAN_4096.zip×"
+  ],
   "problems": []
  },
  {
@@ -207,9 +207,7 @@
   "id": "rot.mouse",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -218,7 +216,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Full roam off×"
+   "warn: Jump to Point: type a coordinate first×"
   ],
   "problems": []
  },
@@ -227,7 +225,9 @@
   "id": "ov.open",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -271,9 +271,7 @@
   "id": "draw.point",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -281,7 +279,9 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -1634,8 +1634,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Making a Cloud-Optimized GeoTIFF of b1 — Ortho On-the-Fly — FX01…×",
-   "info: 1.7 MB COG written×"
+   "info: Making a Cloud-Optimized GeoTIFF of b1 — Ortho On-the-Fly — FX01…×"
   ],
   "problems": []
  },
@@ -1706,7 +1705,9 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.20 (Tone +13).×"
+  ],
   "problems": []
  },
  {
@@ -1715,7 +1716,6 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.20 (Tone +13).×",
    "info: Photoshop: 981 × 830 px, 3 layers (Stretch (Levels), Graphics)×"
   ],
   "problems": []

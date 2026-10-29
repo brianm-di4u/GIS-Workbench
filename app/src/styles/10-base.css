@@ -9,18 +9,21 @@ body {
 }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-:focus-visible { outline: 2px solid var(--c-focus-ring); outline-offset: 1px; }
+/* Two-tone focus ring: the ring outside a contrasting halo shows on light, mid-grey and dark surfaces alike (GUI-063). */
+:focus-visible { outline: 2px solid var(--c-focus-ring); outline-offset: 2px; box-shadow: 0 0 0 2px var(--c-focus-halo); }
 [hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .muted { color: color-mix(in srgb, currentColor 65%, transparent); }
+/* On the mid-grey dialog body of the grey theme a dimmed line falls below 4.5:1: it keeps full colour and is set in italics (GUI-075). */
+[data-theme="grey"] :is(.dlg-body, .tool-panel-body) .muted { color: inherit; font-style: italic; }
 .pad { padding: 6px 8px; }
 .mono { font-family: var(--f-monoLog); font-size: var(--fs-monoLog); }
 .small { font-size: var(--fs-sm); }
 .hint { font-size: var(--fs-sm); color: inherit; margin: 4px 0; }
-.warn { color: #8a5a00; }
-[data-theme="dark"] .warn, [data-theme="m3-dark"] .warn { color: #e0b050; }
-.err { color: #b00020; }
-[data-theme="dark"] .err { color: #ff7a7a; }
+.warn { color: var(--c-content-warnText); }
+.err { color: var(--c-content-errorText); }
+/* On a dialog or panel body (chrome.frame, mid-grey in the grey theme) a warning or error reads as a callout on the content colour (GUI-064). */
+:is(.dlg-body, .tool-panel-body) :is(.warn, .err):not(:empty) { background: var(--c-content-bg); padding: 2px 6px; border-left: 3px solid currentColor; border-radius: 2px; }
 
 /* The one WebGL2 canvas sits behind the chrome; panes are transparent holes. */
 #gl { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
@@ -30,28 +33,41 @@ button { cursor: pointer; }
 .desktop { flex: 1; min-height: 0; display: flex; gap: 0; background: transparent; }
 .desktop[data-arrange="max"] > .gwin, .desktop[data-arrange="tabs"] > .gwin { flex: 1; width: auto !important; }
 .desk-tabs { display: flex; gap: 2px; background: var(--c-chrome-frame); padding: 2px 4px 0; }
-.desk-tab { border: 0; background: var(--c-dock-tabInactive); color: #000; padding: 3px 12px; }
+.desk-tab { border: 0; background: var(--c-dock-tabInactive); color: var(--c-content-text); padding: 3px 12px; }
 .desk-tab.active { background: var(--c-ribbon-selectedTab); font-weight: 600; }
 
 .icon-btn { background: transparent; border: 0; padding: 2px 4px; color: inherit; }
 .ico-wrap { display: inline-flex; line-height: 0; }
 .ico { display: block; }
 
-.btn { background: var(--c-button-face); color: var(--c-content-text); border: 1px solid #8a8a8a; border-radius: 2px; min-height: var(--s-buttonHeight); padding: 2px 12px; }
-.btn:hover { background: var(--c-ribbon-buttonHot); }
+.btn { background: var(--c-button-face); color: var(--c-content-text); border: 1px solid var(--c-control-border); border-radius: 2px; min-height: var(--s-buttonHeight); padding: 2px 12px; }
+.btn:hover { background: var(--c-button-hover); }
 .btn:active { background: var(--c-ribbon-buttonPressed); }
-.btn-primary { border-color: #3a3a3a; font-weight: 600; }
+/* The default button carries a 2 px outline, not weight alone (GUI-070). */
+.btn-primary { border-color: var(--c-control-borderStrong); box-shadow: inset 0 0 0 1px var(--c-control-borderStrong); font-weight: 600; }
 /* A greyed-out button looks it, in every theme and layout (GUI-048). */
 .btn:disabled { opacity: .45; cursor: default; }
 .btn:disabled:hover, .btn:disabled:active { background: var(--c-button-face); }
+/* A toggled or current button (Prefs tabs, spectral modes…) looks pressed in both layouts, not only in Modern (GUI-074). */
+.btn.on, .btn.active { background: var(--c-ribbon-buttonPressed); color: var(--c-ribbon-hotText); border-color: var(--c-ribbon-hotBorder); }
+/* Wizard tabs (Terrain Extraction) had no styles: native light buttons under light dialog text, no selected look (GUI-069). */
+.tabs { display: flex; gap: 2px; margin: 0 0 8px; border-bottom: 1px solid var(--c-divider); }
+.tab { min-height: var(--s-targetMin); padding: 2px 14px; border: 0; background: var(--c-dock-tabInactive); color: var(--c-content-text); }
+.tab:hover:not([aria-selected="true"]) { background: var(--c-button-hover); }
+.tab[aria-selected="true"] { background: var(--c-dock-tabActive); font-weight: 600; box-shadow: inset 0 -2px 0 var(--c-focus-ring); }
 .btn-small { min-height: 20px; padding: 1px 8px; font-size: var(--fs-sm); }
 .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
-.inp { background: var(--c-content-bg); color: var(--c-content-text); border: 1px solid #8a8a8a; min-height: var(--s-inputHeight); padding: 1px 4px; width: 100%; }
+.inp { background: var(--c-content-bg); color: var(--c-content-text); border: 1px solid var(--c-control-border); min-height: var(--s-inputHeight); padding: 1px 4px; width: 100%; }
 .inp-num { width: 90px; }
 .inp-short { width: auto; }
 
 .grid-table { border-collapse: collapse; width: 100%; background: var(--c-content-bg); color: var(--c-content-text); }
 .grid-table th { background: var(--c-content-header); text-align: left; font-weight: 600; position: sticky; top: 0; }
-.grid-table th, .grid-table td { border: 1px solid color-mix(in srgb, var(--c-content-text) 15%, transparent); padding: 1px 5px; height: var(--s-tableRowHeight); vertical-align: top; }
-.grid-table tr.failed td { color: #b00020; }
+.grid-table th, .grid-table td { border: 1px solid color-mix(in srgb, var(--c-content-text) 26%, transparent); padding: 1px 5px; height: var(--s-tableRowHeight); vertical-align: top; }
+.grid-table tr.failed td { color: var(--c-content-errorText); }
+/* Plain result tables (band statistics, KLV, point-cloud header, packs…) had no cell spacing, so numbers ran together (GUI-079). */
+.tbl { border-collapse: collapse; }
+.tbl th, .tbl td { padding: 2px 10px 2px 0; text-align: left; vertical-align: top; font-variant-numeric: tabular-nums; }
+.tbl th { font-weight: 600; border-bottom: 1px solid var(--c-divider); }
+.tbl tbody tr + tr td { border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
 .cell-input { border: 0; background: transparent; width: 100%; min-width: 80px; }

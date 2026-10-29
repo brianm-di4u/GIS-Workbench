@@ -8,21 +8,24 @@
 .ab-title { color: var(--c-m3-onSurfaceVariant); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; margin-left: 8px; font-size: 12px; }
 .ab-spacer { flex: 1; }
 .ab-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; min-width: 36px; padding: 0 8px; border: 0; border-radius: var(--shape-full, 999px); background: transparent; color: inherit; }
-.ab-btn:hover { background: color-mix(in srgb, var(--c-m3-onSurface) 8%, transparent); }
+/* State layers are 16 % (hover) and 24 % (pressed) of the content colour, twice the M3 baseline, so hover reads on every surface (GUI-066). */
+.ab-btn:hover { background: color-mix(in srgb, var(--c-m3-onSurface) 16%, transparent); }
+.ab-btn:active { background: color-mix(in srgb, var(--c-m3-onSurface) 24%, transparent); }
 .ab-btn:disabled { opacity: .38; cursor: default; background: transparent; }
 .ab-primary { background: var(--c-m3-primary); color: var(--c-m3-onPrimary); padding: 0 16px; font-weight: 600; }
-.ab-primary:hover { background: color-mix(in srgb, var(--c-m3-primary) 88%, var(--c-m3-onPrimary)); }
+/* The filled button cannot shift its fill far without losing label contrast: hover also rings it (GUI-066). */
+.ab-primary:hover { background: color-mix(in srgb, var(--c-m3-primary) 86%, var(--c-m3-onPrimary)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-m3-primary) 45%, transparent); }
 .ab-burger { font-size: 18px; line-height: 1; }
 .ab-search { flex: 0 1 420px; min-width: 160px; height: 36px; display: inline-flex; align-items: center; gap: 8px; padding: 0 12px; border: 0; border-radius: var(--shape-full, 999px); background: var(--c-m3-surfaceContainerHigh); color: var(--c-m3-onSurfaceVariant); text-align: left; }
 .ab-search-text { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ab-search kbd { font: 11px/1 var(--f-monoLog, monospace); padding: 3px 6px; border-radius: 4px; border: 1px solid var(--c-m3-outlineVariant); }
 .ab-chip { height: 32px; padding: 0 12px; border-radius: var(--shape-small, 8px); border: 1px solid var(--c-m3-outline); background: transparent; color: inherit; white-space: nowrap; }
-.ab-chip:hover { background: color-mix(in srgb, var(--c-m3-onSurface) 8%, transparent); }
+.ab-chip:hover { background: color-mix(in srgb, var(--c-m3-onSurface) 16%, transparent); }
 
 .nav-rail { flex: none; width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 0; background: var(--c-m3-surface); color: var(--c-m3-onSurfaceVariant); border-right: 1px solid var(--c-m3-outlineVariant); overflow-y: auto; }
 .rail-item { width: 64px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0 6px; border: 0; background: transparent; color: inherit; font-size: 11px; }
 .rail-ic { width: 56px; height: 32px; display: grid; place-items: center; border-radius: var(--shape-full, 999px); }
-.rail-item:hover .rail-ic { background: color-mix(in srgb, var(--c-m3-onSurface) 8%, transparent); }
+.rail-item:hover .rail-ic { background: color-mix(in srgb, var(--c-m3-onSurface) 16%, transparent); }
 .rail-item.active { color: var(--c-m3-onSurface); font-weight: 600; }
 .rail-item.active .rail-ic { background: var(--c-m3-primaryContainer); color: var(--c-m3-onPrimaryContainer); }
 
@@ -38,13 +41,17 @@
 [data-layout="modern"] .dlg { border-radius: var(--shape-large, 12px); overflow: hidden; border-color: var(--c-m3-outlineVariant); }
 [data-layout="modern"] .dlg-title { background: var(--c-m3-surfaceContainerHigh); color: var(--c-m3-onSurface); height: 36px; }
 [data-layout="modern"] .btn { border-radius: var(--shape-full, 999px); padding: 2px 14px; border-color: var(--c-m3-outline); background: var(--c-button-face); color: var(--c-content-text); }
+/* The Modern button rule above outranks .btn:hover; give it back its hover and pressed looks (GUI-065). */
+[data-layout="modern"] .btn:hover:not(:disabled) { background: var(--c-button-hover); }
+[data-layout="modern"] .btn:active:not(:disabled), [data-layout="modern"] .btn.on, [data-layout="modern"] .btn.active { background: var(--c-m3-primaryContainer); color: var(--c-m3-onPrimaryContainer); }
+[data-layout="modern"] .btn-primary { border-color: var(--c-control-borderStrong); }
 [data-layout="modern"] .dock-title { color: var(--c-dock-titleText); }
 [data-layout="modern"] .menu { border-radius: var(--shape-medium, 8px); }
 
 /* Contextual tool pill (REQ-SHL-08): top centre of the active panel, Modern layout. */
 .tool-pill { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; gap: 2px; padding: 4px; border-radius: var(--shape-full, 999px); background: color-mix(in srgb, var(--c-m3-surfaceContainerHigh) 92%, transparent); color: var(--c-m3-onSurface); box-shadow: 0 4px 16px rgba(0, 0, 0, .35); backdrop-filter: blur(6px); max-width: calc(100% - 120px); overflow: hidden; }
 .pill-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border: 0; border-radius: var(--shape-full, 999px); background: transparent; color: inherit; white-space: nowrap; }
-.pill-btn:hover { background: color-mix(in srgb, var(--c-m3-onSurface) 10%, transparent); }
+.pill-btn:hover { background: color-mix(in srgb, var(--c-m3-onSurface) 22%, transparent); }
 .pill-btn.on { background: var(--c-m3-primaryContainer); color: var(--c-m3-onPrimaryContainer); }
 .pill-btn:disabled { opacity: .38; }
 .pill-more { padding: 0 8px; }
@@ -54,7 +61,7 @@
 .radial { position: fixed; z-index: 960; width: 304px; height: 304px; margin: -152px 0 0 -152px; }
 .radial::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(17, 19, 24, .25) 0 22%, rgba(17, 19, 24, .55) 23%, rgba(17, 19, 24, .55) 100%); box-shadow: 0 8px 28px rgba(0, 0, 0, .4); }
 .radial-centre { position: absolute; left: calc(50% - 30px); top: calc(50% - 30px); width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; text-align: center; font-size: 10px; line-height: 1.1; color: #e2e2e9; background: rgba(40, 42, 47, .9); padding: 4px; }
-.radial-item { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 2px; width: 68px; padding: 6px 2px; border: 0; border-radius: 12px; background: rgba(40, 42, 47, .92); color: #e2e2e9; font-size: 10px; line-height: 1.15; }
+.radial-item { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 2px; width: 68px; padding: 6px 2px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 12px; background: rgba(40, 42, 47, .92); color: #e2e2e9; font-size: 10px; line-height: 1.15; }
 .radial-item.sel, .radial-item:hover { background: #284777; color: #fff; }
 .radial-item.off { opacity: .45; }
 
@@ -113,7 +120,7 @@
 .rcp-step.sel, .rcp-step:focus-visible { outline: 2px solid var(--c-m3-primary, #2f5fb3); outline-offset: 1px; }
 .rcp-n { position: absolute; left: 6px; top: 6px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: color-mix(in srgb, currentColor 14%, transparent); }
 .rcp-t { font-weight: 600; }
-.rcp-running .rcp-n { background: var(--c-m3-primary, #2f5fb3); color: var(--c-m3-on-primary, #fff); }
+.rcp-running .rcp-n { background: var(--c-m3-primary, #2f5fb3); color: var(--c-m3-onPrimary, #fff); }
 .rcp-done .rcp-n { background: #2e7d32; color: #fff; }
 .rcp-failed { border-color: #c62828; }
 .rcp-failed .rcp-n { background: #c62828; color: #fff; }

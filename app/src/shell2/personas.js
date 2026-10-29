@@ -6,6 +6,7 @@
 import { h } from '../shell/dom.js';
 import { openMenu } from '../shell/menu.js';
 import { promptBox } from '../shell/dialogs.js';
+import { applyTheme } from '../shell/theme.js';
 
 export const PERSONAS = [
   {
@@ -74,8 +75,8 @@ export class Personas {
     document.documentElement.dataset.statusRows = String(p.statusRows ?? 1);
     app.prefs.set('pill', p.pill !== false);
     if (p.theme) {
-      document.documentElement.dataset.theme = p.theme;
       app.prefs.set('theme', p.theme);
+      applyTheme(app);
     }
     this.dismissWelcome();
     app.emit('state');

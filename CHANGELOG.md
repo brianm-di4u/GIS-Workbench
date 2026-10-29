@@ -2,6 +2,31 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.2] - 2026-10-28
+
+The visual GUI campaign. Every menu, ribbon tab, panel, dialog, tooltip and message of the Standard and Lite files was opened in all five themes of both layouts and photographed. Its colours were measured against what they sit on: text, icons, outlines, hover and focus looks, and neighbouring regions. This release makes the dark themes in particular easy to read, and adds a theme that follows the operating system.
+
+### Added
+- **Follow System theme**, now the default. It shows light or dark as your operating system is set, and changes with it. Choosing a theme keeps that theme. It is in View ▸ Display ▸ Theme, Preferences ▸ Display and the Workspace Theme menu. The app-bar theme button cycles Light → Dark → Follow system. (GUI-082)
+
+### Fixed
+- **Menus are readable in the dark themes.** In Material dark, the 2.0 default, menu text, shortcut keys and the item under the pointer were black on near-black. (GUI-059)
+- **The Classic layout in Material dark** no longer draws Ribbon labels, icons, title bars and tool buttons in black. (GUI-060)
+- **The dark themes are layered.** Panels, their tabs and title bars, table headers, menus and the frame are now distinct shades, and hover and selection stand out. Before, several of them were the same colour. (GUI-061)
+- **The Dark theme in the Modern layout** no longer shows a white app bar, rail and welcome card. (GUI-062)
+- **Keyboard focus is visible everywhere.** The focus ring has a contrasting inner halo, so it shows on white, grey and dark surfaces. (GUI-063)
+- **Warnings and errors in dialogs** are readable in the grey theme, and red text has a dark-theme colour everywhere. (GUI-064)
+- **Buttons in the Modern layout** react to the pointer and look pressed when toggled. App-bar, rail and pill buttons show hover clearly. (GUI-065, GUI-066, GUI-074)
+- **Messages and tooltips** stand apart from a dark window, and a message's action button is readable. (GUI-067)
+- **Histogram, tonal curve, elevation profile and line of sight** draw in colours that suit the theme, with visible handles, and follow a change of theme. (GUI-068)
+- **Terrain Extraction:** the wizard's tabs are readable and show which one is selected. (GUI-069)
+- The default dialog button has an outline. Ribbon tabs and dock tabs show hover without losing contrast. The grey theme's dock tabs, dock titles and Ribbon captions no longer merge with their surroundings. Light themes have clearer panel edges. (GUI-070 to GUI-073)
+- Dimmed hints and What's New headings are readable on grey dialogs. Edges, dividers and selected table rows show in every theme. The spectral and eigenvalue plots have an outline. (GUI-075, GUI-076, GUI-078)
+- Result tables such as Band Statistics have column spacing. The Input Devices gain boxes sit three to a row. (GUI-079, GUI-080)
+
+### Changed
+- In the command palette, a greyed-out command's reason wraps onto a second line instead of being cut off. (GUI-081)
+- Colours are design tokens in every theme, including the chart colours. They are checked by a contrast test of all five themes and by the new visual audit. (DN-60)
 ## [2.0.1] - 2026-10-28
 
 The 2.0 GUI campaign. Every button, menu, panel, dialog and shortcut of the Modern and Classic layouts was driven by real pointer and keyboard input in the Standard, Lite and air-gapped files, in Chrome and Edge, and checked hands-on in a browser with a GPU. This release fixes what it found and smooths what it showed could be easier.

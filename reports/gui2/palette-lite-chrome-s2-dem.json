@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1525,7 +1525,7 @@
  {
   "tab": "palette",
   "id": "los.viewshed",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1553,7 +1553,7 @@
  {
   "tab": "palette",
   "id": "dem.groundfilter",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:ground-filter"
   ],
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1743,7 +1743,7 @@
  {
   "tab": "palette",
   "id": "ext.roadtrace",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1816,7 +1816,7 @@
  {
   "tab": "palette",
   "id": "lai.contrast",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
    "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×"
@@ -1838,9 +1838,7 @@
   "id": "hub.tiff16",
   "outcome": "ran (found by id only)",
   "dialogs": [],
-  "toasts": [
-   "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1848,13 +1846,15 @@
   "id": "hub.pdf",
   "outcome": "ran (found by id only)",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
+  ],
   "problems": []
  },
  {
   "tab": "palette",
   "id": "hub.svg",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1862,7 +1862,7 @@
  {
   "tab": "palette",
   "id": "hub.glb",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []

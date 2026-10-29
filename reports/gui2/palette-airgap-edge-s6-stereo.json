@@ -72,11 +72,7 @@
   "id": "dialog:jump ▸ Jump",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
-   "info: Stereo closed: one of its two images is no longer open.×",
-   "info: Snapshot: 1 file(s) embedded×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -116,7 +112,9 @@
   "id": "nav.zoomout",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
+  ],
   "problems": []
  },
  {
@@ -132,9 +130,7 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -174,30 +170,6 @@
   "id": "rot.north",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "rot.shadows",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "rot.mouse",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "rot.angle",
-  "outcome": "ran",
-  "dialogs": [],
   "toasts": [
    "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
   ],
@@ -205,13 +177,38 @@
  },
  {
   "tab": "palette",
-  "id": "ov.open",
+  "id": "rot.shadows",
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
+   "warn: Jump to Point: type a coordinate first×"
+  ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.mouse",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
    "info: Full roam off×"
   ],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "rot.angle",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ov.open",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
   "problems": []
  },
  {
@@ -237,7 +234,9 @@
   "id": "aoi.box",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -245,7 +244,9 @@
   "id": "aoi.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -261,9 +262,7 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -271,9 +270,7 @@
   "id": "draw.polyline",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2051,7 +2048,9 @@
   "id": "glb.toggle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 4.2 MB COG written×"
+  ],
   "problems": []
  },
  {
@@ -2061,9 +2060,7 @@
   "dialogs": [
    "dialog:lai-find"
   ],
-  "toasts": [
-   "info: 4.2 MB COG written×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2141,14 +2138,6 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "hub.glb",
-  "outcome": "ran",
-  "dialogs": [],
   "toasts": [
    "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
   ],
@@ -2156,10 +2145,20 @@
  },
  {
   "tab": "palette",
-  "id": "hub.usdz",
+  "id": "hub.glb",
   "outcome": "ran",
   "dialogs": [],
   "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.usdz",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [
+   "info: Photoshop: 987 × 836 px, 3 layers (Stretch (Levels), Graphics)×"
+  ],
   "problems": []
  },
  {
@@ -2168,7 +2167,6 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Photoshop: 987 × 836 px, 3 layers (Stretch (Levels), Graphics)×",
    "info: 16-bit TIFF: 987 × 836 px, 1 band, 16-bit, with a Curves preset×"
   ],
   "problems": []

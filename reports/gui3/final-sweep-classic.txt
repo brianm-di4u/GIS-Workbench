@@ -1,0 +1,56 @@
+
+Running 51 tests using 4 workers
+
+[1/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s0-empty: every control in every tab responds without error
+[2/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s3-msi: every control in every tab responds without error
+[3/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s1-image: every control in every tab responds without error
+[4/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s2-dem: every control in every tab responds without error
+[5/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s4-sar: every control in every tab responds without error
+[6/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s5-pair: every control in every tab responds without error
+[7/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s6-stereo: every control in every tab responds without error
+[8/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s7-cloud: every control in every tab responds without error
+[9/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s8-video: every control in every tab responds without error
+[10/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s9-vector: every control in every tab responds without error
+[11/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep full › GUI ribbon full s10-detect: every control in every tab responds without error
+[12/51] [chrome] › tests\e2e\gui-sweep.spec.js:141:5 › GUI sweep full › GUI menus full: every Workspace and File menu item opens, runs or refuses by name
+[13/51] [chrome] › tests\e2e\gui-sweep.spec.js:192:5 › GUI sweep full › GUI QAT and workspace toolbar full: every button responds
+[14/51] [chrome] › tests\e2e\gui-sweep.spec.js:215:5 › GUI sweep full › GUI docks full: every dock panel opens, moves left/right/bottom, floats and closes
+[15/51] [chrome] › tests\e2e\gui-sweep.spec.js:246:5 › GUI sweep full › GUI context menus full: panel, mini toolbar, layer row and status bar menus
+[16/51] [chrome] › tests\e2e\gui-sweep.spec.js:319:5 › GUI sweep full › GUI keyboard full: hot keys, KeyTips and Esc
+[17/51] [chrome] › tests\e2e\gui-sweep.spec.js:349:5 › GUI sweep full › GUI windows and layouts full: split layouts, tabbed panels, new/close Multiport, arrange
+[18/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s0-empty: every control in every tab responds without error
+[19/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s1-image: every control in every tab responds without error
+[20/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s2-dem: every control in every tab responds without error
+[21/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s3-msi: every control in every tab responds without error
+[22/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s4-sar: every control in every tab responds without error
+[23/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s5-pair: every control in every tab responds without error
+[24/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s6-stereo: every control in every tab responds without error
+[25/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s7-cloud: every control in every tab responds without error
+[26/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s8-video: every control in every tab responds without error
+[27/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s9-vector: every control in every tab responds without error
+[28/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep lite › GUI ribbon lite s10-detect: every control in every tab responds without error
+[29/51] [chrome] › tests\e2e\gui-sweep.spec.js:141:5 › GUI sweep lite › GUI menus lite: every Workspace and File menu item opens, runs or refuses by name
+[30/51] [chrome] › tests\e2e\gui-sweep.spec.js:192:5 › GUI sweep lite › GUI QAT and workspace toolbar lite: every button responds
+[31/51] [chrome] › tests\e2e\gui-sweep.spec.js:215:5 › GUI sweep lite › GUI docks lite: every dock panel opens, moves left/right/bottom, floats and closes
+[32/51] [chrome] › tests\e2e\gui-sweep.spec.js:246:5 › GUI sweep lite › GUI context menus lite: panel, mini toolbar, layer row and status bar menus
+[33/51] [chrome] › tests\e2e\gui-sweep.spec.js:319:5 › GUI sweep lite › GUI keyboard lite: hot keys, KeyTips and Esc
+[34/51] [chrome] › tests\e2e\gui-sweep.spec.js:349:5 › GUI sweep lite › GUI windows and layouts lite: split layouts, tabbed panels, new/close Multiport, arrange
+[35/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s0-empty: every control in every tab responds without error
+[36/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s1-image: every control in every tab responds without error
+[37/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s2-dem: every control in every tab responds without error
+[38/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s3-msi: every control in every tab responds without error
+[39/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s4-sar: every control in every tab responds without error
+[40/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s5-pair: every control in every tab responds without error
+[41/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s6-stereo: every control in every tab responds without error
+[42/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s7-cloud: every control in every tab responds without error
+[43/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s8-video: every control in every tab responds without error
+[44/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s9-vector: every control in every tab responds without error
+[45/51] [chrome] › tests\e2e\gui-sweep.spec.js:96:7 › GUI sweep airgap › GUI ribbon airgap s10-detect: every control in every tab responds without error
+[46/51] [chrome] › tests\e2e\gui-sweep.spec.js:141:5 › GUI sweep airgap › GUI menus airgap: every Workspace and File menu item opens, runs or refuses by name
+[47/51] [chrome] › tests\e2e\gui-sweep.spec.js:192:5 › GUI sweep airgap › GUI QAT and workspace toolbar airgap: every button responds
+[48/51] [chrome] › tests\e2e\gui-sweep.spec.js:215:5 › GUI sweep airgap › GUI docks airgap: every dock panel opens, moves left/right/bottom, floats and closes
+[49/51] [chrome] › tests\e2e\gui-sweep.spec.js:246:5 › GUI sweep airgap › GUI context menus airgap: panel, mini toolbar, layer row and status bar menus
+[50/51] [chrome] › tests\e2e\gui-sweep.spec.js:319:5 › GUI sweep airgap › GUI keyboard airgap: hot keys, KeyTips and Esc
+[51/51] [chrome] › tests\e2e\gui-sweep.spec.js:349:5 › GUI sweep airgap › GUI windows and layouts airgap: split layouts, tabbed panels, new/close Multiport, arrange
+  1 skipped
+  50 passed (12.8m)

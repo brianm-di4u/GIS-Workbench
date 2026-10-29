@@ -186,7 +186,8 @@ test('GUI-025 choosing a submenu item closes the submenu too', async ({ page }) 
   await openApp(page);
   await page.locator('[data-id="menu:View"]').click();
   await page.locator('.menu-host .menu-item', { hasText: 'Theme' }).hover();
-  await page.locator('.menu-host .menu-item', { hasText: 'Dark' }).click();
+  // The Theme submenu also lists Dark (Material) since 2.0.2: pick the classic Dark by its exact label.
+  await page.locator('.menu-host .menu-item').filter({ has: page.locator('.menu-label', { hasText: /^Dark$/ }) }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('.menu')).toHaveCount(0);
 });

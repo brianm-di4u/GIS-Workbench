@@ -199,9 +199,7 @@
   "id": "rot.shadows",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -210,7 +208,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Full roam off×"
+   "warn: Jump to Point: type a coordinate first×"
   ],
   "problems": []
  },
@@ -220,7 +218,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+   "info: Full roam off×"
   ],
   "problems": []
  },
@@ -237,7 +235,9 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -263,9 +263,7 @@
   "id": "aoi.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -273,7 +271,9 @@
   "id": "draw.point",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {

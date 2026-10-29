@@ -135,18 +135,18 @@
   "tab": "keys",
   "id": "Equal → nav.zoomin",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx01.ntf×",
+   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×",
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
   "tab": "keys",
   "id": "NumpadAdd → nav.zoomin",
   "dialogs": [],
-  "toasts": [
-   "info: fx01.ntf×",
-   "info: Whiteboard on: draw on the application. V interacts, N pins an item, Capture saves a page, Esc leaves.×",
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
