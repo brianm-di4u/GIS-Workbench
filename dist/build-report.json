@@ -1,18 +1,18 @@
 {
   "build": {
-    "id": "a829ad4d292bacb0",
-    "version": "2.0.1",
-    "date": "2026-10-28T16:56:35.810Z",
+    "id": "df4127bf710c0858",
+    "version": "2.0.2",
+    "date": "2026-10-28T23:42:28.170Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 6164121,
-    "eager": 2559151,
-    "css": 63076,
+    "total": 6178562,
+    "eager": 2568028,
+    "css": 70560,
     "boot": 2733,
-    "app": 2219637,
+    "app": 2221029,
     "notices": 133234,
     "blocks": {
       "wasm-core": {
@@ -146,13 +146,13 @@
         "load": "eager"
       },
       "data-tokens": {
-        "raw": 61480,
-        "stored": 11488,
+        "raw": 100201,
+        "stored": 15608,
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 34556,
-        "stored": 18304,
+        "raw": 37689,
+        "stored": 19748,
         "load": "lazy"
       }
     },
@@ -209,10 +209,10 @@
       }
     },
     "rustTotalGzip": 874882,
-    "airgap": 6162770,
-    "lite": 4267646,
-    "snippet": 6551731,
-    "snippetLite": 4267989
+    "airgap": 6177211,
+    "lite": 4274278,
+    "snippet": 6566804,
+    "snippetLite": 4274621
   },
   "gates": {
     "errors": [],
@@ -560,5 +560,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-Q+7XGKOzeEaIQrMI0tjyYBUXL3uq1sDO28i7gpBpiOM=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-2FyVXAhDj3KK2iqfQaSce27eSOJ0D6i4fUYTDJlgX8g=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

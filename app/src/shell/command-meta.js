@@ -123,6 +123,7 @@ const OUT = {
   'dock.netlog': 'Lists every network request this session and why it was made.',
   'dock.layers': 'Shows the layers of the active panel: order, visibility, active layer.',
   'dock.toolbox': 'Shows the drawing and extraction tools with their options.',
+  'theme.system': 'Follows the operating system: light or dark, in the pair that suits the layout.',
   'theme.grey': 'Switches to the grey theme.',
   'theme.dark': 'Switches to the dark theme.',
   'theme.print': 'Switches to the light print theme.',

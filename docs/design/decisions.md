@@ -843,3 +843,43 @@ Implementation rules for the 2.0 work:
   - Persisting search indexes, and folder indexes.
   - The usability study with newcomers, AI analysts and GXP-trained users, and Adam Simmons's
     review of the release candidates. These need people and are not run by the build.
+
+## DN-60 Separation, contrast and Follow system (2.0.2 visual GUI campaign; REQ-UI-12, REQ-UI-16, REQ-SHL-13)
+- **Why.** Users found the dark themes hard to read. The audit (`tests/tools/visual-audit.mjs`) measured why:
+  - Menus, ribbon labels, title bars and Toolbox icons hard-coded `color:#000`, overridden only for the classic `dark` theme. In `m3-dark`, the 2.0 default, menu text was 1.28:1.
+  - Dark surfaces nearly merged: in `m3-dark` the dock content and tab strip were the same colour (ΔE 0). Title bars, table headers and tabs were ΔE 2–4 from what they sat on.
+  - `dark` in the Modern layout drew light Material slabs (app bar, rail, welcome card), because that theme had no `m3.*` tokens.
+- **Every chrome colour is a token.** New roles in `ui-tokens.json`:
+  - text roles: `menu.text`, `menu.hoverText`, `menu.keyText`, `ribbon.text`, `ribbon.hotText`, `chrome.toolbarText`, `chrome.titlebarText`, `content.warnText`, `content.successText`
+  - edges: `control.border`, `control.borderStrong`, `menu.border`, `menu.separator`, `divider`, `chrome.titlebarBorder`, `ribbon.hotBorder`
+  - surfaces: `button.hover`, `tooltip.*`, `toast.*`, `focus.halo`
+  - chart colours: `chart.*`
+  - The stylesheets no longer patch single themes with `[data-theme="dark"]` rules. Every theme defines every role, and `dark` has a full Material set.
+- **Measures.** Thresholds are in `tests/tools/colour-math.mjs` `MIN`:
+  - text 4.5:1
+  - controls, icons, focus rings and chart marks 3:1
+  - a state (hover, selected, active tab) at least ΔE76 12 from the plain look
+  - adjacent regions at least ΔE76 6 apart, or separated by an edge that is
+  - ΔE is used because hue counts: an amber hover on near-white is clear at 1.1:1 luminance.
+- **Where the measures are checked.**
+  - `tests/unit/theme-contrast.test.js` checks the token pairs of all five themes.
+  - The visual audit checks the rendered UI, with hover and focus forced through CDP.
+  - `tests/e2e/gui3-fixes.spec.js` holds the regression tests.
+- **Re-tiered dark ladders.**
+  - `m3-dark` is a cool grey ladder at L* 6 / 12.5 / 19 / 25.5: frame and app bar, content, dock strip and headers, dock title, menus and buttons. Hover is a bluer step at L* 36; selection is the primary container.
+  - `dark` is the same steps in neutral grey.
+  - Material light and print use a white / L* 93 / L* 86.5 ladder.
+  - The grey GXP look keeps its observed values except the dock title (#5f5f5f), the caption band and the dock tabs. Those three merged with their neighbours.
+- **Other rules.**
+  - Tooltips and snackbars are inverse surfaces in `m3-dark` (light on the dark UI) and bordered elsewhere.
+  - The focus ring is two-tone: `focus.ring` outside a `focus.halo` box-shadow, so it shows on white, the mid-grey frame and dark surfaces alike.
+  - Material state layers are 16 % (hover) and 24 % (pressed), twice the M3 baseline.
+- **Charts.** These are the histogram and stretch editors, the tonal curve, and the elevation and line-of-sight profiles.
+  - They draw with `chart.*` tokens and redraw on the app's `theme` event.
+  - The spectral and eigenvalue plots stay fixed dark instrument panels, with an outline.
+  - Graphics drawn on the imagery keep their fixed high-visibility colours.
+- **Follow system** (`theme.system`, pref `theme: 'system'`) is the default when no theme has been saved.
+  - It shows Material light or dark in the Modern layout, and grey or dark in Classic, as `prefers-color-scheme` says, and follows changes live.
+  - A chosen palette stays put.
+  - `shell/theme.js` is the one writer of `data-theme`. It also sets `data-theme-pref`.
+  - The app-bar button cycles Light → Dark → Follow system.

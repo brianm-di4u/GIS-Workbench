@@ -17,10 +17,10 @@ body[data-tool="recenter"] .pane { cursor: cell; }
 /* Overview dock and panel-in-panel (REQ-IMG-14) */
 .minipane { position: relative; overflow: hidden; cursor: crosshair; }
 .minipane-dock { width: 100%; height: 100%; min-height: 160px; }
-.minipane-pip { position: absolute; left: 8px; bottom: 34px; width: var(--s-pipOverview); height: var(--s-pipOverview); border: 1px solid #ffff00; z-index: 3; }
+.minipane-pip { position: absolute; left: 8px; bottom: 34px; width: var(--s-pipOverview); height: var(--s-pipOverview); border: 1px solid var(--c-gfx-activePanel); z-index: 3; }
 .order-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
 .panel-tabs { display: flex; gap: 1px; background: var(--c-dock-body); }
-.panel-tab { min-height: var(--s-targetMin); border: 0; padding: 0 12px; background: var(--c-dock-tabInactive); color: #000; font-size: var(--fs-sm); }
+.panel-tab { min-height: var(--s-targetMin); border: 0; padding: 0 12px; background: var(--c-dock-tabInactive); color: var(--c-content-text); font-size: var(--fs-sm); }
 .panel-tab.active { background: var(--c-dock-tabActive); font-weight: 600; }
 .pane.no-label .pane-label { display: none; }
 .map-notice { position: absolute; left: 8px; right: 8px; top: 8px; background: rgba(0,0,0,0.75); color: #fff; padding: 4px 8px; font-size: var(--fs-sm); pointer-events: none; }
@@ -35,14 +35,14 @@ body[data-tool="recenter"] .pane { cursor: cell; }
 .video-hud { position: absolute; inset: 0; width: 100%; height: 100%; }
 .video-msg { position: absolute; left: 12px; right: 12px; top: 40%; color: #ffb000; font: 13px/1.4 sans-serif; text-align: center; }
 .dvr { display: flex; align-items: center; gap: 4px; padding: 2px 6px; background: #151515; color: #eee; font-size: 12px; }
-.dvr-btn { min-width: 28px; height: 24px; border: 1px solid #444; background: #262626; color: #eee; border-radius: 2px; cursor: pointer; }
+.dvr-btn { min-width: 28px; height: 24px; border: 1px solid #6a6a6a; background: #262626; color: #eee; border-radius: 2px; cursor: pointer; }
 .dvr-btn.on { background: #2a5d9f; }
-.dvr-rate { height: 24px; background: #262626; color: #eee; border: 1px solid #444; }
+.dvr-rate { height: 24px; background: #262626; color: #eee; border: 1px solid #6a6a6a; }
 .video-slider { flex: 1; min-width: 60px; }
 .video-time { font-family: monospace; white-space: nowrap; }
 .klv-scroll { max-height: 55vh; overflow: auto; }
 .klv-table tr.changed td { background: rgba(255, 210, 0, 0.18); }
-.klv-table tr.unknown td { color: #c07000; }
+.klv-table tr.unknown td { color: var(--c-content-warnText); }
 .klv-table td.mono { font-family: monospace; font-size: 11px; word-break: break-all; }
 /* Compass HUD (REQ-SHL-04): 24 px, bottom-right, turns with the view; click = north up. */
 .pane-compass { position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; padding: 2px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, .35); cursor: pointer; z-index: 3; display: grid; place-items: center; }

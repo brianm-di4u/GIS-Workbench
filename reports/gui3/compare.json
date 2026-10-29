@@ -1,0 +1,280 @@
+{
+ "table": {
+  "before2-full": {
+   "modern-m3-dark": {
+    "surfaces": 183,
+    "text": 209,
+    "hover-text": 26,
+    "ui": 64,
+    "focus": 26,
+    "hover": 349,
+    "state": 2,
+    "tier": 79,
+    "chart": 0,
+    "axe": 153
+   },
+   "modern-m3-light": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 3,
+    "focus": 26,
+    "hover": 349,
+    "state": 2,
+    "tier": 147,
+    "chart": 0,
+    "axe": 0
+   },
+   "modern-dark": {
+    "surfaces": 183,
+    "text": 79,
+    "hover-text": 26,
+    "ui": 18,
+    "focus": 91,
+    "hover": 321,
+    "state": 2,
+    "tier": 81,
+    "chart": 0,
+    "axe": 23
+   },
+   "modern-grey": {
+    "surfaces": 183,
+    "text": 11,
+    "hover-text": 0,
+    "ui": 3,
+    "focus": 0,
+    "hover": 321,
+    "state": 2,
+    "tier": 27,
+    "chart": 0,
+    "axe": 11
+   },
+   "modern-print": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 3,
+    "focus": 0,
+    "hover": 321,
+    "state": 3,
+    "tier": 163,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-m3-dark": {
+    "surfaces": 189,
+    "text": 759,
+    "hover-text": 101,
+    "ui": 567,
+    "focus": 36,
+    "hover": 312,
+    "state": 7,
+    "tier": 250,
+    "chart": 0,
+    "axe": 336
+   },
+   "classic-m3-light": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 44,
+    "ui": 3,
+    "focus": 47,
+    "hover": 301,
+    "state": 2,
+    "tier": 328,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-dark": {
+    "surfaces": 189,
+    "text": 81,
+    "hover-text": 47,
+    "ui": 21,
+    "focus": 0,
+    "hover": 46,
+    "state": 7,
+    "tier": 281,
+    "chart": 0,
+    "axe": 31
+   },
+   "classic-grey": {
+    "surfaces": 189,
+    "text": 19,
+    "hover-text": 77,
+    "ui": 3,
+    "focus": 99,
+    "hover": 46,
+    "state": 2,
+    "tier": 188,
+    "chart": 0,
+    "axe": 10
+   },
+   "classic-print": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 44,
+    "ui": 3,
+    "focus": 11,
+    "hover": 46,
+    "state": 16,
+    "tier": 88,
+    "chart": 0,
+    "axe": 0
+   }
+  },
+  "final-full": {
+   "modern-m3-dark": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 11,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "modern-m3-light": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "modern-dark": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 11,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "modern-grey": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "modern-print": {
+    "surfaces": 183,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-m3-dark": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-m3-light": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-dark": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-grey": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   },
+   "classic-print": {
+    "surfaces": 189,
+    "text": 0,
+    "hover-text": 0,
+    "ui": 0,
+    "focus": 0,
+    "hover": 0,
+    "state": 0,
+    "tier": 0,
+    "chart": 0,
+    "axe": 0
+   }
+  }
+ },
+ "distinct": [
+  {
+   "kind": "hover",
+   "el": ".ab-btn",
+   "n": 22,
+   "combos": [
+    "modern-m3-dark",
+    "modern-dark"
+   ],
+   "surfaces": [
+    "chrome",
+    "context-menu@s1-image",
+    "context-menu@s2-dem",
+    "context-menu@s3-msi",
+    "context-menu@s4-sar",
+    "context-menu@s5-pair",
+    "context-menu@s6-stereo",
+    "context-menu@s7-cloud",
+    "context-menu@s8-video",
+    "context-menu@s9-vector"
+   ],
+   "worst": {
+    "kind": "hover",
+    "el": ".ab-btn",
+    "text": "Open",
+    "fg": "#78a1e2",
+    "bg": "#8ab4f8",
+    "value": 7.2,
+    "need": 12
+   }
+  }
+ ]
+}

@@ -112,10 +112,7 @@
   "id": "nav.zoomout",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -123,7 +120,10 @@
   "id": "nav.whole",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×",
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -1491,7 +1491,7 @@
  {
   "tab": "palette",
   "id": "los.p2p",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1525,7 +1525,7 @@
  {
   "tab": "palette",
   "id": "los.viewshed",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1553,7 +1553,7 @@
  {
   "tab": "palette",
   "id": "dem.groundfilter",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:ground-filter"
   ],
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1761,7 +1761,7 @@
  {
   "tab": "palette",
   "id": "bm.basemap",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1780,7 +1780,7 @@
  {
   "tab": "palette",
   "id": "glb.toggle",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1856,8 +1856,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×",
-   "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
+   "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
   ],
   "problems": []
  },
@@ -1866,7 +1865,9 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
+  ],
   "problems": []
  },
  {

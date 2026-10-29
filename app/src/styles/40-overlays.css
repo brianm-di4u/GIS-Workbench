@@ -1,25 +1,23 @@
 /* Menus, dialogs (REQ-UI-14 form pattern), toasts. */
 .menu-host { position: fixed; inset: 0; pointer-events: none; z-index: 900; }
-.menu { position: fixed; pointer-events: auto; min-width: 180px; background: var(--c-menu-bg); color: #000; border: 1px solid #8a8a8a; box-shadow: 2px 3px 8px rgba(0,0,0,.35); padding: 2px 0; z-index: 901; }
-[data-theme="dark"] .menu { background: #2a2a2a; color: #e6e6e6; border-color: #555; }
+.menu { position: fixed; pointer-events: auto; min-width: 180px; background: var(--c-menu-bg); color: var(--c-menu-text); border: 1px solid var(--c-menu-border); box-shadow: 2px 3px 8px rgba(0,0,0,.35); padding: 2px 0; z-index: 901; }
 .menu-item { display: grid; grid-template-columns: 16px 20px 1fr auto; align-items: center; gap: 2px; height: 22px; padding: 0 10px 0 4px; white-space: nowrap; outline: none; }
-.menu-item:hover, .menu-item:focus { background: var(--c-menu-hover); color: #000; }
+.menu-item:hover, .menu-item:focus { background: var(--c-menu-hover); color: var(--c-menu-hoverText); }
 .menu-item.disabled { opacity: .45; }
-.menu-key { color: #666; font-size: var(--fs-sm); padding-left: 18px; }
-.menu-sep { height: 1px; background: #c4c4c4; margin: 3px 4px; }
-.menubar-item[aria-expanded="true"] { background: var(--c-menu-hover); color: #000; }
+.menu-key { color: var(--c-menu-keyText); font-size: var(--fs-sm); padding-left: 18px; }
+.menu-sep { height: 1px; background: var(--c-menu-separator); margin: 3px 4px; }
+.menubar-item[aria-expanded="true"] { background: var(--c-menu-hover); color: var(--c-menu-hoverText); }
 
 .dlg-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.18); z-index: 800; }
-.dlg { position: fixed; z-index: 810; background: var(--c-chrome-frame); color: var(--c-chrome-textOnFrame); border: 1px solid #222; box-shadow: 0 8px 26px rgba(0,0,0,.45); max-width: calc(100vw - 20px); max-height: calc(100vh - 20px); display: flex; flex-direction: column; }
-.dlg-title { height: 26px; flex: none; display: flex; align-items: center; padding: 0 2px 0 10px; background: var(--c-chrome-titlebar); color: #000; cursor: move; user-select: none; }
-[data-theme="dark"] .dlg-title { background: #1d1d1d; color: #e6e6e6; }
+.dlg { position: fixed; z-index: 810; background: var(--c-chrome-frame); color: var(--c-chrome-textOnFrame); border: 1px solid var(--c-menu-border); box-shadow: 0 8px 26px rgba(0,0,0,.45); max-width: calc(100vw - 20px); max-height: calc(100vh - 20px); display: flex; flex-direction: column; }
+.dlg-title { height: 26px; flex: none; display: flex; align-items: center; padding: 0 2px 0 10px; background: var(--c-chrome-titlebar); color: var(--c-chrome-titlebarText); border-bottom: 1px solid var(--c-chrome-titlebarBorder); cursor: move; user-select: none; }
 .dlg-title-text { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dlg-x { background: transparent; border: 0; width: 26px; height: 22px; color: inherit; display: grid; place-items: center; }
 .dlg-x:hover { background: #e81123; color: #fff; }
 .dlg-body { padding: var(--s-dialogPadding) 12px; overflow: auto; flex: 1; }
 .dlg-body .grid-table, .dlg-body pre, .dlg-body .inp, .dlg-body select { color: var(--c-content-text); }
 .dlg-msg { margin: 6px 0; }
-.dlg-buttons { display: flex; justify-content: flex-end; gap: 6px; padding: 8px 12px; border-top: 1px solid #5f5f5f; flex: none; }
+.dlg-buttons { display: flex; justify-content: flex-end; gap: 6px; padding: 8px 12px; border-top: 1px solid var(--c-divider); flex: none; }
 .dlg-buttons .btn-left { margin-right: auto; }
 .dlg-buttons .btn-left + .btn-left { margin-right: 0; }
 .fld { display: grid; grid-template-columns: 150px 1fr; gap: 8px; align-items: center; margin: 4px 0; }
@@ -32,7 +30,7 @@
   .fld > :is(input, select, textarea) { min-width: 0; }
 }
 .fld-inline { display: flex; gap: 6px; }
-.sec { border: 0; border-top: 1px solid #8f8f8f; margin: 10px 0 4px; padding: 6px 0 0; }
+.sec { border: 0; border-top: 1px solid var(--c-divider); margin: 10px 0 4px; padding: 6px 0 0; }
 .sec legend { padding: 0 6px 0 0; font-weight: 600; }
 .dlg pre { background: var(--c-content-bg); padding: 6px; max-height: 360px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
 .meta-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
@@ -43,7 +41,7 @@
 .chain-params { overflow-wrap: anywhere; } /* long chain parameters wrap instead of scrolling the dialog sideways (GUI-023) */
 .whatsnew h3 { margin: 14px 0 4px; font-size: 14px; }
 .whatsnew h3:first-child { margin-top: 0; }
-.whatsnew h4 { margin: 8px 0 2px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .04em; opacity: .8; }
+.whatsnew h4 { margin: 8px 0 2px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .04em; }
 .whatsnew ul { margin: 0 0 4px; padding-left: 18px; }
 .whatsnew li { margin: 2px 0; }
 .whatsnew code { font-family: var(--f-monoLog); font-size: .92em; }
@@ -56,34 +54,40 @@
 
 /* Snackbars (REQ-SHL-07): bottom centre above the status bar, at most three at a time. */
 .toasts { position: fixed; left: 50%; transform: translateX(-50%); bottom: 54px; display: flex; flex-direction: column-reverse; align-items: center; gap: 6px; z-index: 950; width: max-content; max-width: min(560px, calc(100vw - 32px)); }
-.toast { background: #2b2f36; color: #f0f2f5; padding: 8px 8px 8px 14px; border-radius: 8px; border-left: 4px solid #4da3ff; box-shadow: 0 4px 14px rgba(0,0,0,.4); display: flex; gap: 10px; align-items: center; transition: opacity .3s; }
-.toast-action { color: #8ab4f8; background: transparent; border: 0; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.toast { background: var(--c-toast-bg); color: var(--c-toast-text); padding: 8px 8px 8px 14px; border-radius: 8px; border: 1px solid var(--c-toast-border); border-left: 4px solid var(--c-toast-info); box-shadow: 0 4px 14px rgba(0,0,0,.4); display: flex; gap: 10px; align-items: center; transition: opacity .3s; }
+/* The action is a text button in the snackbar's own colours, in both layouts (GUI-067). */
+.toast .toast-action, [data-layout="modern"] .toast .toast-action { background: transparent; color: var(--c-toast-action); border: 1px solid var(--c-toast-border); border-radius: 4px; }
+/* Hover outlines and underlines the action: a tint under its label would cost the label its contrast. */
+.toast .toast-action:hover, [data-layout="modern"] .toast .toast-action:hover:not(:disabled) { background: transparent; border-color: var(--c-toast-action); text-decoration: underline; }
+.toast-action { color: var(--c-toast-action); background: transparent; border: 0; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
 .toast-x { background: transparent; border: 0; color: inherit; opacity: .7; font-size: 16px; line-height: 1; padding: 0 4px; cursor: pointer; }
 .toast-x:hover { opacity: 1; }
 /* Toasts never block what is under them (video transport, dialog buttons); only their buttons take clicks (GUI-020). */
 .toasts, .toast { pointer-events: none; }
 .toast button { pointer-events: auto; }
 .toast.out { opacity: 0; }
-.toast-error { border-left-color: #ff5a5a; }
-.toast-warn { border-left-color: #e0b050; }
+.toast-error { border-left-color: var(--c-toast-error); }
+.toast-warn { border-left-color: var(--c-toast-warn); }
 
 /* Enhancement editors (REQ-IMG-06/08) */
 .mtf-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
 .mtf-cell { width: 100%; min-width: 0; }
 .curve-editor { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
-.curve-canvas, .hist-canvas { border: 1px solid #8a8a8a; cursor: crosshair; touch-action: none; max-width: 100%; }
+.curve-canvas, .hist-canvas { border: 1px solid var(--c-control-border); cursor: crosshair; touch-action: none; max-width: 100%; }
 .curve-canvas:focus-visible { outline: 2px solid var(--c-focus-ring); }
 .hist-editor { display: flex; flex-direction: column; gap: 8px; }
 .hist-band { display: flex; flex-direction: column; gap: 3px; }
 .pixel-matrix { display: flex; flex-wrap: wrap; gap: 8px; }
-.pm-table td { text-align: right; padding: 1px 4px; font-family: var(--f-mono, monospace); }
+.pm-table td { text-align: right; padding: 1px 4px; font-family: var(--f-monoLog); }
 .pm-table td.pm-centre { outline: 2px solid var(--c-focus-ring); }
-.profile-canvas { border: 1px solid #8a8a8a; max-width: 100%; cursor: crosshair; }
+/* The spectral and eigenvalue plots are fixed dark instrument panels: an outline keeps them apart from a dark dock (GUI-078). */
+canvas[data-id="spectral-plot"], [data-id="eigen-plot"] svg { border: 1px solid var(--c-control-border); display: block; }
+.profile-canvas { border: 1px solid var(--c-control-border); max-width: 100%; cursor: crosshair; }
 .legend { display: flex; flex-direction: column; gap: 4px; }
 .legend-row { display: flex; align-items: center; gap: 8px; }
 
 /* Products: chip preview (REQ-PRD-01) */
-.chip-preview { max-height: 46vh; overflow: auto; background: #000; border: 1px solid var(--c-border, #555); text-align: center; }
+.chip-preview { max-height: 46vh; overflow: auto; background: #000; border: 1px solid var(--c-control-border); text-align: center; }
 .chip-preview canvas { max-width: 100%; height: auto; display: inline-block; }
 .chip-info { margin: 4px 0 8px; color: inherit; }
 body[aria-busy='true'], body[aria-busy='true'] * { cursor: progress !important; }
@@ -103,7 +107,7 @@ body[aria-busy='true'], body[aria-busy='true'] * { cursor: progress !important; 
 .tb-mod { display: inline-flex; align-items: center; gap: 3px; min-height: var(--s-targetMin, 24px); }
 .inp-small { width: 56px; }
 .th-sort { background: none; border: 0; color: inherit; font: inherit; font-weight: bold; cursor: pointer; padding: 0; min-height: var(--s-targetMin, 24px); }
-tr.selected td { background: color-mix(in srgb, #e000e0 22%, transparent); }
+tr.selected td { background: var(--c-content-selected); }
 
 /* Preferences (REQ-UI-11) */
 .prefs-tabs { display: flex; gap: 4px; margin: 6px 0; }
@@ -119,25 +123,27 @@ tr.selected td { background: color-mix(in srgb, #e000e0 22%, transparent); }
 .menu.mini-toolbar .btn { padding: 2px 4px; }
 /* Command palette (REQ-SHL-05). */
 .pal-backdrop { position: fixed; inset: 0; z-index: 900; background: rgba(0, 0, 0, .28); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
-.pal { width: min(640px, calc(100vw - 32px)); max-height: 70vh; display: flex; flex-direction: column; background: var(--c-content-bg, #fff); color: var(--c-content-text, #111); border-radius: 12px; box-shadow: 0 16px 48px rgba(0, 0, 0, .45); overflow: hidden; }
-.pal-input { border: 0; border-bottom: 1px solid rgba(0, 0, 0, .12); padding: 14px 16px; font: inherit; font-size: 15px; background: transparent; color: inherit; outline: none; }
+.pal { width: min(640px, calc(100vw - 32px)); max-height: 70vh; display: flex; flex-direction: column; background: var(--c-content-bg, #fff); color: var(--c-content-text, #111); border: 1px solid var(--c-menu-border); border-radius: 12px; box-shadow: 0 16px 48px rgba(0, 0, 0, .45); overflow: hidden; }
+.pal-input { border: 0; border-bottom: 1px solid var(--c-divider); padding: 14px 16px; font: inherit; font-size: 15px; background: transparent; color: inherit; outline: none; }
 .pal-list { list-style: none; margin: 0; padding: 4px 0; overflow: auto; flex: 1; }
 .pal-item { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: center; padding: 6px 14px; cursor: pointer; }
 .pal-item.sel { background: var(--c-content-selected, #d9e8fb); }
 .pal-item.off { opacity: .55; }
+/* A greyed-out entry's reason ("needs …: open the Standard file") wraps to two lines instead of losing its end (GUI-081). */
+.pal-item.off .pal-detail { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .pal-ic { display: grid; place-items: center; }
 .pal-text { display: flex; flex-direction: column; min-width: 0; }
 .pal-label { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pal-cat { font-weight: 400; opacity: .6; }
 .pal-detail { font-size: 12px; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pal-key, .tip2 kbd { font: 11px/1 var(--f-monoLog, ui-monospace, monospace); padding: 3px 6px; border-radius: 4px; background: rgba(0, 0, 0, .08); border: 1px solid rgba(0, 0, 0, .15); white-space: nowrap; }
+.pal-key, .tip2 kbd { font: 11px/1 var(--f-monoLog, ui-monospace, monospace); padding: 3px 6px; border-radius: 4px; background: color-mix(in srgb, currentColor 10%, transparent); border: 1px solid color-mix(in srgb, currentColor 35%, transparent); white-space: nowrap; }
 .pal-empty { padding: 14px 16px; opacity: .7; }
-.pal-hint { padding: 6px 14px; font-size: 11px; opacity: .6; border-top: 1px solid rgba(0, 0, 0, .08); }
+.pal-hint { padding: 6px 14px; font-size: 11px; opacity: .8; border-top: 1px solid var(--c-divider); }
 /* Two-line tooltip (REQ-SHL-06). */
-.tip2 { pointer-events: none; position: fixed; z-index: 950; max-width: 340px; padding: 8px 10px; border-radius: 8px; background: #20242a; color: #f2f4f7; box-shadow: 0 6px 20px rgba(0, 0, 0, .35); font-size: 12px; line-height: 1.4; }
+.tip2 { pointer-events: none; position: fixed; z-index: 950; max-width: 340px; padding: 8px 10px; border-radius: 8px; background: var(--c-tooltip-bg); color: var(--c-tooltip-text); border: 1px solid var(--c-tooltip-border); box-shadow: 0 6px 20px rgba(0, 0, 0, .35); font-size: 12px; line-height: 1.4; }
 .tip2[hidden] { display: none; }
 .tip2-head { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
-.tip2 kbd { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .25); color: inherit; }
-.tip2-out { margin-top: 3px; color: #d6dbe2; }
-.tip2-status { margin-top: 4px; color: #ffcb5f; }
-.tip2-foot { margin-top: 4px; text-align: right; font-size: 11px; color: #9aa3ad; }
+.tip2 kbd { color: inherit; }
+.tip2-out { margin-top: 3px; color: var(--c-tooltip-textSecondary); }
+.tip2-status { margin-top: 4px; color: var(--c-tooltip-accent); }
+.tip2-foot { margin-top: 4px; text-align: right; font-size: 11px; color: var(--c-tooltip-textMuted); }

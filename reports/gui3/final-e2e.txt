@@ -1,0 +1,10 @@
+Full e2e suite on dist (2.0.2), npx playwright test, Chrome + Edge. Summary only; the full log (513 KB, mostly a minified stack frame) was not kept.
+
+[912/912] [edge] › tests\e2e\shoulds.spec.js:462:1 › REQ-FMT-17 an HTJ2K codestream in a NITF (IC=C8) opens and decodes losslessly
+  2 failed
+    [chrome] › tests\e2e\cnv-p8.spec.js:38:1 › REQ-CNV-01 a 432 M-sample image (above the in-memory limit) converts by streaming 
+    [edge] › tests\e2e\cnv-p8.spec.js:38:1 › REQ-CNV-01 a 432 M-sample image (above the in-memory limit) converts by streaming 
+  6 skipped
+  904 passed (1.5h)
+
+Re-run alone: npx playwright test cnv-p8 --project=chrome -> 3 passed (3.0m); Houston COG: 311.4 MB COG written (streamed, 6 levels) in 172 s

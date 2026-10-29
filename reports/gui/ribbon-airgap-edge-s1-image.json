@@ -1119,15 +1119,6 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "products",
-  "id": "hub.usdz",
-  "kind": "button",
-  "outcome": "clicked",
-  "dialogs": [],
   "toasts": [
    "info: Layered SVG: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
   ],
@@ -1135,7 +1126,7 @@
  },
  {
   "tab": "products",
-  "id": "hub.atak",
+  "id": "hub.usdz",
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
@@ -1146,13 +1137,22 @@
  },
  {
   "tab": "products",
-  "id": "hub.cot",
+  "id": "hub.atak",
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
    "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
   ],
+  "problems": []
+ },
+ {
+  "tab": "products",
+  "id": "hub.cot",
+  "kind": "button",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1497,7 +1497,7 @@
   "tab": "view",
   "id": "display.theme:menu",
   "kind": "caret",
-  "outcome": "menu ×5",
+  "outcome": "menu ×6",
   "dialogs": [],
   "toasts": [],
   "problems": []

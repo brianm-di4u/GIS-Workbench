@@ -194,9 +194,7 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -204,7 +202,9 @@
   "id": "ov.open",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -1373,7 +1373,9 @@
   "tab": "dialog of search.find",
   "id": "dialog:find-in-scene ▸ Separability",
   "outcome": "clicked",
-  "dialogs": [],
+  "dialogs": [
+   "dialog:jm"
+  ],
   "toasts": [],
   "problems": []
  },
@@ -1381,9 +1383,7 @@
   "tab": "dialog of search.find",
   "id": "dialog:find-in-scene ▸ Classify",
   "outcome": "clicked",
-  "dialogs": [
-   "dialog:jm"
-  ],
+  "dialogs": [],
   "toasts": [
    "warn: add at least two training classes first (Find in Scene ▸ Add Region)×"
   ],
@@ -1823,8 +1823,7 @@
    "dialog:lai-search"
   ],
   "toasts": [
-   "info: Building the 3D view…×",
-   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
+   "info: Building the 3D view…×"
   ],
   "problems": []
  },
@@ -1866,8 +1865,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 3.5, gamma 2.30 (Tone +60).×",
-   "info: Photoshop: 985 × 1024 px, 3 layers (Stretch (Levels), Graphics)×"
+   "info: Auto Contrast: CLAHE clip 3.5, gamma 2.30 (Tone +60).×"
   ],
   "problems": []
  },
@@ -1877,6 +1875,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Photoshop: 985 × 1024 px, 3 layers (Stretch (Levels), Graphics)×",
    "info: 16-bit TIFF: 985 × 1024 px, 1 band, 16-bit, with a Curves preset×"
   ],
   "problems": []

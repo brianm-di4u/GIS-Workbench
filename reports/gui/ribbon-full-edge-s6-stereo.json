@@ -81,7 +81,9 @@
   "kind": "slider",
   "outcome": "slider",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+  ],
   "problems": []
  },
  {
@@ -90,9 +92,7 @@
   "kind": "slider",
   "outcome": "slider",
   "dialogs": [],
-  "toasts": [
-   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

@@ -1,0 +1,3107 @@
+[
+ {
+  "kind": "axe",
+  "el": "div[id] > .menu-label",
+  "n": 187,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > File",
+   "menu:main-menu > Edit",
+   "menu:main-menu > View",
+   "menu:main-menu > Geospatial",
+   "menu:main-menu > Tools",
+   "menu:main-menu > Add-Ins",
+   "menu:main-menu > Help",
+   "menu:help-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "div[data-id=\"file.recent\"] > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".dlg-title-text",
+  "n": 100,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "dialog:qat-customize",
+   "dialog:packs",
+   "dialog:recent",
+   "dialog:save-options",
+   "dialog:prefs",
+   "dialog:project-props",
+   "New Template",
+   "dialog:history"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".dlg-title-text",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "div[id] > .menu-key",
+  "n": 34,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > File",
+   "menu:main-menu > Edit",
+   "menu:main-menu > View",
+   "menu:main-menu > Add-Ins",
+   "menu:main-menu > Help",
+   "menu:help-menu",
+   "menu:file-menu > Open",
+   "menu:file-menu > Save"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "div[data-id=\"file.save\"] > .menu-key",
+   "detail": "Element has insufficient color contrast of 2.84 (foreground color: #666666, background color: #1d2024, font size: 8.3pt (11px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[id]",
+  "n": 32,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "dialog:dsm-extract",
+   "chrome",
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[data-id=\"dsm:tab:0\"]",
+   "detail": "Element has insufficient color contrast of 4.13 (foreground color: #e2e2e9, background color: #6b6b6b, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(2) > .menu-label",
+  "n": 18,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(2) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(5) > .menu-label",
+  "n": 18,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(5) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(11) > .menu-label",
+  "n": 18,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(11) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(12) > .menu-label",
+  "n": 18,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(12) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(8) > .menu-label",
+  "n": 14,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s10-detect"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(8) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(9) > .menu-label",
+  "n": 14,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s10-detect"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(9) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(10) > .menu-label",
+  "n": 14,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s10-detect"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(10) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".gwin-title-text",
+  "n": 10,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".gwin-title-text",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "div[role=\"menuitemcheckbox\"] > .menu-label",
+  "n": 4,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > Geospatial",
+   "menu:main-menu > Tools",
+   "menu:ws-menu-Geospatial",
+   "menu:ws-menu-Tools"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "div[role=\"menuitemcheckbox\"] > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(1) > .menu-label",
+  "n": 4,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:file-menu",
+   "menu:ws-menu-File"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(1) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.7 (foreground color: #000000, background color: #2e3542, font size: 9.0pt (12px), font weight: normal). Expected co"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".on > .rbtn-label",
+  "n": 4,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Draw",
+   "ribbon:Visualize",
+   "ribbon:Analyze",
+   "context-menu@s1-image"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".on > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(1) > .menu-label",
+  "n": 2,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(1) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.7 (foreground color: #000000, background color: #2e3542, font size: 9.0pt (12px), font weight: normal). Expected co"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(1) > .menu-label",
+  "n": 2,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:persona-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(1) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.7 (foreground color: #000000, background color: #2e3542, font size: 9.0pt (12px), font weight: normal). Expected co"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(3) > .menu-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:persona-menu",
+   "menu:ws-menu-Window"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(3) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "h4:nth-child(3)",
+  "n": 2,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:whatsnew"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "h4:nth-child(3)",
+   "detail": "Element has insufficient color contrast of 3.8 (foreground color: #e3e3e3, background color: #717171, font size: 8.3pt (11px), font weight: bold). Expected cont"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "h4:nth-child(5)",
+  "n": 2,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:whatsnew"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "h4:nth-child(5)",
+   "detail": "Element has insufficient color contrast of 3.8 (foreground color: #e3e3e3, background color: #717171, font size: 8.3pt (11px), font weight: bold). Expected cont"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "h4:nth-child(7)",
+  "n": 2,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:whatsnew"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "h4:nth-child(7)",
+   "detail": "Element has insufficient color contrast of 3.8 (foreground color: #e3e3e3, background color: #717171, font size: 8.3pt (11px), font weight: bold). Expected cont"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".muted",
+  "n": 2,
+  "combos": [
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:tri-solutions",
+   "dialog:mcp-servers"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".muted",
+   "detail": "Element has insufficient color contrast of 3.07 (foreground color: #cdcdcd, background color: #717171, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(2) > .menu-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:file-menu",
+   "menu:ws-menu-File"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(2) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(1) > .menu-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:ws-menu-Window"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(1) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.7 (foreground color: #000000, background color: #2e3542, font size: 9.0pt (12px), font weight: normal). Expected co"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".rbtn-l > .rbtn-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Stereo",
+   "context-menu@s6-stereo"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".rbtn-l > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[title=\"Anaglyph (Dubois)\"] > .rbtn-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Stereo",
+   "context-menu@s6-stereo"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[title=\"Anaglyph (Dubois)\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[title=\"Floating Cursor\"] > .rbtn-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Stereo",
+   "context-menu@s6-stereo"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[title=\"Floating Cursor\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[aria-label=\"HUD\"] > .rbtn-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Video",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[aria-label=\"HUD\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[title=\"VMTI Boxes\"] > .rbtn-label",
+  "n": 2,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Video",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[title=\"VMTI Boxes\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".dlg-body > div > div > .muted",
+  "n": 2,
+  "combos": [
+   "lite/classic-grey"
+  ],
+  "surfaces": [
+   "dialog:tri-solutions",
+   "dialog:mcp-servers"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".dlg-body > div > div > .muted",
+   "detail": "Element has insufficient color contrast of 3.07 (foreground color: #cdcdcd, background color: #717171, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(2) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(2) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(3) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(3) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(4) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(4) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(5) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(5) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(6) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(6) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(7) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"][aria-haspopup=\"menu\"]:nth-child(7) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu[role=\"menu\"]:nth-child(2) > .menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(1) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > File"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu[role=\"menu\"]:nth-child(2) > .menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(1) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu[role=\"menu\"]:nth-child(2) > .menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(2) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > File"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu[role=\"menu\"]:nth-child(2) > .menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"]:nth-child(2) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu[role=\"menu\"]:nth-child(2) > .menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"] > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > View"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu[role=\"menu\"]:nth-child(2) > .menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"] > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(2) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:persona-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(2) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "div[role=\"menuitem\"] > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:persona-menu"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "div[role=\"menuitem\"] > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "p",
+  "n": 1,
+  "combos": [
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:recent"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "p",
+   "detail": "Element has insufficient color contrast of 3.07 (foreground color: #cdcdcd, background color: #717171, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".warn",
+  "n": 1,
+  "combos": [
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:fmv-basis"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".warn",
+   "detail": "Element has insufficient color contrast of 1.21 (foreground color: #8a5a00, background color: #717171, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[title=\"Glove — Drag to pan the image\"] > .rbtn-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[title=\"Glove — Drag to pan the image\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"] > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:ws-menu-View"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[aria-haspopup=\"menu\"][role=\"menuitem\"] > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(4) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:ws-menu-Window"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitemcheckbox\"]:nth-child(4) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(6) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:ws-menu-Window"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(6) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".menu-item[role=\"menuitem\"]:nth-child(7) > .menu-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "menu:ws-menu-Window"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".menu-item[role=\"menuitem\"]:nth-child(7) > .menu-label",
+   "detail": "Element has insufficient color contrast of 1.28 (foreground color: #000000, background color: #1d2024, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[aria-label=\"Glove\"] > .rbtn-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Home"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[aria-label=\"Glove\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[aria-label=\"Workspace Window\"] > .rbtn-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:View"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[aria-label=\"Workspace Window\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[title=\"North Arrow\"] > .rbtn-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:View"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[title=\"North Arrow\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": "button[title=\"Scale Bar\"] > .rbtn-label",
+  "n": 1,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:View"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": "button[title=\"Scale Bar\"] > .rbtn-label",
+   "detail": "Element has insufficient color contrast of 2.25 (foreground color: #000000, background color: #284777, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "axe",
+  "el": ".dlg-body > p",
+  "n": 1,
+  "combos": [
+   "lite/classic-grey"
+  ],
+  "surfaces": [
+   "dialog:recent"
+  ],
+  "worst": {
+   "kind": "axe",
+   "el": ".dlg-body > p",
+   "detail": "Element has insufficient color contrast of 3.07 (foreground color: #cdcdcd, background color: #717171, font size: 9.0pt (12px), font weight: normal). Expected c"
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".menu-item",
+  "n": 72,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".menu-item",
+   "text": "Re-center Here",
+   "fg": null,
+   "value": 0,
+   "fill": 11.6,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".menu .menu-item",
+  "n": 52,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light"
+  ],
+  "surfaces": [
+   "menu:main-menu",
+   "menu:help-menu",
+   "menu:persona-menu",
+   "menu:products-menu",
+   "menu:file-menu",
+   "menu:ws-menu-File",
+   "menu:ws-menu-Edit",
+   "menu:ws-menu-View"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".menu .menu-item",
+   "text": "Edit▸",
+   "fg": null,
+   "value": 0,
+   "fill": 11.6,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".ribbon .rtab",
+  "n": 40,
+  "combos": [
+   "lite/classic-grey"
+  ],
+  "surfaces": [
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins",
+   "ribbon:Visualize"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".ribbon .rtab",
+   "text": "File",
+   "fg": "#1a5fb4",
+   "value": 1.29,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".btn",
+  "n": 33,
+  "combos": [
+   "lite/classic-grey",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s10-detect"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".btn",
+   "text": "Zoom to layer",
+   "fg": "#1a5fb4",
+   "value": 2.14,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".pill-btn",
+  "n": 32,
+  "combos": [
+   "lite/modern-dark"
+  ],
+  "surfaces": [
+   "pill@s1-image",
+   "context-menu@s1-image",
+   "pill@s2-dem",
+   "context-menu@s2-dem",
+   "pill@s3-msi",
+   "context-menu@s3-msi",
+   "pill@s4-sar",
+   "context-menu@s4-sar"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".pill-btn",
+   "text": "Auto Enhance",
+   "fg": "#4da3ff",
+   "value": 1.8,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".ab-btn",
+  "n": 20,
+  "combos": [
+   "lite/modern-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".ab-btn",
+   "text": "☰",
+   "fg": "#4da3ff",
+   "value": 2.5,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".rail-item",
+  "n": 20,
+  "combos": [
+   "lite/modern-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".rail-item",
+   "text": "Catalog",
+   "fg": "#4da3ff",
+   "value": 2.5,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".rtab",
+  "n": 20,
+  "combos": [
+   "lite/classic-grey"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".rtab",
+   "text": "File",
+   "fg": "#1a5fb4",
+   "value": 1.29,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".qat-btn",
+  "n": 20,
+  "combos": [
+   "lite/classic-grey"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".qat-btn",
+   "text": "",
+   "fg": "#1a5fb4",
+   "value": 1.29,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "focus",
+  "el": ".ab-chip",
+  "n": 10,
+  "combos": [
+   "lite/modern-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "focus",
+   "el": ".ab-chip",
+   "text": "Explorer",
+   "fg": "#4da3ff",
+   "value": 2.5,
+   "fill": 0,
+   "need": 3
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".btn",
+  "n": 1235,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "whiteboard",
+   "dialog:qat-customize",
+   "dialog:packs",
+   "dialog:save-options",
+   "dialog:prefs",
+   "dialog:project-props",
+   "New Template",
+   "dialog:keys-customize"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".btn",
+   "text": "Undo",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".pill-btn",
+  "n": 160,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "pill@s1-image",
+   "context-menu@s1-image",
+   "pill@s2-dem",
+   "context-menu@s2-dem",
+   "pill@s3-msi",
+   "context-menu@s3-msi",
+   "pill@s4-sar",
+   "context-menu@s4-sar"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".pill-btn",
+   "text": "Auto Enhance",
+   "fg": "#c2c3c8",
+   "bg": "#d5d5db",
+   "value": 6.7,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".ab-btn",
+  "n": 100,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".ab-btn",
+   "text": "☰",
+   "fg": "#e7e7ed",
+   "bg": "#f9f9ff",
+   "value": 6.2,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".rail-item",
+  "n": 100,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".rail-item",
+   "text": "",
+   "fg": "#e7e7ed",
+   "bg": "#f9f9ff",
+   "value": 6.2,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".ribbon .rtab",
+  "n": 100,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins",
+   "ribbon:Visualize"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".ribbon .rtab",
+   "text": "Select",
+   "fg": "#f1f1f8",
+   "bg": "#ededf4",
+   "value": 1.5,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".menu-item",
+  "n": 72,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".menu-item",
+   "text": "Re-center Here",
+   "fg": "#e1e6f5",
+   "bg": "#f3f3fa",
+   "value": 6.5,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock-right .btn",
+  "n": 56,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dock:catalog",
+   "dock:ai",
+   "dock:triangulation",
+   "dock:spectral"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock-right .btn",
+   "text": "Open",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".menu .menu-item",
+  "n": 52,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light"
+  ],
+  "surfaces": [
+   "menu:main-menu",
+   "menu:help-menu",
+   "menu:persona-menu",
+   "menu:products-menu",
+   "menu:file-menu",
+   "menu:ws-menu-File",
+   "menu:ws-menu-Edit",
+   "menu:ws-menu-View"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".menu .menu-item",
+   "text": "Edit▸",
+   "fg": "#e1e6f5",
+   "bg": "#f3f3fa",
+   "value": 6.5,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".ab-chip",
+  "n": 50,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".ab-chip",
+   "text": "Explorer",
+   "fg": "#e7e7ed",
+   "bg": "#f9f9ff",
+   "value": 6.2,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".rtab",
+  "n": 50,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".rtab",
+   "text": "Select",
+   "fg": "#f1f1f8",
+   "bg": "#ededf4",
+   "value": 1.5,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock-tab",
+  "n": 50,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock-tab",
+   "text": "Cue Cards",
+   "fg": "#1d2024",
+   "bg": "#1d2024",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock-bottom .btn",
+  "n": 49,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dock:menlog",
+   "dock:attrtable",
+   "dock:validation",
+   "dock:recipes",
+   "dock:observations"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock-bottom .btn",
+   "text": "Export CSV",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock:has(.tool-panel) .btn",
+  "n": 45,
+  "combos": [
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "tool:gfx-legend",
+   "tool:pixel-matrix",
+   "tool:tone-curve",
+   "tool:histogram-editor",
+   "dialog:blend",
+   "tool:fmv-klv"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock:has(.tool-panel) .btn",
+   "text": "Close",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock-left .dock-tab",
+  "n": 10,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "dock:layers",
+   "dock:toolbox"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock-left .dock-tab",
+   "text": "Cue Cards",
+   "fg": "#1d2024",
+   "bg": "#1d2024",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock-left .tb-tool",
+  "n": 8,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light"
+  ],
+  "surfaces": [
+   "dock:toolbox"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock-left .tb-tool",
+   "text": "",
+   "fg": "#2e3542",
+   "bg": "#282a2f",
+   "value": 7.4,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover",
+  "el": ".dock-left .btn",
+  "n": 7,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dock:toolbox"
+  ],
+  "worst": {
+   "kind": "hover",
+   "el": ".dock-left .btn",
+   "text": "New Layer…",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".ribbon .rtab",
+  "n": 80,
+  "combos": [
+   "lite/classic-grey",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins",
+   "ribbon:Visualize"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".ribbon .rtab",
+   "text": "Select",
+   "fg": "#ffffff",
+   "bg": "#8f8f8f",
+   "value": 3.24,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".menu-item",
+  "n": 72,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".menu-item",
+   "text": "Re-center Here",
+   "fg": "#000000",
+   "bg": "#2e3542",
+   "value": 1.7,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".menu .menu-item",
+  "n": 52,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu",
+   "menu:help-menu",
+   "menu:persona-menu",
+   "menu:products-menu",
+   "menu:file-menu",
+   "menu:ws-menu-File",
+   "menu:ws-menu-Edit",
+   "menu:ws-menu-View"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".menu .menu-item",
+   "text": "Edit▸",
+   "fg": "#000000",
+   "bg": "#2e3542",
+   "value": 1.7,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".btn",
+  "n": 44,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s10-detect"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".btn",
+   "text": "Zoom to layer",
+   "fg": "#8ab4f8",
+   "bg": "#e1e6f5",
+   "value": 1.69,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".rtab",
+  "n": 40,
+  "combos": [
+   "lite/classic-grey",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".rtab",
+   "text": "Select",
+   "fg": "#ffffff",
+   "bg": "#8f8f8f",
+   "value": 3.24,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".ribbon .rbtn",
+  "n": 39,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins",
+   "ribbon:Visualize"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".ribbon .rbtn",
+   "text": "NearestBilinearBicubicLanczos-",
+   "fg": "#000000",
+   "bg": "#2e3542",
+   "value": 1.7,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "hover-text",
+  "el": ".rbtn",
+  "n": 20,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "hover-text",
+   "el": ".rbtn",
+   "text": "NearestBilinearBicubicLanczos-",
+   "fg": "#000000",
+   "bg": "#2e3542",
+   "value": 1.7,
+   "need": 4.5
+  }
+ },
+ {
+  "kind": "state",
+  "el": "dock-tabs > button.dock-tab.active[id]",
+  "n": 12,
+  "combos": [
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "dock:layers",
+   "dock:toolbox",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair"
+  ],
+  "worst": {
+   "kind": "state",
+   "el": "dock-tabs > button.dock-tab.active[data-id=\"dock:panel:layers\"]",
+   "against": "dock-tabs > button.dock-tab[data-id=\"dock:panel:cues\"]",
+   "fg": "#ffffff",
+   "bg": "#e4e4e4",
+   "value": 9.4,
+   "need": 12,
+   "weightOnly": true
+  }
+ },
+ {
+  "kind": "state",
+  "el": "tb-row > button.btn.on",
+  "n": 10,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dock:spectral"
+  ],
+  "worst": {
+   "kind": "state",
+   "el": "tb-row > button.btn.on",
+   "against": "tb-row > button.btn",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12,
+   "weightOnly": false
+  }
+ },
+ {
+  "kind": "state",
+  "el": "prefs-tabs > button.btn.active",
+  "n": 10,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dialog:prefs"
+  ],
+  "worst": {
+   "kind": "state",
+   "el": "prefs-tabs > button.btn.active",
+   "against": "prefs-tabs > button.btn",
+   "fg": "#282a2f",
+   "bg": "#282a2f",
+   "value": 0,
+   "need": 12,
+   "weightOnly": true
+  }
+ },
+ {
+  "kind": "state",
+  "el": "rtab-set > button.rtab.rtab-ctx[id]",
+  "n": 10,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Visualize",
+   "ribbon:Enhance",
+   "ribbon:Search",
+   "ribbon:Analyze",
+   "context-menu@s1-image"
+  ],
+  "worst": {
+   "kind": "state",
+   "el": "rtab-set > button.rtab.rtab-ctx[data-id=\"ribbon:tab:visualize\"]",
+   "against": "rtab-set > button.rtab.rtab-ctx[data-id=\"ribbon:tab:enhance\"]",
+   "fg": "#4a4a4a",
+   "bg": "#3a4049",
+   "value": 7.6,
+   "need": 12,
+   "weightOnly": false
+  }
+ },
+ {
+  "kind": "state",
+  "el": "prefs-tree > li.sel",
+  "n": 2,
+  "combos": [
+   "lite/classic-print",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dialog:prefs"
+  ],
+  "worst": {
+   "kind": "state",
+   "el": "prefs-tree > li.sel",
+   "against": "prefs-tree > li",
+   "fg": "#d9d9d9",
+   "bg": "#e6e6e6",
+   "value": 4.6,
+   "need": 12,
+   "weightOnly": true
+  }
+ },
+ {
+  "kind": "text",
+  "el": "menu-item > span.menu-label",
+  "n": 334,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu",
+   "menu:main-menu > File",
+   "menu:main-menu > Edit",
+   "menu:main-menu > View",
+   "menu:main-menu > Geospatial",
+   "menu:main-menu > Tools",
+   "menu:main-menu > Add-Ins",
+   "menu:main-menu > Help"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "menu-item > span.menu-label",
+   "text": "Edit",
+   "fg": "#000000",
+   "bg": "#1d2024",
+   "value": 1.28,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "rbtn > span.rbtn-label",
+  "n": 291,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "rbtn > span.rbtn-label",
+   "text": "Linked Cursors…",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "menu-item > span.menu-key",
+  "n": 160,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu",
+   "menu:main-menu > File",
+   "menu:main-menu > Edit",
+   "menu:main-menu > View",
+   "menu:main-menu > Add-Ins",
+   "menu:main-menu > Help",
+   "menu:help-menu",
+   "context-menu@s1-image"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "menu-item > span.menu-key",
+   "text": "▸",
+   "fg": "#666666",
+   "bg": "#4d4426",
+   "value": 1.69,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "dlg-title > span.dlg-title-text",
+  "n": 100,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "dialog:qat-customize",
+   "dialog:packs",
+   "dialog:recent",
+   "dialog:save-options",
+   "dialog:prefs",
+   "dialog:project-props",
+   "New Template",
+   "dialog:history"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "dlg-title > span.dlg-title-text",
+   "text": "Customize Quick Access Toolbar",
+   "fg": "#000000",
+   "bg": "#1d2024",
+   "value": 1.28,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "tb-grid > button.tb-tool.tb-text[id]",
+  "n": 48,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "dock:toolbox"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "tb-grid > button.tb-tool.tb-text[data-id=\"tool:ext.point\"]",
+   "text": "•",
+   "fg": "#000000",
+   "bg": "#282a2f",
+   "value": 1.46,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "menu-item > span.menu-check",
+  "n": 41,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:persona-menu",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "menu-item > span.menu-check",
+   "text": "✓",
+   "fg": "#000000",
+   "bg": "#1d2024",
+   "value": 1.28,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "rtab-set > button.rtab.rtab-ctx[id]",
+  "n": 27,
+  "combos": [
+   "lite/classic-grey",
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Visualize",
+   "ribbon:Enhance",
+   "ribbon:Search",
+   "ribbon:Analyze",
+   "context-menu@s1-image",
+   "ribbon:Surface",
+   "context-menu@s2-dem",
+   "ribbon:Spectral"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "rtab-set > button.rtab.rtab-ctx[data-id=\"ribbon:tab:visualize\"]",
+   "text": "Visualize",
+   "fg": "#000000",
+   "bg": "#282a2f",
+   "value": 1.46,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "tabs > button.tab[id]",
+  "n": 24,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "dialog:dsm-extract"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "tabs > button.tab[data-id=\"dsm:tab:0\"]",
+   "text": "Input",
+   "fg": "#ffffff",
+   "bg": "#f0f0f0",
+   "value": 1.14,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "gwin-title > span.gwin-title-text",
+  "n": 10,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "gwin-title > span.gwin-title-text",
+   "text": "Multiport_1 (U - Unclassified)",
+   "fg": "#000000",
+   "bg": "#1d2024",
+   "value": 1.28,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "ribbon-tabs > button.rtab.active[id]",
+  "n": 8,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "ribbon-tabs > button.rtab.active[data-id=\"ribbon:tab:home\"]",
+   "text": "Home",
+   "fg": "#000000",
+   "bg": "#282a2f",
+   "value": 1.46,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "whatsnew > h4",
+  "n": 6,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:whatsnew"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "whatsnew > h4",
+   "text": "Added",
+   "fg": "#e3e3e3",
+   "bg": "#717171",
+   "value": 3.79,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "rslider-wrap > span.rslider-label",
+  "n": 5,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:Enhance"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "rslider-wrap > span.rslider-label",
+   "text": "Brightness",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "div > p.muted",
+  "n": 4,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:tri-solutions",
+   "dialog:mcp-servers"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "div > p.muted",
+   "text": "No solutions yet.",
+   "fg": "#cdcdcd",
+   "bg": "#717171",
+   "value": 3.08,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "rinput-wrap > span.rinput-label",
+  "n": 4,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "ribbon:Home"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "rinput-wrap > span.rinput-label",
+   "text": "Jump to Coordinate:",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "dlg-body > p.muted",
+  "n": 2,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:recent"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "dlg-body > p.muted",
+   "text": "No recent projects yet. Projects appear ",
+   "fg": "#cdcdcd",
+   "bg": "#717171",
+   "value": 3.08,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "text",
+  "el": "div > p.warn",
+  "n": 2,
+  "combos": [
+   "lite/classic-grey",
+   "lite/modern-grey"
+  ],
+  "surfaces": [
+   "dialog:fmv-basis"
+  ],
+  "worst": {
+   "kind": "text",
+   "el": "div > p.warn",
+   "text": "Heuristic: the first time stamp falls on",
+   "fg": "#8a5a00",
+   "bg": "#717171",
+   "value": 1.21,
+   "need": 4.5,
+   "overImage": false
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "rgroup > div.rgroup-caption",
+  "n": 528,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light"
+  ],
+  "surfaces": [
+   "chrome",
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "rgroup > div.rgroup-caption",
+   "against": "parent",
+   "fg": "#1d2024",
+   "bg": "#1c1e22",
+   "value": 1,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "dlg > div.dlg-title",
+  "n": 288,
+  "combos": [
+   "lite/classic-m3-light",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dialog:qat-customize",
+   "dialog:packs",
+   "dialog:recent",
+   "dialog:save-options",
+   "dialog:prefs",
+   "dialog:project-props",
+   "New Template",
+   "dialog:history"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "dlg > div.dlg-title",
+   "against": "parent",
+   "fg": "#e7e8ee",
+   "bg": "#ededf4",
+   "value": 2,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "dock-body > div.dock-content",
+  "n": 168,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dock:catalog",
+   "dock:convert",
+   "dock:layers",
+   "dock:toolbox",
+   "dock:cues",
+   "dock:menlog",
+   "dock:jobs",
+   "dock:netlog"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "dock-body > div.dock-content",
+   "against": "parent",
+   "fg": "#16181c",
+   "bg": "#16181c",
+   "value": 0,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "dock-tabs > button.dock-tab.active[id]",
+  "n": 112,
+  "combos": [
+   "lite/classic-grey",
+   "lite/classic-print",
+   "lite/modern-grey",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "dock:catalog",
+   "dock:convert",
+   "dock:layers",
+   "dock:toolbox",
+   "dock:cues",
+   "dock:menlog",
+   "dock:jobs",
+   "dock:netlog"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "dock-tabs > button.dock-tab.active[data-id=\"dock:panel:catalog\"]",
+   "against": "parent",
+   "fg": "#a3a3a3",
+   "bg": "#a1a1a1",
+   "value": 0.8,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "body > div.dlg[id]",
+  "n": 96,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "tool:pixel-matrix",
+   "tool:tone-curve",
+   "tool:histogram-editor",
+   "dialog:blend",
+   "tool:fmv-klv",
+   "dialog:qat-customize",
+   "dialog:packs",
+   "dialog:recent"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "body > div.dlg[data-id=\"dialog:pixel-matrix\"]",
+   "against": "under dock-panel > div.lm-list",
+   "fg": "#111318",
+   "bg": "#16181c",
+   "value": 2.4,
+   "edge": 5.9,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "toast > button.btn.btn-small",
+  "n": 78,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "toasts",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s10-detect"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "toast > button.btn.btn-small",
+   "against": "parent",
+   "fg": "#2b2f36",
+   "bg": "#2b2f36",
+   "value": 0,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "dock > div.dock-title",
+  "n": 56,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "dock:catalog",
+   "dock:convert",
+   "dock:layers",
+   "dock:toolbox",
+   "dock:cues",
+   "dock:menlog",
+   "dock:jobs",
+   "dock:netlog"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "dock > div.dock-title",
+   "against": "parent",
+   "fg": "#1d2024",
+   "bg": "#16181c",
+   "value": 3.9,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "radial > button.radial-item[id]",
+  "n": 53,
+  "combos": [
+   "lite/modern-dark"
+  ],
+  "surfaces": [
+   "radial@s1-image",
+   "radial@s2-dem",
+   "radial@s3-msi",
+   "radial@s4-sar",
+   "radial@s5-pair",
+   "radial@s6-stereo",
+   "radial@s8-video",
+   "radial@s9-vector"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "radial > button.radial-item[data-id=\"radial:nav.whole\"]",
+   "against": "under body > div.radial[data-id=\"radial\"]",
+   "fg": "#282a2f",
+   "bg": "#2b2b2b",
+   "value": 3.3,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "dock-tabs > button.dock-tab[id]",
+  "n": 48,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print"
+  ],
+  "surfaces": [
+   "chrome",
+   "dock:layers",
+   "dock:toolbox",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "dock-tabs > button.dock-tab[data-id=\"dock:panel:cues\"]",
+   "against": "parent",
+   "fg": "#1d2024",
+   "bg": "#16181c",
+   "value": 3.9,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "gwin > div.statusbar[id]",
+  "n": 40,
+  "combos": [
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light"
+  ],
+  "surfaces": [
+   "chrome",
+   "context-menu@s1-image",
+   "context-menu@s2-dem",
+   "context-menu@s3-msi",
+   "context-menu@s4-sar",
+   "context-menu@s5-pair",
+   "context-menu@s6-stereo",
+   "context-menu@s8-video"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "gwin > div.statusbar[data-id=\"status:mp_mvsowr2l13dood\"]",
+   "against": "parent",
+   "fg": "#ededf4",
+   "bg": "#ededf4",
+   "value": 0,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "radial > button.radial-item.off[id]",
+  "n": 19,
+  "combos": [
+   "lite/modern-dark"
+  ],
+  "surfaces": [
+   "radial@s1-image",
+   "radial@s2-dem",
+   "radial@s3-msi",
+   "radial@s4-sar",
+   "radial@s8-video",
+   "radial@s9-vector",
+   "radial@s10-detect"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "radial > button.radial-item.off[data-id=\"radial:cmp.swiper\"]",
+   "against": "under body > div.radial[data-id=\"radial\"]",
+   "fg": "#282a2f",
+   "bg": "#2b2b2b",
+   "value": 3.3,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "pal-backdrop > div.pal[id]",
+  "n": 4,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "palette"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "pal-backdrop > div.pal[data-id=\"palette\"]",
+   "against": "under body > div.pal-backdrop",
+   "fg": "#1e1e1e",
+   "bg": "#1f1f1f",
+   "value": 0.5,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "body > div.dlg",
+  "n": 3,
+  "combos": [
+   "lite/classic-dark"
+  ],
+  "surfaces": [
+   "New Template",
+   "Open from URL",
+   "Add 2D Bookmark"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "body > div.dlg",
+   "against": "under body > div.dlg-backdrop",
+   "fg": "#2b2b2b",
+   "bg": "#232323",
+   "value": 3.7,
+   "edge": 0.6,
+   "need": 6
+  }
+ },
+ {
+  "kind": "tier",
+  "el": "body > div.tip2",
+  "n": 1,
+  "combos": [
+   "lite/classic-dark"
+  ],
+  "surfaces": [
+   "tooltip"
+  ],
+  "worst": {
+   "kind": "tier",
+   "el": "body > div.tip2",
+   "against": "under desktop > div.splitter.splitter-v",
+   "fg": "#20242a",
+   "bg": "#2b2b2b",
+   "value": 5.8,
+   "edge": 0,
+   "need": 6
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "rcol > button.rbtn.rbtn-s[id] svg",
+  "n": 248,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "ribbon:Select",
+   "ribbon:Draw",
+   "ribbon:Geospatial",
+   "ribbon:Products",
+   "ribbon:View",
+   "ribbon:Add-Ins",
+   "ribbon:Visualize"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "rcol > button.rbtn.rbtn-s[data-id=\"cmd:link.cursors\"] svg",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "menu > div.menu-item[id] svg",
+  "n": 122,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "menu:main-menu > File",
+   "menu:main-menu > Edit",
+   "menu:main-menu > View",
+   "menu:main-menu > Geospatial",
+   "menu:main-menu > Tools",
+   "menu:main-menu > Add-Ins",
+   "menu:main-menu > Help",
+   "menu:help-menu"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "menu > div.menu-item[data-id=\"file.recent\"] svg",
+   "fg": "#000000",
+   "bg": "#1d2024",
+   "value": 1.28,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "dlg-title > button.dlg-x svg",
+  "n": 100,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "dialog:qat-customize",
+   "dialog:packs",
+   "dialog:recent",
+   "dialog:save-options",
+   "dialog:prefs",
+   "dialog:project-props",
+   "New Template",
+   "dialog:history"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "dlg-title > button.dlg-x svg",
+   "fg": "#000000",
+   "bg": "#1d2024",
+   "value": 1.28,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "tb-grid > button.tb-tool[id] svg",
+  "n": 56,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-m3-dark",
+   "lite/modern-dark",
+   "lite/modern-m3-dark"
+  ],
+  "surfaces": [
+   "dock:toolbox"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "tb-grid > button.tb-tool[data-id=\"cmd:draw.point\"] svg",
+   "fg": "#000000",
+   "bg": "#282a2f",
+   "value": 1.46,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "rgroup-items > button.rbtn.rbtn-l[id] svg",
+  "n": 41,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "chrome",
+   "ribbon:Home",
+   "ribbon:Select",
+   "ribbon:View",
+   "ribbon:Add-Ins",
+   "ribbon:Visualize",
+   "ribbon:Enhance",
+   "ribbon:Analyze"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "rgroup-items > button.rbtn.rbtn-l[data-id=\"cmd:sel.graphics\"] svg",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "dvr > select.dvr-rate[id]",
+  "n": 20,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "context-menu@s8-video",
+   "dvr@s8-video"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "dvr > select.dvr-rate[data-id=\"video-rate\"]",
+   "what": "input boundary",
+   "fg": "#444444",
+   "bg": "#151515",
+   "value": 1.87,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "wb-bar > select.wb-method",
+  "n": 10,
+  "combos": [
+   "lite/classic-dark",
+   "lite/classic-grey",
+   "lite/classic-m3-dark",
+   "lite/classic-m3-light",
+   "lite/classic-print",
+   "lite/modern-dark",
+   "lite/modern-grey",
+   "lite/modern-m3-dark",
+   "lite/modern-m3-light",
+   "lite/modern-print"
+  ],
+  "surfaces": [
+   "whiteboard"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "wb-bar > select.wb-method",
+   "what": "input boundary",
+   "fg": "#555555",
+   "bg": "#262626",
+   "value": 2.03,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "rsplit > button.rbtn.rbtn-s[id] svg",
+  "n": 3,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:View",
+   "ribbon:Feature",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "rsplit > button.rbtn.rbtn-s[data-id=\"cmd:win.split\"] svg",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 3
+  }
+ },
+ {
+  "kind": "ui",
+  "el": "rsplit > button.rsplit-caret[id] svg",
+  "n": 3,
+  "combos": [
+   "lite/classic-m3-dark"
+  ],
+  "surfaces": [
+   "ribbon:View",
+   "ribbon:Feature",
+   "context-menu@s9-vector"
+  ],
+  "worst": {
+   "kind": "ui",
+   "el": "rsplit > button.rsplit-caret[data-id=\"cmd:win.split:menu\"] svg",
+   "fg": "#000000",
+   "bg": "#1c1e22",
+   "value": 1.26,
+   "need": 3
+  }
+ }
+]

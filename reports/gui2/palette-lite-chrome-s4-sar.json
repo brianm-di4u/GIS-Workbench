@@ -1769,6 +1769,16 @@
   "tab": "palette",
   "id": "lai.find",
   "outcome": "ran",
+  "dialogs": [
+   "dialog:lai-find"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of lai.find",
+  "id": "dialog:lai-find ▸ Cancel",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1778,8 +1788,7 @@
   "id": "lai.search",
   "outcome": "ran",
   "dialogs": [
-   "dialog:lai-search",
-   "dialog:lai-find"
+   "dialog:lai-search"
   ],
   "toasts": [],
   "problems": []
@@ -1833,7 +1842,9 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 16-bit TIFF: 985 × 1024 px, 1 band, 16-bit, with a Curves preset×"
+  ],
   "problems": []
  },
  {
@@ -1841,9 +1852,7 @@
   "id": "hub.glb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: 16-bit TIFF: 985 × 1024 px, 1 band, 16-bit, with a Curves preset×"
-  ],
+  "toasts": [],
   "problems": []
  }
 ]

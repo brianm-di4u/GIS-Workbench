@@ -325,7 +325,31 @@
  },
  {
   "tab": "menu:View",
-  "id": "Theme ▸ Grey (default)",
+  "id": "Theme ▸ Follow System",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Theme ▸ Light",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Theme ▸ Dark (Material)",
+  "outcome": "clicked",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "menu:View",
+  "id": "Theme ▸ Grey",
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [],

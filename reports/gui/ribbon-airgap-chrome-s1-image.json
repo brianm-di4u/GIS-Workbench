@@ -1140,8 +1140,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×",
-   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×"
   ],
   "problems": []
  },
@@ -1151,7 +1150,9 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
   "problems": []
  },
  {
@@ -1496,7 +1497,7 @@
   "tab": "view",
   "id": "display.theme:menu",
   "kind": "caret",
-  "outcome": "menu ×5",
+  "outcome": "menu ×6",
   "dialogs": [],
   "toasts": [],
   "problems": []

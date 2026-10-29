@@ -8,6 +8,7 @@ import { WorkerPool } from './workers/pool.js';
 import { Renderer } from './render/renderer.js';
 import { detectRunMode } from './host/runmode.js';
 import { Desktop } from './shell/desktop.js';
+import { applyTheme, watchSystemTheme } from './shell/theme.js';
 import { Keys } from './input/keys.js';
 import { Palette } from './shell/palette.js';
 import { Tooltips } from './shell/tooltip.js';
@@ -51,7 +52,8 @@ async function boot() {
   addEventListener('error', (e) => e.error && unexpected('uncaught error', e.error));
   addEventListener('unhandledrejection', (e) => unexpected('unhandled promise', e.reason));
   document.documentElement.dataset.layout = app.layoutMode();
-  document.documentElement.dataset.theme = app.prefs.get('theme') ?? (app.layoutMode() === 'modern' ? 'm3-dark' : 'grey');
+  applyTheme(app);
+  watchSystemTheme(app);
 
   const canvas = h('canvas', { id: 'gl', 'aria-hidden': 'true' });
   document.body.prepend(canvas);
