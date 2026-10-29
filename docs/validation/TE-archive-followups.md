@@ -28,15 +28,18 @@ These items came out of the archive expansion of 2026-10-28 (branch `te-archive`
   - Landsat 8 C2 L1 product bundle (`landsat8-c2-l1tp-044034-20240820-tierb`).
   - EO-1 Hyperion L1T, 242 bands (`eo1-hyperion-l1t-043034-20170312`), a second destripe target.
   - Mechanics: EE `/scene/downloadoptions/<datasetId>/<entityId>` lists the products, and navigating the signed-in tab to `/download/<productId>/<entityId>/` downloads one. Chrome holds back further downloads while a large one runs, so retry any that did not land.
-- **ASI:** PRISMA L2D (`prisma-l2d-sample`).
-- **DLR EOWEB:** EnMAP full scene (`enmap-l2a-full-scene`).
-- **ESA:** Third Party Missions.
+- **ASI:** PRISMA L2D (`prisma-l2d-sample`). Registration requested 2026-10-29; on hold pending ASI approval.
+- **DLR EOWEB:** EnMAP full scene (`enmap-l2a-full-scene`). Registration requested 2026-10-29; on hold.
+- **ESA:** Third Party Missions. Registration requested 2026-10-29; on hold.
 - **Airbus:** sample form, for a second DIMAP v2 producer plus Pléiades tri-stereo.
-- **xView / xBD.**
+- **xView:** account made 2026-10-29, but `api-main.xviewdataset.org/download` answered HTTP 503 on two tries that day, so the download page gives no links. Retry; then take the tgz set (training images, training labels, validation images) and check the published SHA-1s.
+- **xBD (xview2.org):** no account yet.
 
 **Forms that email a link:**
 - ECOSTRESS spectral library (`hsi-ecostress-speclib-tierb`).
-- IEEE US3D Jacksonville lidar (`dem-us3d-jacksonville-lidar-tierb`).
+
+**IEEE DataPort (open access, owner session): done 2026-10-29.**
+- DFC2019 Track 4 (US3D airborne lidar, `dem-us3d-jacksonville-lidar-tierb`): all five archives, with the 10-tile validation set and its per-point class truth unpacked. Track 4 is ASCII points in tile-local metres, not GeoTIFF DSMs, so it cannot serve as DSM truth under the Track 2 imagery. The app refuses each tile with the no-CRS message (ingest run `archive8`, 10/10 as expected). `census.py` now needs at least three columns before it classes a lidar `.txt` as `pc.ascii`, so the one-column `_CLS.txt` truth files are not counted.
 
 ## App defects found in passing
 

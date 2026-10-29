@@ -1,12 +1,12 @@
 # T&E data catalogue
 
-Generated 2026-10-29T14:11:03.680Z from `build/campaign/corpus.json` (303 items). Tier A = anonymous download by `build/campaign/fetch.mjs`; tier B = free login, downloaded by the owner into `TE-corpus/<id>/`; RS = already held in `Research/samples`; U = field data a user supplied, referenced in place and used for testing only (OD-09).
+Generated 2026-10-29T16:13:30.409Z from `build/campaign/corpus.json` (303 items). Tier A = anonymous download by `build/campaign/fetch.mjs`; tier B = free login, downloaded by the owner into `TE-corpus/<id>/`; RS = already held in `Research/samples`; U = field data a user supplied, referenced in place and used for testing only (OD-09).
 
 | Area | Items | Size | On disk |
 |---|---|---|---|
 | 3d | 20 | 95.6 MB | 20 |
 | control | 3 | 1.4 MB | 3 |
-| dem | 38 | 21.56 GB | 37 |
+| dem | 37 | 21.56 GB | 37 |
 | eo | 38 | 29.26 GB | 38 |
 | fmv | 15 | 3.94 GB | 15 |
 | frames | 4 | 1.84 GB | 4 |
@@ -14,7 +14,7 @@ Generated 2026-10-29T14:11:03.680Z from `build/campaign/corpus.json` (303 items)
 | gmti | 4 | 9.4 MB | 3 |
 | hsi | 19 | 27.64 GB | 16 |
 | landsat | 4 | 4.41 GB | 4 |
-| lidar | 17 | 2.20 GB | 17 |
+| lidar | 18 | 3.25 GB | 18 |
 | live | 11 | 0 kB | 0 |
 | naip | 4 | 15.57 GB | 4 |
 | nitf | 22 | 12.22 GB | 22 |
@@ -69,7 +69,6 @@ Generated 2026-10-29T14:11:03.680Z from `build/campaign/corpus.json` (303 items)
 | `derived-hgt-variants` | SRTM HGT (1201² and 3601² Int16 big-endian, EGM2008 heights (Copernicus source)) | [Derived from cop-dem-glo30-n39w106, srtm-skadi-n39w106-n40w106](build/campaign/derive_archive.py) | Copernicus DEM licence (free use with attribution); SRTM public domain | A | 54.8 MB | yes |
 | `derived-qmesh-geodetic` | Cesium quantized-mesh 1.0 + layer.json (Uncompressed .terrain files; serve with the test server for 3d.qmesh) | [Derived from cop-dem-glo30-n39w106](build/campaign/derive_archive.py) | Copernicus DEM licence (free use with attribution) | A | 4.5 MB | yes |
 | `derived-dted-level2` | DTED Level 2 (GDAL DTED writer (UHL/DSI/ACC records, WGS84); real USGS DTED2 remains tier B) | [Derived from cop-dem-glo30-n39w106, usgs-3dep-13-n40w106, srtm-skadi-n39w106-n40w106](build/campaign/derive_archive.py) | Copernicus DEM licence; public domain (USGS 3DEP, SRTM) | A | 77.9 MB | yes |
-| `dem-us3d-jacksonville-lidar-tierb` | GeoTIFF DSM / class rasters (Airborne lidar DSM and semantic labels over Jacksonville and Omaha (~100 km2)) | [IEEE DataPort (Open Access)](https://ieee-dataport.org/open-access/urban-semantic-3d-dataset) | CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Servic | B | 0 kB | no |
 | `dem-under-vegas` | GeoTIFF/COG (1 arcsec (~30 m), Float32, EGM2008 heights, DSM; per tile: DEM COG + WBM water mask + XML metadata) | [ESA / Copernicus (AWS Open Data)](https://registry.opendata.aws/copernicus-dem/) | Copernicus DEM GLO-30 Public / GLO-90 licence (free for the general public): https://datas | A | 40.0 MB | yes |
 | `dem-under-atlanta` | GeoTIFF/COG (1 arcsec (~30 m), Float32, EGM2008 heights, DSM; per tile: DEM COG + WBM water mask + XML metadata) | [ESA / Copernicus (AWS Open Data)](https://registry.opendata.aws/copernicus-dem/) | Copernicus DEM GLO-30 Public / GLO-90 licence (free for the general public): https://datas | A | 90.8 MB | yes |
 | `dem-under-libya-floods` | GeoTIFF/COG (1 arcsec (~30 m), Float32, EGM2008 heights, DSM; per tile: DEM COG + WBM water mask + XML metadata) | [ESA / Copernicus (AWS Open Data)](https://registry.opendata.aws/copernicus-dem/) | Copernicus DEM GLO-30 Public / GLO-90 licence (free for the general public): https://datas | A | 20.5 MB | yes |
@@ -233,6 +232,7 @@ Generated 2026-10-29T14:11:03.680Z from `build/campaign/corpus.json` (303 items)
 | `rs-lidar-las-laz-copc` | LAS/LAZ/COPC | [https://github.com/PDAL/PDAL/tree/master/test/data/las](https://github.com/PDAL/PDAL/tree/master/test/data/las) | Test data from PDAL (BSD-style licence, Hobu Inc.), laspy (BSD-2-Clause) and copc.js (MIT, | RS | 9.0 MB | yes |
 | `derived-pc-ascii` | ASCII point cloud (≤200k points each) | [Derived from rs-lidar-las-laz-copc, ieee-dfc2018-houston](build/campaign/derive_archive.py) | PDAL/laspy test data (BSD); CC BY 4.0 (IEEE DataPort Open Access) | A | 31.9 MB | yes |
 | `derived-las-pdrf-matrix` | LAS 1.2–1.4 (Waveform packet fields zeroed (no waveform data)) | [Derived from rs-lidar-las-laz-copc, ieee-dfc2018-houston](build/campaign/derive_archive.py) | PDAL/laspy test data (BSD); CC BY 4.0 (IEEE DataPort Open Access) | A | 189.1 MB | yes |
+| `dem-us3d-jacksonville-lidar-tierb` | ASCII point cloud (x,y,z,intensity,return number) + per-point class text (500 m tiles in tile-local metres (no CRS); classes 2 ground, 5 high vegetation, 6 building, 9 water, 17 bridge deck, 0 unlabelled. Validation set (10 tiles) unpacked; training (110 tiles + truth) and test (10 tiles) kept as archives) | [IEEE DataPort (Open Access)](https://ieee-dataport.org/open-access/data-fusion-contest-2019-dfc2019) | CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Servic | B | 1.05 GB | yes |
 | `lidar-bpf-pdal-v3` | BPF v3 (NGA Binary Point Format) (All headers read "BPF!0003" (verified by download, 2026-10-28). Interleave byte (offset 13) 0/1/2 and compression byte (offset 14) 0/2/3 vary across files.) | [PDAL (Point Data Abstraction Library)](https://github.com/PDAL/PDAL/tree/537aeeb55bc8e45864d6b5006ab8dfa195cae1d3/test/data/bpf) | BSD (PDAL LICENSE.txt) | A | 525 kB | yes |
 | `lidar-ascii-pdal-text` | ASCII point cloud (.pts, .xyz, .txt) (.pts: count line then "x y z intensity r g b"; .xyz: headerless "x y z"; utm17_*.txt: "X,Y,Z" header, CSV; autzen-point-format-3.txt: quoted mixed-order header; crlf_test.txt: CRLF line ends) | [PDAL (Point Data Abstraction Library)](https://github.com/PDAL/PDAL/tree/537aeeb55bc8e45864d6b5006ab8dfa195cae1d3/test/data) | BSD (PDAL LICENSE.txt) | A | 14 kB | yes |
 | `lidar-ascii-open3d-pts` | ASCII point cloud (.pts) (bunnyData.pts: count line + "x y z"; point_cloud_sample1/2.pts: count line + "x y z intensity r g b") | [Open3D (isl-org/open3d_downloads)](https://github.com/isl-org/open3d_downloads/tree/d47d39d67e5a532840ff094b04d325c11b53c8af/tests) | MIT (repository LICENSE); bunnyData.pts is the Stanford Bunny (Stanford 3D Scanning Reposi | A | 883 kB | yes |

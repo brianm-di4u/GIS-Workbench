@@ -493,8 +493,13 @@ def classify(it, rel, p):
         return ['qmesh.tile']
     if e == '.bpf':
         return ['pc.bpf']
-    if e in ('.xyz', '.pts') or (e == '.txt' and it.get('area') == 'lidar'):
+    if e in ('.xyz', '.pts'):
         return ['pc.ascii']
+    if e == '.txt' and it.get('area') == 'lidar':
+        # a point row needs x, y, z; per-point class truth (US3D *_CLS.txt) is one column
+        with open(p, 'rb') as fh:
+            row = fh.readline(4096).decode('latin-1').strip()
+        return ['pc.ascii'] if len(re.split(r'[,;\t| ]+', row)) >= 3 else []
     if e in ('.ts', '.m2ts', '.mts', '.mpg', '.mpeg', '.mp4'):
         return video_keys(p)
     if e in ('.klv',) or (e == '.bin' and it.get('area') == 'fmv'):

@@ -1,6 +1,6 @@
 # T&E archive coverage
 
-Generated 2026-10-29T14:07:10.863Z by `build/campaign/coverage.mjs` from `corpus.json` (303 items), `reports/campaign/format-census.json` (4905 files), `formats.json` and `function-needs.json`. Field data (tier U) is excluded from all counts. Refused formats count negative samples.
+Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus.json` (303 items), `reports/campaign/format-census.json` (4930 files), `formats.json` and `function-needs.json`. Field data (tier U) is excluded from all counts. Refused formats count negative samples.
 
 **Formats:** 175/179 at minimum. **Function data roles:** 74/76 filled.
 
@@ -135,7 +135,7 @@ Generated 2026-10-29T14:07:10.863Z by `build/campaign/coverage.mjs` from `corpus
 | `las.pdrf9` | LAS PDRF 9 | variant | 3 | 3 | 2 | yes | derived-las-pdrf-matrix/autzen_pdrf9_las14.las; derived-las-pdrf-matrix/houston_c1_pdrf9_las14.las; derived-las-pdrf-5-9/autzen_pdrf9_las14.las |
 | `las.pdrf10` | LAS PDRF 10 | variant | 3 | 3 | 2 | yes | derived-las-pdrf-matrix/autzen_pdrf10_las14.las; derived-las-pdrf-matrix/houston_c1_pdrf10_las14.las; lidar-las-version-matrix/laspy/fullwave.laz |
 | `pc.bpf` | BPF v3 | read | 14 | 3 | 1 | yes | lidar-bpf-pdal-v3/autzen-utm.bpf; lidar-bpf-pdal-v3/autzen-dd.bpf; lidar-bpf-pdal-v3/autzen-utm-chipped-25.bpf |
-| `pc.ascii` | ASCII point cloud | read | 40 | 3 | 4 | yes | derived-pc-ascii/autzen.xyz; derived-pc-ascii/autzen.pts; derived-pc-ascii/test1_4.xyz |
+| `pc.ascii` | ASCII point cloud | read | 50 | 3 | 4 | yes | derived-pc-ascii/autzen.xyz; derived-pc-ascii/autzen.pts; derived-pc-ascii/test1_4.xyz |
 | `vec.geojson` | GeoJSON | read | 159 | 3 | 13 | yes | rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson; rs-vector-fx12-synthetic/fx12.geojson; derived-vector-variants/nhd_waterbody_epsg4269.geojson |
 | `vec.geojson.jsonext` | GeoJSON with .json extension | variant | 12 | 3 | 5 | yes | derived-vector-variants/ne_places.json; derived-vector-variants/ne_rivers.json; derived-vector-variants/nhd_flowline_sample.json |
 | `vec.geojson.legacycrs` | GeoJSON legacy crs member | variant | 114 | 3 | 6 | yes | rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson; derived-vector-variants/nhd_waterbody_epsg4269.geojson; derived-vector-variants/ne_countries_epsg3857.geojson |
@@ -234,18 +234,18 @@ Generated 2026-10-29T14:07:10.863Z by `build/campaign/coverage.mjs` from `corpus
 | sensor | tri.mip, tri.tiepoints, tri.adjust, tri.solutions | `pair:gcp` | 3/2 (derived-control-points, frames-odm-bellus-gcp, frames-odm-copr-gcp) | yes |
 | sensor | tri.mip, tri.tiepoints, tri.adjust, tri.solutions | `pair:checkpoints` | 4/2 (derived-control-points, control-ngs-co-golden-x48y441, control-usgs-3dep-co-drcog2020-checkpoints, control-ngs-vegas) | yes |
 | sensor | tri.frame | `pair:calibration` frame stills + camera calibration + GPS/IMU | 4/2 (s2-l2a-mtd-10seh-pc, frames-odm-bellus-gcp, frames-odm-aukerman, frames-odm-seneca) | yes |
-| sensor | ortho.true | `pair:dsm-truth` | 5/2 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, dem-us3d-jacksonville-lidar-tierb, …) | yes |
+| sensor | ortho.true | `pair:dsm-truth` | 4/2 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, ieee-dfc2018-houston) | yes |
 | stereo | stereo.open, stereo.manager, stereo.finder, stereo.metrics, stereo.align, stereo.epipolar, stereo.snap, stereo.track | `pair:stereo-mate` | 6/4 (rs-nitf-wv3-mvs-stereo-chips, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29, …) | yes |
 | stereo | stereo.open, stereo.manager, stereo.finder, stereo.metrics, stereo.align, stereo.epipolar, stereo.snap, stereo.track | `pair:dem-under` | 27/2 (rs-dem-derived-s35w059, derived-nitf-rsm, dem-under-vegas, dem-under-atlanta, …) | yes |
 | terrain | dem.select, dem.folder, dem.useterrain | `fmt:dted.l0` | 7/3 | yes |
 | terrain | dem.select, dem.folder, dem.useterrain | `fmt:dted.l1` | 6/3 | yes |
 | terrain | dem.select, dem.folder, dem.useterrain | `fmt:dted.l2` | 6/3 | yes |
 | terrain | dem.select, dem.folder, dem.useterrain | `fmt:hgt` | 6/3 | yes |
-| terrain | dem.extract | `pair:dsm-truth` | 5/2 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, dem-us3d-jacksonville-lidar-tierb, …) | yes |
+| terrain | dem.extract | `pair:dsm-truth` | 4/2 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, ieee-dfc2018-houston) | yes |
 | terrain | dem.extract | `pair:stereo-mate` | 6/2 (rs-nitf-wv3-mvs-stereo-chips, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29, …) | yes |
 | terrain | dem.diff, dem.volume | `pair:dem-epoch` | 2/2 (cop-dem-glo30-n39w106, usgs-3dep-13-n40w106) | yes |
 | terrain | dem.accuracy | `pair:checkpoints` ≥30 surveyed checkpoints (ASPRS 2023) | 4/1 (derived-control-points, control-ngs-co-golden-x48y441, control-usgs-3dep-co-drcog2020-checkpoints, control-ngs-vegas) | yes |
-| terrain | los.hlz, dem.groundfilter | `pair:dsm-truth` | 5/1 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, dem-us3d-jacksonville-lidar-tierb, …) | yes |
+| terrain | los.hlz, dem.groundfilter | `pair:dsm-truth` | 4/1 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, ieee-dfc2018-houston) | yes |
 | terrain | 3d.qmesh | `fmt:qmesh.geodetic` | 6/3 | yes |
 | sar | sar.acd, sar.ccd, sar.pairs | `pair:repeat-pass` coherent short-baseline pairs | 1/2 (sar-umbra-stack-silver-peak) | **no** |
 | sar | sar.pauli | `fmt:sar.sicd.quadpol` | 4/3 | yes |

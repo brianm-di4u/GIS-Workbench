@@ -25503,6 +25503,236 @@
 "keys": []
 },
 {
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "Test-Track4.zip",
+"role": "archive",
+"bytes": 66201827,
+"mtime": 1793290217,
+"keys": [
+"zip"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "Train-Track4-Truth.zip",
+"role": "archive",
+"bytes": 8555076,
+"mtime": 1793290207,
+"keys": [
+"zip"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "Train-Track4.zip",
+"role": "archive",
+"bytes": 629991702,
+"mtime": 1793290220,
+"keys": [
+"zip"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "Validate-Track4-Truth.zip",
+"role": "archive",
+"bytes": 953017,
+"mtime": 1793290197,
+"keys": [
+"zip"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "Validate-Track4.zip",
+"role": "archive",
+"bytes": 67649831,
+"mtime": 1793290203,
+"keys": [
+"zip"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/JAX_114_PC3.txt",
+"role": "primary",
+"bytes": 9349685,
+"mtime": 1545337594,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/JAX_215_PC3.txt",
+"role": "primary",
+"bytes": 22558134,
+"mtime": 1545337598,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/JAX_250_PC3.txt",
+"role": "primary",
+"bytes": 25743986,
+"mtime": 1545337600,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/JAX_328_PC3.txt",
+"role": "primary",
+"bytes": 17281405,
+"mtime": 1545337596,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/JAX_342_PC3.txt",
+"role": "primary",
+"bytes": 10264276,
+"mtime": 1545337594,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/OMA_094_PC3.txt",
+"role": "primary",
+"bytes": 14582731,
+"mtime": 1545337600,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/OMA_099_PC3.txt",
+"role": "primary",
+"bytes": 17635877,
+"mtime": 1545337596,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/OMA_241_PC3.txt",
+"role": "primary",
+"bytes": 47845435,
+"mtime": 1545337604,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/OMA_243_PC3.txt",
+"role": "primary",
+"bytes": 42832801,
+"mtime": 1545337608,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4/OMA_290_PC3.txt",
+"role": "primary",
+"bytes": 52421967,
+"mtime": 1545337608,
+"keys": [
+"pc.ascii"
+]
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/JAX_114_CLS.txt",
+"role": "truth",
+"bytes": 759139,
+"mtime": 1545333994,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/JAX_215_CLS.txt",
+"role": "truth",
+"bytes": 1872929,
+"mtime": 1545334000,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/JAX_250_CLS.txt",
+"role": "truth",
+"bytes": 2118874,
+"mtime": 1545334003,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/JAX_328_CLS.txt",
+"role": "truth",
+"bytes": 1421713,
+"mtime": 1545333997,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/JAX_342_CLS.txt",
+"role": "truth",
+"bytes": 844096,
+"mtime": 1545333995,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/OMA_094_CLS.txt",
+"role": "truth",
+"bytes": 1154420,
+"mtime": 1545334002,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/OMA_099_CLS.txt",
+"role": "truth",
+"bytes": 1375150,
+"mtime": 1545333998,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/OMA_241_CLS.txt",
+"role": "truth",
+"bytes": 3750037,
+"mtime": 1545334010,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/OMA_243_CLS.txt",
+"role": "truth",
+"bytes": 3361742,
+"mtime": 1545334013,
+"keys": []
+},
+{
+"id": "dem-us3d-jacksonville-lidar-tierb",
+"file": "val/Track4-Truth/OMA_290_CLS.txt",
+"role": "truth",
+"bytes": 4076392,
+"mtime": 1545334013,
+"keys": []
+},
+{
 "id": "dem-under-vegas",
 "file": "Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif",
 "role": "primary",

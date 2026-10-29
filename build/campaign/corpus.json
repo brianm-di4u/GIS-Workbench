@@ -1,7 +1,7 @@
 {
  "version": 1,
  "budgetBytes": 2199023255552,
- "generated": "2026-10-29T14:07:00.335Z",
+ "generated": "2026-10-29T16:13:30.336Z",
  "items": [
   {
    "id": "rs-dem-derived-s35w059",
@@ -21472,29 +21472,227 @@
   },
   {
    "id": "dem-us3d-jacksonville-lidar-tierb",
-   "area": "dem",
-   "title": "JHU/APL Urban Semantic 3D (US3D, DFC2019) Jacksonville lidar DSM truth for the CORE3D WorldView-3 imagery: IEEE DataPort",
+   "area": "lidar",
+   "title": "JHU/APL Urban Semantic 3D (US3D, DFC2019 Track 4) airborne lidar point clouds with per-point ASPRS class truth, Jacksonville FL and Omaha NE: IEEE DataPort",
    "source": "IEEE DataPort (Open Access)",
-   "landing": "https://ieee-dataport.org/open-access/urban-semantic-3d-dataset",
+   "landing": "https://ieee-dataport.org/open-access/data-fusion-contest-2019-dfc2019",
    "licence": "CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Service)",
    "attribution": "Bosch, M., Foster, K., Christie, G., Wang, S., Hager, G.D., Brown, M., 2019, Semantic Stereo for Incidental Satellite Images (US3D); JHU/APL",
    "tier": "B",
-   "format": "GeoTIFF DSM / class rasters",
-   "profile": "Airborne lidar DSM and semantic labels over Jacksonville and Omaha (~100 km2)",
-   "files": [],
-   "sign": null,
-   "notes": "CORE3D-Public-Data in the SpaceNet bucket has no lidar. Download through the owner IEEE DataPort session (signed URLs), like ieee-dfc2019-track2-val. Pairs as dsm-truth with nitf-core3d-jacksonville-wv3.",
-   "feeds": [
-    "dem.compare",
-    "stereo"
+   "format": "ASCII point cloud (x,y,z,intensity,return number) + per-point class text",
+   "profile": "500 m tiles in tile-local metres (no CRS); classes 2 ground, 5 high vegetation, 6 building, 9 water, 17 bridge deck, 0 unlabelled. Validation set (10 tiles) unpacked; training (110 tiles + truth) and test (10 tiles) kept as archives",
+   "files": [
+    {
+     "name": "Test-Track4.zip",
+     "url": null,
+     "bytes": 66201827,
+     "sha256": "2ed5cdaf38bdf3a2b76bb682376359f89addbbb8b09c165e70370135a4ebd4da",
+     "role": "archive"
+    },
+    {
+     "name": "Train-Track4-Truth.zip",
+     "url": null,
+     "bytes": 8555076,
+     "sha256": "c492e8a819f2ab1a0a2e476868f98d6468f16a85ba1675cf34d747b443d0b40c",
+     "role": "archive"
+    },
+    {
+     "name": "Train-Track4.zip",
+     "url": null,
+     "bytes": 629991702,
+     "sha256": "d6e55c39e7707bb8d9f321a80c74e3ec99fa0c8a7c22fdd69244af1d04f5620f",
+     "role": "archive"
+    },
+    {
+     "name": "Validate-Track4-Truth.zip",
+     "url": null,
+     "bytes": 953017,
+     "sha256": "c699a328df562457a3532a9512ef159ea481f9e3964e7ed571cdf087c2c0ed52",
+     "role": "archive"
+    },
+    {
+     "name": "Validate-Track4.zip",
+     "url": null,
+     "bytes": 67649831,
+     "sha256": "c2f88e175b85910b05189665a909e7c89f8ac7f48127020a30b8b8d17cdfbe84",
+     "role": "archive"
+    },
+    {
+     "name": "val/Track4/JAX_114_PC3.txt",
+     "url": null,
+     "bytes": 9349685,
+     "sha256": "699c1f0bfb8ca3608bd2a80fe49fba13edaa8c8f894c3aabdf228b62d852798b",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/JAX_215_PC3.txt",
+     "url": null,
+     "bytes": 22558134,
+     "sha256": "a370084961ad999c8486685d562d99cbead80720b56c86b02e9204b69426ac34",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/JAX_250_PC3.txt",
+     "url": null,
+     "bytes": 25743986,
+     "sha256": "113b0eceec009da8dd9506bbe68785e9e6c689e80be7624e39785f77ab60efd5",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/JAX_328_PC3.txt",
+     "url": null,
+     "bytes": 17281405,
+     "sha256": "b7c59c3dab60032a4a673ade5b91ced0fd84b074996b38413a6b3d259f131464",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/JAX_342_PC3.txt",
+     "url": null,
+     "bytes": 10264276,
+     "sha256": "044770df2ae197e3228d731ea940f016a6bad1c77b19e228a4a8cb2e38546e48",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/OMA_094_PC3.txt",
+     "url": null,
+     "bytes": 14582731,
+     "sha256": "9ef8bfea970d702f0a38a927b39bd713f03fa83d22b67f347ae9b9725ec17372",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/OMA_099_PC3.txt",
+     "url": null,
+     "bytes": 17635877,
+     "sha256": "11fdd23b5b62e79e5f95fcd9754fda226a5f777fcc6b8fc4f8d4079d1c4409a9",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/OMA_241_PC3.txt",
+     "url": null,
+     "bytes": 47845435,
+     "sha256": "0846d4bc402a84764d429170a9c4da4fbb9d4d2321e0c00181985f0dbd2842fa",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/OMA_243_PC3.txt",
+     "url": null,
+     "bytes": 42832801,
+     "sha256": "90fe2ec6d3e8828b222a02de78bb646fd424ae3b9a49f9072e4f7a75c2b5f519",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4/OMA_290_PC3.txt",
+     "url": null,
+     "bytes": 52421967,
+     "sha256": "f909170069164de86f4f17b663747f7e57d8a37ca574eb66af0ae0cb869899a5",
+     "role": "primary",
+     "from": "Validate-Track4.zip"
+    },
+    {
+     "name": "val/Track4-Truth/JAX_114_CLS.txt",
+     "url": null,
+     "bytes": 759139,
+     "sha256": "fe188ef540673dedb1aa0eb0a54aea47b7b77f248284eea3e07d0464dd85352a",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/JAX_215_CLS.txt",
+     "url": null,
+     "bytes": 1872929,
+     "sha256": "27d9e2b239b45a739aa6c532fb6be3b6533c09a90aa416a49cd9b792f4df16d3",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/JAX_250_CLS.txt",
+     "url": null,
+     "bytes": 2118874,
+     "sha256": "be19c4133e2efb56e8c98395e9d1602173d41779001b91961321558cffd04b98",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/JAX_328_CLS.txt",
+     "url": null,
+     "bytes": 1421713,
+     "sha256": "804c5126940e3a2783f46f8b487688780c52a8a52ea828f09ca81708f1b66d75",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/JAX_342_CLS.txt",
+     "url": null,
+     "bytes": 844096,
+     "sha256": "98bd019bf3091b9c37ca97006b68abd901afe5be03180a28cb7373c63362cacd",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/OMA_094_CLS.txt",
+     "url": null,
+     "bytes": 1154420,
+     "sha256": "12cf29e5fe48f8aeb5478ccb186d16a6962d8e6306519d47869b71b9d35d0a3f",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/OMA_099_CLS.txt",
+     "url": null,
+     "bytes": 1375150,
+     "sha256": "6ba1221a9548f8588b5a73d3790855cb5634f4099b830962b73fa67672deb8c5",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/OMA_241_CLS.txt",
+     "url": null,
+     "bytes": 3750037,
+     "sha256": "4993d9df470b7b17cda9bc8e600779e5b7ecaa712248799b91de7af13169b70f",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/OMA_243_CLS.txt",
+     "url": null,
+     "bytes": 3361742,
+     "sha256": "f1a503b3aeca62858f4dcd5ad3d909bceebfee1f079a163c1f5fd361264562b2",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    },
+    {
+     "name": "val/Track4-Truth/OMA_290_CLS.txt",
+     "url": null,
+     "bytes": 4076392,
+     "sha256": "970c48588c36834e94fc4c8a66e90c79449a4e83aed33f8442b2d876ad633d4f",
+     "role": "truth",
+     "from": "Validate-Track4-Truth.zip"
+    }
    ],
-   "covers": [],
+   "sign": null,
+   "notes": "Downloaded through the owner's IEEE DataPort session on 2026-10-29 (DFC2019 page, s3-ajax-download links): Validate-Track4, Validate-Track4-Truth, Train-Track4, Train-Track4-Truth, Test-Track4. Track 4 is lidar points, not the GeoTIFF DSMs of Tracks 1-3, and its coordinates are tile-local, so it cannot be draped under the Track 2 WorldView-3 tiles (JAX_163 is not in Track 4 either). Second independent producer of pc.ascii (the others are PDAL-written); CLS files are ground-filter and classification truth. Ingest (run archive8, 10/10): the app refuses each tile with the no-CRS message (\"the coordinate system is not set: give the EPSG code ...\"), the expected path for tile-local coordinates; loading them needs an EPSG chosen by hand, which places them only nominally.",
+   "feeds": [
+    "ingest",
+    "pc.groundfilter",
+    "pc.classes",
+    "pc.dtm"
+   ],
+   "covers": [
+    "fmt:pc.ascii"
+   ],
    "pairs": [
     {
-     "role": "dsm-truth",
-     "with": [
-      "ieee-dfc2019-track2-val"
-     ]
+     "role": "labels",
+     "with": []
     }
    ],
    "origin": "download"

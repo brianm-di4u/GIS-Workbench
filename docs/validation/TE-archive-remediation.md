@@ -113,3 +113,4 @@ All runs on 2026-10-29 against the working tree (nothing committed); campaign ru
 | Traceability (`build/traceability.mjs`) | 188 of 188 R0+R1 requirements tested; every last result passing (171 passing, 17 passing by file), no Must without a passing result |
 | Format and function coverage (`coverage.mjs`) | 174 of 179 keys filled; the 5 open keys are tier B or unobtainable (`TE-archive-followups.md`) |
 | USGS EarthExplorer downloads, ingest (c01, run 7) | 414 of 414 passed: SRTM DTED2 ×3 + DTED1, CIB-10 GeoTIFF ×3, Landsat 8 C2 L1 bundle, Hyperion L1T (242 bands), and 148 RPF frames + A.TOC derived from CIB-10. Coverage is now 175 of 179 (`rpf.toc` closed; `rpf.cib` is unobtainable as RPF) |
+| IEEE DFC2019 Track 4 (US3D lidar), ingest (c01, run 8) | 10 of 10 passed: each tile-local ASCII tile is refused with the no-CRS message, as expected. Coverage unchanged at 175 of 179 |
