@@ -1491,7 +1491,7 @@
  {
   "tab": "palette",
   "id": "los.p2p",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1535,7 +1535,7 @@
  {
   "tab": "palette",
   "id": "los.hlz",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:hlz"
   ],
@@ -1571,7 +1571,7 @@
  {
   "tab": "palette",
   "id": "dem.edit",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:dem-edit"
   ],
@@ -1605,7 +1605,7 @@
  {
   "tab": "palette",
   "id": "dem.accuracy",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1639,7 +1639,7 @@
  {
   "tab": "palette",
   "id": "msi.bandmath",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:bandmath"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1816,7 +1816,7 @@
  {
   "tab": "palette",
   "id": "lai.contrast",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×"
@@ -1826,7 +1826,7 @@
  {
   "tab": "palette",
   "id": "hub.psd",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
@@ -1844,7 +1844,7 @@
  {
   "tab": "palette",
   "id": "hub.pdf",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
@@ -1854,7 +1854,7 @@
  {
   "tab": "palette",
   "id": "hub.svg",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []

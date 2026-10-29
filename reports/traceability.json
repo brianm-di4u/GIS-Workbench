@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generated": "2026-10-29T07:22:42.667Z",
+  "generated": "2026-10-29T13:51:42.022Z",
   "releases": [
    "R0",
    "R1"
@@ -15,7 +15,7 @@
    "passing (file)": 17
   },
   "mustWithoutPassingResult": [],
-  "testResults": 5593,
+  "testResults": 5665,
   "families": {
    "PT": {
     "ids": 12,
@@ -23,15 +23,15 @@
    },
    "SCN": {
     "ids": 20,
-    "failing": 0
+    "failing": 1
    },
    "AT": {
     "ids": 40,
-    "failing": 0
+    "failing": 1
    },
    "PRF": {
     "ids": 7,
-    "failing": 1
+    "failing": 0
    },
    "TE": {
     "ids": 34,
@@ -848,6 +848,7 @@
    "code": [
     "app/src/features/navigation.js",
     "app/src/shell/commands.js",
+    "app/src/shell/theme.js",
     "app/src/styles/10-base.css",
     "build/tokens.mjs"
    ],
@@ -937,9 +938,7 @@
    "release": "R1",
    "impl": "JS",
    "verify": "E2E + GC",
-   "code": [
-    "app/src/styles/20-shell.css"
-   ],
+   "code": [],
    "tests": [
     "tests/e2e/field-formats.spec.js",
     "tests/e2e/look.spec.js"
@@ -2027,7 +2026,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 9,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },
@@ -2052,7 +2051,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 9,
+    "passed": 5,
     "failed": 0,
     "skipped": 0
    },

@@ -1,8 +1,8 @@
 # T&E functional coverage matrix
 
-Generated 2026-10-29T06:50:04.585Z from `app/src/shell/commands.js`, `ribbon-data.js` and `build/campaign/corpus.json`.
+Generated 2026-10-29T12:25:18.349Z from `app/src/shell/commands.js`, `ribbon-data.js` and `build/campaign/corpus.json`.
 
-Commands 495; implemented 495; oracle-checked 40; with no eligible corpus data 0.
+Commands 496; implemented 496; oracle-checked 40; with no eligible corpus data 0.
 
 | Command | Label | REQ | Rel | Spec | Context | Impl | Data items | Check |
 |---|---|---|---|---|---|---|---|---|
@@ -48,7 +48,8 @@ Commands 495; implemented 495; oracle-checked 40; with no eligible corpus data 0
 | `ribbon.minimise` | Minimise the Ribbon | REQ-UI-03 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.layers` | Layer Manager | REQ-UI-18 | R0 | c17-workspace | — | yes | 0 | smoke |
 | `dock.toolbox` | ToolBox | REQ-EXT-01 | R1 | c17-workspace | — | yes | 0 | smoke |
-| `theme.grey` | Grey (default) | REQ-UI-12 | R0 | c02-display | — | yes | 0 | smoke |
+| `theme.system` | Follow System | REQ-UI-12 | R4 | c02-display | — | yes | 0 | smoke |
+| `theme.grey` | Grey | REQ-UI-12 | R0 | c02-display | — | yes | 0 | smoke |
 | `theme.dark` | Dark | REQ-UI-12 | R0 | c02-display | — | yes | 0 | smoke |
 | `theme.print` | Print | REQ-UI-12 | R0 | c02-display | — | yes | 0 | smoke |
 | `view.uiscale` | UI Scale… | REQ-UI-17 | R1 | c02-display | — | yes | 0 | smoke |

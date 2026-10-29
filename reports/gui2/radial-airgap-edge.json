@@ -65,7 +65,9 @@
   "tab": "radial analyst",
   "id": "radial:ai.smartselect",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: AI & Exploitation Analyst: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
   "problems": []
  },
  {

@@ -135,9 +135,7 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -146,6 +144,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Full roam off×",
    "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
   ],
   "problems": []

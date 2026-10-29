@@ -104,9 +104,7 @@
   "id": "radial:cmp.swiper",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Swiper: the upper image is shown left of the line, which follows the cursor.×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -115,6 +113,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
+   "info: Swiper: the upper image is shown left of the line, which follows the cursor.×",
    "info: Quick chip 21HUB5333383207: copied to the clipboard and added to the session deck (2).Export deck×"
   ],
   "problems": []

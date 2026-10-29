@@ -1,8 +1,8 @@
 # Traceability — R0, R1
 
-Generated 2026-10-29T07:22:42.667Z. 188 requirements; 188 tested.
+Generated 2026-10-29T13:51:42.022Z. 188 requirements; 188 tested.
 
-Last results from 5593 test results: 171 passing; 17 passing (file). Must requirements without a passing result: 0.
+Last results from 5665 test results: 171 passing; 17 passing (file). Must requirements without a passing result: 0.
 
 | Requirement | P | Rel | Status | Last result | Tests | Code |
 |---|---|---|---|---|---|---|
@@ -41,11 +41,11 @@ Last results from 5593 test results: 171 passing; 17 passing (file). Must requir
 | REQ-UI-09 | M | R1 | tested | passing (6✓ 0✗) | r1-musts.spec.js | dialogs.js, prefs-ui.js, keys.js +2 |
 | REQ-UI-10 | S | R1 | tested | passing (4✓ 0✗) | closeout-ui.spec.js | dialogs.js, navigation.js, commands.js |
 | REQ-UI-11 | S | R1 | tested | passing (4✓ 0✗) | closeout-ui.spec.js | app.js, dialogs.js, commands.js +1 |
-| REQ-UI-12 | M | R1 | tested | passing (10✓ 0✗) | look.spec.js | navigation.js, commands.js, 10-base.css +1 |
+| REQ-UI-12 | M | R1 | tested | passing (10✓ 0✗) | look.spec.js | navigation.js, commands.js, theme.js +2 |
 | REQ-UI-13 | M | R1 | tested | passing (2✓ 0✗) | look.spec.js | panels.js, pane.js, 20-shell.css |
 | REQ-UI-14 | S | R1 | tested | passing (4✓ 0✗) | closeout-ui.spec.js, field-formats.spec.js | dialogs.js, 40-overlays.css |
 | REQ-UI-15 | S | R1 | tested | passing (2✓ 0✗) | help.test.js | dialogs.js, commands.js |
-| REQ-UI-16 | M | R1 | tested | passing (8✓ 0✗) | field-formats.spec.js, look.spec.js | 20-shell.css |
+| REQ-UI-16 | M | R1 | tested | passing (8✓ 0✗) | field-formats.spec.js, look.spec.js |  |
 | REQ-UI-17 | M | R1 | tested | passing (4✓ 0✗) | r1-musts.spec.js | prefs-ui.js, commands.js, tokens.mjs |
 | REQ-UI-18 | M | R1 | tested | passing (14✓ 0✗) | r1-musts.spec.js | panels.js, views.js, commands.js |
 | REQ-UI-19 | S | R1 | tested | passing (4✓ 0✗) | shoulds.spec.js | workspace-tools.js, commands.js, mappane.js |

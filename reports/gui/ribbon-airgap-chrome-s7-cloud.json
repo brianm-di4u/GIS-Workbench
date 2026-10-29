@@ -384,7 +384,8 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
+   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×",
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
   ],
   "problems": []
  },
@@ -396,9 +397,7 @@
   "dialogs": [
    "dialog:pc-colourise"
   ],
-  "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

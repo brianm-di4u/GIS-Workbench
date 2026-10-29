@@ -1,14 +1,12 @@
 {
  "summary": {
-  "generated": "2026-10-29T06:50:04.585Z",
-  "commands": 495,
-  "implemented": 495,
+  "generated": "2026-10-29T12:25:18.349Z",
+  "commands": 496,
+  "implemented": 496,
   "placeholders": [],
   "unplaced": [
    "packs.manage",
    "ribbon.minimise",
-   "theme.m3light",
-   "theme.m3dark",
    "hud.flicker",
    "patrol.next",
    "patrol.prev",
@@ -30,7 +28,7 @@
   "noEligibleData": [],
   "bySpec": {
    "c01-ingest": 11,
-   "c02-display": 76,
+   "c02-display": 77,
    "c03-enhance": 36,
    "c04-geodesy": 2,
    "c05-sensor": 19,
@@ -822,8 +820,25 @@
    "oracle": null
   },
   {
+   "id": "theme.system",
+   "label": "Follow System",
+   "req": "REQ-UI-12",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
    "id": "theme.grey",
-   "label": "Grey (default)",
+   "label": "Grey",
    "req": "REQ-UI-12",
    "rel": "R0",
    "spec": "c02-display",
@@ -13343,7 +13358,9 @@
    "rel": "R4",
    "spec": "c02-display",
    "implemented": true,
-   "locations": [],
+   "locations": [
+    "workspace-menu"
+   ],
    "context": [],
    "needs": null,
    "data": [],
@@ -13358,7 +13375,9 @@
    "rel": "R4",
    "spec": "c02-display",
    "implemented": true,
-   "locations": [],
+   "locations": [
+    "workspace-menu"
+   ],
    "context": [],
    "needs": null,
    "data": [],

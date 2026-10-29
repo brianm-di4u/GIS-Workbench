@@ -209,8 +209,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
-   "info: Full roam off×"
+   "warn: Jump to Point: type a coordinate first×"
   ],
   "problems": []
  },
@@ -219,7 +218,9 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {

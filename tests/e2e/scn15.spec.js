@@ -133,7 +133,8 @@ test('SCN-15 AT-15.2 REQ-FMV-07 REQ-SNS-20 FX-10 footprints within 1 m of the tr
   expect(res['fx10.ts'][0].source).toMatch(/Items 82–89/);
   expect(res['fx10_b.ts'][0].source).toMatch(/Items 26–33/);
   expect(res['fx10_c.ts'][0].source).toMatch(/computed \(KLV frame model at 10\.\d m HAE\)/);
-  // The map draws the active clip's footprint.
+  // The map draws the active clip's footprint (on its next render pass, so wait for it).
+  await frame.waitForFunction(() => window.gisworkbench.fmv.lastMap?.footprint, null, { timeout: 10000 });
   const m = await frame.evaluate(() => window.gisworkbench.fmv.lastMap);
   expect(m.footprint.length).toBe(4);
   expect(logs).toEqual([]);

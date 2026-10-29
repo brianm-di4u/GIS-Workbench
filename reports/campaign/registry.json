@@ -1,9 +1,9 @@
 {
- "when": "2026-10-29T06:50:04.226Z",
+ "when": "2026-10-29T12:25:18.005Z",
  "build": {
-  "id": "cf4c0fe4bdc4cded",
-  "version": "2.0.1",
-  "date": "2026-10-29T06:47:46.262Z",
+  "id": "13680cc21fb2c910",
+  "version": "2.0.3",
+  "date": "2026-10-29T12:23:50.098Z",
   "dev": false,
   "defaultModel": "claude-opus-5-5",
   "profile": "standard"
@@ -26,8 +26,8 @@
    "implemented": 93
   },
   "R4": {
-   "total": 48,
-   "implemented": 48
+   "total": 49,
+   "implemented": 49
   }
  },
  "commands": [
@@ -326,8 +326,15 @@
    "implemented": true
   },
   {
+   "id": "theme.system",
+   "label": "Follow System",
+   "req": "REQ-UI-12",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
    "id": "theme.grey",
-   "label": "Grey (default)",
+   "label": "Grey",
    "req": "REQ-UI-12",
    "rel": "R0",
    "implemented": true

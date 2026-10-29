@@ -171,8 +171,7 @@
   "id": "radial:cmp.swiper",
   "dialogs": [],
   "toasts": [
-   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×",
-   "info: Mensuration & Photogrammetry Pro: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+   "warn: Recipe step 2 failed: Find objects (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
   ],
   "problems": []
  },
@@ -180,7 +179,9 @@
   "tab": "radial pro",
   "id": "radial:los.p2p",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Mensuration & Photogrammetry Pro: workspace set. Tap Space over an image for its tools; Ctrl+K finds anything.×"
+  ],
   "problems": []
  },
  {

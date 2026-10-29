@@ -72,7 +72,11 @@
   "id": "dialog:jump ▸ Jump",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+   "info: Stereo closed: one of its two images is no longer open.×",
+   "info: Snapshot: 1 file(s) embedded×"
+  ],
   "problems": []
  },
  {
@@ -112,9 +116,7 @@
   "id": "nav.zoomout",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -130,7 +132,9 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
+  ],
   "problems": []
  },
  {
@@ -170,9 +174,7 @@
   "id": "rot.north",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -180,9 +182,7 @@
   "id": "rot.shadows",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -190,9 +190,7 @@
   "id": "rot.mouse",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -200,7 +198,9 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -216,7 +216,10 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×",
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -234,9 +237,7 @@
   "id": "aoi.box",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -244,9 +245,7 @@
   "id": "aoi.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -262,7 +261,9 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -278,7 +279,9 @@
   "id": "draw.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -2048,9 +2051,7 @@
   "id": "glb.toggle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: 4.2 MB COG written×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2060,7 +2061,9 @@
   "dialogs": [
    "dialog:lai-find"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: 4.2 MB COG written×"
+  ],
   "problems": []
  },
  {
@@ -2068,7 +2071,9 @@
   "id": "dialog:lai-find ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Building the 3D view…×"
+  ],
   "problems": []
  },
  {
@@ -2086,7 +2091,9 @@
   "id": "dialog:lai-search ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
+  ],
   "problems": []
  },
  {
@@ -2094,9 +2101,7 @@
   "id": "lai.contrast",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 2.5, gamma 0.72 (Tone -24).×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2105,6 +2110,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Auto Contrast: CLAHE clip 2.5, gamma 0.72 (Tone -24).×",
    "info: Auto Align (AI): matching learned keypoints…×"
   ],
   "problems": []
@@ -2138,9 +2144,7 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2148,7 +2152,9 @@
   "id": "hub.glb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
+  ],
   "problems": []
  },
  {
@@ -2156,9 +2162,7 @@
   "id": "hub.usdz",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Photoshop: 987 × 836 px, 3 layers (Stretch (Levels), Graphics)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2167,7 +2171,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: 16-bit TIFF: 987 × 836 px, 1 band, 16-bit, with a Curves preset×"
+   "info: Photoshop: 987 × 836 px, 3 layers (Stretch (Levels), Graphics)×"
   ],
   "problems": []
  }
