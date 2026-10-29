@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:04:46.945Z",
+ "key": "derived-pptx-templates/branded_navy_16x9.pptx",
+ "item": "derived-pptx-templates",
+ "file": "branded_navy_16x9.pptx",
+ "format": "PPTX / POTX",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120095,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

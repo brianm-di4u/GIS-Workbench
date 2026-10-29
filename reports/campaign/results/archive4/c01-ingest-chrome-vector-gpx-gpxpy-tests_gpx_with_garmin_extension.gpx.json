@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:56.187Z",
+ "key": "vector-gpx-gpxpy-tests/gpx_with_garmin_extension.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "gpx_with_garmin_extension.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: gpx_with_garmin_extension.gpx: 1 waypoint(s), 0 route(s), 0 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 62,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

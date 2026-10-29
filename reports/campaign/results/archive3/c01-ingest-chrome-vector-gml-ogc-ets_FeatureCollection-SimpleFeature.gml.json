@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:12.742Z",
+ "key": "vector-gml-ogc-ets/FeatureCollection-SimpleFeature.gml",
+ "item": "vector-gml-ogc-ets",
+ "file": "FeatureCollection-SimpleFeature.gml",
+ "format": "GML 3.2",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: FeatureCollection-SimpleFeature: 2 feature(s) from GML×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 81,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

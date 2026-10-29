@@ -1,0 +1,25 @@
+{
+ "spec": "c15-products",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:08.466Z",
+ "key": "meta.redact",
+ "id": "meta.redact",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Redact / Split Image"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

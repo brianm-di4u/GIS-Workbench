@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:06.981Z",
+ "key": "3d-gltf-threejs-meshopt-ktx2/coffeemat.glb",
+ "item": "3d-gltf-threejs-meshopt-ktx2",
+ "file": "coffeemat.glb",
+ "format": "GLB (glTF 2.0)",
+ "rendered": false,
+ "errors": [
+  "coffeemat.glb: KTX2 / Basis Universal textures (KHR_texture_basisu, required) are not decoded in this release; re-export with PNG or JPEG textures"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: coffeemat.glb: coffeemat.glb: KTX2 / Basis Universal textures (KHR_texture_basisu, required) are not decoded in this release; re-export with PNG or JPEG textures×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 147,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

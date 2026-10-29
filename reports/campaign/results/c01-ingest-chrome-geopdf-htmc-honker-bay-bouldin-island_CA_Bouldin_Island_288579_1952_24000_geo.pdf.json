@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:17:59.255Z",
+ "key": "geopdf-htmc-honker-bay-bouldin-island/CA_Bouldin_Island_288579_1952_24000_geo.pdf",
+ "item": "geopdf-htmc-honker-bay-bouldin-island",
+ "file": "CA_Bouldin_Island_288579_1952_24000_geo.pdf",
+ "format": "GeoPDF (TerraGo, /LGIDict)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "GeoPDF LGIDict: LGIDict projection PH / datum NAS-E is not read yet (UTM on NAD83, WGS 84 or NAD27 is)"
+ ],
+ "toasts": [
+  "toast-info: Opened CA_Bouldin_Island_288579_1952_24000_geo.pdf in 5297 ms (1 note in the import log)"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (298 objects; LGIDict; 270 images)",
+   "w": 7116,
+   "h": 8994,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 7675,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

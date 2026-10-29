@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:19:06.729Z",
+ "key": "naip-co-golden-x48y441-2023/m_3910515_ne_13_030_20230925_20240104.tif",
+ "item": "naip-co-golden-x48y441-2023",
+ "file": "m_3910515_ne_13_030_20230925_20240104.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened m_3910515_ne_13_030_20230925_20240104.tif in 562 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 19865,
+   "h": 25153,
+   "bands": 4,
+   "model": "Map (EPSG:26913)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1142,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:15.029Z",
+ "key": "derived-raster-negatives/naip_b1_hfa.img",
+ "item": "derived-raster-negatives",
+ "file": "naip_b1_hfa.img",
+ "format": "NetCDF-3 / HFA / PDF (negative)",
+ "rendered": false,
+ "errors": [
+  "ERDAS Imagine (HFA .img) is not read in this release; save it as GeoTIFF (e.g. gdal_translate -of COG)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: naip_b1_hfa.img: ERDAS Imagine (HFA .img) is not read in this release; save it as GeoTIFF (e.g. gdal_translate -of COG)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 71,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

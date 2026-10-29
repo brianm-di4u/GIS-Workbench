@@ -2679,6 +2679,7 @@
   "format": "EPT",
   "profile": "",
   "files": [],
+  "service": { "type": "ept", "url": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/CO_DRCOG_1_2020/ept.json", "cors": true, "editable": false },
   "notes": "ept.json 200 with Access-Control-Allow-Origin '*' (2026-10-27). Real EPT source for stream-pc tests, replacing the in-test synthetic EPT.",
   "feeds": [
    "online.add",

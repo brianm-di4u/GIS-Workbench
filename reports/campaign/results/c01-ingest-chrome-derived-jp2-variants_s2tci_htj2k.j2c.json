@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:36.377Z",
+ "key": "derived-jp2-variants/s2tci_htj2k.j2c",
+ "item": "derived-jp2-variants",
+ "file": "s2tci_htj2k.j2c",
+ "format": "JPEG 2000 (JP2 / J2K / HTJ2K)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened s2tci_htj2k.j2c in 51 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (codestream; 1024×1024×3, 8-bit, 5 resolution levels)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 641,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

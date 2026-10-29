@@ -5,6 +5,7 @@ node_modules/
 # Scratch builds (dist/ is committed: the released single-file app)
 dist-te/
 dist-te2/
+dist-archive/
 dist-gui/
 dist-live/
 dist-v200/

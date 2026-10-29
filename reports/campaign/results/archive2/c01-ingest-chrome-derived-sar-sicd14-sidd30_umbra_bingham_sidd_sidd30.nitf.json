@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:03:38.408Z",
+ "key": "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf",
+ "item": "derived-sar-sicd14-sidd30",
+ "file": "umbra_bingham_sidd_sidd30.nitf",
+ "format": "SICD 1.4.0 / 1.5 NITF, SIDD 3.0 NITF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened umbra_bingham_sidd_sidd30.nitf in 312 msZoom to layer×",
+  "toast-info: umbra_bingham_sidd_sidd30.nitf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SIDD  (MONO8I)",
+   "w": 7911,
+   "h": 7911,
+   "bands": 1,
+   "model": "SIDD PlaneProjection"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3171,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

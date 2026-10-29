@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:35.386Z",
+ "key": "pc.colour.elevation",
+ "id": "pc.colour.elevation",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-3dep-co-denver-2008-2x1/USGS_LPC_CO_DENVER_2008_000016.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

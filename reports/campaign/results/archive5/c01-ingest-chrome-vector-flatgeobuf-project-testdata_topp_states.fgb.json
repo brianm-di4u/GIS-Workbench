@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:20.743Z",
+ "key": "vector-flatgeobuf-project-testdata/topp_states.fgb",
+ "item": "vector-flatgeobuf-project-testdata",
+ "file": "topp_states.fgb",
+ "format": "FlatGeobuf",
+ "rendered": false,
+ "errors": [
+  "FlatGeobuf is written by Convert, not read yet; open the GeoJSON or GeoPackage version"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: topp_states.fgb: FlatGeobuf is written by Convert, not read yet; open the GeoJSON or GeoPackage version×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 35,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

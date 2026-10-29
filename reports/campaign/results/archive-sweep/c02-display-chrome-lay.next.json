@@ -1,0 +1,29 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:05:56.878Z",
+ "key": "lay.next",
+ "id": "lay.next",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: wv3_a_chip.ntf WV3CHIPA×"
+ ],
+ "errors": [],
+ "changed": [
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

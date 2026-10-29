@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:05.419Z",
+ "key": "vector-pmtiles-mvt-gdal-autotest/ne_10m_admin_0_france_with_leaf_dir.pmtiles",
+ "item": "vector-pmtiles-mvt-gdal-autotest",
+ "file": "ne_10m_admin_0_france_with_leaf_dir.pmtiles",
+ "format": "PMTiles v3, tile type 1 (MVT)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: ne_10m_admin_0_france_with_leaf_dir.pmtiles: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 86,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

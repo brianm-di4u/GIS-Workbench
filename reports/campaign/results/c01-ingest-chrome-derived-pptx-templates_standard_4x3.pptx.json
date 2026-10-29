@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:16:25.891Z",
+ "key": "derived-pptx-templates/standard_4x3.pptx",
+ "item": "derived-pptx-templates",
+ "file": "standard_4x3.pptx",
+ "format": "PPTX / POTX",
+ "rendered": false,
+ "errors": [
+  "ZIP container cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: standard_4x3.pptx: ZIP container cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 639,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

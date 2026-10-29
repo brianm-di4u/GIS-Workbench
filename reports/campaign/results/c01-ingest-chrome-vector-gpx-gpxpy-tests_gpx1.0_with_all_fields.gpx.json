@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:31:12.170Z",
+ "key": "vector-gpx-gpxpy-tests/gpx1.0_with_all_fields.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "gpx1.0_with_all_fields.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120077,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

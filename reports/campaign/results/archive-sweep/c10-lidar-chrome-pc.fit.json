@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:30.421Z",
+ "key": "pc.fit",
+ "id": "pc.fit",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "ept-data/0-0-0-0.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

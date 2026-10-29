@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:34:02.819Z",
+ "key": "raster-ojpeg-libtiff-negatives/ojpeg_chewey_subsamp21_multi_strip.tiff",
+ "item": "raster-ojpeg-libtiff-negatives",
+ "file": "ojpeg_chewey_subsamp21_multi_strip.tiff",
+ "format": "TIFF, Compression 6 (OJPEG)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened ojpeg_chewey_subsamp21_multi_strip.tiff in 47 ms",
+  "toast-error: ojpeg_chewey_subsamp21_multi_strip.tiff cannot be displayed: old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7"
+ ],
+ "layers": [
+  {
+   "error": "old-style JPEG compression (TIFF compression 6) is not supported; re-save with compression 7",
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 392,
+   "h": 575,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 102,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

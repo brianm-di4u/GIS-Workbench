@@ -1,0 +1,23 @@
+{
+ "spec": "c13-measure",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:49.138Z",
+ "key": "men.tracking",
+ "id": "men.tracking",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

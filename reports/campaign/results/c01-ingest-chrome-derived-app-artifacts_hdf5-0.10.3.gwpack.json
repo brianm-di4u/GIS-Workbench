@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:16:32.367Z",
+ "key": "derived-app-artifacts/hdf5-0.10.3.gwpack",
+ "item": "derived-app-artifacts",
+ "file": "hdf5-0.10.3.gwpack",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120458,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -96,7 +96,9 @@
   "id": "radial:hud.quickchip",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (2).Export deck×"
+  ],
   "problems": []
  },
  {
@@ -106,9 +108,7 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [
-   "info: Quick chip 11SNU4589917706: copied to the clipboard and added to the session deck (2).Export deck×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

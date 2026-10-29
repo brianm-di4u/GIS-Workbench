@@ -1,0 +1,26 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:24.812Z",
+ "key": "fmv.gmticolour",
+ "id": "fmv.gmticolour",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "archive input left fmv.gmticolour disabled; recipe data added: fx11.4607"
+ ],
+ "data": [
+  "FMV_Multiplexer_Tutorial/Custom_FMV_Field_Mappings.csv",
+  "fx11/fx11.4607"
+ ],
+ "openErrors": [
+  "no WKT column and no longitude/latitude columns"
+ ],
+ "requests": [],
+ "csp": []
+}

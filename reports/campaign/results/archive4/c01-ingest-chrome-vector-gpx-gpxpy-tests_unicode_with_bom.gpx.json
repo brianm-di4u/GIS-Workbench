@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:56.256Z",
+ "key": "vector-gpx-gpxpy-tests/unicode_with_bom.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "unicode_with_bom.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: unicode_with_bom.gpx: 1 waypoint(s), 0 route(s), 0 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 76,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

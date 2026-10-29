@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:27.442Z",
+ "key": "derived-vector-variants/nhd_waterbody_epsg4269.geojson",
+ "item": "derived-vector-variants",
+ "file": "nhd_waterbody_epsg4269.geojson",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "legacy \"crs\" member urn:ogc:def:crs:EPSG::4269: reprojected to WGS 84"
+ ],
+ "toasts": [
+  "toast-info: nhd_waterbody_epsg4269: 500 feature(s) from GeoJSON (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 500,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 201,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:21:39.214Z",
+ "key": "frames-odm-seneca/IMG_0514.jpg",
+ "item": "frames-odm-seneca",
+ "file": "IMG_0514.jpg",
+ "format": "JPEG stills (EXIF)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened IMG_0514.jpg in 207 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 3600,
+   "h": 2700,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 805,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

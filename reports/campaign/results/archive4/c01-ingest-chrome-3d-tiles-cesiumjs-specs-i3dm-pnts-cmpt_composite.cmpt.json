@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:33.804Z",
+ "key": "3d-tiles-cesiumjs-specs-i3dm-pnts-cmpt/composite.cmpt",
+ "item": "3d-tiles-cesiumjs-specs-i3dm-pnts-cmpt",
+ "file": "composite.cmpt",
+ "format": "3D Tiles 1.0 (i3dm, pnts, cmpt + tileset.json)",
+ "rendered": false,
+ "errors": [
+  "a 3D Tiles content tile (cmpt): open the whole tileset — its .3tz archive, or its tileset.json URL with 3D ▸ Add 3D Tiles"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: composite.cmpt: a 3D Tiles content tile (cmpt): open the whole tileset — its .3tz archive, or its tileset.json URL with 3D ▸ Add 3D Tiles×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 39,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

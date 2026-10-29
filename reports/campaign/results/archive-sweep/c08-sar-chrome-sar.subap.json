@@ -1,0 +1,26 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:09:12.401Z",
+ "key": "sar.subap",
+ "id": "sar.subap",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

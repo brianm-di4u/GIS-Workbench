@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:52.027Z",
+ "key": "derived-gtiff-variants/naip_gcps.tif",
+ "item": "derived-gtiff-variants",
+ "file": "naip_gcps.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip_gcps.tif in 39 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1024,
+   "h": 1024,
+   "bands": 4,
+   "model": "GCPs (16, EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1658,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

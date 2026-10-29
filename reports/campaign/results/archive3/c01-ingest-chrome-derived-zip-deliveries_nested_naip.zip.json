@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:25.109Z",
+ "key": "derived-zip-deliveries/nested_naip.zip",
+ "item": "derived-zip-deliveries",
+ "file": "nested_naip.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 1 of 2 files from the ZIP"
+ ],
+ "toasts": [
+  "toast-info: Opened naip_gcps.tif in 41 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1024,
+   "h": 1024,
+   "bands": 4,
+   "model": "GCPs (16, EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1737,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

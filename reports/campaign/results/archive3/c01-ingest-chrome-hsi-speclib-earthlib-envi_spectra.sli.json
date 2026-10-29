@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:20:12.477Z",
+ "key": "hsi-speclib-earthlib-envi/spectra.sli",
+ "item": "hsi-speclib-earthlib-envi",
+ "file": "spectra.sli",
+ "format": "ENVI Spectral Library (Float32 BSQ)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 7261 library spectra from spectra.sli, spectra.sli.hdr×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1370,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

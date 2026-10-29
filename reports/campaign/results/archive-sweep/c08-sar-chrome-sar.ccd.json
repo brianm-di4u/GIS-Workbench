@@ -1,0 +1,29 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:09:04.285Z",
+ "key": "sar.ccd",
+ "id": "sar.ccd",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Coherent Change Detection"
+ ],
+ "toasts": [
+  "toast-info: CCD: 1024 × 1024 in 2.6 s×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "fx07/fx07_a.nitf",
+  "fx07/fx07_b.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

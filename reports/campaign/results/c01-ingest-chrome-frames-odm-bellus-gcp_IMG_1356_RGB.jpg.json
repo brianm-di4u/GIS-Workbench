@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:18:01.807Z",
+ "key": "frames-odm-bellus-gcp/IMG_1356_RGB.jpg",
+ "item": "frames-odm-bellus-gcp",
+ "file": "IMG_1356_RGB.jpg",
+ "format": "JPEG frames + ODM gcp_list.txt",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened IMG_1356_RGB.jpg in 733 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 4048,
+   "h": 3048,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1566,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

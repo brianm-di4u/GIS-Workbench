@@ -1,0 +1,21 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:51.861Z",
+ "key": "sar.remap",
+ "id": "sar.remap",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-sar-complex-slc/umbra_slc_cfloat32.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

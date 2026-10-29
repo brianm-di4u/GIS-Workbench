@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:30.130Z",
+ "key": "vector-pmtiles-mvt-protomaps/unclustered.pmtiles",
+ "item": "vector-pmtiles-mvt-protomaps",
+ "file": "unclustered.pmtiles",
+ "format": "PMTiles v3, tile type 1 (MVT)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: unclustered.pmtiles: zoom 1–1 basemap from this computer (it works offline).×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 67,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

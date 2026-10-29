@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:18:28.803Z",
+ "key": "dem-under-atlanta-3dep/USGS_13_n34w085_20260326.tif",
+ "item": "dem-under-atlanta-3dep",
+ "file": "USGS_13_n34w085_20260326.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_13_n34w085_20260326.tif in 348 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10812,
+   "h": 10812,
+   "bands": 1,
+   "model": "Map (EPSG:4269, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 944,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:25.525Z",
+ "key": "derived-zip-deliveries/naip_nitf_delivery.zip",
+ "item": "derived-zip-deliveries",
+ "file": "naip_nitf_delivery.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 1 of 2 files from the ZIP"
+ ],
+ "toasts": [
+  "toast-info: Opened naip_ic_c8.ntf in 46 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1189,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

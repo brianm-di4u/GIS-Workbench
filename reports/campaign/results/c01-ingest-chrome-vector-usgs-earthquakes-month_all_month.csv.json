@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:24.219Z",
+ "key": "vector-usgs-earthquakes-month/all_month.csv",
+ "item": "vector-usgs-earthquakes-month",
+ "file": "all_month.csv",
+ "format": "GeoJSON FeatureCollection (Point, lon/lat/depth) + CSV (time,latitude,longitude,depth,mag,...)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: all_month: 9910 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 9910,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 340,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

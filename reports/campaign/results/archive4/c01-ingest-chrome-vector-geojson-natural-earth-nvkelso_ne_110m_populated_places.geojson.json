@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:46.542Z",
+ "key": "vector-geojson-natural-earth-nvkelso/ne_110m_populated_places.geojson",
+ "item": "vector-geojson-natural-earth-nvkelso",
+ "file": "ne_110m_populated_places.geojson",
+ "format": "GeoJSON FeatureCollection",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_110m_populated_places: 243 feature(s) from GeoJSON×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 243,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 83,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

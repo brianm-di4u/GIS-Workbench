@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:35:09.262Z",
+ "key": "3d-tiles-3tz-cesium-test-packages/tilesetA.3tz",
+ "item": "3d-tiles-3tz-cesium-test-packages",
+ "file": "tilesetA.3tz",
+ "format": "3D Tiles archive (.3tz, ZIP with @3dtilesIndex1@)",
+ "rendered": false,
+ "errors": [
+  "ZIP container cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: tilesetA.3tz: ZIP container cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 69,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

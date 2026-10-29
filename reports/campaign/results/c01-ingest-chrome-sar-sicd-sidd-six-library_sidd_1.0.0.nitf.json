@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:15:22.812Z",
+ "key": "sar-sicd-sidd-six-library/sidd_1.0.0.nitf",
+ "item": "sar-sicd-sidd-six-library",
+ "file": "sidd_1.0.0.nitf",
+ "format": "SICD/NITF2.1 and SIDD/NITF2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "SICD Vol. 3 (RGAZIM/PFA): sicd: TimeCOAPoly, ARPPoly and Grid SS are required"
+ ],
+ "toasts": [
+  "toast-info: Opened sidd_1.0.0.nitf in 51 ms (1 note in the import log)"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SAR product (SICD 1.1.0 geometry)",
+   "w": 2,
+   "h": 2,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 151,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

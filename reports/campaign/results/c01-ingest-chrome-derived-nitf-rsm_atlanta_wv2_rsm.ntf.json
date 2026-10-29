@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:17:05.961Z",
+ "key": "derived-nitf-rsm/atlanta_wv2_rsm.ntf",
+ "item": "derived-nitf-rsm",
+ "file": "atlanta_wv2_rsm.ntf",
+ "format": "NITF 2.1 (RSMIDA, RSMPCA)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened atlanta_wv2_rsm.ntf in 445 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 2048,
+   "h": 2048,
+   "bands": 1,
+   "model": "RSM polynomial (experimental)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1303,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

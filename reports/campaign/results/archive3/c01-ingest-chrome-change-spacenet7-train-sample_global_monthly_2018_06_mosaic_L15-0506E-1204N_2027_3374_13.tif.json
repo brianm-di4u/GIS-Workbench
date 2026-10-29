@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:23:00.436Z",
+ "key": "change-spacenet7-train-sample/global_monthly_2018_06_mosaic_L15-0506E-1204N_2027_3374_13.tif",
+ "item": "change-spacenet7-train-sample",
+ "file": "global_monthly_2018_06_mosaic_L15-0506E-1204N_2027_3374_13.tif",
+ "format": "tar.gz of GeoTIFF + GeoJSON",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened global_monthly_2018_06_mosaic_L15-0506E-1204N_2027_3374_13.tif in 116 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1024,
+   "h": 1024,
+   "bands": 4,
+   "model": "Map (EPSG:3857)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1727,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

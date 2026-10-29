@@ -74,9 +74,7 @@
   "id": "dialog:jump ▸ Jump",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Saved chip1_SICD000.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -84,7 +82,9 @@
   "id": "dialog:jump ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Saved chip1_SICD000.zip×"
+  ],
   "problems": []
  },
  {
@@ -100,9 +100,7 @@
   "id": "nav.zoombox",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -110,7 +108,9 @@
   "id": "nav.zoomin",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -134,9 +134,7 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -152,7 +150,9 @@
   "id": "view.interpolation",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×"
+  ],
   "problems": []
  },
  {
@@ -160,9 +160,7 @@
   "id": "rot.zero",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -170,7 +168,9 @@
   "id": "rot.upisup",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -186,9 +186,7 @@
   "id": "rot.mouse",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -196,9 +194,7 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -206,7 +202,9 @@
   "id": "ov.open",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -224,7 +222,9 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -1445,6 +1445,16 @@
   "tab": "palette",
   "id": "bands.stats",
   "outcome": "ran",
+  "dialogs": [
+   "dialog:band-stats"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bands.stats",
+  "id": "dialog:band-stats ▸ Close",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1454,7 +1464,6 @@
   "id": "bands.snr",
   "outcome": "ran",
   "dialogs": [
-   "dialog:band-stats",
    "dialog:snr"
   ],
   "toasts": [],
@@ -1865,8 +1874,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 3.5, gamma 2.30 (Tone +60).×",
-   "info: Photoshop: 985 × 1024 px, 3 layers (Stretch (Levels), Graphics)×"
+   "info: Auto Contrast: CLAHE clip 3.5, gamma 2.30 (Tone +60).×"
   ],
   "problems": []
  },
@@ -1876,6 +1884,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Photoshop: 985 × 1024 px, 3 layers (Stretch (Levels), Graphics)×",
    "info: 16-bit TIFF: 985 × 1024 px, 1 band, 16-bit, with a Curves preset×"
   ],
   "problems": []

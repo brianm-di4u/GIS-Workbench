@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:50.984Z",
+ "key": "3d-tiles-cesiumjs-specs-i3dm-pnts-cmpt/compositeOfInstanced.cmpt",
+ "item": "3d-tiles-cesiumjs-specs-i3dm-pnts-cmpt",
+ "file": "compositeOfInstanced.cmpt",
+ "format": "3D Tiles 1.0 (i3dm, pnts, cmpt + tileset.json)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: compositeOfInstanced.cmpt: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 75,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

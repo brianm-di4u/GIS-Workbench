@@ -272,7 +272,9 @@
   "id": "draw.polyline",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -280,9 +282,7 @@
   "id": "draw.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2072,7 +2072,9 @@
   "id": "dialog:lai-find ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Building the 3D view…×"
+  ],
   "problems": []
  },
  {
@@ -2098,9 +2100,7 @@
   "id": "lai.contrast",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 2.5, gamma 0.72 (Tone -24).×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -2109,7 +2109,9 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Align (AI): matching learned keypoints…×"
+   "info: Auto Contrast: CLAHE clip 2.5, gamma 0.72 (Tone -24).×",
+   "info: Auto Align (AI): matching learned keypoints…×",
+   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
   ],
   "problems": []
  },
@@ -2150,9 +2152,7 @@
   "id": "hub.glb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Auto Align (AI): Auto Align (AI) needs the Local AI runtime (WebGPU / WASM) and SlimSAM data pack (ai-1.30.0+slimsam77.webgpu.gwpack): File ▸ Open ▸ Open Data Pack×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

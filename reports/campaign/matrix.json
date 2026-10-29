@@ -1,23 +1,39 @@
 {
  "summary": {
-  "generated": "2026-10-28T04:09:40.005Z",
-  "commands": 451,
-  "implemented": 451,
+  "generated": "2026-10-29T12:25:18.349Z",
+  "commands": 496,
+  "implemented": 496,
   "placeholders": [],
   "unplaced": [
    "packs.manage",
-   "ribbon.minimise"
+   "ribbon.minimise",
+   "hud.flicker",
+   "patrol.next",
+   "patrol.prev",
+   "triage.clear",
+   "triage.active",
+   "triage.flag",
+   "net.toggle",
+   "bm.basemap",
+   "file.openurl",
+   "cat.panel",
+   "cat.folder",
+   "cat.s3keys",
+   "cnv.open",
+   "cnv.cog",
+   "glb.toggle",
+   "bm.pmtiles"
   ],
   "oracleChecked": 40,
   "noEligibleData": [],
   "bySpec": {
-   "c01-ingest": 10,
-   "c02-display": 71,
+   "c01-ingest": 11,
+   "c02-display": 77,
    "c03-enhance": 36,
    "c04-geodesy": 2,
-   "c05-sensor": 18,
+   "c05-sensor": 19,
    "c06-stereo3d": 49,
-   "c07-terrain": 21,
+   "c07-terrain": 22,
    "c08-sar": 15,
    "c09-msi": 33,
    "c10-lidar": 29,
@@ -27,7 +43,7 @@
    "c14-annotate": 27,
    "c15-products": 21,
    "c16-ai-mcp": 14,
-   "c17-workspace": 35
+   "c17-workspace": 71
   }
  },
  "rows": [
@@ -114,8 +130,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "raster-gdal-autotest-dimap2-rpf-nm"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -132,8 +150,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-app-artifacts"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -194,15 +214,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -227,15 +251,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -303,8 +331,10 @@
    "locations": [],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-app-artifacts"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -790,8 +820,25 @@
    "oracle": null
   },
   {
+   "id": "theme.system",
+   "label": "Follow System",
+   "req": "REQ-UI-12",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
    "id": "theme.grey",
-   "label": "Grey (default)",
+   "label": "Grey",
    "req": "REQ-UI-12",
    "rel": "R0",
    "spec": "c02-display",
@@ -873,10 +920,13 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
     "derived-gtiff-codec-matrix",
     "derived-dem-utm13-viewshed"
    ],
-   "dataCount": 5,
+   "dataCount": 8,
    "check": "smoke",
    "oracle": null
   },
@@ -909,8 +959,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "frames-odm-bellus-gcp"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -1812,8 +1864,21 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham",
+    "dem-under-capella-c13",
+    "dem-under-iceye-bratislava",
+    "dem-under-dfc2019-jax-omaha",
+    "dem-under-dfc2018-houston",
+    "dem-under-fmv-coldlake",
+    "dem-under-fmv-cheyenne"
+   ],
+   "dataCount": 23,
    "check": "oracle",
    "oracle": "ground point vs sarpy/GDAL RPC projection; CE90/LE90 = 2.146σ/1.645σ ± 1 %"
   },
@@ -2254,8 +2319,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "frames-odm-bellus-gcp"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -2271,8 +2338,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-nitf-rsm"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -2288,8 +2357,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-nitf-rsm"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -2305,8 +2376,13 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-nitf-rsm",
+    "control-ngs-co-golden-x48y441",
+    "control-usgs-3dep-co-drcog2020-checkpoints",
+    "control-ngs-vegas"
+   ],
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -2322,8 +2398,11 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-control-points",
+    "frames-odm-bellus-gcp"
+   ],
+   "dataCount": 2,
    "check": "smoke",
    "oracle": null
   },
@@ -2356,8 +2435,12 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "frames-odm-aukerman",
+    "frames-odm-seneca",
+    "frames-odm-copr-gcp"
+   ],
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -2373,8 +2456,16 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-control-points",
+    "derived-nitf-rsm",
+    "control-ngs-co-golden-x48y441",
+    "control-ngs-vegas",
+    "frames-odm-aukerman",
+    "frames-odm-seneca",
+    "frames-odm-copr-gcp"
+   ],
+   "dataCount": 7,
    "check": "oracle",
    "oracle": "checkpoint RMSE ≤ 1.5 GSD"
   },
@@ -2390,8 +2481,13 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "frames-odm-bellus-gcp",
+    "frames-odm-aukerman",
+    "frames-odm-seneca",
+    "frames-odm-copr-gcp"
+   ],
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -2424,8 +2520,21 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham",
+    "dem-under-capella-c13",
+    "dem-under-iceye-bratislava",
+    "dem-under-dfc2019-jax-omaha",
+    "dem-under-dfc2018-houston",
+    "dem-under-fmv-coldlake",
+    "dem-under-fmv-cheyenne"
+   ],
+   "dataCount": 21,
    "check": "oracle",
    "oracle": "orthoimage vs gdalwarp -rpc on the same DEM (≤ 1 GSD)"
   },
@@ -2458,8 +2567,12 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "frames-odm-aukerman",
+    "frames-odm-seneca",
+    "frames-odm-copr-gcp"
+   ],
+   "dataCount": 3,
    "check": "smoke",
    "oracle": null
   },
@@ -2544,8 +2657,12 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "support-proj-grids-geoid",
+    "support-proj-grids-hshift",
+    "support-proj-grids-vertcon"
+   ],
+   "dataCount": 3,
    "check": "oracle",
    "oracle": "HAE↔MSL vs NGS geoid API ≤ 0.2 m (EGM96)"
   },
@@ -2563,6 +2680,9 @@
    "context": [],
    "needs": null,
    "data": [
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "3d-qmesh-swisstopo-4326",
     "live-gibs-wmts-4326",
     "live-gibs-wmts-3857",
     "live-tnm-usgstopo-wms",
@@ -2573,7 +2693,7 @@
     "live-copc-autzen-https",
     "live-ept-usgs-3dep-drcog"
    ],
-   "dataCount": 9,
+   "dataCount": 12,
    "check": "smoke",
    "oracle": null
   },
@@ -2657,8 +2777,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-app-artifacts"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -2776,8 +2898,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-pptx-templates"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -2878,8 +3002,10 @@
    ],
    "context": [],
    "needs": null,
-   "data": [],
-   "dataCount": 0,
+   "data": [
+    "derived-nitf-variants"
+   ],
+   "dataCount": 1,
    "check": "smoke",
    "oracle": null
   },
@@ -3280,7 +3406,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -3306,10 +3432,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3335,10 +3462,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3364,10 +3492,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3393,10 +3522,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3422,10 +3552,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3451,10 +3582,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3480,10 +3612,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3509,10 +3642,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3538,10 +3672,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3567,10 +3702,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3596,10 +3732,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3625,10 +3762,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3654,10 +3792,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3683,10 +3822,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3712,10 +3852,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3741,10 +3882,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3770,10 +3912,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3799,10 +3942,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3828,10 +3972,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3857,10 +4002,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3886,10 +4032,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3915,10 +4062,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3944,10 +4092,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -3973,10 +4122,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4002,10 +4152,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4031,10 +4182,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4060,10 +4212,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4089,10 +4242,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4118,10 +4272,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4147,10 +4302,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4176,10 +4332,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4205,10 +4362,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4234,10 +4392,11 @@
    },
    "data": [
     "rs-nitf-wv3-mvs-stereo-chips",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
     "eo-spacenet-atlanta-wv2-l1b-rpc",
     "ieee-dfc2019-track2-val"
    ],
-   "dataCount": 3,
+   "dataCount": 4,
    "check": "smoke",
    "oracle": null
   },
@@ -4268,16 +4427,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4308,16 +4467,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4364,16 +4523,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4420,16 +4579,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4459,16 +4618,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4498,16 +4657,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4537,16 +4696,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4576,16 +4735,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4615,16 +4774,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4654,16 +4813,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4693,16 +4852,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4732,16 +4891,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4771,16 +4930,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4810,16 +4969,16 @@
     "rs-dted-gdal",
     "rs-lidar-las-laz-copc",
     "rs-srtm-hgt-s35w059",
-    "derived-las-pdrf-5-9",
-    "derived-dem-utm13-viewshed",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "3d-gltf-sample-assets",
-    "3d-tiles-discrete-lod"
+    "derived-hgt-variants",
+    "derived-3d-tiles-3tz",
+    "derived-qmesh-geodetic",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "derived-dted-level2",
+    "3d-gltf-draco-khronos",
+    "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 27,
+   "dataCount": 74,
    "check": "smoke",
    "oracle": null
   },
@@ -4854,19 +5013,19 @@
    "needs": null,
    "data": [
     "rs-geotiff-gdal-small",
+    "derived-pictures-worldfile",
+    "derived-jp2-variants",
+    "derived-gtiff-variants",
+    "naip-co-golden-x48y441-2023",
+    "naip-co-drcog-lidar-2023",
+    "naip-co-roumelis-2023",
     "derived-gtiff-codec-matrix",
     "field-phr-millerovo",
     "field-dg-panama",
     "field-intermap-sar",
-    "field-dg-spratly-mischief-reef-20150131",
-    "field-dg-spratly-mischief-reef-20150201",
-    "field-dg-spratly-mischief-reef-20150425",
-    "field-dg-spratly-mischief-reef-20150527",
-    "field-dg-spratly-mischief-reef-20150610",
-    "field-dg-spratly-subi-reef-20150305",
-    "field-dg-spratly-subi-reef-20150317"
+    "field-dg-spratly-mischief-reef-20150131"
    ],
-   "dataCount": 28,
+   "dataCount": 34,
    "check": "smoke",
    "oracle": null
   },
@@ -4884,19 +5043,19 @@
    "needs": null,
    "data": [
     "rs-geotiff-gdal-small",
+    "derived-pictures-worldfile",
+    "derived-jp2-variants",
+    "derived-gtiff-variants",
+    "naip-co-golden-x48y441-2023",
+    "naip-co-drcog-lidar-2023",
+    "naip-co-roumelis-2023",
     "derived-gtiff-codec-matrix",
     "field-phr-millerovo",
     "field-dg-panama",
     "field-intermap-sar",
-    "field-dg-spratly-mischief-reef-20150131",
-    "field-dg-spratly-mischief-reef-20150201",
-    "field-dg-spratly-mischief-reef-20150425",
-    "field-dg-spratly-mischief-reef-20150527",
-    "field-dg-spratly-mischief-reef-20150610",
-    "field-dg-spratly-subi-reef-20150305",
-    "field-dg-spratly-subi-reef-20150317"
+    "field-dg-spratly-mischief-reef-20150131"
    ],
-   "dataCount": 28,
+   "dataCount": 34,
    "check": "smoke",
    "oracle": null
   },
@@ -4942,7 +5101,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5269,7 +5428,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5314,7 +5473,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5359,7 +5518,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5404,7 +5563,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5449,7 +5608,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5494,7 +5653,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5539,7 +5698,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5584,7 +5743,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5629,7 +5788,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5674,7 +5833,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5719,7 +5878,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5764,7 +5923,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5809,7 +5968,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5854,7 +6013,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5899,7 +6058,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5944,7 +6103,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -5989,7 +6148,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6034,7 +6193,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6079,7 +6238,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6124,7 +6283,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6169,7 +6328,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6214,7 +6373,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6259,7 +6418,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6304,7 +6463,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6349,7 +6508,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6394,7 +6553,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6439,7 +6598,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6484,7 +6643,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6529,7 +6688,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6574,7 +6733,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6621,7 +6780,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6668,7 +6827,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6715,7 +6874,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6762,7 +6921,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6807,7 +6966,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6854,7 +7013,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6899,7 +7058,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6944,7 +7103,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -6991,7 +7150,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -7036,7 +7195,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -7078,7 +7237,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7120,7 +7279,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7162,7 +7321,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7204,7 +7363,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7246,7 +7405,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7288,7 +7447,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7330,7 +7489,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7372,7 +7531,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7414,7 +7573,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7456,7 +7615,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7498,7 +7657,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7540,7 +7699,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -7567,17 +7726,62 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "dem.useterrain",
+   "label": "Use as Terrain…",
+   "req": "REQ-DEM-03",
+   "rel": "R4",
+   "spec": "c07-terrain",
+   "implemented": true,
+   "locations": [
+    "ctx:image"
+   ],
+   "context": [
+    "image"
+   ],
+   "needs": {
+    "areas": [
+     "eo",
+     "nitf",
+     "landsat",
+     "sentinel2",
+     "naip",
+     "dem",
+     "sar",
+     "hsi",
+     "raster"
+    ],
+    "n": 1
+   },
+   "data": [
+    "rs-dem-derived-s35w059",
+    "rs-dted-gdal",
+    "rs-envi-hsi-indian-pines",
+    "rs-geotiff-gdal-small",
+    "rs-geotiff-wv3-rpc-cog",
+    "rs-gpkg-gdal-raster-tiles",
+    "rs-hsi-indian-pines",
+    "rs-jpeg-png-worldfile",
+    "rs-msi-spacenet2-wv3",
+    "rs-nitf-gdal-autotest-small",
+    "rs-nitf-gdal-rset",
+    "rs-nitf-jitc-bitdepth"
+   ],
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -7604,17 +7808,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "gdaldem hillshade ±1 DN"
   },
@@ -7641,17 +7845,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "gdaldem slope ±0.1°"
   },
@@ -7678,17 +7882,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "gdaldem aspect ±0.5°"
   },
@@ -7715,17 +7919,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -7752,17 +7956,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -7789,17 +7993,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -7826,17 +8030,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "line of sight vs profile from GDAL"
   },
@@ -7863,17 +8067,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -7900,17 +8104,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "gdal_viewshed agreement ≥ 99 % (-cc 0.87, S-15)"
   },
@@ -7937,17 +8141,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -7974,17 +8178,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -8011,17 +8215,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "DTM RMSEz vs 3DEP DEM ≤ 0.15 m"
   },
@@ -8048,17 +8252,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -8085,17 +8289,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -8122,17 +8326,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -8159,17 +8363,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -8196,17 +8400,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "oracle",
    "oracle": "gdalinfo of written COG/DTED (3601² posts for L2)"
   },
@@ -8233,17 +8437,17 @@
     "rs-dem-derived-s35w059",
     "rs-dted-gdal",
     "rs-srtm-hgt-s35w059",
-    "derived-dem-utm13-viewshed",
-    "cop-dem-glo30-n39w106",
-    "cop-dem-glo30-n40w106",
-    "cop-dem-glo90-n39w106",
-    "usgs-3dep-13-n40w106",
-    "usgs-3dep-1m-x48y441-drcog2020",
-    "srtm-skadi-n39w106-n40w106",
-    "gdal-dted-samples",
-    "gdal-autotest-dted-edge"
+    "derived-hgt-variants",
+    "derived-qmesh-geodetic",
+    "derived-dted-level2",
+    "dem-under-vegas",
+    "dem-under-atlanta",
+    "dem-under-libya-floods",
+    "dem-under-turkey-islahiye",
+    "dem-under-california",
+    "dem-under-bingham"
    ],
-   "dataCount": 13,
+   "dataCount": 37,
    "check": "smoke",
    "oracle": null
   },
@@ -8290,7 +8494,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -8337,7 +8541,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "oracle",
    "oracle": "NDVI vs numpy ± 0.01"
   },
@@ -8369,17 +8573,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8411,17 +8615,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8453,17 +8657,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8495,17 +8699,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8537,17 +8741,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8579,17 +8783,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8621,17 +8825,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8663,17 +8867,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8705,17 +8909,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8747,17 +8951,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8789,17 +8993,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8831,17 +9035,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -8888,7 +9092,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "oracle",
    "oracle": "TOA reflectance vs MTL/MTD formula in numpy"
   },
@@ -8933,7 +9137,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -8965,17 +9169,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9022,7 +9226,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "oracle",
    "oracle": "overall accuracy ≥ 90 % on Indian Pines truth"
   },
@@ -9054,17 +9258,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9096,17 +9300,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9138,17 +9342,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9180,17 +9384,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9222,17 +9426,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "oracle",
    "oracle": "OA/κ vs scikit-learn (3 decimals)"
   },
@@ -9279,7 +9483,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -9326,7 +9530,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -9358,17 +9562,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9415,7 +9619,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -9462,7 +9666,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -9494,17 +9698,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9536,17 +9740,17 @@
     "rs-envi-hsi-indian-pines",
     "rs-hsi-indian-pines",
     "rs-msi-spacenet2-wv3",
-    "field-phr-dimap",
-    "eo-maxar-libya-floods-wv3-prepost",
-    "eo-spacenet-vegas-wv3-pan-ms-r1c1",
-    "eo-spacenet-atlanta-wv2-l1b-rpc",
-    "landsat8-c1-l1tp-044034-20210508",
-    "landsat8-c2-l1tp-044034-20240820-tierb",
-    "landsat8-c2-l2sp-044034-20240820",
-    "s2-l2a-cog-10seh-20240816",
-    "s2-l1c-jp2-safe-10seh-20240816"
+    "derived-envi-variants",
+    "derived-speclib-envi-sli",
+    "derived-hsi-cube-geotiff",
+    "s2-l2a-mtd-10seh-pc",
+    "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "hsi-avirisng-cuprite-20200712-rfl",
+    "hsi-speclib-splib07b-envi-hyperspectralpy",
+    "hsi-speclib-splib06-envi-emit-sds",
+    "hsi-speclib-earthlib-envi"
    ],
-   "dataCount": 13,
+   "dataCount": 24,
    "check": "smoke",
    "oracle": null
   },
@@ -9564,9 +9768,14 @@
    "context": [],
    "needs": null,
    "data": [
-    "rs-mpegts-klv-synthetic"
+    "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial"
    ],
-   "dataCount": 1,
+   "dataCount": 6,
    "check": "smoke",
    "oracle": null
   },
@@ -9591,16 +9800,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9625,16 +9837,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9659,16 +9874,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9693,16 +9911,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9727,16 +9948,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9761,16 +9985,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "oracle",
    "oracle": "ST 0601 tags vs klvdata"
   },
@@ -9795,16 +10022,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9829,16 +10059,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9863,16 +10096,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9897,16 +10133,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "oracle",
    "oracle": "footprint vs KLV corner tags ≤ 1 m"
   },
@@ -9931,16 +10170,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9965,16 +10207,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -9999,16 +10244,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -10033,16 +10281,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -10067,16 +10318,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "oracle",
    "oracle": "map/video sync ≤ 33 ms"
   },
@@ -10101,16 +10355,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -10135,16 +10392,19 @@
    },
    "data": [
     "rs-mpegts-klv-synthetic",
+    "derived-fmv-variants",
+    "derived-mie4nitf-bambi",
+    "derived-vmti-video",
+    "fmv-osh-uas-sample-stream-st0604",
+    "fmv-esri-cheyenne-inspection",
+    "fmv-esri-multiplexer-tutorial",
     "fmv-ffmpeg-day-flight",
     "fmv-ffmpeg-night-flight-ir",
     "fmv-esri-truck-tutorial",
     "fmv-impleotv-damaged-corpus",
-    "fmv-jmisb-st0903-vector",
-    "fmv-klvdata-st0601-packets",
-    "fmv-libmisbklv-fixtures",
-    "fmv-bambi-flights"
+    "fmv-jmisb-st0903-vector"
    ],
-   "dataCount": 9,
+   "dataCount": 15,
    "check": "smoke",
    "oracle": null
   },
@@ -10186,7 +10446,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -10228,7 +10488,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -10270,7 +10530,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 62,
+   "dataCount": 92,
    "check": "smoke",
    "oracle": null
   },
@@ -10297,14 +10557,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "oracle",
    "oracle": "SICD fields vs sarpy"
   },
@@ -10351,7 +10614,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -10378,14 +10641,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "oracle",
    "oracle": "remap switch < 200 ms, no file re-read"
   },
@@ -10432,7 +10698,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "smoke",
    "oracle": null
   },
@@ -10459,14 +10725,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "oracle",
    "oracle": "image→ground corners vs SARkit ≤ 0.01 m; round trip ≤ 0.05 px"
   },
@@ -10493,14 +10762,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10527,14 +10799,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10561,14 +10836,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10595,14 +10873,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10629,14 +10910,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10683,7 +10967,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 86,
+   "dataCount": 166,
    "check": "oracle",
    "oracle": "coherence ≥ 0.8 stable / ≤ 0.4 disturbed vs numpy"
   },
@@ -10710,14 +10994,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10744,14 +11031,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10778,14 +11068,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10812,14 +11105,17 @@
     "rs-sicd-sidd-xml-iceye",
     "rs-sicd-umbra-chip",
     "rs-sidd-umbra",
-    "field-intermap-sar",
-    "umbra-bingham-20230925-full",
-    "umbra-bingham-20230821-repeat",
-    "capella-c13-sm-20240924",
-    "iceye-x50-slf-20251027-sidd3",
-    "sar-osml-sicd-sidd-chips"
+    "derived-sar-complex-slc",
+    "derived-sar-sicd14-sidd30",
+    "sar-capella-c10-sp-20240329",
+    "sar-cphd-gdal-autotest",
+    "sar-capella-c09-sm-cphd-20240923",
+    "sar-sicd-sidd-six-library",
+    "sar-sicd-nitro-amp8i-phs8i",
+    "sar-sicd-sidd-xml-sarkit",
+    "sar-sicd-xml-sarkit-convert-s1"
    ],
-   "dataCount": 9,
+   "dataCount": 21,
    "check": "smoke",
    "oracle": null
   },
@@ -10844,15 +11140,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "oracle",
    "oracle": "header fields vs laspy/PDAL"
   },
@@ -10877,15 +11177,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -10910,15 +11214,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -10943,15 +11251,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -10976,15 +11288,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11009,15 +11325,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11042,15 +11362,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11075,15 +11399,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11108,15 +11436,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11141,15 +11473,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11174,15 +11510,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11207,15 +11547,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11240,15 +11584,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11273,15 +11621,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11306,15 +11658,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11339,15 +11695,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11372,15 +11732,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11405,15 +11769,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "oracle",
    "oracle": "PDAL writers.gdal max-Z grid"
   },
@@ -11438,15 +11806,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "oracle",
    "oracle": "PDAL SMRF + writers.gdal min-Z grid"
   },
@@ -11471,15 +11843,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11504,15 +11880,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11537,15 +11917,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11570,15 +11954,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "oracle",
    "oracle": "PDAL filters.smrf class agreement; DTM RMSEz ≤ 0.15 m"
   },
@@ -11603,15 +11991,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11636,15 +12028,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11669,15 +12065,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "smoke",
    "oracle": null
   },
@@ -11702,15 +12102,19 @@
    },
    "data": [
     "rs-lidar-las-laz-copc",
+    "derived-pc-ascii",
+    "derived-las-pdrf-matrix",
+    "lidar-bpf-pdal-v3",
+    "lidar-ascii-pdal-text",
+    "lidar-ascii-open3d-pts",
+    "lidar-ept-usgs-il-booneco-2007",
+    "lidar-ept-usgs-md-goldenbeach-2012",
+    "lidar-3dep-co-soplatte-2013-2x2",
+    "lidar-3dep-co-denver-2008-2x1",
     "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2",
-    "lidar-autzen-classified-copc",
-    "lidar-las-version-matrix",
-    "lidar-opentopo-co23-roumelis",
-    "ieee-dfc2019-track4-val",
-    "ieee-flame2-sfm"
+    "lidar-3dep-co-drcog-2020-2x2"
    ],
-   "dataCount": 8,
+   "dataCount": 17,
    "check": "oracle",
    "oracle": "laspy re-read of written LAS 1.4 (point count, bbox, classes)"
   },
@@ -11737,17 +12141,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11774,17 +12178,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11811,17 +12215,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11848,17 +12252,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11885,17 +12289,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11922,17 +12326,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11959,17 +12363,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -11996,17 +12400,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12033,17 +12437,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12070,17 +12474,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12125,17 +12529,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12162,17 +12566,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12199,17 +12603,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12236,17 +12640,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12273,17 +12677,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "oracle",
    "oracle": "corners 90° ± 0.1°"
   },
@@ -12310,17 +12714,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12347,17 +12751,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12384,17 +12788,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12421,17 +12825,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12458,17 +12862,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "oracle",
    "oracle": "topology errors vs GDAL/GEOS validity"
   },
@@ -12495,17 +12899,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12532,17 +12936,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "oracle",
    "oracle": "GeoJSON round trip 1e-9°; GPKG via OGC ETS; SHP/KML via ogrinfo"
   },
@@ -12569,17 +12973,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12606,17 +13010,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12643,17 +13047,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12693,7 +13097,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 47,
+   "dataCount": 59,
    "check": "smoke",
    "oracle": null
   },
@@ -12733,7 +13137,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 47,
+   "dataCount": 59,
    "check": "smoke",
    "oracle": null
   },
@@ -12774,7 +13178,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 47,
+   "dataCount": 59,
    "check": "smoke",
    "oracle": null
   },
@@ -12803,17 +13207,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12840,17 +13244,17 @@
     "rs-kml-iceye-footprint",
     "rs-vector-fx12-synthetic",
     "rs-vector-naturalearth-110m",
-    "vector-natural-earth-10m-shp",
-    "vector-natural-earth-gpkg",
-    "vector-tiger-2024-colorado",
-    "vector-nhd-hu4-1019-gpkg",
-    "vector-geofabrik-osm-colorado",
-    "vector-geofabrik-osm-dc",
-    "vector-geopackage-conformance-set",
-    "vector-kml-google-samples",
-    "vector-kml-kmz-test-set"
+    "derived-vector-variants",
+    "derived-detections-csv",
+    "change-maxar-turkey-eq-building-change",
+    "vector-usgs-earthquakes-month",
+    "vector-geojson-natural-earth-nvkelso",
+    "vector-geojson-inspire-caniuse",
+    "vector-buildings-ms-globalml-qk023010213",
+    "vector-gml-gdal-autotest",
+    "vector-gml-inspire-caniuse"
    ],
-   "dataCount": 14,
+   "dataCount": 44,
    "check": "smoke",
    "oracle": null
   },
@@ -12889,7 +13293,733 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 47,
+   "dataCount": 59,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "ui.palette",
+   "label": "Command Palette…",
+   "req": "REQ-SHL-05",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:view",
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "win.workspace",
+   "label": "Workspace Window",
+   "req": "REQ-SHL-02",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [
+    "tab:view",
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "ui.layout",
+   "label": "Interface Layout",
+   "req": "REQ-SHL-01",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:view",
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "theme.m3light",
+   "label": "Light",
+   "req": "REQ-SHL-13",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "theme.m3dark",
+   "label": "Dark (Material)",
+   "req": "REQ-SHL-13",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hud.radial",
+   "label": "Radial Menu",
+   "req": "REQ-SHL-10",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:view"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hud.pill",
+   "label": "Contextual Tools",
+   "req": "REQ-SHL-08",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:view"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hud.flicker",
+   "label": "Hold to Flicker",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hud.quickchip",
+   "label": "Quick Chip",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "deck.export",
+   "label": "Export Session Deck…",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-pptx-templates"
+   ],
+   "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "deck.clear",
+   "label": "Empty Session Deck",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-pptx-templates"
+   ],
+   "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "patrol.next",
+   "label": "Next Target",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "patrol.prev",
+   "label": "Previous Target",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "triage.clear",
+   "label": "Triage: Clear",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "triage.active",
+   "label": "Triage: Active",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "triage.flag",
+   "label": "Triage: Flag",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-detections-csv"
+   ],
+   "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "net.toggle",
+   "label": "Online",
+   "req": "REQ-NET-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "bm.basemap",
+   "label": "Basemap",
+   "req": "REQ-NET-04",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "file.openurl",
+   "label": "Open from URL…",
+   "req": "REQ-CON-03",
+   "rel": "R4",
+   "spec": "c01-ingest",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "cat.panel",
+   "label": "Catalog",
+   "req": "REQ-CON-06",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "cat.folder",
+   "label": "Add Folder…",
+   "req": "REQ-CON-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "cat.s3keys",
+   "label": "Connect a Bucket…",
+   "req": "REQ-CON-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "cnv.open",
+   "label": "Convert…",
+   "req": "REQ-CNV-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-vector-variants",
+    "perf-large-lroc-nac-south-pole-cog",
+    "perf-large-co-3dep-1m-drcog-derived"
+   ],
+   "dataCount": 3,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "cnv.cog",
+   "label": "Make Cloud-Optimized Copy",
+   "req": "REQ-CNV-01",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-vector-variants",
+    "perf-large-lroc-nac-south-pole-cog",
+    "perf-large-co-3dep-1m-drcog-derived"
+   ],
+   "dataCount": 3,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "glb.toggle",
+   "label": "2D / 3D",
+   "req": "REQ-GLB-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "bm.pmtiles",
+   "label": "Open PMTiles Basemap…",
+   "req": "REQ-NET-05",
+   "rel": "R4",
+   "spec": "c02-display",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-pmtiles-raster"
+   ],
+   "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "lai.find",
+   "label": "Find Objects (AI)…",
+   "req": "REQ-LAI-03",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-detections-csv",
+    "vector-rareplanes-real-test-105",
+    "vector-rareplanes-real-test-108"
+   ],
+   "dataCount": 3,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "lai.search",
+   "label": "Search Imagery (AI)…",
+   "req": "REQ-LAI-06",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "lai.contrast",
+   "label": "Auto Contrast",
+   "req": "REQ-LAI-07",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "lai.square",
+   "label": "Square Corners",
+   "req": "REQ-LAI-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "lai.device",
+   "label": "AI Device…",
+   "req": "REQ-LAI-01",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "align.ai",
+   "label": "Auto Align (AI)",
+   "req": "REQ-LAI-05",
+   "rel": "R4",
+   "spec": "c05-sensor",
+   "implemented": true,
+   "locations": [
+    "tab:geospatial"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "rcp.open",
+   "label": "Recipes",
+   "req": "REQ-PIP-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "rcp.import",
+   "label": "Open Recipe…",
+   "req": "REQ-PIP-01",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [
+    "derived-app-artifacts"
+   ],
+   "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.psd",
+   "label": "Photoshop (PSD)…",
+   "req": "REQ-HUB-01",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.tiff16",
+   "label": "16-bit TIFF + Curves…",
+   "req": "REQ-HUB-01",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.pdf",
+   "label": "Illustrator (Layered PDF)…",
+   "req": "REQ-HUB-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.svg",
+   "label": "Layered SVG…",
+   "req": "REQ-HUB-02",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.glb",
+   "label": "3D Terrain (GLB)…",
+   "req": "REQ-HUB-03",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [
+    "3d-gltf-khronos-plain-glb"
+   ],
+   "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.usdz",
+   "label": "3D Terrain (USDZ)…",
+   "req": "REQ-HUB-03",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.cot",
+   "label": "CoT Events…",
+   "req": "REQ-HUB-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.atak",
+   "label": "ATAK Data Package…",
+   "req": "REQ-HUB-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "hub.relay",
+   "label": "Send to Google Sheet…",
+   "req": "REQ-HUB-06",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:products"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
    "check": "smoke",
    "oracle": null
   }

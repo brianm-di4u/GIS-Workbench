@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:55.201Z",
+ "key": "vector-gpx-gpxpy-tests/cerknicko-jezero.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "cerknicko-jezero.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: cerknicko-jezero.gpx: 7 waypoint(s), 0 route(s), 7 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 55,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

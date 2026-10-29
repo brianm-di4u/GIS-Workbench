@@ -47,6 +47,10 @@ export function detect(h, name) {
   if (s.startsWith('CPHD/')) return 'cphd';
   if (isMrSid(h)) return 'mrsid';
   if (h[0] === 0x1f && h[1] === 0x8b) return 'gzip';
+  // Formats refused by name (TE archive negatives) rather than as "unrecognised data".
+  if (String.fromCharCode(...h.slice(0, 15)) === 'EHFA_HEADER_TAG') return 'hfa';
+  if (s.startsWith('CDF') && [1, 2, 5].includes(h[3])) return 'netcdf3';
+  if (lower.endsWith('.ecw')) return 'ecw';
   return 'unknown';
 }
 
@@ -187,7 +191,13 @@ GW.register('open', async ({ file, name, merge = false, hdr = null }) => {
     throw e;
   } else {
     const names = { gpkg: 'GeoPackage (R2)', las: 'LAS/LAZ point cloud (R2)', mpegts: 'MPEG-TS motion imagery (R3)', zip: 'ZIP container', gzip: 'gzip file', unknown: 'unrecognised data', cphd: 'CPHD phase history (no image: open the SICD formed from it; CPHD metadata viewing is not in this release)' };
-    const e = new Error(`${names[kind] ?? kind} cannot be opened as imagery in this release`);
+    // With the conversion that makes them readable.
+    const named = {
+      hfa: 'ERDAS Imagine (HFA .img) is not read in this release; save it as GeoTIFF (e.g. gdal_translate -of COG)',
+      netcdf3: 'NetCDF-3 (classic CDF) is not read — NetCDF-4 / HDF5 is; convert it with nccopy -k nc4',
+      ecw: 'ECW (Hexagon\'s proprietary wavelet format) has no open decoder and cannot be opened; save it as GeoTIFF or JPEG 2000 with a licensed tool',
+    };
+    const e = new Error(named[kind] ?? `${names[kind] ?? kind} cannot be opened as imagery in this release`);
     e.code = 4;
     throw e;
   }

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:01.026Z",
+ "key": "vector-shp-z-cpg-shapefile-js/export_polylinez.shp",
+ "item": "vector-shp-z-cpg-shapefile-js",
+ "file": "export_polylinez.shp",
+ "format": "ESRI Shapefile (Z, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: export_polylinez: 1 feature(s) from ESRI Shapefile×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 77,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

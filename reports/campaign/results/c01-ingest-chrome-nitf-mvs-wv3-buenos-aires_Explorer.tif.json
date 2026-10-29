@@ -1,0 +1,41 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:35:35.547Z",
+ "key": "nitf-mvs-wv3-buenos-aires/Explorer.tif",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "Explorer.tif",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 placemark(s) are clamped or relative to the ground; their heights were set to 0 m HAE (drop them to the terrain to fix)"
+ ],
+ "toasts": [
+  "toast-info: Challenge #1: 1 feature(s) from KML (1 note(s))",
+  "toast-info: Opened Explorer.tif in 60 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2349,
+   "h": 2140,
+   "bands": 1,
+   "model": "Map (EPSG:32721)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 888,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

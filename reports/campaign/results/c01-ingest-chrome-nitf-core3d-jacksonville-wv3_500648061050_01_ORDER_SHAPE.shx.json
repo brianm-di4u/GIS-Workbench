@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:03:31.208Z",
+ "key": "nitf-core3d-jacksonville-wv3/500648061050_01_ORDER_SHAPE.shx",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "500648061050_01_ORDER_SHAPE.shx",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: 500648061050_01_ORDER_SHAPE.shx: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 118,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

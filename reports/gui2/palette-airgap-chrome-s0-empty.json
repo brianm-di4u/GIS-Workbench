@@ -5224,9 +5224,7 @@
   "id": "pane.showname",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Recipe step 1 failed: open an image first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -5235,7 +5233,7 @@
   "outcome": "not now: open an image first",
   "dialogs": [],
   "toasts": [
-   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+   "warn: Recipe step 1 failed: open an image first×"
   ],
   "problems": []
  },
@@ -5245,7 +5243,7 @@
   "outcome": "not now: open two images with 3-D sensor models in this panel first",
   "dialogs": [],
   "toasts": [
-   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
   ],
   "problems": []
  },
@@ -5254,7 +5252,9 @@
   "id": "3d.open",
   "outcome": "not now: open a georeferenced image or a point cloud first",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
   "problems": []
  },
  {

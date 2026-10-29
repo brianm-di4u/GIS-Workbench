@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:09:10.030Z",
+ "key": "derived-nitf-variants/s2tci_nsif.nsf",
+ "item": "derived-nitf-variants",
+ "file": "s2tci_nsif.nsf",
+ "format": "NITF 2.1 / NSIF 1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened s2tci_nsif.nsf in 36 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NSIF 01.00",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 616,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

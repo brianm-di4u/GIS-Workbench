@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:14.580Z",
+ "key": "vector-csv-nasa-firms-modis-conus-24h/MODIS_C6_1_USA_contiguous_and_Hawaii_24h.csv",
+ "item": "vector-csv-nasa-firms-modis-conus-24h",
+ "file": "MODIS_C6_1_USA_contiguous_and_Hawaii_24h.csv",
+ "format": "CSV (latitude, longitude, brightness, scan, track, acq_date, acq_time, satellite, confidence, ...)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: MODIS_C6_1_USA_contiguous_and_Hawaii_24h: 373 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 373,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 251,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

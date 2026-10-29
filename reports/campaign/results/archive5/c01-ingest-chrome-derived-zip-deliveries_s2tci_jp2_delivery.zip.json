@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:24.926Z",
+ "key": "derived-zip-deliveries/s2tci_jp2_delivery.zip",
+ "item": "derived-zip-deliveries",
+ "file": "s2tci_jp2_delivery.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "opened 1 of 2 files from the ZIP"
+ ],
+ "toasts": [
+  "toast-info: Opened s2tci_gmljp2.jp2 in 80 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GMLJP2; 1024×1024×3, 8-bit, 4 resolution levels)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1313,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

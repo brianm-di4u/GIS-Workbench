@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1605,7 +1605,7 @@
  {
   "tab": "palette",
   "id": "dem.accuracy",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1743,7 +1743,7 @@
  {
   "tab": "palette",
   "id": "ext.roadtrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1751,7 +1751,7 @@
  {
   "tab": "palette",
   "id": "hud.quickchip",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1772,7 +1772,8 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Making a Cloud-Optimized GeoTIFF of b1 — fx05_dem_hae.tif…×"
+   "info: Making a Cloud-Optimized GeoTIFF of b1 — fx05_dem_hae.tif…×",
+   "info: 2.2 MB COG written×"
   ],
   "problems": []
  },
@@ -1799,9 +1800,7 @@
   "id": "dialog:lai-find ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Building the 3D view…×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1812,7 +1811,8 @@
    "dialog:lai-search"
   ],
   "toasts": [
-   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
+   "info: Building the 3D view…×",
+   "info: 3D: terrain from fx05_dem_hae.tif (GeoTIFF, HAE) (held level past its edge). Drag to orbit, right-drag to pan, wheel to zoom.×"
   ],
   "problems": []
  },
@@ -1829,9 +1829,7 @@
   "id": "lai.contrast",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1847,9 +1845,7 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1858,7 +1854,8 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×",
+   "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
   ],
   "problems": []
  },
@@ -1867,7 +1864,9 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
+  ],
   "problems": []
  },
  {
@@ -1883,9 +1882,7 @@
   "id": "hub.usdz",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Layered PDF: 5 layers (Imagery, Graphics, Contours 5 m (HAE), Neatline, Scale bar)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1895,9 +1892,7 @@
   "dialogs": [
    "dialog:3d-open"
   ],
-  "toasts": [
-   "info: Layered SVG: 5 layers (Imagery, Graphics, Contours 5 m (HAE), Neatline, Scale bar)×"
-  ],
+  "toasts": [],
   "problems": []
  }
 ]

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:08.048Z",
+ "key": "vector-pmtiles-mvt-census-zcta/cb_2018_us_zcta510_500k.pmtiles",
+ "item": "vector-pmtiles-mvt-census-zcta",
+ "file": "cb_2018_us_zcta510_500k.pmtiles",
+ "format": "PMTiles v3 (MVT)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: cb_2018_us_zcta510_500k.pmtiles: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 77,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

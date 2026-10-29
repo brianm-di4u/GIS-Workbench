@@ -1,0 +1,30 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:09:26.439Z",
+ "key": "sar.csi",
+ "id": "sar.csi",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left sar.csi disabled; recipe data added: fx07_a.nitf, fx07_b.nitf"
+ ],
+ "data": [
+  "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif",
+  "fx07/fx07_a.nitf",
+  "fx07/fx07_b.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:54.026Z",
+ "key": "vector-gml-ogc-ets/FeatureCollection-River.gml",
+ "item": "vector-gml-ogc-ets",
+ "file": "FeatureCollection-River.gml",
+ "format": "GML 3.2",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: FeatureCollection-River: 4 feature(s) from GML"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 4,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 39,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

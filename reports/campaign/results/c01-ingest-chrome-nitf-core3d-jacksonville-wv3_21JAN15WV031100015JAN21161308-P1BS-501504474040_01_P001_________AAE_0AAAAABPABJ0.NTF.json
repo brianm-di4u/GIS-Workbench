@@ -1,0 +1,48 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:00:50.144Z",
+ "key": "nitf-core3d-jacksonville-wv3/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF in 65 ms",
+  "toast-error: 21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF [1] P106764E00 cannot be displayed: JPEG 2000 image 43008×36864×1 is too large for the whole-image decoder (R1 limit 400 M samples)"
+ ],
+ "layers": [
+  {
+   "error": "JPEG 2000 image 43008×36864×1 is too large for the whole-image decoder (R1 limit 400 M samples)",
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 43008,
+   "h": 36864,
+   "bands": 1,
+   "model": "RPC00B"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 79,
+   "h": 76,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 215,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

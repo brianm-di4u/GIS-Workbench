@@ -483,14 +483,40 @@ export async function install(app) {
     return all.find((p) => !p.video && !p.view3d && !p.layers().length) ?? pane ?? app.activePane();
   }
 
+  /**
+   * BDAV transport streams (.m2ts / .mts: camcorders, Blu-ray) prefix every 188-byte packet with a
+   * 4-byte arrival timestamp. They are repacked into plain 188-byte TS in memory, so the demuxer,
+   * KLV and players see an ordinary stream; anything else is returned as it is.
+   */
+  async function plainTs(file) {
+    const h = new Uint8Array(await file.slice(0, 192 * 4).arrayBuffer());
+    const bdav = h.length >= 192 * 4 && [0, 1, 2, 3].every((k) => h[192 * k + 4] === 0x47) && !(h[0] === 0x47 && h[188] === 0x47);
+    if (!bdav) return file;
+    if (file.size > 2 ** 31) throw new Error(`${file.name}: BDAV (.m2ts) streams over 2 GB are not repacked; remux it to .ts (ffmpeg -i in.m2ts -c copy -map 0 out.ts)`);
+    const parts = [];
+    const CH = 192 * 21845; // ~4 MiB of whole packets
+    for (let off = 0; off + 192 <= file.size; off += CH) {
+      const b = new Uint8Array(await file.slice(off, Math.min(file.size, off + CH)).arrayBuffer());
+      const n = Math.floor(b.length / 192);
+      const out = new Uint8Array(n * 188);
+      for (let k = 0; k < n; k++) out.set(b.subarray(192 * k + 4, 192 * k + 192), 188 * k);
+      parts.push(out);
+    }
+    return new File(parts, file.name.replace(/\.(m2ts|mts)$/i, '.ts'), { lastModified: file.lastModified });
+  }
+
   async function open(file, pane = null) {
     const t0 = performance.now();
+    const shown = file.name;
+    const magic = new Uint8Array(await file.slice(0, 4).arrayBuffer());
+    if (magic[0] === 0 && magic[1] === 0 && magic[2] === 1 && magic[3] === 0xba) throw new Error('an MPEG program stream (DVD/.mpeg), not MPEG-TS: it carries no KLV; remux it to TS (ffmpeg -i in.mpeg -c copy out.ts) to view it');
+    file = await plainTs(file);
     const idx = await decodeJob('tsindex', { file });
     // TE-016: with no PAT/PMT nothing identifies the streams; the player then waited forever.
     if (!idx.streams?.length && !idx.video?.count && !idx.klv?.length) {
       throw new Error(`no programme tables (PAT/PMT) and no recognisable video or KLV in ${idx.packets ?? 0} transport packets: the stream is damaged or not MPEG-TS`);
     }
-    const clip = buildClip(file, idx, file.name);
+    const clip = buildClip(file, idx, shown);
     clips.set(clip.id, clip);
     const p = targetPane(pane);
     if (p.video) await closeVideo(p);

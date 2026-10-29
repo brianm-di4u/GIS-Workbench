@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:17:33.646Z",
+ "key": "hsi-speclib-earthlib-envi/optimized.sli",
+ "item": "hsi-speclib-earthlib-envi",
+ "file": "optimized.sli",
+ "format": "ENVI Spectral Library (Float32 BSQ)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened optimized.sli in 34 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BSQ (data type 4)",
+   "w": 180,
+   "h": 313,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 366,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

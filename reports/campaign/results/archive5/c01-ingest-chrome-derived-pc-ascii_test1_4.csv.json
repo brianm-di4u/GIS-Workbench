@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:17.802Z",
+ "key": "derived-pc-ascii/test1_4.csv",
+ "item": "derived-pc-ascii",
+ "file": "test1_4.csv",
+ "format": "ASCII point cloud",
+ "rendered": false,
+ "errors": [
+  "the X/Y columns hold projected coordinates, not longitude/latitude (e.g. 1694510.387, 1816497.966): open the file as an ASCII point cloud (.xyz/.txt) with its EPSG code, or convert it to WGS 84"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: test1_4.csv: the X/Y columns hold projected coordinates, not longitude/latitude (e.g. 1694510.387, 1816497.966): open the file as an ASCII point cloud (.xyz/.txt) with its EPSG code, or convert it to WGS 84×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 66,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

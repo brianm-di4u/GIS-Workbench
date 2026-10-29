@@ -1,0 +1,23 @@
+{
+ "spec": "c03-enhance",
+ "project": "chrome",
+ "when": "2026-10-29T07:06:11.369Z",
+ "key": "enh.curve",
+ "id": "enh.curve",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Tonal Curve"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

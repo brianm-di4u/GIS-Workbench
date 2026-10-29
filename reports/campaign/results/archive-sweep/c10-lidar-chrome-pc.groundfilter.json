@@ -1,0 +1,27 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:49.519Z",
+ "key": "pc.groundfilter",
+ "id": "pc.groundfilter",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Ground Filter (SMRF)"
+ ],
+ "toasts": [
+  "toast-info: Ground filter: 8 points changed, 8 ground, 17 ms×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "pts/autzen.pts"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

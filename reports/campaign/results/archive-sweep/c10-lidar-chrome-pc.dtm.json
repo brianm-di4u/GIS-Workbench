@@ -1,0 +1,31 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:43.414Z",
+ "key": "pc.dtm",
+ "id": "pc.dtm",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Generate DTM"
+ ],
+ "toasts": [
+  "toast-info: autzen_pdrf2_las12_DTM.tif is now terrain (heights above the ellipsoid)×",
+  "toast-info: DTM 361 × 161 posts opened as autzen_pdrf2_las12_DTM.tif×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-las-pdrf-matrix/autzen_pdrf2_las12.las"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

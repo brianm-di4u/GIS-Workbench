@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:29.090Z",
+ "key": "derived-vector-variants/nhd_nhdline_z.shp",
+ "item": "derived-vector-variants",
+ "file": "nhd_nhdline_z.shp",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: nhd_nhdline_z: 500 feature(s) from ESRI Shapefile×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 500,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 98,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:12.002Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/byte.jp2",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "byte.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened byte.jp2 in 38 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GeoJP2; 100×100×1, 8-bit, 5 resolution levels)",
+   "w": 100,
+   "h": 100,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 356,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

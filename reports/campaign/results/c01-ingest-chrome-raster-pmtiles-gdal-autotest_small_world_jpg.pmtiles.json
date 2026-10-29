@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:34:13.330Z",
+ "key": "raster-pmtiles-gdal-autotest/small_world_jpg.pmtiles",
+ "item": "raster-pmtiles-gdal-autotest",
+ "file": "small_world_jpg.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: small_world_jpg.pmtiles: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 149,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

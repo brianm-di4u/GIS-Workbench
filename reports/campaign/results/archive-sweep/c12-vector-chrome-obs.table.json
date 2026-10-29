@@ -1,0 +1,23 @@
+{
+ "spec": "c12-vector",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:45.380Z",
+ "key": "obs.table",
+ "id": "obs.table",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "geotiff-gdal-small/small_world.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

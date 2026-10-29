@@ -1773,9 +1773,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×",
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.54 (Tone +31).×",
-   "info: Auto Align (AI): matching learned keypoints…×"
+   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
   ],
   "problems": []
  },
@@ -1792,7 +1790,9 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.54 (Tone +31).×"
+  ],
   "problems": []
  },
  {
@@ -1800,7 +1800,9 @@
   "id": "hub.pdf",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Align (AI): matching learned keypoints…×"
+  ],
   "problems": []
  },
  {

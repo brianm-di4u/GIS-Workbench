@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:36:59.908Z",
+ "key": "raster-netcdf3-negatives-unidata/ref_nccopy3_subset.nc",
+ "item": "raster-netcdf3-negatives-unidata",
+ "file": "ref_nccopy3_subset.nc",
+ "format": "NetCDF classic (CDF\\x01) and 64-bit offset (CDF\\x02)",
+ "rendered": false,
+ "errors": [
+  "NetCDF-3 (classic CDF) is not read — NetCDF-4 / HDF5 is; convert it with nccopy -k nc4"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack HDF5 reader (h5wasm) 0.10.3 verified (1 entries, SHA-256 checked)×",
+  "toast-error: ref_nccopy3_subset.nc: NetCDF-3 (classic CDF) is not read — NetCDF-4 / HDF5 is; convert it with nccopy -k nc4×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 194,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

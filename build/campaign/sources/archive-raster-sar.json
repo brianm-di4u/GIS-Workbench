@@ -1,0 +1,2318 @@
+[
+ {
+  "id": "raster-bigtiff-gdal-autotest",
+  "area": "raster",
+  "title": "Valid BigTIFF samples from GDAL autotest: little- and big-endian, strip and tile layouts, LONG/LONG8 offsets, georeferenced 20x20",
+  "source": "OSGeo / GDAL autotest (GitHub)",
+  "landing": "https://github.com/OSGeo/gdal/tree/v3.13.3/autotest/gcore/data",
+  "licence": "GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL/OGR contributors, OSGeo",
+  "tier": "A",
+  "format": "BigTIFF (TIFF magic 43)",
+  "profile": "Tiny valid BigTIFFs (header magic 0x2B checked): byte_bigtiff_strip5lines 20x20 Byte with GeoTIFF keys, strip of 5 lines; 1x1/1x2/1x4 strip and tile variants with SHORT, LONG and LONG8 offset types, II and MM byte order; uint16 nodata 65535",
+  "files": [
+   {
+    "name": "byte_bigtiff_strip5lines.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/byte_bigtiff_strip5lines.tif",
+    "bytes": 960,
+    "role": "primary"
+   },
+   {
+    "name": "bigtiff_one_block_long8.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bigtiff_one_block_long8.tif",
+    "bytes": 528,
+    "role": "primary"
+   },
+   {
+    "name": "bigtiff_two_strip_long8.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bigtiff_two_strip_long8.tif",
+    "bytes": 286,
+    "role": "primary"
+   },
+   {
+    "name": "bigtiff_one_strip_long.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bigtiff_one_strip_long.tif",
+    "bytes": 253,
+    "role": "primary"
+   },
+   {
+    "name": "bigtiff_four_strip_be_short.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bigtiff_four_strip_be_short.tif",
+    "bytes": 320,
+    "role": "primary"
+   },
+   {
+    "name": "bigtiff_one_block_be_long8.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bigtiff_one_block_be_long8.tif",
+    "bytes": 528,
+    "role": "primary"
+   },
+   {
+    "name": "bigtiff_two_strip_be_long.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/bigtiff_two_strip_be_long.tif",
+    "bytes": 286,
+    "role": "primary"
+   },
+   {
+    "name": "uint16_nodata_65535_bigtiff.tif",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/gtiff/uint16_nodata_65535_bigtiff.tif",
+    "bytes": 274,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to GDAL tag v3.13.3. Header magic and IFD parsed locally: all 43 (BigTIFF), uncompressed; the _be_ files are MM (big-endian BigTIFF). Excluded on purpose: bigtiff_header_extract.tif (declares 100000x100000 with no data - a robustness case, not a valid sample) and byte_bigtiff_invalid_slong8_for_stripoffsets.tif (invalid). GDAL autotest has no gdrivers/data/gtiff BigTIFF folder; gcore/data/gtiff/uint16_nodata_65535_bigtiff.tif is the only one under a gtiff subfolder. Second producer not found: the AWare Systems BigTIFFSamples.zip URL is 404/503.",
+  "feeds": [
+   "ingest",
+   "gtiff.bigtiff",
+   "robustness"
+  ],
+  "covers": [
+   "fmt:gtiff.bigtiff",
+   "fmt:gtiff.bigendian",
+   "fmt:gtiff.striped",
+   "fmt:gtiff.tiled",
+   "fmt:gtiff.codec.none"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "raster-ojpeg-libtiff-negatives",
+  "area": "raster",
+  "title": "Old-style JPEG (TIFF Compression=6) negatives from the libtiff test suite: multi-strip 2x1 subsampled, single strip without RowsPerStrip, tiled 2x2 subsampled",
+  "source": "libtiff (GitLab)",
+  "landing": "https://gitlab.com/libtiff/libtiff/-/tree/v4.7.1/test/images",
+  "licence": "libtiff licence (BSD-style permission notice, https://gitlab.com/libtiff/libtiff/-/blob/v4.7.1/LICENSE.md); test images ship in the libtiff source tree",
+  "attribution": "libtiff contributors (Sam Leffler, Silicon Graphics, and others)",
+  "tier": "A",
+  "format": "TIFF, Compression 6 (OJPEG)",
+  "profile": "Compression=6, Photometric=6 (YCbCr): 392x575 multi-strip (II), 234x213 single strip without RowsPerStrip (MM), 234x213 tiled (MM)",
+  "files": [
+   {
+    "name": "ojpeg_chewey_subsamp21_multi_strip.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/v4.7.1/test/images/ojpeg_chewey_subsamp21_multi_strip.tiff",
+    "bytes": 39752,
+    "role": "primary"
+   },
+   {
+    "name": "ojpeg_single_strip_no_rowsperstrip.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/v4.7.1/test/images/ojpeg_single_strip_no_rowsperstrip.tiff",
+    "bytes": 8258,
+    "role": "primary"
+   },
+   {
+    "name": "ojpeg_zackthecat_subsamp22_single_strip.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/v4.7.1/test/images/ojpeg_zackthecat_subsamp22_single_strip.tiff",
+    "bytes": 8258,
+    "role": "primary"
+   },
+   {
+    "name": "libtiff-LICENSE.md",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/v4.7.1/LICENSE.md",
+    "bytes": 2416,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to tag v4.7.1. TIFF tags parsed locally: all Compression=6. ojpeg_zackthecat_subsamp22_single_strip.tiff is byte-identical (MD5 76d5d8fd...) to GDAL autotest gcore/data/zackthecat.tif, so the GDAL copy is not listed; GDAL zackthecat_corrupted.tif (a damaged OJPEG) is already held in robustness-gdal-autotest-seeds. No ojpeg_*.tif exists in GDAL autotest, so all three distinct OJPEG files come from libtiff (zackthecat originally from the libtiff picture set). The app must refuse these with a named OJPEG error.",
+  "feeds": [
+   "ingest",
+   "error-handling",
+   "gtiff.codec"
+  ],
+  "covers": [
+   "fmt:gtiff.codec.ojpeg"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-capella-c10-sp-20240329",
+  "area": "sar",
+  "title": "Capella C10 spotlight HH 2024-03-29 (SLC GeoTIFF CInt16 + SICD 1.3.0 + SIDD 2.0.0 + GEO), same collect",
+  "source": "Capella Space",
+  "landing": "https://registry.opendata.aws/capella_opendata/",
+  "licence": "CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) plus a Capella Open Data condition: users must restrict transfer to individuals, entities and countries sanctioned or restricted under US Government laws and regulations (https://support.capellaspace.com/what-is-the-licensing-for-capellas-open-data)",
+  "attribution": "© Capella Space Corp., Capella Open Data, CC BY 4.0",
+  "tier": "A",
+  "format": "GeoTIFF SLC (CInt16, deflate, 512x512 tiles, GCP grid) + extended JSON | SICD1.3.0/NITF2.1 | SIDD2.0.0/NITF2.1 | GeoTIFF GEO",
+  "profile": "Spotlight (SP), X-band HH, C10; SLC 9506x12197 complex int16 (SampleFormat 5, BitsPerSample 32), Deflate, tiled 512, 225-point GCP tie grid (tag 33922)",
+  "files": [
+   {
+    "name": "capella_C10_SP_SLC.tif",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/3/29/CAPELLA_C10_SP_SLC_HH_20240329021551_20240329021559/CAPELLA_C10_SP_SLC_HH_20240329021551_20240329021559.tif",
+    "bytes": 159224387,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C10_SP_SLC_extended.json",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/3/29/CAPELLA_C10_SP_SLC_HH_20240329021551_20240329021559/CAPELLA_C10_SP_SLC_HH_20240329021551_20240329021559_extended.json",
+    "bytes": 101932,
+    "role": "sidecar"
+   },
+   {
+    "name": "capella_C10_SP_SICD.ntf",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/3/29/CAPELLA_C10_SP_SICD_HH_20240329021551_20240329021559/CAPELLA_C10_SP_SICD_HH_20240329021551_20240329021559.ntf",
+    "bytes": 463808855,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C10_SP_SIDD.ntf",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/3/29/CAPELLA_C10_SP_SIDD_HH_20240329021551_20240329021559/CAPELLA_C10_SP_SIDD_HH_20240329021551_20240329021559.ntf",
+    "bytes": 256654512,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C10_SP_GEO.tif",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/3/29/CAPELLA_C10_SP_GEO_HH_20240329021551_20240329021559/CAPELLA_C10_SP_GEO_HH_20240329021551_20240329021559.tif",
+    "bytes": 265378262,
+    "role": "primary"
+   },
+   {
+    "name": "capella_C10_SP_GEO_extended.json",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/3/29/CAPELLA_C10_SP_GEO_HH_20240329021551_20240329021559/CAPELLA_C10_SP_GEO_HH_20240329021551_20240329021559_extended.json",
+    "bytes": 107542,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "Second Capella SLC, spotlight mode (the held capella-c13-sm-20240924 is stripmap). Smallest 2024-2026 spotlight collect that has SLC+SICD+SIDD+GEO together (chosen from a full listing of data/2024-2026). SICD urn:SICD:1.3.0 and SIDD urn:SIDD:2.0.0 read from the DES via Range requests. TIFF header parsed from the first 64 KB. Same collect also has GEC (270 MB) and CPHD (6.77 GB, not taken). Note: newest Capella (2026) spotlight SICDs are still 1.3.0.",
+  "feeds": [
+   "sar.slc.capella",
+   "sar.sicd",
+   "sar.sidd",
+   "sar.remap",
+   "sar.geo"
+  ],
+  "covers": [
+   "fmt:gtiff.complex.cint16",
+   "fmt:gtiff.codec.deflate",
+   "fmt:gtiff.tiled",
+   "fmt:georef.gcps",
+   "fmt:sar.sicd",
+   "fmt:sar.sicd.v1.3.0",
+   "fmt:sar.sidd",
+   "fmt:sar.sidd.v2.0.0"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-cphd-gdal-autotest",
+  "area": "sar",
+  "title": "Minimal CPHD 1.1.0 test file written with sarkit (GDAL autotest), negative for the CPHD refusal",
+  "source": "OSGeo / GDAL autotest (GitHub)",
+  "landing": "https://github.com/OSGeo/gdal/tree/v3.13.3/autotest/gdrivers/data/cphd",
+  "licence": "GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL/OGR contributors, OSGeo",
+  "tier": "A",
+  "format": "CPHD (XML header edited, zero signal)",
+  "profile": "4.5 KB; signal array and PVPs are zeros; the readme says the XML is deliberately not valid CPHD XML and was cut down for size",
+  "files": [
+   {
+    "name": "test.cphd",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/cphd/test.cphd",
+    "bytes": 4488,
+    "role": "primary"
+   },
+   {
+    "name": "cphd-readme.md",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/cphd/readme.md",
+    "bytes": 1054,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Third CPHD producer (after Capella and Umbra). Good negative: tiny, starts with the CPHD/ magic, malformed XML.",
+  "feeds": [
+   "ingest",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:refused.cphd"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-capella-c09-sm-cphd-20240923",
+  "area": "sar",
+  "title": "Capella C09 stripmap VV CPHD 2024-09-23 (smallest Capella CPHD), a third full-size CPHD",
+  "source": "Capella Space",
+  "landing": "https://registry.opendata.aws/capella_opendata/",
+  "licence": "CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) plus a Capella Open Data condition: users must restrict transfer to individuals, entities and countries sanctioned or restricted under US Government laws and regulations (https://support.capellaspace.com/what-is-the-licensing-for-capellas-open-data)",
+  "attribution": "© Capella Space Corp., Capella Open Data, CC BY 4.0",
+  "tier": "A",
+  "format": "CPHD 1.x",
+  "profile": "Stripmap, X-band VV, C09 (different satellite and collect from the held C13 CPHD)",
+  "files": [
+   {
+    "name": "capella_C09_SM_CPHD.cphd",
+    "url": "https://capella-open-data.s3.us-west-2.amazonaws.com/data/2024/9/23/CAPELLA_C09_SM_CPHD_VV_20240923012917_20240923012918/CAPELLA_C09_SM_CPHD_VV_20240923012917_20240923012918.cphd",
+    "bytes": 424457376,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Smallest CPHD in Capella data/2024-2026 (424 MB). Same collect has SICD (50.2 MB), SIDD (47.5 MB), SLC (38.4 MB) and GEO (88.8 MB) if a matched set is wanted later.",
+  "feeds": [
+   "ingest",
+   "error-handling",
+   "sar.cphd.metadata"
+  ],
+  "covers": [
+   "fmt:refused.cphd"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "jp2-gdal-server-samples",
+  "area": "raster",
+  "title": "GDAL data server JPEG 2000 samples: GeoJP2 (UTM, GCPs, 16-bit DEM), GMLJP2 (Madrid, DTED EPSG:4326 axes), raw J2K codestream, paletted JP2",
+  "source": "OSGeo / GDAL data server",
+  "landing": "https://download.osgeo.org/gdal/data/jpeg2000/",
+  "licence": "GDAL sample-data server: \"public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL sample data (download.osgeo.org)",
+  "tier": "A",
+  "format": "JP2 / J2K",
+  "profile": "utm.jp2 grayscale GeoJP2; gcp.jp2 GeoJP2 with GCPs; gtsmall.jp2 16-bit elevation GeoJP2; madrid_gmljp2.jp2 and gmljp2_dted_epsg_4326_axes.jp2 GMLJP2 (gml.root-instance); 7sisters200.j2k raw codestream; thorax_small.jp2 paletted, no georeferencing",
+  "files": [
+   {
+    "name": "utm.jp2",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/utm.jp2",
+    "bytes": 52865,
+    "role": "primary"
+   },
+   {
+    "name": "gcp.jp2",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/gcp.jp2",
+    "bytes": 25936,
+    "role": "primary"
+   },
+   {
+    "name": "gtsmall.jp2",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/gtsmall.jp2",
+    "bytes": 88962,
+    "role": "primary"
+   },
+   {
+    "name": "madrid_gmljp2.jp2",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/madrid_gmljp2.jp2",
+    "bytes": 834826,
+    "role": "primary"
+   },
+   {
+    "name": "gmljp2_dted_epsg_4326_axes.jp2",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/gmljp2_dted_epsg_4326_axes.jp2",
+    "bytes": 131617,
+    "role": "primary"
+   },
+   {
+    "name": "7sisters200.j2k",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/7sisters200.j2k",
+    "bytes": 10615,
+    "role": "primary"
+   },
+   {
+    "name": "thorax_small.jp2",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/thorax_small.jp2",
+    "bytes": 16420,
+    "role": "primary"
+   },
+   {
+    "name": "jpeg2000-README",
+    "url": "https://download.osgeo.org/gdal/data/jpeg2000/README",
+    "bytes": 261,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "GeoJP2 UUID box (b14bf8bd...) and gml.root-instance association checked locally on each file. The jp2kak/ folder holds only a README.",
+  "feeds": [
+   "ingest",
+   "jp2",
+   "georef"
+  ],
+  "covers": [
+   "fmt:jp2",
+   "fmt:jp2.geojp2",
+   "fmt:jp2.gmljp2",
+   "fmt:jp2.codestream"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "jp2-gdal-autotest-geojp2-gmljp2",
+  "area": "raster",
+  "title": "GDAL autotest JPEG 2000 set: GeoJP2 written by OpenJPEG, ECW SDK, Kakadu and ERDAS; GMLJP2 variants (EPSG:3035 easting/northing, lat/long, NUL in GML, inconsistent GeoJP2 vs GMLJP2); J2K codestreams",
+  "source": "OSGeo / GDAL autotest (GitHub)",
+  "landing": "https://github.com/OSGeo/gdal/tree/v3.13.3/autotest/gdrivers/data/jpeg2000",
+  "licence": "GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL/OGR contributors, OSGeo",
+  "tier": "A",
+  "format": "JP2 / J2K",
+  "profile": "GeoJP2 only: byte.jp2, int16.jp2, rgb16_ecwsdk.jp2 (ECW SDK), rgbwcmyk01_YeGeo_kakadu.jp2 (Kakadu), erdas_foo.jp2 (ERDAS); GMLJP2: gmljp2_epsg3035_easting_northing.jp2, ll.jp2, byte_gmljp2_with_nul_car.jp2, inconsitant_geojp2_gmljp2.jp2 (both boxes, disagreeing); codestreams: byte_one_poc.j2k, uint32_2x2_lossless_nbits_20.j2k",
+  "files": [
+   {
+    "name": "byte.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/byte.jp2",
+    "bytes": 10247,
+    "role": "primary"
+   },
+   {
+    "name": "int16.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/int16.jp2",
+    "bytes": 1282,
+    "role": "primary"
+   },
+   {
+    "name": "rgb16_ecwsdk.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/rgb16_ecwsdk.jp2",
+    "bytes": 7911,
+    "role": "primary"
+   },
+   {
+    "name": "rgbwcmyk01_YeGeo_kakadu.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/rgbwcmyk01_YeGeo_kakadu.jp2",
+    "bytes": 2803,
+    "role": "primary"
+   },
+   {
+    "name": "erdas_foo.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/erdas_foo.jp2",
+    "bytes": 120187,
+    "role": "primary"
+   },
+   {
+    "name": "gmljp2_epsg3035_easting_northing.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/gmljp2_epsg3035_easting_northing.jp2",
+    "bytes": 2431,
+    "role": "primary"
+   },
+   {
+    "name": "ll.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/ll.jp2",
+    "bytes": 28733,
+    "role": "primary"
+   },
+   {
+    "name": "byte_gmljp2_with_nul_car.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/byte_gmljp2_with_nul_car.jp2",
+    "bytes": 1958,
+    "role": "primary"
+   },
+   {
+    "name": "inconsitant_geojp2_gmljp2.jp2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/inconsitant_geojp2_gmljp2.jp2",
+    "bytes": 2548,
+    "role": "primary"
+   },
+   {
+    "name": "byte_one_poc.j2k",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/byte_one_poc.j2k",
+    "bytes": 358,
+    "role": "primary"
+   },
+   {
+    "name": "uint32_2x2_lossless_nbits_20.j2k",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/jpeg2000/uint32_2x2_lossless_nbits_20.j2k",
+    "bytes": 96,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Box presence checked locally (GeoJP2 UUID; gml.root-instance). Several producers in one folder, which helps the producer count. The two .j2k start with SOC/SIZ (FF4F FF51).",
+  "feeds": [
+   "ingest",
+   "jp2",
+   "georef"
+  ],
+  "covers": [
+   "fmt:jp2",
+   "fmt:jp2.geojp2",
+   "fmt:jp2.gmljp2",
+   "fmt:jp2.codestream"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "jp2-openjpeg-conformance",
+  "area": "raster",
+  "title": "ISO/IEC 15444-4 JPEG 2000 conformance files from openjpeg-data: JP2 file1/file5/file8, profile-0 and profile-1 codestreams",
+  "source": "OpenJPEG (uclouvain/openjpeg-data, GitHub)",
+  "landing": "https://github.com/uclouvain/openjpeg-data/tree/master/input/conformance",
+  "licence": "ISO/IEC 15444-4 conformance files (input/conformance/COPYRIGHT): copyright holders do not assert rights for use in products claiming or testing JPEG 2000 conformance, \"No right to these files is granted for non JPEG 2000 Standard uses\"; test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "Algo Vision Technology, Aware, Kodak, Ricoh (ITU-T T.803 | ISO/IEC 15444-4); mirrored by the OpenJPEG project",
+  "tier": "A",
+  "format": "JP2 / J2K (no georeferencing)",
+  "profile": "file1.jp2, file5.jp2, file8.jp2 (JP2 boxes, colour specs); p0_01, p0_04, p0_11 (profile 0) and p1_01, p1_04 (profile 1) raw codestreams",
+  "files": [
+   {
+    "name": "file1.jp2",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/file1.jp2",
+    "bytes": 650678,
+    "role": "primary"
+   },
+   {
+    "name": "file5.jp2",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/file5.jp2",
+    "bytes": 586560,
+    "role": "primary"
+   },
+   {
+    "name": "file8.jp2",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/file8.jp2",
+    "bytes": 150619,
+    "role": "primary"
+   },
+   {
+    "name": "p0_01.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/p0_01.j2k",
+    "bytes": 7390,
+    "role": "primary"
+   },
+   {
+    "name": "p0_04.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/p0_04.j2k",
+    "bytes": 264635,
+    "role": "primary"
+   },
+   {
+    "name": "p0_11.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/p0_11.j2k",
+    "bytes": 233,
+    "role": "primary"
+   },
+   {
+    "name": "p1_01.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/p1_01.j2k",
+    "bytes": 4761,
+    "role": "primary"
+   },
+   {
+    "name": "p1_04.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/p1_04.j2k",
+    "bytes": 101844,
+    "role": "primary"
+   },
+   {
+    "name": "conformance-COPYRIGHT",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/COPYRIGHT",
+    "bytes": 1250,
+    "role": "metadata"
+   },
+   {
+    "name": "conformance-VERSION.txt",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/conformance/VERSION.txt",
+    "bytes": 1584,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to openjpeg-data commit 39524bd3a601d90ed8e0177559400d23945f96a9. Decoder conformance vectors, not geospatial: they test the JP2 container and codestream decoder paths. The repository has no top-level licence; the conformance COPYRIGHT is restrictive, hence OD-09.",
+  "feeds": [
+   "ingest",
+   "jp2"
+  ],
+  "covers": [
+   "fmt:jp2",
+   "fmt:jp2.codestream"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "jp2-htj2k-iso-conformance",
+  "area": "raster",
+  "title": "HTJ2K (ISO/IEC 15444-15) conformance streams from the JPEG committee: JPH files transcoded from the JP2 conformance set, plus a HT codestream",
+  "source": "JPEG (ISO/IEC JTC1/SC29/WG1) htj2k-codestreams (GitLab)",
+  "landing": "https://gitlab.com/wg1/htj2k-codestreams",
+  "licence": "Repository COPYRIGHT.txt: \"Copyright (c) 2015-2019, ITU-T and ISO/IEC\", files provided for JPEG 2000 conformance testing; \"No right to these files is granted for non JPEG 2000 Standard uses\"; test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "ITU-T | ISO/IEC JTC1/SC29/WG1 (JPEG); original files by Kakadu Software, Algo Vision, Aware, Kodak, Ricoh",
+  "tier": "A",
+  "format": "JPH (HTJ2K in JP2-family box) / J2K HT codestream",
+  "profile": "file1_b11.jph, file5_b11.jph, file9_b11.jph (brand \"jph \", CAP marker FF50 in main header); hifi_ht1_02.j2k raw HT codestream",
+  "files": [
+   {
+    "name": "file1_b11.jph",
+    "url": "https://gitlab.com/wg1/htj2k-codestreams/-/raw/f6b9ede094a0bd6e1e0427e12721e3f3ee1b704b/testfiles_jph/file1_b11.jph",
+    "bytes": 689521,
+    "role": "primary"
+   },
+   {
+    "name": "file5_b11.jph",
+    "url": "https://gitlab.com/wg1/htj2k-codestreams/-/raw/f6b9ede094a0bd6e1e0427e12721e3f3ee1b704b/testfiles_jph/file5_b11.jph",
+    "bytes": 622716,
+    "role": "primary"
+   },
+   {
+    "name": "file9_b11.jph",
+    "url": "https://gitlab.com/wg1/htj2k-codestreams/-/raw/f6b9ede094a0bd6e1e0427e12721e3f3ee1b704b/testfiles_jph/file9_b11.jph",
+    "bytes": 314056,
+    "role": "primary"
+   },
+   {
+    "name": "hifi_ht1_02.j2k",
+    "url": "https://gitlab.com/wg1/htj2k-codestreams/-/raw/f6b9ede094a0bd6e1e0427e12721e3f3ee1b704b/codestreams_hifi/hifi_ht1_02.j2k",
+    "bytes": 30665,
+    "role": "primary"
+   },
+   {
+    "name": "htj2k-COPYRIGHT.txt",
+    "url": "https://gitlab.com/wg1/htj2k-codestreams/-/raw/f6b9ede094a0bd6e1e0427e12721e3f3ee1b704b/COPYRIGHT.txt",
+    "bytes": 1276,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit f6b9ede094a0bd6e1e0427e12721e3f3ee1b704b. CAP marker (FF50) located inside the main header right after SIZ in all four (parsed locally). Profile-0/1 HT codestreams (codestreams_profile0/p0_*.j2k) and the htj2k_bsets reference decodes are in the same repo if more are wanted. aous72/OpenJPH ships only one test file (subprojects/js/html/test.j2c), not used.",
+  "feeds": [
+   "ingest",
+   "jp2",
+   "jp2.htj2k"
+  ],
+  "covers": [
+   "fmt:jp2",
+   "fmt:jp2.htj2k",
+   "fmt:jp2.codestream"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "jp2-htj2k-openjpeg-nonregression",
+  "area": "raster",
+  "title": "HTJ2K non-regression files from openjpeg-data: Bretagne1 lossless/lossy HT codestreams, a GeoJP2-referenced .jph and a causal .jhc",
+  "source": "OpenJPEG (uclouvain/openjpeg-data, GitHub)",
+  "landing": "https://github.com/uclouvain/openjpeg-data/tree/master/input/nonregression/htj2k",
+  "licence": "No licence stated for input/nonregression/htj2k in openjpeg-data; test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "OpenJPEG project test data",
+  "tier": "A",
+  "format": "J2K HT codestream / JPH / JHC",
+  "profile": "Bretagne1_ht.j2k (lossless) and Bretagne1_ht_lossy.j2k; byte.jph (20x20 byte, carries the GeoJP2 UUID box - a georeferenced HTJ2K); byte_causal.jhc (raw HT codestream, causal code-block style)",
+  "files": [
+   {
+    "name": "Bretagne1_ht.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/nonregression/htj2k/Bretagne1_ht.j2k",
+    "bytes": 392635,
+    "role": "primary"
+   },
+   {
+    "name": "Bretagne1_ht_lossy.j2k",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/nonregression/htj2k/Bretagne1_ht_lossy.j2k",
+    "bytes": 235021,
+    "role": "primary"
+   },
+   {
+    "name": "byte.jph",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/nonregression/htj2k/byte.jph",
+    "bytes": 990,
+    "role": "primary"
+   },
+   {
+    "name": "byte_causal.jhc",
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg-data/39524bd3a601d90ed8e0177559400d23945f96a9/input/nonregression/htj2k/byte_causal.jhc",
+    "bytes": 568,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 39524bd3a601d90ed8e0177559400d23945f96a9. CAP (FF50) found in the main header of each (checked locally). byte.jph appears to be GDAL's byte test raster re-encoded as HTJ2K (GeoJP2 box present), so it exercises georeferenced HTJ2K.",
+  "feeds": [
+   "ingest",
+   "jp2",
+   "jp2.htj2k",
+   "georef"
+  ],
+  "covers": [
+   "fmt:jp2",
+   "fmt:jp2.htj2k",
+   "fmt:jp2.codestream",
+   "fmt:jp2.geojp2"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "nitf-mvs-wv3-buenos-aires",
+  "area": "nitf",
+  "title": "IARPA Multi-View Stereo benchmark, full-size WorldView-3 PAN NITF (10 views over San Fernando, Buenos Aires) with DigitalGlobe metadata tars and JHU/APL lidar DSM truth for the challenge AOIs",
+  "source": "IARPA / JHU-APL MVS benchmark (SpaceNet AWS bucket)",
+  "landing": "https://spacenet.ai/iarpa-multi-view-stereo-3d-mapping/",
+  "licence": "IARPA Multi-View Stereo 3D Mapping benchmark (JHU/APL), hosted in the SpaceNet AWS bucket. Bucket license.txt: MIT-style permission notice, \"Copyright 2016 The Johns Hopkins University Applied Physics Laboratory\"; readme.txt: \"Approved for Public Release; Distribution is Unlimited\". Required citation: \"A Multiple View Stereo Benchmark for Satellite Imagery\", IEEE AIPR Workshop, October 2016. Commercial satellite imagery courtesy of DigitalGlobe (now Maxar/Vantor); the NITF headers carry DigitalGlobe licensing text, so redistribution relies on the public-release statement (same open question as rs-nitf-wv3-mvs-stereo-chips)",
+  "attribution": "IARPA MVS benchmark (JHU/APL); commercial satellite imagery courtesy of DigitalGlobe. Cite: \"A Multiple View Stereo Benchmark for Satellite Imagery\", IEEE AIPR 2016",
+  "tier": "A",
+  "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+  "profile": "Views (off-nadir, sat azimuth): 18DEC15 single-pass sweep 140455 (24.2, 48.8), 140510 (18.3, 65.2), 140522 (15.1, 88.2), 140533 (14.8, 113.7), 140544 (17.2, 135.8), 140554 (21.1, 151.1); 19DEC15 142039 (15.7, 278.3); 07JAN16 along-track triplet 142142 (37.0, 211.2), 142152 (40.3, 208.7), 142202 (43.3, 206.7). Lidar truth: MasterProvisional1-3 and Explorer DSM GeoTIFFs",
+  "files": [
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 751297602,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140455-P1BS-500515572010_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2129920,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140510-P1BS-500515572040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140510-P1BS-500515572040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 752444295,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140510-P1BS-500515572040_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140510-P1BS-500515572040_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2119680,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140522-P1BS-500515572020_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140522-P1BS-500515572020_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 752037059,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140522-P1BS-500515572020_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140522-P1BS-500515572020_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2119680,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 751187475,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2119680,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140544-P1BS-500515572060_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140544-P1BS-500515572060_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 754030212,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140544-P1BS-500515572060_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140544-P1BS-500515572060_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2140160,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140554-P1BS-500515572030_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140554-P1BS-500515572030_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 754341255,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/18DEC15WV031000015DEC18140554-P1BS-500515572030_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/18DEC15WV031000015DEC18140554-P1BS-500515572030_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2140160,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF",
+    "bytes": 1032080360,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.tar",
+    "bytes": 2744320,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.NTF",
+    "bytes": 640785424,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/07JAN16WV031000016JAN07142142-P1BS-500537128030_01_P001_________AAE_0AAAAABPABE0.tar",
+    "bytes": 2160640,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/07JAN16WV031000016JAN07142152-P1BS-500537128010_01_P001_________AAE_0AAAAABPABA0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/07JAN16WV031000016JAN07142152-P1BS-500537128010_01_P001_________AAE_0AAAAABPABA0.NTF",
+    "bytes": 576217667,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/07JAN16WV031000016JAN07142152-P1BS-500537128010_01_P001_________AAE_0AAAAABPABA0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/07JAN16WV031000016JAN07142152-P1BS-500537128010_01_P001_________AAE_0AAAAABPABA0.tar",
+    "bytes": 2119680,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/07JAN16WV031000016JAN07142202-P1BS-500537128020_01_P001_________AAE_0AAAAABPAAY0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/07JAN16WV031000016JAN07142202-P1BS-500537128020_01_P001_________AAE_0AAAAABPAAY0.NTF",
+    "bytes": 517035137,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/07JAN16WV031000016JAN07142202-P1BS-500537128020_01_P001_________AAE_0AAAAABPAAY0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/WV3/PAN/07JAN16WV031000016JAN07142202-P1BS-500537128020_01_P001_________AAE_0AAAAABPAAY0.tar",
+    "bytes": 2099200,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "Lidar_gt/MasterProvisional1.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/Lidar_gt/MasterProvisional1.tif",
+    "bytes": 27595518,
+    "role": "primary"
+   },
+   {
+    "name": "kml_polygons/MasterProvisional1.kml",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/kml_polygons/MasterProvisional1.kml",
+    "bytes": 729,
+    "role": "sidecar"
+   },
+   {
+    "name": "Lidar_gt/MasterProvisional2.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/Lidar_gt/MasterProvisional2.tif",
+    "bytes": 27677562,
+    "role": "primary"
+   },
+   {
+    "name": "kml_polygons/MasterProvisional2.kml",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/kml_polygons/MasterProvisional2.kml",
+    "bytes": 729,
+    "role": "sidecar"
+   },
+   {
+    "name": "Lidar_gt/MasterProvisional3.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/Lidar_gt/MasterProvisional3.tif",
+    "bytes": 20844426,
+    "role": "primary"
+   },
+   {
+    "name": "kml_polygons/MasterProvisional3.kml",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/kml_polygons/MasterProvisional3.kml",
+    "bytes": 728,
+    "role": "sidecar"
+   },
+   {
+    "name": "Lidar_gt/Explorer.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/Lidar_gt/Explorer.tif",
+    "bytes": 20124938,
+    "role": "primary"
+   },
+   {
+    "name": "kml_polygons/Explorer.kml",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/Challenge_Data_and_Software/kml_polygons/Explorer.kml",
+    "bytes": 662,
+    "role": "sidecar"
+   },
+   {
+    "name": "license.txt",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/license.txt",
+    "bytes": 1102,
+    "role": "metadata"
+   },
+   {
+    "name": "readme.txt",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/MVS_dataset/readme.txt",
+    "bytes": 518,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Bucket listed in full (2,830 keys): WV3/PAN (50 NTF), WV3/MSI (50), WV3/SWIR (1), Lidar/LAZ (40 tiles, ~43 MB each), Challenge_Data_and_Software (Lidar_gt DSMs, kml polygons, crop software). Geometry from the IMD inside each tar. The 18DEC15 sweep gives 6 views in one pass with azimuth spread ~100 deg (convergence up to ~35 deg); 19DEC15 adds an opposite-azimuth view one day later; the 07JAN16 triplet is a narrow along-track set at high obliquity. Full images held as chips in rs-nitf-wv3-mvs-stereo-chips come from 140455 and 140554. NITF header parsed via Range: NUMI 2 (36864x43008 PAN, C8, blocks 42x36; 66x80 cloud mask, NC), TREs CSCRNA, CSEXRA, CSPROA, PIAIMC, RPC00B, STDIDC, USE00A, J2KLRA, HISTOA, CSCCGA. Lidar_gt DSMs are the per-AOI truth used by the challenge metrics; the raw lidar LAZ (and SBET) are in Lidar/ if point truth is wanted. Tars hold the DigitalGlobe delivery (IMD, RPB, TIL, XML, ATT, EPH, GIS shapes): extract them.",
+  "feeds": [
+   "ingest",
+   "nitf.parse",
+   "nitf.decode",
+   "sensor-model",
+   "rpc",
+   "stereo",
+   "dem.compare",
+   "perf"
+  ],
+  "covers": [
+   "fmt:nitf.v21",
+   "fmt:nitf.ic.c8",
+   "fmt:nitf.multiimage",
+   "fmt:rpc.nitf",
+   "fmt:tre.RPC00B",
+   "fmt:tre.USE00A",
+   "fmt:dg.rpb",
+   "fmt:dg.imd",
+   "fmt:dg.til"
+  ],
+  "pairs": [
+   {
+    "role": "stereo-mate",
+    "with": [
+     "rs-nitf-wv3-mvs-stereo-chips"
+    ]
+   },
+   {
+    "role": "dsm-truth",
+    "with": [
+     "rs-nitf-wv3-mvs-stereo-chips"
+    ]
+   },
+   {
+    "role": "perf-large",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "nitf-core3d-jacksonville-wv3",
+  "area": "nitf",
+  "title": "IARPA CORE3D public data, Jacksonville: same-pass WorldView-3 PAN + 8-band MSI NITF triplet (2015-01-21) with DG tars, plus an Urban 3D Challenge JAX tile (DSM, DTM, RGB, building labels)",
+  "source": "IARPA CORE3D (SpaceNet AWS bucket)",
+  "landing": "https://spacenet.ai/core3d/",
+  "licence": "SpaceNet AWS Open Data bucket, CC BY-SA 4.0 per the Registry of Open Data entry for spacenet-dataset; CORE3D-Public-Data has no licence or readme file of its own (listed in full). Imagery (c) Maxar/DigitalGlobe. Treat redistribution as an open question like the MVS imagery.",
+  "attribution": "IARPA CORE3D public data via SpaceNet (SpaceNet Partners); imagery courtesy of DigitalGlobe/Maxar",
+  "tier": "A",
+  "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+  "profile": "PAN 46080x43008 (and siblings) and MSI 12288x11264x8 from catalog strips acquired 16:12:43-16:13:08 UTC on 2015-01-21 (one pass, three looks); Urban3D JAX_Tile_000 2048x2048 at 0.5 m: DSM, DTM, RGB (challenge inputs) and GTL/GTI/GTC ground truth",
+  "files": [
+   {
+    "name": "PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF",
+    "bytes": 847759246,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.tar",
+    "bytes": 2232320,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/21JAN15WV031100015JAN21161253-P1BS-500648062050_01_P001_________AAE_0AAAAABPABO0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/PAN/21JAN15WV031100015JAN21161253-P1BS-500648062050_01_P001_________AAE_0AAAAABPABO0.NTF",
+    "bytes": 807653346,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/21JAN15WV031100015JAN21161253-P1BS-500648062050_01_P001_________AAE_0AAAAABPABO0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/PAN/21JAN15WV031100015JAN21161253-P1BS-500648062050_01_P001_________AAE_0AAAAABPABO0.tar",
+    "bytes": 2232320,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+    "bytes": 713224043,
+    "role": "primary"
+   },
+   {
+    "name": "PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.tar",
+    "bytes": 2201600,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF",
+    "bytes": 652002755,
+    "role": "primary"
+   },
+   {
+    "name": "MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.tar",
+    "bytes": 2232320,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "MSI/21JAN15WV031100015JAN21161253-M1BS-500648062050_01_P001_________GA_E0AAAAAAKAAK0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/MSI/21JAN15WV031100015JAN21161253-M1BS-500648062050_01_P001_________GA_E0AAAAAAKAAK0.NTF",
+    "bytes": 635632705,
+    "role": "primary"
+   },
+   {
+    "name": "MSI/21JAN15WV031100015JAN21161253-M1BS-500648062050_01_P001_________GA_E0AAAAAAKAAK0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/MSI/21JAN15WV031100015JAN21161253-M1BS-500648062050_01_P001_________GA_E0AAAAAAKAAK0.tar",
+    "bytes": 2222080,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "MSI/21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/MSI/21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF",
+    "bytes": 570217177,
+    "role": "primary"
+   },
+   {
+    "name": "MSI/21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.tar",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Satellite-Images/Jacksonville/WV3/MSI/21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.tar",
+    "bytes": 2201600,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "Urban3D/JAX_Tile_000_DSM.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Tiled-Examples-for-Urban-3D-Challenge-Comparisons/01_Provisional/Testing/challenge-inputs/JAX_Tile_000_DSM.tif",
+    "bytes": 16793979,
+    "role": "primary"
+   },
+   {
+    "name": "Urban3D/JAX_Tile_000_DTM.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Tiled-Examples-for-Urban-3D-Challenge-Comparisons/01_Provisional/Testing/challenge-inputs/JAX_Tile_000_DTM.tif",
+    "bytes": 16793979,
+    "role": "primary"
+   },
+   {
+    "name": "Urban3D/JAX_Tile_000_RGB.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Tiled-Examples-for-Urban-3D-Challenge-Comparisons/01_Provisional/Testing/challenge-inputs/JAX_Tile_000_RGB.tif",
+    "bytes": 12599680,
+    "role": "primary"
+   },
+   {
+    "name": "Urban3D/JAX_Tile_000_GTL.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Tiled-Examples-for-Urban-3D-Challenge-Comparisons/01_Provisional/Testing/ground-truth/JAX_Tile_000_GTL.tif",
+    "bytes": 4327616,
+    "role": "primary"
+   },
+   {
+    "name": "Urban3D/JAX_Tile_000_GTI.tif",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/Hosted-Datasets/CORE3D-Public-Data/Tiled-Examples-for-Urban-3D-Challenge-Comparisons/01_Provisional/Testing/ground-truth/JAX_Tile_000_GTI.tif",
+    "bytes": 8654016,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "CORE3D-Public-Data listed in full (4,247 keys): Satellite-Images for Jacksonville (WV3 26 PAN / ~26 MSI NTF, WV2), Omaha, UCSD, Richmond, Tampa, plus Urban 3D Challenge tiles. There is NO lidar DSM in this bucket: the Urban 3D DSM/DTM are produced from satellite imagery (dense matching, per the challenge papers), so they are a stereo-derived surface, not truth. Lidar truth for Jacksonville is the JHU/APL US3D / DFC2019 release on IEEE DataPort (tier B, see dem-us3d-jacksonville-lidar-tierb). Each NTF also has a 2.3 GB GeoTIFF *_lv1.tif and a .vrt next to it (not taken). Header of the PAN and MSI parsed via Range: C8, RPC00B, USE00A, PIAIMC, CSEXRA, cloud-mask segment. Whether JAX_Tile_000 falls inside these three strips was not checked (all are over Jacksonville).",
+  "feeds": [
+   "ingest",
+   "nitf.parse",
+   "nitf.decode",
+   "sensor-model",
+   "rpc",
+   "stereo",
+   "pansharpen",
+   "labels"
+  ],
+  "covers": [
+   "fmt:nitf.v21",
+   "fmt:nitf.ic.c8",
+   "fmt:nitf.multiimage",
+   "fmt:rpc.nitf",
+   "fmt:tre.RPC00B",
+   "fmt:tre.USE00A"
+  ],
+  "pairs": [
+   {
+    "role": "pan-ms",
+    "with": []
+   },
+   {
+    "role": "stereo-mate",
+    "with": [
+     "ieee-dfc2019-track2-val"
+    ]
+   },
+   {
+    "role": "labels-raster",
+    "with": []
+   },
+   {
+    "role": "perf-large",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "sar-sicd-sidd-six-library",
+  "area": "sar",
+  "title": "NGA six-library SICD/SIDD test NITFs across versions: SICD 0.4.0, 0.4.1, 0.5.0, 1.0.0, 1.0.1, 1.1.0 (x2), 1.2.0, 1.2.1 and SIDD 1.0.0 (x2)",
+  "source": "NGA (ngageoint/six-library, GitHub)",
+  "landing": "https://github.com/ngageoint/six-library",
+  "licence": "GNU LGPL 3.0 (ngageoint/six-library LICENSE); test data distributed in the repository",
+  "attribution": "National Geospatial-Intelligence Agency, six-library contributors",
+  "tier": "A",
+  "format": "SICD/NITF2.1 and SIDD/NITF2.1",
+  "profile": "croppedNitfs/SICD/cropped_sicd_{040,041,050,100,101,110,120}.nitf (5x5 RE16I_IM16I, full XML), six/tests sicd_1.1.0.nitf (2x2 RE32F_IM32F), sicd_50x50.nitf (SICD 1.2.1), croppedNitfs/SIDD/cropped_sidd.nitf and six/tests sidd_1.0.0.nitf (SIDD 1.0.0, the latter also embeds a SICD 1.1.0 XML DES)",
+  "files": [
+   {
+    "name": "SICD/cropped_sicd_040.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_040.nitf",
+    "bytes": 75616,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/cropped_sicd_041.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_041.nitf",
+    "bytes": 75697,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/cropped_sicd_050.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_050.nitf",
+    "bytes": 54512,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/cropped_sicd_100.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_100.nitf",
+    "bytes": 55369,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/cropped_sicd_101.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_101.nitf",
+    "bytes": 55369,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/cropped_sicd_110.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_110.nitf",
+    "bytes": 55369,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/cropped_sicd_120.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SICD/cropped_sicd_120.nitf",
+    "bytes": 55369,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/sicd_1.1.0.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/six/modules/c++/six/tests/nitf/sicd_1.1.0.nitf",
+    "bytes": 6535,
+    "role": "primary"
+   },
+   {
+    "name": "SICD/sicd_50x50.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/six/modules/c++/six/tests/nitf/sicd_50x50.nitf",
+    "bytes": 79220,
+    "role": "primary"
+   },
+   {
+    "name": "SIDD/cropped_sidd.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/croppedNitfs/SIDD/cropped_sidd.nitf",
+    "bytes": 9865,
+    "role": "primary"
+   },
+   {
+    "name": "SIDD/sidd_1.0.0.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/six/modules/c++/six/tests/nitf/sidd_1.0.0.nitf",
+    "bytes": 10717,
+    "role": "primary"
+   },
+   {
+    "name": "six-library-LICENSE",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/LICENSE",
+    "bytes": 7652,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 448e6d659bb4b650fcc19e4b909353203c3a5195. Versions read from the XML namespace in each file (urn:SICD:x / urn:SIDD:x). Pre-1.0 SICDs (0.4.0, 0.4.1, 0.5.0) are useful as version-refusal or legacy cases. sicd_French_xml.nitf (same size as sicd_50x50) and cropped_sicd_extra_des.nitf exist if wanted. six/projects/csm/tests/data/i_3128b.ntf is a JITC file with PIAIMB/PIAPEA TREs, not RSM.",
+  "feeds": [
+   "ingest",
+   "sar.sicd",
+   "sar.sidd",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:sar.sicd",
+   "fmt:sar.sicd.v1.1.0",
+   "fmt:sar.sicd.v1.2.1",
+   "fmt:sar.sidd",
+   "fmt:nitf.v21"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-sicd-nitro-amp8i-phs8i",
+  "area": "sar",
+  "title": "NGA NITRO SICD 1.1.0 example with AMP8I_PHS8I pixels, with and without an amplitude table",
+  "source": "NGA (six-library externals/nitro, GitHub)",
+  "landing": "https://github.com/ngageoint/six-library/tree/master/externals/nitro/modules/c%2B%2B/nitf/unittests/8_bit_Amp_Phs_Examples",
+  "licence": "GNU LGPL 3.0 (six-library / NITRO); test data distributed in the repository",
+  "attribution": "National Geospatial-Intelligence Agency, NITRO contributors",
+  "tier": "A",
+  "format": "SICD 1.1.0/NITF2.1, PixelType AMP8I_PHS8I",
+  "profile": "sicd_example_1 PFA, VV, 8-bit amplitude/phase; one file with AmpTable, one without",
+  "files": [
+   {
+    "name": "sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/externals/nitro/modules/c++/nitf/unittests/8_bit_Amp_Phs_Examples/With_amplitude_table/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf",
+    "bytes": 53482779,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_1_PFA_AMP8I_PHS8I_VV_no_amplitude_table_SICD.nitf",
+    "url": "https://raw.githubusercontent.com/ngageoint/six-library/448e6d659bb4b650fcc19e4b909353203c3a5195/externals/nitro/modules/c++/nitf/unittests/8_bit_Amp_Phs_Examples/No_amplitude_table/sicd_example_1_PFA_AMP8I_PHS8I_VV_no_amplitude_table_SICD.nitf",
+    "bytes": 53466197,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to six-library commit 448e6d659bb4b650fcc19e4b909353203c3a5195; the same files are in mdaus/nitro modules/c++/nitf/unittests. SICD version urn:SICD:1.1.0 read from the DES via a tail Range request. Real (not cropped) SICD 1.1 with the less common AMP8I_PHS8I pixel type: a good decoder test.",
+  "feeds": [
+   "ingest",
+   "sar.sicd"
+  ],
+  "covers": [
+   "fmt:sar.sicd",
+   "fmt:sar.sicd.v1.1.0",
+   "fmt:nitf.v21"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-sicd-sidd-xml-sarkit",
+  "area": "sar",
+  "title": "SARkit example and syntax-only XML: SICD 1.4.0 (example + two syntax-only), SICD 1.1.0, SIDD 1.0.0",
+  "source": "Valkyrie Systems (ValkyrieSystems/sarkit, GitHub)",
+  "landing": "https://github.com/ValkyrieSystems/sarkit/tree/main/data",
+  "licence": "MIT (ValkyrieSystems/sarkit LICENSE)",
+  "attribution": "Valkyrie Systems, SARkit contributors",
+  "tier": "A",
+  "format": "SICD/SIDD XML instance documents (no NITF, no pixels)",
+  "profile": "example-sicd-1.4.0.xml, syntax_only/sicd/0005- and 0006-syntax-only-sicd-1.4.0.xml, example-sicd-1.1.0.xml, syntax_only/sicd/manual-syntax-only-sicd-1.1.0.xml, example-sidd-1.0.0.xml, syntax_only/sidd/version1/manual-syntax-only-sidd-1.0.xml",
+  "files": [
+   {
+    "name": "example-sicd-1.4.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/example-sicd-1.4.0.xml",
+    "bytes": 42785,
+    "role": "primary"
+   },
+   {
+    "name": "0005-syntax-only-sicd-1.4.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/syntax_only/sicd/0005-syntax-only-sicd-1.4.0.xml",
+    "bytes": 40565,
+    "role": "primary"
+   },
+   {
+    "name": "0006-syntax-only-sicd-1.4.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/syntax_only/sicd/0006-syntax-only-sicd-1.4.0.xml",
+    "bytes": 41912,
+    "role": "primary"
+   },
+   {
+    "name": "example-sicd-1.1.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/example-sicd-1.1.0.xml",
+    "bytes": 52521,
+    "role": "primary"
+   },
+   {
+    "name": "manual-syntax-only-sicd-1.1.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/syntax_only/sicd/manual-syntax-only-sicd-1.1.0.xml",
+    "bytes": 33697,
+    "role": "primary"
+   },
+   {
+    "name": "example-sidd-1.0.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/example-sidd-1.0.0.xml",
+    "bytes": 7377,
+    "role": "primary"
+   },
+   {
+    "name": "manual-syntax-only-sidd-1.0.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/data/syntax_only/sidd/version1/manual-syntax-only-sidd-1.0.xml",
+    "bytes": 19908,
+    "role": "primary"
+   },
+   {
+    "name": "sarkit-LICENSE",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit/81336ef2236d6dbb870ed7f5afe40b814fcd78b4/LICENSE",
+    "bytes": 1085,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 81336ef2236d6dbb870ed7f5afe40b814fcd78b4. No binary SICD 1.4.0 NITF was found anywhere public (Umbra 2025-2026 and Capella 2026 products, ICEYE 2025 XML, six-library, sarpy and GDAL are all 1.3.0 or older), so 1.4.0 coverage is XML-only. census.py does not classify .xml, so these count only through the covers tag. Syntax-only files exercise every optional element and are valid against the schema.",
+  "feeds": [
+   "sar.sicd",
+   "sar.sidd",
+   "sar.metadata"
+  ],
+  "covers": [
+   "fmt:sar.sicd.v1.4.0",
+   "fmt:sar.sicd.v1.1.0",
+   "fmt:sar.sidd"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-sicd-xml-sarkit-convert-s1",
+  "area": "sar",
+  "title": "SICD 1.4.0 XML converted from Sentinel-1A/1B/1C IW RAW bursts (sarkit-convert test data)",
+  "source": "Valkyrie Systems (ValkyrieSystems/sarkit-convert, GitHub)",
+  "landing": "https://github.com/ValkyrieSystems/sarkit-convert/tree/main/tests/core/data/sentinel_sicd_xml",
+  "licence": "MIT (ValkyrieSystems/sarkit-convert LICENSE); folder LICENSE.txt: \"Contains modified Copernicus Sentinel data 2025\"",
+  "attribution": "Contains modified Copernicus Sentinel data 2025; converted by Valkyrie Systems sarkit-convert",
+  "tier": "A",
+  "format": "SICD 1.4.0 XML (no pixels)",
+  "profile": "Three IW bursts from different platforms: S1A 2025-06-02 IW2, S1B 2021-07-11 IW2, S1C 2025-06-08 IW2",
+  "files": [
+   {
+    "name": "S1A_IW_RAW__0SDV_20250602T135218_20250602T135250_059468_0761DC_3FC1_Channel_IW2_151224.sicd.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit-convert/5c06ae955d9d14a8d26855cfaa3b58bae4f88ec8/tests/core/data/sentinel_sicd_xml/S1A_IW_RAW__0SDV_20250602T135218_20250602T135250_059468_0761DC_3FC1_Channel_IW2_151224.sicd.xml",
+    "bytes": 44436,
+    "role": "primary"
+   },
+   {
+    "name": "S1B_IW_RAW__0SDV_20210711T135126_20210711T135158_027747_034FBD_708E_Channel_IW2_151224.sicd.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit-convert/5c06ae955d9d14a8d26855cfaa3b58bae4f88ec8/tests/core/data/sentinel_sicd_xml/S1B_IW_RAW__0SDV_20210711T135126_20210711T135158_027747_034FBD_708E_Channel_IW2_151224.sicd.xml",
+    "bytes": 49310,
+    "role": "primary"
+   },
+   {
+    "name": "S1C_IW_RAW__0SDV_20250608T135101_20250608T135134_002692_0058EA_1F12_Channel_IW2_151224.sicd.xml",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit-convert/5c06ae955d9d14a8d26855cfaa3b58bae4f88ec8/tests/core/data/sentinel_sicd_xml/S1C_IW_RAW__0SDV_20250608T135101_20250608T135134_002692_0058EA_1F12_Channel_IW2_151224.sicd.xml",
+    "bytes": 44546,
+    "role": "primary"
+   },
+   {
+    "name": "sentinel_sicd_xml-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/ValkyrieSystems/sarkit-convert/5c06ae955d9d14a8d26855cfaa3b58bae4f88ec8/tests/core/data/sentinel_sicd_xml/LICENSE.txt",
+    "bytes": 48,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 5c06ae955d9d14a8d26855cfaa3b58bae4f88ec8. urn:SICD:1.4.0 confirmed in the files. A second, independent SICD 1.4.0 producer (real sensor metadata rather than a synthetic example). Ten such XMLs exist in the folder.",
+  "feeds": [
+   "sar.sicd",
+   "sar.metadata"
+  ],
+  "covers": [
+   "fmt:sar.sicd.v1.4.0"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-sicd-xml-sarkitjl-template",
+  "area": "sar",
+  "title": "SARkit.jl SICD 1.4.0 default-required XML template (minimal valid instance)",
+  "source": "Matrix Research (matrix-research-inc/SARkit.jl, GitHub)",
+  "landing": "https://github.com/matrix-research-inc/SARkit.jl/tree/main/template",
+  "licence": "GNU AGPL 3.0 (matrix-research-inc/SARkit.jl LICENSE)",
+  "attribution": "Matrix Research, SARkit.jl contributors",
+  "tier": "A",
+  "format": "SICD 1.4.0 XML (no pixels)",
+  "profile": "Only the required elements, filled with default values; a minimal-instance parser test",
+  "files": [
+   {
+    "name": "sicd_1.4.0_default_required.xml",
+    "url": "https://raw.githubusercontent.com/matrix-research-inc/SARkit.jl/38ec60ce6cbfeba6b814c74ee7a179b1595c6e77/template/sicd_1.4.0_default_required.xml",
+    "bytes": 8385,
+    "role": "primary"
+   },
+   {
+    "name": "sidd_3.0.0_default_required.xml",
+    "url": "https://raw.githubusercontent.com/matrix-research-inc/SARkit.jl/38ec60ce6cbfeba6b814c74ee7a179b1595c6e77/template/sidd_3.0.0_default_required.xml",
+    "bytes": 7407,
+    "role": "primary"
+   },
+   {
+    "name": "SARkit.jl-LICENSE",
+    "url": "https://raw.githubusercontent.com/matrix-research-inc/SARkit.jl/38ec60ce6cbfeba6b814c74ee7a179b1595c6e77/LICENSE",
+    "bytes": 34520,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 38ec60ce6cbfeba6b814c74ee7a179b1595c6e77. Third SICD 1.4.0 producer. The SIDD 3.0.0 template is included as a minimal SIDD 3 instance.",
+  "feeds": [
+   "sar.sicd",
+   "sar.sidd",
+   "sar.metadata"
+  ],
+  "covers": [
+   "fmt:sar.sicd.v1.4.0"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "sar-umbra-stack-silver-peak",
+  "area": "sar",
+  "title": "Umbra repeat-pass SICD stack, Silver Peak lithium mine (Nevada): 4 UMBRA-05 spotlight collects, same ascending right-looking geometry, Feb-Jul 2025",
+  "source": "Umbra Space",
+  "landing": "https://registry.opendata.aws/umbra-open-data/",
+  "licence": "CC BY 4.0 (https://umbra.space/open-license)",
+  "attribution": "Umbra Space Open Data Program, CC BY 4.0",
+  "tier": "A",
+  "format": "SICD 1.3.0/NITF2.1 + STAC item JSON",
+  "profile": "UMB spotlight, X-band VV, 0.5 m, UMBRA-05, ascending, right: 2025-02-16 inc 38.2 az 262.6 squint 2.6; 2025-03-28 inc 37.8 az 265.7 sq 5.8; 2025-05-15 inc 40.1 az 265.4 sq 5.4; 2025-07-04 inc 39.9 az 267.5 sq 7.5 (view:incidence_angle, view:azimuth, umbra:squint_angle_exploitation_degrees from the STAC items)",
+  "files": [
+   {
+    "name": "2025-02-16-04-57-11_UMBRA-05/2025-02-16-04-57-11_UMBRA-05_SICD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/5d84371a-ae8d-473e-942e-815b67e719b6/2025-02-16-04-57-11_UMBRA-05/2025-02-16-04-57-11_UMBRA-05_SICD.nitf",
+    "bytes": 1460930744,
+    "role": "primary"
+   },
+   {
+    "name": "2025-02-16-04-57-11_UMBRA-05/2025-02-16-04-57-11_UMBRA-05.stac.v2.json",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/5d84371a-ae8d-473e-942e-815b67e719b6/2025-02-16-04-57-11_UMBRA-05/2025-02-16-04-57-11_UMBRA-05.stac.v2.json",
+    "bytes": 8690,
+    "role": "metadata"
+   },
+   {
+    "name": "2025-03-28-04-57-35_UMBRA-05/2025-03-28-04-57-35_UMBRA-05_SICD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/435168ac-3329-4ada-9ef9-455e315f4630/2025-03-28-04-57-35_UMBRA-05/2025-03-28-04-57-35_UMBRA-05_SICD.nitf",
+    "bytes": 1509379155,
+    "role": "primary"
+   },
+   {
+    "name": "2025-03-28-04-57-35_UMBRA-05/2025-03-28-04-57-35_UMBRA-05.stac.v2.json",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/435168ac-3329-4ada-9ef9-455e315f4630/2025-03-28-04-57-35_UMBRA-05/2025-03-28-04-57-35_UMBRA-05.stac.v2.json",
+    "bytes": 8689,
+    "role": "metadata"
+   },
+   {
+    "name": "2025-05-15-05-00-59_UMBRA-05/2025-05-15-05-00-59_UMBRA-05_SICD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/5e4ace83-9b5f-44f6-aa7b-44e577175e90/2025-05-15-05-00-59_UMBRA-05/2025-05-15-05-00-59_UMBRA-05_SICD.nitf",
+    "bytes": 1499269841,
+    "role": "primary"
+   },
+   {
+    "name": "2025-05-15-05-00-59_UMBRA-05/2025-05-15-05-00-59_UMBRA-05.stac.v2.json",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/5e4ace83-9b5f-44f6-aa7b-44e577175e90/2025-05-15-05-00-59_UMBRA-05/2025-05-15-05-00-59_UMBRA-05.stac.v2.json",
+    "bytes": 8683,
+    "role": "metadata"
+   },
+   {
+    "name": "2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/4d0a940c-63b8-483b-8f99-0238ea575c36/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf",
+    "bytes": 1526528731,
+    "role": "primary"
+   },
+   {
+    "name": "2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05.stac.v2.json",
+    "url": "https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com/sar-data/tasks/Silver%20Peak%20Mine%2C%20Nevada%2C%20United%20States/4d0a940c-63b8-483b-8f99-0238ea575c36/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05.stac.v2.json",
+    "bytes": 8684,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Chosen from the STAC items of all 49 Silver Peak collects (task folder listed in full; 4 of 13 candidate sites screened). These four share satellite, orbit direction, look side, acquisition time of day (04:57-05:05 UTC) and are within 2.3 deg incidence and 4.9 deg azimuth: a coherent stack for CCD/coherence and co-registration. Active open-pit and brine-pond site, so real change exists. A second coherent set on the same site (az ~242, squint ~-18): 2025-02-12, 2025-02-20, 2025-05-01, 2025-07-09 (UMBRA-05, inc 31.8-40.7). SICD version 1.3.0 checked on 2025-07-04 via a tail Range request (processor 4.7-4.20). Collect folders also hold GEC (~250 MB) and SIDD (~256 MB) per date if wanted. Different site from the held Bingham pair (1.2.1).",
+  "feeds": [
+   "sar.sicd",
+   "sar.ccd",
+   "sar.acd",
+   "sar.coreg"
+  ],
+  "covers": [
+   "fmt:sar.sicd",
+   "fmt:sar.sicd.v1.3.0"
+  ],
+  "pairs": [
+   {
+    "role": "repeat-pass",
+    "with": []
+   },
+   {
+    "role": "co-register",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "sar-radarsat2-quadpol-slc-samples",
+  "area": "sar",
+  "title": "RADARSAT-2 quad-polarisation SLC sample products (Fine Quad FQ17 2015 and Standard Quad SQ1 2023, HH/VV/HV/VH) from ESA Earth Online",
+  "source": "ESA Earth Online (Third Party Missions sample data) / MDA",
+  "landing": "https://earth.esa.int/eogateway/missions/radarsat/sample-data",
+  "licence": "Page notice: \"RADARSAT-2 Data and Products © MDA Geospatial Services Inc. (2024) - All Rights Reserved\"; offered as free sample data, no licence stated; test-only (OD-09): never bundled, published or used in marketing",
+  "attribution": "RADARSAT-2 Data and Products © MDA Geospatial Services Inc. RADARSAT is an official trademark of the Canadian Space Agency. Sample data via ESA Earth Online",
+  "tier": "A",
+  "format": "RADARSAT-2 SLC product (product.xml + per-polarisation GeoTIFF I/Q + LUTs) in ZIP",
+  "profile": "C-band, quad-pol HH/VV/HV/VH, slant range SLC; FQ17 2015-06-26 and SQ1 2023-11-19 (ESA Neustrelitz test site)",
+  "files": [
+   {
+    "name": "RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC.zip",
+    "url": "https://earth.esa.int/eogateway/ftp/missions/sample-data/third-party-missions/radarsat/RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC.zip",
+    "bytes": 284820692,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "RS2_OK153952_PK1408403_DK1372522_SQ1_20231119_053723_HH_VV_HV_VH_SLC.zip",
+    "url": "https://earth.esa.int/eogateway/ftp/missions/sample-data/third-party-missions/radarsat/RS2_OK153952_PK1408403_DK1372522_SQ1_20231119_053723_HH_VV_HV_VH_SLC.zip",
+    "bytes": 111382570,
+    "role": "archive",
+    "extract": true
+   }
+  ],
+  "sign": null,
+  "notes": "Anonymous HTTPS (HEAD 200, ZIP magic checked). Not SICD: a convertible quad-pol source (sarkit-convert / sarpy can write 4 co-registered SICDs, one per channel). census.py will only see GeoTIFFs inside, so this does not count toward sar.sicd.quadpol. No anonymous quad-pol SICD was found: Umbra, Capella and ICEYE open data are single-pol; NISAR sample products on ASF are anonymous but single-pol HH (SHNA) except an L3 soil-moisture file; UAVSAR quad-pol SLC needs Earthdata login (sar-uavsar-quadpol-tierb).",
+  "feeds": [
+   "sar.polsar",
+   "sar.convert",
+   "ingest"
+  ],
+  "covers": [],
+  "pairs": []
+ },
+ {
+  "id": "sar-uavsar-quadpol-tierb",
+  "area": "sar",
+  "title": "UAVSAR L-band quad-pol SLC/MLC (e.g. SanAnd_26526_17122_003_171102_L090_CX_01): Earthdata login required",
+  "source": "NASA JPL UAVSAR via ASF DAAC",
+  "landing": "https://uavsar.jpl.nasa.gov/cgi-bin/product.pl?jobName=SanAnd_26526_17122_003_171102_L090_CX_01",
+  "licence": "NASA open data, no use restrictions; Earthdata Login required to download",
+  "attribution": "UAVSAR data courtesy NASA/JPL-Caltech, distributed by ASF DAAC",
+  "tier": "B",
+  "format": "UAVSAR SLC/MLC flat binary + .ann",
+  "profile": "L-band fully polarimetric (HH/HV/VH/VV), airborne",
+  "files": [],
+  "sign": null,
+  "notes": "Placeholder for a quad-pol source. The JPL product pages no longer carry direct links (downloaduav*.jpl.nasa.gov redirect to the home page); downloads go through ASF Vertex / datapool with Earthdata login. Pick a scene and fill files when the owner downloads it.",
+  "feeds": [
+   "sar.polsar",
+   "sar.convert"
+  ],
+  "covers": [],
+  "pairs": []
+ },
+ {
+  "id": "raster-netcdf3-negatives-gdal",
+  "area": "raster",
+  "title": "NetCDF-3 classic (CDF-1) negatives from GDAL autotest: byte, Lambert conformal, rotated pole, regional climate orography",
+  "source": "OSGeo / GDAL autotest (GitHub)",
+  "landing": "https://github.com/OSGeo/gdal/tree/v3.13.3/autotest/gdrivers/data/netcdf",
+  "licence": "GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL/OGR contributors, OSGeo",
+  "tier": "A",
+  "format": "NetCDF classic (magic CDF\\x01)",
+  "profile": "byte.nc, cf_lcc2sp.nc (CF LCC 2SP), rotated_pole.nc, orog_CRCM2.nc",
+  "files": [
+   {
+    "name": "byte.nc",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/netcdf/byte.nc",
+    "bytes": 3364,
+    "role": "primary"
+   },
+   {
+    "name": "cf_lcc2sp.nc",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/netcdf/cf_lcc2sp.nc",
+    "bytes": 3660,
+    "role": "primary"
+   },
+   {
+    "name": "rotated_pole.nc",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/netcdf/rotated_pole.nc",
+    "bytes": 31540,
+    "role": "primary"
+   },
+   {
+    "name": "orog_CRCM2.nc",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/netcdf/orog_CRCM2.nc",
+    "bytes": 67000,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Magic bytes checked locally (43 44 46 01). The app must refuse NetCDF-3 with a named error (NetCDF-4/HDF5 is read).",
+  "feeds": [
+   "ingest",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:refused.netcdf3"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "raster-netcdf3-negatives-unidata",
+  "area": "raster",
+  "title": "NetCDF-3 negatives from Unidata netcdf-c reference files: CDF-1 classic, CDF-2 64-bit offset, calendar test, nccopy subset",
+  "source": "Unidata (Unidata/netcdf-c, GitHub)",
+  "landing": "https://github.com/Unidata/netcdf-c",
+  "licence": "BSD-3-Clause (Unidata netcdf-c COPYRIGHT)",
+  "attribution": "Unidata / UCAR, netcdf-c contributors",
+  "tier": "A",
+  "format": "NetCDF classic (CDF\\x01) and 64-bit offset (CDF\\x02)",
+  "profile": "nctest/ref_nctest_classic.nc (CDF-1), nctest/ref_nctest_64bit_offset.nc (CDF-2), ncdump/ref_test_365_day_1900.nc (CDF-1), ncdump/ref_nccopy3_subset.nc (CDF-1)",
+  "files": [
+   {
+    "name": "ref_nctest_classic.nc",
+    "url": "https://raw.githubusercontent.com/Unidata/netcdf-c/0582e869458da6b85269cfca19223ef7c29bc639/nctest/ref_nctest_classic.nc",
+    "bytes": 43584,
+    "role": "primary"
+   },
+   {
+    "name": "ref_nctest_64bit_offset.nc",
+    "url": "https://raw.githubusercontent.com/Unidata/netcdf-c/0582e869458da6b85269cfca19223ef7c29bc639/nctest/ref_nctest_64bit_offset.nc",
+    "bytes": 43696,
+    "role": "primary"
+   },
+   {
+    "name": "ref_test_365_day_1900.nc",
+    "url": "https://raw.githubusercontent.com/Unidata/netcdf-c/0582e869458da6b85269cfca19223ef7c29bc639/ncdump/ref_test_365_day_1900.nc",
+    "bytes": 9348,
+    "role": "primary"
+   },
+   {
+    "name": "ref_nccopy3_subset.nc",
+    "url": "https://raw.githubusercontent.com/Unidata/netcdf-c/0582e869458da6b85269cfca19223ef7c29bc639/ncdump/ref_nccopy3_subset.nc",
+    "bytes": 65284,
+    "role": "primary"
+   },
+   {
+    "name": "netcdf-c-COPYRIGHT",
+    "url": "https://raw.githubusercontent.com/Unidata/netcdf-c/0582e869458da6b85269cfca19223ef7c29bc639/COPYRIGHT",
+    "bytes": 1452,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 0582e869458da6b85269cfca19223ef7c29bc639. Magic bytes checked via Range. The old Unidata examples page (sresa1b_ncar_ccsm3-example.nc, tos_O1_2001-2002.nc) now returns 404, so the reference files in the netcdf-c repo are used instead. A CDF-2 file is included so refusal is tested for both classic variants.",
+  "feeds": [
+   "ingest",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:refused.netcdf3"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "hsi-avirisng-cuprite-20200712-rfl",
+  "area": "hsi",
+  "title": "AVIRIS-NG L2 surface reflectance, Cuprite NV, flight line ang20200712t200729 (ENVI BIL, 425 bands, 3 m)",
+  "source": "NASA JPL AVIRIS-NG",
+  "landing": "https://avirisng.jpl.nasa.gov/dataportal/",
+  "licence": "NASA/JPL AVIRIS-NG data, freely available with no usage restrictions (acknowledgement requested); no licence file on the server",
+  "attribution": "AVIRIS-NG data courtesy NASA/JPL-Caltech",
+  "tier": "A",
+  "format": "ENVI (binary + .hdr) in tar.gz",
+  "profile": "Reflectance v2y1: 737 samples x 3681 lines x 425 bands, Float32, interleave bil, byte order 0, map info UTM 11N WGS-84 3.0 m",
+  "files": [
+   {
+    "name": "ang20200712t200729rfl.tar.gz",
+    "url": "https://popo.jpl.nasa.gov/avng/Cuprite_y20/ang20200712t200729rfl.tar.gz",
+    "bytes": 3228265979,
+    "role": "archive",
+    "extract": true
+   },
+   {
+    "name": "ang20200712t200729_rfl_v2y1/ang20200712t200729_corr_v2y1_img",
+    "url": null,
+    "bytes": 4611924900,
+    "role": "primary",
+    "from": "ang20200712t200729rfl.tar.gz"
+   },
+   {
+    "name": "ang20200712t200729_rfl_v2y1/ang20200712t200729_corr_v2y1_img.hdr",
+    "url": null,
+    "bytes": 21792,
+    "role": "sidecar",
+    "from": "ang20200712t200729rfl.tar.gz"
+   }
+  ],
+  "sign": null,
+  "notes": "Anonymous: popo.jpl.nasa.gov/avng/ is an open Apache index (y14-y24, Cuprite_y20, benchmark methane sets); the avirisng.jpl.nasa.gov data portal page itself has no direct links. Header read from the first 256 KB of the tar.gz (gunzip of a Range): first members are the _corr_v2y1_img cube (4,611,924,900 B) and its 21,792 B header; other members not listed. Same site as emit-l2a-rfl-cuprite and the classic AVIRIS Cuprite flights. Five other Cuprite 2020-07-12 lines (2.7-3.5 GB each) and their radiance tars sit in the same folder. y18/ANG_Data_Products.txt documents the product layout.",
+  "feeds": [
+   "ingest",
+   "hsi.envi",
+   "hsi.classify",
+   "msi.library"
+  ],
+  "covers": [
+   "fmt:envi",
+   "fmt:envi.bil",
+   "fmt:envi.mapinfo",
+   "fmt:raster.cube"
+  ],
+  "pairs": [
+   {
+    "role": "co-register",
+    "with": [
+     "emit-l2a-rfl-cuprite"
+    ]
+   },
+   {
+    "role": "spectral-lib",
+    "with": [
+     "usgs-splib07-ascii"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hsi-speclib-splib07b-envi-hyperspectralpy",
+  "area": "hsi",
+  "title": "USGS splib07b chapters as ENVI spectral libraries (.sli/.hdr): ASD full-range, ASD high-res, ASD NG, AVIRIS, Beckman, Nicolet",
+  "source": "hyperspectralpy (wbasener/hyperspectralpy, GitHub), data from USGS splib07",
+  "landing": "https://github.com/wbasener/hyperspectralpy/tree/main/data",
+  "licence": "MIT (wbasener/hyperspectralpy LICENSE); underlying spectra are US Government public domain (USGS Spectral Library Version 7)",
+  "attribution": "Kokaly, R.F., et al., 2017, USGS Spectral Library Version 7 Data, doi:10.5066/F7RR1WDJ; ENVI conversion by hyperspectralpy (W. Basener)",
+  "tier": "A",
+  "format": "ENVI Spectral Library (file type = ENVI Spectral Library, Float32 BSQ)",
+  "profile": "splib07b_aviris (39 spectra x 2151 samples), splib07b_asdng (71 spectra), splib07b_asdhr, splib07b_asdfr, splib07b_beck, splib07b_nic4",
+  "files": [
+   {
+    "name": "splib07b_aviris.sli",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_aviris.sli",
+    "bytes": 335556,
+    "role": "primary"
+   },
+   {
+    "name": "splib07b_aviris.hdr",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_aviris.hdr",
+    "bytes": 45801,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07b_asdng.sli",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_asdng.sli",
+    "bytes": 610884,
+    "role": "primary"
+   },
+   {
+    "name": "splib07b_asdng.hdr",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_asdng.hdr",
+    "bytes": 46825,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07b_asdhr.sli",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_asdhr.sli",
+    "bytes": 1359432,
+    "role": "primary"
+   },
+   {
+    "name": "splib07b_asdhr.hdr",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_asdhr.hdr",
+    "bytes": 49610,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07b_asdfr.sli",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_asdfr.sli",
+    "bytes": 8311464,
+    "role": "primary"
+   },
+   {
+    "name": "splib07b_asdfr.hdr",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_asdfr.hdr",
+    "bytes": 75466,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07b_beck.sli",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_beck.sli",
+    "bytes": 4955904,
+    "role": "primary"
+   },
+   {
+    "name": "splib07b_beck.hdr",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_beck.hdr",
+    "bytes": 62986,
+    "role": "sidecar"
+   },
+   {
+    "name": "splib07b_nic4.sli",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_nic4.sli",
+    "bytes": 5566788,
+    "role": "primary"
+   },
+   {
+    "name": "splib07b_nic4.hdr",
+    "url": "https://raw.githubusercontent.com/wbasener/hyperspectralpy/00fdff620d7ef77ea025efe82ffab5d8871c6c16/data/splib07b_nic4.hdr",
+    "bytes": 65258,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 00fdff620d7ef77ea025efe82ffab5d8871c6c16. The ScienceBase item 586e8c88e4b0f5ce109fccae holds ASCII only; there is no ENVI .sli variant on ScienceBase (sibling items: SPECPR 1.5 GB, GIF plots, HTML; parent usgs_splib07.zip 5.48 GB is behind the ScienceBase File Manager SPA, which returns an HTML shell to curl). crustal.usgs.gov/speclab returns 403. This third-party conversion is the closest anonymous splib07 ENVI SLI. .hdr names follow GDAL/ENVI pairing (same basename).",
+  "feeds": [
+   "msi.library",
+   "hsi.library-match"
+  ],
+  "covers": [
+   "fmt:speclib.envi-sli"
+  ],
+  "pairs": [
+   {
+    "role": "spectral-lib",
+    "with": [
+     "usgs-splib07-ascii",
+     "aviris-classic-f130410t01p00r09"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hsi-speclib-splib06-envi-emit-sds",
+  "area": "hsi",
+  "title": "USGS splib06 convolved to AVIRIS 2018 bands, ENVI spectral library (s06av18a / r06av18a) from the EMIT SDS L2B repository",
+  "source": "NASA JPL EMIT SDS (emit-sds/emit-sds-l2b, GitHub)",
+  "landing": "https://github.com/emit-sds/emit-sds-l2b/tree/develop/Spectral-Library-Reader-master",
+  "licence": "Apache-2.0 (emit-sds/emit-sds-l2b LICENSE); underlying USGS splib06 spectra are US Government public domain",
+  "attribution": "Clark, R.N., et al., 2007, USGS digital spectral library splib06a; EMIT Science Data System (NASA JPL)",
+  "tier": "A",
+  "format": "ENVI Spectral Library (Float32 BSQ)",
+  "profile": "s06av18a_envi: 1367 spectra x 224 AVIRIS-2018 bands; r06av18a_envi: companion resolution/wavelength library",
+  "files": [
+   {
+    "name": "s06av18a_envi",
+    "url": "https://raw.githubusercontent.com/emit-sds/emit-sds-l2b/5fa8b9dbb7bede4e3c473cbcef6150c92680ddae/Spectral-Library-Reader-master/s06av18a_envi",
+    "bytes": 1224832,
+    "role": "primary"
+   },
+   {
+    "name": "s06av18a_envi.hdr",
+    "url": "https://raw.githubusercontent.com/emit-sds/emit-sds-l2b/5fa8b9dbb7bede4e3c473cbcef6150c92680ddae/Spectral-Library-Reader-master/s06av18a_envi.hdr",
+    "bytes": 69433,
+    "role": "sidecar"
+   },
+   {
+    "name": "r06av18a_envi",
+    "url": "https://raw.githubusercontent.com/emit-sds/emit-sds-l2b/5fa8b9dbb7bede4e3c473cbcef6150c92680ddae/Spectral-Library-Reader-master/r06av18a_envi",
+    "bytes": 80640,
+    "role": "primary"
+   },
+   {
+    "name": "r06av18a_envi.hdr",
+    "url": "https://raw.githubusercontent.com/emit-sds/emit-sds-l2b/5fa8b9dbb7bede4e3c473cbcef6150c92680ddae/Spectral-Library-Reader-master/r06av18a_envi.hdr",
+    "bytes": 6310,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit 5fa8b9dbb7bede4e3c473cbcef6150c92680ddae (branch develop). Data files have no extension (ENVI convention: basename + .hdr). Second producer for ENVI SLI, from a NASA mission codebase.",
+  "feeds": [
+   "msi.library",
+   "hsi.library-match"
+  ],
+  "covers": [
+   "fmt:speclib.envi-sli"
+  ],
+  "pairs": [
+   {
+    "role": "spectral-lib",
+    "with": [
+     "aviris-classic-f130410t01p00r09",
+     "emit-l2a-rfl-cuprite"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hsi-speclib-earthlib-envi",
+  "area": "hsi",
+  "title": "earthlib global spectral library as ENVI .sli (7,261 spectra; USGS, ASTER/ECOSTRESS-derived and field spectra) plus the optimized subset",
+  "source": "earthlib (earth-chris/earthlib, GitHub)",
+  "landing": "https://github.com/earth-chris/earthlib",
+  "licence": "MIT (earth-chris/earthlib LICENSE); compiled from public spectral libraries",
+  "attribution": "Christopher Anderson, earthlib",
+  "tier": "A",
+  "format": "ENVI Spectral Library (Float32 BSQ)",
+  "profile": "spectra.sli: 7261 spectra x 180 bands; optimized.sli: reduced endmember set",
+  "files": [
+   {
+    "name": "spectra.sli",
+    "url": "https://raw.githubusercontent.com/earth-chris/earthlib/ea1b3f166e671ad6f7e4bc9e94afcb1e4966709c/earthlib/data/spectra.sli",
+    "bytes": 5227920,
+    "role": "primary"
+   },
+   {
+    "name": "spectra.sli.hdr",
+    "url": "https://raw.githubusercontent.com/earth-chris/earthlib/ea1b3f166e671ad6f7e4bc9e94afcb1e4966709c/earthlib/data/spectra.sli.hdr",
+    "bytes": 149640,
+    "role": "sidecar"
+   },
+   {
+    "name": "optimized.sli",
+    "url": "https://raw.githubusercontent.com/earth-chris/earthlib/ea1b3f166e671ad6f7e4bc9e94afcb1e4966709c/earthlib/data/optimized.sli",
+    "bytes": 225360,
+    "role": "primary"
+   },
+   {
+    "name": "optimized.sli.hdr",
+    "url": "https://raw.githubusercontent.com/earth-chris/earthlib/ea1b3f166e671ad6f7e4bc9e94afcb1e4966709c/earthlib/data/optimized.sli.hdr",
+    "bytes": 7389,
+    "role": "sidecar"
+   },
+   {
+    "name": "earthlib-LICENSE",
+    "url": "https://raw.githubusercontent.com/earth-chris/earthlib/ea1b3f166e671ad6f7e4bc9e94afcb1e4966709c/LICENSE",
+    "bytes": 1077,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Pinned to commit ea1b3f166e671ad6f7e4bc9e94afcb1e4966709c. Header uses the .sli.hdr naming (GDAL accepts both). Third ENVI SLI producer.",
+  "feeds": [
+   "msi.library",
+   "hsi.library-match"
+  ],
+  "covers": [
+   "fmt:speclib.envi-sli"
+  ],
+  "pairs": [
+   {
+    "role": "spectral-lib",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "hsi-ecostress-speclib-tierb",
+  "area": "hsi",
+  "title": "ECOSTRESS spectral library (JPL), full download: order form required",
+  "source": "NASA JPL ECOSTRESS Spectral Library",
+  "landing": "https://speclib.jpl.nasa.gov/download",
+  "licence": "NASA JPL; free for use with citation (Meerdink et al. 2019; Baldridge et al. 2009); no licence file",
+  "attribution": "Meerdink, S.K., Hook, S.J., Roberts, D.A., Abbott, E.A., 2019, The ECOSTRESS spectral library version 1.0, Remote Sensing of Environment 230, 111196",
+  "tier": "B",
+  "format": "ASCII spectra (per-spectrum text files) in ZIP",
+  "profile": "3,400+ spectra (minerals, rocks, soils, vegetation, NPV, man-made, meteorites, lunar), 0.35-15.4 um",
+  "files": [],
+  "sign": null,
+  "notes": "The download page is a checkout form (name, email, affiliation) that emails the archive: personal data must be entered, so it is not tier A. Owner to order and record files.",
+  "feeds": [
+   "msi.library",
+   "hsi.library-match"
+  ],
+  "covers": [],
+  "pairs": []
+ },
+ {
+  "id": "raster-ecw-negatives-gdal",
+  "area": "raster",
+  "title": "ECW negatives: GDAL data server samples (red_flower, sandiego2m_null, spif83) and GDAL autotest ECW v2/v3 files",
+  "source": "OSGeo / GDAL data server and autotest",
+  "landing": "https://download.osgeo.org/gdal/data/ecw/",
+  "licence": "GDAL sample-data server: \"public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING); autotest files: GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL sample data; GDAL/OGR contributors",
+  "tier": "A",
+  "format": "ECW (ER Mapper / Hexagon)",
+  "profile": "Server: red_flower.ecw (RGB, ECW v2), sandiego2m_null.ecw (null-block handling), spif83.ecw (State Plane); autotest: jrc.ecw, stefan_full_rgba_ecwv3_meta.ecw (ECW v3 RGBA + metadata)",
+  "files": [
+   {
+    "name": "red_flower.ecw",
+    "url": "https://download.osgeo.org/gdal/data/ecw/red_flower.ecw",
+    "bytes": 603620,
+    "role": "primary"
+   },
+   {
+    "name": "sandiego2m_null.ecw",
+    "url": "https://download.osgeo.org/gdal/data/ecw/sandiego2m_null.ecw",
+    "bytes": 397830,
+    "role": "primary"
+   },
+   {
+    "name": "spif83.ecw",
+    "url": "https://download.osgeo.org/gdal/data/ecw/spif83.ecw",
+    "bytes": 21879,
+    "role": "primary"
+   },
+   {
+    "name": "jrc.ecw",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/ecw/jrc.ecw",
+    "bytes": 71937,
+    "role": "primary"
+   },
+   {
+    "name": "stefan_full_rgba_ecwv3_meta.ecw",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/ecw/stefan_full_rgba_ecwv3_meta.ecw",
+    "bytes": 31770,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Header bytes checked (0x65 02 01 ...). Autotest spif83.ecw duplicates the server copy in size (21,879 B) and is omitted. Hexagon/ERDAS public sample ECWs were not located in this pass (not searched beyond GDAL), so both sources are GDAL.",
+  "feeds": [
+   "ingest",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:refused.ecw"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "raster-hfa-negatives-gdal",
+  "area": "raster",
+  "title": "ERDAS Imagine .img (HFA) negatives: GDAL server float-rle.img and GDAL autotest HFA files (UTM, DEM, 1-bit, RAT, spill, int)",
+  "source": "OSGeo / GDAL data server and autotest",
+  "landing": "https://github.com/OSGeo/gdal/tree/v3.13.3/autotest/gdrivers/data/hfa",
+  "licence": "GDAL sample-data server: \"public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING); autotest files: GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL sample data; GDAL/OGR contributors",
+  "tier": "A",
+  "format": "ERDAS Imagine HFA (.img, EHFA_HEADER_TAG)",
+  "profile": "float-rle.img (RLE-compressed float), gcore/data/utmsmall.img, hfa/dem10.img, hfa/small1bit.img, gcore/data/rat.img (raster attribute table), hfa/spill.img (external .ige spill reference), hfa/int.img",
+  "files": [
+   {
+    "name": "float-rle.img",
+    "url": "https://download.osgeo.org/gdal/data/hfa/float-rle.img",
+    "bytes": 621682,
+    "role": "primary"
+   },
+   {
+    "name": "utmsmall.img",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/utmsmall.img",
+    "bytes": 26059,
+    "role": "primary"
+   },
+   {
+    "name": "dem10.img",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/hfa/dem10.img",
+    "bytes": 14402,
+    "role": "primary"
+   },
+   {
+    "name": "small1bit.img",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/hfa/small1bit.img",
+    "bytes": 16589,
+    "role": "primary"
+   },
+   {
+    "name": "rat.img",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gcore/data/rat.img",
+    "bytes": 72242,
+    "role": "primary"
+   },
+   {
+    "name": "spill.img",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/hfa/spill.img",
+    "bytes": 10213,
+    "role": "primary"
+   },
+   {
+    "name": "int.img",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/hfa/int.img",
+    "bytes": 59190,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "The HFA magic is checked by census.py from the first 16 bytes. spill.img references an external spill file (spill.ige is not in autotest), useful as a broken-reference case. Both sources are GDAL; no other anonymous HFA producer was searched beyond GDAL (state/USGS .img products are multi-GB).",
+  "feeds": [
+   "ingest",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:refused.hfa"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "raster-mrsid-gdal-samples",
+  "area": "raster",
+  "title": "MrSID negatives: GDAL data server MG2 and MG3 (lossy and lossless) samples plus GDAL autotest mercator.sid",
+  "source": "OSGeo / GDAL data server and autotest",
+  "landing": "https://download.osgeo.org/gdal/data/mrsid/",
+  "licence": "GDAL sample-data server: \"public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING); autotest file: GDAL repository licence MIT/X (https://github.com/OSGeo/gdal/blob/v3.13.3/LICENSE.TXT); autotest data distributed with GDAL, which states that its sample and autotest data \"are available as public and freely redistributable geodata\" (https://download.osgeo.org/gdal/data/COPYING)",
+  "attribution": "GDAL sample data (MrSID samples originally produced with LizardTech GeoExpress)",
+  "tier": "A",
+  "format": "MrSID (msid magic), MG2 and MG3",
+  "profile": "lossless-mg3/utm11-27.sid, lossy-mg2/utm11-27.sid, lossy-mg3/mercator.sid, lossy-mg3/laea.sid, autotest sid/mercator_new.sid",
+  "files": [
+   {
+    "name": "lossless-mg3/utm11-27.sid",
+    "url": "https://download.osgeo.org/gdal/data/mrsid/lossless-mg3/utm11-27.sid",
+    "bytes": 238323,
+    "role": "primary"
+   },
+   {
+    "name": "lossy-mg2/utm11-27.sid",
+    "url": "https://download.osgeo.org/gdal/data/mrsid/lossy-mg2/utm11-27.sid",
+    "bytes": 35284,
+    "role": "primary"
+   },
+   {
+    "name": "lossy-mg3/mercator.sid",
+    "url": "https://download.osgeo.org/gdal/data/mrsid/lossy-mg3/mercator.sid",
+    "bytes": 26522,
+    "role": "primary"
+   },
+   {
+    "name": "lossy-mg3/laea.sid",
+    "url": "https://download.osgeo.org/gdal/data/mrsid/lossy-mg3/laea.sid",
+    "bytes": 26469,
+    "role": "primary"
+   },
+   {
+    "name": "autotest/mercator_new.sid",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/sid/mercator_new.sid",
+    "bytes": 14999,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Magic \"msid\" plus version byte checked (01 = MG2, 03 = MG3). The server folders hold 24 projections each (~26 KB lossy, ~230 KB lossless) if more are wanted. The held MrSID files (field-mrsid-*) are tier U and do not count, so these are the counted negatives.",
+  "feeds": [
+   "ingest",
+   "error-handling"
+  ],
+  "covers": [
+   "fmt:refused.mrsid"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "geopdf-ustopo-bouldin-island-current",
+  "area": "geopdf",
+  "title": "USGS US Topo 7.5-minute GeoPDF, Bouldin Island CA (2021-12-30), the quad whose SE corner is 38 N 121.5 W",
+  "source": "USGS The National Map",
+  "landing": "https://www.usgs.gov/programs/national-geospatial-program/us-topo-maps-america",
+  "licence": "Public domain (USGS)",
+  "attribution": "U.S. Geological Survey, The National Map - US Topo",
+  "tier": "A",
+  "format": "GeoPDF (ISO 32000 geospatial: /Measure)",
+  "profile": "1:24,000, 38.0-38.125 N, 121.5-121.625 W; layered vector + orthoimage + shaded relief",
+  "files": [
+   {
+    "name": "CA_Bouldin_Island_20211230_TM_geo.pdf",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Bouldin_Island_20211230_TM_geo.pdf",
+    "bytes": 25596383,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Found with the TNM Access API (dataset \"US Topo Current\", bbox around 38.03 N 121.53 W). Earlier editions 2012 (12.8 MB), 2015 (11.4 MB) and 2018 (29.2 MB) exist under the same folder. Co-location caveat: NAIP m_3812157 SW is at 38.0-38.06 N, 121.94-122.0 W, which is the Honker Bay quad (already held as geopdf-ustopo-vinehill-honkerbay-current), not 121.5 W. Bouldin Island is ~35 km east: by MGRS arithmetic its UTM 10 easting (~626 km) is outside Sentinel-2 10SEH (500-610 km); Landsat 044/034 coverage expected but not checked. For a co-located historical map see geopdf-htmc-honker-bay-bouldin-island. /Measure found in a Range scan.",
+  "feeds": [
+   "ingest",
+   "geopdf"
+  ],
+  "covers": [
+   "fmt:geopdf.iso32000"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "geopdf-htmc-honker-bay-bouldin-island",
+  "area": "geopdf",
+  "title": "USGS Historical Topographic Map Collection GeoPDFs: Honker Bay 1953 and Bouldin Island 1952, 1:24,000 (TerraGo LGIDict encoding)",
+  "source": "USGS The National Map, Historical Topographic Map Collection",
+  "landing": "https://www.usgs.gov/programs/national-geospatial-program/historical-topographic-maps-preserving-past",
+  "licence": "Public domain (USGS)",
+  "attribution": "U.S. Geological Survey, Historical Topographic Map Collection",
+  "tier": "A",
+  "format": "GeoPDF (TerraGo, /LGIDict)",
+  "profile": "Scanned historical quads with georeferencing: Honker Bay 1953 (38.0-38.125 N, 121.875-122.0 W) and Bouldin Island 1952 (38.0-38.125 N, 121.5-121.625 W); Producer \"TerraGo Technologies\", Creator \"Map2PDF for Raster 5.0.0\"",
+  "files": [
+   {
+    "name": "CA_Honker_Bay_100766_1953_24000_geo.pdf",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Honker%20Bay_100766_1953_24000_geo.pdf",
+    "bytes": 16973085,
+    "role": "primary"
+   },
+   {
+    "name": "CA_Bouldin_Island_288579_1952_24000_geo.pdf",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Bouldin%20Island_288579_1952_24000_geo.pdf",
+    "bytes": 10677342,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "TNM Access API dataset \"Historical Topographic Maps\". /LGIDict, /Neatline, Producer and Creator strings found by Range scans of the first 2 MB and last 1.5 MB. The API sizeInBytes values are slightly smaller than the real Content-Length, so bytes come from HEAD. Honker Bay 1953 co-locates with NAIP m_3812157 SW, Sentinel-2 10SEH, Landsat 044/034 and the held 2022 US Topo of the same quad (old-vs-new map comparison); Bouldin Island 1952 pairs with geopdf-ustopo-bouldin-island-current. Six other Honker Bay 1953 printings and Bouldin Island 1910/1978/1997 maps are listed by the API.",
+  "feeds": [
+   "ingest",
+   "geopdf",
+   "robustness"
+  ],
+  "covers": [
+   "fmt:geopdf.lgidict"
+  ],
+  "pairs": [
+   {
+    "role": "imagery-over",
+    "with": [
+     "naip-ca-m3812157-sw-2022",
+     "s2-l2a-cog-10seh-20240816",
+     "landsat8-c2-l2sp-044034-20240820"
+    ]
+   },
+   {
+    "role": "co-register",
+    "with": [
+     "geopdf-ustopo-vinehill-honkerbay-current"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29",
+  "area": "eo",
+  "title": "SpaceNet 4 Atlanta WorldView-2 LV1B PAN, two more looks over the held strip area: nadir 9.5 deg (catid 1030010003993E00) and forward 28.6 deg (catid 1030010003315300), with RPB/IMD/TIL/XML/ATT/EPH/GEO",
+  "source": "SpaceNet (AWS Open Data)",
+  "landing": "https://spacenet.ai/off-nadir-building-detection/",
+  "licence": "CC BY-SA 4.0 (The SpaceNet Dataset by SpaceNet Partners, https://spacenet.ai/off-nadir-building-detection/ )",
+  "attribution": "The SpaceNet Dataset by SpaceNet Partners (imagery (c) Maxar/DigitalGlobe), licensed CC BY-SA 4.0",
+  "tier": "A",
+  "format": "GeoTIFF (DigitalGlobe LV1B, sensor geometry) + RPB/IMD/ATT/EPH/GEO/TIL/XML",
+  "profile": "WV02 LV1B 16-bit PAN, 2009-12-22 same pass as the held looks: 1030010003993E00 P003 (ONA 9.5, sat az 324.4, 33.777-33.838 N) and 1030010003315300 P003 (ONA 28.6, sat az 0.9, 33.777-33.877 N); both span 84.31-84.50 W",
+  "files": [
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.TIF",
+    "bytes": 956482327,
+    "role": "primary"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.RPB",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.RPB",
+    "bytes": 1860,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.IMD",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.IMD",
+    "bytes": 2214,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.XML",
+    "bytes": 923868,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.TIL",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.TIL",
+    "bytes": 576,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.ATT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.ATT",
+    "bytes": 468065,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.EPH",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.EPH",
+    "bytes": 378307,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003.GEO",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003.GEO",
+    "bytes": 1224,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir10_993E00_PAN/09DEC22163611-P1BS-058332845010_01_P003_README.TXT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003993E00/058332845010_01_P003_PAN/09DEC22163611-P1BS-058332845010_01_P003_README.TXT",
+    "bytes": 1149,
+    "role": "metadata"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF",
+    "bytes": 1212594807,
+    "role": "primary"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.RPB",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.RPB",
+    "bytes": 1860,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.IMD",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.IMD",
+    "bytes": 2214,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.XML",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.XML",
+    "bytes": 910430,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIL",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIL",
+    "bytes": 576,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.ATT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.ATT",
+    "bytes": 461185,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.EPH",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.EPH",
+    "bytes": 372747,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.GEO",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003.GEO",
+    "bytes": 1224,
+    "role": "sidecar"
+   },
+   {
+    "name": "nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003_README.TXT",
+    "url": "https://spacenet-dataset.s3.us-east-1.amazonaws.com/AOIs/AOI_6_Atlanta/metadata/1030010003315300/058332847010_01_P003_PAN/09DEC22163522-P1BS-058332847010_01_P003_README.TXT",
+    "bytes": 1149,
+    "role": "metadata"
+   }
+  ],
+  "sign": null,
+  "notes": "Footprints computed from the IMD corner coordinates of all 90 PAN strip parts under AOIs/AOI_6_Atlanta/metadata/. The held nadir52/nadir53 P005 parts cover 33.75-34.15 N, 84.18-84.60 W; low off-nadir strips are narrow, and P003 is the part of each that overlaps it (overlap 33.78-33.84/33.88 N, 84.31-84.50 W). With the held looks (sat az ~199, ONA ~53) these add a near-nadir view and a forward view (az ~1): convergence angles far larger than the held pair, good for DSM-from-stereo and RPC refinement. Folder layout mirrors eo-spacenet-atlanta-wv2-l1b-rpc (same basenames so GDAL pairs TIF with RPB/IMD/XML). The SN4_buildings tiled chips (spacenet/SN4_buildings/, 91,728 keys) are map-projected tiles with no RPB/IMD, so the LV1B metadata folders were used instead.",
+  "feeds": [
+   "ingest",
+   "sensor-model",
+   "rpc",
+   "stereo",
+   "orthorectify"
+  ],
+  "covers": [
+   "fmt:dg.rpb",
+   "fmt:dg.imd",
+   "fmt:dg.til"
+  ],
+  "pairs": [
+   {
+    "role": "stereo-mate",
+    "with": [
+     "eo-spacenet-atlanta-wv2-l1b-rpc"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dem-us3d-jacksonville-lidar-tierb",
+  "area": "dem",
+  "title": "JHU/APL Urban Semantic 3D (US3D, DFC2019) Jacksonville lidar DSM truth for the CORE3D WorldView-3 imagery: IEEE DataPort",
+  "source": "IEEE DataPort (Open Access)",
+  "landing": "https://ieee-dataport.org/open-access/urban-semantic-3d-dataset",
+  "licence": "CC BY 4.0 (IEEE DataPort Open Access; uploads are CC BY under the DataPort Terms of Service)",
+  "attribution": "Bosch, M., Foster, K., Christie, G., Wang, S., Hager, G.D., Brown, M., 2019, Semantic Stereo for Incidental Satellite Images (US3D); JHU/APL",
+  "tier": "B",
+  "format": "GeoTIFF DSM / class rasters",
+  "profile": "Airborne lidar DSM and semantic labels over Jacksonville and Omaha (~100 km2)",
+  "files": [],
+  "sign": null,
+  "notes": "CORE3D-Public-Data in the SpaceNet bucket has no lidar. Download through the owner IEEE DataPort session (signed URLs), like ieee-dfc2019-track2-val. Pairs as dsm-truth with nitf-core3d-jacksonville-wv3.",
+  "feeds": [
+   "dem.compare",
+   "stereo"
+  ],
+  "covers": [],
+  "pairs": [
+   {
+    "role": "dsm-truth",
+    "with": [
+     "ieee-dfc2019-track2-val"
+    ]
+   }
+  ]
+ }
+]

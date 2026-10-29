@@ -1,0 +1,28 @@
+{
+ "spec": "c12-vector",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:36.965Z",
+ "key": "ext.fromdsm",
+ "id": "ext.fromdsm",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Extract Buildings and Trees from DSM"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "dsm-from-cloud"
+ ],
+ "data": [
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

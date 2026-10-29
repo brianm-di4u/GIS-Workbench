@@ -1,0 +1,42 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:50.018Z",
+ "key": "nitf-mvs-wv3-buenos-aires/MasterProvisional1.tif",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "MasterProvisional1.tif",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 placemark(s) are clamped or relative to the ground; their heights were set to 0 m HAE (drop them to the terrain to fix)"
+ ],
+ "toasts": [
+  "toast-info: Opened MasterProvisional1.tif in 106 msZoom to layer×",
+  "toast-info: MasterProvisional1.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+  "toast-info: MasterProvisional1.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2893,
+   "h": 2383,
+   "bands": 1,
+   "model": "Map (EPSG:32721)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 4316,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

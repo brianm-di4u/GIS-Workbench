@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:32.088Z",
+ "key": "derived-control-points/ngs_golden_co_control.csv",
+ "item": "derived-control-points",
+ "file": "ngs_golden_co_control.csv",
+ "format": "CSV (control points)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ngs_golden_co_control: 315 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 315,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 105,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

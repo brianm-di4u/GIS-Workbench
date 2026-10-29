@@ -1,0 +1,27 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:01.201Z",
+ "key": "pc.export",
+ "id": "pc.export",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Export Point Cloud"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-pc-ascii/autzen.xyz",
+  "derived-pc-ascii/autzen.csv",
+  "derived-pc-ascii/autzen.pts"
+ ],
+ "openErrors": [
+  "the X/Y columns hold projected coordinates, not longitude/latitude (e.g. 637177.980, 849393.950): open the file as an ASCII point cloud (.xyz/.txt) with its EPSG code, or convert it to WGS 84"
+ ],
+ "requests": [],
+ "csp": []
+}

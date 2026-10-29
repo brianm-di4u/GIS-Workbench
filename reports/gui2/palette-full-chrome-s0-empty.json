@@ -5226,9 +5226,7 @@
   "id": "pane.showname",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Recipe step 1 failed: open an image first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -5236,7 +5234,9 @@
   "id": "aoi.clear",
   "outcome": "not now: open an image first",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: open an image first×"
+  ],
   "problems": []
  },
  {

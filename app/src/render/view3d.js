@@ -6,6 +6,7 @@
 // over the drawn points.
 
 import { h } from '../shell/dom.js';
+import { gltfLoader, refuseUndecodable } from './gltf-ext.js';
 import { Tileset } from './tiles3d.js';
 import { encodeCanvasWebM } from '../media/webm.js';
 
@@ -969,7 +970,8 @@ export class View3D {
       }
       return urls.get(decodeURIComponent(u.split(/[\\/]/).pop()).toLowerCase()) ?? u;
     });
-    const loader = new T.GLTFLoader(manager);
+    refuseUndecodable(bytes, name);
+    const loader = gltfLoader(T, manager);
     const buf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
     let gltf;
     try {

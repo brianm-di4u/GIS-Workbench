@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:56.691Z",
+ "key": "vector-gpx-osm-trackpoints-boulder/trackpoints_boulder_page0.gpx",
+ "item": "vector-gpx-osm-trackpoints-boulder",
+ "file": "trackpoints_boulder_page0.gpx",
+ "format": "GPX 1.0 (creator OpenStreetMap.org)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: trackpoints_boulder_page0.gpx: 0 waypoint(s), 0 route(s), 3 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 56,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

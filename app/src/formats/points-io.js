@@ -3,12 +3,13 @@
 //
 // BPF (NGA Binary Point File) v3, after PDAL's BSD reader (the NGA text is not public): "BPF!",
 // "0003", header length (i32), dimension count (u8), interleave (u8: 0 dimension-major, 1
-// point-major, 2 byte-major), compression (u8: 0 none, 1 zlib blocks), a pad byte, point count
+// point-major, 2 byte-major), compression (u8: 0 none, 1 QuickLZ, 2 FastLZ, 3 zlib), a pad byte, point count
 // (i32), coordinate type (i32: 0 Cartesian, 1 UTM with the zone as the coordinate id, negative
 // south), coordinate id (i32), spacing (f32), a 4 × 4 transform (16 f64, row-major), start and end
 // time (f64); then per dimension: offsets, minima and maxima (f64 each), and 32-byte labels. Values
-// are f32 plus the dimension's offset. zlib data is a run of blocks of (uncompressed size,
-// compressed size, deflate payload) from the header length on.
+// are f32 plus the dimension's offset. Compressed data (FastLZ, zlib) is a run of blocks of
+// (uncompressed size, compressed size, payload) from the header length on; a block that did not
+// shrink is stored raw.
 //
 // ASCII: delimited text with a column map (x, y, z, and optional intensity, class, r, g, b,
 // time) and the CRS of the coordinates.
@@ -17,10 +18,58 @@ import { crsOf, converter } from '../geo/crs.js';
 import { frameScales, statsOf, reorder } from './las.js';
 
 const enc = new TextDecoder('latin1');
+// BPF compression codes as PDAL writes them.
+const COMP = ['none', 'QuickLZ', 'FastLZ', 'zlib'];
 
 async function inflate(bytes) {
   const s = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate'));
   return new Uint8Array(await new Response(s).arrayBuffer());
+}
+
+/** FastLZ block (levels 1 and 2, the level in the top bits of the first byte) → `size` bytes. */
+export function fastlzDecompress(src, size) {
+  const out = new Uint8Array(size);
+  const level = src[0] >> 5;
+  if (level > 1) throw new Error(`FastLZ level ${level + 1} is not known`);
+  let ip = 0;
+  let op = 0;
+  let ctrl = src[ip++] & 31;
+  for (;;) {
+    if (ctrl >= 32) {
+      let len = (ctrl >> 5) - 1;
+      let ofs = (ctrl & 31) << 8;
+      let ref = op - ofs - 1;
+      if (len === 6) {
+        if (level === 0) len += src[ip++];
+        else {
+          let code;
+          do len += (code = src[ip++]);
+          while (code === 255);
+        }
+      }
+      const code = src[ip++];
+      ref -= code;
+      len += 3;
+      // Level 2: a far match (distance beyond 8191) carries a 16-bit distance.
+      if (level === 1 && code === 255 && ofs === 31 << 8) {
+        ofs = (src[ip] << 8) | src[ip + 1];
+        ip += 2;
+        ref = op - ofs - 8191 - 1;
+      }
+      if (ref < 0 || op + len > size) throw new Error('FastLZ data is corrupt');
+      for (let k = 0; k < len; k++) out[op++] = out[ref++];
+    } else {
+      ctrl++;
+      if (ip + ctrl > src.length || op + ctrl > size) throw new Error('FastLZ data is corrupt');
+      out.set(src.subarray(ip, ip + ctrl), op);
+      ip += ctrl;
+      op += ctrl;
+    }
+    if (ip >= src.length) break;
+    ctrl = src[ip++];
+  }
+  if (op !== size) throw new Error(`a FastLZ block decoded to ${op} bytes, not ${size}`);
+  return out;
 }
 
 /** BPF v3 → {name, n, x, y, z (Float64Array), dims: {label: Float64Array}, crs, info}. */
@@ -53,7 +102,11 @@ export async function parseBpf(file) {
   const ix = ['X', 'Y', 'Z'].map((k) => labels.findIndex((l) => l.toUpperCase() === k));
   if (ix.some((i) => i < 0)) throw new Error(`${file.name}: the BPF has no X, Y and Z dimensions (${labels.join(', ')})`);
   let data = buf.subarray(len);
-  if (comp === 1) {
+  // Some writers label zlib blocks with code 1 (QuickLZ in PDAL's numbering): read those by their zlib stream header.
+  const zlibAt = (q) => q + 10 <= buf.length && (buf[q + 8] & 0x0f) === 8 && ((buf[q + 8] << 8) | buf[q + 9]) % 31 === 0;
+  const codec = comp === 1 && zlibAt(len) ? 3 : comp;
+  if (codec === 1) throw new Error(`${file.name}: BPF QuickLZ compression is not read (zlib and FastLZ are)`);
+  if (codec === 2 || codec === 3) {
     const parts = [];
     let q = len;
     let total = 0;
@@ -61,8 +114,10 @@ export async function parseBpf(file) {
       const fin = dv.getUint32(q, true);
       const cl = dv.getUint32(q + 4, true);
       if (q + 8 + cl > buf.length) break;
-      const out = await inflate(buf.subarray(q + 8, q + 8 + cl));
-      if (out.length !== fin) throw new Error(`${file.name}: a zlib block inflated to ${out.length} bytes, not ${fin}`);
+      const block = buf.subarray(q + 8, q + 8 + cl);
+      // A block that did not shrink is stored as it is (compressed size = raw size).
+      const out = cl === fin ? block : codec === 3 ? await inflate(block) : fastlzDecompress(block, fin);
+      if (out.length !== fin) throw new Error(`${file.name}: a ${COMP[codec]} block decoded to ${out.length} bytes, not ${fin}`);
       parts.push(out);
       total += fin;
       q += 8 + cl;
@@ -73,7 +128,7 @@ export async function parseBpf(file) {
       data.set(part, o);
       o += part.length;
     }
-  } else if (comp !== 0) throw new Error(`${file.name}: BPF compression ${comp} is not read (zlib only)`);
+  } else if (comp !== 0) throw new Error(`${file.name}: unknown BPF compression ${comp}`);
   if (data.length < n * nd * 4) throw new Error(`${file.name}: the point data is truncated`);
   const ddv = new DataView(data.buffer, data.byteOffset, data.byteLength);
   const cols = Array.from({ length: nd }, () => new Float64Array(n));
@@ -106,7 +161,7 @@ export async function parseBpf(file) {
   if (coordType === 1) epsg = (coordId < 0 ? 32700 : 32600) + Math.abs(coordId);
   else throw new Error(`${file.name}: BPF coordinate type ${['Cartesian', 'UTM', 'TCR (ECEF)', 'ENU'][coordType] ?? coordType} is not read (UTM only)`);
   const dims = Object.fromEntries(labels.map((l, d) => [l, cols[d]]));
-  return { name: file.name, n, x, y, z, dims, epsg, info: { format: `BPF ${ver}`, interleave: ['dimension-major', 'point-major', 'byte-major'][inter], compression: comp ? 'zlib' : 'none', labels, offset, min, max, spacing, time: [t0, t1], headerLen: len } };
+  return { name: file.name, n, x, y, z, dims, epsg, info: { format: `BPF ${ver}`, interleave: ['dimension-major', 'point-major', 'byte-major'][inter], compression: COMP[codec], labels, offset, min, max, spacing, time: [t0, t1], headerLen: len } };
 }
 
 /** Delimited text → {n, x, y, z, dims}. columns: {x, y, z, intensity?, class?, r?, g?, b?, time?} (0-based). */

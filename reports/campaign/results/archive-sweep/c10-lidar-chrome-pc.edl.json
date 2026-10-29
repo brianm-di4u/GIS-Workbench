@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:40.692Z",
+ "key": "pc.edl",
+ "id": "pc.edl",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-las-pdrf-matrix/autzen_pdrf2_las12.las"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

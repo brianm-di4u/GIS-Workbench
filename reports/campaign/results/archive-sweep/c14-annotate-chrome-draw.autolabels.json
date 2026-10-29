@@ -1,0 +1,27 @@
+{
+ "spec": "c14-annotate",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:57.448Z",
+ "key": "draw.autolabels",
+ "id": "draw.autolabels",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Auto Labels"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "graphic"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

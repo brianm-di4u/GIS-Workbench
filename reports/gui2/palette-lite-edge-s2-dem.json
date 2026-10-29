@@ -1491,7 +1491,7 @@
  {
   "tab": "palette",
   "id": "los.p2p",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1553,7 +1553,7 @@
  {
   "tab": "palette",
   "id": "dem.groundfilter",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:ground-filter"
   ],
@@ -1605,7 +1605,7 @@
  {
   "tab": "palette",
   "id": "dem.accuracy",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,22 +1727,6 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "ext.edgetrace",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "ext.roadtrace",
   "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
@@ -1750,8 +1734,24 @@
  },
  {
   "tab": "palette",
-  "id": "hud.quickchip",
+  "id": "ext.edgetrace",
+  "outcome": "ran (found by id only)",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "ext.roadtrace",
   "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.quickchip",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1780,7 +1780,7 @@
  {
   "tab": "palette",
   "id": "lai.find",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:lai-find"
   ],
@@ -1798,7 +1798,7 @@
  {
   "tab": "palette",
   "id": "lai.search",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:lai-search"
   ],
@@ -1836,7 +1836,7 @@
  {
   "tab": "palette",
   "id": "hub.tiff16",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1844,7 +1844,7 @@
  {
   "tab": "palette",
   "id": "hub.pdf",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
@@ -1862,7 +1862,7 @@
  {
   "tab": "palette",
   "id": "hub.glb",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []

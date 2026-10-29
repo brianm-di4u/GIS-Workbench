@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:03.247Z",
+ "key": "hsi-speclib-splib06-envi-emit-sds/r06av18a_envi",
+ "item": "hsi-speclib-splib06-envi-emit-sds",
+ "file": "r06av18a_envi",
+ "format": "ENVI Spectral Library (Float32 BSQ)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened r06av18a_envi in 39 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BSQ (data type 4)",
+   "w": 224,
+   "h": 90,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 362,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

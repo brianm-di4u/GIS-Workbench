@@ -1,0 +1,23 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:23.022Z",
+ "key": "fmv.basis",
+ "id": "fmv.basis",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Time Basis — truck_vmti.ts"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-vmti-video/truck_vmti.ts"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

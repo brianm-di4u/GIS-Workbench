@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:38:00.571Z",
+ "key": "dem-under-bingham-3dep/USGS_1M_12_x40y449_UT_2023SaltLakeCo_C24.tif",
+ "item": "dem-under-bingham-3dep",
+ "file": "USGS_1M_12_x40y449_UT_2023SaltLakeCo_C24.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_1M_12_x40y449_UT_2023SaltLakeCo_C24.tif in 69 msZoom to layer×",
+  "toast-info: USGS_1M_12_x40y449_UT_2023SaltLakeCo_C24.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10000,
+   "h": 10000,
+   "bands": 1,
+   "model": "Map (EPSG:26912)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 892,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

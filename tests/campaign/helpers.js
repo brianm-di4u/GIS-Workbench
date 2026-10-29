@@ -1,7 +1,7 @@
 // T&E campaign helpers: corpus lookup, oracle truth, command execution with outcome capture, and
 // tolerance assertions. Builds on the E2E helpers (run modes, console/CSP/network capture).
 
-import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect } from '@playwright/test';
 import { loadManifest, itemDir, filePath, CORPUS, REPO } from '../../build/campaign/corpus-lib.mjs';
@@ -15,6 +15,26 @@ export { CORPUS };
 export const DIST = process.env.TE_DIST ? resolve(process.env.TE_DIST) : DIST0;
 export const openApp = (page, mode = 'file', opts = {}) => openApp0(page, mode, { htmlPath: DIST, ...opts });
 export const servers = (htmlPath = DIST) => servers0(htmlPath);
+
+/** A data pack from the build (a user opens it first, File ▸ Open Data Pack). */
+export const packFile = (re) => {
+  const dir = resolve('dist', 'packs');
+  const f = existsSync(dir) && readdirSync(dir).find((n) => re.test(n));
+  return f ? resolve(dir, f) : null;
+};
+// HDF5/NetCDF (EMIT, PRISMA) need the h5wasm data pack; state-plane CRSs need the PROJ pack.
+export const HDF5_PACK = packFile(/^hdf5-.*\.gwpack$/);
+export const PROJ_PACK = packFile(/^proj-.*\.gwpack$/);
+// ASCII point clouds carry no CRS; tests answer the column dialog with the source's EPSG (from the
+// LAS each was exported from, or the PDAL test's own notes). State-plane codes need the PROJ pack,
+// which opens first. Files left out are local scanner coordinates or of unknown CRS.
+export const ASCII_CRS = {
+  'autzen.xyz': 2994, 'autzen.pts': 2994, 'autzen-point-format-3.txt': 2994, // NAD83(HARN) / Oregon GIC Lambert (ft)
+  'test1_4.xyz': 2903, 'test1_4.pts': 2903, // NAD83(HARN) / New Mexico Central (ftUS)
+  'houston_c1.xyz': 26915, 'houston_c1.pts': 26915, // DFC2018: UTM 15N
+  'utm17_1.txt': 32617, 'utm17_2.txt': 32617, 'utm17_3.txt': 32617, 'crlf_test.txt': 32617,
+};
+export const isAscii = (it, f) => /\.(xyz|pts)$/i.test(f.name) || (it.area === 'lidar' && /\.txt$/i.test(f.name));
 
 export const manifest = loadManifest();
 const byId = new Map(manifest.items.map((it) => [it.id, it]));
@@ -70,6 +90,9 @@ export function settledAny(frame, logBefore = 0, timeout = 120_000) {
         const ls = [...a.layers.values()];
         if (ls.length && ls.every((l) => l.error || (l.lutTex && !l.tiles?.loading))) return true;
         if (a.store.all('pointcloud').length || a.store.all('vlayer').length || (a.fmv?.clips?.size ?? 0)) return !ls.length || ls.every((l) => l.error || l.lutTex);
+        // Routes with no image layer (GPX graphics, glTF, packs, basemaps, recipes) are done once they
+        // have logged their result: waiting on a layer that never comes cost the full timeout.
+        if (!ls.length && a.importLog.length > n0) return true;
         return a.importLog.length > n0 && a.importLog.slice(n0).some((r) => r.errors?.length);
       },
       logBefore,

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:05.015Z",
+ "key": "3d-tiles-3tz-cesium-test-packages/tilesetD.3tz",
+ "item": "3d-tiles-3tz-cesium-test-packages",
+ "file": "tilesetD.3tz",
+ "format": "3D Tiles archive (.3tz, ZIP with @3dtilesIndex1@)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: tilesetD.3tz: 3D Tiles 1.1 in the 3D view×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 130,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

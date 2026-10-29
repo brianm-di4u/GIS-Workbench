@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:50:50.794Z",
+ "key": "derived-hgt-variants/N40W106.hgt",
+ "item": "derived-hgt-variants",
+ "file": "N40W106.hgt",
+ "format": "SRTM HGT",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened N40W106.hgt in 494 msZoom to layer×",
+  "toast-info: N40W106.hgt is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "dem",
+   "format": "SRTM HGT",
+   "w": 3601,
+   "h": 3601,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1100,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:14.436Z",
+ "key": "raster-pmtiles-martin-pmtilesrs-fixtures/single_tile_brotli.pmtiles",
+ "item": "raster-pmtiles-martin-pmtilesrs-fixtures",
+ "file": "single_tile_brotli.pmtiles",
+ "format": "PMTiles v3 raster",
+ "rendered": false,
+ "errors": [
+  "Brotli-compressed PMTiles (directories) are not read; gzip and uncompressed are (re-write it with pmtiles convert)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: single_tile_brotli.pmtiles: Brotli-compressed PMTiles (directories) are not read; gzip and uncompressed are (re-write it with pmtiles convert)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 39,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

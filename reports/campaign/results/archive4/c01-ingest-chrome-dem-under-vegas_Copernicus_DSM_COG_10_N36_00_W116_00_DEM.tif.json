@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:21.225Z",
+ "key": "dem-under-vegas/Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif",
+ "item": "dem-under-vegas",
+ "file": "Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif in 641 msZoom to layer×",
+  "toast-info: Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 3600,
+   "h": 3600,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1725,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

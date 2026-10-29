@@ -1,0 +1,41 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:17.398Z",
+ "key": "geopdf-htmc-honker-bay-bouldin-island/CA_Honker_Bay_100766_1953_24000_geo.pdf",
+ "item": "geopdf-htmc-honker-bay-bouldin-island",
+ "file": "CA_Honker_Bay_100766_1953_24000_geo.pdf",
+ "format": "GeoPDF (TerraGo, /LGIDict)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "GeoPDF LGIDict: LGIDict projection PH / datum NAS-E is not read yet (UTM on NAD83, WGS 84 or NAD27 is)"
+ ],
+ "toasts": [
+  "toast-info: Opened CA_Honker_Bay_100766_1953_24000_geo.pdf in 5538 ms (1 note in the import log)Zoom to layer×",
+  "toast-info: CA_Honker_Bay_100766_1953_24000_geo.pdf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (280 objects; LGIDict; 252 images)",
+   "w": 7116,
+   "h": 8994,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 8466,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

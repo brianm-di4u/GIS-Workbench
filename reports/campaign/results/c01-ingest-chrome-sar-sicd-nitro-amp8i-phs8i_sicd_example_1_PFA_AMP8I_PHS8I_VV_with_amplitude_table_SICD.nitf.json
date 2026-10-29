@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:15:31.839Z",
+ "key": "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf",
+ "item": "sar-sicd-nitro-amp8i-phs8i",
+ "file": "sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf",
+ "format": "SICD 1.1.0/NITF2.1, PixelType AMP8I_PHS8I",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.1.0 (AMP8I_PHS8I)",
+   "w": 6724,
+   "h": 3975,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 9089,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

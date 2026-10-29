@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:51:24.755Z",
+ "key": "derived-3d-tiles-3tz/MultipleContents.3tz",
+ "item": "derived-3d-tiles-3tz",
+ "file": "MultipleContents.3tz",
+ "format": "3D Tiles 3TZ",
+ "rendered": false,
+ "errors": [
+  "not GeoJSON (the JSON has no \"type\" member; GeoJSON needs a FeatureCollection, Feature or geometry)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: tileset.json: not GeoJSON (the JSON has no \"type\" member; GeoJSON needs a FeatureCollection, Feature or geometry)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 86,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

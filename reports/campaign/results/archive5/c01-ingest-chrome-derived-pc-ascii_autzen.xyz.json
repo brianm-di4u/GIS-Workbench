@@ -1,0 +1,29 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:17.706Z",
+ "key": "derived-pc-ascii/autzen.xyz",
+ "item": "derived-pc-ascii",
+ "file": "autzen.xyz",
+ "format": "ASCII point cloud",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack PROJ (proj-wasm with proj.db) 0.1.0 verified (3 entries, SHA-256 checked)×",
+  "toast-info: Opened autzen.xyz: 110,000 points in 223 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 805,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

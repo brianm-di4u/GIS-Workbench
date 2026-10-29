@@ -16,10 +16,12 @@ import { FeatureIndex, snapAt, edges } from '../vector/index.js';
 import { parts, partRanges, partOf, vertex, fromParts, setVertex, insertVertex, deleteVertex, isPolygonal, isLinear, bbox, polygonGroups, pointInPolygonal, toGeoJSON, fromGeoJSON, coincident } from '../vector/geom.js';
 import { readGeoJSON, writeGeoJSON, readShapefile, writeShapefile, shapefileSets, readKml, writeKml, readGml, inferFields } from '../vector/io.js';
 import { crsOf, converter } from '../geo/crs.js';
+import { parseGpx } from './graphics.js';
 
 export const name = 'extract';
 
-const VECTOR_RE = /\.(geojson|kml|kmz|shp|zip|gpkg|csv|gml)$/i;
+// .json is GeoJSON here: app files (.gwt.json, .gwrecipe.json) and tile-set JSON are routed before this.
+const VECTOR_RE = /\.(geojson|geojsonl|geojsons|ndjson|json|kml|kmz|shp|zip|gpkg|csv|gml|gpx)$/i;
 const SIDE_RE = /\.(dbf|shx|cpg)$/i;
 const STYLE = { stroke: '#ff2020', width: 2, fill: '#ff202040', outline: '#2060ff' };
 const SEL = '#e000e0';
@@ -1155,9 +1157,21 @@ export function install(app) {
       app.importLog?.push({ file: f.name, errors: [msg], warnings: [] });
       return false;
     });
+    const zipped = new Map(); // ZIP name → its entry names, to report a ZIP nothing could be read from
+    const log0 = app.importLog?.length ?? 0;
     for (const f of files) {
-      if (/\.zip$/i.test(f.name)) Object.assign(bytes, unzipSync(new Uint8Array(await f.arrayBuffer())));
-      else bytes[f.name] = new Uint8Array(await f.arrayBuffer());
+      if (/\.zip$/i.test(f.name)) {
+        let z;
+        try {
+          z = unzipSync(new Uint8Array(await f.arrayBuffer()));
+        } catch (e) {
+          app.importLog?.push({ file: f.name, errors: [`not a readable ZIP (${e.message})`], warnings: [] });
+          app.toast(`${f.name}: not a readable ZIP`, { kind: 'error', ms: 9000 });
+          continue;
+        }
+        zipped.set(f.name, Object.keys(z).filter((k) => !k.endsWith('/')));
+        Object.assign(bytes, z);
+      } else bytes[f.name] = new Uint8Array(await f.arrayBuffer());
     }
     for (const set of shapefileSets(bytes)) {
       const { layer, report } = readShapefile(set, { name: set.stem, reproject });
@@ -1165,7 +1179,7 @@ export function install(app) {
     }
     for (const [nm, b] of Object.entries(bytes)) {
       try {
-        if (/\.geojson$|\.json$/i.test(nm) && !/\.(gwt|gwb)\.json$/i.test(nm)) {
+        if (/\.(geojson|geojsonl|geojsons|ndjson|json)$/i.test(nm) && !/\.(gwt|gwb)\.json$/i.test(nm)) {
           const { layer, report } = readGeoJSON(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), reproject: (n) => {
             const m = /EPSG:+(\d+)/.exec(n);
             const crs = m ? crsOf({ epsg: Number(m[1]) }) : null;
@@ -1188,6 +1202,20 @@ export function install(app) {
             return (x, y) => c.toLonLat(x, y);
           } });
           out.push({ id: addLayer(layer, { format: 'GML', file: nm, report }), report });
+        } else if (/\.gpx$/i.test(nm)) {
+          // Convert reads GPX as features (waypoints → points, routes and track segments → lines, Z = HAE);
+          // a GPX dropped on the map is drawn as ground graphics instead (REQ-IMG-31).
+          // Points without <ele> have h = NaN: such a geometry is written 2D rather than given a made-up height.
+          const dims = (cs) => (cs.every((c) => Number.isFinite(c[2])) ? cs : cs.map(([x, y]) => [x, y]));
+          const features = parseGpx(new TextDecoder().decode(b), toHae).map((g) => ({
+            type: 'Feature',
+            geometry: g.shape === 'marker' ? { type: 'Point', coordinates: dims(g.coords)[0] } : { type: 'LineString', coordinates: dims(g.coords) },
+            properties: { name: g.text, description: g.description, gpx: g.gps, ...(g.time ? { time: g.time } : {}) },
+          }));
+          if (!features.length) throw new Error('the GPX has no waypoints, routes or tracks');
+          const { layer, report } = readGeoJSON(JSON.stringify({ type: 'FeatureCollection', features }), { name: nm.replace(/\.\w+$/, '') });
+          report.format = 'GPX';
+          out.push({ id: addLayer(layer, { format: 'GPX', file: nm, report }), report });
         } else if (/\.kml$/i.test(nm)) {
           const { layer, report } = readKml(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), toHae });
           out.push({ id: addLayer(layer, { format: 'KML', file: nm, report }), report });
@@ -1205,6 +1233,13 @@ export function install(app) {
         app.importLog?.push({ file: nm, errors: [e.message], warnings: [] });
       }
     }
+    // TE archive: a ZIP with neither vectors nor imagery used to end with no message at all.
+    if (!out.length && (app.importLog?.length ?? 0) === log0)
+      for (const [zn, names] of zipped) {
+        const msg = `the ZIP holds no vector data or imagery GIS Workbench reads (${names.length} file(s): ${names.slice(0, 5).join(', ')}${names.length > 5 ? ', …' : ''})`;
+        app.importLog?.push({ file: zn, errors: [msg], warnings: [] });
+        app.toast(`${zn}: ${msg}`, { kind: 'error', ms: 9000 });
+      }
     for (const o of out) {
       app.importLog?.push({ file: o.report.format, errors: [], warnings: o.report.warnings });
       app.toast(`${S.get(o.id).name}: ${o.report.features_out} feature(s) from ${o.report.format}${o.report.warnings.length ? ` (${o.report.warnings.length} note(s))` : ''}`);

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:32.670Z",
+ "key": "derived-vector-variants/ne_rivers_wkt.csv",
+ "item": "derived-vector-variants",
+ "file": "ne_rivers_wkt.csv",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_rivers_wkt: 116 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 116,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 182,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,21 @@
+{
+ "spec": "c16-ai-mcp",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:13.210Z",
+ "key": "wb.review",
+ "id": "wb.review",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Review & Send Feedback - U - Unclassified"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

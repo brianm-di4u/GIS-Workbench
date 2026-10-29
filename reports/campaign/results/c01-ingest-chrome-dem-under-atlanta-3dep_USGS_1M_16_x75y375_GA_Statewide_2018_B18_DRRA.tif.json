@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:18:38.806Z",
+ "key": "dem-under-atlanta-3dep/USGS_1M_16_x75y375_GA_Statewide_2018_B18_DRRA.tif",
+ "item": "dem-under-atlanta-3dep",
+ "file": "USGS_1M_16_x75y375_GA_Statewide_2018_B18_DRRA.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_1M_16_x75y375_GA_Statewide_2018_B18_DRRA.tif in 214 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10012,
+   "h": 10012,
+   "bands": 1,
+   "model": "Map (EPSG:26916)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1324,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:19:50.002Z",
+ "key": "hsi-avirisng-cuprite-20200712-rfl/ang20200712t200729_corr_v2y1_img",
+ "item": "hsi-avirisng-cuprite-20200712-rfl",
+ "file": "ang20200712t200729_corr_v2y1_img",
+ "format": "ENVI (binary + .hdr) in tar.gz",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BIL (data type 4)",
+   "w": 737,
+   "h": 3681,
+   "bands": 425,
+   "model": "Map (EPSG:32611)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 145164,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

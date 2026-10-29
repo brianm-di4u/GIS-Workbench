@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:00.050Z",
+ "key": "raster-ojpeg-libtiff-negatives/ojpeg_single_strip_no_rowsperstrip.tiff",
+ "item": "raster-ojpeg-libtiff-negatives",
+ "file": "ojpeg_single_strip_no_rowsperstrip.tiff",
+ "format": "TIFF, Compression 6 (OJPEG)",
+ "rendered": false,
+ "errors": [
+  "the TIFF is truncated or damaged: a tag or block points outside the file"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: ojpeg_single_strip_no_rowsperstrip.tiff: the TIFF is truncated or damaged: a tag or block points outside the file×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 77,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

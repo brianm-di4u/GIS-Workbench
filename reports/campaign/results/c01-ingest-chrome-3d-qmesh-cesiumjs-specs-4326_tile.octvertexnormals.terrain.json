@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:37:28.704Z",
+ "key": "3d-qmesh-cesiumjs-specs-4326/tile.octvertexnormals.terrain",
+ "item": "3d-qmesh-cesiumjs-specs-4326",
+ "file": "tile.octvertexnormals.terrain",
+ "format": "quantized-mesh-1.0 + layer.json",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: tile.octvertexnormals.terrain: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 132,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

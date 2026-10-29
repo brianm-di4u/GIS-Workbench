@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:31.108Z",
+ "key": "vector-pmtiles-mvt-census-zcta/cb_2018_us_zcta510_500k.pmtiles",
+ "item": "vector-pmtiles-mvt-census-zcta",
+ "file": "cb_2018_us_zcta510_500k.pmtiles",
+ "format": "PMTiles v3 (MVT)",
+ "rendered": false,
+ "errors": [
+  "cb_2018_us_zcta510_500k.pmtiles holds vector tiles; GIS Workbench draws raster PMTiles (PNG, JPEG, WebP) as basemaps"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: cb_2018_us_zcta510_500k.pmtiles: cb_2018_us_zcta510_500k.pmtiles holds vector tiles; GIS Workbench draws raster PMTiles (PNG, JPEG, WebP) as basemaps×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 47,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:32.936Z",
+ "key": "derived-pictures-worldfile/wv3vis.gif",
+ "item": "derived-pictures-worldfile",
+ "file": "wv3vis.gif",
+ "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened wv3vis.gif in 75 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "gif",
+   "w": 1024,
+   "h": 1024,
+   "bands": 1,
+   "model": "World file (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 447,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:10.414Z",
+ "key": "derived-speclib-envi-sli/splib07_artificial.csv",
+ "item": "derived-speclib-envi-sli",
+ "file": "splib07_artificial.csv",
+ "format": "ENVI spectral library / CSV",
+ "rendered": false,
+ "errors": [
+  "no WKT column and no longitude/latitude columns"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: splib07_artificial.csv: no WKT column and no longitude/latitude columns×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 260,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

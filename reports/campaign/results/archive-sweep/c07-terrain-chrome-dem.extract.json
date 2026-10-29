@@ -1,0 +1,32 @@
+{
+ "spec": "c07-terrain",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:47.308Z",
+ "key": "dem.extract",
+ "id": "dem.extract",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Terrain Extraction"
+ ],
+ "toasts": [
+  "toast-info: Terrain extraction started (Job Queue shows the tiles)×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "stereo"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

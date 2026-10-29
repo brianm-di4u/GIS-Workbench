@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:35:58.289Z",
+ "key": "sar-sicd-sidd-six-library/cropped_sidd.nitf",
+ "item": "sar-sicd-sidd-six-library",
+ "file": "cropped_sidd.nitf",
+ "format": "SICD/NITF2.1 and SIDD/NITF2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "IGEOLO corners (approximate): degenerate corner points"
+ ],
+ "toasts": [
+  "toast-info: Opened cropped_sidd.nitf in 52 ms (1 note in the import log)Zoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SIDD 1.0.0 (MONO8LU)",
+   "w": 5,
+   "h": 5,
+   "bands": 1,
+   "model": "SIDD PlaneProjection"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 165,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

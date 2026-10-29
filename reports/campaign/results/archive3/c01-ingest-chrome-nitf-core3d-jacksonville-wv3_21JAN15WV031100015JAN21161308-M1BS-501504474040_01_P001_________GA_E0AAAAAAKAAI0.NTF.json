@@ -1,0 +1,49 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:17:13.724Z",
+ "key": "nitf-core3d-jacksonville-wv3/21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF in 182 msZoom to layer×",
+  "toast-info: 21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+  "toast-error: 21JAN15WV031100015JAN21161308-M1BS-501504474040_01_P001_________GA_E0AAAAAAKAAI0.NTF [1] M106764E00 cannot be displayed: JPEG 2000 tile 0: JPEG 2000: Validation(TooManyChannels)×"
+ ],
+ "layers": [
+  {
+   "error": "JPEG 2000 tile 0: JPEG 2000: Validation(TooManyChannels)",
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 11264,
+   "h": 9216,
+   "bands": 8,
+   "model": "RPC00B"
+  },
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 79,
+   "h": 75,
+   "bands": 1,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 2,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1553,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

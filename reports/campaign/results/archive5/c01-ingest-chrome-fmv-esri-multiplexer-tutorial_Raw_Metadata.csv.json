@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:34.977Z",
+ "key": "fmv-esri-multiplexer-tutorial/Raw_Metadata.csv",
+ "item": "fmv-esri-multiplexer-tutorial",
+ "file": "Raw_Metadata.csv",
+ "format": "ZIP: Raw_Video.mpeg (MPEG program stream, MPEG-2 video + audio, no KLV), Raw_Metadata.csv, Custom_FMV_Field_Mappings.csv, FMV_Multiplexer_TimeShift_Template.csv",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Raw_Metadata: 866 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 866,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 106,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

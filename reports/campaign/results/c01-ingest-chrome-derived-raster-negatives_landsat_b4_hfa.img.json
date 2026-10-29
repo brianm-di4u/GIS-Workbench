@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:06.254Z",
+ "key": "derived-raster-negatives/landsat_b4_hfa.img",
+ "item": "derived-raster-negatives",
+ "file": "landsat_b4_hfa.img",
+ "format": "NetCDF-3 / HFA / PDF (negative)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: landsat_b4_hfa.img: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 97,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

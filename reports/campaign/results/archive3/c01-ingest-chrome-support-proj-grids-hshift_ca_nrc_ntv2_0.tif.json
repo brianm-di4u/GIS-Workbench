@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:23:15.846Z",
+ "key": "support-proj-grids-hshift/ca_nrc_ntv2_0.tif",
+ "item": "support-proj-grids-hshift",
+ "file": "ca_nrc_ntv2_0.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened ca_nrc_ntv2_0.tif in 926 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 529,
+   "h": 241,
+   "bands": 4,
+   "model": "Map (EPSG:4267, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1541,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

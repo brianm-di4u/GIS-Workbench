@@ -6,6 +6,8 @@
 // Z-up; tile transforms chain to ECEF; every vertex is then converted to the view's local frame
 // (east, north metres from the view origin; up = HAE), so tiles line up with terrain and clouds.
 
+import { gltfExtensions, gltfLoader, refuseUndecodable } from './gltf-ext.js';
+
 const A = 6378137;
 const E2 = 0.0066943799901413165;
 
@@ -83,6 +85,9 @@ export class Tileset {
     if (!ts.root) throw new Error('not a 3D Tiles tileset (no root)');
     this.asset = ts.asset ?? {};
     this.root = this._node(ts.root, IDENT, this.url, null);
+    // A tileset with no transform to ECEF (test packages in a unit box) sits at the Earth's centre:
+    // nothing places it, and every vertex would convert to NaN.
+    if (Math.hypot(...this.root.sphere.c) < 6.0e6) throw new Error('the tileset is not georeferenced: its root sits near the Earth\'s centre (no transform to ECEF), so it cannot be placed');
     // The view's frame: the root's centre when nothing else fixed it.
     if (!this.view.origin) {
       const g = ecefToGeo(...this.root.sphere.c);
@@ -98,6 +103,8 @@ export class Tileset {
   _node(j, parentM, base, parent) {
     const m = j.transform ? mul4(parentM, j.transform) : parentM;
     const n = { j, m, base, parent, children: [], state: 'none', object: null, sphere: sphereOf(j.boundingVolume, m), refine: (j.refine ?? parent?.refine ?? 'REPLACE').toUpperCase() };
+    // 3D Tiles 1.1 tiles may carry several contents (`contents`); 1.0 has one (`content`).
+    n.uris = (j.contents ?? (j.content ? [j.content] : [])).map((c) => c.uri ?? c.url).filter(Boolean);
     n.children = (j.children ?? []).map((c) => this._node(c, m, base, n));
     return n;
   }
@@ -119,7 +126,7 @@ export class Tileset {
       const sse = (n.j.geometricError * k) / d;
       const refine = sse > this.maxSse && n.children.length;
       if (refine) {
-        const ready = n.children.every((c) => !c.j.content || c.state === 'ready');
+        const ready = n.children.every((c) => !c.uris.length || c.state === 'ready');
         if (n.refine === 'ADD' || !ready) want.add(n);
         n.children.forEach(visit);
       } else want.add(n);
@@ -132,7 +139,7 @@ export class Tileset {
     for (const n of all) {
       const on = want.has(n);
       if (n.object) n.object.visible = on && n.state === 'ready';
-      if (on && n.j.content && n.state === 'none') this._request(n);
+      if (on && n.uris.length && n.state === 'none') this._request(n);
       if (on && n.state === 'ready') visible++;
     }
     this.stats.visible = visible;
@@ -143,36 +150,40 @@ export class Tileset {
     this.stats.requested++;
     this.loading++;
     try {
-      const uri = n.j.content.uri ?? n.j.content.url;
-      const url = new URL(uri, n.base).href;
-      const r = await this.fetch(url, { credentials: 'omit' });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const b = new Uint8Array(await r.arrayBuffer());
-      const magic = String.fromCharCode(...b.subarray(0, 4));
-      let glb = b;
-      let rtc = null;
-      if (magic === 'b3dm') {
-        const dv = new DataView(b.buffer, b.byteOffset, b.byteLength);
-        const ftJ = dv.getUint32(12, true);
-        const ftB = dv.getUint32(16, true);
-        const btJ = dv.getUint32(20, true);
-        const btB = dv.getUint32(24, true);
-        if (ftJ) {
-          const ft = JSON.parse(new TextDecoder().decode(b.subarray(28, 28 + ftJ)));
-          if (ft.RTC_CENTER) rtc = ft.RTC_CENTER;
-        }
-        glb = b.subarray(28 + ftJ + ftB + btJ + btB);
-      } else if (/\.json$/i.test(url) && b[0] === 0x7b) {
-        // An external tileset: graft its root under this node.
-        const ts = JSON.parse(new TextDecoder().decode(b));
-        n.children.push(this._node(ts.root, n.m, url, n));
-        n.state = 'ready';
-        return;
-      } else if (magic !== 'glTF' && b[0] !== 0x7b) throw new Error(`unsupported tile content "${magic}"`);
-      const obj = await this._gltf(glb, n.m, rtc);
-      n.object = obj;
-      obj.visible = false;
-      this.group.add(obj);
+      const objs = [];
+      for (const uri of n.uris) {
+        const url = new URL(uri, n.base).href;
+        const r = await this.fetch(url, { credentials: 'omit' });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const b = new Uint8Array(await r.arrayBuffer());
+        const magic = String.fromCharCode(...b.subarray(0, 4));
+        let glb = b;
+        let rtc = null;
+        if (magic === 'b3dm') {
+          const dv = new DataView(b.buffer, b.byteOffset, b.byteLength);
+          const ftJ = dv.getUint32(12, true);
+          const ftB = dv.getUint32(16, true);
+          const btJ = dv.getUint32(20, true);
+          const btB = dv.getUint32(24, true);
+          if (ftJ) {
+            const ft = JSON.parse(new TextDecoder().decode(b.subarray(28, 28 + ftJ)));
+            if (ft.RTC_CENTER) rtc = ft.RTC_CENTER;
+          }
+          glb = b.subarray(28 + ftJ + ftB + btJ + btB);
+        } else if (/\.json$/i.test(url) && b[0] === 0x7b) {
+          // An external tileset: graft its root under this node.
+          const ts = JSON.parse(new TextDecoder().decode(b));
+          n.children.push(this._node(ts.root, n.m, url, n));
+          continue;
+        } else if (magic !== 'glTF' && b[0] !== 0x7b) throw new Error(`unsupported tile content "${magic}"`);
+        objs.push(await this._gltf(glb, n.m, rtc, url));
+      }
+      if (objs.length) {
+        const obj = objs.length === 1 ? objs[0] : objs.reduce((g, o) => (g.add(o), g), new this.view.T.Group());
+        n.object = obj;
+        obj.visible = false;
+        this.group.add(obj);
+      }
       n.state = 'ready';
       this.stats.loaded++;
     } catch (e) {
@@ -186,11 +197,39 @@ export class Tileset {
   }
 
   /** glTF → a group whose vertices are in the view's local frame. */
-  async _gltf(bytes, m, rtc) {
+  async _gltf(bytes, m, rtc, url) {
     const T = this.view.T;
-    const loader = new T.GLTFLoader();
+    refuseUndecodable(bytes, '3D Tiles content');
+    // External buffers and images (a .gltf beside its .bin in a tileset or a .3tz) come through the
+    // tileset's own fetch — the archive, or the network log for an online source — as blob: URLs;
+    // embedded data: URIs become blobs too. Left to the loader they resolved against the page and
+    // broke the CSP (TE archive: 3d-tiles-3tz-cesium-test-packages).
+    const blobs = new Map();
+    const { json } = gltfExtensions(bytes);
+    for (const r of [...(json?.buffers ?? []), ...(json?.images ?? [])]) {
+      if (!r.uri || /^blob:/i.test(r.uri) || blobs.has(r.uri)) continue;
+      let data;
+      if (/^data:/i.test(r.uri)) {
+        const mm = /^data:([^;,]*)(;base64)?,(.*)$/is.exec(r.uri);
+        if (!mm) continue;
+        data = new Blob([mm[2] ? Uint8Array.from(atob(mm[3]), (ch) => ch.charCodeAt(0)) : new TextEncoder().encode(decodeURIComponent(mm[3]))], { type: mm[1] || 'application/octet-stream' });
+      } else {
+        const res = await this.fetch(new URL(r.uri, url).href, { credentials: 'omit' });
+        if (!res.ok) throw new Error(`${r.uri}: HTTP ${res.status}`);
+        data = await res.blob();
+      }
+      blobs.set(r.uri, URL.createObjectURL(data));
+    }
+    const manager = new T.LoadingManager();
+    manager.setURLModifier((u) => blobs.get(u) ?? u);
+    const loader = gltfLoader(T, manager);
     const buf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
-    const gltf = await new Promise((res, rej) => loader.parse(buf, '', res, rej));
+    let gltf;
+    try {
+      gltf = await new Promise((res, rej) => loader.parse(buf, '', res, rej));
+    } finally {
+      for (const b of blobs.values()) URL.revokeObjectURL(b);
+    }
     const scene = gltf.scene;
     scene.updateMatrixWorld(true);
     const M = mul4(m, rtc ? mul4([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, rtc[0], rtc[1], rtc[2], 1], Y_UP_TO_Z_UP) : Y_UP_TO_Z_UP);

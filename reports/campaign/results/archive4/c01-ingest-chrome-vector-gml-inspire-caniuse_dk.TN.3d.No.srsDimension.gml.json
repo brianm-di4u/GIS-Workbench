@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:52.366Z",
+ "key": "vector-gml-inspire-caniuse/dk.TN.3d.No.srsDimension.gml",
+ "item": "vector-gml-inspire-caniuse",
+ "file": "dk.TN.3d.No.srsDimension.gml",
+ "format": "GML 3.2 (INSPIRE application schemas)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "EPSG:7416 is not defined here; coordinates kept as they are (load the PROJ data pack)"
+ ],
+ "toasts": [
+  "toast-info: dk.TN.3d.No.srsDimension: 1 feature(s) from GML (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 66,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

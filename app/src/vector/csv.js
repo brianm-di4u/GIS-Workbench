@@ -143,17 +143,42 @@ export function readCsv(text, { name = 'CSV' } = {}) {
   const head = rows[0].map((h) => h.trim());
   const find = (re) => head.findIndex((h) => re.test(h));
   const iw = find(/^(wkt|geometry|geom|the_geom|shape)$/i);
-  const ix = find(/^(lon|long|longitude|x)$/i);
-  const iy = find(/^(lat|latitude|y)$/i);
-  const iz = find(/^(z|hae|height|elevation|alt|altitude)$/i);
+  let ix = find(/^(lon|long|longitude|x)$/i);
+  let iy = find(/^(lat|latitude|y)$/i);
+  let iz = find(/^(z|hae|height|elevation|alt|altitude)$/i);
+  if (iw < 0 && (ix < 0 || iy < 0)) {
+    // Prefixed pairs (SensorLatitude/SensorLongitude in FMV metadata, center_lat/center_lon): the
+    // first latitude column whose prefix also names a longitude column, and its altitude if any.
+    const sfx = (re) => head.map((h, i) => [i, re.exec(h)]).filter(([, m]) => m);
+    for (const [i, m] of sfx(/^(.+?)[_ ]?(lat|latitude)$/i)) {
+      const p = m[1].toLowerCase();
+      const j = sfx(/^(.+?)[_ ]?(lon|long|longitude)$/i).find(([, n]) => n[1].toLowerCase() === p)?.[0];
+      if (j === undefined) continue;
+      [iy, ix] = [i, j];
+      iz = sfx(/^(.+?)[_ ]?(alt|altitude|height|hae)$/i).find(([, n]) => n[1].toLowerCase() === p)?.[0] ?? -1;
+      report.warnings.push(`points from ${head[ix]} / ${head[iy]}${iz >= 0 ? ` / ${head[iz]}` : ''}`);
+      break;
+    }
+  }
   if (iw < 0 && (ix < 0 || iy < 0)) throw new Error('no WKT column and no longitude/latitude columns');
   const iname = find(/^name$/i);
   const idesc = find(/^description$/i);
   const skip = new Set([iw, ix, iy, iz, iname, idesc].filter((i) => i >= 0));
   if (iw >= 0) skip.delete(iz);
   const features = [];
+  let outOfRange = 0;
+  let example = null;
   for (const r of rows.slice(1)) {
     let geom;
+    if (iw < 0) {
+      // Projected X/Y (a point-cloud export, a UTM table) are not longitude/latitude: skipped, not drawn off the globe.
+      const [lon, lat] = [Number(r[ix]), Number(r[iy])];
+      if (Math.abs(lon) > 180 || Math.abs(lat) > 90) {
+        outOfRange++;
+        example ??= `${r[ix]}, ${r[iy]}`;
+        continue;
+      }
+    }
     try {
       geom = iw >= 0 ? parseWkt(r[iw]) : fromParts('Point', [[[Number(r[ix]), Number(r[iy]), iz >= 0 ? Number(r[iz]) || 0 : 0]]]);
     } catch (e) {
@@ -172,6 +197,8 @@ export function readCsv(text, { name = 'CSV' } = {}) {
     report.features_out++;
     report.by_geometry[geom.type] = (report.by_geometry[geom.type] ?? 0) + 1;
   }
+  if (outOfRange && !features.length) throw new Error(`the ${head[ix]}/${head[iy]} columns hold projected coordinates, not longitude/latitude (e.g. ${example}): open the file as an ASCII point cloud (.xyz/.txt) with its EPSG code, or convert it to WGS 84`);
+  if (outOfRange) report.warnings.push(`${outOfRange} row(s) skipped: ${head[ix]}/${head[iy]} outside longitude/latitude range (e.g. ${example})`);
   return { layer: { name, fields: inferFields(features), features }, report };
 }
 

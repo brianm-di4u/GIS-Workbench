@@ -829,17 +829,19 @@ export function install(app) {
   };
   const has = () => isSar(layer());
   const hasC = () => isSicd(layer());
+  // Views and remaps work on any complex image (SICD or complex SLC GeoTIFF); sub-aperture tools need SICD.
+  const hasX = () => isComplex(layer());
   C.implement('sar.metadata', { enabled: has, run: run(() => metadataDialog()) });
   C.implement('sar.view', {
     run: () => {},
-    enabled: hasC,
+    enabled: hasX,
     options: () => SAR_VIEWS.map(([value, label]) => ({ value, label, disabled: !viewAvailable(layer(), value).ok, title: viewAvailable(layer(), value).reason ?? '' })),
     value: () => viewOf(layer()),
     setValue: (v) => setView(layer(), v).catch((e) => toast(e.message, { kind: 'error' })),
   });
   C.implement('sar.remap', {
     run: () => {},
-    enabled: hasC,
+    enabled: hasX,
     options: () => SAR_REMAPS.map(([value, label]) => ({ value, label })),
     value: () => layer()?.chain?.sarRemap ?? 'sar-density',
     setValue: (v) => setRemap(layer(), v),

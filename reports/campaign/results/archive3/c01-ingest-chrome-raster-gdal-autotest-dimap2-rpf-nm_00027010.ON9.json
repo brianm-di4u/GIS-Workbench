@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:10:50.291Z",
+ "key": "raster-gdal-autotest-dimap2-rpf-nm/00027010.ON9",
+ "item": "raster-gdal-autotest-dimap2-rpf-nm",
+ "file": "00027010.ON9",
+ "format": "DIMAP v2 (DIM_*.XML + IMG tiles + RPC), RPF A.TOC + CADRG, NITF/NSIF IC=NM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 00027010.ON9 in 52 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 1536,
+   "h": 1536,
+   "bands": 3,
+   "model": "RPF frame, ARC zone 9 (polar azimuthal equidistant)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 632,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:54.646Z",
+ "key": "vector-gpx-gpxpy-tests/korita-zbevnica.gpx",
+ "item": "vector-gpx-gpxpy-tests",
+ "file": "korita-zbevnica.gpx",
+ "format": "GPX 1.0 / 1.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: korita-zbevnica.gpx: 2 waypoint(s), 0 route(s), 3 track segment(s)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 89,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

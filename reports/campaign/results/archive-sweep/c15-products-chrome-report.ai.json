@@ -1,0 +1,27 @@
+{
+ "spec": "c15-products",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:07.612Z",
+ "key": "report.ai",
+ "id": "report.ai",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Send to an AI provider?"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "ai-mock"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

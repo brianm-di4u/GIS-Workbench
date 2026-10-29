@@ -1535,7 +1535,7 @@
  {
   "tab": "palette",
   "id": "los.hlz",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:hlz"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,14 +1735,6 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "ext.roadtrace",
   "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
@@ -1750,8 +1742,16 @@
  },
  {
   "tab": "palette",
-  "id": "hud.quickchip",
+  "id": "ext.roadtrace",
   "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hud.quickchip",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1780,7 +1780,7 @@
  {
   "tab": "palette",
   "id": "glb.toggle",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1812,7 +1812,7 @@
   ],
   "toasts": [
    "info: Building the 3D view…×",
-   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
+   "info: 3D: terrain from fx05_dem_hae.tif (GeoTIFF, HAE) (held level past its edge). Drag to orbit, right-drag to pan, wheel to zoom.×"
   ],
   "problems": []
  },
@@ -1845,9 +1845,7 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1856,6 +1854,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×",
    "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
   ],
   "problems": []

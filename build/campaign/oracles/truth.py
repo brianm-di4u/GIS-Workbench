@@ -60,27 +60,33 @@ def main():
         if (only and item['id'] not in only) or (areas and item['area'] not in areas):
             continue
         per_file = {}
-        for p in common.files(item):
+        paths = common.files(item)
+        # A name repeated in several folders (SRTM 1″ and 3″ N39W106.hgt; one imagery_HH.tif per RADARSAT-2
+        # product) is keyed by its path in the item, so one file's truth never stands in for another's.
+        names = [q.name for q in paths]
+        base = common.item_dir(item)
+        for p in paths:
             k = kind_for(item, p)
             if not k:
                 continue
+            key = p.name if names.count(p.name) == 1 else p.relative_to(base).as_posix()
             try:
                 try:
-                    per_file[p.name] = {'kind': k, **mods[k].describe(p)}
+                    per_file[key] = {'kind': k, **mods[k].describe(p)}
                 except Exception:
                     if not p.name.lower().endswith('.gpkg'):
                         raise
-                    per_file[p.name] = {'kind': 'raster', **raster.describe(p)}  # tile/coverage GeoPackage
+                    per_file[key] = {'kind': 'raster', **raster.describe(p)}  # tile/coverage GeoPackage
                 if k == 'sar':  # SAR files also get GDAL's view of the NITF wrapper
                     try:
-                        per_file[p.name]['gdal'] = raster.describe(p, stats=False)
+                        per_file[key]['gdal'] = raster.describe(p, stats=False)
                     except Exception as e:  # noqa: BLE001
-                        per_file[p.name]['gdal'] = {'error': str(e)}
-                c = per_file[p.name].get('corners', {}) or {}
+                        per_file[key]['gdal'] = {'error': str(e)}
+                c = per_file[key].get('corners', {}) or {}
                 if 'c' in c:
                     centres.append(tuple(c['c']))
             except Exception as e:  # noqa: BLE001 - a file the oracle cannot read is itself a finding to compare
-                per_file[p.name] = {'kind': k, 'error': f'{type(e).__name__}: {e}'}
+                per_file[key] = {'kind': k, 'error': f'{type(e).__name__}: {e}'}
                 failed.append(f"{item['id']}/{p.name}")
                 common.log(traceback.format_exc(limit=1))
         if per_file:

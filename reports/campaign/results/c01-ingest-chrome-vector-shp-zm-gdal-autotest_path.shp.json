@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:33:25.568Z",
+ "key": "vector-shp-zm-gdal-autotest/path.shp",
+ "item": "vector-shp-zm-gdal-autotest",
+ "file": "path.shp",
+ "format": "ESRI Shapefile (Z, M, MultiPatch, .cpg)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: path: 1 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 59,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

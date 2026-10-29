@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:38:03.213Z",
+ "key": "dem-under-dfc2019-jax-omaha-3dep/USGS_13_n42w096_20221218.tif",
+ "item": "dem-under-dfc2019-jax-omaha-3dep",
+ "file": "USGS_13_n42w096_20221218.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_13_n42w096_20221218.tif in 89 msZoom to layer×",
+  "toast-info: USGS_13_n42w096_20221218.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10812,
+   "h": 10812,
+   "bands": 1,
+   "model": "Map (EPSG:4269, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 679,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

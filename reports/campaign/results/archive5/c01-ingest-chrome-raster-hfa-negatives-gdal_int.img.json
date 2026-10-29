@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:10.507Z",
+ "key": "raster-hfa-negatives-gdal/int.img",
+ "item": "raster-hfa-negatives-gdal",
+ "file": "int.img",
+ "format": "ERDAS Imagine HFA (.img, EHFA_HEADER_TAG)",
+ "rendered": false,
+ "errors": [
+  "ERDAS Imagine (HFA .img) is not read in this release; save it as GeoTIFF (e.g. gdal_translate -of COG)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: int.img: ERDAS Imagine (HFA .img) is not read in this release; save it as GeoTIFF (e.g. gdal_translate -of COG)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 81,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

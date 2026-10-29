@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:56.767Z",
+ "key": "vector-buildings-ms-globalml-qk023010213/part-00134-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+ "item": "vector-buildings-ms-globalml-qk023010213",
+ "file": "part-00134-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+ "format": "GeoJSON Text Sequence (one Feature per line), gzip, \".csv.gz\" suffix",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: part-00134-4feead82-d499-422b-94cb-c036c212127a.c000: 294219 feature(s) from GeoJSON×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 294219,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 7612,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

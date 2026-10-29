@@ -2,6 +2,40 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.3] - 2026-10-29
+
+The test-archive release. The test and evaluation archive grew to 2,328 files (129 GB) of real deliveries: full WorldView-3 strips, AVIRIS-NG cubes, Umbra and Capella SAR, PDAL point clouds, 3D Tiles packages, BDAV video, building-footprint feeds and more. Every primary file was opened in the app and checked against GDAL's reading, and every command was run on archive data. This release fixes what that found. Items carry their id in `docs/validation/TE-archive-remediation.md`.
+
+### Added
+- **Full-size JPEG 2000 imagery opens.** WorldView-3 NITF strips up to 43008 × 36864 and tiled JP2 are decoded tile by tile, at full or reduced resolution, instead of as one whole image. A full strip shows in about 4–5 s; it was refused before. Overviews read only the tile-parts of their resolution. (A1, B1, B5)
+- **8-band WorldView-3 multispectral NITF** decode. The JPEG 2000 decoder no longer stops at four components. (A22)
+- **BPF point clouds with FastLZ compression**, and stored blocks, are read. (A2)
+- **Newline-delimited GeoJSON** (`.geojsonl`, `.geojsons`, `.ndjson`, and Microsoft's building tiles named `.csv.gz`) opens as a feature collection. Gzipped vector text is inflated and read. (A31, B3)
+- **Meshopt-compressed glTF** is decoded in the 3D view and in 3D Tiles. 3D Tiles 1.1 tiles with several contents show all of them. (A11, A33)
+- **Spectral library CSV and ENVI `.sli`** dropped on the window open in the spectral plot. (A18, A27)
+- **FMV metadata CSV** with prefixed coordinate columns (`SensorLatitude`, `SensorLongitude`) opens as points. The import report names the columns it used. (A19)
+- **BDAV `.m2ts` and `.mts` video** opens; it is repacked to MPEG-TS on open. (A13)
+
+### Fixed
+- **BPF files with zlib compression** were refused: compression codes were misread. Files that label zlib with code 1 are read too. (A2, A35)
+- **2D/3D uses the elevation model you loaded.** It fetched online terrain tiles unless the DEM covered the whole view; now the loaded DEM that overlaps most is used. (A36)
+- **SAR View and Remap** work on complex SLC GeoTIFFs (Capella CInt16, CFloat32), not only on SICD. (A37)
+- **Open and drop routing:** a dropped `.json` GeoJSON, GPX chosen in Convert, `.gwb` projects opened from the catalog, panels or automation, `.3tz`, recipes, product templates and PowerPoint templates now open. `.3tz`, `.pptx` and `.mbtiles` are no longer mistaken for ZIP or SQLite. (A4, A5, A7, A8, A9)
+- **The Open Image picker** lists every image format the app reads, including JPEG 2000, GeoPDF, GIF, BMP, WebP and RPF frames. (A6)
+- **ZIP deliveries:** a JPEG or PNG with its world file, and ZIPs nested three deep, open. A ZIP with nothing readable says so. (A15, A16, A17)
+- **ASCII point clouds** propose columns by their header names and guess longitude/latitude from the data. A state-plane CRS works once the PROJ pack is loaded, also when the pack is dropped with the cloud. (A23, A25, A34)
+- **A CSV with projected X/Y** is no longer drawn thousands of degrees off the globe; such rows are skipped and counted. (A24)
+- **3D Tiles packages:** glTF with external `.bin` files and gzip-compressed entries load; a tileset with no placement is refused by name. (A28, A29, A30)
+- **Decoders and readers:** FlatGeobuf export file names keep their characters; detection CSVs with quoted headers are recognised; ERDAS HFA is detected. (A3, A20, A26)
+- **Import Log:** packs, PMTiles, projects, recipes and detection files with no image are logged. (A20, A21)
+- **Large files are faster:** a 4.6 GB AVIRIS-NG BIL cube shows in 40 s instead of 145 s, and complex SICD stacks in about 4 s instead of 40–60 s. (B2, B6)
+
+### Changed
+- **Archive test tooling.** A corpus census, file roles, GDAL truth oracles, an ingest test of every archive file, a function sweep that runs each command on archive data, and format and function coverage reports (174 of 179 format keys filled). Automation hooks `asciiPick`, `relinkPick: 'skip'` and `zipPick` let tests skip dialogs. The archive itself stays internal. (C1–C14)
+
+### Known limits
+- These are refused by name, with the conversion to use: ECW, ERDAS HFA, NetCDF-3, MPEG program streams, JPEG 2000 with a POC marker, Draco and required-KTX2 glTF, Brotli or Zstandard PMTiles, QuickLZ BPF, Cartesian BPF, MrSID, CPHD, A.TOC, GeoParquet, FlatGeobuf, MBTiles and local quantized-mesh terrain. (A10, A12, A14, A32; section D)
+
 ## [2.0.2] - 2026-10-28
 
 The visual GUI campaign. Every menu, ribbon tab, panel, dialog, tooltip and message of the Standard and Lite files was opened in all five themes of both layouts and photographed. Its colours were measured against what they sit on: text, icons, outlines, hover and focus looks, and neighbouring regions. This release makes the dark themes in particular easy to read, and adds a theme that follows the operating system.

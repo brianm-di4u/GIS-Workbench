@@ -1,9 +1,9 @@
 {
- "when": "2026-10-28T04:09:39.672Z",
+ "when": "2026-10-29T12:25:18.005Z",
  "build": {
-  "id": "feb8e261b0de1379",
-  "version": "1.2.1",
-  "date": "2026-10-28T04:09:13.727Z",
+  "id": "13680cc21fb2c910",
+  "version": "2.0.3",
+  "date": "2026-10-29T12:23:50.098Z",
   "dev": false,
   "defaultModel": "claude-opus-5-5",
   "profile": "standard"
@@ -24,6 +24,10 @@
   "R3": {
    "total": 93,
    "implemented": 93
+  },
+  "R4": {
+   "total": 49,
+   "implemented": 49
   }
  },
  "commands": [
@@ -322,8 +326,15 @@
    "implemented": true
   },
   {
+   "id": "theme.system",
+   "label": "Follow System",
+   "req": "REQ-UI-12",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
    "id": "theme.grey",
-   "label": "Grey (default)",
+   "label": "Grey",
    "req": "REQ-UI-12",
    "rel": "R0",
    "implemented": true
@@ -2191,6 +2202,13 @@
    "implemented": true
   },
   {
+   "id": "dem.useterrain",
+   "label": "Use as Terrain…",
+   "req": "REQ-DEM-03",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
    "id": "dem.hillshade",
    "label": "Hillshade",
    "req": "REQ-DEM-10",
@@ -3189,6 +3207,335 @@
    "label": "Review Queue",
    "req": "REQ-EXT-19",
    "rel": "R3",
+   "implemented": true
+  },
+  {
+   "id": "ui.palette",
+   "label": "Command Palette…",
+   "req": "REQ-SHL-05",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "win.workspace",
+   "label": "Workspace Window",
+   "req": "REQ-SHL-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "ui.layout",
+   "label": "Interface Layout",
+   "req": "REQ-SHL-01",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "theme.m3light",
+   "label": "Light",
+   "req": "REQ-SHL-13",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "theme.m3dark",
+   "label": "Dark (Material)",
+   "req": "REQ-SHL-13",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hud.radial",
+   "label": "Radial Menu",
+   "req": "REQ-SHL-10",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hud.pill",
+   "label": "Contextual Tools",
+   "req": "REQ-SHL-08",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hud.flicker",
+   "label": "Hold to Flicker",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hud.quickchip",
+   "label": "Quick Chip",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "deck.export",
+   "label": "Export Session Deck…",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "deck.clear",
+   "label": "Empty Session Deck",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "patrol.next",
+   "label": "Next Target",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "patrol.prev",
+   "label": "Previous Target",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "triage.clear",
+   "label": "Triage: Clear",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "triage.active",
+   "label": "Triage: Active",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "triage.flag",
+   "label": "Triage: Flag",
+   "req": "REQ-SHL-11",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "net.toggle",
+   "label": "Online",
+   "req": "REQ-NET-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "bm.basemap",
+   "label": "Basemap",
+   "req": "REQ-NET-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "file.openurl",
+   "label": "Open from URL…",
+   "req": "REQ-CON-03",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "cat.panel",
+   "label": "Catalog",
+   "req": "REQ-CON-06",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "cat.folder",
+   "label": "Add Folder…",
+   "req": "REQ-CON-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "cat.s3keys",
+   "label": "Connect a Bucket…",
+   "req": "REQ-CON-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "cnv.open",
+   "label": "Convert…",
+   "req": "REQ-CNV-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "cnv.cog",
+   "label": "Make Cloud-Optimized Copy",
+   "req": "REQ-CNV-01",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "glb.toggle",
+   "label": "2D / 3D",
+   "req": "REQ-GLB-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "bm.pmtiles",
+   "label": "Open PMTiles Basemap…",
+   "req": "REQ-NET-05",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "lai.find",
+   "label": "Find Objects (AI)…",
+   "req": "REQ-LAI-03",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "lai.search",
+   "label": "Search Imagery (AI)…",
+   "req": "REQ-LAI-06",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "lai.contrast",
+   "label": "Auto Contrast",
+   "req": "REQ-LAI-07",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "lai.square",
+   "label": "Square Corners",
+   "req": "REQ-LAI-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "lai.device",
+   "label": "AI Device…",
+   "req": "REQ-LAI-01",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "align.ai",
+   "label": "Auto Align (AI)",
+   "req": "REQ-LAI-05",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "rcp.open",
+   "label": "Recipes",
+   "req": "REQ-PIP-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "rcp.import",
+   "label": "Open Recipe…",
+   "req": "REQ-PIP-01",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "rcp.airfield-triage",
+   "label": "Airfield Triage",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "rcp.damage-triage",
+   "label": "Damage Triage",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "rcp.folder-to-cog",
+   "label": "Convert a Folder to COG",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "rcp.building-extraction",
+   "label": "Building Extraction",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.psd",
+   "label": "Photoshop (PSD)…",
+   "req": "REQ-HUB-01",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.tiff16",
+   "label": "16-bit TIFF + Curves…",
+   "req": "REQ-HUB-01",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.pdf",
+   "label": "Illustrator (Layered PDF)…",
+   "req": "REQ-HUB-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.svg",
+   "label": "Layered SVG…",
+   "req": "REQ-HUB-02",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.glb",
+   "label": "3D Terrain (GLB)…",
+   "req": "REQ-HUB-03",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.usdz",
+   "label": "3D Terrain (USDZ)…",
+   "req": "REQ-HUB-03",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.cot",
+   "label": "CoT Events…",
+   "req": "REQ-HUB-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.atak",
+   "label": "ATAK Data Package…",
+   "req": "REQ-HUB-04",
+   "rel": "R4",
+   "implemented": true
+  },
+  {
+   "id": "hub.relay",
+   "label": "Send to Google Sheet…",
+   "req": "REQ-HUB-06",
+   "rel": "R4",
    "implemented": true
   },
   {

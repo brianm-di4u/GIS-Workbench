@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:17:05.905Z",
+ "key": "derived-nitf-rsm/core3d_jax_wv3_rsm.ntf",
+ "item": "derived-nitf-rsm",
+ "file": "core3d_jax_wv3_rsm.ntf",
+ "format": "NITF 2.1 (RSMIDA, RSMPCA)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened core3d_jax_wv3_rsm.ntf in 955 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 2048,
+   "h": 2048,
+   "bands": 1,
+   "model": "RSM polynomial (experimental)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1797,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

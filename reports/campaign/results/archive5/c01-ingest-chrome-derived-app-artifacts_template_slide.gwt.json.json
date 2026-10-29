@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:29.492Z",
+ "key": "derived-app-artifacts/template_slide.gwt.json",
+ "item": "derived-app-artifacts",
+ "file": "template_slide.gwt.json",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: template_slide.gwt.json: product template \"Briefing slide (16:9)\" is now the active template×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 50,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:50:17.573Z",
+ "key": "derived-pictures-worldfile/s2tci.png",
+ "item": "derived-pictures-worldfile",
+ "file": "s2tci.png",
+ "format": "JPEG/PNG/GIF/BMP/WebP + world file",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened s2tci.png in 68 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "png",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "World file (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 681,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

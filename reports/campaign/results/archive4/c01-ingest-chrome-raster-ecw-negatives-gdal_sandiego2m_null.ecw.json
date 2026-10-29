@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:37:04.518Z",
+ "key": "raster-ecw-negatives-gdal/sandiego2m_null.ecw",
+ "item": "raster-ecw-negatives-gdal",
+ "file": "sandiego2m_null.ecw",
+ "format": "ECW (ER Mapper / Hexagon)",
+ "rendered": false,
+ "errors": [
+  "ECW (Hexagon's proprietary wavelet format) has no open decoder and cannot be opened; save it as GeoTIFF or JPEG 2000 with a licensed tool"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: sandiego2m_null.ecw: ECW (Hexagon's proprietary wavelet format) has no open decoder and cannot be opened; save it as GeoTIFF or JPEG 2000 with a licensed tool×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 66,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

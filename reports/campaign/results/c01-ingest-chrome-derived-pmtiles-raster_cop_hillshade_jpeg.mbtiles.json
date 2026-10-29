@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:20.117Z",
+ "key": "derived-pmtiles-raster/cop_hillshade_jpeg.mbtiles",
+ "item": "derived-pmtiles-raster",
+ "file": "cop_hillshade_jpeg.mbtiles",
+ "format": "PMTiles / MBTiles",
+ "rendered": false,
+ "errors": [
+  "GeoPackage (R2) cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: cop_hillshade_jpeg.mbtiles: GeoPackage (R2) cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 88,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

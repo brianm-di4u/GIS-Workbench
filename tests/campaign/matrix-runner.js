@@ -4,9 +4,9 @@
 // Area specs add oracle-checked tests next to this generic sweep.
 
 import { test, expect } from '@playwright/test';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { openApp, openFiles, settledAny, runCommand, record, item, itemsBy, paths, onDisk, matrix } from './helpers.js';
+import { openApp, openFiles, settledAny, runCommand, record, item, itemsBy, paths, onDisk, matrix, PROJ_PACK, ASCII_CRS, isAscii } from './helpers.js';
 
 // Recipes: the files and in-page setup that satisfy a command's enable condition (Phase 2 run 2:
 // with data alone, 213 commands stayed disabled — navigation and drawing need an image, stereo a
@@ -29,6 +29,15 @@ const AUTZEN = R('rs-lidar-las-laz-copc', 'autzen_trim.laz');
 // panel, a selection, a classification, a DTM, an earlier product — gets that state, built with
 // the app's own commands (`pre`, run and confirmed like the command under test) or its API.
 const RECIPES = [
+  // 2.0 shell commands (Modern shell, hub, local AI, HUD): an image, a DEM in use, a chip in the deck, a target.
+  [/^dem\.useterrain$/, { files: DEM }],
+  [/^hub\.(glb|usdz)$|^glb\.toggle$/, { files: () => [...WV3A(), ...DEM()], setup: ['terrain'] }],
+  [/^hud\.flicker$/, { files: () => [...WV3A(), ...WV3B()] }],
+  [/^deck\./, { files: WV3A, pre: ['hud.quickchip'] }],
+  [/^triage\./, { files: WV3A, setup: ['graphic-marker'], pre: ['patrol.next'] }],
+  [/^(hub|lai|cnv)\.|^hud\.quickchip$/, { files: WV3A }],
+  // Four single-band Landsat 7 surface-reflectance files on one grid (with their MTL).
+  [/^msi\.stack$/, { files: () => ['B1', 'B2', 'B3', 'B4'].flatMap((b) => R('landsat7-c2-l2sp-044034-20210617-slcoff', `LE07_L2SP_044034_20210617_20210713_02_T1_SR_${b}.TIF`)()) }],
   [/^msi\.(index|preset)\./, { files: PINES }],
   [/^msi\.(threshold|majority|sieve|fill|vectors|accuracy)$/, { files: PINES, setup: ['classify'] }],
   // Two 220-band AVIRIS Indian Pines cubes (ENVI and GeoTIFF deliveries of one scene).
@@ -106,13 +115,24 @@ const recipeFor = (row) => RECIPES.find(([re]) => re.test(row.id))?.[1] ?? null;
 // command gets one of them in turn (by its id); recipe rows with setup steps are left to the
 // main campaign.
 const ONLY = process.env.TE_ITEMS ?? null;
+const PREFER = new Set(process.env.TE_PREFER && existsSync(process.env.TE_PREFER) ? readFileSync(process.env.TE_PREFER, 'utf8').trim().split(/[\s,]+/) : []);
 const spread = (id, n) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % n;
 
 function dataFor(row) {
   const r = recipeFor(row);
   // Field mode: a recipe that only names files gives way to field data that fits the context.
   if (r && ONLY && (r.setup || r.pre || !row.needs)) return null;
-  if (r && !ONLY) {
+  // Archive mode: a recipe that only names files gives way to a preferred item that fits the context.
+  // Recipes that open more inputs than the row's need (a before/after pair) keep theirs.
+  const recipeItems = (() => {
+    try {
+      return new Set((r?.files() ?? []).map((f) => resolve(f, '..'))).size;
+    } catch {
+      return 0;
+    }
+  })();
+  const preferred = PREFER.size && !r?.setup && !r?.pre && row.needs && recipeItems <= row.needs.n && row.data.some((id) => PREFER.has(id) && onDisk(item(id)));
+  if (r && !ONLY && !preferred) {
     try {
       const f = r.files();
       return f.length && f.every(existsSync) ? f : null;
@@ -122,6 +142,15 @@ function dataFor(row) {
   }
   if (!row.needs) return [];
   let ids = row.data.filter((id) => onDisk(item(id)));
+  // TE_PREFER=<file of comma-separated ids> (the TE archive): those items go first where they fit.
+  // Rotated per command so the sweep spreads over the archive rather than reusing its first item.
+  if (PREFER.size) {
+    // An ASCII cloud of unknown CRS (local scanner coordinates) cannot be placed: not a function input.
+    const placeable = (id) => item(id).files.filter((f) => (f.role ?? 'primary') === 'primary').slice(0, 1).every((f) => !isAscii(item(id), f) || ASCII_CRS[f.name.split('/').pop()]);
+    const p = ids.filter((id) => PREFER.has(id) && placeable(id));
+    const k = p.length ? spread(row.id, p.length) : 0;
+    ids = [...p.slice(k), ...p.slice(0, k), ...ids.filter((id) => !PREFER.has(id))];
+  }
   if (ONLY) {
     // matrix.json lists at most 12 items per command: take the eligible ones from the manifest.
     const fits = (it) => row.needs.areas.includes(it.area) && (!row.needs.tag || it.feeds?.some((f) => f.startsWith(row.needs.tag)));
@@ -130,7 +159,7 @@ function dataFor(row) {
   }
   const pick = [...new Set(ids)].slice(0, row.needs.n);
   if (pick.length < row.needs.n) return null;
-  return pick.flatMap((id) => {
+  const chosen = pick.flatMap((id) => {
     const it = item(id);
     const prims = it.files.filter((f) => (f.role ?? 'primary') === 'primary');
     // Field tile sets: a real (JPEG) tile, not the browse quick look.
@@ -140,6 +169,9 @@ function dataFor(row) {
     const base = (p) => p.split(/[\\/]/).pop();
     return all.filter((p) => base(p) === prim.name.split('/').pop() || base(p).startsWith(`${stem}.`));
   });
+  // Archive mode: the recipe's own files, opened as well when the archive input leaves the command disabled.
+  if (preferred) chosen.fallback = r.files;
+  return chosen;
 }
 
 /** In-page setup steps (run after the files are open). */
@@ -246,10 +278,20 @@ export function runMatrix(spec) {
       let opened = [];
       let prepared = [];
       if (files.length) {
-        opened = await openFiles(frame, files);
+        // ASCII clouds: answer the column dialog with the source CRS; state planes need the PROJ pack first.
+        const epsg = files.map((f) => ASCII_CRS[f.split(/[\\/]/).pop()]).find(Boolean) ?? null;
+        await frame.evaluate((e) => Object.assign(window.gisworkbench, { zipPick: 'default', asciiPick: e ? { epsg: e } : 'default', relinkPick: 'skip' }), epsg);
+        opened = await openFiles(frame, epsg && PROJ_PACK ? [PROJ_PACK, ...files] : files);
         await settledAny(frame);
+        if (files.fallback && !(await frame.evaluate((c) => window.gisworkbench.commands.enabled(c), row.id))) {
+          const more = files.fallback();
+          prepared.push(`archive input left ${row.id} disabled; recipe data added: ${more.map((f) => f.split(/[\\/]/).pop()).join(', ')}`);
+          opened.push(...(await openFiles(frame, more)));
+          await settledAny(frame);
+          files.push(...more);
+        }
         const steps = recipeFor(row)?.setup ?? [];
-        if (steps.length) prepared = await setup(frame, steps);
+        if (steps.length) prepared.push(...(await setup(frame, steps)));
         // Earlier products the command works on (a change set, a DTM, an orthophoto…).
         for (const pid of recipeFor(row)?.pre ?? []) {
           const pr = await runCommand(page, frame, pid, { logs: [], pick: files });

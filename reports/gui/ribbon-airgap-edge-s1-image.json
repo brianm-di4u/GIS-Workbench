@@ -1119,9 +1119,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Layered SVG: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1131,7 +1129,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×"
+   "info: Layered SVG: 4 layers (Imagery, Graphics, Neatline, Scale bar)×"
   ],
   "problems": []
  },
@@ -1142,7 +1140,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+   "info: 3D terrain: 96 × 96 grid over 0.37 × 0.43 km (flat: no DEM under the image), 1535 × 2048 texture×"
   ],
   "problems": []
  },
@@ -1152,7 +1150,9 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: ATAK data package: nothing to send: place markers, record observations, accept detections or draw outlines first×"
+  ],
   "problems": []
  },
  {

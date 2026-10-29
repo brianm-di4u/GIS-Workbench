@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:12.347Z",
+ "key": "derived-vector-variants/nhd_nhdflowline_m.shp",
+ "item": "derived-vector-variants",
+ "file": "nhd_nhdflowline_m.shp",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "44796 M value(s) are not kept (the workbench keeps X, Y and Z)"
+ ],
+ "toasts": [
+  "toast-info: nhd_nhdflowline_m: 2000 feature(s) from ESRI Shapefile (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 2000,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 256,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

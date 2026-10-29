@@ -1,0 +1,1637 @@
+[
+ {
+  "id": "s2-l2a-mtd-10seh-pc",
+  "area": "sentinel2",
+  "title": "Sentinel-2 L2A product metadata (MTD_MSIL2A.xml) for the two 10SEH COG dates (2024-08-16, 2025-01-23)",
+  "source": "Microsoft Planetary Computer, collection sentinel-2-l2a (asset product-metadata)",
+  "landing": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a",
+  "licence": "Copernicus Sentinel data terms (free, full and open)",
+  "attribution": "Contains modified Copernicus Sentinel data 2024-2025",
+  "tier": "A",
+  "format": "Sentinel-2 MTD_MSIL2A.xml (PSD 14.9, baseline N0511)",
+  "profile": "Product-level metadata with BOA_QUANTIFICATION_VALUE and BOA_ADD_OFFSET per band, for (DN + offset) / quantification reflectance",
+  "files": [
+   {
+    "name": "20240816/MTD_MSIL2A.xml",
+    "url": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/10/S/EH/2024/08/16/S2B_MSIL2A_20240816T184919_N0511_R113_T10SEH_20240816T230724.SAFE/MTD_MSIL2A.xml",
+    "bytes": 54945,
+    "role": "primary"
+   },
+   {
+    "name": "20250123/MTD_MSIL2A.xml",
+    "url": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/10/S/EH/2025/01/23/S2B_MSIL2A_20250123T185609_N0511_R113_T10SEH_20250123T224549.SAFE/MTD_MSIL2A.xml",
+    "bytes": 54482,
+    "role": "primary"
+   }
+  ],
+  "sign": "pc:sentinel-2-l2a",
+  "notes": "Found with a Planetary Computer STAC search (sentinel-2-l2a, s2:mgrs_tile=10SEH, each date). Earth Search (sentinel-cogs) ships only granule_metadata.xml, not the product MTD. Unsigned blob URLs return 409; signed with the anonymous PC SAS token.",
+  "feeds": [
+   "msi.radiometric"
+  ],
+  "covers": [
+   "fmt:meta.s2-mtd"
+  ],
+  "pairs": [
+   {
+    "role": "calibration",
+    "with": [
+     "s2-l2a-cog-10seh-20240816",
+     "s2-l2a-cog-10seh-20250123"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "frames-odm-bellus-gcp",
+  "area": "frames",
+  "title": "OpenDroneMap Bellus: 122 drone frames (EXIF GPS) with a surveyed ground-control list (gcp_list.txt, WGS 84 / UTM 17N)",
+  "source": "OpenDroneMap odm_data_bellus (GitHub)",
+  "landing": "https://github.com/OpenDroneMap/odm_data_bellus",
+  "licence": "CC0 1.0",
+  "attribution": "OpenDroneMap contributors",
+  "tier": "A",
+  "format": "JPEG frames + ODM gcp_list.txt",
+  "profile": "gcp_list.txt rows: easting northing elevation pixel_x pixel_y image (ODM format); RGB JPEG with EXIF GPS",
+  "files": [
+   {
+    "name": "gcp_list.txt",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/gcp_list.txt",
+    "bytes": 203,
+    "role": "primary"
+   },
+   {
+    "name": "license.txt",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/license.txt",
+    "bytes": 2560,
+    "role": "metadata"
+   },
+   {
+    "name": "images/IMG_1297_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1297_RGB.jpg",
+    "bytes": 6685769,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1298_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1298_RGB.jpg",
+    "bytes": 6508057,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1299_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1299_RGB.jpg",
+    "bytes": 6688848,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1300_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1300_RGB.jpg",
+    "bytes": 6604902,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1301_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1301_RGB.jpg",
+    "bytes": 6772900,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1302_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1302_RGB.jpg",
+    "bytes": 6512717,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1303_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1303_RGB.jpg",
+    "bytes": 6357243,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1304_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1304_RGB.jpg",
+    "bytes": 6648675,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1305_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1305_RGB.jpg",
+    "bytes": 6688165,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1306_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1306_RGB.jpg",
+    "bytes": 6580988,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1307_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1307_RGB.jpg",
+    "bytes": 5677485,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1308_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1308_RGB.jpg",
+    "bytes": 6108055,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1309_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1309_RGB.jpg",
+    "bytes": 5931893,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1310_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1310_RGB.jpg",
+    "bytes": 6562067,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1311_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1311_RGB.jpg",
+    "bytes": 6305673,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1312_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1312_RGB.jpg",
+    "bytes": 6261464,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1313_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1313_RGB.jpg",
+    "bytes": 6276629,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1314_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1314_RGB.jpg",
+    "bytes": 6258683,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1315_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1315_RGB.jpg",
+    "bytes": 6495990,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1316_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1316_RGB.jpg",
+    "bytes": 6719359,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1317_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1317_RGB.jpg",
+    "bytes": 6486789,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1318_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1318_RGB.jpg",
+    "bytes": 6103794,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1319_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1319_RGB.jpg",
+    "bytes": 5873599,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1320_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1320_RGB.jpg",
+    "bytes": 5967537,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1321_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1321_RGB.jpg",
+    "bytes": 5323098,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1322_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1322_RGB.jpg",
+    "bytes": 5001248,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1323_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1323_RGB.jpg",
+    "bytes": 4956814,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1324_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1324_RGB.jpg",
+    "bytes": 5434565,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1325_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1325_RGB.jpg",
+    "bytes": 5507708,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1326_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1326_RGB.jpg",
+    "bytes": 5736708,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1327_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1327_RGB.jpg",
+    "bytes": 5940082,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1328_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1328_RGB.jpg",
+    "bytes": 6198030,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1329_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1329_RGB.jpg",
+    "bytes": 5562695,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1330_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1330_RGB.jpg",
+    "bytes": 5650257,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1331_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1331_RGB.jpg",
+    "bytes": 5728994,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1332_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1332_RGB.jpg",
+    "bytes": 5026930,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1333_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1333_RGB.jpg",
+    "bytes": 4666281,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1334_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1334_RGB.jpg",
+    "bytes": 4288214,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1335_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1335_RGB.jpg",
+    "bytes": 5903466,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1336_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1336_RGB.jpg",
+    "bytes": 6107843,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1337_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1337_RGB.jpg",
+    "bytes": 6009917,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1338_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1338_RGB.jpg",
+    "bytes": 6118359,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1339_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1339_RGB.jpg",
+    "bytes": 6272242,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1340_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1340_RGB.jpg",
+    "bytes": 6156152,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1341_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1341_RGB.jpg",
+    "bytes": 6808463,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1342_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1342_RGB.jpg",
+    "bytes": 6769855,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1343_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1343_RGB.jpg",
+    "bytes": 6598411,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1344_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1344_RGB.jpg",
+    "bytes": 6550362,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1345_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1345_RGB.jpg",
+    "bytes": 6187173,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1346_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1346_RGB.jpg",
+    "bytes": 6629916,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1347_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1347_RGB.jpg",
+    "bytes": 6120953,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1348_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1348_RGB.jpg",
+    "bytes": 5744059,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1349_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1349_RGB.jpg",
+    "bytes": 7002388,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1350_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1350_RGB.jpg",
+    "bytes": 6457419,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1351_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1351_RGB.jpg",
+    "bytes": 7449335,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1352_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1352_RGB.jpg",
+    "bytes": 6975894,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1353_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1353_RGB.jpg",
+    "bytes": 6731784,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1354_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1354_RGB.jpg",
+    "bytes": 6312379,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1355_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1355_RGB.jpg",
+    "bytes": 6109028,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1356_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1356_RGB.jpg",
+    "bytes": 6406374,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1357_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1357_RGB.jpg",
+    "bytes": 6373658,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1358_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1358_RGB.jpg",
+    "bytes": 5410743,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1359_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1359_RGB.jpg",
+    "bytes": 6363443,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1360_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1360_RGB.jpg",
+    "bytes": 6398956,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1361_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1361_RGB.jpg",
+    "bytes": 6629177,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1362_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1362_RGB.jpg",
+    "bytes": 6465031,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1363_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1363_RGB.jpg",
+    "bytes": 6343899,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1364_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1364_RGB.jpg",
+    "bytes": 6356566,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1365_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1365_RGB.jpg",
+    "bytes": 6326301,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1366_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1366_RGB.jpg",
+    "bytes": 6221744,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1367_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1367_RGB.jpg",
+    "bytes": 6102499,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1368_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1368_RGB.jpg",
+    "bytes": 5728253,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1369_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1369_RGB.jpg",
+    "bytes": 5982135,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1370_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1370_RGB.jpg",
+    "bytes": 5593859,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1371_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1371_RGB.jpg",
+    "bytes": 6274250,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1372_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1372_RGB.jpg",
+    "bytes": 6014235,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1373_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1373_RGB.jpg",
+    "bytes": 6272864,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1374_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1374_RGB.jpg",
+    "bytes": 6675249,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1375_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1375_RGB.jpg",
+    "bytes": 6564744,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1376_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1376_RGB.jpg",
+    "bytes": 5945339,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1377_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1377_RGB.jpg",
+    "bytes": 5146706,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1378_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1378_RGB.jpg",
+    "bytes": 6020026,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1379_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1379_RGB.jpg",
+    "bytes": 5997146,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1380_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1380_RGB.jpg",
+    "bytes": 6446652,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1381_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1381_RGB.jpg",
+    "bytes": 6088381,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1382_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1382_RGB.jpg",
+    "bytes": 6521526,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1383_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1383_RGB.jpg",
+    "bytes": 5843205,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1384_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1384_RGB.jpg",
+    "bytes": 6157662,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1385_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1385_RGB.jpg",
+    "bytes": 5933664,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1386_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1386_RGB.jpg",
+    "bytes": 5811715,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1387_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1387_RGB.jpg",
+    "bytes": 6241610,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1388_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1388_RGB.jpg",
+    "bytes": 6121971,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1389_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1389_RGB.jpg",
+    "bytes": 6591275,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1390_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1390_RGB.jpg",
+    "bytes": 6640731,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1391_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1391_RGB.jpg",
+    "bytes": 5683902,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1392_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1392_RGB.jpg",
+    "bytes": 6628006,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1393_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1393_RGB.jpg",
+    "bytes": 6835071,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1394_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1394_RGB.jpg",
+    "bytes": 6612400,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1395_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1395_RGB.jpg",
+    "bytes": 6448539,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1396_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1396_RGB.jpg",
+    "bytes": 5927903,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1397_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1397_RGB.jpg",
+    "bytes": 5732774,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1398_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1398_RGB.jpg",
+    "bytes": 5034814,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1399_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1399_RGB.jpg",
+    "bytes": 5883577,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1400_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1400_RGB.jpg",
+    "bytes": 5635671,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1401_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1401_RGB.jpg",
+    "bytes": 6209969,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1402_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1402_RGB.jpg",
+    "bytes": 5989656,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1403_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1403_RGB.jpg",
+    "bytes": 6494781,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1404_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1404_RGB.jpg",
+    "bytes": 6720310,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1405_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1405_RGB.jpg",
+    "bytes": 6034070,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1406_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1406_RGB.jpg",
+    "bytes": 6533859,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1407_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1407_RGB.jpg",
+    "bytes": 6498201,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1408_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1408_RGB.jpg",
+    "bytes": 6463309,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1409_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1409_RGB.jpg",
+    "bytes": 5780080,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1410_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1410_RGB.jpg",
+    "bytes": 6084768,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1411_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1411_RGB.jpg",
+    "bytes": 6082783,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1412_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1412_RGB.jpg",
+    "bytes": 6308850,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1413_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1413_RGB.jpg",
+    "bytes": 5812666,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1414_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1414_RGB.jpg",
+    "bytes": 5766216,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1415_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1415_RGB.jpg",
+    "bytes": 6379310,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1416_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1416_RGB.jpg",
+    "bytes": 6713137,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1417_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1417_RGB.jpg",
+    "bytes": 6536592,
+    "role": "primary"
+   },
+   {
+    "name": "images/IMG_1418_RGB.jpg",
+    "url": "https://raw.githubusercontent.com/OpenDroneMap/odm_data_bellus/master/images/IMG_1418_RGB.jpg",
+    "bytes": 6730438,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Found by listing OpenDroneMap odm_data_* repositories for a gcp_list.txt (odm_data_helenenschacht also has GCP/ and RTK data).",
+  "feeds": [
+   "model.gcp",
+   "tri.frame",
+   "tools.loadpoints",
+   "align.poly"
+  ],
+  "covers": [
+   "fmt:img.jpg"
+  ],
+  "pairs": [
+   {
+    "role": "gcp",
+    "with": []
+   },
+   {
+    "role": "calibration",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "landsat7-c2-l2sp-044034-20210617-slcoff",
+  "area": "landsat",
+  "title": "Landsat 7 ETM+ C2 L2 surface reflectance, path 44 row 34, 2021-06-17 (SLC-off: wedge-shaped scan-line gaps)",
+  "source": "Microsoft Planetary Computer, collection landsat-c2-l2 (USGS Collection 2)",
+  "landing": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2",
+  "licence": "Public domain (USGS)",
+  "attribution": "Landsat 7 image courtesy of the U.S. Geological Survey",
+  "tier": "A",
+  "format": "GeoTIFF COG + MTL",
+  "profile": "6 SR bands (B1-B5, B7) at 30 m, QA_PIXEL with fill for the SLC-off gaps, UTM 10N; same path/row as the Landsat 8 items",
+  "files": [
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B1.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B1.TIF",
+    "bytes": 52801249,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B2.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B2.TIF",
+    "bytes": 51745262,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B3.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B3.TIF",
+    "bytes": 54377748,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B4.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B4.TIF",
+    "bytes": 49601933,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B5.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B5.TIF",
+    "bytes": 54897229,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_SR_B7.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_SR_B7.TIF",
+    "bytes": 51516798,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_QA_PIXEL.TIF",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_QA_PIXEL.TIF",
+    "bytes": 1527707,
+    "role": "primary"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_MTL.txt",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_MTL.txt",
+    "bytes": 15756,
+    "role": "metadata"
+   },
+   {
+    "name": "LE07_L2SP_044034_20210617_20210713_02_T1_MTL.json",
+    "url": "https://landsateuwest.blob.core.windows.net/landsat-c2/level-2/standard/etm/2021/044/034/LE07_L2SP_044034_20210617_20210713_02_T1/LE07_L2SP_044034_20210617_20210713_02_T1_MTL.json",
+    "bytes": 19077,
+    "role": "metadata"
+   }
+  ],
+  "sign": "pc:landsat-c2-l2",
+  "notes": "Found with a Planetary Computer STAC search (landsat-c2-l2, platform landsat-7, WRS 044/034, cloud < 5 %). The Scan Line Corrector failed on 2003-05-31; every later ETM+ scene has ~22 % no-data stripes, the destripe/fill test case.",
+  "feeds": [
+   "msi.destripe",
+   "msi.fill",
+   "msi.radiometric"
+  ],
+  "covers": [
+   "fmt:gtiff.cog",
+   "fmt:meta.landsat-mtl"
+  ],
+  "pairs": [
+   {
+    "role": "striped",
+    "with": []
+   },
+   {
+    "role": "pre-post",
+    "with": [
+     "landsat8-c2-l2sp-044034-20240820"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "raster-gdal-autotest-dimap2-rpf-nm",
+  "area": "raster",
+  "title": "GDAL autotest: DIMAP v2 packages (Pléiades bundle, Pléiades Neo RPC, single component, VHR2020 MS-FS), RPF zone 9 (A.TOC + CADRG frame), masked NITF IC=NM (NITF 2.1 and NSIF)",
+  "source": "OSGeo GDAL autotest/gdrivers/data (tag v3.13.3)",
+  "landing": "https://github.com/OSGeo/gdal/tree/master/autotest/gdrivers/data",
+  "licence": "MIT (GDAL test data)",
+  "attribution": "GDAL/OGR contributors",
+  "tier": "A",
+  "format": "DIMAP v2 (DIM_*.XML + IMG tiles + RPC), RPF A.TOC + CADRG, NITF/NSIF IC=NM",
+  "profile": "Small structural test packages written for GDAL's DIMAP and RPFTOC drivers; DIM/RPC XML follow the Airbus DIMAP v2 layout; i_3034f / ns3034d are JITC masked (IC=NM) files",
+  "files": [
+   {
+    "name": "dimap2/bundle/DIM_foo.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/DIM_foo.XML",
+    "bytes": 14861,
+    "role": "primary"
+   },
+   {
+    "name": "dimap2/bundle/DIM_foo2.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/DIM_foo2.XML",
+    "bytes": 10396,
+    "role": "primary"
+   },
+   {
+    "name": "dimap2/bundle/IMG_foo2_R1C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/IMG_foo2_R1C1.TIF",
+    "bytes": 1506,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/bundle/IMG_foo2_R2C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/IMG_foo2_R2C1.TIF",
+    "bytes": 1306,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/bundle/IMG_foo_R1C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/IMG_foo_R1C1.TIF",
+    "bytes": 1986,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/bundle/IMG_foo_R2C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/IMG_foo_R2C1.TIF",
+    "bytes": 1186,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/bundle/RPC_foo.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/RPC_foo.XML",
+    "bytes": 6514,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/bundle/STRIP_foo_DIM.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/STRIP_foo_DIM.XML",
+    "bytes": 1118,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/bundle/VOL_PHR.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/bundle/VOL_PHR.XML",
+    "bytes": 1076,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/primary_rpc_center_h/DIM_PNEO3_STD_x_1_1_F_1.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/primary_rpc_center_h/DIM_PNEO3_STD_x_1_1_F_1.XML",
+    "bytes": 3375,
+    "role": "primary"
+   },
+   {
+    "name": "dimap2/primary_rpc_center_h/IMG_PNEO3_STD_x_1_1_F_1_P_R1C1.JP2",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/primary_rpc_center_h/IMG_PNEO3_STD_x_1_1_F_1_P_R1C1.JP2",
+    "bytes": 834,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/primary_rpc_center_h/RPC_PNEO3_STD_x_1_1_F_1.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/primary_rpc_center_h/RPC_PNEO3_STD_x_1_1_F_1.XML",
+    "bytes": 6965,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/single_component/DIM_foo.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/single_component/DIM_foo.XML",
+    "bytes": 18445,
+    "role": "primary"
+   },
+   {
+    "name": "dimap2/single_component/IMG_foo_R1C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/single_component/IMG_foo_R1C1.TIF",
+    "bytes": 3099,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/single_component/IMG_foo_R2C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/single_component/IMG_foo_R2C1.TIF",
+    "bytes": 2857,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/single_component/RPC_foo.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/single_component/RPC_foo.XML",
+    "bytes": 6514,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/single_component/STRIP_foo_DIM.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/single_component/STRIP_foo_DIM.XML",
+    "bytes": 1118,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/single_component/VOL_PHR.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/single_component/VOL_PHR.XML",
+    "bytes": 813,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/vhr2020_ms_fs/MS-FS/DIM_MS-FS.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/vhr2020_ms_fs/MS-FS/DIM_MS-FS.XML",
+    "bytes": 35885,
+    "role": "primary"
+   },
+   {
+    "name": "dimap2/vhr2020_ms_fs/MS-FS/IMG_NED_R1C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/vhr2020_ms_fs/MS-FS/IMG_NED_R1C1.TIF",
+    "bytes": 20902,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/vhr2020_ms_fs/MS-FS/IMG_RGB_R1C1.TIF",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/vhr2020_ms_fs/MS-FS/IMG_RGB_R1C1.TIF",
+    "bytes": 20898,
+    "role": "sidecar"
+   },
+   {
+    "name": "dimap2/vhr2020_ms_fs/VOL_PNEO.XML",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/dimap2/vhr2020_ms_fs/VOL_PNEO.XML",
+    "bytes": 2536,
+    "role": "sidecar"
+   },
+   {
+    "name": "nitf/i_3034f.ntf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/i_3034f.ntf",
+    "bytes": 948,
+    "role": "primary"
+   },
+   {
+    "name": "nitf/ns3034d.nsf",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/nitf/ns3034d.nsf",
+    "bytes": 937,
+    "role": "primary"
+   },
+   {
+    "name": "rpftoc/zone9/RPF/A.TOC",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/rpftoc/zone9/RPF/A.TOC",
+    "bytes": 933,
+    "role": "primary"
+   },
+   {
+    "name": "rpftoc/zone9/RPF/ZONE9/00027010.ON9",
+    "url": "https://raw.githubusercontent.com/OSGeo/gdal/v3.13.3/autotest/gdrivers/data/rpftoc/zone9/RPF/ZONE9/00027010.ON9",
+    "bytes": 293133,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "File list from the GitHub tree at v3.13.3. i_3034f/ns3034d are also in robustness-gdal-autotest-seeds, which the census reads header-only; here they count as valid IC=NM samples. Real Airbus DIMAP v2 products need the Airbus sample form (tier B).",
+  "feeds": [
+   "ingest",
+   "file.openimage"
+  ],
+  "covers": [
+   "fmt:dimap.v2",
+   "fmt:rpf.toc",
+   "fmt:nitf.ic.nm"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "3d-gltf-draco-khronos",
+  "area": "3d",
+  "title": "glTF 2.0 with KHR_draco_mesh_compression: Duck, CesiumMilkTruck, VirtualCity (Khronos sample assets)",
+  "source": "KhronosGroup/glTF-Sample-Assets @ 8f492390ddc7",
+  "landing": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+  "licence": "Per model (see each model's README/LICENSE in the repository): CC BY 4.0 / CC0 / SCEA Shared Source",
+  "attribution": "Khronos Group glTF sample assets contributors (Sony, Cesium, Analytical Graphics)",
+  "tier": "A",
+  "format": "glTF 2.0 + Draco",
+  "profile": "glTF-Draco variants (the app has no Draco loader: expected refusal)",
+  "files": [
+   {
+    "name": "CesiumMilkTruck/glTF-Draco/CesiumMilkTruck.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CesiumMilkTruck/glTF-Draco/CesiumMilkTruck.gltf",
+    "bytes": 9882,
+    "role": "primary"
+   },
+   {
+    "name": "CesiumMilkTruck/glTF-Draco/CesiumMilkTruck.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CesiumMilkTruck/glTF-Draco/CesiumMilkTruck.jpg",
+    "bytes": 218979,
+    "role": "sidecar"
+   },
+   {
+    "name": "CesiumMilkTruck/glTF-Draco/CesiumMilkTruck_data.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CesiumMilkTruck/glTF-Draco/CesiumMilkTruck_data.bin",
+    "bytes": 11452,
+    "role": "sidecar"
+   },
+   {
+    "name": "Duck/glTF-Draco/Duck.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/Duck/glTF-Draco/Duck.bin",
+    "bytes": 10368,
+    "role": "sidecar"
+   },
+   {
+    "name": "Duck/glTF-Draco/Duck.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/Duck/glTF-Draco/Duck.gltf",
+    "bytes": 3797,
+    "role": "primary"
+   },
+   {
+    "name": "Duck/glTF-Draco/DuckCM.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/Duck/glTF-Draco/DuckCM.png",
+    "bytes": 16302,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/001.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/001.jpg",
+    "bytes": 60967,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/002.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/002.jpg",
+    "bytes": 37442,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/11.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/11.jpg",
+    "bytes": 32523,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/5.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/5.jpg",
+    "bytes": 31216,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/O21.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/O21.jpg",
+    "bytes": 35913,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/VC0.bin",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/VC0.bin",
+    "bytes": 1392204,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/VirtualCity.gltf",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/VirtualCity.gltf",
+    "bytes": 492884,
+    "role": "primary"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/cockpit-map.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/cockpit-map.jpg",
+    "bytes": 63992,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/f22.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/f22.jpg",
+    "bytes": 143381,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/heli.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/heli.jpg",
+    "bytes": 206056,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/machine.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/machine.jpg",
+    "bytes": 57559,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/prop128.png",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/prop128.png",
+    "bytes": 4213,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_01.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_01.jpg",
+    "bytes": 20053,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_02.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_02.jpg",
+    "bytes": 20323,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_03.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_03.jpg",
+    "bytes": 20182,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_04.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_04.jpg",
+    "bytes": 16998,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_05.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_05.jpg",
+    "bytes": 22899,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_06.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_06.jpg",
+    "bytes": 21265,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_07.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_07.jpg",
+    "bytes": 21483,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/s_08.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/s_08.jpg",
+    "bytes": 18950,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/scrapsurf03-red.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/scrapsurf03-red.jpg",
+    "bytes": 24026,
+    "role": "sidecar"
+   },
+   {
+    "name": "VirtualCity/glTF-Draco/surface01.jpg",
+    "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/VirtualCity/glTF-Draco/surface01.jpg",
+    "bytes": 22231,
+    "role": "sidecar"
+   }
+  ],
+  "sign": null,
+  "notes": "File list from the GitHub tree at the pinned commit.",
+  "feeds": [
+   "3d.open",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:gltf.draco"
+  ],
+  "pairs": []
+ },
+ {
+  "id": "3d-tiles-implicit-octree-metadata",
+  "area": "3d",
+  "title": "3D Tiles 1.1 implicit tiling: sparse octree (Cesium samples) and implicit tile metadata (3d-tiles-validator sample)",
+  "source": "CesiumGS/3d-tiles-samples @ a30bfdf2d6cc; CesiumGS/3d-tiles-validator @ 7fa62c5f7920",
+  "landing": "https://github.com/CesiumGS/3d-tiles-samples",
+  "licence": "Apache-2.0 (Cesium samples and validator specs)",
+  "attribution": "Cesium GS, Inc.",
+  "tier": "A",
+  "format": "3D Tiles 1.1 implicitTiling (subtrees)",
+  "profile": "Implicit tiling is unsupported by the app: expected refusal",
+  "files": [
+   {
+    "name": "SparseImplicitOctree/README.md",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/README.md",
+    "bytes": 1705,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_1__0_0_0.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_1__0_0_0.glb",
+    "bytes": 1812,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_2__2_0_0.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_2__2_0_0.glb",
+    "bytes": 1816,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_2__3_1_1.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_2__3_1_1.glb",
+    "bytes": 1816,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_3__0_4_0.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_3__0_4_0.glb",
+    "bytes": 1820,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_3__1_5_1.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_3__1_5_1.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_3__2_6_2.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_3__2_6_2.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_3__3_7_3.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_3__3_7_3.glb",
+    "bytes": 1820,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__10_10_2.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__10_10_2.glb",
+    "bytes": 1828,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__11_11_3.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__11_11_3.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__12_12_4.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__12_12_4.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__13_13_5.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__13_13_5.glb",
+    "bytes": 1828,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__14_14_6.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__14_14_6.glb",
+    "bytes": 1828,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__15_15_7.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__15_15_7.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__8_8_0.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__8_8_0.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_4__9_9_1.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_4__9_9_1.glb",
+    "bytes": 1828,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__16_16_16.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__16_16_16.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__17_17_17.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__17_17_17.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__18_18_18.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__18_18_18.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__19_19_19.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__19_19_19.glb",
+    "bytes": 1832,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__20_20_20.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__20_20_20.glb",
+    "bytes": 1832,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__21_21_21.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__21_21_21.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__22_22_22.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__22_22_22.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__23_23_23.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__23_23_23.glb",
+    "bytes": 1828,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__24_24_24.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__24_24_24.glb",
+    "bytes": 1828,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__25_25_25.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__25_25_25.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__26_26_26.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__26_26_26.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__27_27_27.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__27_27_27.glb",
+    "bytes": 1832,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__28_28_28.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__28_28_28.glb",
+    "bytes": 1832,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__29_29_29.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__29_29_29.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__30_30_30.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__30_30_30.glb",
+    "bytes": 1836,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/content/content_5__31_31_31.glb",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/content/content_5__31_31_31.glb",
+    "bytes": 1824,
+    "role": "primary"
+   },
+   {
+    "name": "SparseImplicitOctree/screenshot/SparseImplicitOctree.png",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/screenshot/SparseImplicitOctree.png",
+    "bytes": 396060,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/0.0.0.0.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/0.0.0.0.subtree",
+    "bytes": 480,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.0.4.0.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.0.4.0.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.1.5.1.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.1.5.1.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.2.6.2.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.2.6.2.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.3.7.3.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.3.7.3.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.4.4.0.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.4.4.0.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.4.4.4.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.4.4.4.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.5.5.1.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.5.5.1.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.5.5.5.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.5.5.5.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.6.6.2.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.6.6.2.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.6.6.6.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.6.6.6.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.7.7.3.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.7.7.3.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/subtrees/3.7.7.7.subtree",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/subtrees/3.7.7.7.subtree",
+    "bytes": 368,
+    "role": "sidecar"
+   },
+   {
+    "name": "SparseImplicitOctree/tileset.json",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-samples/a30bfdf2d6cc55f4c3078e8aea3a793af6ebfd56/1.1/SparseImplicitOctree/tileset.json",
+    "bytes": 541,
+    "role": "primary"
+   },
+   {
+    "name": "ImplicitTileMetadata/content/0/0/0.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/content/0/0/0.b3dm",
+    "bytes": 9680,
+    "role": "sidecar"
+   },
+   {
+    "name": "ImplicitTileMetadata/content/1/0/0.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/content/1/0/0.b3dm",
+    "bytes": 9700,
+    "role": "sidecar"
+   },
+   {
+    "name": "ImplicitTileMetadata/content/1/0/1.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/content/1/0/1.b3dm",
+    "bytes": 9684,
+    "role": "sidecar"
+   },
+   {
+    "name": "ImplicitTileMetadata/content/1/1/1.b3dm",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/content/1/1/1.b3dm",
+    "bytes": 9688,
+    "role": "sidecar"
+   },
+   {
+    "name": "ImplicitTileMetadata/subtrees/1.1/0.0.0.json",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/subtrees/1.1/0.0.0.json",
+    "bytes": 762,
+    "role": "sidecar"
+   },
+   {
+    "name": "ImplicitTileMetadata/subtrees/shared.bin",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/subtrees/shared.bin",
+    "bytes": 32,
+    "role": "sidecar"
+   },
+   {
+    "name": "ImplicitTileMetadata/tileset_1.1.json",
+    "url": "https://raw.githubusercontent.com/CesiumGS/3d-tiles-validator/7fa62c5f792069b077f174b477aab85dd7fecf22/specs/data/Samples/ImplicitTileMetadata/tileset_1.1.json",
+    "bytes": 1437,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "File lists from the GitHub trees at the pinned commits.",
+  "feeds": [
+   "3d.open",
+   "ingest"
+  ],
+  "covers": [
+   "fmt:tiles3d.implicit"
+  ],
+  "pairs": []
+ }
+]

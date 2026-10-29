@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:09:11.166Z",
+ "key": "derived-nitf-variants/wv3vis_ic_m3.ntf",
+ "item": "derived-nitf-variants",
+ "file": "wv3vis_ic_m3.ntf",
+ "format": "NITF 2.1 / NSIF 1.0",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened wv3vis_ic_m3.ntf in 39 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "IGEOLO corners (approximate)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 623,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

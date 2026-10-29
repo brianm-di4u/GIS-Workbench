@@ -1,0 +1,21 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:26.008Z",
+ "key": "fmv.measure",
+ "id": "fmv.measure",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-vmti-video/truck_vmti.ts"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

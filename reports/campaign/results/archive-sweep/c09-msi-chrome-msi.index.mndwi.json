@@ -1,0 +1,29 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:34.380Z",
+ "key": "msi.index.mndwi",
+ "id": "msi.index.mndwi",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left msi.index.mndwi disabled; recipe data added: indian_pines_220b.img, indian_pines_220b.hdr"
+ ],
+ "data": [
+  "20240816/MTD_MSIL2A.xml",
+  "20250123/MTD_MSIL2A.xml",
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

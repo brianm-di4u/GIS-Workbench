@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:55:27.986Z",
+ "key": "derived-vector-variants/ne_places_epsg32613.geojson",
+ "item": "derived-vector-variants",
+ "file": "ne_places_epsg32613.geojson",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "legacy \"crs\" member urn:ogc:def:crs:EPSG::32613: reprojected to WGS 84"
+ ],
+ "toasts": [
+  "toast-info: ne_places_epsg32613: 14 feature(s) from GeoJSON (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 14,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 68,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

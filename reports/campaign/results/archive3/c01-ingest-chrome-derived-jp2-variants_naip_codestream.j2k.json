@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:08:13.761Z",
+ "key": "derived-jp2-variants/naip_codestream.j2k",
+ "item": "derived-jp2-variants",
+ "file": "naip_codestream.j2k",
+ "format": "JPEG 2000 (JP2 / J2K / HTJ2K)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip_codestream.j2k in 49 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (codestream; 1024×1024×3, 8-bit, 3 resolution levels)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 915,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

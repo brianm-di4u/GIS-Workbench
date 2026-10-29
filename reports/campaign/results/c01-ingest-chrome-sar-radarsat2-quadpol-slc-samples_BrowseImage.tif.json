@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:16:43.910Z",
+ "key": "sar-radarsat2-quadpol-slc-samples/BrowseImage.tif",
+ "item": "sar-radarsat2-quadpol-slc-samples",
+ "file": "BrowseImage.tif",
+ "format": "RADARSAT-2 SLC product (product.xml + per-polarisation GeoTIFF I/Q + LUTs) in ZIP",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened BrowseImage.tif in 50 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 89,
+   "h": 512,
+   "bands": 4,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 379,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

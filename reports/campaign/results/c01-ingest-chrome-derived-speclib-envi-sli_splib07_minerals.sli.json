@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:08:55.050Z",
+ "key": "derived-speclib-envi-sli/splib07_minerals.sli",
+ "item": "derived-speclib-envi-sli",
+ "file": "splib07_minerals.sli",
+ "format": "ENVI spectral library / CSV",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened splib07_minerals.sli in 814 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "ENVI BSQ (data type 4)",
+   "w": 224,
+   "h": 60,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1184,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

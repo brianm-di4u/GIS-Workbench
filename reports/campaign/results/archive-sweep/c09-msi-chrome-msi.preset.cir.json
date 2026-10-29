@@ -1,0 +1,25 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:10:12.789Z",
+ "key": "msi.preset.cir",
+ "id": "msi.preset.cir",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "ang20200712t200729_rfl_v2y1/ang20200712t200729_corr_v2y1_img",
+  "ang20200712t200729_rfl_v2y1/ang20200712t200729_corr_v2y1_img.hdr"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

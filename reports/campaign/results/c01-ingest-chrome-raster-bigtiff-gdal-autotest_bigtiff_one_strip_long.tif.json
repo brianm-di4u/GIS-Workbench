@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:33:59.512Z",
+ "key": "raster-bigtiff-gdal-autotest/bigtiff_one_strip_long.tif",
+ "item": "raster-bigtiff-gdal-autotest",
+ "file": "bigtiff_one_strip_long.tif",
+ "format": "BigTIFF (TIFF magic 43)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened bigtiff_one_strip_long.tif in 23 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 1,
+   "h": 1,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 326,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

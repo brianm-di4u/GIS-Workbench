@@ -1,0 +1,24 @@
+{
+ "spec": "c11-fmv",
+ "project": "chrome",
+ "when": "2026-10-29T07:12:27.875Z",
+ "key": "mie.prev",
+ "id": "mie.prev",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "formats/mie4nitf.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

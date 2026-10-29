@@ -1,0 +1,41 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:35:34.256Z",
+ "key": "nitf-mvs-wv3-buenos-aires/MasterProvisional3.tif",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "MasterProvisional3.tif",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 placemark(s) are clamped or relative to the ground; their heights were set to 0 m HAE (drop them to the terrain to fix)"
+ ],
+ "toasts": [
+  "toast-info: MasterProvisional3: 1 feature(s) from KML (1 note(s))",
+  "toast-info: Opened MasterProvisional3.tif in 47 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2722,
+   "h": 1913,
+   "bands": 1,
+   "model": "Map (EPSG:32721)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 1,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 877,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

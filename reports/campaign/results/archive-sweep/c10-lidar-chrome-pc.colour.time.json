@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:37.984Z",
+ "key": "pc.colour.time",
+ "id": "pc.colour.time",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "pts/autzen.pts"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

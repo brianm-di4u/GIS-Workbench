@@ -2,7 +2,7 @@
 
 Upstream: https://github.com/LaurenzV/hayro, crate `hayro-jpeg2000` 0.4.1 (Apache-2.0 OR MIT,
 licence files kept). Vendored to add HTJ2K (ITU-T T.814 / ISO/IEC 15444-15) code-block decoding
-for REQ-FMT-17. Every change is marked `GW HTJ2K` in the sources:
+for REQ-FMT-17. Every change is marked `GW HTJ2K` (or `GW MSI`) in the sources:
 
 | File | Change |
 |---|---|
@@ -10,6 +10,7 @@ for REQ-FMT-17. Every change is marked `GW HTJ2K` in the sources:
 | `src/j2c/segment.rs` | HT packet headers (T.814 B.10.7): one cleanup codeword segment (with any placeholder HT sets, each adding a missing MSB) and one SigProp + MagRef segment; a second HT set in a later layer is refused. |
 | `src/j2c/decode.rs` | `decode_ht_code_block`: HT code-blocks through `ndic-htj2k::decode_block` (a port of OpenJPH's 32-bit block decoder), dequantised into hayro's coefficient buffer; the rest of hayro's pipeline (IDWT, MCT, resolution reduction, tiles, JP2) is unchanged. |
 | `src/lib.rs`, `Cargo.toml` | The `image` integration (and its `image`/`moxcms` dependencies) is dropped; `ndic-htj2k` =0.2.5 added. |
+| `src/lib.rs` (`GW MSI`) | A codestream with more than four components and no colour space (8-band WorldView-3 MS NITF) is decoded with `ColorSpace::Unknown` instead of failing with `TooManyChannels`. |
 
 Checked by `crates/gw-codec/tests/htj2k.rs` against streams encoded by OpenJPH (C++):
 lossless cases bit-exact, 9/7 within one count of OpenJPEG 2.5.4, reduced resolution equal to

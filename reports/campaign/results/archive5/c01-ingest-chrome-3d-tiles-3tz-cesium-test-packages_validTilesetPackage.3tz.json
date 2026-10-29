@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:30.181Z",
+ "key": "3d-tiles-3tz-cesium-test-packages/validTilesetPackage.3tz",
+ "item": "3d-tiles-3tz-cesium-test-packages",
+ "file": "validTilesetPackage.3tz",
+ "format": "3D Tiles archive (.3tz, ZIP with @3dtilesIndex1@)",
+ "rendered": false,
+ "errors": [
+  "the tileset is not georeferenced: its root sits near the Earth's centre (no transform to ECEF), so it cannot be placed"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: validTilesetPackage.3tz: the tileset is not georeferenced: its root sits near the Earth's centre (no transform to ECEF), so it cannot be placed×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 140,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

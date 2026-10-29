@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:26.571Z",
+ "key": "derived-app-artifacts/naip_vegas_buildings.gwb",
+ "item": "derived-app-artifacts",
+ "file": "naip_vegas_buildings.gwb",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 image file(s) to relink (File ▸ Relink Imagery)"
+ ],
+ "toasts": [
+  "toast-info: Opened project naip_vegas_buildings×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 28,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 98,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

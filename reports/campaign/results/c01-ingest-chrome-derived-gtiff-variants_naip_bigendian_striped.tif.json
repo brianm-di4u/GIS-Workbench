@@ -1,0 +1,36 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:47.725Z",
+ "key": "derived-gtiff-variants/naip_bigendian_striped.tif",
+ "item": "derived-gtiff-variants",
+ "file": "naip_bigendian_striped.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2048,
+   "h": 2048,
+   "bands": 4,
+   "model": "Map (EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 6262,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

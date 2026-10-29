@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:16:56.683Z",
+ "key": "sar-radarsat2-quadpol-slc-samples/rs2prod_geographicInformation.xsd",
+ "item": "sar-radarsat2-quadpol-slc-samples",
+ "file": "rs2prod_geographicInformation.xsd",
+ "format": "RADARSAT-2 SLC product (product.xml + per-polarisation GeoTIFF I/Q + LUTs) in ZIP",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: rs2prod_geographicInformation.xsd: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 93,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

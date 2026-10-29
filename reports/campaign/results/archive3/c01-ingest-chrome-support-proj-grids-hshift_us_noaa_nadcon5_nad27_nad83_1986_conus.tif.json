@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:23:13.617Z",
+ "key": "support-proj-grids-hshift/us_noaa_nadcon5_nad27_nad83_1986_conus.tif",
+ "item": "support-proj-grids-hshift",
+ "file": "us_noaa_nadcon5_nad27_nad83_1986_conus.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened us_noaa_nadcon5_nad27_nad83_1986_conus.tif in 109 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 237,
+   "h": 105,
+   "bands": 2,
+   "model": "Map (EPSG:4267, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 467,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

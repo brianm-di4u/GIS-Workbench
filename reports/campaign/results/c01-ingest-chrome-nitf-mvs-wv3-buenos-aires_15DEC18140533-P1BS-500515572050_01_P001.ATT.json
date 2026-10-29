@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:45:13.625Z",
+ "key": "nitf-mvs-wv3-buenos-aires/15DEC18140533-P1BS-500515572050_01_P001.ATT",
+ "item": "nitf-mvs-wv3-buenos-aires",
+ "file": "15DEC18140533-P1BS-500515572050_01_P001.ATT",
+ "format": "NITF2.1 (IC=C8 JPEG 2000, 11-bit, RPC00B, USE00A, 2 image segments incl. cloud mask) + DG tar (IMD/RPB/TIL/XML/ATT/EPH) + GeoTIFF lidar DSM",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120046,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

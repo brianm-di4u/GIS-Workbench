@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:23.400Z",
+ "key": "derived-geopdf-iso32000/naip_geo_iso32000.pdf",
+ "item": "derived-geopdf-iso32000",
+ "file": "naip_geo_iso32000.pdf",
+ "format": "GeoPDF (ISO 32000)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip_geo_iso32000.pdf in 193 msZoom to layer×",
+  "toast-info: naip_geo_iso32000.pdf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (13 objects; ISO 32000 /GEO viewport; 1 image)",
+   "w": 2048,
+   "h": 2048,
+   "bands": 3,
+   "model": "GeoPDF viewport (4 points, NAD83 taken as WGS 84, about 1 m)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1034,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

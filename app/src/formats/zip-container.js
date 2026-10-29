@@ -6,9 +6,12 @@
 const MAX_DEPTH = 3;
 const MAX_ENTRIES = 100000;
 // Rasters that make a ZIP an imagery package (a ZIP of only vectors keeps the vector route).
-export const RASTER_IN_ZIP = /\.(tif|tiff|gtiff|ntf|nitf|nsf|jp2|j2k|jpx|img|dt[0-2]|hgt|sid|ecw)$/i;
+export const RASTER_IN_ZIP = /\.(tif|tiff|gtiff|ntf|nitf|nsf|jp2|j2k|j2c|jpx|jpf|img|dt[0-2]|hgt|sid|ecw)$/i;
+// Pictures count as imagery only with a world file beside them (otherwise they are quick looks).
+const PICTURE = /\.(jpe?g|png|gif|bmp|webp)$/i;
+const WORLD = /\.(jgw|jpgw|pgw|pngw|gfw|bpw|wld)$/i;
 // Quick looks and logos travel in packages but are not what the user came for.
-const QUICKLOOK = /(^|\/)(icon|preview|logo|thumb)[^/]*$|_browse\.[^/]+$/i;
+const QUICKLOOK = /(^|\/)(icon|preview|logo|thumb)[^/]*$|[_-]browse\.[^/]+$/i;
 // Product masks (DIMAP MASKS/*.GML) are offered, not opened by default.
 const MASK = /(^|\/)masks\//i;
 const VECTOR_IN_ZIP = /\.(shp|geojson|kml|kmz|gpkg|gml|zip)$/i;
@@ -118,13 +121,13 @@ export async function expandZip(file, depth = 0, prefix = file.name, budget = { 
         const inner = await entryFile(file, e);
         const kids = await expandZip(inner, depth + 1, e.zipPath, budget).catch(() => null);
         // A ZIP of vectors (shapefile set) stays one entry for the vector reader.
-        if (kids?.some((k) => RASTER_IN_ZIP.test(k.name) || k.nested)) {
+        if (kids?.some((k) => isRaster(k, kids) || k.nested)) {
           out.push(...kids);
           continue;
         }
         e.blob = inner;
       } else e.nested = true;
-    }
+    } else if (/\.zip$/i.test(e.name)) e.nested = true; // deeper than MAX_DEPTH: opens as a package of its own
     e.open = () => (e.blob ? Object.assign(new File([e.blob], e.name), { __zipPath: e.zipPath }) : entryFile(file, e));
     out.push(e);
   }
@@ -132,17 +135,16 @@ export async function expandZip(file, depth = 0, prefix = file.name, budget = { 
 }
 
 /** True when a ZIP holds imagery (directly or in ZIPs inside it): it opens as a package. */
-export async function isImageryZip(file) {
+export async function isImageryZip(file, depth = 0) {
   try {
     const es = await listZip(file);
-    if (es.some((e) => RASTER_IN_ZIP.test(e.name))) return true;
-    // ZIPs inside: the stored ones are slices; of the deflated ones, only the smallest is inflated.
+    if (es.some((e) => isRaster({ ...e, group: 0 }, es.map((x) => ({ ...x, group: 0 }))))) return true;
+    if (depth + 1 >= MAX_DEPTH) return false;
+    // ZIPs inside (to the depth expandZip opens): the stored ones are slices; of the deflated ones,
+    // only the smallest is inflated.
     const zips = es.filter((x) => /\.zip$/i.test(x.name));
     const look = [...zips.filter((x) => x.method === 0).slice(0, 4), ...zips.filter((x) => x.method !== 0 && x.size <= 256 << 20).sort((p, q) => p.size - q.size).slice(0, 1)];
-    for (const e of look) {
-      const inner = await entryFile(file, e);
-      if ((await listZip(inner)).some((k) => RASTER_IN_ZIP.test(k.name))) return true;
-    }
+    for (const e of look) if (await isImageryZip(await entryFile(file, e), depth + 1)) return true;
   } catch {
     return false; // the vector route reports a damaged ZIP by name
   }
@@ -151,16 +153,24 @@ export async function isImageryZip(file) {
 
 /** Entries a user would open by default: the imagery with its sidecars, and the vector overlays. */
 export function defaultPick(entries, maxRasters = 24) {
-  const main = entries.filter((e) => RASTER_IN_ZIP.test(e.name) && !QUICKLOOK.test(e.path));
+  const main = entries.filter((e) => isRaster(e, entries) && !QUICKLOOK.test(e.path));
   // Packages not expanded (see expandZip) are offered, not opened by default.
   entries = entries.filter((e) => !e.nested);
   const groups = [...new Set(main.map((e) => e.group))];
   // A big delivery (a ZIP of many packages) starts with its first package selected.
   const keep = main.length > maxRasters ? new Set([groups[0]]) : new Set(groups);
-  return entries.filter((e) => keep.has(e.group) && (main.includes(e) || (!RASTER_IN_ZIP.test(e.name) && !QUICKLOOK.test(e.path) && ((VECTOR_IN_ZIP.test(e.name) && !MASK.test(e.path)) || isSidecarOf(e, main)))));
+  return entries.filter((e) => keep.has(e.group) && (main.includes(e) || (!isRaster(e, entries) && !QUICKLOOK.test(e.path) && ((VECTOR_IN_ZIP.test(e.name) && !MASK.test(e.path)) || isSidecarOf(e, main)))));
 }
 
 const stem = (n) => n.toLowerCase().replace(/\.aux\.xml$/, '').replace(/\.[^.]+$/, '');
+/** A raster entry: a raster format, or a picture with its world file in the same ZIP. */
+function isRaster(e, entries) {
+  if (RASTER_IN_ZIP.test(e.name)) return true;
+  if (!PICTURE.test(e.name)) return false;
+  const s = stem(e.name);
+  return entries.some((x) => x.group === e.group && WORLD.test(x.name) && stem(x.name) === s);
+}
+
 function isSidecarOf(e, rasters) {
   const s = stem(e.name);
   return rasters.some((r) => r.group === e.group && (stem(r.name) === s || r.name.toLowerCase() === s)) || /^dim_.*\.xml$/i.test(e.name);

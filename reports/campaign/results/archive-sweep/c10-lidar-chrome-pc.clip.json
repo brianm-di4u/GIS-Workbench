@@ -1,0 +1,25 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:49.770Z",
+ "key": "pc.clip",
+ "id": "pc.clip",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "ept-data/0-0-0-0.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

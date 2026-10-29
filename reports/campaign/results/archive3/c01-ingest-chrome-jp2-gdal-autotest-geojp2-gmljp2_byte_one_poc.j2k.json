@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:19.028Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/byte_one_poc.j2k",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "byte_one_poc.j2k",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened byte_one_poc.j2k in 34 msZoom to layer×",
+  "toast-error: byte_one_poc.j2k cannot be displayed: JPEG 2000: JPEG 2000: a progression order change (POC marker) is not decoded in this release×"
+ ],
+ "layers": [
+  {
+   "error": "JPEG 2000: JPEG 2000: a progression order change (POC marker) is not decoded in this release",
+   "kind": "image",
+   "format": "JPEG 2000 (codestream; 20×20×1, 8-bit, 0 resolution levels)",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 351,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

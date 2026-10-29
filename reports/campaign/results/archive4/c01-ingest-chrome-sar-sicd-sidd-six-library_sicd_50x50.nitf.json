@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:35:57.773Z",
+ "key": "sar-sicd-sidd-six-library/sicd_50x50.nitf",
+ "item": "sar-sicd-sidd-six-library",
+ "file": "sicd_50x50.nitf",
+ "format": "SICD/NITF2.1 and SIDD/NITF2.1",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened sicd_50x50.nitf in 59 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.2.1 (RE32F_IM32F)",
+   "w": 50,
+   "h": 50,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGZERO/RMA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 171,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

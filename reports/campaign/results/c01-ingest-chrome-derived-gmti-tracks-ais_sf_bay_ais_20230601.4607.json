@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:15:55.677Z",
+ "key": "derived-gmti-tracks-ais/sf_bay_ais_20230601.4607",
+ "item": "derived-gmti-tracks-ais",
+ "file": "sf_bay_ais_20230601.4607",
+ "format": "STANAG 4607 (.4607) / STANAG 4676 XML (.4676.xml)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 129825,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

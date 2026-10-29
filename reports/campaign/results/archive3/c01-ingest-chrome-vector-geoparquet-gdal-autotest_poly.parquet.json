@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:21.815Z",
+ "key": "vector-geoparquet-gdal-autotest/poly.parquet",
+ "item": "vector-geoparquet-gdal-autotest",
+ "file": "poly.parquet",
+ "format": "GeoParquet / Parquet",
+ "rendered": false,
+ "errors": [
+  "GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: poly.parquet: GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 42,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

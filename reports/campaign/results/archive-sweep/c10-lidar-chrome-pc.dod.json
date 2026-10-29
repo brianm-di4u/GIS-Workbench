@@ -1,0 +1,29 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:33.828Z",
+ "key": "pc.dod",
+ "id": "pc.dod",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "DSM of Difference"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left pc.dod disabled; recipe data added: autzen_trim.las, autzen_trim.laz"
+ ],
+ "data": [
+  "ept-data/0-0-0-0.laz",
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,21 @@
+{
+ "spec": "c15-products",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:05.602Z",
+ "key": "report.template",
+ "id": "report.template",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Report Template"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

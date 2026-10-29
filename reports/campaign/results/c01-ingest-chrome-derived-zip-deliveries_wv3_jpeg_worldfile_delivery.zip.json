@@ -1,0 +1,26 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:14:15.945Z",
+ "key": "derived-zip-deliveries/wv3_jpeg_worldfile_delivery.zip",
+ "item": "derived-zip-deliveries",
+ "file": "wv3_jpeg_worldfile_delivery.zip",
+ "format": "ZIP (imagery package)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 120586,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

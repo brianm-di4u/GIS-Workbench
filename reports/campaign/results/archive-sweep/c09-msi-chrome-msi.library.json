@@ -1,0 +1,25 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:14.596Z",
+ "key": "msi.library",
+ "id": "msi.library",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: 0 library spectra×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-hsi-cube-geotiff/aviris_refl_chip.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

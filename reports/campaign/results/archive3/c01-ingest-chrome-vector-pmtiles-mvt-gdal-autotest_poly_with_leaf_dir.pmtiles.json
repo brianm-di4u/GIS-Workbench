@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:26:31.017Z",
+ "key": "vector-pmtiles-mvt-gdal-autotest/poly_with_leaf_dir.pmtiles",
+ "item": "vector-pmtiles-mvt-gdal-autotest",
+ "file": "poly_with_leaf_dir.pmtiles",
+ "format": "PMTiles v3, tile type 1 (MVT)",
+ "rendered": false,
+ "errors": [
+  "poly_with_leaf_dir.pmtiles holds vector tiles; GIS Workbench draws raster PMTiles (PNG, JPEG, WebP) as basemaps"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-warn: poly_with_leaf_dir.pmtiles: poly_with_leaf_dir.pmtiles holds vector tiles; GIS Workbench draws raster PMTiles (PNG, JPEG, WebP) as basemaps×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 60,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

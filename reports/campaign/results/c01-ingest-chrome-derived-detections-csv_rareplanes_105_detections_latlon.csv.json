@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:17:06.788Z",
+ "key": "derived-detections-csv/rareplanes_105_detections_latlon.csv",
+ "item": "derived-detections-csv",
+ "file": "rareplanes_105_detections_latlon.csv",
+ "format": "CSV (ML detections)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: rareplanes_105_detections_latlon: 23 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 23,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 304,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

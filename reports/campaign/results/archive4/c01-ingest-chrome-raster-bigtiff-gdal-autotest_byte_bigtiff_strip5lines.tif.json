@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:06.884Z",
+ "key": "raster-bigtiff-gdal-autotest/byte_bigtiff_strip5lines.tif",
+ "item": "raster-bigtiff-gdal-autotest",
+ "file": "byte_bigtiff_strip5lines.tif",
+ "format": "BigTIFF (TIFF magic 43)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened byte_bigtiff_strip5lines.tif in 47 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 129,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

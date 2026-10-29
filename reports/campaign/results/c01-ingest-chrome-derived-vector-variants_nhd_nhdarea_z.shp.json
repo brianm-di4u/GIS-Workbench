@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:09:26.956Z",
+ "key": "derived-vector-variants/nhd_nhdarea_z.shp",
+ "item": "derived-vector-variants",
+ "file": "nhd_nhdarea_z.shp",
+ "format": "GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: nhd_nhdarea_z: 200 feature(s) from ESRI Shapefile"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 200,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 214,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

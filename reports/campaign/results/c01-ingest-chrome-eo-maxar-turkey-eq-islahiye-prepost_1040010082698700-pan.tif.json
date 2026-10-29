@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:19:16.094Z",
+ "key": "eo-maxar-turkey-eq-islahiye-prepost/1040010082698700-pan.tif",
+ "item": "eo-maxar-turkey-eq-islahiye-prepost",
+ "file": "1040010082698700-pan.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 1040010082698700-pan.tif in 660 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 17168,
+   "h": 17168,
+   "bands": 1,
+   "model": "Map (EPSG:32637)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1225,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

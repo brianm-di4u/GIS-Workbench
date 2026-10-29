@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:44:28.882Z",
+ "key": "derived-app-artifacts/folder-to-cog.gwrecipe.json",
+ "item": "derived-app-artifacts",
+ "file": "folder-to-cog.gwrecipe.json",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: folder-to-cog.gwrecipe.json: recipe opened in the Recipes panel×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 85,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

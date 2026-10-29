@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:04:04.434Z",
+ "key": "derived-raster-negatives/cop_dem_netcdf3.nc",
+ "item": "derived-raster-negatives",
+ "file": "cop_dem_netcdf3.nc",
+ "format": "NetCDF-3 / HFA / PDF (negative)",
+ "rendered": false,
+ "errors": [
+  "unrecognised data cannot be opened as imagery in this release"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack HDF5 reader (h5wasm) 0.10.3 verified (1 entries, SHA-256 checked)",
+  "toast-error: cop_dem_netcdf3.nc: unrecognised data cannot be opened as imagery in this release"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 199,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

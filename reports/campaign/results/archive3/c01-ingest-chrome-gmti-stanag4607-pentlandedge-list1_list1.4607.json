@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:13.112Z",
+ "key": "gmti-stanag4607-pentlandedge-list1/list1.4607",
+ "item": "gmti-stanag4607-pentlandedge-list1",
+ "file": "list1.4607",
+ "format": "STANAG 4607 binary",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened list1.4607: 2 packets, 1 dwells, 1 target reports (TOP SECRET)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 83,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

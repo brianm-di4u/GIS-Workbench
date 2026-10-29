@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:14.075Z",
+ "key": "lidar-ascii-pdal-text/bunny_8.pts",
+ "item": "lidar-ascii-pdal-text",
+ "file": "bunny_8.pts",
+ "format": "ASCII point cloud (.pts, .xyz, .txt)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 line(s) without x, y and z were skipped"
+ ],
+ "toasts": [
+  "toast-info: Opened bunny_8.pts: 9 points in 25 ms (1 note in the import log)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 160,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

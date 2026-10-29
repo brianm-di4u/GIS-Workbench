@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:57:43.916Z",
+ "key": "derived-las-pdrf-matrix/autzen_pdrf2_las12.las",
+ "item": "derived-las-pdrf-matrix",
+ "file": "autzen_pdrf2_las12.las",
+ "format": "LAS 1.2–1.4",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened autzen_pdrf2_las12.las: 110,000 points in 177 ms (1 note in the import log)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 417,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

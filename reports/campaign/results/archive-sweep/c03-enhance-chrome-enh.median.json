@@ -1,0 +1,24 @@
+{
+ "spec": "c03-enhance",
+ "project": "chrome",
+ "when": "2026-10-29T07:07:40.795Z",
+ "key": "enh.median",
+ "id": "enh.median",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:03:42.453Z",
+ "key": "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif",
+ "item": "derived-gtiff-variants",
+ "file": "landsat_b4_bigtiff_bigendian.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened landsat_b4_bigtiff_bigendian.tif in 43 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 7671,
+   "h": 7811,
+   "bands": 1,
+   "model": "Map (EPSG:32610)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 3973,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

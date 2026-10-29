@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:34:28.143Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/uint32_2x2_lossless_nbits_20.j2k",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "uint32_2x2_lossless_nbits_20.j2k",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened uint32_2x2_lossless_nbits_20.j2k in 33 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (codestream; 2×2×1, 20-bit, 0 resolution levels)",
+   "w": 2,
+   "h": 2,
+   "bands": 1,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 341,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

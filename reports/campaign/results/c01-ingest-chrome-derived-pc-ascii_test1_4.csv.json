@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:05:50.979Z",
+ "key": "derived-pc-ascii/test1_4.csv",
+ "item": "derived-pc-ascii",
+ "file": "test1_4.csv",
+ "format": "ASCII point cloud",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: test1_4: 1000 feature(s) from CSV"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 1000,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 95,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:00.002Z",
+ "key": "derived-speclib-envi-sli/splib07_artificial.sli",
+ "item": "derived-speclib-envi-sli",
+ "file": "splib07_artificial.sli",
+ "format": "ENVI spectral library / CSV",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: 60 library spectra from splib07_artificial.sli, splib07_artificial.hdr×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 84,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

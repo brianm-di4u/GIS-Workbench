@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:10:49.016Z",
+ "key": "raster-gdal-autotest-dimap2-rpf-nm/i_3034f.ntf",
+ "item": "raster-gdal-autotest-dimap2-rpf-nm",
+ "file": "i_3034f.ntf",
+ "format": "DIMAP v2 (DIM_*.XML + IMG tiles + RPC), RPF A.TOC + CADRG, NITF/NSIF IC=NM",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened i_3034f.ntf in 39 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.10",
+   "w": 35,
+   "h": 18,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 356,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

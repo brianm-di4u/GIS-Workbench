@@ -190,9 +190,7 @@
   "id": "rot.mouse",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -200,7 +198,9 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -209,8 +209,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
-   "info: Full roam off×"
+   "warn: Jump to Point: type a coordinate first×"
   ],
   "problems": []
  },
@@ -219,7 +218,9 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -271,9 +272,7 @@
   "id": "draw.polyline",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -281,7 +280,9 @@
   "id": "draw.polygon",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -2053,9 +2054,7 @@
   "dialogs": [
    "dialog:lai-find"
   ],
-  "toasts": [
-   "info: 4.2 MB COG written×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

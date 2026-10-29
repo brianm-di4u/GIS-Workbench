@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:39:03.749Z",
+ "key": "3d-gltf-khronos-plain-glb/Lantern.glb",
+ "item": "3d-gltf-khronos-plain-glb",
+ "file": "Lantern.glb",
+ "format": "GLB (glTF 2.0)",
+ "rendered": false,
+ "errors": [],
+ "warnings": [
+  "placed by its centre"
+ ],
+ "toasts": [],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 129955,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

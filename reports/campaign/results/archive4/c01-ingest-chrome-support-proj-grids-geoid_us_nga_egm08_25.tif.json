@@ -1,0 +1,40 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:39:13.818Z",
+ "key": "support-proj-grids-geoid/us_nga_egm08_25.tif",
+ "item": "support-proj-grids-geoid",
+ "file": "us_nga_egm08_25.tif",
+ "format": "GeoTIFF (PROJ grid)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened us_nga_egm08_25.tif in 202 msZoom to layer×",
+  "toast-info: us_nga_egm08_25.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+  "toast-info: us_nga_egm08_25.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 8640,
+   "h": 4321,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 7685,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

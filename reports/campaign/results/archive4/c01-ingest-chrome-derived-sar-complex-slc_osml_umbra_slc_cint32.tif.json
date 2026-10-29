@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:36.056Z",
+ "key": "derived-sar-complex-slc/osml_umbra_slc_cint32.tif",
+ "item": "derived-sar-complex-slc",
+ "file": "osml_umbra_slc_cint32.tif",
+ "format": "Complex GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened osml_umbra_slc_cint32.tif in 37 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "Complex GeoTIFF (CInt32 SLC)",
+   "w": 512,
+   "h": 512,
+   "bands": 9,
+   "model": "GCPs (4, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 361,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

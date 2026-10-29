@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:21:21.499Z",
+ "key": "dem-under-california-3dep13/USGS_13_n38w123_20250826.tif",
+ "item": "dem-under-california-3dep13",
+ "file": "USGS_13_n38w123_20250826.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_13_n38w123_20250826.tif in 175 msZoom to layer×",
+  "toast-info: USGS_13_n38w123_20250826.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10812,
+   "h": 10812,
+   "bands": 1,
+   "model": "Map (EPSG:4269, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 763,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

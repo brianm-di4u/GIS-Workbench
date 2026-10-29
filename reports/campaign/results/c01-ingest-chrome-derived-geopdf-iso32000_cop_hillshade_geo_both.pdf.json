@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:12:23.475Z",
+ "key": "derived-geopdf-iso32000/cop_hillshade_geo_both.pdf",
+ "item": "derived-geopdf-iso32000",
+ "file": "cop_hillshade_geo_both.pdf",
+ "format": "GeoPDF (ISO 32000)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened cop_hillshade_geo_both.pdf in 1080 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (13 objects; ISO 32000 /GEO viewport; 1 image)",
+   "w": 2048,
+   "h": 2048,
+   "bands": 3,
+   "model": "GeoPDF viewport (4 points, WGS 84)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1649,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:37:34.104Z",
+ "key": "fmv-esri-multiplexer-tutorial/Custom_FMV_Field_Mappings.csv",
+ "item": "fmv-esri-multiplexer-tutorial",
+ "file": "Custom_FMV_Field_Mappings.csv",
+ "format": "ZIP: Raw_Video.mpeg (MPEG program stream, MPEG-2 video + audio, no KLV), Raw_Metadata.csv, Custom_FMV_Field_Mappings.csv, FMV_Multiplexer_TimeShift_Template.csv",
+ "rendered": false,
+ "errors": [
+  "no WKT column and no longitude/latitude columns"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: Custom_FMV_Field_Mappings.csv: no WKT column and no longitude/latitude columns"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 166,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -60,6 +60,25 @@ export function enviSource(file, hd) {
   async function range(o, n) {
     return new DataView(await file.slice(o, o + n).arrayBuffer());
   }
+  // A whole BIL line holds every band; when only a few are wanted (a 3-band display of a 425-band
+  // cube) each band's run is read on its own, not the 1–2 MB line (TE archive: AVIRIS-NG).
+  const wholeLine = (bands) => bands.length * 4 >= NB;
+  /** Row y, columns xs…xe−1, for each band → reader(band) → (x) → value. */
+  async function row(y, xs, xe, bands) {
+    if (il === 'bip') {
+      // One run per row: pixels xs…xe with every band.
+      const v = await range(off + (y * W + xs) * NB * bps, (xe - xs) * NB * bps);
+      return bands.map((b) => (x) => rd.get(v, ((x - xs) * NB + b) * bps));
+    }
+    if (il === 'bil' && wholeLine(bands)) {
+      const v = await range(off + y * NB * W * bps, NB * W * bps);
+      return bands.map((b) => (x) => rd.get(v, (b * W + x) * bps));
+    }
+    // BSQ, and BIL with few bands: one run per band.
+    const at = (b) => off + (il === 'bil' ? (y * NB + b) * W + xs : (b * H + y) * W + xs) * bps;
+    const vs = await Promise.all(bands.map((b) => range(at(b), (xe - xs) * bps)));
+    return vs.map((v) => (x) => rd.get(v, (x - xs) * bps));
+  }
   return {
     kind: 'envi',
     imageIndex: 0,
@@ -68,6 +87,31 @@ export function enviSource(file, hd) {
     bands: NB,
     sampleType: rd.type,
     nodata,
+    // Coarse levels of a large cube read every 2^L-th line only (nearest, at the centre of each
+    // cell), as uncompressed NITF does (TE-019): a 4.6 GB AVIRIS-NG cube's first view reads ~1/16 of
+    // the lines it used to. Small images keep the averaged pyramid (faithful DRA histograms, TE-042).
+    hasLevel: (L) => L >= 2 && W * H * NB * bps > 256 * 2 ** 20,
+    async readLevel(L, x0, y0, w, h, bands, job) {
+      const sc = 2 ** L;
+      const half = sc >> 1;
+      const out = bands.map(() => new C(w * h).fill(nodata ?? 0));
+      const xa = Math.min(W - 1, x0 * sc + half);
+      const xb = Math.min(W - 1, (x0 + w - 1) * sc + half);
+      for (let j = 0; j < h; j++) {
+        job?.checkCancel?.();
+        const Y = (y0 + j) * sc + half;
+        if (Y >= H) break;
+        const get = await row(Y, xa, xb + 1, bands);
+        for (let k = 0; k < bands.length; k++) {
+          const dst = out[k];
+          for (let i = 0; i < w; i++) {
+            const X = (x0 + i) * sc + half;
+            if (X < W) dst[j * w + i] = get[k](X);
+          }
+        }
+      }
+      return out;
+    },
     async readWindow(x0, y0, w, h, bands, job) {
       const out = bands.map(() => new C(w * h));
       const xs = Math.max(0, x0);
@@ -76,26 +120,10 @@ export function enviSource(file, hd) {
       for (let y = Math.max(0, y0); y < Math.min(H, y0 + h); y++) {
         job?.checkCancel?.();
         const dy = (y - y0) * w;
-        if (il === 'bip') {
-          // One run per row: pixels xs…xe with every band.
-          const v = await range(off + (y * W + xs) * NB * bps, (xe - xs) * NB * bps);
-          bands.forEach((b, k) => {
-            const dst = out[k];
-            for (let x = xs; x < xe; x++) dst[dy + x - x0] = rd.get(v, ((x - xs) * NB + b) * bps);
-          });
-        } else if (il === 'bil') {
-          const v = await range(off + y * NB * W * bps, NB * W * bps);
-          bands.forEach((b, k) => {
-            const dst = out[k];
-            for (let x = xs; x < xe; x++) dst[dy + x - x0] = rd.get(v, (b * W + x) * bps);
-          });
-        } else {
-          for (let k = 0; k < bands.length; k++) {
-            const b = bands[k];
-            const v = await range(off + ((b * H + y) * W + xs) * bps, (xe - xs) * bps);
-            const dst = out[k];
-            for (let x = xs; x < xe; x++) dst[dy + x - x0] = rd.get(v, (x - xs) * bps);
-          }
+        const get = await row(y, xs, xe, bands);
+        for (let k = 0; k < bands.length; k++) {
+          const dst = out[k];
+          for (let x = xs; x < xe; x++) dst[dy + x - x0] = get[k](x);
         }
       }
       return out;

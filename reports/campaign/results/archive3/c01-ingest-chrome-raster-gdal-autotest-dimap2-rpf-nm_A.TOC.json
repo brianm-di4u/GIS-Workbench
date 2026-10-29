@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:10:49.108Z",
+ "key": "raster-gdal-autotest-dimap2-rpf-nm/A.TOC",
+ "item": "raster-gdal-autotest-dimap2-rpf-nm",
+ "file": "A.TOC",
+ "format": "DIMAP v2 (DIM_*.XML + IMG tiles + RPC), RPF A.TOC + CADRG, NITF/NSIF IC=NM",
+ "rendered": false,
+ "errors": [
+  "an RPF table of contents (A.TOC) is not read: open the frame files of its RPF folder (CADRG .ON2/.JN1…, CIB .I21…) instead"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: A.TOC: an RPF table of contents (A.TOC) is not read: open the frame files of its RPF folder (CADRG .ON2/.JN1…, CIB .I21…) instead×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 56,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

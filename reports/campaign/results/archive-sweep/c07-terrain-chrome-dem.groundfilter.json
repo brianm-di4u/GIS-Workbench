@@ -1,0 +1,30 @@
+{
+ "spec": "c07-terrain",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:46.297Z",
+ "key": "dem.groundfilter",
+ "id": "dem.groundfilter",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Ground Filter (SMRF)"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

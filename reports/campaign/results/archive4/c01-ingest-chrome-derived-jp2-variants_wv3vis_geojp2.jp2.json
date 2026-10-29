@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:05.751Z",
+ "key": "derived-jp2-variants/wv3vis_geojp2.jp2",
+ "item": "derived-jp2-variants",
+ "file": "wv3vis_geojp2.jp2",
+ "format": "JPEG 2000 (JP2 / J2K / HTJ2K)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened wv3vis_geojp2.jp2 in 46 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GeoJP2; 1024×1024×3, 8-bit, 4 resolution levels)",
+   "w": 1024,
+   "h": 1024,
+   "bands": 3,
+   "model": "Map (EPSG:32634)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 888,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:37.140Z",
+ "key": "3d-gltf-sample-assets/BoomBox.glb",
+ "item": "3d-gltf-sample-assets",
+ "file": "BoomBox.glb",
+ "format": "glTF 2.0 / GLB",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "placed by its centre"
+ ],
+ "toasts": [
+  "toast-info: BoomBox.glb: 1 mesh(es), placed by its centre×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 548,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

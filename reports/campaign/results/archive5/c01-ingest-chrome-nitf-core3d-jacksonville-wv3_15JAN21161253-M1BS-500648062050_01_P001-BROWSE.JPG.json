@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:45:04.659Z",
+ "key": "nitf-core3d-jacksonville-wv3/15JAN21161253-M1BS-500648062050_01_P001-BROWSE.JPG",
+ "item": "nitf-core3d-jacksonville-wv3",
+ "file": "15JAN21161253-M1BS-500648062050_01_P001-BROWSE.JPG",
+ "format": "NITF2.1 (IC=C8, 11-bit, RPC00B, 2 image segments) + DG tar + GeoTIFF tiles (Float32 DSM/DTM, RGB, uint8 labels)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 15JAN21161253-M1BS-500648062050_01_P001-BROWSE.JPG in 48 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "jpeg",
+   "w": 870,
+   "h": 851,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 369,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

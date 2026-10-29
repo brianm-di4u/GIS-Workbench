@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:35.167Z",
+ "key": "lidar-ascii-open3d-pts/bunnyData.pts",
+ "item": "lidar-ascii-open3d-pts",
+ "file": "bunnyData.pts",
+ "format": "ASCII point cloud (.pts)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "1 line(s) without x, y and z were skipped"
+ ],
+ "toasts": [
+  "toast-info: Opened bunnyData.pts: 30,571 points in 75 ms (1 note in the import log)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 453,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

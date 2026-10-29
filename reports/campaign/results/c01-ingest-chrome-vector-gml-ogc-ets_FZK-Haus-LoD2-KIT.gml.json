@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:55.602Z",
+ "key": "vector-gml-ogc-ets/FZK-Haus-LoD2-KIT.gml",
+ "item": "vector-gml-ogc-ets",
+ "file": "FZK-Haus-LoD2-KIT.gml",
+ "format": "GML 3.2",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: AC14-FZK-Haus: 6 feature(s) from GML"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 6,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 42,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

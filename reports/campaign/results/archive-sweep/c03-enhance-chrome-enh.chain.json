@@ -1,0 +1,25 @@
+{
+ "spec": "c03-enhance",
+ "project": "chrome",
+ "when": "2026-10-29T07:07:44.426Z",
+ "key": "enh.chain",
+ "id": "enh.chain",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Chain Editor"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "chain"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

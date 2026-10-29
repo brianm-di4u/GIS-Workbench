@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:08:46.885Z",
+ "key": "derived-sar-complex-slc/umbra_slc_cint16.tif",
+ "item": "derived-sar-complex-slc",
+ "file": "umbra_slc_cint16.tif",
+ "format": "Complex GeoTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened umbra_slc_cint16.tif in 58 msZoom to layer×",
+  "toast-info: umbra_slc_cint16.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "Complex GeoTIFF (CInt16 SLC)",
+   "w": 2048,
+   "h": 2048,
+   "bands": 9,
+   "model": "GCPs (4, GeoTIFF)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 685,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

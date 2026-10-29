@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T02:16:41.341Z",
+ "key": "derived-sar-sicd14-sidd30/umbra_chip1_sicd14.nitf",
+ "item": "derived-sar-sicd14-sidd30",
+ "file": "umbra_chip1_sicd14.nitf",
+ "format": "SICD 1.4.0 / 1.5 NITF, SIDD 3.0 NITF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened umbra_chip1_sicd14.nitf in 709 ms"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.4.0 (RE32F_IM32F)",
+   "w": 512,
+   "h": 512,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1029,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

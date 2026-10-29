@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:26:24.714Z",
+ "key": "vector-geojson-natural-earth-nvkelso/ne_110m_admin_0_countries.geojson",
+ "item": "vector-geojson-natural-earth-nvkelso",
+ "file": "ne_110m_admin_0_countries.geojson",
+ "format": "GeoJSON FeatureCollection",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: ne_110m_admin_0_countries: 177 feature(s) from GeoJSON"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 177,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 83,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

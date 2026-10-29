@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:27:13.662Z",
+ "key": "fmv-esri-cheyenne-inspection/cheyenne-inspection.mpg",
+ "item": "fmv-esri-cheyenne-inspection",
+ "file": "cheyenne-inspection.mpg",
+ "format": "ZIP containing cheyenne-inspection.mpg (MPEG-2 TS: H.264 PID 256 + metadata PES stream_type 0x15 PID 257 with KLVA metadata descriptor)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened cheyenne-inspection.mpg: 3597 frames, 575 KLV packets (0 bad) in 3580 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 1
+ },
+ "diffs": [],
+ "ms": 3650,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

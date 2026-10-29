@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:11:18.078Z",
+ "key": "jp2-gdal-autotest-geojp2-gmljp2/byte_gmljp2_with_nul_car.jp2",
+ "item": "jp2-gdal-autotest-geojp2-gmljp2",
+ "file": "byte_gmljp2_with_nul_car.jp2",
+ "format": "JP2 / J2K",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened byte_gmljp2_with_nul_car.jp2 in 42 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "JPEG 2000 (JP2, GMLJP2; 20×20×1, 8-bit, 0 resolution levels)",
+   "w": 20,
+   "h": 20,
+   "bands": 1,
+   "model": "Map (EPSG:26711, fitted)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 377,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

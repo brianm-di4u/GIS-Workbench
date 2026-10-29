@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:41:50.099Z",
+ "key": "vector-gml-gdal-autotest/archsites.gml",
+ "item": "vector-gml-gdal-autotest",
+ "file": "archsites.gml",
+ "format": "GML 2 / 3.1 / 3.2 (+ application-schema .xsd where present)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "the GML holds no features (an empty mask or collection)"
+ ],
+ "toasts": [
+  "toast-info: archsites: 1 feature(s) from GML×",
+  "toast-info: archsites.xsd: 0 feature(s) from GML (1 note(s))×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 2,
+  "features": 1,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 59,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

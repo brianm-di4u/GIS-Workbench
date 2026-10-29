@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:28.394Z",
+ "key": "derived-app-artifacts/airfield-triage.gwrecipe.json",
+ "item": "derived-app-artifacts",
+ "file": "airfield-triage.gwrecipe.json",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: airfield-triage.gwrecipe.json: recipe opened in the Recipes panel×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 67,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

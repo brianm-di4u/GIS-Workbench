@@ -1,0 +1,31 @@
+{
+ "spec": "c07-terrain",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:48.382Z",
+ "key": "dem.diff",
+ "id": "dem.diff",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "DEM Difference"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain-all"
+ ],
+ "data": [
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif",
+  "dem-derived-s35w059/s35_w059_from_srtm.dt1"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

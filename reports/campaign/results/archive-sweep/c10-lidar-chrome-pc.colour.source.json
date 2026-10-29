@@ -1,0 +1,21 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:36.600Z",
+ "key": "pc.colour.source",
+ "id": "pc.colour.source",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "derived-las-pdrf-matrix/autzen_pdrf2_las12.las"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

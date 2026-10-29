@@ -1,0 +1,28 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:05:44.110Z",
+ "key": "link.cursors",
+ "id": "link.cursors",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Linked Cursors"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "panes",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "split"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

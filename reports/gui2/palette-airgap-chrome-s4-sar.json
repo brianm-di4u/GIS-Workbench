@@ -100,7 +100,9 @@
   "id": "nav.zoombox",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -108,9 +110,7 @@
   "id": "nav.zoomin",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1445,6 +1445,16 @@
   "tab": "palette",
   "id": "bands.stats",
   "outcome": "ran",
+  "dialogs": [
+   "dialog:band-stats"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bands.stats",
+  "id": "dialog:band-stats ▸ Close",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1453,10 +1463,7 @@
   "tab": "palette",
   "id": "bands.snr",
   "outcome": "ran",
-  "dialogs": [
-   "dialog:band-stats",
-   "dialog:snr"
-  ],
+  "dialogs": [],
   "toasts": [],
   "problems": []
  },
@@ -1465,7 +1472,8 @@
   "id": "clip.threshold",
   "outcome": "ran",
   "dialogs": [
-   "dialog:clip-threshold"
+   "dialog:clip-threshold",
+   "dialog:snr"
   ],
   "toasts": [],
   "problems": []
@@ -1823,8 +1831,7 @@
    "dialog:lai-search"
   ],
   "toasts": [
-   "info: Building the 3D view…×",
-   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
+   "info: Building the 3D view…×"
   ],
   "problems": []
  },

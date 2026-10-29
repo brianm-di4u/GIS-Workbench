@@ -1,0 +1,27 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:40.942Z",
+ "key": "pc.colour.rgb",
+ "id": "pc.colour.rgb",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "archive input left pc.colour.rgb disabled; recipe data added: autzen_trim.las, autzen_trim.laz"
+ ],
+ "data": [
+  "lidar-3dep-co-denver-2008-2x1/USGS_LPC_CO_DENVER_2008_000016.laz",
+  "lidar-las-laz-copc/autzen_trim.las",
+  "lidar-las-laz-copc/autzen_trim.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:44.630Z",
+ "key": "derived-pc-ascii/test1_4.pts",
+ "item": "derived-pc-ascii",
+ "file": "test1_4.pts",
+ "format": "ASCII point cloud",
+ "rendered": false,
+ "errors": [
+  "EPSG:2903 is not known here (load the PROJ data pack for more codes)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Data pack PROJ (proj-wasm with proj.db) 0.1.0 verified (3 entries, SHA-256 checked)×",
+  "toast-error: test1_4.pts: EPSG:2903 is not known here (load the PROJ data pack for more codes)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 273,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

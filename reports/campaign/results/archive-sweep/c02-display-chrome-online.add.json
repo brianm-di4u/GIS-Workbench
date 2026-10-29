@@ -1,0 +1,21 @@
+{
+ "spec": "c02-display",
+ "project": "chrome",
+ "when": "2026-10-29T07:05:46.109Z",
+ "key": "online.add",
+ "id": "online.add",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Map Backgrounds"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

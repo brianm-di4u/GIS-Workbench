@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:35:20.439Z",
+ "key": "3d-gltf-khronos-meshopt/MeshoptCubeTest.gltf",
+ "item": "3d-gltf-khronos-meshopt",
+ "file": "MeshoptCubeTest.gltf",
+ "format": "glTF 2.0 (.gltf + .bin) with meshopt-compressed buffers",
+ "rendered": false,
+ "errors": [
+  "THREE.GLTFLoader: setMeshoptDecoder must be called before loading compressed files"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: MeshoptCubeTest.gltf: THREE.GLTFLoader: setMeshoptDecoder must be called before loading compressed files"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 135,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:42:06.606Z",
+ "key": "vector-flatgeobuf-gdal-autotest/poly.fgb",
+ "item": "vector-flatgeobuf-gdal-autotest",
+ "file": "poly.fgb",
+ "format": "FlatGeobuf",
+ "rendered": false,
+ "errors": [
+  "FlatGeobuf is written by Convert, not read yet; open the GeoJSON or GeoPackage version"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: poly.fgb: FlatGeobuf is written by Convert, not read yet; open the GeoJSON or GeoPackage version×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 62,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

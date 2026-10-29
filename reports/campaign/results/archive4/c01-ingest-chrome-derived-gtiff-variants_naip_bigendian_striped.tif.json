@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:31:16.084Z",
+ "key": "derived-gtiff-variants/naip_bigendian_striped.tif",
+ "item": "derived-gtiff-variants",
+ "file": "naip_bigendian_striped.tif",
+ "format": "GeoTIFF / BigTIFF",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip_bigendian_striped.tif in 82 msZoom to layer×",
+  "toast-info: naip_bigendian_striped.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 2048,
+   "h": 2048,
+   "bands": 4,
+   "model": "Map (EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 5554,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

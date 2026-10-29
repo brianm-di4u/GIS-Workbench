@@ -1,0 +1,21 @@
+{
+ "spec": "c17-workspace",
+ "project": "chrome",
+ "when": "2026-10-29T07:13:16.999Z",
+ "key": "file.prefs",
+ "id": "file.prefs",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Preferences"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [],
+ "data": [],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:32:27.895Z",
+ "key": "derived-app-artifacts/colorado_dem_dted2.gwb",
+ "item": "derived-app-artifacts",
+ "file": "colorado_dem_dted2.gwb",
+ "format": "GWB / GWRECIPE / GWT / GWPACK",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "2 image file(s) to relink (File ▸ Relink Imagery)"
+ ],
+ "toasts": [
+  "toast-info: Opened project colorado_dem_dted2×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 92,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

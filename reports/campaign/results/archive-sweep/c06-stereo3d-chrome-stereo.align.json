@@ -1,0 +1,28 @@
+{
+ "spec": "c06-stereo3d",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:19.459Z",
+ "key": "stereo.align",
+ "id": "stereo.align",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [
+  "toast-info: Stereo Align: 14 tie points, σ₀ 11.88; WV3CHIPB adjusted (SOL-0001); 14 points added×"
+ ],
+ "errors": [],
+ "changed": [
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "stereo"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

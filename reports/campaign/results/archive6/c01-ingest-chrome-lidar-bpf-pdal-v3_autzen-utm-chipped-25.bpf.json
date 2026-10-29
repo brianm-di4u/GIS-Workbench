@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T07:21:33.592Z",
+ "key": "lidar-bpf-pdal-v3/autzen-utm-chipped-25.bpf",
+ "item": "lidar-bpf-pdal-v3",
+ "file": "autzen-utm-chipped-25.bpf",
+ "format": "BPF v3 (NGA Binary Point Format)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened autzen-utm-chipped-25.bpf: 1,065 points in 27 ms×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 168,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

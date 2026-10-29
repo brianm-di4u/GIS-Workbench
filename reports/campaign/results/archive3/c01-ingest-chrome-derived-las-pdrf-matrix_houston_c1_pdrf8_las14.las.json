@@ -1,0 +1,31 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:09:19.726Z",
+ "key": "derived-las-pdrf-matrix/houston_c1_pdrf8_las14.las",
+ "item": "derived-las-pdrf-matrix",
+ "file": "houston_c1_pdrf8_las14.las",
+ "format": "LAS 1.2–1.4",
+ "rendered": true,
+ "errors": [],
+ "warnings": [
+  "No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful.",
+  "The file states no vertical CRS: heights are used as ellipsoidal (HAE)"
+ ],
+ "toasts": [
+  "toast-info: Opened houston_c1_pdrf8_las14.las: 500,000 points in 536 ms (2 notes in the import log)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 1,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 682,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -1,0 +1,24 @@
+{
+ "spec": "c08-sar",
+ "project": "chrome",
+ "when": "2026-10-29T07:10:53.683Z",
+ "key": "sar.northup",
+ "id": "sar.northup",
+ "enabled": true,
+ "outcome": "done",
+ "dialogs": [],
+ "toasts": [],
+ "errors": [],
+ "changed": [],
+ "downloads": [],
+ "prepared": [
+  "archive input left sar.northup disabled; recipe data added: umbra_sicd_chip_1024.nitf"
+ ],
+ "data": [
+  "sar-sicd-sidd-xml-sarkit/example-sicd-1.4.0.xml",
+  "sicd-umbra-chip/umbra_sicd_chip_1024.nitf"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

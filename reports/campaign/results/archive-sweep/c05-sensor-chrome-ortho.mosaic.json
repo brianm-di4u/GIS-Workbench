@@ -1,0 +1,32 @@
+{
+ "spec": "c05-sensor",
+ "project": "chrome",
+ "when": "2026-10-29T07:08:03.211Z",
+ "key": "ortho.mosaic",
+ "id": "ortho.mosaic",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Orthomosaic"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [
+  "terrain"
+ ],
+ "data": [
+  "nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+  "nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf",
+  "dem-derived-s35w059/S35W059_crop1201_float32_cog.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

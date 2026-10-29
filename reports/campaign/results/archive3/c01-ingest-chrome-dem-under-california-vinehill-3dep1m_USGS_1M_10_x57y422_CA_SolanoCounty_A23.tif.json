@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:21:25.859Z",
+ "key": "dem-under-california-vinehill-3dep1m/USGS_1M_10_x57y422_CA_SolanoCounty_A23.tif",
+ "item": "dem-under-california-vinehill-3dep1m",
+ "file": "USGS_1M_10_x57y422_CA_SolanoCounty_A23.tif",
+ "format": "GeoTIFF/COG",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened USGS_1M_10_x57y422_CA_SolanoCounty_A23.tif in 217 msZoom to layer×",
+  "toast-info: USGS_1M_10_x57y422_CA_SolanoCounty_A23.tif looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.Use as terrain×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "COG/GeoTIFF",
+   "w": 10012,
+   "h": 10012,
+   "bands": 1,
+   "model": "Map (EPSG:26910)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 1597,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -296,6 +296,10 @@ pub(crate) fn resolve_alpha_and_color_space(
                 } else {
                     color_space = ColorSpace::CMYK;
                 }
+            } else if actual_num_components <= usize::from(u8::MAX) {
+                // GW MSI: multispectral codestreams (WorldView-3 MS1/MS2: 8 bands, NITF IC=C8)
+                // have no colour space; their components are returned as they are.
+                color_space = ColorSpace::Unknown { num_channels: actual_num_components as u8 };
             } else {
                 bail!(ValidationError::TooManyChannels);
             }

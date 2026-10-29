@@ -1,0 +1,30 @@
+{
+ "spec": "c10-lidar",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:49.716Z",
+ "key": "pc.intensity",
+ "id": "pc.intensity",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Generate Intensity"
+ ],
+ "toasts": [
+  "toast-info: Intensity 1505 × 1505 posts opened as USGS_LPC_CO_DENVER_2008_000016_Intensity.tif×"
+ ],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "chain",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "lidar-3dep-co-denver-2008-2x1/USGS_LPC_CO_DENVER_2008_000016.laz"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

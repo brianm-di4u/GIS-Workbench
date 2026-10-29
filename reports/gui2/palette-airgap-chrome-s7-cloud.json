@@ -117,7 +117,8 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×"
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
+   "info: From points: 30 building(s), 136 tree(s)×"
   ],
   "problems": []
  },
@@ -126,9 +127,7 @@
   "id": "pc.colour.rgb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: From points: 30 building(s), 136 tree(s)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -421,7 +420,7 @@
    "dialog:pc-classedit"
   ],
   "toasts": [
-   "info: Ground filter: 45 points changed, 19,487 ground, 1625 ms×"
+   "info: Ground filter: 45 points changed, 19,487 ground, 1607 ms×"
   ],
   "problems": []
  },

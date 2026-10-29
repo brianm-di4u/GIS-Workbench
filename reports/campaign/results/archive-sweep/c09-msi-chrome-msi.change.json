@@ -1,0 +1,29 @@
+{
+ "spec": "c09-msi",
+ "project": "chrome",
+ "when": "2026-10-29T07:11:26.962Z",
+ "key": "msi.change",
+ "id": "msi.change",
+ "enabled": true,
+ "outcome": "dialog",
+ "dialogs": [
+  "Two-date Spectral Change"
+ ],
+ "toasts": [],
+ "errors": [],
+ "changed": [
+  "layers",
+  "active",
+  "body"
+ ],
+ "downloads": [],
+ "prepared": [],
+ "data": [
+  "envi-hsi-indian-pines/indian_pines_220b.img",
+  "envi-hsi-indian-pines/indian_pines_220b.hdr",
+  "hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3.tif"
+ ],
+ "openErrors": [],
+ "requests": [],
+ "csp": []
+}

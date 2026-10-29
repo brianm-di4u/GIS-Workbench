@@ -1,0 +1,28 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T04:03:08.338Z",
+ "key": "derived-control-points/usgs_drcog2020_lidar_checkpoints.csv",
+ "item": "derived-control-points",
+ "file": "usgs_drcog2020_lidar_checkpoints.csv",
+ "format": "CSV (control points)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: usgs_drcog2020_lidar_checkpoints: 219 feature(s) from CSV×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 1,
+  "features": 219,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 51,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

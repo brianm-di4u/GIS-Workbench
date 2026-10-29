@@ -36,9 +36,34 @@ export function inferFields(features) {
 
 // ---- GeoJSON ----
 
+/**
+ * GeoJSON text → object. A GeoJSON Text Sequence (RFC 8142, record separators) or newline-delimited
+ * GeoJSON (one Feature per line: Microsoft building footprints, GDAL's GeoJSONSeq) becomes a
+ * FeatureCollection.
+ */
+export function parseGeoJSONText(text) {
+  const t = text.replace(/^﻿/, '');
+  try {
+    return JSON.parse(t);
+  } catch (e) {
+    const lines = t.split(/[\r\n\u001e]+/).map((l) => l.trim()).filter(Boolean);
+    if (lines.length < 2 || !lines[0].startsWith('{')) throw e;
+    return { type: 'FeatureCollection', features: lines.map((l, i) => {
+      try {
+        const f = JSON.parse(l);
+        return f.type === 'Feature' ? f : { type: 'Feature', geometry: f, properties: {} };
+      } catch {
+        throw new Error(`line ${i + 1} of the GeoJSON sequence is not JSON`);
+      }
+    }) };
+  }
+}
+
 export function readGeoJSON(text, { name = 'GeoJSON', reproject = null } = {}) {
   const rep = newReport('GeoJSON', 'import');
-  const j = typeof text === 'string' ? JSON.parse(text) : text;
+  const j = typeof text === 'string' ? parseGeoJSONText(text) : text;
+  // Any other JSON (a STAC item, a metadata file) is refused by name rather than read as an empty geometry.
+  if (!j || !/^(FeatureCollection|Feature|Point|MultiPoint|LineString|MultiLineString|Polygon|MultiPolygon|GeometryCollection)$/.test(j.type)) throw new Error(`not GeoJSON (the JSON has ${j?.type ? `type "${String(j.type).slice(0, 40)}"` : 'no "type" member'}; GeoJSON needs a FeatureCollection, Feature or geometry)`);
   const feats = j.type === 'FeatureCollection' ? j.features : j.type === 'Feature' ? [j] : [{ type: 'Feature', geometry: j, properties: {} }];
   let conv = null;
   const crsName = j.crs?.properties?.name;

@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T03:50:54.814Z",
+ "key": "derived-raster-negatives/naip_b1_pdf.pdf",
+ "item": "derived-raster-negatives",
+ "file": "naip_b1_pdf.pdf",
+ "format": "NetCDF-3 / HFA / PDF (negative)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened naip_b1_pdf.pdf in 103 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoPDF (9 objects; no georeferencing; 1 image)",
+   "w": 512,
+   "h": 512,
+   "bands": 3,
+   "model": "none"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 449,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}
