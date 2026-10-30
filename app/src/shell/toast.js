@@ -22,7 +22,8 @@ function ensure() {
 }
 
 /** Messages that ask the user to do something first (open, select, draw…): guidance, not failures (GUI-019). */
-export const STEP_FIRST = /\bfirst\b|^(select|open|draw|give) |no AI connection is set up/i;
+// A data pack to open or the Standard file to use is a step too, not a failure (TE 2.0.4 cross).
+export const STEP_FIRST = /\bfirst\b|^(select|open|draw|give) |no AI connection is set up|File ▸ Open ▸ Open Data Pack|leaves out: open the Standard file/i;
 
 function dismiss(t) {
   if (!showing.has(t)) return;

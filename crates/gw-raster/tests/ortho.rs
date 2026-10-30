@@ -44,7 +44,7 @@ fn adaptive_grid_meets_the_bound() {
             cy[y * sw + x] = y as f32 + 0.5;
         }
     }
-    let src = [Patch { x0: 0.0, y0: 0.0, w: sw, h: sh, px: &cx }, Patch { x0: 0.0, y0: 0.0, w: sw, h: sh, px: &cy }];
+    let src = [Patch { x0: 0.0, y0: 0.0, w: sw, h: sh, px: &cx, scale: 1.0 }, Patch { x0: 0.0, y0: 0.0, w: sw, h: sh, px: &cy, scale: 1.0 }];
     // A 512 × 512 tile at 0.5 m in UTM zone 11N inside the image.
     let g = gw_geodesy::grids::utmups_forward(34.502, -116.502, Some(11)).unwrap();
     let s = OrthoSpec { zone: 11, north: true, e0: g.easting.floor(), n0: g.northing.floor(), res: 0.5, w: 512, h: 512, kernel: Kernel::Bilinear, bound_px: 0.1, fallback_h: 650.0 };
@@ -87,7 +87,7 @@ fn whole_image_ortho_error() {
     let dem = DemGrid::new(lat0, lon0, d, d, w, h, hs, true, f64::NAN).unwrap();
     let (sw, sh) = (2048usize, 2048usize);
     let cx = vec![1f32; sw * sh];
-    let src = [Patch { x0: 0.0, y0: 0.0, w: sw, h: sh, px: &cx }];
+    let src = [Patch { x0: 0.0, y0: 0.0, w: sw, h: sh, px: &cx, scale: 1.0 }];
     let mut e = Vec::new();
     let mut n = Vec::new();
     for (x, y) in [(0.0, 0.0), (2048.0, 0.0), (0.0, 2048.0), (2048.0, 2048.0)] {

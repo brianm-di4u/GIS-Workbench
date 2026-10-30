@@ -6,7 +6,7 @@
 
 import { h } from './dom.js';
 import { levelFor } from '../render/tiles.js';
-import { invertView, forwardView } from '../render/renderer.js';
+import { invertView, forwardView, alignedBox } from '../render/renderer.js';
 
 export class MiniPane {
   constructor(app, { source, className = 'minipane', label = 'Overview', copy = false }) {
@@ -51,8 +51,12 @@ export class MiniPane {
     let loading = 0;
     for (const l of src.visibleLayers()) {
       if (!l.lutTex) continue;
-      const L = levelFor(dev.zoom, l.levels);
-      const tiles = l.tiles.plan(L, { x0: 0, y0: 0, x1: l.width, y1: l.height }, { x: v.cx, y: v.cy });
+      // A registered layer of another pixel size (a NITF mask segment) plans in its own pixels (CX-037).
+      const A = l.align;
+      const s = A ? Math.sqrt(Math.abs(A[1] * A[5] - A[2] * A[4])) || 1 : 1;
+      const box = A ? alignedBox(A, [{ x: 0, y: 0 }, { x: v.cx * 2, y: 0 }, { x: 0, y: v.cy * 2 }, { x: v.cx * 2, y: v.cy * 2 }]) : { x0: 0, y0: 0, x1: l.width, y1: l.height };
+      const L = levelFor(dev.zoom * s, l.levels);
+      const tiles = l.tiles.plan(L, box, { x: (box.x0 + box.x1) / 2, y: (box.y0 + box.y1) / 2 });
       loading += l.tiles.loading;
       if (tiles.length) r.drawImageTiles(l, tiles, dev, vp.w, vp.h);
     }

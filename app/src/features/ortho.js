@@ -137,12 +137,15 @@ export function install(app) {
       const x1 = Math.min(l.width, Math.ceil(Math.max(...ips.map((q) => q.x))) + pad);
       const y1 = Math.min(l.height, Math.ceil(Math.max(...ips.map((q) => q.y))) + pad);
       if (x1 - x0 < 2 || y1 - y0 < 2) return;
-      const patches = await Promise.all(bandIdx.map((b) => app.pool.run('patch', { handle: l.handle, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: l.affinity, priority: 'background' })));
+      // An output much coarser than the image reads the pyramid level of its scale (2^L ≤ res/GSD):
+      // at whole-image zoom a full WorldView-3 strip's full-resolution window failed to allocate.
+      const L = Math.max(0, Math.floor(Math.log2(G.res / Math.max(1e-9, gsdOf(l)))));
+      const patches = await Promise.all(bandIdx.map((b) => (L > 0 ? app.pool.run('patchLevel', { handle: l.handle, level: L, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: l.affinity, priority: 'background', timeout: 300000 }) : app.pool.run('patch', { handle: l.handle, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: l.affinity, priority: 'background' }))));
       const pw = patches[0].w;
       const ph = patches[0].h;
       const src = new Float32Array(pw * ph * nb);
       patches.forEach((p, k) => src.set(p.px, k * pw * ph));
-      const spec = Float64Array.from([0, ...rec, ...bias.c, ...bias.centre, ...bias.half, G.zone, G.north ? 1 : 0, e0, n0, G.res, t.w, t.h, KERNELS[kernel] ?? 1, bound, fallback, ...(crop ? [crop.lat0, crop.lon0, crop.dlat, crop.dlon, crop.w, crop.h] : [0, 0, 0, 0, 0, 0]), patches[0].x0, patches[0].y0, pw, ph, nb]);
+      const spec = Float64Array.from([0, ...rec, ...bias.c, ...bias.centre, ...bias.half, G.zone, G.north ? 1 : 0, e0, n0, G.res, t.w, t.h, KERNELS[kernel] ?? 1, bound, fallback, ...(crop ? [crop.lat0, crop.lon0, crop.dlat, crop.dlon, crop.w, crop.h] : [0, 0, 0, 0, 0, 0]), patches[0].x0, patches[0].y0, pw, ph, nb, patches[0].scale ?? 1]);
       const demArr = crop ? crop.heights : new Float32Array(0);
       const r = await app.pool.run('ortho', { spec, dem: demArr, src, w: t.w, h: t.h, nb }, { kind: 'analysis', transfer: [spec.buffer, src.buffer, ...(crop ? [demArr.buffer] : [])], timeout: 600000, priority: 'background' });
       cells += r.cells;

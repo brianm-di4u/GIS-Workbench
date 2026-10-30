@@ -292,6 +292,35 @@ GW.register('patch', async ({ handle, x, y, w, h, band = 0 }, job) => {
   return GW.transfer({ x0, y0, w, h, px: f }, [f.buffer]);
 });
 
+/**
+ * A patch from pyramid level L (2^L full-resolution pixels per sample) covering the full-resolution
+ * window [x, x+w) × [y, y+h): {x0, y0, w, h} in level pixels, `scale` = 2^L (orthorectification at
+ * coarse output resolutions, TE 2.0.4).
+ */
+GW.register('patchLevel', async ({ handle, level, x, y, w, h, band = 0 }, job) => {
+  const e = handles.get(handle);
+  if (!e) throw new Error('unknown image handle');
+  const L = Math.max(0, Math.min(e.pyr.levels - 1, level));
+  const s = 2 ** L;
+  const { w: lw, h: lh } = e.pyr.dims(L);
+  const x0 = Math.max(0, Math.floor(x / s));
+  const y0 = Math.max(0, Math.floor(y / s));
+  const x1 = Math.min(lw, Math.ceil((x + w) / s));
+  const y1 = Math.min(lh, Math.ceil((y + h) / s));
+  const pw = Math.max(1, x1 - x0);
+  const ph = Math.max(1, y1 - y0);
+  const px = new Float32Array(pw * ph);
+  for (let ty = Math.floor(y0 / TILE); ty <= Math.floor((y0 + ph - 1) / TILE); ty++)
+    for (let tx = Math.floor(x0 / TILE); tx <= Math.floor((x0 + pw - 1) / TILE); tx++) {
+      const t = await e.pyr.core(L, tx, ty, band, job);
+      const ox = tx * TILE;
+      const oy = ty * TILE;
+      for (let yy = Math.max(y0, oy); yy < Math.min(y0 + ph, oy + t.h); yy++)
+        for (let xx = Math.max(x0, ox); xx < Math.min(x0 + pw, ox + t.w); xx++) px[(yy - y0) * pw + (xx - x0)] = t.data[(yy - oy) * t.w + (xx - ox)];
+    }
+  return GW.transfer({ x0, y0, w: pw, h: ph, px, scale: s }, [px.buffer]);
+});
+
 /** A whole band at full resolution as Float32 (Use as Terrain, REQ-DEM-02). */
 GW.register('grid', async ({ handle, band = 0, maxSamples = 25e6, window = null, what = 'the terrain loader' }, job) => {
   const e = handles.get(handle);

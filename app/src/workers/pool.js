@@ -119,6 +119,11 @@ export class WorkerPool extends Emitter {
       }
       if (job.state !== 'queued') continue;
       let slot = job.affinity ? slots.find((s) => s.id === job.affinity) : null;
+      if (job.affinity && !slot && job.op === 'close') {
+        // Closing a file whose worker is gone: nothing left to close (do not reopen it to close it).
+        this._finish(job, { closed: true }, null);
+        continue;
+      }
       if (job.affinity && !slot) {
         // The worker holding the file was restarted (a timed-out or crashed job): the app reopens
         // the file in a fresh worker (`recover`) and the job continues with the new handle, instead
@@ -221,7 +226,7 @@ export class WorkerPool extends Emitter {
       job.onProgress?.(m.progress, m.partial);
       this.emit('job', job);
     } else if (m.type === 'result') this._finish(job, m.result);
-    else if (m.type === 'error') this._finish(job, null, Object.assign(new Error(m.error), { trapped: !!m.trapped, code: m.code, cancelled: !!m.cancelled }));
+    else if (m.type === 'error') this._finish(job, null, m.cancelled && job.timedOut ? job.timedOut : Object.assign(new Error(m.error), { trapped: !!m.trapped, code: m.code, cancelled: !!m.cancelled }));
   }
 
   _finish(job, result, error) {
@@ -258,8 +263,17 @@ export class WorkerPool extends Emitter {
     }, 3000);
   }
 
+  // A job past its time is asked to stop first: a slow read (a large file on a USB disk) stops at
+  // its next cancel check and the worker, its open files and its other jobs carry on. Only a job
+  // that ignores the request (a WASM loop) restarts the worker, which used to fail every tile on it
+  // and every file opened there (TE 2.0.4 cross).
   _timeout(job) {
-    this._kill(job.slot, Object.assign(new Error(`${job.label} timed out after ${Math.round(job.timeout / 1000)} s; the worker was restarted`), { timedOut: true }));
+    const s = Math.round(job.timeout / 1000);
+    job.timedOut = Object.assign(new Error(`${job.label} timed out after ${s} s`), { timedOut: true });
+    job.slot?.w.postMessage({ type: 'cancel', id: job.id });
+    setTimeout(() => {
+      if (this.jobs.has(job.id)) this._kill(job.slot, Object.assign(new Error(`${job.label} timed out after ${s} s; the worker was restarted`), { timedOut: true }));
+    }, 3000);
   }
 
   _onCrash(slot, msg) {

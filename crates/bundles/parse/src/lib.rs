@@ -15,12 +15,13 @@ pub unsafe extern "C" fn gw_nitf_file_header(ptr: *const u8, len: usize, file_si
     status(nitf::file_header(slice(ptr, len), file_size as u64).map(set_out_json))
 }
 
-/// One image subheader → JSON. `base` = its file offset (for TRE offsets).
+/// One image subheader → JSON. `base` = its file offset (for TRE offsets); `v21`: 0 = NITF 2.0,
+/// 1 = NITF 2.1 / NSIF 1.0, 2 = NITF 1.1.
 /// # Safety
 /// `ptr`/`len` must be readable.
 #[no_mangle]
 pub unsafe extern "C" fn gw_nitf_image_subheader(ptr: *const u8, len: usize, base: f64, v21: i32) -> i32 {
-    status(nitf::image_subheader(slice(ptr, len), base as u64, v21 != 0).map(set_out_json))
+    status(nitf::image_subheader_v(slice(ptr, len), base as u64, v21.clamp(0, 2) as u8).map(set_out_json))
 }
 
 /// Graphic/text/DES/RES subheader → JSON. kind: 1 graphic, 2 text, 3 des, 4 res, 5 label.

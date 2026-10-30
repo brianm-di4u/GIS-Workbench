@@ -769,18 +769,34 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
   const p = pane ?? app.activePane();
   const refId = newId('file');
   const ids = d.rasters.map(() => newId('lyr'));
+  // IREP NODISPLY segments (the WorldView cloud mask) are not meant for display: they open hidden
+  // and never become the active layer, which used to fit the view to a 70×76 mask and draw the
+  // 43k strip in its pixel frame at full resolution (TE 2.0.4 cross CX-037).
+  const nodisp = d.rasters.map((r) => String(r.info.irep ?? '').trim() === 'NODISPLY');
+  const shown = nodisp.some((n) => !n) ? (i) => !nodisp[i] : () => true;
   app.store.transact(`Open ${file.name}`, (tx) => {
     tx.create('fileref', { merged: !!d.res.merged, name: file.name, size: file.size, url: file.remote ? file.url : null, lastModified: file.lastModified, fingerprint: d.fp, kind: d.kind, pathHint: file.webkitRelativePath || file.name, sidecars: sidecars.map((s) => s.name) }, refId);
     d.rasters.forEach((r, i) => {
-      tx.create('layer', { pane: p.id, kind: r.info.kind === 'dem' ? 'dem' : 'image', name: r.name, file: refId, imageIndex: r.raster.imageIndex, chain: r.chain, visible: true, opacity: 1, saved: false, model: null }, ids[i]);
+      tx.create('layer', { pane: p.id, kind: r.info.kind === 'dem' ? 'dem' : 'image', name: r.name, file: refId, imageIndex: r.raster.imageIndex, chain: r.chain, visible: shown(i), opacity: 1, saved: false, model: null }, ids[i]);
       tx.set(p.id, 'layers', [...(tx.get(p.id).layers ?? []), ids[i]]);
-      tx.set(p.id, 'activeLayer', ids[i]);
+      if (shown(i)) tx.set(p.id, 'activeLayer', ids[i]);
     });
   });
   app.files.set(refId, { file, handle, sidecars, result: d.res });
   if (!d.fp) d.fpP?.then((fp) => app.store.get(refId) && app.store.transact('Fingerprint', (tx) => tx.set(refId, 'fingerprint', fp), { kind: 'load' })).catch((e) => app.log('warn', `fingerprint ${file.name}: ${e.message}`));
   const layers = d.rasters.map((r, i) => makeRuntime(app, app.store.get(ids[i]), r, d));
   for (const l of layers) l.rec && app.store.transact('Set model', (tx) => tx.set(l.id, 'model', l.modelName), { kind: 'load' });
+  // A hidden mask of another size is registered to the image it describes, so showing it overlays.
+  const ref = layers.find((_, i) => shown(i));
+  for (const [i, l] of layers.entries()) {
+    if (!nodisp[i] || !ref || l === ref || (l.width === ref.width && l.height === ref.height) || !app.alignByModels) continue;
+    try {
+      const A = app.alignByModels(l, ref);
+      app.store.transact('Register segment', (tx) => tx.set(l.id, 'align', A), { kind: 'load' });
+    } catch (e) {
+      app.log('warn', `${l.rec?.name}: not registered to ${ref.rec?.name}: ${e.message}`);
+    }
+  }
   app.importLog.push(d.report);
   for (const w of d.report.warnings) app.log('warn', `${file.name}: ${w}`);
   app.emit('layers');
@@ -837,10 +853,14 @@ export async function openMemoryLayer(app, parent, { name, bands, sampleType, pl
   const id = newId('lyr');
   const base = autoChain({ bands, sampleType, kind: 'image' });
   const ch = { ...base, ...chain, colour: { ...base.colour, ...(chain.colour ?? {}) } };
+  // The panel is read after the product is made: the one asked for if it still exists, else the
+  // parent's (no panel was active when a long product finished, TE 2.0.4 cross).
+  const paneId = (pane?.id && app.store.get(pane.id) ? pane.id : null) ?? parent.rec?.pane ?? app.activePane()?.id;
+  if (!paneId || !app.store.get(paneId)) throw new Error(`no panel to show ${name} in`);
   app.store.transact(`Product ${name}`, (tx) => {
-    tx.create('layer', { pane: pane.id, kind: 'image', name, file: null, memory: true, derivedFrom: parent.id, window: [x0, y0, width, height], ...(step > 1 ? { step } : {}), imageIndex: 0, chain: ch, visible: true, opacity: 1, saved: false, model: null }, id);
-    tx.set(pane.id, 'layers', [...(tx.get(pane.id).layers ?? []), id]);
-    if (select) tx.set(pane.id, 'activeLayer', id);
+    tx.create('layer', { pane: paneId, kind: 'image', name, file: null, memory: true, derivedFrom: parent.id, window: [x0, y0, width, height], ...(step > 1 ? { step } : {}), imageIndex: 0, chain: ch, visible: true, opacity: 1, saved: false, model: null }, id);
+    tx.set(paneId, 'layers', [...(tx.get(paneId).layers ?? []), id]);
+    if (select) tx.set(paneId, 'activeLayer', id);
   });
   const rec = app.store.get(id);
   const layer = new ImageLayer(app, rec, raster, { format: 'In-memory product', kind: 'memory', fileName: name, marking: parent.info.marking, fileMarking: parent.info.fileMarking, iid: name, affinity, datetime: parent.info.datetime, icat: parent.info.icat, irep: '', ...info });

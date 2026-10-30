@@ -285,6 +285,43 @@ test('REQ-IMG-20 attached NITF segments merge into one image', async ({ page }) 
   expect(logs).toEqual([]);
 });
 
+test('REQ-IMG-20 a NODISPLY mask segment opens hidden, registered and never active (CX-037)', async ({ page }) => {
+  // A WorldView-style file: a large image and a small IREP NODISPLY cloud mask over the same footprint.
+  const seg = (w, h, v) => ({ width: w, height: h, bands: 1, type: 'u8', planes: [new Uint8Array(w * h).map((_, k) => (k * v) % 251)] });
+  const corners = [
+    [30.4, -81.7],
+    [30.4, -81.6],
+    [30.3, -81.6],
+    [30.3, -81.7],
+  ];
+  const bytes = writeNitfSegments(
+    [
+      { img: seg(2000, 1800, 7), opts: { iid1: 'PAN', icat: 'VIS', irep: 'MONO', idlvl: 1, ialvl: 0, corners } },
+      { img: seg(40, 36, 3), opts: { iid1: 'CC', icat: 'CLOUD', irep: 'NODISPLY', idlvl: 999, ialvl: 0, corners } },
+    ],
+    { marking: { level: 'U' }, title: 'Mask segment test' },
+  );
+  const file = join(dir, 'mask-segment.ntf');
+  writeFileSync(file, bytes);
+  const { frame, logs } = await openApp(page, 'file');
+  await openFiles(frame, [file]);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].length === 2 && [...window.gisworkbench.layers.values()].every((l) => l.lutTex));
+  const r = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const p = app.activePane();
+    const [pan, cc] = p.layers();
+    const A = cc.align;
+    return { active: p.activeLayer()?.width, panVisible: pan.rec.visible, ccVisible: cc.rec.visible, scale: A && [A[1], A[5]], zoom: p.view.zoom };
+  });
+  expect(r.active).toBe(2000);
+  expect(r.panVisible).toBe(true);
+  expect(r.ccVisible).toBe(false);
+  expect(r.scale[0]).toBeCloseTo(1999 / 39, 1); // corners are pixel centres
+  expect(r.scale[1]).toBeCloseTo(1799 / 35, 1);
+  expect(r.zoom).toBeLessThan(1); // fitted to the image, not the mask
+  expect(logs).toEqual([]);
+});
+
 test('REQ-MEN-08 REQ-IMG-17 medial axis, line centre point and linked cursors', async ({ page }) => {
   const { frame, logs } = await withFx01(page);
   const r = await frame.evaluate(() => {

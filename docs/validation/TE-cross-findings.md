@@ -46,6 +46,11 @@ The status of each finding is one of: **Fixed** (the cells re-run clean on a lat
 | CX-034 | The Workspace preview crashed for a layer an undo had taken out of the store. | Fixed. |
 | CX-035 | A point-cloud grid finishing after its panel closed raised a raw error. | Fixed: named. |
 | CX-036 | The Rust point grid's limit message read "grid: size". | Fixed: posts, spacing and the advice. |
+| CX-037 | A WorldView NITF with an IREP NODISPLY cloud-mask segment opened with the 70×76 mask active: the view fitted the mask and drew the 43k strip in its pixel frame at full resolution, so the overview asked for 7,559 full-resolution tiles and timed out. | Fixed: NODISPLY segments open hidden, never active, registered to the image by its model; registered layers pick pyramid levels in their own pixels (panel and overview). |
+| CX-038 | Ortho On-the-Fly on a whole WorldView strip read full-resolution source windows ("Array buffer allocation failed"). | Fixed: patches come from the pyramid level matched to the output cell (`patchLevel`, kernel scale); 43k × 46k strip rectified in ≈5 s. |
+| CX-039 | ENVI cubes read one row after another; on a latency-bound disk a 1024-line window of the 4.6 GB AVIRIS-NG cube took over a minute (tile, band maths, NDVI timeouts). | Fixed: 64 rows in flight, decimated level 1 above 1 GB; NDVI completes (was a timeout). |
+| CX-040 | A job timeout restarted its worker, failing every other job on it and every file opened there ("reopen the file" cascades). | Fixed: a timed-out job is cancelled first; the worker restarts only if the job ignores it for 3 s. Closing a file whose worker restarted no longer fails. |
+| CX-041 | A product finishing when no panel was active raised "reading 'id'" (Destripe on the Capella SLC in the cross). | Fixed: the product goes to the parent's panel. |
 
 ## Harness
 
@@ -55,3 +60,5 @@ The status of each finding is one of: **Fixed** (the cells re-run clean on a lat
 | CX-H02 | Toasts waiting behind the 3-slot snackbar were attributed to the next command. | Harness: the app keeps `toastLog` (as issued); the engine reads it. |
 | CX-H03 | Slider and option commands do their work through `setValue`. | Harness: every enabled option and the slider are driven; disabled options are skipped. |
 | CX-H04 | The gw-te Python run outside micromamba could not load MKL (numpy.linalg) or GDAL's data. | Harness: `Library/bin` on PATH, `GDAL_DATA`, `PROJ_DATA` for the c53 oracle. |
+| CX-H05 | The large-file cell wait went by compressed bytes: a deflated 116 M-pixel complex SLC under 200 MB had 60 s for full-resolution work. | Harness: decoded samples over 100 M also get 300 s. |
+| CX-H06 | The corpus is on a USB HDD (D:): five workers' random reads contend (43 ms per read in series, 5.6 MB/s under load), so very large files time out by I/O, not compute. | Harness: reruns of large-file cells use two workers; timings are reported as disk-bound. |

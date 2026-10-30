@@ -33,7 +33,8 @@ pub unsafe extern "C" fn gw_ortho_tile(spec: *const f64, len: usize, dem: *const
     let a = slice(spec, len);
     status((|| {
         let r = 1 + RPC_RECORD_LEN;
-        if a.len() != r + 31 || a[0] != 0.0 {
+        // A trailing element is the source patch scale (a pyramid level), 1 when absent.
+        if (a.len() != r + 31 && a.len() != r + 32) || a[0] != 0.0 {
             return Err(Error::invalid("ortho tile: bad spec"));
         }
         let base: Rc<dyn SensorModel> = Rc::new(Rpc::from_record(&a[1..r])?);
@@ -53,11 +54,12 @@ pub unsafe extern "C" fn gw_ortho_tile(spec: *const f64, len: usize, dem: *const
         };
         let p = &d[6..];
         let (sx0, sy0, sw, sh, nb) = (p[0], p[1], p[2] as usize, p[3] as usize, p[4] as usize);
+        let scale = p.get(5).copied().filter(|v| *v >= 1.0).unwrap_or(1.0);
         if s.w * s.h == 0 || s.w * s.h > 4096 * 4096 || nb == 0 || slen != sw * sh * nb {
             return Err(Error::invalid("ortho tile: sizes"));
         }
         let all = std::slice::from_raw_parts(src, slen);
-        let patches: Vec<Patch<'_>> = (0..nb).map(|k| Patch { x0: sx0, y0: sy0, w: sw, h: sh, px: &all[k * sw * sh..(k + 1) * sw * sh] }).collect();
+        let patches: Vec<Patch<'_>> = (0..nb).map(|k| Patch { x0: sx0, y0: sy0, w: sw, h: sh, px: &all[k * sw * sh..(k + 1) * sw * sh], scale }).collect();
         let none = |_: f64, _: f64| 0.0;
         let out = ortho_tile(&model, grid.as_ref(), &none, &s, &patches)?;
         let mut v = Vec::with_capacity(2 + (nb + 1) * s.w * s.h);

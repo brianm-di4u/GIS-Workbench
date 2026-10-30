@@ -64,7 +64,10 @@ for (const { it, f, files } of chosen) {
     rec.applicable = en.filter((c) => !excluded(c));
     rec.excluded = en.filter((c) => excluded(c));
     save();
-    await crossCommands(page, s, rec.applicable, rec, save, { wait0: big ? 300_000 : 60_000, pick: [], dlDir: dlDirFor(RUN, info.project.name, info.workerIndex), fresh: !!process.env.TE_FRESH && !prev });
+    // Full-resolution work scales with decoded samples, not compressed bytes: a deflated 116 M-pixel
+    // complex SLC under 200 MB gets the large-file wait too.
+    const samples = o.layers.reduce((t, l) => t + (l.error ? 0 : (l.w ?? 0) * (l.h ?? 0) * (l.bands ?? 1)), 0);
+    await crossCommands(page, s, rec.applicable, rec, save, { wait0: big || samples > 100e6 ? 300_000 : 60_000, pick: [], dlDir: dlDirFor(RUN, info.project.name, info.workerIndex), fresh: !!process.env.TE_FRESH && !prev });
     rec.csp = await s.csp().catch(() => []);
     rec.done = !s.crashed;
     rec.crashed = s.crashed;
