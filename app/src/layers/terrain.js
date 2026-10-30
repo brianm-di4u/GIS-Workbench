@@ -5,7 +5,20 @@
 export class Terrain {
   constructor(app) {
     this.app = app;
-    this.dems = []; // {layerId, name, coreId, bounds, sigmaV, vertical}
+    this.all = []; // {layerId, name, coreId, bounds, sigmaV, vertical}
+  }
+
+  /**
+   * The terrains whose layer is in the project. A layer removed by undo keeps its runtime (and its
+   * terrain, for redo) but no longer counts: Save DEM As on a Ground Filter DTM undone had read the
+   * removed layer's record (CX-081).
+   */
+  get dems() {
+    return this.all.filter((d) => this.live(d));
+  }
+
+  live(d) {
+    return !d.layerId || !!this.app.store.get(d.layerId);
   }
 
   addFromLayer(layer, res) {
@@ -19,7 +32,7 @@ export class Terrain {
     const hae = false; // DTED (MSL/E96) and SRTM are both orthometric on EGM96
     this.app.ensureGeoid?.();
     const coreId = this.app.core.loadDem({ lat0: g.lat0, lon0: g.lon0, dlat: g.dlat, dlon: g.dlon, width: g.width, height: g.height, heights, hae, sigmaV });
-    this.dems.push({
+    this.all.push({
       layerId: layer.id,
       vertical: 'egm96',
       name: `${layer.rec.name} (${meta.level || meta.format || 'DEM'}, MSL EGM96)`,
@@ -45,7 +58,7 @@ export class Terrain {
     const coreId = this.app.core.loadDem({ lat0: g.lat0, lon0: g.lon0, dlat: g.dlat, dlon: g.dlon, width: g.width, height: g.height, heights: g.heights, hae, sigmaV });
     const vname = { egm96: 'MSL EGM96', hae: 'HAE', egm2008: 'MSL EGM2008 (converted with EGM96)', navd88: 'NAVD88 (not converted)' }[vertical] ?? vertical;
     this.remove(layer.id);
-    this.dems.push({
+    this.all.push({
       layerId: layer.id,
       name: `${layer.rec.name} (${label || 'DEM'}, ${vname})`,
       coreId,
@@ -74,16 +87,16 @@ export class Terrain {
   }
 
   remove(layerId) {
-    const i = this.dems.findIndex((d) => d.layerId === layerId);
+    const i = this.all.findIndex((d) => d.layerId === layerId);
     if (i >= 0) {
-      this.app.core.freeDem(this.dems[i].coreId);
-      this.dems.splice(i, 1);
+      this.app.core.freeDem(this.all[i].coreId);
+      this.all.splice(i, 1);
       this.app.emit('terrain');
     }
   }
 
   covering(lat, lon) {
-    return this.dems.find((d) => lat <= d.bounds.north && lat >= d.bounds.south && lon >= d.bounds.west && lon <= d.bounds.east) ?? null;
+    return this.all.find((d) => this.live(d) && lat <= d.bounds.north && lat >= d.bounds.south && lon >= d.bounds.west && lon <= d.bounds.east) ?? null;
   }
 
   /** DEM height (HAE) at a point, with its source, or null. */

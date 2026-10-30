@@ -722,7 +722,7 @@ export function install(app) {
       try {
         if (fmt.value === 'tif') {
           const bytes = await app.demGeoTiff(d);
-          await saveBlob(app, new Blob([bytes], { type: 'image/tiff' }), { name: `${(app.layers.get(d.layerId)?.rec.name ?? 'dem').replace(/\.[^.]+$/, '')}_edited.tif`, description: 'GeoTIFF' });
+          await saveBlob(app, new Blob([bytes], { type: 'image/tiff' }), { name: `${(app.layers.get(d.layerId)?.rec?.name ?? 'dem').replace(/\.[^.]+$/, '')}_edited.tif`, description: 'GeoTIFF' });
         } else if (fmt.value.startsWith('hgt')) {
           for (const c of app.demHgt(fmt.value === 'hgt1' ? 1 : 3, d)) await saveBlob(app, new Blob([c.bytes]), { name: c.name, description: 'SRTM HGT' });
         } else {
@@ -766,7 +766,7 @@ export function install(app) {
     const g = d.grid;
     const { dtm, ground } = smrf(g, heightsOf(d), opts);
     const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: dtm }, { epsg: 4326, vertical: d.vertical === 'hae' ? 'hae' : 'egm96', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: `GIS Workbench DTM (SMRF ground filter) from ${d.name}` });
-    const file = new File([bytes], `DTM_${(app.layers.get(d.layerId)?.rec.name ?? 'dem').replace(/\.[^.]+$/, '')}.tif`, { type: 'image/tiff' });
+    const file = new File([bytes], `DTM_${(app.layers.get(d.layerId)?.rec?.name ?? 'dem').replace(/\.[^.]+$/, '')}.tif`, { type: 'image/tiff' });
     const { layers } = await openImageFile(app, file);
     await app.useAsTerrain(layers[0], d.vertical === 'hae' ? 'hae' : 'egm96');
     const te = app.terrain.entry(layers[0].id);

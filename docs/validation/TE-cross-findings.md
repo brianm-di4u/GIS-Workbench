@@ -90,6 +90,7 @@ The status of each finding is one of: **Fixed** (the cells re-run clean on a lat
 | CX-078 | Terrain extraction on two whole WorldView strips ran the whole overlap (thousands of matching tiles) past ten minutes and then failed to allocate. | Fixed: large scenes start from Area ▸ Panel view (or the AOI); a request over 400 matching tiles is refused with what to do instead. |
 | CX-079 | Stereo ▸ Align (and the block adjustment) on images whose RPC comes from a DigitalGlobe .RPB sidecar (SpaceNet Atlanta WV2 L1B) failed with "object null is not iterable": the adjustment read the RPC record only from the NITF or GeoTIFF tags. | Fixed: the sidecar record (with its .TIL tile offset) is kept on the layer and used by the adjustment; a model with no record is refused by name. |
 | CX-080 | A 1.85 GB EMIT NetCDF opened beside a 1.1 GB AVIRIS-NG cube (c51 co-register and spectral-library pairs) from the USB corpus disk failed: "open … timed out after 120 s; the worker was restarted" (alone it opens in 9–65 s). The open limit was a fixed 120 s whatever the file size. | Fixed: the open and reopen limit is 120 s plus 1 s per 10 MB. |
+| CX-081 | Save DEM As after a Ground Filter was undone (c51 dem-under, Vegas 3DEP + WV3) failed with "Cannot read properties of undefined (reading 'name')": the DTM's terrain outlived its layer, stayed the target and was saved under the removed layer's record. | Fixed: terrains follow the layers in the project (an undone layer's terrain is not listed, targeted or sampled, and returns on redo); unit test. |
 
 ## Harness
 

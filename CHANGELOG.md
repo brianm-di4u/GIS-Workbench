@@ -57,6 +57,7 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Terrain extraction from large stereo scenes** starts from the panel view or AOI, and a whole-scene request says how to narrow it instead of running out of memory. (CX-078)
 - **Stereo Align and the block adjustment** work on images whose RPC comes from an .RPB sidecar. (CX-079)
 - **Very large files open from slow drives**: the open time limit grows with the file size (1.85 GB NetCDF beside another large cube). (CX-080)
+- **Undoing a Ground Filter** also removes its DTM from the terrain list, so Save DEM As and height look-ups no longer use it. (CX-081)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 
