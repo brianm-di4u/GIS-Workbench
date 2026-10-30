@@ -26,20 +26,20 @@ const ROLES = {
   'dem-under': { open: 'both', setup: ['terrain-dem'], cmds: /^(ortho|men|los|dem|profile|3d|glb)\.|^ext\.droptoground$|^img\.orthofly$|^hub\.(glb|usdz)$/ },
   'imagery-over': { open: 'both', setup: ['terrain-dem'], cmds: /^(pc\.colourise|3d\.|ortho\.|dem\.|hub\.(glb|usdz))/ },
   'pan-ms': { open: 'self', n: 4, cmds: /^enh\.pansharpen$/ },
-  'pre-post': { open: 'both', n: 2, cmds: /^(chg|cmp|lay|align)\.|^hud\.flicker$|^msi\.change$|^img\.vmosaic$/ },
-  'change-truth': { open: 'both', n: 2, cmds: /^(chg|cmp|lay)\.|^msi\.(change|accuracy)$/ },
+  'pre-post': { open: 'both', n: 2, raster: true, cmds: /^(chg|cmp|lay|align)\.|^hud\.flicker$|^msi\.change$|^img\.vmosaic$/ },
+  'change-truth': { open: 'both', n: 2, raster: true, cmds: /^(chg|cmp|lay)\.|^msi\.(change|accuracy)$/ },
   'repeat-pass': { open: 'both', n: 8, cmds: /^sar\./ },
   'co-register': { open: 'both', n: 8, cmds: /^sar\.|^align\.|^msi\.change$/ },
   'repeat-pass-incoherent': { open: 'both', n: 2, cmds: /^sar\./ },
   'lidar-epoch': { open: 'both', cmds: /^pc\./ },
-  'dem-epoch': { open: 'both', setup: ['terrain-all'], cmds: /^dem\.|^los\./ },
-  'dsm-truth': { open: 'both', n: 2, setup: ['terrain-all'], cmds: /^dem\.(diff|accuracy|compare)/ },
-  'height-truth': { open: 'self', n: 3, setup: ['terrain-all'], cmds: /^dem\.|^men\./ },
+  'dem-epoch': { open: 'both', raster: true, setup: ['terrain-all'], cmds: /^dem\.|^los\./ },
+  'dsm-truth': { open: 'both', n: 2, raster: true, setup: ['terrain-all'], cmds: /^dem\.(diff|accuracy|compare)/ },
+  'height-truth': { open: 'self', n: 3, raster: true, setup: ['terrain-all'], cmds: /^dem\.|^men\./ },
   gcp: { open: 'partners', pickSelf: true, cmds: /^(model|align|tri|geo)\.|^dem\.accuracy$/ },
   checkpoints: { open: 'partners', pickSelf: true, setup: ['terrain-dem'], cmds: /^dem\.accuracy$|^(model|align|tri)\./ },
   'labels-detect': { open: 'both', cmds: /^(det|triage|lai)\./ },
   labels: { open: 'self', n: 2, cmds: /^(pc|msi)\./ },
-  'labels-raster': { open: 'self', n: 2, cmds: /^msi\./ },
+  'labels-raster': { open: 'self', n: 2, raster: true, cmds: /^msi\./ },
   'spectral-lib': { open: 'both', cmds: /^msi\.|^profile\.spectral$|^search\./ },
   calibration: { open: 'partners', pickSelf: true, cmds: /^msi\.(radiometric|thermal|toa|index)|^tri\.frame|^model\./ },
   'datum-grid': { open: 'partners', pickSelf: true, cmds: /^geo\./ },
@@ -50,12 +50,15 @@ const ROLES = {
 
 const tags = JSON.parse(readFileSync(resolve('build/campaign/coverage-tags.json'), 'utf8'));
 const has = (id) => manifest.items.some((x) => x.id === id);
+const RASTER = /\.(tiff?|ntf|nitf|jp2|img|dt[012]|hgt|vrt|png|jpe?g)$/i;
 // The first n primaries of an item, each with its sidecars (the set a user would select together).
-function prims(it, n = 1) {
+function prims(it, n = 1, raster = false) {
   const all = paths(it, ['primary', 'sidecar']);
   const base = (p) => p.split(/[\\/]/).pop();
   return it.files
     .filter((f) => (f.role ?? 'primary') === 'primary' && (!SKIP_EXT.test(f.name) || /\.gwt\.json$/i.test(f.name)))
+    // Image roles take image primaries first (CX-H18: SpaceNet 7 lists its label GeoJSONs before the mosaics).
+    .sort((a, b) => (raster ? RASTER.test(b.name) - RASTER.test(a.name) : 0))
     .slice(0, n)
     .flatMap((f) => {
       const stem = base(f.name).replace(/\.[^.]+$/, '');
@@ -69,8 +72,8 @@ for (const it of manifest.items) {
     const role = ROLES[p.role];
     if (!role) continue;
     const partners = (p.with ?? []).filter(has).map(item);
-    const self = prims(it, role.n ?? 1);
-    const others = partners.flatMap((x) => prims(x, role.n ?? 1));
+    const self = prims(it, role.n ?? 1, role.raster);
+    const others = partners.flatMap((x) => prims(x, role.n ?? 1, role.raster));
     const files0 = role.open === 'self' ? self : role.open === 'partners' ? others : [...self, ...others];
     // NetCDF/HDF5 partners need the HDF5 data pack, as c50's cases load it (CX-H13: EMIT did not open).
     const files = HDF5_PACK && files0.some((x) => /\.(nc|h5|he5|hdf5)$/i.test(x)) ? [HDF5_PACK, ...files0] : files0;

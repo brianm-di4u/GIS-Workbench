@@ -292,4 +292,6 @@ export const recordWriter = (path, rec) => () => {
   renameSync(`${path}.tmp`, path);
 };
 export const outDir = (run) => join(REPO, 'reports/campaign/results', run);
-export const dlDirFor = (run, project, worker) => join(REPO, 'reports/campaign/out', `${run}-dl`, project, String(worker));
+// One folder per worker process: c50 and c51 can share a run name and worker index, and the sweep
+// after each cell would empty the other's folder (CX-H16).
+export const dlDirFor = (run, project, worker) => join(REPO, 'reports/campaign/out', `${run}-dl`, project, `${worker}-${process.pid}`);

@@ -143,10 +143,12 @@ export function snapshot(frame) {
 export async function runCommand(page, frame, id, { pick = [], logs = [], confirm = true, wait = 15_000, settle = 0, outDir = join(REPO, 'reports/campaign/out') } = {}) {
   mkdirSync(outDir, { recursive: true });
   const downloads = [];
-  const onDl = async (d) => {
+  // Saves still being written when the command resolves (a 95 s burn-in clip, a streamed COG) are
+  // awaited before the cell is judged; they used to land after it, under the next command (CX-H19).
+  const saving = [];
+  const onDl = (d) => {
     const p = join(outDir, `${id}-${d.suggestedFilename()}`);
-    await d.saveAs(p).catch(() => {});
-    downloads.push(p);
+    saving.push(d.saveAs(p).catch(() => {}).then(() => downloads.push(p)));
   };
   // A chooser gets the picked files its `accept` list takes, and one only when it is not multiple:
   // several files for a single-file input were refused and the command waited for ever (CX-H12).
@@ -205,6 +207,9 @@ export async function runCommand(page, frame, id, { pick = [], logs = [], confir
     // errors land on this command, not the next one.
     if (settle) await frame.waitForFunction(() => { const s = window.gisworkbench.pool?.stats?.(); return !s || (s.running === 0 && s.queued === 0); }, null, { timeout: settle, polling: 250 }).catch(() => { if (outcome === 'done' || outcome === 'dialog') outcome = 'pending'; });
   }
+  // A download the browser started just as the command resolved gets a moment to be announced.
+  if (enabled) await frame.waitForTimeout(saving.length ? 0 : 300);
+  await Promise.race([Promise.all(saving), new Promise((r) => setTimeout(r, Math.max(wait, 120_000)))]);
   const after = await snapshot(frame);
   page.off('download', onDl);
   page.off('filechooser', onChooser);

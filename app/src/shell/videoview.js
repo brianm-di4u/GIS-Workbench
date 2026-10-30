@@ -115,7 +115,9 @@ export class VideoView {
       // played video over 40 s old is dropped. With the defaults (load everything, drop only past
       // 3 min behind) a 60 fps, 4 Mb/s clip filled the quota at 87.5 s and playback, and the
       // burn-in export with it, stalled for good (TE 2.0.4 cross).
-      this.player = mpegts.createPlayer({ type: 'mpegts', isLive: false, url: c.url, hasAudio: false, hasVideo: true }, { enableWorker: false, lazyLoad: true, lazyLoadMaxDuration: 60, lazyLoadRecoverDuration: 30, autoCleanupSourceBuffer: true, autoCleanupMaxBackwardDuration: 40, autoCleanupMinBackwardDuration: 20, seekType: 'range', reuseRedirectedURL: true });
+      // The file size bounds the loader's range requests: without it, a stream that ends part-way
+      // (Day Flight.mpg) was asked for bytes past its end and Chrome logged a 416 (CX-082).
+      this.player = mpegts.createPlayer({ type: 'mpegts', isLive: false, url: c.url, filesize: c.file?.size, hasAudio: false, hasVideo: true }, { enableWorker: false, lazyLoad: true, lazyLoadMaxDuration: 60, lazyLoadRecoverDuration: 30, autoCleanupSourceBuffer: true, autoCleanupMaxBackwardDuration: 40, autoCleanupMinBackwardDuration: 20, seekType: 'range', reuseRedirectedURL: true });
       this.player.attachMediaElement(this.video);
       await new Promise((res, rej) => {
         const t = setTimeout(() => rej(new Error('the stream did not start within 15 s')), 15000);
