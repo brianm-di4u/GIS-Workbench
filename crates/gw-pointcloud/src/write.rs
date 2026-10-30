@@ -136,62 +136,94 @@ fn header(s: &WriteSpec, n: usize, rl: usize, nvlr: u32, point_offset: u32, offs
     h
 }
 
-/// LAS 1.4 (or LAZ) bytes of a cloud. Peak memory stays near the columns plus one copy of the
-/// points: the bounds come from a first pass (no copy of the target coordinates), and uncompressed
-/// points are encoded straight into the output behind a reserved header (TE 2.0.4: a 7.3 M-point
-/// export ran past the 1 GiB worker memory and trapped).
-pub fn write(c: &Columns, inv: &Lattice, s: &WriteSpec) -> Result<Vec<u8>> {
+fn check_spec(c: &Columns, s: &WriteSpec) -> Result<()> {
     if s.format != 6 && s.format != 7 {
         return Err(Error::unsupported("LAS export writes point formats 6 and 7"));
     }
     if s.format == 7 && c.rgb.len() != 3 * c.n {
         return Err(Error::invalid("LAS export: format 7 needs colours"));
     }
-    let n = c.n;
-    // Bounds of the target coordinates.
+    Ok(())
+}
+
+/// Bounds of the target coordinates of a cloud (or a slab of it).
+pub fn bounds(c: &Columns, inv: &Lattice) -> ([f64; 3], [f64; 3]) {
     let (mut mn, mut mx) = ([f64::MAX; 3], [f64::MIN; 3]);
-    for k in 0..n {
+    for k in 0..c.n {
         let p = inv.apply(f64::from(c.pos[3 * k]), f64::from(c.pos[3 * k + 1]), f64::from(c.pos[3 * k + 2]));
         for a in 0..3 {
             mn[a] = mn[a].min(p[a]);
             mx[a] = mx[a].max(p[a]);
         }
     }
-    if n == 0 {
-        mn = [0.0; 3];
-        mx = [0.0; 3];
-    }
-    let offset: [f64; 3] = std::array::from_fn(|a| (mn[a] / 1000.0).floor() * 1000.0);
+    (mn, mx)
+}
+
+/// The coordinate offset the header uses for bounds `mn` (whole kilometres below).
+pub fn offset_for(mn: &[f64; 3]) -> [f64; 3] {
+    std::array::from_fn(|a| if mn[a] == f64::MAX { 0.0 } else { (mn[a] / 1000.0).floor() * 1000.0 })
+}
+
+/// The point records of a cloud (or a slab) against `offset`, and its counts by return number.
+pub fn points(c: &Columns, inv: &Lattice, s: &WriteSpec, offset: &[f64; 3]) -> Result<(Vec<u8>, [u64; 15])> {
+    check_spec(c, s)?;
     let rl = if s.format == 7 { 36 } else { 30 };
-    // VLRs.
+    let mut raw = Vec::with_capacity(c.n * rl);
+    let by_return = encode_points(&mut raw, c, inv, s, offset);
+    Ok((raw, by_return))
+}
+
+/// Header and VLRs (and, for LAZ, the point data's leading chunk-table offset) of `n` points with
+/// bounds mn/mx; `laz` is the chunk-table entries and the compressed bytes' length.
+#[allow(clippy::too_many_arguments)]
+pub fn head(s: &WriteSpec, n: usize, offset: &[f64; 3], mn: &[f64; 3], mx: &[f64; 3], by_return: &[u64; 15], laz: Option<(&[(u64, u64)], u64)>) -> Result<Vec<u8>> {
+    let rl = if s.format == 7 { 36 } else { 30 };
+    let (mn, mx) = if n == 0 { ([0.0; 3], [0.0; 3]) } else { (*mn, *mx) };
     let mut wkt = s.wkt.as_bytes().to_vec();
     wkt.push(0);
     let mut vlrs = vlr("LASF_Projection", 2112, "OGC WKT coordinate system", &wkt);
     let hs = 375usize;
-    if s.compress {
-        // The LAZ VLR's length is fixed by the item list, so the point offset is known first.
-        let items_len = {
-            let (p, _) = laz::compress(&[], s.format, 0, 0)?;
-            p.len()
-        };
-        let start = (hs + vlrs.len() + 54 + items_len) as u64;
-        let mut raw = Vec::with_capacity(n * rl);
-        let by_return = encode_points(&mut raw, c, inv, s, &offset);
-        let (payload, data) = laz::compress(&raw, s.format, 0, start)?;
-        drop(raw);
+    let mut nvlr = 1u32;
+    if let Some((entries, _)) = laz {
+        let (payload, _) = laz::laz_table(entries, s.format, 0)?;
         vlrs.extend(vlr("laszip encoded", 22204, "https://laszip.org", &payload));
-        let point_offset = (hs + vlrs.len()) as u32;
-        let mut out = header(s, n, rl, 2, point_offset, &offset, &mn, &mx, &by_return);
-        out.reserve_exact(vlrs.len() + data.len());
-        out.extend(vlrs);
-        out.extend(data);
-        return Ok(out);
+        nvlr += 1;
     }
     let point_offset = hs + vlrs.len();
-    let mut out = Vec::with_capacity(point_offset + n * rl);
-    out.resize(hs, 0);
-    out.extend_from_slice(&vlrs);
+    let mut out = header(s, n, rl, nvlr, point_offset as u32, offset, &mn, &mx, by_return);
+    out.extend(vlrs);
+    if let Some((_, body)) = laz {
+        // LAZ point data starts with the absolute offset of the chunk table, after the chunks.
+        out.extend_from_slice(&((point_offset as u64 + 8 + body) as i64).to_le_bytes());
+    }
+    Ok(out)
+}
+
+/// LAS 1.4 (or LAZ) bytes of a cloud, in one piece (the worker splits larger clouds into slabs with
+/// `bounds`, `points`, `laz::compress_chunks` and `head`). Peak memory stays near the columns plus one
+/// copy of the points (TE 2.0.4: a 7.3 M-point export ran past the 1 GiB worker memory and trapped).
+pub fn write(c: &Columns, inv: &Lattice, s: &WriteSpec) -> Result<Vec<u8>> {
+    check_spec(c, s)?;
+    let (mn, mx) = bounds(c, inv);
+    let offset = offset_for(&mn);
+    if s.compress {
+        let (raw, by_return) = points(c, inv, s, &offset)?;
+        let (body, entries) = laz::compress_chunks(&raw, s.format, 0)?;
+        drop(raw);
+        let (_, table) = laz::laz_table(&entries, s.format, 0)?;
+        let mut out = head(s, c.n, &offset, &mn, &mx, &by_return, Some((&entries, body.len() as u64)))?;
+        out.reserve_exact(body.len() + table.len());
+        out.extend(body);
+        out.extend(table);
+        return Ok(out);
+    }
+    // Uncompressed points go straight into the output, behind a header written last.
+    let rl = if s.format == 7 { 36 } else { 30 };
+    let probe = head(s, c.n, &offset, &mn, &mx, &[0; 15], None)?;
+    let mut out = Vec::with_capacity(probe.len() + c.n * rl);
+    out.extend_from_slice(&probe);
     let by_return = encode_points(&mut out, c, inv, s, &offset);
-    out[..hs].copy_from_slice(&header(s, n, rl, 1, point_offset as u32, &offset, &mn, &mx, &by_return));
+    let h = head(s, c.n, &offset, &mn, &mx, &by_return, None)?;
+    out[..h.len()].copy_from_slice(&h);
     Ok(out)
 }

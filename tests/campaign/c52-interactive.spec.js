@@ -61,7 +61,14 @@ for (const [kind, files, steps] of KINDS) {
       const logStart = s.logs.length;
       const before = await snap(s.frame);
       const t0 = Date.now();
-      await s.frame.evaluate((c) => window.gisworkbench.commands.run(c), id);
+      // Not awaited: a tool that asks first (MIL-STD-2525 Symbol) waits on its dialog, confirmed here.
+      const confirmDialog = async () => {
+        await page.waitForTimeout(300);
+        const ok = s.frame.locator('.dlg .dlg-buttons button', { hasText: /^(OK|Apply|Place|Start|Create|Add|Done)$/ }).first();
+        if (await ok.count()) await ok.click({ timeout: 2000 }).catch(() => {});
+      };
+      await s.frame.evaluate((c) => void window.gisworkbench.commands.run(c), id);
+      await confirmDialog();
       // Click, drag, then a polyline: three clicks and a double-click.
       await page.mouse.click(cx, cy);
       await page.waitForTimeout(150);
@@ -71,7 +78,8 @@ for (const [kind, files, steps] of KINDS) {
       await page.mouse.move(cx + 60, cy + 40, { steps: 6 });
       await page.mouse.up();
       await page.waitForTimeout(150);
-      await s.frame.evaluate((c) => window.gisworkbench.commands.enabled(c) && window.gisworkbench.commands.run(c), id);
+      await s.frame.evaluate((c) => void (window.gisworkbench.commands.enabled(c) && window.gisworkbench.commands.run(c)), id);
+      await confirmDialog();
       await page.mouse.click(cx - 50, cy + 30);
       await page.mouse.click(cx + 40, cy + 35);
       await page.mouse.click(cx + 45, cy - 30);
@@ -82,7 +90,7 @@ for (const [kind, files, steps] of KINDS) {
       if (await ok.count()) await ok.click({ timeout: 2000 }).catch(() => {});
       for (let i = 0; i < 3 && (await s.frame.locator('.dlg[role="dialog"]').count()); i++) await page.keyboard.press('Escape');
       await page.keyboard.press('Escape');
-      await s.frame.waitForFunction(() => { const st = window.gisworkbench.pool?.stats?.(); return !st || (st.running === 0 && st.queued === 0); }, null, { timeout: 60_000 }).catch(() => {});
+      await s.frame.waitForFunction(() => { const st = window.gisworkbench.pool?.stats?.(); return !st || (st.running === 0 && st.queued === 0); }, null, { timeout: 15_000 }).catch(() => {});
       const after = await snap(s.frame);
       const toasts = await s.frame.evaluate((n) => (window.gisworkbench.toastLog ?? []).slice(n).map((t) => `toast-${t.kind}: ${t.message}`), before.toasts);
       const errors = [...s.logs.slice(logStart), ...toasts.filter((t) => t.startsWith('toast-error'))];

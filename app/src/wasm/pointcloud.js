@@ -43,6 +43,23 @@ export function packColumns(c) {
   return out;
 }
 
+/** Points [a, b) of packed columns (the packColumns layout) as packed columns of their own. */
+export function sliceColumns(packed, n, rgb, a, b) {
+  const m = b - a;
+  const pad = (x) => Math.ceil(x / 4) * 4;
+  const per = [12, 4, 2, 2, 2, rgb ? 6 : 0, 1, 1, 1, 1];
+  const sizeOf = (bp, k) => (bp === 12 || bp === 4 ? bp * k : pad(bp * k));
+  const out = new Uint8Array(per.reduce((t, bp) => t + sizeOf(bp, m), 0));
+  let src = 0;
+  let dst = 0;
+  for (const bp of per) {
+    out.set(packed.subarray(src + a * bp, src + b * bp), dst);
+    src += sizeOf(bp, n);
+    dst += sizeOf(bp, m);
+  }
+  return out;
+}
+
 export class PointCloudBundle extends Bundle {
   constructor(module) {
     super(module, 'pointcloud');
@@ -200,6 +217,56 @@ export class PointCloudBundle extends Bundle {
       } finally {
         this.free(p, pn);
         this.free(a, an);
+      }
+    });
+  }
+
+  /** Slab export, pass 1: f64 [min x, y, z, max x, y, z] of a slab's target coordinates. */
+  lasBounds(cols, n, rgb, inv) {
+    return this.guard(() => {
+      const [i, inN] = this.putF64(inv);
+      try {
+        return this._bytes(cols, (cp, cn) => (this.check(this.x.gw_las_bounds(cp, cn, n, rgb ? 1 : 0, i, inv.length), 'las bounds'), new Float64Array(this.outBytes().buffer)));
+      } finally {
+        this.free(i, inN);
+      }
+    });
+  }
+
+  /** Slab export, pass 2: {entries: [(points, bytes)…], byReturn, body} for a slab (prm: write parameters + offset). */
+  lasSlab(cols, n, rgb, inv, prm) {
+    return this.guard(() => {
+      const [i, inN] = this.putF64(inv);
+      const [a, an] = this.putF64(prm);
+      try {
+        const out = this._bytes(cols, (cp, cn) => (this.check(this.x.gw_las_slab(cp, cn, n, rgb ? 1 : 0, i, inv.length, a, prm.length), 'las slab'), this.outBytes()));
+        const dv = new DataView(out.buffer);
+        const k = dv.getUint32(0, true);
+        const entries = [];
+        for (let j = 0; j < k; j++) entries.push([Number(dv.getBigUint64(4 + 16 * j, true)), Number(dv.getBigUint64(12 + 16 * j, true))]);
+        const o = 4 + 16 * k;
+        const byReturn = Array.from({ length: 15 }, (_, j) => Number(dv.getBigUint64(o + 8 * j, true)));
+        return { entries, byReturn, body: out.subarray(o + 120) };
+      } finally {
+        this.free(i, inN);
+        this.free(a, an);
+      }
+    });
+  }
+
+  /** Slab export, last: {head, table} (prm: write parameters, offset, min, max, points, body bytes, by return). */
+  lasHead(prm, entries, text) {
+    return this.guard(() => {
+      const [a, an] = this.putF64(prm);
+      const flat = entries.flat();
+      const [e, en] = this.putF64(flat.length ? flat : [0]);
+      try {
+        const out = this._bytes(enc.encode(text), (tp, tn) => (this.check(this.x.gw_las_head(a, prm.length, e, flat.length, tp, tn), 'las head'), this.outBytes()));
+        const h = new DataView(out.buffer).getUint32(0, true);
+        return { head: out.subarray(4, 4 + h), table: out.subarray(4 + h) };
+      } finally {
+        this.free(a, an);
+        this.free(e, en);
       }
     });
   }

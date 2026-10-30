@@ -91,10 +91,12 @@ async function roleSetup(frame, steps) {
     for (const s of steps) {
       try {
         if (s === 'terrain-dem') {
-          // Every DEM-like layer in use as terrain; the first image that is not a DEM becomes active.
-          const dems = imgs().filter((l) => l.kind === 'dem');
+          // Every elevation-like layer (the app's own Use as Terrain rule: one band of f32/f64/i16/i32,
+          // no RPC) in use as terrain; the first other image becomes active.
+          const demLike = (l) => l.kind === 'dem' || (l.bands === 1 && ['f32', 'f64', 'i16', 'i32'].includes(l.sampleType) && !/RPC/.test(l.modelName ?? ''));
+          const dems = imgs().filter(demLike);
           for (const d of dems) await app.useAsTerrain(d, 'hae');
-          activate(imgs().find((l) => l.kind !== 'dem'));
+          activate(imgs().find((l) => !demLike(l)));
           done.push(`terrain ${dems.length}`);
         } else if (s === 'terrain-all') {
           for (const l of imgs()) await app.useAsTerrain(l, 'hae');

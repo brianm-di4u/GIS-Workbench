@@ -2,6 +2,39 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.4] - 2026-10-30
+
+The format × function release. Every file of the test archive (2,729 primary files of 177 format kinds) was opened and every command the app offers for it was run on it, with each result checked: no error, a visible effect, valid files written, values that match GDAL, OGR, laspy and sarpy, and the performance budgets. Pairs (stereo, repeat-pass SAR, DEM under imagery, two lidar epochs and more), pointer tools, writer round trips and damaged files were tested too. This release fixes what that found. Items carry their id in `docs/validation/TE-cross-findings.md`.
+
+### Added
+- **FlatGeobuf and GeoParquet open.** Convert wrote them but they could not be read back. GeoParquet with WKB geometry (GeoParquet metadata or the Parquet GEOMETRY type; Snappy, GZIP or uncompressed; any EPSG CRS) and FlatGeobuf files open as vector layers. (CX-001)
+- **NITF 1.1 files open.** (CX-002)
+- **Lossless JPEG NITF (IC=C5)** decodes. (CX-003)
+- **Save DEM As ▸ SRTM HGT** (1″ and 3″ tiles), as REQ-FMT-07 promised. (CX-004)
+
+### Fixed
+- **Sharpness and every display filter answer at once.** The first frame after moving the Sharpness slider, or choosing a smoothing, median, morphology, edge or speckle filter, took up to two minutes on some graphics drivers; it now takes about a second. (CX-010, GUI-027)
+- **A file keeps working after its worker is restarted.** When a job on a very large file timed out, every later action on that file failed with "reopen the file"; the file is now reopened in a fresh worker and the action continues. (CX-011)
+- **Validate Features on large polygons** (country outlines) finishes in seconds; it ran past five minutes. (CX-012)
+- **Point-cloud export of tens of millions of points** (LAS and LAZ; a full 3DEP tile of 37 M points) works; it stopped with a WebAssembly error. (CX-013)
+- **Spectral tools on hyperspectral cubes with empty bands** (EnMAP, Hyperion): PCA, MNF, ICA, the anomaly and target detectors and the classifiers leave out the all-empty water-vapour bands instead of returning nothing. (CX-014)
+- **Point-cloud grids and extraction pick a post spacing that suits the cloud**, so a sparse cloud no longer makes a grid of tens of millions of empty posts. (CX-015)
+- **Large DEMs can be used as terrain** (a 1/3″ 3DEP tile is 10 812²): they load at every Nth post instead of being refused. (CX-016)
+- **GeoPackage tile sets** no longer show a black strip past their extent. (CX-017)
+- **The app reopens its own exports**: Save As ▸ Shapefile ZIPs and chip ZIPs open without errors. (CX-018)
+- **3D export of a large footprint layer** no longer fails with "Maximum call stack size exceeded". (CX-019)
+- **Band Math statistics** of large images are read from the pyramid: seconds instead of minutes. (CX-020)
+- **Commands offered only where they work**: Chip by Preset Area, Auto Map and Snapshot to KMZ need a georeferenced image; SAR anamorphic needs SICD sample spacings; FMV capture is not offered for MPEG-2 video; Ortho On-the-Fly uses the panel's RPC image. (CX-022–CX-025)
+- **Clear messages instead of errors**: Jump To a point off the image, AOI from Graphic off the image, Measure ▸ Centre Point with vectors only, 3D terrain with no heights, the 3D globe over an image it cannot drape, a detector with no valid score, the gridded reference graphic's default cell, and point-cloud grids that are too large. (CX-021, CX-026–CX-031, CX-035, CX-036)
+- **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
+
+### Changed
+- **Format × function test tooling** (`tests/campaign/c50`–`c56`, `build/campaign/triage.mjs`, `perf-report.mjs`): every archive file crossed with every command it enables, pairings, pointer tools, writer round trips, value oracles, performance budgets and damaged files. Messages are kept in `app.toastLog` for diagnostics.
+
+### Known limits
+- HTJ2K is decoded but not encoded, and is not used as the pyramid cache (REQ-FMT-17, a Should). (CX-005)
+- These are refused by name: ARIDPCM (IC=C2), ECW, ERDAS HFA, NetCDF-3, MPEG program streams, JPEG 2000 with a POC marker, Draco and required-KTX2 glTF, Brotli or Zstandard PMTiles, QuickLZ and Cartesian BPF, MrSID, CPHD, A.TOC, MBTiles and local quantized-mesh terrain.
+
 ## [2.0.3] - 2026-10-29
 
 The test-archive release. The test and evaluation archive grew to 2,328 files (129 GB) of real deliveries: full WorldView-3 strips, AVIRIS-NG cubes, Umbra and Capella SAR, PDAL point clouds, 3D Tiles packages, BDAV video, building-footprint feeds and more. Every primary file was opened in the app and checked against GDAL's reading, and every command was run on archive data. This release fixes what that found. Items carry their id in `docs/validation/TE-archive-remediation.md`.

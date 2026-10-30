@@ -228,11 +228,6 @@ pub unsafe extern "C" fn gw_laz_decode_stream(prm: *const f64, plen: usize, vlr:
     })())
 }
 
-/// LOD index over positions (f32 ×3). Output: [tiles u32] then the permutation (u32 ×n) then per
-/// tile f64 [start, count, min ×3, max ×3, levels, counts…].
-/// # Safety
-/// `pos` must hold `len` floats.
-#[no_mangle]
 thread_local! {
     static LAST_PERM: std::cell::RefCell<Vec<u32>> = const { std::cell::RefCell::new(Vec::new()) };
 }
@@ -250,6 +245,8 @@ pub extern "C" fn gw_pc_index_release() {
     LAST_PERM.with(|c| *c.borrow_mut() = Vec::new());
 }
 
+/// LOD index over positions (f32 ×3). Output: [tiles u32] then the permutation (u32 ×n) then per
+/// tile f64 [start, count, min ×3, max ×3, levels, counts…].
 /// # Safety
 /// `pos` must hold `len` f32.
 #[no_mangle]
@@ -362,30 +359,120 @@ pub unsafe extern "C" fn gw_pc_profile(pos: *const f32, len: usize, mask: *const
 /// GPS, t0, compress]; `text` = "WKT\0system id\0software".
 /// # Safety
 /// The pointers must hold the stated lengths.
+/// Write parameters [format, sx, sy, sz, day, year, adjusted_gps, t0, compress] and the text
+/// "wkt\0system id\0software".
+fn write_spec(a: &[f64], t: &[u8]) -> gw_abi::Result<write::WriteSpec> {
+    if a.len() < 9 {
+        return Err(Error::invalid("write: bad parameters"));
+    }
+    let s = String::from_utf8_lossy(t).to_string();
+    let mut parts = s.split('\0');
+    Ok(write::WriteSpec {
+        format: a[0] as u8,
+        scale: [a[1], a[2], a[3]],
+        day: a[4] as u16,
+        year: a[5] as u16,
+        adjusted_gps: a[6] != 0.0,
+        t0: a[7],
+        compress: a[8] != 0.0,
+        wkt: parts.next().unwrap_or("").to_string(),
+        system_id: parts.next().unwrap_or("").to_string(),
+        software: parts.next().unwrap_or("").to_string(),
+    })
+}
+
+fn columns_of(cb: &[u8], n: u32, rgb: u32, iv: &[f64]) -> gw_abi::Result<(Columns, Lattice)> {
+    let c = Columns::from_bytes(cb, n as usize, rgb != 0).ok_or_else(|| Error::invalid("write: column bytes"))?;
+    let lat = Lattice::from_flat(iv).ok_or_else(|| Error::invalid("write: bad lattice"))?;
+    Ok((c, lat))
+}
+
+/// LAS 1.4 / LAZ export of a whole cloud (REQ-LDR-10). Larger clouds go in slabs (below).
+/// # Safety
+/// The pointer/length pairs must be readable.
 #[no_mangle]
 pub unsafe extern "C" fn gw_las_write(cols: *const u8, clen: usize, n: u32, rgb: u32, inv: *const f64, ilen: usize, prm: *const f64, plen: usize, text: *const u8, tlen: usize) -> i32 {
     let (cb, iv, a, t) = (slice(cols, clen), slice(inv, ilen), slice(prm, plen), slice(text, tlen));
     status((|| {
-        let c = Columns::from_bytes(cb, n as usize, rgb != 0).ok_or_else(|| Error::invalid("write: column bytes"))?;
-        let lat = Lattice::from_flat(iv).ok_or_else(|| Error::invalid("write: bad lattice"))?;
+        let (c, lat) = columns_of(cb, n, rgb, iv)?;
         if a.len() != 9 {
             return Err(Error::invalid("write: bad parameters"));
         }
-        let s = String::from_utf8_lossy(t).to_string();
-        let mut parts = s.split('\0');
-        let spec = write::WriteSpec {
-            format: a[0] as u8,
-            scale: [a[1], a[2], a[3]],
-            day: a[4] as u16,
-            year: a[5] as u16,
-            adjusted_gps: a[6] != 0.0,
-            t0: a[7],
-            compress: a[8] != 0.0,
-            wkt: parts.next().unwrap_or("").to_string(),
-            system_id: parts.next().unwrap_or("").to_string(),
-            software: parts.next().unwrap_or("").to_string(),
-        };
-        set_out(write::write(&c, &lat, &spec)?);
+        set_out(write::write(&c, &lat, &write_spec(a, t)?)?);
+        Ok(())
+    })())
+}
+
+/// Slab export, pass 1: bounds of a slab's target coordinates → f64 [min x, y, z, max x, y, z].
+/// # Safety
+/// The pointer/length pairs must be readable.
+#[no_mangle]
+pub unsafe extern "C" fn gw_las_bounds(cols: *const u8, clen: usize, n: u32, rgb: u32, inv: *const f64, ilen: usize) -> i32 {
+    let (cb, iv) = (slice(cols, clen), slice(inv, ilen));
+    status((|| {
+        let (c, lat) = columns_of(cb, n, rgb, iv)?;
+        let (mn, mx) = write::bounds(&c, &lat);
+        set_out(mn.iter().chain(mx.iter()).flat_map(|v| v.to_le_bytes()).collect());
+        Ok(())
+    })())
+}
+
+/// Slab export, pass 2: a slab's records against the offset (prm = write parameters + offset x, y,
+/// z), compressed into whole LAZ chunks when compress is set. Out: [u32 chunks][chunks × (u64
+/// points, u64 bytes)][15 × u64 by return][record or chunk bytes].
+/// # Safety
+/// The pointer/length pairs must be readable.
+#[no_mangle]
+pub unsafe extern "C" fn gw_las_slab(cols: *const u8, clen: usize, n: u32, rgb: u32, inv: *const f64, ilen: usize, prm: *const f64, plen: usize) -> i32 {
+    let (cb, iv, a) = (slice(cols, clen), slice(inv, ilen), slice(prm, plen));
+    status((|| {
+        let (c, lat) = columns_of(cb, n, rgb, iv)?;
+        if a.len() != 12 {
+            return Err(Error::invalid("write: bad slab parameters"));
+        }
+        let spec = write_spec(a, b"")?;
+        let (raw, by_return) = write::points(&c, &lat, &spec, &[a[9], a[10], a[11]])?;
+        drop(c);
+        let (body, entries) = if spec.compress { laz::compress_chunks(&raw, spec.format, 0)? } else { (raw, Vec::new()) };
+        let mut out = Vec::with_capacity(4 + 16 * entries.len() + 120 + body.len());
+        out.extend_from_slice(&(entries.len() as u32).to_le_bytes());
+        for (p, b) in &entries {
+            out.extend_from_slice(&p.to_le_bytes());
+            out.extend_from_slice(&b.to_le_bytes());
+        }
+        for v in by_return {
+            out.extend_from_slice(&v.to_le_bytes());
+        }
+        out.extend_from_slice(&body);
+        set_out(out);
+        Ok(())
+    })())
+}
+
+/// Slab export, last: header and VLRs (with the LAZ chunk-table offset) and the LAZ chunk table.
+/// prm = write parameters + offset (3) + min (3) + max (3) + points + compressed body bytes + by
+/// return (15); entries = (points, bytes) per LAZ chunk as f64 pairs. Out: [u32 head length][head][table].
+/// # Safety
+/// The pointer/length pairs must be readable.
+#[no_mangle]
+pub unsafe extern "C" fn gw_las_head(prm: *const f64, plen: usize, entries: *const f64, elen: usize, text: *const u8, tlen: usize) -> i32 {
+    let (a, e, t) = (slice(prm, plen), slice(entries, elen), slice(text, tlen));
+    status((|| {
+        if a.len() != 9 + 3 + 3 + 3 + 2 + 15 || e.len() % 2 != 0 {
+            return Err(Error::invalid("write: bad header parameters"));
+        }
+        let spec = write_spec(a, t)?;
+        let v3 = |i: usize| [a[i], a[i + 1], a[i + 2]];
+        let by_return: [u64; 15] = std::array::from_fn(|k| a[20 + k] as u64);
+        let ents: Vec<(u64, u64)> = e.chunks_exact(2).map(|p| (p[0] as u64, p[1] as u64)).collect();
+        let laz_part = spec.compress.then_some((&ents[..], a[19] as u64));
+        let head = write::head(&spec, a[18] as usize, &v3(9), &v3(12), &v3(15), &by_return, laz_part)?;
+        let table = if spec.compress { laz::laz_table(&ents, spec.format, 0)?.1 } else { Vec::new() };
+        let mut out = Vec::with_capacity(4 + head.len() + table.len());
+        out.extend_from_slice(&(head.len() as u32).to_le_bytes());
+        out.extend(head);
+        out.extend(table);
+        set_out(out);
         Ok(())
     })())
 }

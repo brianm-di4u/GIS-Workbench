@@ -98,3 +98,42 @@ pub fn decode_stream(v: &LazVlr, data: &[u8], n_points: u64) -> Result<Vec<u8>> 
     d.decompress_many(&mut out).map_err(|e| Error::invalid(format!("LAZ: decompression failed ({e})")))?;
     Ok(out)
 }
+
+/// LAZ fixed-size chunks (the default 50 000 points) compressed one by one: `raw` holds whole
+/// records; returns the concatenated chunk bytes and (points, bytes) per chunk. Each chunk is coded
+/// independently in LAZ, so this gives exactly the bytes `compress` writes for those points, and a
+/// large cloud can be compressed slab by slab within the worker's memory (TE 2.0.4).
+pub fn compress_chunks(raw: &[u8], format: u8, extra: u16) -> Result<(Vec<u8>, Vec<(u64, u64)>)> {
+    let items = LazItemRecordBuilder::default_for_point_format_id(format, extra).map_err(|e| Error::unsupported(format!("LAZ: format {format} ({e})")))?;
+    let v = LazVlr::from_laz_items(items);
+    let rec = v.items_size() as usize;
+    let per = v.chunk_size() as usize;
+    let mut out = Vec::new();
+    let mut entries = Vec::new();
+    for chunk in raw.chunks(rec * per) {
+        let mut c = laz::LasZipCompressor::new(Cursor::new(Vec::new()), v.clone()).map_err(|e| Error::new(5, format!("LAZ: {e}")))?;
+        c.compress_many(chunk).map_err(io)?;
+        c.done().map_err(io)?;
+        let buf = c.into_inner().into_inner();
+        // [i64 offset of the chunk table][chunk][one-entry table]: the offset ends the chunk.
+        let end = i64::from_le_bytes(buf[..8].try_into().unwrap()) as usize;
+        out.extend_from_slice(&buf[8..end]);
+        entries.push(((chunk.len() / rec) as u64, (end - 8) as u64));
+    }
+    Ok((out, entries))
+}
+
+/// The LAZ VLR payload and the chunk table bytes for `entries` (fixed-size chunks).
+pub fn laz_table(entries: &[(u64, u64)], format: u8, extra: u16) -> Result<(Vec<u8>, Vec<u8>)> {
+    let items = LazItemRecordBuilder::default_for_point_format_id(format, extra).map_err(|e| Error::unsupported(format!("LAZ: format {format} ({e})")))?;
+    let v = LazVlr::from_laz_items(items);
+    let mut payload = Vec::new();
+    v.write_to(&mut payload).map_err(io)?;
+    let mut table = ChunkTable::default();
+    for &(p, b) in entries {
+        table.push(laz::laszip::ChunkTableEntry { point_count: p, byte_count: b });
+    }
+    let mut t = Vec::new();
+    table.write_to(&mut t, &v).map_err(io)?;
+    Ok((payload, t))
+}
