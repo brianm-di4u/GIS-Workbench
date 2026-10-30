@@ -321,8 +321,8 @@ function buildModels(app, kind, res, raster, ish, side) {
   }
   if (side.rpc && !(kind === 'nitf' && ish?.rpc) && !(kind === 'tiff' && res.meta?.rpc)) {
     // .RPB sidecar (TE-004); a tile of a multi-tile product is offset into the full image (.TIL).
-    const off = side.tiles?.[String(side.fileName ?? '').toLowerCase()] ?? side.tiles?.[Object.keys(side.tiles ?? {})[0]] ?? [0, 0];
-    const chip = off[0] || off[1] ? [off[0], 1, 0, off[1], 0, 1] : [0, 0, 0, 0, 0, 0];
+    const chip = sidecarChip(side);
+    const off = [chip[0], chip[3]];
     add(`RPC (.RPB sidecar${off[0] || off[1] ? `, tile at ${off[0]},${off[1]}` : ''})`, () => core.rpcModel([...side.rpc, ...chip]));
   }
   if (kind === 'jp2') {
@@ -596,7 +596,7 @@ export function recoverHandle(app, slotId, handle) {
       key,
       (async () => {
         const hdr = (entry.sidecars ?? []).find((s) => /\.hdr$/i.test(s.name)) ?? null;
-        const job = app.pool.run('open', { file: forWorker(entry.file), name: entry.file.name, merge: !!entry.result?.merged, hdr }, { label: `reopen ${entry.file.name}`, timeout: 120000 });
+        const job = app.pool.run('open', { file: forWorker(entry.file), name: entry.file.name, merge: !!entry.result?.merged, hdr }, { label: `reopen ${entry.file.name}`, timeout: openTimeout(entry.file) });
         const res = await job;
         const affinity = app.pool.lastAffinity?.(job.jobId);
         const map = new Map();
@@ -617,12 +617,19 @@ export function recoverHandle(app, slotId, handle) {
   return recovering.get(key).then((m) => m.get(handle) ?? null);
 }
 
+/**
+ * The open job's limit: 120 s plus 1 s per 10 MB, so a format read whole (HDF5/NetCDF through h5wasm)
+ * from a slow drive, beside other opens, still completes (CX-080: a 1.85 GB EMIT file with a 1.1 GB
+ * AVIRIS-NG cube from a USB disk passed the fixed 120 s).
+ */
+const openTimeout = (file) => 120000 + Math.round((file?.size ?? 0) / 1e4);
+
 /** Decode a file in a worker and describe its rasters (no store changes). */
 export async function describe(app, file, sidecars = [], { merge = false } = {}) {
   const t0 = performance.now();
   // An ENVI .hdr sidecar makes the file an ENVI raw image (REQ-MSI-01).
   const hdr = sidecars.find((s) => /\.hdr$/i.test(s.name)) ?? null;
-  const job = app.pool.run('open', { file: forWorker(file), name: file.name, merge, hdr }, { label: `open ${file.name}`, timeout: 120000 });
+  const job = app.pool.run('open', { file: forWorker(file), name: file.name, merge, hdr }, { label: `open ${file.name}`, timeout: openTimeout(file) });
   // Staged ingest (REQ-ING-01): the fingerprint (first and last MiB) runs beside the header read
   // and is stored when it is ready, so the footprint never waits for it.
   const fpP = fingerprint(file);
@@ -723,11 +730,19 @@ export async function describe(app, file, sidecars = [], { merge = false } = {})
   return { res, fp, fpP, side, kind, rasters, report };
 }
 
+/** The offset of an .RPB sidecar's tile in the full product (.TIL), as an ICHIPB-style record. */
+function sidecarChip(side) {
+  const off = side.tiles?.[String(side.fileName ?? '').toLowerCase()] ?? side.tiles?.[Object.keys(side.tiles ?? {})[0]] ?? [0, 0];
+  return off[0] || off[1] ? [off[0], 1, 0, off[1], 0, 1] : [0, 0, 0, 0, 0, 0];
+}
+
 /** Create the runtime for a layer record from a described raster. */
 export function makeRuntime(app, rec, r, d) {
   const layer = new ImageLayer(app, rec, r.raster, r.info);
   const models = buildModels(app, d.kind, d.res, r.raster, r.info.subheader, d.side);
   layer.models = models;
+  // An .RPB sidecar's record, for the adjustment (which otherwise reads the file's own RPC).
+  if (d.side?.rpc && !r.info.subheader?.rpc && !r.info.meta?.rpc) layer.sideRpc = { rpc: d.side.rpc, chip: sidecarChip(d.side) };
   const active = models.find((m) => !m.error && (!rec.model || m.name === rec.model)) ?? models.find((m) => !m.error);
   if (active) {
     layer.modelId = active.id;

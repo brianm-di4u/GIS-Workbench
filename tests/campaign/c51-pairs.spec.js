@@ -9,7 +9,7 @@
 import { test, expect } from '@playwright/test';
 import { existsSync, statSync, readFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { manifest, item, paths, ASCII_CRS } from './helpers.js';
+import { manifest, item, paths, ASCII_CRS, HDF5_PACK } from './helpers.js';
 import { SKIP_EXT } from './cases.js';
 import { session, crossCommands, excluded, heap, fingerprint, BAD, recordWriter, outDir, dlDirFor } from './cross-lib.js';
 import { filePath } from '../../build/campaign/corpus-lib.mjs';
@@ -71,7 +71,9 @@ for (const it of manifest.items) {
     const partners = (p.with ?? []).filter(has).map(item);
     const self = prims(it, role.n ?? 1);
     const others = partners.flatMap((x) => prims(x, role.n ?? 1));
-    const files = role.open === 'self' ? self : role.open === 'partners' ? others : [...self, ...others];
+    const files0 = role.open === 'self' ? self : role.open === 'partners' ? others : [...self, ...others];
+    // NetCDF/HDF5 partners need the HDF5 data pack, as c50's cases load it (CX-H13: EMIT did not open).
+    const files = HDF5_PACK && files0.some((x) => /\.(nc|h5|he5|hdf5)$/i.test(x)) ? [HDF5_PACK, ...files0] : files0;
     const pick = role.pickSelf ? paths(it, ['primary', 'sidecar']) : [...self, ...others];
     if (!files.length) continue;
     const key = `${p.role}/${it.id}${partners.length ? `+${partners.map((x) => x.id).join('+')}` : ''}`;
@@ -88,19 +90,23 @@ async function roleSetup(frame, steps) {
     const done = [];
     const imgs = () => [...app.layers.values()].filter((l) => !l.error);
     const activate = (l) => l && app.store.transact('TE active layer', (tx) => tx.set(app.activePane().id, 'activeLayer', l.id));
+    // Elevation-like layers (the app's own Use as Terrain rule: one band of f32/f64/i16/i32, no RPC).
+    const demLike = (l) => l.kind === 'dem' || (l.bands === 1 && ['f32', 'f64', 'i16', 'i32'].includes(l.sampleType) && !/RPC/.test(l.modelName ?? ''));
     for (const s of steps) {
       try {
         if (s === 'terrain-dem') {
-          // Every elevation-like layer (the app's own Use as Terrain rule: one band of f32/f64/i16/i32,
-          // no RPC) in use as terrain; the first other image becomes active.
-          const demLike = (l) => l.kind === 'dem' || (l.bands === 1 && ['f32', 'f64', 'i16', 'i32'].includes(l.sampleType) && !/RPC/.test(l.modelName ?? ''));
+          // Every elevation-like layer in use as terrain; the first other image becomes active.
           const dems = imgs().filter(demLike);
           for (const d of dems) await app.useAsTerrain(d, 'hae');
           activate(imgs().find((l) => !demLike(l)));
           done.push(`terrain ${dems.length}`);
         } else if (s === 'terrain-all') {
-          for (const l of imgs()) await app.useAsTerrain(l, 'hae');
-          done.push(`terrain-all ${imgs().length}`);
+          // Every opened elevation layer (both epochs, the DSM and its truth); not RPC imagery, which
+          // a user cannot use as terrain (CX-H15: three 43k × 46k WV3 strips were made terrain).
+          const dems = imgs().filter(demLike);
+          for (const l of dems) await app.useAsTerrain(l, 'hae');
+          activate(imgs().find((l) => !demLike(l)));
+          done.push(`terrain-all ${dems.length}`);
         } else if (s === 'stereo-pair') {
           const m = imgs().filter((l) => l.modelId);
           if (m.length >= 2) app.stereo.open(m[0], m[1]);
@@ -143,7 +149,9 @@ for (const c of pairCases) {
     const o = await s.open();
     rec.open = { ms: o.ms, settled: o.ok, errors: o.errors, layers: o.layers, setup: o.steps, heapMB: await heap(s.cdp) };
     const en = await s.enabled();
-    rec.applicable = en.filter((id) => c.spec.cmds.test(id) && !excluded(id));
+    // DEM Accuracy asks for a checkpoint file: only the roles that bring one run it (CX-H11; elsewhere
+    // the picker had nothing to answer and the cell waited 180 s).
+    rec.applicable = en.filter((id) => c.spec.cmds.test(id) && !excluded(id) && (id !== 'dem.accuracy' || /^(gcp|checkpoints)$/.test(c.role)));
     rec.notEnabled = await s.frame.evaluate((src) => [...window.gisworkbench.commands.map.keys()].filter((id) => new RegExp(src).test(id) && !window.gisworkbench.commands.enabled(id)), c.spec.cmds.source);
     save();
     await crossCommands(page, s, rec.applicable, rec, save, { wait0: big ? 600_000 : 180_000, pick: c.pick, dlDir: dlDirFor(RUN, info.project.name, info.workerIndex), fresh: !!process.env.TE_FRESH });

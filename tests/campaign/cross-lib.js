@@ -2,7 +2,7 @@
 // pairing × the commands the pair enables): open a set of files in a session, list the commands the app
 // enables for them, run each with outcome, timing, worker-job, heap and download checks, and reset to
 // the opened state between commands (re-opening when a command removed what was opened).
-import { existsSync, statSync, writeFileSync, renameSync, rmSync, openSync, readSync, closeSync, mkdirSync } from 'node:fs';
+import { existsSync, statSync, writeFileSync, renameSync, rmSync, openSync, readSync, closeSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { openApp, openFiles, settledAny, runCommand, LEGACY_PREFS } from './helpers.js';
 import { setup } from './matrix-runner.js';
@@ -273,6 +273,16 @@ export async function crossCommands(page, s, ids, rec, save, { wait0 = 60_000, p
       s.crashed = s.crashed ?? `reset after ${id}: ${String(e.message).split('\n')[0]}`;
     }
     save();
+    // A download that lands after its cell ended (a streamed COG of a large image) is saved under the
+    // next command's name and was never removed: 76 GB filled the C: drive (CX-H14). Every file here
+    // has been judged or belongs to a cell already recorded, so the folder is emptied after each cell.
+    for (const f of readdirSync(dlDir)) {
+      try {
+        rmSync(join(dlDir, f), { force: true, recursive: true });
+      } catch {
+        /* still being written: the next sweep takes it */
+      }
+    }
   }
 }
 

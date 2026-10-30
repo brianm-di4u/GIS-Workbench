@@ -148,7 +148,15 @@ export async function runCommand(page, frame, id, { pick = [], logs = [], confir
     await d.saveAs(p).catch(() => {});
     downloads.push(p);
   };
-  const onChooser = (fc) => fc.setFiles(pick.filter(existsSync)).catch(() => {});
+  // A chooser gets the picked files its `accept` list takes, and one only when it is not multiple:
+  // several files for a single-file input were refused and the command waited for ever (CX-H12).
+  const onChooser = async (fc) => {
+    const acc = ((await fc.element().getAttribute('accept').catch(() => '')) || '').split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    let files = pick.filter(existsSync).filter((p) => !acc.length || acc.some((a) => p.toLowerCase().endsWith(a)));
+    if (!files.length) files = pick.filter(existsSync);
+    if (!fc.isMultiple()) files = files.slice(0, 1);
+    await fc.setFiles(files).catch(() => {});
+  };
   page.on('download', onDl);
   page.on('filechooser', onChooser);
   const before = await snapshot(frame);

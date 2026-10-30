@@ -366,8 +366,9 @@ export function install(app) {
   }
   /** Models for a layer's polygons: [{id, name, model, attrs, height}] and the origin. */
   function models(layerId) {
-    const fs = featuresOf(layerId).filter((f) => isPolygonal(f.geom));
-    if (!fs.length) throw new Error('the layer has no polygons');
+    // An empty or degenerate footprint (a GeoParquet POLYGON EMPTY, a two-point ring) has no outline.
+    const fs = featuresOf(layerId).filter((f) => isPolygonal(f.geom) && polygonGroups(f.geom)[0]?.[0]?.length >= 3);
+    if (!fs.length) throw new Error('the layer has no polygons with an outer ring of three or more vertices');
     const F0 = layerFrame(fs);
     const [lon0, lat0] = F0.from(0, 0);
     const bases = [];

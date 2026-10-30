@@ -167,3 +167,14 @@ fn polygon_overlap_small_cases() {
         "apart"
     );
 }
+
+#[test]
+fn empty_and_degenerate_features_do_not_panic() {
+    // OGC's GeoParquet examples hold an empty Polygon; any route that still hands one over must not trap.
+    let empty_poly = Feature { kind: Kind::Polygon, parts: vec![], polys: vec![] };
+    let ringless = Feature { kind: Kind::Polygon, parts: vec![vec![]], polys: vec![0] };
+    let empty_line = Feature { kind: Kind::Line, parts: vec![vec![]], polys: vec![] };
+    let one_point = Feature { kind: Kind::Line, parts: vec![vec![[1.0, 1.0]]], polys: vec![] };
+    let fs = vec![empty_poly, ringless, empty_line, one_point, rect(0.0, 0.0, 10.0, 10.0)];
+    let _ = validate(&fs, &Opts::default());
+}

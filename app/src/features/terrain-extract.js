@@ -92,6 +92,9 @@ export async function extractDsm(app, L, R, opts = {}) {
   const ov = 48;
   const tiles = [];
   for (let v0 = box.y0; v0 < box.y1 - ov / 2; v0 += T - ov) for (let u0 = box.x0; u0 < box.x1 - ov / 2; u0 += T - ov) tiles.push({ u0: Math.floor(u0), v0: Math.floor(v0), w: Math.min(T, Math.ceil(box.x1 - u0)), h: Math.min(T, Math.ceil(box.y1 - v0)) });
+  // A whole-strip overlap is thousands of matching tiles (two full WorldView-3 scenes ran past ten
+  // minutes and then failed to allocate, TE 2.0.4 cross): refused by name, with what to do instead.
+  if (tiles.length > (opts.maxTiles ?? 400)) throw new Error(`the area is ${tiles.length} matching tiles (a whole scene pair); choose Area ▸ Panel view, draw an AOI, or zoom in first`);
   const sig = app.prefs.get('pickSigmaPx') ?? 0.5;
   // Build each tile's job on the main thread (affines, ranges, lookup), then match in workers.
   const prepare = (t) => {
@@ -305,6 +308,19 @@ export function install(app) {
   app.extractDsm = (L, R, o) => extractDsm(app, L, R, o);
   app.saveDsmLayer = (d, o) => saveDsmLayer(app, d, o);
 
+  /** Ground box of the active panel's view (corners and centre through its image's model). */
+  function viewBounds() {
+    const p = pane();
+    const l = p?.geoLayer?.();
+    const { w, h: hh } = p.size();
+    const gs = [[0, 0], [w, 0], [w, hh], [0, hh], [w / 2, hh / 2]].map(([x, y]) => {
+      const v = p.viewPoint(x, y);
+      return l?.groundAt(v.x, v.y);
+    }).filter((g) => g && Number.isFinite(g.lat));
+    if (gs.length < 3) throw new Error('the panel view has no ground position: zoom onto the image');
+    return { north: Math.max(...gs.map((g) => g.lat)), south: Math.min(...gs.map((g) => g.lat)), east: Math.max(...gs.map((g) => g.lon)), west: Math.min(...gs.map((g) => g.lon)) };
+  }
+
   C.implement('dem.extract', {
     enabled: () => !!pairOf(),
     run: async () => {
@@ -326,7 +342,11 @@ export function install(app) {
         b.addEventListener('click', () => show(i));
         bar.appendChild(b);
       });
-      const aoiSel = h('select', { class: 'inp', 'aria-label': 'Area' }, h('option', { value: 'overlap' }, 'Whole overlap'), h('option', { value: 'aoi', disabled: !app.aoiFor?.(pane()) }, 'Panel AOI'));
+      // Large scenes start from the panel view (or the AOI): the whole overlap of two full strips is not a
+      // browser-sized job (TE 2.0.4 cross).
+      const hasAoi = !!app.aoiFor?.(pane());
+      const large = L.width * L.height > 64e6 || R.width * R.height > 64e6;
+      const aoiSel = h('select', { class: 'inp', 'aria-label': 'Area' }, h('option', { value: 'overlap', selected: !large }, 'Whole overlap'), h('option', { value: 'view', selected: large && !hasAoi }, 'Panel view'), h('option', { value: 'aoi', disabled: !hasAoi, selected: large && hasAoi }, 'Panel AOI'));
       const hmin = h('input', { class: 'inp', type: 'number', placeholder: 'auto', 'aria-label': 'Lowest height (m HAE)' });
       const hmax = h('input', { class: 'inp', type: 'number', placeholder: 'auto', 'aria-label': 'Highest height (m HAE)' });
       pages[0].append(h('p', {}, `Pair: ${L.info.iid} + ${R.info.iid}`), field('Area', aoiSel), field('Lowest height (m HAE)', hmin, 'Leave empty to take it from the loaded terrain, or the pair reference −40 m.'), field('Highest height (m HAE)', hmax, 'Leave empty for the terrain maximum + 60 m, or reference + 80 m.'));
@@ -345,7 +365,7 @@ export function install(app) {
       app.toast('Terrain extraction started (Job Queue shows the tiles)');
       try {
         const aoi = aoiSel.value === 'aoi' ? app.aoiFor(pane()) : null;
-        const bounds = aoi?.bounds ?? null;
+        const bounds = aoiSel.value === 'view' ? viewBounds() : aoi?.bounds ?? null;
         const dsm = await extractDsm(app, L, R, { preset: preset.value, hMin: hmin.value === '' ? undefined : Number(hmin.value), hMax: hmax.value === '' ? undefined : Number(hmax.value), postM: post.value === '' ? undefined : Number(post.value), aoi: bounds, signal });
         const { layer } = await saveDsmLayer(app, dsm);
         app.toast(`DSM ${dsm.grid.nx}×${dsm.grid.ny} posts at ${dsm.stats.postM.toFixed(2)} m: ${(dsm.stats.matchedFraction * 100).toFixed(0)} % matched in ${(dsm.stats.ms / 1000).toFixed(1)} s (${layer.rec.name})`, { ms: 8000 });

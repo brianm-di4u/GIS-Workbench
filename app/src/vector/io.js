@@ -84,6 +84,12 @@ export function readGeoJSON(text, { name = 'GeoJSON', reproject = null } = {}) {
     const geoms = Array.isArray(g) ? g : [g];
     if (Array.isArray(g)) rep.warnings.push(`a GeometryCollection was split into ${g.length} features`);
     for (let gg of geoms) {
+      // An empty geometry (a Polygon with no rings: OGC's GeoParquet examples) is skipped like a null
+      // one: kept, it trapped the WASM validator and broke the 3D export (TE 2.0.4 cross).
+      if (!gg.xyz?.length) {
+        rep.warnings.push(`feature ${f.id ?? rep.features_in} has an empty ${gg.type}; skipped`);
+        continue;
+      }
       if (conv) gg = { ...gg, xyz: gg.xyz.map((v, i) => v) };
       if (conv)
         for (let i = 0; i < gg.xyz.length; i += 3) {

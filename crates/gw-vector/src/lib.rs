@@ -246,6 +246,11 @@ pub fn validate(fs: &[Feature], o: &Opts) -> Vec<Issue> {
     };
     // Per-feature checks.
     for (fi, f) in fs.iter().enumerate() {
+        // A feature with no vertices (an empty Polygon from GeoParquet) has nothing to check; its rings
+        // were indexed as if it had one and the module trapped (TE 2.0.4 cross).
+        if f.parts.iter().all(|p| p.is_empty()) || (f.kind == Kind::Polygon && f.polys.iter().any(|&q| q >= f.parts.len())) {
+            continue;
+        }
         for (pi, p) in f.parts.iter().enumerate() {
             for i in 1..p.len() {
                 if dist(p[i], p[i - 1]) <= o.dup_tol {

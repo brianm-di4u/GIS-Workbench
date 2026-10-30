@@ -204,6 +204,9 @@ export function install(app) {
     run: () => {
       const s = selectedShape('line');
       if (!s) return app.toast('Select a line (graphic or feature) first', { kind: 'warn' });
+      // Coordinates outside longitude/latitude: a layer whose CRS was not recognised keeps its
+      // projected numbers (a GML or a shapefile with no .prj); geodesic measures cannot use them (TE 2.0.4 cross).
+      if (!s.pts.every(([lon, lat]) => Math.abs(lat) <= 90 && Math.abs(lon) <= 180)) return app.toast(`${s.label}: its coordinates are not longitude/latitude (the layer's CRS was not recognised), so it cannot be measured on the ground`, { kind: 'error', ms: 8000 });
       const p = pane();
       const l = p.geoLayer();
       const c = app.lineCentre(s.pts);
