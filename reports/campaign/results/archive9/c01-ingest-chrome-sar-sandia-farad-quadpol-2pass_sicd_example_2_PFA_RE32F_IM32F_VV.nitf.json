@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T22:35:25.102Z",
+ "key": "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+ "item": "sar-sandia-farad-quadpol-2pass",
+ "file": "sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+ "format": "SICD 1.2.1 (NITF 2.1), RE32F_IM32F, PFA",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened sicd_example_2_PFA_RE32F_IM32F_VV.nitf in 38 msZoom to layer×",
+  "toast-info: sicd_example_2_PFA_RE32F_IM32F_VV.nitf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "SICD 1.2.1 (RE32F_IM32F)",
+   "w": 6637,
+   "h": 3863,
+   "bands": 9,
+   "model": "SICD Vol. 3 (RGAZIM/PFA)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 5760,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

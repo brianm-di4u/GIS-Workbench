@@ -1,7 +1,7 @@
 {
  "version": 1,
  "budgetBytes": 2199023255552,
- "generated": "2026-10-29T16:13:30.336Z",
+ "generated": "2026-10-29T22:34:00.455Z",
  "items": [
   {
    "id": "rs-dem-derived-s35w059",
@@ -10132,6 +10132,133 @@
      "with": []
     }
    ]
+  },
+  {
+   "id": "nitf-ntb-ns3437a-c5-lossless",
+   "area": "nitf",
+   "title": "NTB baseline NSIF 1.0 ns3437a: 12-bit lossless JPEG (IC=C5) single-band image",
+   "source": "GitHub DFDLSchemas/NITF test resources (copy of the NITFS Technical Board baseline sample imagery)",
+   "landing": "https://github.com/DFDLSchemas/NITF/tree/6f2b0febd493d974482f4b12a3666cad8c95ccd9/src/test/resources/ntb-baseline",
+   "licence": "US Government NTB conformance test data (unclassified); the repository has no LICENSE file: test-only, never published",
+   "attribution": "NITFS Technical Board baseline NITF 2.1/NSIF 1.0 sample imagery, via DFDLSchemas/NITF",
+   "tier": "A",
+   "format": "NSIF 1.0, IC=C5",
+   "profile": "CLEVEL 03, one image 1024x2048, 12-bit MONO, IMODE B, 2x1 blocks of 1024; SOF3 lossless JPEG (ES implementation, APP6 type 2, no internal DHT)",
+   "files": [
+    {
+     "name": "ns3437a.nsf",
+     "url": "https://raw.githubusercontent.com/DFDLSchemas/NITF/6f2b0febd493d974482f4b12a3666cad8c95ccd9/src/test/resources/ntb-baseline/ns3437a.nsf",
+     "bytes": 2656587,
+     "role": "primary",
+     "sha256": "2075aca70c70fd13a580ddf62874e528a6ef28859ae2219d63a9d83f0f6f0fee"
+    }
+   ],
+   "sign": null,
+   "notes": "Found by the 2026-10-29 GitHub hunt (TE-corpus/_github-candidates/REPORT.md). GDAL 3.13 identifies COMPRESSION=LOSSLESS JPEG and cannot read the blocks; the app refuses C5. Negative sample for the refused codec.",
+   "feeds": [
+    "ingest",
+    "robustness"
+   ],
+   "covers": [
+    "fmt:nitf.ic.c5"
+   ],
+   "origin": "download"
+  },
+  {
+   "id": "sar-sandia-farad-quadpol-2pass",
+   "area": "sar",
+   "title": "Sandia FARAD X-band quad-pol SICD set, two passes 20 min apart over Albuquerque (HH, HV, VH, VV each): six-library sample SICDs",
+   "source": "ngageoint/six-library GitHub wiki \"Sample-SICDs\" (files on the project S3 bucket)",
+   "landing": "https://github.com/ngageoint/six-library/wiki/Sample-SICDs",
+   "licence": "Sandia National Laboratories, UNCLASSIFIED; no explicit data licence (six-library code is LGPL-3.0): test-only, never published",
+   "attribution": "Sandia National Laboratories FARAD; distributed with NGA six-library",
+   "tier": "A",
+   "format": "SICD 1.2.1 (NITF 2.1), RE32F_IM32F, PFA",
+   "profile": "Spotlight, X-band 7.95-10.79 GHz, ~3860x6650 px per file; one polarisation per file, RcvChannels [H:H, H:V, V:H, V:V]; pass 1 2016-09-21 16:41:08Z, pass 2 17:01:22Z, same SCP 35.0545 N -106.5926 E, graze 28.4/28.8 deg, azimuth 241.15/241.16 deg",
+   "files": [
+    {
+     "name": "sicd_example_1_PFA_RE32F_IM32F_HH.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_HH.nitf",
+     "bytes": 206215887,
+     "role": "primary",
+     "sha256": "65cbb5632d34ee14b661d93932af2d5b6758bfedd016349b98a79bf93773dab0"
+    },
+    {
+     "name": "sicd_example_1_PFA_RE32F_IM32F_HV.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_HV.nitf",
+     "bytes": 206215896,
+     "role": "primary",
+     "sha256": "7f1de8e6acb5eff885284f8c0caf6cf505dd177960b3cde8000efd30498134fc"
+    },
+    {
+     "name": "sicd_example_1_PFA_RE32F_IM32F_VH.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_VH.nitf",
+     "bytes": 206215896,
+     "role": "primary",
+     "sha256": "97db4f167f5f25d62d50ac2e1283ae43e150de31120f5e392bf2510bb4efc054"
+    },
+    {
+     "name": "sicd_example_1_PFA_RE32F_IM32F_VV.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_VV.nitf",
+     "bytes": 206215899,
+     "role": "primary",
+     "sha256": "581ec7ba590df0dc50d6b3a2d106f3d47c8c57b6caab7772fa7f8f05a19189e8"
+    },
+    {
+     "name": "sicd_example_2_PFA_RE32F_IM32F_HH.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_HH.nitf",
+     "bytes": 205131647,
+     "role": "primary",
+     "sha256": "a91cdbe860516daa93ea6902ccef2cb239f36743b74070c26763190b6e121814"
+    },
+    {
+     "name": "sicd_example_2_PFA_RE32F_IM32F_HV.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_HV.nitf",
+     "bytes": 205131656,
+     "role": "primary",
+     "sha256": "fddafc5cf49a60e57bc77602f919bcf71dc99f29596a75dba19a30a24f13b7f6"
+    },
+    {
+     "name": "sicd_example_2_PFA_RE32F_IM32F_VH.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_VH.nitf",
+     "bytes": 205131656,
+     "role": "primary",
+     "sha256": "aecf7eeeb5e720ce4b0cdddd59367e32cfb62362c32ba1465e9d02d8db53da3b"
+    },
+    {
+     "name": "sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+     "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+     "bytes": 205131659,
+     "role": "primary",
+     "sha256": "646ab3b3f1e7249c22c8cab170a9cd73ed44c97a4c5797edf6b517455117cae6"
+    }
+   ],
+   "sign": null,
+   "notes": "Found by the 2026-10-29 GitHub hunt (TE-corpus/_github-candidates/REPORT.md); the wiki calls it an \"interferometric set ... quad-pol, squinted\". Pass-1 HH is the full scene of the chip in sar-osml-sicd-sidd-chips. Coherence HH pass 1 vs pass 2 over 49 SCP patches: mean 0.54 (misaligned control 0.23), so a coherent repeat-pass pair, but only 20 min 14 s apart, not days. sar.pauli takes the HH, HV and VV layers of one pass.",
+   "feeds": [
+    "sar.sicd",
+    "sar.pauli",
+    "sar.ccd",
+    "sar.acd",
+    "sar.pairs",
+    "sar.coreg"
+   ],
+   "covers": [
+    "fmt:sar.sicd",
+    "fmt:sar.sicd.v1.2.1",
+    "fmt:sar.sicd.quadpol"
+   ],
+   "pairs": [
+    {
+     "role": "repeat-pass",
+     "with": []
+    },
+    {
+     "role": "co-register",
+     "with": []
+    }
+   ],
+   "origin": "download"
   },
   {
    "id": "raster-bigtiff-gdal-autotest",

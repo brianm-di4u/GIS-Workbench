@@ -128,12 +128,45 @@ def tiff_gdal_keys(p, k):
     return k
 
 
+def nitf11_codecs(p):
+    """IC of each image segment of a NITF 1.1 file, read from the headers without GDAL."""
+    with open(p, 'rb') as f:
+        b = f.read(1 << 20)
+        o = 9 + 2 + 4 + 10 + 14 + 80 + 1 + 40 + 40 + 40 + 20 + 20
+        o += 6 + (40 if b[o:o + 6] == b'999998' else 0)  # FSDWNG (+ FSDEVT)
+        o += 5 + 5 + 1 + 27 + 18 + 12
+        hl, numi = int(b[o:o + 6]), int(b[o + 6:o + 9])
+        o += 9
+        out, pos = [], hl
+        for i in range(numi):
+            lish, li = int(b[o + 16 * i:o + 16 * i + 6]), int(b[o + 16 * i + 6:o + 16 * i + 16])
+            f.seek(pos)
+            s = f.read(lish)
+            pos += lish + li
+            if s[:2] != b'IM':
+                continue
+            q = 2 + 10 + 14 + 17 + 80 + 1 + 40 + 40 + 40 + 20 + 20
+            q += 6 + (40 if s[q:q + 6] == b'999998' else 0)  # ISDWNG (+ ISDEVT)
+            q += 1 + 42 + 8 + 8 + 3 + 8 + 8 + 2 + 1
+            q += 1 + (60 if s[q:q + 1] not in (b'N', b' ') else 0)  # ICORDS (+ IGEOLO)
+            q += 1 + 80 * int(s[q:q + 1])  # NICOM + ICOMn
+            out.append(s[q:q + 2].decode('ascii'))
+    return out
+
+
 def nitf_keys(p, h):
     v = h[:9]
     ver = {b'NITF01.10': 'nitf.v11', b'NITF02.00': 'nitf.v20', b'NITF02.10': 'nitf.v21', b'NSIF01.00': 'nsif.v10'}.get(v, 'nitf.unknown')
     k = ['nitf', ver]
-    if ver in ('nitf.v11', 'nitf.unknown'):
-        return k  # refused by the app; GDAL misreads 1.1 headers and can hang in the TRE parser
+    if ver == 'nitf.v11':
+        # The app refuses 1.1 and GDAL misreads its headers (and can hang in the TRE parser), so parse them here.
+        # Only compressed IC values are recorded: they are refused-codec negatives (U_0001a.ntf is ARIDPCM, C2).
+        try:
+            return k + sorted({f'nitf.ic.{ic.lower()}' for ic in nitf11_codecs(p) if ic not in ('NC', 'NM')})
+        except (ValueError, IndexError):
+            return k + ['nitf.unreadable']
+    if ver == 'nitf.unknown':
+        return k
     if RPF_EXT.search(p.name):
         k.append('rpf.frame')
     if CIB_EXT.search(p.name):
@@ -158,7 +191,8 @@ def nitf_keys(p, h):
         if d.GetMetadata('RPC'):
             k.append('rpc.nitf')
     for x in ds.GetMetadata('xml:DES') or []:
-        m = re.search(r'urn:(SICD|SIDD):(\d+(?:\.\d+)*)', x)
+        # The root xmlns is the version; the DES subheader's specification URN can name an older one (Sandia FARAD: 1.1.0 vs 1.2.1).
+        m = re.search(r'<(?:\w+:)?(?:SICD|SIDD)\b[^>]*xmlns(?::\w+)?="urn:(SICD|SIDD):(\d+(?:\.\d+)*)"', x) or re.search(r'urn:(SICD|SIDD):(\d+(?:\.\d+)*)', x)
         if m:
             k += [f'sar.{m.group(1).lower()}', f'sar.{m.group(1).lower()}.v{m.group(2)}']
             if m.group(1) == 'SICD' and len(re.findall(r'<(?:\w+:)?ChanParameters', x)) >= 4:

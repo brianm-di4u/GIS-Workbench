@@ -382,12 +382,7 @@
 "bytes": 2243,
 "mtime": 1793022570,
 "keys": [
-"nitf",
-"nitf.ic.c8",
-"nitf.ic.nc",
-"nitf.imode.b",
-"nitf.multiimage",
-"nitf.v21"
+"census.error:RuntimeError"
 ]
 },
 {
@@ -13357,6 +13352,147 @@
 "bytes": 5804,
 "mtime": 1489458202,
 "keys": []
+},
+{
+"id": "nitf-ntb-ns3437a-c5-lossless",
+"file": "ns3437a.nsf",
+"role": "primary",
+"bytes": 2656587,
+"mtime": 1793307353,
+"keys": [
+"nitf",
+"nitf.ic.c5",
+"nitf.imode.b",
+"nsif.v10"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_1_PFA_RE32F_IM32F_HH.nitf",
+"role": "primary",
+"bytes": 206215887,
+"mtime": 1793307988,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_1_PFA_RE32F_IM32F_HV.nitf",
+"role": "primary",
+"bytes": 206215896,
+"mtime": 1793307996,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_1_PFA_RE32F_IM32F_VH.nitf",
+"role": "primary",
+"bytes": 206215896,
+"mtime": 1793308003,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_1_PFA_RE32F_IM32F_VV.nitf",
+"role": "primary",
+"bytes": 206215899,
+"mtime": 1793308011,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_2_PFA_RE32F_IM32F_HH.nitf",
+"role": "primary",
+"bytes": 205131647,
+"mtime": 1793308018,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_2_PFA_RE32F_IM32F_HV.nitf",
+"role": "primary",
+"bytes": 205131656,
+"mtime": 1793308026,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_2_PFA_RE32F_IM32F_VH.nitf",
+"role": "primary",
+"bytes": 205131656,
+"mtime": 1793308033,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
+},
+{
+"id": "sar-sandia-farad-quadpol-2pass",
+"file": "sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+"role": "primary",
+"bytes": 205131659,
+"mtime": 1793308040,
+"keys": [
+"nitf",
+"nitf.ic.nc",
+"nitf.imode.p",
+"nitf.v21",
+"sar.sicd",
+"sar.sicd.quadpol",
+"sar.sicd.v1.2.1"
+]
 },
 {
 "id": "raster-bigtiff-gdal-autotest",
@@ -41794,6 +41930,7 @@
 "mtime": 1793077091,
 "keys": [
 "nitf",
+"nitf.ic.c2",
 "nitf.v11"
 ]
 },
@@ -51268,7 +51405,7 @@
 "nitf.v21",
 "sar.sicd",
 "sar.sicd.quadpol",
-"sar.sicd.v1.1.0"
+"sar.sicd.v1.2.1"
 ]
 },
 {

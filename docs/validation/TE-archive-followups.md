@@ -4,14 +4,19 @@ These items came out of the archive expansion of 2026-10-28 (branch `te-archive`
 
 ## Coverage after the expansion
 
-175 of 179 format keys have at least the minimum number of samples (after the EarthExplorer downloads of 2026-10-29, below). Two role gaps remain.
+177 of 179 format keys have at least the minimum number of samples (after the EarthExplorer downloads and the GitHub hunt of 2026-10-29, below). One role gap remains, the aggregate `ingest` row.
 
 | Gap | Why | Closes with |
 |---|---|---|
 | `rpf.cib` 0/3 | No anonymous CIB anywhere, and EarthExplorer delivers SPOT CIB-10 only as GeoTIFF + NIMA `.hdr` (checked 2026-10-29: three tiles in `nitf-rpf-cib-usgs`). GDAL 3.13 writes RPF CADRG frames but has no CIB series (I1/I2/I5) | Unobtainable as RPF from public sources. An RPF CIB writer (greyscale VQ, CIB series codes, MIL-PRF-89041) would have to be written |
-| `nitf.ic.c5`, `nitf.ic.c2`, `nitf.ic.m8` 0/1 | No public sample exists: not in the GDAL autotest, the download.osgeo.org NITF mirror, JITC/NTB or six-library | Unobtainable. They are refused codecs; an encoder for a negative sample would have to be written from the spec |
-| role `sar: pair:repeat-pass` | The only pair (TE-051) is incoherent | Tier B: Sentinel-1 IW SLC 12-day pair from ASF (Earthdata login), then sarpy → SICD bursts |
+| `nitf.ic.m8` 0/1 | No public sample: not in the GDAL autotest, the download.osgeo.org NITF mirror, JITC/NTB, six-library, or any of 208 GitHub repos (about 425 NITF headers scanned, 2026-10-29) | Unobtainable. A refused codec; an encoder for a negative sample would have to be written from the spec |
 | role `ingest: fmt:*` | Aggregate of the format rows above | Closes when they do |
+
+Closed 2026-10-29 by the GitHub hunt (`TE-corpus/_github-candidates/REPORT.md`):
+- **`nitf.ic.c5`:** `nitf-ntb-ns3437a-c5-lossless`, the NTB baseline `ns3437a.nsf` (12-bit lossless JPEG), from DFDLSchemas/NITF. The app refuses it with the C5 codec message.
+- **`nitf.ic.c2`:** `U_0001a.ntf` in `nitf-ntb-nitf11-legacy` was already held: images 1–4 are ARIDPCM. `census.py` now reads NITF 1.1 image subheaders itself (GDAL misreads them), so it counts. The app refuses the file at the version check ("not a NITF 2.0/2.1 or NSIF 1.0 file"), before the codec is reached.
+- **`sar.sicd.quadpol` and role `sar: pair:repeat-pass`:** `sar-sandia-farad-quadpol-2pass`, Sandia FARAD X-band, HH/HV/VH/VV for two passes over the same scene, from the six-library wiki's S3 bucket. The passes are coherent (mean 0.54) but only 20 minutes apart, not days. All 8 files render (ingest run `archive9`). A days-apart pair (Sentinel-1 IW SLC from ASF) would still be a better CCD test.
+- **`census.py` SICD versions:** the version now comes from the XML root namespace. The DES subheader's specification URN had made nine 1.2.1 files count as 1.1.0.
 
 ## Tier-B downloads (owner logs in; files go to `TE-corpus/<id>/`, then `fetch.mjs --verify --lock`)
 

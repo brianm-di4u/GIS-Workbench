@@ -1,8 +1,8 @@
 # T&E archive coverage
 
-Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus.json` (303 items), `reports/campaign/format-census.json` (4930 files), `formats.json` and `function-needs.json`. Field data (tier U) is excluded from all counts. Refused formats count negative samples.
+Generated 2026-10-29T22:34:36.333Z by `build/campaign/coverage.mjs` from `corpus.json` (305 items), `reports/campaign/format-census.json` (4939 files), `formats.json` and `function-needs.json`. Field data (tier U) is excluded from all counts. Refused formats count negative samples.
 
-**Formats:** 175/179 at minimum. **Function data roles:** 74/76 filled.
+**Formats:** 177/179 at minimum. **Function data roles:** 75/76 filled.
 
 ## Formats
 
@@ -55,22 +55,22 @@ Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus
 | `refused.ecw` | ECW | refused | 5 | 3 | 1 | yes | raster-ecw-negatives-gdal/red_flower.ecw; raster-ecw-negatives-gdal/sandiego2m_null.ecw; raster-ecw-negatives-gdal/spif83.ecw |
 | `refused.hfa` | ERDAS Imagine .img (HFA) | refused | 10 | 3 | 2 | yes | derived-raster-negatives/cop_dem_hfa.img; derived-raster-negatives/naip_b1_hfa.img; derived-raster-negatives/landsat_b4_hfa.img |
 | `nitf.v20` | NITF 2.0 | read | 195 | 3 | 7 | yes | rs-nitf-jitc-bitdepth/U_4005a.ntf; rs-nitf-jitc-imode-bprs/U_3002a.ntf; rs-nitf-jitc-jpeg-c3/U_1005a.ntf |
-| `nitf.v21` | NITF 2.1 | read | 109 | 3 | 22 | yes | rs-nitf-gdal-autotest-small/two_images_jp2.ntf; rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf |
-| `nsif.v10` | NSIF 1.0 | read | 7 | 3 | 4 | yes | rs-nitf-gdal-autotest-small/fake_nsif.ntf; rs-nsif-jitc/nsif_N_3001a.nsf; rs-nsif-jitc/ns3114a.nsf |
+| `nitf.v21` | NITF 2.1 | read | 116 | 3 | 23 | yes | rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf; rs-nitf-gdal-autotest-small/i_3034c.ntf |
+| `nsif.v10` | NSIF 1.0 | read | 8 | 3 | 5 | yes | rs-nitf-gdal-autotest-small/fake_nsif.ntf; rs-nsif-jitc/nsif_N_3001a.nsf; rs-nsif-jitc/ns3114a.nsf |
 | `nitf.v11` | NITF 1.1 | refused | 6 | 3 | 1 | yes | nitf-ntb-nitf11-legacy/U_0001a.ntf; nitf-ntb-nitf11-legacy/U_0001b.ntf; nitf-ntb-nitf11-legacy/U_0001c.ntf |
-| `nitf.multiimage` | NITF multi-image segments | variant | 23 | 3 | 7 | yes | rs-nitf-gdal-autotest-small/two_images_jp2.ntf; rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-jitc-multiseg-graphics/U_1123a.ntf |
-| `nitf.ic.nc` | NITF IC=NC | variant | 113 | 3 | 20 | yes | rs-nitf-gdal-autotest-small/two_images_jp2.ntf; rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf |
+| `nitf.multiimage` | NITF multi-image segments | variant | 22 | 3 | 7 | yes | rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-jitc-multiseg-graphics/U_1123a.ntf; derived-mie4nitf-bambi/flight_258_thermal_mie4nitf.ntf |
+| `nitf.ic.nc` | NITF IC=NC | variant | 120 | 3 | 21 | yes | rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf; rs-nitf-gdal-autotest-small/fake_nsif.ntf |
 | `nitf.ic.nm` | NITF IC=NM (masked) | variant | 4 | 3 | 2 | yes | rs-nitf-jitc-masked-nm/v_3301c.ntf; rs-nitf-jitc-masked-nm/v_3301f.ntf; raster-gdal-autotest-dimap2-rpf-nm/nitf/i_3034f.ntf |
 | `nitf.ic.c1` | NITF IC=C1 bi-level | variant | 5 | 3 | 2 | yes | rs-nitf-jitc-multiseg-graphics/U_1123a.ntf; nitf-ntb-nitf20-conformance/U_1036a.ntf; nitf-ntb-nitf20-conformance/U_1050a.ntf |
 | `nitf.ic.c3` | NITF IC=C3 JPEG | variant | 23 | 3 | 5 | yes | rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-jitc-jpeg-c3/U_1005a.ntf; rs-nitf-jitc-jpeg-c3/U_4017a.ntf |
 | `nitf.ic.m3` | NITF IC=M3 masked JPEG | variant | 3 | 3 | 1 | yes | derived-nitf-variants/naip_ic_m3.ntf; derived-nitf-variants/s2tci_ic_m3.ntf; derived-nitf-variants/wv3vis_ic_m3.ntf |
 | `nitf.ic.c4` | NITF IC=C4 VQ | variant | 149 | 3 | 3 | yes | derived-rpf-cadrg-from-cib10/n35e011/RPF/ZONE2/01CN9010.MM2; derived-rpf-cadrg-from-cib10/n35e011/RPF/ZONE2/01CNA010.MM2; derived-rpf-cadrg-from-cib10/n35e011/RPF/ZONE2/01CNB010.MM2 |
-| `nitf.ic.c8` | NITF IC=C8 JPEG 2000 | variant | 22 | 3 | 6 | yes | rs-nitf-gdal-autotest-small/two_images_jp2.ntf; rs-nitf-ntb-j2k-p0_01/p0_01a.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip_j2k.ntf |
+| `nitf.ic.c8` | NITF IC=C8 JPEG 2000 | variant | 21 | 3 | 5 | yes | rs-nitf-ntb-j2k-p0_01/p0_01a.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip_j2k.ntf; derived-nitf-variants/naip_ic_c8.ntf |
 | `nitf.ic.m8` | NITF IC=M8 masked JPEG 2000 | variant | 0 | 1 | 0 | **no** |  |
-| `nitf.ic.c5` | NITF IC=C5 lossless JPEG | refused | 0 | 1 | 0 | **no** |  |
-| `nitf.ic.c2` | NITF IC=C2 ARIDPCM | refused | 0 | 1 | 0 | **no** |  |
-| `nitf.imode.b` | NITF IMODE B | variant | 253 | 3 | 23 | yes | rs-nitf-gdal-autotest-small/two_images_jp2.ntf; rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf |
-| `nitf.imode.p` | NITF IMODE P | variant | 42 | 3 | 13 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; rs-nitf-jitc-imode-bprs/v_3310a.ntf; rs-nitf-jitc-jpeg-c3/U_2005a.ntf |
+| `nitf.ic.c5` | NITF IC=C5 lossless JPEG | refused | 1 | 1 | 1 | yes | nitf-ntb-ns3437a-c5-lossless/ns3437a.nsf |
+| `nitf.ic.c2` | NITF IC=C2 ARIDPCM | refused | 1 | 1 | 1 | yes | nitf-ntb-nitf11-legacy/U_0001a.ntf |
+| `nitf.imode.b` | NITF IMODE B | variant | 253 | 3 | 24 | yes | rs-nitf-gdal-autotest-small/two_images_jpeg.ntf; rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf; rs-nitf-gdal-autotest-small/fake_nsif.ntf |
+| `nitf.imode.p` | NITF IMODE P | variant | 50 | 3 | 14 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; rs-nitf-jitc-imode-bprs/v_3310a.ntf; rs-nitf-jitc-jpeg-c3/U_2005a.ntf |
 | `nitf.imode.r` | NITF IMODE R | variant | 4 | 3 | 2 | yes | rs-nitf-jitc-imode-bprs/v_3301h.ntf; derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeR.ntf; derived-nitf-bandsb-msi/landsat8_sr_bandsb_imodeR.ntf |
 | `nitf.imode.s` | NITF IMODE S | variant | 4 | 3 | 4 | yes | rs-nitf-jitc-imode-bprs/v_3301a.ntf; rs-nitf-jitc-masked-nm/v_3301c.ntf; derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeS.ntf |
 | `rpc.nitf` | RPC00A/B in NITF | variant | 20 | 3 | 4 | yes | rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip_j2k.ntf |
@@ -83,13 +83,13 @@ Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus
 | `tre.BANDSB` | BANDSB band metadata | support | 8 | 3 | 1 | yes | derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeB.ntf; derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeR.ntf; derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeS.ntf |
 | `tre.ICHIPB` | ICHIPB chip mapping | support | 3 | 3 | 1 | yes | rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip_j2k.ntf |
 | `tre.RPC00B` | RPC00B TRE | support | 20 | 3 | 4 | yes | rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf; rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip_j2k.ntf |
-| `sar.sicd` | SICD in NITF | read | 30 | 3 | 8 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; rs-sicd-umbra-chip/umbra_sicd_chip_1024.nitf; derived-sar-sicd14-sidd30/capella_chip1_sicd14.nitf |
-| `sar.sicd.v1.1.0` | SICD 1.1 | variant | 7 | 1 | 5 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; sar-sicd-sidd-six-library/SICD/cropped_sicd_110.nitf; sar-sicd-sidd-six-library/SICD/sicd_1.1.0.nitf |
-| `sar.sicd.v1.2.1` | SICD 1.2.1 | variant | 6 | 3 | 3 | yes | sar-sicd-sidd-six-library/SICD/sicd_50x50.nitf; umbra-bingham-20230925-full/umbra_20230925_SICD.nitf; umbra-bingham-20230821-repeat/umbra_20230821_SICD.nitf |
+| `sar.sicd` | SICD in NITF | read | 38 | 3 | 9 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; rs-sicd-umbra-chip/umbra_sicd_chip_1024.nitf; derived-sar-sicd14-sidd30/capella_chip1_sicd14.nitf |
+| `sar.sicd.v1.1.0` | SICD 1.1 | variant | 6 | 1 | 4 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; sar-sicd-sidd-six-library/SICD/cropped_sicd_110.nitf; sar-sicd-sidd-six-library/SICD/sicd_1.1.0.nitf |
+| `sar.sicd.v1.2.1` | SICD 1.2.1 | variant | 15 | 3 | 4 | yes | sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_HH.nitf; sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_HV.nitf; sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VH.nitf |
 | `sar.sicd.v1.3.0` | SICD 1.3.0 | variant | 9 | 3 | 4 | yes | rs-sicd-umbra-chip/umbra_sicd_chip_1024.nitf; sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf; sar-umbra-stack-silver-peak/2025-02-16-04-57-11_UMBRA-05/2025-02-16-04-57-11_UMBRA-05_SICD.nitf |
 | `sar.sicd.v1.4.0` | SICD 1.4 | variant | 6 | 3 | 4 | yes | derived-sar-sicd14-sidd30/capella_chip1_sicd14.nitf; derived-sar-sicd14-sidd30/umbra_chip1_sicd14.nitf; derived-sar-sicd14-sidd30/six_50x50_sicd14.nitf |
 | `sar.sicd.v1.5` | SICD 1.5 | variant | 3 | 3 | 1 | yes | derived-sar-sicd14-sidd30/capella_chip1_sicd15.nitf; derived-sar-sicd14-sidd30/umbra_chip1_sicd15.nitf; derived-sar-sicd14-sidd30/six_50x50_sicd15.nitf |
-| `sar.sicd.quadpol` | Quad-pol SICD | variant | 4 | 3 | 3 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf; sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_no_amplitude_table_SICD.nitf |
+| `sar.sicd.quadpol` | Quad-pol SICD | variant | 12 | 3 | 4 | yes | rs-nitf-gdal-autotest-small/sar_sicd.ntf; sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_HH.nitf; sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_HV.nitf |
 | `sar.sidd` | SIDD in NITF | read | 13 | 3 | 8 | yes | rs-sidd-umbra/2023-10-24-03-19-54_UMBRA-04_SIDD.nitf; derived-sar-sicd14-sidd30/capella_c10_sp_sidd_sidd30.nitf; derived-sar-sicd14-sidd30/capella_c13_sm_sidd_sidd30.nitf |
 | `sar.sidd.v2.0.0` | SIDD 2.0 | variant | 6 | 3 | 4 | yes | rs-sidd-umbra/2023-10-24-03-19-54_UMBRA-04_SIDD.nitf; sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf; umbra-bingham-20230925-full/umbra_20230925_SIDD.nitf |
 | `sar.sidd.v3.0.0` | SIDD 3.0 | variant | 4 | 3 | 2 | yes | derived-sar-sicd14-sidd30/capella_c10_sp_sidd_sidd30.nitf; derived-sar-sicd14-sidd30/capella_c13_sm_sidd_sidd30.nitf; derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf |
@@ -192,7 +192,7 @@ Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus
 
 | Area | Commands | Need | Have | OK |
 |---|---|---|---|---|
-| ingest | file.openimage, file.opendem, file.openvector, file.openpointcloud, file.opengpkg, fmv.open, det.import | `fmt:*` every read/refused format key in formats.json at its minimum | 175/179 formats | **no** |
+| ingest | file.openimage, file.opendem, file.openvector, file.openpointcloud, file.opengpkg, fmv.open, det.import | `fmt:*` every read/refused format key in formats.json at its minimum | 177/179 formats | **no** |
 | ingest | file.openurl, pc.stream, cat.panel, online.add, bm.basemap, vec.remoteopen, vec.remotesave | `service:wmts` | service item | yes |
 | ingest | file.openurl, pc.stream, cat.panel, online.add, bm.basemap, vec.remoteopen, vec.remotesave | `service:wms` | service item | yes |
 | ingest | file.openurl, pc.stream, cat.panel, online.add, bm.basemap, vec.remoteopen, vec.remotesave | `service:xyz` | service item | yes |
@@ -227,9 +227,9 @@ Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus
 | sensor | model.active, model.info | `fmt:rpc.gtiff` | 19/3 | yes |
 | sensor | model.active, model.info | `fmt:dg.rpb` | 21/3 | yes |
 | sensor | model.active, model.info | `fmt:sensor.rsm` | 4/3 | yes |
-| sensor | model.active, model.info | `fmt:sar.sicd` | 30/3 | yes |
+| sensor | model.active, model.info | `fmt:sar.sicd` | 38/3 | yes |
 | sensor | model.gcp, align.poly, align.quick, align.glove, tools.loadpoints | `pair:gcp` | 3/3 (derived-control-points, frames-odm-bellus-gcp, frames-odm-copr-gcp) | yes |
-| sensor | align.auto, align.ai | `pair:co-register` | 6/3 (sar-umbra-stack-silver-peak, hsi-avirisng-cuprite-20200712-rfl, geopdf-htmc-honker-bay-bouldin-island, eo-maxar-libya-floods-wv3-prepost, …) | yes |
+| sensor | align.auto, align.ai | `pair:co-register` | 7/3 (sar-sandia-farad-quadpol-2pass, sar-umbra-stack-silver-peak, hsi-avirisng-cuprite-20200712-rfl, geopdf-htmc-honker-bay-bouldin-island, …) | yes |
 | sensor | tri.mip, tri.tiepoints, tri.adjust, tri.solutions | `pair:stereo-mate` ≥3 overlapping RPC images | 6/3 (rs-nitf-wv3-mvs-stereo-chips, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29, …) | yes |
 | sensor | tri.mip, tri.tiepoints, tri.adjust, tri.solutions | `pair:gcp` | 3/2 (derived-control-points, frames-odm-bellus-gcp, frames-odm-copr-gcp) | yes |
 | sensor | tri.mip, tri.tiepoints, tri.adjust, tri.solutions | `pair:checkpoints` | 4/2 (derived-control-points, control-ngs-co-golden-x48y441, control-usgs-3dep-co-drcog2020-checkpoints, control-ngs-vegas) | yes |
@@ -247,8 +247,8 @@ Generated 2026-10-29T16:12:49.104Z by `build/campaign/coverage.mjs` from `corpus
 | terrain | dem.accuracy | `pair:checkpoints` ≥30 surveyed checkpoints (ASPRS 2023) | 4/1 (derived-control-points, control-ngs-co-golden-x48y441, control-usgs-3dep-co-drcog2020-checkpoints, control-ngs-vegas) | yes |
 | terrain | los.hlz, dem.groundfilter | `pair:dsm-truth` | 4/1 (nitf-mvs-wv3-buenos-aires, nitf-mvs-wv3-buenos-aires, nitf-core3d-jacksonville-wv3, ieee-dfc2018-houston) | yes |
 | terrain | 3d.qmesh | `fmt:qmesh.geodetic` | 6/3 | yes |
-| sar | sar.acd, sar.ccd, sar.pairs | `pair:repeat-pass` coherent short-baseline pairs | 1/2 (sar-umbra-stack-silver-peak) | **no** |
-| sar | sar.pauli | `fmt:sar.sicd.quadpol` | 4/3 | yes |
+| sar | sar.acd, sar.ccd, sar.pairs | `pair:repeat-pass` coherent short-baseline pairs | 2/2 (sar-sandia-farad-quadpol-2pass, sar-umbra-stack-silver-peak) | yes |
+| sar | sar.pauli | `fmt:sar.sicd.quadpol` | 12/3 | yes |
 | msi | msi.radiometric, msi.thermal | `fmt:meta.landsat-mtl` | 9/3 | yes |
 | msi | msi.radiometric, msi.thermal | `fmt:meta.s2-mtd` | 3/3 | yes |
 | msi | msi.radiometric, msi.thermal | `fmt:dg.imd` | 21/3 | yes |
