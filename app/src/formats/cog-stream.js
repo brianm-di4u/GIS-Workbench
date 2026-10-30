@@ -160,6 +160,12 @@ export async function writeCogStream(src, opts = {}, onProgress = () => {}) {
         const cw = Math.min(tile, w - ox);
         for (let y = 0; y < h; y++) t.set(data.subarray((y * w + ox) * n, (y * w + ox + cw) * n), y * tile * n);
         let b = new Uint8Array(t.buffer);
+        // `src.encode` (predictor + deflate elsewhere, e.g. in workers) keeps this thread to copying and
+        // decimating: encoding every tile here bounded a whole-strip COG at ~300 s (TE 2.0.4 cross).
+        if (src.encode && compress === 'deflate') {
+          jobs.push(src.encode(b, { type, tile, n, predictor }));
+          continue;
+        }
         if (predictor === 2) predict2(b, type, tile, tile, n);
         else if (predictor === 3) b = predict3(b, tile, tile, n);
         jobs.push(compress === 'deflate' ? deflate(b) : Promise.resolve(b));

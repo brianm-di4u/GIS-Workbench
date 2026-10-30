@@ -12,6 +12,7 @@ import { enviSource, enviBands, gdalBands } from '../decode/envi.js';
 import { openHdf5 } from '../decode/hdf5.js';
 import { openGeoPdf } from '../decode/geopdf.js';
 import { openJp2 } from '../decode/jp2.js';
+import { deflate, predict2, predict3 } from '../../formats/geotiff-writer.js';
 import { isMrSid, mrsidRefusal } from '../decode/mrsid-header.js';
 
 const { GW } = self;
@@ -280,13 +281,19 @@ GW.register('pixels', async ({ handle, x, y, w = 1, h = 1, bands }) => {
 });
 
 /** One band of a window as Float32, clamped inside the image (matching, REQ-SNS-13). */
-GW.register('patch', async ({ handle, x, y, w, h, band = 0 }, job) => {
+GW.register('patch', async ({ handle, x, y, w, h, band = 0, bands = null }, job) => {
   const e = handles.get(handle);
   if (!e) throw new Error('unknown image handle');
   w = Math.min(w, e.src.width);
   h = Math.min(h, e.src.height);
   const x0 = Math.max(0, Math.min(e.src.width - w, Math.floor(x)));
   const y0 = Math.max(0, Math.min(e.src.height - h, Math.floor(y)));
+  if (bands) {
+    // Every band in one read (orthorectify): a J2K multispectral tile decodes all its components once.
+    const got = await e.src.readWindow(x0, y0, w, h, bands, job);
+    const pxs = got.map((a) => (a instanceof Float32Array ? a : Float32Array.from(a)));
+    return GW.transfer({ x0, y0, w, h, pxs }, pxs.map((p) => p.buffer));
+  }
   const [a] = await e.src.readWindow(x0, y0, w, h, [band], job);
   const f = a instanceof Float32Array ? a : Float32Array.from(a);
   return GW.transfer({ x0, y0, w, h, px: f }, [f.buffer]);
@@ -345,7 +352,7 @@ GW.register('window', async ({ handle, x0, y0, w, h, step = 1, bands, maxSamples
   const sh = Math.min(e.src.height - y0, h * step);
   const ow = Math.ceil(sw / step);
   const oh = Math.ceil(sh / step);
-  if (ow * oh * bands.length > maxSamples) throw new Error(`${ow}×${oh}×${bands.length} samples are more than a product takes (${(maxSamples / 1e6).toFixed(0)} M)`);
+  if (ow * oh * bands.length > maxSamples) throw new Error(`${ow}×${oh}×${bands.length} samples are more than a product takes (${(maxSamples / 1e6).toFixed(0)} M): draw a smaller AOI, zoom out (a coarser chip) or choose fewer bands`);
   const planes = [];
   // A decimated window comes from the source's own coarser level when it has one (J2K resolution
   // levels, strided raw NITF/ENVI, GeoTIFF overviews): read at full resolution and thinned, the 3D
@@ -449,6 +456,36 @@ GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain
         }
       }
       job?.progress?.((k + 1) / nb);
+    }
+    return GW.transfer({ x0, y0, w: ow, h: oh, step, nb, v: out, level: L }, [out.buffer]);
+  }
+  // A decimated cube comes from the source's own coarser level where it has one, as windows do
+  // (CX-063): spectral tools on a CORE3D 8-band MSI J2K strip read it all at full resolution and timed out.
+  let L = 0;
+  while (e.src.readLevel && 2 ** (L + 1) <= step && e.src.hasLevel?.(L + 1)) L++;
+  if (L > 0) {
+    const f = 2 ** L;
+    const lx0 = Math.floor(x0 / f);
+    const lw = Math.min(Math.ceil(e.src.width / f) - lx0, Math.ceil(w / f) + 1);
+    const lyOf = (oy) => Math.min(Math.ceil(e.src.height / f) - 1, Math.floor((y0 + oy * step) / f));
+    const perL = Math.max(1, Math.floor(8e6 / Math.max(1, lw * nb)));
+    for (let oy0 = 0; oy0 < oh; ) {
+      const ly0 = lyOf(oy0);
+      let oy1 = oy0;
+      while (oy1 < oh && lyOf(oy1) - ly0 < perL) oy1++;
+      const planes = await e.src.readLevel(L, lx0, ly0, lw, lyOf(oy1 - 1) - ly0 + 1, bands, job);
+      for (let oy = oy0; oy < oy1; oy++) {
+        const ry = lyOf(oy) - ly0;
+        for (let ox = 0; ox < ow; ox++) {
+          const rx = Math.min(lw - 1, Math.floor((x0 + ox * step) / f) - lx0);
+          const o = (oy * ow + ox) * nb;
+          for (let k = 0; k < nb; k++) {
+            const v = planes[k][ry * lw + rx];
+            out[o + k] = isNd(v) ? NaN : (gain ? gain[k] : 1) * v + (offset ? offset[k] : 0);
+          }
+        }
+      }
+      oy0 = oy1;
     }
     return GW.transfer({ x0, y0, w: ow, h: oh, step, nb, v: out, level: L }, [out.buffer]);
   }
@@ -604,6 +641,15 @@ GW.register('memupdate', async ({ handle, planes }) => {
   e.src.planes = planes.map((p) => (p instanceof C ? p : C.from(p)));
   e.pyr = new Pyramid(e.src, tileCache); // a new key: cached tiles of the old values are not reused
   return { ok: true };
+});
+
+/** One COG tile: predictor and deflate off the main thread (streamed COG writer, TE 2.0.4 cross). */
+GW.register('tileenc', async ({ bytes, type, tile, n, predictor }) => {
+  let b = new Uint8Array(bytes);
+  if (predictor === 2) predict2(b, type, tile, tile, n);
+  else if (predictor === 3) b = predict3(b, tile, tile, n);
+  const c = await deflate(b);
+  return GW.transfer({ c }, [c.buffer]);
 });
 
 // Views sharing one open (Xport panes) each hold a reference; the handle goes with the last one.

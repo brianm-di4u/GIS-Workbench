@@ -835,6 +835,32 @@ export async function attachLayers(app, fref, recs, { share = null } = {}) {
   return out;
 }
 
+/**
+ * Up to `max` extra opens of a layer's file in other decode workers, for reading a large image in
+ * parallel (COG export, orthorectify): [{handle, affinity}], each on its own worker. Close them with
+ * closeHelpers. A whole WorldView strip read on one worker ran past 300 s (TE 2.0.4 cross).
+ */
+export async function helperOpens(app, l, max) {
+  const out = [];
+  const fref = l.rec?.file ? app.store.get(l.rec.file) : null;
+  const file = fref ? app.files.get(fref.id) : null;
+  for (let i = 0; file && i < max; i++) {
+    try {
+      const d = await describe(app, file.file, file.sidecars ?? [], { merge: !!fref.merged });
+      const r = d.rasters.find((x) => x.raster.imageIndex === (l.rec.imageIndex ?? 0));
+      const h = r && { handle: r.raster.handle, affinity: r.info.affinity };
+      if (h && h.affinity !== l.affinity && !out.some((x) => x.affinity === h.affinity)) out.push(h);
+      else if (h) app.pool.run('close', { handle: h.handle }, { affinity: h.affinity }).catch(() => {});
+    } catch (e) {
+      app.log('warn', `a helper decoder could not open ${l.rec?.name}: ${e.message}`);
+      break;
+    }
+  }
+  return out;
+}
+
+export const closeHelpers = (app, hs) => hs.forEach((h) => app.pool.run('close', { handle: h.handle }, { affinity: h.affinity }).catch(() => {}));
+
 export async function attachFile(app, fref, file, sidecars = []) {
   const d = await describe(app, file, sidecars, { merge: !!fref.merged });
   app.files.set(fref.id, { file, handle: file.__handle ?? null, sidecars, result: d.res });

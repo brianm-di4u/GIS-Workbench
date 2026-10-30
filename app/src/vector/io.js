@@ -552,11 +552,15 @@ export function writeKml(layer, { toMsl = (lat, lon, h) => h, iconHref = null } 
     .map((f) => {
       rep.features_in++;
       countGeom(rep, f.geom.type);
+      // A feature without a finite position (a CSV row with no coordinates) keeps its attributes in a
+      // Placemark without geometry: KML cannot carry NaN (TE 2.0.4 cross, IBTrACS).
+      const placed = Array.from(f.geom.xyz ?? []).every(Number.isFinite);
+      if (!placed) rep.dropped.no_position = (rep.dropped.no_position ?? 0) + 1;
       const data = fields
         .filter((fl) => f.attrs?.[fl.name] !== undefined && f.attrs?.[fl.name] !== null)
         .map((fl) => `<SimpleData name="${xmlEsc(fl.name)}">${xmlEsc(f.attrs[fl.name])}</SimpleData>`)
         .join('');
-      return `<Placemark>${f.name !== null && f.name !== undefined ? `<name>${xmlEsc(f.name)}</name>` : ''}${f.description ? `<description>${xmlEsc(f.description)}</description>` : ''}<styleUrl>#${styles.get(styleKey(f.style))}m</styleUrl><ExtendedData><SchemaData schemaUrl="#${sid}">${data}</SchemaData></ExtendedData>${geomXml(f.geom)}</Placemark>`;
+      return `<Placemark>${f.name !== null && f.name !== undefined ? `<name>${xmlEsc(f.name)}</name>` : ''}${f.description ? `<description>${xmlEsc(f.description)}</description>` : ''}<styleUrl>#${styles.get(styleKey(f.style))}m</styleUrl><ExtendedData><SchemaData schemaUrl="#${sid}">${data}</SchemaData></ExtendedData>${placed ? geomXml(f.geom) : ''}</Placemark>`;
     })
     .join('\n');
   rep.features_out = layer.features.length;

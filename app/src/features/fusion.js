@@ -59,7 +59,7 @@ export function install(app) {
     px.palTex = null;
     px._chainSig = '';
     px.viewHist = null;
-    px.tiles = new TileSet(px, app.renderer, (L, tx, ty, bands) => app.pool.run('tile', { handle: l.handle, level: L, tx, ty, bands }, { affinity: l.affinity, priority: 'interactive', label: `tile ${L}/${tx}/${ty} (NIR)`, timeout: 60000 }));
+    px.tiles = new TileSet(px, app.renderer, (L, tx, ty, bands) => app.pool.run('tile', { handle: l.handle, level: L, tx, ty, bands }, { affinity: l.affinity, priority: 'interactive', label: `tile ${L}/${tx}/${ty} (NIR)`, timeout: 180000 }));
     return px;
   }
 

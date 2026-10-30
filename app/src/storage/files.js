@@ -70,6 +70,9 @@ export function download(app, blob, name) {
   if (!app.runMode.caps.downloadsLikely) {
     return exportPanel(app, blob, name, url, 'Downloads look blocked in this embedded frame (the host page did not grant allow-downloads).');
   }
+  // Chrome cancels a download of an in-memory file over ~500 MB (TE 2.0.4 cross: 600 MB failed,
+  // 400 MB saved). Where the save dialog is available the file is streamed through it instead; here, say so.
+  if (blob.size > 500e6) app.toast(`${name} is ${(blob.size / 1e6).toFixed(0)} MB: the browser may cancel a download this large. Open GIS Workbench directly (not embedded) in Chrome or Edge to save it through a file dialog.`, { kind: 'warn', ms: 12000 });
   const a = h('a', { href: url, download: name, style: { display: 'none' } });
   document.body.appendChild(a);
   a.click();

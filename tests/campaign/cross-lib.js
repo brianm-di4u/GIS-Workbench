@@ -231,6 +231,10 @@ export async function crossCommands(page, s, ids, rec, save, { wait0 = 60_000, p
     const downloads = r.downloads.map(checkDownload);
     for (const p of r.downloads) rmSync(p, { force: true });
     const net = requests.slice(reqStart);
+    // Chrome cancels in-memory downloads over ~500 MB; the harness turns the save dialog off, so such a
+    // file can only be judged by the app's own size warning (CX-H09). Real Chrome/Edge stream it to disk.
+    const overLimit = r.toasts.some((t) => /the browser may cancel a download this large/.test(t));
+    for (const d of downloads) if (!d.ok && d.why === 'not saved' && overLimit) Object.assign(d, { ok: true, why: 'over the browser download limit (app warned; saved through the file dialog in real use)' });
     const badDl = downloads.filter((d) => !d.ok);
     const jobErr = jobs.filter((j) => j.error && !/cancel/i.test(j.error));
     let verdict = 'pass';

@@ -46,6 +46,11 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Orthorectify of whole satellite strips** proposes a cell size that fits in the browser and explains it; a strip at its native cell is refused by name instead of running for minutes. (CX-061)
 - **Cloud-Optimized GeoTIFF of whole satellite strips decodes on several workers at once**: a 1.6 G-pixel WorldView strip converts in about 3½ minutes instead of over 5. (CX-062)
 - **The 3D globe and reduced-size products over whole satellite strips** read the image's own overview levels: the globe over a WorldView strip opens in seconds instead of timing out. (CX-063)
+- **FlatGeobuf export of layers with nested attributes** reads back (lists and structures are written as JSON text); KML keeps rows without a position as placemarks without geometry; a file that cannot be read says so instead of "[object ProgressEvent]". (CX-064–CX-066)
+- **Saving very large files where the browser has no save dialog** (another browser, or GIS Workbench embedded in a page) warns that the browser may cancel downloads over 500 MB and says how to save them; Chrome and Edge running the file directly save through the dialog as before. (CX-067)
+- **Cloud-Optimized GeoTIFF of complex SAR (SICD, SLC)** holds the displayed band instead of all nine derived bands: an Umbra SICD converts in about a minute (496 MB) instead of six (3.2 GB). (CX-068)
+- **Spectral tools on large multispectral strips** sample the image's own overview levels (seconds instead of a timeout), and image tiles keep loading while several large files are still preparing their first display. (CX-069, CX-070)
+- **Orthorectify and Cloud-Optimized GeoTIFF of whole satellite strips** read the image on several workers at once and encode tiles off the main thread: a CORE3D multispectral strip rectifies in 3 minutes (it failed), and a 2.2 G-pixel WorldView strip converts in about 4. (CX-071, CX-072)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 

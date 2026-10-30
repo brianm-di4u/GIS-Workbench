@@ -10,7 +10,7 @@ import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { writeGeoTiff } from '../formats/geotiff-writer.js';
 import { writeCogStream } from '../formats/cog-stream.js';
-import { openImageFile, isImageName, describe } from '../formats/open.js';
+import { openImageFile, isImageName, helperOpens, closeHelpers } from '../formats/open.js';
 import { sniffName } from '../formats/sniff.js';
 import { toGeoJSON } from '../vector/geom.js';
 
@@ -70,6 +70,9 @@ export function install(app) {
       // FlatGeobuf from the layer's GeoJSON (WGS 84), without a spatial index (DN-59).
       Fgb ??= await app.gw.runScript('js-fgb');
       const fc = JSON.parse(await app.encodeLayer(id, 'geojson').blob.text());
+      // Nested values (lists, structs, maps from GeoParquet) go as JSON text: the library's Json
+      // columns did not read back ("Unexpected end of JSON input", GDAL's GeoParquet test file).
+      for (const f of fc.features) for (const [k, v] of Object.entries(f.properties ?? {})) if (v && typeof v === 'object') f.properties[k] = JSON.stringify(v);
       return { blob: new Blob([Fgb.serialize(fc, 4326)], { type: 'application/flatgeobuf' }), name: `${stem}.fgb`, types: ['.fgb'], description: 'FlatGeobuf' };
     }
     return { ...app.encodeLayer(id, 'geojson'), description: 'GeoJSON' };
@@ -113,10 +116,18 @@ export function install(app) {
   const TYPES = { Uint8Array: 'u8', Uint16Array: 'u16', Int16Array: 'i16', Float32Array: 'f32' };
   const stemOf = (l) => (l.rec?.name ?? 'image').replace(/\.\w+$/, '').replace(/[^\w.-]+/g, '_');
 
+  /**
+   * The bands a COG carries: all of them, except a complex SAR image's nine derived bands (amplitude,
+   * phase, I, Q, power, β0, σ0, γ0, RCS), of which it takes the displayed one(s): all nine made a
+   * 13 377 × 8 908 Umbra SICD a 3.2 GB COG in six minutes (TE 2.0.4 cross). The complex data stays in the source.
+   */
+  const cogBands = (l) => (l.info?.sar && l.bands > 3 ? [...new Set(l.chain?.bands ?? [0])] : [...Array(l.bands).keys()]);
+  const sarNote = (l) => (l.info?.sar && l.bands > 3 ? `SAR: the displayed band${cogBands(l).length > 1 ? 's' : ''} (${cogBands(l).map((b) => ['amplitude', 'phase', 'I', 'Q', 'power', 'β0', 'σ0', 'γ0', 'RCS'][b] ?? `band ${b + 1}`).join(', ')}); the complex data stays in the source` : '');
+
   /** Larger images: the streaming writer (formats/cog-stream.js), one tile row in memory at a time. */
   async function layerToCogStream(l, onProgress) {
-    const n = l.bands;
-    const bands = [...Array(n).keys()];
+    const bands = cogBands(l);
+    const n = bands.length;
     const probe = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: 4, h: 4, step: 1, bands }, { affinity: l.affinity, label: 'COG: sample type' });
     const Arr = probe.planes[0].constructor;
     const type = TYPES[Arr.name];
@@ -127,23 +138,10 @@ export function install(app) {
     if (est?.quota && est.quota - (est.usage ?? 0) < need) throw new Error(`converting ${l.rec?.name} needs about ${(need / 1e9).toFixed(1)} GB of free browser storage; ${((est.quota - (est.usage ?? 0)) / 1e9).toFixed(1)} GB is available`);
     // A large file is also opened in other decode workers and strips are read from all of them at
     // once: a whole WorldView J2K strip decoded on one worker took over 300 s (TE 2.0.4 cross).
-    const srcs = [{ handle: l.handle, affinity: l.affinity }];
-    const fref = l.rec?.file ? app.store.get(l.rec.file) : null;
-    const file = fref ? app.files.get(fref.id) : null;
     const stripBytes = Math.min(16384, l.width) * 512 * n * Arr.BYTES_PER_ELEMENT;
-    const extra = file && l.width * l.height > 64e6 ? Math.max(0, Math.min(app.pool.size - 1, 4, Math.floor(512e6 / stripBytes) - 1)) : 0;
-    for (let i = 0; i < extra; i++) {
-      try {
-        const d = await describe(app, file.file, file.sidecars ?? [], { merge: !!fref.merged });
-        const r = d.rasters.find((x) => x.raster.imageIndex === (l.rec.imageIndex ?? 0));
-        const h = r && { handle: r.raster.handle, affinity: r.info.affinity };
-        if (h && !srcs.some((x) => x.affinity === h.affinity)) srcs.push(h);
-        else if (h) app.pool.run('close', h, { affinity: h.affinity }).catch(() => {});
-      } catch (e) {
-        app.log('warn', `COG: a helper decoder could not open ${l.rec?.name}: ${e.message}`);
-        break;
-      }
-    }
+    const extra = l.width * l.height > 64e6 ? Math.max(0, Math.min(app.pool.size - 1, Math.floor(512e6 / stripBytes) - 1)) : 0;
+    const helpers = extra ? await helperOpens(app, l, extra) : [];
+    const srcs = [{ handle: l.handle, affinity: l.affinity }, ...helpers];
     let turn = 0;
     const read = async (k, x0, y0, w, h) => {
       const s = 2 ** k;
@@ -158,9 +156,11 @@ export function install(app) {
     const opts = cogGeo(l, { tile: 512, compress: 'deflate', nodata: l.nodata ?? undefined, description: `${l.rec?.name} — Cloud-Optimized GeoTIFF by GIS Workbench` });
     let r;
     try {
-      r = await writeCogStream({ width: l.width, height: l.height, bands: n, type, read, parallel: srcs.length }, opts, onProgress);
+      // Tiles are encoded in the decode workers too (any of them: no file needed).
+      const encode = (b, o) => app.pool.run('tileenc', { bytes: b.buffer, ...o }, { kind: 'decode', transfer: [b.buffer], priority: 'background', label: 'COG: encode tile' }).then((r) => r.c);
+      r = await writeCogStream({ width: l.width, height: l.height, bands: n, type, read, parallel: srcs.length, encode }, opts, onProgress);
     } finally {
-      for (const h of srcs.slice(1)) app.pool.run('close', { handle: h.handle }, { affinity: h.affinity }).catch(() => {});
+      closeHelpers(app, helpers);
     }
     // The temporary tiles behind the blob stay until a browser download has read them: removed at
     // once, they cut a multi-GB download short (TE 2.0.4 cross, Capella COGs "not saved").
@@ -172,15 +172,16 @@ export function install(app) {
       if (keep) setTimeout(() => r.cleanup(), keep);
       else await r.cleanup();
     }
-    return `${(r.blob.size / 1048576).toFixed(1)} MB COG written (streamed${r.bigTiff ? ', BigTIFF' : ''}, ${r.levels} levels)`;
+    return `${(r.blob.size / 1048576).toFixed(1)} MB COG written (streamed${r.bigTiff ? ', BigTIFF' : ''}, ${r.levels} levels${sarNote(l) ? `; ${sarNote(l)}` : ''})`;
   }
 
   async function layerToCog(l, onProgress = () => {}, { stream = false } = {}) {
     const W = l.width;
     const H = l.height;
-    const n = l.bands;
+    const sel = cogBands(l);
+    const n = sel.length;
     if (stream || W * H * n > CAP_SAMPLES) return layerToCogStream(l, onProgress);
-    const win = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: W, h: H, step: 1, bands: [...Array(n).keys()], maxSamples: CAP_SAMPLES }, { affinity: l.affinity, timeout: 600000, label: `COG: read ${l.rec?.name}` });
+    const win = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: W, h: H, step: 1, bands: sel, maxSamples: CAP_SAMPLES }, { affinity: l.affinity, timeout: 600000, label: `COG: read ${l.rec?.name}` });
     const Arr = win.planes[0].constructor;
     const type = TYPES[Arr.name];
     if (!type) throw new Error(`no COG writer for ${Arr.name} samples`);
@@ -189,7 +190,7 @@ export function install(app) {
     const opts = cogGeo(l, { tile: 512, compress: 'deflate', overviews: true, nodata: l.nodata ?? undefined, description: `${l.rec?.name} — Cloud-Optimized GeoTIFF by GIS Workbench` });
     const bytes = await writeGeoTiff({ width: win.w, height: win.h, bands: n, type, data }, opts);
     await saveBlob(app, new Blob([bytes], { type: 'image/tiff' }), { name: `${stemOf(l)}_cog.tif`, types: ['.tif'], description: 'Cloud-Optimized GeoTIFF' });
-    return `${(bytes.byteLength / 1048576).toFixed(1)} MB COG written`;
+    return `${(bytes.byteLength / 1048576).toFixed(1)} MB COG written${sarNote(l) ? ` (${sarNote(l)})` : ''}`;
   }
   app.convertToCog = async (layerId, opts = {}) => {
     const l = app.layers.get(layerId);

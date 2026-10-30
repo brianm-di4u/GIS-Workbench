@@ -9,7 +9,7 @@ import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { saveBlob } from '../storage/files.js';
 import { writeGeoTiff } from '../formats/geotiff-writer.js';
-import { openImageFile } from '../formats/open.js';
+import { openImageFile, helperOpens, closeHelpers } from '../formats/open.js';
 import { groundOf, poly } from '../tools/tools.js';
 
 export const name = 'ortho';
@@ -102,7 +102,9 @@ export function install(app) {
     let maxErr = 0;
     let worst = null;
     const tiles = [];
-    for (let ty = 0; ty < G.h; ty += TILE) for (let tx = 0; tx < G.w; tx += TILE) tiles.push({ tx, ty, w: Math.min(TILE, G.w - tx), h: Math.min(TILE, G.h - ty) });
+    for (let ty = 0; ty < G.h; ty += TILE) for (let tx = 0; tx < G.w; tx += TILE) tiles.push({ i: tiles.length, tx, ty, w: Math.min(TILE, G.w - tx), h: Math.min(TILE, G.h - ty) });
+    const helpers = !grid && l.width * l.height > 64e6 ? await helperOpens(app, l, Math.max(0, (app.pool.size ?? 2) - 1)) : []; // full products only: OOTF refreshes stay on the one open
+    const srcs = [{ handle: l.handle, affinity: l.affinity }, ...helpers];
     const fp = l.footprint();
     const box0 = { north: Math.max(...fp.map((p) => p[0])), south: Math.min(...fp.map((p) => p[0])), west: Math.min(...fp.map((p) => p[1])), east: Math.max(...fp.map((p) => p[1])) };
     const dem = demIn ?? terrainFor(box0);
@@ -147,7 +149,13 @@ export function install(app) {
       // An output much coarser than the image reads the pyramid level of its scale (2^L ≤ res/GSD):
       // at whole-image zoom a full WorldView-3 strip's full-resolution window failed to allocate.
       const L = Math.max(0, Math.floor(Math.log2(G.res / Math.max(1e-9, gsdOf(l)))));
-      const patches = await Promise.all(bandIdx.map((b) => (L > 0 ? app.pool.run('patchLevel', { handle: l.handle, level: L, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: l.affinity, priority: 'background', timeout: 300000 }) : app.pool.run('patch', { handle: l.handle, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: l.affinity, priority: 'background' }))));
+      // Tiles take turns over the file's opens (helpers on other workers for a large image), and a
+      // full-resolution patch reads every band at once: the CORE3D 8-band MSI strip read band by band
+      // on one worker took 16–32 s a patch and starved the display (TE 2.0.4 cross).
+      const S = srcs[t.i % srcs.length];
+      const patches = L > 0
+        ? await Promise.all(bandIdx.map((b) => app.pool.run('patchLevel', { handle: S.handle, level: L, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: S.affinity, priority: 'background', timeout: 300000 })))
+        : await app.pool.run('patch', { handle: S.handle, x: x0, y: y0, w: x1 - x0, h: y1 - y0, bands: bandIdx }, { affinity: S.affinity, priority: 'background', timeout: 300000 }).then((r) => r.pxs.map((px) => ({ ...r, px })));
       const pw = patches[0].w;
       const ph = patches[0].h;
       const src = new Float32Array(pw * ph * nb);
@@ -173,9 +181,13 @@ export function install(app) {
     };
     const conc = Math.max(1, Math.min(app.pool.size ?? 2, tiles.length));
     let next = 0;
-    await Promise.all(Array.from({ length: conc }, async () => {
-      while (next < tiles.length) await runTile(tiles[next++]);
-    }));
+    try {
+      await Promise.all(Array.from({ length: conc }, async () => {
+        while (next < tiles.length) await runTile(tiles[next++]);
+      }));
+    } finally {
+      closeHelpers(app, helpers);
+    }
     return { grid: G, bands, mask, layer: l.id, image: l.info.iid, stats: { tiles: tiles.length, cells, maxErrPx: maxErr, worst, kernel, bound, dem: dem?.name ?? `none (${fallback.toFixed(0)} m HAE)`, ms: Math.round(performance.now() - t0) } };
   }
 

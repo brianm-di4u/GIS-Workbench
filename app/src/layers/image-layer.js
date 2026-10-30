@@ -32,8 +32,11 @@ export class ImageLayer {
     this.lutTex = null;
     this.palTex = null;
     this.lutParams = [{ scale: 1, offset: 0 }];
+    // 180 s: a tile is slow, not stuck, while its worker builds first displays of several large files
+    // (eleven 16k² JPEG GeoTIFFs from one ZIP: tiles past 60 s failed and were dropped, TE 2.0.4 cross).
+    // A stuck job is still caught, and a timed-out one is cancelled without restarting the worker.
     this.tiles = new TileSet(this, app.renderer, (L, tx, ty, bands) =>
-      app.pool.run('tile', { handle: this.handle, level: L, tx, ty, bands }, { affinity: this.affinity, priority: 'interactive', label: `tile ${L}/${tx}/${ty}`, timeout: 60000 }),
+      app.pool.run('tile', { handle: this.handle, level: L, tx, ty, bands }, { affinity: this.affinity, priority: 'interactive', label: `tile ${L}/${tx}/${ty}`, timeout: 180000 }),
     );
     this._chainSig = '';
     this._statsPending = null;

@@ -55,6 +55,9 @@ const WRITE = async (maxOut) => {
         out.push({ writer, src, name, bytes: blob.size, b64: await b64(blob), ms: Math.round(performance.now() - t0) });
       }
     } catch (e) {
+      // An empty layer (a balloon-only KMZ, an empty feature class, skipped multipatch) is refused by
+      // name since CX-058: nothing to round-trip.
+      if (src?.features === 0 && /no features to save/.test(String(e?.message))) return out.push({ writer, src, skipped: 'empty layer (refused by name)' });
       out.push({ writer, src, error: String(e?.message ?? e) });
     }
   };
@@ -107,8 +110,11 @@ const WRITE = async (maxOut) => {
   }
   // Vector layers.
   for (const v of a.store.all('vlayer').slice(0, 2)) {
-    const n = a.store.all('feature').filter((f) => f.vlayer === v.id).length;
-    const src = { kind: 'vector', name: v.name, features: n };
+    const fs = a.store.all('feature').filter((f) => f.vlayer === v.id);
+    const n = fs.length;
+    // Features without a finite position: KML writes them without geometry, so its readers skip them.
+    const noPos = fs.filter((f) => !Array.from(f.geom?.xyz ?? []).every(Number.isFinite)).length;
+    const src = { kind: 'vector', name: v.name, features: n, noPos };
     for (const fmt of ['geojson', 'shp', 'kml', 'kmz', 'csv']) await put(`ext.saveas.${fmt}`, src, async () => {
       const r = await a.encodeLayer(v.id, fmt);
       return [[r.name, r.blob]];
@@ -245,6 +251,6 @@ function reopenChecks(x) {
   const out = [{ what: 'the app opens its own output', ok: !r.errors.length, detail: r.errors.join(' ').slice(0, 200) }];
   if (x.writer === 'cnv.cog') out.push({ what: 'reopened COG size', ok: r.w === s.w && r.h === s.h && r.bands === s.bands, detail: `${r.w}×${r.h}×${r.bands} vs ${s.w}×${s.h}×${s.bands}` });
   if (/^pc\.export/.test(x.writer)) out.push({ what: 'reopened point count', ok: r.points === s.points, detail: `${r.points} vs ${s.points}` });
-  if (/^(ext\.saveas\.(geojson|gpkg|kml|kmz)|cnv\.(geoparquet|flatgeobuf))$/.test(x.writer)) out.push({ what: 'reopened features', ok: r.features === s.features, detail: `${r.features} vs ${s.features}` });
+  if (/^(ext\.saveas\.(geojson|gpkg|kml|kmz)|cnv\.(geoparquet|flatgeobuf))$/.test(x.writer)) out.push({ what: 'reopened features', ok: r.features === s.features || (/kml|kmz/.test(x.writer) && r.features === s.features - (s.noPos ?? 0)), detail: `${r.features} vs ${s.features}${s.noPos ? ` (${s.noPos} without a position)` : ''}` });
   return out;
 }
