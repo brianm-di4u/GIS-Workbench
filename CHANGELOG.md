@@ -59,6 +59,7 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Very large files open from slow drives**: the open time limit grows with the file size (1.85 GB NetCDF beside another large cube). (CX-080)
 - **Undoing a Ground Filter** also removes its DTM from the terrain list, so Save DEM As and height look-ups no longer use it. (CX-081)
 - **Videos that end part-way** no longer make the player request bytes past the end of the file. (CX-082)
+- **KML polygons with an empty inner boundary** import without the empty ring, so Validate Features and other tools work on them. (CX-083)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 

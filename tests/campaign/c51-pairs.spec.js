@@ -40,7 +40,7 @@ const ROLES = {
   'labels-detect': { open: 'both', cmds: /^(det|triage|lai)\./ },
   labels: { open: 'self', n: 2, cmds: /^(pc|msi)\./ },
   'labels-raster': { open: 'self', n: 2, raster: true, cmds: /^msi\./ },
-  'spectral-lib': { open: 'both', cmds: /^msi\.|^profile\.spectral$|^search\./ },
+  'spectral-lib': { open: 'both', defaultWith: ['aviris-classic-f130410t01p00r09'], cmds: /^msi\.|^profile\.spectral$|^search\./ },
   calibration: { open: 'partners', pickSelf: true, cmds: /^msi\.(radiometric|thermal|toa|index)|^tri\.frame|^model\./ },
   'datum-grid': { open: 'partners', pickSelf: true, cmds: /^geo\./ },
   'vmti-video': { open: 'self', cmds: /^fmv\./ },
@@ -71,7 +71,8 @@ for (const it of manifest.items) {
   for (const p of [...(it.pairs ?? []), ...(tags[it.id]?.pairs ?? [])]) {
     const role = ROLES[p.role];
     if (!role) continue;
-    const partners = (p.with ?? []).filter(has).map(item);
+    // A library listed without an image to match against takes the role's default image (CX-H20: earthlib).
+    const partners = (p.with?.length ? p.with : (role.defaultWith ?? [])).filter(has).map(item);
     const self = prims(it, role.n ?? 1, role.raster);
     const others = partners.flatMap((x) => prims(x, role.n ?? 1, role.raster));
     const files0 = role.open === 'self' ? self : role.open === 'partners' ? others : [...self, ...others];
