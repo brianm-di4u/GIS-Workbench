@@ -58,3 +58,11 @@ describe('readGeoParquet', () => {
     await expect(readGeoParquet(pq, b)).rejects.toThrow(/encoding "point" \(GeoArrow\) is not read/);
   });
 });
+
+describe('FlatGeobuf cut short (TE 2.0.4 damaged-file pass)', () => {
+  it('is refused by name before the library sees it', async () => {
+    const magic = [0x66, 0x67, 0x62, 0x03, 0x66, 0x67, 0x62, 0x01];
+    const bytes = new Uint8Array([...magic, 200, 0, 0, 0, ...new Array(30).fill(0)]); // header says 200 bytes; 42 in all
+    await expect(readFgb({ deserialize: () => { throw new Error('must not be called'); } }, bytes)).rejects.toThrow(/cut short/);
+  });
+});

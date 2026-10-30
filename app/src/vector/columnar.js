@@ -23,15 +23,20 @@ const fixGeom = (g) => {
 const crsMember = (epsg) => (epsg && epsg !== 4326 && epsg !== 4979 ? { crs: { type: 'name', properties: { name: `EPSG:${epsg}` } } } : {});
 
 /** FlatGeobuf (flatgeobuf deserialize, an async generator of features): features and header CRS (EPSG code). */
-export async function readFgb(lib, bytes) {
+export async function readFgb(lib, bytes, { run = null } = {}) {
   if (bytes.length < 12 || bytes[0] !== 0x66 || bytes[1] !== 0x67 || bytes[2] !== 0x62) throw new Error('not a FlatGeobuf file (no "fgb" magic bytes)');
+  // The header's own length (after 8 magic bytes) must fit: a file cut inside it is refused at once.
+  const hlen = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength).getUint32(8, true);
+  if (12 + hlen > bytes.length) throw new Error(`the FlatGeobuf file is cut short: its ${hlen}-byte header runs past the end of the ${bytes.length}-byte file`);
   let header = null;
-  const got = [];
+  let got = [];
   // As a stream: the byte-array path reads features in place, and a GDAL-written file whose features
   // are not 8-byte aligned throws ("start offset of Float64Array should be a multiple of 8"); the stream
-  // path copies each feature into its own buffer.
+  // path copies each feature into its own buffer. `run` (the app) does this in a worker it can stop:
+  // the library loops for ever, synchronously, on a cut file (TE 2.0.4 cross, damaged-file pass).
   try {
-    for await (const f of lib.deserialize(new Blob([bytes]).stream(), undefined, (h) => (header = h))) got.push(f);
+    if (run) ({ header, got } = await run(bytes));
+    else for await (const f of lib.deserialize(new Blob([bytes]).stream(), undefined, (h) => (header = h))) got.push(f);
   } catch (e) {
     if (/is not valid JSON|Unexpected token/.test(e.message)) throw new Error('a Json column holds text that is not JSON (written so by its producer)');
     throw new Error(`the FlatGeobuf file is not readable (${e.message})`);

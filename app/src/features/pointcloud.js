@@ -14,7 +14,7 @@ import { openImageFile } from '../formats/open.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { modal, field, section } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
-import { newId } from '../core/util.js';
+import { newId, errorText } from '../core/util.js';
 
 export const name = 'pointcloud';
 
@@ -180,8 +180,8 @@ export function install(app) {
         app.toast(`Opened ${f.name}: ${c.n.toLocaleString()} points in ${c.ms.total} ms${c.crs.warnings.length ? ` (${c.crs.warnings.length} note${c.crs.warnings.length > 1 ? 's' : ''} in the import log)` : ''}`);
       } catch (e) {
         app.log('warn', `${f.name}: ${e.message}`);
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
       }
     }
     return out;

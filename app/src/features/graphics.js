@@ -4,6 +4,7 @@
 // graphics files as GeoJSON (Z = HAE) or KML/KMZ (absolute altitudes as EGM96 heights,
 // REQ-EXT-23). KML from files is parsed without DTDs or entities (REQ-SEC-03).
 
+import { errorText } from '../core/util.js';
 import { h, clear } from '../shell/dom.js';
 import { modal, field, section } from '../shell/dialogs.js';
 import { saveBlob, textBlob, pickFiles } from '../storage/files.js';
@@ -516,7 +517,7 @@ export function install(app) {
         const n = await app.loadGraphicsFile(f, pane());
         app.toast(`Loaded ${n} graphic(s) from ${f.name}`);
       } catch (e) {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error' });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error' });
       }
     },
   });
@@ -547,7 +548,7 @@ export function install(app) {
         const r = await app.loadGpx(f);
         app.toast(`${f.name}: ${r.waypoints} waypoint(s), ${r.routes} route(s), ${r.tracks} track segment(s)`);
       } catch (e) {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error' });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error' });
       }
     },
   });

@@ -6,7 +6,7 @@
 // and zoom-to; queries by attribute and location; open and save GeoJSON, Shapefile, KML/KMZ
 // with a round-trip report.
 
-import { minOf, maxOf } from '../core/util.js';
+import { minOf, maxOf, errorText } from '../core/util.js';
 import { h, clear } from '../shell/dom.js';
 import { modal, field, section, confirmBox, promptBox } from '../shell/dialogs.js';
 import { saveBlob, pickFiles, textBlob } from '../storage/files.js';
@@ -1145,6 +1145,29 @@ export function install(app) {
   };
 
   /** Read vector files (GeoJSON, KML/KMZ, Shapefile sets or a zip of them) into layers. */
+  /**
+   * FlatGeobuf parsed in a worker of its own, stopped after a size-scaled time: the library loops for
+   * ever, synchronously, on a cut file, which froze the whole app (TE 2.0.4 cross, damaged-file pass).
+   */
+  async function fgbInWorker(bytes) {
+    const code = await app.gw.text('js-fgb');
+    const glue = `;onmessage = async (ev) => { const { deserialize } = globalThis.__lib['js-fgb']; let header = null; const got = []; try { for await (const f of deserialize(new Blob([ev.data]).stream(), undefined, (h) => (header = h))) got.push(f); postMessage({ ok: true, header: header && { crs: header.crs ? { org: header.crs.org, code: header.crs.code } : null }, got }); } catch (e) { postMessage({ ok: false, message: String((e && e.message) || e) }); } };`;
+    const url = URL.createObjectURL(new Blob([code, glue], { type: 'text/javascript' }));
+    const w = new Worker(url);
+    URL.revokeObjectURL(url);
+    const ms = 20000 + Math.ceil(bytes.length / 5e6) * 1000;
+    try {
+      return await new Promise((res, rej) => {
+        const t = setTimeout(() => rej(new Error('it is cut short or damaged: the reader did not finish')), ms);
+        w.onmessage = (ev) => (clearTimeout(t), ev.data.ok ? res(ev.data) : rej(new Error(ev.data.message)));
+        w.onerror = (ev) => (clearTimeout(t), rej(new Error(ev.message || 'the reader failed')));
+        w.postMessage(bytes);
+      });
+    } finally {
+      w.terminate();
+    }
+  }
+
   async function openVectorFiles(files) {
     const out = [];
     const bytes = {};
@@ -1188,8 +1211,14 @@ export function install(app) {
       }
     }
     for (const set of shapefileSets(bytes)) {
-      const { layer, report } = readShapefile(set, { name: set.stem, reproject });
-      out.push({ id: addLayer(layer, { format: 'Shapefile', file: `${set.stem}.shp`, report }), report });
+      // A damaged set is reported like any other file, not thrown to the caller (TE 2.0.4 cross, c56).
+      try {
+        const { layer, report } = readShapefile(set, { name: set.stem, reproject });
+        out.push({ id: addLayer(layer, { format: 'Shapefile', file: `${set.stem}.shp`, report }), report });
+      } catch (e) {
+        app.toast(`${set.stem}.shp: ${errorText(e)}`, { kind: 'error' });
+        app.importLog?.push({ file: `${set.stem}.shp`, errors: [errorText(e)], warnings: [] });
+      }
     }
     for (const [nm, b] of Object.entries(bytes)) {
       try {
@@ -1212,7 +1241,7 @@ export function install(app) {
           // FlatGeobuf and GeoParquet (what Convert writes) come in as GeoJSON with their CRS.
           const fgb = /\.fgb$/i.test(nm);
           const lib = await app.gw.runScript(fgb ? 'js-fgb' : 'js-parquet');
-          const { fc, notes } = fgb ? await readFgb(lib, b) : await readGeoParquet(lib, b, { gunzip: gunzipSync });
+          const { fc, notes } = fgb ? await readFgb(lib, b, { run: fgbInWorker }) : await readGeoParquet(lib, b, { gunzip: gunzipSync });
           const { layer, report } = readGeoJSON(fc, { name: nm.replace(/\.\w+$/, ''), reproject: (n) => {
             const m = /EPSG:+(\d+)/.exec(n);
             const crs = m ? crsOf({ epsg: Number(m[1]) }) : null;
@@ -1264,8 +1293,8 @@ export function install(app) {
           app.importLog?.push({ file: nm, errors: [], warnings: [`${nm}: not GeoJSON; left out (${e.message.slice(12)})`] });
           continue;
         }
-        app.toast(`${nm}: ${e.message}`, { kind: 'error' });
-        app.importLog?.push({ file: nm, errors: [e.message], warnings: [] });
+        app.toast(`${nm}: ${errorText(e)}`, { kind: 'error' });
+        app.importLog?.push({ file: nm, errors: [errorText(e)], warnings: [] });
       }
     }
     // TE archive: a ZIP with neither vectors nor imagery used to end with no message at all.

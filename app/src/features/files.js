@@ -10,7 +10,7 @@ import { groupFiles, openImageFile, attachFile, recoverHandle } from '../formats
 import { isImageryZip, expandZip, defaultPick } from '../formats/zip-container.js';
 import { modal, field, confirmBox, promptBox } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
-import { fmtBytes } from '../core/util.js';
+import { fmtBytes, errorText } from '../core/util.js';
 import { FEEDBACK_EMAIL } from '../feedback/contact.js';
 
 export const name = 'files';
@@ -97,8 +97,8 @@ export async function install(app) {
         }
         app.importLog.push({ file: f.name, errors: [], warnings: [`opened ${pick.length} of ${entries.length} files from the ZIP`] });
       } catch (e) {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 9000 });
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 9000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
       }
     }
     return out;
@@ -146,7 +146,7 @@ export async function install(app) {
           const json = /^\s*[{[]/.test(await raw.slice(0, 64).text());
           f = new File([raw], json ? f.name.slice(0, -3).replace(/\.\w+$/, '.geojson') : f.name.slice(0, -3), { lastModified: f.lastModified });
         } catch (e) {
-          app.importLog.push({ file: f.name, errors: [`the gzip data is damaged (${e.message})`], warnings: [] });
+          app.importLog.push({ file: f.name, errors: [`the gzip data is damaged (${errorText(e)})`], warnings: [] });
           app.toast(`${f.name}: the gzip data is damaged`, { kind: 'error', ms: 9000 });
           continue;
         }
@@ -161,8 +161,8 @@ export async function install(app) {
         app.importLog.push({ file: f.name, errors: [], warnings: [] });
         app.toast(`${f.name}: ${what}`);
       } catch (e) {
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 9000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 9000 });
       }
     }
     return rest;
@@ -223,8 +223,8 @@ export async function install(app) {
         app.importLog.push({ file: f.name, errors: [], warnings: [] });
         app.toast(`${f.name}: ${r.waypoints} waypoint(s), ${r.routes} route(s), ${r.tracks} track segment(s)`);
       } catch (e) {
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
       }
     }
     for (const f of gltf) {
@@ -234,8 +234,8 @@ export async function install(app) {
         app.importLog.push({ file: f.name, errors: [], warnings: [`placed by its ${m.placedBy}`] });
         app.toast(`${f.name}: ${m.meshes} mesh(es), placed by its ${m.placedBy}`);
       } catch (e) {
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
       }
     }
     if (!files.length) return;
@@ -246,8 +246,8 @@ export async function install(app) {
       await app.openPmtiles(f).then(
         () => app.importLog.push({ file: f.name, errors: [], warnings: [] }),
         (e) => {
-          app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
-          app.toast(`${f.name}: ${e.message}`, { kind: 'warn', ms: 8000 });
+          app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
+          app.toast(`${f.name}: ${errorText(e)}`, { kind: 'warn', ms: 8000 });
         },
       );
     }
@@ -291,8 +291,8 @@ export async function install(app) {
           lib.forEach((f) => app.importLog.push({ file: f.name, errors: [], warnings: [] }));
           app.toast(`${s.length} library spectra from ${lib.map((f) => f.name).join(', ')}`);
         } catch (e) {
-          lib.forEach((f) => app.importLog.push({ file: f.name, errors: [e.message], warnings: [] }));
-          app.toast(`${lib[0].name}: ${e.message}`, { kind: 'error', ms: 9000 });
+          lib.forEach((f) => app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] }));
+          app.toast(`${lib[0].name}: ${errorText(e)}`, { kind: 'error', ms: 9000 });
         }
         if (!files.length && !det.length) return;
       }
@@ -306,7 +306,7 @@ export async function install(app) {
           continue;
         }
         await app.detections.importFile(f).catch((e) => {
-          app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+          app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
           app.toast(e.message, { kind: 'warn', ms: 8000 });
         });
       }
@@ -336,9 +336,9 @@ export async function install(app) {
         // A single-band elevation raster (a GeoTIFF DEM): offer it as terrain (GUI-056).
         if (L0 && app.elevationLike?.(L0)) app.toast(`${g.file.name} looks like elevation data: use it as terrain for heights, line of sight and the Surface tools.`, { action: { label: 'Use as terrain', run: () => app.terrainDialog(L0) } });
       } catch (e) {
-        app.log('warn', `${g.file.name}: ${e.message}`); // a user-facing outcome, shown as a toast
-        app.toast(`${g.file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
-        app.importLog.push({ file: g.file.name, errors: [e.message], warnings: [] });
+        app.log('warn', `${g.file.name}: ${errorText(e)}`); // a user-facing outcome, shown as a toast
+        app.toast(`${g.file.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: g.file.name, errors: [errorText(e)], warnings: [] });
       }
     }
     app.desktop.workspace.map.zoomToFootprints();
@@ -413,8 +413,8 @@ export async function install(app) {
     try {
       parsed = readProject(new Uint8Array(await file.arrayBuffer()));
     } catch (e) {
-      app.importLog?.push({ file: file.name, errors: [e.message], warnings: [] });
-      return app.toast(`${file.name}: ${e.message}`, { kind: 'error', ms: 8000 });
+      app.importLog?.push({ file: file.name, errors: [errorText(e)], warnings: [] });
+      return app.toast(`${file.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
     }
     const warnings = [];
     for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
@@ -439,7 +439,7 @@ export async function install(app) {
         try {
           await attachFile(app, r, a.file, a.sidecars);
         } catch (e) {
-          app.toast(`${a.file.name}: ${e.message}`, { kind: 'error' });
+          app.toast(`${a.file.name}: ${errorText(e)}`, { kind: 'error' });
         }
       }
       app.emit('layers');
@@ -502,7 +502,7 @@ export async function install(app) {
   app.on('ready', () =>
     setTimeout(() => {
       const el = document.getElementById('gw-snapshot');
-      if (el) openSnapshot(el).catch((e) => app.toast(`Snapshot: ${e.message}`, { kind: 'error', ms: 8000 }));
+      if (el) openSnapshot(el).catch((e) => app.toast(`Snapshot: ${errorText(e)}`, { kind: 'error', ms: 8000 }));
     }, 0),
   );
   C.implement('file.snapshot', {
@@ -514,7 +514,7 @@ export async function install(app) {
         await saveBlob(app, new Blob([r.html], { type: 'text/html' }), { name, types: ['.html'], description: 'GIS Workbench snapshot' });
         app.toast(`Snapshot: ${r.files} file(s) embedded${r.skipped.length ? `; ${r.skipped.length} left out (${r.skipped.map((x) => x.name).join(', ')})` : ''}`, { ms: 8000 });
       } catch (e) {
-        app.toast(`Snapshot: ${e.message}`, { kind: 'error' });
+        app.toast(`Snapshot: ${errorText(e)}`, { kind: 'error' });
       }
     },
   });
@@ -537,7 +537,7 @@ export async function install(app) {
       try {
         await attachFile(app, ref, file, g?.sidecars ?? []);
       } catch (e) {
-        app.toast(`${file.name}: ${e.message}`, { kind: 'error' });
+        app.toast(`${file.name}: ${errorText(e)}`, { kind: 'error' });
       }
     }
     for (const m of r.mismatched) app.toast(`${m.file.name} has the right name but a different fingerprint; it was not linked (REQ-ARC-09)`, { kind: 'warn', ms: 8000 });
@@ -600,7 +600,7 @@ export async function install(app) {
               try {
                 Object.assign(rec, await app.journal.unseal(rec, pass));
               } catch (e) {
-                return app.toast(`Recovery: ${e.message}`, { kind: 'error' });
+                return app.toast(`Recovery: ${errorText(e)}`, { kind: 'error' });
               }
             }
             const base = rec.snapshot ?? app.store.snapshot();
@@ -609,7 +609,7 @@ export async function install(app) {
               try {
                 app.store.applyChangeSet(cs, { kind: 'load' });
               } catch (e) {
-                app.log('warn', `recovery: skipped "${cs.label}": ${e.message}`);
+                app.log('warn', `recovery: skipped "${cs.label}": ${errorText(e)}`);
               }
             }
             for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);

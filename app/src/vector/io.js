@@ -390,6 +390,8 @@ export function readShapefile({ shp, dbf = null, prj = null, cpg = null }, { nam
     if (!conv) rep.warnings.push('the .prj could not be read; coordinates are taken as WGS 84 lon/lat');
   } else rep.crs = prj ? 'WGS 84 (.prj)' : 'no .prj; WGS 84 assumed';
   const dv = new DataView(shp.buffer, shp.byteOffset, shp.byteLength);
+  // A damaged .shp is refused or read up to the damage, by name: a cut file threw a raw RangeError (TE 2.0.4 cross, c56).
+  if (shp.byteLength < 100 || dv.getInt32(0, false) !== 9994) throw new Error(`${name}.shp is not a readable shapefile (${shp.byteLength < 100 ? `${shp.byteLength} bytes, shorter than its 100-byte header` : 'its header has no 9994 file code'})`);
   const len = dv.getInt32(24, false) * 2;
   const table = dbf ? readDbf(dbf, label) : { rows: [], fields: [] };
   const feats = [];
@@ -405,6 +407,10 @@ export function readShapefile({ shp, dbf = null, prj = null, cpg = null }, { nam
   while (o + 8 <= Math.min(len, shp.byteLength)) {
     const clen = dv.getInt32(o + 4, false) * 2;
     const c = o + 8;
+    if (clen < 4 || c + clen > shp.byteLength) {
+      rep.warnings.push(`the .shp is cut short at record ${r + 1}; the ${feats.length} record(s) before it are read`);
+      break;
+    }
     const t = dv.getInt32(c, true);
     const attrs = table.rows[r] ?? {};
     r++;

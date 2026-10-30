@@ -166,3 +166,16 @@ export function yieldNow() {
 /** Min and max of a numeric array of any length (Math.min(...a) overflows the stack past ~10⁵ items). */
 export const minOf = (a) => a.reduce((m, v) => (v < m ? v : m), Infinity);
 export const maxOf = (a) => a.reduce((m, v) => (v > m ? v : m), -Infinity);
+
+/**
+ * The reason for a failed open, in words. A parser reading past the end of a cut or damaged file
+ * throws the browser's own text ("Offset is outside the bounds of the DataView", typed-array lengths),
+ * and a decoder that hits a WebAssembly trap says "unreachable": both reached users as raw exceptions
+ * (TE 2.0.4 cross, damaged-file pass c56).
+ */
+export function errorText(e) {
+  const m = String(e?.message ?? e ?? '');
+  if (/DataView|out of bounds|Invalid typed array|array buffer length|MAX_SAFE_INTEGER|offset is outside|Start offset/i.test(m)) return 'the file is cut short or damaged: it ends before the data it describes';
+  if (/WebAssembly trap|unreachable|RuntimeError/.test(m)) return 'the decoder stopped on damaged or unsupported data (it was restarted)';
+  return m;
+}

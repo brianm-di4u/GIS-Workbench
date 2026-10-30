@@ -51,6 +51,7 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Cloud-Optimized GeoTIFF of complex SAR (SICD, SLC)** holds the displayed band instead of all nine derived bands: an Umbra SICD converts in about a minute (496 MB) instead of six (3.2 GB). (CX-068)
 - **Spectral tools on large multispectral strips** sample the image's own overview levels (seconds instead of a timeout), and image tiles keep loading while several large files are still preparing their first display. (CX-069, CX-070)
 - **Orthorectify and Cloud-Optimized GeoTIFF of whole satellite strips** read the image on several workers at once and encode tiles off the main thread: a CORE3D multispectral strip rectifies in 3 minutes (it failed), and a 2.2 G-pixel WorldView strip converts in about 4. (CX-071, CX-072)
+- **Damaged and cut-short files are refused by name**: shapefiles, JPEG 2000, PMTiles and spectral libraries say the file is cut short or damaged instead of showing an internal error, and a cut FlatGeobuf no longer freezes the app. (CX-073–CX-075)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 

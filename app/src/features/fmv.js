@@ -7,7 +7,7 @@
 // IGEOLO and a fitted RPC00B), an event log plotted on the map, and STANAG 4607 GMTI dwells and
 // targets on the shared time slider.
 
-import { minOf, maxOf } from '../core/util.js';
+import { minOf, maxOf, errorText } from '../core/util.js';
 import { VideoView, HUD_BLOCKS } from '../shell/videoview.js';
 import { modal, field } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
@@ -1273,14 +1273,14 @@ export async function install(app) {
   app.openMotionFiles = async ({ video = [], gmti: gm = [], tracks = [] }, pane) => {
     for (const f of gm)
       await openGmti(f).catch((e) => {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
       });
-    for (const f of tracks) await openTracks4676(f).catch((e) => app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 }));
+    for (const f of tracks) await openTracks4676(f).catch((e) => app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 }));
     for (const f of video)
       await open(f, pane).catch((e) => {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
       });
   };
 
