@@ -139,7 +139,13 @@ export function install(app) {
   C.implement('img.orthofly', {
     enabled: () => !!pane() && (!!pane().ootf || sources(pane()).length > 0),
     checked: () => !!pane()?.ootf && pane().ootf.sources.length === 1,
-    run: run(async () => (pane().ootf ? disable() : enable(pane(), { layers: [pane().geoLayer()].filter((l) => l && app.ortho.rpcRecordOf(l)) }))),
+    // The active image when it has an RPC model, else the panel's first RPC image (the command is
+    // enabled by any; it used to refuse when the active layer was another kind, TE 2.0.4 cross).
+    run: run(async () => {
+      if (pane().ootf) return disable();
+      const active = [pane().geoLayer()].filter((l) => l && l.kind !== 'dem' && app.ortho.rpcRecordOf(l));
+      return enable(pane(), { layers: active.length ? active : sources(pane()).slice(0, 1) });
+    }),
   });
   C.implement('img.projection', {
     run: run(async () => {

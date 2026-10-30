@@ -16,6 +16,11 @@ import { converter } from '../geo/crs.js';
 
 export const name = 'extract-r2';
 
+// Min and max of arrays that can hold one entry per building or vertex: Math.min(...a) overflows the
+// call stack past about 10⁵ arguments (TE 2.0.4: 3D export of a Microsoft footprints tile).
+const minOf = (a) => a.reduce((m, v) => (v < m ? v : m), Infinity);
+const maxOf = (a) => a.reduce((m, v) => (v > m ? v : m), -Infinity);
+
 /** Local metric frame about (lat0, lon0) (WGS 84 radii at the origin). */
 export function frame(lat0, lon0) {
   const a = 6378137;
@@ -347,15 +352,15 @@ export function install(app) {
       return c;
     };
     const v = [];
-    for (let j = Math.floor((g.lat0 - Math.max(...lats)) / g.dlat); j <= Math.ceil((g.lat0 - Math.min(...lats)) / g.dlat); j++)
-      for (let i = Math.floor((Math.min(...lons) - g.lon0) / g.dlon); i <= Math.ceil((Math.max(...lons) - g.lon0) / g.dlon); i++) {
+    for (let j = Math.floor((g.lat0 - maxOf(lats)) / g.dlat); j <= Math.ceil((g.lat0 - minOf(lats)) / g.dlat); j++)
+      for (let i = Math.floor((minOf(lons) - g.lon0) / g.dlon); i <= Math.ceil((maxOf(lons) - g.lon0) / g.dlon); i++) {
         if (i < 0 || j < 0 || i >= g.width || j >= g.height) continue;
         if (inside(g.lon0 + i * g.dlon, g.lat0 - j * g.dlat) && Number.isFinite(H[j * g.width + i])) v.push(H[j * g.width + i]);
       }
     if (!v.length) throw new Error('the DSM has no posts inside the footprint');
     v.sort((a, b) => a - b);
     const roof = v[Math.floor(v.length / 2)];
-    const base = Math.min(...ring.map((p) => groundOf(p[0], p[1]) ?? p[2]));
+    const base = minOf(ring.map((p) => groundOf(p[0], p[1]) ?? p[2]));
     setHeight(featureId, roof - base, 'DSM', { dsm: dsm.name, base });
     return roof - base;
   }
@@ -369,13 +374,13 @@ export function install(app) {
     const out = [];
     for (const f of fs) {
       const ring = polygonGroups(f.geom)[0][0];
-      const base = Math.min(...ring.map((p) => groundOf(p[0], p[1]) ?? p[2]));
+      const base = minOf(ring.map((p) => groundOf(p[0], p[1]) ?? p[2]));
       bases.push(base);
       const hgt = Number(f.attrs?.HGT);
       const height = Number.isFinite(hgt) && hgt > 0 ? hgt : Number(f.prov?.height?.value) || 3;
       out.push({ f, ring, base, height, fromAttr: Number.isFinite(hgt) && hgt > 0 });
     }
-    const h0 = Math.min(...bases);
+    const h0 = minOf(bases);
     const origin = { lat: lat0, lon: lon0, h: h0 };
     return {
       origin,
@@ -406,10 +411,10 @@ export function install(app) {
       }
     const xs = px.map((p) => p[0]);
     const ys = px.map((p) => p[1]);
-    const x0 = Math.max(0, Math.floor(Math.min(...xs)) - 2);
-    const y0 = Math.max(0, Math.floor(Math.min(...ys)) - 2);
-    const x1 = Math.min(image.width, Math.ceil(Math.max(...xs)) + 2);
-    const y1 = Math.min(image.height, Math.ceil(Math.max(...ys)) + 2);
+    const x0 = Math.max(0, Math.floor(minOf(xs)) - 2);
+    const y0 = Math.max(0, Math.floor(minOf(ys)) - 2);
+    const x1 = Math.min(image.width, Math.ceil(maxOf(xs)) + 2);
+    const y1 = Math.min(image.height, Math.ceil(maxOf(ys)) + 2);
     if (x1 <= x0 || y1 <= y0) throw new Error('the buildings are outside the image');
     const step = Math.max(1, Math.ceil(Math.max(x1 - x0, y1 - y0) / maxSize));
     const cb = image.chain?.bands ?? [0];
@@ -537,7 +542,7 @@ export function install(app) {
       // The roof at the ground under the centre plus HGT (HGT is the roof's height over its local ground).
       const lon = ring.reduce((s, v) => s + v[0], 0) / ring.length;
       const lat = ring.reduce((s, v) => s + v[1], 0) / ring.length;
-      const base = groundOf(lon, lat) ?? Math.min(...ring.map((v) => v[2]));
+      const base = groundOf(lon, lat) ?? minOf(ring.map((v) => v[2]));
       await app.demEdit.edit('flatten', { ring: ring.map((v) => [v[0], v[1]]), h: base + Number(f.attrs.HGT) }, dsm);
     }
     return fs.length;

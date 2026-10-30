@@ -14,7 +14,8 @@ import { pathToFileURL } from 'node:url';
 import { REPO, loadManifest } from './corpus-lib.mjs';
 
 const src = readFileSync(join(REPO, 'app/src/shell/commands.js'), 'utf8');
-const catalog = [...src.matchAll(/^\s*\['([a-z0-9_.]+)',\s*'((?:[^'\\]|\\.)*)',\s*'[^']*',\s*'([^']*)',\s*'(R\d)'/gm)].map(([, id, label, req, rel]) => ({ id, label: label.replace(/\\'/g, "'"), req, rel }));
+// Ids may hold hyphens (rcp.folder-to-cog); a label with an apostrophe is double-quoted (help.whatsnew).
+const catalog = [...src.matchAll(/^\s*\['([a-z0-9_.-]+)',\s*(?:'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"),\s*'[^']*',\s*'([^']*)',\s*'(R\d)'/gm)].map(([, id, l1, l2, req, rel]) => ({ id, label: (l1 ?? l2).replace(/\\(['"])/g, '$1'), req, rel }));
 const { CONTEXT_SETS, MAIN_TABS, QAT, FILE_MENU, WORKSPACE_MENUS } = await import(pathToFileURL(join(REPO, 'app/src/shell/ribbon-data.js')).href);
 
 // Collect every command id under a ribbon/menu structure.

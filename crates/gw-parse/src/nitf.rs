@@ -77,6 +77,28 @@ pub struct SegmentInfo {
     pub data_len: u64,
 }
 
+/// A user-defined or extended data area of `len` bytes: a 3-digit overflow pointer and TREs
+/// (NITF 2.0/2.1), or free-form user data (NITF 1.1, `raw`, or an area that does not start with
+/// a number), which is skipped. TRE offsets are reported from `base`.
+fn tre_area_at<'a>(r: &mut Reader<'a>, len: usize, raw: bool, base: usize) -> Result<Option<Vec<tre::Tre<'a>>>> {
+    if len == 0 {
+        return Ok(None);
+    }
+    let start = r.pos;
+    let pointer = len >= 3 && r.b.get(start..start + 3).is_some_and(|h| h.iter().all(u8::is_ascii_digit));
+    if raw || !pointer {
+        r.bytes(len)?;
+        return Ok(None);
+    }
+    r.bytes(3)?;
+    let area = r.bytes(len - 3)?;
+    Ok(Some(tre::split(area, base + start + 3)?))
+}
+
+fn tre_area<'a>(r: &mut Reader<'a>, len: usize, raw: bool) -> Result<Option<Vec<tre::Tre<'a>>>> {
+    tre_area_at(r, len, raw, 0)
+}
+
 /// Parse the file header. `b` must start at offset 0 and hold at least HL bytes; when it
 /// is shorter, the error is RANGE and its message starts with "need HL=<n>".
 pub fn file_header(b: &[u8], file_size: u64) -> Result<String> {
@@ -85,8 +107,10 @@ pub fn file_header(b: &[u8], file_size: u64) -> Result<String> {
     let fver = r.text(5)?;
     let version = match (fhdr.as_str(), fver.as_str()) {
         ("NITF", "02.10") | ("NSIF", "01.00") => Version::V21,
-        ("NITF", "02.00") => Version::V20,
-        _ => return Err(Error::unsupported(format!("not a NITF 2.0/2.1 or NSIF 1.0 file (header \"{}{}\")", printable(fhdr.as_bytes(), 4), printable(fver.as_bytes(), 5)))),
+        // NITF 1.1 (1989) file and image subheaders have the NITF 2.0 field layout (TE archive 2.0.4:
+        // the six JITC 1.1 conformance files parse field for field); read with it and say so.
+        ("NITF", "02.00") | ("NITF", "01.10") => Version::V20,
+        _ => return Err(Error::unsupported(format!("not a NITF 1.1/2.0/2.1 or NSIF 1.0 file (header \"{}{}\")", printable(fhdr.as_bytes(), 4), printable(fver.as_bytes(), 5)))),
     };
     let clevel = r.trimmed(2)?;
     let stype = r.trimmed(4)?;
@@ -133,22 +157,14 @@ pub fn file_header(b: &[u8], file_size: u64) -> Result<String> {
     }
     let udhdl = r.num(5, "UDHDL")? as usize;
     let mut header_tres_json = String::from("[]");
-    if udhdl > 0 {
-        let _ofl = r.num(3, "UDHOFL")?;
-        let area = r.bytes(udhdl.saturating_sub(3))?;
-        let base = r.pos - area.len();
-        let t = tre::split(area, base)?;
+    if let Some(t) = tre_area(&mut r, udhdl, fver == "01.10")? {
         let mut jj = Json::new();
         tre::to_json(&mut jj, &t);
         header_tres_json = jj.finish();
     }
     let xhdl = r.num(5, "XHDL")? as usize;
     let mut ext_tres_json = String::from("[]");
-    if xhdl > 0 {
-        let _ofl = r.num(3, "XHDLOFL")?;
-        let area = r.bytes(xhdl.saturating_sub(3))?;
-        let base = r.pos - area.len();
-        let t = tre::split(area, base)?;
+    if let Some(t) = tre_area(&mut r, xhdl, fver == "01.10")? {
         let mut jj = Json::new();
         tre::to_json(&mut jj, &t);
         ext_tres_json = jj.finish();
@@ -161,6 +177,9 @@ pub fn file_header(b: &[u8], file_size: u64) -> Result<String> {
         segs.push(seg);
     }
     let mut warnings: Vec<String> = Vec::new();
+    if fver == "01.10" {
+        warnings.push("NITF 1.1: read with the NITF 2.0 layout".to_string());
+    }
     if off > file_size {
         warnings.push(format!("segments end at byte {off}, beyond the file size {file_size}; the file is truncated"));
     }
@@ -245,6 +264,16 @@ fn f(s: &str) -> f64 {
 /// Parse one image subheader (the bytes of exactly that subheader). `base` is its offset in
 /// the file, used to report TRE offsets.
 pub fn image_subheader(b: &[u8], base: u64, version21: bool) -> Result<String> {
+    image_subheader_v(b, base, version21 as u8)
+}
+
+/// As image_subheader, by version: 0 = NITF 2.0, 1 = NITF 2.1 / NSIF 1.0, 2 = NITF 1.1. A NITF 1.1
+/// subheader has the 2.0 fields except that ISORCE is 80 characters and NROWS…PJUST are absent:
+/// the size follows from the blocks (NBPC × NPPBV rows, NBPR × NPPBH columns), ABPP = NBPP, and the
+/// representation from the band codes.
+pub fn image_subheader_v(b: &[u8], base: u64, ver: u8) -> Result<String> {
+    let version21 = ver == 1;
+    let v11 = ver == 2;
     let v = if version21 { Version::V21 } else { Version::V20 };
     let mut r = Reader::new(b);
     if r.text(2)? != "IM" {
@@ -256,14 +285,12 @@ pub fn image_subheader(b: &[u8], base: u64, version21: bool) -> Result<String> {
     let iid2 = r.trimmed(80)?;
     let sec = read_security(&mut r, "IS", v)?;
     let encryp = r.trimmed(1)?;
-    let isorce = r.trimmed(42)?;
-    let nrows = r.num(8, "NROWS")?;
-    let ncols = r.num(8, "NCOLS")?;
-    let pvtype = r.trimmed(3)?;
-    let irep = r.trimmed(8)?;
-    let icat = r.trimmed(8)?;
-    let abpp = r.num(2, "ABPP")?;
-    let pjust = r.trimmed(1)?;
+    let (isorce, mut nrows, mut ncols, pvtype, mut irep, icat, mut abpp, pjust) = if v11 {
+        (r.trimmed(80)?, 0, 0, String::from("INT"), String::new(), String::from("VIS"), 0, String::from("R"))
+    } else {
+        (r.trimmed(42)?, r.num(8, "NROWS")?, r.num(8, "NCOLS")?, r.trimmed(3)?, r.trimmed(8)?, r.trimmed(8)?, r.num(2, "ABPP")?, r.trimmed(1)?)
+    };
+    let mut band_reps: Vec<String> = Vec::new();
     let icords = r.text(1)?;
     let icords_t = icords.trim().to_string();
     let has_geo = if version21 { !icords_t.is_empty() } else { icords_t != "N" && !icords_t.is_empty() };
@@ -289,6 +316,7 @@ pub fn image_subheader(b: &[u8], base: u64, version21: bool) -> Result<String> {
     bands.arr();
     for _ in 0..nbands {
         let irepband = r.trimmed(2)?;
+        band_reps.push(irepband.clone());
         let isubcat = r.trimmed(6)?;
         let ifc = r.trimmed(1)?;
         let imflt = r.trimmed(3)?;
@@ -322,6 +350,18 @@ pub fn image_subheader(b: &[u8], base: u64, version21: bool) -> Result<String> {
     let ialvl = r.num(3, "IALVL")?;
     let iloc = r.text(10)?;
     let imag = r.trimmed(4)?;
+    if v11 {
+        nrows = nbpc.saturating_mul(nppbv);
+        ncols = nbpr.saturating_mul(nppbh);
+        abpp = nbpp;
+        let reps: Vec<&str> = band_reps.iter().map(|x| x.as_str()).collect();
+        irep = match reps.as_slice() {
+            ["R", "G", "B"] => "RGB",
+            [_] => "MONO",
+            _ => "MULTI",
+        }
+        .to_string();
+    }
     if nppbh == 0 && nbpr == 1 {
         nppbh = ncols;
     }
@@ -340,18 +380,12 @@ pub fn image_subheader(b: &[u8], base: u64, version21: bool) -> Result<String> {
     // TRE areas.
     let mut tres_all: Vec<tre::Tre> = Vec::new();
     let udidl = r.num(5, "UDIDL")? as usize;
-    if udidl > 0 {
-        let _ = r.num(3, "UDOFL")?;
-        let area = r.bytes(udidl.saturating_sub(3))?;
-        let off = r.pos - area.len();
-        tres_all.extend(tre::split(area, base as usize + off)?);
+    if let Some(t) = tre_area_at(&mut r, udidl, false, base as usize)? {
+        tres_all.extend(t);
     }
     let ixshdl = r.num(5, "IXSHDL")? as usize;
-    if ixshdl > 0 {
-        let _ = r.num(3, "IXSOFL")?;
-        let area = r.bytes(ixshdl.saturating_sub(3))?;
-        let off = r.pos - area.len();
-        tres_all.extend(tre::split(area, base as usize + off)?);
+    if let Some(t) = tre_area_at(&mut r, ixshdl, false, base as usize)? {
+        tres_all.extend(t);
     }
     // Derived: RPC record and ICHIPB.
     let mut rpc_record: Option<Vec<f64>> = None;

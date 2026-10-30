@@ -1,6 +1,6 @@
 # T&E archive coverage
 
-Generated 2026-10-29T22:34:36.333Z by `build/campaign/coverage.mjs` from `corpus.json` (305 items), `reports/campaign/format-census.json` (4939 files), `formats.json` and `function-needs.json`. Field data (tier U) is excluded from all counts. Refused formats count negative samples.
+Generated 2026-10-30T01:42:04.890Z by `build/campaign/coverage.mjs` from `corpus.json` (305 items), `reports/campaign/format-census.json` (4939 files), `formats.json` and `function-needs.json`. Field data (tier U) is excluded from all counts. Refused formats count negative samples.
 
 **Formats:** 177/179 at minimum. **Function data roles:** 75/76 filled.
 
@@ -152,8 +152,8 @@ Generated 2026-10-29T22:34:36.333Z by `build/campaign/coverage.mjs` from `corpus
 | `vec.csv.wkt` | CSV with WKT | read | 4 | 3 | 2 | yes | derived-vector-variants/ne_rivers_wkt.csv; vector-gpx-csv-wkt-gdal/csv/wkt.csv; vector-gpx-csv-wkt-gdal/csv/curves_line.csv |
 | `vec.csv.lonlat` | CSV lon/lat | read | 24 | 3 | 9 | yes | derived-pc-ascii/autzen.csv; derived-pc-ascii/test1_4.csv; derived-pc-ascii/houston_c1.csv |
 | `det.csv` | Detections CSV (class + confidence) | read | 4 | 3 | 2 | yes | derived-vector-variants/spacenet_vegas_img10_detections.csv; derived-detections-csv/rareplanes_105_detections_latlon.csv; derived-detections-csv/rareplanes_108_detections_xyxy.csv |
-| `refused.geoparquet` | GeoParquet (read refused) | refused | 17 | 3 | 3 | yes | derived-vector-variants/ne_countries.parquet; derived-vector-variants/ne_places.parquet; derived-vector-variants/nhd_flowline.parquet |
-| `refused.flatgeobuf` | FlatGeobuf (no reader) | refused | 16 | 3 | 3 | yes | derived-vector-variants/ne_countries.fgb; derived-vector-variants/ne_places.fgb; derived-vector-variants/nhd_flowline.fgb |
+| `vec.geoparquet` | GeoParquet (WKB; read from 2.0.4, written by Convert) | read | 17 | 3 | 3 | yes | derived-vector-variants/ne_countries.parquet; derived-vector-variants/ne_places.parquet; derived-vector-variants/nhd_flowline.parquet |
+| `vec.flatgeobuf` | FlatGeobuf (read from 2.0.4, written by Convert) | read | 16 | 3 | 3 | yes | derived-vector-variants/ne_countries.fgb; derived-vector-variants/ne_places.fgb; derived-vector-variants/nhd_flowline.fgb |
 | `refused.mbtiles` | MBTiles | refused | 24 | 3 | 4 | yes | derived-pmtiles-raster/naip_png.mbtiles; derived-pmtiles-raster/naip_jpeg.mbtiles; derived-pmtiles-raster/naip_webp.mbtiles |
 | `pmtiles.png` | PMTiles raster PNG | read | 8 | 3 | 5 | yes | derived-pmtiles-raster/naip_png.pmtiles; derived-pmtiles-raster/s2tci_png.pmtiles; derived-pmtiles-raster/cop_hillshade_png.pmtiles |
 | `pmtiles.jpeg` | PMTiles raster JPEG | read | 5 | 3 | 2 | yes | derived-pmtiles-raster/naip_jpeg.pmtiles; derived-pmtiles-raster/s2tci_jpeg.pmtiles; derived-pmtiles-raster/cop_hillshade_jpeg.pmtiles |

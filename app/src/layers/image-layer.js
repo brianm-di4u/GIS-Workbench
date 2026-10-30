@@ -110,7 +110,8 @@ export class ImageLayer {
     const key = JSON.stringify([bm.glsl, bm.bands, this.radiometry.gain, this.radiometry.offset]);
     if (this.bmHist && this._bmKey === key) return this.bmHist;
     const step = Math.max(1, Math.floor(Math.sqrt((this.width * this.height) / 512 ** 2)));
-    const c = await this.app.pool.run('cube', { handle: this.handle, step, bands: bm.bands }, { affinity: this.affinity, label: `band math statistics ${this.rec?.name}` });
+    // From the pyramid level of the step: a histogram needs no full-resolution read.
+    const c = await this.app.pool.run('cube', { handle: this.handle, step, bands: bm.bands, pyramid: true }, { affinity: this.affinity, label: `band math statistics ${this.rec?.name}` });
     const n = c.w * c.h;
     const planes = bm.bands.map((_, k) => {
       const p = new Float32Array(n);

@@ -7,6 +7,7 @@
 // IGEOLO and a fitted RPC00B), an event log plotted on the map, and STANAG 4607 GMTI dwells and
 // targets on the shared time slider.
 
+import { minOf, maxOf } from '../core/util.js';
 import { VideoView, HUD_BLOCKS } from '../shell/videoview.js';
 import { modal, field } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
@@ -540,8 +541,8 @@ export async function install(app) {
     const lats = pts.map((p) => p[0]);
     const lons = pts.map((p) => p[1]);
     const r = map.el.getBoundingClientRect();
-    const span = Math.max(Math.max(...lons) - Math.min(...lons), Math.max(...lats) - Math.min(...lats), 0.001);
-    map.zoomTo((Math.max(...lats) + Math.min(...lats)) / 2, (Math.max(...lons) + Math.min(...lons)) / 2, Math.min(20000, (Math.max(200, r.width) * 0.6) / span));
+    const span = Math.max(maxOf(lons) - minOf(lons), maxOf(lats) - minOf(lats), 0.001);
+    map.zoomTo((maxOf(lats) + minOf(lats)) / 2, (maxOf(lons) + minOf(lons)) / 2, Math.min(20000, (Math.max(200, r.width) * 0.6) / span));
   }
 
   let active = null;
@@ -954,10 +955,10 @@ export async function install(app) {
       // RPC fit over the footprint ± a margin and the frame-centre height ± 50 m.
       const lats = st.footprint.map((p) => p[0]);
       const lons = st.footprint.map((p) => p[1]);
-      const padLa = (Math.max(...lats) - Math.min(...lats)) * 0.05 + 1e-5;
-      const padLo = (Math.max(...lons) - Math.min(...lons)) * 0.05 + 1e-5;
+      const padLa = (maxOf(lats) - minOf(lats)) * 0.05 + 1e-5;
+      const padLo = (maxOf(lons) - minOf(lons)) * 0.05 + 1e-5;
       const h0 = Number.isFinite(st.fcHae) ? st.fcHae : 0;
-      const tail = [Math.min(...lats) - padLa, Math.max(...lats) + padLa, Math.min(...lons) - padLo, Math.max(...lons) + padLo, h0 - 50, h0 + 50, W, H];
+      const tail = [minOf(lats) - padLa, maxOf(lats) + padLa, minOf(lons) - padLo, maxOf(lons) + padLo, h0 - 50, h0 + 50, W, H];
       const computed = /^computed/.test(st.footprintSource);
       const job = computed
         ? [0, st.lat, st.lon, st.hae, st.heading ?? 0, st.pitch ?? 0, st.roll ?? 0, st.az, st.el, st.sroll ?? 0, st.hfov, ...tail]
@@ -1313,7 +1314,8 @@ export async function install(app) {
   C.implement('fmv.basis', { enabled: hasClip, run: run(() => timeBasisDialog()) });
   C.implement('fmv.hud', { enabled: hasVideoPane, checked: () => options.hud, run: run(() => ((options.hud = !options.hud), view()?.drawHud())) });
   C.implement('fmv.vmti', { enabled: hasVideoPane, checked: () => options.vmti, run: run(() => ((options.vmti = !options.vmti), view()?.drawHud(), app.renderer.invalidate())) });
-  C.implement('fmv.capture', { enabled: hasClip, run: run(() => capture()) });
+  // MPEG-2 frames are decoded neither by WebCodecs nor by the video element (REQ-FMV-15): no capture.
+  C.implement('fmv.capture', { enabled: () => hasClip() && activeClip().codec !== 'mp2v', run: run(() => capture()) });
   C.implement('fmv.event', { enabled: hasClip, run: run(() => eventLog()) });
   C.implement('fmv.gmti', { run: run(async () => { for (const f of await pickFiles(app, { accept: ['.4607', '.gmti'], description: 'STANAG 4607', multiple: true })) await openGmti(f); }) });
   C.implement('fmv.gmticolour', { enabled: () => gmti.length > 0, checked: () => options.gmtiColour === 'velocity', run: run(() => ((options.gmtiColour = options.gmtiColour === 'velocity' ? 'age' : 'velocity'), app.renderer.invalidate())) });

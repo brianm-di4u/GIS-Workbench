@@ -4,6 +4,7 @@
 // analyst bookmarks, watched for new files while the app is open. Everything opens by range:
 // only the header, the overviews and the tiles in view are read (connectors/remote.js).
 
+import { minOf, maxOf } from '../core/util.js';
 import { h, clear } from '../shell/dom.js';
 import { modal, field, promptBox } from '../shell/dialogs.js';
 import { remoteFile, httpsUrl, KNOWN_REGIONS } from '../connectors/remote.js';
@@ -118,7 +119,7 @@ export function install(app) {
     if (!pts.length) return null;
     const lats = pts.map((g) => g.lat);
     const lons = pts.map((g) => g.lon);
-    return [Math.min(...lons), Math.min(...lats), Math.max(...lons), Math.max(...lats)];
+    return [minOf(lons), minOf(lats), maxOf(lons), maxOf(lats)];
   }
 
   async function openItem(api, item) {

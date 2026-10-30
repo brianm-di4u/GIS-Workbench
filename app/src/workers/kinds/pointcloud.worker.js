@@ -7,6 +7,10 @@ import { PointCloudBundle } from '../../wasm/pointcloud.js';
 const { GW } = self;
 let pc = null;
 async function bundle() {
+  // WASM linear memory never shrinks: a module an earlier job grew past 384 MiB is replaced, so this
+  // job starts small (TE 2.0.4: a LAZ export after a 220 MB LAS export of the same 7.3 M-point cloud
+  // trapped at the 1 GiB cap). Jobs keep no state in the module between calls.
+  if (pc && pc.x?.memory?.buffer?.byteLength > 384 * 2 ** 20) pc = null;
   if (!pc) {
     await GW.ensure('pointcloud');
     pc = new PointCloudBundle(GW.ctx.modules.pointcloud);

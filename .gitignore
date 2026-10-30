@@ -6,6 +6,7 @@ node_modules/
 dist-te/
 dist-te2/
 dist-archive/
+dist-cx*/
 dist-gui/
 dist-live/
 dist-v200/

@@ -279,6 +279,22 @@ export function install(app) {
     return { ...r, ms: Math.round(performance.now() - t0), ground: next.reduce((s, v) => s + (v === 2 ? 1 : 0), 0) };
   }
 
+  /**
+   * A post spacing that suits the cloud: the largest 1-2-5 step at or below the mean point spacing
+   * √(area / points), never below `min` (a COPC root of 1 065 points over 4 km has 120 m spacing,
+   * where a 1 m grid would be 15 M mostly empty posts; Autzen's 2.4 m gives 2 m).
+   */
+  function defaultCell(c, min = 0.5) {
+    const st = c.stats;
+    const area = Math.max(1, (st.max[0] - st.min[0]) * (st.max[1] - st.min[1]));
+    const spacing = Math.sqrt(area / Math.max(1, c.n));
+    const next = (v) => [1, 2, 5].map((k) => k * 10 ** Math.floor(Math.log10(v) + 1e-9)).concat(10 ** (Math.floor(Math.log10(v) + 1e-9) + 1)).find((x) => x > v * (1 + 1e-9));
+    let v = min;
+    for (let nx = next(v); nx <= spacing; nx = next(v)) v = nx;
+    return Number(v.toPrecision(3));
+  }
+  const MAX_POSTS = 40e6;
+
   /** Grid spec in the local frame for a cell size over the cloud (posts on multiples of the cell). */
   function gridFor(c, cell) {
     const st = c.stats;
@@ -286,6 +302,7 @@ export function install(app) {
     const n0 = Math.floor(st.max[1] / cell) * cell;
     const w = Math.max(2, Math.floor((st.max[0] - e0) / cell) + 1);
     const hh = Math.max(2, Math.floor((n0 - st.min[1]) / cell) + 1);
+    if (w * hh > MAX_POSTS) throw new Error(`${w.toLocaleString()} × ${hh.toLocaleString()} posts at ${cell} m is too many for the browser; use ${defaultCell(c, cell * Math.sqrt((w * hh) / MAX_POSTS))} m or more`);
     const o = c.origin;
     return { e0, n0, ce: cell, cn: cell, w, h: hh, geo: { lat0: o.lat0 + n0 / o.ky, lon0: o.lon0 + e0 / o.kx, dlat: cell / o.ky, dlon: cell / o.kx, nx: w, ny: hh } };
   }
@@ -329,6 +346,8 @@ export function install(app) {
       heightAboveGround(c, r);
     }
     if (!doOpen) return res;
+    // The panel can be gone by the time a long grid finishes (a new project, a closed window).
+    if (!p || !app.store.get(p.id)) throw new Error(`the panel the ${LABEL[kind]} was made for has been closed`);
     const { layers } = await openImageFile(app, file, { pane: p });
     const l = layers[0];
     res.layer = l;
@@ -580,7 +599,7 @@ export function install(app) {
   }
 
   /** Buildings and trees from points (REQ-LDR-11): DSM and DTM from the cloud, then the DSM extractor. */
-  async function extractFromPoints(c, { cell = 0.5 } = {}) {
+  async function extractFromPoints(c, { cell = defaultCell(c, 0.5) } = {}) {
     const dsm = await generate(c, 'dsm', { cell });
     const dtm = await generate(c, 'dtm', { cell });
     return app.extractR2.buildingsFromDsm({ dsm: app.terrain.entry(dsm.layer.id), dtm: app.terrain.entry(dtm.layer.id) });
@@ -702,6 +721,10 @@ export function install(app) {
     run: run(async (c) => {
       const num = (v, lbl, step = 'any') => h('input', { class: 'inp inp-num', type: 'number', step, value: String(v), 'aria-label': lbl });
       const f = Object.fromEntries(Object.entries(SMRF_DEFAULTS).map(([k, v]) => [k, num(v, k)]));
+      // A sparse cloud gets a cell near its point spacing, and a window of at least four cells.
+      const cell0 = defaultCell(c, SMRF_DEFAULTS.cell);
+      f.cell.value = String(cell0);
+      f.window.value = String(Math.max(SMRF_DEFAULTS.window, 4 * cell0));
       const body = h('div', {}, field('Cell size (m)', f.cell), field('Slope (rise/run)', f.slope), field('Largest window (m)', f.window), field('Elevation threshold (m)', f.threshold), field('Elevation scaling', f.scalar), field('Low-noise depth (m, 0 = off)', f.lowNoise), h('p', { class: 'hint' }, 'SMRF (Pingel et al. 2013). Ground becomes class 2; former ground that fails becomes 1; low outliers become 7. Undo restores the previous classes.'));
       if ((await modal({ title: 'Ground Filter (SMRF)', body, id: 'pc-smrf' })) !== 'OK') return;
       const r = await groundFilter(c, Object.fromEntries(Object.entries(f).map(([k, el]) => [k, +el.value])));
@@ -712,7 +735,7 @@ export function install(app) {
     C.implement(`pc.${kind}`, {
       enabled: has,
       run: run(async (c) => {
-        const cell = h('input', { class: 'inp inp-num', type: 'number', min: '0.1', step: 'any', value: '1', 'aria-label': 'Post spacing in metres' });
+        const cell = h('input', { class: 'inp inp-num', type: 'number', min: '0.1', step: 'any', value: String(defaultCell(c, 1)), 'aria-label': 'Post spacing in metres' });
         if ((await modal({ title: `Generate ${LABEL[kind]}`, body: field('Post spacing (m)', cell, kind === 'dtm' ? 'From class 2 (ground) points; run the ground filter first if the file is not classified.' : ''), id: `pc-${kind}` })) !== 'OK') return;
         const r = await generate(c, kind, { cell: Math.max(0.05, +cell.value || 1) });
         app.toast(`${LABEL[kind]} ${r.grid.w} × ${r.grid.h} posts opened as ${r.file.name}`);

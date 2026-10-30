@@ -400,7 +400,7 @@ def vector_variants():
                  'Public domain (Natural Earth, USGS NHD); CC BY 4.0 (BAMBI); CC BY-SA 4.0 (SpaceNet)', 'Natural Earth; USGS NHD; BAMBI (Zenodo); SpaceNet Partners', 'GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB',
                  'Subsets; GeoJSON non-RFC7946 keeps the crs member', files, recipe,
                  ['vec.geojson', 'vec.geojson.legacycrs', 'vec.geojson.jsonext', 'vec.shp', 'vec.shp.z', 'vec.shp.m', 'vec.shp.cpg', 'vec.gml', 'vec.csv.lonlat', 'vec.csv.wkt', 'vec.gpx', 'det.csv',
-                  'refused.geoparquet', 'refused.flatgeobuf'], ['vector', 'ingest', 'cnv'])
+                  'vec.geoparquet', 'vec.flatgeobuf'], ['vector', 'ingest', 'cnv'])
 
 
 def pmtiles_raster():

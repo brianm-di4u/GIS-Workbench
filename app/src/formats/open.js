@@ -578,6 +578,45 @@ async function readSidecars(sidecars) {
   return out;
 }
 
+/**
+ * Reopen in a fresh worker the file whose handle lived on a worker that was restarted, rebinding every
+ * layer of that file (by image segment) to its new handle. The pool calls this (pool.recover) for a
+ * job addressed to the dead worker; the file is opened once however many jobs ask. Returns the new
+ * {handle, affinity} for `handle`, or null when no layer owns it (in-memory products cannot come back).
+ */
+const recovering = new Map();
+export function recoverHandle(app, slotId, handle) {
+  const layer = [...app.layers.values()].find((l) => l.affinity === slotId && l.handle === handle);
+  const ref = layer?.rec?.file;
+  const entry = ref && app.files.get(ref);
+  if (!entry?.file) return null;
+  const key = `${slotId}|${ref}`;
+  if (!recovering.has(key)) {
+    recovering.set(
+      key,
+      (async () => {
+        const hdr = (entry.sidecars ?? []).find((s) => /\.hdr$/i.test(s.name)) ?? null;
+        const job = app.pool.run('open', { file: forWorker(entry.file), name: entry.file.name, merge: !!entry.result?.merged, hdr }, { label: `reopen ${entry.file.name}`, timeout: 120000 });
+        const res = await job;
+        const affinity = app.pool.lastAffinity?.(job.jobId);
+        const map = new Map();
+        for (const l of app.layers.values()) {
+          if (l.rec?.file !== ref || l.affinity !== slotId) continue;
+          const r = res.rasters.find((x) => x.imageIndex === l.rec.imageIndex) ?? (res.rasters.length === 1 ? res.rasters[0] : null);
+          if (!r) continue;
+          map.set(l.handle, { handle: r.handle, affinity });
+          l.handle = r.handle;
+          l.affinity = affinity;
+        }
+        app.log('warn', `${entry.file.name}: reopened after its worker was restarted`);
+        app.renderer?.invalidate();
+        return map;
+      })().finally(() => setTimeout(() => recovering.delete(key), 60000)),
+    );
+  }
+  return recovering.get(key).then((m) => m.get(handle) ?? null);
+}
+
 /** Decode a file in a worker and describe its rasters (no store changes). */
 export async function describe(app, file, sidecars = [], { merge = false } = {}) {
   const t0 = performance.now();

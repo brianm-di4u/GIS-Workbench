@@ -5,6 +5,7 @@
 // Linked panels show the ground cursor of the panel under the mouse, and a roam cursor while
 // it roams, in a configurable shape and colour.
 
+import { minOf, maxOf } from '../core/util.js';
 import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { screenOfGround, halo } from '../tools/tools.js';
@@ -126,7 +127,7 @@ export function install(app) {
     }
     const xs = xy.map((q) => q[0]);
     const ys = xy.map((q) => q[1]);
-    const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    const [x0, x1, y0, y1] = [minOf(xs), maxOf(xs), minOf(ys), maxOf(ys)];
     const step = cell > 0 ? cell : Math.max(0.25, Math.sqrt(((x1 - x0) * (y1 - y0)) / 250000));
     const inside = (x, y) => {
       let c = false;
@@ -206,6 +207,8 @@ export function install(app) {
       const p = pane();
       const l = p.geoLayer();
       const c = app.lineCentre(s.pts);
+      // A line on a map with no image (vectors only): the centre is ground geometry alone.
+      if (!l?.modelId) return app.toast(`Centre point: ${app.core.mgrs(c.lat, c.lon, 5)} (line ${c.total.toFixed(1)} m, geodesic)`);
       const q = l.imageAt(c.lat, c.lon, c.h);
       const g = { ...c, heightSource: 'line vertices', x: q?.x, y: q?.y };
       const err = q ? app.measureApi.errorFor(l, q.x, q.y, g) : null;

@@ -293,15 +293,30 @@ export function install(app) {
     const [tw, th] = t.tile;
     // Only the occupied tile window is composited (TE-027: zoom 16 of a world matrix is 16 M px wide).
     const [c0, r0, c1, r1] = t.occupied;
-    const W = (c1 - c0 + 1) * tw;
-    const H = (r1 - r0 + 1) * th;
+    const [px, py] = t.pixel;
+    const [mx0, , , my1] = t.bounds;
+    // Window in matrix pixels: the occupied tiles, cut to the contents extent when it shares the
+    // matrix SRS, as GDAL does (TE 2.0.4: the padding of the last tile column came in as a black strip).
+    let wx0 = c0 * tw;
+    let wy0 = r0 * th;
+    let wx1 = (c1 + 1) * tw;
+    let wy1 = (r1 + 1) * th;
+    if (t.contents?.every(Number.isFinite)) {
+      wx0 = Math.max(wx0, Math.round((t.contents[0] - mx0) / px));
+      wx1 = Math.min(wx1, Math.round((t.contents[2] - mx0) / px));
+      wy0 = Math.max(wy0, Math.round((my1 - t.contents[3]) / py));
+      wy1 = Math.min(wy1, Math.round((my1 - t.contents[1]) / py));
+      if (!(wx1 > wx0 && wy1 > wy0)) [wx0, wy0, wx1, wy1] = [c0 * tw, r0 * th, (c1 + 1) * tw, (r1 + 1) * th];
+    }
+    const W = wx1 - wx0;
+    const H = wy1 - wy0;
     const c = new OffscreenCanvas(W, H);
     const g = c.getContext('2d');
     let drawn = 0;
     for (const d of t.data) {
       try {
         const bmp = await createImageBitmap(new Blob([d.bytes]));
-        g.drawImage(bmp, (d.col - c0) * tw, (d.row - r0) * th, tw, th);
+        g.drawImage(bmp, d.col * tw - wx0, d.row * th - wy0, tw, th);
         bmp.close?.();
         drawn++;
       } catch {
@@ -311,10 +326,8 @@ export function install(app) {
     if (!drawn) throw new Error('no tile could be decoded (PNG/JPEG/WebP expected)');
     const png = await c.convertToBlob({ type: 'image/png' });
     // Tile (0, 0) starts at the tile matrix set's top-left corner (OGC 12-128 §2.2.7).
-    const [x0, , , y1] = t.bounds;
-    const [px, py] = t.pixel;
     const stem = `${nm.replace(/\.gpkg$/i, '')}_${t.table}_z${t.zoom}`;
-    const world = [px, 0, 0, -py, x0 + (c0 * tw + 0.5) * px, y1 - (r0 * th + 0.5) * py].join('\n');
+    const world = [px, 0, 0, -py, mx0 + (wx0 + 0.5) * px, my1 - (wy0 + 0.5) * py].join('\n');
     const files = [new File([png], `${stem}.png`, { type: 'image/png' }), new File([world], `${stem}.pgw`)];
     const prj = t.wkt ?? (t.epsg === 4326 ? 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433],AUTHORITY["EPSG","4326"]]' : t.epsg === 3857 ? 'PROJCS["WGS 84 / Pseudo-Mercator",AUTHORITY["EPSG","3857"]]' : null);
     if (prj) files.push(new File([prj], `${stem}.prj`));

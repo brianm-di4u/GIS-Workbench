@@ -5,7 +5,7 @@ import { Store } from './core/store.js';
 import { UndoManager } from './core/undo.js';
 import { Emitter, newId } from './core/util.js';
 import { Commands } from './shell/commands.js';
-import { toast } from './shell/toast.js';
+import { toast, toastLog } from './shell/toast.js';
 import { highest, titleSuffix } from './security/marking.js';
 import { Terrain } from './layers/terrain.js';
 import { FEEDBACK_EMAIL } from './feedback/contact.js';
@@ -135,6 +135,11 @@ export class App extends Emitter {
 
   toast(msg, opts) {
     return toast(msg, opts);
+  }
+
+  /** Messages as issued (shell/toast.js): {t, kind, message}. */
+  get toastLog() {
+    return toastLog;
   }
 
   log(level, msg) {

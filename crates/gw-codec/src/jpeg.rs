@@ -4,7 +4,9 @@
 //! (or no DHT) the NITF default tables apply: the quantisation level comes from the NITF APP6
 //! segment and the Huffman tables are the ITU T.81 Annex K luminance tables.
 //!
-//! Progressive and lossless processes are refused with UNSUPPORTED. Output is planar u16.
+//! Lossless Huffman streams (SOF3, NITF IC=C5/M5: predictors 1..7, point transform, restart
+//! intervals) decode too. Progressive, arithmetic and hierarchical processes are refused with
+//! UNSUPPORTED. Output is planar u16.
 
 use gw_abi::{Error, Result};
 
@@ -283,6 +285,7 @@ pub fn decode(d: &[u8], qlevel_hint: u32, color: u32) -> Result<Raster> {
     let mut adobe: Option<u8> = None;
     let mut restart = 0usize;
     let mut frame: Option<(u32, usize, usize, Vec<Comp>)> = None; // precision, X, Y, comps
+    let mut lossless = false; // SOF3: Huffman lossless (NITF IC=C5/M5)
     let idct = Idct::new();
     loop {
         if i + 1 >= d.len() {
@@ -397,7 +400,44 @@ pub fn decode(d: &[u8], qlevel_hint: u32, color: u32) -> Result<Raster> {
                 frame = Some((prec, x, y, comps));
             }
             0xC2 | 0xC6 | 0xCA | 0xCE => return Err(Error::unsupported("JPEG: progressive streams are not part of the NITF profile")),
-            0xC3 | 0xC7 | 0xCB | 0xCF => return Err(Error::unsupported("JPEG: lossless JPEG (IC=C5) is not decoded yet")),
+            0xC3 => {
+                // Lossless (T.81 Annex H): 2..16-bit samples, one sample per "block".
+                if seg.len() < 6 {
+                    return Err(Error::range("JPEG: short SOF"));
+                }
+                let prec = seg[0] as u32;
+                if !(2..=16).contains(&prec) {
+                    return Err(Error::invalid(format!("JPEG: {prec}-bit lossless precision")));
+                }
+                let y = be16(seg, 1)?;
+                let x = be16(seg, 3)?;
+                let nf = seg[5] as usize;
+                if x == 0 || y == 0 || nf == 0 || nf > 4 || seg.len() < 6 + nf * 3 {
+                    return Err(Error::invalid("JPEG: bad frame header (DNL streams are not supported)"));
+                }
+                if x * y * nf > MAX_SAMPLES {
+                    return Err(Error::limit("JPEG: image too large"));
+                }
+                let mut comps = Vec::new();
+                for k in 0..nf {
+                    let c = &seg[6 + k * 3..9 + k * 3];
+                    let (h, v) = ((c[1] >> 4) as usize, (c[1] & 15) as usize);
+                    if !(1..=4).contains(&h) || !(1..=4).contains(&v) {
+                        return Err(Error::invalid("JPEG: bad component sampling"));
+                    }
+                    comps.push(Comp { id: c[0], h, v, tq: 0, stride: 0, rows: 0, plane: Vec::new() });
+                }
+                let hmax = comps.iter().map(|c| c.h).max().unwrap();
+                let vmax = comps.iter().map(|c| c.v).max().unwrap();
+                for c in comps.iter_mut() {
+                    c.stride = x.div_ceil(hmax) * c.h;
+                    c.rows = y.div_ceil(vmax) * c.v;
+                    c.plane = vec![0; c.stride * c.rows];
+                }
+                frame = Some((prec, x, y, comps));
+                lossless = true;
+            }
+            0xC7 | 0xCB | 0xCF => return Err(Error::unsupported("JPEG: differential (hierarchical) lossless coding")),
             0xC5 | 0xC9 | 0xCD => return Err(Error::unsupported("JPEG: arithmetic or hierarchical coding")),
             0xDA => {
                 let (prec, x, y, comps) = frame.as_mut().ok_or_else(|| Error::invalid("JPEG: SOS before SOF"))?;
@@ -413,6 +453,21 @@ pub fn decode(d: &[u8], qlevel_hint: u32, color: u32) -> Result<Raster> {
                     sc.push((ci, (t >> 4) as usize & 3, (t & 15) as usize & 3));
                 }
                 let (ss, se) = (seg[1 + ns * 2], seg[2 + ns * 2]);
+                if lossless {
+                    // Ss is the predictor (1..7), Al the point transform.
+                    let pt = (seg[3 + ns * 2] & 15) as u32;
+                    if !(1..=7).contains(&ss) || pt >= *prec {
+                        return Err(Error::invalid("JPEG: bad lossless predictor or point transform"));
+                    }
+                    for &(_, td, _) in &sc {
+                        if dc[td].is_none() {
+                            return Err(Error::invalid("JPEG: lossless scan without its Huffman table"));
+                        }
+                    }
+                    let tables: Vec<&Huff> = sc.iter().map(|&(_, td, _)| dc[td].as_ref().unwrap()).collect();
+                    i = lossless_scan(d, i + len, *prec, pt, ss, restart, *x, *y, comps, &sc, &tables)?;
+                    continue;
+                }
                 if ss != 0 || se != 63 {
                     return Err(Error::unsupported("JPEG: spectral selection (progressive)"));
                 }
@@ -558,6 +613,90 @@ pub fn decode(d: &[u8], qlevel_hint: u32, color: u32) -> Result<Raster> {
         }
     }
     Ok(Raster { width: x as u32, height: y as u32, comps: comps.len() as u32, bits: prec, data: out })
+}
+
+/// One lossless scan (T.81 Annex H): Huffman-coded DPCM differences per sample, predicted by
+/// selector `sel` (1..7) from the left (Ra), upper (Rb) and upper-left (Rc) neighbours. The first
+/// sample of the scan and of each restart interval is predicted by 2^(P−Pt−1), the first line of
+/// each interval from the left, the first column from above. Samples are left-shifted by the point
+/// transform `pt` into the component planes. Returns the offset after the entropy-coded data.
+#[allow(clippy::too_many_arguments)]
+fn lossless_scan(d: &[u8], start: usize, prec: u32, pt: u32, sel: u8, restart: usize, x: usize, y: usize, comps: &mut [Comp], sc: &[(usize, usize, usize)], tables: &[&Huff]) -> Result<usize> {
+    let hmax = comps.iter().map(|c| c.h).max().unwrap();
+    let vmax = comps.iter().map(|c| c.v).max().unwrap();
+    let single = sc.len() == 1;
+    // MCU grid: one sample of a single-component scan, else h × v samples of each component.
+    let (mcux, mcuy) = if single {
+        let c = &comps[sc[0].0];
+        ((x * c.h).div_ceil(hmax), (y * c.v).div_ceil(vmax))
+    } else {
+        (x.div_ceil(hmax), y.div_ceil(vmax))
+    };
+    let mask = (1i32 << (prec - pt)) - 1;
+    let init = 1i32 << (prec - pt - 1);
+    let mut bits = Bits { d, pos: start, acc: 0, n: 0, marker: None, pad: 0 };
+    let mut work: Vec<Vec<i32>> = sc.iter().map(|&(ci, _, _)| vec![0; comps[ci].stride * comps[ci].rows]).collect();
+    let mut reset = vec![true; sc.len()];
+    let mut first_row = vec![0usize; sc.len()];
+    let mut mcu = 0usize;
+    'scan: for my in 0..mcuy {
+        for mx in 0..mcux {
+            if bits.pad > 4096 && (bits.pad == u32::MAX || !bits.marker.is_some_and(|m| (0xD0..=0xD7).contains(&m))) {
+                break 'scan;
+            }
+            if restart > 0 && mcu > 0 && mcu % restart == 0 {
+                bits.restart();
+                for (si, &(ci, _, _)) in sc.iter().enumerate() {
+                    reset[si] = true;
+                    first_row[si] = if single { my } else { my * comps[ci].v };
+                }
+            }
+            mcu += 1;
+            for (si, &(ci, _, _)) in sc.iter().enumerate() {
+                let (bh, bv) = if single { (1, 1) } else { (comps[ci].h, comps[ci].v) };
+                let stride = comps[ci].stride;
+                let w = &mut work[si];
+                for v in 0..bv {
+                    for h in 0..bh {
+                        let (sx, sy) = if single { (mx, my) } else { (mx * bh + h, my * bv + v) };
+                        let t = bits.decode(tables[si])? as u32;
+                        if t > 16 {
+                            return Err(Error::invalid("JPEG: bad lossless difference category"));
+                        }
+                        let diff = if t == 16 { 32768 } else { Bits::extend(bits.get(t), t) };
+                        let p = if reset[si] {
+                            reset[si] = false;
+                            init
+                        } else if sy == first_row[si] {
+                            if sx > 0 { w[sy * stride + sx - 1] } else if sy > 0 { w[(sy - 1) * stride] } else { init }
+                        } else if sx == 0 {
+                            w[(sy - 1) * stride]
+                        } else {
+                            let ra = w[sy * stride + sx - 1];
+                            let rb = w[(sy - 1) * stride + sx];
+                            let rc = w[(sy - 1) * stride + sx - 1];
+                            match sel {
+                                1 => ra,
+                                2 => rb,
+                                3 => rc,
+                                4 => ra + rb - rc,
+                                5 => ra + ((rb - rc) >> 1),
+                                6 => rb + ((ra - rc) >> 1),
+                                _ => (ra + rb) >> 1,
+                            }
+                        };
+                        w[sy * stride + sx] = (p + diff) & 0xFFFF;
+                    }
+                }
+            }
+        }
+    }
+    for (si, &(ci, _, _)) in sc.iter().enumerate() {
+        for (o, v) in comps[ci].plane.iter_mut().zip(work[si].iter()) {
+            *o = (*v & mask) << pt;
+        }
+    }
+    Ok(bits.pos)
 }
 
 #[cfg(test)]

@@ -326,7 +326,7 @@ export function install(app) {
     return { size, px, body: h('div', {}, field('Ground size (square)', size), field('Output size (px)', px)) };
   };
   C.implement('chip.preset', {
-    enabled: () => !!pane()?.geoLayer?.(),
+    enabled: () => !!pane()?.geoLayer?.()?.modelId,
     run: async () => {
       const p = pane();
       const f = presetFields();
@@ -404,7 +404,7 @@ export function install(app) {
     },
   });
   C.implement('draw.automap', {
-    enabled: () => !!pane()?.geoLayer?.(),
+    enabled: () => !!pane()?.geoLayer?.()?.modelId,
     run: () => {
       const p = pane();
       app.store.transact('Auto map', (tx) => {

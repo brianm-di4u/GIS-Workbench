@@ -2,7 +2,7 @@
 // and statistics. Every parser of untrusted bytes here is either Rust (`parse` bundle) or a
 // vetted library (geotiff.js) or the browser's own image decoder.
 
-import { Pyramid, LRU } from '../decode/pyramid.js';
+import { Pyramid, LRU, TILE } from '../decode/pyramid.js';
 import { openNitf, ioStats } from '../decode/nitf.js';
 import { mosaicPlan, mosaicSource } from '../decode/mosaic.js';
 import { openGeoTiff } from '../decode/geotiff.js';
@@ -354,7 +354,7 @@ GW.register('complex', async ({ handle, x0, y0, w, h, maxSamples = 16e6 }, job) 
  * A BIP Float32 cube of a window (spectral algorithms, REQ-MSI-07..12): every `step`-th pixel of
  * the bands listed, with per-band gain/offset applied (radiometric state); no-data → NaN.
  */
-GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain = null, offset = null, maxSamples = 96e6 }, job) => {
+GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain = null, offset = null, maxSamples = 96e6, pyramid = false }, job) => {
   const e = handles.get(handle);
   if (!e) throw new Error('unknown image handle');
   x0 = Math.max(0, Math.floor(x0));
@@ -368,6 +368,33 @@ GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain
   const out = new Float32Array(ow * oh * nb);
   const nd = e.src.nodata;
   const isNd = nd === null || nd === undefined ? () => false : Number.isNaN(nd) ? (v) => Number.isNaN(v) : (v) => v === nd;
+  // pyramid: a statistics cube samples the pyramid level of the step (2^L ≤ step; cached, or the
+  // file's own overviews) instead of reading every full-resolution row to keep one in `step`
+  // (TE 2.0.4: Band Math statistics of a 4-band NAIP tile ran past 120 s).
+  if (pyramid && step >= 2 && e.pyr) {
+    const L = Math.min(e.pyr.levels - 1, Math.floor(Math.log2(step)));
+    const f = 2 ** L;
+    const { w: lw, h: lh } = e.pyr.dims(L);
+    const lx = (ox) => Math.min(lw - 1, Math.floor((x0 + ox * step) / f));
+    const ly = (oy) => Math.min(lh - 1, Math.floor((y0 + oy * step) / f));
+    const [tx0, tx1, ty0, ty1] = [Math.floor(lx(0) / TILE), Math.floor(lx(ow - 1) / TILE), Math.floor(ly(0) / TILE), Math.floor(ly(oh - 1) / TILE)];
+    for (let k = 0; k < nb; k++) {
+      const tiles = new Map();
+      for (let ty = ty0; ty <= ty1; ty++) for (let tx = tx0; tx <= tx1; tx++) tiles.set(`${tx},${ty}`, await e.pyr.core(L, tx, ty, bands[k], job));
+      for (let oy = 0; oy < oh; oy++) {
+        const y = ly(oy);
+        const ty = Math.floor(y / TILE);
+        for (let ox = 0; ox < ow; ox++) {
+          const x = lx(ox);
+          const t = tiles.get(`${Math.floor(x / TILE)},${ty}`);
+          const v = t.data[(y - ty * TILE) * t.w + (x - Math.floor(x / TILE) * TILE)];
+          out[(oy * ow + ox) * nb + k] = isNd(v) ? NaN : (gain ? gain[k] : 1) * v + (offset ? offset[k] : 0);
+        }
+      }
+      job?.progress?.((k + 1) / nb);
+    }
+    return GW.transfer({ x0, y0, w: ow, h: oh, step, nb, v: out, level: L }, [out.buffer]);
+  }
   const rows = Math.max(step, Math.floor(8e6 / Math.max(1, w * nb)) - (Math.floor(8e6 / Math.max(1, w * nb)) % step));
   for (let r0 = 0; r0 < h; r0 += rows) {
     const rh = Math.min(rows, h - r0);

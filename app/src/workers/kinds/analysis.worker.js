@@ -20,8 +20,13 @@ async function bundle() {
   return photo;
 }
 
+// WASM linear memory never shrinks: a stateless module an earlier job grew past 384 MiB is
+// replaced before the next job, so big jobs in a row do not fragment it up to the 1 GiB cap.
+const grown = (b) => b?.x?.memory?.buffer?.byteLength > 384 * 2 ** 20;
+
 let raster = null;
 async function rasterBundle() {
+  if (grown(raster)) raster = null;
   if (!raster) {
     await GW.ensure('raster');
     raster = new Raster(GW.ctx.modules.raster);
@@ -38,6 +43,7 @@ async function terrainBundle() {
 }
 let vector = null;
 async function vectorBundle() {
+  if (grown(vector)) vector = null;
   if (!vector) {
     await GW.ensure('vector');
     vector = new VectorBundle(GW.ctx.modules.vector);
@@ -54,6 +60,7 @@ async function sarBundle() {
 }
 let spectral = null;
 async function spectralBundle() {
+  if (grown(spectral)) spectral = null;
   if (!spectral) {
     await GW.ensure('spectral');
     spectral = new SpectralBundle(GW.ctx.modules.spectral);

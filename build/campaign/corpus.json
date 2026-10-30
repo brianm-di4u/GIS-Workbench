@@ -1,7 +1,7 @@
 {
  "version": 1,
  "budgetBytes": 2199023255552,
- "generated": "2026-10-29T22:34:00.455Z",
+ "generated": "2026-10-30T01:41:38.830Z",
  "items": [
   {
    "id": "rs-dem-derived-s35w059",
@@ -4089,8 +4089,8 @@
     "fmt:vec.csv.wkt",
     "fmt:vec.gpx",
     "fmt:det.csv",
-    "fmt:refused.geoparquet",
-    "fmt:refused.flatgeobuf"
+    "fmt:vec.geoparquet",
+    "fmt:vec.flatgeobuf"
    ],
    "pairs": []
   },
@@ -30462,7 +30462,7 @@
     "vec.refuse"
    ],
    "covers": [
-    "fmt:refused.geoparquet"
+    "fmt:vec.geoparquet"
    ],
    "origin": "download"
   },
@@ -30534,7 +30534,7 @@
     "vec.refuse"
    ],
    "covers": [
-    "fmt:refused.geoparquet"
+    "fmt:vec.geoparquet"
    ],
    "origin": "download"
   },
@@ -30613,7 +30613,7 @@
     "vec.refuse"
    ],
    "covers": [
-    "fmt:refused.flatgeobuf"
+    "fmt:vec.flatgeobuf"
    ],
    "origin": "download"
   },
@@ -30671,7 +30671,7 @@
     "vec.refuse"
    ],
    "covers": [
-    "fmt:refused.flatgeobuf"
+    "fmt:vec.flatgeobuf"
    ],
    "origin": "download"
   },

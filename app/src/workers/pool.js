@@ -120,6 +120,25 @@ export class WorkerPool extends Emitter {
       if (job.state !== 'queued') continue;
       let slot = job.affinity ? slots.find((s) => s.id === job.affinity) : null;
       if (job.affinity && !slot) {
+        // The worker holding the file was restarted (a timed-out or crashed job): the app reopens
+        // the file in a fresh worker (`recover`) and the job continues with the new handle, instead
+        // of every later tile, statistic and export on that file failing (TE 2.0.4 cross).
+        if (this.recover && job.args?.handle !== undefined && !job.recovered) {
+          job.recovered = true;
+          job.state = 'recovering';
+          this.queue.splice(this.queue.indexOf(job), 1);
+          Promise.resolve(this.recover(job.affinity, job.args.handle))
+            .then((r) => {
+              if (!r) throw new Error('the worker holding this file was restarted; reopen the file');
+              job.args = { ...job.args, handle: r.handle };
+              job.affinity = r.affinity;
+              job.state = 'queued';
+              this.queue.push(job);
+              this._pump();
+            })
+            .catch((e) => this._finish(job, null, Object.assign(e instanceof Error ? e : new Error(String(e)), { lost: true })));
+          continue;
+        }
         this._finish(job, null, Object.assign(new Error('the worker holding this file was restarted; reopen the file'), { lost: true }));
         continue;
       }

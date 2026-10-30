@@ -116,7 +116,8 @@ export class Workspace {
     const body = this.preview.querySelector('.ws-preview-body');
     clear(body);
     const l = this.app.layers.get(this.app.selectedLayerId);
-    if (!l) {
+    // A layer an undo or Remove took out of the store keeps its runtime for a redo: not selectable.
+    if (!l?.rec) {
       body.appendChild(h('p', { class: 'muted' }, 'Select an item to see its metadata.'));
       return;
     }

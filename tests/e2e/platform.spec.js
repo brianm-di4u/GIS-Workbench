@@ -116,6 +116,25 @@ test('PT-05 REQ-ARC-05 REQ-RUST-04 the worker pool runs, cancels, times out and 
   expect(r.history.join(' ')).toContain('trap:failed:trapped');
 });
 
+test('PT-05b REQ-ARC-05 a file whose worker is restarted is reopened in a fresh worker; its jobs continue', async ({ page }) => {
+  const { frame } = await openApp(page, 'file');
+  await openFiles(frame, [resolve('fixtures/fx01/fx01.ntf')]);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.lutTex));
+  const r = await frame.evaluate(async () => {
+    const a = window.gisworkbench;
+    const l = [...a.layers.values()][0];
+    const before = { handle: l.handle, affinity: l.affinity };
+    // Kill the worker that holds the file, as a timed-out job would.
+    const slot = [...a.pool.workers.values()].flat().find((s) => s.id === l.affinity);
+    a.pool._kill(slot, new Error('test: worker killed'));
+    const st = await a.pool.run('stats', { handle: l.handle, bands: [0] }, { affinity: l.affinity, timeout: 60000 });
+    return { before, after: { handle: l.handle, affinity: l.affinity }, bins: !!st.bands?.[0]?.bins, log: a.messages.slice(-3).map((m) => m.msg) };
+  });
+  expect(r.bins, 'statistics after the restart').toBe(true);
+  expect(r.after.affinity).not.toBe(r.before.affinity);
+  expect(r.log.join(' ')).toMatch(/reopened after its worker was restarted/);
+});
+
 test('PT-07 REQ-ARC-08 REQ-ARC-09 REQ-ARC-10 the project saves, reloads and relinks imagery by fingerprint', async ({ page }) => {
   const { frame } = await openApp(page, 'file');
   await openFiles(frame, [sample('nitf-wv3-mvs-stereo-chips', 'wv3_a_chip.ntf')]);

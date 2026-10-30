@@ -5,6 +5,7 @@
 // model; and the chosen basemap draped on the terrain around it. The camera keeps the 2D view's
 // centre. A whole-earth globe at small scales is the remaining part of S-27 (DN-54).
 
+import { minOf, maxOf } from '../core/util.js';
 import { h } from '../shell/dom.js';
 import { BASEMAPS } from './basemaps.js';
 
@@ -151,9 +152,9 @@ export function install(app) {
     const lats = corners.map((c) => c.lat);
     const lons = corners.map((c) => c.lon);
     const pad = 0.15;
-    const dLat = (Math.max(...lats) - Math.min(...lats)) * pad;
-    const dLon = (Math.max(...lons) - Math.min(...lons)) * pad;
-    const box = [Math.min(...lats) - dLat, Math.min(...lons) - dLon, Math.max(...lats) + dLat, Math.max(...lons) + dLon];
+    const dLat = (maxOf(lats) - minOf(lats)) * pad;
+    const dLon = (maxOf(lons) - minOf(lons)) * pad;
+    const box = [minOf(lats) - dLat, minOf(lons) - dLon, maxOf(lats) + dLat, maxOf(lons) + dLon];
     const level = corners.reduce((a, c) => a + (c.h ?? 0), 0) / corners.length;
     const centre = { s: (box[0] + box[2]) / 2, w: (box[1] + box[3]) / 2 };
     // Context: the basemap on a box three times wider, laid first so the frame is centred on it.
@@ -175,7 +176,14 @@ export function install(app) {
     const inner = await heightsFor(box, 513, level);
     const grid = { lat0: box[2], lon0: box[1], dlat: (box[2] - box[0]) / 512, dlon: (box[3] - box[1]) / 512, size: 513 };
     const mesh = await meshFor(inner.heights, 513);
-    const drape = await app.scene3d.drapeFor(l, grid, inner.heights, mesh, 2048);
+    // An image whose model cannot place the terrain (off the image, or a model that does not invert)
+    // still gets the terrain, undraped, with the reason.
+    let drape = null;
+    try {
+      drape = await app.scene3d.drapeFor(l, grid, inner.heights, mesh, 2048);
+    } catch (err) {
+      app.toast(`3D: the image is not draped (${err.message}); terrain shown without it`, { kind: 'warn' });
+    }
     v.addTerrain({ grid, heights: inner.heights, mesh, drape, name: l.rec?.name ?? 'image' });
     // Look at the 2D view's centre, obliquely.
     let c = null;

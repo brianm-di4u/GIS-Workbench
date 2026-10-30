@@ -10,6 +10,9 @@ let live;
 const MAX_VISIBLE = 3;
 const queue = [];
 const showing = new Set();
+/** Every message as issued (kind after the step-first downgrade), newest last, 500 kept: for
+ * diagnostics and the T&E harness, which must see a message even while it waits its turn. */
+export const toastLog = [];
 
 function ensure() {
   if (host) return;
@@ -49,6 +52,8 @@ function pump() {
 
 export function toast(message, { kind = 'info', ms = 3500, action } = {}) {
   if (kind === 'error' && STEP_FIRST.test(message)) kind = 'warn';
+  toastLog.push({ t: Date.now(), kind, message: String(message) });
+  if (toastLog.length > 500) toastLog.shift();
   ensure();
   // The same message already on screen or waiting: show it longer instead of twice.
   for (const t of [...showing, ...queue]) {

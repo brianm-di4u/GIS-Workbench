@@ -162,3 +162,7 @@ export function yieldNow() {
   if (globalThis.scheduler?.yield) return globalThis.scheduler.yield();
   return new Promise((r) => setTimeout(r, 0));
 }
+
+/** Min and max of a numeric array of any length (Math.min(...a) overflows the stack past ~10⁵ items). */
+export const minOf = (a) => a.reduce((m, v) => (v < m ? v : m), Infinity);
+export const maxOf = (a) => a.reduce((m, v) => (v > m ? v : m), -Infinity);

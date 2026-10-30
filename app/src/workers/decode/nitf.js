@@ -46,7 +46,9 @@ export async function openNitf(file, parse) {
     }
     throw new Error(`NITF header: ${msg}`);
   }
-  const v21 = hdr.version !== '02.00';
+  // Subheader layout: 0 = NITF 2.0, 1 = NITF 2.1 / NSIF 1.0, 2 = NITF 1.1 (2.0 fields, sizes from the blocks).
+  const ver = hdr.version === '01.10' ? 2 : hdr.version === '02.00' ? 0 : 1;
+  const v21 = ver === 1;
   const images = [];
   const others = [];
   let imageIndex = 0;
@@ -59,7 +61,7 @@ export async function openNitf(file, parse) {
     const [p, n] = parse.put(sh);
     try {
       if (seg.kind === 'image') {
-        const st = parse.x.gw_nitf_image_subheader(p, n, seg.subheaderOffset, v21 ? 1 : 0);
+        const st = parse.x.gw_nitf_image_subheader(p, n, seg.subheaderOffset, ver);
         if (st !== 0) {
           images.push({ index: imageIndex++, error: parse.lastError(), seg });
           continue;
@@ -134,9 +136,10 @@ async function makeImageSource(file, parse, im) {
     padValue = m.TPXCD;
   }
   const compressed = !(IC === 'NC' || IC === 'NM');
-  const codec = { C3: 'jpeg', M3: 'jpeg', C4: 'vq', M4: 'vq', C8: 'j2k', M8: 'j2k', C1: 't4', M1: 't4' }[IC] ?? (compressed ? null : 'raw');
+  // C5/M5 (lossless JPEG, SOF3) go through the same JPEG decoder as C3 since 2.0.4.
+  const codec = { C3: 'jpeg', M3: 'jpeg', C5: 'jpeg', M5: 'jpeg', C4: 'vq', M4: 'vq', C8: 'j2k', M8: 'j2k', C1: 't4', M1: 't4' }[IC] ?? (compressed ? null : 'raw');
   if (!codec) {
-    const names = { C5: 'lossless JPEG', M5: 'lossless JPEG', C2: 'ARIDPCM', M2: 'ARIDPCM', C7: 'complex SAR compression', C6: 'reserved' };
+    const names = { C2: 'ARIDPCM', M2: 'ARIDPCM', C7: 'complex SAR compression', C6: 'reserved' };
     throw new Error(`${names[IC] ?? IC} compression (IC=${IC}) is not decoded yet (REQ-FMT-02)`);
   }
   let jpegIndex = null;

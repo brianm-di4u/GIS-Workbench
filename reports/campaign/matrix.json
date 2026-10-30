@@ -1,8 +1,8 @@
 {
  "summary": {
-  "generated": "2026-10-29T12:25:18.349Z",
-  "commands": 496,
-  "implemented": 496,
+  "generated": "2026-10-30T01:24:52.311Z",
+  "commands": 501,
+  "implemented": 501,
   "placeholders": [],
   "unplaced": [
    "packs.manage",
@@ -22,7 +22,9 @@
    "cnv.open",
    "cnv.cog",
    "glb.toggle",
-   "bm.pmtiles"
+   "bm.pmtiles",
+   "rcp.damage-triage",
+   "rcp.folder-to-cog"
   ],
   "oracleChecked": 40,
   "noEligibleData": [],
@@ -43,7 +45,7 @@
    "c14-annotate": 27,
    "c15-products": 21,
    "c16-ai-mcp": 14,
-   "c17-workspace": 71
+   "c17-workspace": 76
   }
  },
  "rows": [
@@ -216,6 +218,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -223,10 +226,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -253,6 +255,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -260,10 +263,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -1004,6 +1006,23 @@
    "id": "help.limits",
    "label": "Accuracy and Limits",
    "req": "REQ-SEC-07",
+   "rel": "R0",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "workspace-menu"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "help.whatsnew",
+   "label": "What's New",
+   "req": "REQ-HOST-01",
    "rel": "R0",
    "spec": "c17-workspace",
    "implemented": true,
@@ -3406,7 +3425,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -4436,7 +4455,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4476,7 +4495,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4532,7 +4551,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4588,7 +4607,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4627,7 +4646,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4666,7 +4685,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4705,7 +4724,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4744,7 +4763,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4783,7 +4802,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4822,7 +4841,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4861,7 +4880,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4900,7 +4919,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4939,7 +4958,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -4978,7 +4997,7 @@
     "3d-gltf-draco-khronos",
     "3d-tiles-implicit-octree-metadata"
    ],
-   "dataCount": 74,
+   "dataCount": 75,
    "check": "smoke",
    "oracle": null
   },
@@ -5101,7 +5120,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5428,7 +5447,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5473,7 +5492,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5518,7 +5537,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5563,7 +5582,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5608,7 +5627,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5653,7 +5672,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5698,7 +5717,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5743,7 +5762,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5788,7 +5807,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5833,7 +5852,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5878,7 +5897,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5923,7 +5942,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -5968,7 +5987,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6013,7 +6032,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6058,7 +6077,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6103,7 +6122,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6148,7 +6167,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6193,7 +6212,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6238,7 +6257,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6283,7 +6302,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6328,7 +6347,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6373,7 +6392,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6418,7 +6437,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6463,7 +6482,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6508,7 +6527,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6553,7 +6572,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6598,7 +6617,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6643,7 +6662,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6688,7 +6707,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6733,7 +6752,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6780,7 +6799,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6827,7 +6846,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6874,7 +6893,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6921,7 +6940,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -6966,7 +6985,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -7013,7 +7032,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -7058,7 +7077,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -7103,7 +7122,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -7150,7 +7169,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -7195,7 +7214,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -7237,7 +7256,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7279,7 +7298,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7321,7 +7340,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7363,7 +7382,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7405,7 +7424,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7447,7 +7466,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7489,7 +7508,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7531,7 +7550,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7573,7 +7592,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7615,7 +7634,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7657,7 +7676,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7699,7 +7718,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -7781,7 +7800,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -8494,7 +8513,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -8541,7 +8560,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "oracle",
    "oracle": "NDVI vs numpy ± 0.01"
   },
@@ -8578,12 +8597,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8620,12 +8639,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8662,12 +8681,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8704,12 +8723,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8746,12 +8765,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8788,12 +8807,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8830,12 +8849,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8872,12 +8891,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8914,12 +8933,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8956,12 +8975,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -8998,12 +9017,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9040,12 +9059,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9092,7 +9111,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "oracle",
    "oracle": "TOA reflectance vs MTL/MTD formula in numpy"
   },
@@ -9137,7 +9156,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -9174,12 +9193,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9226,7 +9245,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "oracle",
    "oracle": "overall accuracy ≥ 90 % on Indian Pines truth"
   },
@@ -9263,12 +9282,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9305,12 +9324,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9347,12 +9366,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9389,12 +9408,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9431,12 +9450,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "oracle",
    "oracle": "OA/κ vs scikit-learn (3 decimals)"
   },
@@ -9483,7 +9502,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -9530,7 +9549,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -9567,12 +9586,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9619,7 +9638,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -9666,7 +9685,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -9703,12 +9722,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -9745,12 +9764,12 @@
     "derived-hsi-cube-geotiff",
     "s2-l2a-mtd-10seh-pc",
     "landsat7-c2-l2sp-044034-20210617-slcoff",
+    "eo1-hyperion-l1t-043034-20170312",
     "hsi-avirisng-cuprite-20200712-rfl",
     "hsi-speclib-splib07b-envi-hyperspectralpy",
-    "hsi-speclib-splib06-envi-emit-sds",
-    "hsi-speclib-earthlib-envi"
+    "hsi-speclib-splib06-envi-emit-sds"
    ],
-   "dataCount": 24,
+   "dataCount": 25,
    "check": "smoke",
    "oracle": null
   },
@@ -10446,7 +10465,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -10488,7 +10507,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -10530,7 +10549,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 92,
+   "dataCount": 95,
    "check": "smoke",
    "oracle": null
   },
@@ -10559,15 +10578,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "oracle",
    "oracle": "SICD fields vs sarpy"
   },
@@ -10614,7 +10633,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -10643,15 +10662,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "oracle",
    "oracle": "remap switch < 200 ms, no file re-read"
   },
@@ -10698,7 +10717,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "smoke",
    "oracle": null
   },
@@ -10727,15 +10746,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "oracle",
    "oracle": "image→ground corners vs SARkit ≤ 0.01 m; round trip ≤ 0.05 px"
   },
@@ -10764,15 +10783,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -10801,15 +10820,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -10838,15 +10857,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -10875,15 +10894,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -10912,15 +10931,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -10967,7 +10986,7 @@
     "rs-nitf-gdal-rset",
     "rs-nitf-jitc-bitdepth"
    ],
-   "dataCount": 166,
+   "dataCount": 170,
    "check": "oracle",
    "oracle": "coherence ≥ 0.8 stable / ≤ 0.4 disturbed vs numpy"
   },
@@ -10996,15 +11015,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -11033,15 +11052,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -11070,15 +11089,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -11107,15 +11126,15 @@
     "rs-sidd-umbra",
     "derived-sar-complex-slc",
     "derived-sar-sicd14-sidd30",
+    "sar-sandia-farad-quadpol-2pass",
     "sar-capella-c10-sp-20240329",
     "sar-cphd-gdal-autotest",
     "sar-capella-c09-sm-cphd-20240923",
     "sar-sicd-sidd-six-library",
     "sar-sicd-nitro-amp8i-phs8i",
-    "sar-sicd-sidd-xml-sarkit",
-    "sar-sicd-xml-sarkit-convert-s1"
+    "sar-sicd-sidd-xml-sarkit"
    ],
-   "dataCount": 21,
+   "dataCount": 22,
    "check": "smoke",
    "oracle": null
   },
@@ -11142,6 +11161,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11149,10 +11169,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "oracle",
    "oracle": "header fields vs laspy/PDAL"
   },
@@ -11179,6 +11198,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11186,10 +11206,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11216,6 +11235,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11223,10 +11243,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11253,6 +11272,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11260,10 +11280,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11290,6 +11309,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11297,10 +11317,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11327,6 +11346,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11334,10 +11354,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11364,6 +11383,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11371,10 +11391,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11401,6 +11420,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11408,10 +11428,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11438,6 +11457,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11445,10 +11465,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11475,6 +11494,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11482,10 +11502,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11512,6 +11531,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11519,10 +11539,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11549,6 +11568,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11556,10 +11576,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11586,6 +11605,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11593,10 +11613,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11623,6 +11642,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11630,10 +11650,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11660,6 +11679,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11667,10 +11687,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11697,6 +11716,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11704,10 +11724,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11734,6 +11753,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11741,10 +11761,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11771,6 +11790,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11778,10 +11798,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "oracle",
    "oracle": "PDAL writers.gdal max-Z grid"
   },
@@ -11808,6 +11827,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11815,10 +11835,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "oracle",
    "oracle": "PDAL SMRF + writers.gdal min-Z grid"
   },
@@ -11845,6 +11864,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11852,10 +11872,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11882,6 +11901,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11889,10 +11909,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11919,6 +11938,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11926,10 +11946,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -11956,6 +11975,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -11963,10 +11983,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "oracle",
    "oracle": "PDAL filters.smrf class agreement; DTM RMSEz ≤ 0.15 m"
   },
@@ -11993,6 +12012,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -12000,10 +12020,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -12030,6 +12049,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -12037,10 +12057,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -12067,6 +12086,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -12074,10 +12094,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "smoke",
    "oracle": null
   },
@@ -12104,6 +12123,7 @@
     "rs-lidar-las-laz-copc",
     "derived-pc-ascii",
     "derived-las-pdrf-matrix",
+    "dem-us3d-jacksonville-lidar-tierb",
     "lidar-bpf-pdal-v3",
     "lidar-ascii-pdal-text",
     "lidar-ascii-open3d-pts",
@@ -12111,10 +12131,9 @@
     "lidar-ept-usgs-md-goldenbeach-2012",
     "lidar-3dep-co-soplatte-2013-2x2",
     "lidar-3dep-co-denver-2008-2x1",
-    "derived-las-pdrf-5-9",
-    "lidar-3dep-co-drcog-2020-2x2"
+    "derived-las-pdrf-5-9"
    ],
-   "dataCount": 17,
+   "dataCount": 18,
    "check": "oracle",
    "oracle": "laspy re-read of written LAS 1.4 (point count, bbox, classes)"
   },
@@ -13097,7 +13116,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 59,
+   "dataCount": 61,
    "check": "smoke",
    "oracle": null
   },
@@ -13137,7 +13156,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 59,
+   "dataCount": 61,
    "check": "smoke",
    "oracle": null
   },
@@ -13178,7 +13197,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 59,
+   "dataCount": 61,
    "check": "smoke",
    "oracle": null
   },
@@ -13293,7 +13312,7 @@
     "rs-nitf-jitc-multiseg-graphics",
     "rs-nitf-jitc-vq-cadrg"
    ],
-   "dataCount": 59,
+   "dataCount": 61,
    "check": "smoke",
    "oracle": null
   },
@@ -13865,6 +13884,70 @@
     "derived-app-artifacts"
    ],
    "dataCount": 1,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "rcp.airfield-triage",
+   "label": "Airfield Triage",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "rcp.damage-triage",
+   "label": "Damage Triage",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "rcp.folder-to-cog",
+   "label": "Convert a Folder to COG",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
+   "check": "smoke",
+   "oracle": null
+  },
+  {
+   "id": "rcp.building-extraction",
+   "label": "Building Extraction",
+   "req": "REQ-PIP-04",
+   "rel": "R4",
+   "spec": "c17-workspace",
+   "implemented": true,
+   "locations": [
+    "tab:addins"
+   ],
+   "context": [],
+   "needs": null,
+   "data": [],
+   "dataCount": 0,
    "check": "smoke",
    "oracle": null
   },

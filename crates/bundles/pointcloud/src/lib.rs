@@ -299,7 +299,7 @@ pub unsafe extern "C" fn gw_pc_grid(pos: *const f32, len: usize, mask: *const u8
         }
         let g = GridSpec { e0: a[0], n0: a[1], ce: a[2], cn: a[3], w: a[4] as usize, h: a[5] as usize };
         if g.w == 0 || g.h == 0 || g.w * g.h > 64 << 20 || g.ce <= 0.0 || g.cn <= 0.0 {
-            return Err(Error::limit("grid: size"));
+            return Err(Error::limit(format!("grid: {} × {} posts at {} m is outside 1 … 64 M posts; choose another post spacing", g.w, g.h, g.ce)));
         }
         let mode = Mode::from_code(a[6] as u32).ok_or_else(|| Error::invalid("grid: mode"))?;
         let mut z = grid(p, (mlen > 0).then_some(m), (vlen > 0).then_some(v), &g, mode);

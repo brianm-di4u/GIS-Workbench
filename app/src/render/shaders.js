@@ -22,10 +22,18 @@ void main() {
 /**
  * Fragment shader for one sampler kind. `filtered` builds the S6 variant: filtered texels
  * under nearest or bilinear resampling only. Keeping the filter loops out of the bicubic and
- * Lanczos loops keeps the unrolled shader small (ANGLE/D3D compile time).
+ * Lanczos loops keeps the unrolled shader small (ANGLE/D3D compile time). `filtered` names the
+ * filter family the variant holds ('lin', 'med', 'morph', 'sobel', 'sar'; true = all): with every
+ * family inlined into the 4 bilinear taps of 3 bands, D3D's compiler took about two minutes on the
+ * first Sharpness or filter change (TE 2.0.4 cross, GUI-027); one family compiles in well under a second.
  */
-export function imageFS(kind, filtered = false) {
+export const filterFamily = (mode) => (mode === 11 ? 'rlee' : mode === 10 ? 'frost' : mode >= 6 ? 'sarstat' : mode === 5 ? 'sobel' : mode === 3 || mode === 4 ? 'morph' : mode === 2 ? 'med' : 'lin');
+/** `mono`: a filtered variant for one display band (SAR, DEM), without the three-band path. */
+export function imageFS(kind, filtered = false, mono = false) {
   const samp = kind === 'u' ? 'usampler2D' : kind === 'i' ? 'isampler2D' : 'sampler2D';
+  const has = (fam) => filtered === true || filtered === fam;
+  const sar = has('sarstat') || has('frost') || has('rlee');
+  mono = mono && !!filtered;
   return `#version 300 es
 precision highp float;
 precision highp int;
@@ -95,14 +103,14 @@ bool isNd(float v, float nd) {
 
 ${filtered ? `// SAR speckle filters (S6, REQ-SAR-07) on intensity; the texel is amplitude, so the result
 // is returned as √intensity. Windows up to 9 × 9 fit inside the 4-texel gutter.
-float I2(${samp} t, ivec2 p, float c) {
+${sar ? `float I2(${samp} t, ivec2 p, float c) {
   float a = F(t, p);
   return isNd(a, u_nodata.x) ? c * c : a * a;
 }
 float sarFilter(${samp} t, ivec2 p, float c) {
   float cu2 = 1.0 / max(u_sarL, 0.1);
   float z = c * c;
-  if (u_filt == 11) {
+${has('rlee') ? `  if (u_filt == 11) {
     // Refined Lee: 3 × 3 block means on a stride-2 grid pick the edge direction and half window.
     float bm[9];
     for (int by = 0; by < 3; by++)
@@ -144,7 +152,7 @@ float sarFilter(${samp} t, ivec2 p, float c) {
     float b = vy > 0.0 ? vx / vy : 0.0;
     return sqrt(max(m + b * (z - m), 0.0));
   }
-  float s1 = 0.0, s2 = 0.0, n = 0.0;
+` : ''}${has('sarstat') || has('frost') ? `  float s1 = 0.0, s2 = 0.0, n = 0.0;
   for (int y = -4; y <= 4; y++)
     for (int x = -4; x <= 4; x++) {
       if (abs(x) > u_fr || abs(y) > u_fr) continue;
@@ -156,7 +164,7 @@ float sarFilter(${samp} t, ivec2 p, float c) {
   float m = s1 / n;
   float ci2 = m > 0.0 ? max(s2 / n - m * m, 0.0) / (m * m) : 0.0;
   float est = m;
-  if (u_filt == 7) est = m + (ci2 > 0.0 ? max(0.0, 1.0 - cu2 / ci2) : 0.0) * (z - m);
+${has('sarstat') ? `  if (u_filt == 7) est = m + (ci2 > 0.0 ? max(0.0, 1.0 - cu2 / ci2) : 0.0) * (z - m);
   else if (u_filt == 8) est = m + (ci2 > 0.0 ? clamp((1.0 - cu2 / ci2) / (1.0 + cu2), 0.0, 1.0) : 0.0) * (z - m);
   else if (u_filt == 9) {
     float cu = sqrt(cu2), ci = sqrt(ci2);
@@ -168,7 +176,8 @@ float sarFilter(${samp} t, ivec2 p, float c) {
       float b = al - L - 1.0;
       est = (b * m + sqrt(max(m * m * b * b + 4.0 * al * L * m * z, 0.0))) / (2.0 * al);
     }
-  } else if (u_filt == 10) {
+  }
+` : ''}${has('frost') ? `  if (u_filt == 10) {
     float kk = max(u_sarK, 0.0) * ci2;
     float s = 0.0, sw = 0.0;
     for (int y = -4; y <= 4; y++)
@@ -180,15 +189,16 @@ float sarFilter(${samp} t, ivec2 p, float c) {
       }
     est = s / sw;
   }
-  return sqrt(max(est, 0.0));
-}
-
+` : ''}  return sqrt(max(est, 0.0));
+` : `  return c;
+`}}
+` : ''}
 // Filtered texel (S6). Nodata texels inside the footprint take the centre value.
 float T(${samp} t, ivec2 p) {
   if (u_filt == 0) return F(t, p);
   float c = F(t, p);
-  if (u_filt >= 6) return isNd(c, u_nodata.x) ? c : sarFilter(t, p, c);
-  if (u_filt == 1) {
+${sar ? `  if (u_filt >= 6) return isNd(c, u_nodata.x) ? c : sarFilter(t, p, c);
+` : ''}${has('lin') ? `  if (u_filt == 1) {
     float s = 0.0;
     for (int y = -2; y <= 2; y++)
       for (int x = -2; x <= 2; x++) {
@@ -200,7 +210,7 @@ float T(${samp} t, ivec2 p) {
       }
     return s;
   }
-  if (u_filt == 2) {
+` : ''}${has('med') ? `  if (u_filt == 2) {
     float v[9];
     int k = 0;
     for (int y = -1; y <= 1; y++)
@@ -211,7 +221,7 @@ float T(${samp} t, ivec2 p) {
         if (v[j] < v[i]) { float tmp = v[i]; v[i] = v[j]; v[j] = tmp; }
     return v[4];
   }
-  if (u_filt == 3 || u_filt == 4) {
+` : ''}${has('morph') ? `  if (u_filt == 3 || u_filt == 4) {
     float m = c;
     for (int y = -2; y <= 2; y++)
       for (int x = -2; x <= 2; x++) {
@@ -221,13 +231,14 @@ float T(${samp} t, ivec2 p) {
       }
     return m;
   }
-  float a = F(t, p + ivec2(-1, -1)), b = F(t, p + ivec2(0, -1)), d = F(t, p + ivec2(1, -1));
+` : ''}${has('sobel') ? `  float a = F(t, p + ivec2(-1, -1)), b = F(t, p + ivec2(0, -1)), d = F(t, p + ivec2(1, -1));
   float e = F(t, p + ivec2(-1, 0)), g = F(t, p + ivec2(1, 0));
   float hh = F(t, p + ivec2(-1, 1)), i2 = F(t, p + ivec2(0, 1)), j = F(t, p + ivec2(1, 1));
   float gx = (d + 2.0 * g + j) - (a + 2.0 * e + hh);
   float gy = (hh + 2.0 * i2 + j) - (a + 2.0 * b + d);
   return length(vec2(gx, gy)) * 0.25;
-}
+` : `  return c;
+`}}
 
 ` : ""}
 ${filtered ? `
@@ -360,7 +371,7 @@ void main() {
       float z0 = floor(F(u_b0, cc) / u_contour);
       if (floor(F(u_b0, cc + ivec2(1, 0)) / u_contour) != z0 || floor(F(u_b0, cc + ivec2(0, 1)) / u_contour) != z0) rgb = mix(rgb, vec3(0.45, 0.22, 0.05), 0.85);
     }` : ''}
-  } else {
+  }${mono ? '' : ` else {
     float v1 = sampleK(u_b1, q);
     float v2 = sampleK(u_b2, q);
     if (u_hasClip == 1 && (max(v0, max(v1, v2)) < u_clip.x || min(v0, min(v1, v2)) > u_clip.y)) discard;
@@ -368,7 +379,7 @@ void main() {
     ${filtered ? 'if (u_clahe == 1) rgb = vec3(clahe(0, rgb.r), clahe(1, rgb.g), clahe(2, rgb.b));' : ''}
     float L = dot(rgb, vec3(0.2126, 0.7152, 0.0722));
     rgb = clamp(vec3(L) + (1.0 + u_saturation) * (rgb - vec3(L)), 0.0, 1.0);
-  }
+  }`}
   o = vec4(rgb * u_opacity, u_opacity);
 }`;
 }

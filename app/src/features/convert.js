@@ -16,7 +16,7 @@ import { toGeoJSON } from '../vector/geom.js';
 
 export const name = 'convert';
 
-const VECTOR_RE = /\.(geojson|json|kml|kmz|shp|zip|gpkg|csv|gml|gpx)$/i;
+const VECTOR_RE = /\.(geojson|json|kml|kmz|shp|zip|gpkg|csv|gml|gpx|fgb|parquet)$/i;
 export const CAP_SAMPLES = 256e6; // width × height × bands held in memory for one COG
 
 /** A GeoParquet 1.1 file (WKB geometry, "geo" metadata) from an app vector layer. */
@@ -56,27 +56,32 @@ export function install(app) {
   let Parquet = null;
   let Fgb = null;
 
+  /** An open vector layer as GeoParquet, FlatGeobuf or GeoJSON: {blob, name, types, description}. */
+  async function encodeVector(id, target) {
+    const stem = (app.store.get(id)?.name || 'layer').replace(/[^\w.-]+/g, '_');
+    if (target === 'geoparquet') {
+      Parquet ??= await app.gw.runScript('js-parquet');
+      const buf = geoParquet(Parquet, app.vectorLayerOut(id));
+      return { blob: new Blob([buf], { type: 'application/vnd.apache.parquet' }), name: `${stem}.parquet`, types: ['.parquet'], description: 'GeoParquet' };
+    }
+    if (target === 'flatgeobuf') {
+      // FlatGeobuf from the layer's GeoJSON (WGS 84), without a spatial index (DN-59).
+      Fgb ??= await app.gw.runScript('js-fgb');
+      const fc = JSON.parse(await app.encodeLayer(id, 'geojson').blob.text());
+      return { blob: new Blob([Fgb.serialize(fc, 4326)], { type: 'application/flatgeobuf' }), name: `${stem}.fgb`, types: ['.fgb'], description: 'FlatGeobuf' };
+    }
+    return { ...app.encodeLayer(id, 'geojson'), description: 'GeoJSON' };
+  }
+  app.encodeVector = encodeVector;
+
   async function vectorTo(files, target) {
     const before = new Set(app.store.all('vlayer').map((v) => v.id));
     await app.openVectorFiles(files);
     const made = app.store.all('vlayer').filter((v) => !before.has(v.id));
     if (!made.length) throw new Error('no vector layer could be read');
     for (const v of made) {
-      if (target === 'geoparquet') {
-        Parquet ??= await app.gw.runScript('js-parquet');
-        const buf = geoParquet(Parquet, app.vectorLayerOut(v.id));
-        const stem = (v.name || 'layer').replace(/[^\w.-]+/g, '_');
-        await saveBlob(app, new Blob([buf], { type: 'application/vnd.apache.parquet' }), { name: `${stem}.parquet`, types: ['.parquet'], description: 'GeoParquet' });
-      } else if (target === 'flatgeobuf') {
-        // FlatGeobuf from the layer's GeoJSON (WGS 84), without a spatial index (DN-59).
-        Fgb ??= await app.gw.runScript('js-fgb');
-        const fc = JSON.parse(await app.encodeLayer(v.id, 'geojson').blob.text());
-        const stem = (v.name || 'layer').replace(/[^\w.-]+/g, '_');
-        await saveBlob(app, new Blob([Fgb.serialize(fc, 4326)], { type: 'application/flatgeobuf' }), { name: `${stem}.fgb`, types: ['.fgb'], description: 'FlatGeobuf' });
-      } else {
-        const out = app.encodeLayer(v.id, 'geojson');
-        await saveBlob(app, out.blob, { name: out.name, types: out.types, description: 'GeoJSON' });
-      }
+      const out = await encodeVector(v.id, target);
+      await saveBlob(app, out.blob, { name: out.name, types: out.types, description: out.description });
     }
     return `${made.length} layer${made.length > 1 ? 's' : ''} written`;
   }

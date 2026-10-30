@@ -6,7 +6,7 @@ import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
 import { serialiseProject, readProject, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
-import { groupFiles, openImageFile, attachFile } from '../formats/open.js';
+import { groupFiles, openImageFile, attachFile, recoverHandle } from '../formats/open.js';
 import { isImageryZip, expandZip, defaultPick } from '../formats/zip-container.js';
 import { modal, field, confirmBox, promptBox } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
@@ -27,6 +27,8 @@ const IMAGE_ACCEPT = [
 
 export async function install(app) {
   const C = app.commands;
+  // A file whose worker was restarted is reopened in a fresh one, not left for the user to reopen.
+  if (app.pool) app.pool.recover = (slotId, handle) => recoverHandle(app, slotId, handle);
   app.journal = new Journal(app);
   await app.journal.open();
   if (!app.journal.available) app.storageWarning = 'Browser storage is unavailable here: no crash recovery and no saved whiteboard sessions.';
@@ -84,7 +86,15 @@ export async function install(app) {
         if (!pick?.length) continue;
         if (pick.some((e) => e.method === 8 && e.size > 64e6)) app.toast(`Unpacking ${f.name} in memory…`);
         // A package inside the ZIP that was not expanded opens as its own package (and picker).
-        for (const e of pick) out.push(...(e.nested ? await expandPackages([await e.open()]) : [await e.open()]));
+        for (const e of pick) {
+          if (e.nested) out.push(...(await expandPackages([await e.open()])));
+          else {
+            // Marked, so the vector reader treats a non-GeoJSON .json beside the imagery as a companion.
+            const file = await e.open();
+            file.fromZip = f.name;
+            out.push(file);
+          }
+        }
         app.importLog.push({ file: f.name, errors: [], warnings: [`opened ${pick.length} of ${entries.length} files from the ZIP`] });
       } catch (e) {
         app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 9000 });
@@ -121,13 +131,6 @@ export async function install(app) {
       }],
       [/(^|[\\/])a\.toc$/i, () => true, async () => {
         throw new Error('an RPF table of contents (A.TOC) is not read: open the frame files of its RPF folder (CADRG .ON2/.JN1…, CIB .I21…) instead');
-      }],
-      // Formats Convert writes but no reader opens (REQ-CNV): refused with the version to open instead.
-      [/\.parquet$/i, () => true, async () => {
-        throw new Error('GeoParquet is written by Convert, not read yet; open the GeoJSON or GeoPackage version');
-      }],
-      [/\.fgb$/i, () => true, async () => {
-        throw new Error('FlatGeobuf is written by Convert, not read yet; open the GeoJSON or GeoPackage version');
       }],
       [/\.mbtiles$/i, () => true, async () => {
         throw new Error('MBTiles tile sets are not read; convert it to PMTiles (pmtiles convert in.mbtiles out.pmtiles) and open that as a basemap');

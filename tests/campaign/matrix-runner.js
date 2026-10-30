@@ -175,7 +175,7 @@ function dataFor(row) {
 }
 
 /** In-page setup steps (run after the files are open). */
-async function setup(frame, steps) {
+export async function setup(frame, steps) {
   return frame.evaluate(async (steps) => {
     const app = window.gisworkbench;
     const done = [];

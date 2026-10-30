@@ -2199,8 +2199,8 @@
    "fmt:vec.csv.wkt",
    "fmt:vec.gpx",
    "fmt:det.csv",
-   "fmt:refused.geoparquet",
-   "fmt:refused.flatgeobuf"
+   "fmt:vec.geoparquet",
+   "fmt:vec.flatgeobuf"
   ],
   "pairs": []
  },

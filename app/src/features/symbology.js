@@ -204,7 +204,18 @@ export function install(app) {
     C.implement(id, {
       enabled: () => !!pane()?.geoLayer?.()?.modelId,
       run: run(async () => {
-        const cell = h('input', { class: 'inp inp-num', type: 'number', min: '1', step: 'any', value: micro ? '300' : '100', 'aria-label': 'Cell size (m)' });
+        // Default cell: 100 m (300 m micro), or the next 1-2-5 size that keeps the AOI or view within
+        // the cell limit (a whole 1° DEM at 100 m would be 100 000 cells).
+        let def = micro ? 300 : 100;
+        try {
+          const [s, w, n, e] = areaOf(pane());
+          const m2 = (e - w) * 111320 * Math.cos((((s + n) / 2) * Math.PI) / 180) * (n - s) * 110574;
+          const need = 1.15 * Math.sqrt((m2 * (micro ? 10 : 1)) / 2500); // margin for the ceil() of each side
+          while (def < need) def = [1, 2, 5].map((k) => k * 10 ** Math.floor(Math.log10(def))).concat(10 ** (Math.floor(Math.log10(def)) + 1)).find((x) => x > def);
+        } catch {
+          /* no footprint: grg() says so */
+        }
+        const cell = h('input', { class: 'inp inp-num', type: 'number', min: '1', step: 'any', value: String(def), 'aria-label': 'Cell size (m)' });
         if ((await modal({ title: micro ? 'Micro GRG' : 'Gridded Reference Graphic', body: field('Cell size (m)', cell, `Over the panel's AOI (or the view), labelled A1 from the north-west${micro ? ', with keypad sub-cells 1–9' : ''}.`), id: id.replace('.', '-') })) !== 'OK') return;
         const r = grg({ cell: Number(cell.value) || 100, micro });
         app.toast(`GRG: ${r.cols} × ${r.rows} cells`);

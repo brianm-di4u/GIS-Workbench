@@ -501,9 +501,9 @@ def classify(it, rel, p):
     if e == '.csv':
         return csv_keys(p)
     if e == '.parquet':
-        return ['refused.geoparquet']
+        return ['vec.geoparquet']
     if e == '.fgb':
-        return ['refused.flatgeobuf']
+        return ['vec.flatgeobuf']
     if e == '.mbtiles':
         return ['refused.mbtiles']
     if e == '.pmtiles' and h[:7] == b'PMTiles':
