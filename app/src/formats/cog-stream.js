@@ -196,13 +196,26 @@ export async function writeCogStream(src, opts = {}, onProgress = () => {}) {
       }
     };
     const span = Math.max(1, Math.floor(16384 / tile)) * tile; // a read strip ≤ 16 384 px wide
-    for (let y0 = 0; y0 < src.height; y0 += tile) {
-      const h = Math.min(tile, src.height - y0);
-      for (let x0 = 0; x0 < src.width; x0 += span) {
-        const w = Math.min(span, src.width - x0);
-        await writeTiles(0, await src.read(0, x0, y0, w, h), w, x0, y0, h);
+    // `src.parallel` strips are read ahead (the caller spreads them over several decoders) and
+    // written in order: a whole WorldView strip decoded one J2K strip at a time took over 300 s.
+    const strips = [];
+    for (let y0 = 0; y0 < src.height; y0 += tile)
+      for (let x0 = 0; x0 < src.width; x0 += span) strips.push({ x0, y0, w: Math.min(span, src.width - x0), h: Math.min(tile, src.height - y0), last: x0 + span >= src.width });
+    const ahead = Math.max(1, src.parallel ?? 1);
+    const reads = new Map();
+    let next = 0;
+    for (let i = 0; i < strips.length; i++) {
+      while (next < strips.length && reads.size < ahead) {
+        const s = strips[next];
+        const p = src.read(0, s.x0, s.y0, s.w, s.h);
+        p.catch(() => {}); // surfaced when awaited in order
+        reads.set(next++, p);
       }
-      await flush(0, y0 + h);
+      const s = strips[i];
+      const data = await reads.get(i);
+      reads.delete(i);
+      await writeTiles(0, data, s.w, s.x0, s.y0, s.h);
+      if (s.last) await flush(0, s.y0 + s.h);
     }
     for (const L of lv) parts.push({ lv: { width: L.width, height: L.height, step: L.step }, offs: L.offs, counts: L.counts, blob: await L.out.done() });
     // Layout: header, IFDs (full resolution first), then tiles from the smallest overview up.

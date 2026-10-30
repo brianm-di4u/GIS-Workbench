@@ -170,7 +170,10 @@ export async function install(app) {
 
   async function openFiles(files, pane) {
     // Files whose name says nothing are identified by their first bytes (REQ-ING-03).
-    files = await Promise.all([...files].map((f) => sniffName(f).catch(() => f)));
+    // A GML's schema (.xsd) and GDAL's .gfs describe it; they are not data. Sniffed as XML with a GML
+    // namespace, the .xsd opened as an empty layer of its own (TE 2.0.4 cross).
+    if ([...files].some((f) => /\.gml$/i.test(f.name))) files = [...files].filter((f) => !/\.(xsd|gfs)$/i.test(f.name));
+    files = await Promise.all([...files].map((f) => (/\.(xsd|gfs)$/i.test(f.name) ? f : sniffName(f).catch(() => f))));
     // A project in the set opens as the project, as a drop does (catalog, panels and automation call here too).
     const proj = files.find((f) => /\.gwb$/i.test(f.name));
     if (proj) return openProjectFile(proj);

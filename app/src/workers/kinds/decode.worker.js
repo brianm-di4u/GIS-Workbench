@@ -347,6 +347,34 @@ GW.register('window', async ({ handle, x0, y0, w, h, step = 1, bands, maxSamples
   const oh = Math.ceil(sh / step);
   if (ow * oh * bands.length > maxSamples) throw new Error(`${ow}×${oh}×${bands.length} samples are more than a product takes (${(maxSamples / 1e6).toFixed(0)} M)`);
   const planes = [];
+  // A decimated window comes from the source's own coarser level when it has one (J2K resolution
+  // levels, strided raw NITF/ENVI, GeoTIFF overviews): read at full resolution and thinned, the 3D
+  // globe's drape of a whole WorldView strip decoded all of it and timed out (TE 2.0.4 cross).
+  let L = 0;
+  while (e.src.readLevel && 2 ** (L + 1) <= step && e.src.hasLevel?.(L + 1)) L++;
+  if (L > 0) {
+    const f = 2 ** L;
+    const lx0 = Math.floor(x0 / f);
+    const lw = Math.min(Math.ceil(e.src.width / f) - lx0, Math.ceil(sw / f) + 1);
+    const lyOf = (oy) => Math.min(Math.ceil(e.src.height / f) - 1, Math.floor((y0 + oy * step) / f));
+    const perL = Math.max(1, Math.floor(16e6 / Math.max(1, lw * bands.length)));
+    for (let oy0 = 0; oy0 < oh; ) {
+      const ly0 = lyOf(oy0);
+      let oy1 = oy0;
+      while (oy1 < oh && lyOf(oy1) - ly0 < perL) oy1++;
+      const lh = lyOf(oy1 - 1) - ly0 + 1;
+      const got = await e.src.readLevel(L, lx0, ly0, lw, lh, bands, job);
+      got.forEach((a, k) => {
+        const out = (planes[k] ??= new a.constructor(ow * oh));
+        for (let oy = oy0; oy < oy1; oy++) {
+          const ry = lyOf(oy) - ly0;
+          for (let ox = 0; ox < ow; ox++) out[oy * ow + ox] = a[ry * lw + Math.min(lw - 1, Math.floor((x0 + ox * step) / f) - lx0)];
+        }
+      });
+      oy0 = oy1;
+    }
+    return GW.transfer({ x0, y0, w: ow, h: oh, step, planes, level: L }, planes.map((p) => p.buffer));
+  }
   // Read in row bands so a decimated chip of a large image never holds the full window.
   // Every band of a row band in one read: pixel-interleaved JPEG blocks were decoded once per band.
   const per = Math.floor(16e6 / Math.max(1, sw * bands.length));

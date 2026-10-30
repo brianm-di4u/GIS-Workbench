@@ -1314,6 +1314,7 @@ export function install(app) {
   /** Encode a stored layer: {blob, name, types, report}. */
   function encodeLayer(id, fmt) {
     const layer = layerOut(id);
+    if (!layer.features.length) throw new Error(`${layer.name || 'the layer'} has no features to save`);
     const stem = (layer.name || 'layer').replace(/[^\w.-]+/g, '_');
     if (fmt === 'geojson') {
       const { text, report } = writeGeoJSON(layer);
@@ -1362,6 +1363,7 @@ export function install(app) {
       app.prefs.set('vectorFormat', fmt.value);
       let out;
       if (fmt.value.startsWith('gpkg')) {
+        if (!layerOut(layer.value).features.length) throw new Error(`${S.get(layer.value).name || 'the layer'} has no features to save`);
         const { bytes, report } = await app.attribution.gpkgBytes([layer.value], { mgcp: fmt.value === 'gpkg-mgcp' });
         out = { blob: new Blob([bytes], { type: 'application/geopackage+sqlite3' }), name: `${(S.get(layer.value).name || 'layer').replace(/[^\w.-]+/g, '_')}.gpkg`, types: ['.gpkg'], report };
       } else out = encodeLayer(layer.value, fmt.value);

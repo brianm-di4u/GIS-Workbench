@@ -40,6 +40,12 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Band Statistics and SNR on hyperspectral cubes**: statistics of a 224-band AVIRIS cube take 25 s instead of timing out (the file was read once per band), and SNR runs on cubes with hundreds of bands instead of being refused. (CX-053, CX-054)
 - **Large ENVI cubes no longer show a black last row and column** on their overview levels, which also pulled their statistics down. (CX-055)
 - **FMV burn-in export finishes on clips whose last frames never arrive**, and short clips no longer record an empty video. (CX-056)
+- **Shapefile export of large polygons from FlatGeobuf or GeoParquet** works (it overflowed the stack); a GML's .xsd no longer opens as an empty layer, and saving an empty layer says so. (CX-057, CX-058)
+- **Hyperspectral chips save as NITF**: the writer takes up to 999 bands (it stopped at 9). (CX-059)
+- **Very large downloads complete**: multi-GB Cloud-Optimized GeoTIFFs were cut short when their temporary files were removed too early. (CX-060)
+- **Orthorectify of whole satellite strips** proposes a cell size that fits in the browser and explains it; a strip at its native cell is refused by name instead of running for minutes. (CX-061)
+- **Cloud-Optimized GeoTIFF of whole satellite strips decodes on several workers at once**: a 1.6 G-pixel WorldView strip converts in about 3½ minutes instead of over 5. (CX-062)
+- **The 3D globe and reduced-size products over whole satellite strips** read the image's own overview levels: the globe over a WorldView strip opens in seconds instead of timing out. (CX-063)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 

@@ -54,6 +54,10 @@ export function install(app) {
   }
 
   /** A UTM grid over a set of layers' footprints: {zone, north, e0, n0, res, w, h}. */
+  const ORTHO_MAX = 300e6; // output samples held in memory
+  /** The smallest cell (0.05 m steps) that keeps a grid within ORTHO_MAX samples. */
+  const fitCell = (G, nb, max = ORTHO_MAX) => Math.ceil(G.res * Math.sqrt((G.w * G.h * nb) / max) * 20) / 20;
+
   function gridFor(layers, res) {
     const fps = layers.map((l) => l.footprint()).filter(Boolean);
     if (!fps.length) throw new Error('the images have no footprint');
@@ -86,6 +90,9 @@ export function install(app) {
     const t0 = performance.now();
     const G = grid ?? gridFor([l], res ?? Math.round(gsdOf(l) * 20) / 20);
     const nb = l.chain?.bands?.length === 3 ? 3 : 1;
+    // The output is built in memory: a whole WorldView strip at its native cell was ~8 GB and ran for
+    // ever (TE 2.0.4 cross). Refused by name, with the cell size that fits.
+    if (G.w * G.h * nb > ORTHO_MAX) throw new Error(`the orthoimage would be ${G.w.toLocaleString()} × ${G.h.toLocaleString()} at ${G.res} m; use a cell of ${fitCell(G, nb)} m or more`);
     const bandIdx = nb === 3 ? l.chain.bands : [l.chain?.bands?.[0] ?? 0];
     const bias = biasOf(l);
     const N = G.w * G.h;
@@ -577,10 +584,16 @@ export function install(app) {
     enabled: () => !!pane()?.activeLayer() && !!rpcRecordOf(pane().activeLayer()),
     run: async () => {
       const l = pane().activeLayer();
-      const res = h('input', { class: 'inp inp-num', type: 'number', step: 'any', value: (Math.round(gsdOf(l) * 20) / 20).toFixed(2), 'aria-label': 'Cell size (m)' });
+      // The default cell keeps the output near 100 M pixels: a whole strip at its native cell is not a
+      // browser-sized product (a smaller cell remains a choice, up to the limit).
+      const native = Math.round(gsdOf(l) * 20) / 20;
+      const nbOut = l.chain?.bands?.length === 3 ? 3 : 1;
+      const G0 = gridFor([l], native);
+      const cell0 = G0.w * G0.h * nbOut > 100e6 ? Math.max(native, fitCell(G0, nbOut, 100e6)) : native;
+      const res = h('input', { class: 'inp inp-num', type: 'number', step: 'any', value: cell0.toFixed(2), 'aria-label': 'Cell size (m)' });
       const ker = h('select', { class: 'inp', 'aria-label': 'Resampling' }, ...Object.keys(KERNELS).map((k) => h('option', { value: k, selected: k === 'bilinear' }, { nearest: 'Nearest neighbour', bilinear: 'Bilinear', cubic: 'Cubic convolution', lanczos3: 'Lanczos (3 lobes)' }[k])));
       const bound = h('input', { class: 'inp inp-num', type: 'number', step: 'any', value: '0.1', 'aria-label': 'Error bound (px)' });
-      const body = h('div', {}, field('Cell size (m)', res), field('Resampling', ker), field('Grid error bound (px)', bound, 'The mapping is exact at the grid vertices; cells split until interpolation is within this bound.'), h('p', { class: 'hint' }, `Terrain: ${app.terrain.dems[0]?.name ?? 'none (the model height)'}. Output: cloud-optimised GeoTIFF in UTM.`));
+      const body = h('div', {}, field('Cell size (m)', res), field('Resampling', ker), field('Grid error bound (px)', bound, 'The mapping is exact at the grid vertices; cells split until interpolation is within this bound.'), cell0 > native ? h('p', { class: 'hint' }, `Native cell ${native} m would be ${G0.w.toLocaleString()} × ${G0.h.toLocaleString()} pixels; ${cell0} m keeps the orthoimage to about 100 M pixels.`) : null, h('p', { class: 'hint' }, `Terrain: ${app.terrain.dems[0]?.name ?? 'none (the model height)'}. Output: cloud-optimised GeoTIFF in UTM.`));
       if ((await modal({ title: `Orthorectify — ${l.info.iid}`, body, buttons: ['Run', 'Cancel'], id: 'ortho-rectify' })) !== 'Run') return;
       try {
         const o = await orthorectify(l, { res: Number(res.value), kernel: ker.value, bound: Number(bound.value) });

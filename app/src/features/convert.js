@@ -10,7 +10,7 @@ import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { writeGeoTiff } from '../formats/geotiff-writer.js';
 import { writeCogStream } from '../formats/cog-stream.js';
-import { openImageFile, isImageName } from '../formats/open.js';
+import { openImageFile, isImageName, describe } from '../formats/open.js';
 import { sniffName } from '../formats/sniff.js';
 import { toGeoJSON } from '../vector/geom.js';
 
@@ -58,6 +58,8 @@ export function install(app) {
 
   /** An open vector layer as GeoParquet, FlatGeobuf or GeoJSON: {blob, name, types, description}. */
   async function encodeVector(id, target) {
+    // An empty layer gave files the app cannot reopen, and FlatGeobuf failed on it (TE 2.0.4 cross).
+    if (!app.vectorLayerOut(id).features.length) throw new Error(`${app.store.get(id)?.name ?? 'the layer'} has no features to save`);
     const stem = (app.store.get(id)?.name || 'layer').replace(/[^\w.-]+/g, '_');
     if (target === 'geoparquet') {
       Parquet ??= await app.gw.runScript('js-parquet');
@@ -123,21 +125,52 @@ export function install(app) {
     const est = await navigator.storage?.estimate?.().catch(() => null);
     const need = l.width * l.height * n * Arr.BYTES_PER_ELEMENT * 0.7;
     if (est?.quota && est.quota - (est.usage ?? 0) < need) throw new Error(`converting ${l.rec?.name} needs about ${(need / 1e9).toFixed(1)} GB of free browser storage; ${((est.quota - (est.usage ?? 0)) / 1e9).toFixed(1)} GB is available`);
+    // A large file is also opened in other decode workers and strips are read from all of them at
+    // once: a whole WorldView J2K strip decoded on one worker took over 300 s (TE 2.0.4 cross).
+    const srcs = [{ handle: l.handle, affinity: l.affinity }];
+    const fref = l.rec?.file ? app.store.get(l.rec.file) : null;
+    const file = fref ? app.files.get(fref.id) : null;
+    const stripBytes = Math.min(16384, l.width) * 512 * n * Arr.BYTES_PER_ELEMENT;
+    const extra = file && l.width * l.height > 64e6 ? Math.max(0, Math.min(app.pool.size - 1, 4, Math.floor(512e6 / stripBytes) - 1)) : 0;
+    for (let i = 0; i < extra; i++) {
+      try {
+        const d = await describe(app, file.file, file.sidecars ?? [], { merge: !!fref.merged });
+        const r = d.rasters.find((x) => x.raster.imageIndex === (l.rec.imageIndex ?? 0));
+        const h = r && { handle: r.raster.handle, affinity: r.info.affinity };
+        if (h && !srcs.some((x) => x.affinity === h.affinity)) srcs.push(h);
+        else if (h) app.pool.run('close', h, { affinity: h.affinity }).catch(() => {});
+      } catch (e) {
+        app.log('warn', `COG: a helper decoder could not open ${l.rec?.name}: ${e.message}`);
+        break;
+      }
+    }
+    let turn = 0;
     const read = async (k, x0, y0, w, h) => {
       const s = 2 ** k;
+      const src = srcs[turn++ % srcs.length];
       // One output tile of every band (512² × 285 EMIT bands is past the window's 64 M default).
-      const r = await app.pool.run('window', { handle: l.handle, x0: x0 * s, y0: y0 * s, w, h, step: s, bands, maxSamples: Math.max(64e6, w * h * n) }, { affinity: l.affinity, timeout: 600000, label: `COG: read level ${k}` });
+      const r = await app.pool.run('window', { handle: src.handle, x0: x0 * s, y0: y0 * s, w, h, step: s, bands, maxSamples: Math.max(64e6, w * h * n) }, { affinity: src.affinity, timeout: 600000, label: `COG: read level ${k}` });
       const out = new Arr(w * h * n);
       const rw = Math.min(w, r.w);
       for (let y = 0; y < Math.min(h, r.h); y++) for (let x = 0; x < rw; x++) for (let b = 0; b < n; b++) out[(y * w + x) * n + b] = r.planes[b][y * r.w + x];
       return out;
     };
     const opts = cogGeo(l, { tile: 512, compress: 'deflate', nodata: l.nodata ?? undefined, description: `${l.rec?.name} — Cloud-Optimized GeoTIFF by GIS Workbench` });
-    const r = await writeCogStream({ width: l.width, height: l.height, bands: n, type, read }, opts, onProgress);
+    let r;
     try {
-      await saveBlob(app, r.blob, { name: `${stemOf(l)}_cog.tif`, types: ['.tif'], description: 'Cloud-Optimized GeoTIFF' });
+      r = await writeCogStream({ width: l.width, height: l.height, bands: n, type, read, parallel: srcs.length }, opts, onProgress);
     } finally {
-      await r.cleanup();
+      for (const h of srcs.slice(1)) app.pool.run('close', { handle: h.handle }, { affinity: h.affinity }).catch(() => {});
+    }
+    // The temporary tiles behind the blob stay until a browser download has read them: removed at
+    // once, they cut a multi-GB download short (TE 2.0.4 cross, Capella COGs "not saved").
+    let keep = 0;
+    try {
+      const saved = await saveBlob(app, r.blob, { name: `${stemOf(l)}_cog.tif`, types: ['.tif'], description: 'Cloud-Optimized GeoTIFF' });
+      if (saved?.how === 'download') keep = saved.keepMs ?? 0;
+    } finally {
+      if (keep) setTimeout(() => r.cleanup(), keep);
+      else await r.cleanup();
     }
     return `${(r.blob.size / 1048576).toFixed(1)} MB COG written (streamed${r.bigTiff ? ', BigTIFF' : ''}, ${r.levels} levels)`;
   }

@@ -14,6 +14,7 @@ import { spawnSync } from 'node:child_process';
 import { ASCII_CRS, openFiles, settledAny } from './helpers.js';
 import { cases, EXPECT, refusedKeys, ROBUST, stratify } from './cases.js';
 import { session, recordWriter, outDir } from './cross-lib.js';
+import { createHash } from 'node:crypto';
 import { REPO } from '../../build/campaign/corpus-lib.mjs';
 
 const RUN = process.env.TE_RUN ?? 'cx-rt';
@@ -133,7 +134,9 @@ for (const { it, f, files } of chosen) {
     test.skip(!!(EXPECT[name]?.refuse || refusedKeys(it, f).length || ROBUST(it)), 'refused by design (c01)');
     const bytes = files.reduce((t, p) => t + statSync(p).size, 0);
     test.setTimeout(bytes > 200e6 ? 3600_000 : 900_000);
-    const dir = join(REPO, 'reports/campaign/out', `${RUN}-files`, key.replace(/[^\w.-]+/g, '_'));
+    // A short folder per file: the key in full put outputs past Windows' 260-character path limit
+    // and their reopen failed "could not be found" (CX-H08).
+    const dir = join(REPO, 'reports/campaign/out', `${RUN}-files`, `${key.replace(/[^\w.-]+/g, '_').slice(0, 40)}-${createHash('sha1').update(key).digest('hex').slice(0, 8)}`);
     mkdirSync(dir, { recursive: true });
     mkdirSync(OUT, { recursive: true });
     const rec = { spec: 'c53-roundtrip', project: info.project.name, key, item: it.id, file: name, outputs: [] };

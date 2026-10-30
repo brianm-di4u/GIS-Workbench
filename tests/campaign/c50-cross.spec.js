@@ -11,8 +11,9 @@
 // One record per file (results/<TE_RUN>/c50-<project>-<item>_<file>.json), rewritten after every
 // command, so an interrupted run resumes where it stopped (cells already recorded are skipped).
 import { test, expect } from '@playwright/test';
-import { existsSync, statSync, readFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, statSync, readFileSync, mkdirSync, copyFileSync, rmSync, realpathSync } from 'node:fs';
+import { join, basename } from 'node:path';
+import { createHash } from 'node:crypto';
 import { ASCII_CRS } from './helpers.js';
 import { cases, EXPECT, CENSUS, refusedKeys, ROBUST, stratify } from './cases.js';
 import { session, crossCommands, excluded, heap, BAD, recordWriter, outDir, dlDirFor } from './cross-lib.js';
@@ -23,15 +24,32 @@ const [SHARD_I, SHARD_N] = (process.env.TE_SHARD ?? '1/1').split('/').map(Number
 const RUN = process.env.TE_RUN ?? 'cx';
 const OUT = outDir(RUN);
 
-const usable = cases.filter((c) => !ONLY || ONLY.test(`${c.it.id}/${c.f.name}`));
+// NVMe re-test of timeouts (CX-H06): TE_TIMEOUTS lists {key, cmd} cells; each file is copied from the
+// USB disk to TE_NVME (default C:/GIS Workbench/te-nvme-tmp), only its timed-out commands run, and
+// the copy is deleted once they all pass (kept, as evidence, while any still fails).
+const TIMEOUTS = process.env.TE_TIMEOUTS ? JSON.parse(readFileSync(process.env.TE_TIMEOUTS, 'utf8')) : null;
+const NVME = process.env.TE_NVME ?? 'C:/GIS Workbench/te-nvme-tmp';
+const cmdsFor = (key) => new Set((TIMEOUTS ?? []).filter((t) => t.key === key).map((t) => t.cmd));
+const usable = cases.filter((c) => (!ONLY || ONLY.test(`${c.it.id}/${c.f.name}`)) && (!TIMEOUTS || cmdsFor(`${c.it.id}/${c.f.name}`).size));
 const chosen = (STRAT ? stratify(usable) : usable).filter((_, i) => i % SHARD_N === SHARD_I - 1);
 
 test.describe.configure({ mode: 'parallel' });
-for (const { it, f, files } of chosen) {
+for (const { it, f, files: files0 } of chosen) {
   const name = f.name.split('/').pop();
   const key = `${it.id}/${f.name}`;
   test(`TE-C50 ${key} [${it.format}]`, async ({ page }, info) => {
-    test.skip(!files.every((p) => p && existsSync(p)), 'not on disk');
+    test.skip(!files0.every((p) => p && existsSync(p)), 'not on disk');
+    let files = files0;
+    let nvmeDir = null;
+    if (TIMEOUTS) {
+      // Only files on another drive are copied; packs and C: files are used where they are.
+      const away = (p) => !/^C:/i.test(realpathSync(p));
+      if (files.some(away)) {
+        nvmeDir = join(NVME, createHash('sha1').update(key).digest('hex').slice(0, 10));
+        mkdirSync(nvmeDir, { recursive: true });
+        files = files.map((p) => (away(p) ? (copyFileSync(p, join(nvmeDir, basename(p))), join(nvmeDir, basename(p))) : p));
+      }
+    }
     const rp = join(OUT, `c50-${info.project.name}-${key.replace(/[^\w.-]+/g, '_')}.json`);
     const prev = !process.env.TE_FRESH && existsSync(rp) ? JSON.parse(readFileSync(rp, 'utf8')) : null;
     test.skip(prev?.done === true, 'already recorded (TE_FRESH=1 reruns)');
@@ -61,7 +79,7 @@ for (const { it, f, files } of chosen) {
       return;
     }
     const en = await s.enabled();
-    rec.applicable = en.filter((c) => !excluded(c));
+    rec.applicable = en.filter((c) => !excluded(c) && (!TIMEOUTS || cmdsFor(key).has(c)));
     rec.excluded = en.filter((c) => excluded(c));
     save();
     // Full-resolution work scales with decoded samples, not compressed bytes: a deflated 116 M-pixel
@@ -73,6 +91,17 @@ for (const { it, f, files } of chosen) {
     rec.crashed = s.crashed;
     save();
     const failed = Object.entries(rec.cells).filter(([, c]) => BAD.has(c.verdict));
+    if (TIMEOUTS) {
+      // Resolved on NVMe: every re-run cell passed. The copy goes then; otherwise it stays for the fix.
+      const ok = !s.crashed && !failed.length && rec.applicable.length > 0;
+      rec.nvme = { copied: !!nvmeDir, dir: nvmeDir, resolved: ok, deleted: false, cmds: [...cmdsFor(key)], ran: rec.applicable };
+      if (ok && nvmeDir) {
+        await page.close().catch(() => {});
+        rmSync(nvmeDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 1000 });
+        rec.nvme.deleted = !existsSync(nvmeDir);
+      }
+      save();
+    }
     expect(rec.csp, 'no CSP violations (SEC-01)').toEqual([]);
     expect(failed.map(([id, c]) => `${id}: ${c.verdict} ${c.why ?? ''}`), `${key}: every applicable command runs cleanly`).toEqual([]);
   });

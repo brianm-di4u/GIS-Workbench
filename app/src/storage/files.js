@@ -59,6 +59,12 @@ export async function saveBlob(app, blob, { name, handle = null, types = [], des
   return download(app, blob, name);
 }
 
+/**
+ * How long a download's blob URL (and any temporary files behind the blob) must live: the browser
+ * copies it at its own pace, 10 MB/s assumed. A fixed minute cut a 3 GB COG download short (TE 2.0.4).
+ */
+export const downloadKeepMs = (bytes) => 60000 + Math.ceil((bytes || 0) / 10e6) * 1000;
+
 export function download(app, blob, name) {
   const url = URL.createObjectURL(blob);
   if (!app.runMode.caps.downloadsLikely) {
@@ -70,8 +76,8 @@ export function download(app, blob, name) {
   setTimeout(() => {
     a.remove();
     URL.revokeObjectURL(url);
-  }, 60000);
-  return { how: 'download', name };
+  }, downloadKeepMs(blob.size));
+  return { how: 'download', name, keepMs: downloadKeepMs(blob.size) };
 }
 
 /** In-page export panel (REQ-HOST-03, REQ-WB-15): copy text, open in a new tab, or try a link. */

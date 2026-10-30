@@ -55,6 +55,18 @@ describe('streaming COG', () => {
     const offOv = Math.max(...(await ov.fileDirectory.loadValue('TileOffsets')));
     expect(off0).toBeGreaterThan(offOv);
   });
+  it('reading strips ahead in parallel writes the same file', async () => {
+    const W = 900;
+    const H = 1300;
+    const src = (parallel) => ({ width: W, height: H, bands: 1, type: 'u16', parallel, read: async (k, x0, y0, w, h) => {
+      await new Promise((r) => setTimeout(r, (y0 * 7) % 5)); // out-of-order completion
+      return Uint16Array.from({ length: w * h }, (_, i) => ((x0 + (i % w)) * 3 + (y0 + Math.floor(i / w))) % 65536);
+    } });
+    const a = new Uint8Array(await (await writeCogStream(src(1), { tile: 256 })).blob.arrayBuffer());
+    const b = new Uint8Array(await (await writeCogStream(src(4), { tile: 256 })).blob.arrayBuffer());
+    expect(b.length).toBe(a.length);
+    expect(b.every((v, i) => v === a[i])).toBe(true);
+  });
   it('writes BigTIFF (forced here; automatic past 4 GB)', async () => {
     const src = { width: 600, height: 300, bands: 1, type: 'f32', read: async (k, x0, y0, w, h) => Float32Array.from({ length: w * h }, (_, i) => (x0 + (i % w)) * 2 ** k + 0.25) };
     const r = await writeCogStream(src, { tile: 256, bigTiff: true });

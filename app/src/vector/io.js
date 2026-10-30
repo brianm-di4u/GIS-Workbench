@@ -10,6 +10,7 @@
 // boolean | date.
 
 import { fromGeoJSON, toGeoJSON, parts, polygonGroups, signedArea, pointInRing, fromParts, isPolygonal, isLinear } from './geom.js';
+import { minOf, maxOf } from '../core/util.js';
 
 const enc = new TextEncoder();
 
@@ -227,7 +228,7 @@ function shpRecord(f, type, hasZ) {
   o += 4;
   const xs = pts.map((p) => p[0]);
   const ys = pts.map((p) => p[1]);
-  for (const v of [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)]) {
+  for (const v of [minOf(xs), minOf(ys), maxOf(xs), maxOf(ys)]) {
     b.setFloat64(o, v, true);
     o += 8;
   }
@@ -295,10 +296,21 @@ export function writeShapefile(layer) {
     const hasZ = feats.some((f) => f.geom.xyz.some((v, i) => i % 3 === 2 && v !== 0));
     const recs = feats.map((f) => shpRecord(f, type, hasZ));
     feats.forEach((f) => countGeom(rep, `${{ 1: 'Point', 3: 'PolyLine', 5: 'Polygon', 8: 'MultiPoint' }[type]}${hasZ ? 'Z' : ''}`));
-    const xs = feats.flatMap((f) => f.geom.xyz.filter((_, i) => i % 3 === 0));
-    const ys = feats.flatMap((f) => f.geom.xyz.filter((_, i) => i % 3 === 1));
-    const zs = feats.flatMap((f) => f.geom.xyz.filter((_, i) => i % 3 === 2));
-    const box = [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys), hasZ ? Math.min(...zs) : 0, hasZ ? Math.max(...zs) : 0, 0, 0];
+    // One pass over the coordinates: spreading them into Math.min overflowed the stack on country
+    // outlines, and flatMap does not flatten the typed arrays FlatGeobuf and GeoParquet give (TE 2.0.4).
+    const box = [Infinity, Infinity, -Infinity, -Infinity, Infinity, -Infinity, 0, 0];
+    for (const f of feats) {
+      const a = f.geom.xyz;
+      for (let i = 0; i + 2 < a.length; i += 3) {
+        box[0] = Math.min(box[0], a[i]);
+        box[1] = Math.min(box[1], a[i + 1]);
+        box[2] = Math.max(box[2], a[i]);
+        box[3] = Math.max(box[3], a[i + 1]);
+        box[4] = Math.min(box[4], a[i + 2]);
+        box[5] = Math.max(box[5], a[i + 2]);
+      }
+    }
+    if (!hasZ) [box[4], box[5]] = [0, 0];
     const shpLen = 100 + recs.reduce((s, r) => s + 8 + r.length, 0);
     const shp = new Uint8Array(shpLen);
     const shx = new Uint8Array(100 + 8 * recs.length);
