@@ -478,7 +478,7 @@ export function install(app) {
           tx.set(p.id, 'layers', [...(tx.get(p.id).layers ?? []).filter((x) => !app.layers.has(x) || app.layers.get(x).rec?.file !== l.rec.file), id]);
           tx.set(p.id, 'activeLayer', id);
         });
-        [target] = await attachLayers(app, fref, [S.get(id)]);
+        [target] = await attachLayers(app, fref, [S.get(id)], { share: l });
       }
       const [kind, key] = list[i];
       if (kind === 'preset') await msi().applyPreset(target, key);

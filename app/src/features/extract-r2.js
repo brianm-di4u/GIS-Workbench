@@ -493,6 +493,7 @@ export function install(app) {
     dsm ??= app.terrain.dems.find((d) => d.kind === 'DSM');
     if (!dsm) throw new Error('no DSM: use a DSM as terrain first');
     const g = dsm.grid;
+    if (g.width < 3 || g.height < 3) throw new Error(`the DSM is ${g.width} × ${g.height} posts: buildings need at least 3 × 3 (a cloud this small has none to find)`);
     const H = dsm.current ?? g.heights;
     const n = g.width * g.height;
     let ground;

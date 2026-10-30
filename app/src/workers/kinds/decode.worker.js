@@ -348,19 +348,19 @@ GW.register('window', async ({ handle, x0, y0, w, h, step = 1, bands, maxSamples
   if (ow * oh * bands.length > maxSamples) throw new Error(`${ow}×${oh}×${bands.length} samples are more than a product takes (${(maxSamples / 1e6).toFixed(0)} M)`);
   const planes = [];
   // Read in row bands so a decimated chip of a large image never holds the full window.
-  const rows = Math.max(step, Math.floor(16e6 / Math.max(1, sw)) - (Math.floor(16e6 / Math.max(1, sw)) % step));
-  for (const b of bands) {
-    let out = null;
-    for (let r0 = 0; r0 < sh; r0 += rows) {
-      const rh = Math.min(rows, sh - r0);
-      const [a] = await e.src.readWindow(x0, y0 + r0, sw, rh, [b], job);
-      out ??= new a.constructor(ow * oh);
+  // Every band of a row band in one read: pixel-interleaved JPEG blocks were decoded once per band.
+  const per = Math.floor(16e6 / Math.max(1, sw * bands.length));
+  const rows = Math.max(step, per - (per % step));
+  for (let r0 = 0; r0 < sh; r0 += rows) {
+    const rh = Math.min(rows, sh - r0);
+    const got = await e.src.readWindow(x0, y0 + r0, sw, rh, bands, job);
+    got.forEach((a, k) => {
+      const out = (planes[k] ??= new a.constructor(ow * oh));
       for (let y = 0; y < rh; y += step) {
         const oy = (r0 + y) / step;
         for (let x = 0, ox = 0; x < sw; x += step, ox++) out[oy * ow + ox] = a[y * sw + x];
       }
-    }
-    planes.push(out);
+    });
   }
   return GW.transfer({ x0, y0, w: ow, h: oh, step, planes }, planes.map((p) => p.buffer));
 });
@@ -578,7 +578,21 @@ GW.register('memupdate', async ({ handle, planes }) => {
   return { ok: true };
 });
 
+// Views sharing one open (Xport panes) each hold a reference; the handle goes with the last one.
+const refs = new Map();
+GW.register('retain', async ({ handle }) => {
+  if (!handles.has(handle)) throw new Error('unknown image handle (the file was closed)');
+  refs.set(handle, (refs.get(handle) ?? 1) + 1);
+  return true;
+});
+
 GW.register('close', async ({ handle }) => {
+  const n = (refs.get(handle) ?? 1) - 1;
+  if (n > 0) {
+    refs.set(handle, n);
+    return true;
+  }
+  refs.delete(handle);
   handles.delete(handle);
   return true;
 });

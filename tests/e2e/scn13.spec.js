@@ -271,7 +271,12 @@ test('REQ-MSI-05 REQ-MSI-06 REQ-MSI-07 REQ-MSI-13 REQ-MSI-14 REQ-MSI-15 REQ-MSI-
     const tm = await app.msi.templateMatch(la, { x0: 122, y0: 122, w: 12, h: 12 }, { band: 6, threshold: 0.6 });
     // Xport: up to 16 linked panes.
     const xp = await app.msi.xport(la, [['preset', 'natural'], ['preset', 'cir'], ['index', 'ndvi'], ['index', 'ndwi'], ['index', 'savi'], ['band', 0], ['band', 7], ['preset', 'rededge'], ['preset', 'bathymetric']]);
-    return { libCls, samVeg, samWater, st0, toa, btv, dn, dos, iarr, plotOk, samRow, changed, same, tm: tm.hits.length, xp: xp.length, panes: app.activeMp().panes.length, layout: app.activeMp().rec?.layout };
+    // The views share the source's open (CX-051); one view going does not close it for the others.
+    const views = xp.slice(1).map((v) => app.layers.get(v.layer));
+    const shared = views.every((v) => v.handle === la.handle && v.affinity === la.affinity);
+    await app.pool.run('close', { handle: la.handle }, { affinity: la.affinity }); // one view's close
+    const px = await app.pool.run('pixels', { handle: views[1].handle, x: 10, y: 10, w: 1, h: 1, bands: [0] }, { affinity: views[1].affinity });
+    return { libCls, samVeg, samWater, st0, toa, btv, dn, dos, iarr, plotOk, samRow, changed, same, tm: tm.hits.length, xp: xp.length, panes: app.activeMp().panes.length, layout: app.activeMp().rec?.layout, shared, afterClose: Number.isFinite(px.values[0][0]) };
   }, truth);
   console.log(JSON.stringify(r));
   expect(r.libCls.libSize).toBeGreaterThanOrEqual(60);
@@ -292,6 +297,8 @@ test('REQ-MSI-05 REQ-MSI-06 REQ-MSI-07 REQ-MSI-13 REQ-MSI-14 REQ-MSI-15 REQ-MSI-
   expect(r.tm).toBeGreaterThanOrEqual(3);
   expect(r.xp).toBe(9);
   expect(r.panes).toBe(9);
+  expect(r.shared).toBe(true);
+  expect(r.afterClose).toBe(true);
   expect(logs).toEqual([]);
 });
 

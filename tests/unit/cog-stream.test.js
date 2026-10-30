@@ -14,6 +14,7 @@ describe('streaming COG', () => {
     const n = 3;
     const val = (x, y, b) => (x * 7 + y * 13 + b * 101) % 4096;
     const reads = [];
+    const levelsRead = new Set();
     const src = {
       width: W,
       height: H,
@@ -21,6 +22,7 @@ describe('streaming COG', () => {
       type: 'u16',
       read: async (k, x0, y0, w, h) => {
         reads.push(w * h);
+        levelsRead.add(k);
         const s = 2 ** k;
         const a = new Uint16Array(w * h * n);
         for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) for (let b = 0; b < n; b++) a[(y * w + x) * n + b] = val(Math.min(W - 1, (x0 + x) * s), Math.min(H - 1, (y0 + y) * s), b);
@@ -32,6 +34,7 @@ describe('streaming COG', () => {
     expect(last).toBe(1);
     expect(r.bigTiff).toBe(false);
     expect(Math.max(...reads)).toBeLessThanOrEqual(1300 * 256); // one tile row at a time
+    expect([...levelsRead]).toEqual([0]); // overviews come from the rows written, not re-reads
     const buf = await r.blob.arrayBuffer();
     const tiff = await fromArrayBuffer(buf);
     expect(await tiff.getImageCount()).toBe(4);

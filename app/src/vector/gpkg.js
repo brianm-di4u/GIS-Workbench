@@ -232,7 +232,12 @@ function envelope(b) {
 }
 
 export function registerSpatialFunctions(db) {
-  const env = (b) => envelope(b instanceof Uint8Array ? b : null);
+  // A geometry without a finite envelope (a CSV row with no position: NaN coordinates) counts as
+  // empty: its NaN bounds broke the R-tree's minx <= maxx check (IBTrACS, TE 2.0.4 cross).
+  const env = (b) => {
+    const e = envelope(b instanceof Uint8Array ? b : null);
+    return e && e.every(Number.isFinite) && e[0] <= e[2] && e[1] <= e[3] ? e : null;
+  };
   db.create_function('ST_IsEmpty', (b) => (env(b) ? 0 : 1));
   db.create_function('ST_MinX', (b) => env(b)?.[0] ?? null);
   db.create_function('ST_MinY', (b) => env(b)?.[1] ?? null);
@@ -313,12 +318,13 @@ CREATE TABLE gpkg_metadata_reference (reference_scope TEXT NOT NULL, table_name 
     let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
     for (const f of layer.features) {
       const b = bbox(f.geom);
+      if (!b.every(Number.isFinite)) continue;
       x0 = Math.min(x0, b[0]);
       y0 = Math.min(y0, b[1]);
       x1 = Math.max(x1, b[2]);
       y1 = Math.max(y1, b[3]);
     }
-    if (!layer.features.length) [x0, y0, x1, y1] = [-180, -90, 180, 90];
+    if (!(x0 <= x1 && y0 <= y1)) [x0, y0, x1, y1] = [-180, -90, 180, 90];
     db.run('INSERT INTO gpkg_contents (table_name, data_type, identifier, description, last_change, min_x, min_y, max_x, max_y, srs_id) VALUES (?,?,?,?,?,?,?,?,?,?)', [t, 'features', id, layer.description ?? `${layer.features.length} feature(s) from GIS Workbench`, iso, x0, y0, x1, y1, 4326]);
     db.run('INSERT INTO gpkg_geometry_columns VALUES (?,?,?,?,?,?)', [t, 'geom', gtype, 4326, 1, 0]);
     db.run("INSERT INTO gpkg_extensions VALUES (?, 'geom', 'gpkg_rtree_index', 'http://www.geopackage.org/spec/#extension_rtree', 'write-only')", [t]);

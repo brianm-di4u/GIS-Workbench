@@ -26,6 +26,18 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Band Math statistics** of large images are read from the pyramid: seconds instead of minutes. (CX-020)
 - **Commands offered only where they work**: Chip by Preset Area, Auto Map and Snapshot to KMZ need a georeferenced image; SAR anamorphic needs SICD sample spacings; FMV capture is not offered for MPEG-2 video; Ortho On-the-Fly uses the panel's RPC image. (CX-022–CX-025)
 - **Clear messages instead of errors**: Jump To a point off the image, AOI from Graphic off the image, Measure ▸ Centre Point with vectors only, 3D terrain with no heights, the 3D globe over an image it cannot drape, a detector with no valid score, the gridded reference graphic's default cell, and point-cloud grids that are too large. (CX-021, CX-026–CX-031, CX-035, CX-036)
+- **WorldView NITFs with a cloud-mask segment open on the image.** The 70 × 76 mask (IREP NODISPLY) became the active layer, so the view fitted the mask and the 43k strip drew at full resolution; the overview then asked for thousands of tiles. Mask segments now open hidden and registered to the image. (CX-037)
+- **Ortho On-the-Fly on a whole WorldView strip** works (it ran out of memory): the source is read at the pyramid level matching the output; a 43k × 46k strip rectifies in about 5 s. (CX-038)
+- **Hyperspectral ENVI cubes from slow disks**: rows are read many at a time, so band maths, NDVI and statistics on a 4.6 GB AVIRIS-NG cube finish instead of timing out. (CX-039)
+- **A slow job no longer takes other work down with it.** A timed-out job is asked to stop first; its worker, open files and other jobs carry on. (CX-040)
+- **Several large images open in parallel**: each file opens on its own worker, so nine 16k² JPEG GeoTIFFs from one ZIP show in 19 s instead of 52 s. (CX-042)
+- **Cloud-Optimized GeoTIFF export is up to 2.6× faster**: the source is decoded once (overviews come from the rows written) and all bands are read together; hyperspectral cubes with hundreds of bands convert, and conversion errors are reported by name. (CX-043, CX-044)
+- **FMV videos with small holes in the stream play to the end.** Day Flight stopped for good at 87.5 s, and a burn-in export of it never finished. Small gaps are skipped, the video buffer stays inside the browser's limit, and a stretch the browser cannot decode stops playback with a message; the export keeps what it recorded. (CX-045, CX-046)
+- **Point-cloud DSM, DTM, ground filter and Buildings and Trees from Points are 3–7× faster**: hole filling stopped converging on real elevations and always ran its full budget. A 3DEP tile's buildings and trees now take about 13 s instead of a minute or more. (CX-047)
+- **Xport on very large files**: its views share one open of the file instead of opening it again for each, so a 1.85 GB EMIT cube shows in 16 panels instead of running out of memory. (CX-051)
+- **GeoPackage export of rows without a position** (a CSV with empty coordinates) works; it failed with an R-tree error. (CX-050)
+- **Point clouds**: Ground Filter on a one-point cloud no longer crashes; a DTM of a cloud without ground points says to run Ground Filter first; Buildings and Trees on a tiny cloud says why there are none. (CX-048, CX-049, CX-052)
+- **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 
 ### Changed

@@ -22,6 +22,7 @@ export class VideoView {
     this.clip = clip;
     this.frame = 0;
     this.playing = false;
+    this.decodeError = null; // media time where the decoder rejected the stream
     this.rate = 1;
     this.loop = { a: null, b: null, on: false };
     this.metadataOnly = false;
@@ -82,6 +83,13 @@ export class VideoView {
     this.video.addEventListener('ended', () => this._setPlaying(false));
     this.video.addEventListener('pause', () => this._setPlaying(false));
     this.video.addEventListener('play', () => this._setPlaying(true));
+    // Holes of a few frames in a transport stream leave gaps in the buffered ranges that the
+    // browser does not play across: Day Flight stalled for good at 87.5 s (TE 2.0.4 cross). While
+    // playing, a stall just before a gap under a second jumps to the next range.
+    this._gapTimer = setInterval(() => this._jumpGap(), 500);
+    // A stretch the decoder rejects ends playback (Day Flight at 94 s): it stopped silently, and
+    // the burn-in export waited for it for ever.
+    this.video.addEventListener('error', () => this.video.error?.code === 3 && this._decodeFailed());
     this._vis = () => {
       if (document.hidden && this.playing) this.pause();
     };
@@ -103,7 +111,11 @@ export class VideoView {
       const { mpegts } = await this.app.gw.runScript('js-mpegts');
       if (!mpegts.isSupported()) return this._metadataOnly('Media Source Extensions are not available in this browser');
       mpegts.LoggingControl.enableAll = false;
-      this.player = mpegts.createPlayer({ type: 'mpegts', isLive: false, url: c.url, hasAudio: false, hasVideo: true }, { enableWorker: false, lazyLoad: false, autoCleanupSourceBuffer: true, seekType: 'range', reuseRedirectedURL: true });
+      // The buffer stays well inside the browser's MSE quota: loading runs at most 60 s ahead and
+      // played video over 40 s old is dropped. With the defaults (load everything, drop only past
+      // 3 min behind) a 60 fps, 4 Mb/s clip filled the quota at 87.5 s and playback, and the
+      // burn-in export with it, stalled for good (TE 2.0.4 cross).
+      this.player = mpegts.createPlayer({ type: 'mpegts', isLive: false, url: c.url, hasAudio: false, hasVideo: true }, { enableWorker: false, lazyLoad: true, lazyLoadMaxDuration: 60, lazyLoadRecoverDuration: 30, autoCleanupSourceBuffer: true, autoCleanupMaxBackwardDuration: 40, autoCleanupMinBackwardDuration: 20, seekType: 'range', reuseRedirectedURL: true });
       this.player.attachMediaElement(this.video);
       await new Promise((res, rej) => {
         const t = setTimeout(() => rej(new Error('the stream did not start within 15 s')), 15000);
@@ -399,8 +411,39 @@ export class VideoView {
     }
   }
 
+  /** The decoder rejected the stream (MEDIA_ERR_DECODE): playback stops there, by name. */
+  _decodeFailed() {
+    if (this.disposed || this.metadataOnly) return;
+    this.decodeError = this.video.currentTime;
+    this._setPlaying(false);
+    this.app.toast(`${this.clip.name}: the video is damaged at ${this.decodeError.toFixed(1)} s and cannot be played past it; the KLV, map and footprints still work`, { kind: 'warn', ms: 8000 });
+  }
+
+  _jumpGap() {
+    const v = this.video;
+    if (this.metadataOnly || !this.player || v.paused || v.ended || v.seeking || v.readyState >= 3) {
+      this._stallAt = null;
+      return;
+    }
+    const t = v.currentTime;
+    if (this._stallAt !== t) {
+      this._stallAt = t; // stalled for one tick first: a normal wait for data is not a gap
+      return;
+    }
+    const b = v.buffered;
+    for (let i = 0; i < b.length; i++) {
+      if (b.start(i) > t && b.start(i) - t < 1) {
+        v.currentTime = b.start(i) + 0.001;
+        this.app.log('info', `${this.clip.name}: skipped a ${(b.start(i) - t).toFixed(2)} s gap in the stream at ${t.toFixed(2)} s`);
+        this._stallAt = null;
+        return;
+      }
+    }
+  }
+
   dispose() {
     this.disposed = true;
+    clearInterval(this._gapTimer);
     this.pause();
     if (this._rvfc && this.video.cancelVideoFrameCallback) this.video.cancelVideoFrameCallback(this._rvfc);
     this._resize.disconnect();

@@ -150,13 +150,17 @@ export class WorkerPool extends Emitter {
       if (!slot) {
         // `avoid`: slot ids this job must not run on (a second AI runtime needs its own worker).
         const free = job.avoid?.length ? slots.filter((s) => !job.avoid.includes(s.id)) : slots;
-        slot = free.length ? free.reduce((a, b) => (a.busy <= b.busy ? a : b)) : null;
+        // A file opens on the worker holding the fewest files, and on a new one while every worker
+        // holds one: its tiles and statistics then decode on their own thread. Nine 16k² JPEG
+        // GeoTIFFs from one ZIP used to share three workers 4/4/1, 52 s to first display (TE 2.0.4 cross).
+        const opening = job.op === 'open';
+        slot = free.length ? free.reduce(opening ? (a, b) => ((a.files ?? 0) <= (b.files ?? 0) ? a : b) : (a, b) => (a.busy <= b.busy ? a : b)) : null;
         const spawning = this._spawning.get(job.kind) ?? 0;
         if (!slot && slots.length + spawning >= this.size) {
           this._finish(job, null, new Error(`no free ${job.kind} worker: the pool is full`));
           continue;
         }
-        if ((!slot || slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4)) && slots.length + spawning < this.size) {
+        if ((!slot || slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4) || (opening && (slot.files ?? 0) > 0)) && slots.length + spawning < this.size) {
           // Claim the job before awaiting the new worker: a concurrent pump must not post it too
           // (its buffers would already be transferred), nor start more workers than the pool size.
           job.state = 'dispatching';
@@ -174,6 +178,7 @@ export class WorkerPool extends Emitter {
       job.slot = slot;
       job.started = performance.now();
       slot.busy++;
+      if (job.op === 'open') slot.files = (slot.files ?? 0) + 1; // counted on dispatch: back-to-back opens see it
       job.timer = setTimeout(() => this._timeout(job), job.timeout);
       slot.w.postMessage({ type: 'job', id: job.id, op: job.op, args: job.args }, job.transfer);
       this.emit('job', job);
@@ -233,6 +238,7 @@ export class WorkerPool extends Emitter {
     if (job.state === 'done' || job.state === 'failed') return;
     clearTimeout(job.timer);
     if (job.slot) job.slot.busy = Math.max(0, job.slot.busy - 1);
+    if (job.slot && ((job.op === 'open' && error) || (job.op === 'close' && !error))) job.slot.files = Math.max(0, (job.slot.files ?? 1) - 1);
     job.state = error ? 'failed' : 'done';
     if (job.slot) {
       this.slotOf.set(job.id, job.slot.id);

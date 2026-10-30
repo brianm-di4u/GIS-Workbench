@@ -136,43 +136,75 @@ export async function writeCogStream(src, opts = {}, onProgress = () => {}) {
   let done = 0;
   const parts = [];
   try {
-    for (const [k, lv] of levels.entries()) {
-      const out = await store.create(`gw-cog-${Date.now()}-${k}.bin`);
-      const nx = Math.ceil(lv.width / tile);
-      const ny = Math.ceil(lv.height / tile);
-      const counts = [];
-      const offs = [];
-      const span = Math.max(1, Math.floor(16384 / tile)); // tiles per read: a strip ≤ 16 384 px wide
-      for (let ty = 0; ty < ny; ty++) {
-        const y0 = ty * tile;
-        const h = Math.min(tile, lv.height - y0);
-        for (let tx0 = 0; tx0 < nx; tx0 += span) {
-          const x0 = tx0 * tile;
-          const w = Math.min(span * tile, lv.width - x0);
-          const data = await src.read(k, x0, y0, w, h);
-          const jobs = [];
-          for (let tx = tx0; tx < Math.min(nx, tx0 + span); tx++) {
-            const t = new ARR[type](tile * tile * n);
-            if (fill !== 0) t.fill(fill);
-            const ox = (tx - tx0) * tile;
-            const cw = Math.min(tile, w - ox);
-            for (let y = 0; y < h; y++) t.set(data.subarray((y * w + ox) * n, (y * w + ox + cw) * n), y * tile * n);
-            let b = new Uint8Array(t.buffer);
-            if (predictor === 2) predict2(b, type, tile, tile, n);
-            else if (predictor === 3) b = predict3(b, tile, tile, n);
-            jobs.push(compress === 'deflate' ? deflate(b) : Promise.resolve(b));
-          }
-          for (const c of await Promise.all(jobs)) {
-            offs.push(out.size);
-            counts.push(c.length);
-            await out.write(c);
-          }
-          done += jobs.length;
-          onProgress(done / totalTiles);
+    // Only full resolution is read. Each overview is every other sample of the level above, taken
+    // from the tile rows as they are written (one tile row buffered per level), so the source is
+    // decoded once instead of once per level: a 16k² JPEG GeoTIFF took 130 s (TE 2.0.4 cross).
+    // The samples are those a read with step 2^k gave.
+    const lv = await Promise.all(
+      levels.map(async (l, k) => ({
+        ...l,
+        out: await store.create(`gw-cog-${Date.now()}-${k}.bin`),
+        offs: [],
+        counts: [],
+        buf: k ? new ARR[type](tile * l.width * n).fill(fill) : null,
+        y0: 0, // first row of the buffered tile row (overviews)
+      })),
+    );
+    /** Compress and write the tiles of a strip of level k (columns x0…x0+w, rows y0…y0+h). */
+    const writeTiles = async (k, data, w, x0, y0, h) => {
+      const L = lv[k];
+      const jobs = [];
+      for (let ox = 0; ox < w; ox += tile) {
+        const t = new ARR[type](tile * tile * n);
+        if (fill !== 0) t.fill(fill);
+        const cw = Math.min(tile, w - ox);
+        for (let y = 0; y < h; y++) t.set(data.subarray((y * w + ox) * n, (y * w + ox + cw) * n), y * tile * n);
+        let b = new Uint8Array(t.buffer);
+        if (predictor === 2) predict2(b, type, tile, tile, n);
+        else if (predictor === 3) b = predict3(b, tile, tile, n);
+        jobs.push(compress === 'deflate' ? deflate(b) : Promise.resolve(b));
+      }
+      for (const c of await Promise.all(jobs)) {
+        L.offs.push(L.out.size);
+        L.counts.push(c.length);
+        await L.out.write(c);
+      }
+      done += jobs.length;
+      onProgress(done / totalTiles);
+      // Even rows and columns go to the next level's tile row.
+      const N = lv[k + 1];
+      if (!N) return;
+      for (let y = y0 + (y0 & 1); y < y0 + h; y += 2) {
+        const r = y / 2 - N.y0;
+        for (let x = x0 + (x0 & 1); x < x0 + w; x += 2) {
+          const s = ((y - y0) * w + (x - x0)) * n;
+          N.buf.set(data.subarray(s, s + n), (r * N.width + x / 2) * n);
         }
       }
-      parts.push({ lv, offs, counts, blob: await out.done() });
+    };
+    /** Level k's rows are complete up to `rows`: write the next level's full tile rows. */
+    const flush = async (k, rows) => {
+      const N = lv[k + 1];
+      if (!N) return;
+      const ready = Math.min(N.height, Math.ceil(rows / 2));
+      while (N.y0 < N.height && (ready >= N.y0 + tile || ready >= N.height)) {
+        const h = Math.min(tile, N.height - N.y0);
+        await writeTiles(k + 1, N.buf, N.width, 0, N.y0, h);
+        await flush(k + 1, N.y0 + h);
+        N.y0 += tile;
+        N.buf.fill(fill);
+      }
+    };
+    const span = Math.max(1, Math.floor(16384 / tile)) * tile; // a read strip ≤ 16 384 px wide
+    for (let y0 = 0; y0 < src.height; y0 += tile) {
+      const h = Math.min(tile, src.height - y0);
+      for (let x0 = 0; x0 < src.width; x0 += span) {
+        const w = Math.min(span, src.width - x0);
+        await writeTiles(0, await src.read(0, x0, y0, w, h), w, x0, y0, h);
+      }
+      await flush(0, y0 + h);
     }
+    for (const L of lv) parts.push({ lv: { width: L.width, height: L.height, step: L.step }, offs: L.offs, counts: L.counts, blob: await L.out.done() });
     // Layout: header, IFDs (full resolution first), then tiles from the smallest overview up.
     const dataBytes = parts.reduce((s, p) => s + p.blob.size, 0);
     const big = opts.bigTiff ?? dataBytes + 1e6 > 0xffffffff;

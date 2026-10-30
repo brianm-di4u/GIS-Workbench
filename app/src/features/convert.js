@@ -125,7 +125,8 @@ export function install(app) {
     if (est?.quota && est.quota - (est.usage ?? 0) < need) throw new Error(`converting ${l.rec?.name} needs about ${(need / 1e9).toFixed(1)} GB of free browser storage; ${((est.quota - (est.usage ?? 0)) / 1e9).toFixed(1)} GB is available`);
     const read = async (k, x0, y0, w, h) => {
       const s = 2 ** k;
-      const r = await app.pool.run('window', { handle: l.handle, x0: x0 * s, y0: y0 * s, w, h, step: s, bands }, { affinity: l.affinity, timeout: 600000, label: `COG: read level ${k}` });
+      // One output tile of every band (512² × 285 EMIT bands is past the window's 64 M default).
+      const r = await app.pool.run('window', { handle: l.handle, x0: x0 * s, y0: y0 * s, w, h, step: s, bands, maxSamples: Math.max(64e6, w * h * n) }, { affinity: l.affinity, timeout: 600000, label: `COG: read level ${k}` });
       const out = new Arr(w * h * n);
       const rw = Math.min(w, r.w);
       for (let y = 0; y < Math.min(h, r.h); y++) for (let x = 0; x < rw; x++) for (let b = 0; b < n; b++) out[(y * w + x) * n + b] = r.planes[b][y * r.w + x];
@@ -252,7 +253,11 @@ export function install(app) {
     run: async () => {
       const l = app.activeLayer();
       app.toast(`Making a Cloud-Optimized GeoTIFF of ${l.rec?.name}…`);
-      app.toast(await layerToCog(l));
+      try {
+        app.toast(await layerToCog(l));
+      } catch (e) {
+        app.toast(`Cloud-Optimized GeoTIFF of ${l.rec?.name}: ${e.message}`, { kind: e.cancelled ? 'info' : 'error', ms: 8000 });
+      }
     },
   });
 }

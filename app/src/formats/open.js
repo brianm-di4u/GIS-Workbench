@@ -782,7 +782,7 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
       if (shown(i)) tx.set(p.id, 'activeLayer', ids[i]);
     });
   });
-  app.files.set(refId, { file, handle, sidecars, result: d.res });
+  app.files.set(refId, { file, handle, sidecars, result: d.res, described: d });
   if (!d.fp) d.fpP?.then((fp) => app.store.get(refId) && app.store.transact('Fingerprint', (tx) => tx.set(refId, 'fingerprint', fp), { kind: 'load' })).catch((e) => app.log('warn', `fingerprint ${file.name}: ${e.message}`));
   const layers = d.rasters.map((r, i) => makeRuntime(app, app.store.get(ids[i]), r, d));
   for (const l of layers) l.rec && app.store.transact('Set model', (tx) => tx.set(l.id, 'model', l.modelName), { kind: 'load' });
@@ -807,9 +807,25 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
 
 /** Re-open a relinked file for existing layer records (project load). */
 /** Runtimes for new layer records of an already-open file (a cloned multiport): a fresh decode. */
-export async function attachLayers(app, fref, recs) {
+/**
+ * `share`: a live layer of the file whose open the new layers use too (Xport panes), instead of a
+ * fresh decode each: a 1.85 GB EMIT cube is read into memory per open, and the second view failed
+ * with "Array buffer allocation failed" (TE 2.0.4 cross). Falls back to a decode when the open has
+ * changed since (a restarted worker).
+ */
+export async function attachLayers(app, fref, recs, { share = null } = {}) {
   const f = app.files.get(fref.id);
   if (!f) throw new Error(`${fref.name} is not linked`);
+  const D = f.described;
+  const same = (r) => r && share && r.raster.handle === share.handle && r.info.affinity === share.affinity;
+  if (D && recs.every((rec) => same(D.rasters.find((x) => x.raster.imageIndex === (rec.imageIndex ?? 0))))) {
+    const out = [];
+    for (const rec of recs) {
+      await app.pool.run('retain', { handle: share.handle }, { affinity: share.affinity });
+      out.push(makeRuntime(app, rec, D.rasters.find((x) => x.raster.imageIndex === (rec.imageIndex ?? 0)), D));
+    }
+    return out;
+  }
   const d = await describe(app, f.file, f.sidecars ?? []);
   const out = [];
   for (const rec of recs) {

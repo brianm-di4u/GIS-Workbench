@@ -1197,7 +1197,10 @@ export async function install(app) {
     // again when an MP4 recorder delivers nothing.
     const types = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'].filter((t) => MediaRecorder.isTypeSupported(t));
     for (const mimeType of [...new Set([types[0], types.find((t) => /webm/.test(t))].filter(Boolean))]) {
+      v.decodeError = null;
       const blob = await recordClip(v, clip, from, to, mimeType);
+      // A stream damaged part-way stops playback: what was recorded is kept, and said so.
+      if (v.decodeError !== null && blob.size > 0) app.toast(`Clip export stopped at ${v.decodeError.toFixed(1)} s, where the video is damaged`, { kind: 'warn', ms: 8000 });
       if (blob.size > 0) {
         if (save) await saveBlob(app, blob, { name: `${clip.name.replace(/\.\w+$/, '')}_burnin.${/mp4/.test(mimeType) ? 'mp4' : 'webm'}` });
         return blob;
@@ -1231,7 +1234,7 @@ export async function install(app) {
       const tick = () => {
         g.drawImage(v.video, 0, 0, W, H);
         g.drawImage(v.hud, 0, 0, W, H);
-        if (v.frame >= to || !v.playing) return res();
+        if (v.frame >= to || v.video.ended || !v.playing) return res();
         requestAnimationFrame(tick);
       };
       tick();

@@ -318,7 +318,12 @@ export function install(app) {
     const prm = (mode, iters) => [g.e0, g.n0, g.ce, g.cn, g.w, g.h, mode, iters];
     const pos = c.pos;
     if (kind === 'dsm') return { grid: g, heights: await job('grid', { pos, mask: maskOf(c, (k) => !NOISE.has(c.class[k]) && !withheld(c, k)), val: null, prm: prm(GRID_MODE.max, fill ? 300 : 0) }) };
-    if (kind === 'dtm') return { grid: g, heights: await job('grid', { pos, mask: maskOf(c, (k) => c.class[k] === 2 && !withheld(c, k)), val: null, prm: prm(GRID_MODE.mean, fill ? 800 : 0) }) };
+    if (kind === 'dtm') {
+      const mask = maskOf(c, (k) => c.class[k] === 2 && !withheld(c, k));
+      // No ground points: the DTM was all voids and failed later as "no heights over this area" (TE 2.0.4 cross).
+      if (!mask.includes(1)) throw new Error(`${c.name} has no ground-classified points (class 2): run Classify ▸ Ground Filter first`);
+      return { grid: g, heights: await job('grid', { pos, mask, val: null, prm: prm(GRID_MODE.mean, fill ? 800 : 0) }) };
+    }
     if (kind === 'ndsm') {
       const [a, b] = await Promise.all([makeGrid(c, 'dsm', { cell, fill }), makeGrid(c, 'dtm', { cell, fill })]);
       const z = new Float32Array(a.heights.length);
