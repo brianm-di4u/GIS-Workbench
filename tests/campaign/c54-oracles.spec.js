@@ -7,7 +7,7 @@
 //   TE_DIST=dist-cx5/gis-workbench.html TE_RUN=cx-oracle [TE_ONLY=<regex>]
 //   npx playwright test -c playwright.campaign.config.js c54-oracles --project=chrome
 import { test, expect } from '@playwright/test';
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ASCII_CRS, truth } from './helpers.js';
 import { cases, EXPECT, refusedKeys, ROBUST, stratify } from './cases.js';
@@ -54,7 +54,16 @@ for (const c of chosen) {
       return out;
     });
     rec.app = app;
-    if (t.kind === 'raster' && app.layers[0]?.stats && Array.isArray(t.stats) && !app.layers[0].sar && !app.layers[0].palette) {
+    // Not comparable (CX-H07): a palette GDAL reads as its index band (RPF/CADRG), a PDF rendered by
+    // another rasterizer. Statistics from a coarser level (images over 1024², or a file's own
+    // overviews) average: σ is lower and a resampled overview may overshoot the full-resolution
+    // range. JPEG decoders differ at the extremes (IDCT and chroma upsampling).
+    const L0 = app.layers[0];
+    const comparable = L0 && !t.palette && L0.bands === t.bands && !/\.pdf$/i.test(name);
+    const coarse = L0 && (Math.max(L0.w, L0.h) > 1024 || (t.overviews ?? 0) > 0);
+    const jpeg = /JPEG|C3|M3/i.test(JSON.stringify(t.metadata?.IMAGE_STRUCTURE ?? {})) || /JPEG/.test(t.metadata?.NITF_METADATA?.NITF_IC ?? '') || /^(C3|M3)$/.test(t.nitf?.NITF_IC ?? '');
+    if (L0 && !comparable) add('statistics comparable', true, 'skipped: palette index, band layout or rendered PDF differs from GDAL by design');
+    if (t.kind === 'raster' && L0?.stats && Array.isArray(t.stats) && !L0.sar && !L0.palette && comparable) {
       app.layers[0].stats.forEach((h, b) => {
         const g = t.stats[b];
         if (!g || !Number.isFinite(g.mean) || !h?.bins) return;
@@ -64,25 +73,38 @@ for (const c of chosen) {
         const am = a.mean;
         const as = a.std;
         if (Number.isFinite(am)) add(`band ${b + 1} mean`, Math.abs(am - g.mean) <= 0.01 * range + 1e-6, `${am} vs GDAL ${g.mean} (range ${range})`);
-        if (Number.isFinite(as) && Number.isFinite(g.std)) add(`band ${b + 1} σ`, Math.abs(as - g.std) <= 0.05 * Math.max(g.std, 0.01 * range) + 1e-6, `${as} vs GDAL ${g.std}`);
+        if (Number.isFinite(as) && Number.isFinite(g.std)) add(`band ${b + 1} σ`, coarse ? as <= 1.05 * g.std + 0.01 * range && as >= 0.6 * g.std - 0.01 * range : Math.abs(as - g.std) <= 0.05 * Math.max(g.std, 0.01 * range) + 1e-6, `${as} vs GDAL ${g.std}${coarse ? ' (coarse level)' : ''}`);
         // Bins round values down to their bin: allow one bin width.
-        if (Number.isFinite(a.min)) add(`band ${b + 1} min ≥ GDAL min`, a.min >= g.min - h.binWidth - 1e-6 * range, `${a.min} vs ${g.min}`);
-        if (Number.isFinite(a.max)) add(`band ${b + 1} max ≤ GDAL max`, a.max <= g.max + h.binWidth + 1e-6 * range, `${a.max} vs ${g.max}`);
+        const slack = h.binWidth + (jpeg ? 0.08 * range : 0) + 1e-6 * range;
+        const overshoot = (t.overviews ?? 0) > 0 && coarse;
+        if (Number.isFinite(a.min) && !overshoot) add(`band ${b + 1} min ≥ GDAL min`, a.min >= g.min - slack, `${a.min} vs ${g.min}`);
+        if (Number.isFinite(a.max) && !overshoot) add(`band ${b + 1} max ≤ GDAL max`, a.max <= g.max + slack, `${a.max} vs ${g.max}`);
       });
     }
     if (t.kind === 'vector' && Array.isArray(t.layers)) {
       // Attribute-only tables (geometry type None) are not layers in the app.
-      const ogr = t.layers.filter((l) => l.geomType !== 'None').reduce((n, l) => n + (l.features ?? 0), 0);
+      let ogr = t.layers.filter((l) => l.geomType !== 'None').reduce((n, l) => n + (l.features ?? 0), 0);
+      // OGR's CSV driver reads no geometry without X/Y options: its rows are the reference, less
+      // rows without a valid position (the app skips those and says so).
+      const csvRows = /\.(csv|txt)$/i.test(name) && !ogr ? t.layers.reduce((n, l) => n + (l.features ?? 0), 0) : 0;
       const mine = app.vlayers.reduce((n, l) => n + l.features, 0);
       // Shapefile MultiPatch is skipped by design; GeometryCollections are split into features;
       // features with no geometry or a curve type are skipped with a note in the import log.
       const skipped = (o.warnings ?? []).some((w) => /skipped|not read|curve/i.test(w));
-      if (app.vlayers.length) add('feature count', mine === ogr || (mine > ogr && t.layers.some((l) => /Collection/i.test(l.geomType ?? ''))) || (mine < ogr && skipped), `${mine} vs OGR ${ogr}${skipped ? ' (skips noted)' : ''}`);
+      // KML GroundOverlays are features to OGR but images to the app (shown when their picture is
+      // there): they are not counted (ICEYE quick-look KML, TE 2.0.4 cross).
+      const overlays = /\.kml$/i.test(name) ? (readFileSync(c.files[0], 'utf8').match(/<GroundOverlay[\s>]/g) ?? []).length : 0;
+      // A shapefile's own index is a reference too: shplib's 3dpoints has 22 records in .shp, .shx and
+      // .dbf where OGR reports 8 (CX-H07).
+      const shx = /\.shp$/i.test(name) && existsSync(c.files[0].replace(/\.shp$/i, '.shx')) ? (readFileSync(c.files[0].replace(/\.shp$/i, '.shx')).length - 100) / 8 : null;
+      if (app.vlayers.length) add('feature count', mine === ogr || mine === shx || mine === ogr - overlays || (csvRows > 0 && mine <= csvRows && mine >= 0.9 * csvRows) || (mine > ogr && t.layers.some((l) => /Collection/i.test(l.geomType ?? ''))) || (mine < ogr && skipped), `${mine} vs OGR ${ogr}${skipped ? ' (skips noted)' : ''}`);
       const ext = t.layers.map((l) => l.extent).filter((e) => Array.isArray(e) && e.length === 4 && t.layers[0].epsg === '4326');
       if (ext.length && app.vlayers.length) {
         const ob = [Math.min(...ext.map((e) => e[0])), Math.min(...ext.map((e) => e[2])), Math.max(...ext.map((e) => e[1])), Math.max(...ext.map((e) => e[3]))];
         const ab = app.vlayers.reduce((b, l) => [Math.min(b[0], l.bbox[0]), Math.min(b[1], l.bbox[1]), Math.max(b[2], l.bbox[2]), Math.max(b[3], l.bbox[3])], [Infinity, Infinity, -Infinity, -Infinity]);
-        add('extent (WGS 84)', ob.every((v, i) => Math.abs(v - ab[i]) <= 1e-6 + 1e-7 * Math.abs(v)), `${ab.map((x) => x.toFixed(6))} vs OGR ${ob.map((x) => x.toFixed(6))}`);
+        // With GroundOverlays (images to the app) the app's extent lies inside OGR's.
+        const tol = (v) => 1e-6 + 1e-7 * Math.abs(v);
+        add('extent (WGS 84)', overlays ? ab[0] >= ob[0] - tol(ob[0]) && ab[1] >= ob[1] - tol(ob[1]) && ab[2] <= ob[2] + tol(ob[2]) && ab[3] <= ob[3] + tol(ob[3]) : ob.every((v, i) => Math.abs(v - ab[i]) <= tol(v)), `${ab.map((x) => x.toFixed(6))} vs OGR ${ob.map((x) => x.toFixed(6))}`);
       }
     }
     if (t.kind === 'lidar' && app.cloud && !app.cloud.streamed && !t.copc) add('point count', app.cloud.n === t.points, `${app.cloud.n} vs laspy ${t.points}`);

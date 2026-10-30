@@ -430,6 +430,13 @@ export class VideoView {
       this._stallAt = t; // stalled for one tick first: a normal wait for data is not a gap
       return;
     }
+    // Stalled in the last half second (the final frames never arrive): that is the end, so the
+    // element ends and the burn-in export with it (truck_vmti.ts hung at 148.1 of 148.2 s, TE 2.0.4).
+    if (Number.isFinite(v.duration) && v.duration - t < 0.5) {
+      v.currentTime = v.duration;
+      this._stallAt = null;
+      return;
+    }
     const b = v.buffered;
     for (let i = 0; i < b.length; i++) {
       if (b.start(i) > t && b.start(i) - t < 1) {

@@ -37,6 +37,9 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Xport on very large files**: its views share one open of the file instead of opening it again for each, so a 1.85 GB EMIT cube shows in 16 panels instead of running out of memory. (CX-051)
 - **GeoPackage export of rows without a position** (a CSV with empty coordinates) works; it failed with an R-tree error. (CX-050)
 - **Point clouds**: Ground Filter on a one-point cloud no longer crashes; a DTM of a cloud without ground points says to run Ground Filter first; Buildings and Trees on a tiny cloud says why there are none. (CX-048, CX-049, CX-052)
+- **Band Statistics and SNR on hyperspectral cubes**: statistics of a 224-band AVIRIS cube take 25 s instead of timing out (the file was read once per band), and SNR runs on cubes with hundreds of bands instead of being refused. (CX-053, CX-054)
+- **Large ENVI cubes no longer show a black last row and column** on their overview levels, which also pulled their statistics down. (CX-055)
+- **FMV burn-in export finishes on clips whose last frames never arrive**, and short clips no longer record an empty video. (CX-056)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 

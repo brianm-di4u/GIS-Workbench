@@ -534,7 +534,12 @@ export function install(app) {
     run: run(async () => {
       const l = layer();
       const step = Math.max(1, Math.floor(Math.sqrt((l.width * l.height) / 1024 ** 2)));
-      const c = await cube(l, { step: 1, w: Math.min(l.width, 1024), h: Math.min(l.height, 1024) });
+      // Shift-difference noise needs neighbouring full-resolution pixels: a centred window, no wider
+      // than the cube limit allows for this many bands (224 AVIRIS bands at 1024² was refused, TE 2.0.4).
+      const side = Math.max(64, Math.min(1024, Math.floor(Math.sqrt(90e6 / Math.max(1, l.bands)))));
+      const w = Math.min(l.width, side);
+      const hh = Math.min(l.height, side);
+      const c = await cube(l, { step: 1, x0: Math.floor((l.width - w) / 2), y0: Math.floor((l.height - hh) / 2), w, h: hh });
       const r = await app.pool.run('spectral', { op: 'stats', args: [c.v, c.w, c.h, c.nb] }, { kind: 'analysis', label: 'SNR' });
       const bands = bandsOf(l);
       await modal({ title: `Band Statistics and SNR — ${l.rec?.name ?? ''}`, body: h('table', { class: 'tbl', 'data-id': 'snr-table' }, h('thead', {}, h('tr', {}, ...['Band', 'Mean', 'σ', 'SNR (shift-difference noise)'].map((t) => h('th', {}, t)))), h('tbody', {}, ...r.r.bands.map((s, i) => h('tr', {}, h('td', {}, `${i + 1}: ${bands[i].name}`), h('td', {}, s.mean.toPrecision(5)), h('td', {}, s.std.toPrecision(4)), h('td', {}, Number.isFinite(s.snr) ? s.snr.toFixed(1) : '∞'))))), buttons: ['Close'], id: 'snr', width: 560 });

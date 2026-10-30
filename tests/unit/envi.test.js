@@ -42,6 +42,14 @@ describe('ENVI', () => {
             if (X < W && Y < H) expect(out[k][j * 5 + i]).toBe(val([2, 7][k], Y, X));
           }
     });
+    it(`${il}: a partial last cell takes the last row and column (no zero edge)`, async () => {
+      const src = cube(il);
+      // Level 2 of 37 × 23 is 10 × 6: the last cell's centres (38, 22) lie past the edge.
+      const out = await src.readLevel(2, 0, 0, 10, 6, [3]);
+      expect(out[0][5 * 10 + 9]).toBe(val(3, H - 1, W - 1));
+      expect(out[0][5 * 10 + 0]).toBe(val(3, H - 1, 2));
+      expect(out[0][0 * 10 + 9]).toBe(val(3, 2, W - 1));
+    });
   }
   it('native levels only for large cubes', () => {
     expect(cube('bil').hasLevel(2)).toBe(false);

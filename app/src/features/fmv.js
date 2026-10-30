@@ -1234,12 +1234,21 @@ export async function install(app) {
       const tick = () => {
         g.drawImage(v.video, 0, 0, W, H);
         g.drawImage(v.hud, 0, 0, W, H);
-        if (v.frame >= to || v.video.ended || !v.playing) return res();
+        const left = v.video.duration - v.video.currentTime;
+        if (v.frame >= to || v.video.ended || !v.playing || (Number.isFinite(left) && left < 0.05)) return res();
         requestAnimationFrame(tick);
       };
       tick();
     });
     v.pause();
+    // A short clip can end before the recorder has a frame (a loaded machine: "the browser recorded
+    // no video", FX-10 on Edge): the last frame is held until the recorder has delivered one.
+    for (let i = 0; i < 10 && !parts.length; i++) {
+      g.drawImage(v.video, 0, 0, W, H);
+      g.drawImage(v.hud, 0, 0, W, H);
+      rec.requestData();
+      await new Promise((r) => setTimeout(r, 150));
+    }
     rec.stop();
     await done;
     return new Blob(parts, { type: mimeType.split(';')[0] });

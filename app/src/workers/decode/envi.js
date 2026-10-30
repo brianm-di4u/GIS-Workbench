@@ -110,13 +110,14 @@ export function enviSource(file, hd) {
       const xa = Math.min(W - 1, x0 * sc + half);
       const xb = Math.min(W - 1, (x0 + w - 1) * sc + half);
       const ys = [];
-      for (let j = 0; j < h && (y0 + j) * sc + half < H; j++) ys.push(j);
-      await rows(ys, (j) => (y0 + j) * sc + half, xa, xb + 1, bands, job, (j, get) => {
+      // A partial last cell samples the last row or column (its centre is past the edge), as raw NITF
+      // does: it was left at 0, a zero row and column on every coarse level (TE 2.0.4 cross, CASI).
+      for (let j = 0; j < h && (y0 + j) * sc < H; j++) ys.push(j);
+      await rows(ys, (j) => Math.min(H - 1, (y0 + j) * sc + half), xa, xb + 1, bands, job, (j, get) => {
         for (let k = 0; k < bands.length; k++) {
           const dst = out[k];
           for (let i = 0; i < w; i++) {
-            const X = (x0 + i) * sc + half;
-            if (X < W) dst[j * w + i] = get[k](X);
+            if ((x0 + i) * sc < W) dst[j * w + i] = get[k](Math.min(W - 1, (x0 + i) * sc + half));
           }
         }
       });
