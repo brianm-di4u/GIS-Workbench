@@ -75,6 +75,12 @@ for (const { it, f, files: files0 } of chosen) {
     if (EXPECT[name]?.refuse || refusedKeys(it, f).length || ROBUST(it) || (!usableLayers && !others)) {
       Object.assign(rec, { applicable: [], done: true });
       rec.open.refused = true;
+      // A re-tested file now refused by name has nothing left to time out: its C: copy goes too.
+      if (TIMEOUTS && nvmeDir) {
+        await page.close().catch(() => {});
+        rmSync(nvmeDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 1000 });
+        rec.nvme = { copied: true, dir: nvmeDir, resolved: true, refused: true, deleted: !existsSync(nvmeDir), cmds: [...cmdsFor(key)], ran: [] };
+      }
       save();
       return;
     }

@@ -1198,9 +1198,12 @@ export async function install(app) {
     const types = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'].filter((t) => MediaRecorder.isTypeSupported(t));
     for (const mimeType of [...new Set([types[0], types.find((t) => /webm/.test(t))].filter(Boolean))]) {
       v.decodeError = null;
+      v.stalledAt = null;
       const blob = await recordClip(v, clip, from, to, mimeType);
       // A stream damaged part-way stops playback: what was recorded is kept, and said so.
       if (v.decodeError !== null && blob.size > 0) app.toast(`Clip export stopped at ${v.decodeError.toFixed(1)} s, where the video is damaged`, { kind: 'warn', ms: 8000 });
+      else if (v.stalledAt !== null && blob.size > 0) app.toast(`Clip export stopped at ${v.stalledAt.toFixed(1)} s: playback did not advance (a damaged stream or timestamps out of order)`, { kind: 'warn', ms: 8000 });
+      if (v.stalledAt !== null && !blob.size) throw new Error(`playback did not advance past ${v.stalledAt.toFixed(1)} s (a damaged stream or timestamps out of order), so no clip was recorded`);
       if (blob.size > 0) {
         if (save) await saveBlob(app, blob, { name: `${clip.name.replace(/\.\w+$/, '')}_burnin.${/mp4/.test(mimeType) ? 'mp4' : 'webm'}` });
         return blob;
@@ -1230,12 +1233,26 @@ export async function install(app) {
     });
     v.play();
     await started;
+    // Playback that stops advancing (out-of-order PTS/DTS, a stream with no decodable frames) ends the
+    // recording after 8 s instead of waiting for an end that never comes (CX-084: 20 min on 246 KB).
+    // The clip's own length (its frames at its rate) also bounds it: a PTS jump past the 33-bit wrap
+    // gave a media duration of 8.6 million seconds and frame numbers that never reach the last one.
+    let last = -1;
+    let moved = performance.now();
+    const t0 = v.video.currentTime;
+    const span = (to - from + 1) / (clip.fps || 30) + 1;
     await new Promise((res) => {
       const tick = () => {
         g.drawImage(v.video, 0, 0, W, H);
         g.drawImage(v.hud, 0, 0, W, H);
-        const left = v.video.duration - v.video.currentTime;
-        if (v.frame >= to || v.video.ended || !v.playing || (Number.isFinite(left) && left < 0.05)) return res();
+        const t = v.video.currentTime;
+        const left = v.video.duration - t;
+        if (v.frame >= to || v.video.ended || !v.playing || (Number.isFinite(left) && left < 0.05) || t - t0 > span) return res();
+        if (t !== last) (last = t), (moved = performance.now());
+        else if (performance.now() - moved > 8000) {
+          v.stalledAt = t;
+          return res();
+        }
         requestAnimationFrame(tick);
       };
       tick();
