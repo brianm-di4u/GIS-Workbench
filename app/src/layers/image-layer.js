@@ -164,24 +164,10 @@ export class ImageLayer {
     return this.ensureStats();
   }
 
-  /**
-   * Until its statistics arrive, an 8-bit layer is drawn with a flat histogram (a straight 0–255
-   * stretch), so the first tile does not wait for them: a GeoPackage tile pyramid spent 490 ms on
-   * statistics before anything showed, 1078 ms to first tile (CX-086). The real stretch replaces it.
-   */
-  provisionalStats() {
-    if (this.sampleType !== 'u8' || !this.chain || this.chain.bandMath) return null;
-    if (!this._provisional) {
-      const bins = new Uint32Array(256).fill(1);
-      this._provisional = { bins, offset: 0, min: 0, binWidth: 1, count: 256, type: 'u8' };
-    }
-    return Object.fromEntries(this.chain.bands.map((b) => [b, this._provisional]));
-  }
-
   /** Rebuild LUT textures when the chain or the DRA statistics change. */
   updateLut(force = false) {
     const ch = this.chain;
-    const stats = this.stats ?? this.provisionalStats();
+    const stats = this.stats;
     if (!ch || !stats) return false;
     const scope = ch.dra.scope;
     const useView = ch.stretch === 'dra' && (scope === 'viewport' || scope === 'aoi') && this.viewHist && !ch.dra.lock;

@@ -757,11 +757,7 @@ export function makeRuntime(app, rec, r, d) {
   }
   if (d.kind === 'dem') app.terrain.addFromLayer(layer, d.res);
   app.layers.set(rec.id, layer);
-  // Statistics that take over 250 ms: an 8-bit layer shows with a straight stretch meanwhile (CX-086).
-  const early = setTimeout(() => {
-    if (!layer.stats && !layer.error && layer.updateLut()) app.renderer.invalidate();
-  }, 250);
-  layer.ensureStats().finally(() => clearTimeout(early)).then(
+  layer.ensureStats().then(
     () => {
       layer.updateLut(true);
       app.renderer.invalidate();

@@ -62,7 +62,7 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **KML polygons with an empty inner boundary** import without the empty ring, so Validate Features and other tools work on them. (CX-083)
 - **Clip export of damaged videos** ends when the clip does, or when playback stops advancing, instead of running on (timestamps past the 33-bit wrap). (CX-084)
 - **High-bit-rate video** (4K drone footage) plays to the end: the playback buffer scales with the stream's rate instead of filling the browser's media quota. (CX-085)
-- **Faster first display**: 16k JPEG GeoTIFFs without overviews about 5× (12.6 s → 2.6 s), uncompressed SIDD/SICD of 200–250 MB about 7× (7.2 s → 0.9 s), deflated complex SLCs 3× (native inflate, direct reduced levels), narrow striped GeoTIFFs 11×, and 8-bit tile pyramids drawn while statistics finish. (CX-086)
+- **Faster first display**: 16k JPEG GeoTIFFs without overviews about 5× (12.6 s → 2.6 s), uncompressed SIDD/SICD of 200–250 MB about 7× (7.2 s → 0.9 s), deflated complex SLCs 3× (native inflate, direct reduced levels), and narrow striped GeoTIFFs 11×. (CX-086)
 - **Memory is released** when a panel or project with a video closes, and re-importing a spectral library no longer duplicates it. (CX-087)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
