@@ -61,6 +61,7 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Videos that end part-way** no longer make the player request bytes past the end of the file. (CX-082)
 - **KML polygons with an empty inner boundary** import without the empty ring, so Validate Features and other tools work on them. (CX-083)
 - **Clip export of damaged videos** ends when the clip does, or when playback stops advancing, instead of running on (timestamps past the 33-bit wrap). (CX-084)
+- **High-bit-rate video** (4K drone footage) plays to the end: the playback buffer scales with the stream's rate instead of filling the browser's media quota. (CX-085)
 - **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 

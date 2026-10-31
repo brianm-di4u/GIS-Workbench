@@ -8,6 +8,23 @@
 import { h } from './dom.js';
 
 const RATES = [0.25, 0.5, 1, 2, 4];
+
+// mpegts.js resumes a lazy-load pause at the byte after the last one read; a pause just as the last
+// byte arrived asked for a range starting at the file size, which Chrome logs as a 416 (CX-082, Night
+// Flight IR at 305 s). Such a request for a video's blob URL is answered empty, as a reached end.
+const videoSizes = new Map(); // blob URL → bytes
+function guardEndRanges() {
+  if (guardEndRanges.done || !globalThis.fetch) return;
+  guardEndRanges.done = true;
+  const fetch0 = globalThis.fetch.bind(globalThis);
+  globalThis.fetch = (input, init) => {
+    const size = videoSizes.get(typeof input === 'string' ? input : input?.url);
+    const from = size === undefined ? null : /bytes=(\d+)-/.exec(new Headers(init?.headers).get('Range') ?? '')?.[1];
+    if (from != null && Number(from) >= size) return Promise.resolve(new Response(new Uint8Array(0), { status: 206, headers: { 'Content-Range': `bytes */${size}`, 'Content-Length': '0' } }));
+    return fetch0(input, init);
+  };
+}
+
 export const HUD_BLOCKS = [
   { id: 'time', label: 'Time', x: 0.01, y: 0.02 },
   { id: 'sensor', label: 'Sensor', x: 0.66, y: 0.02 },
@@ -115,9 +132,20 @@ export class VideoView {
       // played video over 40 s old is dropped. With the defaults (load everything, drop only past
       // 3 min behind) a 60 fps, 4 Mb/s clip filled the quota at 87.5 s and playback, and the
       // burn-in export with it, stalled for good (TE 2.0.4 cross).
+      // Both windows scale down for high-rate streams so ahead + behind stay near 120 MB: a 4K DJI
+      // clip at 83 Mb/s filled the ~150 MB quota at 14.5 s with the fixed 60 s / 40 s (CX-085).
       // The file size bounds the loader's range requests: without it, a stream that ends part-way
       // (Day Flight.mpg) was asked for bytes past its end and Chrome logged a 416 (CX-082).
-      this.player = mpegts.createPlayer({ type: 'mpegts', isLive: false, url: c.url, filesize: c.file?.size, hasAudio: false, hasVideo: true }, { enableWorker: false, lazyLoad: true, lazyLoadMaxDuration: 60, lazyLoadRecoverDuration: 30, autoCleanupSourceBuffer: true, autoCleanupMaxBackwardDuration: 40, autoCleanupMinBackwardDuration: 20, seekType: 'range', reuseRedirectedURL: true });
+      const seconds = c.frames?.length && c.fps ? c.frames.length / c.fps : 0;
+      const rate = seconds && c.file?.size ? c.file.size / seconds : 0; // bytes per second
+      const win = (max, min) => (rate ? Math.max(min, Math.min(max, 60e6 / rate)) : max);
+      const ahead = win(60, 3);
+      const behind = win(40, 2);
+      if (c.file?.size) {
+        videoSizes.set(c.url, c.file.size);
+        guardEndRanges();
+      }
+      this.player = mpegts.createPlayer({ type: 'mpegts', isLive: false, url: c.url, filesize: c.file?.size, hasAudio: false, hasVideo: true }, { enableWorker: false, lazyLoad: true, lazyLoadMaxDuration: ahead, lazyLoadRecoverDuration: ahead / 2, autoCleanupSourceBuffer: true, autoCleanupMaxBackwardDuration: behind, autoCleanupMinBackwardDuration: behind / 2, seekType: 'range', reuseRedirectedURL: true });
       this.player.attachMediaElement(this.video);
       await new Promise((res, rej) => {
         const t = setTimeout(() => rej(new Error('the stream did not start within 15 s')), 15000);
