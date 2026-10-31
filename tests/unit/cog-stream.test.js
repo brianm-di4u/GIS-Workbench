@@ -14,6 +14,7 @@ describe('streaming COG', () => {
     const n = 3;
     const val = (x, y, b) => (x * 7 + y * 13 + b * 101) % 4096;
     const reads = [];
+    const levelsRead = new Set();
     const src = {
       width: W,
       height: H,
@@ -21,6 +22,7 @@ describe('streaming COG', () => {
       type: 'u16',
       read: async (k, x0, y0, w, h) => {
         reads.push(w * h);
+        levelsRead.add(k);
         const s = 2 ** k;
         const a = new Uint16Array(w * h * n);
         for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) for (let b = 0; b < n; b++) a[(y * w + x) * n + b] = val(Math.min(W - 1, (x0 + x) * s), Math.min(H - 1, (y0 + y) * s), b);
@@ -32,6 +34,7 @@ describe('streaming COG', () => {
     expect(last).toBe(1);
     expect(r.bigTiff).toBe(false);
     expect(Math.max(...reads)).toBeLessThanOrEqual(1300 * 256); // one tile row at a time
+    expect([...levelsRead]).toEqual([0]); // overviews come from the rows written, not re-reads
     const buf = await r.blob.arrayBuffer();
     const tiff = await fromArrayBuffer(buf);
     expect(await tiff.getImageCount()).toBe(4);
@@ -51,6 +54,18 @@ describe('streaming COG', () => {
     const off0 = Math.min(...(await im.fileDirectory.loadValue('TileOffsets')));
     const offOv = Math.max(...(await ov.fileDirectory.loadValue('TileOffsets')));
     expect(off0).toBeGreaterThan(offOv);
+  });
+  it('reading strips ahead in parallel writes the same file', async () => {
+    const W = 900;
+    const H = 1300;
+    const src = (parallel) => ({ width: W, height: H, bands: 1, type: 'u16', parallel, read: async (k, x0, y0, w, h) => {
+      await new Promise((r) => setTimeout(r, (y0 * 7) % 5)); // out-of-order completion
+      return Uint16Array.from({ length: w * h }, (_, i) => ((x0 + (i % w)) * 3 + (y0 + Math.floor(i / w))) % 65536);
+    } });
+    const a = new Uint8Array(await (await writeCogStream(src(1), { tile: 256 })).blob.arrayBuffer());
+    const b = new Uint8Array(await (await writeCogStream(src(4), { tile: 256 })).blob.arrayBuffer());
+    expect(b.length).toBe(a.length);
+    expect(b.every((v, i) => v === a[i])).toBe(true);
   });
   it('writes BigTIFF (forced here; automatic past 4 GB)', async () => {
     const src = { width: 600, height: 300, bands: 1, type: 'f32', read: async (k, x0, y0, w, h) => Float32Array.from({ length: w * h }, (_, i) => (x0 + (i % w)) * 2 ** k + 0.25) };

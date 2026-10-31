@@ -59,19 +59,28 @@ export async function saveBlob(app, blob, { name, handle = null, types = [], des
   return download(app, blob, name);
 }
 
+/**
+ * How long a download's blob URL (and any temporary files behind the blob) must live: the browser
+ * copies it at its own pace, 10 MB/s assumed. A fixed minute cut a 3 GB COG download short (TE 2.0.4).
+ */
+export const downloadKeepMs = (bytes) => 60000 + Math.ceil((bytes || 0) / 10e6) * 1000;
+
 export function download(app, blob, name) {
   const url = URL.createObjectURL(blob);
   if (!app.runMode.caps.downloadsLikely) {
     return exportPanel(app, blob, name, url, 'Downloads look blocked in this embedded frame (the host page did not grant allow-downloads).');
   }
+  // Chrome cancels a download of an in-memory file over ~500 MB (TE 2.0.4 cross: 600 MB failed,
+  // 400 MB saved). Where the save dialog is available the file is streamed through it instead; here, say so.
+  if (blob.size > 500e6) app.toast(`${name} is ${(blob.size / 1e6).toFixed(0)} MB: the browser may cancel a download this large. Open GIS Workbench directly (not embedded) in Chrome or Edge to save it through a file dialog.`, { kind: 'warn', ms: 12000 });
   const a = h('a', { href: url, download: name, style: { display: 'none' } });
   document.body.appendChild(a);
   a.click();
   setTimeout(() => {
     a.remove();
     URL.revokeObjectURL(url);
-  }, 60000);
-  return { how: 'download', name };
+  }, downloadKeepMs(blob.size));
+  return { how: 'download', name, keepMs: downloadKeepMs(blob.size) };
 }
 
 /** In-page export panel (REQ-HOST-03, REQ-WB-15): copy text, open in a new tab, or try a link. */

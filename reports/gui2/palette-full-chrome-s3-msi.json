@@ -142,9 +142,7 @@
   "id": "nav.magnifier",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -152,7 +150,9 @@
   "id": "view.interpolation",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×"
+  ],
   "problems": []
  },
  {
@@ -212,9 +212,7 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -224,7 +222,9 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -1788,10 +1788,7 @@
   "id": "hub.psd",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 0.77 (Tone -19).×",
-   "info: Photoshop: 512 × 512 px, 3 layers (Stretch (Levels), Graphics)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1799,9 +1796,7 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: 16-bit TIFF: 512 × 512 px, 1 band, 16-bit, with a Curves preset×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1809,7 +1804,9 @@
   "id": "hub.pdf",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 0.77 (Tone -19).×"
+  ],
   "problems": []
  },
  {
@@ -1817,7 +1814,10 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Photoshop: 512 × 512 px, 3 layers (Stretch (Levels), Graphics)×",
+   "info: 16-bit TIFF: 512 × 512 px, 1 band, 16-bit, with a Curves preset×"
+  ],
   "problems": []
  },
  {

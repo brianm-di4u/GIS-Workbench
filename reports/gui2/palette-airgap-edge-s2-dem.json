@@ -120,10 +120,7 @@
   "id": "nav.whole",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -131,7 +128,10 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×",
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -1491,7 +1491,7 @@
  {
   "tab": "palette",
   "id": "los.p2p",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1535,7 +1535,7 @@
  {
   "tab": "palette",
   "id": "los.hlz",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:hlz"
   ],
@@ -1553,7 +1553,7 @@
  {
   "tab": "palette",
   "id": "dem.groundfilter",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:ground-filter"
   ],
@@ -1605,7 +1605,7 @@
  {
   "tab": "palette",
   "id": "dem.accuracy",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1751,7 +1751,7 @@
  {
   "tab": "palette",
   "id": "hud.quickchip",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1761,7 +1761,7 @@
  {
   "tab": "palette",
   "id": "bm.basemap",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []

@@ -342,7 +342,7 @@ export function install(app) {
     return { zip, kml, record: rec };
   };
   C.implement('snap.kmz', {
-    enabled: () => !!pane()?.geoLayer?.(),
+    enabled: () => !!pane()?.geoLayer?.()?.modelId,
     run: async () => {
       try {
         const r = await app.chipKmz();

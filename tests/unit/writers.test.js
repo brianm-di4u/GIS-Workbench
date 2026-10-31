@@ -123,3 +123,16 @@ describe('autolabels and portions', () => {
     expect(d.fixed).toBe(2);
   });
 });
+
+describe('NITF writer: more than 9 bands', () => {
+  it('writes NBANDS 0 with XBANDS (hyperspectral chips, TE 2.0.4 cross)', () => {
+    const nb = 12;
+    const planes = Array.from({ length: nb }, (_, b) => Uint16Array.from({ length: 6 }, (_, k) => b * 10 + k));
+    const u8 = writeNitf({ width: 3, height: 2, bands: nb, type: 'u16', planes }, { marking: { level: 'U' } });
+    const text = new TextDecoder('latin1').decode(u8);
+    expect(text).toContain('NC000012');
+    // Band-interleaved by block: the last band's first sample follows 11 bands of 6 samples.
+    const dataStart = u8.length - nb * 6 * 2;
+    expect(new DataView(u8.buffer, u8.byteOffset).getUint16(dataStart + 11 * 12, false)).toBe(110);
+  });
+});

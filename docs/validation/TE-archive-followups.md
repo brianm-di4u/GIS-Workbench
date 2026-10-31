@@ -4,15 +4,19 @@ These items came out of the archive expansion of 2026-10-28 (branch `te-archive`
 
 ## Coverage after the expansion
 
-174 of 179 format keys have at least the minimum number of samples. Two role gaps remain.
+177 of 179 format keys have at least the minimum number of samples (after the EarthExplorer downloads and the GitHub hunt of 2026-10-29, below). One role gap remains, the aggregate `ingest` row.
 
 | Gap | Why | Closes with |
 |---|---|---|
-| `rpf.cib` 0/3 | No anonymous CIB anywhere | Tier B: USGS EarthExplorer "SPOT CIB-10" (`nitf-rpf-cib-usgs`) |
-| `rpf.toc` 2/3 | GDAL ships only two A.TOC files, both already held. The app does not read A.TOC (`app/src/features/dialogs.js:49`), so a crafted TOC adds little | The CIB download includes its own A.TOC from an independent producer |
-| `nitf.ic.c5`, `nitf.ic.c2`, `nitf.ic.m8` 0/1 | No public sample exists: not in the GDAL autotest, the download.osgeo.org NITF mirror, JITC/NTB or six-library | Unobtainable. They are refused codecs; an encoder for a negative sample would have to be written from the spec |
-| role `sar: pair:repeat-pass` | The only pair (TE-051) is incoherent | Tier B: Sentinel-1 IW SLC 12-day pair from ASF (Earthdata login), then sarpy → SICD bursts |
+| `rpf.cib` 0/3 | No anonymous CIB anywhere, and EarthExplorer delivers SPOT CIB-10 only as GeoTIFF + NIMA `.hdr` (checked 2026-10-29: three tiles in `nitf-rpf-cib-usgs`). GDAL 3.13 writes RPF CADRG frames but has no CIB series (I1/I2/I5) | Unobtainable as RPF from public sources. An RPF CIB writer (greyscale VQ, CIB series codes, MIL-PRF-89041) would have to be written |
+| `nitf.ic.m8` 0/1 | No public sample: not in the GDAL autotest, the download.osgeo.org NITF mirror, JITC/NTB, six-library, or any of 208 GitHub repos (about 425 NITF headers scanned, 2026-10-29) | Unobtainable. A refused codec; an encoder for a negative sample would have to be written from the spec |
 | role `ingest: fmt:*` | Aggregate of the format rows above | Closes when they do |
+
+Closed 2026-10-29 by the GitHub hunt (`TE-corpus/_github-candidates/REPORT.md`):
+- **`nitf.ic.c5`:** `nitf-ntb-ns3437a-c5-lossless`, the NTB baseline `ns3437a.nsf` (12-bit lossless JPEG), from DFDLSchemas/NITF. The app refuses it with the C5 codec message.
+- **`nitf.ic.c2`:** `U_0001a.ntf` in `nitf-ntb-nitf11-legacy` was already held: images 1–4 are ARIDPCM. `census.py` now reads NITF 1.1 image subheaders itself (GDAL misreads them), so it counts. The app refuses the file at the version check ("not a NITF 2.0/2.1 or NSIF 1.0 file"), before the codec is reached.
+- **`sar.sicd.quadpol` and role `sar: pair:repeat-pass`:** `sar-sandia-farad-quadpol-2pass`, Sandia FARAD X-band, HH/HV/VH/VV for two passes over the same scene, from the six-library wiki's S3 bucket. The passes are coherent (mean 0.54) but only 20 minutes apart, not days. All 8 files render (ingest run `archive9`). A days-apart pair (Sentinel-1 IW SLC from ASF) would still be a better CCD test.
+- **`census.py` SICD versions:** the version now comes from the XML root namespace. The DES subheader's specification URN had made nine 1.2.1 files count as 1.1.0.
 
 ## Tier-B downloads (owner logs in; files go to `TE-corpus/<id>/`, then `fetch.mjs --verify --lock`)
 
@@ -23,16 +27,24 @@ These items came out of the archive expansion of 2026-10-28 (branch `te-archive`
 - OB.DAAC PACE OCI and HICO.
 
 **New accounts:**
-- **USGS ERS:** CIB-10 (`nitf-rpf-cib-usgs`), SRTM DTED2 (`usgs-srtm-dted2-n39w106`), Landsat 8/9 C2 L1 (`landsat8-c2-l1tp-044034-20240820-tierb`), Hyperion.
-- **ASI:** PRISMA L2D (`prisma-l2d-sample`).
-- **DLR EOWEB:** EnMAP full scene (`enmap-l2a-full-scene`).
-- **ESA:** Third Party Missions.
+- **USGS ERS: done 2026-10-29** (account `gisworkbench`).
+  - SRTM DTED2 ×3 (Colorado, Las Vegas, California cluster) and a void-filled DTED1 (`usgs-srtm-dted2-n39w106`).
+  - CIB-10 GeoTIFF ×3 (`nitf-rpf-cib-usgs`). RPF CADRG frames and a third, independent A.TOC were derived from two of them with GDAL (`derived-rpf-cadrg-from-cib10`); this closes `rpf.toc`.
+  - Landsat 8 C2 L1 product bundle (`landsat8-c2-l1tp-044034-20240820-tierb`).
+  - EO-1 Hyperion L1T, 242 bands (`eo1-hyperion-l1t-043034-20170312`), a second destripe target.
+  - Mechanics: EE `/scene/downloadoptions/<datasetId>/<entityId>` lists the products, and navigating the signed-in tab to `/download/<productId>/<entityId>/` downloads one. Chrome holds back further downloads while a large one runs, so retry any that did not land.
+- **ASI:** PRISMA L2D (`prisma-l2d-sample`). Registration requested 2026-10-29; on hold pending ASI approval.
+- **DLR EOWEB:** EnMAP full scene (`enmap-l2a-full-scene`). Registration requested 2026-10-29; on hold.
+- **ESA:** Third Party Missions. Registration requested 2026-10-29; on hold.
 - **Airbus:** sample form, for a second DIMAP v2 producer plus Pléiades tri-stereo.
-- **xView / xBD.**
+- **xView:** account made 2026-10-29, but `api-main.xviewdataset.org/download` answered HTTP 503 on two tries that day, so the download page gives no links. Retry; then take the tgz set (training images, training labels, validation images) and check the published SHA-1s.
+- **xBD (xview2.org):** no account yet.
 
 **Forms that email a link:**
 - ECOSTRESS spectral library (`hsi-ecostress-speclib-tierb`).
-- IEEE US3D Jacksonville lidar (`dem-us3d-jacksonville-lidar-tierb`).
+
+**IEEE DataPort (open access, owner session): done 2026-10-29.**
+- DFC2019 Track 4 (US3D airborne lidar, `dem-us3d-jacksonville-lidar-tierb`): all five archives, with the 10-tile validation set and its per-point class truth unpacked. Track 4 is ASCII points in tile-local metres, not GeoTIFF DSMs, so it cannot serve as DSM truth under the Track 2 imagery. The app refuses each tile with the no-CRS message (ingest run `archive8`, 10/10 as expected). `census.py` now needs at least three columns before it classes a lidar `.txt` as `pc.ascii`, so the one-column `_CLS.txt` truth files are not counted.
 
 ## App defects found in passing
 

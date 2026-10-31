@@ -113,7 +113,8 @@ const nitfTime = (d) => d.toISOString().replace(/[-:T]/g, '').slice(0, 14);
 /** One image segment: {sub (subheader text), data (Uint8Array), W, H}. */
 function imageSegment(img, opts) {
   const { width: W, height: H, bands: nb, type } = img;
-  if (nb < 1 || nb > 9) throw new Error('the NITF writer takes 1–9 bands');
+  // Over 9 bands: NBANDS 0 and XBANDS (MIL-STD-2500C), so hyperspectral chips write as NITF (TE 2.0.4 cross).
+  if (nb < 1 || nb > 999) throw new Error('the NITF writer takes 1–999 bands');
   const nbpp = { u8: 8, u16: 16, i16: 16, f32: 32 }[type];
   if (!nbpp) throw new Error(`no NITF pixel type for ${type}`);
   const pvtype = { u8: 'INT', u16: 'INT', i16: 'SI', f32: 'R' }[type];
@@ -155,7 +156,7 @@ function imageSegment(img, opts) {
     geo,
     '0',
     opts.codestream ? 'C8' + A(opts.comrat ?? 'N001', 4) : 'NC',
-    String(nb),
+    nb <= 9 ? String(nb) : '0' + N(nb, 5),
     ...Array.from({ length: nb }, (_, b) => A(bandRep(b), 2) + A(opts.isubcat?.[b] ?? '', 6) + 'N' + A('', 3) + '0'),
     '0',
     imode,

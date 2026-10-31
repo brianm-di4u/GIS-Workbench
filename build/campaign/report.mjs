@@ -39,7 +39,8 @@ phases['phase3-gaps'] = pwStats('reports/campaign/pw-phase3-gaps.json'); // c22:
 phases['phase8-e2e'] = pwStats('reports/e2e.json'); // the full E2E suite on the final build
 
 // ---- per-test records ----
-const recDir = join(REPO, 'reports/campaign/results');
+// TE_RUN=<name> reports one run's records (results/<name>/); the c50 cross has its own report (triage.mjs).
+const recDir = join(REPO, 'reports/campaign/results', process.env.TE_RUN ?? '');
 const records = existsSync(recDir) ? readdirSync(recDir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(join(recDir, f), 'utf8'))) : [];
 const bySpec = (s) => records.filter((r) => r.spec === s);
 

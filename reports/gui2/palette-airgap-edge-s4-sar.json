@@ -100,7 +100,9 @@
   "id": "nav.zoombox",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -108,9 +110,7 @@
   "id": "nav.zoomin",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1463,9 +1463,7 @@
   "tab": "palette",
   "id": "bands.snr",
   "outcome": "ran",
-  "dialogs": [
-   "dialog:snr"
-  ],
+  "dialogs": [],
   "toasts": [],
   "problems": []
  },
@@ -1474,7 +1472,8 @@
   "id": "clip.threshold",
   "outcome": "ran",
   "dialogs": [
-   "dialog:clip-threshold"
+   "dialog:clip-threshold",
+   "dialog:snr"
   ],
   "toasts": [],
   "problems": []

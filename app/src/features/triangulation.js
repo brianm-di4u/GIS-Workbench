@@ -26,9 +26,9 @@ export function install(app) {
 
   // ---- block membership and base models ----
   const rpcRecordOf = (l) => {
-    const rec = l.info.subheader?.rpc?.slice(0, 92) ?? l.info.meta?.rpc?.slice(0, 92);
+    const rec = l.info.subheader?.rpc?.slice(0, 92) ?? l.info.meta?.rpc?.slice(0, 92) ?? l.sideRpc?.rpc?.slice(0, 92);
     if (!rec || rec.length < 92) return null;
-    const chip = l.rec?.registration?.kind === 'rpc' ? l.rec.registration.chip : l.info.subheader?.ichipb;
+    const chip = l.rec?.registration?.kind === 'rpc' ? l.rec.registration.chip : (l.info.subheader?.ichipb ?? l.sideRpc?.chip);
     return [...rec, ...(chip && chip.some((v) => v !== 0) ? chip : ID6)];
   };
   /** Image layers that can join the block (an RPC model), in a stable order. */
@@ -313,6 +313,7 @@ export function install(app) {
     const job = [1, ls.length, pts.length, 0, maxIterations, rejectK, autoReject];
     for (const l of ls) {
       const rec = rpcRecordOf(l);
+      if (!rec) throw new Error(`${l.rec?.name ?? l.info.iid}: its model (${baseModelOf(l).name}) has no RPC record the adjustment can use`);
       job.push(0, ...rec, KINDS[kind] ?? 0, fixed.includes(l.id) ? 1 : 0, l.width / 2, l.height / 2, l.width / 2, l.height / 2, priorSigmaPx);
     }
     const kindCode = { tie: 0, gcp: 1, check: 2 };

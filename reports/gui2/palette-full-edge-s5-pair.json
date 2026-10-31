@@ -75,8 +75,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Saved chip1_fx06_date1.tif.zip×",
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+   "info: Saved chip1_fx06_date1.tif.zip×"
   ],
   "problems": []
  },
@@ -85,7 +84,9 @@
   "id": "dialog:jump ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
+  ],
   "problems": []
  },
  {
@@ -1764,7 +1765,9 @@
   "id": "lai.contrast",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
+  ],
   "problems": []
  },
  {
@@ -1772,9 +1775,7 @@
   "id": "align.ai",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: 3D: terrain from level ground (no DEM loaded; go online for terrain tiles). Drag to orbit, right-drag to pan, wheel to zoom.×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

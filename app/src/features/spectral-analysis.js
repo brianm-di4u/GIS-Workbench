@@ -94,7 +94,7 @@ export function install(app) {
   /** Mean ± σ spectra per class and the pairwise JM distance. */
   async function separability(l) {
     const cls = classesOf(l);
-    const c = await msi().cube(l, {});
+    const c = usableBands(await msi().cube(l, {}), l).c;
     const sets = cls.map((k) => indicesIn(k.regions, c));
     const r = await spec('train', c.v, c.w, c.h, c.nb, sets);
     return { classes: cls.map((k, i) => ({ ...k, ...r.classes[i] })), jm: r.jm };
@@ -113,10 +113,11 @@ export function install(app) {
   async function classify(l, method = 'ml', { threshold = NaN, window = null, signatures = null } = {}) {
     const cls = classesOf(l);
     if (!signatures && cls.length < 2) throw new Error('add at least two training classes first (Find in Scene ▸ Add Region)'); // a precondition, shown as a warning (GUI-044)
-    const c = await msi().cube(l, fitWindow(l, window));
+    const u = usableBands(await msi().cube(l, fitWindow(l, window)), l);
+    const c = u.c;
     const sets = signatures ? null : cls.map((k) => indicesIn(k.regions, c));
     if (sets?.some((s) => s.length < c.nb + 1) && (method === 'ml' || method === 'mahalanobis')) throw new Error(`${LABEL[method]} needs at least ${c.nb + 1} training pixels per class (better ${10 * c.nb})`);
-    const r = await spec('classify', c.v, c.w, c.h, c.nb, method, { sets, means: signatures?.map((s) => s.values) ?? null, threshold: NaN });
+    const r = await spec('classify', c.v, c.w, c.h, c.nb, method, { sets, means: signatures?.map((s) => pick(s.values, u.keep)) ?? null, threshold: NaN });
     const names = signatures ? signatures.map((s) => s.name) : cls.map((k) => k.name);
     const colours = signatures ? signatures.map((_, i) => CLASS_COLOURS[(i % (CLASS_COLOURS.length - 1)) + 1]) : cls.map((k) => k.colour);
     const labels = applyThreshold(r.labels, r.scores, threshold);
@@ -141,7 +142,7 @@ export function install(app) {
   // ---- unsupervised, clean-up, vectors (REQ-MSI-09) ----
 
   async function cluster(l, algo = 'kmeans', o = {}) {
-    const c = await msi().cube(l, fitWindow(l, o.window));
+    const c = usableBands(await msi().cube(l, fitWindow(l, o.window)), l).c;
     const r = await spec(algo, c.v, c.w, c.h, c.nb, o);
     const k = r.centres.length;
     const colours = Array.from({ length: k }, (_, i) => CLASS_COLOURS[(i % (CLASS_COLOURS.length - 1)) + 1]);
@@ -256,11 +257,15 @@ export function install(app) {
    * 99.9 %) or {value}. Returns {layer, scores, threshold, hits: [{x, y, pixels, max}]}.
    */
   async function detect(l, kind = 'rx', { percentile = 0.999, value = NaN, target = null, window = null, outer = 15, guard = 5, k = 4 } = {}) {
-    let c = await msi().cube(l, fitWindow(l, window));
-    const fullNb = c.nb;
+    const c0 = await msi().cube(l, fitWindow(l, window));
+    const fullNb = c0.nb;
+    if (target && target.length !== fullNb) throw new Error(`${kind.toUpperCase()} needs a target spectrum with ${fullNb} bands (pin one, or pick a library entry)`);
+    const u = usableBands(c0, l);
+    let c = u.c;
+    target = pick(target, u.keep);
     let scores;
     if (kind === 'mf' || kind === 'ace' || kind === 'cem') {
-      if (!target || target.length !== c.nb) throw new Error(`${kind.toUpperCase()} needs a target spectrum with ${c.nb} bands (pin one, or pick a library entry)`);
+      if (!target) throw new Error(`${kind.toUpperCase()} needs a target spectrum with ${fullNb} bands (pin one, or pick a library entry)`);
       const r = await spec('detect', 'target', c.v, c.w, c.h, c.nb, { step: 4, target });
       scores = r[kind];
     } else {
@@ -269,6 +274,7 @@ export function install(app) {
       scores = r.scores;
     }
     const sorted = Array.from(scores).filter(Number.isFinite).sort((a, b) => a - b);
+    if (!sorted.length && !Number.isFinite(value)) throw new Error(`${kind.toUpperCase()} gave no finite score: the image has too few pixels or constant bands for this detector`);
     const thr = Number.isFinite(value) ? value : sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * percentile))];
     // Hits: 8-connected groups above the threshold.
     const { w, h: hh } = c;
@@ -314,8 +320,36 @@ export function install(app) {
 
   // ---- transforms (REQ-MSI-12) ----
 
+  /**
+   * The bands an algorithm can use: not flagged bad, and finite in at least half the sampled pixels.
+   * A pixel counts only when every band is finite, so one all-NaN band (EnMAP and Hyperion leave their
+   * water-vapour bands NaN) left PCA, MNF and RX with no pixels and NaN results (TE 2.0.4 cross).
+   * Returns {c, keep}: the cube of those bands, and their indices (null when all are kept).
+   */
+  function usableBands(c, l) {
+    const meta = msi().bandsOf(l);
+    const n = c.w * c.h;
+    const stride = Math.max(1, Math.floor(n / 4096));
+    const keep = [];
+    for (let b = 0; b < c.nb; b++) {
+      if (meta[b]?.bad) continue;
+      let fin = 0;
+      let tot = 0;
+      for (let p = 0; p < n; p += stride, tot++) if (Number.isFinite(c.v[p * c.nb + b])) fin++;
+      if (fin >= tot * 0.5) keep.push(b);
+    }
+    if (keep.length < 2) throw new Error(`only ${keep.length} band(s) hold data in most pixels; the transform needs two or more`);
+    if (keep.length === c.nb) return { c, keep: null };
+    const v = new Float32Array(n * keep.length);
+    for (let p = 0; p < n; p++) for (let i = 0; i < keep.length; i++) v[p * keep.length + i] = c.v[p * c.nb + keep[i]];
+    return { c: { ...c, v, nb: keep.length }, keep };
+  }
+  const pick = (vals, keep) => (keep && vals ? keep.map((b) => vals[b]) : vals);
+
   async function components(l, kind = 'pca', { k = 3, window = null, endmembers = null } = {}) {
-    const c = await msi().cube(l, fitWindow(l, window));
+    const u = usableBands(await msi().cube(l, fitWindow(l, window)), l);
+    const c = u.c;
+    if (u.keep) endmembers = endmembers?.map((e) => pick(e, u.keep));
     const r = await spec('transform', kind, c.v, c.w, c.h, c.nb, { k, step: 2, endmembers });
     const nb = kind === 'dstretch' ? c.nb : kind === 'unmix' ? endmembers.length + 1 : k;
     const n = c.w * c.h;
@@ -332,9 +366,11 @@ export function install(app) {
   function eigenPlot(values) {
     const W = 360;
     const H = 160;
-    const v = values.map((x) => Math.max(0, x));
+    // Non-finite eigenvalues (a constant or degenerate band set) draw as zero, never as NaN geometry.
+    const v = values.map((x) => (Number.isFinite(x) ? Math.max(0, x) : 0));
     const tot = v.reduce((s, x) => s + x, 0) || 1;
-    const bars = v.slice(0, 40).map((x, i) => `<rect x="${30 + i * 8}" y="${H - 20 - (x / v[0]) * (H - 30)}" width="6" height="${(x / v[0]) * (H - 30)}" fill="#5fd0ff"/>`).join('');
+    const top = Math.max(...v) || 1;
+    const bars = v.slice(0, 40).map((x, i) => `<rect x="${30 + i * 8}" y="${H - 20 - (x / top) * (H - 30)}" width="6" height="${(x / top) * (H - 30)}" fill="#5fd0ff"/>`).join('');
     let cum = 0;
     const line = v.slice(0, 40).map((x, i) => `${34 + i * 8},${H - 20 - ((cum += x) / tot) * (H - 30)}`).join(' ');
     const el = h('div', { 'data-id': 'eigen-plot' });
@@ -381,6 +417,10 @@ export function install(app) {
     const wlFile = out.find((s) => /wavelength/i.test(s.name) && !s.wl);
     for (const s of out) if (!s.wl && wlFile && s !== wlFile) s.wl = wlFile.values.map((v) => (v > 100 ? v / 1000 : v));
     const good = out.filter((s) => s.wl && s !== wlFile);
+    // Importing a file again replaces its spectra: every re-import added a second copy (+16 MB per
+    // open of the 8 MB USGS ASD library, CX-087).
+    const sources = new Set(good.map((s) => s.source));
+    for (let i = libraries.length - 1; i >= 0; i--) if (sources.has(libraries[i].source)) libraries.splice(i, 1);
     libraries.push(...good);
     return good;
   }
@@ -442,7 +482,7 @@ export function install(app) {
           tx.set(p.id, 'layers', [...(tx.get(p.id).layers ?? []).filter((x) => !app.layers.has(x) || app.layers.get(x).rec?.file !== l.rec.file), id]);
           tx.set(p.id, 'activeLayer', id);
         });
-        [target] = await attachLayers(app, fref, [S.get(id)]);
+        [target] = await attachLayers(app, fref, [S.get(id)], { share: l });
       }
       const [kind, key] = list[i];
       if (kind === 'preset') await msi().applyPreset(target, key);

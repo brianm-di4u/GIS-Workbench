@@ -52,6 +52,24 @@ export const isLinear = (g) => g.type === 'LineString' || g.type === 'MultiLineS
 
 /** Build a geometry from parts ([[lon, lat, h], …] each) and, for polygons, polygon groups. */
 export function fromParts(type, ps, polys = null) {
+  // Empty parts are dropped (a KML innerBoundaryIs without coordinates): every consumer reads a
+  // ring's first vertex, and Validate Features failed on "reading '0'" (CX-083). A polygon whose
+  // outer ring is empty goes with it.
+  if (ps.some((p) => !p.length)) {
+    if (type === 'Polygon' || type === 'MultiPolygon') {
+      const P = polys?.length ? polys : [0];
+      const rings = [];
+      const groups = [];
+      P.forEach((s, g) => {
+        const grp = ps.slice(s, P[g + 1] ?? ps.length);
+        if (!grp[0]?.length) return;
+        groups.push(rings.length);
+        rings.push(...grp.filter((r) => r.length));
+      });
+      ps = rings;
+      polys = groups;
+    } else ps = ps.filter((p) => p.length);
+  }
   const xyz = [];
   const starts = [];
   for (const p of ps) {

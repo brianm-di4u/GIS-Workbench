@@ -37,7 +37,13 @@ export function install(app) {
     if (!p) return;
     const r = app.core.parse(String(text));
     const echo = `${app.core.format(r.lat, r.lon, 0, 6)} (${r.format}${Number.isFinite(r.precisionM) ? `, ${r.precisionM < 1 ? r.precisionM.toFixed(2) : Math.round(r.precisionM)} m precision` : ''}${r.notice ? `; ${r.notice}` : ''})`;
-    p.centreOnGround(r.lat, r.lon);
+    try {
+      p.centreOnGround(r.lat, r.lon);
+    } catch (e) {
+      // A coordinate off the image (or a model that cannot invert it) is the user's input, not a fault.
+      app.toast(`${echo} is not on the image: ${e.message}`, { kind: 'warn', ms: 6000 });
+      return null;
+    }
     app.toast(`Jumped to ${echo}`);
     app.tools.flashGround?.(p, r.lat, r.lon);
     return r;

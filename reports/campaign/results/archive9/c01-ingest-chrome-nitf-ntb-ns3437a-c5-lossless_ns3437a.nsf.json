@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T22:34:59.398Z",
+ "key": "nitf-ntb-ns3437a-c5-lossless/ns3437a.nsf",
+ "item": "nitf-ntb-ns3437a-c5-lossless",
+ "file": "ns3437a.nsf",
+ "format": "NSIF 1.0, IC=C5",
+ "rendered": false,
+ "errors": [
+  "image segment 1: lossless JPEG compression (IC=C5) is not decoded yet (REQ-FMT-02)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: ns3437a.nsf: image segment 1: lossless JPEG compression (IC=C5) is not decoded yet (REQ-FMT-02)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 64,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

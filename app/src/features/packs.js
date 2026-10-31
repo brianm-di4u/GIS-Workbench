@@ -7,7 +7,7 @@ import { pickFiles } from '../storage/files.js';
 import { modal } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
 import { registerPackDef, crsOf } from '../geo/crs.js';
-import { fmtBytes } from '../core/util.js';
+import { fmtBytes, errorText } from '../core/util.js';
 
 export const name = 'packs';
 
@@ -44,7 +44,7 @@ export async function install(app) {
       try {
         p = await packs.open(f);
       } catch (e) {
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
         throw e;
       }
       out.push(p);

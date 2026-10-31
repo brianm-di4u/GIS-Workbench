@@ -10,6 +10,7 @@
 // boolean | date.
 
 import { fromGeoJSON, toGeoJSON, parts, polygonGroups, signedArea, pointInRing, fromParts, isPolygonal, isLinear } from './geom.js';
+import { minOf, maxOf } from '../core/util.js';
 
 const enc = new TextEncoder();
 
@@ -83,6 +84,12 @@ export function readGeoJSON(text, { name = 'GeoJSON', reproject = null } = {}) {
     const geoms = Array.isArray(g) ? g : [g];
     if (Array.isArray(g)) rep.warnings.push(`a GeometryCollection was split into ${g.length} features`);
     for (let gg of geoms) {
+      // An empty geometry (a Polygon with no rings: OGC's GeoParquet examples) is skipped like a null
+      // one: kept, it trapped the WASM validator and broke the 3D export (TE 2.0.4 cross).
+      if (!gg.xyz?.length) {
+        rep.warnings.push(`feature ${f.id ?? rep.features_in} has an empty ${gg.type}; skipped`);
+        continue;
+      }
       if (conv) gg = { ...gg, xyz: gg.xyz.map((v, i) => v) };
       if (conv)
         for (let i = 0; i < gg.xyz.length; i += 3) {
@@ -227,7 +234,7 @@ function shpRecord(f, type, hasZ) {
   o += 4;
   const xs = pts.map((p) => p[0]);
   const ys = pts.map((p) => p[1]);
-  for (const v of [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)]) {
+  for (const v of [minOf(xs), minOf(ys), maxOf(xs), maxOf(ys)]) {
     b.setFloat64(o, v, true);
     o += 8;
   }
@@ -295,10 +302,21 @@ export function writeShapefile(layer) {
     const hasZ = feats.some((f) => f.geom.xyz.some((v, i) => i % 3 === 2 && v !== 0));
     const recs = feats.map((f) => shpRecord(f, type, hasZ));
     feats.forEach((f) => countGeom(rep, `${{ 1: 'Point', 3: 'PolyLine', 5: 'Polygon', 8: 'MultiPoint' }[type]}${hasZ ? 'Z' : ''}`));
-    const xs = feats.flatMap((f) => f.geom.xyz.filter((_, i) => i % 3 === 0));
-    const ys = feats.flatMap((f) => f.geom.xyz.filter((_, i) => i % 3 === 1));
-    const zs = feats.flatMap((f) => f.geom.xyz.filter((_, i) => i % 3 === 2));
-    const box = [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys), hasZ ? Math.min(...zs) : 0, hasZ ? Math.max(...zs) : 0, 0, 0];
+    // One pass over the coordinates: spreading them into Math.min overflowed the stack on country
+    // outlines, and flatMap does not flatten the typed arrays FlatGeobuf and GeoParquet give (TE 2.0.4).
+    const box = [Infinity, Infinity, -Infinity, -Infinity, Infinity, -Infinity, 0, 0];
+    for (const f of feats) {
+      const a = f.geom.xyz;
+      for (let i = 0; i + 2 < a.length; i += 3) {
+        box[0] = Math.min(box[0], a[i]);
+        box[1] = Math.min(box[1], a[i + 1]);
+        box[2] = Math.max(box[2], a[i]);
+        box[3] = Math.max(box[3], a[i + 1]);
+        box[4] = Math.min(box[4], a[i + 2]);
+        box[5] = Math.max(box[5], a[i + 2]);
+      }
+    }
+    if (!hasZ) [box[4], box[5]] = [0, 0];
     const shpLen = 100 + recs.reduce((s, r) => s + 8 + r.length, 0);
     const shp = new Uint8Array(shpLen);
     const shx = new Uint8Array(100 + 8 * recs.length);
@@ -378,6 +396,8 @@ export function readShapefile({ shp, dbf = null, prj = null, cpg = null }, { nam
     if (!conv) rep.warnings.push('the .prj could not be read; coordinates are taken as WGS 84 lon/lat');
   } else rep.crs = prj ? 'WGS 84 (.prj)' : 'no .prj; WGS 84 assumed';
   const dv = new DataView(shp.buffer, shp.byteOffset, shp.byteLength);
+  // A damaged .shp is refused or read up to the damage, by name: a cut file threw a raw RangeError (TE 2.0.4 cross, c56).
+  if (shp.byteLength < 100 || dv.getInt32(0, false) !== 9994) throw new Error(`${name}.shp is not a readable shapefile (${shp.byteLength < 100 ? `${shp.byteLength} bytes, shorter than its 100-byte header` : 'its header has no 9994 file code'})`);
   const len = dv.getInt32(24, false) * 2;
   const table = dbf ? readDbf(dbf, label) : { rows: [], fields: [] };
   const feats = [];
@@ -393,6 +413,10 @@ export function readShapefile({ shp, dbf = null, prj = null, cpg = null }, { nam
   while (o + 8 <= Math.min(len, shp.byteLength)) {
     const clen = dv.getInt32(o + 4, false) * 2;
     const c = o + 8;
+    if (clen < 4 || c + clen > shp.byteLength) {
+      rep.warnings.push(`the .shp is cut short at record ${r + 1}; the ${feats.length} record(s) before it are read`);
+      break;
+    }
     const t = dv.getInt32(c, true);
     const attrs = table.rows[r] ?? {};
     r++;
@@ -540,11 +564,15 @@ export function writeKml(layer, { toMsl = (lat, lon, h) => h, iconHref = null } 
     .map((f) => {
       rep.features_in++;
       countGeom(rep, f.geom.type);
+      // A feature without a finite position (a CSV row with no coordinates) keeps its attributes in a
+      // Placemark without geometry: KML cannot carry NaN (TE 2.0.4 cross, IBTrACS).
+      const placed = Array.from(f.geom.xyz ?? []).every(Number.isFinite);
+      if (!placed) rep.dropped.no_position = (rep.dropped.no_position ?? 0) + 1;
       const data = fields
         .filter((fl) => f.attrs?.[fl.name] !== undefined && f.attrs?.[fl.name] !== null)
         .map((fl) => `<SimpleData name="${xmlEsc(fl.name)}">${xmlEsc(f.attrs[fl.name])}</SimpleData>`)
         .join('');
-      return `<Placemark>${f.name !== null && f.name !== undefined ? `<name>${xmlEsc(f.name)}</name>` : ''}${f.description ? `<description>${xmlEsc(f.description)}</description>` : ''}<styleUrl>#${styles.get(styleKey(f.style))}m</styleUrl><ExtendedData><SchemaData schemaUrl="#${sid}">${data}</SchemaData></ExtendedData>${geomXml(f.geom)}</Placemark>`;
+      return `<Placemark>${f.name !== null && f.name !== undefined ? `<name>${xmlEsc(f.name)}</name>` : ''}${f.description ? `<description>${xmlEsc(f.description)}</description>` : ''}<styleUrl>#${styles.get(styleKey(f.style))}m</styleUrl><ExtendedData><SchemaData schemaUrl="#${sid}">${data}</SchemaData></ExtendedData>${placed ? geomXml(f.geom) : ''}</Placemark>`;
     })
     .join('\n');
   rep.features_out = layer.features.length;

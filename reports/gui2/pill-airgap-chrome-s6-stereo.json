@@ -96,11 +96,7 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [
-   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
-   "info: Swiper: the upper image is shown left of the line, which follows the cursor.×",
-   "info: Quick chip 11SNU5084824901: copied to the clipboard and added to the session deck (1).Export deck×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -110,7 +106,11 @@
   "dialogs": [
    "palette"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: fx02_b.ntf is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×",
+   "info: Swiper: the upper image is shown left of the line, which follows the cursor.×",
+   "info: Quick chip 11SNU5084824901: copied to the clipboard and added to the session deck (1).Export deck×"
+  ],
   "problems": []
  }
 ]

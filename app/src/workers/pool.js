@@ -119,20 +119,48 @@ export class WorkerPool extends Emitter {
       }
       if (job.state !== 'queued') continue;
       let slot = job.affinity ? slots.find((s) => s.id === job.affinity) : null;
+      if (job.affinity && !slot && job.op === 'close') {
+        // Closing a file whose worker is gone: nothing left to close (do not reopen it to close it).
+        this._finish(job, { closed: true }, null);
+        continue;
+      }
       if (job.affinity && !slot) {
+        // The worker holding the file was restarted (a timed-out or crashed job): the app reopens
+        // the file in a fresh worker (`recover`) and the job continues with the new handle, instead
+        // of every later tile, statistic and export on that file failing (TE 2.0.4 cross).
+        if (this.recover && job.args?.handle !== undefined && !job.recovered) {
+          job.recovered = true;
+          job.state = 'recovering';
+          this.queue.splice(this.queue.indexOf(job), 1);
+          Promise.resolve(this.recover(job.affinity, job.args.handle))
+            .then((r) => {
+              if (!r) throw new Error('the worker holding this file was restarted; reopen the file');
+              job.args = { ...job.args, handle: r.handle };
+              job.affinity = r.affinity;
+              job.state = 'queued';
+              this.queue.push(job);
+              this._pump();
+            })
+            .catch((e) => this._finish(job, null, Object.assign(e instanceof Error ? e : new Error(String(e)), { lost: true })));
+          continue;
+        }
         this._finish(job, null, Object.assign(new Error('the worker holding this file was restarted; reopen the file'), { lost: true }));
         continue;
       }
       if (!slot) {
         // `avoid`: slot ids this job must not run on (a second AI runtime needs its own worker).
         const free = job.avoid?.length ? slots.filter((s) => !job.avoid.includes(s.id)) : slots;
-        slot = free.length ? free.reduce((a, b) => (a.busy <= b.busy ? a : b)) : null;
+        // A file opens on the worker holding the fewest files, and on a new one while every worker
+        // holds one: its tiles and statistics then decode on their own thread. Nine 16k² JPEG
+        // GeoTIFFs from one ZIP used to share three workers 4/4/1, 52 s to first display (TE 2.0.4 cross).
+        const opening = job.op === 'open';
+        slot = free.length ? free.reduce(opening ? (a, b) => ((a.files ?? 0) <= (b.files ?? 0) ? a : b) : (a, b) => (a.busy <= b.busy ? a : b)) : null;
         const spawning = this._spawning.get(job.kind) ?? 0;
         if (!slot && slots.length + spawning >= this.size) {
           this._finish(job, null, new Error(`no free ${job.kind} worker: the pool is full`));
           continue;
         }
-        if ((!slot || slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4)) && slots.length + spawning < this.size) {
+        if ((!slot || slot.busy >= (CPU_KINDS.has(job.kind) ? 1 : 4) || (opening && (slot.files ?? 0) > 0)) && slots.length + spawning < this.size) {
           // Claim the job before awaiting the new worker: a concurrent pump must not post it too
           // (its buffers would already be transferred), nor start more workers than the pool size.
           job.state = 'dispatching';
@@ -150,6 +178,7 @@ export class WorkerPool extends Emitter {
       job.slot = slot;
       job.started = performance.now();
       slot.busy++;
+      if (job.op === 'open') slot.files = (slot.files ?? 0) + 1; // counted on dispatch: back-to-back opens see it
       job.timer = setTimeout(() => this._timeout(job), job.timeout);
       slot.w.postMessage({ type: 'job', id: job.id, op: job.op, args: job.args }, job.transfer);
       this.emit('job', job);
@@ -202,13 +231,14 @@ export class WorkerPool extends Emitter {
       job.onProgress?.(m.progress, m.partial);
       this.emit('job', job);
     } else if (m.type === 'result') this._finish(job, m.result);
-    else if (m.type === 'error') this._finish(job, null, Object.assign(new Error(m.error), { trapped: !!m.trapped, code: m.code, cancelled: !!m.cancelled }));
+    else if (m.type === 'error') this._finish(job, null, m.cancelled && job.timedOut ? job.timedOut : Object.assign(new Error(m.error), { trapped: !!m.trapped, code: m.code, cancelled: !!m.cancelled }));
   }
 
   _finish(job, result, error) {
     if (job.state === 'done' || job.state === 'failed') return;
     clearTimeout(job.timer);
     if (job.slot) job.slot.busy = Math.max(0, job.slot.busy - 1);
+    if (job.slot && ((job.op === 'open' && error) || (job.op === 'close' && !error))) job.slot.files = Math.max(0, (job.slot.files ?? 1) - 1);
     job.state = error ? 'failed' : 'done';
     if (job.slot) {
       this.slotOf.set(job.id, job.slot.id);
@@ -239,8 +269,17 @@ export class WorkerPool extends Emitter {
     }, 3000);
   }
 
+  // A job past its time is asked to stop first: a slow read (a large file on a USB disk) stops at
+  // its next cancel check and the worker, its open files and its other jobs carry on. Only a job
+  // that ignores the request (a WASM loop) restarts the worker, which used to fail every tile on it
+  // and every file opened there (TE 2.0.4 cross).
   _timeout(job) {
-    this._kill(job.slot, Object.assign(new Error(`${job.label} timed out after ${Math.round(job.timeout / 1000)} s; the worker was restarted`), { timedOut: true }));
+    const s = Math.round(job.timeout / 1000);
+    job.timedOut = Object.assign(new Error(`${job.label} timed out after ${s} s`), { timedOut: true });
+    job.slot?.w.postMessage({ type: 'cancel', id: job.id });
+    setTimeout(() => {
+      if (this.jobs.has(job.id)) this._kill(job.slot, Object.assign(new Error(`${job.label} timed out after ${s} s; the worker was restarted`), { timedOut: true }));
+    }, 3000);
   }
 
   _onCrash(slot, msg) {

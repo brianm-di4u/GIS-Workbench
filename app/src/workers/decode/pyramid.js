@@ -102,6 +102,27 @@ export class Pyramid {
    * built in one pass over its children (per-band passes overflowed the cache on 16k² images and
    * decoded the whole image again for every band).
    */
+  /**
+   * Core tiles of several bands at once, each cached as core() caches it. A pixel- or line-interleaved
+   * cube (BIP, BIL) carries every band in each read, so reading band by band read the file once
+   * per band: Band Statistics of a 224-band, 430 MB AVIRIS cube ran past 300 s (TE 2.0.4 cross).
+   */
+  async coreGroup(L, tx, ty, bands, job) {
+    if (bands.length === 1) return [await this.core(L, tx, ty, bands[0], job)];
+    const cache = this.cacheFor(L);
+    const key = (b) => `${this.key}/${L}/${tx}/${ty}/${b}`;
+    const got = bands.map((b) => cache.get(key(b)));
+    const miss = bands.filter((_, i) => !got[i]);
+    if (miss.length) {
+      const tiles = await this._coreBands(L, tx, ty, miss, job);
+      miss.forEach((b, i) => {
+        cache.set(key(b), tiles[i], tiles[i].data.byteLength);
+        got[bands.indexOf(b)] = tiles[i];
+      });
+    }
+    return got;
+  }
+
   async _core(L, tx, ty, band, job) {
     const nb = Number(this.src.bands) || 1;
     const all = nb > 1 && nb <= 4 && !this.src.pickBands?.length ? Array.from({ length: nb }, (_, i) => i) : [band];
@@ -136,7 +157,7 @@ export class Pyramid {
     // browser's JPEG decoder runs off this thread). Coarser children stay sequential (memory).
     const kids = [];
     for (let cy = 0; cy < 2; cy++) for (let cx = 0; cx < 2; cx++) if (2 * tx + cx < nx && 2 * ty + cy < ny) kids.push([cx, cy]);
-    if (L === 1) await Promise.all(kids.map(([cx, cy]) => this.core(0, 2 * tx + cx, 2 * ty + cy, bands[0], job)));
+    if (L === 1) await Promise.all(kids.map(([cx, cy]) => this.coreGroup(0, 2 * tx + cx, 2 * ty + cy, bands, job)));
     for (const [cx, cy] of kids) {
       {
         const ctx = 2 * tx + cx;
@@ -144,8 +165,9 @@ export class Pyramid {
         job?.checkCancel?.();
         const ox = cx * (TILE / 2);
         const oy = cy * (TILE / 2);
+        const group = await this.coreGroup(L - 1, ctx, cty, bands, job);
         for (let q = 0; q < bands.length; q++) {
-          const c = await this.core(L - 1, ctx, cty, bands[q], job);
+          const c = group[q];
           // Bands that must not be averaged (SAR phase, I, Q) are decimated: one child sample each.
           const pick = !!this.src.pickBands?.includes(bands[q]);
           const sum = sums[q];
@@ -253,10 +275,13 @@ export class Pyramid {
     while (L < this.levels - 1 && Math.max(this.dims(L).w, this.dims(L).h) > 1024) L++;
     const { nx, ny } = this.tilesAt(L);
     const res = [];
-    for (const band of bands) {
-      const datas = [];
-      for (let ty = 0; ty < ny; ty++) for (let tx = 0; tx < nx; tx++) datas.push((await this.core(L, tx, ty, band, job)).data);
-      res.push(histogram(datas, this.src.sampleType, this.src.nodata));
+    const G = 16; // bands read together (bounded memory: 16 core tiles per tile position)
+    for (let g = 0; g < bands.length; g += G) {
+      const group = bands.slice(g, g + G);
+      const datas = group.map(() => []);
+      for (let ty = 0; ty < ny; ty++)
+        for (let tx = 0; tx < nx; tx++) (await this.coreGroup(L, tx, ty, group, job)).forEach((t, q) => datas[q].push(t.data));
+      for (const d of datas) res.push(histogram(d, this.src.sampleType, this.src.nodata));
       job?.progress?.(res.length / bands.length);
     }
     return { level: L, bands: res };

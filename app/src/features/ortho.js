@@ -9,7 +9,7 @@ import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { saveBlob } from '../storage/files.js';
 import { writeGeoTiff } from '../formats/geotiff-writer.js';
-import { openImageFile } from '../formats/open.js';
+import { openImageFile, helperOpens, closeHelpers } from '../formats/open.js';
 import { groundOf, poly } from '../tools/tools.js';
 
 export const name = 'ortho';
@@ -54,6 +54,10 @@ export function install(app) {
   }
 
   /** A UTM grid over a set of layers' footprints: {zone, north, e0, n0, res, w, h}. */
+  const ORTHO_MAX = 300e6; // output samples held in memory
+  /** The smallest cell (0.05 m steps) that keeps a grid within ORTHO_MAX samples. */
+  const fitCell = (G, nb, max = ORTHO_MAX) => Math.ceil(G.res * Math.sqrt((G.w * G.h * nb) / max) * 20) / 20;
+
   function gridFor(layers, res) {
     const fps = layers.map((l) => l.footprint()).filter(Boolean);
     if (!fps.length) throw new Error('the images have no footprint');
@@ -86,6 +90,9 @@ export function install(app) {
     const t0 = performance.now();
     const G = grid ?? gridFor([l], res ?? Math.round(gsdOf(l) * 20) / 20);
     const nb = l.chain?.bands?.length === 3 ? 3 : 1;
+    // The output is built in memory: a whole WorldView strip at its native cell was ~8 GB and ran for
+    // ever (TE 2.0.4 cross). Refused by name, with the cell size that fits.
+    if (G.w * G.h * nb > ORTHO_MAX) throw new Error(`the orthoimage would be ${G.w.toLocaleString()} × ${G.h.toLocaleString()} at ${G.res} m; use a cell of ${fitCell(G, nb)} m or more`);
     const bandIdx = nb === 3 ? l.chain.bands : [l.chain?.bands?.[0] ?? 0];
     const bias = biasOf(l);
     const N = G.w * G.h;
@@ -95,7 +102,9 @@ export function install(app) {
     let maxErr = 0;
     let worst = null;
     const tiles = [];
-    for (let ty = 0; ty < G.h; ty += TILE) for (let tx = 0; tx < G.w; tx += TILE) tiles.push({ tx, ty, w: Math.min(TILE, G.w - tx), h: Math.min(TILE, G.h - ty) });
+    for (let ty = 0; ty < G.h; ty += TILE) for (let tx = 0; tx < G.w; tx += TILE) tiles.push({ i: tiles.length, tx, ty, w: Math.min(TILE, G.w - tx), h: Math.min(TILE, G.h - ty) });
+    const helpers = !grid && l.width * l.height > 64e6 ? await helperOpens(app, l, Math.max(0, (app.pool.size ?? 2) - 1)) : []; // full products only: OOTF refreshes stay on the one open
+    const srcs = [{ handle: l.handle, affinity: l.affinity }, ...helpers];
     const fp = l.footprint();
     const box0 = { north: Math.max(...fp.map((p) => p[0])), south: Math.min(...fp.map((p) => p[0])), west: Math.min(...fp.map((p) => p[1])), east: Math.max(...fp.map((p) => p[1])) };
     const dem = demIn ?? terrainFor(box0);
@@ -137,12 +146,21 @@ export function install(app) {
       const x1 = Math.min(l.width, Math.ceil(Math.max(...ips.map((q) => q.x))) + pad);
       const y1 = Math.min(l.height, Math.ceil(Math.max(...ips.map((q) => q.y))) + pad);
       if (x1 - x0 < 2 || y1 - y0 < 2) return;
-      const patches = await Promise.all(bandIdx.map((b) => app.pool.run('patch', { handle: l.handle, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: l.affinity, priority: 'background' })));
+      // An output much coarser than the image reads the pyramid level of its scale (2^L ≤ res/GSD):
+      // at whole-image zoom a full WorldView-3 strip's full-resolution window failed to allocate.
+      const L = Math.max(0, Math.floor(Math.log2(G.res / Math.max(1e-9, gsdOf(l)))));
+      // Tiles take turns over the file's opens (helpers on other workers for a large image), and a
+      // full-resolution patch reads every band at once: the CORE3D 8-band MSI strip read band by band
+      // on one worker took 16–32 s a patch and starved the display (TE 2.0.4 cross).
+      const S = srcs[t.i % srcs.length];
+      const patches = L > 0
+        ? await Promise.all(bandIdx.map((b) => app.pool.run('patchLevel', { handle: S.handle, level: L, x: x0, y: y0, w: x1 - x0, h: y1 - y0, band: b }, { affinity: S.affinity, priority: 'background', timeout: 300000 })))
+        : await app.pool.run('patch', { handle: S.handle, x: x0, y: y0, w: x1 - x0, h: y1 - y0, bands: bandIdx }, { affinity: S.affinity, priority: 'background', timeout: 300000 }).then((r) => r.pxs.map((px) => ({ ...r, px })));
       const pw = patches[0].w;
       const ph = patches[0].h;
       const src = new Float32Array(pw * ph * nb);
       patches.forEach((p, k) => src.set(p.px, k * pw * ph));
-      const spec = Float64Array.from([0, ...rec, ...bias.c, ...bias.centre, ...bias.half, G.zone, G.north ? 1 : 0, e0, n0, G.res, t.w, t.h, KERNELS[kernel] ?? 1, bound, fallback, ...(crop ? [crop.lat0, crop.lon0, crop.dlat, crop.dlon, crop.w, crop.h] : [0, 0, 0, 0, 0, 0]), patches[0].x0, patches[0].y0, pw, ph, nb]);
+      const spec = Float64Array.from([0, ...rec, ...bias.c, ...bias.centre, ...bias.half, G.zone, G.north ? 1 : 0, e0, n0, G.res, t.w, t.h, KERNELS[kernel] ?? 1, bound, fallback, ...(crop ? [crop.lat0, crop.lon0, crop.dlat, crop.dlon, crop.w, crop.h] : [0, 0, 0, 0, 0, 0]), patches[0].x0, patches[0].y0, pw, ph, nb, patches[0].scale ?? 1]);
       const demArr = crop ? crop.heights : new Float32Array(0);
       const r = await app.pool.run('ortho', { spec, dem: demArr, src, w: t.w, h: t.h, nb }, { kind: 'analysis', transfer: [spec.buffer, src.buffer, ...(crop ? [demArr.buffer] : [])], timeout: 600000, priority: 'background' });
       cells += r.cells;
@@ -163,9 +181,13 @@ export function install(app) {
     };
     const conc = Math.max(1, Math.min(app.pool.size ?? 2, tiles.length));
     let next = 0;
-    await Promise.all(Array.from({ length: conc }, async () => {
-      while (next < tiles.length) await runTile(tiles[next++]);
-    }));
+    try {
+      await Promise.all(Array.from({ length: conc }, async () => {
+        while (next < tiles.length) await runTile(tiles[next++]);
+      }));
+    } finally {
+      closeHelpers(app, helpers);
+    }
     return { grid: G, bands, mask, layer: l.id, image: l.info.iid, stats: { tiles: tiles.length, cells, maxErrPx: maxErr, worst, kernel, bound, dem: dem?.name ?? `none (${fallback.toFixed(0)} m HAE)`, ms: Math.round(performance.now() - t0) } };
   }
 
@@ -574,10 +596,16 @@ export function install(app) {
     enabled: () => !!pane()?.activeLayer() && !!rpcRecordOf(pane().activeLayer()),
     run: async () => {
       const l = pane().activeLayer();
-      const res = h('input', { class: 'inp inp-num', type: 'number', step: 'any', value: (Math.round(gsdOf(l) * 20) / 20).toFixed(2), 'aria-label': 'Cell size (m)' });
+      // The default cell keeps the output near 100 M pixels: a whole strip at its native cell is not a
+      // browser-sized product (a smaller cell remains a choice, up to the limit).
+      const native = Math.round(gsdOf(l) * 20) / 20;
+      const nbOut = l.chain?.bands?.length === 3 ? 3 : 1;
+      const G0 = gridFor([l], native);
+      const cell0 = G0.w * G0.h * nbOut > 100e6 ? Math.max(native, fitCell(G0, nbOut, 100e6)) : native;
+      const res = h('input', { class: 'inp inp-num', type: 'number', step: 'any', value: cell0.toFixed(2), 'aria-label': 'Cell size (m)' });
       const ker = h('select', { class: 'inp', 'aria-label': 'Resampling' }, ...Object.keys(KERNELS).map((k) => h('option', { value: k, selected: k === 'bilinear' }, { nearest: 'Nearest neighbour', bilinear: 'Bilinear', cubic: 'Cubic convolution', lanczos3: 'Lanczos (3 lobes)' }[k])));
       const bound = h('input', { class: 'inp inp-num', type: 'number', step: 'any', value: '0.1', 'aria-label': 'Error bound (px)' });
-      const body = h('div', {}, field('Cell size (m)', res), field('Resampling', ker), field('Grid error bound (px)', bound, 'The mapping is exact at the grid vertices; cells split until interpolation is within this bound.'), h('p', { class: 'hint' }, `Terrain: ${app.terrain.dems[0]?.name ?? 'none (the model height)'}. Output: cloud-optimised GeoTIFF in UTM.`));
+      const body = h('div', {}, field('Cell size (m)', res), field('Resampling', ker), field('Grid error bound (px)', bound, 'The mapping is exact at the grid vertices; cells split until interpolation is within this bound.'), cell0 > native ? h('p', { class: 'hint' }, `Native cell ${native} m would be ${G0.w.toLocaleString()} × ${G0.h.toLocaleString()} pixels; ${cell0} m keeps the orthoimage to about 100 M pixels.`) : null, h('p', { class: 'hint' }, `Terrain: ${app.terrain.dems[0]?.name ?? 'none (the model height)'}. Output: cloud-optimised GeoTIFF in UTM.`));
       if ((await modal({ title: `Orthorectify — ${l.info.iid}`, body, buttons: ['Run', 'Cancel'], id: 'ortho-rectify' })) !== 'Run') return;
       try {
         const o = await orthorectify(l, { res: Number(res.value), kernel: ker.value, bound: Number(bound.value) });

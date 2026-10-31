@@ -234,7 +234,8 @@ export class ImagePane {
         loading++;
         return;
       }
-      const L = levelFor(view.zoom, l.levels);
+      // A registered layer of another pixel size picks its level in its own pixels (CX-037).
+      const L = levelFor(view.zoom * (l.align ? Math.sqrt(Math.abs(l.align[1] * l.align[5] - l.align[2] * l.align[4])) || 1 : 1), l.levels);
       // A registered (or stereo-eye) layer plans tiles and viewport statistics in its own pixel frame (REQ-SNS-09).
       const lb = l.align ? alignedBox(l.align, corners) : bbox;
       l.updateViewHist(L, l.chain.dra.scope === 'aoi' ? this.app.aoiBox?.(this, l) ?? lb : lb);
@@ -783,6 +784,9 @@ export class ImagePane {
 
   dispose() {
     this._resize.disconnect();
+    // A video in the panel goes with it (player, media buffers, the clip's KLV and VMTI): closing a
+    // panel or a project left them alive, +8 MB per open of a VMTI clip (CX-087).
+    if (this.video) this.app.fmv?.closeVideo(this);
     this.app.renderer.removePane(this);
     this.el.remove();
   }

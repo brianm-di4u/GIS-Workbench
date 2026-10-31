@@ -9,16 +9,16 @@ import { loadManifest, itemDir, filePath, CORPUS, REPO } from '../../build/campa
 import { openApp as openApp0, servers as servers0, DIST as DIST0 } from '../e2e/helpers.js';
 import { resolve } from 'node:path';
 
-export { openFiles } from '../e2e/helpers.js';
+export { openFiles, LEGACY_PREFS } from '../e2e/helpers.js';
 export { CORPUS };
 /** The build under test: dist/ by default; TE_DIST points at another (e.g. dist-te/ while fixing). */
 export const DIST = process.env.TE_DIST ? resolve(process.env.TE_DIST) : DIST0;
 export const openApp = (page, mode = 'file', opts = {}) => openApp0(page, mode, { htmlPath: DIST, ...opts });
 export const servers = (htmlPath = DIST) => servers0(htmlPath);
 
-/** A data pack from the build (a user opens it first, File ▸ Open Data Pack). */
+/** A data pack from the build under test (a user opens it first, File ▸ Open Data Pack). */
 export const packFile = (re) => {
-  const dir = resolve('dist', 'packs');
+  const dir = resolve(DIST, '..', 'packs');
   const f = existsSync(dir) && readdirSync(dir).find((n) => re.test(n));
   return f ? resolve(dir, f) : null;
 };
@@ -119,10 +119,17 @@ export function snapshot(frame) {
       panes: q('[data-id^="pane:"], .pane').length,
       dialogs: q('[role="dialog"]').map((d) => d.getAttribute('aria-label')),
       toasts: q('.toasts .toast').map((t) => `${[...t.classList].find((c) => c.startsWith('toast-'))}: ${t.textContent}`),
-      undo: app.undo?.stack?.length ?? app.history?.length ?? null,
+      undo: app.undo?.undoStack?.length ?? null,
       active: app.activeLayer()?.id ?? null,
       chain: JSON.stringify(app.activeLayer()?.chain ?? null).length,
       body: document.body.innerHTML.length,
+      // View, tool, toggles and open panels: navigation, display toggles and slider panels change only these.
+      view: JSON.stringify(app.activePane()?.view ?? null),
+      tool: app.tools?.current?.id ?? null,
+      checked: [...app.commands.map.keys()].filter((c) => app.commands.checked(c)).join(','),
+      panels: q('[role="region"].tool-panel, .tool-panel, .popover, [role="menu"]').length,
+      records: ['graphic', 'feature', 'measurement', 'aoi', 'observation', 'chip', 'change', 'detection'].map((t) => app.store.all(t).length).join(','),
+      selection: app.selection?.size ?? 0,
     };
   });
 }
@@ -133,20 +140,32 @@ export function snapshot(frame) {
  *  'stub' (planned toast), 'error' (threw / error toast / console error).
  * File pickers are answered with `pick` (or cancelled); downloads are saved under reports/campaign/out.
  */
-export async function runCommand(page, frame, id, { pick = [], logs = [], confirm = true, wait = 15_000 } = {}) {
-  const outDir = join(REPO, 'reports/campaign/out');
+export async function runCommand(page, frame, id, { pick = [], logs = [], confirm = true, wait = 15_000, settle = 0, outDir = join(REPO, 'reports/campaign/out') } = {}) {
   mkdirSync(outDir, { recursive: true });
   const downloads = [];
-  const onDl = async (d) => {
+  // Saves still being written when the command resolves (a 95 s burn-in clip, a streamed COG) are
+  // awaited before the cell is judged; they used to land after it, under the next command (CX-H19).
+  const saving = [];
+  const onDl = (d) => {
     const p = join(outDir, `${id}-${d.suggestedFilename()}`);
-    await d.saveAs(p).catch(() => {});
-    downloads.push(p);
+    saving.push(d.saveAs(p).catch(() => {}).then(() => downloads.push(p)));
   };
-  const onChooser = (fc) => fc.setFiles(pick.filter(existsSync)).catch(() => {});
+  // A chooser gets the picked files its `accept` list takes, and one only when it is not multiple:
+  // several files for a single-file input were refused and the command waited for ever (CX-H12).
+  const onChooser = async (fc) => {
+    const acc = ((await fc.element().getAttribute('accept').catch(() => '')) || '').split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    let files = pick.filter(existsSync).filter((p) => !acc.length || acc.some((a) => p.toLowerCase().endsWith(a)));
+    if (!files.length) files = pick.filter(existsSync);
+    if (!fc.isMultiple()) files = files.slice(0, 1);
+    await fc.setFiles(files).catch(() => {});
+  };
   page.on('download', onDl);
   page.on('filechooser', onChooser);
   const before = await snapshot(frame);
   const logStart = logs.length;
+  // Toasts as issued (app.toastLog, 2.0.4; else c50's window.__teToasts recorder) include ones that wait
+  // their turn behind the 3-slot snackbar or were dismissed before the harness looked.
+  const toastStart = await frame.evaluate(() => (window.gisworkbench.toastLog ? { t: Date.now() } : window.__teToasts ? { n: window.__teToasts.length } : null));
   const enabled = await frame.evaluate((c) => window.gisworkbench.commands.enabled(c), id);
   let outcome = enabled ? 'done' : 'disabled';
   const dialogs = [];
@@ -161,18 +180,22 @@ export async function runCommand(page, frame, id, { pick = [], logs = [], confir
     const t0 = Date.now();
     let confirmed = false;
     while (Date.now() - t0 < wait) {
-      const st = await frame.evaluate(() => ({ run: window.__teRun.state, dlg: [...document.querySelectorAll('.dlg[role="dialog"]')].map((d) => d.getAttribute('aria-label')) }));
+      // Modern layout: modeless editors open as docked tool panels (REQ-SHL-09) and count as dialogs
+      // (CX-H24: Class Visibility waited 60 s for a dialog the harness did not see).
+      const st = await frame.evaluate(() => ({ run: window.__teRun.state, dlg: [...document.querySelectorAll('.dlg[role="dialog"], .tool-panel[data-id^="dialog:"]')].map((d) => d.getAttribute('aria-label')) }));
       if (st.dlg.length) {
         dialogs.push(...st.dlg.filter((d) => !dialogs.includes(d)));
         outcome = 'dialog';
         // Confirm once with the dialog's defaults (exercises the function), then dismiss anything left.
         if (confirm && !confirmed) {
           confirmed = true;
-          const ok = frame.locator('.dlg .dlg-buttons button', { hasText: /^(OK|Apply|Run|Start|Save|Export|Create|Open|Detect|Extract|Select|Chip|Load|Fit|Jump)$/ }).first();
+          const ok = frame.locator('.dlg .dlg-buttons button, .tool-panel .dlg-buttons button', { hasText: /^(OK|Apply|Run|Start|Save|Export|Create|Open|Detect|Extract|Select|Chip|Load|Fit|Jump)$/ }).first();
           if (await ok.count()) await ok.click({ timeout: 2000 }).catch(() => {});
           await frame.waitForTimeout(500);
           continue;
         }
+        // A docked tool panel does not close on Escape: it closes through its own finish.
+        await frame.evaluate(() => document.querySelectorAll('.tool-panel[data-id^="dialog:"]').forEach((p) => p.finish?.(null))).catch(() => {});
         await frame.locator('body').press('Escape').catch(() => {});
         await frame.waitForTimeout(200);
         continue;
@@ -184,11 +207,17 @@ export async function runCommand(page, frame, id, { pick = [], logs = [], confir
     if (run.state === 'error') outcome = 'error';
     if (run.state === 'pending' && outcome === 'done') outcome = 'pending';
     for (let i = 0; i < 4 && (await frame.locator('.dlg[role="dialog"]').count()); i++) await frame.locator('body').press('Escape').catch(() => {});
+    // settle: jobs a dialog started outlive it; wait (bounded) for the worker pool to drain so their
+    // errors land on this command, not the next one.
+    if (settle) await frame.waitForFunction(() => { const s = window.gisworkbench.pool?.stats?.(); return !s || (s.running === 0 && s.queued === 0); }, null, { timeout: settle, polling: 250 }).catch(() => { if (outcome === 'done' || outcome === 'dialog') outcome = 'pending'; });
   }
+  // A download the browser started just as the command resolved gets a moment to be announced.
+  if (enabled) await frame.waitForTimeout(saving.length ? 0 : 300);
+  await Promise.race([Promise.all(saving), new Promise((r) => setTimeout(r, Math.max(wait, 120_000)))]);
   const after = await snapshot(frame);
   page.off('download', onDl);
   page.off('filechooser', onChooser);
-  const newToasts = after.toasts.filter((t) => !before.toasts.includes(t));
+  const newToasts = toastStart === null ? after.toasts.filter((t) => !before.toasts.includes(t)) : await frame.evaluate((s) => (s.t !== undefined ? window.gisworkbench.toastLog.filter((x) => x.t >= s.t).map((x) => `toast-${x.kind}: ${x.message}`) : window.__teToasts.slice(s.n)), toastStart);
   if (newToasts.some((t) => /planned for R\d/.test(t))) outcome = 'stub';
   const errors = [...logs.slice(logStart), ...newToasts.filter((t) => t.startsWith('toast-error'))];
   if (errors.length && outcome !== 'stub') outcome = 'error';

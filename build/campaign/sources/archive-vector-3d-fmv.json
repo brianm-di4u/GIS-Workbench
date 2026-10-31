@@ -1655,7 +1655,7 @@
    "vec.refuse"
   ],
   "covers": [
-   "fmt:refused.geoparquet"
+   "fmt:vec.geoparquet"
   ]
  },
  {
@@ -1719,7 +1719,7 @@
    "vec.refuse"
   ],
   "covers": [
-   "fmt:refused.geoparquet"
+   "fmt:vec.geoparquet"
   ]
  },
  {
@@ -1789,7 +1789,7 @@
    "vec.refuse"
   ],
   "covers": [
-   "fmt:refused.flatgeobuf"
+   "fmt:vec.flatgeobuf"
   ]
  },
  {
@@ -1841,7 +1841,7 @@
    "vec.refuse"
   ],
   "covers": [
-   "fmt:refused.flatgeobuf"
+   "fmt:vec.flatgeobuf"
   ]
  },
  {

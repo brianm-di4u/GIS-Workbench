@@ -2,6 +2,81 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
+## [2.0.4] - 2026-10-31
+
+The format × function release. Every file of the test archive (2,729 primary files of 177 format kinds) was opened and every command the app offers for it was run on it, with each result checked: no error, a visible effect, valid files written, values that match GDAL, OGR, laspy and sarpy, and the performance budgets. Pairs (stereo, repeat-pass SAR, DEM under imagery, two lidar epochs and more), pointer tools, writer round trips and damaged files were tested too. This release fixes what that found. Items carry their id in `docs/validation/TE-cross-findings.md`.
+
+### Added
+- **FlatGeobuf and GeoParquet open.** Convert wrote them but they could not be read back. GeoParquet with WKB geometry (GeoParquet metadata or the Parquet GEOMETRY type; Snappy, GZIP or uncompressed; any EPSG CRS) and FlatGeobuf files open as vector layers. (CX-001)
+- **NITF 1.1 files open.** (CX-002)
+- **Lossless JPEG NITF (IC=C5)** decodes. (CX-003)
+- **Save DEM As ▸ SRTM HGT** (1″ and 3″ tiles), as REQ-FMT-07 promised. (CX-004)
+
+### Fixed
+- **Sharpness and every display filter answer at once.** The first frame after moving the Sharpness slider, or choosing a smoothing, median, morphology, edge or speckle filter, took up to two minutes on some graphics drivers; it now takes about a second. (CX-010, GUI-027)
+- **A file keeps working after its worker is restarted.** When a job on a very large file timed out, every later action on that file failed with "reopen the file"; the file is now reopened in a fresh worker and the action continues. (CX-011)
+- **Validate Features on large polygons** (country outlines) finishes in seconds; it ran past five minutes. (CX-012)
+- **Point-cloud export of tens of millions of points** (LAS and LAZ; a full 3DEP tile of 37 M points) works; it stopped with a WebAssembly error. (CX-013)
+- **Spectral tools on hyperspectral cubes with empty bands** (EnMAP, Hyperion): PCA, MNF, ICA, the anomaly and target detectors and the classifiers leave out the all-empty water-vapour bands instead of returning nothing. (CX-014)
+- **Point-cloud grids and extraction pick a post spacing that suits the cloud**, so a sparse cloud no longer makes a grid of tens of millions of empty posts. (CX-015)
+- **Large DEMs can be used as terrain** (a 1/3″ 3DEP tile is 10 812²): they load at every Nth post instead of being refused. (CX-016)
+- **GeoPackage tile sets** no longer show a black strip past their extent. (CX-017)
+- **The app reopens its own exports**: Save As ▸ Shapefile ZIPs and chip ZIPs open without errors. (CX-018)
+- **3D export of a large footprint layer** no longer fails with "Maximum call stack size exceeded". (CX-019)
+- **Band Math statistics** of large images are read from the pyramid: seconds instead of minutes. (CX-020)
+- **Commands offered only where they work**: Chip by Preset Area, Auto Map and Snapshot to KMZ need a georeferenced image; SAR anamorphic needs SICD sample spacings; FMV capture is not offered for MPEG-2 video; Ortho On-the-Fly uses the panel's RPC image. (CX-022–CX-025)
+- **Clear messages instead of errors**: Jump To a point off the image, AOI from Graphic off the image, Measure ▸ Centre Point with vectors only, 3D terrain with no heights, the 3D globe over an image it cannot drape, a detector with no valid score, the gridded reference graphic's default cell, and point-cloud grids that are too large. (CX-021, CX-026–CX-031, CX-035, CX-036)
+- **WorldView NITFs with a cloud-mask segment open on the image.** The 70 × 76 mask (IREP NODISPLY) became the active layer, so the view fitted the mask and the 43k strip drew at full resolution; the overview then asked for thousands of tiles. Mask segments now open hidden and registered to the image. (CX-037)
+- **Ortho On-the-Fly on a whole WorldView strip** works (it ran out of memory): the source is read at the pyramid level matching the output; a 43k × 46k strip rectifies in about 5 s. (CX-038)
+- **Hyperspectral ENVI cubes from slow disks**: rows are read many at a time, so band maths, NDVI and statistics on a 4.6 GB AVIRIS-NG cube finish instead of timing out. (CX-039)
+- **A slow job no longer takes other work down with it.** A timed-out job is asked to stop first; its worker, open files and other jobs carry on. (CX-040)
+- **Several large images open in parallel**: each file opens on its own worker, so nine 16k² JPEG GeoTIFFs from one ZIP show in 19 s instead of 52 s. (CX-042)
+- **Cloud-Optimized GeoTIFF export is up to 2.6× faster**: the source is decoded once (overviews come from the rows written) and all bands are read together; hyperspectral cubes with hundreds of bands convert, and conversion errors are reported by name. (CX-043, CX-044)
+- **FMV videos with small holes in the stream play to the end.** Day Flight stopped for good at 87.5 s, and a burn-in export of it never finished. Small gaps are skipped, the video buffer stays inside the browser's limit, and a stretch the browser cannot decode stops playback with a message; the export keeps what it recorded. (CX-045, CX-046)
+- **Point-cloud DSM, DTM, ground filter and Buildings and Trees from Points are 3–7× faster**: hole filling stopped converging on real elevations and always ran its full budget. A 3DEP tile's buildings and trees now take about 13 s instead of a minute or more. (CX-047)
+- **Xport on very large files**: its views share one open of the file instead of opening it again for each, so a 1.85 GB EMIT cube shows in 16 panels instead of running out of memory. (CX-051)
+- **GeoPackage export of rows without a position** (a CSV with empty coordinates) works; it failed with an R-tree error. (CX-050)
+- **Point clouds**: Ground Filter on a one-point cloud no longer crashes; a DTM of a cloud without ground points says to run Ground Filter first; Buildings and Trees on a tiny cloud says why there are none. (CX-048, CX-049, CX-052)
+- **Band Statistics and SNR on hyperspectral cubes**: statistics of a 224-band AVIRIS cube take 25 s instead of timing out (the file was read once per band), and SNR runs on cubes with hundreds of bands instead of being refused. (CX-053, CX-054)
+- **Large ENVI cubes no longer show a black last row and column** on their overview levels, which also pulled their statistics down. (CX-055)
+- **FMV burn-in export finishes on clips whose last frames never arrive**, and short clips no longer record an empty video. (CX-056)
+- **Shapefile export of large polygons from FlatGeobuf or GeoParquet** works (it overflowed the stack); a GML's .xsd no longer opens as an empty layer, and saving an empty layer says so. (CX-057, CX-058)
+- **Hyperspectral chips save as NITF**: the writer takes up to 999 bands (it stopped at 9). (CX-059)
+- **Very large downloads complete**: multi-GB Cloud-Optimized GeoTIFFs were cut short when their temporary files were removed too early. (CX-060)
+- **Orthorectify of whole satellite strips** proposes a cell size that fits in the browser and explains it; a strip at its native cell is refused by name instead of running for minutes. (CX-061)
+- **Cloud-Optimized GeoTIFF of whole satellite strips decodes on several workers at once**: a 1.6 G-pixel WorldView strip converts in about 3½ minutes instead of over 5. (CX-062)
+- **The 3D globe and reduced-size products over whole satellite strips** read the image's own overview levels: the globe over a WorldView strip opens in seconds instead of timing out. (CX-063)
+- **FlatGeobuf export of layers with nested attributes** reads back (lists and structures are written as JSON text); KML keeps rows without a position as placemarks without geometry; a file that cannot be read says so instead of "[object ProgressEvent]". (CX-064–CX-066)
+- **Saving very large files where the browser has no save dialog** (another browser, or GIS Workbench embedded in a page) warns that the browser may cancel downloads over 500 MB and says how to save them; Chrome and Edge running the file directly save through the dialog as before. (CX-067)
+- **Cloud-Optimized GeoTIFF of complex SAR (SICD, SLC)** holds the displayed band instead of all nine derived bands: an Umbra SICD converts in about a minute (496 MB) instead of six (3.2 GB). (CX-068)
+- **Spectral tools on large multispectral strips** sample the image's own overview levels (seconds instead of a timeout), and image tiles keep loading while several large files are still preparing their first display. (CX-069, CX-070)
+- **Orthorectify and Cloud-Optimized GeoTIFF of whole satellite strips** read the image on several workers at once and encode tiles off the main thread: a CORE3D multispectral strip rectifies in 3 minutes (it failed), and a 2.2 G-pixel WorldView strip converts in about 4. (CX-071, CX-072)
+- **Damaged and cut-short files are refused by name**: shapefiles, JPEG 2000, PMTiles and spectral libraries say the file is cut short or damaged instead of showing an internal error, and a cut FlatGeobuf no longer freezes the app. (CX-073–CX-075)
+- **Measure ▸ Centre Point on a layer with an unrecognised CRS** says the coordinates are not longitude/latitude instead of failing. (CX-076)
+- **Empty geometries are skipped on import** (with a note), so Validate Features and 3D export work on files that contain them. (CX-077)
+- **Terrain extraction from large stereo scenes** starts from the panel view or AOI, and a whole-scene request says how to narrow it instead of running out of memory. (CX-078)
+- **Stereo Align and the block adjustment** work on images whose RPC comes from an .RPB sidecar. (CX-079)
+- **Very large files open from slow drives**: the open time limit grows with the file size (1.85 GB NetCDF beside another large cube). (CX-080)
+- **Undoing a Ground Filter** also removes its DTM from the terrain list, so Save DEM As and height look-ups no longer use it. (CX-081)
+- **Videos that end part-way** no longer make the player request bytes past the end of the file. (CX-082)
+- **KML polygons with an empty inner boundary** import without the empty ring, so Validate Features and other tools work on them. (CX-083)
+- **Clip export of damaged videos** ends when the clip does, or when playback stops advancing, instead of running on (timestamps past the 33-bit wrap). (CX-084)
+- **High-bit-rate video** (4K drone footage) plays to the end: the playback buffer scales with the stream's rate instead of filling the browser's media quota. (CX-085)
+- **Faster first display**: 16k JPEG GeoTIFFs without overviews about 5× (12.6 s → 2.6 s), uncompressed SIDD/SICD of 200–250 MB about 7× (7.2 s → 0.9 s), deflated complex SLCs 3× (native inflate, direct reduced levels), and narrow striped GeoTIFFs 11×. (CX-086)
+- **Memory is released** when a panel or project with a video closes, and re-importing a spectral library no longer duplicates it. (CX-087)
+- **Products made while no panel was active** go to their source image's panel instead of failing. (CX-041)
+- **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
+
+### Changed
+- **WebAssembly modules optimised with binaryen** (wasm-opt version_133, -O3/-Oz): 9–15 % smaller before compression. The build had never been able to run wasm-opt: it enabled SIMD only, so binaryen refused the bulk-memory and other features rustc emits by default.
+- **Format × function test tooling** (`tests/campaign/c50`–`c56`, `build/campaign/triage.mjs`, `perf-report.mjs`): every archive file crossed with every command it enables, pairings, pointer tools, writer round trips, value oracles, performance budgets and damaged files. Messages are kept in `app.toastLog` for diagnostics.
+
+### Known limits
+- HTJ2K is decoded but not encoded, and is not used as the pyramid cache (REQ-FMT-17, a Should). (CX-005)
+- These are refused by name: ARIDPCM (IC=C2), ECW, ERDAS HFA, NetCDF-3, MPEG program streams, JPEG 2000 with a POC marker, Draco and required-KTX2 glTF, Brotli or Zstandard PMTiles, QuickLZ and Cartesian BPF, MrSID, CPHD, A.TOC, MBTiles and local quantized-mesh terrain.
+- First display stays over 1 s (measured from a local SSD) for GeoPDF maps (4.7–6.8 s, page rasterisation), 16k JPEG GeoTIFFs without overviews (2.1–2.6 s, the whole image is decoded once), SICD with AMP8I/PHS8I (3.3 s), EMIT NetCDF (2.6 s), JPEG 2000 WorldView strips (1.5–2.1 s), ZSTD BigTIFF and striped PackBits (2.1–2.6 s), JPEG NITF (1.9 s) and some SIDD/SICD (1.2–1.8 s). Adding overviews (Convert ▸ Cloud-Optimized GeoTIFF) removes the wait. (CX-086)
+- Corpus files on a slow USB disk can exceed the command time limits for whole-image work on 1–5 GB images (AVIRIS-NG, Umbra, WorldView); from a local SSD they complete (2–4 min). (CX-H17, TE-cross-findings NVMe rounds)
+
 ## [2.0.3] - 2026-10-29
 
 The test-archive release. The test and evaluation archive grew to 2,328 files (129 GB) of real deliveries: full WorldView-3 strips, AVIRIS-NG cubes, Umbra and Capella SAR, PDAL point clouds, 3D Tiles packages, BDAV video, building-footprint feeds and more. Every primary file was opened in the app and checked against GDAL's reading, and every command was run on archive data. This release fixes what that found. Items carry their id in `docs/validation/TE-archive-remediation.md`.

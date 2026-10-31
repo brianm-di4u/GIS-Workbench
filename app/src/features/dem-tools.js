@@ -8,6 +8,7 @@
 // the log replayed, pushed to the core terrain and, as sparse 256² tiles, to the decode worker
 // for display.
 
+import { minOf, maxOf } from '../core/util.js';
 import { h } from '../shell/dom.js';
 import { modal, field, section } from '../shell/dialogs.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
@@ -16,6 +17,7 @@ import { writeGeoTiff } from '../formats/geotiff-writer.js';
 import { fromParts } from '../vector/geom.js';
 import { groundOf, poly } from '../tools/tools.js';
 import { openImageFile } from '../formats/open.js';
+import { dtedCell, hgtCell } from '../formats/dem-writers.js';
 
 export const name = 'dem-tools';
 
@@ -41,8 +43,8 @@ function inRing(ring, lon, lat) {
 function postsIn(g, ring, holes = []) {
   const lons = ring.map((p) => p[0]);
   const lats = ring.map((p) => p[1]);
-  const a = postOf(g, Math.max(...lats), Math.min(...lons));
-  const b = postOf(g, Math.min(...lats), Math.max(...lons));
+  const a = postOf(g, maxOf(lats), minOf(lons));
+  const b = postOf(g, minOf(lats), maxOf(lons));
   const out = [];
   for (let j = Math.max(0, a.j - 1); j <= Math.min(g.height - 1, b.j + 1); j++)
     for (let i = Math.max(0, a.i - 1); i <= Math.min(g.width - 1, b.i + 1); i++) {
@@ -91,7 +93,7 @@ export function applyEdit(g, H, op) {
     case 'raise': {
       const feather = Math.max(0, p.feather ?? 0);
       const lats = p.ring.map((q) => q[1]);
-      const lat0 = (Math.max(...lats) + Math.min(...lats)) / 2;
+      const lat0 = (maxOf(lats) + minOf(lats)) / 2;
       const [cx, cy] = cellM(g, lat0);
       const mx = cx / g.dlon;
       const my = cy / g.dlat;
@@ -701,16 +703,28 @@ export function install(app) {
     for (let la = Math.floor(south); la <= Math.floor(g.lat0 - 1e-9); la++) for (let lo = Math.floor(g.lon0); lo <= Math.floor(east - 1e-9); lo++) cells.push([la, lo]);
     return cells.map(([la, lo]) => ({ name: `${lo < 0 ? 'w' : 'e'}${String(Math.abs(lo)).padStart(3, '0')}_${la < 0 ? 's' : 'n'}${String(Math.abs(la)).padStart(2, '0')}.dt${level}`, bytes: dtedCell(app, g, H, d.vertical, la, lo, level) }));
   };
+  /** SRTM HGT tiles (1″ 3601² or 3″ 1201², MSL EGM96, whole metres) covering the terrain: [{name, bytes}]. */
+  app.demHgt = (arcsec = 1, d = target() ?? app.terrain.dems[0]) => {
+    const g = d.grid;
+    const H = heightsOf(d);
+    const south = g.lat0 - g.dlat * (g.height - 1);
+    const east = g.lon0 + g.dlon * (g.width - 1);
+    const cells = [];
+    for (let la = Math.floor(south); la <= Math.floor(g.lat0 - 1e-9); la++) for (let lo = Math.floor(g.lon0); lo <= Math.floor(east - 1e-9); lo++) cells.push([la, lo]);
+    return cells.map(([la, lo]) => ({ name: `${la < 0 ? 'S' : 'N'}${String(Math.abs(la)).padStart(2, '0')}${lo < 0 ? 'W' : 'E'}${String(Math.abs(lo)).padStart(3, '0')}.hgt`, bytes: hgtCell(app, g, H, d.vertical, la, lo, arcsec) }));
+  };
   C.implement('dem.save', {
     enabled: () => !!app.terrain.dems.length,
     run: async () => {
       const d = target() ?? app.terrain.dems[0];
-      const fmt = h('select', { class: 'inp', 'aria-label': 'Format' }, h('option', { value: 'tif' }, 'GeoTIFF / COG (float32, vertical keys)'), h('option', { value: 'dt2' }, 'DTED Level 2 (full cells, MSL)'), h('option', { value: 'dt1' }, 'DTED Level 1 (full cells, MSL)'));
+      const fmt = h('select', { class: 'inp', 'aria-label': 'Format' }, h('option', { value: 'tif' }, 'GeoTIFF / COG (float32, vertical keys)'), h('option', { value: 'dt2' }, 'DTED Level 2 (full cells, MSL)'), h('option', { value: 'dt1' }, 'DTED Level 1 (full cells, MSL)'), h('option', { value: 'hgt1' }, 'SRTM HGT 1″ (3601 × 3601 tiles, MSL)'), h('option', { value: 'hgt3' }, 'SRTM HGT 3″ (1201 × 1201 tiles, MSL)'));
       if ((await modal({ title: `Save DEM As — ${d.name}`, body: field('Format', fmt), buttons: ['Save', 'Cancel'], id: 'dem-save' })) !== 'Save') return;
       try {
         if (fmt.value === 'tif') {
           const bytes = await app.demGeoTiff(d);
-          await saveBlob(app, new Blob([bytes], { type: 'image/tiff' }), { name: `${(app.layers.get(d.layerId)?.rec.name ?? 'dem').replace(/\.[^.]+$/, '')}_edited.tif`, description: 'GeoTIFF' });
+          await saveBlob(app, new Blob([bytes], { type: 'image/tiff' }), { name: `${(app.layers.get(d.layerId)?.rec?.name ?? 'dem').replace(/\.[^.]+$/, '')}_edited.tif`, description: 'GeoTIFF' });
+        } else if (fmt.value.startsWith('hgt')) {
+          for (const c of app.demHgt(fmt.value === 'hgt1' ? 1 : 3, d)) await saveBlob(app, new Blob([c.bytes]), { name: c.name, description: 'SRTM HGT' });
         } else {
           for (const c of app.demDted(fmt.value === 'dt2' ? 2 : 1, d)) await saveBlob(app, new Blob([c.bytes]), { name: c.name, description: 'DTED' });
         }
@@ -752,7 +766,7 @@ export function install(app) {
     const g = d.grid;
     const { dtm, ground } = smrf(g, heightsOf(d), opts);
     const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: dtm }, { epsg: 4326, vertical: d.vertical === 'hae' ? 'hae' : 'egm96', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: `GIS Workbench DTM (SMRF ground filter) from ${d.name}` });
-    const file = new File([bytes], `DTM_${(app.layers.get(d.layerId)?.rec.name ?? 'dem').replace(/\.[^.]+$/, '')}.tif`, { type: 'image/tiff' });
+    const file = new File([bytes], `DTM_${(app.layers.get(d.layerId)?.rec?.name ?? 'dem').replace(/\.[^.]+$/, '')}.tif`, { type: 'image/tiff' });
     const { layers } = await openImageFile(app, file);
     await app.useAsTerrain(layers[0], d.vertical === 'hae' ? 'hae' : 'egm96');
     const te = app.terrain.entry(layers[0].id);
@@ -807,74 +821,4 @@ export function install(app) {
     return { ...base, heights, fom, pair: [...new Set(dsms.flatMap((d) => d.pair))], stats: { ...base.stats, fused: dsms.length } };
   };
   void section;
-}
-
-/** One DTED cell (UHL, DSI, ACC, data records with checksums), MIL-PRF-89020B layout. */
-export function dtedCell(app, g, H, vertical, la, lo, level) {
-  const latN = level === 2 ? 3601 : 1201;
-  const absLat = Math.abs(la + (la < 0 ? 0 : 0.5));
-  const lonFactor = absLat < 50 ? 1 : absLat < 70 ? 2 : absLat < 75 ? 3 : absLat < 80 ? 4 : 6;
-  const lonN = (latN - 1) / lonFactor + 1;
-  const latInt = level === 2 ? 10 : 30; // tenths of arc seconds
-  const lonInt = latInt * lonFactor;
-  const sp = (s, n) => String(s).padEnd(n, ' ').slice(0, n);
-  const dms = (v, lonP) => {
-    const a = Math.abs(v);
-    const d = Math.floor(a);
-    const hem = lonP ? (v < 0 ? 'W' : 'E') : v < 0 ? 'S' : 'N';
-    return `${String(d).padStart(3, '0')}0000${hem}`; // DDDMMSSH for both (MIL-PRF-89020B UHL)
-  };
-  const uhl = `UHL1${dms(lo, true)}${dms(la, false)}${String(lonInt).padStart(4, '0')}${String(latInt).padStart(4, '0')}NA  U  ${sp('GISWB', 12)}${String(lonN).padStart(4, '0')}${String(latN).padStart(4, '0')}0${sp('', 24)}`;
-  const dsi = new Array(648).fill(' ');
-  const put = (o, s) => [...s].forEach((ch, i) => (dsi[o + i] = ch));
-  put(0, 'DSIU');
-  put(59, `DTED${level}`);
-  put(87, '01A');
-  put(126, 'PRF89020B');
-  put(141, 'E96WGS84');
-  put(185, `${String(Math.abs(la)).padStart(2, '0')}0000.0${la < 0 ? 'S' : 'N'}${String(Math.abs(lo)).padStart(3, '0')}0000.0${lo < 0 ? 'W' : 'E'}`);
-  put(273, `${String(latInt).padStart(4, '0')}${String(lonInt).padStart(4, '0')}`);
-  put(281, `${String(latN).padStart(4, '0')}${String(lonN).padStart(4, '0')}`);
-  put(289, '00');
-  const acc = new Array(2700).fill(' ');
-  'ACCNA  NA  NA  NA  '.split('').forEach((ch, i) => (acc[i] = ch));
-  const recLen = 8 + 2 * latN + 4;
-  const out = new Uint8Array(3428 + recLen * lonN);
-  const enc = (s) => Uint8Array.from([...s].map((c) => c.charCodeAt(0) & 0xff));
-  out.set(enc(uhl), 0);
-  out.set(enc(dsi.join('')), 80);
-  out.set(enc(acc.join('')), 728);
-  const dv = new DataView(out.buffer);
-  const sample = (lat, lon) => {
-    const fi = (lon - g.lon0) / g.dlon;
-    const fj = (g.lat0 - lat) / g.dlat;
-    const i = Math.floor(fi);
-    const j = Math.floor(fj);
-    if (i < 0 || j < 0 || i + 1 >= g.width || j + 1 >= g.height) return NaN;
-    const a = fi - i;
-    const b = fj - j;
-    const v = (ii, jj) => H[jj * g.width + ii];
-    return v(i, j) * (1 - a) * (1 - b) + v(i + 1, j) * a * (1 - b) + v(i, j + 1) * (1 - a) * b + v(i + 1, j + 1) * a * b;
-  };
-  for (let c = 0; c < lonN; c++) {
-    const o = 3428 + c * recLen;
-    out[o] = 0xaa;
-    out[o + 1] = (c >> 16) & 0xff;
-    out[o + 2] = (c >> 8) & 0xff;
-    out[o + 3] = c & 0xff;
-    dv.setUint16(o + 4, c, false);
-    dv.setUint16(o + 6, 0, false);
-    const lon = lo + (c * lonInt) / 36000;
-    for (let p = 0; p < latN; p++) {
-      const lat = la + (p * latInt) / 36000;
-      let v = sample(lat, lon);
-      if (Number.isFinite(v) && vertical === 'hae') v -= app.core.undulation(lat, lon);
-      const m = Number.isFinite(v) ? Math.round(v) : -32767;
-      dv.setUint16(o + 8 + 2 * p, m < 0 ? 0x8000 | -m : m, false);
-    }
-    let sum = 0;
-    for (let k = o; k < o + recLen - 4; k++) sum = (sum + out[k]) >>> 0;
-    dv.setUint32(o + recLen - 4, sum, false);
-  }
-  return out;
 }

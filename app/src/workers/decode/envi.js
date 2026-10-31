@@ -79,6 +79,17 @@ export function enviSource(file, hd) {
     const vs = await Promise.all(bands.map((b) => range(at(b), (xe - xs) * bps)));
     return vs.map((v) => (x) => rd.get(v, (x - xs) * bps));
   }
+  // Rows are read ROWS_IN_FLIGHT at a time: a read is latency-bound (≈43 ms one after another,
+  // ≈4 ms each in parallel, from a USB disk), so a 1024-line window no longer waits a minute (TE 2.0.4 cross).
+  const ROWS_IN_FLIGHT = 64;
+  async function rows(keys, yOf, xs, xe, bands, job, put) {
+    for (let i = 0; i < keys.length; i += ROWS_IN_FLIGHT) {
+      job?.checkCancel?.();
+      const batch = keys.slice(i, i + ROWS_IN_FLIGHT);
+      const gets = await Promise.all(batch.map((k) => row(yOf(k), xs, xe, bands)));
+      batch.forEach((k, n) => put(k, gets[n]));
+    }
+  }
   return {
     kind: 'envi',
     imageIndex: 0,
@@ -90,26 +101,26 @@ export function enviSource(file, hd) {
     // Coarse levels of a large cube read every 2^L-th line only (nearest, at the centre of each
     // cell), as uncompressed NITF does (TE-019): a 4.6 GB AVIRIS-NG cube's first view reads ~1/16 of
     // the lines it used to. Small images keep the averaged pyramid (faithful DRA histograms, TE-042).
-    hasLevel: (L) => L >= 2 && W * H * NB * bps > 256 * 2 ** 20,
+    // Level 1 too above 1 GB: an averaged level-1 tile read a 1024-line full-resolution window.
+    hasLevel: (L) => (L >= 2 && W * H * NB * bps > 256 * 2 ** 20) || (L === 1 && W * H * NB * bps > 2 ** 30),
     async readLevel(L, x0, y0, w, h, bands, job) {
       const sc = 2 ** L;
       const half = sc >> 1;
       const out = bands.map(() => new C(w * h).fill(nodata ?? 0));
       const xa = Math.min(W - 1, x0 * sc + half);
       const xb = Math.min(W - 1, (x0 + w - 1) * sc + half);
-      for (let j = 0; j < h; j++) {
-        job?.checkCancel?.();
-        const Y = (y0 + j) * sc + half;
-        if (Y >= H) break;
-        const get = await row(Y, xa, xb + 1, bands);
+      const ys = [];
+      // A partial last cell samples the last row or column (its centre is past the edge), as raw NITF
+      // does: it was left at 0, a zero row and column on every coarse level (TE 2.0.4 cross, CASI).
+      for (let j = 0; j < h && (y0 + j) * sc < H; j++) ys.push(j);
+      await rows(ys, (j) => Math.min(H - 1, (y0 + j) * sc + half), xa, xb + 1, bands, job, (j, get) => {
         for (let k = 0; k < bands.length; k++) {
           const dst = out[k];
           for (let i = 0; i < w; i++) {
-            const X = (x0 + i) * sc + half;
-            if (X < W) dst[j * w + i] = get[k](X);
+            if ((x0 + i) * sc < W) dst[j * w + i] = get[k](Math.min(W - 1, (x0 + i) * sc + half));
           }
         }
-      }
+      });
       return out;
     },
     async readWindow(x0, y0, w, h, bands, job) {
@@ -117,15 +128,15 @@ export function enviSource(file, hd) {
       const xs = Math.max(0, x0);
       const xe = Math.min(W, x0 + w);
       if (xe <= xs) return out;
-      for (let y = Math.max(0, y0); y < Math.min(H, y0 + h); y++) {
-        job?.checkCancel?.();
+      const ys = [];
+      for (let y = Math.max(0, y0); y < Math.min(H, y0 + h); y++) ys.push(y);
+      await rows(ys, (y) => y, xs, xe, bands, job, (y, get) => {
         const dy = (y - y0) * w;
-        const get = await row(y, xs, xe, bands);
         for (let k = 0; k < bands.length; k++) {
           const dst = out[k];
           for (let x = xs; x < xe; x++) dst[dy + x - x0] = get[k](x);
         }
-      }
+      });
       return out;
     },
   };

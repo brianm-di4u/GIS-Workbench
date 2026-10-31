@@ -52,6 +52,8 @@ export function install(app) {
         heights[j * size + i] = v;
         if (Number.isFinite(v) && !Number.isFinite(fillv)) fillv = v;
       }
+    // A terrain entry that covers none of the box (all voids) would mesh NaN positions (THREE refuses them).
+    if (!Number.isFinite(fillv)) throw new Error(`${dem.name} has no heights over this area`);
     for (let k = 0; k < heights.length; k++) if (!Number.isFinite(heights[k])) heights[k] = fillv;
     const t0 = performance.now();
     const mesh = await app.pool.run('rtin', { z: heights.slice(), size, maxError }, { kind: 'analysis', label: 'terrain mesh', timeout: 120000 });

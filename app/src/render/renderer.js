@@ -3,7 +3,7 @@
 // are tile pyramids in native integer / float textures; the chain LUT and palette are small
 // textures per layer. Context loss rebuilds everything from CPU state (REQ-ARC-22).
 
-import { IMAGE_VS, imageFS, bandMathFS, FLAT_VS, FLAT_FS, TEX_VS, TEX_FS } from './shaders.js';
+import { IMAGE_VS, imageFS, filterFamily, bandMathFS, FLAT_VS, FLAT_FS, TEX_VS, TEX_FS } from './shaders.js';
 import { filterKernel } from './chain.js';
 import { TILE, GUTTER } from './tiles.js';
 
@@ -415,10 +415,10 @@ export class Renderer {
   }
 
   /** Draw one image layer's tiles into the current pane viewport. */
-  /** The S6 (filtered) program for a sampler kind, compiled on first use. */
-  filteredProgram(kind) {
+  /** The S6 (filtered) program for a sampler kind and filter family, compiled on first use. */
+  filteredProgram(kind, fam = 'lin', mono = false) {
     this.progF ??= {};
-    return (this.progF[kind] ??= compile(this.gl, IMAGE_VS, imageFS(kind, true)));
+    return (this.progF[`${kind}|${fam}|${mono ? 1 : 3}`] ??= compile(this.gl, IMAGE_VS, imageFS(kind, fam, mono)));
   }
 
   /** The Band Math program of an expression, compiled on first use (REQ-MSI-04). */
@@ -485,12 +485,12 @@ export class Renderer {
     const gl = this.gl;
     const kind = layer.texKind;
     const fk = filterKernel(layer.chain);
-    const pr = fk.mode ? this.filteredProgram(kind) : this.prog[kind];
+    const nb = layer.chain.bands.length === 3 ? 3 : 1;
+    const pr = fk.mode ? this.filteredProgram(kind, filterFamily(fk.mode), nb === 1) : this.prog[kind];
     gl.useProgram(pr.p);
     gl.bindVertexArray(this.vao);
     gl.uniformMatrix3fv(pr.u.u_view, false, alignedView(view, paneW, paneH, layer.align));
     gl.uniform2f(pr.u.u_pane, paneW, paneH);
-    const nb = layer.chain.bands.length === 3 ? 3 : 1;
     gl.uniform1i(pr.u.u_nb, nb);
     gl.uniform1i(pr.u.u_kernel, KERNEL[layer.kernelEffective ?? layer.chain.kernel] ?? 2);
     const ls = layer.lutParams;

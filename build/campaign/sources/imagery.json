@@ -460,29 +460,92 @@
  {
   "id": "nitf-rpf-cib-usgs",
   "area": "nitf",
-  "title": "SPOT Controlled Image Base 10 m (CIB-10)",
+  "title": "SPOT Controlled Image Base 10 m (CIB-10), three 1° tiles (N20E102, N35E011, N60W156) as delivered by USGS EROS",
   "source": "USGS EROS",
   "landing": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-commercial-satellites-spot-controlled-image-base-10-meter",
   "licence": "USGS EROS archive, public access (free EarthExplorer login required)",
   "attribution": "SPOT CIB-10 courtesy of the U.S. Geological Survey",
   "tier": "B",
-  "format": "RPF CIB (expected) / GeoTIFF",
-  "profile": "10 m panchromatic orthoimage, 1986-1993, partial coverage",
+  "format": "GeoTIFF + NIMA text header (EE distribution of CIB-10)",
+  "profile": "8-bit panchromatic, geographic WGS84, 10 m, NIMA production 2000 (source imagery 1986-1995); RPF zones 2, 3 and 6 by latitude",
   "files": [
    {
-    "name": "CIB10_<entity>.zip",
+    "name": "n20e102.hdr",
     "url": null,
-    "bytes": null,
-    "role": "primary"
+    "bytes": 487,
+    "sha256": "e7ef182791176a8b84f61a7aa2594ad374a2cf5f281195cdda54719b351be72f",
+    "role": "sidecar",
+    "from": "n20e102.zip"
+   },
+   {
+    "name": "n20e102.tif",
+    "url": null,
+    "bytes": 114313120,
+    "sha256": "99c5a28ebe207f6812e4a847412acee7f9e638b513a8c2257a67d365a797a6dd",
+    "role": "primary",
+    "from": "n20e102.zip"
+   },
+   {
+    "name": "n20e102.zip",
+    "url": null,
+    "bytes": 21498970,
+    "sha256": "5c95cd918a692e6803ace2f8f84cd481bf4986924376cbd0d602200abd700259",
+    "role": "archive"
+   },
+   {
+    "name": "n35e011.hdr",
+    "url": null,
+    "bytes": 486,
+    "sha256": "44ce401325a9a7b12193e5a4ad0d7d8acc107b615148c48e25aed3d20b07f9b8",
+    "role": "sidecar",
+    "from": "n35e011.zip"
+   },
+   {
+    "name": "n35e011.tif",
+    "url": null,
+    "bytes": 93590970,
+    "sha256": "0f1ceff4ce819a7639474f4e7b3d6f13b0542962a2071d4557d84c73f0aead4c",
+    "role": "primary",
+    "from": "n35e011.zip"
+   },
+   {
+    "name": "n35e011.zip",
+    "url": null,
+    "bytes": 1986601,
+    "sha256": "4726e1932d80944ef33bab1b77f3f6d4f6447a6326edc98a250d02630ab60d2d",
+    "role": "archive"
+   },
+   {
+    "name": "n60w156.hdr",
+    "url": null,
+    "bytes": 487,
+    "sha256": "7b58b21a61fc3ee6c558c22ce2e309461be906cb76020355c3f48164afcc9d01",
+    "role": "sidecar",
+    "from": "n60w156.zip"
+   },
+   {
+    "name": "n60w156.tif",
+    "url": null,
+    "bytes": 61634592,
+    "sha256": "e255be0d54e4c588221945d747180990f2e94cb20830295442a880c0db6f5b42",
+    "role": "primary",
+    "from": "n60w156.zip"
+   },
+   {
+    "name": "n60w156.zip",
+    "url": null,
+    "bytes": 4571493,
+    "sha256": "e5e18a41a185008c89070e358eaa49282b3aac4e41e3942c0b9beade7b6ceacc",
+    "role": "archive"
    }
   ],
   "sign": null,
-  "notes": "Tier B: sign in to https://earthexplorer.usgs.gov, dataset 'SPOT CIB-10' (Commercial Satellites), pick one tile and download. Distribution format not verified (may be delivered as RPF with A.TOC or as GeoTIFF). No anonymous CIB source was found.",
+  "notes": "Downloaded through the owner's EarthExplorer session (account gisworkbench) on 2026-10-29: dataset 'SPOT CIB-10' (5e83a41e53bf4bd4), product 'GeoTIFF Format' (5e83a41e838411c3). EarthExplorer offers CIB-10 ONLY as GeoTIFF + .hdr, not as RPF frames with an A.TOC, so this item does not close fmt:rpf.cib. derived-rpf-cadrg-from-cib10 writes RPF frames and an A.TOC from these tiles with GDAL.",
   "feeds": [
    "ingest",
-   "rpf.toc",
-   "nitf.decode.vq"
-  ]
+   "derive.rpf"
+  ],
+  "covers": []
  },
  {
   "id": "eo-maxar-libya-floods-wv3-prepost",
@@ -924,134 +987,207 @@
   "profile": "C2 L1TP 16-bit DN, B1-B11, QA_PIXEL, QA_RADSAT, MTL.txt/xml/json, ANG.txt, per-pixel angle bands",
   "files": [
    {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B1.TIF",
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1.tar",
     "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B2.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B3.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B4.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B5.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B6.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B7.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B8.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B9.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B10.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "primary"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_PIXEL.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_RADSAT.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_VAA.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_VZA.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_SAA.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_SZA.TIF",
-    "url": null,
-    "bytes": null,
-    "role": "sidecar"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.txt",
-    "url": null,
-    "bytes": null,
-    "role": "metadata"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.xml",
-    "url": null,
-    "bytes": null,
-    "role": "metadata"
-   },
-   {
-    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.json",
-    "url": null,
-    "bytes": null,
-    "role": "metadata"
+    "bytes": 1178110976,
+    "sha256": "f0d860525e80b4d118b6d34eedd7efcf8967f1256de9c5633b7e3a19cdb1b86e",
+    "role": "archive"
    },
    {
     "name": "LC08_L1TP_044034_20240820_20240830_02_T1_ANG.txt",
     "url": null,
-    "bytes": null,
-    "role": "metadata"
+    "bytes": 117265,
+    "sha256": "d3e6eb63c318d72b898c8a76d08b92260b58f848549272f495275dfd52cf4558",
+    "role": "metadata",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B1.TIF",
+    "url": null,
+    "bytes": 80767125,
+    "sha256": "3847c925f14795724aa74cb6f58566f7ea4dafb1fb2d7c985d0d88eadb4a4455",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B10.TIF",
+    "url": null,
+    "bytes": 81777591,
+    "sha256": "be7a75e0a2cd8c4d4b418ec14e9a2c9c62da3e9efec63acbeb1d13ba6068ca91",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B11.TIF",
+    "url": null,
+    "bytes": 79463969,
+    "sha256": "91a3f64ca3a55af1a7d66e5485eefabdd52774c3581fd66560b6dbb1525a8ea1",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B2.TIF",
+    "url": null,
+    "bytes": 82859195,
+    "sha256": "0b066524ad99bc2c19841cc8e622d86da11310a819ac64b668ea5965fecfb62b",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B3.TIF",
+    "url": null,
+    "bytes": 85473470,
+    "sha256": "dd519012783cbdf48bebde175fca298ef69f6eaefe07fc08203d67f5af80b04e",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B4.TIF",
+    "url": null,
+    "bytes": 88031639,
+    "sha256": "7ad645b7f4bc1b1d42edd28bf898bda7e6342ad12b4009655ece01dc0b9dd8c8",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B5.TIF",
+    "url": null,
+    "bytes": 90242858,
+    "sha256": "f346a868f32559f38aa91041bdc25e6b6a81516da25015140caeafb890f65351",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B6.TIF",
+    "url": null,
+    "bytes": 90066061,
+    "sha256": "e59af6644c9163810db46f7b0c33c9970065872d852c0f6d4b8d8e40e0972973",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B7.TIF",
+    "url": null,
+    "bytes": 87585482,
+    "sha256": "1b6df013008c01dacff391f186acd33fde265ec07451d2e1a46695c55c86329b",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B8.TIF",
+    "url": null,
+    "bytes": 347066903,
+    "sha256": "1f62b178b7f0b2a070c7d0cb5c94ab8636438185bd1abad808c2fcaa982abf76",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_B9.TIF",
+    "url": null,
+    "bytes": 46667041,
+    "sha256": "56785b7b54be12e9cc36ac51d6fa8b710d0cab54a2a2f9db1be2cea353910b70",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.json",
+    "url": null,
+    "bytes": 15034,
+    "sha256": "f31cddd5ee3ce5a5ed0fef6d36b23a7fdcc55ef749babb58536444ccc4695241",
+    "role": "metadata",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.txt",
+    "url": null,
+    "bytes": 12367,
+    "sha256": "bafc0ea746948de84ac9ba6a71dde8f4c15b89612af8e243d80b28d12a187d50",
+    "role": "metadata",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_MTL.xml",
+    "url": null,
+    "bytes": 18063,
+    "sha256": "df67dfe8386020eec75c429d1e3c58109c00f9af76a30f6ee042e54966018c03",
+    "role": "metadata",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_PIXEL.TIF",
+    "url": null,
+    "bytes": 717696,
+    "sha256": "e6dc10a912fca7aafa2e0440a7942156766f3ff24ee4facfeba8d9e90bcba10b",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_QA_RADSAT.TIF",
+    "url": null,
+    "bytes": 223602,
+    "sha256": "7923bfd83baca1dca8429c35718c1fb9c433a35d325203b761ef8f6443cf436b",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_SAA.TIF",
+    "url": null,
+    "bytes": 2584440,
+    "sha256": "54c7e596fb2b292b7c23c0db0a84918f185dbdec6cbc73b262e04f5653361ac9",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_SZA.TIF",
+    "url": null,
+    "bytes": 1909442,
+    "sha256": "5fa6881a2c4ed3039182cf2b64579f855224ae9a7971e35df7dad9f2d10563cc",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_VAA.TIF",
+    "url": null,
+    "bytes": 8952662,
+    "sha256": "604e97af283c558191e129f29d359fab8ef6e784d2ae7567bcd8fdc311475bd2",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_VZA.TIF",
+    "url": null,
+    "bytes": 3413834,
+    "sha256": "df5cc31db0d983e08bdd4b7207ed0b1b7b58ac2e47d155586e800cc03901a1ef",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_stac.json",
+    "url": null,
+    "bytes": 49897,
+    "sha256": "0eb6e033680ff439616b6031341f9dae4999d1430191072aa30fd28a4351f1e7",
+    "role": "metadata",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_thumb_large.jpeg",
+    "url": null,
+    "bytes": 42010,
+    "sha256": "27970970d87c0feebb840f3ed4d5c983af6668fe811db35d57f45c0ae5f23027",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
+   },
+   {
+    "name": "LC08_L1TP_044034_20240820_20240830_02_T1_thumb_small.jpeg",
+    "url": null,
+    "bytes": 5140,
+    "sha256": "9edb2cea89df71318522417c29c38dc95eafc8229b9830ff948b4f35d591b354",
+    "role": "primary",
+    "from": "LC08_L1TP_044034_20240820_20240830_02_T1.tar"
    }
   ],
   "sign": null,
-  "notes": "Tier B: data URLs https://landsatlook.usgs.gov/data/collection02/level-1/standard/oli-tirs/2024/044/034/LC08_L1TP_044034_20240820_20240830_02_T1/<file> redirect to ers.cr.usgs.gov login (verified 302). Sign in with a free USGS ERS account, or use EarthExplorer bulk download. Same path/row as the C1 and C2-L2 items, and same day-window as the Sentinel-2 10SEH items (2024-08-16) for cross-sensor tests. Expected total ~1.0 GB.",
+  "notes": "Downloaded through the owner's EarthExplorer session (account gisworkbench) on 2026-10-29: dataset 'Landsat 8-9 OLI/TIRS C2 L1' (5e81f14f59432a27), entity LC80440342024233LGN00, Level-1 Product Bundle (product 5e81f14f92acf9ef, 1.10 GiB tar, unpacked here). Same path/row as the C1 and C2-L2 items and the same day-window as Sentinel-2 10SEH (2024-08-16).",
   "feeds": [
    "ingest",
    "msi.radiometric",
@@ -1059,6 +1195,21 @@
    "thermal",
    "pansharpen",
    "cloud-mask"
+  ],
+  "covers": [
+   "fmt:meta.landsat-mtl"
+  ],
+  "pairs": [
+   {
+    "role": "pan-ms",
+    "with": []
+   },
+   {
+    "role": "pre-post",
+    "with": [
+     "landsat7-c2-l2sp-044034-20210617-slcoff"
+    ]
+   }
   ]
  },
  {

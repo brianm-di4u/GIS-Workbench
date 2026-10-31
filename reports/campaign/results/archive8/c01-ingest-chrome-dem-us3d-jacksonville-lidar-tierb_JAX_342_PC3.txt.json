@@ -1,0 +1,30 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T16:13:11.400Z",
+ "key": "dem-us3d-jacksonville-lidar-tierb/JAX_342_PC3.txt",
+ "item": "dem-us3d-jacksonville-lidar-tierb",
+ "file": "JAX_342_PC3.txt",
+ "format": "ASCII point cloud (x,y,z,intensity,return number) + per-point class text",
+ "rendered": false,
+ "errors": [
+  "the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)"
+ ],
+ "warnings": [],
+ "toasts": [
+  "toast-error: JAX_342_PC3.txt: the coordinate system is not set: give the EPSG code of these coordinates (local scanner coordinates with no CRS cannot be placed)×"
+ ],
+ "layers": [],
+ "others": {
+  "images": 0,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 49,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

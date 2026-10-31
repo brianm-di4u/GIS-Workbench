@@ -6,22 +6,24 @@
 // and zoom-to; queries by attribute and location; open and save GeoJSON, Shapefile, KML/KMZ
 // with a round-trip report.
 
+import { minOf, maxOf, errorText } from '../core/util.js';
 import { h, clear } from '../shell/dom.js';
 import { modal, field, section, confirmBox, promptBox } from '../shell/dialogs.js';
 import { saveBlob, pickFiles, textBlob } from '../storage/files.js';
-import { zipSync, unzipSync, strToU8 } from 'fflate';
+import { zipSync, unzipSync, gunzipSync, strToU8 } from 'fflate';
 import polygonClipping from 'polygon-clipping';
 import { groundOf, screenOfGround, halo } from '../tools/tools.js';
 import { FeatureIndex, snapAt, edges } from '../vector/index.js';
 import { parts, partRanges, partOf, vertex, fromParts, setVertex, insertVertex, deleteVertex, isPolygonal, isLinear, bbox, polygonGroups, pointInPolygonal, toGeoJSON, fromGeoJSON, coincident } from '../vector/geom.js';
 import { readGeoJSON, writeGeoJSON, readShapefile, writeShapefile, shapefileSets, readKml, writeKml, readGml, inferFields } from '../vector/io.js';
+import { readFgb, readGeoParquet } from '../vector/columnar.js';
 import { crsOf, converter } from '../geo/crs.js';
 import { parseGpx } from './graphics.js';
 
 export const name = 'extract';
 
 // .json is GeoJSON here: app files (.gwt.json, .gwrecipe.json) and tile-set JSON are routed before this.
-const VECTOR_RE = /\.(geojson|geojsonl|geojsons|ndjson|json|kml|kmz|shp|zip|gpkg|csv|gml|gpx)$/i;
+const VECTOR_RE = /\.(geojson|geojsonl|geojsons|ndjson|json|kml|kmz|shp|zip|gpkg|csv|gml|gpx|fgb|parquet)$/i;
 const SIDE_RE = /\.(dbf|shx|cpg)$/i;
 const STYLE = { stroke: '#ff2020', width: 2, fill: '#ff202040', outline: '#2060ff' };
 const SEL = '#e000e0';
@@ -117,8 +119,8 @@ export function install(app) {
       if (corners.some((c) => !c)) return;
       const lons = corners.map((c) => c.lon);
       const lats = corners.map((c) => c.lat);
-      const pad = (Math.max(...lons) - Math.min(...lons)) * 0.05;
-      const ids = index.search(Math.min(...lons) - pad, Math.min(...lats) - pad, Math.max(...lons) + pad, Math.max(...lats) + pad);
+      const pad = (maxOf(lons) - minOf(lons)) * 0.05;
+      const ids = index.search(minOf(lons) - pad, minOf(lats) - pad, maxOf(lons) + pad, maxOf(lats) + pad);
       const ts = toScreenFor(p);
       for (const id of ids) {
         const f = S.get(id);
@@ -1143,6 +1145,29 @@ export function install(app) {
   };
 
   /** Read vector files (GeoJSON, KML/KMZ, Shapefile sets or a zip of them) into layers. */
+  /**
+   * FlatGeobuf parsed in a worker of its own, stopped after a size-scaled time: the library loops for
+   * ever, synchronously, on a cut file, which froze the whole app (TE 2.0.4 cross, damaged-file pass).
+   */
+  async function fgbInWorker(bytes) {
+    const code = await app.gw.text('js-fgb');
+    const glue = `;onmessage = async (ev) => { const { deserialize } = globalThis.__lib['js-fgb']; let header = null; const got = []; try { for await (const f of deserialize(new Blob([ev.data]).stream(), undefined, (h) => (header = h))) got.push(f); postMessage({ ok: true, header: header && { crs: header.crs ? { org: header.crs.org, code: header.crs.code } : null }, got }); } catch (e) { postMessage({ ok: false, message: String((e && e.message) || e) }); } };`;
+    const url = URL.createObjectURL(new Blob([code, glue], { type: 'text/javascript' }));
+    const w = new Worker(url);
+    URL.revokeObjectURL(url);
+    const ms = 20000 + Math.ceil(bytes.length / 5e6) * 1000;
+    try {
+      return await new Promise((res, rej) => {
+        const t = setTimeout(() => rej(new Error('it is cut short or damaged: the reader did not finish')), ms);
+        w.onmessage = (ev) => (clearTimeout(t), ev.data.ok ? res(ev.data) : rej(new Error(ev.data.message)));
+        w.onerror = (ev) => (clearTimeout(t), rej(new Error(ev.message || 'the reader failed')));
+        w.postMessage(bytes);
+      });
+    } finally {
+      w.terminate();
+    }
+  }
+
   async function openVectorFiles(files) {
     const out = [];
     const bytes = {};
@@ -1158,6 +1183,7 @@ export function install(app) {
       return false;
     });
     const zipped = new Map(); // ZIP name → its entry names, to report a ZIP nothing could be read from
+    const fromZip = new Set(); // entries that came out of a ZIP
     const log0 = app.importLog?.length ?? 0;
     for (const f of files) {
       if (/\.zip$/i.test(f.name)) {
@@ -1170,12 +1196,29 @@ export function install(app) {
           continue;
         }
         zipped.set(f.name, Object.keys(z).filter((k) => !k.endsWith('/')));
+        // The companions GIS Workbench writes into a shapefile ZIP (Save As ▸ Shapefile) are not data:
+        // the DBF field-name map (original,dbf) and the export report. Reading them back as CSV and
+        // GeoJSON raised two errors on reopening the app's own export (TE 2.0.4 round trip).
+        for (const k of Object.keys(z)) {
+          const head = new TextDecoder().decode(z[k].subarray(0, 64));
+          if ((/_fieldnames\.csv$/i.test(k) && /^original,dbf\r?\n/.test(head)) || (/_report\.json$/i.test(k) && /"direction"|"features_in"/.test(new TextDecoder().decode(z[k].subarray(0, 400))))) delete z[k];
+        }
+        for (const k of Object.keys(z)) fromZip.add(k);
         Object.assign(bytes, z);
-      } else bytes[f.name] = new Uint8Array(await f.arrayBuffer());
+      } else {
+        bytes[f.name] = new Uint8Array(await f.arrayBuffer());
+        if (f.fromZip) fromZip.add(f.name);
+      }
     }
     for (const set of shapefileSets(bytes)) {
-      const { layer, report } = readShapefile(set, { name: set.stem, reproject });
-      out.push({ id: addLayer(layer, { format: 'Shapefile', file: `${set.stem}.shp`, report }), report });
+      // A damaged set is reported like any other file, not thrown to the caller (TE 2.0.4 cross, c56).
+      try {
+        const { layer, report } = readShapefile(set, { name: set.stem, reproject });
+        out.push({ id: addLayer(layer, { format: 'Shapefile', file: `${set.stem}.shp`, report }), report });
+      } catch (e) {
+        app.toast(`${set.stem}.shp: ${errorText(e)}`, { kind: 'error' });
+        app.importLog?.push({ file: `${set.stem}.shp`, errors: [errorText(e)], warnings: [] });
+      }
     }
     for (const [nm, b] of Object.entries(bytes)) {
       try {
@@ -1194,6 +1237,21 @@ export function install(app) {
           // TE-006: an empty result must not be silent.
           if (!got.length && !got.tilesOpened) throw new Error(`no feature layers or tile pyramids found in the ${ext.toUpperCase()} file`);
           for (const o of got) out.push({ id: o.id, report: o.report ?? { format: ext.toUpperCase(), features_out: S.all('feature').filter((f) => f.vlayer === o.id).length, warnings: [] } });
+        } else if (/\.(fgb|parquet)$/i.test(nm)) {
+          // FlatGeobuf and GeoParquet (what Convert writes) come in as GeoJSON with their CRS.
+          const fgb = /\.fgb$/i.test(nm);
+          const lib = await app.gw.runScript(fgb ? 'js-fgb' : 'js-parquet');
+          const { fc, notes } = fgb ? await readFgb(lib, b, { run: fgbInWorker }) : await readGeoParquet(lib, b, { gunzip: gunzipSync });
+          const { layer, report } = readGeoJSON(fc, { name: nm.replace(/\.\w+$/, ''), reproject: (n) => {
+            const m = /EPSG:+(\d+)/.exec(n);
+            const crs = m ? crsOf({ epsg: Number(m[1]) }) : null;
+            if (!crs) return null;
+            const c = converter(crs);
+            return (x, y) => c.toLonLat(x, y);
+          } });
+          report.format = fgb ? 'FlatGeobuf' : 'GeoParquet';
+          report.warnings.unshift(...notes);
+          out.push({ id: addLayer(layer, { format: report.format, file: nm, report }), report });
         } else if (/\.gml$/i.test(nm)) {
           const { layer, report } = readGml(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), reproject: (epsg) => {
             const crs = crsOf({ epsg });
@@ -1229,8 +1287,14 @@ export function install(app) {
           out.push({ id: addLayer(layer, { format: 'KMZ', file: nm, report }), report });
         }
       } catch (e) {
-        app.toast(`${nm}: ${e.message}`, { kind: 'error' });
-        app.importLog?.push({ file: nm, errors: [e.message], warnings: [] });
+        // A .json beside the data in a ZIP that is not GeoJSON (a chip record, STAC or other metadata)
+        // is a companion, not a failed layer (TE 2.0.4: the app's own chip ZIP reopened with an error).
+        if (fromZip.has(nm) && /\.json$/i.test(nm) && /^not GeoJSON/.test(e.message)) {
+          app.importLog?.push({ file: nm, errors: [], warnings: [`${nm}: not GeoJSON; left out (${e.message.slice(12)})`] });
+          continue;
+        }
+        app.toast(`${nm}: ${errorText(e)}`, { kind: 'error' });
+        app.importLog?.push({ file: nm, errors: [errorText(e)], warnings: [] });
       }
     }
     // TE archive: a ZIP with neither vectors nor imagery used to end with no message at all.
@@ -1271,7 +1335,7 @@ export function install(app) {
 
   C.implement('file.openvector', {
     run: run(async () => {
-      const fs = await pickFiles(app, { accept: ['.geojson', '.json', '.kml', '.kmz', '.shp', '.shx', '.dbf', '.prj', '.cpg', '.zip', '.gpkg', '.csv'], description: 'Vector data' });
+      const fs = await pickFiles(app, { accept: ['.geojson', '.json', '.kml', '.kmz', '.shp', '.shx', '.dbf', '.prj', '.cpg', '.zip', '.gpkg', '.csv', '.fgb', '.parquet'], description: 'Vector data' });
       if (fs.length) await openVectorFiles(fs);
     }),
   });
@@ -1279,6 +1343,7 @@ export function install(app) {
   /** Encode a stored layer: {blob, name, types, report}. */
   function encodeLayer(id, fmt) {
     const layer = layerOut(id);
+    if (!layer.features.length) throw new Error(`${layer.name || 'the layer'} has no features to save`);
     const stem = (layer.name || 'layer').replace(/[^\w.-]+/g, '_');
     if (fmt === 'geojson') {
       const { text, report } = writeGeoJSON(layer);
@@ -1327,6 +1392,7 @@ export function install(app) {
       app.prefs.set('vectorFormat', fmt.value);
       let out;
       if (fmt.value.startsWith('gpkg')) {
+        if (!layerOut(layer.value).features.length) throw new Error(`${S.get(layer.value).name || 'the layer'} has no features to save`);
         const { bytes, report } = await app.attribution.gpkgBytes([layer.value], { mgcp: fmt.value === 'gpkg-mgcp' });
         out = { blob: new Blob([bytes], { type: 'application/geopackage+sqlite3' }), name: `${(S.get(layer.value).name || 'layer').replace(/[^\w.-]+/g, '_')}.gpkg`, types: ['.gpkg'], report };
       } else out = encodeLayer(layer.value, fmt.value);

@@ -32,8 +32,11 @@ export class ImageLayer {
     this.lutTex = null;
     this.palTex = null;
     this.lutParams = [{ scale: 1, offset: 0 }];
+    // 180 s: a tile is slow, not stuck, while its worker builds first displays of several large files
+    // (eleven 16k² JPEG GeoTIFFs from one ZIP: tiles past 60 s failed and were dropped, TE 2.0.4 cross).
+    // A stuck job is still caught, and a timed-out one is cancelled without restarting the worker.
     this.tiles = new TileSet(this, app.renderer, (L, tx, ty, bands) =>
-      app.pool.run('tile', { handle: this.handle, level: L, tx, ty, bands }, { affinity: this.affinity, priority: 'interactive', label: `tile ${L}/${tx}/${ty}`, timeout: 60000 }),
+      app.pool.run('tile', { handle: this.handle, level: L, tx, ty, bands }, { affinity: this.affinity, priority: 'interactive', label: `tile ${L}/${tx}/${ty}`, timeout: 180000 }),
     );
     this._chainSig = '';
     this._statsPending = null;
@@ -110,7 +113,8 @@ export class ImageLayer {
     const key = JSON.stringify([bm.glsl, bm.bands, this.radiometry.gain, this.radiometry.offset]);
     if (this.bmHist && this._bmKey === key) return this.bmHist;
     const step = Math.max(1, Math.floor(Math.sqrt((this.width * this.height) / 512 ** 2)));
-    const c = await this.app.pool.run('cube', { handle: this.handle, step, bands: bm.bands }, { affinity: this.affinity, label: `band math statistics ${this.rec?.name}` });
+    // From the pyramid level of the step: a histogram needs no full-resolution read.
+    const c = await this.app.pool.run('cube', { handle: this.handle, step, bands: bm.bands, pyramid: true }, { affinity: this.affinity, label: `band math statistics ${this.rec?.name}` });
     const n = c.w * c.h;
     const planes = bm.bands.map((_, k) => {
       const p = new Float32Array(n);
@@ -163,7 +167,8 @@ export class ImageLayer {
   /** Rebuild LUT textures when the chain or the DRA statistics change. */
   updateLut(force = false) {
     const ch = this.chain;
-    if (!ch || !this.stats) return false;
+    const stats = this.stats;
+    if (!ch || !stats) return false;
     const scope = ch.dra.scope;
     const useView = ch.stretch === 'dra' && (scope === 'viewport' || scope === 'aoi') && this.viewHist && !ch.dra.lock;
     const sig = JSON.stringify([ch.bands, ch.stretch, ch.dra, ch.tone, ch.colour, ch.enabled, ch.manual ?? null, ch.dem?.mode === 'relief' ? 'r' : '', ch.clahe ?? null, useView ? this.viewHistSig : 0, ch.bandMath ? this._bmKey : 0, ch.sarRemap ?? 0]);
@@ -187,7 +192,7 @@ export class ImageLayer {
       return true;
     }
     ch.bands.forEach((b, i) => {
-      let h = this.stats[b];
+      let h = stats[b];
       if (useView && this.viewHist?.[i]?.count > 500) h = this.viewHist[i];
       if (ch.dra.lock && this.lockedHist?.[i]) h = this.lockedHist[i];
       const r = buildLut(h, this.sampleType, ch, b);

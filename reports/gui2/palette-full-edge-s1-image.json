@@ -1698,10 +1698,7 @@
   "id": "hub.psd",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.20 (Tone +13).×",
-   "info: Photoshop: 981 × 830 px, 3 layers (Stretch (Levels), Graphics)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1709,9 +1706,7 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: 16-bit TIFF: 981 × 830 px, 1 band, 16-bit, with a Curves preset×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1719,7 +1714,9 @@
   "id": "hub.pdf",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.20 (Tone +13).×"
+  ],
   "problems": []
  },
  {
@@ -1727,7 +1724,10 @@
   "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Photoshop: 981 × 830 px, 3 layers (Stretch (Levels), Graphics)×",
+   "info: 16-bit TIFF: 981 × 830 px, 1 band, 16-bit, with a Curves preset×"
+  ],
   "problems": []
  },
  {

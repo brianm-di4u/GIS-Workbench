@@ -3,6 +3,7 @@
 // settings, and "Use as Terrain" for DEM GeoTIFFs with their vertical datum recorded and
 // converted to HAE.
 
+import { minOf, maxOf } from '../core/util.js';
 import { h } from '../shell/dom.js';
 import { modal, field, section } from '../shell/dialogs.js';
 
@@ -90,19 +91,28 @@ export function install(app) {
   /** Use a DEM-like image layer as terrain (REQ-DEM-02). */
   app.useAsTerrain = async (l, vertical) => {
     const m = l.models?.find((x) => x.id === l.modelId);
-    const r = await app.pool.run('grid', { handle: l.handle, band: l.chain.bands[0] ?? 0 }, { affinity: l.affinity, label: `terrain ${l.rec.name}`, timeout: 300000 });
+    const band = l.chain.bands[0] ?? 0;
+    // Over 25 M posts (a 1/3″ 3DEP tile is 10 812²) the terrain takes every `step`-th post instead of
+    // refusing the DEM (TE 2.0.4 cross).
+    const step = l.width * l.height > 25e6 ? Math.ceil(Math.sqrt((l.width * l.height) / 25e6)) : 1;
+    let r;
+    if (step === 1) r = await app.pool.run('grid', { handle: l.handle, band }, { affinity: l.affinity, label: `terrain ${l.rec.name}`, timeout: 300000 });
+    else {
+      const w = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: Math.ceil(l.width / step), h: Math.ceil(l.height / step), step, bands: [band] }, { affinity: l.affinity, label: `terrain ${l.rec.name} (every ${step}th post)`, timeout: 600000 });
+      r = { width: w.w, height: w.h, heights: w.planes[0] instanceof Float32Array ? w.planes[0] : Float32Array.from(w.planes[0]) };
+    }
     let grid;
     const gt = l.info.meta?.geotransform;
     if (/EPSG:4326/.test(m?.name ?? '') && gt && gt[2] === 0 && gt[4] === 0) {
-      // Geographic grid: posts at pixel centres.
-      grid = { lat0: gt[3] + gt[5] / 2, lon0: gt[0] + gt[1] / 2, dlat: -gt[5], dlon: gt[1], width: r.width, height: r.height, heights: r.heights };
+      // Geographic grid: posts at pixel centres (every step-th pixel).
+      grid = { lat0: gt[3] + gt[5] / 2, lon0: gt[0] + gt[1] / 2, dlat: -gt[5] * step, dlon: gt[1] * step, width: r.width, height: r.height, heights: r.heights };
     } else {
       // Any other geolocation: resample onto a geographic grid through the model.
       const fp = l.footprint();
       if (!fp) throw new Error('the layer has no geolocation');
       const lats = fp.map((p) => p[0]);
       const lons = fp.map((p) => p[1]);
-      const [n, s, w, e] = [Math.max(...lats), Math.min(...lats), Math.min(...lons), Math.max(...lons)];
+      const [n, s, w, e] = [maxOf(lats), minOf(lats), minOf(lons), maxOf(lons)];
       const cell = l.demCell();
       const dlat = Math.max(cell[1] / 111000, (n - s) / 2047);
       const dlon = Math.max(cell[0] / (111000 * Math.cos(((n + s) / 2) * (Math.PI / 180))), (e - w) / 2047);
@@ -114,8 +124,8 @@ export function install(app) {
       const out = new Float32Array(W * H).fill(NaN);
       const src = r.heights;
       for (let k = 0; k < W * H; k++) {
-        const x = xy[2 * k] - 0.5;
-        const y = xy[2 * k + 1] - 0.5;
+        const x = (xy[2 * k] - 0.5) / step;
+        const y = (xy[2 * k + 1] - 0.5) / step;
         const x0 = Math.floor(x);
         const y0 = Math.floor(y);
         if (x0 < 0 || y0 < 0 || x0 >= r.width - 1 || y0 >= r.height - 1) continue;
@@ -128,9 +138,9 @@ export function install(app) {
     }
     const nd = l.nodata;
     if (Number.isFinite(nd)) for (let i = 0; i < grid.heights.length; i++) if (grid.heights[i] === nd) grid.heights[i] = NaN;
-    app.terrain.addGrid(l, grid, { vertical, label: l.info.format, aligned: !grid.resampled });
+    app.terrain.addGrid(l, grid, { vertical, label: l.info.format, aligned: !grid.resampled && step === 1 });
     app.store.transact('Use as terrain', (tx) => tx.set(l.id, 'terrain', { vertical }), { kind: 'edit' });
-    app.toast(`${l.rec.name} is now terrain (${vertical === 'hae' ? 'heights above the ellipsoid' : vertical === 'navd88' ? 'NAVD88, not converted' : `${vertical.toUpperCase()} heights converted to HAE`})`);
+    app.toast(`${l.rec.name} is now terrain (${vertical === 'hae' ? 'heights above the ellipsoid' : vertical === 'navd88' ? 'NAVD88, not converted' : `${vertical.toUpperCase()} heights converted to HAE`}${step > 1 ? `; every ${step}th post, ${r.width} × ${r.height} of ${l.width} × ${l.height}` : ''})`);
     return grid;
   };
 

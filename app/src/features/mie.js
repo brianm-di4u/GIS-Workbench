@@ -35,7 +35,9 @@ export function install(app) {
     const fps = rate ?? seq[0].info.mie.frameRate ?? 2;
     let k = p.mie?.index ?? 0;
     show(k, p);
-    timer = setInterval(() => show(++k, p), 1000 / Math.max(0.1, Math.min(60, fps)));
+    // The player stops by itself when its panel or frames go (a closed panel, a new project): it
+    // used to throw "no MIE4NITF frames" from the timer on every tick (TE 2.0.4 cross).
+    timer = setInterval(() => (app.store.get(p.id) && sequence(p).length ? show(++k, p) : stop()), 1000 / Math.max(0.1, Math.min(60, fps)));
     app.emit('state');
     return fps;
   }

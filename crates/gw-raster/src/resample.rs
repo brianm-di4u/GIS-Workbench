@@ -36,6 +36,8 @@ pub struct Patch<'a> {
     pub w: usize,
     pub h: usize,
     pub px: &'a [f32],
+    /// Full-resolution pixels per patch pixel (a pyramid level 2^L; 1 at full resolution).
+    pub scale: f64,
 }
 
 fn cubic(t: f64) -> f64 {
@@ -64,8 +66,8 @@ fn lanczos3(t: f64) -> f64 {
 
 /// Sample at image coordinates (x, y); NaN outside the patch or when a needed pixel is NaN.
 pub fn sample(p: &Patch<'_>, k: Kernel, x: f64, y: f64) -> f32 {
-    let fx = x - p.x0 - 0.5;
-    let fy = y - p.y0 - 0.5;
+    let fx = x / p.scale - p.x0 - 0.5;
+    let fy = y / p.scale - p.y0 - 0.5;
     let (w, h) = (p.w as i64, p.h as i64);
     match k {
         Kernel::Nearest => {

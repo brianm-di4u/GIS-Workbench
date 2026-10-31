@@ -7,6 +7,7 @@
 // IGEOLO and a fitted RPC00B), an event log plotted on the map, and STANAG 4607 GMTI dwells and
 // targets on the shared time slider.
 
+import { minOf, maxOf, errorText } from '../core/util.js';
 import { VideoView, HUD_BLOCKS } from '../shell/videoview.js';
 import { modal, field } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
@@ -540,8 +541,8 @@ export async function install(app) {
     const lats = pts.map((p) => p[0]);
     const lons = pts.map((p) => p[1]);
     const r = map.el.getBoundingClientRect();
-    const span = Math.max(Math.max(...lons) - Math.min(...lons), Math.max(...lats) - Math.min(...lats), 0.001);
-    map.zoomTo((Math.max(...lats) + Math.min(...lats)) / 2, (Math.max(...lons) + Math.min(...lons)) / 2, Math.min(20000, (Math.max(200, r.width) * 0.6) / span));
+    const span = Math.max(maxOf(lons) - minOf(lons), maxOf(lats) - minOf(lats), 0.001);
+    map.zoomTo((maxOf(lats) + minOf(lats)) / 2, (maxOf(lons) + minOf(lons)) / 2, Math.min(20000, (Math.max(200, r.width) * 0.6) / span));
   }
 
   let active = null;
@@ -954,10 +955,10 @@ export async function install(app) {
       // RPC fit over the footprint ± a margin and the frame-centre height ± 50 m.
       const lats = st.footprint.map((p) => p[0]);
       const lons = st.footprint.map((p) => p[1]);
-      const padLa = (Math.max(...lats) - Math.min(...lats)) * 0.05 + 1e-5;
-      const padLo = (Math.max(...lons) - Math.min(...lons)) * 0.05 + 1e-5;
+      const padLa = (maxOf(lats) - minOf(lats)) * 0.05 + 1e-5;
+      const padLo = (maxOf(lons) - minOf(lons)) * 0.05 + 1e-5;
       const h0 = Number.isFinite(st.fcHae) ? st.fcHae : 0;
-      const tail = [Math.min(...lats) - padLa, Math.max(...lats) + padLa, Math.min(...lons) - padLo, Math.max(...lons) + padLo, h0 - 50, h0 + 50, W, H];
+      const tail = [minOf(lats) - padLa, maxOf(lats) + padLa, minOf(lons) - padLo, maxOf(lons) + padLo, h0 - 50, h0 + 50, W, H];
       const computed = /^computed/.test(st.footprintSource);
       const job = computed
         ? [0, st.lat, st.lon, st.hae, st.heading ?? 0, st.pitch ?? 0, st.roll ?? 0, st.az, st.el, st.sroll ?? 0, st.hfov, ...tail]
@@ -1196,7 +1197,13 @@ export async function install(app) {
     // again when an MP4 recorder delivers nothing.
     const types = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'].filter((t) => MediaRecorder.isTypeSupported(t));
     for (const mimeType of [...new Set([types[0], types.find((t) => /webm/.test(t))].filter(Boolean))]) {
+      v.decodeError = null;
+      v.stalledAt = null;
       const blob = await recordClip(v, clip, from, to, mimeType);
+      // A stream damaged part-way stops playback: what was recorded is kept, and said so.
+      if (v.decodeError !== null && blob.size > 0) app.toast(`Clip export stopped at ${v.decodeError.toFixed(1)} s, where the video is damaged`, { kind: 'warn', ms: 8000 });
+      else if (v.stalledAt !== null && blob.size > 0) app.toast(`Clip export stopped at ${v.stalledAt.toFixed(1)} s: playback did not advance (a damaged stream or timestamps out of order)`, { kind: 'warn', ms: 8000 });
+      if (v.stalledAt !== null && !blob.size) throw new Error(`playback did not advance past ${v.stalledAt.toFixed(1)} s (a damaged stream or timestamps out of order), so no clip was recorded`);
       if (blob.size > 0) {
         if (save) await saveBlob(app, blob, { name: `${clip.name.replace(/\.\w+$/, '')}_burnin.${/mp4/.test(mimeType) ? 'mp4' : 'webm'}` });
         return blob;
@@ -1226,16 +1233,39 @@ export async function install(app) {
     });
     v.play();
     await started;
+    // Playback that stops advancing (out-of-order PTS/DTS, a stream with no decodable frames) ends the
+    // recording after 8 s instead of waiting for an end that never comes (CX-084: 20 min on 246 KB).
+    // The clip's own length (its frames at its rate) also bounds it: a PTS jump past the 33-bit wrap
+    // gave a media duration of 8.6 million seconds and frame numbers that never reach the last one.
+    let last = -1;
+    let moved = performance.now();
+    const t0 = v.video.currentTime;
+    const span = (to - from + 1) / (clip.fps || 30) + 1;
     await new Promise((res) => {
       const tick = () => {
         g.drawImage(v.video, 0, 0, W, H);
         g.drawImage(v.hud, 0, 0, W, H);
-        if (v.frame >= to || !v.playing) return res();
+        const t = v.video.currentTime;
+        const left = v.video.duration - t;
+        if (v.frame >= to || v.video.ended || !v.playing || (Number.isFinite(left) && left < 0.05) || t - t0 > span) return res();
+        if (t !== last) (last = t), (moved = performance.now());
+        else if (performance.now() - moved > 8000) {
+          v.stalledAt = t;
+          return res();
+        }
         requestAnimationFrame(tick);
       };
       tick();
     });
     v.pause();
+    // A short clip can end before the recorder has a frame (a loaded machine: "the browser recorded
+    // no video", FX-10 on Edge): the last frame is held until the recorder has delivered one.
+    for (let i = 0; i < 10 && !parts.length; i++) {
+      g.drawImage(v.video, 0, 0, W, H);
+      g.drawImage(v.hud, 0, 0, W, H);
+      rec.requestData();
+      await new Promise((r) => setTimeout(r, 150));
+    }
     rec.stop();
     await done;
     return new Blob(parts, { type: mimeType.split(';')[0] });
@@ -1260,14 +1290,14 @@ export async function install(app) {
   app.openMotionFiles = async ({ video = [], gmti: gm = [], tracks = [] }, pane) => {
     for (const f of gm)
       await openGmti(f).catch((e) => {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
       });
-    for (const f of tracks) await openTracks4676(f).catch((e) => app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 }));
+    for (const f of tracks) await openTracks4676(f).catch((e) => app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 }));
     for (const f of video)
       await open(f, pane).catch((e) => {
-        app.toast(`${f.name}: ${e.message}`, { kind: 'error', ms: 8000 });
-        app.importLog.push({ file: f.name, errors: [e.message], warnings: [] });
+        app.toast(`${f.name}: ${errorText(e)}`, { kind: 'error', ms: 8000 });
+        app.importLog.push({ file: f.name, errors: [errorText(e)], warnings: [] });
       });
   };
 
@@ -1313,7 +1343,8 @@ export async function install(app) {
   C.implement('fmv.basis', { enabled: hasClip, run: run(() => timeBasisDialog()) });
   C.implement('fmv.hud', { enabled: hasVideoPane, checked: () => options.hud, run: run(() => ((options.hud = !options.hud), view()?.drawHud())) });
   C.implement('fmv.vmti', { enabled: hasVideoPane, checked: () => options.vmti, run: run(() => ((options.vmti = !options.vmti), view()?.drawHud(), app.renderer.invalidate())) });
-  C.implement('fmv.capture', { enabled: hasClip, run: run(() => capture()) });
+  // MPEG-2 frames are decoded neither by WebCodecs nor by the video element (REQ-FMV-15): no capture.
+  C.implement('fmv.capture', { enabled: () => hasClip() && activeClip().codec !== 'mp2v', run: run(() => capture()) });
   C.implement('fmv.event', { enabled: hasClip, run: run(() => eventLog()) });
   C.implement('fmv.gmti', { run: run(async () => { for (const f of await pickFiles(app, { accept: ['.4607', '.gmti'], description: 'STANAG 4607', multiple: true })) await openGmti(f); }) });
   C.implement('fmv.gmticolour', { enabled: () => gmti.length > 0, checked: () => options.gmtiColour === 'velocity', run: run(() => ((options.gmtiColour = options.gmtiColour === 'velocity' ? 'age' : 'velocity'), app.renderer.invalidate())) });

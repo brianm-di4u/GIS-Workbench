@@ -321,8 +321,8 @@ function buildModels(app, kind, res, raster, ish, side) {
   }
   if (side.rpc && !(kind === 'nitf' && ish?.rpc) && !(kind === 'tiff' && res.meta?.rpc)) {
     // .RPB sidecar (TE-004); a tile of a multi-tile product is offset into the full image (.TIL).
-    const off = side.tiles?.[String(side.fileName ?? '').toLowerCase()] ?? side.tiles?.[Object.keys(side.tiles ?? {})[0]] ?? [0, 0];
-    const chip = off[0] || off[1] ? [off[0], 1, 0, off[1], 0, 1] : [0, 0, 0, 0, 0, 0];
+    const chip = sidecarChip(side);
+    const off = [chip[0], chip[3]];
     add(`RPC (.RPB sidecar${off[0] || off[1] ? `, tile at ${off[0]},${off[1]}` : ''})`, () => core.rpcModel([...side.rpc, ...chip]));
   }
   if (kind === 'jp2') {
@@ -578,12 +578,58 @@ async function readSidecars(sidecars) {
   return out;
 }
 
+/**
+ * Reopen in a fresh worker the file whose handle lived on a worker that was restarted, rebinding every
+ * layer of that file (by image segment) to its new handle. The pool calls this (pool.recover) for a
+ * job addressed to the dead worker; the file is opened once however many jobs ask. Returns the new
+ * {handle, affinity} for `handle`, or null when no layer owns it (in-memory products cannot come back).
+ */
+const recovering = new Map();
+export function recoverHandle(app, slotId, handle) {
+  const layer = [...app.layers.values()].find((l) => l.affinity === slotId && l.handle === handle);
+  const ref = layer?.rec?.file;
+  const entry = ref && app.files.get(ref);
+  if (!entry?.file) return null;
+  const key = `${slotId}|${ref}`;
+  if (!recovering.has(key)) {
+    recovering.set(
+      key,
+      (async () => {
+        const hdr = (entry.sidecars ?? []).find((s) => /\.hdr$/i.test(s.name)) ?? null;
+        const job = app.pool.run('open', { file: forWorker(entry.file), name: entry.file.name, merge: !!entry.result?.merged, hdr }, { label: `reopen ${entry.file.name}`, timeout: openTimeout(entry.file) });
+        const res = await job;
+        const affinity = app.pool.lastAffinity?.(job.jobId);
+        const map = new Map();
+        for (const l of app.layers.values()) {
+          if (l.rec?.file !== ref || l.affinity !== slotId) continue;
+          const r = res.rasters.find((x) => x.imageIndex === l.rec.imageIndex) ?? (res.rasters.length === 1 ? res.rasters[0] : null);
+          if (!r) continue;
+          map.set(l.handle, { handle: r.handle, affinity });
+          l.handle = r.handle;
+          l.affinity = affinity;
+        }
+        app.log('warn', `${entry.file.name}: reopened after its worker was restarted`);
+        app.renderer?.invalidate();
+        return map;
+      })().finally(() => setTimeout(() => recovering.delete(key), 60000)),
+    );
+  }
+  return recovering.get(key).then((m) => m.get(handle) ?? null);
+}
+
+/**
+ * The open job's limit: 120 s plus 1 s per 10 MB, so a format read whole (HDF5/NetCDF through h5wasm)
+ * from a slow drive, beside other opens, still completes (CX-080: a 1.85 GB EMIT file with a 1.1 GB
+ * AVIRIS-NG cube from a USB disk passed the fixed 120 s).
+ */
+const openTimeout = (file) => 120000 + Math.round((file?.size ?? 0) / 1e4);
+
 /** Decode a file in a worker and describe its rasters (no store changes). */
 export async function describe(app, file, sidecars = [], { merge = false } = {}) {
   const t0 = performance.now();
   // An ENVI .hdr sidecar makes the file an ENVI raw image (REQ-MSI-01).
   const hdr = sidecars.find((s) => /\.hdr$/i.test(s.name)) ?? null;
-  const job = app.pool.run('open', { file: forWorker(file), name: file.name, merge, hdr }, { label: `open ${file.name}`, timeout: 120000 });
+  const job = app.pool.run('open', { file: forWorker(file), name: file.name, merge, hdr }, { label: `open ${file.name}`, timeout: openTimeout(file) });
   // Staged ingest (REQ-ING-01): the fingerprint (first and last MiB) runs beside the header read
   // and is stored when it is ready, so the footprint never waits for it.
   const fpP = fingerprint(file);
@@ -684,11 +730,19 @@ export async function describe(app, file, sidecars = [], { merge = false } = {})
   return { res, fp, fpP, side, kind, rasters, report };
 }
 
+/** The offset of an .RPB sidecar's tile in the full product (.TIL), as an ICHIPB-style record. */
+function sidecarChip(side) {
+  const off = side.tiles?.[String(side.fileName ?? '').toLowerCase()] ?? side.tiles?.[Object.keys(side.tiles ?? {})[0]] ?? [0, 0];
+  return off[0] || off[1] ? [off[0], 1, 0, off[1], 0, 1] : [0, 0, 0, 0, 0, 0];
+}
+
 /** Create the runtime for a layer record from a described raster. */
 export function makeRuntime(app, rec, r, d) {
   const layer = new ImageLayer(app, rec, r.raster, r.info);
   const models = buildModels(app, d.kind, d.res, r.raster, r.info.subheader, d.side);
   layer.models = models;
+  // An .RPB sidecar's record, for the adjustment (which otherwise reads the file's own RPC).
+  if (d.side?.rpc && !r.info.subheader?.rpc && !r.info.meta?.rpc) layer.sideRpc = { rpc: d.side.rpc, chip: sidecarChip(d.side) };
   const active = models.find((m) => !m.error && (!rec.model || m.name === rec.model)) ?? models.find((m) => !m.error);
   if (active) {
     layer.modelId = active.id;
@@ -730,18 +784,34 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
   const p = pane ?? app.activePane();
   const refId = newId('file');
   const ids = d.rasters.map(() => newId('lyr'));
+  // IREP NODISPLY segments (the WorldView cloud mask) are not meant for display: they open hidden
+  // and never become the active layer, which used to fit the view to a 70×76 mask and draw the
+  // 43k strip in its pixel frame at full resolution (TE 2.0.4 cross CX-037).
+  const nodisp = d.rasters.map((r) => String(r.info.irep ?? '').trim() === 'NODISPLY');
+  const shown = nodisp.some((n) => !n) ? (i) => !nodisp[i] : () => true;
   app.store.transact(`Open ${file.name}`, (tx) => {
     tx.create('fileref', { merged: !!d.res.merged, name: file.name, size: file.size, url: file.remote ? file.url : null, lastModified: file.lastModified, fingerprint: d.fp, kind: d.kind, pathHint: file.webkitRelativePath || file.name, sidecars: sidecars.map((s) => s.name) }, refId);
     d.rasters.forEach((r, i) => {
-      tx.create('layer', { pane: p.id, kind: r.info.kind === 'dem' ? 'dem' : 'image', name: r.name, file: refId, imageIndex: r.raster.imageIndex, chain: r.chain, visible: true, opacity: 1, saved: false, model: null }, ids[i]);
+      tx.create('layer', { pane: p.id, kind: r.info.kind === 'dem' ? 'dem' : 'image', name: r.name, file: refId, imageIndex: r.raster.imageIndex, chain: r.chain, visible: shown(i), opacity: 1, saved: false, model: null }, ids[i]);
       tx.set(p.id, 'layers', [...(tx.get(p.id).layers ?? []), ids[i]]);
-      tx.set(p.id, 'activeLayer', ids[i]);
+      if (shown(i)) tx.set(p.id, 'activeLayer', ids[i]);
     });
   });
-  app.files.set(refId, { file, handle, sidecars, result: d.res });
+  app.files.set(refId, { file, handle, sidecars, result: d.res, described: d });
   if (!d.fp) d.fpP?.then((fp) => app.store.get(refId) && app.store.transact('Fingerprint', (tx) => tx.set(refId, 'fingerprint', fp), { kind: 'load' })).catch((e) => app.log('warn', `fingerprint ${file.name}: ${e.message}`));
   const layers = d.rasters.map((r, i) => makeRuntime(app, app.store.get(ids[i]), r, d));
   for (const l of layers) l.rec && app.store.transact('Set model', (tx) => tx.set(l.id, 'model', l.modelName), { kind: 'load' });
+  // A hidden mask of another size is registered to the image it describes, so showing it overlays.
+  const ref = layers.find((_, i) => shown(i));
+  for (const [i, l] of layers.entries()) {
+    if (!nodisp[i] || !ref || l === ref || (l.width === ref.width && l.height === ref.height) || !app.alignByModels) continue;
+    try {
+      const A = app.alignByModels(l, ref);
+      app.store.transact('Register segment', (tx) => tx.set(l.id, 'align', A), { kind: 'load' });
+    } catch (e) {
+      app.log('warn', `${l.rec?.name}: not registered to ${ref.rec?.name}: ${e.message}`);
+    }
+  }
   app.importLog.push(d.report);
   for (const w of d.report.warnings) app.log('warn', `${file.name}: ${w}`);
   app.emit('layers');
@@ -752,9 +822,25 @@ export async function openImageFile(app, file, { sidecars = [], handle = null, p
 
 /** Re-open a relinked file for existing layer records (project load). */
 /** Runtimes for new layer records of an already-open file (a cloned multiport): a fresh decode. */
-export async function attachLayers(app, fref, recs) {
+/**
+ * `share`: a live layer of the file whose open the new layers use too (Xport panes), instead of a
+ * fresh decode each: a 1.85 GB EMIT cube is read into memory per open, and the second view failed
+ * with "Array buffer allocation failed" (TE 2.0.4 cross). Falls back to a decode when the open has
+ * changed since (a restarted worker).
+ */
+export async function attachLayers(app, fref, recs, { share = null } = {}) {
   const f = app.files.get(fref.id);
   if (!f) throw new Error(`${fref.name} is not linked`);
+  const D = f.described;
+  const same = (r) => r && share && r.raster.handle === share.handle && r.info.affinity === share.affinity;
+  if (D && recs.every((rec) => same(D.rasters.find((x) => x.raster.imageIndex === (rec.imageIndex ?? 0))))) {
+    const out = [];
+    for (const rec of recs) {
+      await app.pool.run('retain', { handle: share.handle }, { affinity: share.affinity });
+      out.push(makeRuntime(app, rec, D.rasters.find((x) => x.raster.imageIndex === (rec.imageIndex ?? 0)), D));
+    }
+    return out;
+  }
   const d = await describe(app, f.file, f.sidecars ?? []);
   const out = [];
   for (const rec of recs) {
@@ -763,6 +849,32 @@ export async function attachLayers(app, fref, recs) {
   }
   return out;
 }
+
+/**
+ * Up to `max` extra opens of a layer's file in other decode workers, for reading a large image in
+ * parallel (COG export, orthorectify): [{handle, affinity}], each on its own worker. Close them with
+ * closeHelpers. A whole WorldView strip read on one worker ran past 300 s (TE 2.0.4 cross).
+ */
+export async function helperOpens(app, l, max) {
+  const out = [];
+  const fref = l.rec?.file ? app.store.get(l.rec.file) : null;
+  const file = fref ? app.files.get(fref.id) : null;
+  for (let i = 0; file && i < max; i++) {
+    try {
+      const d = await describe(app, file.file, file.sidecars ?? [], { merge: !!fref.merged });
+      const r = d.rasters.find((x) => x.raster.imageIndex === (l.rec.imageIndex ?? 0));
+      const h = r && { handle: r.raster.handle, affinity: r.info.affinity };
+      if (h && h.affinity !== l.affinity && !out.some((x) => x.affinity === h.affinity)) out.push(h);
+      else if (h) app.pool.run('close', { handle: h.handle }, { affinity: h.affinity }).catch(() => {});
+    } catch (e) {
+      app.log('warn', `a helper decoder could not open ${l.rec?.name}: ${e.message}`);
+      break;
+    }
+  }
+  return out;
+}
+
+export const closeHelpers = (app, hs) => hs.forEach((h) => app.pool.run('close', { handle: h.handle }, { affinity: h.affinity }).catch(() => {}));
 
 export async function attachFile(app, fref, file, sidecars = []) {
   const d = await describe(app, file, sidecars, { merge: !!fref.merged });
@@ -798,10 +910,14 @@ export async function openMemoryLayer(app, parent, { name, bands, sampleType, pl
   const id = newId('lyr');
   const base = autoChain({ bands, sampleType, kind: 'image' });
   const ch = { ...base, ...chain, colour: { ...base.colour, ...(chain.colour ?? {}) } };
+  // The panel is read after the product is made: the one asked for if it still exists, else the
+  // parent's (no panel was active when a long product finished, TE 2.0.4 cross).
+  const paneId = (pane?.id && app.store.get(pane.id) ? pane.id : null) ?? parent.rec?.pane ?? app.activePane()?.id;
+  if (!paneId || !app.store.get(paneId)) throw new Error(`no panel to show ${name} in`);
   app.store.transact(`Product ${name}`, (tx) => {
-    tx.create('layer', { pane: pane.id, kind: 'image', name, file: null, memory: true, derivedFrom: parent.id, window: [x0, y0, width, height], ...(step > 1 ? { step } : {}), imageIndex: 0, chain: ch, visible: true, opacity: 1, saved: false, model: null }, id);
-    tx.set(pane.id, 'layers', [...(tx.get(pane.id).layers ?? []), id]);
-    if (select) tx.set(pane.id, 'activeLayer', id);
+    tx.create('layer', { pane: paneId, kind: 'image', name, file: null, memory: true, derivedFrom: parent.id, window: [x0, y0, width, height], ...(step > 1 ? { step } : {}), imageIndex: 0, chain: ch, visible: true, opacity: 1, saved: false, model: null }, id);
+    tx.set(paneId, 'layers', [...(tx.get(paneId).layers ?? []), id]);
+    if (select) tx.set(paneId, 'activeLayer', id);
   });
   const rec = app.store.get(id);
   const layer = new ImageLayer(app, rec, raster, { format: 'In-memory product', kind: 'memory', fileName: name, marking: parent.info.marking, fileMarking: parent.info.fileMarking, iid: name, affinity, datetime: parent.info.datetime, icat: parent.info.icat, irep: '', ...info });

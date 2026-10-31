@@ -846,8 +846,13 @@ export function install(app) {
     value: () => layer()?.chain?.sarRemap ?? 'sar-density',
     setValue: (v) => setRemap(layer(), v),
   });
+  // Anamorphic needs the SICD grid's sample spacings (a complex GeoTIFF has none, TE 2.0.4 cross).
+  const hasSpacing = () => {
+    const m = has() && sarOf(layer());
+    return !!m && m.rowSS > 0 && m.colSS > 0;
+  };
   for (const [cmd, mode] of [['sar.anamorphic', 'anamorphic'], ['sar.ground', 'ground']])
-    C.implement(cmd, { enabled: has, checked: () => pane()?.sar?.mode === mode, run: run(() => displayMode(pane(), pane()?.sar?.mode === mode ? 'native' : mode)) });
+    C.implement(cmd, { enabled: mode === 'anamorphic' ? hasSpacing : has, checked: () => pane()?.sar?.mode === mode, run: run(() => displayMode(pane(), pane()?.sar?.mode === mode ? 'native' : mode)) });
   C.implement('sar.shadows', { enabled: has, checked: () => pane()?.view.mode === 'shadows', run: run(() => pane().applyOrientation('shadows')) });
   C.implement('sar.northup', { enabled: has, checked: () => pane()?.view.mode === 'north', run: run(() => pane().applyOrientation('north')) });
   C.implement('sar.overlay', {

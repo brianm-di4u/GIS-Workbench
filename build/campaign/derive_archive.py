@@ -400,7 +400,7 @@ def vector_variants():
                  'Public domain (Natural Earth, USGS NHD); CC BY 4.0 (BAMBI); CC BY-SA 4.0 (SpaceNet)', 'Natural Earth; USGS NHD; BAMBI (Zenodo); SpaceNet Partners', 'GeoJSON / SHP / GML / CSV / GPX / Parquet / FGB',
                  'Subsets; GeoJSON non-RFC7946 keeps the crs member', files, recipe,
                  ['vec.geojson', 'vec.geojson.legacycrs', 'vec.geojson.jsonext', 'vec.shp', 'vec.shp.z', 'vec.shp.m', 'vec.shp.cpg', 'vec.gml', 'vec.csv.lonlat', 'vec.csv.wkt', 'vec.gpx', 'det.csv',
-                  'refused.geoparquet', 'refused.flatgeobuf'], ['vector', 'ingest', 'cnv'])
+                  'vec.geoparquet', 'vec.flatgeobuf'], ['vector', 'ingest', 'cnv'])
 
 
 def pmtiles_raster():
@@ -491,6 +491,28 @@ def dted_l2():
     return entry(iid, 'dem', 'DTED Level 2 cells (3601², 1 arcsec) written by GDAL from Copernicus GLO-30, USGS 3DEP 1-arcsec and SRTM', [COP[0], 'usgs-3dep-13-n40w106', 'srtm-skadi-n39w106-n40w106'],
                  'Copernicus DEM licence; public domain (USGS 3DEP, SRTM)', '© DLR e.V. / Airbus DS under COPERNICUS; USGS 3DEP; NASA/USGS SRTM', 'DTED Level 2',
                  'GDAL DTED writer (UHL/DSI/ACC records, WGS84); real USGS DTED2 remains tier B', files, recipe, ['dted.l2'], ['dem', 'dem.save', 'ingest'])
+
+
+def rpf_cadrg_from_cib10():
+    # EarthExplorer delivers CIB-10 only as GeoTIFF; GDAL (3.13) writes RPF CADRG frames + A.TOC, not CIB (no I1 series),
+    # so these are CADRG frames and a third, independent A.TOC producer made from real CIB imagery.
+    iid = 'derived-rpf-cadrg-from-cib10'
+    d = outdir(iid)
+    files, recipe = [], []
+    for tile in ('n35e011', 'n60w156'):
+        o = d / tile
+        if o.exists():
+            shutil.rmtree(o)
+        p = src('nitf-rpf-cib-usgs', f'{tile}.tif')
+        gdal.Translate(str(o), str(p), options=gdal.TranslateOptions(format='NITF', creationOptions=['PRODUCT_TYPE=CADRG', 'SCALE=50000', 'DPI=169.333']))
+        files += [(x.relative_to(d).as_posix(), 'primary' if x.name != 'A.TOC' else 'sidecar') for x in sorted(o.rglob('*')) if x.is_file()]
+        recipe.append(f'gdal_translate -of NITF -co PRODUCT_TYPE=CADRG -co SCALE=50000 -co DPI=169.333 {p.name} {tile}/')
+    for x in d.rglob('*.aux.xml'):
+        x.unlink()
+    return entry(iid, 'nitf', 'RPF CADRG frames + A.TOC written by GDAL from USGS SPOT CIB-10 tiles (zones 2 and 6)', ['nitf-rpf-cib-usgs'],
+                 'Public domain (USGS EROS archive)', 'SPOT CIB-10 courtesy of the U.S. Geological Survey', 'RPF CADRG (NITF 2.1, IC=C4 VQ) + A.TOC',
+                 '1:50k CADRG frames (series MM), greyscale imagery through a colour-table VQ; not CIB (GDAL has no CIB writer)', files, recipe,
+                 ['rpf.frame', 'rpf.toc', 'nitf.ic.c4'], ['ingest', 'nitf.decode.vq'])
 
 
 def zip_deliveries():
@@ -1057,7 +1079,7 @@ def rsm_nitf():
 
 FNS = [pictures_worldfile, jp2_variants, gtiff_variants, envi_variants, hgt_variants, raster_negatives, sar_complex_slc, vector_variants, pmtiles_raster, tiles_3tz,
        qmesh_geodetic, pc_ascii, speclib_sli, nitf_variants, fmv_variants, las_pdrf_more, dted_l2, zip_deliveries, geopdf_iso,
-       hsi_cube_tiff, pptx_templates, control_csvs, detections_csvs, rsm_nitf]
+       hsi_cube_tiff, pptx_templates, control_csvs, detections_csvs, rsm_nitf, rpf_cadrg_from_cib10]
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()

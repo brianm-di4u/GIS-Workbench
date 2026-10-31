@@ -1,73 +1,73 @@
 {
   "build": {
-    "id": "13680cc21fb2c910",
-    "version": "2.0.3",
-    "date": "2026-10-29T12:23:50.098Z",
+    "id": "7569f3a38856ef52",
+    "version": "2.0.4",
+    "date": "2026-10-31T12:28:47.140Z",
     "dev": false,
     "defaultModel": "claude-opus-5-5",
     "profile": "standard"
   },
   "sizes": {
-    "total": 6215642,
-    "eager": 2581980,
+    "total": 6263475,
+    "eager": 2602169,
     "css": 70560,
     "boot": 2733,
-    "app": 2234981,
+    "app": 2261326,
     "notices": 133234,
     "blocks": {
       "wasm-core": {
-        "raw": 344926,
-        "stored": 187288,
+        "raw": 306395,
+        "stored": 181132,
         "load": "eager"
       },
       "wasm-parse": {
-        "raw": 473646,
-        "stored": 238788,
+        "raw": 420402,
+        "stored": 240856,
         "load": "lazy"
       },
       "wasm-j2k": {
-        "raw": 291282,
-        "stored": 131048,
+        "raw": 265201,
+        "stored": 131504,
         "load": "lazy"
       },
       "wasm-photo": {
-        "raw": 240830,
-        "stored": 127816,
+        "raw": 218931,
+        "stored": 123368,
         "load": "lazy"
       },
       "wasm-raster": {
-        "raw": 71050,
-        "stored": 41108,
+        "raw": 60869,
+        "stored": 37600,
         "load": "lazy"
       },
       "wasm-terrain": {
-        "raw": 124076,
-        "stored": 65340,
+        "raw": 107801,
+        "stored": 62548,
         "load": "lazy"
       },
       "wasm-pointcloud": {
-        "raw": 353692,
-        "stored": 167556,
+        "raw": 313472,
+        "stored": 169684,
         "load": "lazy"
       },
       "wasm-vector": {
-        "raw": 106313,
-        "stored": 56272,
+        "raw": 89396,
+        "stored": 52100,
         "load": "lazy"
       },
       "wasm-sar": {
-        "raw": 134160,
-        "stored": 70464,
+        "raw": 115736,
+        "stored": 68824,
         "load": "lazy"
       },
       "wasm-spectral": {
-        "raw": 184289,
-        "stored": 88224,
+        "raw": 159712,
+        "stored": 90760,
         "load": "lazy"
       },
       "js-worker-core": {
-        "raw": 12415,
-        "stored": 5352,
+        "raw": 12865,
+        "stored": 5696,
         "load": "lazy"
       },
       "js-worker-ai": {
@@ -76,23 +76,23 @@
         "load": "lazy"
       },
       "js-worker-analysis": {
-        "raw": 36884,
-        "stored": 17712,
+        "raw": 36987,
+        "stored": 17776,
         "load": "lazy"
       },
       "js-worker-decode": {
-        "raw": 376930,
-        "stored": 186508,
+        "raw": 386763,
+        "stored": 191176,
         "load": "lazy"
       },
       "js-worker-pointcloud": {
-        "raw": 6884,
-        "stored": 2808,
+        "raw": 9056,
+        "stored": 3916,
         "load": "lazy"
       },
       "js-fgb": {
-        "raw": 42658,
-        "stored": 13888,
+        "raw": 53204,
+        "stored": 18540,
         "load": "lazy"
       },
       "js-milsymbol": {
@@ -106,8 +106,8 @@
         "load": "lazy"
       },
       "js-parquet": {
-        "raw": 60281,
-        "stored": 24576,
+        "raw": 111924,
+        "stored": 44876,
         "load": "lazy"
       },
       "js-pptx": {
@@ -151,68 +151,68 @@
         "load": "lazy"
       },
       "data-changelog": {
-        "raw": 42123,
-        "stored": 22224,
+        "raw": 54606,
+        "stored": 28104,
         "load": "lazy"
       }
     },
     "rust": {
       "core": {
-        "raw": 344926,
-        "gzip": 140465,
+        "raw": 306395,
+        "gzip": 135847,
         "budget": 256000
       },
       "parse": {
-        "raw": 473646,
-        "gzip": 179091,
+        "raw": 420402,
+        "gzip": 180640,
         "budget": 204800
       },
       "j2k": {
-        "raw": 291282,
-        "gzip": 98284,
+        "raw": 265201,
+        "gzip": 98626,
         "budget": 307200
       },
       "photo": {
-        "raw": 240830,
-        "gzip": 95862,
+        "raw": 218931,
+        "gzip": 92526,
         "budget": 153600
       },
       "raster": {
-        "raw": 71050,
-        "gzip": 30831,
+        "raw": 60869,
+        "gzip": 28200,
         "budget": 153600
       },
       "terrain": {
-        "raw": 124076,
-        "gzip": 49003,
+        "raw": 107801,
+        "gzip": 46911,
         "budget": 81920
       },
       "pointcloud": {
-        "raw": 353692,
-        "gzip": 125666,
+        "raw": 313472,
+        "gzip": 127261,
         "budget": 122880
       },
       "vector": {
-        "raw": 106313,
-        "gzip": 42202,
+        "raw": 89396,
+        "gzip": 39075,
         "budget": 81920
       },
       "sar": {
-        "raw": 134160,
-        "gzip": 52847,
+        "raw": 115736,
+        "gzip": 51616,
         "budget": 102400
       },
       "spectral": {
-        "raw": 184289,
-        "gzip": 66168,
+        "raw": 159712,
+        "gzip": 68069,
         "budget": 102400
       }
     },
-    "rustTotalGzip": 880419,
-    "airgap": 6214291,
-    "lite": 4294582,
-    "snippet": 6605602,
-    "snippetLite": 4294925
+    "rustTotalGzip": 868771,
+    "airgap": 6262124,
+    "lite": 4329594,
+    "snippet": 6656423,
+    "snippetLite": 4329937
   },
   "gates": {
     "errors": [],
@@ -560,5 +560,5 @@
       "repository": "https://github.com/dtolnay/zmij"
     }
   ],
-  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-hqCTA4HkCAr6fapJX7O6YYasUtTY4+vM5ZEh0oPBh+o=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  "csp": "default-src 'none'; script-src 'sha256-/0yvXt+Aw3smIXyG+KCXqchE4ORMAKHRIMeDpQ2Se8s=' 'sha256-J+5xvbA1Rgnb+FC0hVBrmKVtQEZwaEZPxAH7qtIdfjI=' blob: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src blob: mediastream:; font-src data:; connect-src blob: https://tiles.maps.eox.at https://basemap.nationalmap.gov https://gibs.earthdata.nasa.gov https://s3.amazonaws.com https://tile.openstreetmap.org https://earth-search.aws.element84.com https://planetarycomputer.microsoft.com https://naipeuwest.blob.core.windows.net https://landsateuwest.blob.core.windows.net https://sentinel2l2a01.blob.core.windows.net https://sentinel-cogs.s3.us-west-2.amazonaws.com https://s3.us-west-2.amazonaws.com https://maxar-opendata.s3.amazonaws.com https://umbra-open-data-catalog.s3.us-west-2.amazonaws.com https://data.source.coop https://storage.googleapis.com https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
 }

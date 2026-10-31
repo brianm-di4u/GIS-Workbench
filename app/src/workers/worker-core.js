@@ -7,6 +7,8 @@ import { Core } from '../wasm/core.js';
 
 const handlers = new Map();
 const cancelled = new Set();
+// A cut or damaged file read past its end gives the browser's own text; say it in words (core/util errorText).
+const words = (m) => (/DataView|out of bounds|Invalid typed array|array buffer length|MAX_SAFE_INTEGER|offset is outside|Start offset/i.test(m) ? 'the file is cut short or damaged: it ends before the data it describes' : m);
 const ctx = { modules: {}, bundles: {}, kind: null };
 
 function bundle(name) {
@@ -167,7 +169,11 @@ self.onmessage = async (e) => {
       // Discard every instance; they are re-created from the cached modules on next use.
       ctx.bundles = {};
     }
-    postMessage({ type: 'error', id: m.id, error: String(err?.message || err), trapped, code: err?.code, cancelled: !!err?.cancelled });
+    // A failed file read surfaces as the reader's event (geotiff.js rejects with it): say what failed,
+    // not "[object ProgressEvent]" (TE 2.0.4 cross, NAIP chip).
+    const ev = typeof Event !== 'undefined' && err instanceof Event;
+    const text = ev ? `the file could not be read (${err.target?.error?.name ?? err.type}${err.target?.error?.message ? `: ${err.target.error.message}` : ''}); if it is on a removable or network drive, check that it is still connected` : words(String(err?.message || err));
+    postMessage({ type: 'error', id: m.id, error: text, trapped, code: err?.code, cancelled: !!err?.cancelled });
   } finally {
     cancelled.delete(m.id);
   }

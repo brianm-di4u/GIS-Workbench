@@ -742,27 +742,62 @@
  {
   "id": "usgs-srtm-dted2-n39w106",
   "area": "dem",
-  "title": "SRTM 1 Arc-Second Global as DTED Level 2, cell N39 W106",
+  "title": "SRTM 1 Arc-Second Global as DTED Level 2 (cells N39W106, N36W116, N38W122) + SRTM Void Filled DTED Level 1 N39W106",
   "source": "USGS EROS EarthExplorer",
   "landing": "https://earthexplorer.usgs.gov/",
   "licence": "US Government public domain; free USGS ERS login required",
   "attribution": "NASA/USGS SRTM, courtesy U.S. Geological Survey",
   "tier": "B",
-  "format": "DTED2",
-  "profile": "3601x3601, 1 arcsec, EGM96",
+  "format": "DTED2 / DTED1",
+  "profile": "Three 3601x3601 1-arcsec DTED2 cells (Colorado, Las Vegas, California cluster) and one 1201x1201 3-arcsec DTED1 cell; EGM96, WGS84; USGS EROS producer",
   "files": [
+   {
+    "name": "n36_w116_1arc_v3.dt2",
+    "url": null,
+    "bytes": 25981042,
+    "sha256": "b7c9c46847e03c31174e41047d59ec9c5397a1a93bd64dbd5c7af1e63d9dc1be",
+    "role": "primary"
+   },
+   {
+    "name": "n38_w122_1arc_v3.dt2",
+    "url": null,
+    "bytes": 25981042,
+    "sha256": "d0a9557774d0c595a0979ed30544e5a9479ef5e75200dfda8274ffbb1024b842",
+    "role": "primary"
+   },
    {
     "name": "n39_w106_1arc_v3.dt2",
     "url": null,
-    "bytes": null,
+    "bytes": 25981042,
+    "sha256": "71e77d02b38734beeb05a567700a500ec5e7c818c753e9ae06da085152bc3c98",
+    "role": "primary"
+   },
+   {
+    "name": "n39_w106_3arc_v2.dt1",
+    "url": null,
+    "bytes": 2902642,
+    "sha256": "38419e0d70d825b006063eb85918a838b866c772f4aef3878827951167fc62ba",
     "role": "primary"
    }
   ],
   "sign": null,
-  "notes": "Dataset 'SRTM 1 Arc-Second Global' (doi:10.5066/F7PR7TFT); EarthExplorer offers DTED, BIL and GeoTIFF, so choose DTED. SRTM Void Filled 3-arcsec DTED1 (n39_w106_3arc_v2.dt1) is also there. Login needed; not verified.",
+  "notes": "Downloaded through the owner's EarthExplorer session (account gisworkbench) on 2026-10-29: EE dataset 'SRTM 1 Arc-Second Global' (5e83a3ee1af480c5), entities SRTM1N39W106V3 / SRTM1N36W116V3 / SRTM1N38W122V3, DTED product; 'SRTM Void Filled' (5e83a43c37d31d83) entity SRTM3N39W106V2, DTED product. Real USGS-produced DTED, independent of the GDAL-written cells in derived-dted-level2.",
   "feeds": [
    "dem.dted",
    "dem.compare"
+  ],
+  "covers": [
+   "fmt:dted.l2",
+   "fmt:dted.l1"
+  ],
+  "pairs": [
+   {
+    "role": "dem-under",
+    "with": [
+     "eo-spacenet-vegas-wv3-pan-ms-r1c1",
+     "landsat8-c2-l1tp-044034-20240820-tierb"
+    ]
+   }
   ]
  }
 ]

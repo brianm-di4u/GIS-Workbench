@@ -1,0 +1,39 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T14:19:44.713Z",
+ "key": "nitf-rpf-cib-usgs/n60w156.tif",
+ "item": "nitf-rpf-cib-usgs",
+ "file": "n60w156.tif",
+ "format": "GeoTIFF + NIMA text header (EE distribution of CIB-10)",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened n60w156.tif in 41 msZoom to layer×",
+  "toast-info: n60w156.tif is not cloud-optimized: a COG copy pans faster and can be streamed from a server.Make COG copy×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "GeoTIFF",
+   "w": 5533,
+   "h": 11123,
+   "bands": 1,
+   "model": "Map (EPSG:4326)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 620,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

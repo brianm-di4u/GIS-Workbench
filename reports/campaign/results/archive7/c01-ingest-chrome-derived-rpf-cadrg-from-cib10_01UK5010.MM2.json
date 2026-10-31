@@ -1,0 +1,38 @@
+{
+ "spec": "c01-ingest",
+ "project": "chrome",
+ "when": "2026-10-29T14:08:55.397Z",
+ "key": "derived-rpf-cadrg-from-cib10/01UK5010.MM2",
+ "item": "derived-rpf-cadrg-from-cib10",
+ "file": "01UK5010.MM2",
+ "format": "RPF CADRG (NITF 2.1, IC=C4 VQ) + A.TOC",
+ "rendered": true,
+ "errors": [],
+ "warnings": [],
+ "toasts": [
+  "toast-info: Opened 01UK5010.MM2 in 42 msZoom to layer×"
+ ],
+ "layers": [
+  {
+   "error": null,
+   "kind": "image",
+   "format": "NITF 02.00",
+   "w": 1536,
+   "h": 1536,
+   "bands": 3,
+   "model": "RPF frame (coverage section)"
+  }
+ ],
+ "others": {
+  "images": 1,
+  "vlayers": 0,
+  "features": 0,
+  "clouds": 0,
+  "clips": 0
+ },
+ "diffs": [],
+ "ms": 611,
+ "logs": [],
+ "requests": [],
+ "csp": []
+}

@@ -2,7 +2,7 @@
 // and statistics. Every parser of untrusted bytes here is either Rust (`parse` bundle) or a
 // vetted library (geotiff.js) or the browser's own image decoder.
 
-import { Pyramid, LRU } from '../decode/pyramid.js';
+import { Pyramid, LRU, TILE } from '../decode/pyramid.js';
 import { openNitf, ioStats } from '../decode/nitf.js';
 import { mosaicPlan, mosaicSource } from '../decode/mosaic.js';
 import { openGeoTiff } from '../decode/geotiff.js';
@@ -12,6 +12,7 @@ import { enviSource, enviBands, gdalBands } from '../decode/envi.js';
 import { openHdf5 } from '../decode/hdf5.js';
 import { openGeoPdf } from '../decode/geopdf.js';
 import { openJp2 } from '../decode/jp2.js';
+import { deflate, predict2, predict3 } from '../../formats/geotiff-writer.js';
 import { isMrSid, mrsidRefusal } from '../decode/mrsid-header.js';
 
 const { GW } = self;
@@ -280,16 +281,51 @@ GW.register('pixels', async ({ handle, x, y, w = 1, h = 1, bands }) => {
 });
 
 /** One band of a window as Float32, clamped inside the image (matching, REQ-SNS-13). */
-GW.register('patch', async ({ handle, x, y, w, h, band = 0 }, job) => {
+GW.register('patch', async ({ handle, x, y, w, h, band = 0, bands = null }, job) => {
   const e = handles.get(handle);
   if (!e) throw new Error('unknown image handle');
   w = Math.min(w, e.src.width);
   h = Math.min(h, e.src.height);
   const x0 = Math.max(0, Math.min(e.src.width - w, Math.floor(x)));
   const y0 = Math.max(0, Math.min(e.src.height - h, Math.floor(y)));
+  if (bands) {
+    // Every band in one read (orthorectify): a J2K multispectral tile decodes all its components once.
+    const got = await e.src.readWindow(x0, y0, w, h, bands, job);
+    const pxs = got.map((a) => (a instanceof Float32Array ? a : Float32Array.from(a)));
+    return GW.transfer({ x0, y0, w, h, pxs }, pxs.map((p) => p.buffer));
+  }
   const [a] = await e.src.readWindow(x0, y0, w, h, [band], job);
   const f = a instanceof Float32Array ? a : Float32Array.from(a);
   return GW.transfer({ x0, y0, w, h, px: f }, [f.buffer]);
+});
+
+/**
+ * A patch from pyramid level L (2^L full-resolution pixels per sample) covering the full-resolution
+ * window [x, x+w) × [y, y+h): {x0, y0, w, h} in level pixels, `scale` = 2^L (orthorectification at
+ * coarse output resolutions, TE 2.0.4).
+ */
+GW.register('patchLevel', async ({ handle, level, x, y, w, h, band = 0 }, job) => {
+  const e = handles.get(handle);
+  if (!e) throw new Error('unknown image handle');
+  const L = Math.max(0, Math.min(e.pyr.levels - 1, level));
+  const s = 2 ** L;
+  const { w: lw, h: lh } = e.pyr.dims(L);
+  const x0 = Math.max(0, Math.floor(x / s));
+  const y0 = Math.max(0, Math.floor(y / s));
+  const x1 = Math.min(lw, Math.ceil((x + w) / s));
+  const y1 = Math.min(lh, Math.ceil((y + h) / s));
+  const pw = Math.max(1, x1 - x0);
+  const ph = Math.max(1, y1 - y0);
+  const px = new Float32Array(pw * ph);
+  for (let ty = Math.floor(y0 / TILE); ty <= Math.floor((y0 + ph - 1) / TILE); ty++)
+    for (let tx = Math.floor(x0 / TILE); tx <= Math.floor((x0 + pw - 1) / TILE); tx++) {
+      const t = await e.pyr.core(L, tx, ty, band, job);
+      const ox = tx * TILE;
+      const oy = ty * TILE;
+      for (let yy = Math.max(y0, oy); yy < Math.min(y0 + ph, oy + t.h); yy++)
+        for (let xx = Math.max(x0, ox); xx < Math.min(x0 + pw, ox + t.w); xx++) px[(yy - y0) * pw + (xx - x0)] = t.data[(yy - oy) * t.w + (xx - ox)];
+    }
+  return GW.transfer({ x0, y0, w: pw, h: ph, px, scale: s }, [px.buffer]);
 });
 
 /** A whole band at full resolution as Float32 (Use as Terrain, REQ-DEM-02). */
@@ -316,22 +352,50 @@ GW.register('window', async ({ handle, x0, y0, w, h, step = 1, bands, maxSamples
   const sh = Math.min(e.src.height - y0, h * step);
   const ow = Math.ceil(sw / step);
   const oh = Math.ceil(sh / step);
-  if (ow * oh * bands.length > maxSamples) throw new Error(`${ow}×${oh}×${bands.length} samples are more than a product takes (${(maxSamples / 1e6).toFixed(0)} M)`);
+  if (ow * oh * bands.length > maxSamples) throw new Error(`${ow}×${oh}×${bands.length} samples are more than a product takes (${(maxSamples / 1e6).toFixed(0)} M): draw a smaller AOI, zoom out (a coarser chip) or choose fewer bands`);
   const planes = [];
+  // A decimated window comes from the source's own coarser level when it has one (J2K resolution
+  // levels, strided raw NITF/ENVI, GeoTIFF overviews): read at full resolution and thinned, the 3D
+  // globe's drape of a whole WorldView strip decoded all of it and timed out (TE 2.0.4 cross).
+  let L = 0;
+  while (e.src.readLevel && 2 ** (L + 1) <= step && e.src.hasLevel?.(L + 1)) L++;
+  if (L > 0) {
+    const f = 2 ** L;
+    const lx0 = Math.floor(x0 / f);
+    const lw = Math.min(Math.ceil(e.src.width / f) - lx0, Math.ceil(sw / f) + 1);
+    const lyOf = (oy) => Math.min(Math.ceil(e.src.height / f) - 1, Math.floor((y0 + oy * step) / f));
+    const perL = Math.max(1, Math.floor(16e6 / Math.max(1, lw * bands.length)));
+    for (let oy0 = 0; oy0 < oh; ) {
+      const ly0 = lyOf(oy0);
+      let oy1 = oy0;
+      while (oy1 < oh && lyOf(oy1) - ly0 < perL) oy1++;
+      const lh = lyOf(oy1 - 1) - ly0 + 1;
+      const got = await e.src.readLevel(L, lx0, ly0, lw, lh, bands, job);
+      got.forEach((a, k) => {
+        const out = (planes[k] ??= new a.constructor(ow * oh));
+        for (let oy = oy0; oy < oy1; oy++) {
+          const ry = lyOf(oy) - ly0;
+          for (let ox = 0; ox < ow; ox++) out[oy * ow + ox] = a[ry * lw + Math.min(lw - 1, Math.floor((x0 + ox * step) / f) - lx0)];
+        }
+      });
+      oy0 = oy1;
+    }
+    return GW.transfer({ x0, y0, w: ow, h: oh, step, planes, level: L }, planes.map((p) => p.buffer));
+  }
   // Read in row bands so a decimated chip of a large image never holds the full window.
-  const rows = Math.max(step, Math.floor(16e6 / Math.max(1, sw)) - (Math.floor(16e6 / Math.max(1, sw)) % step));
-  for (const b of bands) {
-    let out = null;
-    for (let r0 = 0; r0 < sh; r0 += rows) {
-      const rh = Math.min(rows, sh - r0);
-      const [a] = await e.src.readWindow(x0, y0 + r0, sw, rh, [b], job);
-      out ??= new a.constructor(ow * oh);
+  // Every band of a row band in one read: pixel-interleaved JPEG blocks were decoded once per band.
+  const per = Math.floor(16e6 / Math.max(1, sw * bands.length));
+  const rows = Math.max(step, per - (per % step));
+  for (let r0 = 0; r0 < sh; r0 += rows) {
+    const rh = Math.min(rows, sh - r0);
+    const got = await e.src.readWindow(x0, y0 + r0, sw, rh, bands, job);
+    got.forEach((a, k) => {
+      const out = (planes[k] ??= new a.constructor(ow * oh));
       for (let y = 0; y < rh; y += step) {
         const oy = (r0 + y) / step;
         for (let x = 0, ox = 0; x < sw; x += step, ox++) out[oy * ow + ox] = a[y * sw + x];
       }
-    }
-    planes.push(out);
+    });
   }
   return GW.transfer({ x0, y0, w: ow, h: oh, step, planes }, planes.map((p) => p.buffer));
 });
@@ -354,7 +418,7 @@ GW.register('complex', async ({ handle, x0, y0, w, h, maxSamples = 16e6 }, job) 
  * A BIP Float32 cube of a window (spectral algorithms, REQ-MSI-07..12): every `step`-th pixel of
  * the bands listed, with per-band gain/offset applied (radiometric state); no-data → NaN.
  */
-GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain = null, offset = null, maxSamples = 96e6 }, job) => {
+GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain = null, offset = null, maxSamples = 96e6, pyramid = false }, job) => {
   const e = handles.get(handle);
   if (!e) throw new Error('unknown image handle');
   x0 = Math.max(0, Math.floor(x0));
@@ -368,6 +432,63 @@ GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain
   const out = new Float32Array(ow * oh * nb);
   const nd = e.src.nodata;
   const isNd = nd === null || nd === undefined ? () => false : Number.isNaN(nd) ? (v) => Number.isNaN(v) : (v) => v === nd;
+  // pyramid: a statistics cube samples the pyramid level of the step (2^L ≤ step; cached, or the
+  // file's own overviews) instead of reading every full-resolution row to keep one in `step`
+  // (TE 2.0.4: Band Math statistics of a 4-band NAIP tile ran past 120 s).
+  if (pyramid && step >= 2 && e.pyr) {
+    const L = Math.min(e.pyr.levels - 1, Math.floor(Math.log2(step)));
+    const f = 2 ** L;
+    const { w: lw, h: lh } = e.pyr.dims(L);
+    const lx = (ox) => Math.min(lw - 1, Math.floor((x0 + ox * step) / f));
+    const ly = (oy) => Math.min(lh - 1, Math.floor((y0 + oy * step) / f));
+    const [tx0, tx1, ty0, ty1] = [Math.floor(lx(0) / TILE), Math.floor(lx(ow - 1) / TILE), Math.floor(ly(0) / TILE), Math.floor(ly(oh - 1) / TILE)];
+    for (let k = 0; k < nb; k++) {
+      const tiles = new Map();
+      for (let ty = ty0; ty <= ty1; ty++) for (let tx = tx0; tx <= tx1; tx++) tiles.set(`${tx},${ty}`, await e.pyr.core(L, tx, ty, bands[k], job));
+      for (let oy = 0; oy < oh; oy++) {
+        const y = ly(oy);
+        const ty = Math.floor(y / TILE);
+        for (let ox = 0; ox < ow; ox++) {
+          const x = lx(ox);
+          const t = tiles.get(`${Math.floor(x / TILE)},${ty}`);
+          const v = t.data[(y - ty * TILE) * t.w + (x - Math.floor(x / TILE) * TILE)];
+          out[(oy * ow + ox) * nb + k] = isNd(v) ? NaN : (gain ? gain[k] : 1) * v + (offset ? offset[k] : 0);
+        }
+      }
+      job?.progress?.((k + 1) / nb);
+    }
+    return GW.transfer({ x0, y0, w: ow, h: oh, step, nb, v: out, level: L }, [out.buffer]);
+  }
+  // A decimated cube comes from the source's own coarser level where it has one, as windows do
+  // (CX-063): spectral tools on a CORE3D 8-band MSI J2K strip read it all at full resolution and timed out.
+  let L = 0;
+  while (e.src.readLevel && 2 ** (L + 1) <= step && e.src.hasLevel?.(L + 1)) L++;
+  if (L > 0) {
+    const f = 2 ** L;
+    const lx0 = Math.floor(x0 / f);
+    const lw = Math.min(Math.ceil(e.src.width / f) - lx0, Math.ceil(w / f) + 1);
+    const lyOf = (oy) => Math.min(Math.ceil(e.src.height / f) - 1, Math.floor((y0 + oy * step) / f));
+    const perL = Math.max(1, Math.floor(8e6 / Math.max(1, lw * nb)));
+    for (let oy0 = 0; oy0 < oh; ) {
+      const ly0 = lyOf(oy0);
+      let oy1 = oy0;
+      while (oy1 < oh && lyOf(oy1) - ly0 < perL) oy1++;
+      const planes = await e.src.readLevel(L, lx0, ly0, lw, lyOf(oy1 - 1) - ly0 + 1, bands, job);
+      for (let oy = oy0; oy < oy1; oy++) {
+        const ry = lyOf(oy) - ly0;
+        for (let ox = 0; ox < ow; ox++) {
+          const rx = Math.min(lw - 1, Math.floor((x0 + ox * step) / f) - lx0);
+          const o = (oy * ow + ox) * nb;
+          for (let k = 0; k < nb; k++) {
+            const v = planes[k][ry * lw + rx];
+            out[o + k] = isNd(v) ? NaN : (gain ? gain[k] : 1) * v + (offset ? offset[k] : 0);
+          }
+        }
+      }
+      oy0 = oy1;
+    }
+    return GW.transfer({ x0, y0, w: ow, h: oh, step, nb, v: out, level: L }, [out.buffer]);
+  }
   const rows = Math.max(step, Math.floor(8e6 / Math.max(1, w * nb)) - (Math.floor(8e6 / Math.max(1, w * nb)) % step));
   for (let r0 = 0; r0 < h; r0 += rows) {
     const rh = Math.min(rows, h - r0);
@@ -522,7 +643,30 @@ GW.register('memupdate', async ({ handle, planes }) => {
   return { ok: true };
 });
 
+/** One COG tile: predictor and deflate off the main thread (streamed COG writer, TE 2.0.4 cross). */
+GW.register('tileenc', async ({ bytes, type, tile, n, predictor }) => {
+  let b = new Uint8Array(bytes);
+  if (predictor === 2) predict2(b, type, tile, tile, n);
+  else if (predictor === 3) b = predict3(b, tile, tile, n);
+  const c = await deflate(b);
+  return GW.transfer({ c }, [c.buffer]);
+});
+
+// Views sharing one open (Xport panes) each hold a reference; the handle goes with the last one.
+const refs = new Map();
+GW.register('retain', async ({ handle }) => {
+  if (!handles.has(handle)) throw new Error('unknown image handle (the file was closed)');
+  refs.set(handle, (refs.get(handle) ?? 1) + 1);
+  return true;
+});
+
 GW.register('close', async ({ handle }) => {
+  const n = (refs.get(handle) ?? 1) - 1;
+  if (n > 0) {
+    refs.set(handle, n);
+    return true;
+  }
+  refs.delete(handle);
   handles.delete(handle);
   return true;
 });

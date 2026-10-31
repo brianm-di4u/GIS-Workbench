@@ -132,9 +132,7 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -142,7 +140,9 @@
   "id": "nav.magnifier",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
+  ],
   "problems": []
  },
  {
@@ -261,9 +261,7 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -271,7 +269,9 @@
   "id": "draw.polyline",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {
@@ -2110,8 +2110,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "info: Auto Contrast: CLAHE clip 2.5, gamma 0.72 (Tone -24).×",
-   "info: Auto Align (AI): matching learned keypoints…×"
+   "info: Auto Contrast: CLAHE clip 2.5, gamma 0.72 (Tone -24).×"
   ],
   "problems": []
  },
@@ -2120,7 +2119,9 @@
   "id": "hub.psd",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Auto Align (AI): matching learned keypoints…×"
+  ],
   "problems": []
  },
  {

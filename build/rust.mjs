@@ -46,8 +46,12 @@ export function buildRust(root, { log = console.log } = {}) {
     let bytes = readFileSync(file);
     if (wasmOpt) {
       const out = `${file}.opt.wasm`;
-      // SIMD128 only (REQ-RUST-11): binaryen refuses relaxed SIMD with this feature set.
-      const r = spawnSync('wasm-opt', [`-O${b.opt === 'z' ? 'z' : '3'}`, '--enable-simd', '--disable-relaxed-simd', '--strip-debug', '--strip-producers', file, '-o', out], { encoding: 'utf8' });
+      // The features rustc's wasm32 target emits by default (bulk memory, non-trapping float-to-int,
+      // sign extension, mutable globals, multivalue, reference types) plus SIMD128 (REQ-RUST-11) and
+      // not relaxed SIMD. With SIMD alone binaryen validated against the MVP and refused every module
+      // (memory.copy), so wasm-opt had never run on a release.
+      const features = ['--enable-simd', '--disable-relaxed-simd', '--enable-bulk-memory', '--enable-bulk-memory-opt', '--enable-nontrapping-float-to-int', '--enable-sign-ext', '--enable-mutable-globals', '--enable-multivalue', '--enable-reference-types'];
+      const r = spawnSync('wasm-opt', [`-O${b.opt === 'z' ? 'z' : '3'}`, ...features, '--strip-debug', '--strip-producers', file, '-o', out], { encoding: 'utf8' });
       if (r.status === 0) bytes = readFileSync(out);
       else errors.push(`rust: wasm-opt rejected ${b.name}: ${(r.stderr || '').trim().split('\n')[0]}`);
     }

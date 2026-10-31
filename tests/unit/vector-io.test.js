@@ -4,7 +4,7 @@
 // cut on a code-point boundary; GeoJSON has no "crs" member.
 import { describe, it, expect } from 'vitest';
 import { readGeoJSON, writeGeoJSON, writeShapefile, readShapefile, shapefileSets, dbfNames, utf8Cut } from '../../app/src/vector/io.js';
-import { fromParts, parts, signedArea, setVertex, insertVertex, deleteVertex, toGeoJSON, fromGeoJSON } from '../../app/src/vector/geom.js';
+import { fromParts, polygonGroups, parts, signedArea, setVertex, insertVertex, deleteVertex, toGeoJSON, fromGeoJSON } from '../../app/src/vector/geom.js';
 import { readCsv } from '../../app/src/vector/csv.js';
 
 const layer = () => ({
@@ -129,5 +129,24 @@ describe('CSV and non-GeoJSON JSON', () => {
   it('refuses JSON that is not GeoJSON by name', () => {
     expect(() => readGeoJSON('{"asset":{"version":"1.1"},"root":{}}')).toThrow(/not GeoJSON .*no "type" member/);
     expect(() => readGeoJSON('{"type":"Catalog"}')).toThrow(/type "Catalog"/);
+  });
+});
+
+// CX-083: an empty ring (KML innerBoundaryIs without coordinates) is not stored.
+describe('fromParts drops empty parts', () => {
+  const sq = [[0, 0], [1, 0], [1, 1], [0, 1]];
+  it('removes an empty hole and keeps the polygon', () => {
+    const g = fromParts('Polygon', [sq, []], [0]);
+    expect(g.parts).toEqual([0]);
+    expect(g.polys).toEqual([0]);
+    expect(polygonGroups(g)[0][0].length).toBeGreaterThanOrEqual(4);
+  });
+  it('drops a polygon whose outer ring is empty and renumbers the rest', () => {
+    const g = fromParts('MultiPolygon', [[], sq, [], sq], [0, 1, 3]);
+    expect(g.polys).toEqual([0, 1]);
+    expect(g.parts).toEqual([0, 4]);
+  });
+  it('filters empty line parts', () => {
+    expect(fromParts('MultiLineString', [[], [[0, 0], [1, 1]]]).parts).toEqual([0]);
   });
 });

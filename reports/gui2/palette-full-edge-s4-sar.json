@@ -212,9 +212,7 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Type an angle in degrees×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -224,7 +222,9 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Type an angle in degrees×"
+  ],
   "problems": []
  },
  {
@@ -1445,6 +1445,16 @@
   "tab": "palette",
   "id": "bands.stats",
   "outcome": "ran",
+  "dialogs": [
+   "dialog:band-stats"
+  ],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "dialog of bands.stats",
+  "id": "dialog:band-stats ▸ Close",
+  "outcome": "clicked",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1453,10 +1463,7 @@
   "tab": "palette",
   "id": "bands.snr",
   "outcome": "ran",
-  "dialogs": [
-   "dialog:band-stats",
-   "dialog:snr"
-  ],
+  "dialogs": [],
   "toasts": [],
   "problems": []
  },
@@ -1465,7 +1472,8 @@
   "id": "clip.threshold",
   "outcome": "ran",
   "dialogs": [
-   "dialog:clip-threshold"
+   "dialog:clip-threshold",
+   "dialog:snr"
   ],
   "toasts": [],
   "problems": []

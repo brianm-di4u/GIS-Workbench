@@ -232,7 +232,12 @@ function envelope(b) {
 }
 
 export function registerSpatialFunctions(db) {
-  const env = (b) => envelope(b instanceof Uint8Array ? b : null);
+  // A geometry without a finite envelope (a CSV row with no position: NaN coordinates) counts as
+  // empty: its NaN bounds broke the R-tree's minx <= maxx check (IBTrACS, TE 2.0.4 cross).
+  const env = (b) => {
+    const e = envelope(b instanceof Uint8Array ? b : null);
+    return e && e.every(Number.isFinite) && e[0] <= e[2] && e[1] <= e[3] ? e : null;
+  };
   db.create_function('ST_IsEmpty', (b) => (env(b) ? 0 : 1));
   db.create_function('ST_MinX', (b) => env(b)?.[0] ?? null);
   db.create_function('ST_MinY', (b) => env(b)?.[1] ?? null);
@@ -313,12 +318,13 @@ CREATE TABLE gpkg_metadata_reference (reference_scope TEXT NOT NULL, table_name 
     let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
     for (const f of layer.features) {
       const b = bbox(f.geom);
+      if (!b.every(Number.isFinite)) continue;
       x0 = Math.min(x0, b[0]);
       y0 = Math.min(y0, b[1]);
       x1 = Math.max(x1, b[2]);
       y1 = Math.max(y1, b[3]);
     }
-    if (!layer.features.length) [x0, y0, x1, y1] = [-180, -90, 180, 90];
+    if (!(x0 <= x1 && y0 <= y1)) [x0, y0, x1, y1] = [-180, -90, 180, 90];
     db.run('INSERT INTO gpkg_contents (table_name, data_type, identifier, description, last_change, min_x, min_y, max_x, max_y, srs_id) VALUES (?,?,?,?,?,?,?,?,?,?)', [t, 'features', id, layer.description ?? `${layer.features.length} feature(s) from GIS Workbench`, iso, x0, y0, x1, y1, 4326]);
     db.run('INSERT INTO gpkg_geometry_columns VALUES (?,?,?,?,?,?)', [t, 'geom', gtype, 4326, 1, 0]);
     db.run("INSERT INTO gpkg_extensions VALUES (?, 'geom', 'gpkg_rtree_index', 'http://www.geopackage.org/spec/#extension_rtree', 'write-only')", [t]);
@@ -466,7 +472,7 @@ export function readGpkg(SQL, bytes, { reproject = null, name = 'GeoPackage' } =
   let coverages = [];
   try {
     coverages = rows("SELECT table_name FROM gpkg_contents WHERE data_type = '2d-gridded-coverage'").map((r) => r.table_name);
-    for (const t of rows("SELECT c.table_name, c.identifier, c.min_x AS cx0, c.min_y AS cy0, c.max_x AS cx1, c.max_y AS cy1, s.srs_id, s.min_x, s.min_y, s.max_x, s.max_y, r.organization, r.organization_coordsys_id, r.definition FROM gpkg_contents c JOIN gpkg_tile_matrix_set s ON s.table_name = c.table_name LEFT JOIN gpkg_spatial_ref_sys r ON r.srs_id = s.srs_id WHERE c.data_type = 'tiles'")) {
+    for (const t of rows("SELECT c.table_name, c.identifier, c.srs_id AS csrs, c.min_x AS cx0, c.min_y AS cy0, c.max_x AS cx1, c.max_y AS cy1, s.srs_id, s.min_x, s.min_y, s.max_x, s.max_y, r.organization, r.organization_coordsys_id, r.definition FROM gpkg_contents c JOIN gpkg_tile_matrix_set s ON s.table_name = c.table_name LEFT JOIN gpkg_spatial_ref_sys r ON r.srs_id = s.srs_id WHERE c.data_type = 'tiles'")) {
       const zooms = rows(`SELECT zoom_level, matrix_width, matrix_height, tile_width, tile_height, pixel_x_size, pixel_y_size FROM gpkg_tile_matrix WHERE table_name = '${String(t.table_name).replace(/'/g, "''")}' ORDER BY zoom_level DESC`);
       // Finest level whose occupied tiles stay within the 64 Mpx plain-image limit. The extent
       // comes from the tiles present, not gpkg_contents (which may use another CRS: TE-027).
@@ -484,7 +490,7 @@ export function readGpkg(SQL, bytes, { reproject = null, name = 'GeoPackage' } =
       if (!z) continue;
       const data = rows(`SELECT tile_column, tile_row, tile_data FROM "${tq}" WHERE zoom_level = ${Number(z.zoom_level)}`);
       const epsg = /^epsg$/i.test(t.organization ?? '') ? Number(t.organization_coordsys_id) : null;
-      tiles.push({ table: t.table_name, name: t.identifier || t.table_name, srsId: t.srs_id, epsg, wkt: t.definition && t.definition !== 'undefined' ? t.definition : null, bounds: [t.min_x, t.min_y, t.max_x, t.max_y], contents: [t.cx0, t.cy0, t.cx1, t.cy1], occupied: [box.c0, box.r0, box.c1, box.r1], zoom: z.zoom_level, matrix: [z.matrix_width, z.matrix_height], tile: [z.tile_width, z.tile_height], pixel: [z.pixel_x_size, z.pixel_y_size], data: data.map((r) => ({ col: r.tile_column, row: r.tile_row, bytes: r.tile_data })) });
+      tiles.push({ table: t.table_name, name: t.identifier || t.table_name, srsId: t.srs_id, epsg, wkt: t.definition && t.definition !== 'undefined' ? t.definition : null, bounds: [t.min_x, t.min_y, t.max_x, t.max_y], contents: t.csrs === t.srs_id ? [t.cx0, t.cy0, t.cx1, t.cy1] : null, occupied: [box.c0, box.r0, box.c1, box.r1], zoom: z.zoom_level, matrix: [z.matrix_width, z.matrix_height], tile: [z.tile_width, z.tile_height], pixel: [z.pixel_x_size, z.pixel_y_size], data: data.map((r) => ({ col: r.tile_column, row: r.tile_row, bytes: r.tile_data })) });
     }
     // IMP-11: 2D gridded coverages (OGC 17-066r1): elevation tiles as 16-bit PNG ('integer') or
     // 32-bit float TIFF ('float') with per-table and per-tile scale/offset, read like the tile

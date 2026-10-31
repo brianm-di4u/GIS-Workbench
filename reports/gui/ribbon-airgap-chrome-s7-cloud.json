@@ -352,7 +352,11 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×",
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
+   "info: From points: 4 building(s), 99 tree(s)×"
+  ],
   "problems": []
  },
  {
@@ -383,10 +387,7 @@
   "kind": "button",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×",
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -397,7 +398,9 @@
   "dialogs": [
    "dialog:pc-colourise"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Clip: click the polygon on the view (looking down works best); double-click to finish×"
+  ],
   "problems": []
  },
  {

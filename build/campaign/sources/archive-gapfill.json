@@ -1633,5 +1633,2110 @@
    "fmt:tiles3d.implicit"
   ],
   "pairs": []
+ },
+ {
+  "id": "eo1-hyperion-l1t-043034-20170312",
+  "area": "hsi",
+  "title": "EO-1 Hyperion L1T, path 43 row 34 (Central Valley CA), 2017-03-12: 242 band GeoTIFFs + MTL",
+  "source": "USGS EROS EarthExplorer",
+  "landing": "https://earthexplorer.usgs.gov/",
+  "licence": "Public domain (USGS); free USGS ERS login required",
+  "attribution": "EO-1 Hyperion data courtesy of the U.S. Geological Survey",
+  "tier": "B",
+  "format": "GeoTIFF (one file per band) + MTL",
+  "profile": "242 bands 357-2576 nm, 30 m, UTM, Int16 scaled radiance; pushbroom column striping in the SWIR bands",
+  "files": [
+   {
+    "name": "EO1H0430342017071110KF_1T.ZIP",
+    "url": null,
+    "bytes": 219773581,
+    "sha256": "668d2d35f6aa6595701dfb75577ee60bb417e6f42d1e56b3d63dc5dafc100f34",
+    "role": "archive"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B001_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B002_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B003_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B004_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B005_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B006_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B007_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B008_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "515f76ac99bf0f255376058e73edf068a1f4db5a37ea7feb0d939642418ee796",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B009_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "426b8d2d8c1658e5305b1e744922539b8df0f00b3fc618061ae1b63117dded6b",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B010_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e3816141ff063e3e4d7b0dd9713a7194a251ed178479e5685c349b487c499e3f",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B011_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "832f0e5699b27adecdef0bf82660cfccafc086cff22b18612f7324672ad794e8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B012_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "5f4474fc8468c2fe33a2863b171eb2a634d37d5e4004f86087c99e5db05e2d05",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B013_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "5805c8199e2b9a3097d47fde8b4d4278d22bf49c5fbeb29918237e37ce0556d6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B014_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c5014fc14e80aaec5fcca682bd58d4a851cf0ee7e30fa99c82669c2a0b2eca3a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B015_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "5f34c75240a6a4468a30a1ac9f45d106cd6f197e58b2ac58881b8dd9567da529",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B016_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "736f528b015fcbc2bf3aa8025b9cfeb48c0990f9b5b50d00a2f27764186141df",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B017_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "0dbdd82c06c0189d07ae7708e899f6184cdaa3990a9fe60239d6ca3f78785656",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B018_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "5e106fd160730a524aad3db03edeb98eff0cd14f354ccf48985a6ff1a2b1eb04",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B019_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "689defaaa6af7a55b84c7ea9376379ca2b858eaa1398ac5cf84c8b4a6f220836",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B020_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "8443cbde52c7744b2f7046cdf9a77706df53eedab587e8c7969e5c75bf6f4977",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B021_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4d66a3670e9d8af1561cd1805c920a7c05931d4fb4d0c2b6b73d318ff2598083",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B022_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "94f35c004195a428253ba29d27499c257798d7095f798d93054c2dbaa0d1541c",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B023_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e7449967d2a820fcdc71f1fbba0db85fe798896dad9c5fdd1ef37f9b2f259f71",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B024_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "46ffe81b02df2d9742125d4a764a0d5a44bb9da4a8dbe93a4b39128889df3786",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B025_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "03c87baed86fc969b36e0a3e5b820a6dafb3b43ce4684c2132b69ab9d6ee1a84",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B026_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "972f6700498254e533199e5a802d49b3fe3c8ac2f66aad627b61e43d1c29d264",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B027_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "17ce2d3ee3b8ad228ab2eff490b4ba31778c9b251bde07ba57f93492a1cd7467",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B028_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "46692af47342fe99e064a18b095c77e20b898830ec09b2e62b534b8e35eede32",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B029_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "27884c0666b9643476aa88c01b7bd7b6cdb98812d7280b0d085578d90a7b5ab7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B030_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "dfba053a29cf04ef68c8ba6f670e419c49f4b37e81fd7232a8fc1842804ffd20",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B031_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d3ec2f2323caf90176a2822a2e1a907057bf97b137fa448fd08a98e39e1414b7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B032_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "10c0a308a11362999cc35cdb2d1a0bca0fa9b1a2375cbe2d644d568498a56637",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B033_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "28ffdfdcfad083a52bda909d82d9b71bdd4decccf8a31062506b31e3ee3efef4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B034_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "77007b4386c22c988717c38d20af64221d039e706952c7a60df2ee6df19fad8b",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B035_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1610b955ddc064ae04719df4658e36157b8cd2915a0843b167c32e18aeeb976e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B036_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c6b2020e2052f23a2f5487ee6036dffd9c88e2ca1036b04d17074a71be328758",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B037_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "26ee0f84d0be32e1ed5f2ad0d4c41e3ab3610672f2d488b7905a307d3a43a3cd",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B038_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1bc3ef8c97180c5d91d897f96b289db20dbb561ebc74a02dab0b3768daf4e8bd",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B039_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1f5f62717334b7ad82ef4ae23034162456be53a320d3b2b7256ea6f9ebf13087",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B040_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a154c5c8c051f5c9c7a1752b2ca30381467ecb15824ef1e81040f77b9fe10046",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B041_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "395d53d65ee37869992ec3d37f82020e70373eede49a4f5e97e8559634dd00bd",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B042_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4ecce9dca3720bf7cee468e0ec9608d54092dcba637c569510332d284d31bafc",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B043_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "6d4c08cb52731e2f0444b3e89f77d2aa3d8c29cbd4ec16282d83916d994aa42f",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B044_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "0448257a273cd63ed9cd5dcfca1c1c2154b0701f38d866e037eb32b4fe846cf9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B045_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "7a5adde061f5e4dc6e9350a486614d5084379c2192529ceec66a50bb5832ca47",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B046_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "47dcf3cd7bd1d93a7753ccac971cba94e5bb0fce1b8110d567b333af2c8b20c0",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B047_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "15766941ee6cd61c9b2b58f397d76bdd75803ed24fafcb36803fb8d919fcecd2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B048_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "67dc1b41804612dbd7107f07053b261193af3364752a8fd5c0444f550d8bc758",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B049_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4519824050a2b11edc18d5f433f37d5b1c0f9c29618b6ba38e197edbc473a649",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B050_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e372624d4f3f32ada76e95f04a90dbb1250cb7ce0671aa08e603d1441d1114b4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B051_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c54cf31202e710e3e8da4f1dacb6ff170eb25e38b6779c5d0f6f70c7a1f58063",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B052_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f2cee9637c289683a713a313f384c2b3164d1d2d6807e584026b6ac8295561bf",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B053_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "de9582d42673438b230049cbb263e69c9d36cefd414ff86b53c7336881cd98a1",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B054_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a97ca84b80435cacec13d901ff085c3b287d8375aed1e55fee9a0f190c8ddb9e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B055_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "bc064e654d452c049766af0e450ecf1386c083daab7845f957b3fd55145b4745",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B056_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "2b28a8549dcbd13fd040de506d3f0aa3ac5d76746dd0895c9d887281e78bc8ca",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B057_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "db4c111fea2077cc8706160d9127d265f5d0279692f857df2a3a37580aaa042b",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B058_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B059_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B060_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B061_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B062_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B063_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B064_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B065_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B066_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B067_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B068_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B069_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B070_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "665c2e4ab47f2f05cfb1756ce48a4f92892eb3e521e011123528ecaf5e6a92a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B071_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B072_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B073_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B074_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B075_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B076_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B077_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "83e700b0dab81192bf98d3b96e4777cc465578ccdb37e4f76b2503103e6406eb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B078_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d37ee5c50e6dc2d1d7007a870c8be5aed6c276219c24263eccb4808a49ae706e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B079_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "261face55b15a2b83788f6fab0735c091d1576b6fc117a29ac60e4a3216c71c5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B080_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "8954503e5f9f280148c3529b40f8902931927aa0f69142e808717020a1d48938",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B081_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "b2b37ee636ee2151d4785bce5c4333180498276d23ec3cb640e150b1700c39e1",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B082_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a4793018a220133c0210aeeaa0fe07c5d5e55d4f9491646a02c2475ad3940bf2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B083_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "9e1e2f829e428c5244885636fdc8d625794e78f2b969fa77e756d8a8805ed823",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B084_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ec04e614b10b11a184499b418e781b9f547a809f6c5cda8eec4da47ba796e8a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B085_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "20af83f19cbd1ed7086d4d1cccd7a2c4bd9248e43c86d3bc4ebf69024d344e34",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B086_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a57d76e700b3cdd17d693e5dfac6192ae5ad2944247671c57d7a0b83188894a8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B087_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d42cb2c608d249016b75f7ee97ed6418638dc6a77a5ff870d0bf5cc0572c6bb7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B088_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "47e45198b2bddd23aa31686808a905abae25726ef61ede84d87d65ed86f2c32a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B089_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "981140352bcb0c695f457b859e8e1895e5840d92937eb08d39c9281f605248b5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B090_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1c0faa5ad01321c9e2dc81f82f76f235dd6d5db0612a977ab12ff9e5c2c5a5d7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B091_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d89faf505eb85cb3cac048d759f163481b64c9c6b8591b2310bd88a9bd5ee2a5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B092_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ce89d169ca117364a887577096a9f383db6d3d0b26740b3bccfb6823feee1a9b",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B093_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "67d1fad2eb3e15f4a2df19e500b98ac55a42540c2f88755471dc309e094f2457",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B094_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "b98b9eb7725602c86c04d6f654b8591393ad4fe9e12c152f54ec0a5b4784d2a3",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B095_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "bcee4963d7ef1073a80d7d29fdaac80f15197e3b3bc637686b0254b53b4db3f8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B096_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "cca5f3b87cf464989d740ac7e20ca6b39ee6e26032c8c9a4d76cba0bfef247c4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B097_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "b79cea5bd6b12660feb90a218161956ad33941ef1dee9daac00ada187468dccc",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B098_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "3eba629b1a30a60e616e4be65a600e941e1ceb22a13c2a98ecd46144b5e94857",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B099_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "dbe7e039f7cb10ed6236df966f65c9c951dd9d2cc27d52539067bcc5e8caca13",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B100_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "985e2a56dfd164cbfd77210c9ee5cb8861b71c0be9a83371f37aa9a3cca2bfd4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B101_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "79c0965793625d84d9c9d9d4f5e023aef4ea40fdfcfc294c36e29e48baebaad4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B102_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d7e69c8fc24eed9ad140d481e0e2a773992b678de5aaba30e839c7939e6927aa",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B103_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "36ab4782bfc8255a96942eb16fc1c1f24fed1817c5de3d890a1e0d1f9a7447bb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B104_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "053200ae4edcc7262558cd30aa2be9a8928efb2edac96c1b468c9819b800d235",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B105_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ae3d09f0f87f888596ef4e8263e4900457f206150dcb6ca24f6d85283313ba1c",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B106_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "10467caf176f98221515826628a0da08dd8a75c02401096b4cfc392dc31f91d3",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B107_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "9e61de9527838dd1e3907ba5ca6f9f64750d4f7ff766c6d315150903efea48be",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B108_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1aa74fb3754c613d2c5f90aa8fd10d30b8bd97031de886bc0a6f42d4a0a935b6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B109_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "96ecfc14623130a527d0df20c2c6ef7ae09061eacbace42b792f8dd42cc318be",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B110_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f2e794b92e314ed41d680dca8807cedd14cb57c5514a96f1f6acd707d0888e93",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B111_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "72be4fe5f62a0fc7763c893a99c11911f3da5e1eb64a82de28bb1ca302402834",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B112_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "831b670490c929a61736be0bdabbab2bb7a798f7f926d5756ab53a836276e005",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B113_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "b3128e8b666672bf06e0d9b7c5a390226719eff7324e0edd7bf18863fcd2b4e2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B114_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "3e5e9fae9c7f96c18887976db1bdf4d9c13c9ea3fee5ad09c8791ff07c9c63f4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B115_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "6ed7b7686c2fb8a1e796fe7a475c88dab02322088eadbd634f56106dcfb5e868",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B116_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e5da97336f2311703ebd2f2d592948d68dd095f799c85a00ea399ae39b8e1586",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B117_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "6a7082f138c18a234ce095a0988c86a2662fd6abcc71f24946a870f50b65f7b5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B118_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a6b56fe515d01986f8cc07226d211ceb8a55d1b05c455efb99dd6e18cfd3b851",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B119_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "18f4e40f668e2dd23094fbf92951b6328fb43d1c2ac9c99155a0daed4c488892",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B120_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "944c1a587d309a052f237296cc2bfffb3d00ee81f65e190fad40c0868d4141cb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B121_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "bcd4804ea3ec92731bb1f245768410ad8758d660dcf8a90a86554cc133f9e89c",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B122_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "53c868f782d78c99b7e5a4ef8efdbcfc11128665be8a0aec121455b46d013055",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B123_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d1bbb810812783abf53fa31306f113c5c7aca6b601a4b11310d60faa5c422c59",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B124_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f03f673ed4a28f0fa95c6e0db127d836e2b8c6fff4c7288bd178b65a6e203e5d",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B125_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "82acf1782e7a9f26bbd1f355e46ecd0b5ef9faa81138e45d07e755fd025d3cd0",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B126_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "de5131284a01452df6f9ab33988cb5077eefc0470e72d8f917241475a58749e2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B127_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "bdfe9407fd5020c7bda510310c344d3d56d882c8ed28dfd3e80aad9cb489a4b4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B128_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "26d0c3c99a0552f3eb53606dbd72b6cc3f404eccd341ee8a6dcc4292ec068652",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B129_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "933274654323892e18b59e2c2e036c3930232173c061646e14a517a29da88a63",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B130_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "494e3e800134176cd34c0818212b18c2924ba43746bdd436e444cb1bf4473902",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B131_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e1cfcee65d1a91a206b60efacce2cfc033c5e565b358a3ba76b7b8e26624e2a9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B132_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a86d55e29c29fce010fee690656a4f6a0c60d0673e5a49eb77c1668de8183436",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B133_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e95ddf0ebfa5ca1b6e7548a6ed30d99cc7135d936e1bd3cfecd094873dea2ac6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B134_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ff35f25a3bbf47da0b8f5acb3e24a24faba75b1d7e84d21146bb68b750c4ccea",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B135_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a5abc5dff38e3684a7eedd47f0574a08b0d1ba1cf727e05ef1bbf6805c3d8ce9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B136_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "43f2e2937a6fffb62971a688adeb937c689b529f9a7ccc0df0c07749ab6d309a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B137_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "91091494249189d33dd474445e7104ca9a4457ceda2f4ebcbd2db2ec51fc7ea7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B138_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c81a0b16db1f8842cc845f2ffdbbc3fad8fea23f6de4fbeb908dd08241ec7bc8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B139_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d82a193a2f0b94afa422108d50cf5b7bf7fd58e810e7c7f2166d8c3cef8e4000",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B140_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "22a450405d9b97763820b7e6cd7fcb3567a927adf1961b5d1f67be390d03e14e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B141_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "9460c165bf9832b56fed225a7eb75bf4b6d416ed606f744c7428d9b99d0fc098",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B142_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4383356c17e76692971f3398d4ae9e4c15185e7a5ef0123c15e2adc5c59e523a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B143_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d93522850010fed51e89a2c7e58f99428ed4d500372d42dc6317bc3b3a90ee9a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B144_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "3f8b11332fbe2edb6e2e9eda79d0b0638cf2bfbd429e637ca23935d3eb59cccc",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B145_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d2e9ac7a98ae5a18268a0ba89d21d6bf575227228749931b5650f012f1d2c88a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B146_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "7441db73ef6f054b65d74a8d956763f95df548d121097060408b32e7cb10569b",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B147_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d2a1357752920b8cf3a2fc9efd267bf016390c6f58ad5ddecd3818f4ca953072",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B148_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "b85ca336e58b853f742ad4f91105523fe24c761753eaa302a44f1036595016aa",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B149_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "35008b49d8c5dce41d778bb83ab9ea60892ef7f7585fb462fd7967baea771015",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B150_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "07040724a6450d639bc0181d8bb172ab29c1e468d36c2d2889f1516c97cafd64",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B151_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "2b4a4182c2768ba6e3db0ac6ac56a14407d1365f75aa513954d1736a255016e7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B152_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "d4af10c5163fd36c538dc91b96118eaa906257ed21263666f8b5ef6d0a2afb36",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B153_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "91b125417a3c66cc58f3dd1179092fab0a3467c97b463a3073eecd7462b1f1b7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B154_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c8b5978a9a7805e67866ca7e7377c748467913a74452f8ed52bf3545755a685a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B155_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c9571efa1a3aa4cf9c61b8aa842bf456ff824005dfc8f206690e5b78f7d437b3",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B156_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ab7770ed6d85530fdbd98adb928eed6f5027005d239430ec75e1cc7019835e28",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B157_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "fdef76fa4dfc3daf669086a2b90364baad296a225b2c82f9577ceb505f8df293",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B158_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "da01687e9fcf0a834986126464883944feeecdd55474bc6d62f523aa08f0d3b6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B159_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "45af8a77840ea05468e522bd3fcc56808a01572465b78093dfd9ad5520ae86e6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B160_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c92bb2e8ced4d9b237a620e84aad4324afa8a6a6733c61ea56385b6ea5aaef1c",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B161_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4c5cf822108ad68129bfcfca52e81dd78c46ea014cafb04a3f1c6045fd1023b8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B162_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "bb2f3e2da64522ead736fdac13abc4ae13aa8c9fd3a7c525da3a6767fbe531b6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B163_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "8a65dbe66bdba2f821bc3f8481fbb1736da9608cc7c3529ee401723e02b67ef2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B164_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "8931ff9e7b6e430312f22089e35d235dfeba0ec42c2ebcf91779de54d0b4fd12",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B165_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "2b6d1526fd3f6631bac6778441cd7ea716f096d987f50168e80152fec896f37f",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B166_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "183e4f17a695ef884d6ce6ee08110daee3ed4ac2011935c8c71dd83ffcb588c6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B167_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f58e69dc87f6ad72b62c5a890903965e22ad4adc01fa8c30c079f70a8612fd59",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B168_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "5cf4ac056ad1eb0028cd7eb36f6dae9e75bb5cbd63a882300bc3958aa47750c7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B169_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "28e6a308c29557fd56e336d835782608dec7bac82f5d5afc9c409d9b3281b3e9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B170_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1fc4286b0d6f221c6c87e32b845e77233f507b29aa783e4024ddbf6d43d33a68",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B171_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c364a665116d0ee2e56eeec237254ff31ffdbaf0ab4cdc66b7e0b6f7fd0de47d",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B172_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "33b651ac1f7c8bae71a8c819fae31d7248d40e40cad3221f3ab18aa5d988d1a7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B173_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "683addb9b30e8aa407d51675c4c161c3baf3f14529ee6697629d1780efcb17d1",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B174_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "a86195e26f529f0932c3247ecf90906ad9fc2afe0b697879e6b8c49d7f8e537e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B175_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "9c3caa25cfd80857039569554d0da42df4a7af5e35f529b9792b9309705753b3",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B176_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "5ccd8095a19ae1fc95c827a097271dcece48dbfc7ed5c5bd09fb543f8eefc736",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B177_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ff778cf65a4fedbf82e5e6f553d4ceb02488e3760fd7da577620638a4b36fc04",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B178_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "145a8b88829ed847203901e545e96f9512e20bf9c11bc516ef34cb642c369806",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B179_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "69524a4c208bb035f1c3c3b8d2dba9da65c617f71b9a6f82b2138048342b05f9",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B180_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c5bb8e250a46a86e8f5164d80423e9799bf95eda4d7cb418fa44c824e0e4ba24",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B181_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "9d22b69e78450adf37eb0960f82f2af8ca0ef41d8f3ea68442565f28f12b71c2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B182_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "3c2989a70872e1efd3ac3ceb62325a0f706a63cad0c0af1090b63e5aa4504848",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B183_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "6b0b9859d0fe77b9ea8e77836c283f4b5baaa6d938c9c1755759429bc45dc127",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B184_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e6bb4715d1d171411ed6fd6617360c66fd07830a2b9c3722c0b28ea0f457d952",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B185_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e40ecb96f906d96a92916bd0dfcb1cc1fae6c3e6d0fc6a514e867954beb9d630",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B186_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "78b316756c23b7c3150436f53047f84c1680f136ab696552eafaedadcc02cee5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B187_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "7faf93f937fd7cd6003ad0f1f25d12d72c46cd1700e7324392bdef76fee8a5ba",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B188_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4a96e34573741770af4e7b8a47943719ae2b0737e132f84798af23b4559756b8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B189_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "118d5ff86fbe4c36965478c4aa569a81d88ea13905f6454f83357e8ec4aab51b",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B190_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c81f9e4d48831bc6e7e74c8098e49e6431a9165c9be369bbd4da86460c7fedc2",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B191_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1daa6901458c4df29ab0d01ff19aa71a0fc5f8fc178d43d13a35c54253978abf",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B192_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "778505e556255a0f377570ec349ffb3d0cf02b976e72f0972136ac345b8e835e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B193_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "888d6b0fe80151832560d5274e29452c9947f6b8b31bd70594d9b830bf3a27be",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B194_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "c11aa7b64a18447c301efbb36b2b604fea8c727fb440f2b51214729739754560",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B195_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "3f6f451ef45fb971db38a7c02ba5ab0b33da590117c2469d7181e7240d6f7416",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B196_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "97fad212a78e412169daa6fd13ec83c637a5234042960815e839fcfaece2b09a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B197_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "981a009649a04daa9cf6bc9ea830c08cf9957f25da1e89df7b23df411395aa8a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B198_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "ed31c515773fe3b581b9bcefb25461a14498d57baedc6f1b65985ec7e075f44e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B199_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "25279c76dcd8d8f0785f5f511446e610e57cbf62ab394b50c839c7fcb78d5f15",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B200_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "2b8d723d82006c6216b9ab8255c764b0cc11452363733768d69c8a4048671df5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B201_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "48b0b61ce3e17859f188c4a2052797fd30682147d49279dbd22fead39efb957e",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B202_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "8c4f3ed369f90ddd7ae5a3035cc6b49487492a235aa3693bd1d8538c44cc5ba4",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B203_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "7403cceeb1a8a5059032b030f851300767929d62b29eec46c915ec0724e6dac0",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B204_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "771baa471ee58a7cf5fac34e47af6820c74558af71f0bf9efa1f43595a0ae145",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B205_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e81359e37ae55bc4466b414a6bdbc78e8d26be033c35167e581a1804468952c8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B206_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1eac50079701def99a855500e2ab709a97d9ada1c87ab757bce35e9770dd1635",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B207_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "eb564db2673bfc22ec8c580f1cb61111cfe91cad893e954d7c6056faee427bf6",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B208_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f20dcfdfbac70e9cd1d8c850799e9fce5866c716b251df269b95ba20ba495833",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B209_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "9369b608c20648916a33e3790260d908fa3fe75ce0a81b30635dfc148553e9c1",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B210_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "797791d8545c035334af72f452aa578f1ff79235416d57aaef60445aeb5364c5",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B211_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "adea61aa3ab7327cb9372bb6ce8dfe63d3c41992a0e59ef152855b123d007b39",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B212_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "4b612d3e167efda5188de8db1f3902f529f895a634081881b07144eea275cb27",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B213_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f45fe66b85cca273c2fcd0fecdab3611e45ac536f6db2b4d3758cdca1d1399d7",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B214_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "3a2a6f4a4ab620f600113205d50489658a1c96d393f4d909dc035e6570c2bf87",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B215_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "6f3a30168ca131e3829fee40578464037ccc7e06673c8bce55431bdafa4e8d89",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B216_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f3f5656e076e9db487dee5cc598f3d9c96583b795aab22e0847935ad3ebc9736",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B217_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f12ca695e047b4e96b0cfec92bd9f49e79c42fe9295090cefe40d7350a857dad",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B218_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "b4be914b090e563cc4b9cd5da5093f4990651f0e96c3cd84b356c225a649303a",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B219_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "e0bc44edd7dc0eb02da326b2254cdec4321ff52a13e315ae988e4fb21ab6e89d",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B220_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "8d9d25be17796b3b626b7bb449a29fdca15fe40dd64de45309b7dd722826b512",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B221_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "2d6b57b2b94f5ea354d67bc6a04f6b6373b2c0479c2769fc4579f506f0033051",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B222_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "f4b7a7c37aa3f98ee7af29121b8f17f3a553334de1e5814423c9df90b0a7e5f8",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B223_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "1ac94b4824b0c8729baf1c41ec7a147d6e472a78c060dae0493474baf15831fd",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B224_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "bd0a84915290289c7df160e0a0b0e409569ca45c8f5dfdc3fd743f8fa59dc093",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B225_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B226_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B227_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B228_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B229_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B230_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B231_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B232_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B233_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B234_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B235_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B236_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B237_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B238_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B239_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B240_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B241_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_B242_L1T.TIF",
+    "url": null,
+    "bytes": 5724682,
+    "sha256": "90fd877387e5fa4a85647a03207afc25d5d68d714199cda78f05c034461dfcbb",
+    "role": "primary",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "EO1H0430342017071110KF_MTL_L1T.TXT",
+    "url": null,
+    "bytes": 17538,
+    "sha256": "0e99271cd51a7ae87c296daaebf7051abd664097f3dc42c369cb29ab36bce9b5",
+    "role": "metadata",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   },
+   {
+    "name": "README.txt",
+    "url": null,
+    "bytes": 5804,
+    "sha256": "9ae9d24e60cfe0d6c487f60685daaf2beb41003358447172ff584affac4a6cef",
+    "role": "metadata",
+    "from": "EO1H0430342017071110KF_1T.ZIP"
+   }
+  ],
+  "sign": null,
+  "notes": "Downloaded through the owner's EarthExplorer session (account gisworkbench) on 2026-10-29: dataset 'EO-1 Hyperion' (5e83a1255d5fa4fd), entity EO1H0430342017071110KF_AS1_01, 'L1T Product in GeoTiff format' (product 5e83a12e55409b90). Classic destripe target (per-detector column striping); the L1R HDF4 product was not taken (the app reads HDF5 only).",
+  "feeds": [
+   "ingest",
+   "msi.destripe",
+   "msi.stack",
+   "msi.spectra"
+  ],
+  "origin": "download",
+  "covers": [],
+  "pairs": [
+   {
+    "role": "striped",
+    "with": []
+   }
+  ]
+ },
+ {
+  "id": "nitf-ntb-ns3437a-c5-lossless",
+  "area": "nitf",
+  "title": "NTB baseline NSIF 1.0 ns3437a: 12-bit lossless JPEG (IC=C5) single-band image",
+  "source": "GitHub DFDLSchemas/NITF test resources (copy of the NITFS Technical Board baseline sample imagery)",
+  "landing": "https://github.com/DFDLSchemas/NITF/tree/6f2b0febd493d974482f4b12a3666cad8c95ccd9/src/test/resources/ntb-baseline",
+  "licence": "US Government NTB conformance test data (unclassified); the repository has no LICENSE file: test-only, never published",
+  "attribution": "NITFS Technical Board baseline NITF 2.1/NSIF 1.0 sample imagery, via DFDLSchemas/NITF",
+  "tier": "A",
+  "format": "NSIF 1.0, IC=C5",
+  "profile": "CLEVEL 03, one image 1024x2048, 12-bit MONO, IMODE B, 2x1 blocks of 1024; SOF3 lossless JPEG (ES implementation, APP6 type 2, no internal DHT)",
+  "files": [
+   {
+    "name": "ns3437a.nsf",
+    "url": "https://raw.githubusercontent.com/DFDLSchemas/NITF/6f2b0febd493d974482f4b12a3666cad8c95ccd9/src/test/resources/ntb-baseline/ns3437a.nsf",
+    "bytes": 2656587,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Found by the 2026-10-29 GitHub hunt (TE-corpus/_github-candidates/REPORT.md). GDAL 3.13 identifies COMPRESSION=LOSSLESS JPEG and cannot read the blocks; the app refuses C5. Negative sample for the refused codec.",
+  "feeds": [
+   "ingest",
+   "robustness"
+  ],
+  "covers": [
+   "fmt:nitf.ic.c5"
+  ]
+ },
+ {
+  "id": "sar-sandia-farad-quadpol-2pass",
+  "area": "sar",
+  "title": "Sandia FARAD X-band quad-pol SICD set, two passes 20 min apart over Albuquerque (HH, HV, VH, VV each): six-library sample SICDs",
+  "source": "ngageoint/six-library GitHub wiki \"Sample-SICDs\" (files on the project S3 bucket)",
+  "landing": "https://github.com/ngageoint/six-library/wiki/Sample-SICDs",
+  "licence": "Sandia National Laboratories, UNCLASSIFIED; no explicit data licence (six-library code is LGPL-3.0): test-only, never published",
+  "attribution": "Sandia National Laboratories FARAD; distributed with NGA six-library",
+  "tier": "A",
+  "format": "SICD 1.2.1 (NITF 2.1), RE32F_IM32F, PFA",
+  "profile": "Spotlight, X-band 7.95-10.79 GHz, ~3860x6650 px per file; one polarisation per file, RcvChannels [H:H, H:V, V:H, V:V]; pass 1 2016-09-21 16:41:08Z, pass 2 17:01:22Z, same SCP 35.0545 N -106.5926 E, graze 28.4/28.8 deg, azimuth 241.15/241.16 deg",
+  "files": [
+   {
+    "name": "sicd_example_1_PFA_RE32F_IM32F_HH.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_HH.nitf",
+    "bytes": 206215887,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_1_PFA_RE32F_IM32F_HV.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_HV.nitf",
+    "bytes": 206215896,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_1_PFA_RE32F_IM32F_VH.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_VH.nitf",
+    "bytes": 206215896,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_1_PFA_RE32F_IM32F_VV.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_1_PFA_RE32F_IM32F_VV.nitf",
+    "bytes": 206215899,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_2_PFA_RE32F_IM32F_HH.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_HH.nitf",
+    "bytes": 205131647,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_2_PFA_RE32F_IM32F_HV.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_HV.nitf",
+    "bytes": 205131656,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_2_PFA_RE32F_IM32F_VH.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_VH.nitf",
+    "bytes": 205131656,
+    "role": "primary"
+   },
+   {
+    "name": "sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+    "url": "https://six-library-github-public.s3.us-east-2.amazonaws.com/sicd_example_2_PFA_RE32F_IM32F_VV.nitf",
+    "bytes": 205131659,
+    "role": "primary"
+   }
+  ],
+  "sign": null,
+  "notes": "Found by the 2026-10-29 GitHub hunt (TE-corpus/_github-candidates/REPORT.md); the wiki calls it an \"interferometric set ... quad-pol, squinted\". Pass-1 HH is the full scene of the chip in sar-osml-sicd-sidd-chips. Coherence HH pass 1 vs pass 2 over 49 SCP patches: mean 0.54 (misaligned control 0.23), so a coherent repeat-pass pair, but only 20 min 14 s apart, not days. sar.pauli takes the HH, HV and VV layers of one pass.",
+  "feeds": [
+   "sar.sicd",
+   "sar.pauli",
+   "sar.ccd",
+   "sar.acd",
+   "sar.pairs",
+   "sar.coreg"
+  ],
+  "covers": [
+   "fmt:sar.sicd",
+   "fmt:sar.sicd.v1.2.1",
+   "fmt:sar.sicd.quadpol"
+  ],
+  "pairs": [
+   {
+    "role": "repeat-pass",
+    "with": []
+   },
+   {
+    "role": "co-register",
+    "with": []
+   }
+  ]
  }
 ]

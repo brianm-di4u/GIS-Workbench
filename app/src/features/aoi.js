@@ -149,6 +149,8 @@ export function install(app) {
       }
       const { w, h: hh } = p.size();
       let scr = app.graphics.screenPoints(p, r, w, hh);
+      // A ground graphic whose points the image's model cannot project (off the image) has no AOI here.
+      if (!scr?.length || scr.some((q) => !q)) return app.toast('AOI from Graphic: the graphic does not project onto this image', { kind: 'warn' });
       if (r.shape === 'rect' && scr.length === 2) scr = [scr[0], { x: scr[1].x, y: scr[0].y }, scr[1], { x: scr[0].x, y: scr[1].y }];
       if ((r.shape === 'circle' || r.shape === 'ellipse') && scr.length === 2) {
         const [c, e] = scr;
