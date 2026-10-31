@@ -207,9 +207,7 @@
   "id": "rot.mouse",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -217,7 +215,9 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×"
+  ],
   "problems": []
  },
  {
@@ -235,9 +235,7 @@
   "id": "ov.pip",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -247,7 +245,9 @@
   "dialogs": [
    "Add 2D Bookmark"
   ],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {

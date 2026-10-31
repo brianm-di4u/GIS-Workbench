@@ -4655,10 +4655,10 @@
   "tab": "dialog of ext.saveas",
   "id": "dialog:ext-saveas ▸ Save",
   "outcome": "clicked",
-  "dialogs": [
-   "dialog:ext-report"
+  "dialogs": [],
+  "toasts": [
+   "warn: Building (AL013) has no features to save×"
   ],
-  "toasts": [],
   "problems": []
  },
  {
@@ -5224,7 +5224,9 @@
   "id": "pane.showname",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Recipe step 1 failed: open an image first×"
+  ],
   "problems": []
  },
  {
@@ -5233,7 +5235,7 @@
   "outcome": "not now: open an image first",
   "dialogs": [],
   "toasts": [
-   "warn: Recipe step 1 failed: open an image first×"
+   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
   ],
   "problems": []
  },
@@ -5242,9 +5244,7 @@
   "id": "stereo.open",
   "outcome": "not now: open two images with 3-D sensor models in this panel first",
   "dialogs": [],
-  "toasts": [
-   "warn: CoT: nothing to send: place markers, record observations, accept detections or draw outlines first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

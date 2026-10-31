@@ -1,0 +1,7657 @@
+{
+ "run": "rel-perf",
+ "project": "chrome",
+ "measured": "2026-10-31T15:18:46.301Z",
+ "budgets": {
+  "firstTileMs": 1000,
+  "readoutMs": 16.7,
+  "fps": 50,
+  "frameMs": 16.7,
+  "leakMB": 64,
+  "cloudFps": 30
+ },
+ "files": [
+  {
+   "key": "3d-gltf-khronos-meshopt/BrainStem/glTF-Meshopt-EXT/BrainStem.gltf",
+   "bytes": 777184,
+   "keys": [
+    "gltf",
+    "gltf.gltf",
+    "gltf.meshopt"
+   ],
+   "openMs": 91,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 5,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-gltf-khronos-meshopt/DragonAttenuation/glTF-Meshopt-EXT/DragonAttenuation.gltf",
+   "bytes": 2863447,
+   "keys": [
+    "gltf",
+    "gltf.gltf",
+    "gltf.meshopt"
+   ],
+   "openMs": 122,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 4,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-gltf-khronos-plain-glb/Fox/Fox.glb",
+   "bytes": 162852,
+   "keys": [
+    "gltf",
+    "gltf.glb"
+   ],
+   "openMs": 86,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-gltf-sample-assets/BoomBox/glTF-Binary/BoomBox.glb",
+   "bytes": 10614184,
+   "keys": [
+    "gltf",
+    "gltf.glb"
+   ],
+   "openMs": 210,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-gltf-sample-assets/BoomBox/glTF/BoomBox.gltf",
+   "bytes": 10615115,
+   "keys": [
+    "gltf",
+    "gltf.gltf"
+   ],
+   "openMs": 149,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-gltf-sample-assets/Duck/glTF/Duck.gltf",
+   "bytes": 123306,
+   "keys": [
+    "gltf",
+    "gltf.gltf"
+   ],
+   "openMs": 83,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-tiles-samples-i3dm-pnts/TilesetWithRequestVolume/building.b3dm",
+   "bytes": 3665368,
+   "keys": [
+    "tiles3d.b3dm"
+   ],
+   "openMs": 21,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "3d-tiles-samples-i3dm-pnts/TilesetWithRequestVolume/city/ll.b3dm",
+   "bytes": 9700,
+   "keys": [
+    "tiles3d.b3dm"
+   ],
+   "openMs": 20,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf",
+   "bytes": 45336725,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v2.0.0"
+   ],
+   "openMs": 2362,
+   "firstTileMs": 2233,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.9,
+   "readoutMs": 0.40000009536743164,
+   "gpuMB": 15,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2233 ms"
+   ]
+  },
+  {
+   "key": "change-spacenet7-train-sample/sample/L15-0506E-1204N_2027_3374_13/labels/global_monthly_2018_03_mosaic_L15-0506E-1204N_2027_3374_13_Buildings.geojson",
+   "bytes": 805089,
+   "keys": [
+    "vec.geojson",
+    "vec.geojson.legacycrs"
+   ],
+   "openMs": 69,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "dem-under-california-3dep13/USGS_13_n38w122_20250826.tif",
+   "bytes": 499782172,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.lzw",
+    "gtiff.cog",
+    "gtiff.overviews",
+    "gtiff.tiled"
+   ],
+   "openMs": 346,
+   "firstTileMs": 297,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 34,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "dem-under-california/Copernicus_DSM_COG_10_N37_00_W121_00_DEM.tif",
+   "bytes": 45213310,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.cog",
+    "gtiff.overviews",
+    "gtiff.tiled"
+   ],
+   "openMs": 340,
+   "firstTileMs": 195,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "dem-under-vegas-3dep/USGS_1M_11_x65y402_NV_Las_Vegas_Region_2016_A16.tif",
+   "bytes": 273475295,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.lzw",
+    "gtiff.cog",
+    "gtiff.overviews",
+    "gtiff.tiled"
+   ],
+   "openMs": 864,
+   "firstTileMs": 286,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 32,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-3d-tiles-3tz/MultipleContents.3tz",
+   "bytes": 381726,
+   "keys": [
+    "tiles3d.3tz"
+   ],
+   "openMs": 78,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-3d-tiles-3tz/TilesetWithDiscreteLOD.3tz",
+   "bytes": 4791686,
+   "keys": [
+    "tiles3d.3tz"
+   ],
+   "openMs": 126,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/ai-1.30.0+slimsam77.webgpu.gwpack",
+   "bytes": 24699261,
+   "keys": [
+    "app.pack"
+   ],
+   "openMs": 564,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/airfield-triage.gwrecipe.json",
+   "bytes": 1430,
+   "keys": [
+    "app.recipe"
+   ],
+   "openMs": 32,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/building-extraction.gwrecipe.json",
+   "bytes": 1072,
+   "keys": [
+    "app.recipe"
+   ],
+   "openMs": 34,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/colorado_dem_dted2.gwb",
+   "bytes": 2053,
+   "keys": [
+    "app.project"
+   ],
+   "openMs": 41,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/naip_vegas_buildings.gwb",
+   "bytes": 7741,
+   "keys": [
+    "app.project"
+   ],
+   "openMs": 44,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/proj-0.1.0.gwpack",
+   "bytes": 3444795,
+   "keys": [
+    "app.pack"
+   ],
+   "openMs": 204,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/template_chip.gwt.json",
+   "bytes": 641,
+   "keys": [
+    "app.template"
+   ],
+   "openMs": 24,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-app-artifacts/template_sheet.gwt.json",
+   "bytes": 1043,
+   "keys": [
+    "app.template"
+   ],
+   "openMs": 24,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-control-points/ngs_golden_co_control.csv",
+   "bytes": 25225,
+   "keys": [
+    "control.gcp",
+    "vec.csv.lonlat"
+   ],
+   "openMs": 37,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-control-points/ngs_las_vegas_control.csv",
+   "bytes": 19345,
+   "keys": [
+    "control.gcp",
+    "vec.csv.lonlat"
+   ],
+   "openMs": 35,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-detections-csv/rareplanes_105_detections_latlon.csv",
+   "bytes": 2171,
+   "keys": [
+    "det.csv",
+    "vec.csv.lonlat"
+   ],
+   "openMs": 22,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-detections-csv/rareplanes_108_detections_xyxy.csv",
+   "bytes": 14641,
+   "keys": [
+    "det.csv"
+   ],
+   "openMs": 21,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-dted-level2/srtm-skadi/w106/n40.dt2",
+   "bytes": 25981042,
+   "keys": [
+    "dted",
+    "dted.l2"
+   ],
+   "openMs": 1006,
+   "firstTileMs": 710,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-envi-variants/landsat_sr_bip.img",
+   "bytes": 14680885,
+   "keys": [
+    "envi.data"
+   ],
+   "openMs": 1113,
+   "firstTileMs": 675,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1.1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-fmv-variants/dayflight_hevc_klv.ts",
+   "bytes": 3159340,
+   "keys": [
+    "fmv.codec.hevc",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 180,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-fmv-variants/dayflight_mpeg2_klv.ts",
+   "bytes": 51749256,
+   "keys": [
+    "fmv.codec.mpeg2video",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 560,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-fmv-variants/nightir_hevc_klv.ts",
+   "bytes": 3751540,
+   "keys": [
+    "fmv.codec.hevc",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 194,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-fmv-variants/truck_hevc_klv.ts",
+   "bytes": 16831640,
+   "keys": [
+    "fmv.codec.hevc",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 422,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-fmv-variants/truck_mpeg2_klv.ts",
+   "bytes": 117935032,
+   "keys": [
+    "fmv.codec.mpeg2video",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 1200,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-geopdf-iso32000/cop_hillshade_geo_both.pdf",
+   "bytes": 914205,
+   "keys": [
+    "geopdf.iso32000",
+    "pdf"
+   ],
+   "openMs": 672,
+   "firstTileMs": 358,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-geopdf-iso32000/naip_geo_iso32000.pdf",
+   "bytes": 1088281,
+   "keys": [
+    "geopdf.iso32000",
+    "pdf"
+   ],
+   "openMs": 678,
+   "firstTileMs": 363,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gmti-tracks-ais/houston_galveston_ais_20230601.4607",
+   "bytes": 188217,
+   "keys": [
+    "gmti.4607"
+   ],
+   "openMs": 70,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 11,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-codec-matrix/dem_lerc.tif",
+   "bytes": 2368554,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.lerc",
+    "gtiff.tiled"
+   ],
+   "openMs": 345,
+   "firstTileMs": 198,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-codec-matrix/dem_lerc_deflate.tif",
+   "bytes": 2324413,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.lerc_deflate",
+    "gtiff.tiled"
+   ],
+   "openMs": 331,
+   "firstTileMs": 219,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-codec-matrix/rgb_lerc_zstd.tif",
+   "bytes": 1615381,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.lerc_zstd",
+    "gtiff.tiled"
+   ],
+   "openMs": 585,
+   "firstTileMs": 263,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif",
+   "bytes": 63864641,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.bigtiff",
+    "gtiff.codec.zstd",
+    "gtiff.tiled"
+   ],
+   "openMs": 2124,
+   "firstTileMs": 2153,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2153 ms"
+   ]
+  },
+  {
+   "key": "derived-gtiff-variants/naip_bigendian_striped.tif",
+   "bytes": 16921457,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.codec.packbits",
+    "gtiff.striped"
+   ],
+   "openMs": 2659,
+   "firstTileMs": 1695,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1695 ms"
+   ]
+  },
+  {
+   "key": "derived-gtiff-variants/s2tci_webp.tif",
+   "bytes": 923482,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.webp",
+    "gtiff.tiled"
+   ],
+   "openMs": 839,
+   "firstTileMs": 561,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-variants/wv3vis_lerc.tif",
+   "bytes": 8125959,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.lerc",
+    "gtiff.tiled"
+   ],
+   "openMs": 1110,
+   "firstTileMs": 847,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-variants/wv3vis_packbits.tif",
+   "bytes": 12458273,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.packbits",
+    "gtiff.tiled"
+   ],
+   "openMs": 1103,
+   "firstTileMs": 706,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-variants/wv3vis_webp.tif",
+   "bytes": 885198,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.webp",
+    "gtiff.tiled"
+   ],
+   "openMs": 1083,
+   "firstTileMs": 699,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-gtiff-variants/wv3vis_zstd.tif",
+   "bytes": 7354497,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.zstd",
+    "gtiff.tiled"
+   ],
+   "openMs": 839,
+   "firstTileMs": 581,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-hgt-variants/N40W106.hgt",
+   "bytes": 25934402,
+   "keys": [
+    "hgt",
+    "hgt.size25934402"
+   ],
+   "openMs": 965,
+   "firstTileMs": 672,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-hgt-variants/srtm1-3601/N39W106.hgt",
+   "bytes": 25934402,
+   "keys": [
+    "hgt",
+    "hgt.size25934402"
+   ],
+   "openMs": 775,
+   "firstTileMs": 462,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-hgt-variants/srtm3-1201/N39W106.hgt",
+   "bytes": 2884802,
+   "keys": [
+    "hgt",
+    "hgt.size2884802"
+   ],
+   "openMs": 351,
+   "firstTileMs": 155,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-hsi-cube-geotiff/aviris_refl_chip.tif",
+   "bytes": 32719873,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.cog",
+    "gtiff.tiled",
+    "raster.cube"
+   ],
+   "openMs": 346,
+   "firstTileMs": 167,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-hsi-cube-geotiff/dfc2018_casi_chip.tif",
+   "bytes": 19781004,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.cog",
+    "gtiff.tiled",
+    "raster.cube"
+   ],
+   "openMs": 338,
+   "firstTileMs": 195,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-jp2-variants/naip_htj2k.j2c",
+   "bytes": 1493523,
+   "keys": [
+    "jp2",
+    "jp2.codestream",
+    "jp2.htj2k"
+   ],
+   "openMs": 581,
+   "firstTileMs": 250,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-jp2-variants/s2tci_geojp2.jp2",
+   "bytes": 1112169,
+   "keys": [
+    "jp2",
+    "jp2.geojp2"
+   ],
+   "openMs": 843,
+   "firstTileMs": 421,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-5-9/autzen_pdrf5_las13.las",
+   "bytes": 6932046,
+   "keys": [
+    "las",
+    "las.pdrf5",
+    "las.v13"
+   ],
+   "openMs": 199,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-5-9/autzen_pdrf9_las14.las",
+   "bytes": 6492186,
+   "keys": [
+    "las",
+    "las.pdrf9",
+    "las.v14"
+   ],
+   "openMs": 190,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.9,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/autzen_pdrf2_las12.las",
+   "bytes": 2862038,
+   "keys": [
+    "las",
+    "las.pdrf2",
+    "las.v12"
+   ],
+   "openMs": 193,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.9,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/autzen_pdrf4_las13.las",
+   "bytes": 6272046,
+   "keys": [
+    "las",
+    "las.pdrf4",
+    "las.v13"
+   ],
+   "openMs": 192,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 60,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/autzen_pdrf5_las13.las",
+   "bytes": 6932046,
+   "keys": [
+    "las",
+    "las.pdrf5",
+    "las.v13"
+   ],
+   "openMs": 198,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/autzen_pdrf8_las14.las",
+   "bytes": 4182186,
+   "keys": [
+    "las",
+    "las.pdrf8",
+    "las.v14"
+   ],
+   "openMs": 196,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/houston_c1_pdrf10_las14.las",
+   "bytes": 33500377,
+   "keys": [
+    "las",
+    "las.pdrf10",
+    "las.v14"
+   ],
+   "openMs": 846,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 500000,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/houston_c1_pdrf4_las13.las",
+   "bytes": 28500237,
+   "keys": [
+    "las",
+    "las.pdrf4",
+    "las.v13"
+   ],
+   "openMs": 867,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 500000,
+   "cloudFps": 59.3,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/houston_c1_pdrf5_las13.las",
+   "bytes": 31500237,
+   "keys": [
+    "las",
+    "las.pdrf5",
+    "las.v13"
+   ],
+   "openMs": 1345,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 500000,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/houston_c1_pdrf8_las14.las",
+   "bytes": 19000377,
+   "keys": [
+    "las",
+    "las.pdrf8",
+    "las.v14"
+   ],
+   "openMs": 673,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 500000,
+   "cloudFps": 59.3,
+   "over": []
+  },
+  {
+   "key": "derived-las-pdrf-matrix/houston_c1_pdrf9_las14.las",
+   "bytes": 29500377,
+   "keys": [
+    "las",
+    "las.pdrf9",
+    "las.v14"
+   ],
+   "openMs": 720,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 500000,
+   "cloudFps": 60,
+   "over": []
+  },
+  {
+   "key": "derived-mie4nitf-bambi/flight_258_thermal_mie4nitf.ntf",
+   "bytes": 11164662,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.mie4nitf",
+    "nitf.multiimage",
+    "nitf.v21",
+    "tre.MTIMSA"
+   ],
+   "openMs": 1181,
+   "firstTileMs": 305,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1.6,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 14,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-mie4nitf-bambi/flight_316_thermal_mie4nitf.ntf",
+   "bytes": 8866135,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.mie4nitf",
+    "nitf.multiimage",
+    "nitf.v21",
+    "tre.MTIMSA"
+   ],
+   "openMs": 939,
+   "firstTileMs": 242,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1.4,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 11,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-bandsb-msi/landsat8_sr_bandsb_imodeR.ntf",
+   "bytes": 3671582,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.r",
+    "nitf.v21",
+    "tre.BANDSB"
+   ],
+   "openMs": 329,
+   "firstTileMs": 184,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-bandsb-msi/s2b_l2a_10seh_bandsb_imodeP.ntf",
+   "bytes": 4720312,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "tre.BANDSB"
+   ],
+   "openMs": 329,
+   "firstTileMs": 189,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-bandsb-msi/s2b_l2a_10seh_bandsb_imodeR.ntf",
+   "bytes": 4720312,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.r",
+    "nitf.v21",
+    "tre.BANDSB"
+   ],
+   "openMs": 340,
+   "firstTileMs": 211,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeB.ntf",
+   "bytes": 4195947,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "tre.BANDSB"
+   ],
+   "openMs": 333,
+   "firstTileMs": 174,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeR.ntf",
+   "bytes": 4195947,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.r",
+    "nitf.v21",
+    "tre.BANDSB"
+   ],
+   "openMs": 338,
+   "firstTileMs": 174,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-bandsb-msi/wv3_vegas_ms_bandsb_imodeS.ntf",
+   "bytes": 4195947,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.s",
+    "nitf.v21",
+    "tre.BANDSB"
+   ],
+   "openMs": 333,
+   "firstTileMs": 161,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-rsm/core3d_jax_wv3_rsm.ntf",
+   "bytes": 8396942,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sensor.rsm",
+    "tre.RSMIDA",
+    "tre.RSMPCA"
+   ],
+   "openMs": 597,
+   "firstTileMs": 285,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 11,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-rsm/mvs_wv3_rsm_rpc00b.ntf",
+   "bytes": 8397994,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "rpc.nitf",
+    "sensor.rsm",
+    "tre.RPC00B",
+    "tre.RSMIDA",
+    "tre.RSMPCA"
+   ],
+   "openMs": 339,
+   "firstTileMs": 242,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.40000009536743164,
+   "gpuMB": 11,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-variants/cop_dem_nsif.nsf",
+   "bytes": 4195207,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nsif.v10"
+   ],
+   "openMs": 332,
+   "firstTileMs": 173,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-variants/naip_ic_m3.ntf",
+   "bytes": 258921,
+   "keys": [
+    "nitf",
+    "nitf.ic.m3",
+    "nitf.imode.p",
+    "nitf.v21"
+   ],
+   "openMs": 581,
+   "firstTileMs": 226,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-nitf-variants/wv3vis_ic_m3.ntf",
+   "bytes": 261623,
+   "keys": [
+    "nitf",
+    "nitf.ic.m3",
+    "nitf.imode.p",
+    "nitf.v21"
+   ],
+   "openMs": 584,
+   "firstTileMs": 220,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pc-ascii/houston_c1.pts",
+   "bytes": 10486853,
+   "keys": [
+    "pc.ascii"
+   ],
+   "openMs": 1216,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": 200000,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/naip.bmp",
+   "bytes": 3148387,
+   "keys": [
+    "img.bmp",
+    "img.bmp.world"
+   ],
+   "openMs": 605,
+   "firstTileMs": 177,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/naip.png",
+   "bytes": 1736773,
+   "keys": [
+    "img.png",
+    "img.png.world"
+   ],
+   "openMs": 601,
+   "firstTileMs": 171,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/naip.webp",
+   "bytes": 258951,
+   "keys": [
+    "img.webp",
+    "img.webp.world"
+   ],
+   "openMs": 598,
+   "firstTileMs": 164,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/s2tci.bmp",
+   "bytes": 3148287,
+   "keys": [
+    "img.bmp",
+    "img.bmp.world"
+   ],
+   "openMs": 594,
+   "firstTileMs": 169,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/s2tci.gif",
+   "bytes": 1049413,
+   "keys": [
+    "img.gif",
+    "img.gif.world"
+   ],
+   "openMs": 349,
+   "firstTileMs": 122,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/s2tci.jpg",
+   "bytes": 312453,
+   "keys": [
+    "img.jpg",
+    "img.jpg.world"
+   ],
+   "openMs": 591,
+   "firstTileMs": 167,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/s2tci.png",
+   "bytes": 1817519,
+   "keys": [
+    "img.png",
+    "img.png.world"
+   ],
+   "openMs": 348,
+   "firstTileMs": 166,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/s2tci.webp",
+   "bytes": 284653,
+   "keys": [
+    "img.webp",
+    "img.webp.world"
+   ],
+   "openMs": 606,
+   "firstTileMs": 176,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/wv3vis.gif",
+   "bytes": 1079208,
+   "keys": [
+    "img.gif",
+    "img.gif.world"
+   ],
+   "openMs": 349,
+   "firstTileMs": 121,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pictures-worldfile/wv3vis.jpg",
+   "bytes": 231961,
+   "keys": [
+    "img.jpg",
+    "img.jpg.world"
+   ],
+   "openMs": 593,
+   "firstTileMs": 166,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pmtiles-raster/cop_hillshade_jpeg.pmtiles",
+   "bytes": 2598996,
+   "keys": [
+    "pmtiles",
+    "pmtiles.jpeg"
+   ],
+   "openMs": 24,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pmtiles-raster/cop_hillshade_webp.pmtiles",
+   "bytes": 1739977,
+   "keys": [
+    "pmtiles",
+    "pmtiles.webp"
+   ],
+   "openMs": 24,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pmtiles-raster/s2tci_jpeg.pmtiles",
+   "bytes": 39624241,
+   "keys": [
+    "pmtiles",
+    "pmtiles.jpeg"
+   ],
+   "openMs": 25,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pmtiles-raster/s2tci_png.pmtiles",
+   "bytes": 408272867,
+   "keys": [
+    "pmtiles",
+    "pmtiles.png"
+   ],
+   "openMs": 31,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pmtiles-raster/s2tci_webp.pmtiles",
+   "bytes": 24652342,
+   "keys": [
+    "pmtiles",
+    "pmtiles.webp"
+   ],
+   "openMs": 25,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pptx-templates/branded_navy_16x9.pptx",
+   "bytes": 28934,
+   "keys": [
+    "app.pptx-template"
+   ],
+   "openMs": 27,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-pptx-templates/widescreen_16x9.pptx",
+   "bytes": 28253,
+   "keys": [
+    "app.pptx-template"
+   ],
+   "openMs": 29,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-rpf-cadrg-from-cib10/n35e011/RPF/ZONE2/01EXR010.MM2",
+   "bytes": 293115,
+   "keys": [
+    "nitf",
+    "nitf.ic.c4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 586,
+   "firstTileMs": 256,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-rpf-cadrg-from-cib10/n35e011/RPF/ZONE2/01H70010.MM2",
+   "bytes": 293115,
+   "keys": [
+    "nitf",
+    "nitf.ic.c4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 587,
+   "firstTileMs": 257,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-rpf-cadrg-from-cib10/n60w156/RPF/ZONE4/01JFA010.MM4",
+   "bytes": 292955,
+   "keys": [
+    "nitf",
+    "nitf.ic.c4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 340,
+   "firstTileMs": 244,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-rpf-cadrg-from-cib10/n60w156/RPF/ZONE4/01KY5010.MM4",
+   "bytes": 292955,
+   "keys": [
+    "nitf",
+    "nitf.ic.c4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 585,
+   "firstTileMs": 254,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-complex-slc/capella_slc_cfloat32.tif",
+   "bytes": 10986347,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.complex.cfloat32",
+    "gtiff.tiled"
+   ],
+   "openMs": 595,
+   "firstTileMs": 368,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 20,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-complex-slc/capella_slc_cint16.tif",
+   "bytes": 9974362,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.complex.cint16",
+    "gtiff.tiled"
+   ],
+   "openMs": 596,
+   "firstTileMs": 351,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 20,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-complex-slc/capella_slc_cint32.tif",
+   "bytes": 10668897,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.complex.cint32",
+    "gtiff.tiled"
+   ],
+   "openMs": 582,
+   "firstTileMs": 360,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 20,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-complex-slc/umbra_slc_cfloat32.tif",
+   "bytes": 31083158,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.complex.cfloat32",
+    "gtiff.tiled"
+   ],
+   "openMs": 846,
+   "firstTileMs": 390,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 22,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-complex-slc/umbra_slc_cint32.tif",
+   "bytes": 38394,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.complex.cint32",
+    "gtiff.tiled"
+   ],
+   "openMs": 588,
+   "firstTileMs": 243,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 22,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-sicd14-sidd30/capella_c13_sm_sidd_sidd30.nitf",
+   "bytes": 45337442,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v3.0.0"
+   ],
+   "openMs": 1102,
+   "firstTileMs": 849,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 15,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-sicd14-sidd30/capella_chip1_sicd14.nitf",
+   "bytes": 1092288,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.4.0"
+   ],
+   "openMs": 330,
+   "firstTileMs": 133,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.7999999523162842,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-sicd14-sidd30/capella_chip1_sicd15.nitf",
+   "bytes": 1092284,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.5"
+   ],
+   "openMs": 343,
+   "firstTileMs": 147,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.8000000715255737,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf",
+   "bytes": 62600648,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v3.0.0"
+   ],
+   "openMs": 2901,
+   "firstTileMs": 2737,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.3999999761581421,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2737 ms"
+   ]
+  },
+  {
+   "key": "derived-sar-sicd14-sidd30/umbra_chip1_sicd14.nitf",
+   "bytes": 2136705,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.4.0"
+   ],
+   "openMs": 339,
+   "firstTileMs": 130,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.40000009536743164,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-sar-sicd14-sidd30/umbra_chip1_sicd15.nitf",
+   "bytes": 2136701,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.5"
+   ],
+   "openMs": 337,
+   "firstTileMs": 127,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/bambi_DJI_20240709090401_0001_T_point0.gpx",
+   "bytes": 4576,
+   "keys": [
+    "vec.gpx"
+   ],
+   "openMs": 36,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/ne_countries.parquet",
+   "bytes": 7051140,
+   "keys": [
+    "vec.geoparquet"
+   ],
+   "openMs": 342,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/ne_countries_epsg3857.geojson",
+   "bytes": 2990985,
+   "keys": [
+    "vec.geojson",
+    "vec.geojson.legacycrs"
+   ],
+   "openMs": 119,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/ne_countries_gml32.gml",
+   "bytes": 1977364,
+   "keys": [
+    "vec.gml",
+    "vec.gml.v32"
+   ],
+   "openMs": 116,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/ne_places.fgb",
+   "bytes": 9638016,
+   "keys": [
+    "vec.flatgeobuf"
+   ],
+   "openMs": 674,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/ne_rivers_wkt.csv",
+   "bytes": 1292005,
+   "keys": [
+    "vec.csv.wkt"
+   ],
+   "openMs": 109,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/nhd_nhdflowline_m.shp",
+   "bytes": 2863806,
+   "keys": [
+    "vec.shp",
+    "vec.shp.cpg",
+    "vec.shp.m"
+   ],
+   "openMs": 146,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vector-variants/nhd_nhdflowline_z.shp",
+   "bytes": 2863806,
+   "keys": [
+    "vec.shp",
+    "vec.shp.cpg",
+    "vec.shp.z"
+   ],
+   "openMs": 139,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vmti-video/osh_sample_vmti.ts",
+   "bytes": 2287020,
+   "keys": [
+    "fmv.codec.h264",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video",
+    "fmv.vmti"
+   ],
+   "openMs": 186,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-vmti-video/truck_vmti.ts",
+   "bytes": 103345104,
+   "keys": [
+    "fmv.codec.h264",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video",
+    "fmv.vmti"
+   ],
+   "openMs": 1449,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-zip-deliveries/naip_nitf_delivery.zip",
+   "bytes": 938751,
+   "keys": [
+    "zip",
+    "zip.imagery"
+   ],
+   "openMs": 836,
+   "firstTileMs": 439,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-zip-deliveries/nested_naip.zip",
+   "bytes": 3455522,
+   "keys": [
+    "zip",
+    "zip.nested"
+   ],
+   "openMs": 1137,
+   "firstTileMs": 608,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "derived-zip-deliveries/s2tci_jp2_delivery.zip",
+   "bytes": 1113250,
+   "keys": [
+    "zip",
+    "zip.imagery"
+   ],
+   "openMs": 852,
+   "firstTileMs": 440,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "emit-l1b-rad-cuprite/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc",
+   "bytes": 1853622736,
+   "keys": [
+    "hdf5",
+    "hdf5.netcdf4"
+   ],
+   "openMs": 15584,
+   "firstTileMs": 15358,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 25,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 15358 ms"
+   ]
+  },
+  {
+   "key": "emit-l2a-rfl-cuprite/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc",
+   "bytes": 1852184009,
+   "keys": [
+    "hdf5",
+    "hdf5.netcdf4"
+   ],
+   "openMs": 16486,
+   "firstTileMs": 16007,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 25,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 16007 ms"
+   ]
+  },
+  {
+   "key": "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF",
+   "bytes": 1214345043,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped",
+    "rpc.gtiff"
+   ],
+   "openMs": 6197,
+   "firstTileMs": 3099,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 2,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 3099 ms"
+   ]
+  },
+  {
+   "key": "eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF",
+   "bytes": 84960806,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped",
+    "rpc.gtiff"
+   ],
+   "openMs": 2141,
+   "firstTileMs": 2043,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.40000009536743164,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2043 ms"
+   ]
+  },
+  {
+   "key": "eo1-hyperion-l1t-043034-20170312/EO1H0430342017071110KF_B107_L1T.TIF",
+   "bytes": 5724682,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped"
+   ],
+   "openMs": 588,
+   "firstTileMs": 264,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "eo1-hyperion-l1t-043034-20170312/EO1H0430342017071110KF_B109_L1T.TIF",
+   "bytes": 5724682,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped"
+   ],
+   "openMs": 591,
+   "firstTileMs": 261,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "eo1-hyperion-l1t-043034-20170312/EO1H0430342017071110KF_B197_L1T.TIF",
+   "bytes": 5724682,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped"
+   ],
+   "openMs": 343,
+   "firstTileMs": 248,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "field-dg-panama/Panama_01_R1C1.tif",
+   "bytes": 103232219,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.codec.jpeg",
+    "gtiff.tiled"
+   ],
+   "openMs": 4423,
+   "firstTileMs": 2408,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": 0.19999992847442627,
+   "gpuMB": 7,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2408 ms"
+   ]
+  },
+  {
+   "key": "field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C2.tif",
+   "bytes": 7848269,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.codec.jpeg",
+    "gtiff.tiled"
+   ],
+   "openMs": 3898,
+   "firstTileMs": 2035,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2035 ms"
+   ]
+  },
+  {
+   "key": "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C2.tif",
+   "bytes": 8132589,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.codec.jpeg",
+    "gtiff.tiled"
+   ],
+   "openMs": 3878,
+   "firstTileMs": 1948,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1948 ms"
+   ]
+  },
+  {
+   "key": "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C2.tif",
+   "bytes": 27244289,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.codec.jpeg",
+    "gtiff.tiled"
+   ],
+   "openMs": 4113,
+   "firstTileMs": 2171,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2171 ms"
+   ]
+  },
+  {
+   "key": "field-dg-spratly-zip/Spratly Islands.zip",
+   "bytes": 1596657136,
+   "keys": [
+    "zip",
+    "zip.nested"
+   ],
+   "openMs": 6424,
+   "firstTileMs": 1639,
+   "statsMs": 0,
+   "fps": 60.1,
+   "frameMs": 1.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 28,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1639 ms"
+   ]
+  },
+  {
+   "key": "field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip",
+   "bytes": 388428007,
+   "keys": [
+    "dimap.zip",
+    "zip",
+    "zip.imagery"
+   ],
+   "openMs": 4281,
+   "firstTileMs": 3585,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 30,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 3585 ms"
+   ]
+  },
+  {
+   "key": "fmv-bambi-flights/derived/flight_258/DJI_20241021165448_0001_V_point0.ts",
+   "bytes": 182932836,
+   "keys": [
+    "fmv.codec.h264",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 1949,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "fmv-esri-multiplexer-tutorial/FMV_Multiplexer_Tutorial/Raw_Metadata.csv",
+   "bytes": 111202,
+   "keys": [
+    "fmv.platformcsv"
+   ],
+   "openMs": 48,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "fmv-ffmpeg-night-flight-ir/Night Flight IR.mpg",
+   "bytes": 170146016,
+   "keys": [
+    "fmv.codec.h264",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 1890,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "fmv-impleotv-damaged-corpus/klv-missing-mandatory-tags.ts",
+   "bytes": 272412,
+   "keys": [
+    "fmv.codec.h264",
+    "fmv.klv",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 138,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "fmv-impleotv-damaged-corpus/mpegts-pcr-pts-drift.ts",
+   "bytes": 500268,
+   "keys": [
+    "fmv.codec.h264",
+    "fmv.ts",
+    "fmv.video"
+   ],
+   "openMs": 113,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "frames-odm-aukerman/images/DSC00269.JPG",
+   "bytes": 8997720,
+   "keys": [
+    "img.jpg"
+   ],
+   "openMs": 1697,
+   "firstTileMs": 1300,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 18,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1300 ms"
+   ]
+  },
+  {
+   "key": "frames-odm-copr-gcp/images/IMG_0106.jpg",
+   "bytes": 3784742,
+   "keys": [
+    "img.jpg"
+   ],
+   "openMs": 1408,
+   "firstTileMs": 1074,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.7,
+   "readoutMs": null,
+   "gpuMB": 12,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1074 ms"
+   ]
+  },
+  {
+   "key": "gdal-dted-samples/l5102.dhm",
+   "bytes": 1749842,
+   "keys": [
+    "dted",
+    "dted.dhm"
+   ],
+   "openMs": 342,
+   "firstTileMs": 132,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 0.9,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "gdal-dted-samples/n43.dt0",
+   "bytes": 34162,
+   "keys": [
+    "dted",
+    "dted.l0"
+   ],
+   "openMs": 78,
+   "firstTileMs": 88,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "gdal-dted-samples/w118n033.dt1",
+   "bytes": 2902722,
+   "keys": [
+    "dted",
+    "dted.hdr1",
+    "dted.l1"
+   ],
+   "openMs": 367,
+   "firstTileMs": 157,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "geopdf-htmc-honker-bay-bouldin-island/CA_Honker_Bay_100766_1953_24000_geo.pdf",
+   "bytes": 16973085,
+   "keys": [
+    "geopdf.lgidict",
+    "pdf"
+   ],
+   "openMs": 4915,
+   "firstTileMs": 4552,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 4552 ms"
+   ]
+  },
+  {
+   "key": "geopdf-ustopo-bouldin-island-current/CA_Bouldin_Island_20211230_TM_geo.pdf",
+   "bytes": 25596383,
+   "keys": [
+    "geopdf.iso32000",
+    "pdf",
+    "pdf.layers"
+   ],
+   "openMs": 5764,
+   "firstTileMs": 5487,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 15,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 5487 ms"
+   ]
+  },
+  {
+   "key": "geopdf-ustopo-vinehill-2012/CA_Vine_Hill_20120213_TM_geo.pdf",
+   "bytes": 14463207,
+   "keys": [
+    "geopdf.lgidict",
+    "pdf",
+    "pdf.layers"
+   ],
+   "openMs": 4529,
+   "firstTileMs": 4382,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 4382 ms"
+   ]
+  },
+  {
+   "key": "geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf",
+   "bytes": 34060592,
+   "keys": [
+    "geopdf.iso32000",
+    "pdf",
+    "pdf.layers"
+   ],
+   "openMs": 6481,
+   "firstTileMs": 6236,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 15,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 6236 ms"
+   ]
+  },
+  {
+   "key": "gmti-stanag4607-trane293-fixtures/hrr_signature_parked_both_time_branches.gmti",
+   "bytes": 230,
+   "keys": [
+    "gmti.4607"
+   ],
+   "openMs": 53,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_asdfr.sli",
+   "bytes": 8386930,
+   "keys": [
+    "speclib.envi-sli.data"
+   ],
+   "openMs": 230,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "hsi-speclib-splib07b-envi-hyperspectralpy/splib07b_asdng.sli",
+   "bytes": 657709,
+   "keys": [
+    "speclib.envi-sli.data"
+   ],
+   "openMs": 56,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf",
+   "bytes": 400009657,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v3.0.0",
+    "tre.BLOCKA"
+   ],
+   "openMs": 14851,
+   "firstTileMs": 9135,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.7,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 2,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 9135 ms"
+   ]
+  },
+  {
+   "key": "ieee-dfc2018-houston/C123/272652_3289689.las",
+   "bytes": 437840345,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v12"
+   ],
+   "openMs": 19646,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": null,
+   "points": 15637147,
+   "cloudFps": 59.3,
+   "over": []
+  },
+  {
+   "key": "ieee-dfc2018-houston/FullHSIDataset/20170218_UH_CASI_S4_NAD83.pix",
+   "bytes": 501482664,
+   "keys": [
+    "envi.data"
+   ],
+   "openMs": 9748,
+   "firstTileMs": 9001,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.7,
+   "readoutMs": 0.19999992847442627,
+   "gpuMB": 3,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 9001 ms"
+   ]
+  },
+  {
+   "key": "ieee-dfc2019-track2-val/Track2/JAX_163_001_006_LEFT_MSI.tif",
+   "bytes": 11864963,
+   "keys": [
+    "georef.none",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.striped"
+   ],
+   "openMs": 780,
+   "firstTileMs": 547,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "ieee-flame2-sfm/RGB_Pointcloud.laz",
+   "bytes": 113242809,
+   "keys": [
+    "las",
+    "las.pdrf2",
+    "las.v12",
+    "laz"
+   ],
+   "openMs": 6775,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 8,
+   "points": 8593408,
+   "cloudFps": 59.2,
+   "over": []
+  },
+  {
+   "key": "jp2-gdal-server-samples/gcp.jp2",
+   "bytes": 25936,
+   "keys": [
+    "jp2",
+    "jp2.geojp2"
+   ],
+   "openMs": 327,
+   "firstTileMs": 114,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "jp2-htj2k-openjpeg-nonregression/Bretagne1_ht.j2k",
+   "bytes": 392635,
+   "keys": [
+    "jp2",
+    "jp2.codestream",
+    "jp2.htj2k"
+   ],
+   "openMs": 336,
+   "firstTileMs": 174,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "jp2-htj2k-openjpeg-nonregression/Bretagne1_ht_lossy.j2k",
+   "bytes": 235021,
+   "keys": [
+    "jp2",
+    "jp2.codestream",
+    "jp2.htj2k"
+   ],
+   "openMs": 331,
+   "firstTileMs": 169,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "jp2-openjpeg-conformance/file5.jp2",
+   "bytes": 586560,
+   "keys": [
+    "jp2"
+   ],
+   "openMs": 586,
+   "firstTileMs": 289,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.7,
+   "readoutMs": null,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "landsat8-c2-l1tp-044034-20240820-tierb/LC08_L1TP_044034_20240820_20240830_02_T1_B6.TIF",
+   "bytes": 90066061,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.cog",
+    "gtiff.overviews",
+    "gtiff.tiled"
+   ],
+   "openMs": 336,
+   "firstTileMs": 159,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "landsat8-c2-l2sp-044034-20240820/LC08_L2SP_044034_20240820_20240830_02_T1_SR_B5.TIF",
+   "bytes": 86771916,
+   "keys": [
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.cog",
+    "gtiff.overviews",
+    "gtiff.tiled"
+   ],
+   "openMs": 350,
+   "firstTileMs": 190,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "lidar-3dep-co-denver-2008-2x1/USGS_LPC_CO_DENVER_2008_000060.laz",
+   "bytes": 32711343,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v11",
+    "laz"
+   ],
+   "openMs": 4308,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 7,
+   "points": 7829037,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "lidar-3dep-co-drcog-2020-2x2/USGS_LPC_CO_DRCOG_2020_B20_w0474n4417.laz",
+   "bytes": 290920204,
+   "keys": [
+    "las",
+    "las.pdrf6",
+    "las.v14",
+    "laz"
+   ],
+   "openMs": 23651,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 25,
+   "points": 39676872,
+   "cloudFps": 58.2,
+   "over": []
+  },
+  {
+   "key": "lidar-3dep-co-soplatte-2013-2x2/USGS_LPC_South_Platte_River_Flood_LiDAR_13SDE474416.laz",
+   "bytes": 30621719,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v12",
+    "laz"
+   ],
+   "openMs": 3083,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 7,
+   "points": 6832606,
+   "cloudFps": 59.6,
+   "over": []
+  },
+  {
+   "key": "lidar-ascii-pdal-text/text/utm17_3.txt",
+   "bytes": 3445165,
+   "keys": [
+    "pc.ascii"
+   ],
+   "openMs": 273,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 11,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "lidar-autzen-classified-copc/autzen-classified.copc.laz",
+   "bytes": 81123042,
+   "keys": [
+    "copc",
+    "las",
+    "las.pdrf7",
+    "las.v14",
+    "laz"
+   ],
+   "openMs": 5396,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 10,
+   "points": 10653336,
+   "cloudFps": 57.6,
+   "over": []
+  },
+  {
+   "key": "lidar-bpf-pdal-v3/autzen-utm-chipped-25-v3-fastlz-interleaved.bpf",
+   "bytes": 29352,
+   "keys": [
+    "pc.bpf"
+   ],
+   "openMs": 119,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 1065,
+   "cloudFps": 60,
+   "over": []
+  },
+  {
+   "key": "lidar-bpf-pdal-v3/autzen-utm-chipped-25.bpf",
+   "bytes": 51968,
+   "keys": [
+    "pc.bpf"
+   ],
+   "openMs": 99,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 1065,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/laspy/fullwave.laz",
+   "bytes": 35592986,
+   "keys": [
+    "las",
+    "las.pdrf10",
+    "las.v14",
+    "laz"
+   ],
+   "openMs": 187,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 10750,
+   "cloudFps": 59.3,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/laspy/simple1_1.las",
+   "bytes": 30047,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v11"
+   ],
+   "openMs": 110,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 7,
+   "points": 1065,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/laspy/simple1_4.las",
+   "bytes": 814388,
+   "keys": [
+    "las",
+    "las.pdrf7",
+    "las.v14"
+   ],
+   "openMs": 120,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 22600,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/lastools/TO_core_last_zoom.laz",
+   "bytes": 559487,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v10",
+    "laz"
+   ],
+   "openMs": 373,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 213093,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/pdal/1.2-with-color.las",
+   "bytes": 36439,
+   "keys": [
+    "las",
+    "las.pdrf3",
+    "las.v12"
+   ],
+   "openMs": 111,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 7,
+   "points": 1065,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/pdal/4_1.las",
+   "bytes": 5572238,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v14"
+   ],
+   "openMs": 319,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 198975,
+   "cloudFps": 59.3,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/pdal/epsg_4326.las",
+   "bytes": 108453,
+   "keys": [
+    "las",
+    "las.pdrf0",
+    "las.v12"
+   ],
+   "openMs": 107,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 5380,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/pdal/lone-star.copc.laz",
+   "bytes": 2705193,
+   "keys": [
+    "copc",
+    "las",
+    "las.pdrf6",
+    "las.v14",
+    "laz"
+   ],
+   "openMs": 644,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 518862,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/pdal/permutations/1.0_1.las",
+   "bytes": 1035,
+   "keys": [
+    "las",
+    "las.pdrf1",
+    "las.v10"
+   ],
+   "openMs": 101,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": 1,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "lidar-las-version-matrix/pdal/permutations/1.2_0.las",
+   "bytes": 1025,
+   "keys": [
+    "las",
+    "las.pdrf0",
+    "las.v12"
+   ],
+   "openMs": 118,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": 1,
+   "cloudFps": 59.7,
+   "over": []
+  },
+  {
+   "key": "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF",
+   "bytes": 652002755,
+   "keys": [
+    "nitf",
+    "nitf.ic.c8",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCCGA",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEPHA",
+    "tre.CSEXRA",
+    "tre.CSPROA",
+    "tre.CSSFAA",
+    "tre.HISTOA",
+    "tre.J2KLRA",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 2131,
+   "firstTileMs": 1604,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.8,
+   "readoutMs": 0.3999999761581421,
+   "gpuMB": 4,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1604 ms"
+   ]
+  },
+  {
+   "key": "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161253-M1BS-500648062050_01_P001_________GA_E0AAAAAAKAAK0.NTF",
+   "bytes": 635632705,
+   "keys": [
+    "nitf",
+    "nitf.ic.c8",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCCGA",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEPHA",
+    "tre.CSEXRA",
+    "tre.CSPROA",
+    "tre.CSSFAA",
+    "tre.HISTOA",
+    "tre.J2KLRA",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 1369,
+   "firstTileMs": 922,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": 0.3999999761581421,
+   "gpuMB": 4,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF",
+   "bytes": 847759246,
+   "keys": [
+    "nitf",
+    "nitf.ic.c8",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCCGA",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEPHA",
+    "tre.CSEXRA",
+    "tre.CSPROA",
+    "tre.CSSFAA",
+    "tre.HISTOA",
+    "tre.J2KLRA",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 1896,
+   "firstTileMs": 1766,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": 0.3999999761581421,
+   "gpuMB": 15,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1766 ms"
+   ]
+  },
+  {
+   "key": "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF",
+   "bytes": 713224043,
+   "keys": [
+    "nitf",
+    "nitf.ic.c8",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCCGA",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEPHA",
+    "tre.CSEXRA",
+    "tre.CSPROA",
+    "tre.CSSFAA",
+    "tre.HISTOA",
+    "tre.J2KLRA",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 1636,
+   "firstTileMs": 1454,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 15,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1454 ms"
+   ]
+  },
+  {
+   "key": "nitf-misc-gdal-server/u_3054a.ntf",
+   "bytes": 13766291,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v20"
+   ],
+   "openMs": 850,
+   "firstTileMs": 155,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": null,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-mvs-wv3-buenos-aires/500514410020_01/DVD_VOL_1/500514410020_01/GIS_FILES/500514410020_01_PRODUCT_SHAPE.shp",
+   "bytes": 2526,
+   "keys": [
+    "vec.shp",
+    "vec.shp.2d"
+   ],
+   "openMs": 33,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-mvs-wv3-buenos-aires/500515572030_01/GIS_FILES/500515572030_01_PRODUCT_SHAPE.shp",
+   "bytes": 2526,
+   "keys": [
+    "vec.shp",
+    "vec.shp.2d"
+   ],
+   "openMs": 34,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF",
+   "bytes": 751187475,
+   "keys": [
+    "nitf",
+    "nitf.ic.c8",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCCGA",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEPHA",
+    "tre.CSEXRA",
+    "tre.CSPROA",
+    "tre.CSSFAA",
+    "tre.HISTOA",
+    "tre.J2KLRA",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 1651,
+   "firstTileMs": 1422,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 1.1,
+   "readoutMs": 0.5,
+   "gpuMB": 15,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1422 ms"
+   ]
+  },
+  {
+   "key": "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF",
+   "bytes": 1032080360,
+   "keys": [
+    "nitf",
+    "nitf.ic.c8",
+    "nitf.imode.b",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEPHA",
+    "tre.CSEXRA",
+    "tre.CSPROA",
+    "tre.CSSFAA",
+    "tre.HISTOA",
+    "tre.J2KLRA",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 2146,
+   "firstTileMs": 2017,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 14,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2017 ms"
+   ]
+  },
+  {
+   "key": "nitf-ntb-nitf11-legacy/U_0001b.ntf",
+   "bytes": 326900,
+   "keys": [
+    "nitf",
+    "nitf.v11"
+   ],
+   "openMs": 325,
+   "firstTileMs": 102,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-ntb-nitf11-legacy/U_0001c.ntf",
+   "bytes": 333266,
+   "keys": [
+    "nitf",
+    "nitf.v11"
+   ],
+   "openMs": 332,
+   "firstTileMs": 124,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-ntb-nitf20-conformance/U_4004b.ntf",
+   "bytes": 47762,
+   "keys": [
+    "nitf",
+    "nitf.ic.c1",
+    "nitf.imode.b",
+    "nitf.v20"
+   ],
+   "openMs": 322,
+   "firstTileMs": 226,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 6,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-ntb-nitf20-conformance/U_4020f.ntf",
+   "bytes": 7629187,
+   "keys": [
+    "nitf",
+    "nitf.ic.c3",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.IOMAPA",
+    "tre.NBLOCA"
+   ],
+   "openMs": 1872,
+   "firstTileMs": 1688,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1688 ms"
+   ]
+  },
+  {
+   "key": "nitf-ntb-nitf20-conformance/U_4020i.ntf",
+   "bytes": 1402364,
+   "keys": [
+    "nitf",
+    "nitf.ic.c3",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.IOMAPA",
+    "tre.IXTAGA",
+    "tre.IXTAGB",
+    "tre.IXTAGC",
+    "tre.IXTAGC_2",
+    "tre.IXTAGD",
+    "tre.IXTAGE",
+    "tre.IXTAGF",
+    "tre.IXTAGG",
+    "tre.IXTAGH",
+    "tre.IXTAGI",
+    "tre.IXTAGI_2",
+    "tre.IXTAGI_3",
+    "tre.IXTAGJ",
+    "tre.IXTAGK",
+    "tre.IXTAGL",
+    "tre.NBLOCA"
+   ],
+   "openMs": 827,
+   "firstTileMs": 780,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-ntb-nitf20-conformance/U_4022a.ntf",
+   "bytes": 1402147,
+   "keys": [
+    "nitf",
+    "nitf.ic.c3",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.IOMAPA",
+    "tre.IXTAGA",
+    "tre.IXTAGB",
+    "tre.IXTAGC",
+    "tre.IXTAGC_2",
+    "tre.IXTAGD",
+    "tre.IXTAGE",
+    "tre.IXTAGF",
+    "tre.IXTAGG",
+    "tre.IXTAGH",
+    "tre.IXTAGI",
+    "tre.IXTAGI_2",
+    "tre.IXTAGI_3",
+    "tre.IXTAGJ",
+    "tre.IXTAGK",
+    "tre.IXTAGL",
+    "tre.XBLOCA"
+   ],
+   "openMs": 857,
+   "firstTileMs": 776,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 16,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-ntb-nitf21-conformance/v_3303a.ntf",
+   "bytes": 4195147,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21"
+   ],
+   "openMs": 586,
+   "firstTileMs": 285,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-ntb-ns3437a-c5-lossless/ns3437a.nsf",
+   "bytes": 2656587,
+   "keys": [
+    "nitf",
+    "nitf.ic.c5",
+    "nitf.imode.b",
+    "nsif.v10"
+   ],
+   "openMs": 588,
+   "firstTileMs": 360,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 5,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-rpf-cadrg-frames/cadrg/001zc013.on1",
+   "bytes": 293583,
+   "keys": [
+    "nitf",
+    "nitf.ic.c4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "rpf.frame",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 587,
+   "firstTileMs": 256,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1.1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-rpf-cadrg-frames/gn3/0000M033.GN3",
+   "bytes": 146840,
+   "keys": [
+    "nitf",
+    "nitf.ic.m4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "rpf.frame",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 330,
+   "firstTileMs": 205,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "nitf-rpf-cib-usgs/n20e102.tif",
+   "bytes": 114313607,
+   "keys": [
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.codec.none",
+    "gtiff.striped"
+   ],
+   "openMs": 1620,
+   "firstTileMs": 1507,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.7,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1507 ms"
+   ]
+  },
+  {
+   "key": "perf-large-lroc-nac-south-pole-cog/NAC_SPOLE_mosaic_1m_cog.tif",
+   "bytes": 42596230725,
+   "keys": [
+    "gtiff",
+    "gtiff.bigtiff",
+    "gtiff.codec.deflate",
+    "gtiff.cog",
+    "gtiff.overviews",
+    "gtiff.tiled"
+   ],
+   "openMs": 353,
+   "firstTileMs": 191,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 6,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "raster-bigtiff-gdal-autotest/bigtiff_one_block_be_long8.tif",
+   "bytes": 528,
+   "keys": [
+    "georef.none",
+    "gtiff",
+    "gtiff.bigendian",
+    "gtiff.bigtiff",
+    "gtiff.codec.none",
+    "gtiff.cog",
+    "gtiff.striped"
+   ],
+   "openMs": 336,
+   "firstTileMs": 88,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "raster-gdal-autotest-dimap2-rpf-nm/nitf/i_3034f.ntf",
+   "bytes": 948,
+   "keys": [
+    "nitf",
+    "nitf.ic.nm",
+    "nitf.imode.b",
+    "nitf.v21"
+   ],
+   "openMs": 328,
+   "firstTileMs": 83,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "raster-pmtiles-gdal-autotest/byte_avif.pmtiles",
+   "bytes": 1019,
+   "keys": [
+    "pmtiles",
+    "pmtiles.avif"
+   ],
+   "openMs": 25,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "raster-pmtiles-martin-pmtilesrs-fixtures/martin_png.pmtiles",
+   "bytes": 734989,
+   "keys": [
+    "pmtiles",
+    "pmtiles.png"
+   ],
+   "openMs": 23,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-dted-gdal/n43.dt0",
+   "bytes": 34162,
+   "keys": [
+    "dted",
+    "dted.l0"
+   ],
+   "openMs": 324,
+   "firstTileMs": 92,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-dted-gdal/w118n033.dt1",
+   "bytes": 2902722,
+   "keys": [
+    "dted",
+    "dted.hdr1",
+    "dted.l1"
+   ],
+   "openMs": 357,
+   "firstTileMs": 145,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-hsi-indian-pines/19920612_AVIRIS_IndianPine_Site3_gr.tif",
+   "bytes": 23374,
+   "keys": [
+    "georef.none",
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped"
+   ],
+   "openMs": 323,
+   "firstTileMs": 91,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-lidar-las-laz-copc/autzen_trim.las",
+   "bytes": 3742038,
+   "keys": [
+    "las",
+    "las.pdrf3",
+    "las.v12"
+   ],
+   "openMs": 193,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.8,
+   "over": []
+  },
+  {
+   "key": "rs-lidar-las-laz-copc/autzen_trim_7.las",
+   "bytes": 3961679,
+   "keys": [
+    "las",
+    "las.pdrf7",
+    "las.v14"
+   ],
+   "openMs": 230,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 110000,
+   "cloudFps": 59.1,
+   "over": []
+  },
+  {
+   "key": "rs-lidar-las-laz-copc/ellipsoid.copc.laz",
+   "bytes": 630740,
+   "keys": [
+    "copc",
+    "las",
+    "las.pdrf7",
+    "las.v14",
+    "laz"
+   ],
+   "openMs": 274,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": 100000,
+   "cloudFps": 59.9,
+   "over": []
+  },
+  {
+   "key": "rs-msi-spacenet2-wv3/SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson",
+   "bytes": 28816,
+   "keys": [
+    "vec.geojson",
+    "vec.geojson.legacycrs"
+   ],
+   "openMs": 28,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-gdal-autotest-small/fake_nsif.ntf",
+   "bytes": 1943,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nsif.v10",
+    "tre.BLOCKA"
+   ],
+   "openMs": 76,
+   "firstTileMs": 81,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-gdal-autotest-small/sar_sicd.ntf",
+   "bytes": 7955,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.quadpol",
+    "sar.sicd.v1.1.0"
+   ],
+   "openMs": 89,
+   "firstTileMs": 99,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-gdal-autotest-small/SENSRB_TRE.ntf",
+   "bytes": 3015,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "tre.SENSRB"
+   ],
+   "openMs": 322,
+   "firstTileMs": 96,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-gdal-autotest-small/two_images_jp2.ntf",
+   "bytes": 2243,
+   "keys": [
+    "census.error:RuntimeError"
+   ],
+   "openMs": 322,
+   "firstTileMs": 91,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-jitc-imode-bprs/v_3301a.ntf",
+   "bytes": 3146597,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.s",
+    "nitf.v21"
+   ],
+   "openMs": 578,
+   "firstTileMs": 213,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-jitc-jpeg-c3/U_2005a.ntf",
+   "bytes": 86283,
+   "keys": [
+    "nitf",
+    "nitf.ic.c3",
+    "nitf.imode.p",
+    "nitf.v20"
+   ],
+   "openMs": 320,
+   "firstTileMs": 105,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": null,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-jitc-masked-nm/v_3301c.ntf",
+   "bytes": 1770460,
+   "keys": [
+    "nitf",
+    "nitf.ic.nm",
+    "nitf.imode.s",
+    "nitf.v21"
+   ],
+   "openMs": 326,
+   "firstTileMs": 179,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-jitc-multiseg-graphics/NITF21_CGM_ANNO_Uncompressed_unmasked.ntf",
+   "bytes": 2388945,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "tre.RPFDES",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 348,
+   "firstTileMs": 186,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 3,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-jitc-multiseg-graphics/U_1123a.ntf",
+   "bytes": 1072337,
+   "keys": [
+    "nitf",
+    "nitf.ic.c1",
+    "nitf.ic.c3",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.multiimage",
+    "nitf.v20"
+   ],
+   "openMs": 343,
+   "firstTileMs": 115,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 0.9,
+   "readoutMs": null,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-jitc-vq-cadrg/U_3058b.ntf",
+   "bytes": 294385,
+   "keys": [
+    "nitf",
+    "nitf.ic.m4",
+    "nitf.imode.b",
+    "nitf.v20",
+    "tre.RPFHDR",
+    "tre.RPFIMG"
+   ],
+   "openMs": 330,
+   "firstTileMs": 207,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf",
+   "bytes": 4722083,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEXRA",
+    "tre.HISTOA",
+    "tre.ICHIPB",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 337,
+   "firstTileMs": 191,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.5,
+   "gpuMB": 6,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-nitf-wv3-mvs-stereo-chips/wv3_b_chip.ntf",
+   "bytes": 4722083,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "rpc.nitf",
+    "tre.CSCRNA",
+    "tre.CSDIDA",
+    "tre.CSEXRA",
+    "tre.HISTOA",
+    "tre.ICHIPB",
+    "tre.PIAIMC",
+    "tre.RPC00B",
+    "tre.STDIDC",
+    "tre.USE00A"
+   ],
+   "openMs": 332,
+   "firstTileMs": 174,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1,
+   "readoutMs": 0.3999999761581421,
+   "gpuMB": 6,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "rs-vector-naturalearth-110m/ne_110m_admin_0_countries.zip",
+   "bytes": 214976,
+   "keys": [
+    "vec.shp",
+    "vec.shp.zip",
+    "zip"
+   ],
+   "openMs": 78,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "s2-l1c-jp2-safe-10seh-20240816/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B08.jp2",
+   "bytes": 133046464,
+   "keys": [
+    "jp2",
+    "jp2.gmljp2"
+   ],
+   "openMs": 1389,
+   "firstTileMs": 1356,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1356 ms"
+   ]
+  },
+  {
+   "key": "s2-l1c-jp2-safe-10seh-20240816/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B09.jp2",
+   "bytes": 3746088,
+   "keys": [
+    "jp2",
+    "jp2.gmljp2"
+   ],
+   "openMs": 353,
+   "firstTileMs": 373,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf",
+   "bytes": 463808855,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.3.0"
+   ],
+   "openMs": 11600,
+   "firstTileMs": 8853,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 8853 ms"
+   ]
+  },
+  {
+   "key": "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf",
+   "bytes": 256654512,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v2.0.0"
+   ],
+   "openMs": 11567,
+   "firstTileMs": 9122,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.7,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 9122 ms"
+   ]
+  },
+  {
+   "key": "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif",
+   "bytes": 159224387,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.deflate",
+    "gtiff.complex.cint16",
+    "gtiff.tiled"
+   ],
+   "openMs": 7203,
+   "firstTileMs": 5176,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.9,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 13,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 5176 ms"
+   ]
+  },
+  {
+   "key": "sar-radarsat2-quadpol-slc-samples/RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC/LI-11525-40 RS2 EULA_Gov't User_V1-13_9APR2024_SPANISH.pdf",
+   "bytes": 128791,
+   "keys": [
+    "pdf",
+    "pdf.nogeo"
+   ],
+   "openMs": 351,
+   "firstTileMs": 232,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 10,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-radarsat2-quadpol-slc-samples/RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC/product.kml",
+   "bytes": 3725,
+   "keys": [
+    "vec.kml"
+   ],
+   "openMs": 30,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-radarsat2-quadpol-slc-samples/RS2_OK153952_PK1408403_DK1372522_SQ1_20231119_053723_HH_VV_HV_VH_SLC/imagery_HV.tif",
+   "bytes": 31430564,
+   "keys": [
+    "georef.gcps",
+    "gtiff",
+    "gtiff.codec.none",
+    "gtiff.striped"
+   ],
+   "openMs": 844,
+   "firstTileMs": 829,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-radarsat2-quadpol-slc-samples/RS2_OK153952_PK1408403_DK1372522_SQ1_20231119_053723_HH_VV_HV_VH_SLC/LI-11525-40 RS2 EULA_Gov't User_V1-13_9APR2024_FRENCH.pdf",
+   "bytes": 133784,
+   "keys": [
+    "pdf",
+    "pdf.nogeo"
+   ],
+   "openMs": 356,
+   "firstTileMs": 230,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": null,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf",
+   "bytes": 206215899,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.quadpol",
+    "sar.sicd.v1.2.1"
+   ],
+   "openMs": 3709,
+   "firstTileMs": 2397,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 0.8,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2397 ms"
+   ]
+  },
+  {
+   "key": "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf",
+   "bytes": 205131656,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.quadpol",
+    "sar.sicd.v1.2.1"
+   ],
+   "openMs": 3654,
+   "firstTileMs": 2316,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.9,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 2,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2316 ms"
+   ]
+  },
+  {
+   "key": "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf",
+   "bytes": 53482779,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.quadpol",
+    "sar.sicd.v1.1.0"
+   ],
+   "openMs": 2892,
+   "firstTileMs": 2661,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 27,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 2661 ms"
+   ]
+  },
+  {
+   "key": "sar-sicd-sidd-six-library/SICD/cropped_sicd_100.nitf",
+   "bytes": 55369,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.0.0"
+   ],
+   "openMs": 97,
+   "firstTileMs": 99,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.3999999761581421,
+   "gpuMB": 0,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-sicd-sidd-six-library/SICD/cropped_sicd_101.nitf",
+   "bytes": 55369,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.0.1"
+   ],
+   "openMs": 93,
+   "firstTileMs": 95,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 0,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-sicd-sidd-six-library/SICD/cropped_sicd_120.nitf",
+   "bytes": 55369,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.2.0"
+   ],
+   "openMs": 93,
+   "firstTileMs": 97,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.9,
+   "readoutMs": 0.5,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-sicd-sidd-six-library/SIDD/cropped_sidd.nitf",
+   "bytes": 9865,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v1.0.0"
+   ],
+   "openMs": 85,
+   "firstTileMs": 100,
+   "statsMs": 0,
+   "fps": 59.8,
+   "frameMs": 1,
+   "readoutMs": 0.5,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-sicd-sidd-six-library/SIDD/sidd_1.0.0.nitf",
+   "bytes": 10717,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.b",
+    "nitf.v21",
+    "sar.sidd",
+    "sar.sidd.v1.0.0"
+   ],
+   "openMs": 81,
+   "firstTileMs": 91,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf",
+   "bytes": 1526528731,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.3.0"
+   ],
+   "openMs": 17693,
+   "firstTileMs": 13430,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 0.7,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 4,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 13430 ms"
+   ]
+  },
+  {
+   "key": "srtm-skadi-n39w106-n40w106/N39W106.hgt.gz",
+   "bytes": 13932588,
+   "keys": [
+    "hgt",
+    "hgt.gz"
+   ],
+   "openMs": 849,
+   "firstTileMs": 571,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1.1,
+   "readoutMs": 0.20000004768371582,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "srtm-skadi-n39w106-n40w106/N40W106.hgt.gz",
+   "bytes": 13519697,
+   "keys": [
+    "hgt",
+    "hgt.gz"
+   ],
+   "openMs": 938,
+   "firstTileMs": 643,
+   "statsMs": 0,
+   "fps": 58.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf",
+   "bytes": 953329244,
+   "keys": [
+    "nitf",
+    "nitf.ic.nc",
+    "nitf.imode.p",
+    "nitf.v21",
+    "sar.sicd",
+    "sar.sicd.v1.2.1"
+   ],
+   "openMs": 12789,
+   "firstTileMs": 10263,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 0.8,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 2,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 10263 ms"
+   ]
+  },
+  {
+   "key": "usgs-srtm-dted2-n39w106/n39_w106_1arc_v3.dt2",
+   "bytes": 25981042,
+   "keys": [
+    "dted",
+    "dted.l2"
+   ],
+   "openMs": 763,
+   "firstTileMs": 714,
+   "statsMs": 0,
+   "fps": 59.6,
+   "frameMs": 1,
+   "readoutMs": 0.30000007152557373,
+   "gpuMB": 17,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "usgs-srtm-dted2-n39w106/n39_w106_3arc_v2.dt1",
+   "bytes": 2902642,
+   "keys": [
+    "dted",
+    "dted.l1"
+   ],
+   "openMs": 351,
+   "firstTileMs": 147,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 8,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-csv-noaa-ibtracs-last3years/ibtracs.last3years.list.v04r01.csv",
+   "bytes": 11709686,
+   "keys": [
+    "vec.csv.lonlat"
+   ],
+   "openMs": 1631,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-flatgeobuf-gdal-autotest/poly.fgb",
+   "bytes": 6568,
+   "keys": [
+    "vec.flatgeobuf"
+   ],
+   "openMs": 44,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geofabrik-osm-dc/district-of-columbia-latest-free.gpkg.zip",
+   "bytes": 32438958,
+   "keys": [
+    "vec.gpkg.zip",
+    "zip"
+   ],
+   "openMs": 8711,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geofabrik-osm-dc/district-of-columbia-latest-free.shp.zip",
+   "bytes": 31571712,
+   "keys": [
+    "vec.shp",
+    "vec.shp.zip",
+    "zip"
+   ],
+   "openMs": 7189,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 3,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geopackage-conformance-set/nga/3857.gpkg",
+   "bytes": 1028096,
+   "keys": [
+    "gpkg",
+    "gpkg.tiles"
+   ],
+   "openMs": 449,
+   "firstTileMs": 306,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 9,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geopackage-conformance-set/nga/coverage_data_tiff.gpkg",
+   "bytes": 6402048,
+   "keys": [
+    "gpkg",
+    "gpkg.coverage"
+   ],
+   "openMs": 667,
+   "firstTileMs": 486,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 4,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geopackage-conformance-set/nga/example.gpkg",
+   "bytes": 2396160,
+   "keys": [
+    "gpkg",
+    "gpkg.attributes",
+    "gpkg.coverage",
+    "gpkg.features",
+    "gpkg.gpkg_extensions",
+    "gpkg.tiles"
+   ],
+   "openMs": 1282,
+   "firstTileMs": 237,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1.3,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 29,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geopackage-conformance-set/nga/tiles.gpkg",
+   "bytes": 5066752,
+   "keys": [
+    "gpkg",
+    "gpkg.tiles"
+   ],
+   "openMs": 1359,
+   "firstTileMs": 1079,
+   "statsMs": 0,
+   "fps": 60,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 16,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": [
+    "first tile 1079 ms"
+   ]
+  },
+  {
+   "key": "vector-geopackage-conformance-set/ogc/gdal_sample_v1.2_spi_nonlinear_webp_elevation.gpkg",
+   "bytes": 630784,
+   "keys": [
+    "gpkg",
+    "gpkg.attributes",
+    "gpkg.coverage",
+    "gpkg.features",
+    "gpkg.tiles"
+   ],
+   "openMs": 230,
+   "firstTileMs": 137,
+   "statsMs": 0,
+   "fps": 59.7,
+   "frameMs": 1.1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 0,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geopackage-conformance-set/ogc/sample1_0.gpkg",
+   "bytes": 2322432,
+   "keys": [
+    "gpkg",
+    "gpkg.attributes",
+    "gpkg.features"
+   ],
+   "openMs": 185,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geopackage-conformance-set/ogc/states10.gpkg",
+   "bytes": 253952,
+   "keys": [
+    "gpkg",
+    "gpkg.features"
+   ],
+   "openMs": 74,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-geoparquet-gdal-autotest/all_geoms.parquet",
+   "bytes": 3391,
+   "keys": [
+    "vec.geoparquet"
+   ],
+   "openMs": 36,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 2,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-gml-gdal-autotest/arcgis-world-wfs.gml",
+   "bytes": 5618,
+   "keys": [
+    "vec.gml",
+    "vec.gml.v32"
+   ],
+   "openMs": 29,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-gml-gdal-autotest/wfs_200_multiplelayers.gml",
+   "bytes": 3361,
+   "keys": [
+    "vec.gml",
+    "vec.gml.v32"
+   ],
+   "openMs": 28,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-gpx-csv-wkt-gdal/csv/curves_polygon.csv",
+   "bytes": 7011,
+   "keys": [
+    "vec.csv.wkt"
+   ],
+   "openMs": 31,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-gpx-gpxpy-tests/korita-zbevnica.gpx",
+   "bytes": 88561,
+   "keys": [
+    "vec.gpx"
+   ],
+   "openMs": 34,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-kml-kmz-test-set/libkml/model-macky.kmz",
+   "bytes": 495118,
+   "keys": [
+    "vec.kmz"
+   ],
+   "openMs": 40,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-kml-kmz-test-set/libkml/polygons2d.kml",
+   "bytes": 596301,
+   "keys": [
+    "vec.kml"
+   ],
+   "openMs": 58,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-kml-kmz-test-set/ogc-ets/small_world.kmz",
+   "bytes": 15519,
+   "keys": [
+    "vec.kmz"
+   ],
+   "openMs": 29,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-nhd-hu4-1019-gpkg/NHD_H_1019_HU4_GPKG.gpkg",
+   "bytes": 500473856,
+   "keys": [
+    "gpkg",
+    "gpkg.attributes",
+    "gpkg.features"
+   ],
+   "openMs": 19302,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": null,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-rareplanes-real-test-108/PS-RGB_tiled/108_10400100457A8A00_tile_78.png",
+   "bytes": 312544,
+   "keys": [
+    "img.png"
+   ],
+   "openMs": 339,
+   "firstTileMs": 128,
+   "statsMs": 0,
+   "fps": 59.9,
+   "frameMs": 1,
+   "readoutMs": 0.2999999523162842,
+   "gpuMB": 1,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-shp-z-cpg-shapefile-js/htmlcpg.shp",
+   "bytes": 3192,
+   "keys": [
+    "vec.shp",
+    "vec.shp.2d",
+    "vec.shp.cpg"
+   ],
+   "openMs": 33,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-shp-z-cpg-shapefile-js/LGA_2013_AUST.shp",
+   "bytes": 220085,
+   "keys": [
+    "vec.shp",
+    "vec.shp.2d",
+    "vec.shp.cpg"
+   ],
+   "openMs": 49,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-shp-zm-gdal-autotest/shp/multipatch.shp",
+   "bytes": 1186,
+   "keys": [
+    "vec.shp",
+    "vec.shp.multipatch"
+   ],
+   "openMs": 29,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-shp-zm-gdal-autotest/shp/multipointz_non_constant_z.shp",
+   "bytes": 1606,
+   "keys": [
+    "vec.shp",
+    "vec.shp.z"
+   ],
+   "openMs": 29,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-shp-zm-gdal-autotest/shp/polygonm_with_m.shp",
+   "bytes": 652,
+   "keys": [
+    "vec.shp",
+    "vec.shp.m"
+   ],
+   "openMs": 32,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  },
+  {
+   "key": "vector-usgs-earthquakes-month/all_month.geojson",
+   "bytes": 7026564,
+   "keys": [
+    "vec.geojson"
+   ],
+   "openMs": 249,
+   "firstTileMs": null,
+   "statsMs": null,
+   "fps": null,
+   "frameMs": null,
+   "readoutMs": null,
+   "gpuMB": null,
+   "heapGrowthMB": 1,
+   "points": null,
+   "cloudFps": null,
+   "over": []
+  }
+ ],
+ "keys": {
+  "gltf": {
+   "files": 6,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 210,
+   "minFps": null,
+   "over": []
+  },
+  "gltf.gltf": {
+   "files": 4,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 149,
+   "minFps": null,
+   "over": []
+  },
+  "gltf.meshopt": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 122,
+   "minFps": null,
+   "over": []
+  },
+  "gltf.glb": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 210,
+   "minFps": null,
+   "over": []
+  },
+  "tiles3d.b3dm": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 21,
+   "minFps": null,
+   "over": []
+  },
+  "nitf": {
+   "files": 66,
+   "maxFirstTileMs": 13430,
+   "maxOpenMs": 17693,
+   "minFps": 59.6,
+   "over": [
+    "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf: first tile 2233 ms",
+    "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf: first tile 2737 ms",
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms",
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms",
+    "nitf-ntb-nitf20-conformance/U_4020f.ntf: first tile 1688 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf: first tile 8853 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf: first tile 9122 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms",
+    "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf: first tile 13430 ms",
+    "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf: first tile 10263 ms"
+   ]
+  },
+  "nitf.ic.nc": {
+   "files": 46,
+   "maxFirstTileMs": 13430,
+   "maxOpenMs": 17693,
+   "minFps": 59.6,
+   "over": [
+    "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf: first tile 2233 ms",
+    "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf: first tile 2737 ms",
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms",
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf: first tile 8853 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf: first tile 9122 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms",
+    "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf: first tile 13430 ms",
+    "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf: first tile 10263 ms"
+   ]
+  },
+  "nitf.imode.b": {
+   "files": 40,
+   "maxFirstTileMs": 9135,
+   "maxOpenMs": 14851,
+   "minFps": 59.6,
+   "over": [
+    "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf: first tile 2233 ms",
+    "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf: first tile 2737 ms",
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms",
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms",
+    "nitf-ntb-nitf20-conformance/U_4020f.ntf: first tile 1688 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf: first tile 9122 ms"
+   ]
+  },
+  "nitf.v21": {
+   "files": 47,
+   "maxFirstTileMs": 13430,
+   "maxOpenMs": 17693,
+   "minFps": 59.6,
+   "over": [
+    "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf: first tile 2233 ms",
+    "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf: first tile 2737 ms",
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms",
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf: first tile 8853 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf: first tile 9122 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms",
+    "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf: first tile 13430 ms",
+    "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf: first tile 10263 ms"
+   ]
+  },
+  "sar.sidd": {
+   "files": 7,
+   "maxFirstTileMs": 9135,
+   "maxOpenMs": 14851,
+   "minFps": 59.7,
+   "over": [
+    "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf: first tile 2233 ms",
+    "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf: first tile 2737 ms",
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf: first tile 9122 ms"
+   ]
+  },
+  "sar.sidd.v2.0.0": {
+   "files": 2,
+   "maxFirstTileMs": 9122,
+   "maxOpenMs": 11567,
+   "minFps": 59.7,
+   "over": [
+    "capella-c13-sm-20240924/capella_C13_SM_SIDD.ntf: first tile 2233 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SIDD.ntf: first tile 9122 ms"
+   ]
+  },
+  "vec.geojson": {
+   "files": 4,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 249,
+   "minFps": null,
+   "over": []
+  },
+  "vec.geojson.legacycrs": {
+   "files": 3,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 119,
+   "minFps": null,
+   "over": []
+  },
+  "gtiff": {
+   "files": 38,
+   "maxFirstTileMs": 5176,
+   "maxOpenMs": 7203,
+   "minFps": 59.7,
+   "over": [
+    "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif: first tile 2153 ms",
+    "derived-gtiff-variants/naip_bigendian_striped.tif: first tile 1695 ms",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF: first tile 3099 ms",
+    "eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF: first tile 2043 ms",
+    "field-dg-panama/Panama_01_R1C1.tif: first tile 2408 ms",
+    "field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C2.tif: first tile 2035 ms",
+    "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C2.tif: first tile 1948 ms",
+    "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C2.tif: first tile 2171 ms",
+    "nitf-rpf-cib-usgs/n20e102.tif: first tile 1507 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif: first tile 5176 ms"
+   ]
+  },
+  "gtiff.codec.lzw": {
+   "files": 2,
+   "maxFirstTileMs": 297,
+   "maxOpenMs": 864,
+   "minFps": 59.9,
+   "over": []
+  },
+  "gtiff.cog": {
+   "files": 9,
+   "maxFirstTileMs": 297,
+   "maxOpenMs": 864,
+   "minFps": 59.8,
+   "over": []
+  },
+  "gtiff.overviews": {
+   "files": 6,
+   "maxFirstTileMs": 297,
+   "maxOpenMs": 864,
+   "minFps": 59.8,
+   "over": []
+  },
+  "gtiff.tiled": {
+   "files": 27,
+   "maxFirstTileMs": 5176,
+   "maxOpenMs": 7203,
+   "minFps": 59.7,
+   "over": [
+    "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif: first tile 2153 ms",
+    "field-dg-panama/Panama_01_R1C1.tif: first tile 2408 ms",
+    "field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C2.tif: first tile 2035 ms",
+    "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C2.tif: first tile 1948 ms",
+    "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C2.tif: first tile 2171 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif: first tile 5176 ms"
+   ]
+  },
+  "gtiff.codec.deflate": {
+   "files": 13,
+   "maxFirstTileMs": 5176,
+   "maxOpenMs": 7203,
+   "minFps": 59.7,
+   "over": [
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif: first tile 5176 ms"
+   ]
+  },
+  "tiles3d.3tz": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 126,
+   "minFps": null,
+   "over": []
+  },
+  "app.pack": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 564,
+   "minFps": null,
+   "over": []
+  },
+  "app.recipe": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 34,
+   "minFps": null,
+   "over": []
+  },
+  "app.project": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 44,
+   "minFps": null,
+   "over": []
+  },
+  "app.template": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 24,
+   "minFps": null,
+   "over": []
+  },
+  "control.gcp": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 37,
+   "minFps": null,
+   "over": []
+  },
+  "vec.csv.lonlat": {
+   "files": 4,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1631,
+   "minFps": null,
+   "over": []
+  },
+  "det.csv": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 22,
+   "minFps": null,
+   "over": []
+  },
+  "dted": {
+   "files": 8,
+   "maxFirstTileMs": 714,
+   "maxOpenMs": 1006,
+   "minFps": 59.6,
+   "over": []
+  },
+  "dted.l2": {
+   "files": 2,
+   "maxFirstTileMs": 714,
+   "maxOpenMs": 1006,
+   "minFps": 59.6,
+   "over": []
+  },
+  "envi.data": {
+   "files": 2,
+   "maxFirstTileMs": 9001,
+   "maxOpenMs": 9748,
+   "minFps": 59.8,
+   "over": [
+    "ieee-dfc2018-houston/FullHSIDataset/20170218_UH_CASI_S4_NAD83.pix: first tile 9001 ms"
+   ]
+  },
+  "fmv.codec.hevc": {
+   "files": 3,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 422,
+   "minFps": null,
+   "over": []
+  },
+  "fmv.klv": {
+   "files": 9,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1890,
+   "minFps": null,
+   "over": []
+  },
+  "fmv.ts": {
+   "files": 11,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1949,
+   "minFps": null,
+   "over": []
+  },
+  "fmv.video": {
+   "files": 11,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1949,
+   "minFps": null,
+   "over": []
+  },
+  "fmv.codec.mpeg2video": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1200,
+   "minFps": null,
+   "over": []
+  },
+  "geopdf.iso32000": {
+   "files": 4,
+   "maxFirstTileMs": 6236,
+   "maxOpenMs": 6481,
+   "minFps": 59.6,
+   "over": [
+    "geopdf-ustopo-bouldin-island-current/CA_Bouldin_Island_20211230_TM_geo.pdf: first tile 5487 ms",
+    "geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf: first tile 6236 ms"
+   ]
+  },
+  "pdf": {
+   "files": 8,
+   "maxFirstTileMs": 6236,
+   "maxOpenMs": 6481,
+   "minFps": 59.6,
+   "over": [
+    "geopdf-htmc-honker-bay-bouldin-island/CA_Honker_Bay_100766_1953_24000_geo.pdf: first tile 4552 ms",
+    "geopdf-ustopo-bouldin-island-current/CA_Bouldin_Island_20211230_TM_geo.pdf: first tile 5487 ms",
+    "geopdf-ustopo-vinehill-2012/CA_Vine_Hill_20120213_TM_geo.pdf: first tile 4382 ms",
+    "geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf: first tile 6236 ms"
+   ]
+  },
+  "gmti.4607": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 70,
+   "minFps": null,
+   "over": []
+  },
+  "gtiff.codec.lerc": {
+   "files": 2,
+   "maxFirstTileMs": 847,
+   "maxOpenMs": 1110,
+   "minFps": 59.7,
+   "over": []
+  },
+  "gtiff.codec.lerc_deflate": {
+   "files": 1,
+   "maxFirstTileMs": 219,
+   "maxOpenMs": 331,
+   "minFps": 60,
+   "over": []
+  },
+  "gtiff.codec.lerc_zstd": {
+   "files": 1,
+   "maxFirstTileMs": 263,
+   "maxOpenMs": 585,
+   "minFps": 60,
+   "over": []
+  },
+  "gtiff.bigendian": {
+   "files": 8,
+   "maxFirstTileMs": 2408,
+   "maxOpenMs": 4423,
+   "minFps": 59.7,
+   "over": [
+    "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif: first tile 2153 ms",
+    "derived-gtiff-variants/naip_bigendian_striped.tif: first tile 1695 ms",
+    "field-dg-panama/Panama_01_R1C1.tif: first tile 2408 ms",
+    "field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C2.tif: first tile 2035 ms",
+    "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C2.tif: first tile 1948 ms",
+    "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C2.tif: first tile 2171 ms",
+    "nitf-rpf-cib-usgs/n20e102.tif: first tile 1507 ms"
+   ]
+  },
+  "gtiff.bigtiff": {
+   "files": 3,
+   "maxFirstTileMs": 2153,
+   "maxOpenMs": 2124,
+   "minFps": 59.7,
+   "over": [
+    "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif: first tile 2153 ms"
+   ]
+  },
+  "gtiff.codec.zstd": {
+   "files": 2,
+   "maxFirstTileMs": 2153,
+   "maxOpenMs": 2124,
+   "minFps": 59.7,
+   "over": [
+    "derived-gtiff-variants/landsat_b4_bigtiff_bigendian.tif: first tile 2153 ms"
+   ]
+  },
+  "gtiff.codec.packbits": {
+   "files": 2,
+   "maxFirstTileMs": 1695,
+   "maxOpenMs": 2659,
+   "minFps": 59.9,
+   "over": [
+    "derived-gtiff-variants/naip_bigendian_striped.tif: first tile 1695 ms"
+   ]
+  },
+  "gtiff.striped": {
+   "files": 11,
+   "maxFirstTileMs": 3099,
+   "maxOpenMs": 6197,
+   "minFps": 59.7,
+   "over": [
+    "derived-gtiff-variants/naip_bigendian_striped.tif: first tile 1695 ms",
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF: first tile 3099 ms",
+    "eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF: first tile 2043 ms",
+    "nitf-rpf-cib-usgs/n20e102.tif: first tile 1507 ms"
+   ]
+  },
+  "gtiff.codec.webp": {
+   "files": 2,
+   "maxFirstTileMs": 699,
+   "maxOpenMs": 1083,
+   "minFps": 59.9,
+   "over": []
+  },
+  "hgt": {
+   "files": 5,
+   "maxFirstTileMs": 672,
+   "maxOpenMs": 965,
+   "minFps": 58.9,
+   "over": []
+  },
+  "hgt.size25934402": {
+   "files": 2,
+   "maxFirstTileMs": 672,
+   "maxOpenMs": 965,
+   "minFps": 59.9,
+   "over": []
+  },
+  "hgt.size2884802": {
+   "files": 1,
+   "maxFirstTileMs": 155,
+   "maxOpenMs": 351,
+   "minFps": 59.9,
+   "over": []
+  },
+  "raster.cube": {
+   "files": 2,
+   "maxFirstTileMs": 195,
+   "maxOpenMs": 346,
+   "minFps": 60,
+   "over": []
+  },
+  "jp2": {
+   "files": 8,
+   "maxFirstTileMs": 1356,
+   "maxOpenMs": 1389,
+   "minFps": 59.7,
+   "over": [
+    "s2-l1c-jp2-safe-10seh-20240816/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B08.jp2: first tile 1356 ms"
+   ]
+  },
+  "jp2.codestream": {
+   "files": 3,
+   "maxFirstTileMs": 250,
+   "maxOpenMs": 581,
+   "minFps": 59.7,
+   "over": []
+  },
+  "jp2.htj2k": {
+   "files": 3,
+   "maxFirstTileMs": 250,
+   "maxOpenMs": 581,
+   "minFps": 59.7,
+   "over": []
+  },
+  "jp2.geojp2": {
+   "files": 2,
+   "maxFirstTileMs": 421,
+   "maxOpenMs": 843,
+   "minFps": 60,
+   "over": []
+  },
+  "las": {
+   "files": 30,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 23651,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf5": {
+   "files": 3,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1345,
+   "minFps": null,
+   "over": []
+  },
+  "las.v13": {
+   "files": 5,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1345,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf9": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 720,
+   "minFps": null,
+   "over": []
+  },
+  "las.v14": {
+   "files": 13,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 23651,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf2": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 6775,
+   "minFps": null,
+   "over": []
+  },
+  "las.v12": {
+   "files": 8,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 19646,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf4": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 867,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf8": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 673,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf10": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 846,
+   "minFps": null,
+   "over": []
+  },
+  "nitf.mie4nitf": {
+   "files": 2,
+   "maxFirstTileMs": 305,
+   "maxOpenMs": 1181,
+   "minFps": 59.9,
+   "over": []
+  },
+  "nitf.multiimage": {
+   "files": 9,
+   "maxFirstTileMs": 1766,
+   "maxOpenMs": 2131,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms"
+   ]
+  },
+  "tre.MTIMSA": {
+   "files": 2,
+   "maxFirstTileMs": 305,
+   "maxOpenMs": 1181,
+   "minFps": 59.9,
+   "over": []
+  },
+  "nitf.imode.r": {
+   "files": 3,
+   "maxFirstTileMs": 211,
+   "maxOpenMs": 340,
+   "minFps": 59.6,
+   "over": []
+  },
+  "tre.BANDSB": {
+   "files": 6,
+   "maxFirstTileMs": 211,
+   "maxOpenMs": 340,
+   "minFps": 59.6,
+   "over": []
+  },
+  "nitf.imode.p": {
+   "files": 18,
+   "maxFirstTileMs": 13430,
+   "maxOpenMs": 17693,
+   "minFps": 59.7,
+   "over": [
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf: first tile 8853 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms",
+    "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf: first tile 13430 ms",
+    "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf: first tile 10263 ms"
+   ]
+  },
+  "nitf.imode.s": {
+   "files": 3,
+   "maxFirstTileMs": 213,
+   "maxOpenMs": 578,
+   "minFps": 59.9,
+   "over": []
+  },
+  "sensor.rsm": {
+   "files": 2,
+   "maxFirstTileMs": 285,
+   "maxOpenMs": 597,
+   "minFps": 59.8,
+   "over": []
+  },
+  "tre.RSMIDA": {
+   "files": 2,
+   "maxFirstTileMs": 285,
+   "maxOpenMs": 597,
+   "minFps": 59.8,
+   "over": []
+  },
+  "tre.RSMPCA": {
+   "files": 2,
+   "maxFirstTileMs": 285,
+   "maxOpenMs": 597,
+   "minFps": 59.8,
+   "over": []
+  },
+  "rpc.nitf": {
+   "files": 9,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.RPC00B": {
+   "files": 9,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "nsif.v10": {
+   "files": 3,
+   "maxFirstTileMs": 360,
+   "maxOpenMs": 588,
+   "minFps": 59.7,
+   "over": []
+  },
+  "nitf.ic.m3": {
+   "files": 2,
+   "maxFirstTileMs": 226,
+   "maxOpenMs": 584,
+   "minFps": 59.9,
+   "over": []
+  },
+  "pc.ascii": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1216,
+   "minFps": null,
+   "over": []
+  },
+  "img.bmp": {
+   "files": 2,
+   "maxFirstTileMs": 177,
+   "maxOpenMs": 605,
+   "minFps": 60,
+   "over": []
+  },
+  "img.bmp.world": {
+   "files": 2,
+   "maxFirstTileMs": 177,
+   "maxOpenMs": 605,
+   "minFps": 60,
+   "over": []
+  },
+  "img.png": {
+   "files": 3,
+   "maxFirstTileMs": 171,
+   "maxOpenMs": 601,
+   "minFps": 59.9,
+   "over": []
+  },
+  "img.png.world": {
+   "files": 2,
+   "maxFirstTileMs": 171,
+   "maxOpenMs": 601,
+   "minFps": 60,
+   "over": []
+  },
+  "img.webp": {
+   "files": 2,
+   "maxFirstTileMs": 176,
+   "maxOpenMs": 606,
+   "minFps": 59.7,
+   "over": []
+  },
+  "img.webp.world": {
+   "files": 2,
+   "maxFirstTileMs": 176,
+   "maxOpenMs": 606,
+   "minFps": 59.7,
+   "over": []
+  },
+  "img.gif": {
+   "files": 2,
+   "maxFirstTileMs": 122,
+   "maxOpenMs": 349,
+   "minFps": 59.8,
+   "over": []
+  },
+  "img.gif.world": {
+   "files": 2,
+   "maxFirstTileMs": 122,
+   "maxOpenMs": 349,
+   "minFps": 59.8,
+   "over": []
+  },
+  "img.jpg": {
+   "files": 4,
+   "maxFirstTileMs": 1300,
+   "maxOpenMs": 1697,
+   "minFps": 59.7,
+   "over": [
+    "frames-odm-aukerman/images/DSC00269.JPG: first tile 1300 ms",
+    "frames-odm-copr-gcp/images/IMG_0106.jpg: first tile 1074 ms"
+   ]
+  },
+  "img.jpg.world": {
+   "files": 2,
+   "maxFirstTileMs": 167,
+   "maxOpenMs": 593,
+   "minFps": 59.7,
+   "over": []
+  },
+  "pmtiles": {
+   "files": 7,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 31,
+   "minFps": null,
+   "over": []
+  },
+  "pmtiles.jpeg": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 25,
+   "minFps": null,
+   "over": []
+  },
+  "pmtiles.webp": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 25,
+   "minFps": null,
+   "over": []
+  },
+  "pmtiles.png": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 31,
+   "minFps": null,
+   "over": []
+  },
+  "app.pptx-template": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 29,
+   "minFps": null,
+   "over": []
+  },
+  "nitf.ic.c4": {
+   "files": 5,
+   "maxFirstTileMs": 257,
+   "maxOpenMs": 587,
+   "minFps": 59.8,
+   "over": []
+  },
+  "nitf.v20": {
+   "files": 14,
+   "maxFirstTileMs": 1688,
+   "maxOpenMs": 1872,
+   "minFps": 59.6,
+   "over": [
+    "nitf-ntb-nitf20-conformance/U_4020f.ntf: first tile 1688 ms"
+   ]
+  },
+  "tre.RPFHDR": {
+   "files": 8,
+   "maxFirstTileMs": 257,
+   "maxOpenMs": 587,
+   "minFps": 59.6,
+   "over": []
+  },
+  "tre.RPFIMG": {
+   "files": 8,
+   "maxFirstTileMs": 257,
+   "maxOpenMs": 587,
+   "minFps": 59.6,
+   "over": []
+  },
+  "georef.gcps": {
+   "files": 9,
+   "maxFirstTileMs": 5176,
+   "maxOpenMs": 7203,
+   "minFps": 59.7,
+   "over": [
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF: first tile 3099 ms",
+    "eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF: first tile 2043 ms",
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif: first tile 5176 ms"
+   ]
+  },
+  "gtiff.complex.cfloat32": {
+   "files": 2,
+   "maxFirstTileMs": 390,
+   "maxOpenMs": 846,
+   "minFps": 59.7,
+   "over": []
+  },
+  "gtiff.complex.cint16": {
+   "files": 2,
+   "maxFirstTileMs": 5176,
+   "maxOpenMs": 7203,
+   "minFps": 59.7,
+   "over": [
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SLC.tif: first tile 5176 ms"
+   ]
+  },
+  "gtiff.complex.cint32": {
+   "files": 2,
+   "maxFirstTileMs": 360,
+   "maxOpenMs": 588,
+   "minFps": 59.9,
+   "over": []
+  },
+  "sar.sidd.v3.0.0": {
+   "files": 3,
+   "maxFirstTileMs": 9135,
+   "maxOpenMs": 14851,
+   "minFps": 60,
+   "over": [
+    "derived-sar-sicd14-sidd30/umbra_bingham_sidd_sidd30.nitf: first tile 2737 ms",
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms"
+   ]
+  },
+  "sar.sicd": {
+   "files": 14,
+   "maxFirstTileMs": 13430,
+   "maxOpenMs": 17693,
+   "minFps": 59.7,
+   "over": [
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf: first tile 8853 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms",
+    "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf: first tile 13430 ms",
+    "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf: first tile 10263 ms"
+   ]
+  },
+  "sar.sicd.v1.4.0": {
+   "files": 2,
+   "maxFirstTileMs": 133,
+   "maxOpenMs": 339,
+   "minFps": 59.9,
+   "over": []
+  },
+  "sar.sicd.v1.5": {
+   "files": 2,
+   "maxFirstTileMs": 147,
+   "maxOpenMs": 343,
+   "minFps": 59.9,
+   "over": []
+  },
+  "vec.gpx": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 36,
+   "minFps": null,
+   "over": []
+  },
+  "vec.geoparquet": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 342,
+   "minFps": null,
+   "over": []
+  },
+  "vec.gml": {
+   "files": 3,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 116,
+   "minFps": null,
+   "over": []
+  },
+  "vec.gml.v32": {
+   "files": 3,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 116,
+   "minFps": null,
+   "over": []
+  },
+  "vec.flatgeobuf": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 674,
+   "minFps": null,
+   "over": []
+  },
+  "vec.csv.wkt": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 109,
+   "minFps": null,
+   "over": []
+  },
+  "vec.shp": {
+   "files": 11,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 7189,
+   "minFps": null,
+   "over": []
+  },
+  "vec.shp.cpg": {
+   "files": 4,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 146,
+   "minFps": null,
+   "over": []
+  },
+  "vec.shp.m": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 146,
+   "minFps": null,
+   "over": []
+  },
+  "vec.shp.z": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 139,
+   "minFps": null,
+   "over": []
+  },
+  "fmv.codec.h264": {
+   "files": 6,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1949,
+   "minFps": null,
+   "over": []
+  },
+  "fmv.vmti": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 1449,
+   "minFps": null,
+   "over": []
+  },
+  "zip": {
+   "files": 8,
+   "maxFirstTileMs": 3585,
+   "maxOpenMs": 8711,
+   "minFps": 59.8,
+   "over": [
+    "field-dg-spratly-zip/Spratly Islands.zip: first tile 1639 ms",
+    "field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip: first tile 3585 ms"
+   ]
+  },
+  "zip.imagery": {
+   "files": 3,
+   "maxFirstTileMs": 3585,
+   "maxOpenMs": 4281,
+   "minFps": 59.8,
+   "over": [
+    "field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip: first tile 3585 ms"
+   ]
+  },
+  "zip.nested": {
+   "files": 2,
+   "maxFirstTileMs": 1639,
+   "maxOpenMs": 6424,
+   "minFps": 60,
+   "over": [
+    "field-dg-spratly-zip/Spratly Islands.zip: first tile 1639 ms"
+   ]
+  },
+  "hdf5": {
+   "files": 2,
+   "maxFirstTileMs": 16007,
+   "maxOpenMs": 16486,
+   "minFps": 59.6,
+   "over": [
+    "emit-l1b-rad-cuprite/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc: first tile 15358 ms",
+    "emit-l2a-rfl-cuprite/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc: first tile 16007 ms"
+   ]
+  },
+  "hdf5.netcdf4": {
+   "files": 2,
+   "maxFirstTileMs": 16007,
+   "maxOpenMs": 16486,
+   "minFps": 59.6,
+   "over": [
+    "emit-l1b-rad-cuprite/EMIT_L1B_RAD_001_20240727T213005_2420914_007.nc: first tile 15358 ms",
+    "emit-l2a-rfl-cuprite/EMIT_L2A_RFL_001_20240727T213005_2420914_007.nc: first tile 16007 ms"
+   ]
+  },
+  "gtiff.codec.none": {
+   "files": 9,
+   "maxFirstTileMs": 3099,
+   "maxOpenMs": 6197,
+   "minFps": 59.7,
+   "over": [
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF: first tile 3099 ms",
+    "eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF: first tile 2043 ms",
+    "nitf-rpf-cib-usgs/n20e102.tif: first tile 1507 ms"
+   ]
+  },
+  "rpc.gtiff": {
+   "files": 2,
+   "maxFirstTileMs": 3099,
+   "maxOpenMs": 6197,
+   "minFps": 60,
+   "over": [
+    "eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003.TIF: first tile 3099 ms",
+    "eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005.TIF: first tile 2043 ms"
+   ]
+  },
+  "gtiff.codec.jpeg": {
+   "files": 4,
+   "maxFirstTileMs": 2408,
+   "maxOpenMs": 4423,
+   "minFps": 59.9,
+   "over": [
+    "field-dg-panama/Panama_01_R1C1.tif: first tile 2408 ms",
+    "field-dg-spratly-mischief-reef-20150610/Mischief_Reef_20150610_R2C2.tif: first tile 2035 ms",
+    "field-dg-spratly-subi-reef-20150317/Subi_Reef_20150317_R1C2.tif: first tile 1948 ms",
+    "field-dg-spratly-subi-reef-20150424/Subi_Reef_20150424_R1C2.tif: first tile 2171 ms"
+   ]
+  },
+  "dimap.zip": {
+   "files": 1,
+   "maxFirstTileMs": 3585,
+   "maxOpenMs": 4281,
+   "minFps": 59.9,
+   "over": [
+    "field-phr-dimap-zip/APMQ7332_SO18018059-2-01_DS_PHR1B_201804210157279_FR1_PX_E131N43_1205_04070.zip: first tile 3585 ms"
+   ]
+  },
+  "fmv.platformcsv": {
+   "files": 1,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 48,
+   "minFps": null,
+   "over": []
+  },
+  "dted.dhm": {
+   "files": 1,
+   "maxFirstTileMs": 132,
+   "maxOpenMs": 342,
+   "minFps": 59.6,
+   "over": []
+  },
+  "dted.l0": {
+   "files": 2,
+   "maxFirstTileMs": 92,
+   "maxOpenMs": 324,
+   "minFps": 59.8,
+   "over": []
+  },
+  "dted.hdr1": {
+   "files": 2,
+   "maxFirstTileMs": 157,
+   "maxOpenMs": 367,
+   "minFps": 59.8,
+   "over": []
+  },
+  "dted.l1": {
+   "files": 3,
+   "maxFirstTileMs": 157,
+   "maxOpenMs": 367,
+   "minFps": 59.8,
+   "over": []
+  },
+  "geopdf.lgidict": {
+   "files": 2,
+   "maxFirstTileMs": 4552,
+   "maxOpenMs": 4915,
+   "minFps": 59.9,
+   "over": [
+    "geopdf-htmc-honker-bay-bouldin-island/CA_Honker_Bay_100766_1953_24000_geo.pdf: first tile 4552 ms",
+    "geopdf-ustopo-vinehill-2012/CA_Vine_Hill_20120213_TM_geo.pdf: first tile 4382 ms"
+   ]
+  },
+  "pdf.layers": {
+   "files": 3,
+   "maxFirstTileMs": 6236,
+   "maxOpenMs": 6481,
+   "minFps": 59.6,
+   "over": [
+    "geopdf-ustopo-bouldin-island-current/CA_Bouldin_Island_20211230_TM_geo.pdf: first tile 5487 ms",
+    "geopdf-ustopo-vinehill-2012/CA_Vine_Hill_20120213_TM_geo.pdf: first tile 4382 ms",
+    "geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf: first tile 6236 ms"
+   ]
+  },
+  "speclib.envi-sli.data": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 230,
+   "minFps": null,
+   "over": []
+  },
+  "tre.BLOCKA": {
+   "files": 2,
+   "maxFirstTileMs": 9135,
+   "maxOpenMs": 14851,
+   "minFps": 59.9,
+   "over": [
+    "iceye-x50-slf-20251027-sidd3/iceye_X50_SIDD_GRD_SLF.nitf: first tile 9135 ms"
+   ]
+  },
+  "las.pdrf1": {
+   "files": 7,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 19646,
+   "minFps": null,
+   "over": []
+  },
+  "georef.none": {
+   "files": 3,
+   "maxFirstTileMs": 547,
+   "maxOpenMs": 780,
+   "minFps": 59.8,
+   "over": []
+  },
+  "laz": {
+   "files": 9,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 23651,
+   "minFps": null,
+   "over": []
+  },
+  "las.v11": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 4308,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf6": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 23651,
+   "minFps": null,
+   "over": []
+  },
+  "copc": {
+   "files": 3,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 5396,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf7": {
+   "files": 4,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 5396,
+   "minFps": null,
+   "over": []
+  },
+  "pc.bpf": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 119,
+   "minFps": null,
+   "over": []
+  },
+  "las.v10": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 373,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf3": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 193,
+   "minFps": null,
+   "over": []
+  },
+  "las.pdrf0": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 118,
+   "minFps": null,
+   "over": []
+  },
+  "nitf.ic.c8": {
+   "files": 6,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.CSCCGA": {
+   "files": 5,
+   "maxFirstTileMs": 1766,
+   "maxOpenMs": 2131,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms"
+   ]
+  },
+  "tre.CSCRNA": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.CSDIDA": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.CSEPHA": {
+   "files": 6,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.CSEXRA": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.CSPROA": {
+   "files": 6,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.CSSFAA": {
+   "files": 6,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.HISTOA": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.J2KLRA": {
+   "files": 6,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.PIAIMC": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.STDIDC": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "tre.USE00A": {
+   "files": 8,
+   "maxFirstTileMs": 2017,
+   "maxOpenMs": 2146,
+   "minFps": 59.6,
+   "over": [
+    "nitf-core3d-jacksonville-wv3/MSI/21JAN15WV031100015JAN21161243-M1BS-500648061050_01_P001_________GA_E0AAAAAAKAAL0.NTF: first tile 1604 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161243-P1BS-500648061050_01_P001_________AAE_0AAAAABPABS0.NTF: first tile 1766 ms",
+    "nitf-core3d-jacksonville-wv3/PAN/21JAN15WV031100015JAN21161308-P1BS-501504474040_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1454 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/18DEC15WV031000015DEC18140533-P1BS-500515572050_01_P001_________AAE_0AAAAABPABJ0.NTF: first tile 1422 ms",
+    "nitf-mvs-wv3-buenos-aires/PAN/19DEC15WV031000015DEC19142039-P1BS-500514410020_01_P001_________AAE_0AAAAABPABW0.NTF: first tile 2017 ms"
+   ]
+  },
+  "vec.shp.2d": {
+   "files": 4,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 49,
+   "minFps": null,
+   "over": []
+  },
+  "nitf.v11": {
+   "files": 2,
+   "maxFirstTileMs": 124,
+   "maxOpenMs": 332,
+   "minFps": 59.7,
+   "over": []
+  },
+  "nitf.ic.c1": {
+   "files": 2,
+   "maxFirstTileMs": 226,
+   "maxOpenMs": 343,
+   "minFps": 59.8,
+   "over": []
+  },
+  "nitf.ic.c3": {
+   "files": 5,
+   "maxFirstTileMs": 1688,
+   "maxOpenMs": 1872,
+   "minFps": 59.7,
+   "over": [
+    "nitf-ntb-nitf20-conformance/U_4020f.ntf: first tile 1688 ms"
+   ]
+  },
+  "tre.IOMAPA": {
+   "files": 3,
+   "maxFirstTileMs": 1688,
+   "maxOpenMs": 1872,
+   "minFps": 59.9,
+   "over": [
+    "nitf-ntb-nitf20-conformance/U_4020f.ntf: first tile 1688 ms"
+   ]
+  },
+  "tre.NBLOCA": {
+   "files": 2,
+   "maxFirstTileMs": 1688,
+   "maxOpenMs": 1872,
+   "minFps": 59.9,
+   "over": [
+    "nitf-ntb-nitf20-conformance/U_4020f.ntf: first tile 1688 ms"
+   ]
+  },
+  "tre.IXTAGA": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGB": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGC": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGC_2": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGD": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGE": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGF": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGG": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGH": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGI": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGI_2": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGI_3": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGJ": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGK": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.IXTAGL": {
+   "files": 2,
+   "maxFirstTileMs": 780,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "tre.XBLOCA": {
+   "files": 1,
+   "maxFirstTileMs": 776,
+   "maxOpenMs": 857,
+   "minFps": 59.9,
+   "over": []
+  },
+  "nitf.ic.c5": {
+   "files": 1,
+   "maxFirstTileMs": 360,
+   "maxOpenMs": 588,
+   "minFps": 59.7,
+   "over": []
+  },
+  "rpf.frame": {
+   "files": 2,
+   "maxFirstTileMs": 256,
+   "maxOpenMs": 587,
+   "minFps": 59.7,
+   "over": []
+  },
+  "nitf.ic.m4": {
+   "files": 2,
+   "maxFirstTileMs": 207,
+   "maxOpenMs": 330,
+   "minFps": 59.6,
+   "over": []
+  },
+  "nitf.ic.nm": {
+   "files": 2,
+   "maxFirstTileMs": 179,
+   "maxOpenMs": 328,
+   "minFps": 59.8,
+   "over": []
+  },
+  "pmtiles.avif": {
+   "files": 1,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 25,
+   "minFps": null,
+   "over": []
+  },
+  "sar.sicd.quadpol": {
+   "files": 4,
+   "maxFirstTileMs": 2661,
+   "maxOpenMs": 3709,
+   "minFps": 59.7,
+   "over": [
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms"
+   ]
+  },
+  "sar.sicd.v1.1.0": {
+   "files": 2,
+   "maxFirstTileMs": 2661,
+   "maxOpenMs": 2892,
+   "minFps": 59.9,
+   "over": [
+    "sar-sicd-nitro-amp8i-phs8i/sicd_example_1_PFA_AMP8I_PHS8I_VV_with_amplitude_table_SICD.nitf: first tile 2661 ms"
+   ]
+  },
+  "tre.SENSRB": {
+   "files": 1,
+   "maxFirstTileMs": 96,
+   "maxOpenMs": 322,
+   "minFps": 59.9,
+   "over": []
+  },
+  "census.error:RuntimeError": {
+   "files": 1,
+   "maxFirstTileMs": 91,
+   "maxOpenMs": 322,
+   "minFps": 60,
+   "over": []
+  },
+  "tre.RPFDES": {
+   "files": 1,
+   "maxFirstTileMs": 186,
+   "maxOpenMs": 348,
+   "minFps": 59.7,
+   "over": []
+  },
+  "tre.ICHIPB": {
+   "files": 2,
+   "maxFirstTileMs": 191,
+   "maxOpenMs": 337,
+   "minFps": 59.7,
+   "over": []
+  },
+  "vec.shp.zip": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 7189,
+   "minFps": null,
+   "over": []
+  },
+  "jp2.gmljp2": {
+   "files": 2,
+   "maxFirstTileMs": 1356,
+   "maxOpenMs": 1389,
+   "minFps": 60,
+   "over": [
+    "s2-l1c-jp2-safe-10seh-20240816/S2B_MSIL1C_20240816T184919_N0511_R113_T10SEH_20240816T222835.SAFE/GRANULE/L1C_T10SEH_A038892_20240816T185441/IMG_DATA/T10SEH_20240816T184919_B08.jp2: first tile 1356 ms"
+   ]
+  },
+  "sar.sicd.v1.3.0": {
+   "files": 2,
+   "maxFirstTileMs": 13430,
+   "maxOpenMs": 17693,
+   "minFps": 59.9,
+   "over": [
+    "sar-capella-c10-sp-20240329/capella_C10_SP_SICD.ntf: first tile 8853 ms",
+    "sar-umbra-stack-silver-peak/2025-07-04-05-04-32_UMBRA-05/2025-07-04-05-04-32_UMBRA-05_SICD.nitf: first tile 13430 ms"
+   ]
+  },
+  "pdf.nogeo": {
+   "files": 2,
+   "maxFirstTileMs": 232,
+   "maxOpenMs": 356,
+   "minFps": 59.7,
+   "over": []
+  },
+  "vec.kml": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 58,
+   "minFps": null,
+   "over": []
+  },
+  "sar.sicd.v1.2.1": {
+   "files": 3,
+   "maxFirstTileMs": 10263,
+   "maxOpenMs": 12789,
+   "minFps": 59.7,
+   "over": [
+    "sar-sandia-farad-quadpol-2pass/sicd_example_1_PFA_RE32F_IM32F_VV.nitf: first tile 2397 ms",
+    "sar-sandia-farad-quadpol-2pass/sicd_example_2_PFA_RE32F_IM32F_VH.nitf: first tile 2316 ms",
+    "umbra-bingham-20230925-full/umbra_20230925_SICD.nitf: first tile 10263 ms"
+   ]
+  },
+  "sar.sicd.v1.0.0": {
+   "files": 1,
+   "maxFirstTileMs": 99,
+   "maxOpenMs": 97,
+   "minFps": 59.9,
+   "over": []
+  },
+  "sar.sicd.v1.0.1": {
+   "files": 1,
+   "maxFirstTileMs": 95,
+   "maxOpenMs": 93,
+   "minFps": 60,
+   "over": []
+  },
+  "sar.sicd.v1.2.0": {
+   "files": 1,
+   "maxFirstTileMs": 97,
+   "maxOpenMs": 93,
+   "minFps": 59.9,
+   "over": []
+  },
+  "sar.sidd.v1.0.0": {
+   "files": 2,
+   "maxFirstTileMs": 100,
+   "maxOpenMs": 85,
+   "minFps": 59.8,
+   "over": []
+  },
+  "hgt.gz": {
+   "files": 2,
+   "maxFirstTileMs": 643,
+   "maxOpenMs": 938,
+   "minFps": 58.9,
+   "over": []
+  },
+  "vec.gpkg.zip": {
+   "files": 1,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 8711,
+   "minFps": null,
+   "over": []
+  },
+  "gpkg": {
+   "files": 8,
+   "maxFirstTileMs": 1079,
+   "maxOpenMs": 19302,
+   "minFps": 59.7,
+   "over": [
+    "vector-geopackage-conformance-set/nga/tiles.gpkg: first tile 1079 ms"
+   ]
+  },
+  "gpkg.tiles": {
+   "files": 4,
+   "maxFirstTileMs": 1079,
+   "maxOpenMs": 1359,
+   "minFps": 59.7,
+   "over": [
+    "vector-geopackage-conformance-set/nga/tiles.gpkg: first tile 1079 ms"
+   ]
+  },
+  "gpkg.coverage": {
+   "files": 3,
+   "maxFirstTileMs": 486,
+   "maxOpenMs": 1282,
+   "minFps": 59.7,
+   "over": []
+  },
+  "gpkg.attributes": {
+   "files": 4,
+   "maxFirstTileMs": 237,
+   "maxOpenMs": 19302,
+   "minFps": 59.7,
+   "over": []
+  },
+  "gpkg.features": {
+   "files": 5,
+   "maxFirstTileMs": 237,
+   "maxOpenMs": 19302,
+   "minFps": 59.7,
+   "over": []
+  },
+  "gpkg.gpkg_extensions": {
+   "files": 1,
+   "maxFirstTileMs": 237,
+   "maxOpenMs": 1282,
+   "minFps": 59.9,
+   "over": []
+  },
+  "vec.kmz": {
+   "files": 2,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 40,
+   "minFps": null,
+   "over": []
+  },
+  "vec.shp.multipatch": {
+   "files": 1,
+   "maxFirstTileMs": null,
+   "maxOpenMs": 29,
+   "minFps": null,
+   "over": []
+  }
+ }
+}

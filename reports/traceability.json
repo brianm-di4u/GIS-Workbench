@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generated": "2026-10-29T13:51:42.022Z",
+  "generated": "2026-10-31T14:12:51.418Z",
   "releases": [
    "R0",
    "R1"
@@ -15,7 +15,7 @@
    "passing (file)": 17
   },
   "mustWithoutPassingResult": [],
-  "testResults": 5665,
+  "testResults": 5690,
   "families": {
    "PT": {
     "ids": 12,
@@ -23,11 +23,11 @@
    },
    "SCN": {
     "ids": 20,
-    "failing": 1
+    "failing": 0
    },
    "AT": {
     "ids": 40,
-    "failing": 1
+    "failing": 0
    },
    "PRF": {
     "ids": 7,
@@ -143,7 +143,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 2,
+    "passed": 4,
     "failed": 0,
     "skipped": 0
    },
@@ -342,7 +342,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 18,
+    "passed": 20,
     "failed": 0,
     "skipped": 0
    },
@@ -409,6 +409,8 @@
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
+    "tests/campaign/c56-robustness.spec.js",
+    "tests/campaign/cases.js",
     "tests/e2e/field-formats.spec.js",
     "tests/e2e/samples.spec.js",
     "crates/gw-fuzz/tests/fuzz.rs",
@@ -1523,7 +1525,7 @@
    ],
    "status": "tested",
    "results": {
-    "passed": 4,
+    "passed": 6,
     "failed": 0,
     "skipped": 0
    },
@@ -1783,6 +1785,7 @@
    ],
    "tests": [
     "tests/campaign/c20-accuracy.spec.js",
+    "tests/campaign/c52-interactive.spec.js",
     "tests/e2e/r1-musts.spec.js"
    ],
    "status": "tested",
@@ -2395,6 +2398,7 @@
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
+    "tests/campaign/cases.js",
     "tests/e2e/r1-musts.spec.js",
     "tests/e2e/samples.spec.js"
    ],
@@ -2512,6 +2516,7 @@
     "build/traceability.mjs"
    ],
    "tests": [
+    "tests/campaign/c52-interactive.spec.js",
     "tests/e2e/extract.spec.js"
    ],
    "status": "tested",
@@ -2676,6 +2681,8 @@
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
+    "tests/campaign/c54-oracles.spec.js",
+    "tests/campaign/cases.js",
     "tests/e2e/extract.spec.js",
     "tests/unit/vector-io.test.js"
    ],
@@ -2725,6 +2732,7 @@
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
+    "tests/campaign/cases.js",
     "tests/e2e/samples.spec.js"
    ],
    "status": "tested",
@@ -2820,6 +2828,7 @@
     "tests/campaign/c01-ingest.spec.js",
     "tests/campaign/c20-accuracy.spec.js",
     "tests/campaign/c43-field-workflows.spec.js",
+    "tests/campaign/cases.js",
     "tests/e2e/field-formats.spec.js",
     "tests/e2e/imaging.spec.js"
    ],
@@ -2871,7 +2880,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 2887,
+    "passed": 2888,
     "failed": 0,
     "skipped": 30
    },
@@ -2885,12 +2894,14 @@
    "impl": "Rust",
    "verify": "Unit + Diff + Fuzz + E2E",
    "code": [
+    "app/src/formats/dem-writers.js",
     "crates/gw-parse/src/dted.rs"
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
     "tests/e2e/r1-musts.spec.js",
-    "tests/e2e/samples.spec.js"
+    "tests/e2e/samples.spec.js",
+    "tests/unit/hgt-writer.test.js"
    ],
    "status": "tested",
    "results": {
@@ -2979,6 +2990,8 @@
    ],
    "tests": [
     "tests/campaign/c01-ingest.spec.js",
+    "tests/campaign/c54-oracles.spec.js",
+    "tests/campaign/cases.js",
     "crates/gw-parse/tests/samples.rs"
    ],
    "status": "tested",
@@ -3055,6 +3068,7 @@
     "app/src/shell/commands.js"
    ],
    "tests": [
+    "tests/campaign/c53-roundtrip.spec.js",
     "tests/e2e/pages.spec.js",
     "tests/unit/writers.test.js"
    ],
@@ -3175,7 +3189,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 18,
+    "passed": 20,
     "failed": 0,
     "skipped": 0
    },
@@ -3188,8 +3202,11 @@
    "release": "R1",
    "impl": "All",
    "verify": "Perf (S-01 laptop)",
-   "code": [],
+   "code": [
+    "build/campaign/perf-report.mjs"
+   ],
    "tests": [
+    "tests/campaign/c55-perf.spec.js",
     "tests/e2e/perf.spec.js",
     "tests/tools/perf-swiftshader.mjs"
    ],
@@ -3208,8 +3225,11 @@
    "release": "R1",
    "impl": "All",
    "verify": "Perf (S-01 laptop)",
-   "code": [],
+   "code": [
+    "build/campaign/perf-report.mjs"
+   ],
    "tests": [
+    "tests/campaign/c55-perf.spec.js",
     "tests/e2e/perf.spec.js"
    ],
    "status": "tested",
@@ -3229,9 +3249,11 @@
    "verify": "Perf (S-01 laptop)",
    "code": [
     "app/src/features/readout.js",
-    "app/src/wasm/core.js"
+    "app/src/wasm/core.js",
+    "build/campaign/perf-report.mjs"
    ],
    "tests": [
+    "tests/campaign/c55-perf.spec.js",
     "tests/e2e/perf.spec.js"
    ],
    "status": "tested",
@@ -3250,9 +3272,11 @@
    "impl": "All",
    "verify": "Perf (S-01 laptop)",
    "code": [
-    "app/src/features/dialogs.js"
+    "app/src/features/dialogs.js",
+    "build/campaign/perf-report.mjs"
    ],
    "tests": [
+    "tests/campaign/c55-perf.spec.js",
     "tests/e2e/perf.spec.js"
    ],
    "status": "tested",
@@ -4001,7 +4025,7 @@
    ],
    "status": "tested",
    "fileResults": {
-    "passed": 18,
+    "passed": 20,
     "failed": 0,
     "skipped": 0
    },
@@ -4252,6 +4276,7 @@
    "impl": "Rust",
    "verify": "Unit",
    "code": [
+    "app/src/workers/kinds/pointcloud.worker.js",
     "crates/bundles/core/build.rs",
     "crates/bundles/j2k/build.rs",
     "crates/bundles/parse/build.rs",

@@ -4,7 +4,10 @@
   "id": "pc.extract",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×",
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×"
+  ],
   "problems": []
  },
  {
@@ -30,7 +33,9 @@
   "id": "dialog:3d-exag ▸ OK",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: From points: 4 building(s), 99 tree(s)×"
+  ],
   "problems": []
  },
  {
@@ -38,9 +43,7 @@
   "id": "dialog:3d-exag ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -124,9 +127,7 @@
   "id": "pc.colour.rgb",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -134,9 +135,7 @@
   "id": "pc.colour.return",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: From points: 30 building(s), 136 tree(s)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -260,7 +259,9 @@
   "id": "dialog:pc-dsm ▸ OK",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×"
+  ],
   "problems": []
  },
  {
@@ -269,8 +270,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: fx09_ftus_DSM.tif is now terrain (heights above the ellipsoid)×",
-   "info: DSM 500 × 500 posts opened as fx09_ftus_DSM.tif×"
+   "info: DSM 250 × 250 posts opened as fx09_ftus_DSM.tif×"
   ],
   "problems": []
  },
@@ -289,7 +289,9 @@
   "id": "dialog:pc-dtm ▸ OK",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×"
+  ],
   "problems": []
  },
  {
@@ -297,7 +299,9 @@
   "id": "dialog:pc-dtm ▸ Cancel",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: DTM 250 × 250 posts opened as fx09_ftus_DTM.tif×"
+  ],
   "problems": []
  },
  {
@@ -307,10 +311,7 @@
   "dialogs": [
    "dialog:pc-ndsm"
   ],
-  "toasts": [
-   "info: fx09_ftus_DTM.tif is now terrain (heights above the ellipsoid)×",
-   "info: DTM 500 × 500 posts opened as fx09_ftus_DTM.tif×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -318,7 +319,9 @@
   "id": "dialog:pc-ndsm ▸ OK",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: nDSM 250 × 250 posts opened as fx09_ftus_nDSM.tif×"
+  ],
   "problems": []
  },
  {
@@ -336,9 +339,7 @@
   "dialogs": [
    "dialog:pc-intensity"
   ],
-  "toasts": [
-   "info: nDSM 500 × 500 posts opened as fx09_ftus_nDSM.tif×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -347,7 +348,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Intensity 500 × 500 posts opened as fx09_ftus_Intensity.tif×"
+   "info: Intensity 250 × 250 posts opened as fx09_ftus_Intensity.tif×"
   ],
   "problems": []
  },
@@ -375,7 +376,7 @@
   "outcome": "clicked",
   "dialogs": [],
   "toasts": [
-   "info: Density 500 × 500 posts opened as fx09_ftus_Density.tif×"
+   "info: Density 250 × 250 posts opened as fx09_ftus_Density.tif×"
   ],
   "problems": []
  },
@@ -402,7 +403,9 @@
   "id": "dialog:pc-smrf ▸ OK",
   "outcome": "clicked",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Ground filter: 42 points changed, 19,448 ground, 77 ms×"
+  ],
   "problems": []
  },
  {
@@ -420,9 +423,7 @@
   "dialogs": [
    "dialog:pc-classedit"
   ],
-  "toasts": [
-   "info: Ground filter: 45 points changed, 19,487 ground, 1651 ms×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {

@@ -1491,7 +1491,7 @@
  {
   "tab": "palette",
   "id": "los.p2p",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1751,7 +1751,7 @@
  {
   "tab": "palette",
   "id": "hud.quickchip",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1780,7 +1780,7 @@
  {
   "tab": "palette",
   "id": "glb.toggle",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []

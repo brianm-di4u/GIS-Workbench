@@ -1491,7 +1491,7 @@
  {
   "tab": "palette",
   "id": "los.p2p",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1525,7 +1525,7 @@
  {
   "tab": "palette",
   "id": "los.viewshed",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1535,7 +1535,7 @@
  {
   "tab": "palette",
   "id": "los.hlz",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:hlz"
   ],
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1639,7 +1639,7 @@
  {
   "tab": "palette",
   "id": "msi.bandmath",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:bandmath"
   ],
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1743,7 +1743,7 @@
  {
   "tab": "palette",
   "id": "ext.roadtrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1761,7 +1761,7 @@
  {
   "tab": "palette",
   "id": "bm.basemap",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1845,9 +1845,7 @@
   "id": "hub.tiff16",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1856,6 +1854,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×",
    "info: Photoshop: 983 × 832 px, 3 layers (Stretch (Levels), Graphics)×"
   ],
   "problems": []

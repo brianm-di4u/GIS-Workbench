@@ -1,8 +1,8 @@
 # Traceability — R0, R1
 
-Generated 2026-10-29T13:51:42.022Z. 188 requirements; 188 tested.
+Generated 2026-10-31T14:12:51.418Z. 188 requirements; 188 tested.
 
-Last results from 5665 test results: 171 passing; 17 passing (file). Must requirements without a passing result: 0.
+Last results from 5690 test results: 171 passing; 17 passing (file). Must requirements without a passing result: 0.
 
 | Requirement | P | Rel | Status | Last result | Tests | Code |
 |---|---|---|---|---|---|---|
@@ -10,7 +10,7 @@ Last results from 5665 test results: 171 passing; 17 passing (file). Must requir
 | REQ-ARC-02 | M | R1 | tested | passing (4✓ 0✗) | platform.spec.js, gates.test.js | boot.js, gates.mjs |
 | REQ-ARC-03 | M | R1 | tested | passing (1✓ 0✗) | gates.test.js | gates.mjs |
 | REQ-ARC-04 | M | R1 | tested | passing (7✓ 0✗) | gates.test.js | boot.js, build.mjs, gates.mjs +1 |
-| REQ-ARC-05 | M | R1 | tested | passing (2✓ 0✗) | platform.spec.js | decode.worker.js, pool.js |
+| REQ-ARC-05 | M | R1 | tested | passing (4✓ 0✗) | platform.spec.js | decode.worker.js, pool.js |
 | REQ-ARC-06 | S | R1 | tested | passing (4✓ 0✗) | closeout-ui.spec.js | panels.js, commands.js |
 | REQ-ARC-07 | M | R1 | tested | passing (2✓ 0✗) | r1-musts.spec.js | open.js, nitf.js, decode.worker.js |
 | REQ-ARC-08 | M | R1 | tested | passing (10✓ 0✗) | platform.spec.js | files.js, open.js, commands.js +1 |
@@ -22,7 +22,7 @@ Last results from 5665 test results: 171 passing; 17 passing (file). Must requir
 | REQ-ARC-20 | M | R1 | tested | passing (file) | platform.spec.js |  |
 | REQ-ARC-22 | M | R1 | tested | passing (2✓ 0✗) | platform.spec.js | renderer.js |
 | REQ-SEC-01 | M | R1 | tested | passing (4✓ 0✗) | platform.spec.js, gates.test.js | gates.mjs |
-| REQ-SEC-02 | M | R1 | tested | passing (83✓ 0✗) | c01-ingest.spec.js, field-formats.spec.js, samples.spec.js, fuzz.rs, te_laz_chunk_count.rs | geotiff.js, decode.worker.js, fuzz.rs +4 |
+| REQ-SEC-02 | M | R1 | tested | passing (83✓ 0✗) | c01-ingest.spec.js, c56-robustness.spec.js, cases.js, field-formats.spec.js, samples.spec.js, fuzz.rs, te_laz_chunk_count.rs | geotiff.js, decode.worker.js, fuzz.rs +4 |
 | REQ-SEC-03 | M | R1 | tested | passing (2✓ 0✗) | graphics.spec.js | graphics.js, dom.js |
 | REQ-SEC-04 | M | R1 | tested | passing (6✓ 0✗) | r1-musts.spec.js | dialogs.js, navigation.js, marking.js +3 |
 | REQ-SEC-05 | M | R1 | tested | passing (2✓ 0✗) | r1-musts.spec.js | dialogs.js, marking.js |
@@ -69,7 +69,7 @@ Last results from 5665 test results: 171 passing; 17 passing (file). Must requir
 | REQ-IMG-15 | M | R1 | tested | passing (8✓ 0✗) | c03-enhance.spec.js, nav.spec.js | navigation.js, views.js, commands.js |
 | REQ-IMG-17 | S | R1 | tested | passing (4✓ 0✗) | c03-enhance.spec.js, shoulds.spec.js | measure-extras.js, commands.js |
 | REQ-IMG-19 | M | R1 | tested | passing (8✓ 0✗) | c03-enhance.spec.js, r1-musts.spec.js | enhance-tools.js, enhance.js, commands.js |
-| REQ-IMG-20 | S | R1 | tested | passing (4✓ 0✗) | c03-enhance.spec.js, shoulds.spec.js | workspace-tools.js, commands.js, mosaic.js +1 |
+| REQ-IMG-20 | S | R1 | tested | passing (6✓ 0✗) | c03-enhance.spec.js, shoulds.spec.js | workspace-tools.js, commands.js, mosaic.js +1 |
 | REQ-IMG-21 | S | R1 | tested | passing (4✓ 0✗) | c03-enhance.spec.js, imaging.spec.js | analyze.js, commands.js |
 | REQ-IMG-22 | M | R1 | tested | passing (16✓ 0✗) | c03-enhance.spec.js, nav.spec.js | navigation.js, views.js, commands.js |
 | REQ-IMG-24 | M | R1 | tested | passing (14✓ 0✗) | c03-enhance.spec.js, compare.spec.js | compare.js, renderer.js, commands.js +1 |
@@ -80,7 +80,7 @@ Last results from 5665 test results: 171 passing; 17 passing (file). Must requir
 | REQ-IMG-29 | M | R1 | tested | passing (6✓ 0✗) | graphics.spec.js | dialogs.js, graphics.js, commands.js |
 | REQ-IMG-30 | S | R1 | tested | passing (16✓ 0✗) | c43-field-workflows.spec.js, graphics.spec.js, shoulds.spec.js | aoi.js, change.js, graphics.js +3 |
 | REQ-IMG-33 | M | R1 | tested | passing (2✓ 0✗) | r1-musts.spec.js | dialogs.js, image-layer.js |
-| REQ-MEN-01 | M | R1 | tested | passing (4✓ 0✗) | c20-accuracy.spec.js, r1-musts.spec.js | measure.js, panels.js, commands.js +2 |
+| REQ-MEN-01 | M | R1 | tested | passing (4✓ 0✗) | c20-accuracy.spec.js, c52-interactive.spec.js, r1-musts.spec.js | measure.js, panels.js, commands.js +2 |
 | REQ-MEN-02 | M | R1 | tested | passing (12✓ 0✗) | measure.spec.js | measure.js, commands.js, tools.js +1 |
 | REQ-MEN-03 | M | R1 | tested | passing (4✓ 0✗) | measure.spec.js | measure.js, commands.js |
 | REQ-MEN-04 | M | R1 | tested | passing (6✓ 0✗) | measure.spec.js | measure.js, commands.js |
@@ -106,44 +106,44 @@ Last results from 5665 test results: 171 passing; 17 passing (file). Must requir
 | REQ-SNS-07 | M | R1 | tested | passing (2✓ 0✗) | r1-musts.spec.js | lib.rs, terrain.rs |
 | REQ-SNS-08 | M | R1 | tested | passing (2✓ 0✗) | r1-musts.spec.js | error.rs, lib.rs |
 | REQ-SNS-09 | M | R1 | tested | passing (17✓ 0✗) | c43-field-workflows.spec.js, field-formats.spec.js, register.spec.js | register.js, open.js, image-layer.js +3 |
-| REQ-DEM-01 | M | R1 | tested | passing (137✓ 0✗) | c01-ingest.spec.js, r1-musts.spec.js, samples.spec.js | terrain.js, commands.js, dted.rs |
+| REQ-DEM-01 | M | R1 | tested | passing (137✓ 0✗) | c01-ingest.spec.js, cases.js, r1-musts.spec.js, samples.spec.js | terrain.js, commands.js, dted.rs |
 | REQ-DEM-02 | M | R1 | tested | passing (2✓ 0✗) | surface.spec.js | dem.js, terrain.js, decode.worker.js |
 | REQ-DEM-03 | S | R1 | tested | passing (7✓ 0✗) | closeout-geo.spec.js | terrain-folder.js, terrain.js, commands.js |
 | REQ-DEM-10 | M | R1 | tested | passing (12✓ 0✗) | c22-accuracy-gaps.spec.js, surface.spec.js | dem.js, shaders.js, commands.js |
 | REQ-DEM-12 | M | R1 | tested | passing (4✓ 0✗) | measure.spec.js | measure.js, commands.js |
-| REQ-EXT-01 | M | R1 | tested | passing (10✓ 0✗) | extract.spec.js | extract.js, commands.js, 40-overlays.css +1 |
+| REQ-EXT-01 | M | R1 | tested | passing (10✓ 0✗) | c52-interactive.spec.js, extract.spec.js | extract.js, commands.js, 40-overlays.css +1 |
 | REQ-EXT-02 | M | R1 | tested | passing (2✓ 0✗) | extract.spec.js | extract.js, lib.rs, traceability.mjs |
 | REQ-EXT-04 | M | R1 | tested | passing (2✓ 0✗) | extract.spec.js | extract.js, index.js |
 | REQ-EXT-05 | M | R1 | tested | passing (4✓ 0✗) | extract.spec.js | extract.js, commands.js, core.js +3 |
 | REQ-EXT-06 | M | R1 | tested | passing (10✓ 0✗) | extract.spec.js | extract.js, commands.js |
 | REQ-EXT-08 | M | R1 | tested | passing (file) | extract.spec.js | extract.js, geom.js, index.js |
 | REQ-EXT-12 | M | R1 | tested | passing (16✓ 0✗) | extract.spec.js | extract.js, commands.js |
-| REQ-EXT-21 | M | R1 | tested | passing (377✓ 0✗) | c01-ingest.spec.js, extract.spec.js, vector-io.test.js | extract.js, files.js, shapefile.js +2 |
+| REQ-EXT-21 | M | R1 | tested | passing (377✓ 0✗) | c01-ingest.spec.js, c54-oracles.spec.js, cases.js, extract.spec.js, vector-io.test.js | extract.js, files.js, shapefile.js +2 |
 | REQ-EXT-23 | M | R1 | tested | passing (4✓ 0✗) | extract.spec.js, graphics.spec.js, vector-io.test.js | extract.js, graphics.js, io.js |
-| REQ-FMT-01 | M | R1 | tested | passing (269✓ 0✗) | c01-ingest.spec.js, samples.spec.js | nitf.js, nitf.rs |
+| REQ-FMT-01 | M | R1 | tested | passing (269✓ 0✗) | c01-ingest.spec.js, cases.js, samples.spec.js | nitf.js, nitf.rs |
 | REQ-FMT-02 | M | R1 | tested | passing (file) | c01-ingest.spec.js, samples.spec.js | jp2.js, nitf.js, lib.rs |
 | REQ-FMT-17 | S | R1 | tested | passing (2✓ 0✗) | shoulds.spec.js, htj2k.rs, fuzz.rs | j2k.rs, htj2k.rs, fuzz.rs |
 | REQ-FMT-03 | M | R1 | tested | passing (2✓ 0✗) | c01-ingest.spec.js, r1-musts.spec.js | tre.rs |
-| REQ-FMT-04 | M | R1 | tested | passing (777✓ 0✗) | c01-ingest.spec.js, c20-accuracy.spec.js, c43-field-workflows.spec.js, field-formats.spec.js, imaging.spec.js | geotiff.js |
+| REQ-FMT-04 | M | R1 | tested | passing (777✓ 0✗) | c01-ingest.spec.js, c20-accuracy.spec.js, c43-field-workflows.spec.js, cases.js, field-formats.spec.js, imaging.spec.js | geotiff.js |
 | REQ-FMT-05 | M | R1 | tested | passing (8✓ 0✗) | c01-ingest.spec.js, c31-products.spec.js, writers.test.js | geotiff-writer.js, geotiff.js |
 | REQ-FMT-06 | M | R1 | tested | passing (file) | c01-ingest.spec.js, writers.test.js | nitf-writer.js |
-| REQ-FMT-07 | M | R1 | tested | passing (2✓ 0✗) | c01-ingest.spec.js, r1-musts.spec.js, samples.spec.js | dted.rs |
+| REQ-FMT-07 | M | R1 | tested | passing (2✓ 0✗) | c01-ingest.spec.js, r1-musts.spec.js, samples.spec.js, hgt-writer.test.js | dem-writers.js, dted.rs |
 | REQ-FMT-12 | M | R1 | tested | passing (file) | c01-ingest.spec.js, scn17.spec.js | shapefile.js, io.js |
 | REQ-FMT-13 | S | R1 | tested | passing (2✓ 0✗) | c01-ingest.spec.js, shoulds.spec.js | workspace-tools.js |
 | REQ-FMT-15 | M | R1 | tested | passing (file) | scn01-03.spec.js, scn17.spec.js | fx06.mjs |
-| REQ-FMT-16 | M | R1 | tested | passing (2879✓ 0✗) | c01-ingest.spec.js, samples.rs | samples.rs |
+| REQ-FMT-16 | M | R1 | tested | passing (2879✓ 0✗) | c01-ingest.spec.js, c54-oracles.spec.js, cases.js, samples.rs | samples.rs |
 | REQ-PRD-01 | M | R1 | tested | passing (20✓ 0✗) | c31-products.spec.js, pages.spec.js, products.spec.js | products.js, chip.js, offscreen.js +2 |
 | REQ-PRD-02 | M | R1 | tested | passing (12✓ 0✗) | pages.spec.js | product-pages.js, template.js, tokens.js +1 |
-| REQ-PRD-03 | M | R1 | tested | passing (6✓ 0✗) | pages.spec.js, writers.test.js | product-pages.js, pdf-writer.js, template.js +2 |
+| REQ-PRD-03 | M | R1 | tested | passing (6✓ 0✗) | c53-roundtrip.spec.js, pages.spec.js, writers.test.js | product-pages.js, pdf-writer.js, template.js +2 |
 | REQ-PRD-04 | M | R1 | tested | passing (6✓ 0✗) | pages.spec.js | product-pages.js, template.js, commands.js |
 | REQ-PRD-07 | S | R1 | tested | passing (4✓ 0✗) | pages.spec.js | product-pages.js, commands.js |
 | REQ-PRD-10 | M | R1 | tested | passing (14✓ 0✗) | c31-products.spec.js, products.spec.js, writers.test.js | products.js, geotiff-writer.js, nitf-writer.js +1 |
 | REQ-PRD-11 | S | R1 | tested | passing (6✓ 0✗) | pages.spec.js | product-pages.js, report.js, commands.js |
 | REQ-PRF-01 | M | R1 | tested | passing (file) | platform.spec.js | main.js |
-| REQ-PRF-02 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js, perf-swiftshader.mjs |  |
-| REQ-PRF-03 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js |  |
-| REQ-PRF-04 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js | readout.js, core.js |
-| REQ-PRF-08 | M | R1 | tested | passing (2✓ 0✗) | perf.spec.js | dialogs.js |
+| REQ-PRF-02 | M | R1 | tested | passing (2✓ 0✗) | c55-perf.spec.js, perf.spec.js, perf-swiftshader.mjs | perf-report.mjs |
+| REQ-PRF-03 | M | R1 | tested | passing (2✓ 0✗) | c55-perf.spec.js, perf.spec.js | perf-report.mjs |
+| REQ-PRF-04 | M | R1 | tested | passing (2✓ 0✗) | c55-perf.spec.js, perf.spec.js | readout.js, core.js, perf-report.mjs |
+| REQ-PRF-08 | M | R1 | tested | passing (2✓ 0✗) | c55-perf.spec.js, perf.spec.js | dialogs.js, perf-report.mjs |
 | REQ-WB-01 | M | R0 | tested | passing (4✓ 0✗) | feedback-ai.spec.js | whiteboard.js, commands.js, 50-feedback.css +1 |
 | REQ-WB-02 | M | R0 | tested | passing (4✓ 0✗) | feedback-ai.spec.js, feedback-ai.test.js | model.js, whiteboard.js, traceability.mjs |
 | REQ-WB-03 | M | R0 | tested | passing (2✓ 0✗) | feedback-ai.spec.js | model.js, whiteboard.js, traceability.mjs |
@@ -187,7 +187,7 @@ Last results from 5665 test results: 171 passing; 17 passing (file). Must requir
 | REQ-RUST-02 | M | R0 | tested | passing (7✓ 0✗) | gates.test.js | gates.mjs |
 | REQ-RUST-03 | M | R0 | tested | passing (file) | abi.test.js | abi.js, lib.rs |
 | REQ-RUST-04 | M | R0 | tested | passing (2✓ 0✗) | platform.spec.js | abi.js, pool.js, worker-core.js +1 |
-| REQ-RUST-05 | M | R0 | tested | passing (file) | abi.test.js | build.rs, build.rs, build.rs +5 |
+| REQ-RUST-05 | M | R0 | tested | passing (file) | abi.test.js | pointcloud.worker.js, build.rs, build.rs +6 |
 | REQ-RUST-06 | M | R0 | tested | passing (file) | geodesy.test.js | rpc.rs |
 | REQ-RUST-07 | M | R0 | tested | passing (file) | fuzz.rs | lib.rs, fuzz.rs, lib.rs |
 | REQ-RUST-08 | M | R0 | tested | passing (1✓ 0✗) | gates.test.js | gates.mjs |

@@ -120,7 +120,10 @@
   "id": "nav.whole",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×",
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -128,10 +131,7 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×",
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1525,7 +1525,7 @@
  {
   "tab": "palette",
   "id": "los.viewshed",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1571,7 +1571,7 @@
  {
   "tab": "palette",
   "id": "dem.edit",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:dem-edit"
   ],
@@ -1613,7 +1613,7 @@
  {
   "tab": "palette",
   "id": "dem.save",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:dem-save"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1751,7 +1751,7 @@
  {
   "tab": "palette",
   "id": "hud.quickchip",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"

@@ -132,9 +132,7 @@
   "id": "nav.onetoone",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -142,7 +140,9 @@
   "id": "nav.magnifier",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Saved chip1_FX02_SYNTHETIC_STEREO_A.zip×"
+  ],
   "problems": []
  },
  {
@@ -198,9 +198,7 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -209,7 +207,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
+   "info: Full roam on: move the mouse away from the centre to roam (F7 or Esc to stop)×"
   ],
   "problems": []
  },
@@ -219,6 +217,7 @@
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
+   "warn: Jump to Point: type a coordinate first×",
    "info: Full roam off×"
   ],
   "problems": []
@@ -262,9 +261,7 @@
   "id": "draw.line",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -272,7 +269,9 @@
   "id": "draw.polyline",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Magnifying glass ×4, 200 px: arrow keys change power (up/down) and size (left/right)×"
+  ],
   "problems": []
  },
  {

@@ -217,7 +217,9 @@
   "id": "rot.angle",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "info: Full roam off×"
+  ],
   "problems": []
  },
  {
@@ -225,9 +227,7 @@
   "id": "ov.open",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "info: Full roam off×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -1698,6 +1698,22 @@
   "id": "hub.psd",
   "outcome": "ran",
   "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.tiff16",
+  "outcome": "ran",
+  "dialogs": [],
+  "toasts": [],
+  "problems": []
+ },
+ {
+  "tab": "palette",
+  "id": "hub.pdf",
+  "outcome": "ran",
+  "dialogs": [],
   "toasts": [
    "info: Auto Contrast: CLAHE clip 1.8, gamma 1.20 (Tone +13).×",
    "info: Photoshop: 981 × 830 px, 3 layers (Stretch (Levels), Graphics)×"
@@ -1706,28 +1722,12 @@
  },
  {
   "tab": "palette",
-  "id": "hub.tiff16",
+  "id": "hub.svg",
   "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: 16-bit TIFF: 981 × 830 px, 1 band, 16-bit, with a Curves preset×"
   ],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "hub.pdf",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
-  "problems": []
- },
- {
-  "tab": "palette",
-  "id": "hub.svg",
-  "outcome": "ran",
-  "dialogs": [],
-  "toasts": [],
   "problems": []
  },
  {

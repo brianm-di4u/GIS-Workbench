@@ -101,9 +101,7 @@
   "id": "nav.zoombox",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [
-   "warn: Jump to Point: type a coordinate first×"
-  ],
+  "toasts": [],
   "problems": []
  },
  {
@@ -111,7 +109,9 @@
   "id": "nav.zoomin",
   "outcome": "ran",
   "dialogs": [],
-  "toasts": [],
+  "toasts": [
+   "warn: Jump to Point: type a coordinate first×"
+  ],
   "problems": []
  },
  {

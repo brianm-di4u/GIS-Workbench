@@ -4655,10 +4655,10 @@
   "tab": "dialog of ext.saveas",
   "id": "dialog:ext-saveas ▸ Save",
   "outcome": "clicked",
-  "dialogs": [
-   "dialog:ext-report"
+  "dialogs": [],
+  "toasts": [
+   "warn: Building (AL013) has no features to save×"
   ],
-  "toasts": [],
   "problems": []
  },
  {
@@ -4768,7 +4768,7 @@
  {
   "tab": "palette",
   "id": "vec.remotesave",
-  "outcome": "not now: open or draw features first",
+  "outcome": "not now: open or draw features first (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []

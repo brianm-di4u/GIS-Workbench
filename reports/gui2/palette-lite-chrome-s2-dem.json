@@ -1499,7 +1499,7 @@
  {
   "tab": "palette",
   "id": "los.fan",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1525,7 +1525,7 @@
  {
   "tab": "palette",
   "id": "los.viewshed",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:viewshed"
   ],
@@ -1535,7 +1535,7 @@
  {
   "tab": "palette",
   "id": "los.hlz",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:hlz"
   ],
@@ -1553,7 +1553,7 @@
  {
   "tab": "palette",
   "id": "dem.groundfilter",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:ground-filter"
   ],
@@ -1571,7 +1571,7 @@
  {
   "tab": "palette",
   "id": "dem.edit",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:dem-edit"
   ],
@@ -1605,7 +1605,7 @@
  {
   "tab": "palette",
   "id": "dem.accuracy",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1639,7 +1639,7 @@
  {
   "tab": "palette",
   "id": "msi.bandmath",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:bandmath"
   ],
@@ -1681,7 +1681,7 @@
  {
   "tab": "palette",
   "id": "msi.radiometric",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [
    "dialog:radiometric"
   ],
@@ -1709,7 +1709,7 @@
  {
   "tab": "palette",
   "id": "msi.thermal",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [
    "dialog:msi-thermal"
   ],
@@ -1727,7 +1727,7 @@
  {
   "tab": "palette",
   "id": "ext.wand",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1735,7 +1735,7 @@
  {
   "tab": "palette",
   "id": "ext.edgetrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1743,7 +1743,7 @@
  {
   "tab": "palette",
   "id": "ext.roadtrace",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1751,7 +1751,7 @@
  {
   "tab": "palette",
   "id": "hud.quickchip",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [
    "info: Quick chip 11SNU4590317705: copied to the clipboard and added to the session deck (1).Export deck×"
@@ -1816,7 +1816,7 @@
  {
   "tab": "palette",
   "id": "lai.contrast",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
    "info: Auto Contrast: CLAHE clip 1.8, gamma 1.32 (Tone +20).×"
@@ -1836,7 +1836,7 @@
  {
   "tab": "palette",
   "id": "hub.tiff16",
-  "outcome": "ran (found by id only)",
+  "outcome": "ran",
   "dialogs": [],
   "toasts": [],
   "problems": []
@@ -1844,7 +1844,7 @@
  {
   "tab": "palette",
   "id": "hub.pdf",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [
    "info: 16-bit TIFF: 983 × 832 px, 1 band, 16-bit, with a Curves preset×"
@@ -1854,7 +1854,7 @@
  {
   "tab": "palette",
   "id": "hub.svg",
-  "outcome": "ran",
+  "outcome": "ran (found by id only)",
   "dialogs": [],
   "toasts": [],
   "problems": []
