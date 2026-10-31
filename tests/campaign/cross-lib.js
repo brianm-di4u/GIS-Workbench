@@ -81,7 +81,8 @@ export async function heap(cdp) {
  */
 export async function session(page, { files, epsg = null, big = false, setupSteps = ['ai-mock', 'graphic', 'select-feature'], pre = [] }) {
   // Offline (the first-run choice a user can make, OD-2.3): online sources are c18's; here any request is a defect.
-  const { frame, logs, requests, csp } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, network: 'offline' } });
+  // TE_LAYOUT=modern runs the cross in the default shell (the campaign otherwise uses Classic).
+  const { frame, logs, requests, csp } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, network: 'offline', ...(process.env.TE_LAYOUT ? { layout: process.env.TE_LAYOUT } : {}) } });
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Performance.enable');
   const s = { frame, logs, requests, csp, cdp, crashed: null };
@@ -262,7 +263,10 @@ export async function crossCommands(page, s, ids, rec, save, { wait0 = 60_000, p
         const m = a.activeMp();
         if (m?.layout !== '1x1') m?.setLayout?.('1x1');
       }, s.baseUndo);
-      for (const extra of page.context().pages().filter((p) => p !== page)) await extra.close().catch(() => {});
+      // Edge opens its own edge://downloads-hub/ tab on a download, and closing that never returned:
+      // the Edge pass sat on its first download for an hour (CX-H25). Browser pages are left alone and
+      // every close is bounded.
+      for (const extra of page.context().pages().filter((p) => p !== page && !/^(edge|chrome):/.test(p.url()))) await Promise.race([extra.close().catch(() => {}), new Promise((r) => setTimeout(r, 5000))]);
       const now = await fingerprint(frame);
       if (JSON.stringify(now) !== JSON.stringify(s.base)) {
         rec.cells[id].reopened = Object.keys(s.base).filter((k) => s.base[k] !== now[k]).map((k) => `${k}: ${s.base[k]} → ${now[k]}`).join('; ').slice(0, 300);

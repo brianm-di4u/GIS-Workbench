@@ -180,18 +180,22 @@ export async function runCommand(page, frame, id, { pick = [], logs = [], confir
     const t0 = Date.now();
     let confirmed = false;
     while (Date.now() - t0 < wait) {
-      const st = await frame.evaluate(() => ({ run: window.__teRun.state, dlg: [...document.querySelectorAll('.dlg[role="dialog"]')].map((d) => d.getAttribute('aria-label')) }));
+      // Modern layout: modeless editors open as docked tool panels (REQ-SHL-09) and count as dialogs
+      // (CX-H24: Class Visibility waited 60 s for a dialog the harness did not see).
+      const st = await frame.evaluate(() => ({ run: window.__teRun.state, dlg: [...document.querySelectorAll('.dlg[role="dialog"], .tool-panel[data-id^="dialog:"]')].map((d) => d.getAttribute('aria-label')) }));
       if (st.dlg.length) {
         dialogs.push(...st.dlg.filter((d) => !dialogs.includes(d)));
         outcome = 'dialog';
         // Confirm once with the dialog's defaults (exercises the function), then dismiss anything left.
         if (confirm && !confirmed) {
           confirmed = true;
-          const ok = frame.locator('.dlg .dlg-buttons button', { hasText: /^(OK|Apply|Run|Start|Save|Export|Create|Open|Detect|Extract|Select|Chip|Load|Fit|Jump)$/ }).first();
+          const ok = frame.locator('.dlg .dlg-buttons button, .tool-panel .dlg-buttons button', { hasText: /^(OK|Apply|Run|Start|Save|Export|Create|Open|Detect|Extract|Select|Chip|Load|Fit|Jump)$/ }).first();
           if (await ok.count()) await ok.click({ timeout: 2000 }).catch(() => {});
           await frame.waitForTimeout(500);
           continue;
         }
+        // A docked tool panel does not close on Escape: it closes through its own finish.
+        await frame.evaluate(() => document.querySelectorAll('.tool-panel[data-id^="dialog:"]').forEach((p) => p.finish?.(null))).catch(() => {});
         await frame.locator('body').press('Escape').catch(() => {});
         await frame.waitForTimeout(200);
         continue;
