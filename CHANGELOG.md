@@ -68,6 +68,7 @@ The format × function release. Every file of the test archive (2,729 primary fi
 - **Smaller fixes**: the eigenvalue chart, the MIE4NITF player after its panel closes, and the Workspace preview after an undo. (CX-032–CX-034)
 
 ### Changed
+- **WebAssembly modules optimised with binaryen** (wasm-opt version_133, -O3/-Oz): 9–15 % smaller before compression. The build had never been able to run wasm-opt: it enabled SIMD only, so binaryen refused the bulk-memory and other features rustc emits by default.
 - **Format × function test tooling** (`tests/campaign/c50`–`c56`, `build/campaign/triage.mjs`, `perf-report.mjs`): every archive file crossed with every command it enables, pairings, pointer tools, writer round trips, value oracles, performance budgets and damaged files. Messages are kept in `app.toastLog` for diagnostics.
 
 ### Known limits
