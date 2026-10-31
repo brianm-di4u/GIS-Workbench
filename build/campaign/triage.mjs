@@ -1,5 +1,5 @@
 // Triage of the c50 format × function cross: aggregates the per-file records of one or more runs
-// (reports/campaign/results/<run>/c50-*.json; a later run's record of the same file wins) into
+// (reports/campaign/results/<run>/c50-*.json; a later run's cells of the same file win) into
 // clustered findings, a format-key × command-group table and the slowest cells.
 //   node build/campaign/triage.mjs cx1 [cx2 …] [--project=chrome] [--out=docs/validation/TE-cross-report.md]
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
@@ -20,7 +20,10 @@ for (const run of runs) {
   if (!existsSync(dir)) continue;
   for (const n of readdirSync(dir).filter((x) => x.startsWith(`c50-${project}-`) && x.endsWith('.json'))) {
     const r = JSON.parse(readFileSync(join(dir, n), 'utf8'));
-    recs.set(r.key, { ...r, run });
+    // A re-run (NVMe copies, a later build) may hold only the cells it re-tested: those cells win, the
+    // file's other cells stay as first recorded.
+    const prev = recs.get(r.key);
+    recs.set(r.key, prev ? { ...prev, ...r, applicable: prev.applicable ?? r.applicable, cells: { ...prev.cells, ...r.cells }, run: `${prev.run}+${run}` } : { ...r, run });
   }
 }
 

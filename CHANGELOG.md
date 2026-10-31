@@ -2,7 +2,7 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Items carry the campaign finding id they close (GUI-nnn: `docs/validation/GUI-findings.md`; TE-nnn: `docs/validation/TE-findings.md`).
 
-## [2.0.4] - 2026-10-30
+## [2.0.4] - 2026-10-31
 
 The format × function release. Every file of the test archive (2,729 primary files of 177 format kinds) was opened and every command the app offers for it was run on it, with each result checked: no error, a visible effect, valid files written, values that match GDAL, OGR, laspy and sarpy, and the performance budgets. Pairs (stereo, repeat-pass SAR, DEM under imagery, two lidar epochs and more), pointer tools, writer round trips and damaged files were tested too. This release fixes what that found. Items carry their id in `docs/validation/TE-cross-findings.md`.
 
@@ -73,6 +73,8 @@ The format × function release. Every file of the test archive (2,729 primary fi
 ### Known limits
 - HTJ2K is decoded but not encoded, and is not used as the pyramid cache (REQ-FMT-17, a Should). (CX-005)
 - These are refused by name: ARIDPCM (IC=C2), ECW, ERDAS HFA, NetCDF-3, MPEG program streams, JPEG 2000 with a POC marker, Draco and required-KTX2 glTF, Brotli or Zstandard PMTiles, QuickLZ and Cartesian BPF, MrSID, CPHD, A.TOC, MBTiles and local quantized-mesh terrain.
+- First display stays over 1 s (measured from a local SSD) for GeoPDF maps (4.7–6.8 s, page rasterisation), 16k JPEG GeoTIFFs without overviews (2.1–2.6 s, the whole image is decoded once), SICD with AMP8I/PHS8I (3.3 s), EMIT NetCDF (2.6 s), JPEG 2000 WorldView strips (1.5–2.1 s), ZSTD BigTIFF and striped PackBits (2.1–2.6 s), JPEG NITF (1.9 s) and some SIDD/SICD (1.2–1.8 s). Adding overviews (Convert ▸ Cloud-Optimized GeoTIFF) removes the wait. (CX-086)
+- Corpus files on a slow USB disk can exceed the command time limits for whole-image work on 1–5 GB images (AVIRIS-NG, Umbra, WorldView); from a local SSD they complete (2–4 min). (CX-H17, TE-cross-findings NVMe rounds)
 
 ## [2.0.3] - 2026-10-29
 
