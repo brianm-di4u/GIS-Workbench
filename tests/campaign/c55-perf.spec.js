@@ -9,7 +9,7 @@
 //   TE_DIST=dist-cx5/gis-workbench.html TE_RUN=cx-perf [TE_ONLY=<regex>]
 //   npx playwright test -c playwright.campaign.config.js c55-perf --project=chrome --workers=1
 import { test, expect } from '@playwright/test';
-import { existsSync, statSync, mkdirSync } from 'node:fs';
+import { existsSync, statSync, mkdirSync, openSync, readSync, closeSync } from 'node:fs';
 import { join } from 'node:path';
 import { ASCII_CRS, openFiles } from './helpers.js';
 import { cases, CENSUS, EXPECT, refusedKeys, ROBUST } from './cases.js';
@@ -36,7 +36,25 @@ for (const list of byKey.values()) {
   chosen.add(list[Math.floor((list.length - 1) / 2)]);
 }
 
-test.describe.configure({ mode: 'serial' });
+// One worker keeps the machine otherwise idle; a budget miss does not stop the files after it.
+test.describe.configure({ mode: 'default' });
+
+// The corpus disk (USB) spins down when idle: the first read after a pause took ~5 s, which was
+// measured as a 5.3 s first tile on a 528-byte TIFF (CX-H22). The head and tail of every file are
+// read once before timing starts, so the budgets measure the app, not the disk waking.
+function wake(paths) {
+  const buf = Buffer.alloc(1 << 20);
+  for (const p of paths) {
+    const fd = openSync(p, 'r');
+    try {
+      const size = statSync(p).size;
+      readSync(fd, buf, 0, Math.min(buf.length, size), 0);
+      if (size > buf.length) readSync(fd, buf, 0, buf.length, size - buf.length);
+    } finally {
+      closeSync(fd);
+    }
+  }
+}
 for (const c of [...chosen].sort((a, b) => a.bytes - b.bytes)) {
   const name = c.f.name.split('/').pop();
   const key = `${c.it.id}/${c.f.name}`;
@@ -45,6 +63,7 @@ for (const c of [...chosen].sort((a, b) => a.bytes - b.bytes)) {
     mkdirSync(OUT, { recursive: true });
     const rec = { spec: 'c55-perf', project: info.project.name, key, item: c.it.id, file: name, bytes: c.bytes, keys: CENSUS.get(key) ?? [], budget: BUDGET };
     const save = recordWriter(join(OUT, `c55-${info.project.name}-${key.replace(/[^\w.-]+/g, '_')}.json`), rec);
+    wake(c.files);
     const s = await session(page, { files: c.files, epsg: ASCII_CRS[name] ?? null, big: c.bytes > 200e6, setupSteps: [] });
     // First tile: poll the GPU tile count from the moment the files are handed over.
     await s.frame.evaluate(() => {
@@ -61,6 +80,10 @@ for (const c of [...chosen].sort((a, b) => a.bytes - b.bytes)) {
     const o = await s.open();
     rec.openMs = o.ms;
     rec.open = { ok: o.ok, errors: o.errors, layers: o.layers.length };
+    // An 8-bit layer is displayable before its statistics (CX-086), so "opened" can come before the
+    // first tile: wait for the tile itself (bounded), or the measurement read null and passed.
+    const imagery = o.layers.some((l) => !l.error && l.kind !== 'dem');
+    if (imagery) await s.frame.waitForFunction(() => window.__teFirst !== null, null, { timeout: 120_000, polling: 50 }).catch(() => {});
     const m = await s.frame.evaluate(async () => {
       const a = window.gisworkbench;
       const out = { firstTileMs: window.__teFirst === null ? null : Math.round(window.__teFirst) };
@@ -162,6 +185,7 @@ for (const c of [...chosen].sort((a, b) => a.bytes - b.bytes)) {
     // Verdicts against the budgets (imagery only for the tile budget).
     const over = [];
     if (m.firstTileMs !== undefined && m.firstTileMs !== null && m.firstTileMs > BUDGET.firstTileMs) over.push(`first tile ${m.firstTileMs} ms`);
+    if (imagery && m.firstTileMs === null) over.push('no first tile within 120 s');
     if (m.fps !== undefined && m.fps < BUDGET.fps) over.push(`roaming ${m.fps} fps`);
     if (m.frameMs !== undefined && m.frameMs > BUDGET.frameMs) over.push(`frame ${m.frameMs} ms`);
     if (rec.readoutMs && rec.readoutMs.median > BUDGET.readoutMs) over.push(`read-out ${rec.readoutMs.median} ms`);

@@ -359,11 +359,12 @@ async function makeImageSource(file, parse, im) {
     // TE-019 / IMP-02: coarse levels of an uncompressed image read only the rows and columns they
     // sample (nearest, at the centre of each 2^L cell) instead of the whole file. A 1 GB SICD's
     // first display reads ~1/16 of it at level 4. JPEG/VQ/J2K blocks must be decoded whole and keep
-    // the averaged pyramid. Images under 256 MB keep it too: one read is faster than strided ones,
-    // and averaged levels keep viewport/AOI DRA histograms faithful (TE-042).
+    // the averaged pyramid. Images under 64 MiB keep it too: one read is faster than strided ones,
+    // and averaged levels keep viewport/AOI DRA histograms faithful (TE-042). The limit was 256 MiB:
+    // a 245 MiB Capella SIDD and 197 MiB SICDs read and averaged the whole file, 5–7 s to first tile (CX-086).
     // Tiled JPEG 2000: every level down to the codestream's coarsest resolution comes from the tiles' own
     // reduced resolutions (no full-resolution decode for an overview).
-    hasLevel: (L) => (codec === 'raw' && NBPP % 8 === 0 && L >= 2 && width * height * nb * (NBPP / 8) > 256 * 2 ** 20) || (!!j2kIx && L >= 1 && L <= j2kIx.levels && 2 ** L <= Math.min(j2kIx.tx, j2kIx.ty)),
+    hasLevel: (L) => (codec === 'raw' && NBPP % 8 === 0 && L >= 2 && width * height * nb * (NBPP / 8) > 64 * 2 ** 20) || (!!j2kIx && L >= 1 && L <= j2kIx.levels && 2 ** L <= Math.min(j2kIx.tx, j2kIx.ty)),
     async readLevel(L, x0, y0, w, h, bands, job) {
       if (j2kIx) return readJ2kTiles(L, x0, y0, w, h, bands, job);
       const sc = 2 ** L;

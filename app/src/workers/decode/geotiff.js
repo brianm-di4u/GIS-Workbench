@@ -63,6 +63,31 @@ class BoundedZstdDecoder extends BaseDecoder {
 addDecoder(50000, () => zstd.init().then(() => BoundedZstdDecoder));
 
 /**
+ * Deflate blocks (compression 8 and 32946) through the browser's own zlib (DecompressionStream)
+ * instead of geotiff.js's JavaScript inflate: a 9506 × 12197 deflated CInt16 SLC spent most of its
+ * 8.6 s to first tile inflating (CX-086). geotiff.js's decoder still takes any block it refuses.
+ */
+let deflateReady = null;
+function useNativeDeflate() {
+  deflateReady ??= (async () => {
+    if (typeof DecompressionStream !== 'function') return;
+    const JsDeflate = (await getDecoder(8, { tileWidth: 1, tileHeight: 1, planarConfiguration: 1, bitsPerSample: [8], predictor: 1 })).constructor;
+    class NativeDeflateDecoder extends BaseDecoder {
+      async decodeBlock(buffer) {
+        try {
+          return await new Response(new Blob([buffer]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer();
+        } catch {
+          this.js ??= new JsDeflate(this.parameters);
+          return this.js.decodeBlock(buffer);
+        }
+      }
+    }
+    addDecoder([8, 32946], () => NativeDeflateDecoder);
+  })();
+  return deflateReady;
+}
+
+/**
  * TIFF JPEG blocks (compression 7), IMP-24 and TE-062.
  * - Speed (TE-066): geotiff.js's JavaScript decoder costs 15–120 ms per 512² block; the browser's
  *   own JPEG decoder (createImageBitmap in the worker) is several times faster.
@@ -243,6 +268,7 @@ export async function openGeoTiff(file) {
 
 async function openGeoTiff0(file) {
   await useFastJpeg();
+  await useNativeDeflate();
   const tiff = file.remote ? await fromCustomClient(remoteClient(file), { blockSize: 65536, cacheSize: 400 }) : await fromBlob(file);
   const count = await tiff.getImageCount();
   if (count < 1) throw new Error('TIFF has no images');
@@ -356,10 +382,39 @@ async function openGeoTiff0(file) {
   // TE-018 / IMP-02: a striped (untiled) image decodes whole-width strips; reading it tile by tile
   // decoded every strip once per tile column (≈ 70× for a 35 k-pixel-wide WorldView strip). Read
   // whole-width row bands once and cut tiles from them (LRU, ~256 MB).
-  const striped = !(await tag(main.fileDirectory, 'TileWidth')) && W > 2048;
+  // Narrow images with many short strips take the same path (CX-086: an 871 × 3271 Hyperion band in
+  // 3271 one-row strips spent 3 s on statistics, each strip a separate read, twice per tile column).
+  const untiled = !(await tag(main.fileDirectory, 'TileWidth'));
+  const striped = untiled && (W > 2048 || H / (main.getTileHeight() || H) > 64);
   const BAND_ROWS = 512;
   const bandCache = new Map();
   let bandBytes = 0;
+  // Uncompressed strips stored back to back are read as one byte range per row band.
+  const fmt = (await tag(fd, 'SampleFormat'))?.[0] ?? 1;
+  const bps = Number(main.getBitsPerSample());
+  const rawGet = { 'u8/8/1': (dv, o) => dv.getUint8(o), 'u16/16/1': (dv, o) => dv.getUint16(o, main.littleEndian), 'i16/16/2': (dv, o) => dv.getInt16(o, main.littleEndian), 'f32/32/3': (dv, o) => dv.getFloat32(o, main.littleEndian) }[`${type}/${bps}/${fmt}`];
+  const rawRows = striped && rawGet && (T.Compression ?? 1) === 1 && ((await tag(fd, 'PlanarConfiguration')) ?? 1) === 1;
+  let stripTable = null;
+  let stripCounts = null;
+  async function rawBand(b0, y1, sel) {
+    stripTable ??= Array.from(await fd.loadValue('StripOffsets'), Number);
+    stripCounts ??= Array.from(await fd.loadValue('StripByteCounts'), Number);
+    const rps = main.getTileHeight();
+    const s0 = Math.floor(b0 / rps);
+    const s1 = Math.ceil(y1 / rps);
+    for (let s = s0; s + 1 < s1; s++) if (stripTable[s + 1] !== stripTable[s] + stripCounts[s]) return null;
+    const spp = main.getSamplesPerPixel();
+    const bytesPer = bps / 8;
+    const rowBytes = W * spp * bytesPer;
+    const [buf] = await main.source.fetch([{ offset: stripTable[s0] + (b0 - s0 * rps) * rowBytes, length: (y1 - b0) * rowBytes }]);
+    const dv = new DataView(buf);
+    const n = W * (y1 - b0);
+    return sel.map((b) => {
+      const out = new CTOR[type](n);
+      for (let i = 0, o = b * bytesPer; i < n; i++, o += spp * bytesPer) out[i] = rawGet(dv, o);
+      return out;
+    });
+  }
   async function rowBand(img, b0, sel) {
     const key = `${b0}/${sel.join(',')}`;
     if (bandCache.has(key)) {
@@ -369,7 +424,8 @@ async function openGeoTiff0(file) {
       return v;
     }
     const y1 = Math.min(img.getHeight(), b0 + BAND_ROWS);
-    const p = img.readRasters({ window: [0, b0, img.getWidth(), y1], samples: sel, interleave: false, fillValue: Number.isFinite(nodata) ? nodata : 0 }).then((r) => r.map((a) => convert(a, type)));
+    const viaRasters = () => img.readRasters({ window: [0, b0, img.getWidth(), y1], samples: sel, interleave: false, fillValue: Number.isFinite(nodata) ? nodata : 0 }).then((r) => r.map((a) => convert(a, type)));
+    const p = rawRows && img === main ? rawBand(b0, y1, sel).then((r) => r ?? viaRasters()) : viaRasters();
     bandCache.set(key, p);
     p.then((arr) => {
       bandBytes += arr.reduce((t, a) => t + a.byteLength, 0);
@@ -385,7 +441,6 @@ async function openGeoTiff0(file) {
   // IMP-04: an uncompressed striped image (no overviews) gets coarse levels from strided row reads,
   // like raw NITF (TE-019): level L reads every 2^L-th row's span, not every strip.
   const rawStrided = striped && !overviews.length && (T.Compression ?? 1) === 1 && ((await tag(fd, 'PlanarConfiguration')) ?? 1) === 1 && [8, 16, 32].includes(Number(main.getBitsPerSample()));
-  let stripTable = null;
   async function readStrided(L, x0, y0, w, h, bands) {
     const st = 2 ** L;
     const spp = main.getSamplesPerPixel();
@@ -493,6 +548,95 @@ async function openGeoTiff0(file) {
     return r.map((a) => convert(a, type));
   }
 
+  // CX-086: an 8-bit JPEG image without overviews built every coarse tile from full-resolution
+  // blocks averaged 2 × 2 in JavaScript level by level, on one worker: 10–12.6 s to the first tile of
+  // a 16k² DigitalGlobe tile. Its reduced levels are now read in one pass: blocks decode in the
+  // browser (sixteen in flight) and each is box-averaged straight into the level window. (Drawing
+  // them scaled into a canvas was faster still but darkened every band by about 2 DN.)
+  let nativeLevels = false;
+  let tileTable = null;
+  let jpegTables = null;
+  if (blockFast && !overviews.length && !maskImg && typeof createImageBitmap === 'function' && typeof OffscreenCanvas === 'function' && [1, 3].includes(main.getSamplesPerPixel())) {
+    const t = await tag(fd, 'JPEGTables');
+    jpegTables = t && t.length > 4 ? Uint8Array.from(t).subarray(0, t.length - 2) : null;
+    tileTable = { offsets: Array.from(await fd.loadValue('TileOffsets'), Number), counts: Array.from(await fd.loadValue('TileByteCounts'), Number) };
+    const [first] = await main.source.fetch([{ offset: tileTable.offsets[0], length: tileTable.counts[0] }]);
+    const info = jpegInfo(jpegStream(new Uint8Array(first)));
+    const photometric = (await tag(fd, 'PhotometricInterpretation')) ?? 2;
+    // The same streams the browser decoder takes for blocks (FastJpegDecoder).
+    nativeLevels = !!info && info.bits === 8 && !info.progressive && (info.comps === 1 || (info.comps === 3 && (photometric === 6 || info.adobe === 0)));
+  }
+  function jpegStream(d) {
+    if (!jpegTables || d[0] !== 0xff || d[1] !== 0xd8) return d;
+    const s = new Uint8Array(jpegTables.length + d.length - 2);
+    s.set(jpegTables);
+    s.set(d.subarray(2), jpegTables.length);
+    return s;
+  }
+  async function readScaledJpeg(L, x0, y0, w, h, bands) {
+    const s = 2 ** L;
+    const tw = main.getTileWidth();
+    const th = main.getTileHeight();
+    const across = Math.ceil(W / tw);
+    const fx0 = x0 * s;
+    const fy0 = y0 * s;
+    const fx1 = Math.min(W, (x0 + w) * s);
+    const fy1 = Math.min(H, (y0 + h) * s);
+    const n = w * h;
+    const ch = bands.map((b) => (main.getSamplesPerPixel() === 1 ? 0 : b));
+    const sums = bands.map(() => new Uint32Array(n));
+    const cnts = bands.map(() => new Uint32Array(n));
+    const nd = Number.isFinite(nodata) ? nodata : -1;
+    const step = L >= 3 ? 2 ** (L - 2) : 1;
+    const todo = [];
+    for (let ty = Math.floor(fy0 / th); ty * th < fy1; ty++) for (let tx = Math.floor(fx0 / tw); tx * tw < fx1; tx++) todo.push([tx, ty]);
+    // Sixteen blocks in flight: the browser decodes them on its own threads.
+    let next = 0;
+    const run = async () => {
+      const cv = new OffscreenCanvas(tw, th);
+      const g = cv.getContext('2d', { willReadFrequently: true });
+      while (next < todo.length) {
+        const [tx, ty] = todo[next++];
+        const i = ty * across + tx;
+        if (!tileTable.counts[i]) continue;
+        const [buf] = await main.source.fetch([{ offset: tileTable.offsets[i], length: tileTable.counts[i] }]);
+        const bmp = await createImageBitmap(new Blob([jpegStream(new Uint8Array(buf))], { type: 'image/jpeg' }), { colorSpaceConversion: 'none', premultiplyAlpha: 'none' });
+        g.drawImage(bmp, 0, 0);
+        bmp.close();
+        const rgba = g.getImageData(0, 0, tw, th).data;
+        // The block's part of the full-resolution window, each pixel added to its level cell; from
+        // level 3 a regular sub-grid of each cell (16 × 16 samples or more) stands for it.
+        const bx0 = Math.max(tx * tw, fx0);
+        const by0 = Math.max(ty * th, fy0);
+        const bx1 = Math.min((tx + 1) * tw, fx1);
+        const by1 = Math.min((ty + 1) * th, fy1);
+        for (let q = 0; q < ch.length; q++) {
+          const c = ch[q];
+          const sum = sums[q];
+          const cnt = cnts[q];
+          for (let Y = by0 + ((by0 - fy0) % step ? step - ((by0 - fy0) % step) : 0); Y < by1; Y += step) {
+            const row = ((Y - fy0) >> L) * w;
+            const dx = (bx0 - fx0) % step ? step - ((bx0 - fx0) % step) : 0;
+            for (let X = bx0 + dx, j = ((Y - ty * th) * tw + (X - tx * tw)) * 4 + c; X < bx1; X += step, j += 4 * step) {
+              const v = rgba[j];
+              if (v === nd) continue;
+              const k = row + ((X - fx0) >> L);
+              sum[k] += v;
+              cnt[k]++;
+            }
+          }
+        }
+      }
+    };
+    await Promise.all(Array.from({ length: Math.min(16, todo.length) }, run));
+    const fill = nd >= 0 ? nd : 0;
+    return bands.map((_, q) => {
+      const out = new Uint8Array(n);
+      for (let k = 0; k < n; k++) out[k] = cnts[q][k] ? Math.round(sums[q][k] / cnts[q][k]) : fill;
+      return out;
+    });
+  }
+
   return {
     meta,
     source: {
@@ -503,8 +647,15 @@ async function openGeoTiff0(file) {
       sampleType: type,
       nodata,
       readWindow: (x0, y0, w, h, b) => read(main, 1, x0, y0, w, h, b),
-      hasLevel: (L) => overviews.some((o) => Math.abs(o.scale - 2 ** L) / 2 ** L < 0.02) || (rawStrided && L >= 1),
+      hasLevel: (L) => overviews.some((o) => Math.abs(o.scale - 2 ** L) / 2 ** L < 0.02) || (rawStrided && L >= 1) || (nativeLevels && L >= 1),
       async readLevel(L, x0, y0, w, h, b) {
+        if (nativeLevels) {
+          try {
+            return await readScaledJpeg(L, x0, y0, w, h, b);
+          } catch (e) {
+            throw tiffError(e);
+          }
+        }
         if (rawStrided) {
           try {
             return await readStrided(L, x0, y0, w, h, b);
@@ -623,5 +774,51 @@ async function complexSource(tiff, img, { fmt, bps }) {
     await Promise.all(jobs);
     return out;
   }
-  return { kind: 'geotiff', imageIndex: 0, width: W, height: H, bands: 2, sampleType: 'f32', nodata: NaN, readWindow, hasLevel: () => false };
+  // CX-086: coarse levels were composed from fully converted blocks level by level (6.9 s to the first
+  // tile of a 9506 × 12197 deflated CInt16 SLC). I and Q are decimated anyway (never averaged), so a
+  // level samples the centre of each 2^L cell straight from the inflated blocks, converting only the
+  // rows it takes.
+  async function readLevel(L, x0, y0, w, h, sel = [0, 1]) {
+    const s = 2 ** L;
+    const c = s >> 1;
+    const out = sel.map(() => new Float32Array(w * h).fill(NaN));
+    const step = bps / 8;
+    const cols = [];
+    for (let i = 0; i < w; i++) if ((x0 + i) * s + c < W) cols.push(i);
+    const rowsOf = new Map(); // block row → [level row j, source row Y]
+    for (let j = 0; j < h; j++) {
+      const Y = (y0 + j) * s + c;
+      if (Y >= H) break;
+      const by = Math.floor(Y / th);
+      (rowsOf.get(by) ?? rowsOf.set(by, []).get(by)).push([j, Y]);
+    }
+    const todo = [];
+    for (const by of rowsOf.keys()) for (let bx = Math.floor(((x0 + cols[0]) * s + c) / tw); cols.length && bx * tw <= (x0 + cols.at(-1)) * s + c; bx++) todo.push([bx, by]);
+    let next = 0;
+    const run = async () => {
+      while (next < todo.length) {
+        const [bx, by] = todo[next++];
+        const key = by * perRow + bx;
+        const count = Number(await fd.loadValueIndexed(tiled ? 'TileByteCounts' : 'StripByteCounts', key));
+        if (!count) continue;
+        const offset = Number(await fd.loadValueIndexed(tiled ? 'TileOffsets' : 'StripOffsets', key));
+        const dv = new DataView(await decoder.decode((await img.source.fetch([{ offset, length: count }]))[0]));
+        for (const [j, Y] of rowsOf.get(by)) {
+          const r = Y - by * th;
+          for (const i of cols) {
+            const X = (x0 + i) * s + c;
+            if (Math.floor(X / tw) !== bx) continue;
+            const o = (r * tw + (X - bx * tw)) * step;
+            if (o + step > dv.byteLength) continue;
+            const re = fmt === 6 ? dv.getFloat32(o, le) : half === 16 ? dv.getInt16(o, le) : dv.getInt32(o, le);
+            const im = fmt === 6 ? dv.getFloat32(o + 4, le) : half === 16 ? dv.getInt16(o + 2, le) : dv.getInt32(o + 4, le);
+            for (let k = 0; k < sel.length; k++) out[k][j * w + i] = sel[k] === 0 ? re : im;
+          }
+        }
+      }
+    };
+    await Promise.all(Array.from({ length: Math.min(8, todo.length) }, run));
+    return out;
+  }
+  return { kind: 'geotiff', imageIndex: 0, width: W, height: H, bands: 2, sampleType: 'f32', nodata: NaN, readWindow, hasLevel: (L) => L >= 1, readLevel };
 }

@@ -417,6 +417,10 @@ export function install(app) {
     const wlFile = out.find((s) => /wavelength/i.test(s.name) && !s.wl);
     for (const s of out) if (!s.wl && wlFile && s !== wlFile) s.wl = wlFile.values.map((v) => (v > 100 ? v / 1000 : v));
     const good = out.filter((s) => s.wl && s !== wlFile);
+    // Importing a file again replaces its spectra: every re-import added a second copy (+16 MB per
+    // open of the 8 MB USGS ASD library, CX-087).
+    const sources = new Set(good.map((s) => s.source));
+    for (let i = libraries.length - 1; i >= 0; i--) if (sources.has(libraries[i].source)) libraries.splice(i, 1);
     libraries.push(...good);
     return good;
   }

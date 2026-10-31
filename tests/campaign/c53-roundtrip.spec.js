@@ -35,6 +35,9 @@ const chosen = stratify(cases).filter((c) => !ONLY || ONLY.test(`${c.it.id}/${c.
 const WRITE = async (maxOut) => {
   const a = window.gisworkbench;
   const out = [];
+  // All outputs come back in one call: past ~200 MB together the base64 passed Node's 512 MB string
+  // limit and the test died (CX-H23: Microsoft building footprints, five vector formats).
+  let total = 0;
   const b64 = async (blob) => {
     const u8 = new Uint8Array(await blob.arrayBuffer());
     let s = '';
@@ -48,10 +51,11 @@ const WRITE = async (maxOut) => {
       // A writer that saves through saveBlob downloads its file; the spec pairs it with this entry.
       if (!r) return out.push({ writer, src, viaDownload: true });
       for (const [name, blob] of r) {
-        if (blob.size > maxOut) {
-          out.push({ writer, src, name, skipped: `${blob.size} bytes` });
+        if (blob.size > maxOut || total + blob.size > 200e6) {
+          out.push({ writer, src, name, skipped: `${blob.size} bytes${blob.size > maxOut ? '' : ' (over the 200 MB the page hands back per file)'}` });
           continue;
         }
+        total += blob.size;
         out.push({ writer, src, name, bytes: blob.size, b64: await b64(blob), ms: Math.round(performance.now() - t0) });
       }
     } catch (e) {
@@ -63,7 +67,8 @@ const WRITE = async (maxOut) => {
   };
   const layers = [...a.layers.values()].filter((l) => !l.error && l.handle);
   for (const l of layers.slice(0, 2)) {
-    const src = { kind: l.kind, name: l.rec?.name, w: l.width, h: l.height, bands: l.bands, model: l.modelName ?? null };
+    // A SAR COG holds the displayed band(s), named in its toast (batch 7): `shown` is that count (CX-H23).
+    const src = { kind: l.kind, name: l.rec?.name, w: l.width, h: l.height, bands: l.bands, model: l.modelName ?? null, sar: !!l.info?.sar, shown: l.chain?.bands?.length ?? null };
     a.store.transact('TE active layer', (tx) => tx.set(a.activePane().id, 'activeLayer', l.id));
     // COG: full resolution, all bands (needs the samples in memory: very large images give way).
     // (saveBlob downloads it: the spec collects the file from the download event.)
@@ -205,7 +210,9 @@ for (const { it, f, files } of chosen) {
     rec.outputs = outs;
     rec.logs = s.logs.slice(0, 20);
     save();
-    const bad = outs.flatMap((x) => [...(x.error ? [`${x.writer}: ${x.error}`] : []), ...(x.checks ?? []).filter((c) => !c.ok).map((c) => `${x.writer} ${x.name}: ${c.what}: ${c.detail}`)]);
+    // A source chip over the product limit is refused by name (285-band EMIT at full resolution, batch 7).
+    const named = (x) => /samples are more than a product takes/.test(x.error ?? '');
+    const bad = outs.flatMap((x) => [...(x.error && !named(x) ? [`${x.writer}: ${x.error}`] : []), ...(x.checks ?? []).filter((c) => !c.ok).map((c) => `${x.writer} ${x.name}: ${c.what}: ${c.detail}`)]);
     expect(bad, `${key}: every writer's output reads back`).toEqual([]);
   });
 }
@@ -230,7 +237,8 @@ function check(x, d) {
   const s = x.src ?? {};
   if (x.writer === 'cnv.cog' || x.writer === 'chip.tif-source' || x.writer === 'chip.nitf-source') {
     if (x.writer === 'cnv.cog') add('COG size = source', d.width === s.w && d.height === s.h, `${d.width}×${d.height} vs ${s.w}×${s.h}`);
-    add('bands = source', d.bands === s.bands || (s.bands > 3 && x.writer !== 'cnv.cog' && d.bands >= 1), `${d.bands} vs ${s.bands}`);
+    const want = s.sar && s.bands > 3 && x.writer === 'cnv.cog' ? s.shown : s.bands;
+    add('bands = source', d.bands === want || (s.bands > 3 && x.writer !== 'cnv.cog' && d.bands >= 1), `${d.bands} vs ${want}${want !== s.bands ? ` (SAR: displayed of ${s.bands})` : ''}`);
   }
   if (/^chip\./.test(x.writer)) add('chip opens with pixels', d.width > 0 && d.height > 0, `${d.width}×${d.height}`);
   if (x.writer === 'dem.save.tif') add('grid size', d.width === s.gridW && d.height === s.gridH, `${d.width}×${d.height} vs ${s.gridW}×${s.gridH}`);
@@ -249,7 +257,8 @@ function reopenChecks(x) {
   const r = x.reopen;
   const s = x.src ?? {};
   const out = [{ what: 'the app opens its own output', ok: !r.errors.length, detail: r.errors.join(' ').slice(0, 200) }];
-  if (x.writer === 'cnv.cog') out.push({ what: 'reopened COG size', ok: r.w === s.w && r.h === s.h && r.bands === s.bands, detail: `${r.w}×${r.h}×${r.bands} vs ${s.w}×${s.h}×${s.bands}` });
+  const bandsWant = s.sar && s.bands > 3 ? s.shown : s.bands;
+  if (x.writer === 'cnv.cog') out.push({ what: 'reopened COG size', ok: r.w === s.w && r.h === s.h && r.bands === bandsWant, detail: `${r.w}×${r.h}×${r.bands} vs ${s.w}×${s.h}×${bandsWant}` });
   if (/^pc\.export/.test(x.writer)) out.push({ what: 'reopened point count', ok: r.points === s.points, detail: `${r.points} vs ${s.points}` });
   if (/^(ext\.saveas\.(geojson|gpkg|kml|kmz)|cnv\.(geoparquet|flatgeobuf))$/.test(x.writer)) out.push({ what: 'reopened features', ok: r.features === s.features || (/kml|kmz/.test(x.writer) && r.features === s.features - (s.noPos ?? 0)), detail: `${r.features} vs ${s.features}${s.noPos ? ` (${s.noPos} without a position)` : ''}` });
   return out;

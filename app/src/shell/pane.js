@@ -784,6 +784,9 @@ export class ImagePane {
 
   dispose() {
     this._resize.disconnect();
+    // A video in the panel goes with it (player, media buffers, the clip's KLV and VMTI): closing a
+    // panel or a project left them alive, +8 MB per open of a VMTI clip (CX-087).
+    if (this.video) this.app.fmv?.closeVideo(this);
     this.app.renderer.removePane(this);
     this.el.remove();
   }
