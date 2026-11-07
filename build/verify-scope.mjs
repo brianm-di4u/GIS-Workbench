@@ -54,6 +54,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
 
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
+    step('Civilian-use check', 'node', ['build/check-policy.mjs']);
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
