@@ -6,10 +6,8 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { unzipSync, zipSync, strToU8, strFromU8 } from 'fflate';
-import { openApp, openFiles, DIST_DIR } from './helpers.js';
+import { openApp, openFiles, packPath as pk } from './helpers.js';
 
-const DIST = resolve(DIST_DIR, 'packs');
-const pk = (n) => resolve(DIST, readdirSync(DIST).find((f) => (n === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${n}-`))));
 const TMP = resolve('fixtures/packs/tmp');
 const sha = (b) => createHash('sha256').update(b).digest('hex');
 
@@ -35,6 +33,7 @@ function tampered(src, out, { fixJson = false, addJs = false } = {}) {
 }
 
 test('REQ-ARC-14 data packs: manifest hashes, SHA-256 checks, changed or foreign code refused, data-only foreign packs accepted', async ({ page }) => {
+  pk('ai');
   const { frame, logs } = await openApp(page, 'file');
   const m = await frame.evaluate(() => window.gisworkbench.gw.manifest.packs);
   // OD-2.22: one locale pack per committed catalogue, plus the Noto font pack (REQ-L10N, SDP-2.3 §4.8);

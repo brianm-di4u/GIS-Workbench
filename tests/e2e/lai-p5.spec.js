@@ -5,12 +5,10 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
-import { openApp, openFiles, SAMPLES, DIST_DIR } from './helpers.js';
+import { needsData, openApp, openFiles, packPath as pk, SAMPLES } from './helpers.js';
 
 test.describe.configure({ timeout: 900000 });
 
-const DIST = resolve(DIST_DIR, 'packs');
-const pk = (n) => resolve(DIST, readdirSync(DIST).find((f) => (n === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${n}-`))));
 const VEGAS = join(SAMPLES, 'msi-spacenet2-wv3', 'SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif');
 const VEGAS_TRUTH = join(SAMPLES, 'msi-spacenet2-wv3', 'SN2_buildings_train_AOI_2_Vegas_geojson_buildings_img10.geojson');
 const LIBYA = resolve('..', 'TE-corpus', 'eo-maxar-libya-floods-wv3-prepost');
@@ -30,6 +28,7 @@ async function withImage(page, packs, image) {
 }
 
 test('REQ-LAI-01 REQ-LAI-02 SAM 2.1 outlines Vegas buildings on this device; Square Corners gives right angles', async ({ page }) => {
+  needsData(VEGAS_TRUTH);
   const truth = JSON.parse(readFileSync(VEGAS_TRUTH, 'utf8')).features.filter((f) => f.geometry?.type === 'Polygon');
   const { frame } = await withImage(page, ['ai', 'ai-sam2'], VEGAS);
   const r = await frame.evaluate(async (polys) => {

@@ -1,6 +1,6 @@
 # Lite in real Safari on the iOS Simulator (OD-2.23, REQ-HOST-05). The simulator exists only on macOS,
 # and the Windows PCs this project is built on have no Mac to pair with, so a hosted macOS runner does
-# it. Runs on pushes to the test branch only, apart from the release gates. It tests dist/ as committed.
+# it. Runs on pushes to the test branch only, apart from the release gates. It builds the app first.
 name: Lite on iOS Simulator
 
 on:
@@ -19,14 +19,19 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: 22
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
 
       - name: Install the pinned test dependencies
         run: npm ci --ignore-scripts
+
+      - name: Build the app
+        run: npm run build
 
       - name: Install Appium and the XCUITest driver
         run: |
@@ -56,7 +61,7 @@ jobs:
 
       - name: Keep the evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: lite-ios-simulator
           path: reports/ios/

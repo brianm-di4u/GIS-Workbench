@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import { grepInvert, readQuarantine } from './build/check-quarantine.mjs';
 
 // A non-blocking Firefox run (OD-2.31 D24): Playwright's own Firefox build over a core set of specs.
 // Firefox is not a release target and this config is no release gate: playwright.config.js and the
@@ -10,7 +11,7 @@ export default defineConfig({
   testDir: 'tests',
   testMatch: /(e2e[\\/](scn01-03|scn04|scn05|scn08|scn09|scn10|scn11|nav|measure|imaging|graphics|look|compare|extract|products|packs|platform|pages|register|activity)|firefox[\\/]boot)\.spec\.js$/,
   // Checks only Chrome's protocol can run, and a boot budget the release gates own.
-  grepInvert: /REQ-PRF-01 interactive within|PT-01 REQ-ARC-01/,
+  grepInvert: [/REQ-PRF-01 interactive within|PT-01 REQ-ARC-01/, grepInvert(readQuarantine())].filter(Boolean),
   timeout: 240_000,
   workers: Number(process.env.FX_WORKERS ?? 2),
   retries: 0,

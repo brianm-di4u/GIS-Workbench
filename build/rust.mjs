@@ -50,7 +50,7 @@ function targetDir(cratesDir) {
   return JSON.parse(out).target_directory;
 }
 
-export function buildRust(root, { log = console.log } = {}) {
+export function buildRust(root, { log = console.log, strict = false } = {}) {
   const crates = join(root, 'crates');
   const results = [];
   const errors = [];
@@ -62,6 +62,8 @@ export function buildRust(root, { log = console.log } = {}) {
   const tdir = join(targetDir(crates), 'wasm32-unknown-unknown', 'release');
   const wasmOpt = spawnSync('wasm-opt', ['--version'], { encoding: 'utf8' }).status === 0;
   if (!wasmOpt) log('rust: wasm-opt not found; shipping cargo output unoptimised by binaryen (install binaryen to enable)');
+  // --strict: CI has to test what ships, so a missing tool is a failure rather than a note.
+  if (strict && !wasmOpt) errors.push('rust: --strict needs wasm-opt');
   let total = 0;
   for (const b of BUNDLES) {
     const file = join(tdir, `${b.crate.replace(/-/g, '_')}.wasm`);
@@ -90,6 +92,7 @@ export function buildRust(root, { log = console.log } = {}) {
   const deny = spawnSync('cargo', ['deny', '--all-features', 'check', 'licenses'], { cwd: crates, encoding: 'utf8' });
   const licenceGate = deny.error ? 'not run (cargo-deny unavailable)' : deny.status === 0 ? 'pass' : 'fail';
   if (licenceGate === 'fail') errors.push(`REQ-RUST-09: cargo-deny licences failed:\n${deny.stderr.slice(-2000)}`);
+  if (strict && deny.error) errors.push('rust: --strict needs cargo-deny');
   const notices = rustNotices(crates);
   errors.push(...crateLicenceGate(notices));
   return { bundles: results, totalGzip: total, licenceGate, errors, rustNotices: notices };

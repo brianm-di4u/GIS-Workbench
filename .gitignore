@@ -2,7 +2,12 @@
 node_modules/
 .cache/
 
-# Scratch builds (dist/ is committed: the released single-file app)
+# The build output. Releases are where the built files live.
+dist/
+# Written by tests/e2e/packs.spec.js
+fixtures/packs/tmp/
+
+# Scratch builds
 dist-te/
 dist-te2/
 dist-archive/
@@ -25,20 +30,6 @@ reports/marketing/
 reports/gui/*.txt
 reports/gui/progress.log
 
-# 2.0 model packs (50–160 MB each): attached to the GitHub release, not committed (100 MB file limit)
-dist/packs/ai-sam2-*.gwpack
-dist/packs/ai-detect-*.gwpack
-dist/packs/ai-search-*.gwpack
-dist/packs/ai-match-*.gwpack
-# 2.3 language and font packs (OD-2.22): released beside the HTML, rebuilt by build/build.mjs
-dist/packs/locale-*.gwpack
-dist/packs/fonts-noto-*.gwpack
-# 2.4 packs (release assets): datum grids, EGM2008 2.5', fp16 GPU models, land cover, Moondream2
-dist/packs/grids-*.gwpack
-dist/packs/geoid-egm2008-25-*.gwpack
-dist/packs/ai-gpu-*.gwpack
-dist/packs/ai-landcover-*.gwpack
-dist/packs/ai-vlm-*.gwpack
 dist-gui3/
 reports/gui3/*/shots/
 reports/gui3/strips/
@@ -90,6 +81,6 @@ build/format-list.mjs
 .pytest_cache/
 .vitest-cache/
 
-# Scratch and group builds of any name (dist/ itself is committed), and Cargo build output
+# Scratch and group builds of any name, and Cargo build output
 dist-*
 crates/target/

@@ -31,6 +31,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = new Set(process.argv.slice(2));
 const DEV = args.has('--dev');
 const SKIP_RUST = args.has('--skip-rust');
+const STRICT = args.has('--strict');
 // --out <dir> or --out=<dir> (relative to the repo): build elsewhere without touching dist/ (T&E campaign).
 const outArg = process.argv.find((a) => a.startsWith('--out='))?.slice(6) ?? (process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : null);
 const outDir = join(root, outArg || 'dist');
@@ -203,7 +204,7 @@ async function main() {
   // 1. Rust
   let rust = { bundles: [], totalGzip: 0, licenceGate: 'skipped', errors: [], rustNotices: [] };
   if (!SKIP_RUST) {
-    rust = buildRust(root, { log });
+    rust = buildRust(root, { strict: STRICT, log });
     errors.push(...rust.errors);
     log(`rust: ${rust.bundles.map((b) => `${b.name} ${(b.gzip / 1024).toFixed(1)} KB gz`).join(', ')}; licences ${rust.licenceGate}`);
   } else {

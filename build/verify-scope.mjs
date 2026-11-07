@@ -1,0 +1,127 @@
+#!/usr/bin/env node
+// What `verify full` runs for this change. A branch tests only what it touched, because the
+// council needs fresh `full` evidence after every fix and all the Rust tests take 20 minutes.
+// Main, GWB_SCOPE=all, and anything this script can't work out run everything, so a scoping
+// mistake costs time and never coverage. post-merge.yml runs everything on main regardless.
+//
+//   node build/verify-scope.mjs            run the steps
+//   node build/verify-scope.mjs --dry      print them
+//
+// GWB_LEG picks a CI leg: `linux` for the app, `sidecar` for the native code on Windows. With
+// neither set, a local run does both.
+import { spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
+
+const RUST_EVERYTHING = /^crates\/(Cargo\.toml|Cargo\.lock|deny\.toml|rust-toolchain\.toml|\.cargo\/|vendor\/)/;
+const SCOPE_EVERYTHING = /^(\.github\/workflows\/|build\/verify-scope\.mjs$|\.node-version$)/;
+const SIDECAR_EVERYTHING = /^sidecar\/(Cargo\.toml|Cargo\.lock|deny\.toml|rust-toolchain\.toml)/;
+
+// CHANGELOG.md is the exception: the build embeds it.
+const isProse = (path) => path.endsWith('.md') && path !== 'CHANGELOG.md';
+
+/** The workspace crates a change affects: those it touched, and everything depending on them. */
+export function affectedCrates(packages, paths) {
+  const touched = new Set(
+    packages.filter((p) => paths.some((path) => path.startsWith(`${p.dir}/`))).map((p) => p.name),
+  );
+  let grew = true;
+  while (grew) {
+    grew = false;
+    for (const p of packages) {
+      if (!touched.has(p.name) && p.deps.some((dep) => touched.has(dep))) {
+        touched.add(p.name);
+        grew = true;
+      }
+    }
+  }
+  return [...touched].sort();
+}
+
+/**
+ * What to run. `paths` is null when the change set is unknown or this is main: then everything.
+ * `crates` is the crate list from affectedCrates, or null to test the whole workspace.
+ */
+export function planSteps({ paths, leg = 'all', crates = null }) {
+  const everything = paths === null || paths.some((path) => SCOPE_EVERYTHING.test(path));
+  const code = everything || paths.some((path) => !isProse(path));
+  const rust = everything || paths.some((path) => path.startsWith('crates/') && !isProse(path));
+  const rustAll = everything || crates === null || paths.some((path) => RUST_EVERYTHING.test(path));
+  const sidecar = everything || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
+
+  const steps = [];
+  const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
+  const cargoDeny = ['deny', '--all-features', 'check', 'licenses', 'bans', 'sources'];
+
+  if (leg !== 'sidecar') {
+    step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
+    if (rust) {
+      step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
+      const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
+      if (targets.length > 0) step('Rust tests', 'cargo', ['test', '--no-fail-fast', ...targets], 'crates');
+    }
+    if (code) {
+      step('Strict build', 'node', ['build/build.mjs', '--strict']);
+      step('Unit and golden tests', 'npx', ['vitest', 'run']);
+      step('Browser subset', 'npx', ['playwright', 'test', '--project=ci']);
+    }
+  }
+  if (leg !== 'linux' && sidecar) {
+    step('Sidecar licences and sources', 'cargo', cargoDeny, 'sidecar');
+    step('Sidecar tests', 'cargo', ['test', '--no-fail-fast'], 'sidecar');
+  }
+  return steps;
+}
+
+function capture(command, args, cwd) {
+  const result = spawnSync(command, args, { encoding: 'utf8', cwd, shell: process.platform === 'win32', maxBuffer: 256 * 1024 * 1024 });
+  return result.status === 0 ? result.stdout : null;
+}
+
+function changedPaths() {
+  if (process.env.GWB_SCOPE === 'all') return null;
+  if (process.env.GITHUB_REF === 'refs/heads/main') return null;
+  if (capture('git', ['rev-parse', '--abbrev-ref', 'HEAD'])?.trim() === 'main') return null;
+  const base = `origin/${process.env.GITHUB_BASE_REF || 'main'}`;
+  const from = capture('git', ['merge-base', base, 'HEAD'])?.trim();
+  if (!from) return null;
+  const names = capture('git', ['diff', '--name-only', '--no-renames', from, 'HEAD']);
+  return names === null ? null : names.split('\n').filter(Boolean);
+}
+
+function workspaceCrates() {
+  const metadata = capture('cargo', ['metadata', '--no-deps', '--format-version', '1'], 'crates');
+  if (metadata === null) return null;
+  const { packages, workspace_root: root } = JSON.parse(metadata);
+  const prefix = root.replaceAll('\\', '/');
+  return packages.map((p) => ({
+    name: p.name,
+    dir: `crates${p.manifest_path.replaceAll('\\', '/').slice(prefix.length).replace(/\/Cargo\.toml$/, '')}`,
+    deps: p.dependencies.map((dep) => dep.name),
+  }));
+}
+
+function main() {
+  const paths = changedPaths();
+  const packages = paths?.some((path) => path.startsWith('crates/')) ? workspaceCrates() : null;
+  const crates = packages ? affectedCrates(packages, paths) : null;
+  const steps = planSteps({ paths, leg: process.env.GWB_LEG ?? 'all', crates });
+
+  console.log(paths === null ? 'Scope: everything.' : `Scope: ${paths.length} changed paths.`);
+  for (const { name } of steps) console.log(`  ${name}`);
+  if (steps.length === 0) console.log('  Nothing to run on this leg.');
+  if (process.argv.includes('--dry')) return 0;
+
+  // Every step runs even after a failure: a CI run is too slow to find problems one at a time.
+  const failed = [];
+  for (const { name, command, args, cwd } of steps) {
+    console.log(`\n=== ${name}`);
+    const started = Date.now();
+    const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, shell: process.platform === 'win32' });
+    console.log(`=== ${name}: ${status === 0 ? 'ok' : 'FAILED'} in ${Math.round((Date.now() - started) / 1000)} s`);
+    if (status !== 0) failed.push(name);
+  }
+  if (failed.length > 0) console.error(`\nFailed: ${failed.join(', ')}`);
+  return failed.length > 0 ? 1 : 0;
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = main();

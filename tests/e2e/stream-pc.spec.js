@@ -5,7 +5,7 @@ import { createServer } from 'node:http';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { openApp, openFiles, sample } from './helpers.js';
+import { needsData, openApp, openFiles, sample } from './helpers.js';
 
 test.describe.configure({ timeout: 300000 });
 const COPC = sample('lidar-las-laz-copc', 'ellipsoid.copc.laz');
@@ -24,6 +24,7 @@ const settle = (frame, n = 60) =>
 test('REQ-LDR-02 a local COPC streams by range: coarse nodes first, all 100,000 points when refined, positions as the whole-file read', async ({ page }) => {
   const { frame, logs } = await openApp(page, 'file');
   // A coarse threshold first: only the root node is wanted.
+  needsData(COPC);
   const bytes = readFileSync(COPC).toString('base64');
   await frame.evaluate(async (b64) => {
     const app = window.gisworkbench;
@@ -82,6 +83,7 @@ test('REQ-LDR-02 a local COPC streams by range: coarse nodes first, all 100,000 
 });
 
 test('REQ-LDR-02 REQ-ARC-16 COPC over HTTP Range and EPT (binary) from an allowed origin stream into the 3D pane', async ({ page }) => {
+  needsData(COPC);
   const copc = readFileSync(COPC);
   // An EPT dataset: a 1 km cube in UTM 11N, two levels, binary schema (X, Y, Z scaled ints, Intensity, Classification).
   const x0 = 500000;

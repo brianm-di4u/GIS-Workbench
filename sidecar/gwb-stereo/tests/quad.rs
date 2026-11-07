@@ -308,6 +308,12 @@ fn the_real_driver_draws_what_the_software_gl_draws() {
     let mut gl = WglGl::new();
     gl.viewport(0, 0, W as i32, H as i32);
     let renderer = gl.renderer();
+    // A machine with no graphics driver, such as a CI runner, gets Windows' software OpenGL 1.1,
+    // which is the fallback this test is meant to look past, not the real driver.
+    if renderer.contains("GDI Generic") {
+        eprintln!("skipped: no real OpenGL driver ({renderer})");
+        return;
+    }
     let stereo = gl.stereo();
     assert_eq!(stereo, w.stereo_formats > 0, "{renderer}: GL_STEREO against {} stereo formats", w.stereo_formats);
     let mut real = loaded(gl, pair(12));
