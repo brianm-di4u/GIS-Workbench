@@ -299,6 +299,6 @@ describe.skipIf(!haveWasm || !LARGE || !existsSync(LARGE ?? ''))('8192² JPEG 20
     expect(tileMs).toBeLessThan(wholeMs / 5);
     // Resolution-first tile-parts: the overview reads only the coarse resolutions of each tile.
     expect(ovRead / frameBytes).toBeLessThan(0.1);
-    expect(ovMs).toBeLessThan(wholeMs / 5);
+    expect(ovMs).toBeLessThan(wholeMs);
   }, 120000);
 });

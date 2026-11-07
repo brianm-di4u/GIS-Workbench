@@ -105,11 +105,13 @@ export async function openApp(page, mode = 'file', { srv, htmlPath = DIST, prefs
 }
 
 /**
- * CI has no Research samples, corpus or fetched packs, so a test that needs them skips there. The
- * local gate has them all, and a missing file still fails it.
+ * CI has no Research samples, corpus or fetched packs, and `verify full` builds without the packs,
+ * so a test that needs them skips there. Only the release gate needs everything, and a missing
+ * file still fails it.
  */
 export function needsData(...paths) {
-  test.skip(Boolean(process.env.CI) && !paths.every((p) => existsSync(p)), 'needs data that only the local gate has');
+  const partial = process.env.CI || process.env.GWB_PARTIAL_DATA;
+  test.skip(Boolean(partial) && !paths.every((p) => existsSync(p)), 'needs data that only the release gate has');
 }
 
 /** The built pack of this name (`ai` means the base AI pack). */
