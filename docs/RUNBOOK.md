@@ -39,5 +39,5 @@ The app itself depends on nothing at run time.
 ## Failure notes
 
 - Release files are built on the admin's machine, not in CI, so a release needs the admin.
-- A red `main` stops merges until it is fixed or reverted.
+- A red `main` blocks T1 and T2 merges until it is fixed or reverted. T0 changes, clean reverts, and PRs that cite the red-main issue can still merge.
 - Headless browser runs use SwiftShader. Pixel differences on other GPUs are not failures.
