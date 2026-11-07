@@ -4,12 +4,10 @@ import { test, expect } from '@playwright/test';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { openApp, openFiles, SAMPLES, DIST_DIR } from './helpers.js';
+import { openApp, openFiles, packPath as pk, SAMPLES } from './helpers.js';
 
 test.describe.configure({ timeout: 600000 });
 
-const DIST = resolve(DIST_DIR, 'packs');
-const pk = (n) => resolve(DIST, readdirSync(DIST).find((f) => (n === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${n}-`))));
 const VEGAS = join(SAMPLES, 'msi-spacenet2-wv3', 'SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif');
 
 async function ready(page, packs) {

@@ -2,10 +2,10 @@
 // CSP-violation and network capture; open sample files through a file input.
 
 import { createServer } from 'node:http';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve, join, extname, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 export const ROOT = resolve('.');
 // GW_DIST points the suites at another build: a folder (as gui-lib.js takes it, e.g. dist-21-video) or the .html itself (GWB_DIST: the same).
@@ -104,8 +104,25 @@ export async function openApp(page, mode = 'file', { srv, htmlPath = DIST, prefs
   return { frame, logs, requests, csp: () => frame.evaluate(() => window.__csp ?? []) };
 }
 
+/**
+ * CI has no Research samples, corpus or fetched packs, so a test that needs them skips there. The
+ * local gate has them all, and a missing file still fails it.
+ */
+export function needsData(...paths) {
+  test.skip(Boolean(process.env.CI) && !paths.every((p) => existsSync(p)), 'needs data that only the local gate has');
+}
+
+/** The built pack of this name (`ai` means the base AI pack). */
+export function packPath(name) {
+  const dir = resolve(DIST_DIR, 'packs');
+  const file = existsSync(dir) ? readdirSync(dir).find((f) => (name === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${name}-`))) : undefined;
+  needsData(join(dir, file ?? `${name}-is-not-built`));
+  return resolve(dir, file);
+}
+
 /** Open local files in the app through a temporary file input. Returns the app's result string. */
 export async function openFiles(frame, paths) {
+  needsData(...paths);
   for (const p of paths) if (!existsSync(p)) throw new Error(`missing sample ${p}`);
   const input = await frame.evaluateHandle(() => {
     const i = document.createElement('input');
