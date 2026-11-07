@@ -1,0 +1,65 @@
+# Runs the PR's code with a read-only token and no secrets. `verify` is the job the merge gate
+# reads, so it must keep that name. Each leg always runs and decides for itself what the change
+# needs, because GitHub counts a skipped job as passing and the gate accepts only success.
+name: ci
+
+on:
+  pull_request:
+  merge_group:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GWB_LEG: linux
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/app-setup
+      - run: npx playwright install --with-deps chromium
+      - run: node build/verify-scope.mjs
+      - name: Keep the evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: reports
+          path: reports/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  sidecar:
+    if: ${{ !github.event.repository.private }}
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      GWB_LEG: sidecar
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/sidecar-setup
+      - run: node build/verify-scope.mjs
+
+  verify:
+    needs: [app, sidecar]
+    if: ${{ always() && !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Both legs must succeed
+        env:
+          APP: ${{ needs.app.result }}
+          SIDECAR: ${{ needs.sidecar.result }}
+        run: test "$APP" = success && test "$SIDECAR" = success

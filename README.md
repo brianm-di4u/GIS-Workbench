@@ -14,7 +14,7 @@ Outputs in `dist/`: `gis-workbench.html` (the product), `gis-workbench-lite.html
 gzip payload for size-limited embeds), `embed/` (paste-ready snippets and instructions),
 `THIRD-PARTY-NOTICES.txt`, `build-report.json` (sizes, gates, licences) and `SHA256SUMS`.
 
-`npm run build` works from a plain clone with no environment variables. The world basemap comes from
+`dist/` isn't tracked: build it here, or download the built files from a release. `npm run build` works from a plain clone with no environment variables. The world basemap comes from
 `build/natural-earth/` (public domain, see its `SOURCE.txt`). `node build/packs.mjs --fetch` downloads the pinned
 inputs of the data packs (their hashes are in `build/packs-sources.json`) into `.cache/packs-src` and gives the
 full pack set: models, datum grids, fonts and the rest. The build works without it: it skips each pack whose
