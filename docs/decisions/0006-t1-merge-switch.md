@@ -15,6 +15,6 @@ Option A. The admin merges the first 10 T1 PRs. After the 10th, an agent may ope
 
 ## Consequences
 
-- Until then, every T1 PR waits at "T1: waiting for approval", and agents report it as ready instead of merging it.
+- Until then, every T1 PR waits at "T1: waiting for approval" until the admin approves it.
 - The count is of merged T1 PRs on GitHub, not agents' reports.
 - The switch itself is a T2 change, so the admin still sees it.
