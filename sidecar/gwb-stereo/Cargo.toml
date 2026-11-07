@@ -17,7 +17,7 @@ path = "src/lib.rs"
 [dependencies]
 gwb-sidecar-api = { path = "../gwb-sidecar-api" }
 serde_json.workspace = true
-sha2 = "0.10"
+sha2 = "0.11"
 hex = "0.4"
 
 [target.'cfg(windows)'.dependencies]
