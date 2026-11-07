@@ -57,7 +57,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
-      if (targets.length > 0) step('Rust tests', 'cargo', ['test', ...targets], 'crates');
+      if (targets.length > 0) step('Rust tests', 'cargo', ['test', '--no-fail-fast', ...targets], 'crates');
     }
     if (code) {
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
@@ -67,7 +67,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   }
   if (leg !== 'linux' && sidecar) {
     step('Sidecar licences and sources', 'cargo', cargoDeny, 'sidecar');
-    step('Sidecar tests', 'cargo', ['test'], 'sidecar');
+    step('Sidecar tests', 'cargo', ['test', '--no-fail-fast'], 'sidecar');
   }
   return steps;
 }
@@ -111,14 +111,17 @@ function main() {
   if (steps.length === 0) console.log('  Nothing to run on this leg.');
   if (process.argv.includes('--dry')) return 0;
 
+  // Every step runs even after a failure: a CI run is too slow to find problems one at a time.
+  const failed = [];
   for (const { name, command, args, cwd } of steps) {
     console.log(`\n=== ${name}`);
     const started = Date.now();
     const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, shell: process.platform === 'win32' });
     console.log(`=== ${name}: ${status === 0 ? 'ok' : 'FAILED'} in ${Math.round((Date.now() - started) / 1000)} s`);
-    if (status !== 0) return status ?? 1;
+    if (status !== 0) failed.push(name);
   }
-  return 0;
+  if (failed.length > 0) console.error(`\nFailed: ${failed.join(', ')}`);
+  return failed.length > 0 ? 1 : 0;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = main();

@@ -31,20 +31,20 @@ describe('verify scope', () => {
 
   it('tests only the affected crates', () => {
     const rust = planSteps({ paths: ['crates/gw-a/src/lib.rs'], crates: ['gw-a', 'gw-b'] }).find((s) => s.name === 'Rust tests');
-    expect(rust.args).toEqual(['test', '-p', 'gw-a', '-p', 'gw-b']);
+    expect(rust.args).toEqual(['test', '--no-fail-fast', '-p', 'gw-a', '-p', 'gw-b']);
     expect(rust.cwd).toBe('crates');
   });
 
   it('tests the whole workspace when shared Rust config changed', () => {
     for (const path of ['crates/Cargo.lock', 'crates/deny.toml', 'crates/.cargo/config.toml', 'crates/vendor/fax/src/lib.rs']) {
       const rust = planSteps({ paths: [path], crates: ['gw-a'] }).find((s) => s.name === 'Rust tests');
-      expect(rust.args).toEqual(['test', '--workspace']);
+      expect(rust.args).toEqual(['test', '--no-fail-fast', '--workspace']);
     }
   });
 
   it('tests the whole workspace when the crate list is unknown', () => {
     const rust = planSteps({ paths: ['crates/gw-a/src/lib.rs'], crates: null }).find((s) => s.name === 'Rust tests');
-    expect(rust.args).toEqual(['test', '--workspace']);
+    expect(rust.args).toEqual(['test', '--no-fail-fast', '--workspace']);
   });
 
   it('runs a crate change through the build and the browser, since it changes the app', () => {
