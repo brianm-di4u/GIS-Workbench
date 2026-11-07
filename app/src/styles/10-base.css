@@ -55,7 +55,7 @@ button { cursor: pointer; }
 .tab { min-height: var(--s-targetMin); padding: 2px 14px; border: 0; background: var(--c-dock-tabInactive); color: var(--c-content-text); }
 .tab:hover:not([aria-selected="true"]) { background: var(--c-button-hover); }
 .tab[aria-selected="true"] { background: var(--c-dock-tabActive); font-weight: 600; box-shadow: inset 0 -2px 0 var(--c-focus-ring); }
-.btn-small { min-height: 20px; padding: 1px 8px; font-size: var(--fs-sm); }
+.btn-small { min-height: 24px; padding: 1px 8px; font-size: var(--fs-sm); }
 .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
 .inp { background: var(--c-content-bg); color: var(--c-content-text); border: 1px solid var(--c-control-border); min-height: var(--s-inputHeight); padding: 1px 4px; width: 100%; }
 .inp-num { width: 90px; }

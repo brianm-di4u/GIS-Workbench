@@ -79,6 +79,26 @@ pub struct ImageIn {
     pub film: Option<[f64; 6]>,
 }
 
+/// The RMS distance of points from their best-fit line, in their own units.
+fn line_spread(points: &[V3]) -> f64 {
+    let n = points.len().max(1) as f64;
+    let mut c = [0.0; 3];
+    for p in points {
+        for t in 0..3 {
+            c[t] += p[t] / n;
+        }
+    }
+    let mut cov = [[0.0; 3]; 3];
+    for p in points {
+        for r in 0..3 {
+            for s in 0..3 {
+                cov[r][s] += (p[r] - c[r]) * (p[s] - c[s]) / n;
+            }
+        }
+    }
+    sym_eigen(&cov).0[1].max(0.0).sqrt()
+}
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Robust {
     None,
@@ -1024,6 +1044,13 @@ impl Aero {
         let fixed = self.images.iter().filter(|im| im.fixed).count();
         if gcps.is_empty() && gn.is_empty() && fixed == 0 {
             return Err(Error::invalid("aerial triangulation: the block has no datum: measure GCPs, weight the GNSS positions or hold an image fixed"));
+        }
+        // GNSS positions on one line leave the whole block free to roll about that line. This is
+        // checked here because the normal matrix shows it only as a pivot at rounding level, and
+        // that level differs from one platform to the next.
+        let imu = self.images.iter().any(|im| im.imu.is_some());
+        if gcps.is_empty() && fixed == 0 && !imu && line_spread(&gn) < 1e-3 {
+            return Err(Error::invalid("aerial triangulation: the roll about the strip axis cannot be determined: the GNSS positions lie on one line and nothing else holds the block; add GCPs, an IMU attitude or a second strip"));
         }
         Ok(())
     }
