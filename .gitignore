@@ -84,3 +84,9 @@ build/format-list.mjs
 # Scratch and group builds of any name, and Cargo build output
 dist-*
 crates/target/
+.pipeline/evidence/
+.pipeline/runs/
+.claude/settings.local.json
+.env
+.env.*
+docs/private/

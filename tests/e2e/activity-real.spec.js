@@ -6,7 +6,7 @@
 import { test, expect } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { openApp, openFiles } from './helpers.js';
+import { openApp, openFiles, packPath } from './helpers.js';
 import { cancelWhenShown, stopActivity, watchActivity } from './activity-lib.js';
 
 const CORPUS = process.env.TE_CORPUS ?? 'D:/TE-corpus';
@@ -94,7 +94,7 @@ test('Obstruction Surfaces against a real point cloud: the main-thread reading g
 });
 
 test('A real 156 MB data pack is read and checked in a worker; the page keeps drawing', async ({ page }) => {
-  const pack = process.env.GW_REAL_PACK ?? 'C:/GIS Workbench/gis-workbench/dist-archive/packs/ai-detect-owlv2-b16-q8.gwpack';
+  const pack = process.env.GW_REAL_PACK ?? packPath('ai-detect');
   test.skip(!existsSync(pack), 'no real pack here');
   test.setTimeout(300_000);
   const { frame } = await openApp(page, 'file');

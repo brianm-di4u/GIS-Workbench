@@ -1,0 +1,150 @@
+{
+  "project": "GIS Workbench",
+  "pack": "gis-workbench",
+  "admins": [
+    "brianm-di4u"
+  ],
+  "trustedBots": [
+    "dependabot[bot]"
+  ],
+  "verify": {
+    "fast": [
+      "node build/check-policy.mjs",
+      "npx vitest run"
+    ],
+    "full": [
+      "node build/verify-scope.mjs"
+    ],
+    "e2e": [
+      "npm run test:e2e"
+    ],
+    "checkNames": [
+      "verify"
+    ]
+  },
+  "tiers": {
+    "t0Paths": [
+      "docs/**/*.md",
+      "README.md"
+    ],
+    "t0Exclude": [
+      "docs/decisions/**",
+      "docs/PRD.md",
+      "docs/THREAT-MODEL.md",
+      "docs/formats.md"
+    ],
+    "t2Paths": [
+      ".github/**",
+      ".pipeline/**",
+      "pipeline.config.json",
+      "pipeline.lock.json",
+      ".gitattributes",
+      ".claude/settings*.json",
+      ".claude/hooks/**",
+      ".claude/agents/**",
+      ".claude/workflows/**",
+      "LICENSE*",
+      "THIRD_PARTY*",
+      "docs/PRD.md",
+      "**/auth/**",
+      "**/billing/**",
+      "**/migrations/**",
+      "**/build.rs",
+      ".cargo/**",
+      "build/build.mjs",
+      "build/gates.mjs",
+      "build/rust.mjs",
+      "build/e2e.mjs",
+      "build/airgap.mjs",
+      "build/origins.json",
+      "build/eval-allowlist.json",
+      "build/packs-sources.json",
+      "build/check-policy*",
+      "build/check-quarantine.mjs",
+      "build/verify-scope.mjs",
+      "build/release/**",
+      "sidecar/**",
+      "crates/deny.toml",
+      "crates/rust-toolchain.toml",
+      "crates/.cargo/**",
+      "crates/vendor/**",
+      ".node-version",
+      "TRADEMARKS.md",
+      "docs/POLICY.md",
+      "SECURITY.md"
+    ],
+    "decisionPaths": [
+      "docs/decisions/**"
+    ],
+    "sizeWarnLines": 800
+  },
+  "merge": {
+    "t0": "auto",
+    "t1": "human",
+    "t2": "human"
+  },
+  "privateAutoMerge": false,
+  "council": {
+    "maxRounds": 3,
+    "maxRoundsSensitive": 5,
+    "maxNits": 5,
+    "maxSeats": 5,
+    "maxDiffGrowth": 1.5,
+    "externalSeats": [],
+    "t1Model": "sonnet",
+    "triggers": {
+      "ui": [
+        "**/*.html",
+        "**/*.css",
+        "app/src/shell/**",
+        "app/src/shell2/**",
+        "app/src/mobile/**",
+        "app/src/styles/**"
+      ],
+      "content": [
+        "**/package.json",
+        "**/package-lock.json",
+        "**/Cargo.toml",
+        "**/Cargo.lock",
+        "THIRD_PARTY*",
+        "LICENSE*",
+        "TRADEMARKS.md",
+        "build/packs-sources.json",
+        "build/natural-earth/**"
+      ]
+    },
+    "extraSeats": [
+      {
+        "agent": "council-geo-correctness",
+        "paths": [
+          "crates/**",
+          "app/src/geo/**",
+          "app/src/formats/**",
+          "app/src/sensor/**",
+          "app/src/tiles/**",
+          "app/src/vector/**",
+          "app/src/products/**",
+          "app/src/analysis/**"
+        ]
+      }
+    ]
+  },
+  "breaker": {
+    "window": 20,
+    "maxFailures": 3
+  },
+  "autopilot": {
+    "maxPrsPerDay": 5,
+    "maxConsecutiveFailures": 2
+  },
+  "formatters": {},
+  "licenseExceptions": [
+    "h5wasm",
+    "resource-tracker",
+    "squint-cljs"
+  ],
+  "smoke": {
+    "url": "https://www.gisworkbench.com/app/gis-workbench",
+    "contains": "GIS Workbench"
+  }
+}

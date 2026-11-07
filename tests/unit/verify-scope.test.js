@@ -3,7 +3,7 @@ import { affectedCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Crate licences and sources', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'Crate licences and sources', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
@@ -16,8 +16,8 @@ describe('verify scope', () => {
     expect(names({ paths: ['.node-version'] })).toEqual(ALL);
   });
 
-  it('runs only the quarantine check for prose', () => {
-    expect(names({ paths: ['docs/RUNBOOK.md', 'README.md'] })).toEqual(['Quarantine list']);
+  it('runs only the two list checks for prose', () => {
+    expect(names({ paths: ['docs/RUNBOOK.md', 'README.md'] })).toEqual(['Quarantine list', 'Civilian-use check']);
   });
 
   it('treats CHANGELOG.md as code, since the build embeds it', () => {
@@ -26,7 +26,7 @@ describe('verify scope', () => {
 
   it('skips Rust for an app change', () => {
     const steps = names({ paths: ['app/src/shell/commands.js'] });
-    expect(steps).toEqual(['Quarantine list', 'Strict build', 'Unit and golden tests', 'Browser subset']);
+    expect(steps).toEqual(['Quarantine list', 'Civilian-use check', 'Strict build', 'Unit and golden tests', 'Browser subset']);
   });
 
   it('tests only the affected crates', () => {

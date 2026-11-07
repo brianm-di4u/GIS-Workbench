@@ -1,11 +1,15 @@
 # Lite in real Safari on the iOS Simulator (OD-2.23, REQ-HOST-05). The simulator exists only on macOS,
 # and the Windows PCs this project is built on have no Mac to pair with, so a hosted macOS runner does
-# it. Runs on pushes to the test branch only, apart from the release gates. It builds the app first.
+# it. Runs nightly, on pushes to the test branch, and in the release gates. It builds the app first.
+# A failed scheduled run opens a triage issue, like nightly.yml.
 name: Lite on iOS Simulator
 
 on:
   push:
     branches: [test/lite-ios]
+  schedule:
+    - cron: '53 7 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -67,3 +71,22 @@ jobs:
           path: reports/ios/
           if-no-files-found: warn
           retention-days: 30
+
+  report:
+    needs: simulator
+    if: ${{ failure() && github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Open one issue
+        run: |
+          gh label create triage --color fbca04 --force > /dev/null
+          open=$(gh issue list --label triage --search "iOS simulator failed in:title" --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then echo "An issue is already open."; exit 0; fi
+          gh issue create --label triage --title "iOS simulator failed" --body "The nightly Lite run on the iOS Simulator failed. Run: $RUN_URL"

@@ -17,8 +17,9 @@ for (const mode of ['file', 'http', 'iframe', 'srcdoc']) {
   test(`PT-01 REQ-ARC-01 REQ-HOST-01 REQ-HOST-09 boots over ${mode} with no console errors or CSP violations`, async ({ page }) => {
     const { frame, logs, csp, requests } = await openApp(page, mode, { srv });
     const rm = await frame.evaluate(() => ({ mode: window.gisworkbench.runMode.mode, caps: window.gisworkbench.runMode.caps, bootMs: window.gisworkbench.bootMs, marks: window.gisworkbench.bootMarks }));
-    // REQ-PRF-01 guard on the test machine: an interactive shell well inside 1.5 s.
-    expect(rm.bootMs, JSON.stringify(rm.marks)).toBeLessThan(1500);
+    // REQ-PRF-01 guard on the test machine: an interactive shell well inside 1.5 s. A shared runner's
+    // clock says nothing about the app, so only the local gate holds this.
+    if (!process.env.CI) expect(rm.bootMs, JSON.stringify(rm.marks)).toBeLessThan(1500);
     expect(rm.mode).toBe({ file: 'file', http: 'hosted', iframe: 'cross-origin-iframe', srcdoc: 'srcdoc' }[mode]);
     if (mode === 'iframe') expect(rm.caps.fsaPicker).toBe(false); // REQ-HOST-02: input fallback in cross-origin frames
     expect(await csp()).toEqual([]);

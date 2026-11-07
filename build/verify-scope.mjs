@@ -54,6 +54,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
 
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
+    step('Civilian-use check', 'node', ['build/check-policy.mjs']);
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
@@ -113,10 +114,11 @@ function main() {
 
   // Every step runs even after a failure: a CI run is too slow to find problems one at a time.
   const failed = [];
+  const env = { ...process.env, GWB_PARTIAL_DATA: '1' };
   for (const { name, command, args, cwd } of steps) {
     console.log(`\n=== ${name}`);
     const started = Date.now();
-    const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, shell: process.platform === 'win32' });
+    const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, env, shell: process.platform === 'win32' });
     console.log(`=== ${name}: ${status === 0 ? 'ok' : 'FAILED'} in ${Math.round((Date.now() - started) / 1000)} s`);
     if (status !== 0) failed.push(name);
   }
