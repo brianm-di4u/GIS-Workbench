@@ -1,0 +1,16 @@
+fixtures/fx25/models3d (2.5 group models3d, REQ-GAP-35, REQ-GAP-68). All files are GIS Workbench's
+own output (Apache-2.0, like the repository); no third-party data.
+
+b1.slpk          6,208 B  a8ea9b520476e28dc0841048a507f2f47f007572186bd6e2b2d124b97b4529d9
+                 A 3DObject scene layer package with one flat-roofed building ("Building 0 — Здание", 20 m ×
+                 15 m, 8 m tall; HGT 8, F_CODE AL013, heightMethod attribute) at 47.6062° N, 122.3321° W, written by
+                 app/src/formats/slpk-write.js (writeSlpk) through the test script of tests/unit/models3d.test.js
+                 (buildings(1): buildingModel + objectsFromModels). Esri's i3s_converter 0.7.12062023 (-v) validates it
+                 with no warning. Seeds the fuzz target crates/gw-fuzz/tests/fuzz25_models3d.rs and the
+                 first e2e test of tests/e2e/25-models3d.spec.js.
+b1-geometry.bin  1,320 B  cef569ef91d9780edfed915b680a8f60cb80d1a9278c3318e9a2c457cbc84ed0
+                 nodes/1/geometries/0.bin.gz of b1.slpk, gunzipped: an uncompressed I3S geometry buffer
+                 (position, normal, uv0, color, featureId, faceRange). Fuzz seed.
+texture.jpg      4,386 B  307191b9d5bb301b59e4ced8f5da052ef33f2137d34730c6e7887d7583a40035
+                 A 256 × 256 test pattern (red = x, green = y, blue = checkerboard), written with Pillow
+                 (quality 85). The texture of the unit tests' terrain SLPK and 3D PDF.

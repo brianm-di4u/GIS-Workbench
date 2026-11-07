@@ -1,0 +1,47 @@
+# Raster -> JPEG 2000 (GeoJP2 + GMLJP2) with OpenJPEG (REQ-SDC-08 "or JPEG 2000 on request").
+id = "raster-jp2"
+title = "Raster to JPEG 2000"
+module = "core-gdal"
+input = "raster"
+output_ext = "jp2"
+memory_mb = 16384
+# County mosaics run for hours on every core: a day of wall time, 14 days of total CPU time.
+time_limit_s = 86400
+cpu_limit_s = 1209600
+
+[[options]]
+name = "quality"
+title = "Quality (% of the uncompressed size)"
+type = "float"
+min = 0.5
+max = 100
+default = 25.0
+
+[[options]]
+name = "reversible"
+title = "Lossless (reversible 5/3 wavelet)"
+type = "bool"
+default = false
+
+[[options]]
+name = "blocksize"
+title = "Tile size"
+type = "enum"
+values = ["512", "1024", "2048"]
+default = "1024"
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+args = [
+  "-of", "JP2OpenJPEG",
+  "-co", "QUALITY={quality}",
+  "-co", "REVERSIBLE={reversible}",
+  "-co", "BLOCKXSIZE={blocksize}",
+  "-co", "BLOCKYSIZE={blocksize}",
+  "-co", "GMLJP2=YES",
+  "-co", "GeoJP2=YES",
+  "-co", "THREADS=ALL_CPUS",
+  "-mo", "GWB_PROVENANCE={provenance}",
+  "{input}", "{output}",
+]

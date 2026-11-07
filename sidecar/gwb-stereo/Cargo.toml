@@ -1,0 +1,31 @@
+[package]
+name = "gwb-stereo"
+description = "GIS Workbench native stereo viewer: quad-buffer display of a pair fed by the sidecar over loopback"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "gwb-stereo-viewer"
+path = "src/main.rs"
+
+[lib]
+name = "gwb_stereo"
+path = "src/lib.rs"
+
+[dependencies]
+gwb-sidecar-api = { path = "../gwb-sidecar-api" }
+serde_json.workspace = true
+sha2 = "0.10"
+hex = "0.4"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+  "Win32_Graphics_OpenGL",
+  "Win32_System_LibraryLoader",
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_UI_WindowsAndMessaging",
+] }

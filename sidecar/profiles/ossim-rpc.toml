@@ -1,0 +1,36 @@
+# A rigorous sensor model of OSSIM's, sampled over the image's footprint so the app can fit an RPC00B
+# to it (REQ-GAP-21). The input is what OSSIM opens for that sensor, usually the metadata beside the
+# image (a RADARSAT-2 product.xml, a TerraSAR-X .xml), and it names the image, so it counts as a
+# pointer file: OSSIM here has no network code, and only the model's numbers come back.
+id = "ossim-rpc"
+title = "OSSIM rigorous model, sampled for an RPC"
+module = "ossim"
+input = "any"
+output_ext = "json"
+output_name = "{stem}.ossim"
+allow_pointer_inputs = true
+memory_mb = 4096
+time_limit_s = 3600
+cpu_limit_s = 7200
+processes = 1
+
+[[options]]
+name = "h_min"
+title = "Lowest ground height, metres above the ellipsoid"
+type = "float"
+min = -500.0
+max = 9000.0
+default = -100.0
+
+[[options]]
+name = "h_max"
+title = "Highest ground height, metres above the ellipsoid"
+type = "float"
+min = -500.0
+max = 9000.0
+default = 3000.0
+
+[[steps]]
+tool = "gwb-ossim-model"
+progress = "lines"
+args = ["grid", "--h-min", "{h_min}", "--h-max", "{h_max}", "{input}", "{output}"]

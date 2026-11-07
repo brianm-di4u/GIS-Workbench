@@ -1,0 +1,172 @@
+{
+ "generator": "build/fixtures/fx21/video.mjs",
+ "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+ "files": {
+  "mpeg1_ps.mpg": {
+   "format": "mpeg",
+   "streams": [
+    {
+     "type": "video",
+     "codec": "mpeg1video",
+     "id": "0x1e0",
+     "tag": "[0][0][0][0]"
+    },
+    {
+     "type": "audio",
+     "codec": "mp2",
+     "id": "0x1c0",
+     "tag": "[0][0][0][0]"
+    }
+   ],
+   "video": {
+    "codec": "mpeg1video",
+    "width": 640,
+    "height": 480,
+    "rate": "60/1",
+    "packets": 300,
+    "displayTypes": "IBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBI",
+    "keyPackets": 21
+   }
+  },
+  "mpeg1_ps_klv.mpg": {
+   "format": "mpeg",
+   "streams": [
+    {
+     "type": "video",
+     "codec": "mpeg1video",
+     "id": "0x1e0",
+     "tag": "[0][0][0][0]"
+    },
+    {
+     "type": "audio",
+     "codec": "mp2",
+     "id": "0x1c0",
+     "tag": "[0][0][0][0]"
+    }
+   ],
+   "video": {
+    "codec": "mpeg1video",
+    "width": 640,
+    "height": 480,
+    "rate": "60/1",
+    "packets": 300,
+    "displayTypes": "IBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBI",
+    "keyPackets": 21
+   }
+  },
+  "mpeg1.m1v": {
+   "format": "mpegvideo",
+   "streams": [
+    {
+     "type": "video",
+     "codec": "mpeg1video",
+     "id": null,
+     "tag": "[0][0][0][0]"
+    }
+   ],
+   "video": {
+    "codec": "mpeg1video",
+    "width": 640,
+    "height": 480,
+    "rate": "60/1",
+    "packets": 120,
+    "displayTypes": "IBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBI",
+    "keyPackets": 9
+   }
+  },
+  "mpeg1_ts_klv.ts": {
+   "format": "mpegts",
+   "streams": [
+    {
+     "type": "video",
+     "codec": "mpeg1video",
+     "id": "0x100",
+     "tag": "[2][0][0][0]"
+    },
+    {
+     "type": "data",
+     "codec": "klv",
+     "id": "0x101",
+     "tag": "KLVA"
+    }
+   ],
+   "video": {
+    "codec": "mpeg1video",
+    "width": 640,
+    "height": 360,
+    "rate": "60/1",
+    "packets": 300,
+    "displayTypes": "IBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBI",
+    "keyPackets": 21
+   }
+  },
+  "mpeg2_ts_klv.ts": {
+   "format": "mpegts",
+   "streams": [
+    {
+     "type": "video",
+     "codec": "mpeg2video",
+     "id": "0x100",
+     "tag": "[2][0][0][0]"
+    },
+    {
+     "type": "data",
+     "codec": "klv",
+     "id": "0x101",
+     "tag": "KLVA"
+    }
+   ],
+   "video": {
+    "codec": "mpeg2video",
+    "width": 640,
+    "height": 360,
+    "rate": "30/1",
+    "packets": 300,
+    "displayTypes": "IBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBI",
+    "keyPackets": 21
+   }
+  },
+  "mpeg2_ps.mpg": {
+   "format": "mpeg",
+   "streams": [
+    {
+     "type": "video",
+     "codec": "mpeg2video",
+     "id": "0x1e0",
+     "tag": "[0][0][0][0]"
+    },
+    {
+     "type": "audio",
+     "codec": "mp2",
+     "id": "0x1c0",
+     "tag": "[0][0][0][0]"
+    }
+   ],
+   "video": {
+    "codec": "mpeg2video",
+    "width": 720,
+    "height": 480,
+    "rate": "30000/1001",
+    "packets": 120,
+    "displayTypes": "IBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBBIBBPBBPBBPBBPBI",
+    "keyPackets": 9
+   }
+  }
+ },
+ "klvInserted": {
+  "file": "mpeg1_ps_klv.mpg",
+  "count": 100,
+  "rateHz": 10,
+  "videoPts0": 48000,
+  "first": {
+   "index": 0,
+   "pts": 48000,
+   "timeUs": 1761436800000000
+  },
+  "last": {
+   "index": 99,
+   "pts": 939000,
+   "timeUs": 1761436809900000
+  }
+ }
+}

@@ -1,0 +1,11 @@
+[package]
+name = "gw-terrain"
+description = "GIS Workbench terrain analysis: reference-plane viewsheds with curvature, helicopter landing zones"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-extract.workspace = true

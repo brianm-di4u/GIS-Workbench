@@ -1,0 +1,18 @@
+Fixtures of the 2.6 gdalroutes group (SCN-60).
+
+From GDAL's own test suite, gdalautotest-3.13.3.zip (MIT), https://download.osgeo.org/gdal/3.13.3/:
+  byte_merc.fits                 autotest/gdrivers/data/fits/
+  hdifftst2.hdf                  autotest/gdrivers/data/hdf4/
+  adobe_style_geospatial.pdf     autotest/gdrivers/data/pdf/
+  byte_and_rgbsmall_2pages.pdf   autotest/gdrivers/data/pdf/
+
+DomainsSub.gdb.zip
+  autotest/ogr/data/filegdb/Domains.gdb (three real domains, written by ArcGIS), with subtype XML
+  added to the Roads row of GDB_Items through GDAL's OpenFileGDB update mode. The subtype XML is
+  therefore constructed from the published DEFeatureClassInfo layout: no public geodatabase with
+  subtypes was found in the listed sources, and the test says no more than that this layout is read.
+
+small.kea   byte_merc.fits written by GDAL 3.13.3's KEA driver.
+
+pan.tif, ms.tif, osgb_xy.tif, cadrg_src.tif, two_boxes.glb
+  Synthetic: tests/tools/make-gdalroutes-fixtures.mjs.

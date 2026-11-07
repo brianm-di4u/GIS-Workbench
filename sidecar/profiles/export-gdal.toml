@@ -1,0 +1,28 @@
+# Universal raster export (REQ-SDC-10): any GDAL writer the caps list, creation options checked
+# against that driver's option list. The extension is the driver's first one ("*").
+id = "export-gdal"
+title = "Save raster with a GDAL writer"
+module = "core-gdal"
+input = "raster"
+output_ext = "*"
+
+[[options]]
+name = "driver"
+title = "Format"
+type = "raster_driver"
+
+[[options]]
+name = "co"
+title = "Creation options"
+type = "creation_options"
+driver_option = "driver"
+flag = "-co"
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+args = [
+  "-of", "{driver}",
+  { each = "co", args = ["-co", "{item}"] },
+  "{input}", "{output}",
+]

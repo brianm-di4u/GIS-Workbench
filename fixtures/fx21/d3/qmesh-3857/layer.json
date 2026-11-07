@@ -1,0 +1,130 @@
+{
+ "tilejson": "2.1.0",
+ "name": "fx21-3857",
+ "description": "Quantized-mesh 1.0 terrain written by GIS Workbench (heights above the WGS 84 ellipsoid)",
+ "version": "1.0.0",
+ "format": "quantized-mesh-1.0",
+ "attribution": "",
+ "scheme": "tms",
+ "tiles": [
+  "{z}/{x}/{y}.terrain?v={version}"
+ ],
+ "projection": "EPSG:3857",
+ "bounds": [
+  -105.05,
+  39.7,
+  -104.95,
+  39.78
+ ],
+ "minzoom": 0,
+ "maxzoom": 12,
+ "extensions": [
+  "octvertexnormals"
+ ],
+ "available": [
+  [
+   {
+    "startX": 0,
+    "endX": 0,
+    "startY": 0,
+    "endY": 0
+   }
+  ],
+  [
+   {
+    "startX": 0,
+    "endX": 0,
+    "startY": 1,
+    "endY": 1
+   }
+  ],
+  [
+   {
+    "startX": 0,
+    "endX": 0,
+    "startY": 2,
+    "endY": 2
+   }
+  ],
+  [
+   {
+    "startX": 1,
+    "endX": 1,
+    "startY": 4,
+    "endY": 4
+   }
+  ],
+  [
+   {
+    "startX": 3,
+    "endX": 3,
+    "startY": 9,
+    "endY": 9
+   }
+  ],
+  [
+   {
+    "startX": 6,
+    "endX": 6,
+    "startY": 19,
+    "endY": 19
+   }
+  ],
+  [
+   {
+    "startX": 13,
+    "endX": 13,
+    "startY": 39,
+    "endY": 39
+   }
+  ],
+  [
+   {
+    "startX": 26,
+    "endX": 26,
+    "startY": 79,
+    "endY": 79
+   }
+  ],
+  [
+   {
+    "startX": 53,
+    "endX": 53,
+    "startY": 158,
+    "endY": 158
+   }
+  ],
+  [
+   {
+    "startX": 106,
+    "endX": 106,
+    "startY": 317,
+    "endY": 317
+   }
+  ],
+  [
+   {
+    "startX": 213,
+    "endX": 213,
+    "startY": 635,
+    "endY": 635
+   }
+  ],
+  [
+   {
+    "startX": 426,
+    "endX": 426,
+    "startY": 1270,
+    "endY": 1271
+   }
+  ],
+  [
+   {
+    "startX": 852,
+    "endX": 853,
+    "startY": 2540,
+    "endY": 2542
+   }
+  ]
+ ]
+}

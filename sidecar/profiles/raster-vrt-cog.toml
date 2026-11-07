@@ -1,0 +1,68 @@
+# Multi-file deliveries (county MrSID tiles): a VRT mosaic of the inputs, written as one COG
+# (SDP-2.1 P13). The VRT is built here from the input list; uploaded VRTs stay refused.
+id = "raster-vrt-cog"
+title = "Mosaic of rasters to one Cloud-Optimized GeoTIFF"
+module = "core-gdal"
+input = "raster"
+min_inputs = 1
+max_inputs = 4096
+output_ext = "tif"
+output_name = "{stem}.mosaic.cog"
+memory_mb = 16384
+# County mosaics run for hours on every core: a day of wall time, 14 days of total CPU time.
+time_limit_s = 86400
+cpu_limit_s = 1209600
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["DEFLATE", "LZW", "ZSTD", "JPEG", "WEBP", "NONE"]
+default = "DEFLATE"
+
+[[options]]
+name = "quality"
+title = "JPEG/WebP quality"
+type = "int"
+min = 1
+max = 100
+default = 85
+
+[[options]]
+name = "resampling"
+title = "Overview resampling"
+type = "enum"
+values = ["NEAREST", "AVERAGE", "BILINEAR", "CUBIC", "LANCZOS", "MODE"]
+default = "AVERAGE"
+
+[[options]]
+name = "nodata"
+title = "Nodata of the inputs"
+type = "float"
+min = -3.4e38
+max = 3.4e38
+optional = true
+
+[[steps]]
+tool = "gdalbuildvrt"
+weight = 0.02
+args = [
+  { when = "nodata", args = ["-srcnodata", "{nodata}", "-vrtnodata", "{nodata}"] },
+  "-input_file_list", "{list}",
+  "{tmp:mosaic.vrt}",
+]
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+weight = 0.98
+args = [
+  "-of", "COG",
+  "-co", "COMPRESS={compress}",
+  "-co", "QUALITY={quality}",
+  "-co", "OVERVIEW_RESAMPLING={resampling}",
+  "-co", "BIGTIFF=IF_SAFER",
+  "-co", "NUM_THREADS=ALL_CPUS",
+  "-mo", "GWB_PROVENANCE={provenance}",
+  "{tmp:mosaic.vrt}", "{output}",
+]

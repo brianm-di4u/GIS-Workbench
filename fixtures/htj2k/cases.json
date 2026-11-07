@@ -1,0 +1,54 @@
+{
+ "encoder": "OpenJPH openjph 0.32.0 via imagecodecs 2026.10.10",
+ "reference": "OpenJPEG openjpeg 2.5.4",
+ "cases": {
+  "ht_mono11_tiles": {
+   "bits": 11,
+   "lossless": true,
+   "refType": "u16",
+   "shape": [
+    389,
+    517
+   ]
+  },
+  "ht_mono11_tiles_skip2": {
+   "bits": 11,
+   "lossless": false,
+   "skipres": 2,
+   "refType": "u16",
+   "shape": [
+    98,
+    130
+   ]
+  },
+  "ht_rgb8_lossy": {
+   "bits": 8,
+   "lossless": false,
+   "refType": "u8",
+   "shape": [
+    203,
+    301,
+    3
+   ]
+  },
+  "ht_rgb8_rct": {
+   "bits": 8,
+   "lossless": true,
+   "refType": "u8",
+   "shape": [
+    203,
+    301,
+    3
+   ]
+  },
+  "ht_mono16": {
+   "bits": 16,
+   "lossless": true,
+   "refType": "u16",
+   "shape": [
+    96,
+    128
+   ]
+  }
+ }
+}

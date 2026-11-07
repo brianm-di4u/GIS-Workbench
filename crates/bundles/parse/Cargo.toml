@@ -1,0 +1,15 @@
+[package]
+name = "gw-bundle-parse"
+description = "Lazy WASM bundle: hardened file parsers for the decode worker"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+gw-parse.workspace = true
+gw-codec.workspace = true

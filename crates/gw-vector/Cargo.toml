@@ -1,0 +1,10 @@
+[package]
+name = "gw-vector"
+description = "GIS Workbench vector validation: ring validity, self-intersection, duplicates, overlaps, dangles (with snap/trim fixes), slivers"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true

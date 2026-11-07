@@ -1,0 +1,21 @@
+[package]
+name = "gw-tiles"
+description = "GIS Workbench tiles: Brotli decode, MVT encode/decode, PMTiles/MBTiles writing, quantized-mesh tiling"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+miniz_oxide.workspace = true
+gw-terrain.workspace = true
+# Brotli decoder for PMTiles (FC-06, REQ-FMT-30). BSD-3-Clause OR MIT, pure Rust, no unsafe in
+# the default build; its stdlib allocator and Read interface.
+brotli-decompressor = { version = "5.0.3", default-features = false, features = ["std"], optional = true }
+
+[features]
+# Brotli (about 100 KB gzip of WASM, most of it the RFC 7932 dictionary) ships in its own lazy
+# bundle (`brotli`), so the `tiles` bundle builds gw-tiles without it.
+default = ["brotli"]
+brotli = ["dep:brotli-decompressor"]

@@ -1,0 +1,164 @@
+# A UAV block to oriented frames, dense cloud, DSM and orthomosaic (REQ-GAP-29, SCN-63).
+# COLMAP orients the photographs and fuses the depth maps; gwb-sfm georeferences from the EXIF GPS,
+# computes the depth maps on the CPU and makes the products. No step needs a GPU, and COLMAP is
+# built with no network code. The input is a folder of JPEG photographs from one camera.
+id = "sfm-block"
+title = "UAV block to DSM and orthomosaic (structure from motion)"
+module = "sfm"
+requires = ["core-gdal", "points"]
+input = "any"
+allow_dir_inputs = true
+output_ext = "ortho.tif"
+memory_mb = 32768
+time_limit_s = 172800
+cpu_limit_s = 4000000
+
+[[options]]
+name = "camera_model"
+title = "Lens model"
+type = "enum"
+values = ["RADIAL", "SIMPLE_RADIAL", "OPENCV"]
+default = "RADIAL"
+
+# Held by default: see georef.rs. Refining suits a block that can calibrate itself.
+[[options]]
+name = "focal"
+title = "Focal length (PRIOR holds the EXIF value; REFINE only with strong relief or oblique photographs)"
+type = "enum"
+values = ["PRIOR", "REFINE"]
+default = "PRIOR"
+
+[[options]]
+name = "feature_size"
+title = "Longest side for feature detection, pixels"
+type = "int"
+min = 640
+max = 16384
+default = 3200
+
+# COLMAP's CPU SIFT holds about 2.2 GB per thread at 3200 pixels (measured on Aukerman), and it
+# defaults to every core: 22 threads died with a segmentation fault on a 32 GB machine.
+[[options]]
+name = "feature_threads"
+title = "Threads for feature detection (each takes about 2 GB at 3200 pixels)"
+type = "int"
+min = 1
+max = 64
+default = 4
+
+[[options]]
+name = "neighbours"
+title = "Photographs matched with each photograph (by GPS distance)"
+type = "int"
+min = 5
+max = 200
+default = 20
+
+[[options]]
+name = "image_size"
+title = "Longest side of the undistorted photographs, pixels (sets the orthomosaic detail)"
+type = "int"
+min = 640
+max = 16384
+default = 3000
+
+[[options]]
+name = "depth_size"
+title = "Longest side of the depth maps, pixels (sets the DSM detail and the run time)"
+type = "int"
+min = 320
+max = 8192
+default = 1600
+
+[[options]]
+name = "views"
+title = "Source photographs for each depth map"
+type = "int"
+min = 2
+max = 12
+default = 6
+
+[[options]]
+name = "dsm_resolution"
+title = "DSM cell, metres (0: from the photographs)"
+type = "float"
+min = 0.0
+max = 100.0
+default = 0.0
+
+[[options]]
+name = "ortho_resolution"
+title = "Orthomosaic pixel, metres (0: from the photographs)"
+type = "float"
+min = 0.0
+max = 100.0
+default = 0.0
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 0.5
+args = ["prepare", "--images", "{input}", "--work", "{workdir}"]
+
+[[steps]]
+tool = "colmap"
+weight = 8.0
+args = ["feature_extractor", "--database_path", "{tmp:db.db}", "--image_path", "{input}", "--image_list_path", "{tmp:images.txt}", "--ImageReader.single_camera", "1", "--ImageReader.camera_model", "{camera_model}", "--FeatureExtraction.use_gpu", "0", "--FeatureExtraction.max_image_size", "{feature_size}", "--FeatureExtraction.num_threads", "{feature_threads}"]
+
+[[steps]]
+tool = "colmap"
+weight = 12.0
+args = ["spatial_matcher", "--database_path", "{tmp:db.db}", "--FeatureMatching.use_gpu", "0", "--SpatialMatching.max_num_neighbors", "{neighbours}", "--SpatialMatching.max_distance", "10000"]
+
+[[steps]]
+tool = "colmap"
+weight = 15.0
+args = ["mapper", "--database_path", "{tmp:db.db}", "--image_path", "{input}", "--Mapper.image_list_path", "{tmp:images.txt}", "--output_path", "{tmp:sparse}", { when = "focal", equals = "PRIOR", args = ["--Mapper.ba_refine_focal_length", "0"] }]
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 0.5
+args = ["georef", "--sparse", "{tmp:sparse}", "--gps", "{tmp:gps.json}", "--model", "{tmp:model}", "--sim3", "{tmp:sim3.txt}", "--json", "{tmp:georef.json}", "--focal", "{focal}"]
+
+[[steps]]
+tool = "colmap"
+weight = 0.5
+args = ["model_transformer", "--input_path", "{tmp:model}", "--output_path", "{tmp:geo}", "--transform_path", "{tmp:sim3.txt}"]
+
+[[steps]]
+tool = "colmap"
+weight = 3.0
+args = ["image_undistorter", "--image_path", "{input}", "--input_path", "{tmp:geo}", "--output_path", "{tmp:dense}", "--max_image_size", "{image_size}"]
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 45.0
+progress = "lines"
+args = ["dense", "--workspace", "{tmp:dense}", "--max-size", "{depth_size}", "--views", "{views}"]
+
+[[steps]]
+tool = "colmap"
+weight = 5.0
+args = ["stereo_fusion", "--workspace_path", "{tmp:dense}", "--input_type", "geometric", "--output_path", "{tmp:fused.ply}", "--StereoFusion.min_num_pixels", "3"]
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 6.0
+progress = "lines"
+args = ["products", "--workspace", "{tmp:dense}", "--georef", "{tmp:georef.json}", "--ply", "{tmp:fused.ply}", "--dsm", "{tmp:dsm.tif}", "--ortho", "{tmp:ortho.tif}", "--frames", "{outdir}/{stem}.frames.geojson", "--las", "{tmp:cloud.las}", "--report", "{outdir}/{stem}.sfm-report.json", "--dsm-res", "{dsm_resolution}", "--ortho-res", "{ortho_resolution}"]
+
+[[steps]]
+tool = "gdal_translate"
+weight = 1.0
+progress = "gdal"
+args = ["-of", "COG", "-co", "COMPRESS=DEFLATE", "-co", "PREDICTOR=YES", "-co", "BIGTIFF=IF_SAFER", "{tmp:ortho.tif}", "{output}"]
+
+[[steps]]
+tool = "gdal_translate"
+weight = 1.0
+progress = "gdal"
+args = ["-of", "COG", "-co", "COMPRESS=DEFLATE", "-co", "PREDICTOR=YES", "-co", "BIGTIFF=IF_SAFER", "{tmp:dsm.tif}", "{outdir}/{stem}.dsm.tif"]
+
+[[steps]]
+tool = "pdal"
+weight = 2.0
+args = ["translate", "{tmp:cloud.las}", "{outdir}/{stem}.copc.laz", "--writer", "writers.copc"]

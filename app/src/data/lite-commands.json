@@ -1,0 +1,61 @@
+{
+  "format": "gw-lite-commands/1",
+  "decision": "OD-2.23 (2026-11-03); DN-63 docs/design/profiles.md",
+  "rule": "Every command is in GIS Workbench (Full). A command is also in GIS Workbench Lite only when it is listed here, in a group with a reason. A command that is not listed is Full only. tests/unit/profile.test.js and tests/e2e/25-mobile.spec.js check this list.",
+  "groups": [
+    {
+      "id": "open",
+      "title": "Open from the device",
+      "reason": "A field user opens imagery, vectors and offline maps that are already on the phone; language and data packs are files too. All of it is read on the device, offline.",
+      "commands": ["file.openimage", "file.openvector", "file.openpack"]
+    },
+    {
+      "id": "view",
+      "title": "View",
+      "reason": "Fit, zoom and orientation buttons back up the gestures (pan, pinch, rotate, double tap) and work for one-handed and switch users.",
+      "commands": ["nav.whole", "nav.zoomin", "nav.zoomout", "nav.onetoone", "rot.north", "rot.zero", "rot.upisup"]
+    },
+    {
+      "id": "enhance",
+      "title": "Basic enhance",
+      "reason": "DRA, brightness, contrast and band presets are single taps on the GPU image chain: light, and what a phone screen in daylight needs. Filters, curves, histograms and fusion stay in Full.",
+      "commands": ["enh.auto", "enh.drascope", "enh.brightness", "enh.contrast", "enh.reset", "msi.preset.natural", "msi.preset.cir", "msi.preset.swir", "msi.preset.agriculture"]
+    },
+    {
+      "id": "coordinates",
+      "title": "Coordinates and location",
+      "reason": "Reading, converting and jumping to coordinates and showing where the user stands are the core of field use. The device location needs the user's explicit permission each session.",
+      "commands": ["geo.convert", "nav.jump", "geo.locate"]
+    },
+    {
+      "id": "measure",
+      "title": "Measure",
+      "reason": "Point position, distance with bearing, length and area are taps on the image with the same sensor-model maths as Full.",
+      "commands": ["men.point", "men.rangebearing", "men.length", "men.area"]
+    },
+    {
+      "id": "aoi",
+      "title": "AOI and GRG",
+      "reason": "An area of interest and a gridded reference graphic are what a field team shares to talk about places; both are a few taps.",
+      "commands": ["aoi.box", "aoi.polygon", "aoi.clear", "grid.grg", "grid.micro"]
+    },
+    {
+      "id": "observe",
+      "title": "Observations and annotations",
+      "reason": "Recording what the user sees, with a camera photo and a position, and marking it on the image is the main field task. Editing tools, schemas and extraction stay in Full.",
+      "commands": ["obs.field", "obs.table", "draw.marker", "draw.text", "draw.arrow", "draw.polygon", "qat.undo", "qat.redo"]
+    },
+    {
+      "id": "share",
+      "title": "Export and share",
+      "reason": "Observations, the AOI, GRG and annotations leave the phone as KML or GeoJSON, through the system share sheet where the browser has one and as a download otherwise. A snapshot keeps the work, and its smaller images, in one file; Lite has no project file.",
+      "commands": ["obs.export", "file.snapshot"]
+    },
+    {
+      "id": "settings",
+      "title": "Offline, languages and Preferences",
+      "reason": "The file works air-gapped; the user still chooses Online or Offline, the language and the units, and reads About.",
+      "commands": ["file.prefs", "net.toggle", "help.about"]
+    }
+  ]
+}

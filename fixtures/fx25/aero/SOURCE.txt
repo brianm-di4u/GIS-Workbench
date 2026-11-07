@@ -1,0 +1,6 @@
+usgs-osl3707.txt: the text of USGS camera calibration report OSL/3707 (Wild RC30 no. 5355, lens
+Universal Aviogon/4-S no. 13406, 2017-03-20), sections I, II and VII, typed from the scanned PDF
+https://calval.cr.usgs.gov/cameracal/searchcameracalibration/upload/R3707.pdf (U.S. Government
+work, public domain). The PDF itself is in D:/gwb25/data-aero/usgs-calreports (SOURCES.json).
+Used by tests/unit/25-aero.test.js (the film camera and fiducial reader) and, as numbers, by
+crates/gw-adjust/tests/aero_synth.rs and crates/gw-adjust/src/fiducial.rs (synthetic film block).

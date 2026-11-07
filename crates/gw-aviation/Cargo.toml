@@ -1,0 +1,9 @@
+[package]
+name = "gw-aviation"
+description = "GIS Workbench airfield obstruction surfaces: FAA 14 CFR Part 77 imaginary surfaces and ICAO Annex 14 obstacle limitation surfaces (REQ-GAP-73)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]

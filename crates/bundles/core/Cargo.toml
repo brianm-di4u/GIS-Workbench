@@ -1,0 +1,16 @@
+[package]
+name = "gw-bundle-core"
+description = "Eager WASM bundle: geodesy and sensor point API (main thread and every worker)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+gw-sensor.workspace = true
+gw-extract.workspace = true

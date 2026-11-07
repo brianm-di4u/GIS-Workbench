@@ -1,0 +1,15 @@
+[package]
+name = "gw-bundle-mpeg"
+description = "Lazy WASM bundle: MPEG program-stream demux and the MPEG-1 video decoder (FC-22)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+gw-parse.workspace = true
+gw-codec.workspace = true

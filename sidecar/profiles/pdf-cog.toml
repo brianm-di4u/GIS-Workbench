@@ -1,0 +1,36 @@
+# A PDF page drawn by PDFium to a COG, at a chosen resolution (REQ-GAP-67). A GeoPDF keeps its
+# georeferencing. PDFium here has no JavaScript and no XFA.
+id = "pdf-cog"
+title = "PDF to Cloud-Optimized GeoTIFF (PDFium)"
+module = "core-gdal"
+input = "raster"
+output_ext = "tif"
+output_name = "{stem}.cog"
+memory_mb = 16384
+
+[[options]]
+name = "dpi"
+title = "Resolution (dots per inch)"
+type = "int"
+min = 10
+max = 2400
+default = 150
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["DEFLATE", "LZW", "ZSTD", "NONE"]
+default = "DEFLATE"
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+args = [
+  "--config", "GDAL_PDF_DPI", "{dpi}",
+  "-of", "COG",
+  "-co", "COMPRESS={compress}",
+  "-co", "BIGTIFF=IF_SAFER",
+  "-mo", "GWB_PROVENANCE={provenance}",
+  "{input}", "{output}",
+]

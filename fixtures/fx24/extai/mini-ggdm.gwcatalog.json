@@ -1,0 +1,43 @@
+{
+ "format": "gw-catalog/1",
+ "id": "test-ggdm-mini",
+ "name": "Mini GGDM-like catalogue",
+ "version": "3.0-test",
+ "source": "Hand-written test fixture in the shape of a GGDM/NAS conversion (not NSG data).",
+ "attributes": {
+  "F_CODE": { "label": "Feature Code", "type": "text", "length": 5 },
+  "FFN": { "label": "Feature Function", "type": "enum", "domain": { "-999999": "No Information", "2": "Agriculture", "850": "Education", "860": "Human Health Activities", "931": "Religious Activities" } },
+  "BUI": { "label": "Building Use Index", "type": "enum", "domain": { "-999999": "No Information", "1": "School", "2": "University", "3": "Hospital", "4": "Clinic", "5": "Mosque", "6": "Church" } },
+  "HGT": { "label": "Height", "type": "real", "unit": "m", "range": [0, 1000] },
+  "ZI005_FNA": { "label": "Name", "type": "text", "length": 200 },
+  "RLE": { "label": "Relative Level", "type": "enum", "domain": { "-999999": "No Information", "1": "Raised", "2": "Level", "3": "Depressed" } },
+  "LOC": { "label": "Vertical Relative Location", "type": "enum", "domain": { "-999999": "No Information", "17": "On Surface", "23": "Below Ground Surface", "25": "Suspended" } },
+  "BRR": { "label": "Bridge Reference Route", "type": "text", "length": 20 }
+ },
+ "types": [
+  {
+   "code": "AL013",
+   "name": "Building",
+   "geometry": ["Polygon", "Point"],
+   "attributes": ["F_CODE", "FFN", "BUI", "HGT", "ZI005_FNA"],
+   "rules": [
+    { "id": "edu-use", "when": { "field": "FFN", "op": "=", "value": 850 }, "then": { "domain": { "BUI": [1, 2] } }, "message": "education buildings are schools or universities" },
+    { "id": "health-use", "when": { "field": "FFN", "op": "=", "value": 860 }, "then": { "domain": { "BUI": [3, 4] } } },
+    { "id": "named-religious", "when": { "field": "FFN", "op": "=", "value": 931 }, "then": { "require": ["ZI005_FNA"] } },
+    { "id": "tall-needs-height", "when": { "all": [{ "field": "FFN", "op": "in", "value": [850, 860] }, { "field": "BUI", "op": "=", "value": 2 }] }, "then": { "range": { "HGT": [3, 300] } } }
+   ]
+  },
+  {
+   "code": "AQ040",
+   "name": "Bridge",
+   "geometry": ["LineString"],
+   "attributes": ["F_CODE", "RLE", "LOC"],
+   "subtypeField": "F_CODE",
+   "subtypes": [
+    { "code": "AQ040", "name": "Bridge (road)", "attributes": ["BRR"], "domains": { "LOC": [17, 25] } },
+    { "code": "AQ041", "name": "Footbridge", "fixed": { "RLE": 1 } }
+   ]
+  }
+ ],
+ "rules": [{ "id": "underground-not-raised", "classes": ["AQ040"], "when": { "field": "LOC", "op": "=", "value": 23 }, "then": { "forbid": ["RLE"] } }]
+}

@@ -1,0 +1,4 @@
+# REQ-RUST-01: SIMD128 on for every wasm32 build. No threads or atomics (REQ-RUST-02):
+# the target has no atomics feature by default and we never enable it.
+[target.wasm32-unknown-unknown]
+rustflags = ["-C", "target-feature=+simd128"]

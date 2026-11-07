@@ -1,0 +1,390 @@
+// Tile pyramid inside the decode worker (REQ-IMG-03). Core tiles are TILE² per band and
+// level; level L+1 is a 2×2 average of level L (no-data aware) unless the source has native
+// overviews. Emitted tiles add a GUTTER-pixel border taken from neighbouring cores so the
+// display kernels (bicubic, Lanczos-3) read across seams.
+
+export const TILE = 512;
+export const GUTTER = 4;
+
+const CTOR = { u8: Uint8Array, u16: Uint16Array, i16: Int16Array, f32: Float32Array };
+
+export function ctorFor(t) {
+  return CTOR[t] ?? Float32Array;
+}
+
+export class LRU {
+  constructor(maxBytes) {
+    this.max = maxBytes;
+    this.bytes = 0;
+    this.map = new Map();
+  }
+  get(k) {
+    const v = this.map.get(k);
+    if (v !== undefined) {
+      this.map.delete(k);
+      this.map.set(k, v);
+    }
+    return v;
+  }
+  set(k, v, size) {
+    if (this.map.has(k)) this.delete(k);
+    this.map.set(k, v);
+    v.__size = size;
+    this.bytes += size;
+    while (this.bytes > this.max && this.map.size > 1) {
+      const [ok, ov] = this.map.entries().next().value;
+      this.map.delete(ok);
+      this.bytes -= ov.__size ?? 0;
+    }
+  }
+  delete(k) {
+    const v = this.map.get(k);
+    if (v) {
+      this.bytes -= v.__size ?? 0;
+      this.map.delete(k);
+    }
+  }
+}
+
+/**
+ * source: {width, height, sampleType, nodata (number|NaN|null), bands,
+ *          readWindow(x, y, w, h, bands) → Promise<TypedArray[]>   (full resolution),
+ *          readLevel?(L, x, y, w, h, bands) → Promise<TypedArray[]> (native overviews),
+ *          hasLevel?(L) → bool}
+ */
+export class Pyramid {
+  constructor(source, cache) {
+    this.src = source;
+    this.cache = cache;
+    // Levels 3 and coarser (1/64 of the image and less) in their own cache, so streaming a whole
+    // full-resolution image through `cache` to build them does not evict them (TE-066).
+    this.coarse = new LRU(48 << 20);
+    this.key = Math.random().toString(36).slice(2);
+    this.levels = 1;
+    while ((Math.max(source.width, source.height) >> (this.levels - 1)) > TILE) this.levels++;
+    this.inflight = new Map();
+  }
+
+  dims(L) {
+    return { w: Math.max(1, Math.ceil(this.src.width / 2 ** L)), h: Math.max(1, Math.ceil(this.src.height / 2 ** L)) };
+  }
+
+  tilesAt(L) {
+    const { w, h } = this.dims(L);
+    return { nx: Math.ceil(w / TILE), ny: Math.ceil(h / TILE) };
+  }
+
+  /** Core tile (TILE² or smaller at the image edge) for one band. */
+  cacheFor(L) {
+    return L >= 3 ? this.coarse : this.cache;
+  }
+
+  async core(L, tx, ty, band, job) {
+    const k = `${this.key}/${L}/${tx}/${ty}/${band}`;
+    const hit = this.cacheFor(L).get(k);
+    if (hit) return hit;
+    if (this.inflight.has(k)) return this.inflight.get(k);
+    const p = this._core(L, tx, ty, band, job).then((t) => {
+      this.cacheFor(L).set(k, t, t.data.byteLength);
+      this.inflight.delete(k);
+      return t;
+    }, (e) => {
+      this.inflight.delete(k);
+      throw e;
+    });
+    this.inflight.set(k, p);
+    return p;
+  }
+
+  /**
+   * TE-066: images of up to four bands are read and averaged for all bands at once and every band's
+   * tile is cached, so a compressed block is decoded once, not once per band, and a coarse level is
+   * built in one pass over its children (per-band passes overflowed the cache on 16k² images and
+   * decoded the whole image again for every band).
+   */
+  /**
+   * Core tiles of several bands at once, each cached as core() caches it. A pixel- or line-interleaved
+   * cube (BIP, BIL) carries every band in each read, so reading band by band read the file once
+   * per band: Band Statistics of a 224-band, 430 MB AVIRIS cube ran past 300 s (TE 2.0.4 cross).
+   */
+  async coreGroup(L, tx, ty, bands, job) {
+    if (bands.length === 1) return [await this.core(L, tx, ty, bands[0], job)];
+    const cache = this.cacheFor(L);
+    const key = (b) => `${this.key}/${L}/${tx}/${ty}/${b}`;
+    const got = bands.map((b) => cache.get(key(b)));
+    const miss = bands.filter((_, i) => !got[i]);
+    if (miss.length) {
+      const tiles = await this._coreBands(L, tx, ty, miss, job);
+      miss.forEach((b, i) => {
+        cache.set(key(b), tiles[i], tiles[i].data.byteLength);
+        got[bands.indexOf(b)] = tiles[i];
+      });
+    }
+    return got;
+  }
+
+  async _core(L, tx, ty, band, job) {
+    const nb = Number(this.src.bands) || 1;
+    const all = nb > 1 && nb <= 4 && !this.src.pickBands?.length ? Array.from({ length: nb }, (_, i) => i) : [band];
+    const tiles = await this._coreBands(L, tx, ty, all, job);
+    for (let i = 0; i < all.length; i++) {
+      if (all[i] === band) continue;
+      const k = `${this.key}/${L}/${tx}/${ty}/${all[i]}`;
+      if (!this.cacheFor(L).map.has(k)) this.cacheFor(L).set(k, tiles[i], tiles[i].data.byteLength);
+    }
+    return tiles[all.indexOf(band)];
+  }
+
+  async _coreBands(L, tx, ty, bands, job) {
+    const { w: lw, h: lh } = this.dims(L);
+    const x0 = tx * TILE;
+    const y0 = ty * TILE;
+    const w = Math.min(TILE, lw - x0);
+    const h = Math.min(TILE, lh - y0);
+    if (w <= 0 || h <= 0) throw new Error('tile outside the image');
+    if (L === 0) return (await this.src.readWindow(x0, y0, w, h, bands, job)).map((data) => ({ w, h, data }));
+    if (this.src.readLevel && this.src.hasLevel?.(L)) return (await this.src.readLevel(L, x0, y0, w, h, bands, job)).map((data) => ({ w, h, data }));
+    // Compose from the four children at L-1.
+    const C = ctorFor(this.src.sampleType);
+    const nd = this.src.nodata;
+    const isNd = nd === null || nd === undefined ? () => false : Number.isNaN(nd) ? (v) => Number.isNaN(v) : (v) => v === nd;
+    const { nx, ny } = this.tilesAt(L - 1);
+    const fill = nd === null || nd === undefined ? 0 : nd;
+    const int = C !== Float32Array;
+    const outs = bands.map(() => new C(w * h).fill(fill));
+    // Full-resolution children are read together: their blocks then decode concurrently (the
+    // browser's JPEG decoder runs off this thread). Coarser children stay sequential (memory).
+    const kids = [];
+    for (let cy = 0; cy < 2; cy++) for (let cx = 0; cx < 2; cx++) if (2 * tx + cx < nx && 2 * ty + cy < ny) kids.push([cx, cy]);
+    if (L === 1) await Promise.all(kids.map(([cx, cy]) => this.coreGroup(0, 2 * tx + cx, 2 * ty + cy, bands, job)));
+    for (const [cx, cy] of kids) {
+      const ctx = 2 * tx + cx;
+      const cty = 2 * ty + cy;
+      job?.checkCancel?.();
+      const ox = cx * (TILE / 2);
+      const oy = cy * (TILE / 2);
+      const group = await this.coreGroup(L - 1, ctx, cty, bands, job);
+      for (let q = 0; q < bands.length; q++) {
+        // Bands that must not be averaged (SAR phase, I, Q) are decimated: one child sample each.
+        const pick = !!this.src.pickBands?.includes(bands[q]);
+        average2x2(group[q], outs[q], w, h, ox, oy, pick, nd, int, fill, isNd);
+      }
+    }
+    return outs.map((data) => ({ w, h, data }));
+  }
+
+  /**
+   * Emitted tile: (TILE + 2·GUTTER)² per band with the border from neighbours (edges
+   * replicated at the image boundary). Returns {w, h, x0, y0, bands:[TypedArray]} where
+   * w/h include the gutter and x0/y0 are the level coordinates of element (0, 0).
+   */
+  async tile(L, tx, ty, bands, job) {
+    const { w: lw, h: lh } = this.dims(L);
+    const { nx, ny } = this.tilesAt(L);
+    const cw = Math.min(TILE, lw - tx * TILE);
+    const ch = Math.min(TILE, lh - ty * TILE);
+    const W = cw + 2 * GUTTER;
+    const H = ch + 2 * GUTTER;
+    const C = ctorFor(this.src.sampleType);
+    const out = [];
+    const gx0 = tx * TILE - GUTTER;
+    const gy0 = ty * TILE - GUTTER;
+    // Column map, the same for every row: which of the three cores across (0 = left) and where in it.
+    const colCore = new Uint8Array(W);
+    const colIx = new Int32Array(W);
+    for (let x = 0; x < W; x++) {
+      const lx = Math.min(lw - 1, Math.max(0, gx0 + x));
+      const cx = Math.floor(lx / TILE) - tx;
+      colCore[x] = cx + 1;
+      colIx[x] = lx - (tx + cx) * TILE;
+    }
+    for (const band of bands) {
+      const arr = new C(W * H);
+      // Gather the 3×3 neighbourhood of cores that the gutter touches.
+      const cores = [null, null, null, null, null, null, null, null, null];
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const cx = tx + dx;
+          const cy = ty + dy;
+          if (cx < 0 || cy < 0 || cx >= nx || cy >= ny) continue;
+          cores[(dy + 1) * 3 + dx + 1] = await this.core(L, cx, cy, band, job);
+        }
+      }
+      for (let y = 0; y < H; y++) {
+        const ly = Math.min(lh - 1, Math.max(0, gy0 + y));
+        const cy = Math.floor(ly / TILE) - ty;
+        const iy = ly - (ty + cy) * TILE;
+        const row = cores.slice((cy + 1) * 3, (cy + 1) * 3 + 3);
+        const o = y * W;
+        for (let x = 0; x < W; x++) {
+          const c = row[colCore[x]];
+          arr[o + x] = c ? c.data[iy * c.w + colIx[x]] : 0;
+        }
+      }
+      out.push(arr);
+    }
+    return { w: W, h: H, x0: tx * TILE - GUTTER, y0: ty * TILE - GUTTER, bands: out };
+  }
+
+  /** Histogram per band from the level nearest 1024² (full-image DRA scope). */
+  /**
+   * Histograms of a grid × grid partition of the image at the statistics level (CLAHE maps,
+   * REQ-IMG-08), in 4096 bins of the LUT index domain (index = DN·scale + offset, 0 … 65535).
+   */
+  async cellHist(band, grid, scale, offset, job) {
+    let L = 0;
+    while (L < this.levels - 1 && Math.max(this.dims(L).w, this.dims(L).h) > 1024) L++;
+    const { w: W, h: H } = this.dims(L);
+    const { nx, ny } = this.tilesAt(L);
+    const hist = new Uint32Array(grid * grid * 4096);
+    const nd = this.src.nodata;
+    for (let ty = 0; ty < ny; ty++)
+      for (let tx = 0; tx < nx; tx++) {
+        const t = await this.core(L, tx, ty, band, job);
+        for (let y = 0; y < t.h; y++) {
+          const gy = Math.min(grid - 1, Math.floor(((ty * TILE + y) * grid) / H));
+          for (let x = 0; x < t.w; x++) {
+            const v = t.data[y * t.w + x];
+            if (Number.isNaN(v) || (nd !== null && nd !== undefined && v === nd)) continue;
+            const gx = Math.min(grid - 1, Math.floor(((tx * TILE + x) * grid) / W));
+            const i = Math.max(0, Math.min(65535, Math.floor(v * scale + offset + 0.5)));
+            hist[(gy * grid + gx) * 4096 + (i >> 4)]++;
+          }
+        }
+      }
+    return { grid, hist };
+  }
+
+  async stats(bands, job) {
+    let L = 0;
+    while (L < this.levels - 1 && Math.max(this.dims(L).w, this.dims(L).h) > 1024) L++;
+    // A drawn map (vector tiles, 2.1) is shown unstretched: its statistics come from the coarsest level.
+    if (this.src.statsCoarsest) L = this.levels - 1;
+    const { nx, ny } = this.tilesAt(L);
+    const res = [];
+    const G = 16; // bands read together (bounded memory: 16 core tiles per tile position)
+    for (let g = 0; g < bands.length; g += G) {
+      const group = bands.slice(g, g + G);
+      const datas = group.map(() => []);
+      for (let ty = 0; ty < ny; ty++)
+        for (let tx = 0; tx < nx; tx++) (await this.coreGroup(L, tx, ty, group, job)).forEach((t, q) => datas[q].push(t.data));
+      for (const d of datas) res.push(histogram(d, this.src.sampleType, this.src.nodata));
+      job?.progress?.(res.length / bands.length);
+    }
+    return { level: L, bands: res };
+  }
+}
+
+/**
+ * One child core tile into its quadrant of the parent (origin ox, oy; parent core w × h): each
+ * parent pixel is the mean of its 2×2 child samples that are not nodata (`int`: rounded), `fill`
+ * when none is; `pick` bands take the even-even sample alone. The sum runs from 0 in row-major
+ * order in doubles, exactly as the per-sample accumulation it replaces (perf 2.1: that loop, with
+ * a closure call per sample, was the largest JS cost of a first display), so values are unchanged.
+ */
+function average2x2(c, out, w, h, ox, oy, pick, nd, int, fill, isNd) {
+  const cw = c.w;
+  const ch = c.h;
+  const d = c.data;
+  const ow = Math.min(w - ox, (cw + 1) >> 1);
+  const oh = Math.min(h - oy, (ch + 1) >> 1);
+  const plain = nd === null || nd === undefined;
+  const nan = !plain && Number.isNaN(nd);
+  for (let j = 0; j < oh; j++) {
+    const r0 = 2 * j * cw;
+    const two = 2 * j + 1 < ch;
+    const r1 = r0 + cw;
+    let o = (oy + j) * w + ox;
+    for (let i = 0; i < ow; i++, o++) {
+      const x = 2 * i;
+      let s = 0;
+      let n = 0;
+      if (pick) {
+        const v = d[r0 + x];
+        if (!isNd(v)) {
+          s += v;
+          n = 1;
+        }
+      } else if (plain && int && two && x + 1 < cw) {
+        // Integer samples: Math.round(s / 4) is (s + 2) >> 2 for every integer s.
+        out[o] = (d[r0 + x] + d[r0 + x + 1] + d[r1 + x] + d[r1 + x + 1] + 2) >> 2;
+        continue;
+      } else if (plain && two && x + 1 < cw) {
+        s = s + d[r0 + x] + d[r0 + x + 1] + d[r1 + x] + d[r1 + x + 1];
+        n = 4;
+      } else if (nan && two && x + 1 < cw) {
+        // NaN nodata (SICD derived bands): v === v is "not nodata".
+        const a = d[r0 + x];
+        const b = d[r0 + x + 1];
+        const e = d[r1 + x];
+        const f = d[r1 + x + 1];
+        if (a === a) (s += a), n++;
+        if (b === b) (s += b), n++;
+        if (e === e) (s += e), n++;
+        if (f === f) (s += f), n++;
+      } else {
+        const right = x + 1 < cw;
+        let v = d[r0 + x];
+        if (!isNd(v)) (s += v), n++;
+        if (right) {
+          v = d[r0 + x + 1];
+          if (!isNd(v)) (s += v), n++;
+        }
+        if (two) {
+          v = d[r1 + x];
+          if (!isNd(v)) (s += v), n++;
+          if (right) {
+            v = d[r1 + x + 1];
+            if (!isNd(v)) (s += v), n++;
+          }
+        }
+      }
+      out[o] = n ? (int ? Math.round(s / n) : s / n) : fill;
+    }
+  }
+}
+
+/** Histogram of typed arrays: 256 bins (u8), 65 536 (u16/i16) or 4096 over [min, max] (float). */
+export function histogram(datas, type, nodata) {
+  const isNd = nodata === null || nodata === undefined ? (v) => Number.isNaN(v) : Number.isNaN(nodata) ? (v) => Number.isNaN(v) : (v) => v === nodata || Number.isNaN(v);
+  if (type === 'u8' || type === 'u16' || type === 'i16') {
+    const n = type === 'u8' ? 256 : 65536;
+    const off = type === 'i16' ? 32768 : 0;
+    const bins = new Uint32Array(n);
+    let count = 0;
+    for (const d of datas)
+      for (let i = 0; i < d.length; i++) {
+        const v = d[i];
+        if (isNd(v)) continue;
+        bins[v + off]++;
+        count++;
+      }
+    return { bins, offset: off, min: -off, binWidth: 1, count, type };
+  }
+  let mn = Infinity;
+  let mx = -Infinity;
+  for (const d of datas)
+    for (let i = 0; i < d.length; i++) {
+      const v = d[i];
+      if (isNd(v) || !Number.isFinite(v)) continue;
+      if (v < mn) mn = v;
+      if (v > mx) mx = v;
+    }
+  if (!Number.isFinite(mn)) {
+    mn = 0;
+    mx = 1;
+  }
+  if (mx === mn) mx = mn + 1;
+  const n = 4096;
+  const bw = (mx - mn) / n;
+  const bins = new Uint32Array(n);
+  let count = 0;
+  for (const d of datas)
+    for (let i = 0; i < d.length; i++) {
+      const v = d[i];
+      if (isNd(v) || !Number.isFinite(v)) continue;
+      bins[Math.min(n - 1, Math.floor((v - mn) / bw))]++;
+      count++;
+    }
+  return { bins, offset: 0, min: mn, max: mx, binWidth: bw, count, type };
+}

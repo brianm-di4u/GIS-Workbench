@@ -1,0 +1,21 @@
+{
+ "file": "geopdf-ustopo-vinehill-2012/CA_Vine_Hill_20120213_TM_geo.pdf",
+ "oracle": "GDAL 3.13.3 ogrinfo -al -so (per-layer feature counts)",
+ "layers": {
+  "Map_Collar": 14,
+  "Map_Collar_Map_Elements": 176,
+  "Map_Frame_Projection_and_Grids_Geographic_and_Grid_Ticks": 96,
+  "Map_Frame_Projection_and_Grids_Projection_Line_Mask": 2,
+  "Map_Frame_Projection_and_Grids_Grid_Lines": 25,
+  "Map_Frame_Geographic_Names_Geographic_Names": 34,
+  "Map_Frame_Boundaries_Boundary_Names": 6,
+  "Map_Frame_Boundaries_Boundaries": 200,
+  "Map_Frame_Transportation_Road_Names_and_Shields": 19,
+  "Map_Frame_Transportation_Roads": 4854,
+  "Map_Frame_Hydrography_Hydrographic_Names": 13,
+  "Map_Frame_Hydrography_Hydrographic_Features": 1405,
+  "Map_Frame_Contours_Contour_Names": 45,
+  "Map_Frame_Contours_Contour_Features": 747,
+  "Map_Frame_Land_Cover_Woodland": 117
+ }
+}

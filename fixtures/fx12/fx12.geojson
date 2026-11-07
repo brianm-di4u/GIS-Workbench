@@ -1,0 +1,448 @@
+{
+ "type": "FeatureCollection",
+ "name": "fx12",
+ "features": [
+  {
+   "type": "Feature",
+   "id": 1,
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -116.5,
+       34.5,
+       645
+      ],
+      [
+       -116.4998,
+       34.5,
+       645
+      ],
+      [
+       -116.4998,
+       34.50015,
+       646
+      ],
+      [
+       -116.5,
+       34.50015,
+       646
+      ],
+      [
+       -116.5,
+       34.5,
+       645
+      ]
+     ],
+     [
+      [
+       -116.49995,
+       34.50005,
+       645
+      ],
+      [
+       -116.49995,
+       34.5001,
+       645
+      ],
+      [
+       -116.4999,
+       34.5001,
+       645
+      ],
+      [
+       -116.4999,
+       34.50005,
+       645
+      ],
+      [
+       -116.49995,
+       34.50005,
+       645
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "name": "مبنى الإدارة",
+    "class_code": "AL013",
+    "height_m": 12.5,
+    "floors": 3,
+    "verified": true,
+    "survey_date": "2026-03-15",
+    "long_description_text": "سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل "
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2,
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -116.4996,
+       34.5,
+       641.25
+      ],
+      [
+       -116.4994,
+       34.5,
+       641.25
+      ],
+      [
+       -116.4994,
+       34.5002,
+       641.25
+      ],
+      [
+       -116.4996,
+       34.5002,
+       641.25
+      ],
+      [
+       -116.4996,
+       34.5,
+       641.25
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "name": "Склад",
+    "class_code": "AL013",
+    "height_m": 6,
+    "floors": 1,
+    "verified": false,
+    "survey_date": null,
+    "long_description_text": "Кириллица"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 3,
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -116.4992,
+       34.5,
+       650
+      ],
+      [
+       -116.49905,
+       34.5,
+       650
+      ],
+      [
+       -116.49905,
+       34.50012,
+       650
+      ],
+      [
+       -116.4992,
+       34.50012,
+       650
+      ],
+      [
+       -116.4992,
+       34.5,
+       650
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "name": "仓库",
+    "class_code": "AL013",
+    "height_m": null,
+    "floors": 2,
+    "verified": true,
+    "survey_date": "2025-11-30",
+    "long_description_text": "中文说明"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 4,
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        -116.5,
+        34.5004,
+        640
+       ],
+       [
+        -116.4999,
+        34.5004,
+        640
+       ],
+       [
+        -116.4999,
+        34.5005,
+        640
+       ],
+       [
+        -116.5,
+        34.5005,
+        640
+       ],
+       [
+        -116.5,
+        34.5004,
+        640
+       ]
+      ]
+     ],
+     [
+      [
+       [
+        -116.49985,
+        34.5004,
+        640
+       ],
+       [
+        -116.49975,
+        34.5004,
+        640
+       ],
+       [
+        -116.49975,
+        34.5005,
+        640
+       ],
+       [
+        -116.49985,
+        34.5005,
+        640
+       ],
+       [
+        -116.49985,
+        34.5004,
+        640
+       ]
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "name": "Twin block",
+    "class_code": "AL015",
+    "height_m": 4.75,
+    "floors": 1,
+    "verified": null,
+    "survey_date": "2026-01-02",
+    "long_description_text": null
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 5,
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -116.5002,
+      34.4999,
+      638
+     ],
+     [
+      -116.4995,
+      34.4999,
+      639
+     ],
+     [
+      -116.4988,
+      34.49995,
+      640.5
+     ]
+    ]
+   },
+   "properties": {
+    "name": "طريق ١",
+    "class_code": "AP030",
+    "height_m": null,
+    "floors": null,
+    "verified": true,
+    "survey_date": null,
+    "long_description_text": "road"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6,
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -116.5002,
+      34.5007,
+      640
+     ],
+     [
+      -116.4997,
+      34.50075,
+      640
+     ],
+     [
+      -116.4992,
+      34.5007,
+      640
+     ]
+    ]
+   },
+   "properties": {
+    "name": "Дорога 2",
+    "class_code": "AP030",
+    "height_m": null,
+    "floors": null,
+    "verified": false,
+    "survey_date": null,
+    "long_description_text": null
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7,
+   "geometry": {
+    "type": "MultiLineString",
+    "coordinates": [
+     [
+      [
+       -116.499,
+       34.5004,
+       630
+      ],
+      [
+       -116.4989,
+       34.5006,
+       629
+      ]
+     ],
+     [
+      [
+       -116.4989,
+       34.5006,
+       629
+      ],
+      [
+       -116.4987,
+       34.5008,
+       628
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "name": "河道",
+    "class_code": "BH140",
+    "height_m": null,
+    "floors": null,
+    "verified": true,
+    "survey_date": "2024-07-04",
+    "long_description_text": "水"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 8,
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -116.4997,
+     34.5003,
+     660.125
+    ]
+   },
+   "properties": {
+    "name": "برج",
+    "class_code": "AL241",
+    "height_m": 35,
+    "floors": null,
+    "verified": true,
+    "survey_date": "2026-03-15",
+    "long_description_text": null
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 9,
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -116.4993,
+     34.5003,
+     655
+    ]
+   },
+   "properties": {
+    "name": "Мачта",
+    "class_code": "AL241",
+    "height_m": 20,
+    "floors": null,
+    "verified": false,
+    "survey_date": null,
+    "long_description_text": null
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10,
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -116.4991,
+     34.5003,
+     652
+    ]
+   },
+   "properties": {
+    "name": "塔",
+    "class_code": "AL241",
+    "height_m": 18.5,
+    "floors": null,
+    "verified": null,
+    "survey_date": null,
+    "long_description_text": null
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 11,
+   "geometry": {
+    "type": "MultiPoint",
+    "coordinates": [
+     [
+      -116.5001,
+      34.5002,
+      640
+     ],
+     [
+      -116.50012,
+      34.50024,
+      640
+     ],
+     [
+      -116.50008,
+      34.50026,
+      640
+     ]
+    ]
+   },
+   "properties": {
+    "name": "Wells",
+    "class_code": "BH230",
+    "height_m": null,
+    "floors": null,
+    "verified": true,
+    "survey_date": "2025-05-05",
+    "long_description_text": null
+   }
+  }
+ ]
+}

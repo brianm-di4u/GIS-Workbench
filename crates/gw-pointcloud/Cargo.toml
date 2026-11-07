@@ -1,0 +1,11 @@
+[package]
+name = "gw-pointcloud"
+description = "GIS Workbench point clouds: LAS 1.0-1.5 and LAZ, CRS keys, LOD index, gridding, SMRF ground filter, profiles, LAS 1.4 export"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+laz = { version = "0.13.0", default-features = false }

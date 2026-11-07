@@ -1,0 +1,10 @@
+# GIS Workbench Sidecar as a systemd user service (optional): systemctl --user enable --now gwb-sidecar
+[Unit]
+Description=GIS Workbench Sidecar (loopback conversion helper)
+
+[Service]
+ExecStart=/opt/gis-workbench-sidecar/gwb-sidecar --headless
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

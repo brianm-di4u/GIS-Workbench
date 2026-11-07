@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GIS Workbench Sidecar</title>
+<link rel="stylesheet" href="/ui/ui.css">
+<script src="/ui/ui.js" defer></script>
+</head>
+<body>
+<header>
+  <h1>GIS Workbench Sidecar <span id="ver" class="muted"></span> <span class="badge">preview · unsigned</span></h1>
+  <p class="muted" id="where"></p>
+</header>
+<main>
+  <p id="locked" class="warn" hidden></p>
+  <section id="pending-box" hidden>
+    <h2>Pairing requests</h2>
+    <p class="muted">Approve only if you just clicked <b>Pair</b> in GIS Workbench and it shows the same six digits. Pages opened from a local file appear as <b>null</b>; so do sandboxed frames of any web page.</p>
+    <ul id="pending" class="cards"></ul>
+  </section>
+  <section>
+    <h2>Paired pages</h2>
+    <table><thead><tr><th>Origin</th><th>Tokens</th><th>Since</th><th></th></tr></thead><tbody id="paired"></tbody></table>
+  </section>
+  <section>
+    <h2>Python relay</h2>
+    <p id="relay" class="muted"></p>
+    <div id="csm-section" hidden>
+      <h2>CSM plug-ins</h2>
+      <p class="muted">Test gate open. A plug-in runs only after you approve its hash and signer here.</p>
+      <div id="csm"></div>
+    </div>
+  </section>
+  <section>
+    <h2>ArcGIS Pro sync</h2>
+    <p id="sync" class="muted"></p>
+  </section>
+  <section>
+    <h2>Stereo viewer</h2>
+    <p id="stereo" class="muted"></p>
+  </section>
+  <section id="cors-box" hidden>
+    <h2>CORS relay (test build)</h2>
+    <p class="muted">Origins the relay may reach. No page can change this list.</p>
+    <ul id="cors"></ul>
+    <form id="add-cors"><input id="cors-input" placeholder="https://data.example.org" aria-label="Origin for the relay" size="40"> <label><input id="cors-private" type="checkbox"> On a private network or this computer</label> <button type="submit">List origin</button></form>
+  </section>
+  <section>
+    <h2>Allowed origins</h2>
+    <p class="muted">Pages that may ask to pair: <span id="origins-fixed"></span></p>
+    <ul id="origins"></ul>
+    <form id="add-origin"><input id="origin-input" placeholder="https://example.org" aria-label="Origin to allow" size="40"> <button type="submit">Allow origin</button></form>
+  </section>
+  <section>
+    <h2>Jobs</h2>
+    <table><thead><tr><th>Profile</th><th>State</th><th>Progress</th><th>Page</th><th>Created</th><th></th></tr></thead><tbody id="jobs"></tbody></table>
+  </section>
+  <section>
+    <h2>Modules</h2>
+    <table><thead><tr><th>Module</th><th>Installed</th><th>Size</th><th>Licence</th></tr></thead><tbody id="modules"></tbody></table>
+    <p id="vendor" class="muted"></p>
+    <p><button id="manage">Add or remove modules…</button> <button id="refresh">Re-read capabilities</button></p>
+    <p id="caps-errors" class="warn"></p>
+  </section>
+  <section>
+    <h2>Log</h2>
+    <pre id="log"></pre>
+  </section>
+  <p><button id="quit" class="danger">Quit the sidecar</button></p>
+</main>
+</body>
+</html>

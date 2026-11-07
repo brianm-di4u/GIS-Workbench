@@ -1,0 +1,183 @@
+{
+  "title": "Python relay wire contract (REQ-GAP-02)",
+  "note": "One file, two runners. sidecar/gwb-sidecar/tests/relay.rs replays every case against the real relay, with a test page answering. sidecar/python/tests/test_contract.py replays it against the client: the client must send exactly `request` and turn `response` into `outcome`. A value '@hex:N' or '@digits:N' matches N such characters, '@any' matches anything, '@pairing' is the id of the pairing the case set up. Cases with no `client` are refusals the client cannot produce through its API.",
+  "version": 1,
+  "token": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210",
+  "cases": [
+    {
+      "name": "hello without a token says nothing about the page",
+      "setup": { "page": true },
+      "client": { "call": "hello", "paired": false },
+      "request": { "method": "GET", "path": "/relay/v1/hello", "auth": false },
+      "response": { "status": 200, "json": { "service": "gwb-sidecar", "version": "@any", "api": "@any", "port": "@any", "paired": false, "app": false } },
+      "outcome": { "returns": { "paired": false, "app": false } }
+    },
+    {
+      "name": "hello with a token says whether a page has the relay on",
+      "setup": { "page": true },
+      "client": { "call": "hello" },
+      "request": { "method": "GET", "path": "/relay/v1/hello", "auth": true },
+      "response": { "status": 200, "json": { "service": "gwb-sidecar", "version": "@any", "api": "@any", "port": "@any", "paired": true, "app": true } },
+      "outcome": { "returns": { "paired": true, "app": true } }
+    },
+    {
+      "name": "hello with a token and no page",
+      "setup": { "page": false },
+      "client": { "call": "hello" },
+      "request": { "method": "GET", "path": "/relay/v1/hello", "auth": true },
+      "response": { "status": 200, "json": { "service": "gwb-sidecar", "version": "@any", "api": "@any", "port": "@any", "paired": true, "app": false } },
+      "outcome": { "returns": { "paired": true, "app": false } }
+    },
+    {
+      "name": "a pairing request gives the six digits the sidecar window shows",
+      "setup": { "page": false },
+      "client": { "call": "pair_start", "args": { "name": "contract script" }, "paired": false },
+      "request": { "method": "POST", "path": "/relay/v1/pair", "auth": false, "json": { "client": "contract script" } },
+      "response": { "status": 200, "json": { "pairing_id": "@hex:48", "code": "@digits:6", "expires_in": 180 } },
+      "outcome": { "returns": { "expires_in": 180 } }
+    },
+    {
+      "name": "a pending pairing",
+      "setup": { "page": false, "pairing": "pending" },
+      "client": { "call": "pair_status", "args": { "pairing_id": "@pairing" }, "paired": false },
+      "request": { "method": "GET", "path": "/relay/v1/pair/@pairing", "auth": false },
+      "response": { "status": 200, "json": { "state": "pending" } },
+      "outcome": { "returns": { "state": "pending" } }
+    },
+    {
+      "name": "an approved pairing hands over the token",
+      "setup": { "page": false, "pairing": "approved" },
+      "client": { "call": "pair_status", "args": { "pairing_id": "@pairing" }, "paired": false },
+      "request": { "method": "GET", "path": "/relay/v1/pair/@pairing", "auth": false },
+      "response": { "status": 200, "json": { "state": "approved", "token": "@hex:64" } },
+      "outcome": { "returns": { "state": "approved" } }
+    },
+    {
+      "name": "a denied pairing",
+      "setup": { "page": false, "pairing": "denied" },
+      "client": { "call": "pair_status", "args": { "pairing_id": "@pairing" }, "paired": false },
+      "request": { "method": "GET", "path": "/relay/v1/pair/@pairing", "auth": false },
+      "response": { "status": 200, "json": { "state": "denied" } },
+      "outcome": { "returns": { "state": "denied" } }
+    },
+    {
+      "name": "initialize reaches the page's MCP server and its answer comes back",
+      "setup": { "page": true },
+      "client": { "call": "initialize_raw" },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "initialize", "params": { "protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": { "name": "gis-workbench-client", "version": "@any" } } } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "result": { "protocolVersion": "2025-06-18", "capabilities": { "tools": { "listChanged": false } }, "serverInfo": { "name": "gis-workbench", "version": "1" } } } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "result": { "protocolVersion": "2025-06-18", "capabilities": { "tools": { "listChanged": false } }, "serverInfo": { "name": "gis-workbench", "version": "1" } } } },
+      "outcome": { "returns": { "serverInfo": { "name": "gis-workbench", "version": "1" } } }
+    },
+    {
+      "name": "the initialized notification stops at the sidecar",
+      "setup": { "page": true },
+      "client": { "call": "notify_initialized" },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "method": "notifications/initialized" } },
+      "response": { "status": 202 },
+      "outcome": { "returns": null }
+    },
+    {
+      "name": "ping",
+      "setup": { "page": true },
+      "client": { "call": "ping" },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "ping" } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "result": {} } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "result": {} } },
+      "outcome": { "returns": {} }
+    },
+    {
+      "name": "tools/list",
+      "setup": { "page": true },
+      "client": { "call": "tools" },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "tools/list" } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "result": { "tools": [{ "name": "gw2_layers_list", "annotations": { "readOnlyHint": true } }] } } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "result": { "tools": [{ "name": "gw2_layers_list", "annotations": { "readOnlyHint": true } }] } } },
+      "outcome": { "returns": [{ "name": "gw2_layers_list", "annotations": { "readOnlyHint": true } }] }
+    },
+    {
+      "name": "a read tool returns its value as JSON",
+      "setup": { "page": true },
+      "client": { "call": "call", "args": { "tool": "gw2_layers_list", "arguments": {} } },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": { "name": "gw2_layers_list", "arguments": {} } } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "result": { "content": [{ "type": "text", "text": "[{\"id\":\"L1\"}]" }], "isError": false } } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "result": { "content": [{ "type": "text", "text": "[{\"id\":\"L1\"}]" }], "isError": false } } },
+      "outcome": { "returns": [{ "id": "L1" }] }
+    },
+    {
+      "name": "a write tool comes back as a pending proposal, never as a result",
+      "setup": { "page": true },
+      "client": { "call": "call", "args": { "tool": "gw2_graphics_delete", "arguments": { "ids": ["G1"] } } },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": { "name": "gw2_graphics_delete", "arguments": { "ids": ["G1"] } } } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "result": { "content": [{ "type": "text", "text": "Proposal prop_1 created." }], "isError": false, "structuredContent": { "proposal": "prop_1", "status": "pending" } } } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "result": { "content": [{ "type": "text", "text": "Proposal prop_1 created." }], "isError": false, "structuredContent": { "proposal": "prop_1", "status": "pending" } } } },
+      "outcome": { "proposal": { "id": "prop_1", "status": "pending" } }
+    },
+    {
+      "name": "a tool error becomes an exception",
+      "setup": { "page": true },
+      "client": { "call": "call", "args": { "tool": "gw2_nope", "arguments": {} } },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": { "name": "gw2_nope", "arguments": {} } } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "result": { "content": [{ "type": "text", "text": "unknown tool \"gw2_nope\"" }], "isError": true } } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "result": { "content": [{ "type": "text", "text": "unknown tool \"gw2_nope\"" }], "isError": true } } },
+      "outcome": { "raises": "ToolError" }
+    },
+    {
+      "name": "a JSON-RPC error becomes an exception",
+      "setup": { "page": true },
+      "client": { "call": "read_resource", "args": { "uri": "gw://nope" } },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "resources/read", "params": { "uri": "gw://nope" } } },
+      "page": { "client": "contract script", "reply": { "jsonrpc": "2.0", "id": 1, "error": { "code": -32603, "message": "unknown resource gw://nope" } } },
+      "response": { "status": 200, "json": { "jsonrpc": "2.0", "id": 1, "error": { "code": -32603, "message": "unknown resource gw://nope" } } },
+      "outcome": { "raises": "RpcError" }
+    },
+    {
+      "name": "no token, no call",
+      "setup": { "page": true },
+      "client": { "call": "ping", "paired": false },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": false, "json": { "jsonrpc": "2.0", "id": 1, "method": "ping" } },
+      "response": { "status": 401, "json": { "code": "unauthorized", "error": "@any" } },
+      "outcome": { "raises": "NotPaired" }
+    },
+    {
+      "name": "no page has the relay on",
+      "setup": { "page": false },
+      "client": { "call": "ping" },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "ping" } },
+      "response": { "status": 503, "json": { "code": "no_app", "error": "@any" } },
+      "outcome": { "raises": "NoApp" }
+    },
+    {
+      "name": "forgetting the pairing",
+      "setup": { "page": false },
+      "client": { "call": "forget" },
+      "request": { "method": "DELETE", "path": "/relay/v1/pair", "auth": true },
+      "response": { "status": 204 },
+      "outcome": { "returns": null }
+    },
+    {
+      "name": "a method the MCP server does not list stops at the sidecar",
+      "setup": { "page": true },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": { "jsonrpc": "2.0", "id": 1, "method": "sampling/createMessage", "params": {} } },
+      "response": { "status": 400, "json": { "code": "bad_message", "error": "@any" } }
+    },
+    {
+      "name": "a batch stops at the sidecar",
+      "setup": { "page": true },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "json": [{ "jsonrpc": "2.0", "id": 1, "method": "ping" }] },
+      "response": { "status": 400, "json": { "code": "bad_message", "error": "@any" } }
+    },
+    {
+      "name": "a browser never reaches the client side, even with a valid token",
+      "setup": { "page": true },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "headers": { "Origin": "null" }, "json": { "jsonrpc": "2.0", "id": 1, "method": "ping" } },
+      "response": { "status": 403, "json": { "code": "browser_refused", "error": "@any" } }
+    },
+    {
+      "name": "another Host header is refused before anything else",
+      "setup": { "page": true },
+      "request": { "method": "POST", "path": "/relay/v1/mcp", "auth": true, "host": "gwb.example", "json": { "jsonrpc": "2.0", "id": 1, "method": "ping" } },
+      "response": { "status": 421, "json": { "code": "bad_host", "error": "@any" } }
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+ "generator": "build/fixtures/fx21/tiles.mjs",
+ "files": {
+  "fx21_raster_png.mbtiles": {
+   "kind": "raster",
+   "width": 1024,
+   "height": 1024,
+   "tiles": 21,
+   "colour": "tileColour(z, x, y)"
+  },
+  "fx21_raster_bounds.mbtiles": {
+   "kind": "raster",
+   "bounds": [
+    -45,
+    -30,
+    60,
+    50
+   ],
+   "tiles": 13
+  },
+  "fx21_vector.mbtiles": {
+   "kind": "vector",
+   "maxZoomTiles": 16,
+   "layers": {
+    "points": 16,
+    "lines": 16,
+    "polygons": 16
+   }
+  },
+  "fx21_vector_none.pmtiles": {
+   "kind": "vector",
+   "compression": "none",
+   "tiles": 21,
+   "layers": {
+    "points": 16,
+    "lines": 16,
+    "polygons": 16
+   }
+  },
+  "fx21_raster_none.pmtiles": {
+   "kind": "raster",
+   "compression": "none",
+   "tiles": 21
+  },
+  "fx21_vector_gzip.pmtiles": {
+   "kind": "vector",
+   "compression": "gzip",
+   "tiles": 21,
+   "layers": {
+    "points": 16,
+    "lines": 16,
+    "polygons": 16
+   }
+  },
+  "fx21_raster_gzip.pmtiles": {
+   "kind": "raster",
+   "compression": "gzip",
+   "tiles": 21
+  },
+  "fx21_vector_brotli.pmtiles": {
+   "kind": "vector",
+   "compression": "brotli",
+   "tiles": 21,
+   "layers": {
+    "points": 16,
+    "lines": 16,
+    "polygons": 16
+   }
+  },
+  "fx21_raster_brotli.pmtiles": {
+   "kind": "raster",
+   "compression": "brotli",
+   "tiles": 21
+  },
+  "fx21_vector_zstd.pmtiles": {
+   "kind": "vector",
+   "compression": "zstd",
+   "tiles": 21,
+   "layers": {
+    "points": 16,
+    "lines": 16,
+    "polygons": 16
+   }
+  },
+  "fx21_raster_zstd.pmtiles": {
+   "kind": "raster",
+   "compression": "zstd",
+   "tiles": 21
+  },
+  "fx21_vector_gzip_leaves.pmtiles": {
+   "kind": "vector",
+   "compression": "gzip",
+   "tiles": 21,
+   "leaves": 3
+  },
+  "fx21_vector_brotli_leaves.pmtiles": {
+   "kind": "vector",
+   "compression": "brotli",
+   "tiles": 21,
+   "leaves": 3
+  },
+  "fx21_vector_brotli_cut.pmtiles": {
+   "kind": "negative",
+   "reason": "tile data cut short"
+  }
+ }
+}

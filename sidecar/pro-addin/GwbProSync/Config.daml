@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NOT BUILT: see ProMapHost.cs. Generate a real AddInInfo id when the add-in is first built. -->
+<ArcGIS defaultAssembly="GwbProSync.dll" defaultNamespace="GwbProSync"
+        xmlns="http://schemas.esri.com/DADF/Registry"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AddInInfo id="{7f1b1a0c-3f0e-4a57-9a43-2c0b9d1f2e26}" version="0.3.0" desktopVersion="3.3">
+    <Name>GIS Workbench Sync</Name>
+    <Description>Keeps the view and cursor of ArcGIS Pro and GIS Workbench together, through the GIS Workbench sidecar on this computer.</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>GIS Workbench</Author>
+    <Company>GIS Workbench</Company>
+    <Date>2026-11-05</Date>
+    <Subject>Map Exploration</Subject>
+  </AddInInfo>
+  <modules>
+    <insertModule id="GwbProSync_Module" className="Module1" autoLoad="false" caption="GIS Workbench Sync">
+      <tabs>
+        <tab id="GwbProSync_Tab" caption="GIS Workbench">
+          <group ref="GwbProSync_Group" />
+        </tab>
+      </tabs>
+      <groups>
+        <group id="GwbProSync_Group" caption="Sync" appearsOnAddInTab="false">
+          <button refID="GwbProSync_Toggle" size="large" />
+        </group>
+      </groups>
+      <controls>
+        <button id="GwbProSync_Toggle" caption="Sync with GIS Workbench" className="SyncButton" loadOnClick="true">
+          <tooltip heading="Sync with GIS Workbench">Follows the view and cursor of GIS Workbench, and sends this map's. Nothing leaves this computer.</tooltip>
+        </button>
+      </controls>
+    </insertModule>
+  </modules>
+</ArcGIS>

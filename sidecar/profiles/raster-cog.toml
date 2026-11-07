@@ -1,0 +1,74 @@
+# Raster -> Cloud-Optimized GeoTIFF (REQ-SDC-08, REQ-FMT-23: MrSID and ECW through the vendor plugins).
+# Georeferencing, nodata and the mask/alpha band are kept by gdal_translate; the COG driver builds
+# the overviews. Provenance goes into the TIFF metadata and a .gwb-provenance.json beside it.
+id = "raster-cog"
+title = "Raster to Cloud-Optimized GeoTIFF"
+module = "core-gdal"
+input = "raster"
+output_ext = "tif"
+output_name = "{stem}.cog"
+memory_mb = 16384
+# County mosaics run for hours on every core: a day of wall time, 14 days of total CPU time.
+time_limit_s = 86400
+cpu_limit_s = 1209600
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["DEFLATE", "LZW", "ZSTD", "JPEG", "WEBP", "LERC", "NONE"]
+default = "DEFLATE"
+
+[[options]]
+name = "quality"
+title = "JPEG/WebP quality"
+type = "int"
+min = 1
+max = 100
+default = 85
+
+[[options]]
+name = "predictor"
+title = "Predictor"
+type = "enum"
+values = ["YES", "NO", "STANDARD", "FLOATING_POINT"]
+default = "YES"
+
+[[options]]
+name = "blocksize"
+title = "Tile size"
+type = "enum"
+values = ["256", "512", "1024"]
+default = "512"
+
+[[options]]
+name = "resampling"
+title = "Overview resampling"
+type = "enum"
+values = ["NEAREST", "AVERAGE", "BILINEAR", "CUBIC", "LANCZOS", "MODE"]
+default = "AVERAGE"
+
+[[options]]
+name = "nodata"
+title = "Set nodata"
+type = "float"
+min = -3.4e38
+max = 3.4e38
+optional = true
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+args = [
+  "-of", "COG",
+  "-co", "COMPRESS={compress}",
+  "-co", "QUALITY={quality}",
+  "-co", "PREDICTOR={predictor}",
+  "-co", "BLOCKSIZE={blocksize}",
+  "-co", "OVERVIEW_RESAMPLING={resampling}",
+  "-co", "BIGTIFF=IF_SAFER",
+  "-co", "NUM_THREADS=ALL_CPUS",
+  { when = "nodata", args = ["-a_nodata", "{nodata}"] },
+  "-mo", "GWB_PROVENANCE={provenance}",
+  "{input}", "{output}",
+]

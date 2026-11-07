@@ -1,0 +1,19 @@
+{
+"type": "FeatureCollection",
+"name": "fx12",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"xy_coordinate_resolution": 1e-06,
+"features": [
+{"type":"Feature","properties":{"name":"مبنى الإدارة","class_code":"AL013","height_m":"12.5","floors":3,"verified":1,"survey_date":"2026/03/15","long_description_text":"سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل سجل طويل "},"geometry":{"type":"Polygon","coordinates":[[[-116.5,34.5],[-116.4998,34.5],[-116.4998,34.50015],[-116.5,34.50015],[-116.5,34.5]],[[-116.49995,34.50005],[-116.49995,34.5001],[-116.4999,34.5001],[-116.4999,34.50005],[-116.49995,34.50005]]]}},
+{"type":"Feature","properties":{"name":"Склад","class_code":"AL013","height_m":"6","floors":1,"verified":0,"long_description_text":"Кириллица"},"geometry":{"type":"Point","coordinates":[-116.4995,34.5001]}},
+{"type":"Feature","properties":{"name":"仓库","class_code":"AL013","floors":2,"verified":1,"survey_date":"2025/11/30","long_description_text":"中文说明"},"geometry":{"type":"Polygon","coordinates":[[[-116.4992,34.5],[-116.49905,34.5],[-116.49905,34.50012],[-116.4992,34.50012],[-116.4992,34.5]]]}},
+{"type":"Feature","properties":{"name":"Twin block","class_code":"AL015","height_m":"4.75","floors":1,"survey_date":"2026/01/02"},"geometry":{"type":"Point","coordinates":[-116.49995,34.50045]}},
+{"type":"Feature","properties":{"name":"طريق ١","class_code":"AP030","verified":1,"long_description_text":"road"},"geometry":{"type":"Point","coordinates":[-116.4995,34.499917]}},
+{"type":"Feature","properties":{"name":"Дорога 2","class_code":"AP030","verified":0},"geometry":{"type":"Point","coordinates":[-116.4997,34.500717]}},
+{"type":"Feature","properties":{"name":"河道","class_code":"BH140","verified":1,"survey_date":"2024/07/04","long_description_text":"水"},"geometry":{"type":"MultiLineString","coordinates":[[[-116.499,34.5004],[-116.4989,34.5006]],[[-116.4989,34.5006],[-116.4987,34.5008]]]}},
+{"type":"Feature","properties":{"name":"برج","class_code":"AL241","height_m":"35","verified":1,"survey_date":"2026/03/15"},"geometry":{"type":"Point","coordinates":[-116.4997,34.5003]}},
+{"type":"Feature","properties":{"name":"Мачта","class_code":"AL241","height_m":"20","verified":0},"geometry":{"type":"Point","coordinates":[-116.4993,34.5003]}},
+{"type":"Feature","properties":{"name":"塔","class_code":"AL241","height_m":"18.5"},"geometry":{"type":"Point","coordinates":[-116.4991,34.5003]}},
+{"type":"Feature","properties":{"name":"Wells","class_code":"BH230","verified":1,"survey_date":"2025/05/05"},"geometry":null}
+]
+}

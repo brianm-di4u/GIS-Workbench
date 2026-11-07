@@ -1,0 +1,11 @@
+.lyrx samples (REQ-GAP-64), written for this project from the CIM specification
+(github.com/Esri/cim-spec, Apache-2.0): CIMLayerDocument, CIMFeatureLayer, CIMSimpleRenderer,
+CIMUniqueValueRenderer, CIMClassBreaksRenderer, CIMHeatMapRenderer, CIMRasterLayer, CIMSolidFill,
+CIMSolidStroke, CIMHatchFill, CIMVectorMarker, CIMGeometricEffectDashes, CIMLabelClass,
+CIMTextSymbol, CIMRGBColor, CIMHSVColor, CIMCMYKColor. Not exported from ArcGIS Pro (no Pro
+licence on the build machine): the reader is checked against the specification, not against
+files Pro wrote.
+  units-unique.lyrx   unique values on STATUS (one dashed class, one hatch fill + casing: refused parts), labels from NAME, a definition query
+  units-breaks.lyrx   class breaks on STRENGTH with HSV and CMYK colours, 20 % transparency
+  points-simple.lyrx  a vector-marker point layer with [CLASS] labels, plus a heat-map layer and a raster layer (refused)
+  not-a-layer.lyrx    a CIMMapDocument (refused: not a layer file)

@@ -1,0 +1,7 @@
+Ten frames of the Aukerman Park block, downsized to 800 x 600 with their EXIF kept (GPS, camera).
+Made by tests/tools/sfm26_fixture.py.
+
+Source: https://github.com/OpenDroneMap/odm_data_aukerman (images/DSC00229..DSC00239)
+Licence: CC0 1.0 Universal (license.txt of that repository)
+Archive: odm_data_aukerman-master.zip, 543 539 933 bytes
+SHA-256: 7ea900fe1ff4a420cf47de0cd9b0780f5b78448e6b744e7b627ae33bcdf8887e

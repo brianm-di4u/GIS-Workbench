@@ -1,0 +1,60 @@
+# MPEG-2 (H.262) video in a transport or program stream -> H.264 MPEG-TS with every KLV stream
+# copied and its timing kept (REQ-FMV-15, S-49): -map 0 keeps all streams, -c:d copy copies the
+# KLV data, -copyts with -mpegts_copyts 1 keeps every presentation time. The input demuxer is
+# fixed (no playlists, no protocol but file).
+id = "video-h264-klv"
+title = "MPEG-2 video to H.264 MPEG-TS (KLV kept)"
+module = "media"
+input = "video"
+output_ext = "ts"
+output_name = "{stem}.h264"
+memory_mb = 4096
+
+[[options]]
+name = "container"
+title = "Input container"
+type = "enum"
+values = ["mpegts", "mpeg"]
+default = "mpegts"
+
+[[options]]
+name = "encoder"
+title = "H.264 encoder"
+type = "enum"
+values = ["h264_mf"]  # S-49: the Windows encoder; the Media module has no OpenH264 (OD-2.30)
+default = "h264_mf"
+
+[[options]]
+name = "bitrate"
+title = "Video bitrate (kbit/s)"
+type = "int"
+min = 100
+max = 100000
+default = 6000
+
+[[options]]
+name = "gop"
+title = "Keyframe interval (frames)"
+type = "int"
+min = 1
+max = 600
+default = 30
+
+[[steps]]
+tool = "ffmpeg"
+progress = "ffmpeg"
+args = [
+  "-hide_banner", "-nostdin", "-y",
+  "-protocol_whitelist", "file,pipe",
+  "-progress", "pipe:1", "-nostats",
+  "-copyts",
+  "-f", "{container}",
+  "-i", "{input}",
+  "-map", "0", "-ignore_unknown",
+  "-c", "copy",
+  "-c:v", "{encoder}", "-b:v", "{bitrate}k", "-g", "{gop}", "-pix_fmt", "nv12", "-fpsmax", "60",
+  "-muxdelay", "0", "-muxpreload", "0",
+  "-metadata", "comment={provenance}",
+  "-f", "mpegts", "-mpegts_copyts", "1",
+  "{output}",
+]

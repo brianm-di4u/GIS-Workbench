@@ -1,0 +1,428 @@
+%PDF-1.6
+%ÿÿÿÿ
+7 0 obj
+<< /BBox [ 0 0 1024 747 ] /Measure 8 0 R /Name (Layer) /Type /Viewport >>
+endobj
+8 0 obj
+<< /Bounds [ 0 1 0 0 1 0 1 1 ] /GCS 9 0 R /GPTS [ 34.500806142622551 -116.5001993665125468 34.4999000195301164 -116.5002047743896725 34.4998938771144594 -116.4987054240987021 34.5007999999999981 -116.4986999999999995 ] /LPTS [ 0 1 0 0 1 0 1 1 ] /Subtype /GEO /Type /Measure >>
+endobj
+9 0 obj
+<< /EPSG 32611 /Type /PROJCS /WKT (PROJCS["WGS_1984_UTM_Zone_11N",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-117.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]) >>
+endobj
+3 0 obj
+<< /Annots 6 0 R /Contents 4 0 R /MediaBox [ 0 0 1024 747 ] /Parent 1 0 R /Resources 5 0 R /StructParents 0 /Type /Page /UserUnit 1 /VP [ 7 0 R ] >>
+endobj
+10 0 obj
+<< /Name (fx12) /Type /OCG >>
+endobj
+12 0 obj
+<< /BBox [ 137 82 278 209 ] /Length 13 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+139.442121 83.111687 m
+276.031102 83.786530 l
+275.419229 207.442205 l
+138.830493 206.767359 l
+139.442121 83.111687 l
+h
+173.385470 124.498930 m
+173.181573 165.717487 l
+207.328778 165.886190 l
+207.532694 124.667632 l
+173.385470 124.498930 l
+h
+b*
+Qendstream
+endobj
+13 0 obj
+   345
+endobj
+14 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF06450628064606490020062706440625062F062706310629> >> << /N (class_code) /V (AL013) >> << /N (height_m) /V 12.5 >> << /N (floors) /V 3 >> << /N (verified) /V 1 >> << /N (survey_date) /V (2026/03/15) >> << /N (long_description_text) /V <FEFF0633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A064400200633062C0644002006370648064A06440020> >> ] >> /K 0 /P 11 0 R /Pg 3 0 R /S /feature /T (feature0) >>
+endobj
+15 0 obj
+<< /BBox [ 410 83 551 252 ] /Length 16 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+412.620084 84.461644 m
+549.209068 85.137028 l
+548.392585 250.011264 l
+411.803927 249.335879 l
+412.620084 84.461644 l
+h
+b*
+Qendstream
+endobj
+16 0 obj
+   223
+endobj
+17 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF0421043A043B04300434> >> << /N (class_code) /V (AL013) >> << /N (height_m) /V 6 >> << /N (floors) /V 1 >> << /N (verified) /V 0 >> << /N (long_description_text) /V <FEFF041A043804400438043B043B043804460430> >> ] >> /K 1 /P 11 0 R /Pg 3 0 R /S /feature /T (feature1) >>
+endobj
+18 0 obj
+<< /BBox [ 684 84 790 187 ] /Length 19 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+685.798053 85.812681 m
+788.239794 86.319598 l
+787.749562 185.244142 l
+685.307969 184.737224 l
+685.798053 85.812681 l
+h
+b*
+Qendstream
+endobj
+19 0 obj
+   223
+endobj
+20 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF4ED35E93> >> << /N (class_code) /V (AL013) >> << /N (floors) /V 2 >> << /N (verified) /V 1 >> << /N (survey_date) /V (2025/11/30) >> << /N (long_description_text) /V <FEFF4E2D65878BF4660E> >> ] >> /K 2 /P 11 0 R /Pg 3 0 R /S /feature /T (feature2) >>
+endobj
+21 0 obj
+<< /BBox [ 136 411 310 498 ] /Length 22 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+137.811108 412.860154 m
+206.105272 413.197544 l
+205.697435 495.634665 l
+137.403352 495.297275 l
+137.811108 412.860154 l
+h
+240.252354 413.366265 m
+308.546519 413.703756 l
+308.138559 496.140877 l
+239.844476 495.803386 l
+240.252354 413.366265 l
+h
+b*
+Qendstream
+endobj
+22 0 obj
+   348
+endobj
+23 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V (Twin block) >> << /N (class_code) /V (AL015) >> << /N (height_m) /V 4.75 >> << /N (floors) /V 1 >> << /N (survey_date) /V (2026/01/02) >> ] >> /K 3 /P 11 0 R /Pg 3 0 R /S /feature /T (feature3) >>
+endobj
+24 0 obj
+<< /BBox [ 2 -1 961 47 ] /Length 25 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+3.260729 0.000000 m
+481.322734 2.362186 l
+959.180394 45.946238 l
+S
+Qendstream
+endobj
+25 0 obj
+   168
+endobj
+26 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF06370631064A064200200661> >> << /N (class_code) /V (AP030) >> << /N (verified) /V 1 >> << /N (long_description_text) /V (road) >> ] >> /K 4 /P 11 0 R /Pg 3 0 R /S /feature /T (feature4) >>
+endobj
+27 0 obj
+<< /BBox [ -1 658 684 704 ] /Length 28 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+0.000000 659.496939 m
+341.265595 702.402458 l
+682.939203 662.872539 l
+S
+Qendstream
+endobj
+28 0 obj
+   173
+endobj
+29 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF0414043E0440043E0433043000200032> >> << /N (class_code) /V (AP030) >> << /N (verified) /V 0 >> ] >> /K 5 /P 11 0 R /Pg 3 0 R /S /feature /T (feature5) >>
+endobj
+30 0 obj
+<< /BBox [ 819 415 1025 749 ] /Length 31 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+820.752766 416.237091 m
+888.229627 581.449407 l
+888.229627 581.449407 m
+1024.000000 747.000000 l
+S
+Qendstream
+endobj
+31 0 obj
+   200
+endobj
+32 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF6CB39053> >> << /N (class_code) /V (BH140) >> << /N (verified) /V 1 >> << /N (survey_date) /V (2024/07/04) >> << /N (long_description_text) /V <FEFF6C34> >> ] >> /K 6 /P 11 0 R /Pg 3 0 R /S /feature /T (feature6) >>
+endobj
+33 0 obj
+<< /BBox [ 337 325 350 338 ] /Length 34 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+338.101601 331.435406 m
+338.101601 328.673983 340.340177 326.435406 343.101601 326.435406 c
+345.863024 326.435406 348.101601 328.673983 348.101601 331.435406 c
+348.101601 334.196830 345.863024 336.435406 343.101601 336.435406 c
+340.340177 336.435406 338.101601 334.196830 338.101601 331.435406 c
+b*
+Qendstream
+endobj
+34 0 obj
+   400
+endobj
+35 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF06280631062C> >> << /N (class_code) /V (AL241) >> << /N (height_m) /V 35 >> << /N (verified) /V 1 >> << /N (survey_date) /V (2026/03/15) >> ] >> /K 7 /P 11 0 R /Pg 3 0 R /S /feature /T (feature7) >>
+endobj
+36 0 obj
+<< /BBox [ 610 326 623 339 ] /Length 37 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+611.278590 332.786179 m
+611.278590 330.024755 613.517166 327.786179 616.278590 327.786179 c
+619.040014 327.786179 621.278590 330.024755 621.278590 332.786179 c
+621.278590 335.547603 619.040014 337.786179 616.278590 337.786179 c
+613.517166 337.786179 611.278590 335.547603 611.278590 332.786179 c
+b*
+Qendstream
+endobj
+37 0 obj
+   400
+endobj
+38 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF041C0430044704420430> >> << /N (class_code) /V (AL241) >> << /N (height_m) /V 20 >> << /N (verified) /V 0 >> ] >> /K 8 /P 11 0 R /Pg 3 0 R /S /feature /T (feature8) >>
+endobj
+39 0 obj
+<< /BBox [ 746 327 759 340 ] /Length 40 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+747.867087 333.461970 m
+747.867087 330.700546 750.105663 328.461970 752.867087 328.461970 c
+755.628511 328.461970 757.867087 330.700546 757.867087 333.461970 c
+757.867087 336.223394 755.628511 338.461970 752.867087 338.461970 c
+750.105663 338.461970 747.867087 336.223394 747.867087 333.461970 c
+b*
+Qendstream
+endobj
+40 0 obj
+   400
+endobj
+41 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V <FEFF5854> >> << /N (class_code) /V (AL241) >> << /N (height_m) /V 18.5 >> ] >> /K 9 /P 11 0 R /Pg 3 0 R /S /feature /T (feature9) >>
+endobj
+42 0 obj
+<< /BBox [ 55 246 85 299 ] /Length 43 0 R /Resources << /ExtGState << /GS1 << /Type /ExtGState /ca 0.5 >> >> >> /Subtype /Form /Type /XObject >>
+stream
+q
+/GS1 gs
+1.000000 w
+0 J
+0 j
+10 M
+[]0 d
+0.000000 0.000000 0.000000 RG
+0.498039 0.498039 0.498039 rg
+Qendstream
+endobj
+43 0 obj
+   101
+endobj
+44 0 obj
+<< /A << /O /UserProperties /P [ << /N (name) /V (Wells) >> << /N (class_code) /V (BH230) >> << /N (verified) /V 1 >> << /N (survey_date) /V (2025/05/05) >> ] >> /K 10 /P 11 0 R /Pg 3 0 R /S /feature /T (feature10) >>
+endobj
+11 0 obj
+<< /A << /O /UserProperties >> /K [ 14 0 R 17 0 R 20 0 R 23 0 R 26 0 R 29 0 R 32 0 R 35 0 R 38 0 R 41 0 R 44 0 R ] /P 45 0 R /S /Feature /T (fx12) >>
+endobj
+4 0 obj
+<< /Length 46 0 R >>
+stream
+/OC /Lyr10 BDC
+/feature <</MCID 0>> BDC
+/Vector12 Do
+EMC
+/feature <</MCID 1>> BDC
+/Vector15 Do
+EMC
+/feature <</MCID 2>> BDC
+/Vector18 Do
+EMC
+/feature <</MCID 3>> BDC
+/Vector21 Do
+EMC
+/feature <</MCID 4>> BDC
+/Vector24 Do
+EMC
+/feature <</MCID 5>> BDC
+/Vector27 Do
+EMC
+/feature <</MCID 6>> BDC
+/Vector30 Do
+EMC
+/feature <</MCID 7>> BDC
+/Vector33 Do
+EMC
+/feature <</MCID 8>> BDC
+/Vector36 Do
+EMC
+/feature <</MCID 9>> BDC
+/Vector39 Do
+EMC
+/feature <</MCID 10>> BDC
+/Vector42 Do
+EMC
+EMC
+endstream
+endobj
+46 0 obj
+   482
+endobj
+47 0 obj
+<< /Nums [ 0 [ 14 0 R 17 0 R 20 0 R 23 0 R 26 0 R 29 0 R 32 0 R 35 0 R 38 0 R 41 0 R 44 0 R  ]
+ ] >> 
+endobj
+45 0 obj
+<< /Type /StructTreeRoot /ParentTree 47 0 R /K [ 11 0 R ] >>
+endobj
+5 0 obj
+<< /Properties << /Lyr10 10 0 R >> /XObject << /Vector12 12 0 R /Vector15 15 0 R /Vector18 18 0 R /Vector21 21 0 R /Vector24 24 0 R /Vector27 27 0 R /Vector30 30 0 R /Vector33 33 0 R /Vector36 36 0 R /Vector39 39 0 R /Vector42 42 0 R >> >>
+endobj
+6 0 obj
+[ ]
+endobj
+1 0 obj
+<< /Count 1 /Kids [ 3 0 R ] /Type /Pages >>
+endobj
+2 0 obj
+<< /MarkInfo << /UserProperties true >> /OCProperties << /D << /Order [ 10 0 R ] >> /OCGs [ 10 0 R ] >> /Pages 1 0 R /StructTreeRoot 45 0 R /Type /Catalog >>
+endobj
+xref
+0 48
+0000000000 65535 f 
+0000011547 00000 n 
+0000011606 00000 n 
+0000000854 00000 n 
+0000010520 00000 n 
+0000011273 00000 n 
+0000011528 00000 n 
+0000000015 00000 n 
+0000000104 00000 n 
+0000000396 00000 n 
+0000001018 00000 n 
+0000010354 00000 n 
+0000001064 00000 n 
+0000001588 00000 n 
+0000001611 00000 n 
+0000003064 00000 n 
+0000003466 00000 n 
+0000003489 00000 n 
+0000003828 00000 n 
+0000004230 00000 n 
+0000004253 00000 n 
+0000004574 00000 n 
+0000005102 00000 n 
+0000005125 00000 n 
+0000005388 00000 n 
+0000005732 00000 n 
+0000005755 00000 n 
+0000006014 00000 n 
+0000006366 00000 n 
+0000006389 00000 n 
+0000006613 00000 n 
+0000006994 00000 n 
+0000007017 00000 n 
+0000007303 00000 n 
+0000007883 00000 n 
+0000007906 00000 n 
+0000008175 00000 n 
+0000008755 00000 n 
+0000008778 00000 n 
+0000009016 00000 n 
+0000009596 00000 n 
+0000009619 00000 n 
+0000009818 00000 n 
+0000010097 00000 n 
+0000010120 00000 n 
+0000011196 00000 n 
+0000011055 00000 n 
+0000011078 00000 n 
+trailer
+<< /Root 2 0 R /Size 48 >>
+startxref
+11779
+%%EOF

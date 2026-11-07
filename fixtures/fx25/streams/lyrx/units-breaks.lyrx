@@ -1,0 +1,159 @@
+{
+ "type": "CIMLayerDocument",
+ "version": "3.1.0",
+ "build": 41833,
+ "layers": [
+  "CIMPATH=map/units2.json"
+ ],
+ "layerDefinitions": [
+  {
+   "type": "CIMFeatureLayer",
+   "name": "Units by strength",
+   "uRI": "CIMPATH=map/units2.json",
+   "visibility": true,
+   "transparency": 20,
+   "renderer": {
+    "type": "CIMClassBreaksRenderer",
+    "field": "STRENGTH",
+    "classBreakType": "GraduatedColor",
+    "minimumBreak": 0,
+    "normalizationType": "Nothing",
+    "breaks": [
+     {
+      "type": "CIMClassBreak",
+      "label": "0 - 25",
+      "upperBound": 25,
+      "symbol": {
+       "type": "CIMSymbolReference",
+       "symbol": {
+        "type": "CIMPolygonSymbol",
+        "symbolLayers": [
+         {
+          "type": "CIMSolidStroke",
+          "enable": true,
+          "capStyle": "Round",
+          "joinStyle": "Round",
+          "lineStyleName3D": "Strip",
+          "miterLimit": 10,
+          "width": 0.4,
+          "color": {
+           "type": "CIMRGBColor",
+           "values": [
+            0,
+            0,
+            0,
+            100
+           ]
+          }
+         },
+         {
+          "type": "CIMSolidFill",
+          "enable": true,
+          "color": {
+           "type": "CIMHSVColor",
+           "values": [
+            60,
+            20,
+            100,
+            100
+           ]
+          }
+         }
+        ]
+       }
+      }
+     },
+     {
+      "type": "CIMClassBreak",
+      "label": "25 - 50",
+      "upperBound": 50,
+      "symbol": {
+       "type": "CIMSymbolReference",
+       "symbol": {
+        "type": "CIMPolygonSymbol",
+        "symbolLayers": [
+         {
+          "type": "CIMSolidStroke",
+          "enable": true,
+          "capStyle": "Round",
+          "joinStyle": "Round",
+          "lineStyleName3D": "Strip",
+          "miterLimit": 10,
+          "width": 0.4,
+          "color": {
+           "type": "CIMRGBColor",
+           "values": [
+            0,
+            0,
+            0,
+            100
+           ]
+          }
+         },
+         {
+          "type": "CIMSolidFill",
+          "enable": true,
+          "color": {
+           "type": "CIMHSVColor",
+           "values": [
+            40,
+            60,
+            100,
+            100
+           ]
+          }
+         }
+        ]
+       }
+      }
+     },
+     {
+      "type": "CIMClassBreak",
+      "label": "50 - 100",
+      "upperBound": 100,
+      "symbol": {
+       "type": "CIMSymbolReference",
+       "symbol": {
+        "type": "CIMPolygonSymbol",
+        "symbolLayers": [
+         {
+          "type": "CIMSolidStroke",
+          "enable": true,
+          "capStyle": "Round",
+          "joinStyle": "Round",
+          "lineStyleName3D": "Strip",
+          "miterLimit": 10,
+          "width": 0.4,
+          "color": {
+           "type": "CIMRGBColor",
+           "values": [
+            0,
+            0,
+            0,
+            100
+           ]
+          }
+         },
+         {
+          "type": "CIMSolidFill",
+          "enable": true,
+          "color": {
+           "type": "CIMCMYKColor",
+           "values": [
+            0,
+            100,
+            100,
+            0,
+            100
+           ]
+          }
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

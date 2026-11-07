@@ -1,0 +1,184 @@
+// Imagery delivered in ZIP packages (IMP-21, TE-060): DigitalGlobe/Maxar tile sets, Pléiades DIMAP
+// volumes and ZIPs of ZIPs open without unpacking. Only the central directory is read; a stored
+// entry is a zero-copy Blob slice, so a multi-gigabyte archive is never loaded whole, and a deflated
+// entry is inflated as a stream into a Blob the browser can page to disk.
+
+import { gwError } from '../i18n/index.js';
+
+const MAX_DEPTH = 3;
+const MAX_ENTRIES = 100000;
+// Rasters that make a ZIP an imagery package (a ZIP of only vectors keeps the vector route).
+export const RASTER_IN_ZIP = /\.(tif|tiff|gtiff|ntf|nitf|nsf|jp2|j2k|j2c|jpx|jpf|img|dt[0-2]|hgt|sid|ecw|toc)$/i;
+// Pictures count as imagery only with a world file beside them (otherwise they are quick looks).
+const PICTURE = /\.(jpe?g|png|gif|bmp|webp)$/i;
+const WORLD = /\.(jgw|jpgw|pgw|pngw|gfw|bpw|wld)$/i;
+// Quick looks and logos travel in packages but are not what the user came for.
+const QUICKLOOK = /(^|\/)(icon|preview|logo|thumb)[^/]*$|[_-]browse\.[^/]+$/i;
+// Product masks (DIMAP MASKS/*.GML) are offered, not opened by default.
+const MASK = /(^|\/)masks\//i;
+const VECTOR_IN_ZIP = /\.(shp|geojson|kml|kmz|gpkg|gml|zip)$/i;
+
+const u16 = (v, o) => v.getUint16(o, true);
+const u32 = (v, o) => v.getUint32(o, true);
+const u64 = (v, o) => v.getUint32(o, true) + v.getUint32(o + 4, true) * 2 ** 32;
+
+async function view(blob, start, end) {
+  return new DataView(await blob.slice(start, end).arrayBuffer());
+}
+
+/** Central-directory entries of a ZIP held in `blob` (ZIP64 aware). Throws a named error otherwise. */
+export async function listZip(blob) {
+  const tailLen = Math.min(blob.size, 65557);
+  const tail = await view(blob, blob.size - tailLen, blob.size);
+  let eocd = -1;
+  for (let i = tailLen - 22; i >= 0; i--) {
+    if (u32(tail, i) === 0x06054b50) {
+      eocd = i;
+      break;
+    }
+  }
+  if (eocd < 0) throw new Error('not a ZIP archive (no end-of-central-directory record)');
+  let count = u16(tail, eocd + 10);
+  let cdSize = u32(tail, eocd + 12);
+  let cdOff = u32(tail, eocd + 16);
+  if (cdOff === 0xffffffff || cdSize === 0xffffffff || count === 0xffff) {
+    if (eocd < 20 || u32(tail, eocd - 20) !== 0x07064b50) throw new Error('ZIP64 archive without its locator');
+    const at = u64(tail, eocd - 20 + 8);
+    const z = await view(blob, at, at + 56);
+    if (u32(z, 0) !== 0x06064b50) throw new Error('ZIP64 end record not found');
+    count = u64(z, 32);
+    cdSize = u64(z, 40);
+    cdOff = u64(z, 48);
+  }
+  if (count > MAX_ENTRIES) throw gwError('the ZIP lists {n} entries (this release reads up to {max})', { n: String(count), max: String(MAX_ENTRIES) }, 'E_ZIP_TOO_MANY');
+  if (cdOff + cdSize > blob.size) throw new Error('the ZIP is truncated (its directory lies past the end of the file)');
+  const cd = await view(blob, cdOff, cdOff + cdSize);
+  const utf8 = new TextDecoder('utf-8');
+  const latin = new TextDecoder('windows-1252');
+  const out = [];
+  for (let p = 0, k = 0; k < count; k++) {
+    if (p + 46 > cd.byteLength || u32(cd, p) !== 0x02014b50) throw new Error('the ZIP central directory is damaged');
+    const flags = u16(cd, p + 8);
+    const method = u16(cd, p + 10);
+    let csize = u32(cd, p + 20);
+    let size = u32(cd, p + 24);
+    const nlen = u16(cd, p + 28);
+    const xlen = u16(cd, p + 30);
+    const clen = u16(cd, p + 32);
+    let local = u32(cd, p + 42);
+    const raw = new Uint8Array(cd.buffer, cd.byteOffset + p + 46, nlen);
+    const path = (flags & 0x800 ? utf8 : latin).decode(raw).replace(/\\/g, '/');
+    for (let x = p + 46 + nlen, end = x + xlen; x + 4 <= end; ) {
+      const id = u16(cd, x);
+      const len = u16(cd, x + 2);
+      if (id === 0x0001) {
+        let q = x + 4;
+        if (size === 0xffffffff) (size = u64(cd, q)), (q += 8);
+        if (csize === 0xffffffff) (csize = u64(cd, q)), (q += 8);
+        if (local === 0xffffffff) local = u64(cd, q);
+      }
+      x += 4 + len;
+    }
+    p += 46 + nlen + xlen + clen;
+    if (path.endsWith('/')) continue;
+    out.push({ path, name: path.split('/').pop(), size, csize, method, local, encrypted: !!(flags & 1) });
+  }
+  return out;
+}
+
+/** The bytes of one entry as a File (a slice when stored, a streamed inflate when deflated). */
+export async function entryFile(blob, e) {
+  if (e.encrypted) throw gwError('{path}: encrypted ZIP entries cannot be read', { path: e.path }, 'E_ZIP_ENCRYPTED');
+  const h = await view(blob, e.local, e.local + 30);
+  if (u32(h, 0) !== 0x04034b50) throw gwError('{path}: damaged local header in the ZIP', { path: e.path }, 'E_ZIP_DAMAGED');
+  const start = e.local + 30 + u16(h, 26) + u16(h, 28);
+  if (start + e.csize > blob.size) throw gwError('{path}: the ZIP is truncated', { path: e.path }, 'E_ZIP_TRUNCATED');
+  const part = blob.slice(start, start + e.csize);
+  let data;
+  if (e.method === 0) data = part;
+  else if (e.method === 8) {
+    data = await new Response(part.stream().pipeThrough(new DecompressionStream('deflate-raw'))).blob();
+    if (data.size !== e.size) throw gwError('{path}: inflated to {got} bytes, the ZIP says {want}', { path: e.path, got: String(data.size), want: String(e.size) }, 'E_ZIP_SIZE');
+  } else throw gwError('{path}: ZIP compression method {method} is not supported (stored and deflate are)', { path: e.path, method: String(e.method) }, 'E_ZIP_METHOD');
+  const f = new File([data], e.name, { lastModified: Date.now() });
+  f.__zipPath = e.zipPath;
+  return f;
+}
+
+/**
+ * Every entry of a ZIP, with ZIPs inside it expanded (to MAX_DEPTH). Each entry gets `zipPath`
+ * (outer.zip/inner.zip/name), `group` (the innermost ZIP it came from) and `open()` → File.
+ * Stored inner ZIPs are slices and always expanded; deflated ones are inflated while `budget`
+ * bytes last (a delivery of many deflated ZIPs is not inflated whole just to list it). The rest stay
+ * as `nested` entries: picked, they open as packages of their own.
+ */
+export async function expandZip(file, depth = 0, prefix = file.name, budget = { bytes: 256 << 20 }) {
+  const out = [];
+  for (const e of await listZip(file)) {
+    e.zipPath = `${prefix}/${e.path}`;
+    e.group = prefix;
+    if (/\.zip$/i.test(e.name) && depth + 1 < MAX_DEPTH) {
+      if (e.method === 0 || e.size <= budget.bytes) {
+        if (e.method !== 0) budget.bytes -= e.size;
+        const inner = await entryFile(file, e);
+        const kids = await expandZip(inner, depth + 1, e.zipPath, budget).catch(() => null);
+        // A ZIP of vectors (shapefile set) stays one entry for the vector reader.
+        if (kids?.some((k) => isRaster(k, kids) || k.nested)) {
+          out.push(...kids);
+          continue;
+        }
+        e.blob = inner;
+      } else e.nested = true;
+    } else if (/\.zip$/i.test(e.name)) e.nested = true; // deeper than MAX_DEPTH: opens as a package of its own
+    e.open = () => (e.blob ? Object.assign(new File([e.blob], e.name), { __zipPath: e.zipPath }) : entryFile(file, e));
+    out.push(e);
+  }
+  return out;
+}
+
+/** True when a ZIP holds imagery (directly or in ZIPs inside it): it opens as a package. */
+export async function isImageryZip(file, depth = 0) {
+  try {
+    const es = await listZip(file);
+    if (es.some((e) => isRaster({ ...e, group: 0 }, es.map((x) => ({ ...x, group: 0 }))))) return true;
+    if (depth + 1 >= MAX_DEPTH) return false;
+    // ZIPs inside (to the depth expandZip opens): the stored ones are slices; of the deflated ones,
+    // only the smallest is inflated.
+    const zips = es.filter((x) => /\.zip$/i.test(x.name));
+    const look = [...zips.filter((x) => x.method === 0).slice(0, 4), ...zips.filter((x) => x.method !== 0 && x.size <= 256 << 20).sort((p, q) => p.size - q.size).slice(0, 1)];
+    for (const e of look) if (await isImageryZip(await entryFile(file, e), depth + 1)) return true;
+  } catch {
+    return false; // the vector route reports a damaged ZIP by name
+  }
+  return false;
+}
+
+/** Entries a user would open by default: the imagery with its sidecars, and the vector overlays. */
+export function defaultPick(entries, maxRasters = 24) {
+  const main = entries.filter((e) => isRaster(e, entries) && !QUICKLOOK.test(e.path));
+  // Packages not expanded (see expandZip) are offered, not opened by default.
+  entries = entries.filter((e) => !e.nested);
+  const groups = [...new Set(main.map((e) => e.group))];
+  // A big delivery (a ZIP of many packages) starts with its first package selected.
+  const keep = main.length > maxRasters ? new Set([groups[0]]) : new Set(groups);
+  return entries.filter((e) => keep.has(e.group) && (main.includes(e) || (!isRaster(e, entries) && !QUICKLOOK.test(e.path) && ((VECTOR_IN_ZIP.test(e.name) && !MASK.test(e.path)) || isSidecarOf(e, main)))));
+}
+
+const stem = (n) => n.toLowerCase().replace(/\.aux\.xml$/, '').replace(/\.[^.]+$/, '');
+/** A raster entry: a raster format, or a picture with its world file in the same ZIP. */
+function isRaster(e, entries) {
+  if (RASTER_IN_ZIP.test(e.name)) return true;
+  if (!PICTURE.test(e.name)) return false;
+  const s = stem(e.name);
+  return entries.some((x) => x.group === e.group && WORLD.test(x.name) && stem(x.name) === s);
+}
+
+function isSidecarOf(e, rasters) {
+  const s = stem(e.name);
+  // The frames of an RPF folder go with its A.TOC (2.1 REQ-FMT-40).
+  const toc = rasters.find((r) => /(^|\/)a\.toc$/i.test(r.path));
+  if (toc && e.group === toc.group && e.path.startsWith(toc.path.replace(/[^/]*$/, ''))) return true;
+  // A Sentinel-1 SAFE's manifest and calibration/noise annotation go with its measurements (REQ-FMT-55).
+  if (/\.safe\/(manifest\.safe|annotation\/calibration\/(calibration|noise)-[^/]+\.xml)$/i.test(e.path)) return rasters.some((r) => r.group === e.group);
+  return rasters.some((r) => r.group === e.group && (stem(r.name) === s || r.name.toLowerCase() === s)) || /^dim_.*\.xml$/i.test(e.name);
+}

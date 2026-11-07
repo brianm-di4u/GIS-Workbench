@@ -1,0 +1,255 @@
+// Layer Tools ▸ Change (SCN-11; AT-11.3/11.4): detect change candidates between two dates in a
+// panel, list them, and confirm or reject each one. A confirmed change stores both image IDs
+// and dates. Images on one pixel grid are compared directly; others are resampled onto the
+// date-1 grid through their sensor models.
+
+import { h, clear } from '../shell/dom.js';
+import { modal, field, section } from '../shell/dialogs.js';
+import { detectChanges } from '../analysis/change.js';
+import { voidNoData } from '../layers/terrain.js';
+import { fmtDate } from './compare.js';
+import { t, msgOf } from '../i18n/index.js';
+import { num, int, numMax } from '../i18n/format.js';
+
+export const name = 'change';
+
+export function install(app) {
+  const C = app.commands;
+  const pane = () => app.activePane();
+  const images = () => pane()?.layers().filter((l) => l.kind !== 'dem' && l.modelId) ?? [];
+
+  // TE-052: up to MAX_PIXELS of date 1 at full resolution. IMP-25: a larger date 1 (or AOI) is
+  // screened at a reduced resolution (every step-th pixel) instead of being refused, so a whole
+  // multi-date scene can be screened first and an AOI then compared at full resolution.
+  const MAX_PIXELS = 32e6;
+  const stepFor = (w, h) => Math.max(1, Math.ceil(Math.sqrt((w * h) / MAX_PIXELS)));
+
+  /**
+   * One band of a full-resolution window [x0, y0, w, h] (whole image when null) every `step`-th
+   * pixel, no-data as NaN (TE-053): {width, height, x0, y0, step, heights}.
+   */
+  async function bandOf(l, window = null, step = 1) {
+    const band = l.chain.bands[0] ?? 0;
+    let g;
+    if (step === 1) g = { ...(await app.pool.run('grid', { handle: l.handle, band, maxSamples: MAX_PIXELS, window, what: 'change detection' }, { affinity: l.affinity, label: t('Reading {file}…', { file: l.rec.name }), timeout: 300000 })), step: 1 };
+    else {
+      const [x0, y0, w, h] = window ?? [0, 0, l.width, l.height];
+      const r = await app.pool.run('window', { handle: l.handle, x0, y0, w: Math.ceil(w / step), h: Math.ceil(h / step), step, bands: [band], maxSamples: MAX_PIXELS * 1.1 }, { affinity: l.affinity, label: t('Reading {file}…', { file: l.rec.name }), timeout: 600000 });
+      const a = r.planes[0];
+      g = { width: r.w, height: r.h, x0: r.x0, y0: r.y0, step, heights: a instanceof Float32Array ? a : Float32Array.from(a) };
+    }
+    voidNoData(g.heights, l.nodata);
+    return g;
+  }
+
+  /** The date-1 window to compare (the active AOI, else the whole image) and its sampling step. */
+  function scopeOf(p, l1) {
+    const b = l1.width * l1.height > MAX_PIXELS ? app.aoiBox?.(p, l1) : null;
+    if (!b) return { win: null, step: stepFor(l1.width, l1.height) };
+    const w = [Math.max(0, Math.floor(b.x0)), Math.max(0, Math.floor(b.y0))];
+    w.push(Math.min(l1.width, Math.ceil(b.x1)) - w[0], Math.min(l1.height, Math.ceil(b.y1)) - w[1]);
+    return { win: w, step: stepFor(w[2], w[3]) };
+  }
+
+  /** date-2 values on the date-1 window w1 = [x0, y0, w, h]; {values, sameGrid}. */
+  async function onGrid(l1, l2, w1, step = 1) {
+    const probes = [[0.1, 0.1], [0.9, 0.1], [0.5, 0.5], [0.1, 0.9], [0.9, 0.9]];
+    const same =
+      l1.width === l2.width &&
+      l1.height === l2.height &&
+      probes.every(([fx, fy]) => {
+        const g = l1.groundAt(fx * l1.width, fy * l1.height);
+        const q = g && l2.imageAt(g.lat, g.lon, g.h);
+        return q && Math.hypot(q.x - fx * l1.width, q.y - fy * l1.height) < 0.5;
+      });
+    // w1 = [x0, y0, W, H]: the date-1 origin (full resolution) and the sampled grid size.
+    const [X0, Y0, W, H] = w1;
+    if (same) return { values: (await bandOf(l2, [X0, Y0, W * step, H * step], step)).heights, sameGrid: true };
+    // Only the part of date 2 that covers the date-1 window is read.
+    const FW = W * step;
+    const FH = H * step;
+    const q = [[X0, Y0], [X0 + FW, Y0], [X0, Y0 + FH], [X0 + FW, Y0 + FH], [X0 + FW / 2, Y0 + FH / 2]].map(([x, y]) => {
+      const g = l1.groundAt(x, y);
+      return g && l2.imageAt(g.lat, g.lon, g.h);
+    }).filter(Boolean);
+    if (!q.length) throw new Error('date 2 does not cover date 1');
+    const bx0 = Math.max(0, Math.floor(Math.min(...q.map((p) => p.x))) - 2);
+    const by0 = Math.max(0, Math.floor(Math.min(...q.map((p) => p.y))) - 2);
+    const bx1 = Math.min(l2.width, Math.ceil(Math.max(...q.map((p) => p.x))) + 2);
+    const by1 = Math.min(l2.height, Math.ceil(Math.max(...q.map((p) => p.y))) + 2);
+    if (bx1 <= bx0 || by1 <= by0) throw new Error('date 2 does not cover date 1');
+    const g2 = await bandOf(l2, [bx0, by0, bx1 - bx0, by1 - by0], stepFor(bx1 - bx0, by1 - by0));
+    const out = new Float32Array(W * H).fill(NaN);
+    const rows = 64;
+    for (let y0 = 0; y0 < H; y0 += rows) {
+      const n = Math.min(rows, H - y0) * W;
+      const pts = new Float64Array(n * 3);
+      for (let k = 0; k < n; k++) {
+        const x = X0 + (k % W) * step + 0.5;
+        const y = Y0 + (y0 + Math.floor(k / W)) * step + 0.5;
+        const g = l1.groundAt(x, y);
+        pts.set(g ? [g.lat, g.lon, g.h] : [NaN, NaN, 0], k * 3);
+      }
+      let xy;
+      try {
+        xy = app.core.g2iBatch(l2.modelId, pts);
+      } catch {
+        continue;
+      }
+      for (let k = 0; k < n; k++) {
+        const x = (xy[2 * k] - 0.5 - g2.x0) / g2.step;
+        const y = (xy[2 * k + 1] - 0.5 - g2.y0) / g2.step;
+        const xi = Math.floor(x);
+        const yi = Math.floor(y);
+        if (!(xi >= 0 && yi >= 0 && xi < g2.width - 1 && yi < g2.height - 1)) continue;
+        const fx = x - xi;
+        const fy = y - yi;
+        const v = g2.heights;
+        const i = yi * g2.width + xi;
+        out[y0 * W + k] = (v[i] * (1 - fx) + v[i + 1] * fx) * (1 - fy) + (v[i + g2.width] * (1 - fx) + v[i + g2.width + 1] * fx) * fy;
+      }
+      await new Promise((r) => setTimeout(r, 0));
+    }
+    return { values: out, sameGrid: false };
+  }
+
+  C.implement('chg.detect', {
+    enabled: () => images().length >= 2,
+    run: async () => {
+      const p = pane();
+      const ls = images();
+      const pick = (v) => {
+        const s = h('select', { class: 'inp' }, ls.map((l) => h('option', { value: l.id }, t('{name} — {date}', { name: l.rec.name, date: fmtDate(l.info.datetime) }))));
+        s.value = v;
+        return s;
+      };
+      const d1 = pick(ls[0].id);
+      const d2 = pick(ls.at(-1).id);
+      const k = h('input', { class: 'inp inp-num', type: 'number', min: '1', max: '20', step: '0.5', value: '4', 'aria-label': t('Threshold in robust σ') });
+      const minA = h('input', { class: 'inp inp-num', type: 'number', min: '1', step: '1', value: '30', 'aria-label': t('Minimum area in pixels') });
+      const body = h('div', {}, field(t('Date 1 (earlier)'), d1), field(t('Date 2 (later)'), d2), section(t('Settings'), field(t('Threshold (robust σ of the difference)'), k), field(t('Minimum area (date-1 pixels)'), minA)), h('p', { class: 'hint' }, t('Date 2 is normalised to date 1 (orthogonal regression), differenced, smoothed and thresholded; blobs above the minimum area become candidates. Up to 32 M date-1 pixels at full resolution (the active AOI, else the whole image); a larger area is screened at a reduced resolution.')));
+      const buttons = [
+        { label: t('Detect'), value: 'detect', primary: true },
+        { label: t('Cancel'), value: 'cancel' },
+      ];
+      if ((await modal({ title: t('Change Detection'), body, buttons, id: 'change-detect' })) !== 'detect') return;
+      const l1 = app.layers.get(d1.value);
+      const l2 = app.layers.get(d2.value);
+      if (l1 === l2) return app.toast(t('Choose two different images'), { kind: 'warn' });
+      const t0 = performance.now();
+      let r;
+      let sameGrid;
+      let step = 1;
+      try {
+        ({ step } = scopeOf(p, l1));
+        const g1 = await bandOf(l1, scopeOf(p, l1).win, step);
+        const v2 = await onGrid(l1, l2, [g1.x0, g1.y0, g1.width, g1.height], step);
+        sameGrid = v2.sameGrid;
+        // No-data is NaN in both dates (bandOf); candidates come back in date-1 image pixels. The
+        // minimum area is in full-resolution pixels.
+        r = detectChanges(g1.heights, v2.values, g1.width, g1.height, { k: +k.value || 4, minArea: Math.max(1, Math.round((+minA.value || 30) / step ** 2)) });
+        for (const c of r.candidates) Object.assign(c, { x0: c.x0 * step + g1.x0, x1: c.x1 * step + g1.x0, y0: c.y0 * step + g1.y0, y1: c.y1 * step + g1.y0, area: c.area * step ** 2 });
+        // An active AOI scopes the result (REQ-IMG-30).
+        const inAoi = app.aoiContainsImage?.(p, l1);
+        if (inAoi) r.candidates = r.candidates.filter((c) => inAoi((c.x0 + c.x1) / 2, (c.y0 + c.y1) / 2));
+      } catch (e) {
+        return app.toast(t('Change detection failed: {msg}', { msg: msgOf(e) }), { kind: 'error' });
+      }
+      const batch = new Date().toISOString();
+      app.store.transact(t('Change detection ({n})', { n: r.candidates.length }), (tx) => {
+        let gl = p.rec.graphicsLayer;
+        if (!gl) {
+          gl = tx.create('glayer', { pane: p.id, name: t('Graphics'), visible: true, saved: false });
+          tx.set(p.id, 'graphicsLayer', gl);
+        }
+        r.candidates.forEach((c, i) => {
+          const ring = [[c.x0, c.y0], [c.x1, c.y0], [c.x1, c.y1], [c.x0, c.y1]].map(([x, y]) => l1.groundAt(x, y));
+          if (ring.some((g) => !g)) return;
+          const gid = tx.create('graphic', { glayer: gl, pane: p.id, shape: 'polygon', anchor: 'ground', coords: ring.map((g) => [g.lon, g.lat, g.h]), text: `CH${i + 1}`, style: { stroke: '#ff00ff', width: 2, fill: '#ff00ff22', dash: 'dashed' }, created: batch, provenance: { kind: 'change-detection' } });
+          tx.create('change', {
+            name: `CH${i + 1}`,
+            status: 'candidate',
+            pane: p.id,
+            graphic: gid,
+            bbox: [c.x0, c.y0, c.x1, c.y1],
+            areaPx: c.area,
+            score: +(c.mean * Math.sqrt(c.area)).toFixed(2),
+            meanDiff: +c.mean.toFixed(2),
+            image1: { layer: l1.id, name: l1.rec.name, iid: l1.info.iid ?? null, date: l1.info.datetime },
+            image2: { layer: l2.id, name: l2.rec.name, iid: l2.info.iid ?? null, date: l2.info.datetime },
+            method: { gain: +r.gain.toFixed(4), offset: +r.offset.toFixed(2), threshold: +r.threshold.toFixed(2), k: +k.value, minArea: +minA.value, sameGrid, step },
+            created: batch,
+          });
+        });
+      });
+      p.invalidate();
+      const sum = { n: r.candidates.length, ms: int(Math.round(performance.now() - t0)), gain: num(r.gain, 3), offset: num(r.offset, 1), step, max: numMax(MAX_PIXELS / 1e6, 1) };
+      app.toast(
+        step > 1
+          ? t('{n, plural, one {# change candidate} other {# change candidates}} in {ms} ms (gain {gain}, offset {offset}); screened at 1/{step} resolution — draw an AOI of up to {max} M pixels to compare it at full resolution', sum)
+          : t('{n, plural, one {# change candidate} other {# change candidates}} in {ms} ms (gain {gain}, offset {offset})', sum),
+        { kind: 'info' },
+      );
+      list();
+    },
+  });
+
+  const setStatus = (ids, status) =>
+    app.store.transact(status === 'confirmed' ? t('Confirm change') : t('Reject change'), (tx) => {
+      for (const id of ids) {
+        const c = app.store.get(id);
+        if (!c) continue;
+        tx.set(id, 'status', status);
+        tx.set(id, 'decided', { at: new Date().toISOString(), by: app.prefs.get('analyst') ?? 'analyst' });
+        if (c.graphic && app.store.has(c.graphic)) tx.set(c.graphic, 'style', { stroke: status === 'confirmed' ? '#00ff40' : '#808080', width: 2, fill: status === 'confirmed' ? '#00ff4022' : '#80808011', dash: status === 'confirmed' ? 'solid' : 'dotted' });
+      }
+    });
+
+  let listDlg = null;
+  function list() {
+    if (listDlg) return;
+    const body = h('div');
+    const render = () => {
+      clear(body);
+      const cs = app.store.all('change').filter((c) => c.pane === pane()?.id);
+      if (!cs.length) return body.appendChild(h('p', {}, t('No change candidates. Layer Tools ▸ Change ▸ Change Detection.')));
+      const tb = h('tbody');
+      const statusText = { candidate: t('candidate'), confirmed: t('confirmed'), rejected: t('rejected') };
+      for (const c of cs) {
+        const go = h('button', { class: 'btn btn-small' }, t('Go'));
+        go.addEventListener('click', () => {
+          const p = pane();
+          p.centreOn((c.bbox[0] + c.bbox[2]) / 2, (c.bbox[1] + c.bbox[3]) / 2);
+          app.selection = new Set([c.graphic]);
+          p.invalidate();
+        });
+        const ok = h('button', { class: 'btn btn-small', disabled: c.status === 'confirmed' }, t('Confirm'));
+        ok.addEventListener('click', () => setStatus([c.id], 'confirmed'));
+        const no = h('button', { class: 'btn btn-small', disabled: c.status === 'rejected' }, t('Reject'));
+        no.addEventListener('click', () => setStatus([c.id], 'rejected'));
+        tb.appendChild(h('tr', { 'data-id': `change:${c.id}` }, h('td', {}, c.name), h('td', {}, statusText[c.status] ?? c.status), h('td', {}, int(c.areaPx)), h('td', {}, num(c.meanDiff, 1)), h('td', {}, go, ok, no)));
+      }
+      const first = cs[0];
+      body.append(h('p', { class: 'hint' }, t('Date 1 {name1} ({date1}) · date 2 {name2} ({date2})', { name1: first.image1.name, date1: fmtDate(first.image1.date), name2: first.image2.name, date2: fmtDate(first.image2.date) })), h('table', { class: 'grid-table', 'aria-label': t('Change candidates') }, h('thead', {}, h('tr', {}, [t('ID'), t('Status'), t('Area (px)'), t('Mean |Δ|'), ''].map((x) => h('th', {}, x)))), tb));
+    };
+    render();
+    const off = app.store.on('change', render);
+    listDlg = modal({ title: t('Change Candidates'), body, buttons: [{ label: t('Close'), value: 'close', primary: true }], width: 520, modeless: true, id: 'change-list' }).then(() => {
+      off();
+      listDlg = null;
+    });
+  }
+  app.changeList = list;
+
+  C.implement('chg.confirm', {
+    enabled: () => app.store.all('change').length > 0,
+    run: () => {
+      // Confirm the changes whose outlines are selected; otherwise open the list.
+      const ids = app.store.all('change').filter((c) => app.selection.has(c.graphic)).map((c) => c.id);
+      if (ids.length) {
+        setStatus(ids, 'confirmed');
+        app.toast(t('{n, plural, one {# change confirmed} other {# changes confirmed}}', { n: ids.length }), { kind: 'info' });
+      } else list();
+    },
+  });
+}

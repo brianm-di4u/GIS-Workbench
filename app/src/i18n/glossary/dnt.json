@@ -1,0 +1,18 @@
+{
+  "comment": "Do-not-translate tokens (REQ-L10N-16, DN-62 rule 7). A translation must keep each token that its English source contains, character for character. Checked by node build/i18n.mjs check and at build time.",
+  "tokens": [
+    "GIS Workbench",
+    "NITF", "NSIF", "SICD", "SIDD", "CPHD", "GeoTIFF", "BigTIFF", "COG", "DTED", "SRTM", "HGT",
+    "LAS", "LAZ", "COPC", "EPT", "E57", "GeoPackage", "GeoJSON", "KML", "KMZ", "FlatGeobuf", "GeoParquet", "Shapefile",
+    "MGRS", "USNG", "UTM", "UPS", "GARS", "GEOREF", "WGS 84", "EGM96", "EGM2008", "HAE", "MSL", "NAVD88", "EPSG",
+    "RPC00B", "RPC", "RSM", "CSM", "CE90", "LE90", "SGM", "NCC", "SMRF",
+    "MISB", "KLV", "MPEG-TS", "MPEG-2", "MPEG-1", "H.264", "MIE4NITF",
+    "TDS", "MGCP", "GGDM", "CADRG", "CIB", "RPF", "A.TOC", "ARIDPCM", "JPEG 2000", "HTJ2K",
+    "PMTiles", "MBTiles", "MVT", "glTF", "GLB", "3D Tiles", "CityJSON", "USDZ", "Draco", "KTX2",
+    "WMS", "WMTS", "WFS-T", "WFS", "WCS", "XYZ", "STAC", "OGC", "ArcGIS",
+    "MrSID", "ECW", "HFA", "HDF5", "NetCDF", "ENVI", "UAVSAR", "PDAL", "GDAL", "OGR", "FFmpeg", "sarpy", "PROJ",
+    "WebGPU", "WebGL", "WebXR", "WebHID", "SpaceMouse", "ONNX", "OWLv2", "CLIP", "SAM",
+    "PNG", "JPEG", "TIFF", "GeoPDF", "PDF", "DOCX", "PPTX", "CSV", "ZIP", "SVG", "PSD", "OBJ",
+    "Ctrl+", "Shift+", "Alt+", "Esc", "F1", "F5", "F7"
+  ]
+}

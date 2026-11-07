@@ -1,0 +1,3561 @@
+{
+  "api": 1,
+  "ports": [
+    47821,
+    47822,
+    47823
+  ],
+  "title": "GIS Workbench sidecar API",
+  "types": {
+    "BatchRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/batch`: one job per matching file of a picked folder.",
+      "properties": {
+        "extensions": {
+          "description": "Extensions to take (lower case, no dot), e.g. `[\"sid\"]`.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "folder": {
+          "description": "A folder id from `POST /v1/pick` with `mode: \"folder\"`.",
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": true,
+          "default": {},
+          "type": "object"
+        },
+        "profile": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile",
+        "folder",
+        "extensions"
+      ],
+      "title": "BatchRequest",
+      "type": "object"
+    },
+    "BatchResult": {
+      "$defs": {
+        "FileInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "entries": {
+              "description": "For a picked folder: the files in it (names only).",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group": {
+              "description": "Upload group: pass it as `group=` to upload companion files (.sdw, .aux.xml, .shx…) beside this one.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "origin": {
+              "$ref": "#/$defs/FileOrigin"
+            },
+            "size": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "size",
+            "origin"
+          ],
+          "type": "object"
+        },
+        "FileOrigin": {
+          "enum": [
+            "upload",
+            "pick",
+            "output"
+          ],
+          "type": "string"
+        },
+        "Job": {
+          "additionalProperties": false,
+          "properties": {
+            "created": {
+              "type": "string"
+            },
+            "error": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "outputs": {
+              "items": {
+                "$ref": "#/$defs/FileInfo"
+              },
+              "type": "array"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "progress": {
+              "default": null,
+              "description": "0..1, or null while unknown.",
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "provenance": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Provenance"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "result": {
+              "description": "Structured result (the `probe` profile's match and tool reports)."
+            },
+            "retry_of": {
+              "description": "Id of the job this one retried.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "state": {
+              "$ref": "#/$defs/JobState"
+            }
+          },
+          "required": [
+            "id",
+            "profile",
+            "state",
+            "inputs",
+            "outputs",
+            "created"
+          ],
+          "type": "object"
+        },
+        "JobState": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "type": "string"
+        },
+        "Provenance": {
+          "additionalProperties": false,
+          "properties": {
+            "finished": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "options": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "sidecar": {
+              "type": "string"
+            },
+            "started": {
+              "type": "string"
+            },
+            "steps": {
+              "items": {
+                "$ref": "#/$defs/StepRecord"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sidecar",
+            "profile",
+            "options",
+            "inputs",
+            "steps",
+            "started",
+            "finished"
+          ],
+          "type": "object"
+        },
+        "StepRecord": {
+          "additionalProperties": false,
+          "description": "Tool, version and arguments of every step, also written beside the output (REQ-SDC-08).",
+          "properties": {
+            "args": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "exit_code": {
+              "format": "int32",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ms": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "args",
+            "ms"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "jobs": {
+          "items": {
+            "$ref": "#/$defs/Job"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "jobs"
+      ],
+      "title": "BatchResult",
+      "type": "object"
+    },
+    "Caps": {
+      "$defs": {
+        "CsmHostCaps": {
+          "additionalProperties": false,
+          "description": "Whether the CSM plug-in host can be used, and if not, why.",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "note": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "available",
+            "note"
+          ],
+          "type": "object"
+        },
+        "DataKind": {
+          "oneOf": [
+            {
+              "enum": [
+                "raster",
+                "vector",
+                "points",
+                "video",
+                "any"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "model",
+              "description": "A 3D model (glTF, OBJ, STL, PLY, COLLADA…).",
+              "type": "string"
+            }
+          ]
+        },
+        "Driver": {
+          "additionalProperties": false,
+          "description": "A GDAL raster or OGR vector driver as the sidecar's GDAL reports it.",
+          "properties": {
+            "extensions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "long_name": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "raster": {
+              "type": "boolean"
+            },
+            "read": {
+              "type": "boolean"
+            },
+            "vector": {
+              "type": "boolean"
+            },
+            "write": {
+              "description": "Creates new files (`+` or `w` in GDAL's flags); never true for MrSID/ECW (OD-2.7).",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "long_name",
+            "raster",
+            "vector",
+            "read",
+            "write",
+            "extensions"
+          ],
+          "type": "object"
+        },
+        "Features": {
+          "additionalProperties": false,
+          "description": "What this sidecar offers beyond jobs. The app shows a command from these, never from a list of\nits own (REQ-SDC-05).",
+          "properties": {
+            "cors_relay": {
+              "description": "The outbound CORS relay (REQ-GAP-08). False in every shipped build (OD-2.17).",
+              "type": "boolean"
+            },
+            "pro_sync": {
+              "description": "View and cursor sync with an ArcGIS Pro add-in (REQ-GAP-65).",
+              "type": "boolean"
+            },
+            "stereo_viewer": {
+              "description": "The native stereo viewer is installed and this platform has its window (REQ-GAP-33).",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "stereo_viewer",
+            "pro_sync",
+            "cors_relay"
+          ],
+          "type": "object"
+        },
+        "Limits": {
+          "additionalProperties": false,
+          "properties": {
+            "concurrent_jobs": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "free_bytes": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "max_job_inputs": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "max_json_body": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "max_upload": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "quota_bytes": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "max_json_body",
+            "max_upload",
+            "max_job_inputs",
+            "concurrent_jobs",
+            "quota_bytes",
+            "free_bytes"
+          ],
+          "type": "object"
+        },
+        "ModuleInfo": {
+          "additionalProperties": false,
+          "description": "An optional module (REQ-SDC-11): Core GDAL, Media, Point cloud, Python runtime, vendor plugins.",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "installed": {
+              "type": "boolean"
+            },
+            "licence": {
+              "description": "SPDX-style licence summary of the module's components.",
+              "type": "string"
+            },
+            "size": {
+              "description": "Installed size in bytes (0 if not installed).",
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "installed",
+            "licence",
+            "size"
+          ],
+          "type": "object"
+        },
+        "OptionKind": {
+          "oneOf": [
+            {
+              "enum": [
+                "enum",
+                "int",
+                "float",
+                "bool"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "raster_driver",
+              "description": "A writable GDAL raster driver name from the caps.",
+              "type": "string"
+            },
+            {
+              "const": "vector_driver",
+              "description": "A writable OGR vector driver name from the caps.",
+              "type": "string"
+            },
+            {
+              "const": "creation_options",
+              "description": "`KEY=VALUE` items checked against the chosen driver's creation option list.",
+              "type": "string"
+            },
+            {
+              "const": "crs",
+              "description": "An EPSG code (`EPSG:n`, 1024 ≤ n ≤ 999999), or a compound `EPSG:h+v` of two such codes.",
+              "type": "string"
+            },
+            {
+              "const": "float_list",
+              "description": "A list of finite numbers, each within min and max.",
+              "type": "string"
+            },
+            {
+              "const": "name",
+              "description": "A database or table name: 1–63 ASCII letters, digits, `_`, `-` or `.`.",
+              "type": "string"
+            }
+          ]
+        },
+        "OptionSpec": {
+          "additionalProperties": false,
+          "properties": {
+            "default": true,
+            "max": {
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "min": {
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "name": {
+              "type": "string"
+            },
+            "optional": {
+              "default": false,
+              "type": "boolean"
+            },
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/$defs/OptionKind"
+            },
+            "values": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "name",
+            "title",
+            "type"
+          ],
+          "type": "object"
+        },
+        "ProfileInfo": {
+          "additionalProperties": false,
+          "description": "A fixed job profile as offered to the app (REQ-SDC-08).",
+          "properties": {
+            "available": {
+              "description": "False when a module it needs is not installed.",
+              "type": "boolean"
+            },
+            "id": {
+              "type": "string"
+            },
+            "input": {
+              "$ref": "#/$defs/DataKind"
+            },
+            "max_inputs": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "min_inputs": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "module": {
+              "type": "string"
+            },
+            "options": {
+              "items": {
+                "$ref": "#/$defs/OptionSpec"
+              },
+              "type": "array"
+            },
+            "output_ext": {
+              "description": "Output extension (empty for `probe`, whose result is JSON).",
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "tools": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "module",
+            "input",
+            "min_inputs",
+            "max_inputs",
+            "output_ext",
+            "options",
+            "available",
+            "tools"
+          ],
+          "type": "object"
+        },
+        "ToolInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "module": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "module",
+            "version"
+          ],
+          "type": "object"
+        },
+        "VendorSdk": {
+          "additionalProperties": false,
+          "description": "A closed vendor decode SDK and whether its licence was accepted (REQ-SDC-05, REQ-SDC-12).",
+          "properties": {
+            "drivers": {
+              "description": "GDAL drivers it provides.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "id": {
+              "type": "string"
+            },
+            "installed": {
+              "type": "boolean"
+            },
+            "licence_accepted": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "description": "Where it comes from (e.g. the OSGeo4W package name).",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "drivers",
+            "installed",
+            "licence_accepted",
+            "source"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /v1/caps` (REQ-SDC-05).",
+      "properties": {
+        "api": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "csm_host": {
+          "$ref": "#/$defs/CsmHostCaps",
+          "description": "The CSM plug-in host (REQ-GAP-25): off in every shipped build (OD-2.18)."
+        },
+        "features": {
+          "$ref": "#/$defs/Features"
+        },
+        "ffmpeg_decoders": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ffmpeg_encoders": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "limits": {
+          "$ref": "#/$defs/Limits"
+        },
+        "modules": {
+          "items": {
+            "$ref": "#/$defs/ModuleInfo"
+          },
+          "type": "array"
+        },
+        "pdal_readers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "pdal_writers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "profiles": {
+          "items": {
+            "$ref": "#/$defs/ProfileInfo"
+          },
+          "type": "array"
+        },
+        "raster_drivers": {
+          "items": {
+            "$ref": "#/$defs/Driver"
+          },
+          "type": "array"
+        },
+        "service": {
+          "type": "string"
+        },
+        "tools": {
+          "items": {
+            "$ref": "#/$defs/ToolInfo"
+          },
+          "type": "array"
+        },
+        "vector_drivers": {
+          "items": {
+            "$ref": "#/$defs/Driver"
+          },
+          "type": "array"
+        },
+        "vendor": {
+          "items": {
+            "$ref": "#/$defs/VendorSdk"
+          },
+          "type": "array"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "service",
+        "version",
+        "api",
+        "modules",
+        "tools",
+        "raster_drivers",
+        "vector_drivers",
+        "pdal_readers",
+        "pdal_writers",
+        "ffmpeg_encoders",
+        "ffmpeg_decoders",
+        "vendor",
+        "profiles",
+        "limits",
+        "features",
+        "csm_host"
+      ],
+      "title": "Caps",
+      "type": "object"
+    },
+    "CorsRelayRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/cors-relay/fetch` (REQ-GAP-08). Only in builds with the relay compiled in, and only\nwith its gate open; a shipped build has neither (OD-2.17). There is no field for a body, a\ncookie or an Authorization header.",
+      "properties": {
+        "accept": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "method": {
+          "description": "GET or HEAD.",
+          "type": "string"
+        },
+        "range": {
+          "description": "`bytes=a-b` or `bytes=a-`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "url": {
+          "description": "An https URL of an origin the user listed in the sidecar window.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "method"
+      ],
+      "title": "CorsRelayRequest",
+      "type": "object"
+    },
+    "CsmCovariance": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "covariance": {
+          "description": "The parameter covariance, by rows.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "parameters": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unmodeled": {
+          "description": "Unmodelled error at the point, pixels squared: line, line by sample, sample.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "unmodeled",
+        "parameters",
+        "covariance"
+      ],
+      "title": "CsmCovariance",
+      "type": "object"
+    },
+    "CsmCovarianceRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/csm/sessions/{id}/covariance`.",
+      "properties": {
+        "image": {
+          "description": "Line and sample.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "title": "CsmCovarianceRequest",
+      "type": "object"
+    },
+    "CsmHostCaps": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Whether the CSM plug-in host can be used, and if not, why.",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "available",
+        "note"
+      ],
+      "title": "CsmHostCaps",
+      "type": "object"
+    },
+    "CsmPartials": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "ground": {
+          "description": "d line / d x, y, z, then d sample / d x, y, z.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array"
+        },
+        "sensor": {
+          "description": "d line and d sample by each model parameter.",
+          "items": {
+            "items": {
+              "format": "double",
+              "type": "number"
+            },
+            "maxItems": 2,
+            "minItems": 2,
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "ground",
+        "sensor"
+      ],
+      "title": "CsmPartials",
+      "type": "object"
+    },
+    "CsmPartialsRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/csm/sessions/{id}/partials`.",
+      "properties": {
+        "ground": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "ground"
+      ],
+      "title": "CsmPartialsRequest",
+      "type": "object"
+    },
+    "CsmPluginAdd": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/csm/plugins`: record a plug-in file for the user to approve. Nothing of it runs yet.",
+      "properties": {
+        "file": {
+          "description": "A file id from `PUT /v1/files` or `POST /v1/pick`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "CsmPluginAdd",
+      "type": "object"
+    },
+    "CsmPluginRecord": {
+      "$defs": {
+        "CsmSigner": {
+          "additionalProperties": false,
+          "description": "What the operating system says about a plug-in file's signature.",
+          "properties": {
+            "status": {
+              "description": "`valid`, `untrusted` (signed, but by no trusted root), `unsigned`, `invalid`, or\n`unchecked` where the platform has no check (Linux).",
+              "type": "string"
+            },
+            "subject": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "thumbprint": {
+              "description": "SHA-1 of the signing certificate, as Windows shows it.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "One recorded plug-in. The hash and signer are what the user approves.",
+      "properties": {
+        "added": {
+          "type": "string"
+        },
+        "decided": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "signer": {
+          "$ref": "#/$defs/CsmSigner"
+        },
+        "size": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "state": {
+          "description": "`pending`, `approved` or `refused`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha256",
+        "name",
+        "size",
+        "signer",
+        "state",
+        "added"
+      ],
+      "title": "CsmPluginRecord",
+      "type": "object"
+    },
+    "CsmPoints": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/csm/sessions/{id}/g2i` (x, y, z in ECEF metres) and `/i2g` (line, sample, height\nabove the model's ellipsoid in metres).",
+      "properties": {
+        "points": {
+          "items": {
+            "items": {
+              "format": "double",
+              "type": "number"
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "precision": {
+          "description": "Desired precision: pixels for ground to image, metres for image to ground.",
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "points"
+      ],
+      "title": "CsmPoints",
+      "type": "object"
+    },
+    "CsmPointsReply": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`g2i`: line, sample, achieved precision. `i2g`: x, y, z, achieved precision.",
+      "properties": {
+        "points": {
+          "items": {
+            "items": {
+              "format": "double",
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "points"
+      ],
+      "title": "CsmPointsReply",
+      "type": "object"
+    },
+    "CsmSessionInfo": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Answer to `POST /v1/csm/sessions`. Everything but `id` and `confinement` is the plug-in's word.",
+      "properties": {
+        "collection": {
+          "type": "string"
+        },
+        "confinement": {
+          "type": "string"
+        },
+        "csm_version": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "manufacturer": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "plugin_name": {
+          "type": "string"
+        },
+        "protocol": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "release_date": {
+          "type": "string"
+        },
+        "sensor": {
+          "type": "string"
+        },
+        "sensor_mode": {
+          "type": "string"
+        },
+        "sensor_type": {
+          "type": "string"
+        },
+        "trajectory": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "protocol",
+        "confinement",
+        "plugin_name",
+        "manufacturer",
+        "release_date",
+        "csm_version",
+        "model",
+        "model_version",
+        "sensor",
+        "platform",
+        "collection",
+        "trajectory",
+        "sensor_type",
+        "sensor_mode"
+      ],
+      "title": "CsmSessionInfo",
+      "type": "object"
+    },
+    "CsmSessionOpen": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/csm/sessions`: start a sandboxed host for an approved plug-in.",
+      "properties": {
+        "isd": {
+          "description": "The image support data, a file id.",
+          "type": "string"
+        },
+        "model": {
+          "description": "A model of the plug-in; the first that accepts the ISD when absent.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "plugin": {
+          "description": "The approved plug-in's SHA-256.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "plugin",
+        "isd"
+      ],
+      "title": "CsmSessionOpen",
+      "type": "object"
+    },
+    "DriverDetail": {
+      "$defs": {
+        "CreationOption": {
+          "additionalProperties": false,
+          "description": "One creation option of a driver (from its `DMD_CREATIONOPTIONLIST`).",
+          "properties": {
+            "default": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "description": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "max": {
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "min": {
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "description": "`string-select`, `int`, `float`, `boolean`, `string`…",
+              "type": "string"
+            },
+            "values": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "name",
+            "type"
+          ],
+          "type": "object"
+        },
+        "Driver": {
+          "additionalProperties": false,
+          "description": "A GDAL raster or OGR vector driver as the sidecar's GDAL reports it.",
+          "properties": {
+            "extensions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "long_name": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "raster": {
+              "type": "boolean"
+            },
+            "read": {
+              "type": "boolean"
+            },
+            "vector": {
+              "type": "boolean"
+            },
+            "write": {
+              "description": "Creates new files (`+` or `w` in GDAL's flags); never true for MrSID/ECW (OD-2.7).",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "long_name",
+            "raster",
+            "vector",
+            "read",
+            "write",
+            "extensions"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /v1/caps/drivers/{name}`.",
+      "properties": {
+        "creation_options": {
+          "items": {
+            "$ref": "#/$defs/CreationOption"
+          },
+          "type": "array"
+        },
+        "driver": {
+          "$ref": "#/$defs/Driver"
+        }
+      },
+      "required": [
+        "driver",
+        "creation_options"
+      ],
+      "title": "DriverDetail",
+      "type": "object"
+    },
+    "ErrorBody": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Error body of every non-2xx answer.",
+      "properties": {
+        "code": {
+          "description": "Stable machine code, e.g. `bad_host`, `origin_not_allowed`, `unauthorized`, `bad_request`.",
+          "type": "string"
+        },
+        "error": {
+          "description": "One plain sentence for the user.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "error"
+      ],
+      "title": "ErrorBody",
+      "type": "object"
+    },
+    "Features": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "What this sidecar offers beyond jobs. The app shows a command from these, never from a list of\nits own (REQ-SDC-05).",
+      "properties": {
+        "cors_relay": {
+          "description": "The outbound CORS relay (REQ-GAP-08). False in every shipped build (OD-2.17).",
+          "type": "boolean"
+        },
+        "pro_sync": {
+          "description": "View and cursor sync with an ArcGIS Pro add-in (REQ-GAP-65).",
+          "type": "boolean"
+        },
+        "stereo_viewer": {
+          "description": "The native stereo viewer is installed and this platform has its window (REQ-GAP-33).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "stereo_viewer",
+        "pro_sync",
+        "cors_relay"
+      ],
+      "title": "Features",
+      "type": "object"
+    },
+    "FileInfo": {
+      "$defs": {
+        "FileOrigin": {
+          "enum": [
+            "upload",
+            "pick",
+            "output"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "description": "For a picked folder: the files in it (names only).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "group": {
+          "description": "Upload group: pass it as `group=` to upload companion files (.sdw, .aux.xml, .shx…) beside this one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "origin": {
+          "$ref": "#/$defs/FileOrigin"
+        },
+        "size": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "size",
+        "origin"
+      ],
+      "title": "FileInfo",
+      "type": "object"
+    },
+    "Hello": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /v1/hello`: answered to every allow-listed origin, with or without a token.",
+      "properties": {
+        "api": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "channel": {
+          "description": "`\"preview\"` while builds are unsigned.",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The origin as the sidecar saw it (`\"null\"` for file://).",
+          "type": "string"
+        },
+        "paired": {
+          "description": "Whether the request carried a valid token for its origin.",
+          "type": "boolean"
+        },
+        "port": {
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "service": {
+          "description": "Always `\"gwb-sidecar\"`.",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "service",
+        "version",
+        "api",
+        "port",
+        "paired",
+        "origin",
+        "channel"
+      ],
+      "title": "Hello",
+      "type": "object"
+    },
+    "Job": {
+      "$defs": {
+        "FileInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "entries": {
+              "description": "For a picked folder: the files in it (names only).",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group": {
+              "description": "Upload group: pass it as `group=` to upload companion files (.sdw, .aux.xml, .shx…) beside this one.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "origin": {
+              "$ref": "#/$defs/FileOrigin"
+            },
+            "size": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "size",
+            "origin"
+          ],
+          "type": "object"
+        },
+        "FileOrigin": {
+          "enum": [
+            "upload",
+            "pick",
+            "output"
+          ],
+          "type": "string"
+        },
+        "JobState": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "type": "string"
+        },
+        "Provenance": {
+          "additionalProperties": false,
+          "properties": {
+            "finished": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "options": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "sidecar": {
+              "type": "string"
+            },
+            "started": {
+              "type": "string"
+            },
+            "steps": {
+              "items": {
+                "$ref": "#/$defs/StepRecord"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sidecar",
+            "profile",
+            "options",
+            "inputs",
+            "steps",
+            "started",
+            "finished"
+          ],
+          "type": "object"
+        },
+        "StepRecord": {
+          "additionalProperties": false,
+          "description": "Tool, version and arguments of every step, also written beside the output (REQ-SDC-08).",
+          "properties": {
+            "args": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "exit_code": {
+              "format": "int32",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ms": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "args",
+            "ms"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "created": {
+          "type": "string"
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "outputs": {
+          "items": {
+            "$ref": "#/$defs/FileInfo"
+          },
+          "type": "array"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "progress": {
+          "default": null,
+          "description": "0..1, or null while unknown.",
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Provenance"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "result": {
+          "description": "Structured result (the `probe` profile's match and tool reports)."
+        },
+        "retry_of": {
+          "description": "Id of the job this one retried.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "$ref": "#/$defs/JobState"
+        }
+      },
+      "required": [
+        "id",
+        "profile",
+        "state",
+        "inputs",
+        "outputs",
+        "created"
+      ],
+      "title": "Job",
+      "type": "object"
+    },
+    "JobEvent": {
+      "$defs": {
+        "FileInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "entries": {
+              "description": "For a picked folder: the files in it (names only).",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group": {
+              "description": "Upload group: pass it as `group=` to upload companion files (.sdw, .aux.xml, .shx…) beside this one.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "origin": {
+              "$ref": "#/$defs/FileOrigin"
+            },
+            "size": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "size",
+            "origin"
+          ],
+          "type": "object"
+        },
+        "FileOrigin": {
+          "enum": [
+            "upload",
+            "pick",
+            "output"
+          ],
+          "type": "string"
+        },
+        "Job": {
+          "additionalProperties": false,
+          "properties": {
+            "created": {
+              "type": "string"
+            },
+            "error": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "outputs": {
+              "items": {
+                "$ref": "#/$defs/FileInfo"
+              },
+              "type": "array"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "progress": {
+              "default": null,
+              "description": "0..1, or null while unknown.",
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "provenance": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Provenance"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "result": {
+              "description": "Structured result (the `probe` profile's match and tool reports)."
+            },
+            "retry_of": {
+              "description": "Id of the job this one retried.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "state": {
+              "$ref": "#/$defs/JobState"
+            }
+          },
+          "required": [
+            "id",
+            "profile",
+            "state",
+            "inputs",
+            "outputs",
+            "created"
+          ],
+          "type": "object"
+        },
+        "JobState": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "type": "string"
+        },
+        "Provenance": {
+          "additionalProperties": false,
+          "properties": {
+            "finished": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "options": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "sidecar": {
+              "type": "string"
+            },
+            "started": {
+              "type": "string"
+            },
+            "steps": {
+              "items": {
+                "$ref": "#/$defs/StepRecord"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sidecar",
+            "profile",
+            "options",
+            "inputs",
+            "steps",
+            "started",
+            "finished"
+          ],
+          "type": "object"
+        },
+        "StepRecord": {
+          "additionalProperties": false,
+          "description": "Tool, version and arguments of every step, also written beside the output (REQ-SDC-08).",
+          "properties": {
+            "args": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "exit_code": {
+              "format": "int32",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ms": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "args",
+            "ms"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "One line of `GET /v1/jobs/{id}/events` (application/x-ndjson).",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "$ref": "#/$defs/JobState"
+            },
+            "type": {
+              "const": "state",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "state"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "progress": {
+              "format": "double",
+              "type": "number"
+            },
+            "type": {
+              "const": "progress",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "progress"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "line": {
+              "type": "string"
+            },
+            "type": {
+              "const": "log",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "line"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "job": {
+              "$ref": "#/$defs/Job"
+            },
+            "type": {
+              "const": "done",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "job"
+          ],
+          "type": "object"
+        }
+      ],
+      "title": "JobEvent"
+    },
+    "JobList": {
+      "$defs": {
+        "FileInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "entries": {
+              "description": "For a picked folder: the files in it (names only).",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group": {
+              "description": "Upload group: pass it as `group=` to upload companion files (.sdw, .aux.xml, .shx…) beside this one.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "origin": {
+              "$ref": "#/$defs/FileOrigin"
+            },
+            "size": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "size",
+            "origin"
+          ],
+          "type": "object"
+        },
+        "FileOrigin": {
+          "enum": [
+            "upload",
+            "pick",
+            "output"
+          ],
+          "type": "string"
+        },
+        "Job": {
+          "additionalProperties": false,
+          "properties": {
+            "created": {
+              "type": "string"
+            },
+            "error": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "outputs": {
+              "items": {
+                "$ref": "#/$defs/FileInfo"
+              },
+              "type": "array"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "progress": {
+              "default": null,
+              "description": "0..1, or null while unknown.",
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "provenance": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Provenance"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "result": {
+              "description": "Structured result (the `probe` profile's match and tool reports)."
+            },
+            "retry_of": {
+              "description": "Id of the job this one retried.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "state": {
+              "$ref": "#/$defs/JobState"
+            }
+          },
+          "required": [
+            "id",
+            "profile",
+            "state",
+            "inputs",
+            "outputs",
+            "created"
+          ],
+          "type": "object"
+        },
+        "JobState": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "type": "string"
+        },
+        "Provenance": {
+          "additionalProperties": false,
+          "properties": {
+            "finished": {
+              "type": "string"
+            },
+            "inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "options": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "sidecar": {
+              "type": "string"
+            },
+            "started": {
+              "type": "string"
+            },
+            "steps": {
+              "items": {
+                "$ref": "#/$defs/StepRecord"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sidecar",
+            "profile",
+            "options",
+            "inputs",
+            "steps",
+            "started",
+            "finished"
+          ],
+          "type": "object"
+        },
+        "StepRecord": {
+          "additionalProperties": false,
+          "description": "Tool, version and arguments of every step, also written beside the output (REQ-SDC-08).",
+          "properties": {
+            "args": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "exit_code": {
+              "format": "int32",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ms": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "args",
+            "ms"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "The list endpoints.",
+      "properties": {
+        "jobs": {
+          "items": {
+            "$ref": "#/$defs/Job"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "jobs"
+      ],
+      "title": "JobList",
+      "type": "object"
+    },
+    "JobRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/jobs`.",
+      "properties": {
+        "inputs": {
+          "description": "File ids from `PUT /v1/files`, `POST /v1/pick` or earlier outputs.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "options": {
+          "additionalProperties": true,
+          "default": {},
+          "type": "object"
+        },
+        "output_name": {
+          "description": "Name for the output (sanitised; the profile's extension is enforced).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "profile": {
+          "type": "string"
+        },
+        "reason": {
+          "description": "Free text shown in the sidecar's job list (≤ 200 characters).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "profile",
+        "inputs"
+      ],
+      "title": "JobRequest",
+      "type": "object"
+    },
+    "PairRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/pair`.",
+      "properties": {
+        "client": {
+          "description": "The client's own name as shown in the sidecar window (1–80 printable characters).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "client"
+      ],
+      "title": "PairRequest",
+      "type": "object"
+    },
+    "PairStart": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Answer to `POST /v1/pair`: the app shows `code`; the sidecar window shows the same code.",
+      "properties": {
+        "code": {
+          "description": "Six digits.",
+          "type": "string"
+        },
+        "expires_in": {
+          "description": "Seconds until the request lapses.",
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pairing_id": {
+          "description": "Unguessable id of this pairing request; only its holder can collect the token.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pairing_id",
+        "code",
+        "expires_in"
+      ],
+      "title": "PairStart",
+      "type": "object"
+    },
+    "PairStatus": {
+      "$defs": {
+        "PairState": {
+          "enum": [
+            "pending",
+            "approved",
+            "denied",
+            "expired"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /v1/pair/{pairing_id}`: the token is handed out once, on the first poll after approval.",
+      "properties": {
+        "state": {
+          "$ref": "#/$defs/PairState"
+        },
+        "token": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "title": "PairStatus",
+      "type": "object"
+    },
+    "PickRequest": {
+      "$defs": {
+        "PickMode": {
+          "enum": [
+            "file",
+            "files",
+            "folder"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/pick`: the sidecar opens its own native picker (zero copy for large inputs).",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/PickMode"
+        },
+        "title": {
+          "description": "Shown in the picker's title (≤ 100 characters).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "title": "PickRequest",
+      "type": "object"
+    },
+    "PickResult": {
+      "$defs": {
+        "FileInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "entries": {
+              "description": "For a picked folder: the files in it (names only).",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group": {
+              "description": "Upload group: pass it as `group=` to upload companion files (.sdw, .aux.xml, .shx…) beside this one.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "origin": {
+              "$ref": "#/$defs/FileOrigin"
+            },
+            "size": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "size",
+            "origin"
+          ],
+          "type": "object"
+        },
+        "FileOrigin": {
+          "enum": [
+            "upload",
+            "pick",
+            "output"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "files": {
+          "description": "Empty when the user cancelled.",
+          "items": {
+            "$ref": "#/$defs/FileInfo"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "files"
+      ],
+      "title": "PickResult",
+      "type": "object"
+    },
+    "RelayAttach": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/relay/attach`: the page turns the relay on.",
+      "properties": {
+        "client": {
+          "description": "The page's own name as shown in the sidecar window (1–80 printable characters).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "client"
+      ],
+      "title": "RelayAttach",
+      "type": "object"
+    },
+    "RelayAttached": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Answer to `POST /v1/relay/attach`.",
+      "properties": {
+        "hold_s": {
+          "description": "Longest the sidecar holds one `inbox` request, in seconds.",
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "session": {
+          "description": "Unguessable id of this attachment.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session",
+        "hold_s"
+      ],
+      "title": "RelayAttached",
+      "type": "object"
+    },
+    "RelayDelivery": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /v1/relay/{session}/inbox`: one MCP message for the page to answer.",
+      "properties": {
+        "client": {
+          "description": "The paired client's name, as approved in the sidecar window.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The JSON-RPC 2.0 request, already checked by the sidecar."
+        },
+        "rid": {
+          "description": "Id of this delivery, quoted in the reply.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rid",
+        "client",
+        "message"
+      ],
+      "title": "RelayDelivery",
+      "type": "object"
+    },
+    "RelayHello": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /relay/v1/hello` (REQ-GAP-02): what a relay client (never a browser page) may ask first.",
+      "properties": {
+        "api": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "app": {
+          "description": "Whether a page has the relay on; always false without a valid token.",
+          "type": "boolean"
+        },
+        "paired": {
+          "description": "Whether the request carried a valid relay token.",
+          "type": "boolean"
+        },
+        "port": {
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "service": {
+          "description": "Always `\"gwb-sidecar\"`.",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "service",
+        "version",
+        "api",
+        "port",
+        "paired",
+        "app"
+      ],
+      "title": "RelayHello",
+      "type": "object"
+    },
+    "RelayReply": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/relay/{session}/reply`.",
+      "properties": {
+        "reply": {
+          "description": "The JSON-RPC 2.0 response from the page's MCP server."
+        },
+        "rid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rid",
+        "reply"
+      ],
+      "title": "RelayReply",
+      "type": "object"
+    },
+    "SaveResult": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/files/{id}/save`: copies an output to a folder the user picks in the sidecar.",
+      "properties": {
+        "folder": {
+          "description": "The folder's display name only (no full path leaves the sidecar).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "saved": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "saved"
+      ],
+      "title": "SaveResult",
+      "type": "object"
+    },
+    "StereoInfo": {
+      "$defs": {
+        "StereoMode": {
+          "description": "How the viewer shows a pair.",
+          "oneOf": [
+            {
+              "enum": [
+                "anaglyph",
+                "side_by_side"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "auto",
+              "description": "Quad-buffer on a display that has it, else anaglyph.",
+              "type": "string"
+            },
+            {
+              "const": "quad",
+              "description": "Quad-buffer (active shutter); falls back to anaglyph, by name, where there is none.",
+              "type": "string"
+            }
+          ]
+        },
+        "StereoReadback": {
+          "additionalProperties": false,
+          "description": "What the buffers held after a frame: the software proof a display cannot give. Sent by test\ndevices only.",
+          "properties": {
+            "disparity_px": {
+              "description": "Horizontal shift of the right eye against the left, in screen pixels, by cross-correlation.",
+              "format": "double",
+              "type": "number"
+            },
+            "disparity_score": {
+              "format": "double",
+              "type": "number"
+            },
+            "draw_buffers": {
+              "description": "The GL calls of the last frame that chose a colour buffer, in order.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "gl_stereo": {
+              "description": "What `GL_STEREO` says about the context.",
+              "type": "boolean"
+            },
+            "left_mean": {
+              "description": "Mean of the left buffer's red, green and blue, 0–255.",
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "left_sha256": {
+              "description": "SHA-256 of the left eye's buffer as drawn.",
+              "type": "string"
+            },
+            "renderer": {
+              "description": "`GL_RENDERER`.",
+              "type": "string"
+            },
+            "right_mean": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "right_sha256": {
+              "description": "SHA-256 of the right eye's buffer as drawn.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "left_sha256",
+            "right_sha256",
+            "left_mean",
+            "right_mean",
+            "disparity_px",
+            "disparity_score",
+            "gl_stereo",
+            "renderer",
+            "draw_buffers"
+          ],
+          "type": "object"
+        },
+        "StereoState": {
+          "oneOf": [
+            {
+              "const": "starting",
+              "description": "The viewer is starting or loading its first tiles.",
+              "type": "string"
+            },
+            {
+              "const": "showing",
+              "description": "A full frame is on the display.",
+              "type": "string"
+            },
+            {
+              "const": "closed",
+              "description": "The window was closed or the session deleted.",
+              "type": "string"
+            },
+            {
+              "const": "failed",
+              "description": "The viewer stopped by itself; `detail` says why.",
+              "type": "string"
+            }
+          ]
+        },
+        "ViewInfo": {
+          "additionalProperties": false,
+          "description": "A view: a BigTIFF of `size` bytes at `GET /v1/views/{id}`, read by range; tiles are decoded as\nthey are read. Writing is not offered, and a view never leaves this computer.",
+          "properties": {
+            "bands": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "driver": {
+              "description": "The GDAL driver that reads it: `MrSID` or `ECW`.",
+              "type": "string"
+            },
+            "height": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "id": {
+              "type": "string"
+            },
+            "levels": {
+              "description": "Full resolution plus overviews.",
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "name": {
+              "description": "The source file's name.",
+              "type": "string"
+            },
+            "sample_type": {
+              "description": "GDAL data type of every band.",
+              "type": "string"
+            },
+            "size": {
+              "description": "Bytes of the virtual file (nothing of this size exists on disk).",
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tile": {
+              "description": "Tile side in pixels.",
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "width": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "driver",
+            "size",
+            "width",
+            "height",
+            "bands",
+            "sample_type",
+            "levels",
+            "tile"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /v1/stereo/{id}`.",
+      "properties": {
+        "detail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "frames": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "left": {
+          "$ref": "#/$defs/ViewInfo"
+        },
+        "quad_available": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "readback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StereoReadback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requested": {
+          "$ref": "#/$defs/StereoMode"
+        },
+        "right": {
+          "$ref": "#/$defs/ViewInfo"
+        },
+        "shown": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StereoMode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "$ref": "#/$defs/StereoState"
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "requested",
+        "frames",
+        "left",
+        "right"
+      ],
+      "title": "StereoInfo",
+      "type": "object"
+    },
+    "StereoReport": {
+      "$defs": {
+        "StereoMode": {
+          "description": "How the viewer shows a pair.",
+          "oneOf": [
+            {
+              "enum": [
+                "anaglyph",
+                "side_by_side"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "auto",
+              "description": "Quad-buffer on a display that has it, else anaglyph.",
+              "type": "string"
+            },
+            {
+              "const": "quad",
+              "description": "Quad-buffer (active shutter); falls back to anaglyph, by name, where there is none.",
+              "type": "string"
+            }
+          ]
+        },
+        "StereoReadback": {
+          "additionalProperties": false,
+          "description": "What the buffers held after a frame: the software proof a display cannot give. Sent by test\ndevices only.",
+          "properties": {
+            "disparity_px": {
+              "description": "Horizontal shift of the right eye against the left, in screen pixels, by cross-correlation.",
+              "format": "double",
+              "type": "number"
+            },
+            "disparity_score": {
+              "format": "double",
+              "type": "number"
+            },
+            "draw_buffers": {
+              "description": "The GL calls of the last frame that chose a colour buffer, in order.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "gl_stereo": {
+              "description": "What `GL_STEREO` says about the context.",
+              "type": "boolean"
+            },
+            "left_mean": {
+              "description": "Mean of the left buffer's red, green and blue, 0–255.",
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "left_sha256": {
+              "description": "SHA-256 of the left eye's buffer as drawn.",
+              "type": "string"
+            },
+            "renderer": {
+              "description": "`GL_RENDERER`.",
+              "type": "string"
+            },
+            "right_mean": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "right_sha256": {
+              "description": "SHA-256 of the right eye's buffer as drawn.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "left_sha256",
+            "right_sha256",
+            "left_mean",
+            "right_mean",
+            "disparity_px",
+            "disparity_score",
+            "gl_stereo",
+            "renderer",
+            "draw_buffers"
+          ],
+          "type": "object"
+        },
+        "StereoState": {
+          "oneOf": [
+            {
+              "const": "starting",
+              "description": "The viewer is starting or loading its first tiles.",
+              "type": "string"
+            },
+            {
+              "const": "showing",
+              "description": "A full frame is on the display.",
+              "type": "string"
+            },
+            {
+              "const": "closed",
+              "description": "The window was closed or the session deleted.",
+              "type": "string"
+            },
+            {
+              "const": "failed",
+              "description": "The viewer stopped by itself; `detail` says why.",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /stereo/v1/{id}/report`: the viewer tells the sidecar what it is doing.",
+      "properties": {
+        "detail": {
+          "description": "Why the mode is not the one asked for, or why the viewer failed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "frames": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "quad_available": {
+          "description": "Whether this display offers a quad-buffer pixel format.",
+          "type": "boolean"
+        },
+        "readback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StereoReadback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shown": {
+          "$ref": "#/$defs/StereoMode",
+          "description": "The mode on the display."
+        },
+        "state": {
+          "$ref": "#/$defs/StereoState"
+        }
+      },
+      "required": [
+        "state",
+        "shown",
+        "quad_available",
+        "frames"
+      ],
+      "title": "StereoReport",
+      "type": "object"
+    },
+    "StereoRequest": {
+      "$defs": {
+        "StereoMode": {
+          "description": "How the viewer shows a pair.",
+          "oneOf": [
+            {
+              "enum": [
+                "anaglyph",
+                "side_by_side"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "auto",
+              "description": "Quad-buffer on a display that has it, else anaglyph.",
+              "type": "string"
+            },
+            {
+              "const": "quad",
+              "description": "Quad-buffer (active shutter); falls back to anaglyph, by name, where there is none.",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/stereo`: show a pair in the native viewer (REQ-GAP-33).",
+      "properties": {
+        "left": {
+          "description": "File id of the left eye's image.",
+          "type": "string"
+        },
+        "left_affine": {
+          "description": "Display plane to left image pixels, `[a, b, c, d, e, f]`: `x = a·u + b·v + c`,\n`y = d·u + e·v + f`. This is how the app's epipolar fit reaches the viewer. Default: identity.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "mode": {
+          "$ref": "#/$defs/StereoMode",
+          "default": "auto"
+        },
+        "right": {
+          "description": "File id of the right eye's image.",
+          "type": "string"
+        },
+        "right_affine": {
+          "description": "The same for the right image.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "left",
+        "right"
+      ],
+      "title": "StereoRequest",
+      "type": "object"
+    },
+    "StereoScene": {
+      "$defs": {
+        "StereoEye": {
+          "additionalProperties": false,
+          "description": "One eye as the viewer needs it.",
+          "properties": {
+            "affine": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 6,
+              "minItems": 6,
+              "type": "array"
+            },
+            "height": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "levels": {
+              "description": "Size of each level, finest first; each is half the one before.",
+              "items": {
+                "items": {
+                  "format": "uint32",
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "name": {
+              "type": "string"
+            },
+            "width": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name",
+            "width",
+            "height",
+            "levels",
+            "affine"
+          ],
+          "type": "object"
+        },
+        "StereoMode": {
+          "description": "How the viewer shows a pair.",
+          "oneOf": [
+            {
+              "enum": [
+                "anaglyph",
+                "side_by_side"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "auto",
+              "description": "Quad-buffer on a display that has it, else anaglyph.",
+              "type": "string"
+            },
+            {
+              "const": "quad",
+              "description": "Quad-buffer (active shutter); falls back to anaglyph, by name, where there is none.",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /stereo/v1/{id}/scene`: everything but the pixels. A tile is `tile`² RGBA8 pixels.",
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/StereoEye"
+        },
+        "mode": {
+          "$ref": "#/$defs/StereoMode"
+        },
+        "right": {
+          "$ref": "#/$defs/StereoEye"
+        },
+        "tile": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "tile",
+        "mode",
+        "left",
+        "right"
+      ],
+      "title": "StereoScene",
+      "type": "object"
+    },
+    "SyncAttach": {
+      "$defs": {
+        "SyncDirection": {
+          "description": "Who follows whom, chosen in the app. The sidecar refuses a publish from the side that follows.",
+          "enum": [
+            "both",
+            "app_follows",
+            "pro_follows"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/sync/attach`: the page turns sync on.",
+      "properties": {
+        "client": {
+          "description": "The page's own name as shown in the sidecar window (1–80 printable characters).",
+          "type": "string"
+        },
+        "direction": {
+          "$ref": "#/$defs/SyncDirection"
+        }
+      },
+      "required": [
+        "client",
+        "direction"
+      ],
+      "title": "SyncAttach",
+      "type": "object"
+    },
+    "SyncAttached": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Answer to `POST /v1/sync/attach`.",
+      "properties": {
+        "hold_s": {
+          "description": "Longest the sidecar holds one `next` request, in seconds.",
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "session": {
+          "description": "Unguessable id of this attachment.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session",
+        "hold_s"
+      ],
+      "title": "SyncAttached",
+      "type": "object"
+    },
+    "SyncHello": {
+      "$defs": {
+        "SyncDirection": {
+          "description": "Who follows whom, chosen in the app. The sidecar refuses a publish from the side that follows.",
+          "enum": [
+            "both",
+            "app_follows",
+            "pro_follows"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET /sync/v1/hello`: what the add-in may ask first.",
+      "properties": {
+        "api": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "app": {
+          "description": "Whether a page has sync on; always false without a valid token.",
+          "type": "boolean"
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SyncDirection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Who follows whom now; absent while no page has sync on."
+        },
+        "paired": {
+          "description": "Whether the request carried a valid add-in token.",
+          "type": "boolean"
+        },
+        "port": {
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "service": {
+          "description": "Always `\"gwb-sidecar\"`.",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "service",
+        "version",
+        "api",
+        "port",
+        "paired",
+        "app"
+      ],
+      "title": "SyncHello",
+      "type": "object"
+    },
+    "SyncPublish": {
+      "$defs": {
+        "SyncCursor": {
+          "additionalProperties": false,
+          "description": "The cursor on a side's map; `visible: false` when it left the map (the position is then ignored).",
+          "properties": {
+            "lat": {
+              "format": "double",
+              "type": "number"
+            },
+            "lon": {
+              "format": "double",
+              "type": "number"
+            },
+            "visible": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lon",
+            "lat",
+            "visible"
+          ],
+          "type": "object"
+        },
+        "SyncView": {
+          "additionalProperties": false,
+          "description": "A map position in WGS 84 and how much ground one screen pixel covers: what the app and ArcGIS Pro\nhave in common (REQ-GAP-65). Each side projects to and from its own coordinate system.",
+          "properties": {
+            "lat": {
+              "description": "Degrees north, −90 to 90.",
+              "format": "double",
+              "type": "number"
+            },
+            "lon": {
+              "description": "Degrees east, −180 to 180.",
+              "format": "double",
+              "type": "number"
+            },
+            "mpp": {
+              "description": "Metres on the ground per screen pixel at the centre of the view.",
+              "format": "double",
+              "type": "number"
+            },
+            "rotation": {
+              "description": "Degrees, clockwise from north up, −360 to 360.",
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "lon",
+            "lat",
+            "mpp",
+            "rotation"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /sync/v1/state` and `POST /v1/sync/{session}/state`: at least one of the two.",
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SyncCursor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "view": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SyncView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "SyncPublish",
+      "type": "object"
+    },
+    "SyncUpdate": {
+      "$defs": {
+        "SyncCursor": {
+          "additionalProperties": false,
+          "description": "The cursor on a side's map; `visible: false` when it left the map (the position is then ignored).",
+          "properties": {
+            "lat": {
+              "format": "double",
+              "type": "number"
+            },
+            "lon": {
+              "format": "double",
+              "type": "number"
+            },
+            "visible": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lon",
+            "lat",
+            "visible"
+          ],
+          "type": "object"
+        },
+        "SyncView": {
+          "additionalProperties": false,
+          "description": "A map position in WGS 84 and how much ground one screen pixel covers: what the app and ArcGIS Pro\nhave in common (REQ-GAP-65). Each side projects to and from its own coordinate system.",
+          "properties": {
+            "lat": {
+              "description": "Degrees north, −90 to 90.",
+              "format": "double",
+              "type": "number"
+            },
+            "lon": {
+              "description": "Degrees east, −180 to 180.",
+              "format": "double",
+              "type": "number"
+            },
+            "mpp": {
+              "description": "Metres on the ground per screen pixel at the centre of the view.",
+              "format": "double",
+              "type": "number"
+            },
+            "rotation": {
+              "description": "Degrees, clockwise from north up, −360 to 360.",
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "lon",
+            "lat",
+            "mpp",
+            "rotation"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`GET .../next?after=<seq>`: what the other side published since `after`, newest only: a state\nstream, not a queue, so a slow reader skips to the present.",
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SyncCursor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "peer": {
+          "description": "Whether the other side is there now.",
+          "type": "boolean"
+        },
+        "seq": {
+          "description": "Quote this as the next `after`.",
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "view": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SyncView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "seq",
+        "peer"
+      ],
+      "title": "SyncUpdate",
+      "type": "object"
+    },
+    "ViewInfo": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "A view: a BigTIFF of `size` bytes at `GET /v1/views/{id}`, read by range; tiles are decoded as\nthey are read. Writing is not offered, and a view never leaves this computer.",
+      "properties": {
+        "bands": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "driver": {
+          "description": "The GDAL driver that reads it: `MrSID` or `ECW`.",
+          "type": "string"
+        },
+        "height": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "levels": {
+          "description": "Full resolution plus overviews.",
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "description": "The source file's name.",
+          "type": "string"
+        },
+        "sample_type": {
+          "description": "GDAL data type of every band.",
+          "type": "string"
+        },
+        "size": {
+          "description": "Bytes of the virtual file (nothing of this size exists on disk).",
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "tile": {
+          "description": "Tile side in pixels.",
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "width": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "driver",
+        "size",
+        "width",
+        "height",
+        "bands",
+        "sample_type",
+        "levels",
+        "tile"
+      ],
+      "title": "ViewInfo",
+      "type": "object"
+    },
+    "ViewRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "`POST /v1/views`: open a file the app cannot decode as a view read by range (REQ-GAP-70).",
+      "properties": {
+        "file": {
+          "description": "A file id from `/v1/files` or `/v1/pick`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "ViewRequest",
+      "type": "object"
+    }
+  }
+}

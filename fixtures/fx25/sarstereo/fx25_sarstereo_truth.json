@@ -1,0 +1,36 @@
+{
+ "description": "FX-25 synthetic SAR stereo pair on the geometry of two Umbra Hetch Hetchy collects (SARkit 1.12 writer and projections)",
+ "centre": {
+  "lat": 37.946498767297825,
+  "lon": -119.72170090692836,
+  "hae": 1295.447961668484
+ },
+ "halfSizeM": 210.0,
+ "coarsening": 4.0,
+ "priorBiasM": 3.0,
+ "ridge": {
+  "eastM": -120.0,
+  "northM": -110.0,
+  "heightM": 30.0,
+  "halfWidthM": 18.0,
+  "halfLengthM": 70.0
+ },
+ "images": {
+  "a": {
+   "file": "fx25_sarstereo_a.nitf",
+   "firstRow": 1022,
+   "firstCol": 1625,
+   "rows": 319,
+   "cols": 333,
+   "bytes": 453124
+  },
+  "b": {
+   "file": "fx25_sarstereo_b.nitf",
+   "firstRow": 930,
+   "firstCol": 1389,
+   "rows": 290,
+   "cols": 306,
+   "bytes": 385863
+  }
+ }
+}

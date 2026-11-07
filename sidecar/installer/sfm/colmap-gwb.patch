@@ -1,0 +1,137 @@
+diff --git a/cmake/FindBLAS.cmake b/cmake/FindBLAS.cmake
+new file mode 100644
+index 0000000..4aab8d3
+--- /dev/null
++++ b/cmake/FindBLAS.cmake
+@@ -0,0 +1,4 @@
++# GIS Workbench build: see FindLAPACK.cmake.
++find_package(OpenBLAS CONFIG REQUIRED)
++set(BLAS_FOUND TRUE)
++set(BLAS_LIBRARIES OpenBLAS::OpenBLAS)
+diff --git a/cmake/FindDependencies.cmake b/cmake/FindDependencies.cmake
+index e26d5e9..5da7eb3 100644
+--- a/cmake/FindDependencies.cmake
++++ b/cmake/FindDependencies.cmake
+@@ -84,15 +84,15 @@ if(NOT TARGET SQLite3::SQLite3 AND TARGET SQLite::SQLite3)
+     add_library(SQLite3::SQLite3 ALIAS SQLite::SQLite3)
+ endif()
+ 
+-set(OpenGL_GL_PREFERENCE GLVND)
+-find_package(OpenGL ${COLMAP_FIND_TYPE})
++if(OPENGL_ENABLED)
++    set(OpenGL_GL_PREFERENCE GLVND)
++    find_package(OpenGL ${COLMAP_FIND_TYPE})
+ 
+-find_package(Glew ${COLMAP_FIND_TYPE})
++    find_package(Glew ${COLMAP_FIND_TYPE})
++endif()
+ 
+ find_package(Git)
+ 
+-find_package(CHOLMOD REQUIRED)
+-
+ # Ceres and glog expose gflags::gflags in their interface dependencies, but gflags
+ # only defines the namespaced target when GFLAGS_USE_TARGET_NAMESPACE is ON. Bridge
+ # the gap so consumers can resolve the expected target when only the plain target exists.
+diff --git a/cmake/FindLAPACK.cmake b/cmake/FindLAPACK.cmake
+new file mode 100644
+index 0000000..a2d1463
+--- /dev/null
++++ b/cmake/FindLAPACK.cmake
+@@ -0,0 +1,4 @@
++# GIS Workbench build: LAPACK comes from OpenBLAS's C translation (no Fortran runtime).
++find_package(OpenBLAS CONFIG REQUIRED)
++set(LAPACK_FOUND TRUE)
++set(LAPACK_LIBRARIES OpenBLAS::OpenBLAS)
+diff --git a/src/colmap/optim/CMakeLists.txt b/src/colmap/optim/CMakeLists.txt
+index c963409..a49b5d5 100644
+--- a/src/colmap/optim/CMakeLists.txt
++++ b/src/colmap/optim/CMakeLists.txt
+@@ -45,7 +45,6 @@ COLMAP_ADD_LIBRARY(
+         colmap_math
+         colmap_util
+         Eigen3::Eigen
+-        CHOLMOD::CHOLMOD
+ )
+ if(OPENMP_FOUND)
+     target_link_libraries(colmap_optim PUBLIC OpenMP::OpenMP_CXX)
+diff --git a/src/colmap/optim/sparse_cholesky.cc b/src/colmap/optim/sparse_cholesky.cc
+index beaa1c9..17c7b92 100644
+--- a/src/colmap/optim/sparse_cholesky.cc
++++ b/src/colmap/optim/sparse_cholesky.cc
+@@ -35,23 +35,11 @@ namespace colmap {
+ 
+ void SparseCholeskyWithFallbackSolver::AnalyzePattern(
+     const Eigen::SparseMatrix<double>& A) {
+-  supernodal_.analyzePattern(A);
+-  // LDLT pattern is analyzed lazily on first fallback, since the common case
+-  // never needs it.
++  ldlt_.analyzePattern(A);
+ }
+ 
+ bool SparseCholeskyWithFallbackSolver::Factorize(
+     const Eigen::SparseMatrix<double>& A) {
+-  if (!use_ldlt_) {
+-    supernodal_.factorize(A);
+-    if (supernodal_.info() == Eigen::Success) {
+-      return true;
+-    }
+-    LOG(WARNING) << "Supernodal Cholesky factorization failed; falling back "
+-                    "to simplicial LDLT for ill-conditioned system.";
+-    ldlt_.analyzePattern(A);
+-    use_ldlt_ = true;
+-  }
+   ldlt_.factorize(A);
+   return ldlt_.info() == Eigen::Success;
+ }
+@@ -65,12 +53,8 @@ bool SparseCholeskyWithFallbackSolver::Compute(
+ bool SparseCholeskyWithFallbackSolver::Solve(const Eigen::VectorXd& b,
+                                              Eigen::VectorXd* x) const {
+   THROW_CHECK_NOTNULL(x);
+-  if (use_ldlt_) {
+-    x->noalias() = ldlt_.solve(b);
+-    return ldlt_.info() == Eigen::Success;
+-  }
+-  x->noalias() = supernodal_.solve(b);
+-  return supernodal_.info() == Eigen::Success;
++  x->noalias() = ldlt_.solve(b);
++  return ldlt_.info() == Eigen::Success;
+ }
+ 
+ }  // namespace colmap
+diff --git a/src/colmap/optim/sparse_cholesky.h b/src/colmap/optim/sparse_cholesky.h
+index 6dab1a4..e7228ec 100644
+--- a/src/colmap/optim/sparse_cholesky.h
++++ b/src/colmap/optim/sparse_cholesky.h
+@@ -29,17 +29,15 @@
+ 
+ #pragma once
+ 
+-#include <Eigen/CholmodSupport>
+ #include <Eigen/SparseCholesky>
+ #include <Eigen/SparseCore>
+ 
+ namespace colmap {
+ 
+-// Sparse Cholesky solver that tries CHOLMOD supernodal LLT first (fastest for
+-// large systems) and falls back to Eigen's simplicial LDLT (more numerically
+-// tolerant) once supernodal reports the matrix is not positive definite.
+-// Supernodal CHOLMOD aborts at the first non-positive pivot in a dense block,
+-// which can trigger on mathematically PD but ill-conditioned systems.
++// Sparse Cholesky solver. GIS Workbench build: the CHOLMOD supernodal path is
++// removed, because CHOLMOD's Supernodal module is GPL. Eigen's simplicial LDLT
++// is what upstream falls back to; it is slower on large systems and accepts
++// what the supernodal path refused.
+ class SparseCholeskyWithFallbackSolver {
+  public:
+   // One-shot factorization (analyze + factorize).
+@@ -53,9 +51,7 @@ class SparseCholeskyWithFallbackSolver {
+   bool Solve(const Eigen::VectorXd& b, Eigen::VectorXd* x) const;
+ 
+  private:
+-  Eigen::CholmodSupernodalLLT<Eigen::SparseMatrix<double>> supernodal_;
+   Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> ldlt_;
+-  bool use_ldlt_ = false;
+ };
+ 
+ }  // namespace colmap

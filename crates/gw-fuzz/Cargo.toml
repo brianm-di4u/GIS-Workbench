@@ -1,0 +1,27 @@
+[package]
+name = "gw-fuzz"
+description = "Mutation fuzzing of every untrusted-input parser (REQ-RUST-07); test-only, never shipped"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-parse.workspace = true
+gw-codec = { workspace = true, features = ["j2k"] }
+gw-pointcloud.workspace = true
+gw-sensor.workspace = true
+gw-tiles.workspace = true
+gw-terrain.workspace = true
+gw-sar.workspace = true
+
+[dev-dependencies]
+# The photo bundle's job records (2.5 lidarreg, REQ-GAP-46) are fuzzed through its exports.
+gw-bundle-photo = { path = "../bundles/photo" }
+gw-aero.workspace = true
+# 2.5 sarstereo: the sar bundle's radargrammetry ABI (fuzz25_sarstereo.rs).
+gw-bundle-sar = { path = "../bundles/sar" }
+gw-geodesy.workspace = true
+gw-tin.workspace = true
+gw-aviation.workspace = true

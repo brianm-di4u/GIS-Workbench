@@ -1,0 +1,18 @@
+FX-25 sarstereo fixtures (REQ-GAP-42, 2.5 group sarstereo)
+
+SICD XML metadata (the XML of the SICD DES, copied byte for byte from the files):
+  umbra_2023-09-28-05-16-39_UMBRA-04.sicd.xml, umbra_2023-07-27-05-21-14_UMBRA-05.sicd.xml,
+  umbra_2023-08-25-05-12-40_UMBRA-05.sicd.xml
+    Umbra Open Data Program, Hetch Hetchy Reservoir collects, CC BY 4.0 (https://umbra.space/open-license).
+    Files: D:/gwb24/data-terrsar/umbra-hetchhetchy (URLs and SHA-256 in D:/gwb24/data-terrsar/SOURCES.json).
+  CAPELLA_*.sicd.xml (C03, C05 x2, C06 x2 spotlight 2022, Hatay; C10, C14 stripmap 2024, Denver)
+    (c) Capella Space Corp., Capella Open Data, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+    Files: D:/gwb25/data-sarstereo (URLs and SHA-256 in D:/gwb25/data-sarstereo/SOURCES.json).
+
+Synthetic pair (build/fixtures/fx25-sarstereo.py, SARkit 1.12 writer and projections, gw-te Python):
+  fx25_sarstereo_a.nitf, fx25_sarstereo_b.nitf  RE16I_IM16I chips with the geometry of the two Umbra
+      collects above (2023-09-28 and 2023-07-27) coarsened 4x; synthetic terrain, reflectivity and speckle.
+  fx25_sarstereo_prior.tif   the truth block-averaged over 30 m, +3 m, 10 m posts, HAE (EPSG:4326)
+  fx25_sarstereo_truth.tif   the truth at 2 m posts, HAE (EPSG:4326)
+  fx25_sarstereo_truth.json  centre, ridge, offsets and chip windows
+The pixels and DEMs are generated; only the collection geometry comes from the Umbra metadata.

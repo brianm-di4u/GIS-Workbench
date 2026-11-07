@@ -1,0 +1,26 @@
+# GIS Workbench sidecar (SDP-2.1 §3.2, Appendix D §8): a native workspace, separate from crates/
+# (which builds WebAssembly). Nothing here enters the HTML file.
+[workspace]
+resolver = "2"
+members = ["gwb-sidecar-api", "gwb-sidecar", "gwb-stereo", "gwb-sfm", "stubs/nospatialite", "stubs/nolzo"]
+# The library stand-ins (stubs/, REQ-SDC-12) are no_std and need panic = "abort":
+#   cargo build --release -p gwb-nospatialite -p gwb-nolzo --config 'profile.release.panic="abort"'
+default-members = ["gwb-sidecar-api", "gwb-sidecar", "gwb-stereo"]
+
+[workspace.package]
+version = "0.3.0"
+edition = "2021"
+license = "Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+schemars = "1"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 4
+panic = "unwind"
+strip = "symbols"

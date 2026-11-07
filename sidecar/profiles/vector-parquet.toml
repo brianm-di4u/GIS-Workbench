@@ -1,0 +1,31 @@
+# Vector -> GeoParquet (REQ-SDC-08).
+id = "vector-parquet"
+title = "Vector to GeoParquet"
+module = "core-gdal"
+input = "vector"
+output_ext = "parquet"
+
+[[options]]
+name = "compression"
+title = "Compression"
+type = "enum"
+values = ["SNAPPY", "ZSTD", "GZIP", "NONE"]
+default = "ZSTD"
+
+[[options]]
+name = "t_srs"
+title = "Reproject to"
+type = "crs"
+optional = true
+
+[[steps]]
+tool = "ogr2ogr"
+progress = "gdal"
+args = [
+  "-progress",
+  "-f", "Parquet",
+  "-lco", "COMPRESSION={compression}",
+  "-lco", "GEOMETRY_ENCODING=WKB",
+  { when = "t_srs", args = ["-t_srs", "{t_srs}"] },
+  "{output}", "{input}",
+]

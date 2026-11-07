@@ -1,0 +1,19 @@
+{
+ "file": "geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf",
+ "oracle": "GDAL 3.13.3 ogrinfo -al -so (per-layer feature counts)",
+ "layers": {
+  "Map_Collar_Map_Elements": 199,
+  "Map_Frame_Projection_and_Grids": 27,
+  "Map_Frame_Geographic_Names": 37,
+  "Map_Frame_Structures": 69,
+  "Map_Frame_Transportation_Road_Names_and_Shields": 128,
+  "Map_Frame_Transportation_Road_Features": 3373,
+  "Map_Frame_Transportation_Railroads": 732,
+  "Map_Frame_PLSS": 542,
+  "Map_Frame_Hydrography": 3205,
+  "Map_Frame_Terrain_Contours": 913,
+  "Map_Frame_Woodland": 86,
+  "Map_Frame_Boundaries_Jurisdictional_Boundaries_County_or_Equivalent": 279,
+  "Map_Frame_Boundaries_Federal_Administrated_Lands_Department_of_Defense": 312
+ }
+}

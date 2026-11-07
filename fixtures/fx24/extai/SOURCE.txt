@@ -1,0 +1,1 @@
+mini-ggdm.gwcatalog.json: a hand-written gw-catalog/1 test catalogue (GIS Workbench, Apache-2.0) in the shape of a GGDM/NAS conversion: two feature types, a subtype set, conditional rules and contingent domains. It is not NSG data; codes and labels are illustrative. Used by tests/unit/catalog-schema.test.js and tests/e2e/24-extai.spec.js.

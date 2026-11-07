@@ -1,0 +1,92 @@
+// Feature modules, loaded with Promise.allSettled at boot: a failing feature is logged and
+// never stops the tool.
+
+import * as navigation from './navigation.js';
+import * as readout from './readout.js';
+import * as files from './files.js';
+import * as footprint from './footprint.js';
+import * as enhance from './enhance.js';
+import * as enhanceTools from './enhance-tools.js';
+import * as analyze from './analyze.js';
+import * as views from './views.js';
+import * as measure from './measure.js';
+import * as dem from './dem.js';
+import * as compare from './compare.js';
+import * as graphics from './graphics.js';
+import * as change from './change.js';
+import * as panels from './panels.js';
+import * as dialogs from './dialogs.js';
+import * as feedback from './feedback.js';
+import * as ai from './ai.js';
+import * as online from './online.js';
+import * as products from './products.js';
+import * as productPages from './product-pages.js';
+import * as extract from './extract.js';
+import * as register from './register.js';
+import * as prefsUi from './prefs-ui.js';
+import * as workspaceTools from './workspace-tools.js';
+import * as aoi from './aoi.js';
+import * as fusion from './fusion.js';
+import * as measureExtras from './measure-extras.js';
+import * as aiExtras from './ai-extras.js';
+import * as hud from './hud.js';
+import * as basemaps from './basemaps.js';
+import * as tilesets from './tilesets.js';
+import * as globe from './globe.js';
+import * as catalog from './catalog.js';
+import * as convert from './convert.js';
+import * as triangulation from './triangulation.js';
+import * as stereo from './stereo.js';
+import * as terrainExtract from './terrain-extract.js';
+import * as demTools from './dem-tools.js';
+import * as ortho from './ortho.js';
+import * as terrainAnalysis from './terrain-analysis.js';
+import * as pointcloud from './pointcloud.js';
+import * as attribution from './attribution.js';
+import * as extractR2 from './extract-r2.js';
+import * as scene3d from './scene3d.js';
+import * as symbology from './symbology.js';
+import * as finishing from './finishing.js';
+import * as devices from './devices.js';
+import * as release from './release.js';
+import * as frames from './frames.js';
+import * as ootf from './ootf.js';
+import * as sar from './sar.js';
+import * as sar21 from './sar21.js';
+import * as spectral from './spectral.js';
+import * as spectralAnalysis from './spectral-analysis.js';
+import * as fmv from './fmv.js';
+import * as packs from './packs.js';
+import * as datumGrids from './datum-grids.js';
+import * as aiLocal from './ai-local.js';
+import * as aiSam from './ai-sam.js';
+import * as recipes from './recipes.js';
+import * as hubBridges from './hub.js';
+import * as detections from './detections.js';
+import * as observations from './observations.js';
+import * as media from './media.js';
+import * as mie from './mie.js';
+import * as remoteEdit from './remote-edit.js';
+import * as services from './services.js';
+import * as stereoOut from './stereo-out.js';
+import * as terrainFolder from './terrain-folder.js';
+import * as automation from './automation.js';
+import * as sidecar from '../sidecar/feature.js';
+import * as gdalroutes from './gdalroutes-lazy.js';
+import * as ossim from './ossim-lazy.js'; // lazy js-ossim block (REQ-GAP-21)
+import * as sfm from './sfm-lazy.js'; // lazy js-sfm block (REQ-GAP-29)
+import { pansharpen } from './imaging-lazy.js'; // lazy js-imaging block
+import * as aero from './aero.js'; // 2.5 aerial triangulation, lazy js-aero block
+import * as signin from './signin.js';
+import * as streams from './streams.js';
+import * as geopdf from './geopdf.js';
+import * as field from './field-lazy.js'; // 2.5 field tools (OD-2.23): lazy js-field block
+import * as csm from './csm.js';
+import * as vendorModels from './vendor-models.js'; // lazy js-vendor block (REQ-GAP-20)
+import { lidarreg } from './lidarreg-lazy.js'; // lazy js-lidarreg block (2.5, REQ-GAP-46)
+import * as sarStereo from './sarstereo-lazy.js'; // lazy js-sarstereo block
+import * as tin from './tin.js'; // lazy js-tin block (REQ-GAP-39)
+import * as models3d from './models3d-lazy.js'; // lazy js-models3d block (2.5, REQ-GAP-35, REQ-GAP-68)
+import * as aviation from './aviation.js'; // 2.5 aviation (GR-27): lazy js-aviation block
+
+export const FEATURES = [hud, basemaps, tilesets, globe, catalog, convert, navigation, readout, files, footprint, enhance, enhanceTools, analyze, panels, views, measure, dem, compare, dialogs, graphics, change, feedback, ai, online, products, productPages, extract, register, prefsUi, workspaceTools, aoi, fusion, measureExtras, aiExtras, triangulation, stereo, terrainExtract, demTools, ortho, terrainAnalysis, pointcloud, attribution, extractR2, scene3d, symbology, finishing, devices, release, frames, ootf, sar, sar21, spectral, spectralAnalysis, fmv, packs, datumGrids, aiLocal, aiSam, recipes, hubBridges, detections, observations, media, mie, remoteEdit, stereoOut, terrainFolder, automation, sidecar, gdalroutes, sfm, pansharpen, services, signin, geopdf, field, csm, ossim, vendorModels, lidarreg, aero, sarStereo, tin, models3d, streams, aviation];

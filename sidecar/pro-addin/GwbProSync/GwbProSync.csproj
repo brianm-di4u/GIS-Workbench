@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- NOT BUILT here. It needs ArcGIS Pro and the Pro SDK, which need an account or a licence: an owner
+       item (REQ-GAP-65). Nothing else in the repository depends on this project. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <RootNamespace>GwbProSync</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- From the ArcGIS Pro install; the SDK's project template sets these up. -->
+    <Reference Include="ArcGIS.Core"><HintPath>$(ArcGISFolder)\bin\ArcGIS.Core.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="ArcGIS.Desktop.Framework"><HintPath>$(ArcGISFolder)\bin\ArcGIS.Desktop.Framework.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="ArcGIS.Desktop.Mapping"><HintPath>$(ArcGISFolder)\bin\Extensions\Mapping\ArcGIS.Desktop.Mapping.dll</HintPath><Private>False</Private></Reference>
+    <ProjectReference Include="..\GwbProSync.Core\GwbProSync.Core.csproj" />
+    <Content Include="Config.daml" />
+  </ItemGroup>
+</Project>

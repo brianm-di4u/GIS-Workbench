@@ -1,0 +1,142 @@
+/* GIS Workbench Lite: the mobile shell (OD-2.23). Touch-first: targets of at least 48 px (WCAG 2.2
+   AA asks 24 px, AAA 44 px), text in rem so it follows the system font size, the safe-area insets
+   of notched phones, and the theme tokens of the system's light or dark setting. On a wide window
+   the image still fills it; the sheets and the drawer keep a phone or tablet width. */
+
+html { font-size: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@supports (font: -apple-system-body) { html { font: -apple-system-body; } }
+body { font: 400 1rem/1.4 var(--f-ui); background: var(--c-content-bg); color: var(--c-content-text); overscroll-behavior: none; }
+#app { height: 100%; }
+html { --m-kb: 0px; }
+.m-shell {
+  --m-top: env(safe-area-inset-top, 0px); --m-bottom: env(safe-area-inset-bottom, 0px);
+  --m-left: env(safe-area-inset-left, 0px); --m-right: env(safe-area-inset-right, 0px);
+  --m-bar: 4rem; --m-surface: var(--c-content-bg); --m-on: var(--c-content-text);
+  --m-line: var(--c-control-border); --m-accent: var(--c-focus-ring);
+  position: fixed; left: 0; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; color: var(--m-on);
+}
+.m-shell button, .m-shell select, .m-shell input, .m-shell textarea { font: inherit; font-size: 1rem; }
+
+.m-top { flex: none; display: flex; align-items: center; gap: 8px; min-height: 3.25rem; padding: calc(4px + var(--m-top)) calc(8px + var(--m-right)) 4px calc(12px + var(--m-left)); background: var(--m-surface); border-bottom: 1px solid var(--m-line); z-index: 20; }
+.m-title { flex: 1; min-width: 0; margin: 0; font-size: 1.0625rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-chip { flex: none; min-height: 44px; max-width: 62%; border: 1px solid var(--m-line); border-radius: 22px; background: var(--c-button-face); color: var(--m-on); padding: 0 14px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; direction: ltr; }
+
+/* The image view fills what the bars leave. */
+.m-view { position: relative; flex: 1; min-height: 0; overflow: hidden; background: transparent; }
+.m-view > .pane { position: absolute; inset: 0; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.m-view .pane-compass { display: none; } /* the shell's north button stands in */
+.m-cross { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; pointer-events: none; z-index: 5;
+  background: linear-gradient(#fff, #fff) center/2px 100% no-repeat, linear-gradient(#fff, #fff) center/100% 2px no-repeat; filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000); opacity: .85; }
+/* A column from the top right that wraps leftwards when the view is too short for it (a phone in landscape). */
+.m-fab { position: absolute; right: calc(10px + var(--m-right)); top: 12px; bottom: 12px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 48px); gap: 10px; direction: rtl; pointer-events: none; z-index: 10; }
+.m-fab > * { direction: ltr; pointer-events: auto; }
+.m-is-empty .m-fab > [aria-disabled="true"] { visibility: hidden; } /* nothing to act on yet, and the first-run card needs the room */
+.m-cmd-icon { width: 48px; height: 48px; border-radius: 24px; display: grid; place-items: center; border: 1px solid var(--m-line); background: var(--m-surface); color: var(--m-on); box-shadow: 0 2px 6px rgba(0,0,0,.35); padding: 0; }
+.m-cmd-icon[aria-pressed="true"] { background: var(--m-accent); color: #fff; }
+.m-empty { position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); width: min(92%, 26rem); background: var(--m-surface); border: 1px solid var(--m-line); border-radius: 16px; padding: 18px 20px; z-index: 8; box-shadow: 0 4px 18px rgba(0,0,0,.25); }
+.m-empty h2 { margin: 0 0 6px; font-size: 1.25rem; }
+.m-empty p { margin: 0 0 14px; }
+
+/* Tool cue with Finish and Cancel, above the app bar. */
+.m-cue { flex: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px calc(12px + var(--m-right)) 8px calc(12px + var(--m-left)); background: var(--c-toast-bg); color: var(--c-toast-text); z-index: 30; }
+.m-cue-text { flex: 1 1 12rem; min-width: 0; }
+.m-cue-buttons { display: flex; gap: 8px; }
+
+/* Bottom app bar. */
+.m-appbar { flex: none; display: flex; justify-content: space-around; background: var(--m-surface); border-top: 1px solid var(--m-line); padding: 0 var(--m-right) var(--m-bottom) var(--m-left); z-index: 40; }
+.m-bar-btn { flex: 1; max-width: 8rem; min-height: var(--m-bar); min-width: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 0; background: transparent; color: var(--m-on); padding: 4px 2px; }
+.m-bar-label { font-size: 0.8125rem; line-height: 1.2; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m-bar-btn:active { background: var(--c-button-hover); }
+
+/* Buttons, fields and lists in sheets. */
+.m-btn, .m-cmd { min-height: 48px; min-width: 48px; border-radius: 12px; border: 1px solid var(--m-line); background: var(--c-button-face); color: var(--m-on); padding: 6px 14px; }
+.m-btn-primary { background: var(--m-accent); border-color: var(--m-accent); color: #fff; font-weight: 600; }
+.m-cmd { display: flex; align-items: center; gap: 10px; text-align: start; width: 100%; }
+.m-cmd[aria-disabled="true"] { opacity: .5; }
+.m-cmd[aria-pressed="true"] { border-color: var(--m-accent); box-shadow: inset 0 0 0 2px var(--m-accent); }
+.m-cmd-label { flex: 1; min-width: 0; }
+.m-groups { display: flex; flex-direction: column; gap: 4px; }
+.m-group-title { font-size: 0.9375rem; margin: 10px 0 4px; }
+.m-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 8px; }
+.m-field { display: flex; flex-direction: column; gap: 4px; grid-column: 1 / -1; }
+.m-select, .dlg select, .dlg .inp, .dlg textarea, .dlg input[type="text"], .dlg input[type="number"] { min-height: 48px; border-radius: 10px; border: 1px solid var(--m-line); background: var(--m-surface); color: var(--m-on); padding: 6px 10px; width: 100%; }
+.m-range { width: 100%; min-height: 48px; accent-color: var(--m-accent); }
+.m-hint { color: inherit; opacity: .85; margin: 8px 0; }
+.m-results { margin: 0; padding-inline-start: 1.2rem; display: flex; flex-direction: column; gap: 6px; }
+.m-dl { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: 6px 12px; margin: 4px 0 12px; }
+.m-dl dt { font-weight: 600; }
+.m-dl dd { margin: 0; overflow-wrap: anywhere; }
+.m-result-value { font-size: 1.125rem; margin: 4px 0 8px; }
+
+/* Bottom sheets and the scrim; the sheet sits above the keyboard (--m-kb). */
+.m-scrim { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 70; }
+.m-sheet { position: fixed; left: 0; right: 0; bottom: var(--m-kb); margin: 0 auto; max-width: 40rem; max-height: min(78vh, calc(100% - 5rem)); display: flex; flex-direction: column; background: var(--m-surface); color: var(--m-on); border-radius: 18px 18px 0 0; box-shadow: 0 -6px 24px rgba(0,0,0,.35); z-index: 80; padding-bottom: var(--m-bottom); outline: none; }
+.m-sheet[data-modal="0"] { max-height: 55vh; bottom: calc(var(--m-kb) + var(--m-appbar-h, 4rem)); padding-bottom: 0; }
+.m-sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--m-line); margin: 8px auto 0; flex: none; }
+.m-sheet-head { display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 16px; flex: none; touch-action: none; }
+.m-sheet-title { flex: 1; margin: 0; font-size: 1.125rem; }
+.m-sheet-close { width: 48px; height: 48px; border: 0; background: transparent; color: var(--m-on); display: grid; place-items: center; border-radius: 24px; }
+.m-sheet-body, .m-drawer-body { overflow: auto; padding: 4px 16px 16px; flex: 1; -webkit-overflow-scrolling: touch; }
+.m-dock .tbl { width: 100%; border-collapse: collapse; }
+.m-dock .tbl td, .m-dock .tbl th { padding: 8px 6px; border-bottom: 1px solid var(--m-line); text-align: start; }
+
+/* Layers drawer (from the start edge). */
+.m-drawer { position: fixed; top: 0; bottom: 0; inset-inline-start: 0; width: min(88vw, 22rem); display: flex; flex-direction: column; background: var(--m-surface); color: var(--m-on); z-index: 80; box-shadow: 4px 0 24px rgba(0,0,0,.35); padding-top: var(--m-top); padding-bottom: var(--m-bottom); outline: none; }
+.m-layers { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.m-layer { border: 1px solid var(--m-line); border-radius: 12px; padding: 4px 10px; }
+.m-layer-row { display: flex; align-items: center; gap: 8px; }
+.m-check-wrap { width: 48px; height: 48px; display: grid; place-items: center; flex: none; }
+.m-check { width: 24px; height: 24px; accent-color: var(--m-accent); }
+.m-layer-name { flex: 1; min-width: 0; min-height: 48px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; border: 0; background: transparent; color: inherit; text-align: start; padding: 4px; }
+.m-layer-name.active { font-weight: 700; }
+.m-layer-name span { overflow-wrap: anywhere; }
+.m-drawer-body .m-cmd { margin-top: 8px; }
+
+/* The shared dialogs (Jump to Point, Preferences, Field Observation…) as full-width sheets. */
+.m-shell ~ .dlg-backdrop, .dlg-backdrop { background: rgba(0,0,0,.4); }
+.dlg { left: 0 !important; right: 0 !important; top: auto !important; bottom: var(--m-kb, 0px) !important; width: auto !important; max-width: 40rem !important; margin: 0 auto; max-height: min(88vh, calc(var(--m-vh, 100vh) - 8px)); border-radius: 18px 18px 0 0; background: var(--c-content-bg); color: var(--c-content-text); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.dlg-title { height: auto; min-height: 3.25rem; padding-inline: 16px 4px; background: transparent; color: inherit; border-bottom: 1px solid var(--c-divider); cursor: default; }
+.dlg-title-text { white-space: normal; font-size: 1.125rem; }
+.dlg-x { width: 48px; height: 48px; border-radius: 24px; }
+.dlg-body { padding: 12px 16px; }
+.dlg-buttons { flex-wrap: wrap; padding: 10px 16px; gap: 8px; }
+.dlg-buttons .btn { min-height: 48px; min-width: 6rem; border-radius: 12px; flex: 1 1 auto; }
+.dlg .fld { grid-template-columns: 1fr; gap: 4px; margin: 8px 0; }
+.dlg .btn, .dlg .inp, .dlg input:not([type="checkbox"]):not([type="radio"]) { min-height: 48px; min-width: 48px; }
+.dlg input[type="checkbox"], .dlg input[type="radio"] { width: 24px; height: 24px; }
+.dlg .fld-inline { align-items: center; min-height: 48px; }
+.dlg a { display: inline-block; min-height: 48px; line-height: 48px; }
+.fobs-photos { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 8px 0; }
+.fobs-photos li { position: relative; }
+.fobs-photos img { display: block; border-radius: 8px; object-fit: cover; max-height: 120px; }
+.fobs-remove { position: absolute; top: -10px; inset-inline-end: -10px; width: 44px; height: 44px; border-radius: 22px; padding: 0; }
+
+/* The basemap chooser of a georeferenced image (features/basemaps.js) and the menus it opens. */
+.m-view .basemap-btn { position: absolute; inset-inline-start: calc(10px + var(--m-left)); bottom: 12px; z-index: 6; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 14px 0 8px; border: 0; border-radius: 24px; background: rgba(17, 19, 24, .78); color: #f2f2f6; font-size: 0.875rem; }
+.m-view .basemap-swatch { width: 28px; height: 28px; border-radius: 14px; display: inline-block; border: 1px solid rgba(255,255,255,.5); }
+.menu { max-width: calc(100vw - 16px); border-radius: 12px; padding: 4px 0; }
+.menu-item { height: auto; min-height: 48px; font-size: 1rem; padding-inline: 8px 14px; }
+
+/* Messages above the app bar. */
+.toasts { top: calc(env(safe-area-inset-top, 0px) + 3.75rem); bottom: auto; left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(70px + env(safe-area-inset-right, 0px)); transform: none; width: auto; max-width: none; flex-direction: column; align-items: stretch; z-index: 90; } /* at the top, left of the map buttons: never over a sheet's buttons, the app bar or the map buttons */
+@media (max-height: 460px) { .toasts { right: calc(190px + env(safe-area-inset-right, 0px)); } } /* clear of the wrapped columns of map buttons */
+.toast { min-height: 48px; font-size: 1rem; }
+.toast .toast-action, .toast .toast-x { min-height: 44px; min-width: 44px; }
+
+/* Tablet and wider: the same GUI; sheets keep a readable width at the bottom centre. */
+@media (min-width: 768px) {
+  .m-sheet { max-width: 34rem; border-radius: 18px 18px 0 0; }
+  .m-appbar { justify-content: center; gap: 12px; }
+  .m-sheet[data-modal="0"] { max-height: 40vh; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .m-sheet, .m-drawer { animation: m-up .18s ease-out; }
+  .m-drawer { animation-name: m-in; }
+  @keyframes m-up { from { transform: translateY(24px); } to { transform: none; } }
+  @keyframes m-in { from { transform: translateX(-24px); } to { transform: none; } }
+}
+
+/* The activity indicator sits under the top bar, left of the map buttons; messages move below it. */
+.activity { top: calc(env(safe-area-inset-top, 0px) + 3.75rem); bottom: auto; left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(70px + env(safe-area-inset-right, 0px)); inset-inline-end: auto; width: auto; background: var(--c-content-bg); color: var(--c-content-text); }
+body:has(.activity:not([hidden])) .toasts { top: calc(env(safe-area-inset-top, 0px) + 8rem); }
+.activity .btn { min-height: 44px; min-width: 44px; }

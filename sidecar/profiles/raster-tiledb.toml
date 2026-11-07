@@ -1,0 +1,40 @@
+# Raster to a TileDB array (REQ-GAP-72). An array is a folder, so it goes out as one stored ZIP. The
+# driver writes one fragment per block. On a 2 GB aerial scene, the default block size had written
+# 11 MB after 10 minutes and 1024 wrote 110 MB in 5 minutes, while 4096 wrote all of it in 4.5. A plain array, not a
+# group: a picked array comes back in through raster-cog, and a group is refused as an input.
+id = "raster-tiledb"
+title = "Raster to a TileDB array (ZIP)"
+module = "core-gdal"
+input = "raster"
+output_ext = "zip"
+output_name = "{stem}.tiledb"
+zip_dir = "array.tdb"
+memory_mb = 16384
+time_limit_s = 86400
+cpu_limit_s = 1209600
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["ZSTD", "GZIP", "LZ4", "NONE"]
+default = "ZSTD"
+
+[[options]]
+name = "blocksize"
+title = "Tile size"
+type = "enum"
+values = ["1024", "4096", "8192"]
+default = "4096"
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+args = [
+  "-of", "TileDB",
+  "-co", "CREATE_GROUP=NO",
+  "-co", "COMPRESSION={compress}",
+  "-co", "BLOCKXSIZE={blocksize}",
+  "-co", "BLOCKYSIZE={blocksize}",
+  "{input}", "{tmp:array.tdb}",
+]

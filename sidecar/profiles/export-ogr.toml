@@ -1,0 +1,44 @@
+# Universal vector export (REQ-SDC-10): any OGR writer the caps list, with dataset (-dsco) and
+# layer (-lco) creation options checked against the driver.
+id = "export-ogr"
+title = "Save vector with an OGR writer"
+module = "core-gdal"
+input = "vector"
+output_ext = "*"
+
+[[options]]
+name = "driver"
+title = "Format"
+type = "vector_driver"
+
+[[options]]
+name = "dsco"
+title = "Dataset creation options"
+type = "creation_options"
+driver_option = "driver"
+flag = "-dsco"
+
+[[options]]
+name = "lco"
+title = "Layer creation options"
+type = "creation_options"
+driver_option = "driver"
+flag = "-lco"
+
+[[options]]
+name = "t_srs"
+title = "Reproject to"
+type = "crs"
+optional = true
+
+[[steps]]
+tool = "ogr2ogr"
+progress = "gdal"
+args = [
+  "-progress",
+  "-f", "{driver}",
+  { each = "dsco", args = ["-dsco", "{item}"] },
+  { each = "lco", args = ["-lco", "{item}"] },
+  { when = "t_srs", args = ["-t_srs", "{t_srs}"] },
+  "{output}", "{input}",
+]

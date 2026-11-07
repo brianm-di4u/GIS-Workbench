@@ -1,0 +1,15 @@
+[package]
+name = "gw-raster"
+description = "GIS Workbench raster processing: orthorectification on an adaptive grid, resampling kernels, mosaic blending"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+gw-sensor.workspace = true
+
+[dev-dependencies]
+serde_json = "1"

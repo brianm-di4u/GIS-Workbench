@@ -1,0 +1,41 @@
+{
+  "note": "REQ-GAP-16 grid packs. Each grid: the PROJ-data file (pinned in packs-sources.json), how PROJ applies it (op: hgridshift | gridshift | vgridshift), its source and target CRS (EPSG), the EPSG transformation it implements with EPSG's stated accuracy (metres), and the area. Accuracies and codes are from the EPSG dataset in PROJ 9.9's proj.db (EPSG v13.102).",
+  "packs": {
+    "grids-na": {
+      "title": "Datum grids: North America (NADCON5, NTv2, GEOID18, CGG2013)",
+      "description": "NADCON5 for the conterminous US (NAD27 to NAD83(2011), biquadratic, 3D), the Canadian NTv2 NAD27 to NAD83 grid, the GEOID18 hybrid geoid (NAVD88) and CGG2013a (CGVD2013), from PROJ-data (REQ-GAP-16).",
+      "grids": ["us_noaa_nadcon5_nad27_nad83_1986_conus", "us_noaa_nadcon5_nad83_1986_nad83_harn_conus", "us_noaa_nadcon5_nad83_harn_nad83_fbn_conus", "us_noaa_nadcon5_nad83_fbn_nad83_2007_conus", "us_noaa_nadcon5_nad83_2007_nad83_2011_conus", "ca_nrc_ntv2_0", "us_noaa_g2018u0", "ca_nrc_CGG2013an83"]
+    },
+    "grids-eu": {
+      "title": "Datum grids: Europe (OSTN15, OSGM15, BeTA2007)",
+      "description": "OSTN15 (OSGB36 to ETRS89) and the OSGM15 geoid (ODN heights) for Great Britain, and BeTA2007 (DHDN to ETRS89) for Germany, from PROJ-data (REQ-GAP-16).",
+      "grids": ["uk_os_OSTN15_NTv2_OSGBtoETRS", "uk_os_OSGM15_GB", "de_adv_BETA2007"]
+    },
+    "grids-oceania": {
+      "title": "Datum grids: Oceania (GDA94 to GDA2020, AUSGeoid2020)",
+      "description": "The GDA94 to GDA2020 conformal grid and the AUSGeoid2020 geoid (AHD heights) for Australia, from PROJ-data (REQ-GAP-16).",
+      "grids": ["au_icsm_GDA94_GDA2020_conformal", "au_ga_AUSGeoid2020_20180201"]
+    },
+    "geoid-egm2008-25": {
+      "title": "EGM2008 geoid (2.5′ grid)",
+      "description": "EGM2008 geoid heights on a 2.5′ grid (PROJ-data GeoTIFF, bilinear as PROJ), for MSL ↔ HAE worldwide; kept in the origin-private file system on the hosted copy (REQ-GAP-16).",
+      "grids": ["us_nga_egm08_25"]
+    }
+  },
+  "grids": {
+    "us_noaa_nadcon5_nad27_nad83_1986_conus": { "op": "gridshift", "source": 4267, "sourceName": "NAD27", "target": 4269, "targetName": "NAD83", "epsg": 8555, "name": "NAD27 to NAD83 (7)", "accuracy": 0.15, "area": "USA - Conterminous", "bbox": [-125, 24, -66, 50] },
+    "us_noaa_nadcon5_nad83_1986_nad83_harn_conus": { "op": "gridshift", "source": 4269, "sourceName": "NAD83", "target": 4152, "targetName": "NAD83(HARN)", "epsg": 8556, "name": "NAD83 to NAD83(HARN) (47)", "accuracy": 0.05, "area": "USA - Conterminous", "bbox": [-125, 24, -66, 50] },
+    "us_noaa_nadcon5_nad83_harn_nad83_fbn_conus": { "op": "gridshift", "source": 4152, "sourceName": "NAD83(HARN)", "target": 8860, "targetName": "NAD83(FBN)", "epsg": 8861, "name": "NAD83(HARN) to NAD83(FBN) (1)", "accuracy": 0.05, "area": "USA - Conterminous", "bbox": [-125, 24, -66, 50], "heights": true },
+    "us_noaa_nadcon5_nad83_fbn_nad83_2007_conus": { "op": "gridshift", "source": 8860, "sourceName": "NAD83(FBN)", "target": 4759, "targetName": "NAD83(NSRS2007)", "epsg": 8862, "name": "NAD83(FBN) to NAD83(NSRS2007) (1)", "accuracy": 0.05, "area": "USA - Conterminous", "bbox": [-125, 24, -66, 50], "heights": true },
+    "us_noaa_nadcon5_nad83_2007_nad83_2011_conus": { "op": "gridshift", "source": 4759, "sourceName": "NAD83(NSRS2007)", "target": 6318, "targetName": "NAD83(2011)", "epsg": 8559, "name": "NAD83(NSRS2007) to NAD83(2011) (1)", "accuracy": 0.05, "area": "USA - Conterminous", "bbox": [-125, 24, -66, 50], "heights": true },
+    "ca_nrc_ntv2_0": { "op": "hgridshift", "source": 4267, "sourceName": "NAD27", "target": 4326, "targetName": "WGS 84", "epsg": 1693, "name": "NAD27 to WGS 84 (33)", "accuracy": 2.0, "area": "Canada", "bbox": [-142, 40, -47, 84], "alsoEpsg": [[1313, "NAD27 to NAD83 (4)", 1.5]] },
+    "us_noaa_g2018u0": { "op": "vgridshift", "source": 6319, "sourceName": "NAD83(2011)", "target": 5703, "targetName": "NAVD88 height", "epsg": 9229, "name": "NAD83(2011) to NAVD88 height (3)", "accuracy": 0.015, "area": "USA - Conterminous", "bbox": [-130, 24, -60, 58], "vertical": "navd88", "frame": "NAD83(2011)", "geoid": "GEOID18" },
+    "ca_nrc_CGG2013an83": { "op": "vgridshift", "source": 8251, "sourceName": "NAD83(CSRS)v6", "target": 9245, "targetName": "CGVD2013a(2010) height", "epsg": 9247, "name": "NAD83(CSRS)v6 to CGVD2013a(2010) height (1)", "accuracy": 0.03, "area": "Canada", "bbox": [-170, 10, -10, 90], "vertical": "cgvd2013", "frame": "NAD83(CSRS)v7", "geoid": "CGG2013a" },
+    "uk_os_OSTN15_NTv2_OSGBtoETRS": { "op": "hgridshift", "source": 4277, "sourceName": "OSGB36", "target": 4326, "targetName": "WGS 84", "epsg": 7710, "name": "OSGB36 to WGS 84 (9)", "accuracy": 1.0, "area": "United Kingdom", "bbox": [-9, 49, 2, 61], "alsoEpsg": [[7709, "OSGB36 to ETRS89 (2)", 0.03]] },
+    "uk_os_OSGM15_GB": { "op": "vgridshift", "source": 4937, "sourceName": "ETRS89", "target": 5701, "targetName": "ODN height", "epsg": 7713, "name": "ETRS89 to ODN (Offshore) height (1)", "accuracy": 0.02, "area": "Great Britain mainland onshore", "bbox": [-9.4, 49.8, 2, 61.1], "vertical": "odn", "frame": "ETRF2014", "geoid": "OSGM15" },
+    "de_adv_BETA2007": { "op": "hgridshift", "source": 4314, "sourceName": "DHDN", "target": 4326, "targetName": "WGS 84", "epsg": 15949, "name": "DHDN to WGS 84 (4)", "accuracy": 1.0, "area": "Germany", "bbox": [5.5, 47, 15.5, 55.3], "alsoEpsg": [[15948, "DHDN to ETRS89 (8)", 0.9]] },
+    "au_icsm_GDA94_GDA2020_conformal": { "op": "hgridshift", "source": 4283, "sourceName": "GDA94", "target": 7844, "targetName": "GDA2020", "epsg": 8446, "name": "GDA94 to GDA2020 (3)", "accuracy": 0.05, "area": "Australia", "bbox": [112.4, -44.6, 154.9, -13.3], "frameAfter": "GDA2020" },
+    "au_ga_AUSGeoid2020_20180201": { "op": "vgridshift", "source": 7843, "sourceName": "GDA2020", "target": 5711, "targetName": "AHD height", "epsg": 8451, "name": "GDA2020 to AHD height (1)", "accuracy": 0.15, "area": "Australia", "bbox": [93, -61, 174, -8], "vertical": "ahd", "frame": "GDA2020", "geoid": "AUSGeoid2020" },
+    "us_nga_egm08_25": { "op": "vgridshift", "source": 4979, "sourceName": "WGS 84", "target": 3855, "targetName": "EGM2008 height", "epsg": 3858, "name": "WGS 84 to EGM2008 height (1)", "accuracy": 0.113, "area": "World", "bbox": [-180, -90, 180, 90], "vertical": "egm2008", "frame": "WGS 84", "geoid": "EGM2008 2.5′" }
+  }
+}

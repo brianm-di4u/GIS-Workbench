@@ -1,0 +1,51 @@
+# One subdataset of a container (HDF4, HDF5, netCDF, a page of a PDF) to a COG (REQ-GAP-72). GDAL
+# names the subdatasets; the service takes the one asked for from that report, so no name comes
+# from the request. Not through a VRT: gdalbuildvrt refuses a subdataset with no georeferencing.
+id = "raster-sds-cog"
+title = "One subdataset to Cloud-Optimized GeoTIFF"
+module = "core-gdal"
+input = "raster"
+output_ext = "tif"
+output_name = "{stem}.sds.cog"
+memory_mb = 16384
+
+[[options]]
+name = "subdataset"
+title = "Subdataset number"
+type = "int"
+min = 1
+max = 100000
+default = 1
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["DEFLATE", "LZW", "ZSTD", "NONE"]
+default = "DEFLATE"
+
+[[steps]]
+tool = "gdalinfo"
+capture = "gdal"
+args = ["-json", "-norat", "-noct", "{input}"]
+
+# The chosen subdataset itself: what its report calls for goes into {sds_args}, the divisor scales
+# of MODIS land products and the tie points of a swath field at the geolocation's size (jobs.rs).
+[[steps]]
+tool = "gdalinfo"
+capture = "sds"
+args = ["-json", "-norat", "-noct", "{sds}"]
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+weight = 20.0
+args = [
+  "-of", "COG",
+  "-co", "COMPRESS={compress}",
+  "-co", "BIGTIFF=IF_SAFER",
+  "-co", "NUM_THREADS=ALL_CPUS",
+  "-mo", "GWB_PROVENANCE={provenance}",
+  "{sds_args}",
+  "{sds}", "{output}",
+]

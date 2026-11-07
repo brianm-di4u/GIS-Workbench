@@ -1,0 +1,21 @@
+[package]
+name = "gwb-sfm"
+description = "GIS Workbench sidecar: georeferencing, CPU multi-view stereo and products for a UAV block (REQ-GAP-29)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "gwb-sfm"
+path = "src/main.rs"
+
+[lib]
+name = "gwb_sfm"
+path = "src/lib.rs"
+
+[dependencies]
+serde_json.workspace = true
+rayon = "1"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png"] }
+kamadak-exif = "0.6"

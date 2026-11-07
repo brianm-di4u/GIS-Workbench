@@ -1,0 +1,53 @@
+# MPEG-2 (H.262) video in a transport or program stream -> H.264 MPEG-TS with every KLV stream
+# copied and its timing kept, as the Windows profile (REQ-GAP-51, REQ-FMV-15, S-49), through
+# Cisco's OpenH264. Offered only when that module is installed; without it the Linux sidecar keeps
+# video-h264-klv (MPEG-1). OpenH264 writes no B-frames, so decode order is display order.
+id = "video-h264-openh264"
+title = "MPEG-2 video to H.264 MPEG-TS, OpenH264 (KLV kept)"
+module = "vendor-openh264"
+input = "video"
+output_ext = "ts"
+output_name = "{stem}.h264"
+memory_mb = 4096
+
+[[options]]
+name = "container"
+title = "Input container"
+type = "enum"
+values = ["mpegts", "mpeg"]
+default = "mpegts"
+
+[[options]]
+name = "bitrate"
+title = "Video bitrate (kbit/s)"
+type = "int"
+min = 100
+max = 100000
+default = 6000
+
+[[options]]
+name = "gop"
+title = "Keyframe interval (frames)"
+type = "int"
+min = 1
+max = 600
+default = 30
+
+[[steps]]
+tool = "ffmpeg-h264"
+progress = "ffmpeg"
+args = [
+  "-hide_banner", "-nostdin", "-y",
+  "-protocol_whitelist", "file,pipe",
+  "-progress", "pipe:1", "-nostats",
+  "-copyts",
+  "-f", "{container}",
+  "-i", "{input}",
+  "-map", "0", "-ignore_unknown",
+  "-c", "copy",
+  "-c:v", "libopenh264", "-b:v", "{bitrate}k", "-g", "{gop}", "-pix_fmt", "yuv420p", "-fpsmax", "60",
+  "-muxdelay", "0", "-muxpreload", "0",
+  "-metadata", "comment={provenance}",
+  "-f", "mpegts", "-mpegts_copyts", "1",
+  "{output}",
+]

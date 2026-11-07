@@ -1,0 +1,3 @@
+toner_z3.pmtiles: Stamen Toner raster tiles, zoom 0–3, from https://pmtiles.io/ (Protomaps sample).
+Licence: map tiles by Stamen Design (CC BY 3.0), data © OpenStreetMap contributors (ODbL).
+Test fixture only (REQ-NET-05, tests/e2e/net-p3.spec.js); never shipped in the app.

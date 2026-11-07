@@ -1,0 +1,9 @@
+# For gitleaks: the same allowlist as .github/secret_scanning.yml.
+title = "GIS Workbench"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Throwaway test certificate key (see fixtures/fx26/native/SOURCE.txt)"
+paths = ['''fixtures/fx26/native/certs/''']

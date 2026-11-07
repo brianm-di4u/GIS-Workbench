@@ -1,0 +1,19 @@
+FX-25 csm (REQ-GAP-24, spike S-60)
+
+isd/*.json (except earthFramer.json)
+  usgscsm 2.1.0 test ISDs, copied unchanged from tests/data of
+  https://github.com/DOI-USGS/usgscsm (tag 2.1.0, commit cd09cb602c2b3ea79ac976d47c4b517884e50e53).
+  Licence: public domain in the United States (USGS) and CC0-1.0 (usgscsm LICENSE.md).
+  Bodies: a 10 m test sphere, a 1000 km test sphere, Mars (CTX), the Moon (LRO NAC, LRO WAC,
+  Mini-RF), Vesta (Dawn FC). SHA-256 of each file: D:\gwb25\data-csm\SOURCES.json.
+
+isd/earthFramer.json
+  Made by GIS Workbench: node build/csm/oracle/make-earth-isd.mjs (deterministic), a frame ISD on
+  WGS 84 modelled on usgscsm's orbitalFramer.json. Licence: as the repository (Apache-2.0).
+
+oracle/{upstream,gw}/<isd>.json.gz
+  Answers of native usgscsm (g++ 15.2, WSL Ubuntu) built by build/csm/oracle/build-oracle.sh and run
+  by run-oracle.sh over isd/: "upstream" links ALE's Rotation.cpp and usgscsm's EigenUtilities.cpp
+  with Eigen 3 (the ALE-pinned commit 39142904cc2301628931481e8b331cc2d567e22f); "gw" links the
+  Eigen-free replacements the wasm module uses (build/csm/src). Read by tests/unit/csm-diff.test.js
+  and tests/e2e/25-csm.spec.js. Regenerate both after any change to build/csm/src.

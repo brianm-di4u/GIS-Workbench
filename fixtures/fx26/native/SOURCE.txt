@@ -1,0 +1,10 @@
+fx26/native: test material of group native (REQ-GAP-08, REQ-GAP-33), made for this project.
+
+certs/ca.pem, leaf.pem, leaf.key   A throwaway test CA and a server certificate for origin.test,
+                                   other.test, localhost and 127.0.0.1. Valid about 49 years. The
+                                   CA's key was deleted when these were made; leaf.key is public on
+                                   purpose and protects nothing. Only a test run can trust ca.pem
+                                   (--test-relay-ca, GWB_SIDECAR_TEST=1).
+certs/other-ca.pem                 A second CA that signed nothing here: the relay must refuse the
+                                   origin when it trusts only this one.
+Generated 2026-11-05 with OpenSSL 3.5.9, prime256v1.

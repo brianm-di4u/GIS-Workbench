@@ -1,0 +1,12 @@
+[package]
+name = "gwb-nospatialite"
+description = "Stand-in for libspatialite: GDAL loads it, finds no SpatiaLite, and uses its own SQL functions"
+version = "0.2.0"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "spatialite"
+crate-type = ["cdylib"]
+path = "src/lib.rs"

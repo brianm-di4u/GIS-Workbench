@@ -1,0 +1,23 @@
+FAA NASR airport and runway records (REQ-GAP-73 fixtures)
+
+APT_BASE.csv, APT_RWY.csv and APT_RWY_END.csv are the header lines and the rows, byte for byte,
+for the airports LAS, VGT, HND, CYS, BVU, SFO, OAK, CCR and HOU (all their sites), taken from the FAA
+NASR 28-day subscription CSV files effective 2026-10-29:
+
+  https://nfdc.faa.gov/webContent/28DaySub/extra/29_Oct_2026_APT_CSV.zip
+  (8 502 128 bytes, SHA-256 6e1e422f483d44cc8a38a1c97cf98e97588a6fc3fa857b39b5bdcbcfe8331154)
+
+Licence: U.S. Government work (Federal Aviation Administration), public domain in the United
+States (17 U.S.C. 105). NASR data is for planning; it is not for navigation.
+
+SHA-256 of the fixtures:
+  dde304cee0a3d50063ff0670c0b43b5ea7072102e99c0b300441217f4ef025eb  APT_BASE.csv
+  94ad64fbba8a705a1269e9f2f497658a7ffc58a804151d8e67c1bb1d0549f4b0  APT_RWY.csv
+  3cced30ae049bc43032d88be669d1165c573643ca99b48eb29e49175c9422968  APT_RWY_END.csv
+
+nodata-utm15n-f32.tif and nodata-wgs84-f32.tif are synthetic, made with GDAL for this project: 64 x 64
+Float32 ramps of 10-41.5 m with an 8 x 8 no-data block at posts 28-35, tagged 1.7014100000000001e+38,
+in EPSG:26915 (5 m posts) and EPSG:4326 (0.00005 degree posts). They cover Use as Terrain's resampled
+and direct paths.
+  bcf33b18a00502b636cf4f8155e8d711f816c8562df057b541861eee053c1c5d  nodata-utm15n-f32.tif
+  2ad195948643c51aa825640f733e8121f8b2d83d3cc92959318bf9a154df4dac  nodata-wgs84-f32.tif

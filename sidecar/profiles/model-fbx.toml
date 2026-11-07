@@ -1,0 +1,14 @@
+# 3D model to FBX (REQ-GAP-36): Assimp reads the model; sidecar/sar/mesh_export.py writes it.
+id = "model-fbx"
+title = "3D model to FBX"
+module = "model3d"
+requires = ["sar"]
+input = "model"
+output_ext = "fbx"
+output_name = "{stem}"
+memory_mb = 16384
+
+[[steps]]
+tool = "python"
+progress = "lines"
+args = ["-I", "-B", "{script:mesh_export.py}", "--modules", "{modules}", "--format", "fbx", "--work", "{workdir}", "{input}", "{output}"]

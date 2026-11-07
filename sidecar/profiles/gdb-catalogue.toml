@@ -1,0 +1,22 @@
+# What a FileGDB says about its schema (REQ-GAP-54): the layers with their fields, the domains, and
+# the catalogue table's XML definitions, which hold the subtypes. The result is JSON for the app
+# (app/src/vector/gdb-catalog.js); no file comes out. Only OpenFileGDB may open the input.
+id = "gdb-catalogue"
+title = "Read the domains and subtypes of a FileGDB"
+module = "core-gdal"
+input = "vector"
+output_ext = ""
+allow_dir_inputs = true
+time_limit_s = 900
+cpu_limit_s = 1800
+memory_mb = 4096
+
+[[steps]]
+tool = "ogrinfo"
+capture = "info"
+args = ["-ro", "-if", "OpenFileGDB", "-json", "-so", "-al", "{input}"]
+
+[[steps]]
+tool = "ogrinfo"
+capture = "items"
+args = ["-ro", "-if", "OpenFileGDB", "-oo", "LIST_ALL_TABLES=YES", "-json", "-features", "-sql", "SELECT Name, Path, Definition FROM GDB_Items", "{input}"]

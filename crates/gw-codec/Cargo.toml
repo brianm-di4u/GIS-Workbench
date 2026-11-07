@@ -1,0 +1,21 @@
+[package]
+name = "gw-codec"
+description = "Image codecs for NITF/TIFF blocks: JPEG (8/12-bit, NITF default tables), JPEG 2000, VQ, T.4"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+j2k = ["dep:hayro-jpeg2000"]
+
+[dependencies]
+gw-abi.workspace = true
+jpeg-decoder = { version = "=0.3.2", default-features = false }
+fax = { version = "=0.3.0", default-features = false }
+# Vendored hayro-jpeg2000 0.4.1 with HTJ2K code-blocks (crates/vendor/hayro-jpeg2000/VENDOR.md).
+hayro-jpeg2000 = { path = "../vendor/hayro-jpeg2000", default-features = false, features = ["std", "simd"], optional = true }
+
+[dev-dependencies]
+gw-parse.workspace = true

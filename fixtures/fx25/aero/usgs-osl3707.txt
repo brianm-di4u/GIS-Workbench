@@ -1,0 +1,37 @@
+USGS Report No. OSL/3707
+REPORT OF CALIBRATION of Aerial Mapping Camera            March 20, 2017
+Camera type: Wild RC30*        Camera serial no.: 5355
+Lens type: Wild Universal Aviogon /4-S     Lens serial no.: 13406
+Nominal focal Length: 153 mm
+
+I. Calibrated Focal Length: 153.313 mm
+
+II. Lens Distortion
+Field angle:                 7.5   15   22.7   30   35   40
+Symmetric radial (um)        -1    -2   -1     1    2    0
+Decentering tangential (um)   0     0    0     0    0    0
+
+Symmetric radial distortion    Decentering distortion    Calibrated principal point
+K0 = 0.6598E-04                P1 = -0.2112E-07          xp = -0.004 mm
+K1 = -0.1480E-07               P2 = -0.1301E-07          yp = 0.006 mm
+K2 = 0.6620E-12                P3 = 0.0000
+K3 = 0.0000                    P4 = 0.0000
+K4 = 0.0000
+
+VII. Principal Point and Fiducial Mark Coordinates
+                                                   X coordinate (mm)   Y coordinate (mm)
+Indicated principal point, corner fiducials             0.006               0.001
+Indicated principal point, midside fiducials           -0.001               0.002
+Principal point of autocollimation (PPA)                0.000               0.000
+Calibrated principal point (point of symmetry)         -0.004               0.006
+Fiducial Marks
+ 1   -105.994   -105.998
+ 2    106.006    105.998
+ 3   -105.990    106.004
+ 4    105.998   -105.998
+ 5   -111.994      0.003
+ 6    112.004      0.002
+ 7      0.004    112.008
+ 8     -0.006   -111.994
+
+VIII. Distances Between Fiducial marks

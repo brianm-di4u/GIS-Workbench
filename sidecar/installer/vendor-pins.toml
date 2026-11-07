@@ -1,0 +1,57 @@
+# Vendor decode plug-ins fetched by gwb-sidecar-setup from OSGeo4W at install time (S-44, REQ-SDC-12).
+# They are never part of the sidecar packages. Pinned to the exact package and SHA-256 that were
+# tested against the bundled Core GDAL (conda-forge libgdal-core 3.13.3): the plug-ins are C++ and
+# need the same GDAL minor version. A newer OSGeo4W build is not taken until these pins change.
+mirror = "https://download.osgeo.org/osgeo4w/v2"
+gdal_minor = "3.13"
+
+[mrsid]
+title = "MrSID decode plug-in (Extensis MrSID Decode SDK, via OSGeo4W gdal-mrsid)"
+module = "vendor-mrsid"
+package = "gdal-mrsid"
+version = "3.13.3-3"
+path = "x86_64/release/gdal/gdal-mrsid/gdal-mrsid-3.13.3-3.tar.bz2"
+size = 11419470
+sha256 = "50a259e18875872d98305662a79b8b1dc86846dff485b3ecf8dd1176f1fc7e1f"
+licence_path = "x86_64/release/gdal/gdal-dev/gdal-dev-mrsid/gdal-dev-mrsid-3.14.0-1187-18642a1c44-1.txt"
+licence_sha256 = "d1afc241d67e8a3b038abbf6e0c8615dbed2b7ba459473b8e9712c0516b68eae"
+plugin = "apps/gdal/lib/gdalplugins/gdal_MrSID.dll"
+dlls = ["bin/lti_dsdk_9.5.dll", "bin/lti_dsdk_cdll_9.5.dll", "bin/lti_lidar_dsdk_1.1.dll", "bin/tbb.dll"]
+notice = "Portions of this computer program are copyright (c) 1995-2018 Celartem, Inc., doing business as Extensis. All rights reserved."
+caution = ""
+
+[ecw]
+title = "ECW decode plug-in (Hexagon ERDAS ECW/JP2 SDK, via OSGeo4W gdal-ecw)"
+module = "vendor-ecw"
+package = "gdal-ecw"
+version = "3.13.3-3"
+path = "x86_64/release/gdal/gdal-ecw/gdal-ecw-3.13.3-3.tar.bz2"
+size = 1933889
+sha256 = "8ee7e2884bc596e38a4d216cc7d02da3886ccba44af5f93cd3054cde6513f625"
+licence_path = "x86_64/release/gdal/gdal-dev/gdal-dev-ecw/gdal-dev-ecw-3.14.0-1187-18642a1c44-1.txt"
+licence_sha256 = "0cf4ebfe301c8308165207920c28c0c18e7dff9681eb094a0c47040da4f62069"
+plugin = "apps/gdal/lib/gdalplugins/gdal_ECW_JP2ECW.dll"
+dlls = ["bin/NCSEcw.dll"]
+notice = "This application supports the ECW data format and ECWP compression protocols. Portions of this computer program are Copyright 2007-2015 Intergraph Corporation. All rights reserved. Creating compressed files using ECW technology is protected by one or more of U.S. Patent No. 6,201,897, No. 6,442,298 and No. 6,633,688."
+caution = "The licence OSGeo4W ships with this plug-in is Hexagon's ERDAS ECW/JP2 SDK *Server* Read-Only licence: it is licensed per server and per CPU core and does not cover distributing desktop applications. Accept it only if your use is covered (for example by a licence you hold from Hexagon)."
+
+# Linux, H.264 (REQ-GAP-51): Cisco's own binary, fetched on the user's device after they accept its
+# licence, and never in a package: Cisco's patent licence depends on both (BINARY_LICENSE.txt,
+# conditions 1 and 2). libopenh264.so.8 must stay the soname bin/ffmpeg-h264 was linked against
+# (sidecar/installer/build-ffmpeg-h264.sh). Cisco publishes no checksum for 2.7.0 (its .signed.md5.txt
+# answers 403), so this SHA-256 is of the file downloaded over https on 2026-11-05.
+[openh264]
+mirror = "https://ciscobinary.openh264.org"
+title = "OpenH264 Video Codec provided by Cisco Systems, Inc."
+module = "vendor-openh264"
+package = "libopenh264"
+version = "2.7.0"
+path = "libopenh264-2.7.0-linux64.8.so.bz2"
+size = 628667
+sha256 = "44ad0dd2c5af2bac84d26f89f2eb4e268708b8739323d15d33837f7221ce4980"
+licence_path = "https://www.openh264.org/BINARY_LICENSE.txt"
+licence_sha256 = "bd9f363c5ea11ef723d0304cddacb5273c43c0e1194097c7a045d05273635418"
+plugin = ""
+dlls = ["libopenh264.so.8"]
+notice = "OpenH264 Video Codec provided by Cisco Systems, Inc."
+caution = ""

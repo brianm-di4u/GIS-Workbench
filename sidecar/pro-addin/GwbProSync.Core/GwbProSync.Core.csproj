@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- No ArcGIS reference: this builds with the .NET SDK alone. ArcGIS Pro 3.x runs on .NET 8; the
+       mock add-in builds it for whatever SDK is installed (-p:GwbTfm=net10.0). -->
+  <PropertyGroup>
+    <TargetFramework Condition="'$(GwbTfm)' == ''">net8.0</TargetFramework>
+    <TargetFramework Condition="'$(GwbTfm)' != ''">$(GwbTfm)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>

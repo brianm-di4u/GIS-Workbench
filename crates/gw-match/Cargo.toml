@@ -1,0 +1,10 @@
+[package]
+name = "gw-match"
+description = "GIS Workbench image matching: Harris corners, NCC search, least-squares matching (tie points, snap to ground); SGM in R2.4"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true

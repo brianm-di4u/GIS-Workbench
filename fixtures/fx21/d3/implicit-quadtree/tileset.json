@@ -1,0 +1,31 @@
+{
+ "asset": {
+  "version": "1.1"
+ },
+ "geometricError": 200,
+ "root": {
+  "boundingVolume": {
+   "region": [
+    -1.8324438709491226,
+    0.6935624288160106,
+    -1.8324089643640826,
+    0.6935973354010505,
+    1600,
+    1650
+   ]
+  },
+  "geometricError": 100,
+  "refine": "REPLACE",
+  "content": {
+   "uri": "content/{level}/{x}/{y}.b3dm"
+  },
+  "implicitTiling": {
+   "subdivisionScheme": "QUADTREE",
+   "subtreeLevels": 2,
+   "availableLevels": 2,
+   "subtrees": {
+    "uri": "subtrees/{level}.{x}.{y}.json"
+   }
+  }
+ }
+}

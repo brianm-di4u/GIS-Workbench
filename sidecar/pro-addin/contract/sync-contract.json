@@ -1,0 +1,536 @@
+{
+  "about": "The wire contract of ArcGIS Pro sync (REQ-GAP-65), replayed in order by both sides: the sidecar's tests against the real service (gwb-sidecar/tests/prosync.rs), and the add-in's own client against a real sidecar (sidecar/pro-addin/MockAddin). Each step is one HTTP request. `who` is `addin` (the add-in's token), `page` (a paired page's token, Origin null) or `none` (no token). `$session` is the session of the last attach, `$seq` the seq of the last answer that had one. `expect.body` is a subset of the answer; `@any` means present.",
+  "steps": [
+    {
+      "name": "hello without a token",
+      "who": "none",
+      "method": "GET",
+      "path": "/sync/v1/hello",
+      "expect": {
+        "status": 200,
+        "body": {
+          "service": "gwb-sidecar",
+          "paired": false,
+          "app": false
+        }
+      }
+    },
+    {
+      "name": "publish without a token",
+      "who": "none",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "view": {
+          "lon": -105,
+          "lat": 39.7,
+          "mpp": 2.5,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 401,
+        "code": "unauthorized"
+      }
+    },
+    {
+      "name": "next without a token",
+      "who": "none",
+      "method": "GET",
+      "path": "/sync/v1/next?after=0",
+      "expect": {
+        "status": 401,
+        "code": "unauthorized"
+      }
+    },
+    {
+      "name": "hello with a token, no page",
+      "who": "addin",
+      "method": "GET",
+      "path": "/sync/v1/hello",
+      "expect": {
+        "status": 200,
+        "body": {
+          "paired": true,
+          "app": false
+        }
+      }
+    },
+    {
+      "name": "publish with no page",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "view": {
+          "lon": -105,
+          "lat": 39.7,
+          "mpp": 2.5,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 503,
+        "code": "no_app"
+      }
+    },
+    {
+      "name": "the page turns sync on",
+      "who": "page",
+      "method": "POST",
+      "path": "/v1/sync/attach",
+      "body": {
+        "client": "contract page",
+        "direction": "both"
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "session": "@any",
+          "hold_s": 25
+        }
+      }
+    },
+    {
+      "name": "hello sees it",
+      "who": "addin",
+      "method": "GET",
+      "path": "/sync/v1/hello",
+      "expect": {
+        "status": 200,
+        "body": {
+          "paired": true,
+          "app": true,
+          "direction": "both"
+        }
+      }
+    },
+    {
+      "name": "Pro publishes a view",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "view": {
+          "lon": -105,
+          "lat": 39.7,
+          "mpp": 2.5,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "seq": "@any"
+        }
+      }
+    },
+    {
+      "name": "the page reads it",
+      "who": "page",
+      "method": "GET",
+      "path": "/v1/sync/$session/next?after=0",
+      "expect": {
+        "status": 200,
+        "body": {
+          "seq": "@any",
+          "peer": true,
+          "view": {
+            "lon": -105,
+            "lat": 39.7,
+            "mpp": 2.5,
+            "rotation": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "the page publishes its cursor",
+      "who": "page",
+      "method": "POST",
+      "path": "/v1/sync/$session/state",
+      "body": {
+        "cursor": {
+          "lon": -105.1,
+          "lat": 39.6,
+          "visible": true
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "seq": "@any"
+        }
+      }
+    },
+    {
+      "name": "Pro reads it",
+      "who": "addin",
+      "method": "GET",
+      "path": "/sync/v1/next?after=0",
+      "expect": {
+        "status": 200,
+        "body": {
+          "seq": "@any",
+          "peer": true,
+          "cursor": {
+            "lon": -105.1,
+            "lat": 39.6,
+            "visible": true
+          }
+        }
+      }
+    },
+    {
+      "name": "a latitude off the Earth",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "view": {
+          "lon": 0,
+          "lat": 95,
+          "mpp": 1,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 400,
+        "code": "bad_state"
+      }
+    },
+    {
+      "name": "a scale of zero",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "view": {
+          "lon": 0,
+          "lat": 0,
+          "mpp": 0,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 400,
+        "code": "bad_state"
+      }
+    },
+    {
+      "name": "a publish of nothing",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {},
+      "expect": {
+        "status": 400,
+        "code": "bad_state"
+      }
+    },
+    {
+      "name": "a field that is not on the list",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "tool": "gw_anything",
+        "view": {
+          "lon": 0,
+          "lat": 0,
+          "mpp": 1,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 400,
+        "code": "bad_request"
+      }
+    },
+    {
+      "name": "a page token on the add-in's side",
+      "who": "page-token-no-origin",
+      "method": "GET",
+      "path": "/sync/v1/next?after=0",
+      "expect": {
+        "status": 401,
+        "code": "unauthorized"
+      }
+    },
+    {
+      "name": "the add-in's token on the page's side",
+      "who": "addin-with-origin",
+      "method": "GET",
+      "path": "/v1/sync/$session/next?after=0",
+      "expect": {
+        "status": 401,
+        "code": "unauthorized"
+      }
+    },
+    {
+      "name": "the page turns sync off",
+      "who": "page",
+      "method": "DELETE",
+      "path": "/v1/sync/$session",
+      "expect": {
+        "status": 204
+      }
+    },
+    {
+      "name": "the page follows Pro",
+      "who": "page",
+      "method": "POST",
+      "path": "/v1/sync/attach",
+      "body": {
+        "client": "contract page",
+        "direction": "app_follows"
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "session": "@any"
+        }
+      }
+    },
+    {
+      "name": "the follower may not publish",
+      "who": "page",
+      "method": "POST",
+      "path": "/v1/sync/$session/state",
+      "body": {
+        "cursor": {
+          "lon": 0,
+          "lat": 0,
+          "visible": false
+        }
+      },
+      "expect": {
+        "status": 409,
+        "code": "follows"
+      }
+    },
+    {
+      "name": "the leader may",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "cursor": {
+          "lon": 1,
+          "lat": 2,
+          "visible": true
+        }
+      },
+      "expect": {
+        "status": 200
+      }
+    },
+    {
+      "name": "off again",
+      "who": "page",
+      "method": "DELETE",
+      "path": "/v1/sync/$session",
+      "expect": {
+        "status": 204
+      }
+    },
+    {
+      "name": "Pro follows the page",
+      "who": "page",
+      "method": "POST",
+      "path": "/v1/sync/attach",
+      "body": {
+        "client": "contract page",
+        "direction": "pro_follows"
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "session": "@any"
+        }
+      }
+    },
+    {
+      "name": "Pro may not publish",
+      "who": "addin",
+      "method": "POST",
+      "path": "/sync/v1/state",
+      "body": {
+        "view": {
+          "lon": 0,
+          "lat": 0,
+          "mpp": 1,
+          "rotation": 0
+        }
+      },
+      "expect": {
+        "status": 409,
+        "code": "follows"
+      }
+    },
+    {
+      "name": "off at the end",
+      "who": "page",
+      "method": "DELETE",
+      "path": "/v1/sync/$session",
+      "expect": {
+        "status": 204
+      }
+    }
+  ],
+  "echo": [
+    {
+      "name": "the same view, at once",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "after_ms": 0,
+      "echo": true
+    },
+    {
+      "name": "moved less than half a pixel",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -104.99999,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "after_ms": 100,
+      "echo": true
+    },
+    {
+      "name": "moved two pixels",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -104.99995,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "after_ms": 100,
+      "echo": false
+    },
+    {
+      "name": "moved two pixels north",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.700050000000005,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "after_ms": 100,
+      "echo": false
+    },
+    {
+      "name": "scale within half a per cent",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.51,
+        "rotation": 0
+      },
+      "after_ms": 100,
+      "echo": true
+    },
+    {
+      "name": "scale one per cent off",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.53,
+        "rotation": 0
+      },
+      "after_ms": 100,
+      "echo": false
+    },
+    {
+      "name": "turned a hundredth of a degree",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0.01
+      },
+      "after_ms": 100,
+      "echo": true
+    },
+    {
+      "name": "turned a degree",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 1
+      },
+      "after_ms": 100,
+      "echo": false
+    },
+    {
+      "name": "the same view, but much later: the analyst came back",
+      "applied": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "seen": {
+        "lon": -105,
+        "lat": 39.7,
+        "mpp": 2.5,
+        "rotation": 0
+      },
+      "after_ms": 2500,
+      "echo": false
+    }
+  ]
+}

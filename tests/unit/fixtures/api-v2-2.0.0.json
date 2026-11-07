@@ -1,0 +1,1728 @@
+{
+ "api": "2.0.0",
+ "frozen": "2026-11-02",
+ "methods": {
+  "api.version": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "api.describe": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "method": {
+      "type": "string",
+      "description": "One method name; all when omitted"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "events.recent": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "since": {
+      "type": "integer",
+      "description": "Return events with seq greater than this",
+      "minimum": 0
+     },
+     "types": {
+      "type": "array",
+      "description": "Event types to keep: layer, selection, view, job",
+      "items": {
+       "type": "string",
+       "enum": [
+        "layer",
+        "selection",
+        "view",
+        "job"
+       ]
+      }
+     },
+     "limit": {
+      "type": "integer",
+      "description": "At most this many (default 200)",
+      "minimum": 1,
+      "maximum": 500
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "layers.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "layers.open": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "files": {
+      "type": "array",
+      "description": "File objects"
+     }
+    },
+    "required": [
+     "files"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "layers.activate": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Image layer id"
+     }
+    },
+    "required": [
+     "layer"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "vectors.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "vectors.features": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Vector layer id (vectors.list)"
+     },
+     "field": {
+      "type": "string",
+      "description": "Attribute to filter on"
+     },
+     "op": {
+      "type": "string",
+      "description": "Comparison",
+      "enum": [
+       "=",
+       "≠",
+       "<",
+       ">",
+       "≤",
+       "≥",
+       "contains"
+      ]
+     },
+     "value": {
+      "type": [
+       "string",
+       "number",
+       "boolean"
+      ],
+      "description": "Value to compare with"
+     },
+     "offset": {
+      "type": "integer",
+      "description": "Skip this many",
+      "minimum": 0
+     },
+     "limit": {
+      "type": "integer",
+      "description": "At most this many (default 500)",
+      "minimum": 1,
+      "maximum": 10000
+     }
+    },
+    "required": [
+     "layer"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "vectors.addGeoJson": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Layer name"
+     },
+     "geojson": {
+      "type": "object",
+      "description": "A GeoJSON FeatureCollection, Feature or geometry"
+     }
+    },
+    "required": [
+     "geojson"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "vectors.export": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Vector layer id (vectors.list)"
+     },
+     "format": {
+      "type": "string",
+      "description": "Output format",
+      "enum": [
+       "geojson",
+       "kml",
+       "kmz",
+       "shp",
+       "csv"
+      ]
+     },
+     "save": {
+      "type": "boolean",
+      "description": "true: write the file through the save dialog or a download; false (default): return it in the result (headless)"
+     }
+    },
+    "required": [
+     "layer",
+     "format"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "view.get": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "view.set": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "cx": {
+      "type": "number",
+      "description": "Centre x (image pixels)"
+     },
+     "cy": {
+      "type": "number",
+      "description": "Centre y (image pixels)"
+     },
+     "zoom": {
+      "type": "number",
+      "description": "Zoom",
+      "minimum": 0
+     },
+     "rot": {
+      "type": "number",
+      "description": "Rotation (radians)"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "view.jumpTo": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Coordinate text"
+     },
+     "lat": {
+      "type": "number",
+      "description": "Latitude (degrees)",
+      "minimum": -90,
+      "maximum": 90
+     },
+     "lon": {
+      "type": "number",
+      "description": "Longitude (degrees)",
+      "minimum": -180,
+      "maximum": 360
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "view.zoomToLayer": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Vector layer id; the whole image when omitted"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "selection.get": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "selection.set": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "description": "Record ids",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "ids"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "selection.byAttribute": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Vector layer id (vectors.list)"
+     },
+     "field": {
+      "type": "string",
+      "description": "Attribute"
+     },
+     "op": {
+      "type": "string",
+      "description": "Comparison",
+      "enum": [
+       "=",
+       "≠",
+       "<",
+       ">",
+       "≤",
+       "≥",
+       "contains"
+      ]
+     },
+     "value": {
+      "type": [
+       "string",
+       "number",
+       "boolean"
+      ]
+     }
+    },
+    "required": [
+     "layer",
+     "field",
+     "value"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "geo.groundPoint": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "x": {
+      "type": "number",
+      "description": "Image x (pixels)"
+     },
+     "y": {
+      "type": "number",
+      "description": "Image y (pixels)"
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     }
+    },
+    "required": [
+     "x",
+     "y"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "geo.imagePoint": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "lat": {
+      "type": "number",
+      "description": "Latitude"
+     },
+     "lon": {
+      "type": "number",
+      "description": "Longitude"
+     },
+     "h": {
+      "type": "number",
+      "description": "Height HAE (m)"
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     }
+    },
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "geo.parse": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Coordinate text"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "geo.format": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "lat": {
+      "type": "number",
+      "description": "Latitude"
+     },
+     "lon": {
+      "type": "number",
+      "description": "Longitude"
+     },
+     "format": {
+      "type": "integer",
+      "description": "Notation",
+      "minimum": 0,
+      "maximum": 4
+     },
+     "precision": {
+      "type": "integer",
+      "description": "Digits",
+      "minimum": 0,
+      "maximum": 10
+     }
+    },
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "measure.distance": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "points": {
+      "type": "array",
+      "description": "[[lon, lat], …]",
+      "items": {
+       "type": "array",
+       "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+       "items": {
+        "type": "number"
+       }
+      }
+     }
+    },
+    "required": [
+     "points"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "measure.area": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "ring": {
+      "type": "array",
+      "description": "[[lon, lat], …]",
+      "items": {
+       "type": "array",
+       "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+       "items": {
+        "type": "number"
+       }
+      }
+     }
+    },
+    "required": [
+     "ring"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "measure.lineOfSight": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "from": {
+      "type": "array",
+      "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+      "items": {
+       "type": "number"
+      }
+     },
+     "to": {
+      "type": "array",
+      "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+      "items": {
+       "type": "number"
+      }
+     },
+     "observerH": {
+      "type": "number",
+      "description": "Observer height above ground (m)"
+     },
+     "targetH": {
+      "type": "number",
+      "description": "Target height above ground (m)"
+     },
+     "samples": {
+      "type": "integer",
+      "description": "Profile samples",
+      "minimum": 16,
+      "maximum": 4096
+     }
+    },
+    "required": [
+     "from",
+     "to"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "measure.volume": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "ring": {
+      "type": "array",
+      "description": "[[lon, lat], …]",
+      "items": {
+       "type": "array",
+       "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+       "items": {
+        "type": "number"
+       }
+      }
+     },
+     "reference": {
+      "type": "string",
+      "description": "Reference surface",
+      "enum": [
+       "plane",
+       "lowest",
+       "constant"
+      ]
+     },
+     "height": {
+      "type": "number",
+      "description": "Constant reference height HAE (m)"
+     }
+    },
+    "required": [
+     "ring"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "graphics.create": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "shape": {
+      "type": "string",
+      "description": "Shape",
+      "enum": [
+       "marker",
+       "polyline",
+       "polygon",
+       "rect",
+       "ellipse",
+       "text"
+      ]
+     },
+     "coordinates": {
+      "type": "array",
+      "description": "[[lon, lat(, h)], …]",
+      "items": {
+       "type": "array",
+       "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+       "items": {
+        "type": "number"
+       }
+      }
+     },
+     "text": {
+      "type": "string",
+      "description": "Label"
+     },
+     "style": {
+      "type": "object",
+      "description": "{stroke, width, fill}"
+     }
+    },
+    "required": [
+     "coordinates"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "graphics.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "pane": {
+      "type": "string",
+      "description": "Only this panel"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "graphics.delete": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "description": "Graphic ids",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "ids"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "image.setChain": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "stretch": {
+      "type": "string",
+      "description": "Stretch"
+     },
+     "draScope": {
+      "type": "string",
+      "description": "DRA scope"
+     },
+     "brightness": {
+      "type": "number"
+     },
+     "contrast": {
+      "type": "number"
+     },
+     "gamma": {
+      "type": "number"
+     },
+     "saturation": {
+      "type": "number"
+     },
+     "invert": {
+      "type": "boolean"
+     },
+     "palette": {
+      "type": "string",
+      "description": "Palette"
+     },
+     "interpolation": {
+      "type": "string",
+      "description": "Resampling kernel"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "image.autoContrast": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "image.spectralIndex": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "index": {
+      "type": "string",
+      "description": "Index key, for example ndvi"
+     }
+    },
+    "required": [
+     "index"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "image.bandMath": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "expression": {
+      "type": "string",
+      "description": "Expression, for example (b4-b3)/(b4+b3)"
+     },
+     "palette": {
+      "type": "string",
+      "description": "Palette"
+     }
+    },
+    "required": [
+     "expression"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "analysis.viewshed": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "observers": {
+      "type": "array",
+      "description": "[[lon, lat], …]",
+      "items": {
+       "type": "array",
+       "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+       "items": {
+        "type": "number"
+       }
+      }
+     },
+     "observerH": {
+      "type": "number",
+      "description": "Observer height above ground (m)"
+     },
+     "targetH": {
+      "type": "number",
+      "description": "Target height above ground (m)"
+     },
+     "maxDist": {
+      "type": "number",
+      "description": "Maximum range (m); 0 unlimited",
+      "minimum": 0
+     },
+     "curvature": {
+      "type": "boolean",
+      "description": "Earth curvature and refraction"
+     },
+     "inverse": {
+      "type": "boolean",
+      "description": "Where the observer can be seen from"
+     },
+     "show": {
+      "type": "boolean",
+      "description": "Open the result as an overlay layer"
+     }
+    },
+    "required": [
+     "observers"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "analysis.hlz": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "doctrine": {
+      "type": "string",
+      "description": "Doctrine",
+      "enum": [
+       "light",
+       "medium",
+       "heavy"
+      ]
+     },
+     "centre": {
+      "type": "array",
+      "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+      "items": {
+       "type": "number"
+      }
+     },
+     "radius": {
+      "type": "number",
+      "description": "AOI radius (m)",
+      "minimum": 0
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "analysis.contours": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "interval": {
+      "type": "number",
+      "description": "Interval (m)",
+      "minimum": 0.01
+     },
+     "indexEvery": {
+      "type": "integer",
+      "description": "Index line every n lines",
+      "minimum": 2
+     }
+    },
+    "required": [
+     "interval"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "analysis.demDifference": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "a": {
+      "type": "string",
+      "description": "DEM name or layer id"
+     },
+     "b": {
+      "type": "string",
+      "description": "DEM name or layer id"
+     },
+     "coregister": {
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "a",
+     "b"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "analysis.autoAlign": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "kind": {
+      "type": "string",
+      "description": "Fit",
+      "enum": [
+       "affine",
+       "projective"
+      ]
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "extract.createFeature": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string",
+      "description": "Geometry",
+      "enum": [
+       "Point",
+       "LineString",
+       "Polygon"
+      ]
+     },
+     "coordinates": {
+      "type": "array",
+      "description": "[[lon, lat(, h)], …]",
+      "items": {
+       "type": "array",
+       "description": "[lon, lat] or [lon, lat, h] in degrees (WGS 84) and metres HAE",
+       "items": {
+        "type": "number"
+       }
+      }
+     },
+     "layer": {
+      "type": "string",
+      "description": "Vector layer id (vectors.list)"
+     },
+     "square": {
+      "type": "boolean",
+      "description": "Square the corners (polygons)"
+     },
+     "attrs": {
+      "type": "object",
+      "description": "Attribute values"
+     }
+    },
+    "required": [
+     "type",
+     "coordinates"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "extract.setAttributes": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "feature": {
+      "type": "string",
+      "description": "Feature id"
+     },
+     "attrs": {
+      "type": "object",
+      "description": "Values by attribute name"
+     }
+    },
+    "required": [
+     "feature",
+     "attrs"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "extract.validate": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Vector layer id (vectors.list)"
+     }
+    },
+    "required": [
+     "layer"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "extract.newSchemaLayer": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string",
+      "description": "Feature class code, for example AL013"
+     },
+     "catalog": {
+      "type": "string",
+      "description": "Catalogue id (catalogs.list)"
+     },
+     "subtype": {
+      "type": "string",
+      "description": "Subtype code, when the class has subtypes"
+     },
+     "name": {
+      "type": "string",
+      "description": "Layer name"
+     }
+    },
+    "required": [
+     "code"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "catalogs.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "catalogs.get": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "catalog": {
+      "type": "string",
+      "description": "Catalogue id"
+     },
+     "code": {
+      "type": "string",
+      "description": "Feature class code"
+     }
+    },
+    "required": [
+     "code"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "catalogs.import": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "catalog": {
+      "type": "object",
+      "description": "The catalogue JSON"
+     },
+     "keep": {
+      "type": "string",
+      "description": "Where to keep it",
+      "enum": [
+       "project",
+       "settings",
+       "both"
+      ]
+     }
+    },
+    "required": [
+     "catalog"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "detections.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "type": "string",
+      "description": "Status",
+      "enum": [
+       "pending",
+       "accepted",
+       "rejected"
+      ]
+     },
+     "limit": {
+      "type": "integer",
+      "description": "At most this many",
+      "minimum": 1,
+      "maximum": 10000
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "detections.add": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "detections": {
+      "type": "array",
+      "description": "[{cls, confidence, box?: [x0,y0,x1,y1], point?: [lon,lat]}]",
+      "items": {
+       "type": "object"
+      }
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "source": {
+      "type": "string",
+      "description": "Source label"
+     }
+    },
+    "required": [
+     "detections"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "detections.setStatus": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "description": "Detection ids",
+      "items": {
+       "type": "string"
+      }
+     },
+     "status": {
+      "type": "string",
+      "description": "Status",
+      "enum": [
+       "pending",
+       "accepted",
+       "rejected"
+      ]
+     }
+    },
+    "required": [
+     "ids",
+     "status"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "observations.add": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Observation text"
+     },
+     "category": {
+      "type": "string",
+      "description": "Category"
+     },
+     "confidence": {
+      "type": "string",
+      "description": "Confidence",
+      "enum": [
+       "low",
+       "moderate",
+       "high"
+      ]
+     },
+     "lat": {
+      "type": "number"
+     },
+     "lon": {
+      "type": "number"
+     },
+     "graphics": {
+      "type": "array",
+      "description": "Linked graphic ids",
+      "items": {
+       "type": "string"
+      }
+     },
+     "features": {
+      "type": "array",
+      "description": "Linked feature ids",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "ai.find": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "objects": {
+      "type": "array",
+      "description": "What to find",
+      "items": {
+       "type": "string"
+      }
+     },
+     "threshold": {
+      "type": "number",
+      "description": "Score threshold",
+      "minimum": 0,
+      "maximum": 1
+     },
+     "scope": {
+      "type": "string",
+      "description": "view (default) or scene",
+      "enum": [
+       "view",
+       "scene"
+      ]
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "batch": {
+      "type": "integer",
+      "description": "Tiles per model run (scene)",
+      "minimum": 1,
+      "maximum": 8
+     },
+     "commit": {
+      "type": "boolean",
+      "description": "Add to the review queue (default true)"
+     }
+    },
+    "required": [
+     "objects"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "ai.search": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "What to look for"
+     },
+     "k": {
+      "type": "integer",
+      "description": "How many places",
+      "minimum": 1,
+      "maximum": 50
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "ai.segment": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "x": {
+      "type": "number",
+      "description": "Image x"
+     },
+     "y": {
+      "type": "number",
+      "description": "Image y"
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "square": {
+      "type": "boolean",
+      "description": "Square the corners"
+     }
+    },
+    "required": [
+     "x",
+     "y"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "ai.align": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "kind": {
+      "type": "string",
+      "description": "Fit",
+      "enum": [
+       "affine",
+       "projective"
+      ]
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "ai.changeMask": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "threshold": {
+      "type": "number",
+      "description": "Change threshold in standard deviations (default 2.5)",
+      "minimum": 0.5,
+      "maximum": 10
+     },
+     "minArea": {
+      "type": "number",
+      "description": "Smallest region (image pixels²)",
+      "minimum": 0
+     },
+     "polygons": {
+      "type": "boolean",
+      "description": "Also add the regions as a vector layer"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "ai.describe": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "box": {
+      "type": "array",
+      "description": "Image pixel box [x0, y0, x1, y1]",
+      "items": {
+       "type": "number"
+      }
+     },
+     "question": {
+      "type": "string",
+      "description": "What to ask (default: describe for an analyst)"
+     },
+     "count": {
+      "type": "string",
+      "description": "Count these objects instead (the count is a draft)"
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "ai.models.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "ai.models.add": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "descriptor": {
+      "type": "object",
+      "description": "The gw-model/1 descriptor"
+     },
+     "model": {
+      "type": "object",
+      "description": "The .onnx File"
+     }
+    },
+    "required": [
+     "descriptor",
+     "model"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "ai.models.run": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "model": {
+      "type": "string",
+      "description": "Model id (ai.models.list)"
+     },
+     "scope": {
+      "type": "string",
+      "description": "Region",
+      "enum": [
+       "view",
+       "scene",
+       "box"
+      ]
+     },
+     "box": {
+      "type": "array",
+      "description": "Image pixel box [x0, y0, x1, y1]",
+      "items": {
+       "type": "number"
+      }
+     },
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "threshold": {
+      "type": "number",
+      "description": "Score threshold (detection, segmentation)",
+      "minimum": 0,
+      "maximum": 1
+     }
+    },
+    "required": [
+     "model"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "products.chip": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "width": {
+      "type": "integer",
+      "description": "Width (px)",
+      "minimum": 64,
+      "maximum": 8192
+     },
+     "height": {
+      "type": "integer",
+      "description": "Height (px)",
+      "minimum": 64,
+      "maximum": 8192
+     },
+     "save": {
+      "type": "boolean",
+      "description": "true: write the file through the save dialog or a download; false (default): return it in the result (headless)"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "products.report": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "format": {
+      "type": "string",
+      "description": "Format",
+      "enum": [
+       "html",
+       "docx"
+      ]
+     },
+     "title": {
+      "type": "string",
+      "description": "Report title"
+     },
+     "save": {
+      "type": "boolean",
+      "description": "true: write the file through the save dialog or a download; false (default): return it in the result (headless)"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "products.cog": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "layer": {
+      "type": "string",
+      "description": "Image layer id (layers.list); the active panel's image when omitted"
+     },
+     "save": {
+      "type": "boolean",
+      "description": "true: write the file through the save dialog or a download; false (default): return it in the result (headless)"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "products.deck": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "save": {
+      "type": "boolean",
+      "description": "true: write the file through the save dialog or a download; false (default): return it in the result (headless)"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "recipes.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "recipes.ops": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "recipes.validate": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "recipe": {
+      "type": "object",
+      "description": "The recipe JSON"
+     }
+    },
+    "required": [
+     "recipe"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "recipes.run": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "Built-in or saved recipe id"
+     },
+     "recipe": {
+      "type": "object",
+      "description": "A recipe JSON instead of an id"
+     },
+     "params": {
+      "type": "object",
+      "description": "Parameter overrides by step id: {stepId: {param: value}}"
+     },
+     "gates": {
+      "type": "string",
+      "description": "At a gate",
+      "enum": [
+       "continue",
+       "stop",
+       "fail"
+      ]
+     },
+     "from": {
+      "type": "integer",
+      "description": "First step (0-based)",
+      "minimum": 0
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "recipes.resume": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "run": {
+      "type": "string",
+      "description": "Run id"
+     }
+    },
+    "required": [
+     "run"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "recipes.status": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "run": {
+      "type": "string",
+      "description": "Run id"
+     }
+    },
+    "required": [
+     "run"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "recipes.op": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "op": {
+      "type": "string",
+      "description": "Operation (recipes.ops)"
+     },
+     "params": {
+      "type": "object",
+      "description": "Its parameters"
+     }
+    },
+    "required": [
+     "op"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "commands.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "filter": {
+      "type": "string",
+      "description": "Substring of the id or label"
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "commands.run": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "Command id"
+     },
+     "args": {
+      "type": [
+       "string",
+       "number",
+       "boolean",
+       "object"
+      ],
+      "description": "Argument passed to the command"
+     }
+    },
+    "required": [
+     "id"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "jobs.list": {
+   "readOnly": true,
+   "params": {
+    "type": "object",
+    "properties": {
+     "limit": {
+      "type": "integer",
+      "description": "At most this many recent ones",
+      "minimum": 1,
+      "maximum": 200
+     }
+    },
+    "required": [],
+    "additionalProperties": false
+   }
+  },
+  "jobs.cancel": {
+   "readOnly": false,
+   "params": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "Job id"
+     }
+    },
+    "required": [
+     "id"
+    ],
+    "additionalProperties": false
+   }
+  }
+ }
+}

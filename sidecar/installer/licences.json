@@ -1,0 +1,658 @@
+{
+  "about": "Licence policy input for compose.mjs (REQ-SDC-12). sourceOffer: LGPL packages shipped as separate DLLs, each with a written source offer (SOURCE-OFFER.txt). files: DLLs not owned by a conda package, with their licence. mediaStatic: permissive code linked inside the Linux FFmpeg libraries, listed in the SBOM and NOTICES though it has no file of its own. python: the Python runtime module's packages.",
+  "notShipped": {
+    "about": "Crates only in a build with the cors-relay feature, which no shipped build sets (REQ-GAP-08, OD-2.17). All permissive. Listed so the licence check is already done the day the gate opens.",
+    "crates": {
+      "tokio-rustls 0.26.6": "MIT OR Apache-2.0",
+      "rustls 0.23.46": "Apache-2.0 OR ISC OR MIT",
+      "rustls-webpki 0.103.16": "ISC",
+      "rustls-pki-types 1.15.1": "MIT OR Apache-2.0",
+      "rustls-native-certs 0.8.5": "Apache-2.0 OR ISC OR MIT",
+      "ring 0.17.14": "Apache-2.0 AND ISC",
+      "untrusted 0.9.0": "ISC",
+      "subtle 2.6.1": "BSD-3-Clause",
+      "zeroize 1.9.1": "Apache-2.0 OR MIT",
+      "schannel 0.1.30": "MIT",
+      "want 0.3.2": "MIT",
+      "try-lock 0.2.5": "MIT",
+      "getrandom 0.2.17": "MIT OR Apache-2.0",
+      "once_cell 1.21.4": "MIT OR Apache-2.0"
+    }
+  },
+  "downloadedAtInstall": [
+    {
+      "name": "OpenH264 (libopenh264.so.8)",
+      "version": "2.7.0",
+      "source": "https://ciscobinary.openh264.org/libopenh264-2.7.0-linux64.8.so.bz2",
+      "license": "BSD-2-Clause, plus Cisco's AVC/H.264 patent licence on its conditions: https://www.openh264.org/BINARY_LICENSE.txt (sidecar/installer/linux/OPENH264-NOTICE.txt)",
+      "shipped": false
+    }
+  ],
+  "sourceOffer": [
+    "libiconv",
+    "geos",
+    "nitro",
+    "ffmpeg",
+    "libspatialite",
+    "freexl",
+    "keyutils",
+    "libnsl",
+    "libquadmath",
+    "ifcopenshell",
+    "OSSIM",
+    "ossim-plugins (cnes)",
+    "eigen3",
+    "Eigen (headers in the IfcOpenShell libraries)"
+  ],
+  "mediaStatic": [
+    {
+      "name": "zlib",
+      "version": "1.3.2",
+      "license": "Zlib",
+      "url": "https://anaconda.org/conda-forge/zlib",
+      "note": "Linux: conda-forge's libz.a, linked into libavcodec and libavformat."
+    }
+  ],
+  "files": {
+    "zlib.dll": {
+      "name": "zlib",
+      "version": "1.3.2",
+      "license": "Zlib",
+      "url": "https://anaconda.org/conda-forge/libzlib"
+    },
+    "vcruntime140.dll": {
+      "name": "MSVC runtime (vcruntime140)",
+      "version": "14.51.36247",
+      "license": "LicenseRef-MSVC-Redistributable",
+      "url": "https://anaconda.org/conda-forge/vc14_runtime"
+    },
+    "ossim.dll": {"name":"OSSIM","version":"2.12.1","license":"LGPL-2.1-or-later","url":"https://github.com/ossimlabs/ossim/archive/refs/tags/v2.12.1.tar.gz","sha256":"5c91ec0c9940c6c6ad5ecb7f240e2a0ff68626741e4bc3c03468ce6f4c0c36a6"},
+    "libossim.so.2": {"name":"OSSIM","version":"2.12.1","license":"LGPL-2.1-or-later","url":"https://github.com/ossimlabs/ossim/archive/refs/tags/v2.12.1.tar.gz","sha256":"5c91ec0c9940c6c6ad5ecb7f240e2a0ff68626741e4bc3c03468ce6f4c0c36a6"},
+    "libossim.so.1": {"name":"OSSIM","version":"2.12.1","license":"LGPL-2.1-or-later","url":"https://github.com/ossimlabs/ossim/archive/refs/tags/v2.12.1.tar.gz","sha256":"5c91ec0c9940c6c6ad5ecb7f240e2a0ff68626741e4bc3c03468ce6f4c0c36a6"},
+    "gwb-ossim-model.exe": {"name":"gwb-ossim-model","version":"part of GIS Workbench","license":"Apache-2.0","url":"sidecar/ossim/gwb_ossim_model.cpp"},
+    "gwb-ossim-model": {"name":"gwb-ossim-model","version":"part of GIS Workbench","license":"Apache-2.0","url":"sidecar/ossim/gwb_ossim_model.cpp"},
+    "ffmpeg.exe": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "ffprobe.exe": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "avcodec-62.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "avdevice-62.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "avfilter-11.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "avformat-62.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "avutil-60.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "swresample-6.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "swscale-9.dll": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "ffmpeg": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "ffprobe": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libavcodec.so.62": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libavdevice.so.62": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libavfilter.so.11": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libavformat.so.62": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libavutil.so.60": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libswresample.so.6": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "libswscale.so.9": {
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "license": "LGPL-2.1-or-later",
+      "url": "https://ffmpeg.org/releases/ffmpeg-8.1.3.tar.xz",
+      "sha256": "7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3"
+    },
+    "gdal_pdf.dll": {
+      "name": "gdal-pdf-pdfium",
+      "version": "GDAL 3.13.3 PDF driver with PDFium 7724 (rouault/pdfium_build_gdal_3_13 pdfium_7724_v1, code.patch applied by that build)",
+      "license": "MIT AND BSD-3-Clause AND Apache-2.0 AND FTL AND IJG AND Zlib AND BSD-2-Clause AND LicenseRef-Public-Domain AND LicenseRef-AGG-2.3",
+      "url": "https://github.com/rouault/pdfium_build_gdal_3_13/releases/tag/pdfium_7724_v1",
+      "sha256": "29add5a530069b8289ada26ac42ba6c57c83d85d0285ee1d08fd06ee94ecbb17"
+    },
+    "gdal_pdf.so": {
+      "name": "gdal-pdf-pdfium",
+      "version": "GDAL 3.13.3 PDF driver with PDFium 7724 (rouault/pdfium_build_gdal_3_13 pdfium_7724_v1, code.patch applied by that build)",
+      "license": "MIT AND BSD-3-Clause AND Apache-2.0 AND FTL AND IJG AND Zlib AND BSD-2-Clause AND LicenseRef-Public-Domain AND LicenseRef-AGG-2.3",
+      "url": "https://github.com/rouault/pdfium_build_gdal_3_13/releases/tag/pdfium_7724_v1",
+      "sha256": "2e04cf88b174fec712fa93c4b70c210f7618ca55812947323a92d4f1247cb77b"
+    },
+    "gdal_fits.dll": {
+      "name": "gdal-fits",
+      "version": "GDAL 3.13.3 FITS driver with sidecar/installer/fits-plugin/scale-fix.cmake applied",
+      "license": "MIT",
+      "url": "https://download.osgeo.org/gdal/3.13.3/gdal-3.13.3.tar.gz",
+      "sha256": "b15c5edc6c27a7fdc22516c0321ac7b0ea92843ad247e136d75a521d43c12fc5"
+    },
+    "gdal_fits.so": {
+      "name": "gdal-fits",
+      "version": "GDAL 3.13.3 FITS driver with sidecar/installer/fits-plugin/scale-fix.cmake applied",
+      "license": "MIT",
+      "url": "https://download.osgeo.org/gdal/3.13.3/gdal-3.13.3.tar.gz",
+      "sha256": "c378dc93e6372083e782cf19399fa1b12834db56661d1be249059fa68bb0765f"
+    }
+  },
+  "python": [
+    {
+      "name": "CPython",
+      "version": "3.12.16 (python-build-standalone 20261026)",
+      "license": "PSF-2.0",
+      "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.12.16%2B20261026-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+      "sha256": "1f2ab53880fc67ea323398c6388e05af28addc99a8e389209f08a51fdff4b149"
+    },
+    {
+      "name": "OpenSSL (in CPython)",
+      "version": "3.x",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "libffi (in CPython)",
+      "version": "3.4",
+      "license": "MIT"
+    },
+    {
+      "name": "SQLite (in CPython)",
+      "version": "3",
+      "license": "blessing"
+    },
+    {
+      "name": "zlib (in CPython)",
+      "version": "1.3",
+      "license": "Zlib"
+    },
+    {
+      "name": "Tcl/Tk (in CPython)",
+      "version": "8.6",
+      "license": "TCL"
+    },
+    {
+      "name": "mpdecimal, bzip2, xz (in CPython)",
+      "version": "",
+      "license": "BSD-2-Clause AND bzip2-1.0.6 AND 0BSD"
+    },
+    {
+      "name": "OpenBLAS + gfortran runtime (in the numpy wheel)",
+      "version": "",
+      "license": "BSD-3-Clause AND GPL-3.0-or-later WITH GCC-exception-3.1"
+    },
+    {
+      "name": "MSVC runtime (vcruntime140)",
+      "version": "14",
+      "license": "LicenseRef-MSVC-Redistributable"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4",
+      "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+    }
+  ],
+  "noticeText": [
+    "",
+    "CFITSIO: Copyright (Unpublished--all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code. Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. THE SOFTWARE IS PROVIDED AS IS WITHOUT ANY WARRANTY OF ANY KIND.",
+    "Portions of this software are copyright The FreeType Project (www.freetype.org). All rights reserved.",
+    "Anti-Grain Geometry 2.3: Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com). Permission to copy, use, modify, sell and distribute this software is granted provided this copyright notice appears in all copies."
+  ],
+  "allowed": [
+    "MIT",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "PSF-2.0",
+    "MPL-2.0",
+    "0BSD",
+    "CC0-1.0",
+    "Unlicense",
+    "BSL-1.0",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "MIT-0",
+    "blessing",
+    "TCL",
+    "bzip2-1.0.6",
+    "X11",
+    "curl",
+    "libtiff",
+    "libpng-2.0",
+    "IJG",
+    "Info-ZIP",
+    "HDF5",
+    "NCSA",
+    "PostgreSQL",
+    "OpenSSL",
+    "LicenseRef-MSVC-Redistributable",
+    "LicenseRef-Public-Domain",
+    "MIT-CMU",
+    "CDLA-Permissive-2.0",
+    "Zlib-acknowledgement",
+    "LGPL-2.1-only",
+    "LGPL-2.1-or-later",
+    "LGPL-3.0-only",
+    "LGPL-3.0-or-later",
+    "LicenseRef-MicrosoftVisualCpp2015-2022Runtime",
+    "HPND",
+    "zlib-acknowledgement",
+    "MPL-1.1",
+    "FTL",
+    "OLDAP-2.8",
+    "BSD-3-Clause-Attribution",
+    "LicenseRef-fitsio",
+    "LicenseRef-AGG-2.3",
+    "LicenseRef-proj-data"
+  ],
+  "reviewNotes": {
+    "OSSIM": "OSSIM's LICENSE.txt is MIT, with a blank copyright holder, while 269 of its 2062 source files still say 'License: LGPL' in their headers. The stricter reading is taken: LGPL, linked dynamically, with a source offer. ossimMonoGridRemapEngine.cpp also says 'See the GPL in the COPYING.GPL file', a leftover: its licence line says LGPL and no such file is in the tree. The CNES plug-in repeats the mix, and 8 of its files (Pleiades, SPOT 6) are LGPL-3.0-or-later, so the plug-in is listed as LGPL-3.0-or-later; it is a separate shared library loaded at run time. Curl, PROJ, SQLite and FreeType are off in this build (sidecar/ossim/build.mjs). Owner item: the mixed marking has not been put to the OSSIM maintainers.",
+    "MPL-1.1": "freexl is tri-licensed (MPL-1.1 / GPL-2.0+ / LGPL-2.1+); the MPL-1.1 terms are elected. libspatialite is no longer shipped (2026-11-02, P16): conda-forge Windows spatialite.dll has librttopo (GPL-2.0-or-later) statically linked, which the PE-import check of 0.1.0 could not see (39 of 60 sampled librttopo strings are in it); the Linux build needs librttopo.so. Both are replaced by the gwb-nospatialite stand-in (stubs/), and compose.mjs now checks every shipped package with a GPL dependency for that dependency's strings (staticGpl).",
+    "LicenseRef-MicrosoftVisualCpp2015-2022Runtime": "Visual C++ redistributable runtime DLLs, redistributable under the Visual Studio licence terms.",
+    "P16-linux": "Linux wheels bundle shared libraries in <pkg>.libs/; each is listed in pythonLibs. FTL added (FreeType licence, BSD-style with credit; FreeType is dual FTL/GPL and the FTL alternative is elected). keyutils, libnsl (krb5 via libcurl) and libquadmath (gfortran runtime) are LGPL and get a source offer. gwb-nolzo replaces liblzo2 (GPL) under the Linux libarchive (lzop only). OLDAP-2.8 (OpenLDAP, BSD-style) and BSD-3-Clause-Attribution (cyrus-sasl) are permissive and added: the Linux libpq (GDAL PG driver, PDAL pgpointcloud) links them.",
+    "LicenseRef-fitsio": "cfitsio 4.6.4 (conda-forge): the NASA notice in its License.txt lets anyone use, copy, modify and distribute it without fee, provided the notice and disclaimer stay with all copies. It is in NOTICES through noticeText. Permissive; no copyleft.",
+    "LicenseRef-AGG-2.3": "Anti-Grain Geometry 2.3 inside PDFium (third_party/agg23): permission to copy, use, modify, sell and distribute, provided the copyright notice appears in all copies. Permissive.",
+    "LicenseRef-proj-data": "proj-data is data, in the separate proj-grids module. PROJ-data takes only grids under an open licence. The module carries every *_README.txt with each grid unmodified, which is what the attribution terms ask. Four sets are CC-BY-SA 4.0: passing them on unmodified with their terms is allowed; adapted works would have to stay under it. Raised with the owner.",
+    "PDFium-2.6": "GDAL PDF driver with PDFium, REQ-GAP-67. PDFium is BSD-3-Clause and Apache-2.0 (LICENSE at chromium/7724). third_party/BUILD.gn at that revision builds, with XFA and V8 off (args_release_*.gn in rouault/pdfium_build_gdal_3_13): bigint (public domain), FreeType (dual FTL or GPL-2.0, FTL elected), AGG 2.3, lcms2 (MIT), libjpeg-turbo (IJG, BSD-3-Clause, Zlib), zlib, OpenJPEG (BSD-2-Clause), and abseil (Apache-2.0). The build scripts are MIT. The PDF driver is MIT. No GPL dependency, unlike conda-forge libgdal-pdf, which links poppler (GPL) and stays out. The linked plug-in imports only gdal313 and the MSVC runtime.",
+    "IfcOpenShell-2.6": "REQ-GAP-36. IfcOpenShell is LGPL-3.0-or-later. Its PyPI wheel has no licence files, and holds CGAL and GMP in separate kernel libraries. subset-ifcopenshell.mjs takes an allow-list of files. The wrapper closure was walked: Windows PE imports give 5 libraries plus Python and the C runtime; Linux DT_NEEDED gives 23, 15 of them Open CASCADE (LGPL-2.1 with the OCCT exception) and its kernel. Neither has CGAL, GMP or MPFR, in names or in strings. The LGPL parts stay separate shared libraries a user can replace, and go on the source offer.",
+    "sfm": "sfm (REQ-GAP-29): components are linked statically, so compose.mjs lists them from \"sfm\" and searches the binaries for the excluded code (SFM_BARRED). COLMAP 4.2.1 is built without LSD (AGPL-3.0), SiftGPU (educational, research and non-profit use only), CGAL, CHOLMOD (GPL modules; removed by colmap-gwb.patch) and the CUDA runtime. OpenMVS (AGPL-3.0) is not used. zstd is dual licensed: BSD-3-Clause is elected. liblzma is 0BSD; the GPL parts of xz are scripts that are not built. Eigen is MPL-2.0: no file under include/eigen3 carries LGPL text. On Linux only, minizip-ng brings in OpenSSL 3 (Apache-2.0) for AES: libcrypto, linked statically, with no TLS and no network use."
+  },
+  "stubs": {
+    "version": "0.2.0",
+    "license": "Apache-2.0",
+    "url": "https://github.com/brianm-di4u/GIS-Workbench/tree/main/sidecar/stubs"
+  },
+  "pythonLibs": [
+    {
+      "prefix": "libgfortran-",
+      "name": "libgfortran",
+      "version": "14",
+      "license": "GPL-3.0-or-later WITH GCC-exception-3.1",
+      "wheel": "numpy"
+    },
+    {
+      "prefix": "libquadmath-",
+      "name": "libquadmath",
+      "version": "14",
+      "license": "LGPL-2.1-or-later",
+      "wheel": "numpy"
+    },
+    {
+      "prefix": "libscipy_openblas",
+      "name": "OpenBLAS (scipy-openblas)",
+      "version": "0.3",
+      "license": "BSD-3-Clause",
+      "wheel": "numpy"
+    }
+  ],
+  "projData": {
+    "name": "proj-data",
+    "version": "1.24 (conda-forge proj-data-1.24-h7428d3b_0)",
+    "license": "LicenseRef-proj-data",
+    "url": "https://conda.anaconda.org/conda-forge/noarch/proj-data-1.24-h7428d3b_0.conda",
+    "sha256": "7418393f64a32c9ae598692304ee0ffefdbc2010754104bc36b91e1fce77ce2c",
+    "terms": "Per agency, stated in the *_README.txt beside each set of grids: public domain, CC0, CC-BY 4.0, CC-BY-SA 4.0 (four sets, unmodified), BSD-2-Clause, Open Government Licence - Canada, Licence Ouverte (Etalab), Data licence Germany attribution 2.0."
+  },
+  "model3d": {
+    "ifcopenshell": [
+      {
+        "name": "ifcopenshell",
+        "version": "0.9.0.post1 (PyPI wheels; only the wrapper, parser, plugin loader, RocksDB document layer, IFC4 schema and Python layer)",
+        "license": "LGPL-3.0-or-later",
+        "url": "https://pypi.org/project/ifcopenshell/0.9.0.post1/"
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0",
+        "license": "PSF-2.0",
+        "url": "https://pypi.org/project/typing-extensions/4.16.0/"
+      },
+      {
+        "name": "Boost (in the IfcOpenShell libraries)",
+        "version": "1.86 to 1.92",
+        "license": "BSL-1.0",
+        "url": "https://www.boost.org/"
+      },
+      {
+        "name": "RocksDB (in the IfcOpenShell parser)",
+        "version": "as built by IfcOpenShell 0.9.0",
+        "license": "Apache-2.0",
+        "url": "https://rocksdb.org/"
+      }
+    ],
+    "ifcopenshell-linux": [
+      {
+        "name": "ifcopenshell",
+        "version": "0.9.0post1 (built from source by build-ifcopenshell.sh; wrapper, parser, plugin loader, geometry interface with no kernel, IFC4 schema and Python layer)",
+        "license": "LGPL-3.0-or-later",
+        "url": "https://github.com/IfcOpenShell/IfcOpenShell/archive/refs/tags/ifcopenshell-python-0.9.0post1.tar.gz"
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0",
+        "license": "PSF-2.0",
+        "url": "https://pypi.org/project/typing-extensions/4.16.0/"
+      },
+      {
+        "name": "Boost (libboost_program_options, libboost_container, and headers in the IfcOpenShell libraries)",
+        "version": "1.92.0",
+        "license": "BSL-1.0",
+        "url": "https://www.boost.org/"
+      },
+      {
+        "name": "Eigen (headers in the IfcOpenShell libraries)",
+        "version": "5.0.1",
+        "license": "MPL-2.0",
+        "url": "https://eigen.tuxfamily.org/"
+      }
+    ]
+  },
+  "sfm": [
+    {
+      "name": "COLMAP (colmap-gwb.patch; no LSD, SiftGPU, CGAL, CHOLMOD or CUDA)",
+      "version": "4.2.1",
+      "license": "BSD-3-Clause",
+      "url": "https://github.com/colmap/colmap/tree/4.2.1"
+    },
+    {
+      "name": "VLFeat (bundled in COLMAP)",
+      "version": "4.2.1",
+      "license": "BSD-2-Clause",
+      "url": "https://github.com/colmap/colmap/tree/4.2.1/src/thirdparty/VLFeat"
+    },
+    {
+      "name": "PoissonRecon (bundled in COLMAP)",
+      "version": "4.2.1",
+      "license": "MIT",
+      "url": "https://github.com/colmap/colmap/tree/4.2.1/src/thirdparty/PoissonRecon"
+    },
+    {
+      "name": "PoseLib",
+      "version": "fa7280fe",
+      "license": "BSD-3-Clause",
+      "url": "https://github.com/PoseLib/PoseLib"
+    },
+    {
+      "name": "faiss",
+      "version": "1.14.1",
+      "license": "MIT",
+      "url": "https://github.com/facebookresearch/faiss"
+    },
+    {
+      "name": "Boost",
+      "version": "1.92.0",
+      "license": "BSL-1.0",
+      "url": "https://www.boost.org/"
+    },
+    {
+      "name": "bzip2",
+      "version": "1.0.8",
+      "license": "bzip2-1.0.6",
+      "url": "vcpkg port bzip2"
+    },
+    {
+      "name": "ceres",
+      "version": "2.2.0",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port ceres"
+    },
+    {
+      "name": "eigen3",
+      "version": "5.0.1",
+      "license": "MPL-2.0",
+      "url": "vcpkg port eigen3"
+    },
+    {
+      "name": "expat",
+      "version": "2.9.0",
+      "license": "MIT",
+      "url": "vcpkg port expat"
+    },
+    {
+      "name": "fmt",
+      "version": "12.2.0",
+      "license": "MIT",
+      "url": "vcpkg port fmt"
+    },
+    {
+      "name": "gflags",
+      "version": "2.3.0",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port gflags"
+    },
+    {
+      "name": "gklib",
+      "version": "2025-07-06",
+      "license": "Apache-2.0",
+      "url": "vcpkg port gklib"
+    },
+    {
+      "name": "glog",
+      "version": "0.7.1",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port glog"
+    },
+    {
+      "name": "imath",
+      "version": "3.2.3",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port imath"
+    },
+    {
+      "name": "libdeflate",
+      "version": "1.26",
+      "license": "MIT",
+      "url": "vcpkg port libdeflate"
+    },
+    {
+      "name": "libjpeg-turbo",
+      "version": "3.2.0",
+      "license": "IJG AND BSD-3-Clause AND Zlib",
+      "url": "vcpkg port libjpeg-turbo"
+    },
+    {
+      "name": "liblzma",
+      "version": "5.8.4",
+      "license": "0BSD",
+      "url": "vcpkg port liblzma"
+    },
+    {
+      "name": "libpng",
+      "version": "1.6.59",
+      "license": "libpng-2.0",
+      "url": "vcpkg port libpng"
+    },
+    {
+      "name": "libspng",
+      "version": "0.7.4",
+      "license": "BSD-2-Clause",
+      "url": "vcpkg port libspng"
+    },
+    {
+      "name": "metis",
+      "version": "2025-07-04",
+      "license": "Apache-2.0",
+      "url": "vcpkg port metis"
+    },
+    {
+      "name": "minizip-ng",
+      "version": "4.1.0",
+      "license": "Zlib",
+      "url": "vcpkg port minizip-ng"
+    },
+    {
+      "name": "openblas",
+      "version": "0.3.34",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port openblas"
+    },
+    {
+      "name": "opencolorio",
+      "version": "2.6.0",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port opencolorio"
+    },
+    {
+      "name": "openexr",
+      "version": "3.5.3",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port openexr"
+    },
+    {
+      "name": "openimageio",
+      "version": "3.2.1.2",
+      "license": "Apache-2.0",
+      "url": "vcpkg port openimageio"
+    },
+    {
+      "name": "openjph",
+      "version": "0.32.0",
+      "license": "BSD-2-Clause",
+      "url": "vcpkg port openjph"
+    },
+    {
+      "name": "pystring",
+      "version": "1.2.0",
+      "license": "BSD-3-Clause",
+      "url": "vcpkg port pystring"
+    },
+    {
+      "name": "robin-map",
+      "version": "1.4.1",
+      "license": "MIT",
+      "url": "vcpkg port robin-map"
+    },
+    {
+      "name": "sqlite3",
+      "version": "3.54.1",
+      "license": "blessing",
+      "url": "vcpkg port sqlite3"
+    },
+    {
+      "name": "tiff",
+      "version": "4.7.2",
+      "license": "libtiff",
+      "url": "vcpkg port tiff"
+    },
+    {
+      "name": "yaml-cpp",
+      "version": "0.9.0",
+      "license": "MIT",
+      "url": "vcpkg port yaml-cpp"
+    },
+    {
+      "name": "zlib",
+      "version": "1.3.2",
+      "license": "Zlib",
+      "url": "vcpkg port zlib"
+    },
+    {
+      "name": "zstd",
+      "version": "1.5.7",
+      "license": "BSD-3-Clause OR GPL-2.0-only",
+      "url": "vcpkg port zstd"
+    },
+    {
+      "name": "openssl (libcrypto, Linux only: minizip-ng AES for OpenColorIO)",
+      "version": "3.6.5",
+      "license": "Apache-2.0",
+      "url": "vcpkg port openssl"
+    },
+    {
+      "name": "gwb-sfm",
+      "version": "sidecar",
+      "license": "Apache-2.0",
+      "url": "sidecar/gwb-sfm"
+    }
+  ]
+}

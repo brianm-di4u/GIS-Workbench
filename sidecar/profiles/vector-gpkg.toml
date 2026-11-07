@@ -1,0 +1,31 @@
+# Vector -> GeoPackage (REQ-SDC-08): every layer, with a spatial index.
+id = "vector-gpkg"
+title = "Vector to GeoPackage"
+module = "core-gdal"
+input = "vector"
+output_ext = "gpkg"
+
+[[options]]
+name = "t_srs"
+title = "Reproject to"
+type = "crs"
+optional = true
+
+[[options]]
+name = "multi"
+title = "Promote to multi-geometries"
+type = "bool"
+default = false
+
+[[steps]]
+tool = "ogr2ogr"
+progress = "gdal"
+args = [
+  "-progress",
+  "-f", "GPKG",
+  "-lco", "SPATIAL_INDEX=YES",
+  "-lco", "DESCRIPTION={provenance}",
+  { when = "t_srs", args = ["-t_srs", "{t_srs}"] },
+  { when = "multi", args = ["-nlt", "PROMOTE_TO_MULTI"] },
+  "{output}", "{input}",
+]

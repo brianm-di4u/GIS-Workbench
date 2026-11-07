@@ -1,0 +1,32 @@
+{
+ "native": {
+  "read": 81,
+  "footprint": 2,
+  "variants": 120,
+  "refused": 2,
+  "support": 13
+ },
+ "sidecar": [
+  {
+   "os": "windows",
+   "gdal": "GDAL 3.13.3",
+   "drivers": 201,
+   "raster": 143,
+   "vector": 75,
+   "writable": 99,
+   "pdalReaders": 32,
+   "pdalWriters": 20
+  },
+  {
+   "os": "linux",
+   "gdal": "GDAL 3.13.3",
+   "drivers": 196,
+   "raster": 142,
+   "vector": 70,
+   "writable": 97,
+   "pdalReaders": 31,
+   "pdalWriters": 19
+  }
+ ],
+ "sidecarDistinct": 233
+}

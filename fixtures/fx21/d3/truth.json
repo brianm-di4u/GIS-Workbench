@@ -1,0 +1,432 @@
+{
+ "origin": {
+  "lat": 39.7392,
+  "lon": -104.9903,
+  "h": 1600
+ },
+ "pnts": {
+  "float-rgb.pnts": {
+   "points": 2000,
+   "min": [
+    -1270673.4556157847,
+    -4745347.654562773,
+    4056764.631560876
+   ],
+   "max": [
+    -1270617.1928105182,
+    -4745305.86224203,
+    4056803.631716351
+   ],
+   "attributes": [
+    "RGB"
+   ]
+  },
+  "quantized-octnormals-rgba.pnts": {
+   "points": 2000,
+   "min": [
+    -1270673.4556157847,
+    -4745347.654562773,
+    4056764.631560876
+   ],
+   "max": [
+    -1270617.1928105182,
+    -4745305.86224203,
+    4056803.631716351
+   ],
+   "attributes": [
+    "RGBA",
+    "NORMAL"
+   ],
+   "tol": 0.01
+  },
+  "rgb565-batch.pnts": {
+   "points": 2000,
+   "min": [
+    -1270673.4556157847,
+    -4745347.654562773,
+    4056764.631560876
+   ],
+   "max": [
+    -1270617.1928105182,
+    -4745305.86224203,
+    4056803.631716351
+   ],
+   "attributes": [
+    "RGB"
+   ],
+   "properties": [
+    "Intensity",
+    "Classification"
+   ],
+   "stats": {
+    "Intensity": {
+     "min": 108,
+     "max": 600,
+     "mean": 272.046
+    },
+    "Classification": {
+     "min": 2,
+     "max": 6,
+     "mean": 3.046
+    }
+   }
+  },
+  "constant-rgba.pnts": {
+   "points": 2000,
+   "min": [
+    -1270673.4556157847,
+    -4745347.654562773,
+    4056764.631560876
+   ],
+   "max": [
+    -1270617.1928105182,
+    -4745305.86224203,
+    4056803.631716351
+   ],
+   "attributes": [
+    "CONSTANT_RGBA"
+   ]
+  },
+  "draco.pnts": {
+   "points": 2000,
+   "min": [
+    -1270673.4556157847,
+    -4745347.654562773,
+    4056764.631560876
+   ],
+   "max": [
+    -1270617.1928105182,
+    -4745305.86224203,
+    4056803.631716351
+   ],
+   "attributes": [
+    "RGB",
+    "draco"
+   ],
+   "tol": 0.05
+  }
+ },
+ "i3dm": {
+  "embedded-normals.i3dm": {
+   "instances": 5,
+   "min": [
+    -1270645.3909112758,
+    -4745329.075070357,
+    4056783.6714184
+   ],
+   "max": [
+    -1270623.7588617369,
+    -4745320.313128691,
+    4056802.2471357333
+   ]
+  },
+  "quantized-oct-scale.i3dm": {
+   "instances": 5,
+   "min": [
+    -1270645.3909112758,
+    -4745329.075070357,
+    4056783.6714184
+   ],
+   "max": [
+    -1270623.7588617369,
+    -4745320.313128691,
+    4056802.2471357333
+   ],
+   "tol": 0.01
+  },
+  "external-enu-batch.i3dm": {
+   "instances": 5,
+   "min": [
+    -1270645.3909112758,
+    -4745329.075070357,
+    4056783.6714184
+   ],
+   "max": [
+    -1270623.7588617369,
+    -4745320.313128691,
+    4056802.2471357333
+   ],
+   "properties": [
+    "Height",
+    "Name"
+   ]
+  }
+ },
+ "cmpt": {
+  "composite.cmpt": {
+   "points": 100,
+   "instances": 5,
+   "inner": 3
+  },
+  "composite-of-composite.cmpt": {
+   "points": 100,
+   "instances": 5,
+   "inner": 2
+  }
+ },
+ "implicit": {
+  "octree": {
+   "points": 60000,
+   "tiles": 25,
+   "levels": 3,
+   "subtrees": 17
+  },
+  "quadtree": {
+   "tiles": 4,
+   "subtrees": 1
+  }
+ },
+ "gltf": {
+  "box.glb": {
+   "triangles": 12,
+   "vertices": 24,
+   "extensions": []
+  },
+  "box-draco.glb": {
+   "triangles": 12,
+   "vertices": 24,
+   "extensions": [
+    "KHR_draco_mesh_compression"
+   ]
+  },
+  "box-ktx2.glb": {
+   "triangles": 12,
+   "vertices": 24,
+   "extensions": [
+    "KHR_texture_basisu"
+   ]
+  },
+  "box-draco-ktx2.glb": {
+   "triangles": 12,
+   "vertices": 24,
+   "extensions": [
+    "KHR_draco_mesh_compression",
+    "KHR_texture_basisu"
+   ]
+  }
+ },
+ "qmesh": {
+  "qmesh-4326": {
+   "tiles": 17,
+   "maxzoom": 11,
+   "projection": "EPSG:4326",
+   "available": [
+    [
+     {
+      "startX": 0,
+      "endX": 0,
+      "startY": 0,
+      "endY": 0
+     }
+    ],
+    [
+     {
+      "startX": 0,
+      "endX": 0,
+      "startY": 1,
+      "endY": 1
+     }
+    ],
+    [
+     {
+      "startX": 1,
+      "endX": 1,
+      "startY": 2,
+      "endY": 2
+     }
+    ],
+    [
+     {
+      "startX": 3,
+      "endX": 3,
+      "startY": 5,
+      "endY": 5
+     }
+    ],
+    [
+     {
+      "startX": 6,
+      "endX": 6,
+      "startY": 11,
+      "endY": 11
+     }
+    ],
+    [
+     {
+      "startX": 13,
+      "endX": 13,
+      "startY": 23,
+      "endY": 23
+     }
+    ],
+    [
+     {
+      "startX": 26,
+      "endX": 26,
+      "startY": 46,
+      "endY": 46
+     }
+    ],
+    [
+     {
+      "startX": 53,
+      "endX": 53,
+      "startY": 92,
+      "endY": 92
+     }
+    ],
+    [
+     {
+      "startX": 106,
+      "endX": 106,
+      "startY": 184,
+      "endY": 184
+     }
+    ],
+    [
+     {
+      "startX": 213,
+      "endX": 213,
+      "startY": 368,
+      "endY": 369
+     }
+    ],
+    [
+     {
+      "startX": 426,
+      "endX": 426,
+      "startY": 737,
+      "endY": 738
+     }
+    ],
+    [
+     {
+      "startX": 852,
+      "endX": 853,
+      "startY": 1475,
+      "endY": 1476
+     }
+    ]
+   ],
+   "heightRange": [
+    1480,
+    1720
+   ]
+  },
+  "qmesh-3857": {
+   "tiles": 19,
+   "maxzoom": 12,
+   "projection": "EPSG:3857",
+   "available": [
+    [
+     {
+      "startX": 0,
+      "endX": 0,
+      "startY": 0,
+      "endY": 0
+     }
+    ],
+    [
+     {
+      "startX": 0,
+      "endX": 0,
+      "startY": 1,
+      "endY": 1
+     }
+    ],
+    [
+     {
+      "startX": 0,
+      "endX": 0,
+      "startY": 2,
+      "endY": 2
+     }
+    ],
+    [
+     {
+      "startX": 1,
+      "endX": 1,
+      "startY": 4,
+      "endY": 4
+     }
+    ],
+    [
+     {
+      "startX": 3,
+      "endX": 3,
+      "startY": 9,
+      "endY": 9
+     }
+    ],
+    [
+     {
+      "startX": 6,
+      "endX": 6,
+      "startY": 19,
+      "endY": 19
+     }
+    ],
+    [
+     {
+      "startX": 13,
+      "endX": 13,
+      "startY": 39,
+      "endY": 39
+     }
+    ],
+    [
+     {
+      "startX": 26,
+      "endX": 26,
+      "startY": 79,
+      "endY": 79
+     }
+    ],
+    [
+     {
+      "startX": 53,
+      "endX": 53,
+      "startY": 158,
+      "endY": 158
+     }
+    ],
+    [
+     {
+      "startX": 106,
+      "endX": 106,
+      "startY": 317,
+      "endY": 317
+     }
+    ],
+    [
+     {
+      "startX": 213,
+      "endX": 213,
+      "startY": 635,
+      "endY": 635
+     }
+    ],
+    [
+     {
+      "startX": 426,
+      "endX": 426,
+      "startY": 1270,
+      "endY": 1271
+     }
+    ],
+    [
+     {
+      "startX": 852,
+      "endX": 853,
+      "startY": 2540,
+      "endY": 2542
+     }
+    ]
+   ],
+   "heightRange": [
+    1480,
+    1720
+   ]
+  }
+ }
+}

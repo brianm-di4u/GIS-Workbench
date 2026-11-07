@@ -1,0 +1,103 @@
+{
+  "note": "REQ-GAP-24: pinned usgscsm WebAssembly module; rebuild with node build/csm/build-usgscsm.mjs (see the header).",
+  "output": {
+    "file": "usgscsm.wasm",
+    "sha256": "d54eba449f7e19f8c2ac726e1b604a9d2ace850f25ca7395330901c1bd7c5e61",
+    "size": 521606,
+    "gzip": 186298
+  },
+  "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.13 (e13ee988ce3d87a738dd8f3661d02223308c412a)",
+  "upstream": {
+    "usgscsm": {
+      "repo": "https://github.com/DOI-USGS/usgscsm",
+      "tag": "2.1.0",
+      "commit": "cd09cb602c2b3ea79ac976d47c4b517884e50e53",
+      "licence": "public domain (USGS) / CC0-1.0; BAE files BSD-3-Clause"
+    },
+    "csm": {
+      "repo": "https://github.com/USGS-Astrogeology/csm",
+      "commit": "cbf62f4f489567ae05ae9c0f373f14f9062cbecb",
+      "licence": "Unlicense (public domain)"
+    },
+    "ale": {
+      "repo": "https://github.com/DOI-USGS/ale",
+      "commit": "99c4af43e09c1b953592b5581ecf8b4cbc1e55eb",
+      "licence": "public domain (USGS) / CC0-1.0"
+    },
+    "json": {
+      "repo": "https://github.com/nlohmann/json",
+      "commit": "5d2754306d67d1e654a1a34e1d2e74439a9d53b3",
+      "licence": "MIT"
+    }
+  },
+  "cflags": [
+    "-std=c++17",
+    "-Oz",
+    "-fwasm-exceptions",
+    "-sWASM_LEGACY_EXCEPTIONS=1",
+    "-ffp-contract=off",
+    "-fno-fast-math",
+    "-DNDEBUG",
+    "-DUSGSCSM_VERSION_TEXT=\"2.1.0 (cd09cb6)\"",
+    "-DCSM_VERSION_TEXT=\"3.0.3 (cbf62f4)\""
+  ],
+  "ldflags": [
+    "-Oz",
+    "-fwasm-exceptions",
+    "-sWASM_LEGACY_EXCEPTIONS=1",
+    "-sSTANDALONE_WASM=1",
+    "--no-entry",
+    "-sALLOW_MEMORY_GROWTH=1",
+    "-sINITIAL_MEMORY=16MB",
+    "-sMAXIMUM_MEMORY=1GB",
+    "-sSTACK_SIZE=1MB",
+    "-sFILESYSTEM=0",
+    "-sDYNAMIC_EXECUTION=0",
+    "-sSUPPORT_LONGJMP=0",
+    "-sEXPORTED_FUNCTIONS=_gwc_alloc,_gwc_free,_gwc_last_error,_gwc_out_ptr,_gwc_out_len,_gwc_version,_gwc_model_from_isd,_gwc_model_from_state,_gwc_model_state,_gwc_model_free,_gwc_set_precision,_gwc_model_with_params,_gwc_model_info,_gwc_i2g_ecef,_gwc_g2i_ecef,_gwc_i2g,_gwc_g2i,_gwc_convert,_gwc_sensor_partials,_gwc_ground_partials_ecef,_gwc_unmodeled,_gwc_locus"
+  ],
+  "imports": [
+    "env.emscripten_notify_memory_growth",
+    "wasi_snapshot_preview1.fd_close",
+    "wasi_snapshot_preview1.clock_time_get",
+    "wasi_snapshot_preview1.environ_sizes_get",
+    "wasi_snapshot_preview1.environ_get",
+    "wasi_snapshot_preview1.fd_seek",
+    "wasi_snapshot_preview1.fd_write",
+    "wasi_snapshot_preview1.fd_read"
+  ],
+  "sources": {
+    "usgscsm/src/UsgsAstroPlugin.cpp": "2a820f12e41c54d71278e335abec1f6880e79544a5c14f50e8733365ca7c47db",
+    "usgscsm/src/UsgsAstroFrameSensorModel.cpp": "2a686d1b354265f453d89bc8c5227249429ac2a3ef9794ccdfaf3f3e47f9e39e",
+    "usgscsm/src/UsgsAstroPushFrameSensorModel.cpp": "85a5aa61e774059105f886a5e5a591bb975b3e7585ff56b175f614a6dbd749d7",
+    "usgscsm/src/UsgsAstroLsSensorModel.cpp": "54841788f6b56c079dfd68467b1ff1d7bc0ad14979eb9d7bb5e69f5bd6275fdc",
+    "usgscsm/src/UsgsAstroSarSensorModel.cpp": "a7ac4a92f4a5451aca60e371c9d6adb067fc645439e0ed3a1d5fec8ea1df21c4",
+    "usgscsm/src/Distortion.cpp": "540d3f48b3deb43875ec19219d09347c8a476c4492dfc4d495cf138f8d715af2",
+    "usgscsm/src/Utilities.cpp": "08540696b0cdca2f91e82382fe76f1a07459125af22fb3059c9c26e706b2a97a",
+    "usgscsm/src/VariantMap.cpp": "d1595af62abbee3fccc2946adb8e313884f3883941297b07066d6f4fffcd402d",
+    "usgscsm/ale/src/InterpUtils.cpp": "2a4e7ebdafaa74768b4fb2fe1e77f88ab7c1755884d8303bf2651a3cbf247dda",
+    "usgscsm/ale/src/Orientations.cpp": "61378205f2f9cc24e8a59b67a7896a5eec88523606e444ffd5b1a84a7e77e67a",
+    "usgscsm/ale/src/States.cpp": "52f4fab0d05a40fb55c4cf28a26bdc510378ba503ebcbd109baa6eced2aea547",
+    "usgscsm/ale/src/Util.cpp": "57a206e538bd90d90e1388c2ff914e36245047e021b7df98de585c3ea2945013",
+    "usgscsm/ale/src/Vectors.cpp": "182cd06c10c71eb333f27b6834756534676823dd00deda690377e6babed0333a",
+    "usgscsm/csm/BundleGM.cpp": "18ee3b1a7c80cab6930d6f7a6aec330c645ad04857d8760f9acf94d8f9b4e3a2",
+    "usgscsm/csm/CorrelationModel.cpp": "95d988a9932415edc7608bfbf7d97756505a3ebf36eb124d98890fd4b10cd13c",
+    "usgscsm/csm/Ellipsoid.cpp": "434b201b89f95036988f4ab1aa970fa917d0a4b4346fb5808e313e13ad167377",
+    "usgscsm/csm/FourParameterCorrelationModel.cpp": "571c370e15ee0c46c65af6851b4ff9db43ff83e74974f1442de8fd2b1ce495c1",
+    "usgscsm/csm/GeometricModel.cpp": "a6f727703a16b07f85a1ea4bf8a2d8e37038f26c62ba55143dbb05e139a47fbd",
+    "usgscsm/csm/Isd.cpp": "d42ec54e793d671302cf7864526521b983ce778c8a869831854cb6793fddfb71",
+    "usgscsm/csm/LinearDecayCorrelationModel.cpp": "d72b5b11e626a2d9112ffc95f2424a5d892a51983a77b7139709cceb0902d867",
+    "usgscsm/csm/ModelIdentifier.cpp": "159739888e830d176f708f249f94b60a1af1586e008dbd72a290435131c4847e",
+    "usgscsm/csm/Plugin.cpp": "e18ef97a21aedc5c749530eaa3edac63ba5fb0006ab5d7ca92c2400e94dba15a",
+    "usgscsm/csm/RasterGM.cpp": "b1e2f0c6c043e804465bf63431914f511bc588f1458d163e654828fc7e0f3135",
+    "usgscsm/csm/SettableEllipsoid.cpp": "3c8d859e59a01e646df0ed1906db1504fe9ca39d47c3f4a341944ddb6315a2f7",
+    "usgscsm/csm/Version.cpp": "7ccf055e9a903e2c8030f72eaf215aa667fe7f6e5049c13d2a70d9f03fe775d8",
+    "build/csm/src/gw_csm.cpp": "7043ff1dbebbe4899d620b490d9ee100efa7e29801ada576ca781e98ddf26d02",
+    "build/csm/src/gw_ale_rotation.cpp": "2a48b72e22e53522d28e9cb33dbda8aad83a5dec97fe90c5937f0743abe4ddf4",
+    "build/csm/src/gw_eigen_utilities.cpp": "317545d3801ed805f192e0e329a245a2e7e54be454558f7130862aef2b807931"
+  },
+  "headers": {
+    "compat": "8e746302dd00d388729863b682dcf1ff73298bd28a1e9668115b59013d295f7d",
+    "nlohmann/json.hpp": "129ab3fb3f851946d63045ed1d63364f57ffb1c961d624ca8f58b2a222bf3c10"
+  }
+}

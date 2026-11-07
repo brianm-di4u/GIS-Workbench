@@ -1,0 +1,17 @@
+ENVI
+description = {FX-08 synthetic multispectral (GIS Workbench fixture)}
+samples = 512
+lines = 512
+bands = 8
+header offset = 0
+file type = ENVI Standard
+data type = 12
+interleave = bil
+byte order = 1
+map info = {UTM, 1.000, 1.000, 500000, 3770000, 2, 2, 11, North, WGS-84, units=Meters}
+wavelength units = Micrometers
+band names = {Coastal, Blue, Green, Yellow, Red, Red Edge, NIR1, NIR2}
+wavelength = {0.427, 0.478, 0.546, 0.608, 0.659, 0.724, 0.831, 0.908}
+fwhm = {0.04, 0.054, 0.063, 0.037, 0.057, 0.039, 0.092, 0.096}
+reflectance scale factor = 10000
+bbl = {1, 1, 1, 1, 1, 1, 1, 1}

@@ -1,0 +1,16 @@
+[package]
+name = "gw-aero"
+description = "GIS Workbench aerial triangulation: bundle adjustment of frame cameras with self-calibration (Brown, fisheye), GNSS lever arm and IMU boresight, space resection and film interior orientation (REQ-GAP-22)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+gw-sensor.workspace = true
+gw-adjust.workspace = true
+
+[dev-dependencies]
+serde_json = "1"

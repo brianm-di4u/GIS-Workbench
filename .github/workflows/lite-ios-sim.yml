@@ -1,0 +1,64 @@
+# Lite in real Safari on the iOS Simulator (OD-2.23, REQ-HOST-05). The simulator exists only on macOS,
+# and the Windows PCs this project is built on have no Mac to pair with, so a hosted macOS runner does
+# it. Runs on pushes to the test branch only, apart from the release gates. It tests dist/ as committed.
+name: Lite on iOS Simulator
+
+on:
+  push:
+    branches: [test/lite-ios]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lite-ios-sim
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install the pinned test dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Appium and the XCUITest driver
+        run: |
+          npm install -g appium
+          appium driver install xcuitest
+
+      - name: Boot an iPhone with a Dynamic Island
+        run: |
+          UDID=$(node tests/ios/simulator/pick-device.mjs)
+          echo "GW_SIM_UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl bootstatus "$UDID" -b
+          sleep 20
+
+      - name: Start the file server and Appium
+        run: |
+          mkdir -p reports/ios
+          nohup node tests/tools/serve.mjs --root dist --port 8765 > reports/ios/serve.log 2>&1 &
+          nohup appium --log-level info --log-no-colors > reports/ios/appium.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:4723/status > /dev/null && break; sleep 1; done
+          curl -sfI http://127.0.0.1:8765/gis-workbench-lite.html
+
+      - name: Smoke test
+        run: node --test --test-reporter=spec tests/ios/simulator/smoke.test.mjs
+
+      - name: Run the suite
+        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=reports/ios/results.xml tests/ios/simulator/lite.test.mjs
+
+      - name: Keep the evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lite-ios-simulator
+          path: reports/ios/
+          if-no-files-found: warn
+          retention-days: 30

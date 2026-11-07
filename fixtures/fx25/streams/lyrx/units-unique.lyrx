@@ -1,0 +1,320 @@
+{
+ "type": "CIMLayerDocument",
+ "version": "3.1.0",
+ "build": 41833,
+ "layers": [
+  "CIMPATH=map/units.json"
+ ],
+ "layerDefinitions": [
+  {
+   "type": "CIMFeatureLayer",
+   "name": "Units",
+   "uRI": "CIMPATH=map/units.json",
+   "visibility": true,
+   "transparency": 0,
+   "labelVisibility": true,
+   "labelClasses": [
+    {
+     "type": "CIMLabelClass",
+     "expression": "$feature.NAME",
+     "expressionEngine": "Arcade",
+     "featuresToLabel": "AllVisibleFeatures",
+     "name": "Class 1",
+     "priority": -1,
+     "textSymbol": {
+      "type": "CIMSymbolReference",
+      "symbol": {
+       "type": "CIMTextSymbol",
+       "height": 9,
+       "fontFamilyName": "Tahoma",
+       "symbol": {
+        "type": "CIMSymbolReference",
+        "symbol": {
+         "type": "CIMPolygonSymbol",
+         "symbolLayers": [
+          {
+           "type": "CIMSolidFill",
+           "enable": true,
+           "color": {
+            "type": "CIMRGBColor",
+            "values": [
+             20,
+             20,
+             120,
+             100
+            ]
+           }
+          }
+         ]
+        }
+       }
+      }
+     },
+     "visibility": true
+    }
+   ],
+   "renderer": {
+    "type": "CIMUniqueValueRenderer",
+    "fields": [
+     "STATUS"
+    ],
+    "useDefaultSymbol": true,
+    "defaultLabel": "<all other values>",
+    "defaultSymbol": {
+     "type": "CIMSymbolReference",
+     "symbol": {
+      "type": "CIMPolygonSymbol",
+      "symbolLayers": [
+       {
+        "type": "CIMSolidStroke",
+        "enable": true,
+        "capStyle": "Round",
+        "joinStyle": "Round",
+        "lineStyleName3D": "Strip",
+        "miterLimit": 10,
+        "width": 0.75,
+        "color": {
+         "type": "CIMRGBColor",
+         "values": [
+          110,
+          110,
+          110,
+          100
+         ]
+        }
+       },
+       {
+        "type": "CIMSolidFill",
+        "enable": true,
+        "color": {
+         "type": "CIMRGBColor",
+         "values": [
+          200,
+          200,
+          200,
+          50
+         ]
+        }
+       }
+      ]
+     }
+    },
+    "groups": [
+     {
+      "type": "CIMUniqueValueGroup",
+      "heading": "STATUS",
+      "classes": [
+       {
+        "type": "CIMUniqueValueClass",
+        "label": "Active",
+        "visible": true,
+        "symbol": {
+         "type": "CIMSymbolReference",
+         "symbol": {
+          "type": "CIMPolygonSymbol",
+          "symbolLayers": [
+           {
+            "type": "CIMSolidStroke",
+            "enable": true,
+            "capStyle": "Round",
+            "joinStyle": "Round",
+            "lineStyleName3D": "Strip",
+            "miterLimit": 10,
+            "width": 1.5,
+            "color": {
+             "type": "CIMRGBColor",
+             "values": [
+              0,
+              112,
+              255,
+              100
+             ]
+            }
+           },
+           {
+            "type": "CIMSolidFill",
+            "enable": true,
+            "color": {
+             "type": "CIMRGBColor",
+             "values": [
+              0,
+              112,
+              255,
+              40
+             ]
+            }
+           }
+          ]
+         }
+        },
+        "values": [
+         {
+          "type": "CIMUniqueValue",
+          "fieldValues": [
+           "A"
+          ]
+         }
+        ]
+       },
+       {
+        "type": "CIMUniqueValueClass",
+        "label": "Inactive",
+        "visible": true,
+        "symbol": {
+         "type": "CIMSymbolReference",
+         "symbol": {
+          "type": "CIMPolygonSymbol",
+          "symbolLayers": [
+           {
+            "type": "CIMSolidStroke",
+            "enable": true,
+            "capStyle": "Round",
+            "joinStyle": "Round",
+            "lineStyleName3D": "Strip",
+            "miterLimit": 10,
+            "width": 1.5,
+            "color": {
+             "type": "CIMRGBColor",
+             "values": [
+              230,
+              0,
+              0,
+              100
+             ]
+            },
+            "effects": [
+             {
+              "type": "CIMGeometricEffectDashes",
+              "dashTemplate": [
+               4,
+               2
+              ]
+             }
+            ]
+           },
+           {
+            "type": "CIMSolidFill",
+            "enable": true,
+            "color": {
+             "type": "CIMRGBColor",
+             "values": [
+              230,
+              0,
+              0,
+              40
+             ]
+            }
+           }
+          ]
+         }
+        },
+        "values": [
+         {
+          "type": "CIMUniqueValue",
+          "fieldValues": [
+           "I"
+          ]
+         }
+        ]
+       },
+       {
+        "type": "CIMUniqueValueClass",
+        "label": "Reserve",
+        "visible": true,
+        "symbol": {
+         "type": "CIMSymbolReference",
+         "symbol": {
+          "type": "CIMPolygonSymbol",
+          "symbolLayers": [
+           {
+            "type": "CIMSolidStroke",
+            "enable": true,
+            "capStyle": "Round",
+            "joinStyle": "Round",
+            "lineStyleName3D": "Strip",
+            "miterLimit": 10,
+            "width": 2,
+            "color": {
+             "type": "CIMRGBColor",
+             "values": [
+              0,
+              0,
+              0,
+              100
+             ]
+            }
+           },
+           {
+            "type": "CIMSolidStroke",
+            "enable": true,
+            "capStyle": "Round",
+            "joinStyle": "Round",
+            "lineStyleName3D": "Strip",
+            "miterLimit": 10,
+            "width": 1,
+            "color": {
+             "type": "CIMRGBColor",
+             "values": [
+              255,
+              255,
+              0,
+              100
+             ]
+            }
+           },
+           {
+            "type": "CIMHatchFill",
+            "enable": true,
+            "lineSymbol": {
+             "type": "CIMSymbolReference",
+             "symbol": {
+              "type": "CIMLineSymbol",
+              "symbolLayers": [
+               {
+                "type": "CIMSolidStroke",
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyleName3D": "Strip",
+                "miterLimit": 10,
+                "width": 0.5,
+                "color": {
+                 "type": "CIMRGBColor",
+                 "values": [
+                  0,
+                  0,
+                  0,
+                  100
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "rotation": 45,
+            "separation": 5
+           }
+          ]
+         }
+        },
+        "values": [
+         {
+          "type": "CIMUniqueValue",
+          "fieldValues": [
+           "R"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "featureTable": {
+    "type": "CIMFeatureTable",
+    "displayField": "NAME",
+    "definitionExpression": "STRENGTH > 0"
+   }
+  }
+ ]
+}

@@ -1,0 +1,165 @@
+{
+ "type": "CIMLayerDocument",
+ "version": "3.1.0",
+ "build": 41833,
+ "layers": [
+  "CIMPATH=map/det.json",
+  "CIMPATH=map/heat.json",
+  "CIMPATH=map/img.json"
+ ],
+ "layerDefinitions": [
+  {
+   "type": "CIMFeatureLayer",
+   "name": "Detections",
+   "uRI": "CIMPATH=map/det.json",
+   "visibility": true,
+   "renderer": {
+    "type": "CIMSimpleRenderer",
+    "symbol": {
+     "type": "CIMSymbolReference",
+     "symbol": {
+      "type": "CIMPointSymbol",
+      "symbolLayers": [
+       {
+        "type": "CIMVectorMarker",
+        "enable": true,
+        "size": 8,
+        "frame": {
+         "xmin": -5,
+         "ymin": -5,
+         "xmax": 5,
+         "ymax": 5
+        },
+        "markerGraphics": [
+         {
+          "type": "CIMMarkerGraphic",
+          "geometry": {
+           "rings": [
+            [
+             [
+              0,
+              5
+             ],
+             [
+              5,
+              0
+             ],
+             [
+              0,
+              -5
+             ],
+             [
+              -5,
+              0
+             ],
+             [
+              0,
+              5
+             ]
+            ]
+           ]
+          },
+          "symbol": {
+           "type": "CIMSymbolReference",
+           "symbol": {
+            "type": "CIMPolygonSymbol",
+            "symbolLayers": [
+             {
+              "type": "CIMSolidStroke",
+              "enable": true,
+              "capStyle": "Round",
+              "joinStyle": "Round",
+              "lineStyleName3D": "Strip",
+              "miterLimit": 10,
+              "width": 0.7,
+              "color": {
+               "type": "CIMRGBColor",
+               "values": [
+                255,
+                255,
+                255,
+                100
+               ]
+              }
+             },
+             {
+              "type": "CIMSolidFill",
+              "enable": true,
+              "color": {
+               "type": "CIMRGBColor",
+               "values": [
+                0,
+                150,
+                0,
+                100
+               ]
+              }
+             }
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "labelVisibility": true,
+   "labelClasses": [
+    {
+     "type": "CIMLabelClass",
+     "expression": "[CLASS]",
+     "expressionEngine": "Arcade",
+     "featuresToLabel": "AllVisibleFeatures",
+     "name": "Class 1",
+     "priority": -1,
+     "textSymbol": {
+      "type": "CIMSymbolReference",
+      "symbol": {
+       "type": "CIMTextSymbol",
+       "height": 8,
+       "fontFamilyName": "Tahoma",
+       "symbol": {
+        "type": "CIMSymbolReference",
+        "symbol": {
+         "type": "CIMPolygonSymbol",
+         "symbolLayers": [
+          {
+           "type": "CIMSolidFill",
+           "enable": true,
+           "color": {
+            "type": "CIMRGBColor",
+            "values": [
+             0,
+             0,
+             0,
+             100
+            ]
+           }
+          }
+         ]
+        }
+       }
+      }
+     },
+     "visibility": true
+    }
+   ]
+  },
+  {
+   "type": "CIMFeatureLayer",
+   "name": "Heat",
+   "uRI": "CIMPATH=map/heat.json",
+   "renderer": {
+    "type": "CIMHeatMapRenderer",
+    "radius": 20
+   }
+  },
+  {
+   "type": "CIMRasterLayer",
+   "name": "Imagery",
+   "uRI": "CIMPATH=map/img.json"
+  }
+ ]
+}

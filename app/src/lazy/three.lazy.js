@@ -1,0 +1,16 @@
+// Lazy three.js block for the 3D pane (D18, REQ-LDR-04, REQ-STR-11): only the classes the point
+// cloud and terrain views use, run on demand from a verified inline block (boot runScript).
+
+import { WebGLRenderer, Scene, PerspectiveCamera, OrthographicCamera, BufferGeometry, BufferAttribute, InterleavedBufferAttribute, Points, Mesh, LineSegments, Line, LineLoop, ShaderMaterial, RawShaderMaterial, MeshBasicMaterial, LineBasicMaterial, WebGLRenderTarget, DepthTexture, PlaneGeometry, Vector2, Vector3, Vector4, Matrix4, Color, Frustum, Box3, Sphere, Raycaster, Group, Object3D, DataTexture, Texture, FloatType, UnsignedIntType, UnsignedShortType, UnsignedByteType, RGBAFormat, RedFormat, NearestFilter, LinearFilter, DoubleSide, NoBlending, GLSL3, MeshLambertMaterial, AmbientLight, DirectionalLight, SRGBColorSpace, Quaternion, Euler , LoadingManager } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MeshStandardMaterial, CanvasTexture } from 'three';
+import { USDZExporter } from 'three/examples/jsm/exporters/USDZExporter.js'; // USDZ terrain for iOS (REQ-HUB-03)
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js'; // EXT_meshopt_compression glTF (TE archive)
+// Draco and KTX2 / Basis glTF (REQ-FMT-34): the loaders only; their WASM decoders are separate verified blocks (render/gltf-ext.js).
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
+// 3D Tiles pnts and i3dm (REQ-FMT-36).
+import { InstancedMesh, InstancedBufferAttribute, PointsMaterial, LinearSRGBColorSpace } from 'three';
+
+(globalThis.__lib ??= {})['js-three'] = { WebGLRenderer, Scene, PerspectiveCamera, OrthographicCamera, BufferGeometry, BufferAttribute, InterleavedBufferAttribute, Points, Mesh, LineSegments, Line, LineLoop, ShaderMaterial, RawShaderMaterial, MeshBasicMaterial, LineBasicMaterial, WebGLRenderTarget, DepthTexture, PlaneGeometry, Vector2, Vector3, Vector4, Matrix4, Color, Frustum, Box3, Sphere, Raycaster, Group, Object3D, DataTexture, Texture, FloatType, UnsignedIntType, UnsignedShortType, UnsignedByteType, RGBAFormat, RedFormat, NearestFilter, LinearFilter, DoubleSide, NoBlending, GLSL3, OrbitControls, GLTFLoader, MeshLambertMaterial, AmbientLight, DirectionalLight, SRGBColorSpace, Quaternion, Euler, LoadingManager, MeshStandardMaterial, CanvasTexture, USDZExporter, MeshoptDecoder, DRACOLoader, KTX2Loader, InstancedMesh, InstancedBufferAttribute, PointsMaterial, LinearSRGBColorSpace };

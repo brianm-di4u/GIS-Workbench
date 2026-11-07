@@ -1,0 +1,16 @@
+[package]
+name = "gw-bundle-legacy"
+description = "Lazy WASM bundle: legacy and specialist format readers (HFA, NetCDF-3, RPF, ARIDPCM, CPHD, UAVSAR, SAFE)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+gw-parse.workspace = true
+gw-codec.workspace = true
+gw-sensor.workspace = true

@@ -1,0 +1,455 @@
+{
+  "note": "Downloaded inputs of the data packs (REQ-ARC-14). `node build/packs.mjs --fetch` downloads each URL into .cache/packs-src and refuses any file whose SHA-256 differs from the pin. npm inputs come from node_modules at the pinned package versions.",
+  "downloads": [
+    {
+      "id": "egm2008-5",
+      "url": "https://sourceforge.net/projects/geographiclib/files/geoids-distrib/egm2008-5.tar.bz2/download",
+      "file": "egm2008-5.tar.bz2",
+      "sha256": "9a57c14330ac609132d324906822a9da9de265ad9b9087779793eb7080852970",
+      "extract": {
+        "member": "geoids/egm2008-5.pgm",
+        "to": "egm2008-5.pgm",
+        "sha256": "96d55e88db186ddae892b00c5f8cc42a37cdac8ddb69b6de00af8c75dffb34a3"
+      },
+      "licence": "EGM2008: NGA, public domain. Grid packaging: GeographicLib geoids distribution (C. F. F. Karney, MIT)."
+    },
+    {
+      "id": "slimsam-encoder",
+      "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/onnx/vision_encoder_quantized.onnx",
+      "file": "slimsam_vision_encoder_quantized.onnx",
+      "sha256": "cce23c7b2e5d4f330932738fb67ba518e04b0d99ccdd1cccd22a7da4e01f2971",
+      "licence": "SlimSAM-77-uniform (nielsr/slimsam-77-uniform, ONNX by Xenova): Apache-2.0."
+    },
+    {
+      "id": "slimsam-decoder",
+      "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/onnx/prompt_encoder_mask_decoder_quantized.onnx",
+      "file": "slimsam_prompt_encoder_mask_decoder_quantized.onnx",
+      "sha256": "cb90b279f549d2cab7fd6e20c38522438c65d84bdcca3d2a764cff7d857fdce2",
+      "licence": "SlimSAM-77-uniform (nielsr/slimsam-77-uniform, ONNX by Xenova): Apache-2.0."
+    },
+    {
+      "id": "slimsam-config",
+      "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/preprocessor_config.json",
+      "file": "slimsam_preprocessor_config.json",
+      "sha256": "225545a743c654e3c495ec6f545a0eaba57c8ba3fbbd8483b3cb1c0fc58db517",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-encoder",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/vision_encoder_int8.onnx",
+      "file": "sam2_vision_encoder_int8.onnx",
+      "sha256": "d848e08b747ba44ee59b31246988528d5ecc67d1e1c0a2f5c08395c86d92176f",
+      "licence": "SAM 2.1 hiera-tiny (Meta AI, facebook/sam2.1-hiera-tiny; ONNX export onnx-community): Apache-2.0."
+    },
+    {
+      "id": "sam2-encoder-data",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/vision_encoder_int8.onnx_data",
+      "file": "sam2_vision_encoder_int8.onnx_data",
+      "sha256": "4359d45f8aafcbc69f945e714af7fb06b74b24c753b5af86b6a230ecd0e737bc",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-decoder",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/prompt_encoder_mask_decoder_int8.onnx",
+      "file": "sam2_decoder_int8.onnx",
+      "sha256": "e53727dc441a3c8716dd4a606d5bbf920e33e7545d1a6ff843c9fb804c7d19b6",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-decoder-data",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/onnx/prompt_encoder_mask_decoder_int8.onnx_data",
+      "file": "sam2_decoder_int8.onnx_data",
+      "sha256": "fdb3179a32388267a944a416c0f992c77a138b69a4bfd94f0bbf7089430d7489",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "sam2-config",
+      "url": "https://huggingface.co/onnx-community/sam2.1-hiera-tiny-ONNX/resolve/main/preprocessor_config.json",
+      "file": "sam2_preprocessor_config.json",
+      "sha256": "240c886b428d36b63bbb51b0c17ad4d2668d83ba851a04f09880a2b93f0b7349",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "owlv2-model",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/onnx/model_quantized.onnx",
+      "file": "owlv2_model_quantized.onnx",
+      "sha256": "af8d6a041e4114b06eafabb03047350c7b8f136670a3f8afc7e73c5a74c2b24b",
+      "licence": "OWLv2 base patch16 ensemble (Google, google/owlv2-base-patch16-ensemble; ONNX export Xenova): Apache-2.0."
+    },
+    {
+      "id": "owlv2-config",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/preprocessor_config.json",
+      "file": "owlv2_preprocessor_config.json",
+      "sha256": "cf3e396635b797ee1a464e1b2836e98748f8edac19e89aaa2c93b55ac15b0064",
+      "licence": "Apache-2.0."
+    },
+    {
+      "id": "clip-vocab",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/vocab.json",
+      "file": "clip_vocab.json",
+      "sha256": "5047b556ce86ccaf6aa22b3ffccfc52d391ea4accdab9c2f2407da5b742d4363",
+      "licence": "CLIP BPE vocabulary (OpenAI CLIP, MIT)."
+    },
+    {
+      "id": "clip-merges",
+      "url": "https://huggingface.co/Xenova/owlv2-base-patch16-ensemble/resolve/main/merges.txt",
+      "file": "clip_merges.txt",
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+      "licence": "CLIP BPE merges (OpenAI CLIP, MIT)."
+    },
+    {
+      "id": "clip-vision",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/main/onnx/vision_model_quantized.onnx",
+      "file": "clip_vision_quantized.onnx",
+      "sha256": "583fd1110a514667812fee7d684952aaf82a99b959760c8d7dca7e0ab9839299",
+      "licence": "CLIP ViT-B/32 (OpenAI, openai/clip-vit-base-patch32; code and weights MIT per github.com/openai/CLIP; ONNX export Xenova)."
+    },
+    {
+      "id": "clip-text",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/main/onnx/text_model_quantized.onnx",
+      "file": "clip_text_quantized.onnx",
+      "sha256": "73baab855d406190da9faa498cfedf65f15cf309f4cc7385b7b032e6d08e5c3a",
+      "licence": "CLIP ViT-B/32 text encoder (OpenAI, MIT; ONNX export Xenova)."
+    },
+    {
+      "id": "clip-config",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/main/preprocessor_config.json",
+      "file": "clip_preprocessor_config.json",
+      "sha256": "6f638fb9401a6d6296feff533ee7efe657b787c49f954f82f5906b36ef2a1b1f",
+      "licence": "MIT."
+    },
+    {
+      "id": "disk-lightglue",
+      "url": "https://github.com/fabio-sim/LightGlue-ONNX/releases/download/v2.0/disk_lightglue_pipeline.onnx",
+      "file": "disk_lightglue_pipeline.onnx",
+      "sha256": "23300fb62b76bca5639e61ec6b7f8579757f49b15c5fe70d93fb1f403d93c6d3",
+      "licence": "DISK (cvlab-epfl/disk, Apache-2.0) + LightGlue weights trained on DISK (cvg/LightGlue, Apache-2.0); end-to-end ONNX pipeline fabio-sim/LightGlue-ONNX v2.0 (Apache-2.0)."
+    },
+    {
+      "id": "grid-us_noaa_nadcon5_nad27_nad83_1986_conus",
+      "url": "https://cdn.proj.org/us_noaa_nadcon5_nad27_nad83_1986_conus.tif",
+      "file": "grids/us_noaa_nadcon5_nad27_nad83_1986_conus.tif",
+      "sha256": "c7d587e0d0b39b9f46c7de850b9a6a468c17b7139f82a313aa43aa4a64d94fa8",
+      "size": 139914,
+      "spdx": "Public domain",
+      "licence": "EPSG:4267 (NAD27) to EPSG:4269 (NAD83). Source: US National Oceanographic and Atmospheric Administration (NOAA) (https://www.ngs.noaa.gov/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "HORIZONTAL_OFFSET",
+      "source_crs": "EPSG:4267",
+      "target_crs": "EPSG:4269"
+    },
+    {
+      "id": "grid-us_noaa_nadcon5_nad83_1986_nad83_harn_conus",
+      "url": "https://cdn.proj.org/us_noaa_nadcon5_nad83_1986_nad83_harn_conus.tif",
+      "file": "grids/us_noaa_nadcon5_nad83_1986_nad83_harn_conus.tif",
+      "sha256": "e12ac2e886edafe616e0994c610ad3daa01db17c00d0e9938145d956f249fc2f",
+      "size": 3522682,
+      "spdx": "Public domain",
+      "licence": "EPSG:4269 (NAD83) to EPSG:4152 (NAD83(HARN)). Source: US National Oceanographic and Atmospheric Administration (NOAA) (https://www.ngs.noaa.gov/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "HORIZONTAL_OFFSET",
+      "source_crs": "EPSG:4269",
+      "target_crs": "EPSG:4152"
+    },
+    {
+      "id": "grid-us_noaa_nadcon5_nad83_harn_nad83_fbn_conus",
+      "url": "https://cdn.proj.org/us_noaa_nadcon5_nad83_harn_nad83_fbn_conus.tif",
+      "file": "grids/us_noaa_nadcon5_nad83_harn_nad83_fbn_conus.tif",
+      "sha256": "703434db8e87dd5c35579151410a9e5892d5769f4f2f9c6b0e2b700ae537e2ff",
+      "size": 9111570,
+      "spdx": "Public domain",
+      "licence": "EPSG:4152 (NAD83(HARN)) to EPSG:8542 (NAD83(FBN)). Source: US National Oceanographic and Atmospheric Administration (NOAA) (https://www.ngs.noaa.gov/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "GEOGRAPHIC_3D_OFFSET",
+      "source_crs": "EPSG:4152",
+      "target_crs": "EPSG:8542"
+    },
+    {
+      "id": "grid-us_noaa_nadcon5_nad83_fbn_nad83_2007_conus",
+      "url": "https://cdn.proj.org/us_noaa_nadcon5_nad83_fbn_nad83_2007_conus.tif",
+      "file": "grids/us_noaa_nadcon5_nad83_fbn_nad83_2007_conus.tif",
+      "sha256": "73ea6609fcdbc971771dc0481be19f4d6aa5118ddbd3e0734ff1cf0facf0f40a",
+      "size": 42709110,
+      "spdx": "Public domain",
+      "licence": "EPSG:8860 (NAD83(FBN)) to EPSG:4893 (NAD83(NSRS2007)). Source: US National Oceanographic and Atmospheric Administration (NOAA) (https://www.ngs.noaa.gov/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "GEOGRAPHIC_3D_OFFSET",
+      "source_crs": "EPSG:8860",
+      "target_crs": "EPSG:4893"
+    },
+    {
+      "id": "grid-us_noaa_nadcon5_nad83_2007_nad83_2011_conus",
+      "url": "https://cdn.proj.org/us_noaa_nadcon5_nad83_2007_nad83_2011_conus.tif",
+      "file": "grids/us_noaa_nadcon5_nad83_2007_nad83_2011_conus.tif",
+      "sha256": "560d65e871afdcfed3d736074f5b3b82cb2fd74d25f988cc556824eceeafce96",
+      "size": 39965338,
+      "spdx": "Public domain",
+      "licence": "EPSG:4759 (NAD83(NSRS2007)) to EPSG:6319 (NAD83(2011)). Source: US National Oceanographic and Atmospheric Administration (NOAA) (https://www.ngs.noaa.gov/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "GEOGRAPHIC_3D_OFFSET",
+      "source_crs": "EPSG:4759",
+      "target_crs": "EPSG:6319"
+    },
+    {
+      "id": "grid-ca_nrc_ntv2_0",
+      "url": "https://cdn.proj.org/ca_nrc_ntv2_0.tif",
+      "file": "grids/ca_nrc_ntv2_0.tif",
+      "sha256": "1c71996385fc51b4bcfb0d9119ebf4f14d632987cb116127c2110840cdbc0897",
+      "size": 7784410,
+      "spdx": "OGL-Canada-2.0",
+      "licence": "NAD27 (EPSG:4267) to NAD83 (EPSG:4269). Source: Natural Resources Canada (https://webapp.geod.nrcan.gc.ca/geod), via PROJ-data (cdn.proj.org). Copyright: Her Majesty the Queen in right of Canada as represented by the Canadian Geodetic Survey, Natural Resources Canada. Licence: OGL-Canada-2.0 (https://open.canada.ca/en/open-government-licence-canada).",
+      "type": "HORIZONTAL_OFFSET",
+      "source_crs": "EPSG:4267",
+      "target_crs": "EPSG:4269"
+    },
+    {
+      "id": "grid-au_icsm_GDA94_GDA2020_conformal",
+      "url": "https://cdn.proj.org/au_icsm_GDA94_GDA2020_conformal.tif",
+      "file": "grids/au_icsm_GDA94_GDA2020_conformal.tif",
+      "sha256": "92b39b4898aff9e9921dce83daed4f942da0c1e714905612fa7ffdc0081dcc9c",
+      "size": 4561222,
+      "spdx": "CC-BY-4.0",
+      "licence": "GDA94 (EPSG:4283) to GDA2020 (EPSG:7844). Source: Australian Intergovernmental Committee on Surveying and Mapping (https://github.com/icsm-au/transformation_grids), via PROJ-data (cdn.proj.org). Copyright: Intergovernmental Committee on Surveying and Mapping (ICSM). Licence: CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/).",
+      "type": "HORIZONTAL_OFFSET",
+      "source_crs": "EPSG:4283",
+      "target_crs": "EPSG:7844"
+    },
+    {
+      "id": "grid-de_adv_BETA2007",
+      "url": "https://cdn.proj.org/de_adv_BETA2007.tif",
+      "file": "grids/de_adv_BETA2007.tif",
+      "sha256": "46e681fcc7d022dde1db1f9d0a3426a9bfb1d4a151af69a81b3c30104c9388e2",
+      "size": 24379,
+      "spdx": "Free redistribution is allowed and welcome",
+      "licence": "DHDN (EPSG:4314) to ETRS89 (EPSG:4258). Source: Arbeitsgemeinschaft der Vermessungsverwaltungender der Länder der Bundesrepublik Deutschland (AdV) (http://www.adv-online.de/icc/extdeu/nav/9ae/9ae594bb-a094-311a-3b21-718a438ad1b2&sel_uCon=3c10e056-7955-311a-3b21-718a438ad1b2&uTem=73d607d6-b048-65f1-80fa-29f08a07b51a.htm), via PROJ-data (cdn.proj.org). Copyright: ADV. Licence: Free redistribution is allowed and welcome.",
+      "type": "HORIZONTAL_OFFSET",
+      "source_crs": "EPSG:4314",
+      "target_crs": "EPSG:4258"
+    },
+    {
+      "id": "grid-uk_os_OSTN15_NTv2_OSGBtoETRS",
+      "url": "https://cdn.proj.org/uk_os_OSTN15_NTv2_OSGBtoETRS.tif",
+      "file": "grids/uk_os_OSTN15_NTv2_OSGBtoETRS.tif",
+      "sha256": "5d6ed64d2119952c4c559fa1fccbc594b6520fc3ec3ef2fc10be13202c4384fa",
+      "size": 3035814,
+      "spdx": "BSD-2-Clause",
+      "licence": "OSGB 1936 (EPSG:4277) to ETRS89 (EPSG:4258). Source: Ordnance Survey (https://www.ordnancesurvey.co.uk/), via PROJ-data (cdn.proj.org). Copyright: Ordnance Survey UK. Licence: BSD-2-Clause (https://opensource.org/licenses/BSD-2-Clause).",
+      "type": "HORIZONTAL_OFFSET",
+      "source_crs": "EPSG:4277",
+      "target_crs": "EPSG:4258"
+    },
+    {
+      "id": "grid-us_noaa_g2018u0",
+      "url": "https://cdn.proj.org/us_noaa_g2018u0.tif",
+      "file": "grids/us_noaa_g2018u0.tif",
+      "sha256": "fa9a407ac7ee3f5a3694008e4bcd09ce9cc250452f0c3b11700a4960340abce2",
+      "size": 16742155,
+      "spdx": "Public domain",
+      "licence": "NAD83(2011) (EPSG:6319) to NAVD88 height (EPSG:5703). Source: US National Oceanographic and Atmospheric Administration (NOAA) (https://www.ngs.noaa.gov/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "VERTICAL_OFFSET_GEOGRAPHIC_TO_VERTICAL",
+      "source_crs": "EPSG:6319",
+      "target_crs": "EPSG:5703"
+    },
+    {
+      "id": "grid-uk_os_OSGM15_GB",
+      "url": "https://cdn.proj.org/uk_os_OSGM15_GB.tif",
+      "file": "grids/uk_os_OSGM15_GB.tif",
+      "sha256": "bf0ac81f1c0c33332693d7d606f335b793c3c2995b8e69eeb1350bd94adcde3b",
+      "size": 1540925,
+      "spdx": "BSD-2-Clause",
+      "licence": "ETRS89 (EPSG:4937) to ODN height (EPSG:5701). Source: Ordnance Survey (https://www.ordnancesurvey.co.uk/), via PROJ-data (cdn.proj.org). Copyright: Ordnance Survey UK. Licence: BSD-2-Clause (https://opensource.org/licenses/BSD-2-Clause).",
+      "type": "VERTICAL_OFFSET_GEOGRAPHIC_TO_VERTICAL",
+      "source_crs": "EPSG:4937",
+      "target_crs": "EPSG:5701"
+    },
+    {
+      "id": "grid-au_ga_AUSGeoid2020_20180201",
+      "url": "https://cdn.proj.org/au_ga_AUSGeoid2020_20180201.tif",
+      "file": "grids/au_ga_AUSGeoid2020_20180201.tif",
+      "sha256": "1eb8bc33f6bf27e6f16d277ad4f38d92ffaec33a7e6e355b6f840a7ab79998af",
+      "size": 5839686,
+      "spdx": "CC-BY-4.0",
+      "licence": "GDA2020 (EPSG:7843) to AHD height (EPSG:5711). Source: Geoscience Australia (http://www.ga.gov.au), via PROJ-data (cdn.proj.org). Copyright: Geoscience Australia. Licence: CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/).",
+      "type": "VERTICAL_OFFSET_GEOGRAPHIC_TO_VERTICAL",
+      "source_crs": "EPSG:7843",
+      "target_crs": "EPSG:5711"
+    },
+    {
+      "id": "grid-ca_nrc_CGG2013an83",
+      "url": "https://cdn.proj.org/ca_nrc_CGG2013an83.tif",
+      "file": "grids/ca_nrc_CGG2013an83.tif",
+      "sha256": "a129e9e9b023bb5c7133b3a91e41f1d528892fc28e99dcecb251cd71292968cb",
+      "size": 11031336,
+      "spdx": "OGL-Canada-2.0",
+      "licence": "NAD83(CSRS)v6 (EPSG:8251) to CGVD2013(CGG2013a) height (EPSG:9245). Source: Natural Resources Canada (https://webapp.geod.nrcan.gc.ca/geod), via PROJ-data (cdn.proj.org). Copyright: Her Majesty the Queen in right of Canada as represented by the Canadian Geodetic Survey, Natural Resources Canada. Licence: OGL-Canada-2.0 (https://open.canada.ca/en/open-government-licence-canada).",
+      "type": "VERTICAL_OFFSET_GEOGRAPHIC_TO_VERTICAL",
+      "source_crs": "EPSG:8251",
+      "target_crs": "EPSG:9245"
+    },
+    {
+      "id": "grid-us_nga_egm08_25",
+      "url": "https://cdn.proj.org/us_nga_egm08_25.tif",
+      "file": "grids/us_nga_egm08_25.tif",
+      "sha256": "4191d471eefebf24091b56dbc604353cb3b8cf8cc70e448bb9ae56a272bef17a",
+      "size": 80585622,
+      "spdx": "Public domain",
+      "licence": "WGS 84 (EPSG:4979) to EGM2008 height (EPSG:3855). Source: US National Geospatial Intelligence Agency (NGA) (http://earth-info.nga.mil/), via PROJ-data (cdn.proj.org). Copyright: Disclaimed. Licence: Public domain.",
+      "type": "VERTICAL_OFFSET_GEOGRAPHIC_TO_VERTICAL",
+      "source_crs": "EPSG:4979",
+      "target_crs": "EPSG:3855"
+    },
+    {
+      "id": "vlm-vision-encoder-fp16",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/vision_encoder_fp16.onnx",
+      "file": "moondream2/onnx/vision_encoder_fp16.onnx",
+      "sha256": "aa79c8ca1b7bc127be6cbcc4776908f7fc499080c52aeaab35e2c3c5ccc00f07",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-embed-tokens-fp16",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/embed_tokens_fp16.onnx",
+      "file": "moondream2/onnx/embed_tokens_fp16.onnx",
+      "sha256": "ca61d34329494679c8f67f5c0f603e49fe9b71700dc8778a22d7dfeb3b90ce69",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-decoder-model-merged-q4f16",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/onnx/decoder_model_merged_q4f16.onnx",
+      "file": "moondream2/onnx/decoder_model_merged_q4f16.onnx",
+      "sha256": "614bcbfdf03dea3eb3e04e20716cd9406d87086caf18ca797247d969156a9274",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-config",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/config.json",
+      "file": "moondream2/config.json",
+      "sha256": "ba91b8ed059c232f46e748fc16ff3f07ff4602ebefcfe60b81a8838446c5579f",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-preprocessor-config",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/preprocessor_config.json",
+      "file": "moondream2/preprocessor_config.json",
+      "sha256": "60b82dd0a1fd3bd60ec7f2e9bbc6c99940d6bf0ac3196ce6b9d0852d27cb5405",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-generation-config",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/generation_config.json",
+      "file": "moondream2/generation_config.json",
+      "sha256": "7f8277ea44de0fc62232d0044853095b3628666a10ade209d591a1717ae51844",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-tokenizer",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/tokenizer.json",
+      "file": "moondream2/tokenizer.json",
+      "sha256": "2cf2dc66fc194a622fe603f9f8571ae390b3170b4086f7ae207db8df6241c151",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-tokenizer-config",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/tokenizer_config.json",
+      "file": "moondream2/tokenizer_config.json",
+      "sha256": "067ff06777f2d512e2ae8679130452dbcfb6e4caeab3bd1a14727d4c1aa9ae53",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-special-tokens-map",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/special_tokens_map.json",
+      "file": "moondream2/special_tokens_map.json",
+      "sha256": "10b8c8852c1e1f70b54d9aff61728408c28971c0e97a6c5a7b2debbd1d3e9c0c",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-added-tokens",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/added_tokens.json",
+      "file": "moondream2/added_tokens.json",
+      "sha256": "eca8e90d1be6af3afeb1a37f070f9492645c551a9fb2e1ce2a4a8b21f04ffc8b",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-vocab",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/vocab.json",
+      "file": "moondream2/vocab.json",
+      "sha256": "3ba3c3109ff33976c4bd966589c11ee14fcaa1f4c9e5e154c2ed7f99d80709e7",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "vlm-merges",
+      "url": "https://huggingface.co/Xenova/moondream2/resolve/2d577a7ec3b54cce81456f5358d7aa815d587079/merges.txt",
+      "file": "moondream2/merges.txt",
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "licence": "Apache-2.0 (vikhyatk/moondream2: Apache-2.0; ONNX export Xenova/moondream2, Apache-2.0; vision tower SigLIP Apache-2.0, text model Phi-1.5 MIT)"
+    },
+    {
+      "id": "landcover-model",
+      "url": "https://huggingface.co/geobase/sparsemask/resolve/934c17aeb51aacaab69fc32cff2f7f3610aff36e/onnx/model.onnx",
+      "file": "sparsemask/onnx/model.onnx",
+      "sha256": "83c6ff78ff65818a38ed20ab562ccb9b20927bac6ef93021b3066a712678193d",
+      "licence": "MIT (geobase/sparsemask on Hugging Face: MIT; source model cliffbb/OEM-Lightweight SparseMask: MIT; trained on OpenEarthMap, Zenodo 7223446, CC-BY-4.0)"
+    },
+    {
+      "id": "landcover-config",
+      "url": "https://huggingface.co/geobase/sparsemask/resolve/934c17aeb51aacaab69fc32cff2f7f3610aff36e/config.json",
+      "file": "sparsemask/config.json",
+      "sha256": "df34db504dcb4daccd2d43209db8cfb792516688b8ffc8d67dfca55f85b9c9e7",
+      "licence": "MIT (geobase/sparsemask on Hugging Face: MIT; source model cliffbb/OEM-Lightweight SparseMask: MIT; trained on OpenEarthMap, Zenodo 7223446, CC-BY-4.0)"
+    },
+    {
+      "id": "landcover-preprocessor-config",
+      "url": "https://huggingface.co/geobase/sparsemask/resolve/934c17aeb51aacaab69fc32cff2f7f3610aff36e/preprocessor_config.json",
+      "file": "sparsemask/preprocessor_config.json",
+      "sha256": "9166af14e9fbb145679178e02e123900028368ba5c2ca61a796599a83e95c3d2",
+      "licence": "MIT (geobase/sparsemask on Hugging Face: MIT; source model cliffbb/OEM-Lightweight SparseMask: MIT; trained on OpenEarthMap, Zenodo 7223446, CC-BY-4.0)"
+    }
+  ],
+  "local": {
+    "note": "Inputs placed by hand in .cache/packs-src/<file> (no download URL is pinned); the build refuses a file whose SHA-256 differs from the pin. OFL-1.1 fonts are allowed in packs (OD-2.16), never in the HTML (REQ-SEC-08).",
+    "files": [
+      {
+        "id": "notosans-regular",
+        "file": "fonts/NotoSans-Regular.ttf",
+        "sha256": "478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823",
+        "source": "notofonts/latin-greek-cyrillic, Noto Sans 2.015 (hinted TTF)"
+      },
+      {
+        "id": "notosans-bold",
+        "file": "fonts/NotoSans-Bold.ttf",
+        "sha256": "1df075a380fc7cb898acf64c1f7b3b4dd780de3caa860178bf929de35817a913",
+        "source": "notofonts/latin-greek-cyrillic, Noto Sans 2.015 (hinted TTF)"
+      },
+      {
+        "id": "notosanssc-regular",
+        "file": "fonts/NotoSansSC-Regular.otf",
+        "sha256": "faa6c9df652116dde789d351359f3d7e5d2285a2b2a1f04a2d7244df706d5ea9",
+        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/SC (CID-keyed CFF)"
+      },
+      {
+        "id": "notosanstc-regular",
+        "file": "fonts/NotoSansTC-Regular.otf",
+        "sha256": "5bab0cb3c1cf89dde07c4a95a4054b195afbcfe784d69d75c340780712237537",
+        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/TC (CID-keyed CFF)"
+      },
+      {
+        "id": "notosansjp-regular",
+        "file": "fonts/NotoSansJP-Regular.otf",
+        "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/JP (CID-keyed CFF)"
+      },
+      {
+        "id": "notosanskr-regular",
+        "file": "fonts/NotoSansKR-Regular.otf",
+        "sha256": "69975a0ac8472717870aefeab0a4d52739308d90856b9955313b2ad5e0148d68",
+        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/KR (CID-keyed CFF)"
+      },
+      {
+        "id": "ofl-noto-sans",
+        "file": "fonts/OFL-noto-sans.txt",
+        "sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a",
+        "source": "notofonts/latin-greek-cyrillic OFL.txt"
+      },
+      {
+        "id": "ofl-noto-cjk",
+        "file": "fonts/OFL-noto-cjk.txt",
+        "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+        "source": "notofonts/noto-cjk Sans/LICENSE"
+      }
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+# 3D model to Esri multipatch (zipped shapefile) (REQ-GAP-36): Assimp reads the model; sidecar/sar/mesh_export.py writes it.
+id = "model-multipatch-shp"
+title = "3D model to Esri multipatch (zipped shapefile)"
+module = "model3d"
+requires = ["sar", "core-gdal"]
+input = "model"
+output_ext = "shz"
+output_name = "{stem}"
+memory_mb = 16384
+
+[[options]]
+name = "up"
+title = "Which axis of the model points up"
+type = "enum"
+values = ["auto", "y", "z"]
+default = "auto"
+
+[[options]]
+name = "scale"
+title = "Metres per model unit"
+type = "float"
+min = 1e-9
+max = 1e9
+default = 1.0
+
+[[options]]
+name = "origin_x"
+title = "Easting of the model origin"
+type = "float"
+min = -1e9
+max = 1e9
+default = 0.0
+
+[[options]]
+name = "origin_y"
+title = "Northing of the model origin"
+type = "float"
+min = -1e10
+max = 1e10
+default = 0.0
+
+[[options]]
+name = "origin_z"
+title = "Height of the model origin"
+type = "float"
+min = -1e6
+max = 1e7
+default = 0.0
+
+[[options]]
+name = "crs"
+title = "Projected CRS of the origin"
+type = "crs"
+optional = true
+
+[[steps]]
+tool = "python"
+progress = "lines"
+args = ["-I", "-B", "{script:mesh_export.py}", "--modules", "{modules}", "--format", "wkt", "--work", "{workdir}", "--name", "{stem}", "--up", "{up}", "--scale", "{scale}", "--origin-x", "{origin_x}", "--origin-y", "{origin_y}", "--origin-z", "{origin_z}", { when = "crs", args = ["--crs", "{crs}"] }, "--provenance", "{provenance}", "{input}", "{tmp:mesh.csv}"]
+
+[[steps]]
+tool = "ogr2ogr"
+progress = "gdal"
+weight = 0.5
+args = [
+  "-progress",
+  "-f", "ESRI Shapefile", "-lco", "SHPT=MULTIPATCH",
+  "-oo", "GEOM_POSSIBLE_NAMES=wkt", "-oo", "KEEP_GEOM_COLUMNS=NO", "-oo", "MAX_LINE_SIZE=-1",
+  "-nln", "mesh", "-nlt", "TINZ",
+  { when = "crs", args = ["-a_srs", "{crs}"] },
+  "{output}", "{tmp:mesh.csv}",
+]

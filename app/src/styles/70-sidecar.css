@@ -1,0 +1,8 @@
+/* The optional sidecar (app/src/sidecar): status pill states, pairing code, jobs dock. */
+.status-sidecar[data-state="absent"]::before, .status-sidecar[data-state="off"]::before { background: transparent; border: 1px solid #8e9099; }
+.status-sidecar[data-state="unpaired"]::before, .status-sidecar[data-state="outdated"]::before { background: #f5b942; }
+.status-sidecar[data-state="error"]::before, .status-sidecar[data-state="blocked"]::before { background: #f87171; }
+.sidecar-code { font: 600 32px/1.2 ui-monospace, Consolas, monospace; letter-spacing: 8px; text-align: center; margin: 12px 0; }
+.sidecar-opts .fld { margin: 4px 0; }
+.sidecar-log { max-height: 60vh; overflow: auto; white-space: pre-wrap; font-size: 12px; }
+[data-id="sidecar:jobs"] progress { width: 100%; height: 6px; }

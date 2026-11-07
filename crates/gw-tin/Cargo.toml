@@ -1,0 +1,10 @@
+[package]
+name = "gw-tin"
+description = "GIS Workbench TIN: constrained Delaunay triangulation with hard and soft breaklines, mass points and exclusion polygons; editing, ridge and drain profiles, TIN to grid, LandXML and point text I/O (REQ-GAP-39)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true

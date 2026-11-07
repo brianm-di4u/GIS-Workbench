@@ -1,0 +1,16 @@
+[package]
+name = "gw-sar"
+description = "GIS Workbench SAR processing: speckle filters, amplitude and coherent change detection, co-registration, sub-apertures, polarimetry, radargrammetry"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true
+gw-sensor.workspace = true
+gw-terrain.workspace = true
+
+[dev-dependencies]
+gw-parse.workspace = true

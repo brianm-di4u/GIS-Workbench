@@ -1,0 +1,164 @@
+// File access by capability (REQ-HOST-02/03, REQ-ARC-10): File System Access pickers where
+// allowed, else <input type=file>; save in place, else download, else an in-page export
+// panel (copy, open in a new tab) with the reason.
+
+import { h } from '../shell/dom.js';
+import { modal } from '../shell/dialogs.js';
+import { t, tc } from '../i18n/index.js';
+import { num } from '../i18n/format.js';
+
+export async function pickFiles(app, { multiple = true, accept = [], description = t('Files'), dir = false } = {}) {
+  if (app.runMode.caps.fsaPicker && !dir) {
+    try {
+      const handles = await window.showOpenFilePicker({ multiple, excludeAcceptAllOption: false, types: accept.length ? [{ description, accept: { 'application/octet-stream': accept } }] : undefined });
+      const files = await Promise.all(handles.map((hd) => hd.getFile()));
+      return files.map((f, i) => Object.assign(f, { __handle: handles[i] }));
+    } catch (e) {
+      if (e.name === 'AbortError') return [];
+      app.log('warn', `file picker unavailable (${e.message}); using the file input`);
+    }
+  }
+  // iOS matches the filter against its own file types and greys out what it does not know, which
+  // is most of ours (.ntf, .dt2, .sid). Every format is checked by its content on opening anyway.
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  return new Promise((resolve) => {
+    const inp = h('input', { type: 'file', multiple, accept: ios ? '' : accept.join(','), style: { position: 'fixed', left: '-9999px' } });
+    if (dir) inp.webkitdirectory = true;
+    inp.addEventListener('change', () => {
+      resolve([...inp.files]);
+      inp.remove();
+    });
+    inp.addEventListener('cancel', () => {
+      resolve([]);
+      inp.remove();
+    });
+    document.body.appendChild(inp);
+    inp.click();
+  });
+}
+
+/** Save a Blob: in place to `handle` when given, else a save picker, else a download. */
+export async function saveBlob(app, blob, { name, handle = null, types = [], description = t('File'), preferPicker = true } = {}) {
+  // Automation API v2 (REQ-GAP-01): while a headless call runs, saves come back in its result.
+  if (typeof app?.saveCapture === 'function') {
+    app.saveCapture(blob, name);
+    return { how: 'captured' };
+  }
+  if (handle?.createWritable) {
+    try {
+      const w = await handle.createWritable();
+      await w.write(blob);
+      await w.close();
+      return { how: 'in-place', handle };
+    } catch (e) {
+      app.log('warn', `save in place failed: ${e.message}`);
+    }
+  }
+  if (preferPicker && app.runMode.caps.fsaSave) {
+    try {
+      const hd = await window.showSaveFilePicker({ suggestedName: name, types: types.length ? [{ description, accept: { [blob.type || 'application/octet-stream']: types } }] : undefined });
+      const w = await hd.createWritable();
+      await w.write(blob);
+      await w.close();
+      return { how: 'picker', handle: hd };
+    } catch (e) {
+      if (e.name === 'AbortError') return { how: 'cancelled' };
+      app.log('warn', `save picker failed: ${e.message}`);
+    }
+  }
+  return download(app, blob, name);
+}
+
+/**
+ * How long a download's blob URL (and any temporary files behind the blob) must live: the browser
+ * copies it at its own pace, 10 MB/s assumed. A fixed minute cut a 3 GB COG download short (TE 2.0.4).
+ */
+export const downloadKeepMs = (bytes) => 60000 + Math.ceil((bytes || 0) / 10e6) * 1000;
+
+export function download(app, blob, name) {
+  const url = URL.createObjectURL(blob);
+  if (!app.runMode.caps.downloadsLikely) {
+    return exportPanel(app, blob, name, url, t('Downloads look blocked in this embedded frame (the host page did not grant allow-downloads).'));
+  }
+  // Chrome cancels a download of an in-memory file over ~500 MB (TE 2.0.4 cross: 600 MB failed,
+  // 400 MB saved). Where the save dialog is available the file is streamed through it instead; here, say so.
+  if (blob.size > 500e6) app.toast(t('{file} is {mb} MB: the browser may cancel a download this large. Open GIS Workbench directly (not embedded) in Chrome or Edge to save it through a file dialog.', { file: name, mb: num(blob.size / 1e6, 0) }), { kind: 'warn', ms: 12000 });
+  const a = h('a', { href: url, download: name, style: { display: 'none' } });
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    a.remove();
+    URL.revokeObjectURL(url);
+  }, downloadKeepMs(blob.size));
+  return { how: 'download', name, keepMs: downloadKeepMs(blob.size) };
+}
+
+/** In-page export panel (REQ-HOST-03, REQ-WB-15): copy text, open in a new tab, or try a link. */
+export async function exportPanel(app, blob, name, url = URL.createObjectURL(blob), reason = '') {
+  const isText = /^(text|application\/(json|xml|geo\+json))/.test(blob.type);
+  const body = h('div', {}, h('p', {}, reason || t('Use one of these ways to keep the file.')), h('p', {}, h('b', {}, name), ' ', t('({n, plural, one {# byte} other {# bytes}})', { n: blob.size })));
+  const row = h('div', { class: 'btn-row' });
+  if (isText) {
+    const b = h('button', { class: 'btn' }, t('Copy to clipboard'));
+    b.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(await blob.text());
+        app.toast(t('Copied'), { kind: 'info' });
+      } catch {
+        app.toast(t('The clipboard is blocked here too'), { kind: 'warn' });
+      }
+    });
+    row.appendChild(b);
+  }
+  const open = h('button', { class: 'btn' }, t('Open in a new tab'));
+  open.addEventListener('click', () => {
+    const w = window.open(url, '_blank', 'noopener');
+    if (!w) app.toast(t('Pop-ups are blocked; right-click the link below and choose "Save link as…"'), { kind: 'warn' });
+  });
+  row.appendChild(open);
+  body.append(row, h('p', {}, h('a', { href: url, download: name, target: '_blank', rel: 'noopener' }, t('Try the download link: {file}', { file: name }))));
+  modal({ title: tc('noun', 'Export'), body, buttons: [{ label: t('Close'), value: 'close', primary: true }], id: 'export-panel' });
+  return { how: 'export-panel', name };
+}
+
+export function textBlob(text, type = 'text/plain') {
+  return new Blob([text], { type: `${type};charset=utf-8` });
+}
+
+/**
+ * Stream a large product to disk (REQ-ARC-21): chunks (an async iterable of Uint8Array/Blob) go
+ * straight to a file through the save picker's writable stream in Chromium; elsewhere (or without
+ * a picker) they are gathered into one Blob and downloaded. Returns {how, bytes}.
+ */
+export async function saveStream(app, chunks, { name, types = [], description = t('File'), type = 'application/octet-stream', preferPicker = true } = {}) {
+  let bytes = 0;
+  if (preferPicker && app.runMode.caps.fsaSave) {
+    let hd = null;
+    try {
+      hd = await window.showSaveFilePicker({ suggestedName: name, types: types.length ? [{ description, accept: { [type]: types } }] : undefined });
+    } catch (e) {
+      if (e.name === 'AbortError') return { how: 'cancelled', bytes };
+      app.log('warn', `save picker failed: ${e.message}`);
+    }
+    if (hd) {
+      const w = await hd.createWritable();
+      try {
+        for await (const c of chunks) {
+          await w.write(c);
+          bytes += c.byteLength ?? c.size ?? 0;
+        }
+        await w.close();
+      } catch (e) {
+        await w.abort?.();
+        throw e;
+      }
+      return { how: 'stream', handle: hd, bytes };
+    }
+  }
+  const parts = [];
+  for await (const c of chunks) {
+    parts.push(c);
+    bytes += c.byteLength ?? c.size ?? 0;
+  }
+  return { ...download(app, new Blob(parts, { type }), name), bytes };
+}

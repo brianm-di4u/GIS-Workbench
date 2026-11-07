@@ -1,0 +1,15 @@
+[package]
+name = "gw-bundle-tiles"
+description = "Lazy WASM bundle: MVT tiler, PMTiles/MBTiles writer, quantized-mesh writer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+# Without the `brotli` feature: Brotli is the separate `brotli` bundle.
+gw-tiles = { path = "../../gw-tiles", default-features = false }

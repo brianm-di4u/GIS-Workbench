@@ -1,0 +1,64 @@
+{
+  "name": "gis-workbench",
+  "version": "2.6.0",
+  "private": true,
+  "description": "GIS Workbench: single-file, offline, browser-based GIS, imagery analysis and photogrammetry workbench for civilian use",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build/build.mjs",
+    "build:dev": "node build/build.mjs --dev",
+    "build:js": "node build/build.mjs --skip-rust",
+    "test": "vitest run",
+    "test:rust": "cargo test --manifest-path crates/Cargo.toml --workspace",
+    "test:e2e": "node build/e2e.mjs",
+    "test:android": "playwright test --config playwright.android.config.js",
+    "test:webkit": "playwright test --config playwright.webkit.config.js",
+    "trace": "node build/traceability.mjs",
+    "ci:fast": "npm run test:rust && npm test && npm run build",
+    "ci:full": "npm run ci:fast && npm run test:e2e && npm run trace"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.3.0",
+    "@mapbox/vector-tile": "3.0.0",
+    "ag-psd": "31.0.3",
+    "fflate": "0.8.3",
+    "flatgeobuf": "4.4.0",
+    "geotiff": "3.0.5",
+    "hyparquet-writer": "0.17.0",
+    "kdbush": "4.0.2",
+    "mpegts.js": "1.8.2",
+    "pbf": "5.1.2",
+    "pmtiles": "4.5.0",
+    "polygon-clipping": "0.15.7",
+    "pptxgenjs": "4.0.1",
+    "proj4": "2.22.0",
+    "rbush": "4.0.1",
+    "rtree-sql.js": "1.7.0",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@here/quantized-mesh-decoder": "1.2.8",
+    "@pdf-lib/fontkit": "1.1.1",
+    "@playwright/test": "1.64.1",
+    "axe-core": "4.14.0",
+    "draco3d": "1.5.9",
+    "egm96-universal": "1.1.1",
+    "esbuild": "0.28.2",
+    "fast-check": "4.10.2",
+    "geographiclib-geodesic": "2.2.0",
+    "gltf-validator": "2.0.0-dev.3.10",
+    "h5wasm": "0.10.3",
+    "ktx2-encoder": "0.6.0",
+    "mgrs": "2.2.0",
+    "onnxruntime-web": "1.30.0",
+    "proj-wasm": "0.1.0",
+    "vitest": "5.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "overrides": {
+    "image-size": "2.0.4"
+  }
+}

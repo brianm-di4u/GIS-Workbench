@@ -1,0 +1,17 @@
+REQ-GAP-49 HLS fixtures, generated (not downloaded) by build/fixtures/fx25-streams.mjs from fixtures/fx10/fx10.ts (own synthetic stream).
+Tool: FFmpeg 9.0.2 (gw-te conda environment), test time only.
+fx10-aes/key.bin is a fixed test key.
+
+fixtures/fx25/streams/fx10-ffmpeg/index.m3u8  253  sha256 7597626211bc65bbcef36981e31a31861f3727609e1a94c83ad8468bc2dd03d4
+fixtures/fx25/streams/fx10-ffmpeg/seg000.ts  154724  sha256 7de6299140f76e335d423d91503c3cec338352f1fd5fc4f9a67752ac6c9d100e
+fixtures/fx25/streams/fx10-ffmpeg/seg001.ts  153972  sha256 3e91c552fc88bc0d3153f1b300c5671bca4b2519bb28f50160be6f81eb9eb37f
+fixtures/fx25/streams/fx10-ffmpeg/seg002.ts  154160  sha256 efa797ddcce9ee2004b3ae15e818e414ed0269ab3c5cdea45b1eae4a96f946e8
+fixtures/fx25/streams/fx10-ffmpeg/seg003.ts  154348  sha256 3daa6db814858df4f66e34c741fbdc4ad42d6b62aaf32d558d41614433d5a23f
+fixtures/fx25/streams/fx10-ffmpeg/seg004.ts  153972  sha256 3f909ccd43b53a7e7a426a84f123ab403f6bcba5b37bc6617a4d02d6f76552d0
+fixtures/fx25/streams/fx10-aes/index.m3u8  331  sha256 06c680f1ffca0cc5c29616c9e557e653b3a81dd482e57ce0dfc19573cd2264d9
+fixtures/fx25/streams/fx10-aes/key.bin  16  sha256 be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991
+fixtures/fx25/streams/fx10-aes/seg000.ts  154736  sha256 9a54371767c0544fdbd790af6df362431c2700fc5031f6ab052582d2a55e3c54
+fixtures/fx25/streams/fx10-aes/seg001.ts  153984  sha256 96680953543d4c7d025f8c9c60826d5e47c20fb3f89eeeded90aae61d06e0725
+fixtures/fx25/streams/fx10-aes/seg002.ts  154176  sha256 12f65c6ad36cc03a6546b4d8b5dba33cd09ba865e2ebecbfd4d89c8a92d3dd41
+fixtures/fx25/streams/fx10-aes/seg003.ts  154352  sha256 05088c4487527d6f4d3934fbc498778f74b017e122f82b2be1bee6e6064d1b91
+fixtures/fx25/streams/fx10-aes/seg004.ts  153984  sha256 16b3ed69450e4ca463bafaf7036a05faf7e964bfeb5031d732b8ba885d83b271

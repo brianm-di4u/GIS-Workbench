@@ -1,0 +1,11 @@
+[package]
+name = "gw-extract"
+description = "GIS Workbench feature extraction maths: building squaring, minimum-area rectangle, line simplification"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-abi.workspace = true
+gw-geodesy.workspace = true

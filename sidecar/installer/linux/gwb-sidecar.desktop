@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=GIS Workbench Sidecar
+GenericName=GIS Workbench conversion helper
+Comment=Optional local helper for GIS Workbench (127.0.0.1 only): opens its window, or starts it
+Exec=gwb-sidecar
+Icon=gwb-sidecar
+Terminal=false
+Categories=Science;Geography;
+StartupNotify=false

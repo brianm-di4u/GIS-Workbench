@@ -1,0 +1,80 @@
+# Reprojection of very large rasters with every PROJ grid (REQ-GAP-17). With the proj-grids module
+# PROJ finds the grid an operation names; "best operation only" refuses to fall back to a lesser
+# one when a grid is missing, so a shift is never quietly tens of metres out.
+id = "raster-reproject"
+title = "Reproject with GDAL and the full PROJ grids"
+module = "core-gdal"
+input = "raster"
+output_ext = "tif"
+output_name = "{stem}.reprojected"
+memory_mb = 16384
+# Very large scenes: a day of wall time, 14 days of total CPU time.
+time_limit_s = 86400
+cpu_limit_s = 1209600
+
+[[options]]
+name = "t_srs"
+title = "Reproject to"
+type = "crs"
+
+[[options]]
+name = "s_srs"
+title = "Source CRS (when the file has the wrong one)"
+type = "crs"
+optional = true
+
+[[options]]
+name = "resampling"
+title = "Resampling"
+type = "enum"
+values = ["near", "bilinear", "cubic", "cubicspline", "lanczos", "average", "mode"]
+default = "bilinear"
+
+[[options]]
+name = "res"
+title = "Output pixel size"
+type = "float"
+min = 1e-9
+max = 1e9
+optional = true
+
+# gdalwarp's default of 0.125 pixel lets it interpolate between exact points: 10 m on a 100 m
+# raster, which hides the shift the grids exist for. 0 transforms every pixel.
+[[options]]
+name = "max_error"
+title = "Largest approximation error (pixels)"
+type = "float"
+min = 0.0
+max = 1.0
+default = 0.0
+
+[[options]]
+name = "only_best"
+title = "Refuse if the best operation's grid is missing"
+type = "bool"
+default = true
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["DEFLATE", "LZW", "ZSTD", "NONE"]
+default = "DEFLATE"
+
+[[steps]]
+tool = "gdalwarp"
+progress = "gdal"
+args = [
+  "-t_srs", "{t_srs}",
+  { when = "s_srs", args = ["-s_srs", "{s_srs}"] },
+  "-r", "{resampling}",
+  "-et", "{max_error}",
+  { when = "res", args = ["-tr", "{res}", "{res}"] },
+  { when = "only_best", args = ["-to", "ONLY_BEST=YES", "-to", "ALLOW_BALLPARK=NO"] },
+  "-of", "COG",
+  "-co", "COMPRESS={compress}",
+  "-co", "BIGTIFF=IF_SAFER",
+  "-co", "NUM_THREADS=ALL_CPUS",
+  "-multi", "-wo", "NUM_THREADS=ALL_CPUS", "-wm", "2048",
+  "{input}", "{output}",
+]

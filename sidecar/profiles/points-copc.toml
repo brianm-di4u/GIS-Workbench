@@ -1,0 +1,30 @@
+# Point clouds (E57, BPF incl. QuickLZ, PLY, PTS, text...) -> COPC (REQ-SDC-08, REQ-LDR-12, REQ-FMT-46).
+id = "points-copc"
+title = "Point cloud to COPC"
+module = "points"
+input = "points"
+output_ext = "copc.laz"
+memory_mb = 16384
+
+[[options]]
+name = "reader"
+title = "Reader (default: by extension)"
+type = "enum"
+values = ["readers.e57", "readers.bpf", "readers.las", "readers.ply", "readers.pts", "readers.ptx", "readers.text", "readers.pcd", "readers.obj"]
+optional = true
+
+[[options]]
+name = "srs"
+title = "Assign CRS"
+type = "crs"
+optional = true
+
+[[steps]]
+tool = "pdal"
+args = [
+  "translate",
+  { when = "reader", args = ["--reader", "{reader}"] },
+  "--writer", "writers.copc",
+  { when = "srs", args = ["--writers.copc.a_srs={srs}"] },
+  "{input}", "{output}",
+]

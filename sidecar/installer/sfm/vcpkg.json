@@ -1,0 +1,26 @@
+{
+  "name": "gwb-colmap",
+  "version-string": "4.2.1",
+  "description": "COLMAP's dependencies for the sidecar's sfm module. Compared with COLMAP's own manifest: no suitesparse (Ceres uses Eigen's sparse solvers), no gui, cuda, cgal, onnx or download features.",
+  "dependencies": [
+    "boost-algorithm",
+    "boost-graph",
+    "boost-heap",
+    "boost-program-options",
+    "boost-property-map",
+    "boost-property-tree",
+    "boost-unordered",
+    { "name": "ceres", "features": ["eigensparse", "schur"] },
+    "eigen3",
+    "gflags",
+    "glog",
+    "gtest",
+    "metis",
+    { "name": "openblas", "features": ["dynamic-arch"], "platform": "linux" },
+    { "name": "openblas", "platform": "windows" },
+    "openimageio",
+    "sqlite3",
+    { "name": "vcpkg-cmake", "host": true },
+    { "name": "vcpkg-cmake-config", "host": true }
+  ]
+}

@@ -1,0 +1,59 @@
+# A PostGIS raster table on this computer to a COG (REQ-GAP-72). A tool that opens a socket goes
+# against REQ-SDC-14, so the gate stays closed until the sidecar is signed and has passed its
+# external security review (OD-2.17): no shipped build can run this. Only 127.0.0.1 is reachable,
+# and every option is a plain name, so nothing can add to the connection string.
+id = "pgraster-cog"
+title = "PostGIS raster table to Cloud-Optimized GeoTIFF"
+module = "core-gdal"
+input = "any"
+min_inputs = 0
+max_inputs = 0
+output_ext = "tif"
+output_name = "{stem}.cog"
+gate = "database"
+
+[[options]]
+name = "port"
+title = "Port on 127.0.0.1"
+type = "int"
+min = 1024
+max = 65535
+default = 5432
+
+[[options]]
+name = "dbname"
+title = "Database"
+type = "name"
+
+[[options]]
+name = "user"
+title = "User"
+type = "name"
+
+[[options]]
+name = "schema"
+title = "Schema"
+type = "name"
+default = "public"
+
+[[options]]
+name = "table"
+title = "Table"
+type = "name"
+
+[[options]]
+name = "column"
+title = "Raster column"
+type = "name"
+default = "rast"
+
+[[steps]]
+tool = "gdal_translate"
+progress = "gdal"
+args = [
+  "-of", "COG",
+  "-co", "COMPRESS=DEFLATE",
+  "-co", "BIGTIFF=IF_SAFER",
+  "PG:host=127.0.0.1 port={port} dbname={dbname} user={user} schema={schema} table={table} column={column} mode=2",
+  "{output}",
+]

@@ -1,0 +1,14 @@
+[package]
+name = "gw-bundle-aviation"
+description = "Lazy WASM bundle: airfield obstruction surfaces, FAA Part 77 and ICAO Annex 14 (analysis worker, REQ-GAP-73)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+gw-abi.workspace = true
+gw-aviation.workspace = true

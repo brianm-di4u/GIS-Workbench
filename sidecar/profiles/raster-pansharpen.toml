@@ -1,0 +1,79 @@
+# Weighted Brovey pan-sharpening of very large scenes with GDAL (REQ-GAP-15): the first input is the
+# panchromatic band, the others the spectral files (a multi-band file gives all its bands). The app's
+# own Rust route (REQ-GAP-14) is the one with quality metrics; this one has no size limit of its own.
+id = "raster-pansharpen"
+title = "Pan-sharpen with GDAL (weighted Brovey)"
+module = "core-gdal"
+input = "raster"
+min_inputs = 2
+max_inputs = 17
+output_ext = "tif"
+output_name = "{stem}.pansharpened"
+memory_mb = 16384
+# Very large scenes: a day of wall time, 14 days of total CPU time.
+time_limit_s = 86400
+cpu_limit_s = 1209600
+
+[[options]]
+name = "weights"
+title = "Weight of each spectral band"
+type = "float_list"
+min = 0.0
+max = 1000.0
+optional = true
+
+[[options]]
+name = "resampling"
+title = "Resampling of the spectral bands"
+type = "enum"
+values = ["nearest", "bilinear", "cubic", "cubicspline", "lanczos", "average"]
+default = "cubic"
+
+[[options]]
+name = "nodata"
+title = "Nodata of the inputs"
+type = "float"
+min = -3.4e38
+max = 3.4e38
+optional = true
+
+[[options]]
+name = "bit_depth"
+title = "Bit depth of the inputs"
+type = "int"
+min = 1
+max = 32
+optional = true
+
+[[options]]
+name = "extent"
+title = "When the bands differ in extent"
+type = "enum"
+values = ["union", "intersection", "none"]
+default = "union"
+
+[[options]]
+name = "compress"
+title = "Compression"
+type = "enum"
+values = ["DEFLATE", "LZW", "ZSTD", "NONE"]
+default = "DEFLATE"
+
+[[steps]]
+tool = "gdal"
+progress = "gdal"
+args = [
+  "raster", "pansharpen",
+  "--panchromatic", "{input}",
+  { each_input = 1, args = ["--spectral", "{item}"] },
+  "--output", "{output}",
+  "--output-format", "COG",
+  "--resampling", "{resampling}",
+  "--spatial-extent-adjustment", "{extent}",
+  { when = "weights", args = ["--weights", "{weights}"] },
+  { when = "nodata", args = ["--nodata", "{nodata}"] },
+  { when = "bit_depth", args = ["--bit-depth", "{bit_depth}"] },
+  "--creation-option", "COMPRESS={compress}",
+  "--creation-option", "BIGTIFF=IF_SAFER",
+  "--creation-option", "NUM_THREADS=ALL_CPUS",
+]
