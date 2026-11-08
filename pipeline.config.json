@@ -31,7 +31,10 @@
       "docs/decisions/**",
       "docs/PRD.md",
       "docs/THREAT-MODEL.md",
-      "docs/formats.md"
+      "docs/formats.md",
+      "docs/RUNBOOK.md",
+      "docs/ROLLBACK.md",
+      "docs/VERIFICATION.md"
     ],
     "t2Paths": [
       ".github/**",
@@ -71,7 +74,11 @@
       ".node-version",
       "TRADEMARKS.md",
       "docs/POLICY.md",
-      "SECURITY.md"
+      "SECURITY.md",
+      "**/CLAUDE.md",
+      "**/AGENTS.md",
+      "REVIEW.md",
+      ".claude/skills/**"
     ],
     "decisionPaths": [
       "docs/decisions/**"
