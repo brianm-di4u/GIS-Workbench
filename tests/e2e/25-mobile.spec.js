@@ -53,6 +53,11 @@ async function lite(page, prefs = { network: 'offline' }) {
   await r.frame.evaluate(() => {
     window.__saved = [];
     window.gisworkbench.saveCapture = (blob, name) => window.__saved.push({ blob, name });
+    // The last touch events, for the message when a long press opens nothing (#17).
+    window.__touches = [];
+    const t0 = performance.now();
+    for (const type of ['pointerdown', 'pointerup', 'pointercancel', 'touchstart', 'touchend', 'touchcancel', 'contextmenu'])
+      window.addEventListener(type, (e) => window.__touches.push(`${Math.round(performance.now() - t0)} ${type} ${e.pointerId ?? ''} ${e.target?.dataset?.id ?? e.target?.getAttribute?.('class') ?? e.target?.nodeName}`.slice(0, 120)) > 60 && window.__touches.shift(), { capture: true });
   });
   return r;
 }
@@ -112,6 +117,13 @@ async function longPress(page, x, y, ms = 800) {
   await page.waitForTimeout(ms);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await cdp.detach();
+  // Every caller expects the point sheet. When it doesn't come, say what the page saw.
+  try {
+    await expect(page.locator('[data-id="m:point"]')).toBeVisible({ timeout: 10_000 });
+  } catch {
+    const seen = await page.evaluate(([x, y]) => ({ at: document.elementFromPoint(x, y)?.getAttribute('class'),toasts: [...document.querySelectorAll('.toast')].map((t) => t.textContent), sheet: document.querySelector('[data-id="m:sheet"]')?.textContent?.slice(0, 80) ?? null, touches: window.__touches }), [x, y]);
+    throw new Error(`No point sheet after a long press at ${x},${y}: ${JSON.stringify(seen, null, 1)}`);
+  }
 }
 
 const view = (frame) => frame.evaluate(() => ({ ...window.gisworkbench.activePane().view }));
