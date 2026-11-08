@@ -4,10 +4,11 @@
 //   node build/release/upload.mjs --tag v2.7.0 --dir D:/gwb-release/2.7.0 [--jobs 6] [--repo owner/name]
 //   node build/release/upload.mjs --tag v2.7.0 --dir D:/gwb-release/2.7.0 --check
 //
-// It can be stopped and run again: an asset already uploaded at the right size is skipped, and a
-// partial one is replaced. Each file goes up in its own `gh release upload --clobber`, smallest
+// It can be stopped and run again: an asset already uploaded with the staged file's digest is
+// skipped, and anything else is replaced. SHA256SUMS itself is checked like every other asset. Each file goes up in its own `gh release upload --clobber`, smallest
 // first, with retries. It won't upload to a published release. --check only compares digests.
 import { execFile, execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -46,7 +47,9 @@ async function main() {
   }
   const repo = arg('--repo', '{owner}/{repo}');
   const ghRepo = repo.includes('{') ? [] : ['--repo', repo];
-  const sums = parseSums(readFileSync(join(dir, 'SHA256SUMS'), 'utf8'));
+  const sumsText = readFileSync(join(dir, 'SHA256SUMS'));
+  const sums = parseSums(sumsText.toString('utf8'));
+  const want = new Map([...sums, ['SHA256SUMS', createHash('sha256').update(sumsText).digest('hex')]]);
   let rel = release(repo, tag);
 
   if (!process.argv.includes('--check')) {
@@ -54,7 +57,7 @@ async function main() {
     const local = readdirSync(dir).filter((n) => statSync(join(dir, n)).isFile()).map((name) => ({ name, size: statSync(join(dir, name)).size }));
     const strays = local.filter((f) => f.name !== 'SHA256SUMS' && !sums.has(f.name));
     if (strays.length) throw new Error(`Not in SHA256SUMS, so not uploaded: ${strays.map((f) => f.name).join(', ')}. Re-stage.`);
-    const todo = uploadPlan(local, rel.assets);
+    const todo = uploadPlan(local, rel.assets, want);
     console.log(`${local.length - todo.length} of ${local.length} already uploaded. Uploading ${todo.length}, ${Number(arg('--jobs', 6))} at a time.`);
     const failed = [];
     await pool(todo, Number(arg('--jobs', 6)), async (f) => {
@@ -78,7 +81,7 @@ async function main() {
     rel = release(repo, tag);
   }
 
-  const problems = digestProblems(sums, rel.assets);
+  const problems = digestProblems(want, rel.assets);
   if (problems.length) {
     console.error(`${tag} doesn't match SHA256SUMS:\n  ${problems.join('\n  ')}`);
     process.exit(1);

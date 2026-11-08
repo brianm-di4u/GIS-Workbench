@@ -21,30 +21,40 @@ describe('release assets', () => {
     expect(missingFamilies(['proj-9.7.0.gwpack', 'gis-workbench.html'], ['proj-9.6.2.gwpack', 'grids-eu-1.0+projdata.gwpack', 'gis-workbench.html'])).toEqual(['grids-eu-<v>+projdata.gwpack']);
   });
 
-  it('plans uploads smallest first and skips finished assets', () => {
-    const local = [{ name: 'big', size: 300 }, { name: 'done', size: 10 }, { name: 'partial', size: 50 }, { name: 'new', size: 20 }];
-    const remote = [{ name: 'done', size: 10, state: 'uploaded' }, { name: 'partial', size: 50, state: 'starter' }, { name: 'big', size: 299, state: 'uploaded' }];
-    expect(uploadPlan(local, remote).map((f) => f.name)).toEqual(['new', 'partial', 'big']);
+  it('plans uploads smallest first and skips only assets with the staged digest', () => {
+    const want = new Map([['big', h('big')], ['done', h('done')], ['partial', h('partial')], ['new', h('new')], ['rebuilt', h('rebuilt')], ['SHA256SUMS', h('sums v2')]]);
+    const local = [['big', 300], ['done', 10], ['partial', 50], ['new', 20], ['rebuilt', 40], ['SHA256SUMS', 60]].map(([name, size]) => ({ name, size }));
+    const remote = [
+      { name: 'done', size: 10, state: 'uploaded', digest: `sha256:${h('done')}` },
+      { name: 'partial', size: 50, state: 'starter', digest: null },
+      { name: 'big', size: 299, state: 'uploaded', digest: `sha256:${h('old big')}` },
+      // Same size as the staged file, different content: a rebuilt asset and a re-staged SHA256SUMS.
+      { name: 'rebuilt', size: 40, state: 'uploaded', digest: `sha256:${h('rebuilt v1')}` },
+      { name: 'SHA256SUMS', size: 60, state: 'uploaded', digest: `sha256:${h('sums v1')}` },
+    ];
+    expect(uploadPlan(local, remote, want).map((f) => f.name)).toEqual(['new', 'rebuilt', 'partial', 'SHA256SUMS', 'big']);
   });
 
-  it('finds every way a release differs from SHA256SUMS', () => {
-    const sums = new Map([['a', h('a')], ['b', h('b')], ['c', h('c')], ['d', h('d')], ['e', h('e')]]);
+  it('finds every way a release differs from what was staged, SHA256SUMS included', () => {
+    const want = new Map([['a', h('a')], ['b', h('b')], ['c', h('c')], ['d', h('d')], ['e', h('e')], ['SHA256SUMS', h('sums')]]);
     const remote = [
       { name: 'a', state: 'uploaded', digest: `sha256:${h('a')}` },
       { name: 'b', state: 'uploaded', digest: `sha256:${h('x')}` },
       { name: 'c', state: 'starter', digest: null },
       { name: 'd', state: 'uploaded', digest: null },
+      { name: 'SHA256SUMS', state: 'uploaded', digest: `sha256:${h('old sums')}` },
       { name: 'stray', state: 'uploaded', digest: 'sha256:00' },
     ];
-    expect(digestProblems(sums, remote)).toEqual([
-      'SHA256SUMS is not on the release',
-      `b has digest sha256:${h('x')}, but SHA256SUMS says ${h('b')}`,
+    expect(digestProblems(want, remote)).toEqual([
+      `b has digest sha256:${h('x')}, but the staged file's is ${h('b')}`,
       'c is not fully uploaded (starter)',
       'GitHub reports no digest for d',
       'e is not on the release',
+      `SHA256SUMS has digest sha256:${h('old sums')}, but the staged file's is ${h('sums')}`,
       'stray is on the release but not in SHA256SUMS',
     ]);
-    expect(digestProblems(new Map([['a', h('a')]]), [remote[0], { name: 'SHA256SUMS', state: 'uploaded' }])).toEqual([]);
+    expect(digestProblems(new Map([['SHA256SUMS', h('s')]]), [])).toEqual(['SHA256SUMS is not on the release']);
+    expect(digestProblems(new Map([['a', h('a')], ['SHA256SUMS', h('s')]]), [remote[0], { name: 'SHA256SUMS', state: 'uploaded', digest: `sha256:${h('s')}` }])).toEqual([]);
   });
 });
 

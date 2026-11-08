@@ -24,24 +24,25 @@ export function missingFamilies(names, previousNames) {
   return [...new Set(previousNames.map(family))].filter((f) => !have.has(f)).sort();
 }
 
-/** The local files that still need uploading, smallest first. A finished asset of the same size is skipped. */
-export function uploadPlan(local, remote) {
-  const done = new Map(remote.filter((a) => a.state === 'uploaded').map((a) => [a.name, a.size]));
-  return local.filter((f) => done.get(f.name) !== f.size).sort((a, b) => a.size - b.size || (a.name < b.name ? -1 : 1));
+// Both functions below take `want`: SHA256SUMS's entries plus SHA256SUMS itself, name -> hex hash.
+
+/** The local files that still need uploading, smallest first. Only a finished asset with the same digest is skipped. */
+export function uploadPlan(local, remote, want) {
+  const done = new Map(remote.filter((a) => a.state === 'uploaded').map((a) => [a.name, a.digest]));
+  return local.filter((f) => done.get(f.name) !== `sha256:${want.get(f.name)}`).sort((a, b) => a.size - b.size || (a.name < b.name ? -1 : 1));
 }
 
-/** Every way the release's assets differ from SHA256SUMS. Empty means the release is complete and intact. */
-export function digestProblems(sums, remote) {
+/** Every way the release's assets differ from what was staged. Empty means the release is complete and intact. */
+export function digestProblems(want, remote) {
   const problems = [];
   const byName = new Map(remote.map((a) => [a.name, a]));
-  if (!byName.has('SHA256SUMS')) problems.push('SHA256SUMS is not on the release');
-  for (const [name, hash] of sums) {
+  for (const [name, hash] of want) {
     const a = byName.get(name);
     if (!a) problems.push(`${name} is not on the release`);
     else if (a.state !== 'uploaded') problems.push(`${name} is not fully uploaded (${a.state})`);
     else if (!a.digest) problems.push(`GitHub reports no digest for ${name}`);
-    else if (a.digest !== `sha256:${hash}`) problems.push(`${name} has digest ${a.digest}, but SHA256SUMS says ${hash}`);
+    else if (a.digest !== `sha256:${hash}`) problems.push(`${name} has digest ${a.digest}, but the staged file's is ${hash}`);
   }
-  for (const a of remote) if (a.name !== 'SHA256SUMS' && !sums.has(a.name)) problems.push(`${a.name} is on the release but not in SHA256SUMS`);
+  for (const a of remote) if (!want.has(a.name)) problems.push(`${a.name} is on the release but not in SHA256SUMS`);
   return problems;
 }
