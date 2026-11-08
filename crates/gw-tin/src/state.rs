@@ -176,7 +176,7 @@ pub fn load(b: &[u8]) -> Result<Mesh, Msg> {
         let key = r.u64()?;
         let h = r.take(3)?;
         let (kind, closed, alive) = (h[0], h[1] != 0, h[2] != 0);
-        if !(1..=7).contains(&kind) {
+        if !(1..=8).contains(&kind) {
             return Err(Error::invalid("tin state: unknown line kind"));
         }
         let list = |r: &mut R| -> Result<Vec<u32>, Msg> {

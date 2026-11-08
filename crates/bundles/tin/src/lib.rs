@@ -226,6 +226,29 @@ pub unsafe extern "C" fn gw_tin_apply(id: i32, opsp: *const f64, olen: usize) ->
     }))
 }
 
+/// Keep a file's own faces in a TIN built through its points (`gw_tin::faces`; LandXML, OD-2.41).
+/// `pts` = the file's x, y, z (plane metres); `faces` = point indices as u32 LE, three per face;
+/// `hidden` = one byte per face. Output JSON {faces, skipped, forced, rings, kept, open}.
+/// # Safety
+/// The pointers must hold the stated lengths.
+#[no_mangle]
+pub unsafe extern "C" fn gw_tin_keep_faces(id: i32, pts: *const f64, n: usize, faces: *const u8, fl: usize, hidden: *const u8, hl: usize) -> i32 {
+    let p = slice(pts, n);
+    let fb = slice(faces, fl);
+    let h = slice(hidden, hl);
+    status(with(id, |m| {
+        if p.len() % 3 != 0 || fb.len() % 12 != 0 {
+            return Err(Error::invalid("tin: bad faces"));
+        }
+        let f: Vec<u32> = fb.chunks_exact(4).map(|c| u32::from_le_bytes([c[0], c[1], c[2], c[3]])).collect();
+        let k = gw_tin::faces::keep_faces(m, p, &f, h, gw_tin::faces::KEY0).map_err(fail)?;
+        let mut j = Json::new();
+        j.obj().kv_int("faces", k.faces as i64).kv_int("skipped", k.skipped as i64).kv_int("forced", k.forced as i64).kv_int("rings", k.rings as i64).kv_int("kept", k.kept as i64).kv_bool("open", k.open).end_obj();
+        set_out_json(j.finish());
+        Ok(())
+    }))
+}
+
 /// Summary (JSON): grid, counts, extent, heights, lines and statistics.
 #[no_mangle]
 pub extern "C" fn gw_tin_info(id: i32) -> i32 {

@@ -38,9 +38,12 @@ pub const OUTER: u8 = 4;
 pub const SWAP: u8 = 5;
 pub const DRAIN: u8 = 6;
 pub const RIDGE: u8 = 7;
+/// A ring of a file's own faces (`faces`): the outline or a hole of the faces it keeps. Inside an
+/// odd number of them is surface; anything else is excluded when there are any.
+pub const FRING: u8 = 8;
 
 pub fn is_region(kind: u8) -> bool {
-    kind == VOID || kind == OUTER
+    kind == VOID || kind == OUTER || kind == FRING
 }
 /// Lines that carry their own heights (a hard breakline, a ridge or a drain).
 pub fn carries_z(kind: u8) -> bool {
@@ -1468,6 +1471,7 @@ impl Mesh {
             return;
         }
         let has_outer = rings.iter().any(|r| r.0 == OUTER);
+        let has_face = rings.iter().any(|r| r.0 == FRING);
         let nt = self.tv.len();
         let mut region = vec![u32::MAX; nt];
         let mut stack = Vec::new();
@@ -1481,16 +1485,17 @@ impl Mesh {
             let cy = (self.py(v[0]) + self.py(v[1]) + self.py(v[2])) / 3.0;
             let mut in_void = false;
             let mut in_outer = false;
+            let mut in_face = false;
             for (k, r) in &rings {
                 if point_in_ring(cx, cy, r) {
-                    if *k == VOID {
-                        in_void = !in_void;
-                    } else {
-                        in_outer = true;
+                    match *k {
+                        VOID => in_void = !in_void,
+                        FRING => in_face = !in_face,
+                        _ => in_outer = true,
                     }
                 }
             }
-            let excl = in_void || (has_outer && !in_outer);
+            let excl = in_void || (has_outer && !in_outer) || (has_face && !in_face);
             region[s as usize] = s;
             stack.push(s);
             while let Some(t) = stack.pop() {

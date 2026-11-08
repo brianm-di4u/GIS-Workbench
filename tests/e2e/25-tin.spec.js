@@ -262,53 +262,8 @@ test('REQ-GAP-39 FX-02 TIN: build, edits, ridge and drain, undo, display, TIN to
     const epsg = Number(/epsgCode="(\d+)"/.exec(text)[1]);
     const back = await T.importFile(new File([text], 'roundtrip.xml'), { epsg, vertical: 'hae' });
     const bi = await T.info(back.id);
-    // Faces the rebuilt TIN does not have: each must be on a swapped edge (not Delaunay on purpose;
-    // an import re-triangulates) or lie in a quadrilateral of file faces whose four corners are
-    // cocircular within 5 mm (a tie the sub-mm rounding of the round trip can flip).
-    const m0 = await T.mesh(id);
-    // (A later line crossing a swapped edge splits it: every piece counts.)
-    const swapLines = (await T.lines(id)).filter((l) => l.type === 'swap');
-    const swapPairs = swapLines.flatMap((l) => Array.from({ length: l.path.length / 3 - 1 }, (_, k) => [`${l.path[3 * k]},${l.path[3 * k + 1]}`, `${l.path[3 * k + 3]},${l.path[3 * k + 4]}`]));
-    const tieExplained = (() => {
-      const P = (v) => [m0.xyz[3 * v], m0.xyz[3 * v + 1]];
-      const edges = new Map();
-      for (let f = 0; f < m0.tris.length / 3; f++)
-        for (const [a, b] of [[0, 1], [1, 2], [2, 0]]) {
-          const [u, v] = [m0.tris[3 * f + a], m0.tris[3 * f + b]];
-          const key = u < v ? `${u},${v}` : `${v},${u}`;
-          if (!edges.has(key)) edges.set(key, []);
-          edges.get(key).push(f);
-        }
-      const off = (f, w) => {
-        const [[ax, ay], [bx, by], [cx0, cy0]] = [0, 1, 2].map((k) => P(m0.tris[3 * f + k]));
-        const d = 2 * (ax * (by - cy0) + bx * (cy0 - ay) + cx0 * (ay - by));
-        const ux = ((ax * ax + ay * ay) * (by - cy0) + (bx * bx + by * by) * (cy0 - ay) + (cx0 * cx0 + cy0 * cy0) * (ay - by)) / d;
-        const uy = ((ax * ax + ay * ay) * (cx0 - bx) + (bx * bx + by * by) * (ax - cx0) + (cx0 * cx0 + cy0 * cy0) * (bx - ax)) / d;
-        const [wx, wy] = P(w);
-        return Math.abs(Math.hypot(wx - ux, wy - uy) - Math.hypot(ax - ux, ay - uy));
-      };
-      const differ = new Set(back.agreement.differ);
-      let ok = 0;
-      let swapped = 0;
-      for (const f of differ) {
-        const tri = [0, 1, 2].map((k) => m0.tris[3 * f + k]);
-        const names = tri.map((v) => `${m0.xyz[3 * v]},${m0.xyz[3 * v + 1]}`);
-        if (swapPairs.some(([a, b]) => names.includes(a) && names.includes(b))) {
-          swapped++;
-          continue;
-        }
-        const tie = [[0, 1], [1, 2], [2, 0]].some(([a, b]) => {
-          const key = tri[a] < tri[b] ? `${tri[a]},${tri[b]}` : `${tri[b]},${tri[a]}`;
-          const g = edges.get(key).find((x) => x !== f);
-          if (g === undefined) return false;
-          const w = [0, 1, 2].map((k) => m0.tris[3 * g + k]).find((v) => !tri.includes(v));
-          return off(f, w) < 0.005;
-        });
-        if (tie) ok++;
-      }
-      return { differ: differ.size, ties: ok, swapped, swaps: swapPairs.length };
-    })();
-    // How much the rebuilt surface differs, at every 3rd post of the DEM grid made above.
+    // How much the imported surface differs, at every 3rd post of the DEM grid made above (OD-2.41:
+    // the file's own faces are kept, so only the file's rounding to 0.1 mm and the 1 mm grid remain).
     const sll = [];
     for (let k = 0; k < gg.width * gg.height; k += 3) sll.push([gg.lon0 + (k % gg.width) * gg.dlon, gg.lat0 - Math.floor(k / gg.width) * gg.dlat]);
     const [s0, s1] = [await T.heights(id, sll), await T.heights(back.id, sll)];
@@ -348,16 +303,18 @@ test('REQ-GAP-39 FX-02 TIN: build, edits, ridge and drain, undo, display, TIN to
       refusedOut = e.message;
     }
     const v3 = await T.show3d(id);
-    return { info: { vertices: info.vertices, lines: info.lines.length, mass: info.mass }, edited: { vertices: edited.vertices, drainChanged: dr.profile.changed }, dem: { w: gg.width, h: gg.height, demDiff }, landxml: { epsg, points: back.points, lines: back.lines, faces: back.agreement.faces, same: back.agreement.same, unmatched: back.agreement.unmatched, tieExplained, surface, vertices: bi.vertices }, forms, refused, refusedOut, v3, has3d: !!app.activePane().view3d };
+    return { info: { vertices: info.vertices, lines: info.lines.length, mass: info.mass }, edited: { vertices: edited.vertices, drainChanged: dr.profile.changed }, dem: { w: gg.width, h: gg.height, demDiff }, landxml: { epsg, points: back.points, lines: back.lines, faces: back.agreement.faces, same: back.agreement.same, unmatched: back.agreement.unmatched, differ: back.agreement.differ.length, kept: back.kept, surface, vertices: bi.vertices, triangles: bi.triangles, before: info.triangles }, forms, refused, refusedOut, v3, has3d: !!app.activePane().view3d };
   }, truth02.boxes[2]);
   console.log(JSON.stringify(io));
   expect(io.dem.demDiff).toBeLessThan(1e-3);
   expect(io.landxml.vertices).toBe(io.info.vertices);
   expect(io.landxml.unmatched).toBe(0);
-  expect(io.landxml.tieExplained.swaps).toBeGreaterThan(0);
-  expect(io.landxml.tieExplained.swapped).toBeLessThanOrEqual(2 * io.landxml.tieExplained.swaps);
-  expect(io.landxml.tieExplained.ties + io.landxml.tieExplained.swapped).toBe(io.landxml.tieExplained.differ);
-  expect(io.landxml.same / io.landxml.faces).toBeGreaterThan(0.95);
+  // OD-2.41: every face comes back (2.5 kept 96.7 % and moved the surface by up to 1.24 m).
+  expect(io.landxml.differ).toBe(0);
+  expect(io.landxml.same).toBe(io.landxml.faces);
+  expect(io.landxml.triangles).toBe(io.landxml.before);
+  expect(io.landxml.kept).toMatchObject({ skipped: 0, kept: io.landxml.faces });
+  expect(io.landxml.surface.max).toBeLessThan(0.002);
   expect(io.edited.drainChanged).toBeGreaterThan(0);
   for (const f of ['geojson', 'shapefile', 'csv']) {
     // Every vertex comes back; a soft line traced again may add one or two.
@@ -471,6 +428,96 @@ test('REQ-GAP-39 a TIN and its edits come back from a project file in a fresh pa
   expect(back.info.triangles).toBe(saved.info.triangles);
   expect(back.info.lines).toBe(saved.info.lines.length);
   expect(back.heights).toEqual(saved.heights);
+  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs2.filter((l) => !/favicon/.test(l))).toEqual([]);
+});
+
+// OD-2.41 (REQ-GAP-39 amended 2.7): Import TIN keeps a LandXML surface's own faces. The file is a
+// sheared grid split on the long diagonal everywhere (none of it Delaunay), with a notch (concave
+// outline), a hole and a hidden face; it goes in through the command and its file chooser, and
+// comes back face for face from a project file in a fresh page.
+function landXmlFixture() {
+  const N = 9;
+  const P = [];
+  for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) P.push([4400000 + 10 * j, 500000 + 10 * i + 3 * j, (1600 + 0.37 * i + 0.21 * j + ((i * 7 + j * 3) % 5) * 0.4).toFixed(3)]);
+  const id = (i, j) => j * N + i + 1;
+  const F = [];
+  for (let j = 0; j < N - 1; j++)
+    for (let i = 0; i < N - 1; i++) {
+      if ((i === 4 && j === 4) || (i === N - 2 && j >= 2 && j <= 5)) continue;
+      F.push([id(i, j), id(i + 1, j), id(i + 1, j + 1)], [id(i, j), id(i + 1, j + 1), id(i, j + 1)]);
+    }
+  const xml = `<?xml version="1.0"?><LandXML xmlns="http://www.landxml.org/schema/LandXML-1.2" version="1.2"><Units><Metric linearUnit="meter"/></Units><CoordinateSystem epsgCode="32613"/><Surfaces><Surface name="EG"><Definition surfType="TIN"><Pnts>${P.map((p, k) => `<P id="${k + 1}">${p.join(' ')}</P>`).join('')}</Pnts><Faces>${F.map((f, k) => `<F${k === 1 ? ' i="1"' : ''}>${f.join(' ')}</F>`).join('')}</Faces></Definition></Surface></Surfaces></LandXML>`;
+  return { xml, P, F };
+}
+
+test('REQ-GAP-39 OD-2.41 Import TIN keeps a LandXML file\'s own faces, outline, hole and hidden face', async ({ page }) => {
+  test.setTimeout(180000);
+  const { frame, logs } = await openApp(page, 'file');
+  const fx = landXmlFixture();
+  await frame.evaluate(() => (window.gisworkbench.runMode.caps.fsaPicker = false));
+  const [fc] = await Promise.all([page.waitForEvent('filechooser'), frame.evaluate(() => void window.gisworkbench.commands.run('tin.import'))]);
+  await fc.setFiles({ name: 'eg.xml', mimeType: 'application/xml', buffer: Buffer.from(fx.xml) });
+  const dlg = frame.locator('[data-id="dialog:tin-import"]');
+  await expect(dlg).toBeVisible();
+  await dlg.getByRole('button', { name: 'Import' }).click();
+  await frame.waitForFunction(() => window.gisworkbench.store.all('tin').length === 1 && !!window.gisworkbench.tin.list()[0].info, null, { timeout: 60000 });
+  await expect(frame.locator('.toast', { hasText: `${fx.F.length} of ${fx.F.length} of the file’s faces are in the TIN` })).toBeVisible();
+  // The toast's count is the import's own face-by-face check (every file face is a TIN triangle).
+  // Here: the hidden face is excluded and nothing else is; the heights are the file's.
+  const faces = async (f) =>
+    f.evaluate(async () => {
+      const app = window.gisworkbench;
+      const T = app.tin;
+      const id = app.store.all('tin')[0].id;
+      await T.ready(id);
+      const m = await T.mesh(id);
+      const key = (k) => [0, 1, 2].map((c) => `${m.xyz[3 * m.tris[3 * k + c]].toFixed(3)},${m.xyz[3 * m.tris[3 * k + c] + 1].toFixed(3)}`).sort().join(' ');
+      const vis = [];
+      const hid = [];
+      for (let k = 0; k < m.tris.length / 3; k++) (m.excluded[k] ? hid : vis).push(key(k));
+      const rec = app.store.all('tin')[0];
+      return { visible: vis.sort(), hidden: hid.sort(), z: Array.from({ length: m.xyz.length / 3 }, (_, k) => m.xyz[3 * k + 2]).sort((x, y) => x - y), rings: (await T.lines(id)).filter((l) => l.type === 'outline').length, rec: { tris: rec.source.tris.length, hidden: rec.source.hidden } };
+    });
+  const a = await faces(frame);
+  expect(a.visible).toHaveLength(fx.F.length - 1);
+  expect(a.rec).toEqual({ tris: 3 * fx.F.length, hidden: [1] });
+  expect(a.rings).toBe(2); // the notched outline (the hidden face is on it) and the hole
+  // Excluded: the fill beside the notch (2 × 4), the hole (2), the hidden face, and slivers along the
+  // straight sides (UTM lines are not quite straight in the TIN plane).
+  expect(a.hidden.length).toBeGreaterThanOrEqual(11);
+  // The file's own heights, at the points its faces use (the three beside the notch are on none).
+  const used = [...new Set(fx.F.flat())];
+  expect(used).toHaveLength(fx.P.length - 3);
+  expect(a.z).toEqual(used.map((k) => Number(fx.P[k - 1][2])).sort((x, y) => x - y));
+  // A project file brings the same faces back in a fresh page.
+  const b64 = await frame.evaluate(() => {
+    const b = window.gisworkbench.__test.serialiseProject(window.gisworkbench);
+    let bin = '';
+    for (let k = 0; k < b.length; k += 8192) bin += String.fromCharCode(...b.subarray(k, k + 8192));
+    return btoa(bin);
+  });
+  const page2 = await page.context().newPage();
+  const { frame: frame2, logs: logs2 } = await openApp(page2, 'file');
+  await frame2.evaluate(async (b64) => {
+    const app = window.gisworkbench;
+    await app.openProjectFile(new File([Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))], 'eg.gwb'));
+  }, b64);
+  expect(await faces(frame2)).toEqual(a);
+  // A file line deleted by the user (here a forced edge) does not give its key to the next edit.
+  const keys = await frame2.evaluate(async () => {
+    const T = window.gisworkbench.tin;
+    const id = window.gisworkbench.store.all('tin')[0].id;
+    const ring = (await T.lines(id)).filter((l) => l.type === 'swap').at(-1);
+    await T.edit('delline', { key: ring.key }, id);
+    const i = await T.info(id);
+    const [cx, cy] = [(i.x0 + i.x1) / 2, (i.y0 + i.y1) / 2];
+    const add = await T.edit('addline', { type: 'soft', closed: false, pts: [[cx - 20, cy - 15, NaN], [cx + 20, cy - 12, NaN]] }, id);
+    return { ring: ring.key, added: add.key, ok: add.ok, rings: (await T.lines(id)).filter((l) => l.type === 'outline').length };
+  });
+  expect(keys.ring).toBeGreaterThanOrEqual(2 ** 40);
+  expect(keys.added).toBeLessThan(2 ** 40);
+  expect(keys.rings).toBe(2);
   expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
   expect(logs2.filter((l) => !/favicon/.test(l))).toEqual([]);
 });

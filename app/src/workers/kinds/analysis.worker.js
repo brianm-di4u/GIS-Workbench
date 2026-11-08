@@ -180,7 +180,7 @@ GW.register('dem.replay', async ({ geo, ops, z }) => {
   const v = (await terrainBundle()).demReplay(geo, ops, z);
   return GW.transfer({ v }, [v.buffer]);
 });
-// TIN builds (REQ-GAP-39): from points or DEM posts, then the source's lines (an edit list); the
+// TIN builds (REQ-GAP-39): from points or DEM posts, a LandXML file's own faces, then the source's lines (an edit list); the
 // state bytes go to the main thread, which edits the TIN there. A raster of a large TIN runs here too.
 GW.register('tin.build', async ({ src, ops }) => {
   const b = await tinBundle();
@@ -188,9 +188,11 @@ GW.register('tin.build', async ({ src, ops }) => {
   const r = src.kind === 'dem' ? b.fromDem(src.grid, src.z, src) : b.fromPoints(src.pts, src);
   const buildMs = performance.now() - t0;
   try {
+    // A LandXML surface keeps its own faces (OD-2.41), before its breaklines go in.
+    const kept = src.faces ? b.keepFaces(r.id, src.pts, src.faces, src.hidden) : null;
     const results = ops?.length > 1 ? b.apply(r.id, ops) : [];
     const state = b.save(r.id);
-    return GW.transfer({ state, report: r.report, results, buildMs, opsMs: performance.now() - t0 - buildMs }, [state.buffer]);
+    return GW.transfer({ state, report: r.report, kept, results, buildMs, opsMs: performance.now() - t0 - buildMs }, [state.buffer]);
   } finally {
     b.dispose(r.id);
   }
