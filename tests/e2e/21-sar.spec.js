@@ -76,7 +76,7 @@ test('REQ-FMT-47 REQ-FMT-48 BPF: TCR converts to WGS 84, ENU/Cartesian open loca
     }
     await openFiles(frame, [out]);
   }
-  await frame.waitForFunction(() => window.gisworkbench.pointClouds.size >= 8, null, { timeout: 60000 });
+  await frame.waitForFunction(() => window.gisworkbench.pointClouds.size >= 7, null, { timeout: 60000 });
   c = await clouds(frame);
   for (const tag of ['utm', 'tcr']) {
     const back = c.find((x) => x.name === `w-${tag}.bpf`);

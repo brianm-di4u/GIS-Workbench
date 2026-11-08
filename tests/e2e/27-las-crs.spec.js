@@ -109,6 +109,7 @@ for (const [tag, make] of [['TE-015 shape', () => writeTe015Like(join(TMP, 'te01
     await dlg.locator('.btn-primary').click();
     await frame.waitForFunction(() => [...window.gisworkbench.pointClouds.values()].some((c) => c.crs.assigned), null, { timeout: 60000 });
 
+    expect(await frame.evaluate(() => window.gisworkbench.pointClouds.size)).toBe(1);
     const r = await geoByFileIndex(frame, 'assigned');
     expect(r.crs).toMatchObject({ label: 'EPSG:32611', local: false, assigned: { epsg: 32611, vertical: 'hae' } });
     expect(r.crs.warnings.join(' ')).not.toMatch(/local metric frame|not valid longitudes/);
@@ -161,6 +162,7 @@ test('REQ-LDR-14 LAZ and LAS with a CRS: Change CRS asks first; the stated CRS g
   expect(await frame.evaluate(() => window.gisworkbench.pointClouds.size)).toBe(1);
 
   // Change CRS… to the CRS the file states: the same points in the same places.
+  await frame.evaluate(() => (window.__before = [...window.gisworkbench.pointClouds.values()][0]));
   void frame.evaluate(() => window.gisworkbench.commands.run('pc.assigncrs'));
   await ask.locator('.btn-primary').click();
   const dlg = frame.locator('[data-id="dialog:pc-assigncrs"]');
@@ -170,11 +172,14 @@ test('REQ-LDR-14 LAZ and LAS with a CRS: Change CRS asks first; the stated CRS g
   await dlg.locator('.btn-primary').click();
   await frame.waitForFunction(() => [...window.gisworkbench.pointClouds.values()].some((c) => c.crs.assigned), null, { timeout: 120000 });
   const same = await frame.evaluate(() => {
-    const [a, b] = [...window.gisworkbench.pointClouds.values()];
+    const a = window.__before;
+    const all = [...window.gisworkbench.pointClouds.values()];
+    const b = all[0];
     let d = 0;
     for (let k = 0; k < a.pos.length; k++) d = Math.max(d, Math.abs(a.pos[k] - b.pos[k]));
-    return { n: [a.n, b.n], d, origin: [a.origin, b.origin], crs: b.crs.label, vertical: b.crs.vertical, drawn: window.gisworkbench.activePane().view3d.clouds.map((x) => x.cloud.id === b.id) };
+    return { size: all.length, n: [a.n, b.n], d, origin: [a.origin, b.origin], crs: b.crs.label, vertical: b.crs.vertical, drawn: window.gisworkbench.activePane().view3d.clouds.map((x) => x.cloud.id === b.id) };
   });
+  expect(same.size).toBe(1); // the old cloud is gone from the app, not only from the panel
   expect(same.n[0]).toBe(same.n[1]);
   expect(same.d).toBeLessThan(1e-3);
   expect(same.origin[1]).toEqual(same.origin[0]);
