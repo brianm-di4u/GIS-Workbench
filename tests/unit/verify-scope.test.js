@@ -3,7 +3,7 @@ import { affectedCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Civilian-use check', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
@@ -31,7 +31,7 @@ describe('verify scope', () => {
 
   it('skips Rust for an app change', () => {
     const steps = names({ paths: ['app/src/shell/commands.js'] });
-    expect(steps).toEqual(['Quarantine list', 'Civilian-use check', 'Strict build', 'Unit and golden tests', 'Browser subset']);
+    expect(steps).toEqual(['Quarantine list', 'Civilian-use check', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset']);
   });
 
   it('tests only the affected crates', () => {

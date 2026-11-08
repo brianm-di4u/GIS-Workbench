@@ -70,6 +70,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     }
     if (code) {
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
+      step('Size report', 'node', ['build/size-report.mjs']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
       step('Browser subset', 'npx', ['playwright', 'test', '--project=ci']);
     }
