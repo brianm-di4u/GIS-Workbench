@@ -361,8 +361,12 @@ async function definitions(esbuild) {
  * Build every pack into `outDir`/packs; returns {manifest: {name: {...}}, files, warnings, code}
  * where `code` lists the JS entries for the eval gate.
  */
-// A fixed entry time, built from local fields so the ZIP's DOS timestamps are the same in every time zone.
-const ZIP_MTIME = new Date(1980, 0, 1);
+/**
+ * A pack's ZIP bytes. Every entry gets the same fixed time, so two builds of one commit match.
+ * The Date is built from local fields at each call: ZIP stores local time, and this keeps it
+ * 1980-01-01 00:00 in every time zone.
+ */
+export const packZip = (files) => zipSync(files, { mtime: new Date(1980, 0, 1) });
 
 export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new Date().toISOString(), extra = [] }) {
   const dir = join(outDir, 'packs');
@@ -378,7 +382,7 @@ export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new
     const entries = p.entries.map((e) => ({ path: e.path, kind: e.kind, size: e.bytes.length, sha256: sha256(e.bytes) }));
     const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: buildDate.slice(0, 10), entries };
     const pjBytes = strToU8(JSON.stringify(pj, null, 1));
-    const zip = zipSync({ 'pack.json': pjBytes, 'LICENCE.txt': strToU8(p.licence), ...Object.fromEntries(p.entries.map((e) => [e.path, [new Uint8Array(e.bytes), { level: e.kind === 'model' || e.stored ? 0 : 6 }]])) }, { mtime: ZIP_MTIME });
+    const zip = packZip({ 'pack.json': pjBytes, 'LICENCE.txt': strToU8(p.licence), ...Object.fromEntries(p.entries.map((e) => [e.path, [new Uint8Array(e.bytes), { level: e.kind === 'model' || e.stored ? 0 : 6 }]])) });
     const file = `${p.name}-${p.version}.gwpack`;
     writeFileSync(join(dir, file), zip);
     manifest[p.name] = { title: p.title, version: p.version, ...(p.requires ? { requires: p.requires } : {}), file, sha256: sha256(zip), size: zip.length, packJson: sha256(pjBytes), entries: Object.fromEntries(entries.map((e) => [e.path, { kind: e.kind, sha256: e.sha256, size: e.size }])) };
