@@ -87,7 +87,7 @@
   },
   "merge": {
     "t0": "auto",
-    "t1": "human",
+    "t1": "auto",
     "t2": "human"
   },
   "privateAutoMerge": false,
