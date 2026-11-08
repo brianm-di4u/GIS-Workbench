@@ -246,6 +246,8 @@ fn a_tile_that_fails_is_named_and_does_not_stop_the_frame() {
     }
     assert!(v.note.as_deref().unwrap().contains("no such tile"));
     let asked = *p.tiles.lock().unwrap();
+    // A tile fetched and not yet taken is still in flight: asking again would fetch it twice.
+    assert_eq!(asked as usize, v.needed().len(), "each tile is asked for once");
     for _ in 0..5 {
         v.request();
         v.absorb(Duration::from_millis(5));

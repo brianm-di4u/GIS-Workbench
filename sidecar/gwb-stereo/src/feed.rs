@@ -164,7 +164,8 @@ impl Source for Pattern {
 #[derive(Default)]
 struct Queue {
     waiting: Vec<TileKey>,
-    /// With a worker now, so a new list does not ask for them twice.
+    /// With a worker, or fetched and not yet taken by the viewer, so a new list does not ask for
+    /// them twice. A key leaves only when the viewer receives it.
     running: HashSet<TileKey>,
     stop: bool,
 }
@@ -183,7 +184,7 @@ pub struct Loaded {
 /// A few threads fetching tiles. They hold no GL: tiles come back to the drawing thread.
 pub struct Fetcher {
     wanted: Arc<Wanted>,
-    pub rx: mpsc::Receiver<Loaded>,
+    rx: mpsc::Receiver<Loaded>,
 }
 
 impl Fetcher {
@@ -208,7 +209,6 @@ impl Fetcher {
                     }
                 };
                 let rgba = src.tile(key);
-                wanted.q.lock().unwrap().running.remove(&key);
                 if tx.send(Loaded { key, rgba }).is_err() {
                     return;
                 }
@@ -223,6 +223,13 @@ impl Fetcher {
         g.waiting = keys.into_iter().filter(|k| !g.running.contains(k)).collect();
         drop(g);
         self.wanted.cv.notify_all();
+    }
+
+    /// The next tile fetched, waiting up to `wait`. Once it is here it may be asked for again.
+    pub fn recv(&self, wait: Duration) -> Option<Loaded> {
+        let l = if wait.is_zero() { self.rx.try_recv().ok() } else { self.rx.recv_timeout(wait).ok() }?;
+        self.wanted.q.lock().unwrap().running.remove(&l.key);
+        Some(l)
     }
 }
 

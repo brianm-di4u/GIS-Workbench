@@ -7,7 +7,6 @@ use crate::present::{choose, present, read_back, Shown};
 use crate::scene::{fit, Camera, Eye, EyeGeom, TileKey};
 use gwb_sidecar_api::{StereoMode, StereoReadback, StereoReport, StereoState};
 use std::collections::{HashMap, HashSet};
-use std::sync::mpsc::RecvTimeoutError;
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -112,12 +111,9 @@ impl<G: Gl, S: Source + 'static> Viewer<G, S> {
 
     /// Take what has arrived, waiting up to `wait` for the first. True if a tile is new.
     pub fn absorb(&mut self, wait: Duration) -> bool {
-        let mut got = false;
-        match self.fetch.rx.recv_timeout(wait) {
-            Ok(l) => got |= self.take(l.key, l.rgba),
-            Err(RecvTimeoutError::Timeout | RecvTimeoutError::Disconnected) => return false,
-        }
-        while let Ok(l) = self.fetch.rx.try_recv() {
+        let Some(l) = self.fetch.recv(wait) else { return false };
+        let mut got = self.take(l.key, l.rgba);
+        while let Some(l) = self.fetch.recv(Duration::ZERO) {
             got |= self.take(l.key, l.rgba);
         }
         self.evict();
