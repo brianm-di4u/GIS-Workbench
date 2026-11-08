@@ -21,14 +21,20 @@ const E2 = 6.69437999014e-3;
 
 // ---- frames ----
 
+/** lon − lon0 in (−180°, 180°], so a point at lon0 + 180° stays on its own side. */
+function unwrapAbout(lon, lon0) {
+  const d = lon - lon0;
+  const w = d - 360 * Math.round(d / 360);
+  return w === -180 && d > 0 ? 180 : w;
+}
+
 /** Local equirectangular frame about (lat0, lon0) in metres; longitudes are unwrapped about lon0. */
 export function localFrame(lat0, lon0) {
   const s = Math.sin(lat0 * D2R);
   const w = Math.sqrt(1 - E2 * s * s);
   const kx = D2R * (A / w) * Math.cos(lat0 * D2R);
   const ky = D2R * ((A * (1 - E2)) / (w * w * w));
-  const unwrap = (lon) => lon - 360 * Math.round((lon - lon0) / 360);
-  return { kind: 'local', lat0, lon0, to: (lon, lat) => [(unwrap(lon) - lon0) * kx, (lat - lat0) * ky], from: (x, y) => [lon0 + x / kx, lat0 + y / ky] };
+  return { kind: 'local', lat0, lon0, kx, ky, to: (lon, lat) => [unwrapAbout(lon, lon0) * kx, (lat - lat0) * ky], from: (x, y) => [lon0 + x / kx, lat0 + y / ky] };
 }
 
 /**
@@ -57,7 +63,7 @@ export function centreOf(g) {
   const lon0 = g.xyz[0];
   let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
   for (let i = 0; i < g.xyz.length; i += 3) {
-    const x = g.xyz[i] - 360 * Math.round((g.xyz[i] - lon0) / 360);
+    const x = lon0 + unwrapAbout(g.xyz[i], lon0);
     const y = g.xyz[i + 1];
     [x0, y0, x1, y1] = [Math.min(x0, x), Math.min(y0, y), Math.max(x1, x), Math.max(y1, y)];
   }
@@ -122,14 +128,20 @@ export function decodeShapes(v, count) {
 
 /** Planar multipolygon → geometry record in lon, lat (height 0). Empty → null. */
 export function toGeom(polys, F) {
-  if (!polys.length) return null;
+  return lonLatGeom(polys.map((rs) => rs.map((r) => r.map(([x, y]) => F.from(x, y)))));
+}
+
+/** Lon, lat multipolygon (longitudes continuous, possibly past ±180°) → geometry record, cut at ±180°. */
+function lonLatGeom(polys) {
+  const pieces = splitAntimeridian(polys);
+  if (!pieces.length) return null;
   const rings = [];
   const starts = [];
-  for (const rs of polys) {
+  for (const rs of pieces) {
     starts.push(rings.length);
-    for (const r of rs) rings.push(r.map(([x, y]) => [...F.from(x, y), 0]));
+    for (const r of rs) rings.push(r.map(([x, y]) => [x, y, 0]));
   }
-  return fromParts(polys.length === 1 ? 'Polygon' : 'MultiPolygon', rings, starts);
+  return fromParts(pieces.length === 1 ? 'Polygon' : 'MultiPolygon', rings, starts);
 }
 
 // ---- geodesic helpers ----
@@ -233,15 +245,7 @@ export function bufferGeoms(geoms, { distance, cap = 'round', quadSegs = 8, geod
     // Straight edges of the azimuthal frame are mapped back in steps of at most 1 km.
     const ll = densifyPlanar(polys, 1000).map((rs) => rs.map((r) => r.map(([x, y]) => F.from(x, y))));
     // Continuous longitudes about the centre, then cut at ±180°.
-    const cont = ll.map((rs) => rs.map((r) => r.map(([lon, lat]) => [lon - 360 * Math.round((lon - F.lon0) / 360), lat])));
-    const pieces = splitAntimeridian(cont);
-    const st = [];
-    let k = 0;
-    for (const rs of pieces) {
-      st.push(k);
-      k += rs.length;
-    }
-    return fromParts(pieces.length === 1 ? 'Polygon' : 'MultiPolygon', pieces.flatMap((rs) => rs.map((r) => r.map(([x, y]) => [x, y, 0]))), st);
+    return lonLatGeom(ll.map((rs) => rs.map((r) => r.map(([lon, lat]) => [F.lon0 + unwrapAbout(lon, F.lon0), lat]))));
   });
 }
 
@@ -269,13 +273,18 @@ export function dissolveFeatures(features, { field = null, run }) {
   return [...keys.values()].map((e) => ({ value: e.value, count: e.count, geom: toGeom(shapes[e.index], F) })).filter((r) => r.geom);
 }
 
+/** Centre of a layer's vertices, longitudes unwrapped about the first one, so a layer astride ±180° is centred there. */
 function layerCentre(features) {
+  const ref = features[0].geom.xyz[0];
   let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
-  for (const f of features) {
-    const [a, b, c, d] = bbox(f.geom);
-    [x0, y0, x1, y1] = [Math.min(x0, a), Math.min(y0, b), Math.max(x1, c), Math.max(y1, d)];
-  }
-  return { lat: (y0 + y1) / 2, lon: (x0 + x1) / 2 };
+  for (const f of features)
+    for (let i = 0; i < f.geom.xyz.length; i += 3) {
+      const x = ref + unwrapAbout(f.geom.xyz[i], ref);
+      const y = f.geom.xyz[i + 1];
+      [x0, y0, x1, y1] = [Math.min(x0, x), Math.min(y0, y), Math.max(x1, x), Math.max(y1, y)];
+    }
+  const lon = (x0 + x1) / 2;
+  return { lat: (y0 + y1) / 2, lon: lon - 360 * Math.round(lon / 360) };
 }
 
 // ---- overlay ----
@@ -285,16 +294,7 @@ const toPC = (g, F) => polygonGroups(g).map((rs) => rs.map((r) => {
   ring.push(ring[0]);
   return ring;
 }));
-const fromPC = (mp, F) => {
-  if (!mp.length) return null;
-  const rings = [];
-  const st = [];
-  for (const rs of mp) {
-    st.push(rings.length);
-    for (const r of rs) rings.push(r.slice(0, -1).map(([x, y]) => [...F.from(x, y), 0]));
-  }
-  return fromParts(mp.length === 1 ? 'Polygon' : 'MultiPolygon', rings, st);
-};
+const fromPC = (mp, F) => (mp.length ? lonLatGeom(mp.map((rs) => rs.map((r) => r.slice(0, -1).map(([x, y]) => F.from(x, y))))) : null);
 const boxOf = (g, F) => {
   let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
   for (let i = 0; i < g.xyz.length; i += 3) {
@@ -478,7 +478,9 @@ export function spatialJoin(targets, joins, { predicate = 'intersects', field = 
       let r = 50;
       let best = null;
       for (let k = 0; k < 40; k++) {
-        const hits = tree.search({ minX: box.minX - r, minY: box.minY - r, maxX: box.maxX + r, maxY: box.maxY + r });
+        // r true metres at the target, in the layer frame's units (they differ away from its latitude).
+        const [rx, ry] = [(r * F0.kx) / F.kx, (r * F0.ky) / F.ky];
+        const hits = tree.search({ minX: box.minX - rx, minY: box.minY - ry, maxX: box.maxX + rx, maxY: box.maxY + ry });
         for (const h of hits) {
           const d = relate(t.geom, joins[h.j].geom, F).distance;
           if (!best || d < best.d) best = { j: h.j, d };

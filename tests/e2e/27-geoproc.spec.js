@@ -95,6 +95,9 @@ test('SCN-67 REQ-GAP-79 buffer, overlay, dissolve and spatial join on a parcel s
     const jn = await app.geoproc.join(L.a, L.pts, { predicate: 'intersects', field: 'v' });
     const within = await app.geoproc.join(L.pts, L.a, { predicate: 'within', field: 'value' });
     const near = await app.geoproc.join(L.pts, L.roads, { predicate: 'nearest' });
+    // Two named layers: each piece keeps both names (council S3).
+    const self = await app.geoproc.overlay(buf.id, buf.id, 'intersect');
+    const selfAttrs = feats(self).map((f) => f.attrs);
     const sum = (lid) => feats(lid).reduce((s, f) => s + area(f.geom), 0);
     return {
       buffer: { n: bf.length, names: bf.map((f) => f.name), area: sum(buf.id) },
@@ -105,6 +108,7 @@ test('SCN-67 REQ-GAP-79 buffer, overlay, dissolve and spatial join on a parcel s
       join: { matched: feats(jn).filter((f) => f.attrs.join_count > 0).length, total: feats(jn).reduce((s, f) => s + f.attrs.join_count, 0) },
       within: { matched: feats(within).filter((f) => f.attrs.join_count > 0).length },
       near: { names: [...new Set(feats(near).map((f) => f.attrs.join_name))].sort(), max: Math.max(...feats(near).map((f) => f.attrs.join_distance)) },
+      named: selfAttrs.every((x) => typeof x.name === 'string' && typeof x.name_2 === 'string') && selfAttrs.some((x) => x.name !== x.name_2),
       layers: app.store.all('vlayer').length,
     };
   }, { a: id('parcels'), b: id('parcels-b'), pts: id('points'), roads: id('roads') });
@@ -127,6 +131,7 @@ test('SCN-67 REQ-GAP-79 buffer, overlay, dissolve and spatial join on a parcel s
   expect(r.join.total).toBe(399);
   expect(r.within.matched).toBe(399);
   expect(r.near.names).toEqual(['Diagonal', 'East', 'North']);
-  expect(r.layers).toBe(4 + 7);
+  expect(r.named).toBe(true);
+  expect(r.layers).toBe(4 + 8);
   expect(logs).toEqual([]);
 });

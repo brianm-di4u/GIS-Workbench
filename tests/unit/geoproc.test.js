@@ -235,6 +235,55 @@ describe.skipIf(!haveWasm)('vector geoprocessing (REQ-GAP-79)', () => {
     });
   });
 
+  it('overlays and dissolves layers that straddle the antimeridian (council S1)', () => {
+    const sq = (x0, y0, x1, y1, attrs) => ({ geom: fromParts('Polygon', [[[x0, y0, 0], [x1, y0, 0], [x1, y1, 0], [x0, y1, 0]]]), attrs });
+    // A buffer cut at ±180°: one square either side.
+    const A = [sq(179, 0, 180, 1, { side: 'E' }), sq(-180, 0, -179, 1, { side: 'W' })];
+    const B = [sq(179.5, 0.2, 179.8, 0.8, { b: 1 })];
+    const area = (g) => {
+      let a = 0;
+      for (const [k, s] of g.polys.entries()) {
+        const end = g.polys[k + 1] ?? g.parts.length;
+        for (let r = s; r < end; r++) {
+          const from = g.parts[r];
+          const to = g.parts[r + 1] ?? g.xyz.length / 3;
+          const pts = [];
+          for (let i = from; i < to; i++) pts.push([g.xyz[3 * i + 1], g.xyz[3 * i]]);
+          a += (r === s ? 1 : -1) * Math.abs(core.polygonArea(pts).area);
+        }
+      }
+      return a;
+    };
+    const lons = (g) => g.xyz.filter((_, k) => k % 3 === 0);
+    const inter = overlay(A, B, 'intersect').features;
+    expect(inter).toHaveLength(1);
+    expect(Math.abs(area(inter[0].geom) - area(B[0].geom)) / area(B[0].geom)).toBeLessThan(1e-6);
+    const erase = overlay(A, B, 'erase').features;
+    expect(erase).toHaveLength(2);
+    for (const f of erase) expect(Math.max(...lons(f.geom)) - Math.min(...lons(f.geom))).toBeLessThanOrEqual(1 + 1e-9);
+    expect(Math.abs(erase.reduce((s, f) => s + area(f.geom), 0) - (area(A[0].geom) + area(A[1].geom) - area(B[0].geom))) / area(A[0].geom)).toBeLessThan(1e-6);
+    // Dissolve: one feature, still cut at ±180°, both squares' area.
+    const [d] = dissolveFeatures(A, { run: run.dissolve });
+    expect(d.geom.type).toBe('MultiPolygon');
+    expect(Math.max(...lons(d.geom))).toBeLessThanOrEqual(180);
+    expect(Math.min(...lons(d.geom))).toBeGreaterThanOrEqual(-180);
+    expect(Math.abs(area(d.geom) - area(A[0].geom) - area(A[1].geom)) / area(A[0].geom)).toBeLessThan(1e-6);
+  });
+
+  it('finds the nearest feature for a target far from the layer centre (council S2)', () => {
+    // Targets at 80° N and 0° N centre the layer at 40° N.
+    const F80 = localFrame(80, 10);
+    const pt = (lon, lat, attrs) => ({ geom: fromParts('Point', [[[lon, lat, 0]]]), attrs });
+    const at80 = (x, y, attrs) => pt(...F80.from(x, y), attrs);
+    const targets = [pt(10, 80, { t: 'north' }), pt(10, 0, { t: 'equator' })];
+    const joins = [at80(0, 1000, { n: 'north 1000 m' }), at80(500, 0, { n: 'east 500 m' })];
+    const r = spatialJoin(targets, joins, { predicate: 'nearest' });
+    expect(r[0].attrs.join_n).toBe('east 500 m');
+    expect(r[0].attrs.join_distance).toBeCloseTo(500, 0);
+    const only = spatialJoin(targets.slice(0, 1).concat(targets[1]), joins.slice(1), { predicate: 'nearest', maxDistance: 600 });
+    expect(only[0].attrs.join_count).toBe(1);
+  });
+
   it('relates shared boundaries, holes and touching geometries', () => {
     const F = localFrame(39.74, -104.99);
     const sq = (x, y, s, hole = null) => fromParts('Polygon', [[[x, y], [x + s, y], [x + s, y + s], [x, y + s]].map(([a, b]) => [...F.from(a, b), 0]), ...(hole ? [hole.map(([a, b]) => [...F.from(a, b), 0])] : [])]);

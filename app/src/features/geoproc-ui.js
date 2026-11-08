@@ -27,7 +27,8 @@ export function install(app) {
   const fieldsOf = (id) => {
     const v = S.get(id);
     const names = new Set((v?.fields ?? []).map((f) => f.name));
-    for (const f of featuresOf(id)) for (const k of Object.keys(f.attrs ?? {})) names.add(k);
+    // The names attrsOf sends along, so a clash with the other layer's is renamed too.
+    for (const f of featuresOf(id)) for (const k of Object.keys(attrsOf(f))) names.add(k);
     return [...names];
   };
   const add = (name, features, op) => app.addVectorLayer({ name, features: features.filter((f) => f.geom) }, { format: 'geoprocessing', op });
