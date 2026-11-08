@@ -10,7 +10,7 @@
     "build:dev": "node build/build.mjs --dev",
     "build:js": "node build/build.mjs --skip-rust",
     "test": "vitest run",
-    "test:rust": "cargo test --manifest-path crates/Cargo.toml --workspace",
+    "test:rust": "node build/cargo-target.mjs cargo test --manifest-path crates/Cargo.toml --workspace",
     "test:e2e": "node build/e2e.mjs",
     "test:android": "playwright test --config playwright.android.config.js",
     "test:webkit": "playwright test --config playwright.webkit.config.js",

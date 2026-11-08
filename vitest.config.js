@@ -1,4 +1,8 @@
 import { defineConfig } from 'vitest/config';
+import { scopeCargoTarget } from './build/cargo-target.mjs';
+
+// Tests find the built WASM through cargo, so they must see the same target the build used (#42).
+scopeCargoTarget();
 
 export default defineConfig({
   test: {

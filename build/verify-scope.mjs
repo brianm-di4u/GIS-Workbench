@@ -11,6 +11,7 @@
 // neither set, a local run does both.
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { scopeCargoTarget } from './cargo-target.mjs';
 
 const RUST_EVERYTHING = /^crates\/(Cargo\.toml|Cargo\.lock|deny\.toml|rust-toolchain\.toml|\.cargo\/|vendor\/)/;
 const SCOPE_EVERYTHING = /^(\.github\/workflows\/|build\/verify-scope\.mjs$|\.node-version$)/;
@@ -109,6 +110,7 @@ function workspaceCrates() {
 }
 
 function main() {
+  scopeCargoTarget(); // this checkout's target, not a machine-wide one shared with other worktrees (#42)
   const paths = changedPaths();
   const packages = paths?.some((path) => path.startsWith('crates/')) ? workspaceCrates() : null;
   const crates = packages ? affectedCrates(packages, paths) : null;
