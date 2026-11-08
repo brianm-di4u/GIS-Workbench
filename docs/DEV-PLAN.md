@@ -4,7 +4,7 @@ Agents keep this current. Each task here becomes a `ready` issue that autopilot 
 
 ## Milestones
 
-No work starts until the admin says go.
+No work starts until the admin says go. 2.7.0 has the go (2026-11-08). Each later release waits for its own.
 
 - **Rules for every release below:**
   - Plans carry no time estimates: each release is limited only by its scope, its dependencies and its gates, and work runs at full speed.
@@ -23,7 +23,12 @@ No work starts until the admin says go.
 - REQ-GAP-78: Annex 14 obstacle free and obstacle evaluation surfaces, with the current edition still selectable.
 - REQ-LDR-14: assign a CRS to LAS and LAZ files.
 - REQ-GAP-86: a Lite project file (Full and Lite).
-- REQ-PRF-01: the lazy-loading pass (Full and Lite).
+- REQ-PRF-01: the lazy-loading pass (Full and Lite), with the performance sign-off on the reference machine.
+- REQ-GAP-39: LandXML import keeps the file's own triangulation.
+- REQ-ING-04: a long-task watchdog in the GUI sweep, and no freezes in vector and GeoPackage import or in project save and load (Full and Lite).
+- REQ-L10N-02: the five flight-plan refusals become translatable.
+- LAS reader warnings name the geoid in use, not always EGM96.
+- Terrain from a DEM not in EPSG:4326 keeps its full detail, with no 2,048-post cap.
 
 ### 2.7.1, "Analysis and workflows in the file"
 
