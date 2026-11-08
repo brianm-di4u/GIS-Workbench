@@ -45,7 +45,7 @@ fn delaunay_violations(m: &Mesh) -> usize {
     let mut bad = 0;
     for t in m.triangles() {
         let v = m.tv[t as usize].map(|w| w as usize);
-        let c = (3 * 0i128 + (m.x[v[0]] + m.x[v[1]] + m.x[v[2]]) as i128, (m.y[v[0]] + m.y[v[1]] + m.y[v[2]]) as i128);
+        let c = ((m.x[v[0]] + m.x[v[1]] + m.x[v[2]]) as i128, (m.y[v[0]] + m.y[v[1]] + m.y[v[2]]) as i128);
         for &w in &live {
             if v.contains(&w) {
                 continue;
@@ -602,6 +602,8 @@ fn mixed_edits_stress() {
             _ => {
                 let c0 = pt(&mut r);
                 let pts = (0..4).map(|j| {
+                    // Not exactly π/2 on purpose: the square's corners stay off the axes.
+                    #[allow(clippy::approx_constant)]
                     let a = j as f64 * 1.5708;
                     [c0[0] + 25.0 * a.cos(), c0[1] + 25.0 * a.sin(), 0.0]
                 }).collect();

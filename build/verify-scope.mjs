@@ -58,9 +58,14 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
-      if (targets.length > 0) step('Rust tests', 'cargo', ['test', '--no-fail-fast', ...targets], 'crates');
+      if (targets.length > 0) {
+        // Bug-class lints only: correctness and suspicious. Style lints stay off.
+        step('Clippy', 'cargo', ['clippy', '--all-targets', '--keep-going', ...targets, '--', '-A', 'clippy::all', '-D', 'clippy::correctness', '-D', 'clippy::suspicious'], 'crates');
+        step('Rust tests', 'cargo', ['test', '--no-fail-fast', ...targets], 'crates');
+      }
     }
     if (code) {
+      step('Lint', 'npx', ['eslint']);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
       step('Browser subset', 'npx', ['playwright', 'test', '--project=ci']);

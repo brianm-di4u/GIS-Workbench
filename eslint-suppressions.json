@@ -1,0 +1,60 @@
+{
+  "app/src/features/dem-tools.js": {
+    "no-self-assign": {
+      "count": 1
+    },
+    "no-unmodified-loop-condition": {
+      "count": 2
+    }
+  },
+  "app/src/features/tilesets.js": {
+    "no-unmodified-loop-condition": {
+      "count": 2
+    }
+  },
+  "app/src/formats/cog-stream.js": {
+    "no-unmodified-loop-condition": {
+      "count": 1
+    }
+  },
+  "app/src/formats/open.js": {
+    "no-unmodified-loop-condition": {
+      "count": 1
+    }
+  },
+  "app/src/render/gltf1.js": {
+    "no-dupe-else-if": {
+      "count": 1
+    }
+  },
+  "tests/e2e/24-geopdf-perf.spec.js": {
+    "no-unmodified-loop-condition": {
+      "count": 1
+    }
+  },
+  "tests/e2e/sidecar/scale-gdalroutes.mjs": {
+    "no-undef": {
+      "count": 2
+    }
+  },
+  "tests/unit/aridpcm.test.js": {
+    "no-undef": {
+      "count": 3
+    }
+  },
+  "tests/unit/catalog-schema.test.js": {
+    "no-constant-binary-expression": {
+      "count": 1
+    }
+  },
+  "tests/unit/mie4nitf.test.js": {
+    "no-undef": {
+      "count": 4
+    }
+  },
+  "tests/unit/ojpeg.test.js": {
+    "no-undef": {
+      "count": 1
+    }
+  }
+}
