@@ -97,6 +97,14 @@ export function bindGestures(el, { paneOf, toolActive, onLongPress, onDoubleTap,
     clearTimeout(longTimer);
     longTimer = 0;
   };
+  let pressAt = null; // where the press came down, in pane pixels
+  function longPress() {
+    clearLong();
+    if (touches.size !== 1 || (mode !== 'pan' && mode !== 'held')) return;
+    if (mode === 'pan') forward('pointercancel', press); // end the panel's pan
+    mode = 'swallow';
+    onLongPress(pane, pressAt.x, pressAt.y);
+  }
 
   function down(e) {
     if (synthetic.has(e) || e.pointerType !== 'touch') return;
@@ -110,14 +118,8 @@ export function bindGestures(el, { paneOf, toolActive, onLongPress, onDoubleTap,
       mode = tool ? 'held' : 'pan';
       if (tool) stop(e); // the tap goes to the tool when it ends or moves (a pinch never reaches it)
       clearLong();
-      const at = local(p, e);
-      longTimer = setTimeout(() => {
-        longTimer = 0;
-        if (touches.size !== 1 || (mode !== 'pan' && mode !== 'held')) return;
-        if (mode === 'pan') forward('pointercancel', press); // end the panel's pan
-        mode = 'swallow';
-        onLongPress(pane, at.x, at.y);
-      }, LONG_MS);
+      pressAt = local(p, e);
+      longTimer = setTimeout(longPress, LONG_MS);
       return;
     }
     // A second finger: a pinch. The first finger's pan ends; a buffered tool tap is dropped.
@@ -167,6 +169,9 @@ export function bindGestures(el, { paneOf, toolActive, onLongPress, onDoubleTap,
     if (synthetic.has(e) || e.pointerType !== 'touch') return;
     const tp = touches.get(e.pointerId);
     if (!tp) return;
+    // On a busy page the browser handles this release before the long-press timer, which then never
+    // fires. A press held that long without moving is still a long press (#17).
+    if (longTimer && e.type === 'pointerup' && e.timeStamp - tp.ev.timeStamp >= LONG_MS) longPress();
     touches.delete(e.pointerId);
     clearLong();
     const now = performance.now();

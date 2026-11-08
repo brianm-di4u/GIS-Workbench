@@ -434,6 +434,18 @@ test.describe(`Lite on ${TABLET[0]}`, () => {
 test.describe('Lite: location, command list, sidecar, languages, size', () => {
   test.use(as('Pixel 7'));
 
+  test('REQ-HOST-05 a long press opens the point sheet when the page is too busy to run its timer', async ({ page }) => {
+    const { frame } = await lite(page);
+    await openFiles(frame, [IMAGE]);
+    // A busy page runs the release before the long-press timer (#17): hold the timer back for 2 s.
+    await page.evaluate(() => {
+      const later = window.setTimeout;
+      window.setTimeout = (fn, ms, ...a) => later(fn, ms === 550 ? ms + 2000 : ms, ...a);
+    });
+    const b = await paneBox(page);
+    await longPress(page, b.x + b.width / 2, b.y + b.height / 2);
+  });
+
   test('REQ-HOST-05 Back closes a sheet, the drawer and a dialog in turn, and stays in the app', async ({ page }) => {
     const { frame } = await lite(page);
     await openFiles(frame, [IMAGE]);

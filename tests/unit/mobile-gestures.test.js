@@ -1,8 +1,8 @@
 // OD-2.23 Lite gestures (mobile/gestures.js): the two-finger pinch keeps the image point under the
 // fingers, zooms by the finger distance and rotates only past the threshold; double-tap timing.
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import fc from 'fast-check';
-import { pinchView, pairOf, wrapAngle, gestureRotation, isDoubleTap, ROT_THRESHOLD, DOUBLE_MS, DOUBLE_PX } from '../../app/src/mobile/gestures.js';
+import { pinchView, pairOf, wrapAngle, gestureRotation, isDoubleTap, bindGestures, ROT_THRESHOLD, DOUBLE_MS, DOUBLE_PX, LONG_MS } from '../../app/src/mobile/gestures.js';
 import { invertView, forwardView } from '../../app/src/render/renderer.js';
 
 const W = 390;
@@ -84,5 +84,61 @@ describe('double tap', () => {
     expect(isDoubleTap(first, 110, 105, 1000 + DOUBLE_MS + 1)).toBe(false);
     expect(isDoubleTap(first, 100 + DOUBLE_PX + 1, 100, 1100)).toBe(false);
     expect(isDoubleTap(null, 100, 100, 1100)).toBe(false);
+  });
+});
+
+describe('long press', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  // A view with one panel, and touch events as the browser sends them (timeStamp in ms).
+  function setup({ tool = false } = {}) {
+    vi.useFakeTimers();
+    vi.stubGlobal('PointerEvent', class {
+      constructor(type) {
+        this.type = type;
+      }
+    });
+    const on = {};
+    const sent = [];
+    const pane = { el: { getBoundingClientRect: () => ({ left: 10, top: 20 }), dispatchEvent: (ev) => sent.push(ev.type) } };
+    const el = { addEventListener: (type, fn) => (on[type] = fn), removeEventListener: () => {} };
+    const pressed = [];
+    bindGestures(el, { paneOf: () => pane, toolActive: () => tool, onLongPress: (p, x, y) => pressed.push([x, y]), onDoubleTap: () => {} });
+    const fire = (type, timeStamp) => on[type]({ type, timeStamp, pointerId: 1, pointerType: 'touch', clientX: 110, clientY: 220, target: pane.el, cancelable: true, stopImmediatePropagation() {}, preventDefault() {} });
+    return { fire, pressed, sent };
+  }
+
+  it('opens when the timer fires during the hold, and only once', () => {
+    const { fire, pressed, sent } = setup();
+    fire('pointerdown', 1000);
+    vi.advanceTimersByTime(LONG_MS);
+    fire('pointerup', 1800);
+    expect(pressed).toEqual([[100, 200]]);
+    expect(sent).toEqual(['pointercancel']); // the panel's pan ends
+  });
+
+  it('opens on release when a busy page ran the release before the timer (#17)', () => {
+    for (const tool of [false, true]) {
+      const { fire, pressed, sent } = setup({ tool });
+      fire('pointerdown', 1000);
+      fire('pointerup', 1000 + 1400); // the timer is still waiting
+      expect(pressed, `tool ${tool}`).toEqual([[100, 200]]);
+      expect(sent).toEqual(tool ? [] : ['pointercancel']);
+      vi.runAllTimers();
+      expect(pressed).toHaveLength(1);
+      vi.useRealTimers();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('a shorter press is not a long press', () => {
+    const { fire, pressed } = setup();
+    fire('pointerdown', 1000);
+    fire('pointerup', 1000 + LONG_MS - 1);
+    vi.runAllTimers();
+    expect(pressed).toEqual([]);
   });
 });
