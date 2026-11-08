@@ -10,6 +10,7 @@ import { createWriteStream, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadConfig } from './lib/config.mjs';
 import { changeSet, tryGit } from './lib/git.mjs';
+import { acquire } from './lib/machine-lock.mjs';
 
 const LEVELS = ['fast', 'full', 'e2e'];
 
@@ -51,8 +52,12 @@ async function main() {
     console.error(`Set verify.${level} in pipeline.config.json. It is still: ${JSON.stringify(configured)}`);
     return 2;
   }
+  // Full and e2e queue behind each other on one machine, because overlapping runs fail timing
+  // tests. The quick licence/acceptance/docs checks below run before the lock is taken.
+  let lockFrom = level === 'fast' ? Infinity : 0;
   // These always run before a full verify, whatever the stack.
   if (level === 'full') {
+    lockFrom = 3;
     commands.unshift('node .pipeline/check-licenses.mjs', 'node .pipeline/check-acceptance.mjs', 'node .pipeline/check-docs.mjs');
   }
 
@@ -61,7 +66,8 @@ async function main() {
   const log = createWriteStream(join(dir, `${level}.log`));
 
   const results = [];
-  for (const command of commands) {
+  for (const [index, command] of commands.entries()) {
+    if (index === lockFrom) await acquire({ level });
     console.log(`\n$ ${command}`);
     log.write(`\n$ ${command}\n`);
     const result = await run(command, log);
