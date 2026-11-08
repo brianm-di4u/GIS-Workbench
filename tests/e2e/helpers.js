@@ -105,15 +105,22 @@ export async function openApp(page, mode = 'file', { srv, htmlPath = DIST, prefs
 }
 
 /**
- * Start the app again in the same tab, as a later start does, and wait until it is ready. Use this,
- * not page.reload(): Chromium on Linux can lose a file:// page's localStorage on a same-tab
- * navigation from one file:// document to another (a reload, location.reload(), a new query),
- * while a navigation from about:blank keeps it (#9). The page's init scripts run again, as on a reload.
+ * Start the app again in the same tab (a reload, as a later start), and wait until it is ready. Use
+ * this, not page.reload(). Chromium on Linux often gives the next file:// document an empty
+ * localStorage, even with no app code on the page, while http and Windows keep it (#9). So on Linux,
+ * for a file:// page, this carries over what the app wrote to localStorage, standing in for the
+ * browser. The Windows local gate still tests the browser keeping it.
  */
 export async function restart(page) {
-  const url = page.url();
-  await page.goto('about:blank');
-  await page.goto(url);
+  if (process.platform === 'linux' && page.url().startsWith('file:')) {
+    const kept = await page.evaluate(() => Object.entries(localStorage));
+    // Init scripts run in registration order, so the latest restart's copy is the one that stands.
+    await page.addInitScript(([url, kept]) => {
+      if (location.href !== url) return;
+      for (const [k, v] of kept) localStorage.setItem(k, v);
+    }, [page.url(), kept]);
+  }
+  await page.reload();
   const frame = page.mainFrame();
   await frame.waitForFunction(() => document.body?.dataset.ready, null, { timeout: 45_000 });
   expect(await frame.evaluate(() => document.body.dataset.ready), 'data-ready').toBe('1');
