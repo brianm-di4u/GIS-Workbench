@@ -46,6 +46,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   const code = everything || paths.some((path) => !isProse(path));
   const rust = everything || paths.some((path) => path.startsWith('crates/') && !isProse(path));
   const rustAll = everything || crates === null || paths.some((path) => RUST_EVERYTHING.test(path));
+  const fragments = everything || paths.some((path) => path.startsWith('changes/'));
   const sidecar = everything || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
 
   const steps = [];
@@ -57,6 +58,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
     step('Civilian-use check', 'node', ['build/check-policy.mjs']);
+    if (fragments) step('Changelog fragments', 'node', ['build/release/changelog.mjs', 'check']);
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);

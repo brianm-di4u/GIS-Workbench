@@ -13,6 +13,7 @@ A wrong answer that looks right: a feature in a plausible but wrong place, a mea
 - A new parser of untrusted input needs bounds on every length it reads, and a fuzz target in `crates/gw-fuzz`.
 - User-visible strings go through `t()` or `N_()`. UI uses design tokens, never literal colours, and stays keyboard reachable.
 - A user-visible feature needs its Help page or cue card.
+- A change a user would notice adds a fragment in `changes/`, as [changes/README.md](changes/README.md) describes. No check can tell which changes those are.
 - No new CSP violation, network request, or console error in e2e.
 
 ## Severity

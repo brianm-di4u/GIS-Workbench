@@ -3,7 +3,7 @@ import { affectedCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Civilian-use check', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
@@ -18,6 +18,11 @@ describe('verify scope', () => {
 
   it('runs only the two list checks for prose', () => {
     expect(names({ paths: ['docs/RUNBOOK.md', 'README.md'] })).toEqual(['Quarantine list', 'Civilian-use check']);
+  });
+
+  it('checks changelog fragments only when one changed', () => {
+    expect(names({ paths: ['changes/fix-a.md'] })).toEqual(['Quarantine list', 'Civilian-use check', 'Changelog fragments']);
+    expect(names({ paths: ['app/src/a.js'] })).not.toContain('Changelog fragments');
   });
 
   it('treats CHANGELOG.md as code, since the build embeds it', () => {
