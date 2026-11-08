@@ -22,18 +22,18 @@ const TMP = mkdtempSync(join(tmpdir(), 'gw27hydro-'));
 test.describe.configure({ timeout: 600000 });
 test.afterAll(() => rmSync(TMP, { recursive: true, force: true }));
 
-/** Open a DEM, use it as terrain, and record the hydro worker's progress phases. */
-async function openDem(page, file) {
+/** Open a DEM, use it as terrain (3DEP heights are NAVD88), and record the hydro worker's progress phases. */
+async function openDem(page, file, vertical = 'navd88') {
   const { frame, logs } = await openApp(page, 'file');
   await openFiles(frame, [file]);
   await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.lutTex), null, { timeout: 120000 });
-  await frame.evaluate(async () => {
+  await frame.evaluate(async (vertical) => {
     const app = window.gisworkbench;
-    await app.useAsTerrain([...app.layers.values()][0], 'egm96');
+    await app.useAsTerrain([...app.layers.values()][0], vertical);
     window.__phases = [];
     const run = app.pool.run.bind(app.pool);
     app.pool.run = (op, args, opts = {}) => (op === 'hydro.run' ? run(op, args, { ...opts, onProgress: (p, part) => (window.__phases.push(part?.phase), opts.onProgress?.(p, part)) }) : run(op, args, opts));
-  });
+  }, vertical);
   return { frame, logs };
 }
 
@@ -135,7 +135,19 @@ test('REQ-GAP-80 hydrology commands on the 5 m fixture: watershed and streams ma
     await frame.waitForFunction((src) => [...window.gisworkbench.layers.values()].some((l) => new RegExp(src).test(l.rec.name)), re.source, { timeout: 120000 });
   }
   expect(await frame.evaluate(() => window.__phases)).toContain('dinf');
-  expect(await frame.evaluate(() => window.gisworkbench.terrain.dems.some((d) => /FILLED_/.test(d.name)))).toBe(true);
+  // The filled DEM keeps the source's vertical datum (NAVD88 here), and stream vertices carry the
+  // terrain's own HAE.
+  const kept = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const filled = app.terrain.dems.find((d) => /FILLED_/.test(d.name));
+    const v = app.store.all('vlayer').find((x) => x.source?.format === 'hydrology' && x.fields.some((f) => f.name === 'STRAHLER'));
+    const f = app.store.all('feature').find((x) => x.vlayer === v.id);
+    const [lon, lat, z] = Array.from(f.geom.xyz.slice(0, 3));
+    const src = app.terrain.dems[0];
+    return { vertical: filled?.vertical, dz: Math.abs(z - app.core.demHae(src.coreId, lat, lon)) };
+  });
+  expect(kept.vertical).toBe('navd88');
+  expect(kept.dz).toBeLessThan(1e-3);
 
   // Refused by name before the heights are copied.
   const refusal = await frame.evaluate(async () => {
@@ -147,6 +159,30 @@ test('REQ-GAP-80 hydrology commands on the 5 m fixture: watershed and streams ma
     }
   });
   expect(refusal).toMatch(/48 million posts/);
+  expect(logs).toEqual([]);
+});
+
+test('REQ-GAP-80 a run cancelled between stages stops, makes no layer, and the next run works', async ({ page }) => {
+  const { frame, logs } = await openDem(page, FX('dem.tif'));
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const run = app.pool.run;
+    let job = null;
+    // Cancel as soon as the worker reports the D8 stage (the fill is done, its planes are held).
+    app.pool.run = (op, args, opts = {}) => {
+      if (op !== 'hydro.run') return run(op, args, opts);
+      job = run(op, args, { ...opts, onProgress: (p, part) => (opts.onProgress?.(p, part), part?.phase === 'd8' && job.cancel()) });
+      return job;
+    };
+    const first = await app.hydrology.accumulation({ method: 'd8' }).then(() => 'finished', (e) => (e.cancelled ? 'cancelled' : String(e.message)));
+    app.pool.run = run;
+    const second = await app.hydrology.accumulation({ method: 'd8' });
+    return { first, secondMax: second.max, layers: [...app.layers.values()].filter((l) => /^FLOWACC_/.test(l.rec.name)).length, left: [...app.pool.jobs.values()].filter((j) => j.op === 'hydro.run').length };
+  });
+  expect(r.first).toBe('cancelled');
+  expect(r.secondMax).toBeGreaterThan(truth5.watershed.cells / 2);
+  expect(r.layers).toBe(1); // the cancelled run made no layer
+  expect(r.left).toBe(0);
   expect(logs).toEqual([]);
 });
 

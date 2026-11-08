@@ -73,9 +73,10 @@ export function install(app) {
   }
 
   async function openRaster(g, data, type, fname, description, { terrainOf = null } = {}) {
-    const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type, data }, { epsg: 4326, ...(terrainOf ? { vertical: terrainOf.vertical === 'hae' ? 'hae' : 'egm96' } : {}), geotransform: geoTransform(g), nodata: NaN, description });
+    // A derived DEM keeps its source's vertical datum (EGM2008, NAVD88… are not EGM96).
+    const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type, data }, { epsg: 4326, ...(terrainOf ? { vertical: terrainOf.vertical } : {}), geotransform: geoTransform(g), nodata: NaN, description });
     const { layers } = await openImageFile(app, new File([bytes], fname, { type: 'image/tiff' }));
-    if (terrainOf) await app.useAsTerrain(layers[0], terrainOf.vertical === 'hae' ? 'hae' : 'egm96');
+    if (terrainOf) await app.useAsTerrain(layers[0], terrainOf.vertical);
     return layers[0];
   }
 
@@ -95,11 +96,10 @@ export function install(app) {
     return { layer, max: acc.reduce((a, b) => (b > a ? b : a), 0) };
   }
 
-  /** Heights of a post for vector vertices (HAE, as the contour lines carry). */
-  const haeAt = (d, k, lat, lon) => {
-    const z = heightsOf(d)[k];
-    if (!Number.isFinite(z)) return 0;
-    return d.vertical === 'hae' ? z : z + core.undulation(lat, lon);
+  /** The HAE of a post for vector vertices, converted as the core converts the terrain (its own geoid or grid). */
+  const haeAt = (d, lat, lon) => {
+    const z = core.demHae(d.coreId, lat, lon);
+    return Number.isFinite(z) ? z : 0;
   };
 
   /** Stream network of contributing area ≥ `minArea` m², as a line layer with Strahler and Shreve order. */
@@ -120,7 +120,7 @@ export function install(app) {
         for (let m = 0; m < L.posts.length; m++) {
           const k = L.posts[m];
           const [lat, lon] = postLatLon(g, k);
-          pts.push([lon, lat, haeAt(d, k, lat, lon)]);
+          pts.push([lon, lat, haeAt(d, lat, lon)]);
           if (m) {
             const a = L.posts[m - 1];
             const step = Math.abs((k % g.width) - (a % g.width)) + Math.abs(Math.floor(k / g.width) - Math.floor(a / g.width));
