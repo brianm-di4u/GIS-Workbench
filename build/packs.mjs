@@ -80,12 +80,26 @@ Third-party components inside the WebAssembly build: see https://github.com/micr
  * execution), which the app's CSP and the REQ-ARC-04 eval gate refuse. This replaces it with a
  * closure that does the same call: the converters read each argument (8 bytes apart), the call
  * kind picks function / constructor / method, and a non-void result goes back through the return
- * wire. Pinned to onnxruntime-web 1.30.0's minified names; the build fails if the text moves.
+ * wire. The minified helper names change between releases (1.31 renamed all three), so they're
+ * read from the builder this replaces; the build fails if any is missing.
  */
-function noEvalGlue(text) {
+export function noEvalGlue(text) {
   const from = 'c=(new Function(Object.keys(k),h))(...Object.values(k));';
-  const to = 'c=((K,F,B,V)=>function(handle,methodName,destructorsRef,args){var v=F.map((l,p)=>l(args+8*p)),r;switch(K){case 0:r=R(handle)(...v);break;case 2:r=new(R(handle))(...v);break;case 3:r=v[v.length-1];break;case 1:r=R(handle)[Yg(methodName)](...v)}if(!V)return Wg(B,destructorsRef,r)})(c,f,b,d.we);';
-  if (text.split(from).length !== 2) throw new Error('onnxruntime-web asyncify glue: the emval invoker was not found once; update noEvalGlue for this version');
+  const fail = (what) => new Error(`onnxruntime-web asyncify glue: ${what} was not found once; update noEvalGlue for this version`);
+  if (text.split(from).length !== 2) throw fail('the emval invoker');
+  // The builder: function X(a,b,c){var [d,...e]=…; b is the return wire, f the argument readers.
+  const builder = text.slice(0, text.indexOf(from)).split(/(?=function [\w$]+\(a,b,c\)\{var \[d,\.\.\.e\]=)/).at(-1);
+  const name = (re, what) => {
+    const m = [...builder.matchAll(re)];
+    if (m.length !== 1 || !builder.startsWith('function ')) throw fail(what);
+    return m[0][1];
+  };
+  name(/(;b=d\.[\w$]+\.bind\(d\);var f=e\.map\()/g, 'the argument readers');
+  const toValue = name(/var k=\{toValue:([\w$]+)\}/g, 'toValue');
+  const symbol = name(/k\.getStringOrSymbol=([\w$]+)/g, 'getStringOrSymbol');
+  const returnValue = name(/k\.emval_returnValue=([\w$]+)/g, 'emval_returnValue');
+  const isVoid = name(/(d\.[\w$]+)\|\|\(k\.toReturnWire=b,/g, 'the void-return flag');
+  const to = `c=((K,F,B,V)=>function(handle,methodName,destructorsRef,args){var v=F.map((l,p)=>l(args+8*p)),r;switch(K){case 0:r=${toValue}(handle)(...v);break;case 2:r=new(${toValue}(handle))(...v);break;case 3:r=v[v.length-1];break;case 1:r=${toValue}(handle)[${symbol}(methodName)](...v)}if(!V)return ${returnValue}(B,destructorsRef,r)})(c,f,b,${isVoid});`;
   return Buffer.from(text.replace(from, to));
 }
 
