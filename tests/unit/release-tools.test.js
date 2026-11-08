@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { digestProblems, family, formatSums, missingFamilies, parseSums, uploadPlan } from '../../build/release/assets.mjs';
-import { manifestPacks, webSbom } from '../../build/release/sbom.mjs';
+import { manifestParts, webSbom } from '../../build/release/sbom.mjs';
 import { copyAndHash, plan } from '../../build/release/stage.mjs';
 
 const h = (s) => createHash('sha256').update(s).digest('hex');
@@ -66,8 +66,23 @@ describe('web app SBOM', () => {
     rustCrates: [{ name: 'brotli', version: '8.0.0', license: 'BSD-3-Clause/MIT' }, { name: 'nolicence', version: '1.0.0' }],
   };
 
+  it('lists the embedded third-party blocks, and skips ours and those the package lists cover', () => {
+    const blocks = {
+      'wasm-sqlite': { kind: 'wasm', sha256: h('s'), licence: 'SQLite public domain; sql.js MIT' },
+      'data-egm96': { kind: 'data', sha256: h('e'), licence: 'public domain (NGA)' },
+      'wasm-core': { kind: 'wasm', sha256: h('c'), licence: 'Apache-2.0' },
+      'js-three': { kind: 'js', sha256: h('t'), licence: 'see notices' },
+      'data-tokens': { kind: 'data', sha256: h('k'), licence: 'own' },
+    };
+    const c = webSbom(report, { blocks }).components.filter((x) => x.properties[0].value === 'html-block');
+    expect(c).toEqual([
+      { type: 'data', name: 'data-egm96', hashes: [{ alg: 'SHA-256', content: h('e') }], licenses: [{ license: { name: 'public domain (NGA)' } }], properties: [{ name: 'gwb:part', value: 'html-block' }] },
+      { type: 'library', name: 'wasm-sqlite', hashes: [{ alg: 'SHA-256', content: h('s') }], licenses: [{ license: { name: 'SQLite public domain; sql.js MIT' } }], properties: [{ name: 'gwb:part', value: 'html-block' }] },
+    ]);
+  });
+
   it('lists the bundled packages, crates and packs, with SPDX licences and purls', () => {
-    const s = webSbom(report, { proj: { title: 'PROJ', version: '9.7.0', file: 'proj-9.7.0.gwpack', sha256: h('p') }, ai: { title: 'AI', version: '1.0', file: 'ai-1.0.gwpack', sha256: h('a') } });
+    const s = webSbom(report, { packs: { proj: { title: 'PROJ', version: '9.7.0', file: 'proj-9.7.0.gwpack', sha256: h('p') }, ai: { title: 'AI', version: '1.0', file: 'ai-1.0.gwpack', sha256: h('a') } } });
     expect(s).toMatchObject({ bomFormat: 'CycloneDX', specVersion: '1.5', metadata: { timestamp: report.build.date, component: { name: 'gis-workbench', version: '2.7.0' } } });
     expect(s.components.map((c) => [c.name, c.purl ?? c.properties[1].value, c.licenses?.[0].expression])).toEqual([
       ['@mapbox/vector-tile', 'pkg:npm/%40mapbox/vector-tile@3.0.0', 'BSD-3-Clause'],
@@ -79,9 +94,9 @@ describe('web app SBOM', () => {
     expect(JSON.stringify(webSbom(report))).toBe(JSON.stringify(webSbom(report)));
   });
 
-  it('reads the packs from the HTML build manifest', () => {
-    expect(manifestPacks('<script type="application/json" id="build-manifest">{"packs":{"x":{"version":"1"}}}</script>')).toEqual({ x: { version: '1' } });
-    expect(manifestPacks('<html></html>')).toEqual({});
+  it('reads the packs and blocks from the HTML build manifest', () => {
+    expect(manifestParts('<script type="application/json" id="build-manifest">{"packs":{"x":{"version":"1"}},"blocks":{"b":{"kind":"wasm"}}}</script>')).toEqual({ packs: { x: { version: '1' } }, blocks: { b: { kind: 'wasm' } } });
+    expect(manifestParts('<html></html>')).toEqual({ packs: {}, blocks: {} });
   });
 });
 

@@ -17,7 +17,7 @@ import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, re
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { family, formatSums, missingFamilies, parseSums } from './assets.mjs';
-import { manifestPacks, webSbom } from './sbom.mjs';
+import { manifestParts, webSbom } from './sbom.mjs';
 
 const HTML = ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'];
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -51,7 +51,7 @@ export function plan({ dist, sidecar, version }) {
   else {
     const r = JSON.parse(readFileSync(report, 'utf8'));
     const html = join(dist, HTML[0]);
-    const sbom = webSbom(r, existsSync(html) ? manifestPacks(readFileSync(html, 'utf8')) : {});
+    const sbom = webSbom(r, existsSync(html) ? manifestParts(readFileSync(html, 'utf8')) : {});
     picks.push({ name: `gis-workbench-${r.build.version}-sbom.cdx.json`, text: JSON.stringify(sbom, null, 2) + '\n' });
   }
 
