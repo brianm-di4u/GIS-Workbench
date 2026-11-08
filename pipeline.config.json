@@ -75,8 +75,8 @@
       "TRADEMARKS.md",
       "docs/POLICY.md",
       "SECURITY.md",
-      "CLAUDE.md",
-      "AGENTS.md",
+      "**/CLAUDE.md",
+      "**/AGENTS.md",
       "REVIEW.md",
       ".claude/skills/**"
     ],
