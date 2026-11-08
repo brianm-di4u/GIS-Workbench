@@ -51,6 +51,8 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   const steps = [];
   const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
   const cargoDeny = ['deny', '--all-features', 'check', 'licenses', 'bans', 'sources'];
+  // Bug-class lints only: correctness and suspicious. Style lints stay off.
+  const clippy = (targets) => ['clippy', '--all-targets', '--keep-going', ...targets, '--', '-A', 'clippy::all', '-D', 'clippy::correctness', '-D', 'clippy::suspicious'];
 
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
@@ -58,7 +60,10 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
-      if (targets.length > 0) step('Rust tests', 'cargo', ['test', '--no-fail-fast', ...targets], 'crates');
+      if (targets.length > 0) {
+        step('Clippy', 'cargo', clippy(targets), 'crates');
+        step('Rust tests', 'cargo', ['test', '--no-fail-fast', ...targets], 'crates');
+      }
     }
     if (code) {
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
@@ -68,6 +73,8 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   }
   if (leg !== 'linux' && sidecar) {
     step('Sidecar licences and sources', 'cargo', cargoDeny, 'sidecar');
+    // The default members, as `cargo test` there: the no_std stubs can't build as test targets.
+    step('Sidecar clippy', 'cargo', clippy([]), 'sidecar');
     step('Sidecar tests', 'cargo', ['test', '--no-fail-fast'], 'sidecar');
   }
   return steps;
