@@ -34,7 +34,40 @@ export function localFrame(lat0, lon0) {
   const w = Math.sqrt(1 - E2 * s * s);
   const kx = D2R * (A / w) * Math.cos(lat0 * D2R);
   const ky = D2R * ((A * (1 - E2)) / (w * w * w));
-  return { kind: 'local', lat0, lon0, kx, ky, to: (lon, lat) => [unwrapAbout(lon, lon0) * kx, (lat - lat0) * ky], from: (x, y) => [lon0 + x / kx, lat0 + y / ky] };
+  return {
+    kind: 'local',
+    lat0,
+    lon0,
+    kx,
+    ky,
+    to: (lon, lat) => [unwrapAbout(lon, lon0) * kx, (lat - lat0) * ky],
+    from: (x, y) => [lon0 + x / kx, lat0 + y / ky],
+    // A ring is unwrapped vertex to vertex, so it is never torn across the frame's back meridian;
+    // its first vertex goes within 180° of `anchor` (the frame centre, or its polygon's outer ring).
+    ringTo(r, anchor = lon0) {
+      let prev = anchor;
+      return r.map((p) => {
+        prev += unwrapAbout(p[0], prev);
+        return [(prev - lon0) * kx, (p[1] - lat0) * ky];
+      });
+    },
+  };
+}
+
+/** A geometry in frame F: {polys: [[ring …] …], lines: [line …], points: [[x, y] …]}, rings unwrapped whole. */
+export function geomTo(g, F) {
+  const ring = (r, anchor) => (F.ringTo ? F.ringTo(r, anchor) : r.map((p) => F.to(p[0], p[1])));
+  if (isPolygonal(g))
+    return {
+      polys: polygonGroups(g).map((rs) => {
+        const anchor = F.lon0 + unwrapAbout(rs[0][0][0], F.lon0);
+        return rs.map((r) => ring(r, anchor));
+      }),
+      lines: [],
+      points: [],
+    };
+  if (isLinear(g)) return { polys: [], lines: parts(g).map((l) => ring(l)), points: [] };
+  return { polys: [], lines: [], points: parts(g).map((p) => F.to(p[0][0], p[0][1])) };
 }
 
 /**
@@ -76,27 +109,24 @@ export function centreOf(g) {
 /** Encode geometries in frame(s) for the bundle: `frameOf(i)` gives each one's frame. */
 export function encodeGeoms(geoms, frameOf) {
   const v = [];
-  const ring = (F, r) => {
+  const ring = (r) => {
     v.push(r.length);
-    for (const p of r) v.push(...F.to(p[0], p[1]));
+    for (const p of r) v.push(p[0], p[1]);
   };
   geoms.forEach((g, i) => {
-    const F = frameOf(i);
-    if (isPolygonal(g)) {
-      const groups = polygonGroups(g);
-      v.push(3, groups.length);
-      for (const rs of groups) {
+    const q = geomTo(g, frameOf(i));
+    if (q.polys.length) {
+      v.push(3, q.polys.length);
+      for (const rs of q.polys) {
         v.push(rs.length);
-        for (const r of rs) ring(F, r);
+        for (const r of rs) ring(r);
       }
-    } else if (isLinear(g)) {
-      const ls = parts(g);
-      v.push(2, ls.length);
-      for (const l of ls) ring(F, l);
+    } else if (q.lines.length) {
+      v.push(2, q.lines.length);
+      for (const l of q.lines) ring(l);
     } else {
-      const ps = parts(g).map((p) => p[0]);
-      v.push(1, ps.length);
-      for (const p of ps) v.push(...F.to(p[0], p[1]));
+      v.push(1, q.points.length);
+      for (const p of q.points) v.push(p[0], p[1]);
     }
   });
   return Float64Array.from(v);
@@ -283,24 +313,19 @@ function layerCentre(features) {
       const y = f.geom.xyz[i + 1];
       [x0, y0, x1, y1] = [Math.min(x0, x), Math.min(y0, y), Math.max(x1, x), Math.max(y1, y)];
     }
-  const lon = (x0 + x1) / 2;
+  // A layer spanning more than 180° keeps the frame's seam at the antimeridian, where data is usually cut.
+  const lon = x1 - x0 > 180 ? 0 : (x0 + x1) / 2;
   return { lat: (y0 + y1) / 2, lon: lon - 360 * Math.round(lon / 360) };
 }
 
 // ---- overlay ----
 
-const toPC = (g, F) => polygonGroups(g).map((rs) => rs.map((r) => {
-  const ring = r.map((p) => F.to(p[0], p[1]));
-  ring.push(ring[0]);
-  return ring;
-}));
+const toPC = (g, F) => geomTo(g, F).polys.map((rs) => rs.map((r) => [...r, r[0]]));
 const fromPC = (mp, F) => (mp.length ? lonLatGeom(mp.map((rs) => rs.map((r) => r.slice(0, -1).map(([x, y]) => F.from(x, y))))) : null);
 const boxOf = (g, F) => {
   let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
-  for (let i = 0; i < g.xyz.length; i += 3) {
-    const [x, y] = F.to(g.xyz[i], g.xyz[i + 1]);
-    [x0, y0, x1, y1] = [Math.min(x0, x), Math.min(y0, y), Math.max(x1, x), Math.max(y1, y)];
-  }
+  const q = geomTo(g, F);
+  for (const p of [...q.polys.flat(2), ...q.lines.flat(), ...q.points]) [x0, y0, x1, y1] = [Math.min(x0, p[0]), Math.min(y0, p[1]), Math.max(x1, p[0]), Math.max(y1, p[1])];
   return { minX: x0, minY: y0, maxX: x1, maxY: y1 };
 };
 
@@ -385,19 +410,13 @@ export function overlay(aFeats, bFeats, op = 'intersect', { aFields = [], bField
 
 // ---- spatial join ----
 
-function segs(g, F) {
+function segs(q) {
   const s = [];
-  const add = (r, closed) => {
-    const q = r.map((p) => F.to(p[0], p[1]));
-    for (let i = 0; i + 1 < q.length; i++) s.push([q[i], q[i + 1]]);
-    if (closed && q.length > 2) s.push([q.at(-1), q[0]]);
-  };
-  if (isPolygonal(g)) for (const r of parts(g)) add(r, true);
-  else if (isLinear(g)) for (const l of parts(g)) add(l, false);
+  for (const r of q.polys.flat()) for (let i = 0; i < r.length; i++) s.push([r[i], r[(i + 1) % r.length]]);
+  for (const l of q.lines) for (let i = 0; i + 1 < l.length; i++) s.push([l[i], l[i + 1]]);
   return s;
 }
-const pts = (g, F) => parts(g).flat().map((p) => F.to(p[0], p[1]));
-const polysOf = (g, F) => (isPolygonal(g) ? polygonGroups(g).map((rs) => rs.map((r) => r.map((p) => F.to(p[0], p[1])))) : []);
+const pts = (q) => [...q.polys.flat(2), ...q.lines.flat(), ...q.points];
 function inRing(p, r) {
   let inside = false;
   for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
@@ -427,9 +446,10 @@ const crossesProperly = (a, b, c, d) => orient(a, b, c) * orient(a, b, d) < 0 &&
 
 /** Relation of geometries g and h in a frame: {intersects, within (g in h), contains (h in g), distance m}. */
 export function relate(g, h, F) {
-  const [gs, hs] = [segs(g, F), segs(h, F)];
-  const [gp, hp] = [pts(g, F), pts(h, F)];
-  const [gP, hP] = [polysOf(g, F), polysOf(h, F)];
+  const [gq, hq] = [geomTo(g, F), geomTo(h, F)];
+  const [gs, hs] = [segs(gq), segs(hq)];
+  const [gp, hp] = [pts(gq), pts(hq)];
+  const [gP, hP] = [gq.polys, hq.polys];
   const onBoundary = (p, ss) => ss.some(([a, b]) => segDist(p, a, b) < 1e-6);
   const inOrOn = (p, P, ss) => inPolys(p, P) || onBoundary(p, ss);
   let touch = gs.some(([a, b]) => hs.some(([c, d]) => meets(a, b, c, d)));
@@ -497,7 +517,9 @@ export function spatialJoin(targets, joins, { predicate = 'intersects', field = 
     });
     const attrs = { ...t.attrs, [`${prefix}_count`]: matched.length };
     if (field != null) {
-      const vals = matched.map((h) => Number(joins[h.j].attrs?.[field])).filter(Number.isFinite);
+      // Missing values (null, empty, true / false) are left out, not counted as 0.
+      const num = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
+      const vals = matched.map((h) => num(joins[h.j].attrs?.[field])).filter(Number.isFinite);
       const sum = vals.reduce((s, v) => s + v, 0);
       Object.assign(attrs, { [`${prefix}_${field}_sum`]: vals.length ? sum : null, [`${prefix}_${field}_mean`]: vals.length ? sum / vals.length : null, [`${prefix}_${field}_min`]: vals.length ? Math.min(...vals) : null, [`${prefix}_${field}_max`]: vals.length ? Math.max(...vals) : null });
     }

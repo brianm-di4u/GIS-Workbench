@@ -284,6 +284,35 @@ describe.skipIf(!haveWasm)('vector geoprocessing (REQ-GAP-79)', () => {
     expect(only[0].attrs.join_count).toBe(1);
   });
 
+  it('keeps polygons whole in layers that span more than 180° of longitude (council round 1b, S1)', () => {
+    const box = (x0, y0, x1, y1, attrs) => ({ geom: fromParts('Polygon', [[[x0, y0, 0], [x1, y0, 0], [x1, y1, 0], [x0, y1, 0]]]), attrs });
+    const pt = (lon, lat, attrs) => ({ geom: fromParts('Point', [[[lon, lat, 0]]]), attrs });
+    const A = [box(61, 30, 70, 40, { a: 'asia' }), box(-125, 25, -67, 49, { a: 'usa' })];
+    const B = [box(-100, 30, -90, 40, { b: 1 })];
+    const lonsOf = (g) => g.xyz.filter((_, k) => k % 3 === 0);
+    const inter = overlay(A, B, 'intersect').features;
+    expect(inter).toHaveLength(1);
+    expect(inter[0].attrs.a).toBe('usa');
+    const erase = overlay(A, B, 'erase').features;
+    expect(erase).toHaveLength(2);
+    const usa = erase.find((f) => f.attrs.a === 'usa');
+    expect(Math.min(...lonsOf(usa.geom))).toBeCloseTo(-125, 9);
+    expect(Math.max(...lonsOf(usa.geom))).toBeCloseTo(-67, 9);
+    const j = spatialJoin(A, [pt(-95, 35, { v: 1 }), pt(65, 35, { v: 2 })], { predicate: 'intersects', field: 'v' });
+    expect(j.map((x) => x.attrs.join_count)).toEqual([1, 1]);
+    const near = spatialJoin([pt(-118.9, 35, {})], [pt(-110, 35, { n: 'far' }), pt(-119.1, 35, { n: 'near' }), pt(65, 35, { n: 'asia' })], { predicate: 'nearest' });
+    expect(near[0].attrs.join_n).toBe('near');
+    const [d] = dissolveFeatures(A, { run: run.dissolve });
+    expect(Math.max(...lonsOf(d.geom)) - Math.min(...lonsOf(d.geom))).toBeCloseTo(195, 6);
+  });
+
+  it('leaves missing values out of join statistics (council round 1b, S2)', () => {
+    const sq = { geom: fromParts('Polygon', [[[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]]]), attrs: {} };
+    const pt = (v) => ({ geom: fromParts('Point', [[[0.5, 0.5, 0]]]), attrs: { v } });
+    const [r] = spatialJoin([sq], [pt(10), pt(null), pt(''), pt(true), pt('4')], { field: 'v' });
+    expect(r.attrs).toMatchObject({ join_count: 5, join_v_sum: 14, join_v_mean: 7, join_v_min: 4, join_v_max: 10 });
+  });
+
   it('relates shared boundaries, holes and touching geometries', () => {
     const F = localFrame(39.74, -104.99);
     const sq = (x, y, s, hole = null) => fromParts('Polygon', [[[x, y], [x + s, y], [x + s, y + s], [x, y + s]].map(([a, b]) => [...F.from(a, b), 0]), ...(hole ? [hole.map(([a, b]) => [...F.from(a, b), 0])] : [])]);
