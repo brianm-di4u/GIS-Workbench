@@ -10,6 +10,9 @@ export const PROFILES = ['full', 'lite'];
 /** The Lite list: [{id, title, reason, commands}]. */
 export const LITE_GROUPS = LITE.groups;
 
+/** The store record types Lite shows (a project keeps the others untouched). */
+export const LITE_RECORDS = new Set(LITE.records);
+
 /** Every command id that is also in Lite. */
 export const LITE_COMMANDS = new Set(LITE.groups.flatMap((g) => g.commands));
 

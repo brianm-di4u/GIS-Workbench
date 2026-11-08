@@ -13,9 +13,16 @@ const LIMITS = { entries: 2000, total: 512 << 20, ratio: 200 };
 
 export function serialiseProject(app) {
   const records = app.store.snapshot();
-  const views = {};
+  // What the opened project had and this shell does not show (Lite shows one panel and no docks)
+  // goes back as it came, so a Full project survives a save from Lite (REQ-GAP-86).
+  const prev = app.projectViews ?? {};
+  const views = { ...prev.views };
   for (const mp of app.desktop.multiports) for (const p of mp.panes) views[p.id] = clone(p.view);
-  const docks = Object.fromEntries(app.desktop.multiports.map((mp) => [mp.id, mp.docks.layout()]));
+  const docks = { ...prev.docks };
+  for (const mp of app.desktop.multiports) {
+    const l = mp.docks.layout();
+    if (l && Object.keys(l).length) docks[mp.id] = l;
+  }
   const manifest = {
     format: FORMAT,
     version: VERSION,
@@ -30,7 +37,7 @@ export function serialiseProject(app) {
   const files = {
     'manifest.json': strToU8(JSON.stringify(manifest, null, 2)),
     'records.json': strToU8(JSON.stringify(records)),
-    'views.json': strToU8(JSON.stringify({ views, docks, arrange: app.desktop.arrange })),
+    'views.json': strToU8(JSON.stringify({ views, docks, arrange: app.desktop.arrange ?? prev.arrange })),
     'journal.json': strToU8(JSON.stringify(journal)),
   };
   return zipSync(files, { level: 6 });

@@ -7,7 +7,7 @@
 
 import { h, clear } from '../shell/dom.js';
 import { modal, field, confirmBox } from '../shell/dialogs.js';
-import { saveBlob } from '../storage/files.js';
+import { saveBlob, canShareFile } from '../storage/files.js';
 import { observationsGeoJSON, observationsKml, observationsKmz, placed } from '../vector/obs-export.js';
 import { t, N_, tr, gwError, msgOf } from '../i18n/index.js';
 import { length, int } from '../i18n/format.js';
@@ -266,16 +266,6 @@ export function install(app) {
     if (withPhotos) return { blob: new Blob([observationsKmz(obs, { scene })], { type: 'application/vnd.google-earth.kmz' }), name: `observations-${stamp}.kmz` };
     return { blob: new Blob([observationsKml(obs, { scene })], { type: 'application/vnd.google-earth.kml+xml' }), name: `observations-${stamp}.kml` };
   }
-  // Chrome on Android answers yes through canShare, then refuses every format here with NotAllowedError
-  // (it passes images, media, PDF and text): offering Share there would only ever end in the fallback.
-  const canShare = (file) => {
-    if (/Android/.test(navigator.userAgent)) return false;
-    try {
-      return !!navigator.share && !!navigator.canShare?.({ files: [file] });
-    } catch {
-      return false;
-    }
-  };
   async function exportDialog() {
     const all = S.all('observation');
     const n = placed(all).length;
@@ -283,7 +273,7 @@ export function install(app) {
     if (!n && !scene.items.length) throw gwError('add an observation or a graphic with a position first', null, 'E_STEP_FIRST');
     const fmt = h('select', { 'data-id': 'oexp-format' }, ...FORMATS.map((f) => h('option', { value: f.value }, f.label)));
     const probe = new File([new Uint8Array(1)], 'probe.kml', { type: 'application/vnd.google-earth.kml+xml' });
-    const share = canShare(probe);
+    const share = canShareFile(probe);
     const skipped = all.length - n;
     const hint = skipped ? t('{n, plural, one {# observation} other {# observations}} with a position; {k, plural, one {# without one is} other {# without one are}} left out.', { n, k: skipped }) : t('{n, plural, one {# observation} other {# observations}}.', { n });
     const buttons = [...(share ? [{ label: t('Share…'), value: 'share', primary: true }] : []), { label: t('Save'), value: 'save', primary: !share }, { label: t('Cancel'), value: 'cancel' }];

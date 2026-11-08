@@ -859,3 +859,109 @@ test.describe('Lite: what leaves the phone, and what survives', () => {
     expect(await f2.evaluate(() => [window.gisworkbench.commands.profile, window.gisworkbench.store.all('graphic').length, window.gisworkbench.snapshotInfo.files])).toEqual(['lite', 9, 1]);
   });
 });
+
+// SCN-75 (REQ-GAP-86, OD-2.40): a field survey in Lite saved as a project, finished in Full, and
+// reopened in Lite under phone emulation; then back in Full with nothing lost. Lite's Save and Open
+// Project are on its Open sheet; Lite names what only Full shows and keeps it.
+test.describe('Lite: the project file goes to Full and back', () => {
+  test.use(as('Pixel 7'));
+  const OBS = (text, lon) => ({ text, category: 'other', confidence: 'high', lat: 36.001, lon, place: 'point', created: '2026-11-08T10:00:00Z', photos: [] });
+  const saveFromLite = async (page, frame) => {
+    const before = await frame.evaluate(() => window.__saved.length);
+    await openSheet(page, 'open');
+    await page.locator('[data-id="m:cmd:file.save"]').tap();
+    await frame.waitForFunction((n) => window.__saved.length === n + 1, before);
+    return frame.evaluate(async () => {
+      const s = window.__saved.at(-1);
+      return { name: s.name, b64: btoa(String.fromCharCode(...new Uint8Array(await s.blob.arrayBuffer()))) };
+    });
+  };
+  /** Full on a desktop (no phone emulation) with the project open; WebKit reads it over loopback, as Lite. */
+  let fullServer;
+  const inFull = async (browser, b64) => {
+    const ctx = await browser.newContext();
+    const webkit = browser.browserType().name() === 'webkit';
+    if (webkit) fullServer ??= await servers(DIST);
+    const { frame, logs } = await openApp(await ctx.newPage(), webkit ? 'http' : 'file', { srv: fullServer, htmlPath: DIST });
+    await frame.evaluate(async (b64) => {
+      const app = window.gisworkbench;
+      app.relinkPick = 'skip';
+      await app.openProjectFile(new File([Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))], 'survey.gwb'));
+    }, b64);
+    return { ctx, frame, logs };
+  };
+
+  test('SCN-75 REQ-GAP-86 a Lite survey saved as a project, finished in Full, reopened in Lite', async ({ page, browser, context }) => {
+    test.setTimeout(240000);
+    // 1. The survey in Lite: an image, an observation, a GRG, a marker and an AOI; saved from the Open sheet.
+    const { frame, logs } = await lite(page);
+    await openFiles(frame, [IMAGE]);
+    await frame.waitForFunction(() => window.gisworkbench.activePane()?.geoLayer?.()?.modelId);
+    await frame.evaluate((o) => {
+      const app = window.gisworkbench;
+      const S = app.store;
+      const p = app.activePane();
+      app.grg.make({ box: [36, -115, 36 + 0.0018, -115 + 0.0022], cell: 100 });
+      const glayer = S.all('graphic')[0].glayer;
+      S.transact('field work', (tx) => {
+        tx.create('observation', o);
+        tx.create('graphic', { glayer, pane: p.id, shape: 'marker', anchor: 'ground', coords: [[-114.999, 36.001, 0]], text: 'Rally', style: {} });
+        tx.set(p.id, 'aoi', tx.create('aoi', { pane: p.id, name: 'AOI', anchor: 'ground', coords: [[-115, 36, 0], [-114.998, 36, 0], [-114.998, 36.002, 0], [-115, 36.002, 0]], created: o.created }));
+      });
+    }, OBS('Gate', -114.999));
+    const first = await saveFromLite(page, frame);
+    expect(first.name).toMatch(/\.gwb$/);
+    // 2. Finished in Full: a second observation and a TIN (a Full-only record); saved.
+    const F1 = await inFull(browser, first.b64);
+    const out1 = await F1.frame.evaluate(async () => {
+      const app = window.gisworkbench;
+      const S = app.store;
+      const got = { obs: S.all('observation').length, graphics: S.all('graphic').length, aoi: S.all('aoi').length, layers: S.all('layer').length };
+      S.transact('desk work', (tx) => tx.create('observation', { text: 'Culvert', category: 'other', confidence: 'high', lat: 36.0012, lon: -114.9985, place: 'point', created: '2026-11-08T12:00:00Z', photos: [] }));
+      const rows = ['lon,lat,z'];
+      for (let j = 0; j < 6; j++) for (let i = 0; i < 6; i++) rows.push(`${(-115 + i * 3e-4).toFixed(6)},${(36 + j * 3e-4 + i * 1e-5).toFixed(6)},${(600 + i + j * 0.5).toFixed(2)}`);
+      const { id } = await app.tin.importFile(new File([rows.join('\n')], 'site.csv'), { vertical: 'hae' });
+      const tri = (await app.tin.info(id)).triangles;
+      const b = app.__test.serialiseProject(app);
+      let bin = '';
+      for (let k = 0; k < b.length; k += 8192) bin += String.fromCharCode(...b.subarray(k, k + 8192));
+      return { got, tin: id, tri, b64: btoa(bin) };
+    });
+    expect(out1.got).toEqual({ obs: 1, graphics: 9, aoi: 1, layers: 1 });
+    expect(out1.tri).toBeGreaterThan(10);
+    expect(F1.logs).toEqual([]);
+    await F1.ctx.close();
+    // 3. Reopened in Lite on the phone through Open Project: the work is there, the TIN is named and kept.
+    const page2 = await context.newPage();
+    const { frame: f2, logs: logs2 } = await lite(page2);
+    await f2.evaluate(() => Object.assign(window.gisworkbench, { relinkPick: 'skip' }).runMode.caps.fsaPicker = false);
+    await openSheet(page2, 'open');
+    const [fc] = await Promise.all([page2.waitForEvent('filechooser'), page2.locator('[data-id="m:cmd:file.openproject"]').tap()]);
+    await fc.setFiles({ name: 'survey.gwb', mimeType: 'application/zip', buffer: Buffer.from(out1.b64, 'base64') });
+    await f2.waitForFunction(() => window.gisworkbench.store.all('observation').length === 2);
+    await expect(page2.locator('.toast', { hasText: 'TIN surfaces' })).toBeVisible();
+    const inLite = await f2.evaluate(() => {
+      const S = window.gisworkbench.store;
+      return { obs: S.all('observation').map((o) => o.text).sort(), tin: S.all('tin').length, graphics: S.all('graphic').length, profile: window.gisworkbench.commands.profile, note: window.gisworkbench.liteHidden(S.snapshot()) };
+    });
+    expect(inLite).toMatchObject({ obs: ['Culvert', 'Gate'], tin: 1, graphics: 9, profile: 'lite' });
+    expect(inLite.note).toMatch(/TIN surfaces/);
+    // A third observation in the field, and save again.
+    await f2.evaluate((o) => window.gisworkbench.store.transact('more field work', (tx) => tx.create('observation', o)), OBS('Washout', -114.9988));
+    const second = await saveFromLite(page2, f2);
+    // 4. Back in Full: all three observations, and the TIN still builds with its triangles.
+    const F2 = await inFull(browser, second.b64);
+    const back = await F2.frame.evaluate(async () => {
+      const app = window.gisworkbench;
+      const S = app.store;
+      const id = S.all('tin')[0]?.id;
+      await app.tin.ready(id);
+      return { obs: S.all('observation').map((o) => o.text).sort(), graphics: S.all('graphic').length, aoi: S.all('aoi').length, tri: (await app.tin.info(id)).triangles };
+    });
+    expect(back).toEqual({ obs: ['Culvert', 'Gate', 'Washout'], graphics: 9, aoi: 1, tri: out1.tri });
+    expect(F2.logs).toEqual([]);
+    await F2.ctx.close();
+    expect(logs).toEqual([]);
+    expect(logs2).toEqual([]);
+  });
+});
