@@ -1,6 +1,7 @@
 //! 2.5 fuzz targets (tin group, REQ-GAP-39): the LandXML reader, the point-text reader, the
 //! triangulator on arbitrary point sets and DEM grids, the TIN edit list (parsed and replayed on a
-//! small TIN) and the TIN state loader. Seeds are valid inputs of each; mutations must fail cleanly
+//! small TIN), a file's own faces kept in a TIN (OD-2.41: forced edges and outline rings) and the
+//! TIN state loader. Seeds are valid inputs of each; mutations must fail cleanly
 //! or run to the end, never panic or hang, and a TIN that comes out must pass its topology check.
 //! Iterations: GW_FUZZ_ITERS (default 1500 per target); --release.
 
@@ -8,7 +9,7 @@ use gw_fuzz::run;
 use gw_tin::make::{self, GridSpec};
 use gw_tin::mesh::{Mesh, E_CONS, INF};
 use gw_tin::pred::incircle;
-use gw_tin::{landxml, ops, state, text};
+use gw_tin::{faces, landxml, ops, state, text};
 use std::path::Path;
 use std::time::Duration;
 
@@ -168,6 +169,36 @@ fn fuzz_tin25() {
             }
             m.check().expect("an edited TIN fails its check");
             assert_delaunay(&m);
+        }
+    }));
+    // A file's own faces (OD-2.41) over the points of a small TIN: faces as u32 point indices (the top
+    // bit of a face's first index hides it), so mutations give out-of-range, repeated, degenerate,
+    // overlapping and crossing faces. It never fails; what comes out passes its checks.
+    let fpts = points_seed(60, 9);
+    let fbase = state::save(&make::from_points(&fpts, 0.001, 0.0, 1 << 20).unwrap().0);
+    let fseed: Vec<u8> = {
+        let m = state::load(&fbase).unwrap();
+        let mut v: Vec<u32> = m.triangles().flat_map(|t| m.tv[t as usize]).collect();
+        // The TIN's own faces, the first one hidden; mutations make the rest.
+        v.truncate(v.len() - v.len() % 3);
+        v[0] |= 1 << 31;
+        v.iter().flat_map(|x| x.to_le_bytes()).collect()
+    };
+    reports.push(run("tin_keep_faces", &[fseed], n, hang(), &o, |b| {
+        let raw: Vec<u32> = b.chunks_exact(4).map(|c| u32::from_le_bytes(c.try_into().unwrap())).collect();
+        let nf = raw.len() / 3;
+        let hidden: Vec<u8> = (0..nf).map(|f| (raw[3 * f] >> 31) as u8).collect();
+        let fs: Vec<u32> = raw[..3 * nf].iter().map(|v| (v & 0x7fff_ffff) % 64).collect(); // a few out of range
+        let mut m = state::load(&fbase).unwrap();
+        match faces::keep_faces(&mut m, &fpts, &fs, &hidden, faces::KEY0) {
+            Ok(k) => {
+                assert!(k.skipped <= k.faces && k.kept <= m.nreal, "{k:?}");
+                m.check().expect("a TIN with a file's faces fails its check");
+                assert_delaunay(&m);
+                m.classify();
+            }
+            Err(gw_tin::mesh::Fail::Refused(_)) => {}
+            Err(gw_tin::mesh::Fail::Broken(e)) => panic!("keep_faces broke the TIN: {e}"),
         }
     }));
     // The state loader: damaged state refused or still consistent.

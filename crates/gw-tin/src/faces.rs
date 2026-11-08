@@ -20,6 +20,8 @@ pub struct Kept {
     pub forced: usize,
     /// Outline and hole rings made.
     pub rings: usize,
+    /// Faces taken that are not hidden.
+    pub visible: usize,
     /// Visible faces that are triangles of the TIN afterwards.
     pub kept: usize,
     /// The visible faces' outline could not be traced, so nothing outside them is excluded.
@@ -73,6 +75,7 @@ pub fn keep_faces(m: &mut Mesh, pts: &[f64], faces: &[u32], hidden: &[u8], key0:
             continue;
         }
         let vis = hidden.get(f).copied().unwrap_or(0) == 0;
+        r.visible += vis as usize;
         for i in 0..3 {
             dir.insert(dkey(t[i], t[(i + 1) % 3]), (t[(i + 2) % 3], vis));
         }
@@ -267,7 +270,11 @@ mod tests {
         let pts = [0.0, 0.0, 1.0, 10.0, 0.0, 2.0, 10.0, 10.0, 3.0, 0.0, 10.0, 4.0];
         let (mut m, _) = from_points(&pts, 0.001, 0.0, 100).unwrap();
         let k = keep_faces(&mut m, &pts, &[0, 1, 2, 0, 2, 3, 0, 1, 3], &[], 1 << 40).unwrap();
-        assert_eq!((k.skipped, k.open), (1, false), "{k:?}");
+        assert_eq!((k.skipped, k.open, k.visible), (1, false, 2), "{k:?}");
+        // Every face hidden: nothing visible to keep, no ring, and the caller is told (#77).
+        let (mut m2, _) = from_points(&pts, 0.001, 0.0, 100).unwrap();
+        let k2 = keep_faces(&mut m2, &pts, &[0, 1, 2, 0, 2, 3], &[1, 1], 1 << 40).unwrap();
+        assert_eq!((k2.visible, k2.rings, k2.kept), (0, 0, 0), "{k2:?}");
         m.check().unwrap();
         let (vis, _) = faces_of(&mut m);
         assert_eq!(vis, file_faces(&m, &pts, &[0, 1, 2, 0, 2, 3]));
