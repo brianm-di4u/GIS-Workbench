@@ -5,7 +5,7 @@
 import { Bundle } from './abi.js';
 
 /** Line kinds (gw_tin::mesh). */
-export const KIND = { hard: 1, soft: 2, void: 3, outer: 4, swap: 5, drain: 6, ridge: 7 };
+export const KIND = { hard: 1, soft: 2, void: 3, outer: 4, swap: 5, drain: 6, ridge: 7, outline: 8 };
 export const KIND_NAME = Object.fromEntries(Object.entries(KIND).map(([k, v]) => [v, k]));
 
 const f64 = (o) => new Float64Array(o.buffer.slice(o.byteOffset, o.byteOffset + o.byteLength));
@@ -84,6 +84,27 @@ export class TinBundle extends Bundle {
         return this.outJson();
       } finally {
         this.free(p, n);
+      }
+    });
+  }
+
+  /**
+   * Keep a file's own faces in a TIN built through its points (LandXML): `pts` = the file's x, y, z
+   * (plane metres), `faces` = Uint32Array of point indices, three per face, `hidden` = one byte per
+   * face → {faces, skipped, forced, rings, kept}.
+   */
+  keepFaces(id, pts, faces, hidden = new Uint8Array(0)) {
+    return this.guard(() => {
+      const [a, an] = this.putF64(pts);
+      const [b, bn] = this.put(new Uint8Array(faces.buffer, faces.byteOffset, faces.byteLength));
+      const [c, cn] = this.put(hidden);
+      try {
+        this.check(this.x.gw_tin_keep_faces(id, a, pts.length, b, faces.byteLength, c, hidden.length), 'keepFaces');
+        return this.outJson();
+      } finally {
+        this.free(a, an);
+        this.free(b, bn);
+        this.free(c, cn);
       }
     });
   }

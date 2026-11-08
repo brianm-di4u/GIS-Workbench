@@ -23,7 +23,7 @@ import { unzipSync, zipSync } from 'fflate';
 import { TinBundle, KIND_NAME, encodeTinEdits } from '../wasm/tin.js';
 import { frameAt, toPlane, toGeo, gridSpec, rasterGrid, importForm, exportForm, fromFeatures, fromTable, writeLandXml, writeCsv, shadeColour, lambertOf } from '../analysis/tin-io.js';
 
-const COLOUR = { hard: '#ff4848', soft: '#4fd2ff', void: '#ff4fff', outer: '#f0f0f0', swap: '#ffd400', drain: '#3f8cff', ridge: '#ff9a2e' };
+const COLOUR = { hard: '#ff4848', soft: '#4fd2ff', void: '#ff4fff', outer: '#f0f0f0', swap: '#ffd400', drain: '#3f8cff', ridge: '#ff9a2e', outline: '#c8c8c8' };
 const DRAW_CAP = 60000;
 const HEIGHT_LINES = ['hard', 'ridge', 'drain'];
 const USER_KEY0 = 1e6; // line keys below this are the source's lines
@@ -62,7 +62,7 @@ export function install(app) {
   const toHae = (rec, lat, lon, z) => (rec.vertical === 'hae' ? z : z + undulation(lat, lon));
 
   // ---- sources ----
-  const sourceSig = (rec) => JSON.stringify([rec.id, rec.source.kind, rec.source.layer, rec.source.pc, rec.source.tolerance, rec.source.maxPoints, rec.source.cell, rec.source.box, rec.source.points?.length, rec.source.lines?.length]);
+  const sourceSig = (rec) => JSON.stringify([rec.id, rec.source.kind, rec.source.layer, rec.source.pc, rec.source.tolerance, rec.source.maxPoints, rec.source.cell, rec.source.box, rec.source.points?.length, rec.source.lines?.length, rec.source.tris?.length]);
 
   /** The DEM entry's posts inside an optional box [south, west, north, east] (source posts: DEM edits are not included). */
   function demPosts(d, box) {
@@ -115,6 +115,12 @@ export function install(app) {
     }
     const pts = new Float64Array(3 * s.points.length);
     s.points.forEach((p, k) => pts.set(p, 3 * k));
+    // A LandXML surface's own faces (OD-2.41): kept as they are, hidden ones excluded.
+    if (Array.isArray(s.tris)) {
+      const hidden = new Uint8Array(s.tris.length / 3);
+      for (const k of s.hidden ?? []) hidden[k] = 1;
+      return { kind: 'points', pts, cell: 0, maxPoints: s.maxPoints ?? 3e6, faces: Uint32Array.from(s.tris), hidden };
+    }
     return { kind: 'points', pts, cell: 0, maxPoints: s.maxPoints ?? 3e6 };
   }
   const sourceOps = (rec) => encodeTinEdits((rec.source.lines ?? []).map((l, k) => ({ kind: 'addline', params: { key: k + 1, type: l.type, closed: l.closed, pts: l.pts } })));
@@ -127,7 +133,7 @@ export function install(app) {
     if (rt.id) b.dispose(rt.id);
     const t1 = performance.now();
     rt.id = guard(() => b.load(r.state));
-    Object.assign(rt, { state: r.state, report: r.report, sourceResults: r.results, buildMs: r.buildMs, opsMs: r.opsMs, loadMs: performance.now() - t1, totalMs: performance.now() - t0, applied: [], skipped: new Map(), error: null });
+    Object.assign(rt, { state: r.state, report: r.report, kept: r.kept, sourceResults: r.results, buildMs: r.buildMs, opsMs: r.opsMs, loadMs: performance.now() - t1, totalMs: performance.now() - t0, applied: [], skipped: new Map(), error: null });
     const bad = (r.results ?? []).filter((x) => !x.ok).length;
     if (bad) toast(t('{tin}: {n, plural, one {# source line was} other {# source lines were}} not put in (see the TIN Editor)', { tin: rec.name, n: bad }), { kind: 'warn' });
   }
@@ -413,16 +419,23 @@ export function install(app) {
         return [...toPlane(f, lon, lat), z];
       };
       points = ll.map(([lon, lat], k) => [...toPlane(f, lon, lat), r.points[3 * k + 2]]);
-      for (let k = 0; k < r.extra.length / 3; k++) points.push(P(r.extra[3 * k], r.extra[3 * k + 1], r.extra[3 * k + 2]));
+      // With faces, the surface is the file's own triangles (OD-2.41): its source data points are
+      // not put in, since they would change it. Without faces they are mass points.
+      const faces = r.faces.length > 0;
+      if (!faces) for (let k = 0; k < r.extra.length / 3; k++) points.push(P(r.extra[3 * k], r.extra[3 * k + 1], r.extra[3 * k + 2]));
       lines = r.lines.map((l) => ({ type: KIND_NAME[l.kind], closed: l.closed, name: l.name, pts: Array.from({ length: l.n }, (_, k) => P(l.pts[3 * k], l.pts[3 * k + 1], l.pts[3 * k + 2])) }));
       name = o.name ?? r.doc.surfaces[r.doc.surface]?.name ?? name;
       note = [...r.doc.refused.map((x) => refusedText(x)), ...r.doc.warnings.map((x) => warningText(x))];
       if (r.doc.surfaces.length > 1) note.push(t('The file has {n} TIN surfaces; only {name} was imported.', { n: r.doc.surfaces.length, name }));
-      const hiddenFaces = r.hidden.reduce((s, v) => s + v, 0);
-      if (hiddenFaces && !lines.some((l) => l.type === 'void' || l.type === 'outer')) note.push(t('{n, plural, one {# face is} other {# faces are}} hidden in the file and no boundary excludes {n, plural, one {it} other {them}}: the TIN covers {n, plural, one {it} other {them}}', { n: hiddenFaces }));
-      const rec = { name, frame: f, vertical, crs: crsInfo, source: { kind: 'import', format: 'LandXML', file: main.name, points, lines, faces: r.doc.faces, maxPoints: 3e6 } };
-      const id = await addRecord(rec);
-      return { id, points: points.length, lines: lines.length, faces: r.doc.faces, notes: note, agreement: await faceAgreement(id, r, conv) };
+      if (faces && r.extra.length) note.push(t('{n, plural, one {# source data point is} other {# source data points are}} not put in: the file’s faces are the surface', { n: r.extra.length / 3 }));
+      const hidden = [];
+      r.hidden.forEach((v, k) => v && hidden.push(k));
+      const source = { kind: 'import', format: 'LandXML', file: main.name, points, lines, faces: r.doc.faces, maxPoints: 3e6 };
+      if (faces) Object.assign(source, { tris: Array.from(r.faces), hidden });
+      const id = await addRecord({ name, frame: f, vertical, crs: crsInfo, source });
+      const kept = rts.get(id)?.kept ?? null;
+      if (kept?.skipped) note.push(t('{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, or the three are on one line', { n: kept.skipped }));
+      return { id, points: points.length, lines: lines.length, faces: r.doc.faces, hidden: hidden.length, kept, notes: note, agreement: await faceAgreement(id, r, conv) };
     }
     // Mass points and breaklines.
     let feats = null;
@@ -493,7 +506,7 @@ export function install(app) {
     return { id, points: points.length, lines: lines.length, notes: note };
   }
 
-  /** How many of a LandXML surface's faces the rebuilt TIN has (the constrained Delaunay may differ). */
+  /** How many of a LandXML surface's faces the imported TIN has (all of a valid file's; a breakline that crosses faces splits them). */
   async function faceAgreement(id, r, conv) {
     if (!r.faces.length) return null;
     const m = await mesh(id);
@@ -557,7 +570,8 @@ export function install(app) {
     const rec = recOf(tinId);
     const rt = await ready(tinId);
     const f = rec.frame;
-    const ls = guard(() => B.lines(rt.id)).filter((l) => KIND_NAME[l.kind] !== 'swap');
+    // Swapped edges and a file's face outline are in the faces themselves, not lines to write.
+    const ls = guard(() => B.lines(rt.id)).filter((l) => !['swap', 'outline'].includes(KIND_NAME[l.kind]));
     const stem = (o.name ?? rec.name).replace(/[^\w.-]+/g, '_');
     let blob;
     let name;
@@ -1173,7 +1187,7 @@ export function install(app) {
     try {
       const out = await importFile(files, { epsg: epsg.value ? +epsg.value : undefined, vertical: vert.value, into: into.value || undefined });
       for (const n of out.notes ?? []) app.importLog?.push({ file: main.name, errors: [], warnings: [n] });
-      const agree = out.agreement ? t('; {same} of {faces} of the file’s faces are in the rebuilt TIN', { same: int(out.agreement.same), faces: int(out.agreement.faces) }) : '';
+      const agree = out.agreement ? t('; {same} of {faces} of the file’s faces are in the TIN', { same: int(out.agreement.same), faces: int(out.agreement.faces) }) : '';
       toast(t('{file}: {p} points and {l} lines read{agree}', { file: main.name, p: int(out.points), l: int(out.lines), agree }), { kind: out.notes?.length ? 'warn' : 'info', ms: 10000 });
     } catch (e) {
       fail(e);

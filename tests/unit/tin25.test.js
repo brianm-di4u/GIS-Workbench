@@ -519,6 +519,61 @@ describe.skipIf(!haveWasm)('REQ-GAP-39 TIN bundle', () => {
     expect(f.points[0]).toBeCloseTo((200 * 1200) / 3937, 9);
     expect(f.doc.refused).toEqual([{ what: 'breakline', name: '', type: 'wall' }]);
   });
+
+  it('OD-2.41: a LandXML surface keeps its own faces, outline, holes and hidden faces', () => {
+    const B = bundle();
+    // A sheared 8 × 8 grid split on the long diagonal everywhere (none of it Delaunay), with a
+    // notch out of one side (concave), a hole in the middle and one hidden face.
+    const N = 8;
+    const en = [];
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) en.push(500000 + 10 * i + 3 * j, 4400000 + 10 * j, 100 + ((i * 7 + j * 3) % 5));
+    const id = (i, j) => j * N + i;
+    const faces = [];
+    for (let j = 0; j < N - 1; j++)
+      for (let i = 0; i < N - 1; i++) {
+        if ((i === 3 && j === 3) || (i === N - 2 && j >= 2 && j <= 4)) continue;
+        faces.push(id(i, j), id(i + 1, j), id(i + 1, j + 1), id(i, j), id(i + 1, j + 1), id(i, j + 1));
+      }
+    const hidden = new Uint8Array(faces.length / 3);
+    hidden[1] = 1; // on the outline
+    const x = writeLandXml({ name: 'EG', epsg: 32613 }, new Float64Array(en), new Uint32Array(faces), [], hidden);
+    const r = B.landxml(new TextEncoder().encode(x));
+    const tin = B.fromPoints(r.points).id;
+    const kept = B.keepFaces(tin, r.points, r.faces, r.hidden);
+    expect(kept).toMatchObject({ faces: faces.length / 3, skipped: 0, rings: 2 });
+    expect(kept.forced).toBeGreaterThan(30);
+    const m = B.mesh(tin);
+    const key = (xy) => xy.map(([a, b]) => `${Math.round(a * 1000)},${Math.round(b * 1000)}`).sort().join(' ');
+    const meshFaces = (want) => {
+      const out = [];
+      for (let k = 0; k < m.tris.length / 3; k++) if (!!m.excluded[k] === want) out.push(key([0, 1, 2].map((c) => [m.xyz[3 * m.tris[3 * k + c]], m.xyz[3 * m.tris[3 * k + c] + 1]])));
+      return out.sort();
+    };
+    const fileFaces = (pick) => {
+      const out = [];
+      for (let k = 0; k < faces.length / 3; k++) if (pick(k)) out.push(key([0, 1, 2].map((c) => [r.points[3 * faces[3 * k + c]], r.points[3 * faces[3 * k + c] + 1]])));
+      return out.sort();
+    };
+    expect(meshFaces(false)).toEqual(fileFaces((k) => !hidden[k]));
+    expect(meshFaces(true)).toEqual(expect.arrayContaining(fileFaces((k) => hidden[k])));
+    // The file's heights: the centroid of every face is the mean of its corners.
+    const cen = [];
+    const want = [];
+    for (let k = 0; k < faces.length / 3; k++) {
+      if (hidden[k]) continue;
+      const c = [0, 1, 2].map((q) => faces[3 * k + q]);
+      cen.push(c.reduce((s, v) => s + r.points[3 * v], 0) / 3, c.reduce((s, v) => s + r.points[3 * v + 1], 0) / 3);
+      want.push(c.reduce((s, v) => s + r.points[3 * v + 2], 0) / 3);
+    }
+    const got = B.heights(tin, new Float64Array(cen));
+    expect(Math.max(...Array.from(got, (v, k) => Math.abs(v - want[k])))).toBeLessThan(1e-9);
+    // It survives the state round trip; outline rings are lines of their own kind.
+    const back = B.load(B.save(tin));
+    expect(B.info(back).excluded).toBe(B.info(tin).excluded);
+    expect(B.lines(back).filter((l) => l.kind === KIND.outline)).toHaveLength(2);
+    B.dispose(tin);
+    B.dispose(back);
+  });
 });
 
 // ---- corpus: 1 M posts and LiDAR ground (measurements) ----
