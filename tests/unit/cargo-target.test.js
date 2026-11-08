@@ -29,7 +29,9 @@ describe('cargo target scoping', () => {
         writeFileSync(join(tree, 'Cargo.toml'), '[package]\nname = "probe"\nversion = "0.0.0"\nedition = "2021"\n');
         // The "commit": the two trees differ in their one function.
         writeFileSync(join(tree, 'src', 'lib.rs'), `pub fn which() -> &'static str { "${name}" }\n`);
-        const env = scopeCargoTarget({ ...process.env, CARGO_TARGET_DIR: SHARED });
+        // A developer who opted in to sharing must not leak that into this test.
+        const { GWB_CARGO_TARGET: _optIn, ...inherited } = process.env;
+        const env = scopeCargoTarget({ ...inherited, CARGO_TARGET_DIR: SHARED });
         const opts = { cwd: tree, env, encoding: 'utf8' };
         execFileSync('cargo', ['build', '--offline', '--quiet'], opts);
         const meta = JSON.parse(execFileSync('cargo', ['metadata', '--offline', '--no-deps', '--format-version', '1'], opts));
