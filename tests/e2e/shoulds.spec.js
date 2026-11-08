@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { openApp, openFiles } from './helpers.js';
+import { openApp, openFiles, restart } from './helpers.js';
 import { writeGeoTiff } from '../../app/src/formats/geotiff-writer.js';
 import { writeNitf, writeNitfSegments } from '../../app/src/formats/nitf-writer.js';
 
@@ -53,9 +53,7 @@ test('REQ-UI-04 REQ-SEC-06 QAT customisation, recent projects, encrypted journal
   expect(r.recent).toEqual(['a.gwb', 'b.gwb']);
   expect(r.enc).toMatch(/AES-GCM/);
   expect(r.plainLeak).toBe(false);
-  await page.reload();
-  const f2 = page.mainFrame();
-  await f2.waitForFunction(() => document.body.dataset.ready);
+  const f2 = await restart(page);
   const toast = f2.locator('.toast', { hasText: 'encrypted' });
   await expect(toast).toBeVisible({ timeout: 10000 });
   await toast.getByRole('button', { name: 'Recover' }).click();

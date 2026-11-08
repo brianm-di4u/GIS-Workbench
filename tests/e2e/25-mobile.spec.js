@@ -14,7 +14,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 import { unzipSync, strFromU8 } from 'fflate';
-import { openApp, openFiles, servers, DIST, DIST_DIR, ROOT } from './helpers.js';
+import { openApp, openFiles, servers, DIST, DIST_DIR, ROOT, restart } from './helpers.js';
 
 const LITE = join(DIST_DIR, 'gis-workbench-lite.html');
 const FX = (...p) => join(ROOT, 'fixtures', ...p);
@@ -53,6 +53,11 @@ async function lite(page, prefs = { network: 'offline' }) {
   await r.frame.evaluate(() => {
     window.__saved = [];
     window.gisworkbench.saveCapture = (blob, name) => window.__saved.push({ blob, name });
+    // The last touch events, for the message when a long press opens nothing (#17).
+    window.__touches = [];
+    const t0 = performance.now();
+    for (const type of ['pointerdown', 'pointerup', 'pointercancel', 'touchstart', 'touchend', 'touchcancel', 'contextmenu'])
+      window.addEventListener(type, (e) => window.__touches.push(`${Math.round(performance.now() - t0)} ${type} ${e.pointerId ?? ''} ${e.target?.dataset?.id ?? e.target?.getAttribute?.('class') ?? e.target?.nodeName}`.slice(0, 120)) > 60 && window.__touches.shift(), { capture: true });
   });
   return r;
 }
@@ -79,9 +84,17 @@ function pointerFrames(page, frames, stepMs, holdMs = 0) {
   );
 }
 
+/**
+ * Wait until the image shows at every point, as a user would before touching it. A toast's button
+ * can cover the image for its 8 seconds: while the activity bar shows, the toasts sit lower, and on a
+ * phone in landscape that is over the centre (#17).
+ */
+const onMap = (page, pts) => page.waitForFunction((pts) => pts.every(([x, y]) => document.elementFromPoint(x, y)?.closest('.m-view .pane')), pts, { timeout: 15_000 });
+
 /** Touch with CDP: a sequence of frames, each a list of [x, y] points (ids by position). */
 async function touch(page, frames, { stepMs = 16 } = {}) {
   if (isWebKit(page)) return pointerFrames(page, frames, stepMs);
+  await onMap(page, frames[0]);
   const cdp = await page.context().newCDPSession(page);
   const pts = (f) => f.map(([x, y], i) => ({ x, y, id: i + 1, radiusX: 4, radiusY: 4, force: 1 }));
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: pts(frames[0]) });
@@ -98,11 +111,19 @@ const twoFinger = (a0, b0, a1, b1, n = 12) => Array.from({ length: n + 1 }, (_, 
 
 async function longPress(page, x, y, ms = 800) {
   if (isWebKit(page)) return pointerFrames(page, [[[x, y]]], 16, ms);
+  await onMap(page, [[x, y]]);
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y, id: 1 }] });
   await page.waitForTimeout(ms);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await cdp.detach();
+  // Every caller expects the point sheet. When it doesn't come, say what the page saw.
+  try {
+    await expect(page.locator('[data-id="m:point"]')).toBeVisible({ timeout: 10_000 });
+  } catch {
+    const seen = await page.evaluate(([x, y]) => ({ at: document.elementFromPoint(x, y)?.getAttribute('class'),toasts: [...document.querySelectorAll('.toast')].map((t) => t.textContent), sheet: document.querySelector('[data-id="m:sheet"]')?.textContent?.slice(0, 80) ?? null, touches: window.__touches }), [x, y]);
+    throw new Error(`No point sheet after a long press at ${x},${y}: ${JSON.stringify(seen, null, 1)}`);
+  }
 }
 
 const view = (frame) => frame.evaluate(() => ({ ...window.gisworkbench.activePane().view }));
@@ -585,8 +606,7 @@ test.describe('Lite: location, command list, sidecar, languages, size', () => {
     // Playwright's WebKit context is like a private tab: it cannot store a File in IndexedDB, so the
     // pack lasts this session only. Keeping it across a reload is checked on the simulator.
     if (isWebKit(page)) return;
-    await page.reload();
-    await frame.waitForFunction(() => document.body?.dataset.ready === '1', null, { timeout: 45_000 });
+    await restart(page);
     expect(await frame.evaluate(() => [window.gisworkbench.i18n.locale, document.documentElement.lang])).toEqual(['de', 'de']);
     await page.locator('[data-id="m:bar:measure"]').tap();
     const de = JSON.parse(readFileSync(join(ROOT, 'app', 'src', 'i18n', 'catalog', 'de.json'), 'utf8'));
@@ -641,8 +661,7 @@ test.describe('Full on a phone', () => {
     // Full keeps every feature: it is still the desktop GUI.
     expect(await frame.evaluate(() => ({ desktop: !!document.querySelector('.desktop'), profile: window.gisworkbench.commands.profile, stereo: !!window.gisworkbench.commands.get('stereo.open').implemented, pref: window.gisworkbench.prefs.get('phoneNotice') }))).toEqual({ desktop: true, profile: 'full', stereo: true, pref: 'off' });
     // Turned off: not shown at the next start.
-    await page.reload();
-    await frame.waitForFunction(() => document.body?.dataset.ready === '1');
+    await restart(page);
     await page.waitForTimeout(800);
     expect(await page.locator('[data-id="dialog:phone-notice"]').count()).toBe(0);
   });
@@ -794,8 +813,7 @@ test.describe('Lite: what leaves the phone, and what survives', () => {
     const { frame } = await lite(page);
     await work(frame);
     await page.waitForTimeout(2500); // the journal writes on a timer
-    await page.reload();
-    await frame.waitForFunction(() => document.body?.dataset.ready === '1', null, { timeout: 45_000 });
+    await restart(page);
     expect(await frame.evaluate(() => window.gisworkbench.store.all('observation').length)).toBe(0);
     await page.locator('button', { hasText: /^Recover$/ }).tap();
     await frame.waitForFunction(() => window.gisworkbench.store.all('observation').length === 1);

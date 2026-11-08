@@ -16,7 +16,7 @@ import { resolve, join } from 'node:path';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
 import { zipSync, strToU8 } from 'fflate';
-import { openApp, openFiles, SAMPLES, DIST_DIR } from './helpers.js';
+import { openApp, openFiles, SAMPLES, DIST_DIR, restart } from './helpers.js';
 
 test.describe.configure({ timeout: 240000 });
 // WebGPU on; the discrete GPU of this machine unless GW_GPU=integrated (Chrome on Windows ignores powerPreference).
@@ -240,7 +240,7 @@ test('REQ-GAP-52 import a feature catalogue from the UI; kept in the project and
   expect(proj).toMatchObject({ rec: true, gone: true, back: { id: 'test-ggdm-mini', kept: ['project'], source: 'user', types: 2 } });
   // Kept in the settings: import again (settings only), reload, it is there with no project.
   await frame.evaluate(async (text) => window.gisworkbench.catalogs.import(text, { keep: 'settings' }), readFileSync(CATALOG, 'utf8'));
-  await page.reload();
+  await restart(page);
   const f2 = page.frames()[0];
   await f2.waitForFunction(() => window.gisworkbench?._ready);
   await f2.evaluate(() => window.gisworkbench.catalogs.restored);

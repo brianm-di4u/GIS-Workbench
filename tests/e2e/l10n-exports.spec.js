@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { unzipSync, strFromU8 } from 'fflate';
-import { openApp, openFiles, SAMPLES, DIST_DIR } from './helpers.js';
+import { openApp, openFiles, SAMPLES, DIST_DIR, restart } from './helpers.js';
 
 test.describe.configure({ timeout: 300000 });
 
@@ -29,8 +29,7 @@ async function ready(page, locale, labels) {
   // A wave 1 locale under the coverage gate is a pack in this build: open it, then restart.
   if ((await frame.evaluate(() => window.gisworkbench.i18n.locale)) !== locale && localePack(locale)) {
     await frame.evaluate(async ([b, name]) => window.gisworkbench.packs.open(new File([new Uint8Array(b)], name)), [[...readFileSync(join(DIST_DIR, 'packs', localePack(locale)))], localePack(locale)]);
-    await page.reload();
-    await frame.waitForFunction(() => document.body?.dataset.ready === '1', null, { timeout: 45_000 });
+    await restart(page);
   }
   test.skip((await frame.evaluate(() => window.gisworkbench.i18n.locale)) !== locale, `no ${locale} catalogue in this build`);
   await openFiles(frame, [VEGAS]);

@@ -9,7 +9,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
-import { openApp, openFiles, servers, DIST, DIST_DIR } from './helpers.js';
+import { openApp, openFiles, servers, DIST, DIST_DIR, restart } from './helpers.js';
 
 const PACKS = resolve(DIST_DIR, 'packs');
 const pk = (n) => {
@@ -170,8 +170,7 @@ test('REQ-GAP-16 hosted copy: the EGM2008 2.5′ pack is kept in OPFS and comes 
     });
     expect(kept.opfs).toBe(true);
     expect(kept.size).toBeGreaterThan(80e6);
-    await page.reload();
-    await frame.waitForFunction(() => document.body?.dataset.ready, null, { timeout: 45_000 });
+    await restart(page);
     await frame.waitForFunction(() => window.gisworkbench.core.geoidName === 'EGM2008 2.5′', null, { timeout: 180_000 });
     const n = await frame.evaluate(() => window.gisworkbench.core.undulation(51.5072, -0.1276));
     expect(n).toBeGreaterThan(45);
