@@ -28,6 +28,13 @@ describe('LAS CRS', () => {
     expect(c.warnings.join(' ')).not.toMatch(/local metric frame|not valid longitudes/);
   });
 
+  it('the file’s geographic WKT does not stick to an assigned projected CRS (the real TE-015 file)', () => {
+    const wkt = 'GEOGCS["Geographic Coordinate System",DATUM["D_WGS84",SPHEROID["WGS84",6378137,298.257223560493]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]';
+    expect(lasCrs(te015, wkt, { geographic: true, horizontal: wkt }).local).toBe(true);
+    const c = lasCrs(te015, wkt, { geographic: true, horizontal: wkt }, { epsg: 32611 });
+    expect([c.local, c.label]).toEqual([false, 'EPSG:32611']);
+  });
+
   it('an assigned CRS also replaces a CRS the file states, with the vertical given', () => {
     const wkt = 'PROJCS["WGS 84 / UTM zone 12N"]';
     const c = lasCrs(noCrs, wkt, { hEpsg: 32612, horizontal: wkt }, { epsg: 32611, vertical: 'egm96' });

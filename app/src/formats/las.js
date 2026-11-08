@@ -83,7 +83,7 @@ export function lasCrs(info, wkt, wktInfo, assign = null) {
   let local = false;
   // TE-015: a geographic CRS whose coordinates cannot be latitude/longitude (test files declare
   // EPSG:4326 over 0–226 "degrees") is not usable: fall back to the local frame and say so.
-  const geographic = /\+proj=longlat|\+proj=lonlat/.test(String(crs?.def ?? '')) || /^EPSG:(4326|4979|4269|4258|4267)$/.test(crs?.label ?? '') || (wktInfo?.geographic && !!crs);
+  const geographic = /\+proj=longlat|\+proj=lonlat/.test(String(crs?.def ?? '')) || /^EPSG:(4326|4979|4269|4258|4267)$/.test(crs?.label ?? '') || (!assign && wktInfo?.geographic && !!crs);
   if (crs && geographic && info.min && info.max && (info.min[1] < -90 || info.max[1] > 90 || info.min[0] < -180 || info.max[0] > 360)) {
     warnings.push(t('{crs} is geographic, but the coordinates (X {x0}…{x1}, Y {y0}…{y1}) are not valid longitudes and latitudes; the CRS is ignored', { crs: crs.label, x0: String(info.min[0]), x1: String(info.max[0]), y0: String(info.min[1]), y1: String(info.max[1]) }));
     crs = null;
