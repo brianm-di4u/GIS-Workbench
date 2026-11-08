@@ -1,0 +1,51 @@
+name: Bug report
+description: Something in GIS Workbench doesn't work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Thanks for reporting this. Please don't attach files or screenshots that show private
+        data or places you don't want to share: this issue is public. Report a security problem
+        privately, as SECURITY.md describes, not here.
+  - type: input
+    id: build
+    attributes:
+      label: Build
+      description: >-
+        In the app, open Help ▸ About & Diagnostics (in Lite, Settings ▸ About & Diagnostics) and copy its first line, for example
+        "GIS Workbench 2.6.0 · Full edition · build 7a48ea70b1c18182 · 2026-11-07…". It tells us exactly which file you have.
+      placeholder: GIS Workbench 2.6.0 · Full edition · build 7a48ea70b1c18182 · 2026-11-07T01:28:15.469Z
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and system
+      placeholder: Chrome 142 on Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: What you did
+      description: The steps, from opening the file, that lead to the problem.
+      placeholder: |
+        1. Open gis-workbench.html
+        2. File ▸ Open a GeoTIFF
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected, and what happened
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Data
+      description: >-
+        If a file triggers it, say what kind it is and where it's from, or link a public copy.
+        Copy Diagnostics in the same dialog gives details you can paste here. It lists recent messages, which can name your files, so read it first.
