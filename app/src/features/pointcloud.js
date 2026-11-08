@@ -5,7 +5,8 @@
 // and LAS 1.4 export (LAS or LAZ). From the profile view (REQ-GAP-81): select points by box or
 // lasso, then reclassify them, set their withheld flag or delete them, each one a `pcedit` record.
 // Deleting keeps one mask, `c.deleted`, replayed from the records: the view, picks, profiles,
-// grids, the ground filter, clips, TINs and exports all leave deleted points out.
+// grids, the ground filter, clips, TINs and exports all leave deleted points out (an open profile
+// dialog keeps them undrawn, so undo can show them again).
 
 import { writePointCloudTileset, enuToEcef, geoToEcef, write3tz, zipTileset, md5 } from '../formats/tiles3d-write.js';
 import { readLas, POINTCLOUD_EXT, inverseLattice, statsOf, reorder } from '../formats/las.js';
@@ -441,12 +442,14 @@ export function install(app) {
     return hag;
   }
 
-  /** Profile (REQ-LDR-07): points within `half` m of a → b (local), ordered along. */
-  async function profile(c, a, b, half = 1, { max = 200000, v = view() } = {}) {
+  /**
+   * Profile (REQ-LDR-07): points within `half` m of a → b (local), ordered along. Deleted points are
+   * left out, except with withDeleted: the profile dialog keeps them, undrawn, so undoing a deletion
+   * shows them again (REQ-GAP-81).
+   */
+  async function profile(c, a, b, half = 1, { max = 200000, v = view(), withDeleted = false } = {}) {
     const vis = v ? (k) => v.classVisible[c.class[k]] : () => true;
-    // Deleted points stay in the profile, left out when it is drawn, so undoing a deletion shows them again.
-    const mask = new Uint8Array(c.n);
-    for (let k = 0; k < c.n; k++) mask[k] = vis(k) ? 1 : 0;
+    const mask = withDeleted ? Uint8Array.from({ length: c.n }, (_, k) => (vis(k) ? 1 : 0)) : maskOf(c, vis);
     const r = await job('profile', { pos: c.pos, mask, prm: [a[0], a[1], b[0], b[1], half, max] }, [mask.buffer]);
     const z = Float32Array.from(r.index, (k) => c.pos[3 * k + 2]);
     return { ...r, z, a, b, half, cloud: c };
@@ -995,7 +998,7 @@ export function install(app) {
         v.setOverlay(pts.map((p) => ({ kind: 'marker', points: [p] })));
         if (pts.length === 2) {
           v.tool = null;
-          const pr = await profile(c, pts[0], pts[1], 1);
+          const pr = await profile(c, pts[0], pts[1], 1, { withDeleted: true });
           openProfileDialog(pr, v, { mode });
         }
       });
@@ -1088,9 +1091,11 @@ export function install(app) {
     const L = Math.hypot(pr.b[0] - pr.a[0], pr.b[1] - pr.a[1]);
     let zmin = Infinity;
     let zmax = -Infinity;
-    for (const z of pr.z) {
-      zmin = Math.min(zmin, z);
-      zmax = Math.max(zmax, z);
+    // The height axis spans the points that are there (not deleted ones).
+    for (let i = 0; i < pr.index.length; i++) {
+      if (!kept(c, pr.index[i])) continue;
+      zmin = Math.min(zmin, pr.z[i]);
+      zmax = Math.max(zmax, pr.z[i]);
     }
     const sx = (t) => 30 + ((W - 40) * t) / L;
     const sy = (z) => H - 20 - ((H - 30) * (z - zmin)) / Math.max(1e-3, zmax - zmin);
@@ -1122,7 +1127,7 @@ export function install(app) {
     const mode = h('select', { class: 'inp', 'aria-label': t('Profile tool'), 'data-id': 'pc:profile-mode' }, [['measure', N_('Measure')], ['box', N_('Select: box')], ['lasso', N_('Select: lasso')]].map(([val, text]) => h('option', { value: val }, tr(text))));
     mode.value = mode0;
     const count = h('span', { class: 'hint', 'data-id': 'pc:profile-count' });
-    const showCount = () => (count.textContent = t('{n, plural, one {# point} other {# points}} selected', { n: mine() ? app.pc.selection.index.length : 0 }));
+    const showCount = () => (count.textContent = t('{n, plural, one {# point} other {# points}} selected', { n: mine() ? app.pc.selection.index.filter((k) => kept(c, k)).length : 0 }));
     const refresh = () => {
       draw();
       out.textContent = hint();

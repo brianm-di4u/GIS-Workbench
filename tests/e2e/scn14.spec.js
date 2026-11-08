@@ -363,14 +363,15 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
     const pr = await app.pc.profile(c, app.pc.lastProfile.a, app.pc.lastProfile.b, 1);
     const ex = await app.pc.exportLas(c);
     const [back] = await app.openPointClouds([new File([ex.bytes], 'clean.las')]);
-    return { nDeleted: c.nDeleted, deleted18: c.deleted[k18], picked: pick?.index === k18, profile: pr.index.filter((k) => !c.deleted?.[k]).length, profileRaw: pr.index.length, export: back.n, export18: back.stats.classes[18] ?? 0, classes18: c.stats.classes[18] ?? 0, edits: app.pc.edits(c).map((e) => e.params.field ?? 'class') };
+    return { nDeleted: c.nDeleted, deleted18: c.deleted[k18], picked: pick?.index === k18, profile: pr.index.length, dialogProfile: app.pc.lastProfile.index.length, zmax: Math.max(...pr.z), zmax0: Math.max(...app.pc.lastProfile.z), export: back.n, export18: back.stats.classes[18] ?? 0, classes18: c.stats.classes[18] ?? 0, edits: app.pc.edits(c).map((e) => e.params.field ?? 'class') };
   }, s.k18);
   console.log(JSON.stringify({ box, del }));
   expect(del.nDeleted).toBe(box.hi);
   expect(del.deleted18).toBe(1);
   expect(del.picked).toBe(false);
-  expect(del.profile).toBe(box.profile - box.hi); // left out when drawn
-  expect(del.profileRaw).toBe(box.profile); // the profile keeps them, so undo shows them again
+  expect(del.profile).toBe(box.profile - box.hi); // a new profile leaves it out, and its height axis drops
+  expect(del.zmax).toBeLessThan(del.zmax0 - 5);
+  expect(del.dialogProfile).toBe(box.profile); // the open dialog keeps it undrawn, so undo shows it again
   expect(del.export).toBe(s.n - box.hi);
   expect(del.classes18).toBe(10 - box.hi);
   expect(del.export18).toBe(10 - box.hi);
@@ -427,7 +428,6 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
     const id = await app.tin.create({ from: 'lidar', pc: c.id });
     return { n: c.n, n0, clip: sub.n, bpf: bb.n, tiles: tiles.stats.points, deleted: c.nDeleted, ground, tin: (await app.tin.info(id)).vertices };
   });
-  console.log(JSON.stringify({ more }));
   expect([more.clip, more.bpf, more.tiles]).toEqual([more.n - more.n0, more.n - more.n0, more.n - more.n0]);
   expect(more.deleted).toBe(more.n0 + 5);
   expect(more.tin).toBe(more.ground);
