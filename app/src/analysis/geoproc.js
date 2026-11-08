@@ -119,7 +119,9 @@ export function encodeGeoms(geoms, frameOf) {
       v.push(3, q.polys.length);
       for (const rs of q.polys) {
         v.push(rs.length);
-        for (const r of rs) ring(r);
+        // The bundle unions with the non-zero rule: outer rings counter-clockwise and holes clockwise,
+        // whatever order the source drew them in (KML, GML and digitised rings keep theirs).
+        rs.forEach((r, k) => ring((planarArea(r) > 0) === (k === 0) ? r : [...r].reverse()));
       }
     } else if (q.lines.length) {
       v.push(2, q.lines.length);
@@ -130,6 +132,16 @@ export function encodeGeoms(geoms, frameOf) {
     }
   });
   return Float64Array.from(v);
+}
+
+/** Signed area of a planar ring (counter-clockwise positive). */
+function planarArea(r) {
+  let a = 0;
+  for (let i = 0; i < r.length; i++) {
+    const [p, q] = [r[i], r[(i + 1) % r.length]];
+    a += p[0] * q[1] - q[0] * p[1];
+  }
+  return a / 2;
 }
 
 /** Decode the bundle's multipolygons: [[[[x, y] …] rings] polygons] per item. */
@@ -485,6 +497,20 @@ export function spatialJoin(targets, joins, { predicate = 'intersects', field = 
   const F0 = localFrame(c.lat, c.lon);
   const tree = new RBush();
   tree.load(joins.map((f, j) => ({ ...boxOf(f.geom, F0), j })));
+  // Output names never overwrite a target field: a clash gets a suffix (join_count → join_count_2),
+  // the same rule as overlay's mergeFields, decided once for the whole layer.
+  const taken = new Set(targets.flatMap((t) => Object.keys(t.attrs ?? {})));
+  const name = (n) => {
+    let x = n;
+    for (let k = 2; taken.has(x); k++) x = `${n}_${k}`;
+    taken.add(x);
+    return x;
+  };
+  const N = { count: name(`${prefix}_count`) };
+  if (predicate === 'nearest') {
+    N.distance = name(`${prefix}_distance`);
+    N.attrs = Object.fromEntries([...new Set(joins.flatMap((f) => Object.keys(f.attrs ?? {})))].map((k) => [k, name(`${prefix}_${k}`)]));
+  } else if (field != null) for (const st of ['sum', 'mean', 'min', 'max']) N[st] = name(`${prefix}_${field}_${st}`);
   return targets.map((t, i) => {
     if (job && i % 256 === 0) {
       job.checkCancel?.();
@@ -508,20 +534,20 @@ export function spatialJoin(targets, joins, { predicate = 'intersects', field = 
         if ((best && best.d <= r) || r > maxDistance) break;
         r *= 2;
       }
-      if (!best || best.d > maxDistance) return { attrs: { ...t.attrs, [`${prefix}_count`]: 0, [`${prefix}_distance`]: null } };
-      return { attrs: { ...t.attrs, ...Object.fromEntries(Object.entries(joins[best.j].attrs ?? {}).map(([k, v]) => [`${prefix}_${k}`, v])), [`${prefix}_count`]: 1, [`${prefix}_distance`]: best.d } };
+      if (!best || best.d > maxDistance) return { attrs: { ...t.attrs, [N.count]: 0, [N.distance]: null } };
+      return { attrs: { ...t.attrs, ...Object.fromEntries(Object.entries(joins[best.j].attrs ?? {}).map(([k, v]) => [N.attrs[k], v])), [N.count]: 1, [N.distance]: best.d } };
     }
     const matched = tree.search(box).filter((h) => {
       const r = relate(t.geom, joins[h.j].geom, F);
       return predicate === 'intersects' ? r.intersects : predicate === 'within' ? r.within : r.contains;
     });
-    const attrs = { ...t.attrs, [`${prefix}_count`]: matched.length };
+    const attrs = { ...t.attrs, [N.count]: matched.length };
     if (field != null) {
       // Missing values (null, empty, true / false) are left out, not counted as 0.
       const num = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
       const vals = matched.map((h) => num(joins[h.j].attrs?.[field])).filter(Number.isFinite);
       const sum = vals.reduce((s, v) => s + v, 0);
-      Object.assign(attrs, { [`${prefix}_${field}_sum`]: vals.length ? sum : null, [`${prefix}_${field}_mean`]: vals.length ? sum / vals.length : null, [`${prefix}_${field}_min`]: vals.length ? Math.min(...vals) : null, [`${prefix}_${field}_max`]: vals.length ? Math.max(...vals) : null });
+      Object.assign(attrs, { [N.sum]: vals.length ? sum : null, [N.mean]: vals.length ? sum / vals.length : null, [N.min]: vals.length ? Math.min(...vals) : null, [N.max]: vals.length ? Math.max(...vals) : null });
     }
     return { attrs };
   });

@@ -313,6 +313,37 @@ describe.skipIf(!haveWasm)('vector geoprocessing (REQ-GAP-79)', () => {
     expect(r.attrs).toMatchObject({ join_count: 5, join_v_sum: 14, join_v_mean: 7, join_v_min: 4, join_v_max: 10 });
   });
 
+  it('takes rings in either winding: holes stay holes, opposite-wound overlaps merge (council round 2, S1)', () => {
+    const F = localFrame(39.74, -104.99);
+    const ring = (pts) => pts.map(([x, y]) => [...F.from(x, y), 0]);
+    const ccw = (x0, y0, x1, y1) => ring([[x0, y0], [x1, y0], [x1, y1], [x0, y1]]);
+    const cw = (x0, y0, x1, y1) => ring([[x0, y0], [x0, y1], [x1, y1], [x1, y0]]);
+    // A 100 m square with a 20 m hole wound the same way as the outer ring, shrunk by 5 m.
+    const holed = fromParts('Polygon', [ccw(0, 0, 100, 100), ccw(40, 40, 60, 60)]);
+    const [b] = buffer([holed], { distance: -5, geodesic: false });
+    const holes = b.parts.length - (b.polys?.length ?? 1);
+    expect(holes).toBe(1);
+    // Two overlapping squares of opposite winding dissolve into one 150 m² rectangle.
+    const [d] = dissolveFeatures([{ geom: fromParts('Polygon', [ccw(0, 0, 10, 10)]), attrs: {} }, { geom: fromParts('Polygon', [cw(5, 0, 15, 10)]), attrs: {} }], { run: run.dissolve });
+    expect(d.geom.type).toBe('Polygon');
+    const pts = [];
+    for (let k = 0; k < d.geom.xyz.length; k += 3) pts.push([d.geom.xyz[k + 1], d.geom.xyz[k]]);
+    expect(Math.abs(core.polygonArea(pts).area)).toBeCloseTo(150, 0);
+  });
+
+  it('never overwrites a target field with a join result (council round 2, S2)', () => {
+    const sq = { geom: fromParts('Polygon', [[[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]]]), attrs: { join_count: 'kept' } };
+    const pt = { geom: fromParts('Point', [[[0.5, 0.5, 0]]]), attrs: { count: 7, v: 3 } };
+    const [once] = spatialJoin([sq], [pt], { field: 'v' });
+    expect(once.attrs).toMatchObject({ join_count: 'kept', join_count_2: 1, join_v_sum: 3 });
+    const [twice] = spatialJoin([{ ...sq, attrs: once.attrs }], [pt], { field: 'v' });
+    expect(twice.attrs).toMatchObject({ join_count: 'kept', join_count_2: 1, join_count_3: 1, join_v_sum: 3, join_v_sum_2: 3 });
+    // Nearest: the join feature's own "count" does not clash with the match count.
+    const [near] = spatialJoin([{ geom: fromParts('Point', [[[2, 2, 0]]]), attrs: {} }], [pt], { predicate: 'nearest' });
+    expect(near.attrs.join_count).toBe(1);
+    expect(near.attrs.join_count_2).toBe(7);
+  });
+
   it('relates shared boundaries, holes and touching geometries', () => {
     const F = localFrame(39.74, -104.99);
     const sq = (x, y, s, hole = null) => fromParts('Polygon', [[[x, y], [x + s, y], [x + s, y + s], [x, y + s]].map(([a, b]) => [...F.from(a, b), 0]), ...(hole ? [hole.map(([a, b]) => [...F.from(a, b), 0])] : [])]);

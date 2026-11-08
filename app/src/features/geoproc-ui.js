@@ -55,7 +55,7 @@ export function install(app) {
   async function dissolve(id, field = null) {
     const fs = need(id);
     const r = await job('geo.dissolve', { features: plain(fs), field }, t('Dissolve {layer}', { layer: nameOf(id) }));
-    return add(field ? t('{layer} dissolved by {field}', { layer: nameOf(id), field }) : t('{layer} dissolved', { layer: nameOf(id) }), r.map((g) => ({ geom: g.geom, attrs: field ? { [field]: g.value, count: g.count } : { count: g.count } })), 'dissolve');
+    return add(field ? t('{layer} dissolved by {field}', { layer: nameOf(id), field }) : t('{layer} dissolved', { layer: nameOf(id) }), r.map((g) => ({ geom: g.geom, attrs: field ? { [field]: g.value, [field === 'count' ? 'count_2' : 'count']: g.count } : { count: g.count } })), 'dissolve');
   }
   /** Join layer `joinId` onto `targetId`. Returns the new layer's id. */
   async function join(targetId, joinId, { predicate = 'intersects', field = null, maxDistance = null } = {}) {
