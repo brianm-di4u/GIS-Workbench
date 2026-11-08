@@ -37,11 +37,15 @@ test('REQ-FMT-14 an RPF frame file (CADRG, VQ) opens by its frame name; MIE4NITF
       bright.push(row.findIndex((v) => v > 200));
     }
     const layers = p.layers().filter((l) => l.info?.mie).length;
+    // Playback starts at the frame shown (the last one, so its first step wraps to frame 1). Wait for
+    // that step, not for a fixed time: on a slow software-GL runner it can land well after 1 s.
+    const from = p.mie.index;
     const fps = app.mie.play(p);
-    await new Promise((res) => setTimeout(res, 1300));
-    const moved = p.mie.index;
-    app.mie.stop();
-    return { times: seq.map((f) => f.time), segs: seq.map((f) => f.segments[0]), bright, layers, fps, moved, label: p.status.textContent, rate: app.mie.sequenceLayer(p).info.mie.rate };
+    const t0 = performance.now();
+    while (p.mie.index === from && performance.now() - t0 < 30000) await new Promise((res) => setTimeout(res, 20));
+    const st = app.mie.stop();
+    const step = (p.mie.index - from + seq.length) % seq.length;
+    return { times: seq.map((f) => f.time), segs: seq.map((f) => f.segments[0]), bright, layers, fps, step, st, label: p.status.textContent, rate: app.mie.sequenceLayer(p).info.mie.rate };
   });
   expect(r.times).toEqual(truth.mie.times);
   // Frames in time order; the file holds them in the order truth.mie.fileOrder.
@@ -49,7 +53,9 @@ test('REQ-FMT-14 an RPF frame file (CADRG, VQ) opens by its frame name; MIE4NITF
   expect(r.bright).toEqual(truth.mie.squareX);
   expect(r.layers).toBe(1);
   expect(r.fps).toBe(2);
-  expect(r.moved).toBeGreaterThanOrEqual(1);
+  // It moved forward in time order: the next frame, or later by the frames it reports skipping.
+  expect(r.st.shown).toBeGreaterThanOrEqual(1);
+  expect(r.step).toBe(1 + r.st.skipped);
   expect(r.label).toMatch(/MIE4NITF frame \d\/6 · 2025-10-25 23:59:3/);
   expect(logs).toEqual([]);
 });
