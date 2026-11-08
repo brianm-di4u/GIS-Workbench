@@ -78,6 +78,7 @@ export async function acquire({ level, path = LOCK_PATH, log = console.error, en
       }
     } else if (step.action === 'acquire') {
       try {
+        mine.startedAt = Date.now(); // when the lock is taken, not when the wait began
         writeFileSync(path, JSON.stringify(mine), { flag: 'wx' });
         // Confirm that the file is ours, in case a recovery elsewhere removed and replaced it.
         if (readLock(path).lock?.pid === mine.pid) break;

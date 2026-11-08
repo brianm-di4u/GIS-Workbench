@@ -1,5 +1,9 @@
-import { describe, expect, it } from 'vitest';
-import { STALE_MS, decide, describeWait, duration } from '../../.pipeline/lib/machine-lock.mjs';
+import { spawnSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { STALE_MS, acquire, decide, describeWait, duration } from '../../.pipeline/lib/machine-lock.mjs';
 
 const holder = { pid: 4242, level: 'full', cwd: 'C:/work/a', startedAt: 1_000_000 };
 const up = () => true;
@@ -42,5 +46,58 @@ describe('machine lock decisions', () => {
     expect(duration(0)).toBe('0s');
     expect(duration(59_400)).toBe('59s');
     expect(duration(3_725_000)).toBe('62m 5s');
+  });
+});
+
+describe('machine lock files', () => {
+  let dir;
+  let path;
+  const lines = [];
+  const opts = { level: 'full', env: {}, log: (m) => lines.push(m) };
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), 'gwb-lock-test-'));
+    path = join(dir, 'lock');
+    lines.length = 0;
+  });
+  afterEach(() => rmSync(dir, { recursive: true, force: true }));
+
+  it('writes our pid, and release removes the file', async () => {
+    const release = await acquire({ ...opts, path });
+    expect(JSON.parse(readFileSync(path, 'utf8')).pid).toBe(process.pid);
+    release();
+    expect(existsSync(path)).toBe(false);
+  });
+
+  it('makes a second acquirer wait for the first, and says who holds it', async () => {
+    const first = await acquire({ ...opts, path });
+    // Our own pid is alive, so the file is a live holder to the second acquirer.
+    let got = false;
+    const second = acquire({ ...opts, path }).then((release) => {
+      got = true;
+      return release;
+    });
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(got).toBe(false);
+    expect(lines.join(' ')).toContain(`pid ${process.pid}`);
+    first();
+    (await second)();
+    expect(got).toBe(true);
+    expect(existsSync(path)).toBe(false);
+  }, 15_000);
+
+  it('recovers a lock left by a process that is gone', async () => {
+    const dead = spawnSync(process.execPath, ['-e', '0']).pid;
+    writeFileSync(path, JSON.stringify({ pid: dead, level: 'full', cwd: 'x', startedAt: 0 }));
+    const release = await acquire({ ...opts, path });
+    expect(JSON.parse(readFileSync(path, 'utf8')).pid).toBe(process.pid);
+    expect(lines.join(' ')).toContain('stale');
+    release();
+  }, 15_000);
+
+  it('does nothing under CI', async () => {
+    writeFileSync(path, JSON.stringify({ pid: process.pid, level: 'e2e', cwd: 'x', startedAt: 0 }));
+    const release = await acquire({ ...opts, path, env: { CI: 'true' } });
+    release();
+    expect(JSON.parse(readFileSync(path, 'utf8')).level).toBe('e2e');
   });
 });
