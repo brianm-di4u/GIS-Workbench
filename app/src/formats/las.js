@@ -3,6 +3,7 @@
 // records in parallel point-cloud workers — LAS by blocks, LAZ by runs of whole chunks — into
 // columns in the local frame (DN-36), and the LOD index for budgeted rendering.
 
+import proj4 from 'proj4';
 import { crsOf, converter } from '../geo/crs.js';
 import { columnsOf } from '../wasm/pointcloud.js';
 import { t, gwError } from '../i18n/index.js';
@@ -33,15 +34,34 @@ function verticalOf(epsg, name) {
   return t.trim() ? 'other' : 'unstated';
 }
 
-/** The CRS of a LAS file: {crs (proj4js), label, hUnit, vUnit, vertical, warnings}. */
-export function lasCrs(info, wkt, wktInfo) {
+/** Metres per unit of a proj4js definition (a string or a registered name such as EPSG:2229). */
+export function metresPerUnit(def) {
+  const d = typeof def === 'string' && !/\+proj=/.test(def) ? proj4.defs(def) : null;
+  const toMeter = d ? d.to_meter : Number(/\+to_meter=([\d.]+)/.exec(String(def ?? ''))?.[1]);
+  if (toMeter > 0) return toMeter;
+  const units = d ? d.units : /\+units=([\w-]+)/.exec(String(def ?? ''))?.[1];
+  return { 'us-ft': 1200 / 3937, ft: 0.3048 }[units] ?? 1;
+}
+
+/**
+ * The CRS of a LAS file: {crs (proj4js), label, hUnit, vUnit, vertical, warnings, local, assigned}.
+ * `assign` ({epsg, vertical}) is a CRS the user gave (REQ-LDR-14): it replaces whatever the file
+ * states. Its heights are in the CRS's horizontal unit.
+ */
+export function lasCrs(info, wkt, wktInfo, assign = null) {
   const warnings = [];
   let crs = null;
   let hUnit = 1;
   let vUnit = 1;
   let vertical = 'unstated';
   let vname = '';
-  if (wkt) {
+  if (assign) {
+    crs = crsOf({ epsg: assign.epsg });
+    if (!crs) throw gwError('EPSG:{code} is not in the embedded EPSG table', { code: String(assign.epsg) }, 'E_LAS_ASSIGN_EPSG');
+    hUnit = metresPerUnit(crs.def);
+    vUnit = hUnit;
+    vertical = assign.vertical ?? 'hae';
+  } else if (wkt) {
     const w = wktInfo ?? {};
     crs = crsOf({ epsg: w.hEpsg, wkt: w.horizontal || wkt });
     if (!crs && w.hEpsg) crs = crsOf({ epsg: w.hEpsg });
@@ -76,19 +96,22 @@ export function lasCrs(info, wkt, wktInfo) {
     const cy = (info.min[1] + info.max[1]) / 2;
     crs = { def: `+proj=tmerc +lat_0=0 +lon_0=0 +k=1 +x_0=${cx} +y_0=${cy} +ellps=WGS84 +units=m +no_defs`, label: t('Local frame (no CRS in the file)'), note: { name: 'local', acc: -1 } };
     local = true;
-    warnings.push(t('No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful.'));
+    warnings.push(t('No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful until a CRS is assigned (Point Cloud ▸ Assign CRS).'));
   }
   if (vertical === 'navd88') warnings.push(t('NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty'));
   if (vertical === 'egm2008') warnings.push(t('EGM2008 heights are converted with EGM96: differences up to about 1 m'));
   if (vertical === 'unstated') warnings.push(t('The file states no vertical CRS: heights are used as ellipsoidal (HAE)'));
   if (vertical === 'other') warnings.push(t('Vertical CRS {name} is not known: heights are used as ellipsoidal (HAE)', { name: String(vname) }));
-  return { crs, label: crs?.label ?? t('unknown CRS'), hUnit, vUnit, vertical, vname, warnings, local };
+  return { crs, label: crs?.label ?? t('unknown CRS'), hUnit, vUnit, vertical, vname, warnings, local, assigned: assign ? { epsg: Number(assign.epsg), vertical } : null };
 }
 
 const text = (u8, a, b) => new TextDecoder().decode(u8.subarray(a, b)).replace(/\0[\s\S]*$/, '');
 
-/** Read the header, VLRs, EVLRs and CRS. `run(op, args)` runs on a point-cloud worker. */
-export async function readLasHeader(file, run) {
+/**
+ * Read the header, VLRs, EVLRs and CRS. `run(op, args)` runs on a point-cloud worker; `assign`
+ * ({epsg, vertical}) replaces the file's CRS.
+ */
+export async function readLasHeader(file, run, assign = null) {
   const read = async (a, b) => new Uint8Array(await file.slice(a, b).arrayBuffer());
   let head = await read(0, Math.min(file.size, 4096));
   let info = await run('info', { head });
@@ -113,7 +136,7 @@ export async function readLasHeader(file, run) {
       pos += 60 + e.len;
     }
   }
-  const crs = lasCrs(info, wkt, wktInfo);
+  const crs = lasCrs(info, wkt, wktInfo, assign);
   return { info, wkt, wktInfo, crs };
 }
 
@@ -181,13 +204,15 @@ const FIELDS = ['pos', 'time', 'intensity', 'source', 'scan', 'rgb', 'class', 'r
 const WIDTH = { pos: 3, rgb: 3 };
 
 /**
- * Read a LAS/LAZ file into a point cloud. opts: {pool, undulation, onProgress, label}. Returns
+ * Read a LAS/LAZ file into a point cloud. opts: {pool, undulation, onProgress, ensureGeoid, assign},
+ * where `assign` ({epsg, vertical}) is a CRS that replaces the file's (REQ-LDR-14). Returns
  * {name, info, wkt, crs, origin, t0, ...columns, stats, tiles, ms}.
  */
-export async function readLas(file, { pool, undulation, onProgress, ensureGeoid } = {}) {
+export async function readLas(file, { pool, undulation, onProgress, ensureGeoid, assign = null } = {}) {
   const t0ms = performance.now();
   const run = (op, args, transfer = []) => pool.run(op, args, { kind: 'pointcloud', transfer, label: t('Reading {file}…', { file: file.name }), timeout: 600000 });
-  const { info, wkt, crs } = await readLasHeader(file, run);
+  const { info, wkt, crs } = await readLasHeader(file, run, assign);
+  if (assign && crs.local) throw gwError('{file}: {detail}', { file: file.name, detail: crs.warnings[0] ?? '' }, 'E_LAS_ASSIGN_INVALID');
   if (!crs.crs) throw gwError('{file}: no usable coordinate reference system ({detail})', { file: file.name, detail: crs.warnings.join('; ') || t('no WKT or GeoTIFF keys') }, 'E_LAS_NO_CRS');
   if (['egm96', 'egm2008', 'navd88'].includes(crs.vertical)) await ensureGeoid?.();
   const lat = buildLattice(info, crs, undulation);
