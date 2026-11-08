@@ -62,7 +62,8 @@ test('REG-010 a projected 1 m DEM used as terrain keeps its posts', async ({ pag
   expect(r.height).toBeGreaterThan(2500);
   expect(r.postM[0]).toBeLessThan(1.05);
   expect(r.postM[1]).toBeLessThan(1.05);
-  // 2 m ripples on an 8 m wavelength: at the old ~1.5 m posts the bilinear error reached about 1 m.
-  expect(r.p95).toBeLessThan(0.6);
+  // 2 m ripples on an 8 m wavelength, read back bilinearly from the terrain grid: with the 2,048-post
+  // cap (1.47 × 1.27 m posts) the 95th-percentile error was 0.55 m; at about 1 m posts it is 0.41 m.
+  expect(r.p95).toBeLessThan(0.48);
   expect(logs).toEqual([]);
 });
