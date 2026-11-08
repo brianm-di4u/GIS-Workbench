@@ -1,6 +1,6 @@
 //! Service-level checks of the 2.6 GDAL routes. Its own test binary: these need GWB_SIDECAR_TEST=1,
 //! which security.rs must run without.
-#![allow(clippy::all)]
+#![allow(clippy::style, clippy::complexity, clippy::perf)]
 
 mod common;
 use common::*;

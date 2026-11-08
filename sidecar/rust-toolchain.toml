@@ -2,3 +2,4 @@
 channel = "1.99.1"
 targets = ["x86_64-pc-windows-msvc"]
 profile = "minimal"
+components = ["clippy"]

@@ -3,7 +3,7 @@
 //! GWB_CSM_BUILD names the folder of `node sidecar/csmhost/build.mjs`. With the feature on and no
 //! build, these fail rather than skip: this suite is the proof the host is confined.
 #![cfg(feature = "csm-host")]
-#![allow(clippy::all)]
+#![allow(clippy::style, clippy::complexity, clippy::perf)]
 
 mod common;
 use common::*;

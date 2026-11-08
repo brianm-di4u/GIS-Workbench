@@ -133,6 +133,8 @@ fn main() {
         }
         "SPAWN" => {
             let me = std::env::current_exe().unwrap();
+            // Never waited on, on purpose: the test checks that cancelling kills the whole tree.
+            #[allow(clippy::zombie_processes)]
             let child = std::process::Command::new(me).arg("--child").spawn().unwrap();
             std::fs::write(arg, format!("{}\n{}\n", std::process::id(), child.id())).unwrap();
             std::thread::sleep(Duration::from_secs(300));

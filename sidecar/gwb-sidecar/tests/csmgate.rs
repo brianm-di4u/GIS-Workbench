@@ -3,7 +3,7 @@
 //! test binary, because security.rs must run without that variable. `sidecar/installer/gates.mjs`
 //! makes the same check on the binary of each package.
 #![cfg(not(feature = "csm-host"))]
-#![allow(clippy::all)]
+#![allow(clippy::style, clippy::complexity, clippy::perf)]
 
 mod common;
 use common::*;
