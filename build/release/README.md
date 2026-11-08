@@ -5,6 +5,7 @@ The assets are built on the admin's Windows PC, with WSL for the Linux packages,
 | Step | Command | What it does |
 |---|---|---|
 | 1 | `npm run build` | Builds `dist/`, with every pack. A build that skipped packs is caught in step 3. |
+| 1a | `node build/size-report.mjs --update` | In the release PR, after step 1: makes this build's sizes the baseline that `verify` reports each change against. |
 | 2 | `node build/release/sidecar.mjs --version <sidecar v>` | Builds the Windows packages, then the Linux ones in WSL. Earlier output is moved aside, not deleted. Run it every release, even when the sidecar version doesn't change, because the packages carry this build's HTML. |
 | 3 | `node build/release/stage.mjs --sidecar-version <sidecar v> --out <new folder> --like <previous tag>` | Copies the assets into one folder, checks the HTML and packs against `dist/SHA256SUMS`, compares asset families with the previous release, writes the web app's SBOM (`gis-workbench-<v>-sbom.cdx.json`) from `dist/build-report.json`, and writes `SHA256SUMS`. |
 | 4 | The admin runs the `release` workflow, `action: cut` | Creates the draft prerelease. |
