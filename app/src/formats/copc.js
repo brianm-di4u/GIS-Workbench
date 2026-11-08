@@ -107,11 +107,16 @@ class Stream {
 }
 
 /** Open a COPC file (local File or rangeFile). */
-export async function openCopc(file, { pool, undulation, ensureGeoid } = {}) {
+export async function openCopc(file, { pool, undulation, geoidName, ensureGeoid } = {}) {
   const run = (op, args, transfer = []) => pool.run(op, args, { kind: 'pointcloud', transfer, label: t('Reading {file}…', { file: file.name }), timeout: 600000 });
-  const { info, wkt, crs } = await readLasHeader(file, run);
+  const head = await readLasHeader(file, run, null, geoidName?.());
+  const { info, wkt } = head;
+  let { crs } = head;
   if (!crs.crs) throw gwError('{file}: no usable coordinate reference system', { file: file.name }, 'E_LAS_NO_CRS');
-  if (['egm96', 'egm2008', 'navd88'].includes(crs.vertical)) await ensureGeoid?.();
+  if (['egm96', 'egm2008', 'navd88'].includes(crs.vertical)) {
+    await ensureGeoid?.();
+    crs = lasCrs(info, wkt, head.wktInfo, null, geoidName?.()); // name the geoid that converts the heights (REG-027)
+  }
   const read = async (a, b) => new Uint8Array(await file.slice(a, b).arrayBuffer());
   // The copc info VLR follows the 375-byte header (COPC 1.0 §3).
   const vh = await read(375, 375 + 54 + 160);

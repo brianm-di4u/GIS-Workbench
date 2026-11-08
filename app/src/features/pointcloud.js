@@ -103,7 +103,7 @@ export function install(app) {
     if (src.local) cloud.src = { ...src, size: file.size }; // the file's own coordinates, for Assign CRS
     return cloud;
   };
-  const geoOpts = () => ({ pool: app.pool, undulation: (lat, lon) => app.core.undulation(lat, lon), ensureGeoid: () => app.ensureGeoid() });
+  const geoOpts = () => ({ pool: app.pool, undulation: (lat, lon) => app.core.undulation(lat, lon), geoidName: () => app.core.geoidName, ensureGeoid: () => app.ensureGeoid() });
   /** ASCII points (REQ-LDR-11): asks for the columns and the CRS unless `ascii` gives them. */
   async function readAscii(file, ascii = null) {
     const text = await file.text();
@@ -163,7 +163,6 @@ export function install(app) {
   }
 
   // ---- streaming (REQ-LDR-02, REQ-ARC-16): COPC by range, EPT by node ----
-  const geo = () => ({ pool: app.pool, undulation: (lat, lon) => app.core.undulation(lat, lon), ensureGeoid: () => app.ensureGeoid() });
   async function stream(src, p = pane(), opts = {}) {
     if (!p.view3d) {
       p.view3d = await View3D.create(app, p);
@@ -177,10 +176,10 @@ export function install(app) {
   }
   async function streamCopc(fileOrUrl, p = pane(), opts = {}) {
     const f = typeof fileOrUrl === 'string' ? await rangeFile(fileOrUrl, app.netlog.fetchFor(`COPC: ${new URL(fileOrUrl).host}`)) : fileOrUrl;
-    return stream(await openCopc(f, geo()), p, opts);
+    return stream(await openCopc(f, geoOpts()), p, opts);
   }
   async function streamEpt(url, p = pane(), opts = {}) {
-    return stream(await openEpt(url, app.netlog.fetchFor(`EPT: ${new URL(url).host}`), geo()), p, opts);
+    return stream(await openEpt(url, app.netlog.fetchFor(`EPT: ${new URL(url).host}`), geoOpts()), p, opts);
   }
 
   app.openPointClouds = async (files, p = pane()) => {
