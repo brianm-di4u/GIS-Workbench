@@ -361,7 +361,10 @@ async function definitions(esbuild) {
  * Build every pack into `outDir`/packs; returns {manifest: {name: {...}}, files, warnings, code}
  * where `code` lists the JS entries for the eval gate.
  */
-export async function buildPacks({ outDir, esbuild, toolVersion, extra = [] }) {
+// A fixed entry time, built from local fields so the ZIP's DOS timestamps are the same in every time zone.
+const ZIP_MTIME = new Date(1980, 0, 1);
+
+export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new Date().toISOString(), extra = [] }) {
   const dir = join(outDir, 'packs');
   mkdirSync(dir, { recursive: true });
   const manifest = {};
@@ -373,9 +376,9 @@ export async function buildPacks({ outDir, esbuild, toolVersion, extra = [] }) {
   for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
   for (const p of defs) {
     const entries = p.entries.map((e) => ({ path: e.path, kind: e.kind, size: e.bytes.length, sha256: sha256(e.bytes) }));
-    const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: new Date().toISOString().slice(0, 10), entries };
+    const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: buildDate.slice(0, 10), entries };
     const pjBytes = strToU8(JSON.stringify(pj, null, 1));
-    const zip = zipSync({ 'pack.json': pjBytes, 'LICENCE.txt': strToU8(p.licence), ...Object.fromEntries(p.entries.map((e) => [e.path, [new Uint8Array(e.bytes), { level: e.kind === 'model' || e.stored ? 0 : 6 }]])) });
+    const zip = zipSync({ 'pack.json': pjBytes, 'LICENCE.txt': strToU8(p.licence), ...Object.fromEntries(p.entries.map((e) => [e.path, [new Uint8Array(e.bytes), { level: e.kind === 'model' || e.stored ? 0 : 6 }]])) }, { mtime: ZIP_MTIME });
     const file = `${p.name}-${p.version}.gwpack`;
     writeFileSync(join(dir, file), zip);
     manifest[p.name] = { title: p.title, version: p.version, ...(p.requires ? { requires: p.requires } : {}), file, sha256: sha256(zip), size: zip.length, packJson: sha256(pjBytes), entries: Object.fromEntries(entries.map((e) => [e.path, { kind: e.kind, sha256: e.sha256, size: e.size }])) };

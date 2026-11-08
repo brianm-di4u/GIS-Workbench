@@ -6,6 +6,7 @@
 import { airgapStrip } from './airgap.mjs';
 import { d3DecoderBlocks } from './d3-decoders.mjs';
 import * as esbuild from 'esbuild';
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, statSync } from 'node:fs';
@@ -38,11 +39,24 @@ const outDir = join(root, outArg || 'dist');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 
 const VERSION = pkg.version;
-const BUILD_DATE = new Date().toISOString();
+// The build date is the commit's, so two builds of one commit are byte-identical (SOURCE_DATE_EPOCH overrides it).
+const BUILD_DATE = buildDate();
 const DEFAULT_MODEL = process.env.GW_DEFAULT_MODEL || 'claude-opus-5-5';
 const TARGET = ['chrome120', 'edge120', 'safari16.4', 'firefox128'];
 
 const sha256 = (b) => createHash('sha256').update(b).digest('hex');
+
+function buildDate() {
+  let s = process.env.SOURCE_DATE_EPOCH;
+  if (!s) {
+    try {
+      s = execFileSync('git', ['log', '-1', '--format=%ct'], { cwd: root, encoding: 'utf8' }).trim();
+    } catch {
+      return new Date().toISOString();
+    }
+  }
+  return new Date(Number(s) * 1000).toISOString();
+}
 const sha256b64 = (b) => createHash('sha256').update(b).digest('base64');
 const log = (...a) => console.log(...a);
 const errors = [];
@@ -286,7 +300,7 @@ async function main() {
   warnings.push(...i18n.warnings);
 
   // Data packs (REQ-ARC-14): built beside the HTML; their hashes go in the build manifest.
-  const packs = await buildPacks({ outDir, esbuild, toolVersion: VERSION, extra: i18n.packDefs });
+  const packs = await buildPacks({ outDir, esbuild, toolVersion: VERSION, buildDate: BUILD_DATE, extra: i18n.packDefs });
   warnings.push(...packs.warnings);
   errors.push(...evalGate(packs.code, EVAL_ALLOW));
   errors.push(...modelLicenceGate(packs.models));
