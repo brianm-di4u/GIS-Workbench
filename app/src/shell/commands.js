@@ -634,6 +634,10 @@ const CATALOG = [
   ['vec.attachments', N_('Attachments…'), 'pin', 'REQ-GAP-64', 'R8', '', N_('Lists, opens, adds and deletes the attachments of the selected feature of an ArcGIS feature layer.')],
   ['vec.related', N_('Related Records…'), 'table', 'REQ-GAP-64', 'R8', '', N_('Shows and edits the records related to the selected feature of an ArcGIS feature layer, with the related table’s field checks.')],
   ['vec.versions', N_('Branch Versions…'), 'layers', 'REQ-GAP-64', 'R8', '', N_('Lists the branch versions of an ArcGIS feature service, reads or edits one, saves the edits and reconciles and posts them.')],
+  ['vec.buffer', N_('Buffer…'), 'polygon', 'REQ-GAP-79', 'R10', '', N_('Draws the area within a distance of every feature of a layer, geodesic or planar, with round, flat or square line ends.')],
+  ['vec.overlay', N_('Overlay…'), 'layers', 'REQ-GAP-79', 'R10', '', N_('Intersects, unions, erases or takes the symmetric difference of two polygon layers, keeping both layers’ attributes.')],
+  ['vec.dissolve', N_('Dissolve…'), 'polygon', 'REQ-GAP-79', 'R10', '', N_('Merges the polygons of a layer that share a value, or all of them, into one feature each.')],
+  ['vec.join', N_('Spatial Join…'), 'table', 'REQ-GAP-79', 'R10', '', N_('Adds to each feature the count and the sum, mean, minimum and maximum of another layer’s features it touches, lies in, contains or is nearest to.')],
   ['vec.lyrx', N_('Apply Layer File Style (.lyrx)…'), 'symbol', 'REQ-GAP-64', 'R8', '', N_('Reads the symbology of an ArcGIS Pro layer file into the active vector layer’s style and lists what could not be applied.')],
 ];
 
