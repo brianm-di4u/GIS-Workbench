@@ -674,6 +674,7 @@ export function install(app) {
     Object.assign(next, { id: newId('pc'), file: c.file, ...(c.src ? { src: c.src } : {}) });
     next.class0 = next.class.slice();
     app.pointClouds.set(next.id, next);
+    app.pointClouds.delete(c.id); // the old placement is not offered to other tools (obstruction, TIN sources)
     S.transact(t('Assign CRS to point cloud'), (tx) => tx.create('pointcloud', { pcId: next.id, name: next.name, points: next.n, crs: next.crs.label, vertical: next.crs.vertical, assigned: { epsg, vertical }, pane: p?.id ?? null, derivedFrom: c.id }), { kind: 'edit' });
     app.importLog.push({ file: c.name, errors: [], warnings: [t('CRS assigned: {crs}', { crs: next.crs.label }), ...next.crs.warnings] });
     if (p?.view3d) p.view3d.removeCloud(c);
