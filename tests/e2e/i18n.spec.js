@@ -10,7 +10,7 @@ import { test, expect } from '@playwright/test';
 import { readFileSync, readdirSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createRequire } from 'node:module';
-import { openApp, openFiles, LEGACY_PREFS, DIST_DIR, ROOT } from './helpers.js';
+import { openApp, openFiles, LEGACY_PREFS, DIST_DIR, ROOT, restart } from './helpers.js';
 import { LIMITS } from '../../build/gates.mjs';
 
 test.describe.configure({ timeout: 900_000 });
@@ -46,8 +46,7 @@ async function withLocale(page, tag, prefs = {}) {
     const file = localePack(tag);
     test.skip(!file, `no ${tag} pack in this build`);
     await r.frame.evaluate(async ([b, name]) => window.gisworkbench.packs.open(new File([new Uint8Array(b)], name)), [[...readFileSync(join(DIST_DIR, 'packs', file))], file]);
-    await page.reload();
-    await r.frame.waitForFunction(() => document.body?.dataset.ready === '1', null, { timeout: 45_000 });
+    await restart(page);
   }
   expect(await r.frame.evaluate(() => window.gisworkbench.i18n.locale)).toBe(tag);
   return r;
@@ -386,8 +385,7 @@ test('SCN-36 REQ-L10N-14 REQ-L10N-15 a wave 2 locale needs its pack, then loads 
     const f = new File([new Uint8Array(b)], 'locale-sv.gwpack');
     await window.gisworkbench.packs.open(f);
   }, [...readFileSync(join(DIST_DIR, 'packs', file))]);
-  await page.reload();
-  await frame.waitForFunction(() => document.body?.dataset.ready === '1', null, { timeout: 45_000 });
+  await restart(page);
   const after = await frame.evaluate(() => ({ locale: window.gisworkbench.i18n.locale, lang: document.documentElement.lang, label: window.gisworkbench.commands.labelOf('file.openimage') }));
   expect(after.locale).toBe('sv');
   expect(after.label).not.toBe('Open Image…');

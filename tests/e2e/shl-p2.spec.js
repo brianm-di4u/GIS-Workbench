@@ -2,7 +2,7 @@
 // REQ-SHL-12 REQ-SHL-13 on the built file, Modern layout, with FX-01 and the FX-06 two-date pair.
 import { test, expect } from '@playwright/test';
 import { resolve } from 'node:path';
-import { openApp, openFiles } from './helpers.js';
+import { openApp, openFiles, restart } from './helpers.js';
 
 const FX01 = resolve('fixtures/fx01/fx01.ntf');
 const FX06 = [resolve('fixtures/fx06/fx06_date1.tif'), resolve('fixtures/fx06/fx06_date2.tif')];
@@ -210,7 +210,6 @@ test('REQ-SHL-12 first start offers personas; Pro opens its docks and two status
   await expect(frame.locator('.menu-host .menu-item')).toHaveCount(5); // 3 personas, save, layout
   await page.keyboard.press('Escape');
   // A later start keeps the choice and shows no card.
-  await page.reload();
-  await frame.waitForFunction(() => document.body.dataset.ready === '1');
+  await restart(page);
   expect(await frame.locator('[data-id="welcome"]').count()).toBe(0);
 });

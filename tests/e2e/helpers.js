@@ -105,6 +105,22 @@ export async function openApp(page, mode = 'file', { srv, htmlPath = DIST, prefs
 }
 
 /**
+ * Start the app again in the same tab, as a later start does, and wait until it is ready. Use this,
+ * not page.reload(): Chromium on Linux can lose a file:// page's localStorage on a same-tab
+ * navigation from one file:// document to another (a reload, location.reload(), a new query),
+ * while a navigation from about:blank keeps it (#9). The page's init scripts run again, as on a reload.
+ */
+export async function restart(page) {
+  const url = page.url();
+  await page.goto('about:blank');
+  await page.goto(url);
+  const frame = page.mainFrame();
+  await frame.waitForFunction(() => document.body?.dataset.ready, null, { timeout: 45_000 });
+  expect(await frame.evaluate(() => document.body.dataset.ready), 'data-ready').toBe('1');
+  return frame;
+}
+
+/**
  * CI has no Research samples, corpus or fetched packs, and `verify full` builds without the packs,
  * so a test that needs them skips there. Only the release gate needs everything, and a missing
  * file still fails it.

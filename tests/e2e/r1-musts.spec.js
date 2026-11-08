@@ -5,7 +5,7 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { openApp, openFiles, sample } from './helpers.js';
+import { openApp, openFiles, sample, restart } from './helpers.js';
 
 const FX01 = resolve('fixtures/fx01/fx01.ntf');
 const FX03 = resolve('fixtures/fx03/fx03.ntf');
@@ -439,9 +439,7 @@ test('REQ-ARC-11 the IndexedDB journal recovers unsaved edits after a reload; no
     return { n: r?.changesets?.length ?? 0, opfs: typeof navigator.storage?.getDirectory };
   });
   expect(j.n).toBeGreaterThan(0);
-  await page.reload();
-  const f2 = page.mainFrame();
-  await f2.waitForFunction(() => document.body.dataset.ready);
+  const f2 = await restart(page);
   const toast = f2.locator('.toast', { hasText: 'Unsaved work' });
   await expect(toast).toBeVisible({ timeout: 10000 });
   await toast.getByRole('button', { name: 'Recover' }).click();

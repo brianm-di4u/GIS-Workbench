@@ -4,11 +4,5 @@
     "issue": 2,
     "expires": "2027-02-07",
     "reason": "Failed once in four Firefox runs."
-  },
-  {
-    "test": "REQ-SHL-12 first start offers personas; Pro opens its docks and two status rows; a workspace can be saved",
-    "issue": 9,
-    "expires": "2026-12-07",
-    "reason": "Failed both tries on the Linux runner in post-merge (main red, #7); passes locally on Windows."
   }
 ]
