@@ -7,6 +7,8 @@ import { Bundle } from './abi.js';
 /** Line kinds (gw_tin::mesh). */
 export const KIND = { hard: 1, soft: 2, void: 3, outer: 4, swap: 5, drain: 6, ridge: 7, outline: 8 };
 export const KIND_NAME = Object.fromEntries(Object.entries(KIND).map(([k, v]) => [v, k]));
+/** Line keys from here up are a LandXML file's forced edges and outline rings (gw_tin::faces::KEY0). */
+export const FILE_KEY0 = 2 ** 40;
 
 const f64 = (o) => new Float64Array(o.buffer.slice(o.byteOffset, o.byteOffset + o.byteLength));
 
@@ -91,7 +93,7 @@ export class TinBundle extends Bundle {
   /**
    * Keep a file's own faces in a TIN built through its points (LandXML): `pts` = the file's x, y, z
    * (plane metres), `faces` = Uint32Array of point indices, three per face, `hidden` = one byte per
-   * face → {faces, skipped, forced, rings, kept}.
+   * face → {faces, skipped, forced, rings, kept, open}.
    */
   keepFaces(id, pts, faces, hidden = new Uint8Array(0)) {
     return this.guard(() => {

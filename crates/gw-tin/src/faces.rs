@@ -5,7 +5,7 @@
 //! with `i="1"`), the outline and holes of the visible faces become face rings (`FRING`), which
 //! exclude everything else. A valid file comes back face for face, with its own heights.
 
-use crate::mesh::{Fail, Loc, Map, Mesh, Res, FRING, INF, NONE, SWAP};
+use crate::mesh::{Loc, Map, Mesh, Res, FRING, INF, NONE, SWAP};
 use crate::pred::orient;
 
 /// What keeping the faces did.
@@ -13,7 +13,8 @@ use crate::pred::orient;
 pub struct Kept {
     /// Faces in the file.
     pub faces: usize,
-    /// Faces left out: a corner is not a TIN vertex, two corners are one vertex, or the three are on one line.
+    /// Faces left out: a corner is not a TIN vertex, two corners are one vertex, the three are on
+    /// one line, or the face overlaps an earlier one (shares an edge in the same direction).
     pub skipped: usize,
     /// Face edges the build did not have, forced.
     pub forced: usize,
@@ -21,6 +22,8 @@ pub struct Kept {
     pub rings: usize,
     /// Visible faces that are triangles of the TIN afterwards.
     pub kept: usize,
+    /// The visible faces' outline could not be traced, so nothing outside them is excluded.
+    pub open: bool,
 }
 
 /// The first line key of forced edges and rings (above any key the app gives an edit).
@@ -65,6 +68,10 @@ pub fn keep_faces(m: &mut Mesh, pts: &[f64], faces: &[u32], hidden: &[u8], key0:
             continue;
         }
         let t = if o > 0 { v } else { [v[0], v[2], v[1]] };
+        if (0..3).any(|i| dir.contains_key(&dkey(t[i], t[(i + 1) % 3]))) {
+            r.skipped += 1;
+            continue;
+        }
         let vis = hidden.get(f).copied().unwrap_or(0) == 0;
         for i in 0..3 {
             dir.insert(dkey(t[i], t[(i + 1) % 3]), (t[(i + 2) % 3], vis));
@@ -117,7 +124,8 @@ pub fn keep_faces(m: &mut Mesh, pts: &[f64], faces: &[u32], hidden: &[u8], key0:
     starts.sort_unstable();
     let ang = |m: &Mesh, from: u32, to: u32| ((m.y[to as usize] - m.y[from as usize]) as f64).atan2((m.x[to as usize] - m.x[from as usize]) as f64);
     let mut used = 0usize;
-    for s in starts {
+    let mut rings = Vec::new();
+    'trace: for s in starts {
         while let Some(&b0) = out.get(&s).and_then(|l| l.first()) {
             let a0 = s as u32;
             take(&mut out, a0, b0);
@@ -127,7 +135,10 @@ pub fn keep_faces(m: &mut Mesh, pts: &[f64], faces: &[u32], hidden: &[u8], key0:
             while b != a0 {
                 ring.push(b);
                 let back = ang(m, b, a);
-                let Some(list) = out.get(&(b as u64)) else { return Err(Fail::Refused(crate::err::Error::invalid("the file's faces have an open outline"))) };
+                let Some(list) = out.get(&(b as u64)) else {
+                    r.open = true;
+                    break 'trace;
+                };
                 // Clockwise turn from the way back to each candidate, in (0, 2π].
                 let w = *list
                     .iter()
@@ -144,14 +155,22 @@ pub fn keep_faces(m: &mut Mesh, pts: &[f64], faces: &[u32], hidden: &[u8], key0:
                 used += 1;
                 (a, b) = (b, w);
                 if used > nb {
-                    return Err(Fail::Refused(crate::err::Error::invalid("the file's faces have an open outline")));
+                    r.open = true;
+                    break 'trace;
                 }
             }
             if ring.len() >= 3 {
-                m.add_line(key, FRING, true, ring.clone(), ring)?;
-                key += 1;
-                r.rings += 1;
+                rings.push(ring);
             }
+        }
+    }
+    // An outline that does not close (it should not, once overlapping faces are left out) leaves
+    // the TIN uncut rather than half cut.
+    if !r.open {
+        for ring in rings {
+            m.add_line(key, FRING, true, ring.clone(), ring)?;
+            key += 1;
+            r.rings += 1;
         }
     }
     Ok(r)
@@ -240,6 +259,18 @@ mod tests {
         // Heights are the file's: the middle of a face is the mean of its corners.
         let z = m.height_at(10.0 / 3.0 + 0.7 / 3.0, 10.0 / 3.0);
         assert!((z - (0.0 + 3.0 + 1.0) / 3.0).abs() < 1e-6, "{z}");
+    }
+
+    #[test]
+    fn an_overlapping_face_is_left_out_and_the_rest_kept() {
+        // A square of two faces, and a third face over both sharing the first's edge A → B.
+        let pts = [0.0, 0.0, 1.0, 10.0, 0.0, 2.0, 10.0, 10.0, 3.0, 0.0, 10.0, 4.0];
+        let (mut m, _) = from_points(&pts, 0.001, 0.0, 100).unwrap();
+        let k = keep_faces(&mut m, &pts, &[0, 1, 2, 0, 2, 3, 0, 1, 3], &[], 1 << 40).unwrap();
+        assert_eq!((k.skipped, k.open), (1, false), "{k:?}");
+        m.check().unwrap();
+        let (vis, _) = faces_of(&mut m);
+        assert_eq!(vis, file_faces(&m, &pts, &[0, 1, 2, 0, 2, 3]));
     }
 
     #[test]

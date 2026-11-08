@@ -20,7 +20,7 @@ import { crsOf, converter } from '../geo/crs.js';
 import { readGeoJSON, writeGeoJSON, readShapefile, writeShapefile, shapefileSets } from '../vector/io.js';
 import { fromParts } from '../vector/geom.js';
 import { unzipSync, zipSync } from 'fflate';
-import { TinBundle, KIND_NAME, encodeTinEdits } from '../wasm/tin.js';
+import { TinBundle, KIND_NAME, FILE_KEY0, encodeTinEdits } from '../wasm/tin.js';
 import { frameAt, toPlane, toGeo, gridSpec, rasterGrid, importForm, exportForm, fromFeatures, fromTable, writeLandXml, writeCsv, shadeColour, lambertOf } from '../analysis/tin-io.js';
 
 const COLOUR = { hard: '#ff4848', soft: '#4fd2ff', void: '#ff4fff', outer: '#f0f0f0', swap: '#ffd400', drain: '#3f8cff', ridge: '#ff9a2e', outline: '#c8c8c8' };
@@ -261,7 +261,8 @@ export function install(app) {
     return id;
   }
 
-  const nextKey = (tinId) => Math.max(USER_KEY0 - 1, ...editsOf(tinId).map((e) => e.params?.key ?? 0)) + 1;
+  // A deleted file line (a forced edge or an outline ring) has its key in an edit too: not the user's.
+  const nextKey = (tinId) => Math.max(USER_KEY0 - 1, ...editsOf(tinId).map((e) => e.params?.key ?? 0).filter((k) => k < FILE_KEY0)) + 1;
 
   /** Apply one edit to a TIN (default the active one) and record it (undoable) → the edit's result. */
   function edit(kind, params, tinId = active()) {
@@ -419,22 +420,37 @@ export function install(app) {
         return [...toPlane(f, lon, lat), z];
       };
       points = ll.map(([lon, lat], k) => [...toPlane(f, lon, lat), r.points[3 * k + 2]]);
-      // With faces, the surface is the file's own triangles (OD-2.41): its source data points are
-      // not put in, since they would change it. Without faces they are mass points.
+      // With faces, the surface is the file's own triangles (OD-2.41): points no face uses, and its
+      // source data points, are not put in, since they would split faces. Without faces they are mass points.
       const faces = r.faces.length > 0;
+      let tris = r.faces;
+      let onNoFace = 0;
+      if (faces) {
+        const use = new Int32Array(points.length).fill(-1);
+        for (const k of r.faces) use[k] = 0;
+        let m = 0;
+        for (let k = 0; k < use.length; k++) if (use[k] === 0) use[k] = m++;
+        if (m < points.length) {
+          onNoFace = points.length - m;
+          points = points.filter((_, k) => use[k] >= 0);
+          tris = Uint32Array.from(r.faces, (k) => use[k]);
+        }
+      }
       if (!faces) for (let k = 0; k < r.extra.length / 3; k++) points.push(P(r.extra[3 * k], r.extra[3 * k + 1], r.extra[3 * k + 2]));
       lines = r.lines.map((l) => ({ type: KIND_NAME[l.kind], closed: l.closed, name: l.name, pts: Array.from({ length: l.n }, (_, k) => P(l.pts[3 * k], l.pts[3 * k + 1], l.pts[3 * k + 2])) }));
       name = o.name ?? r.doc.surfaces[r.doc.surface]?.name ?? name;
       note = [...r.doc.refused.map((x) => refusedText(x)), ...r.doc.warnings.map((x) => warningText(x))];
+      if (onNoFace) note.push(t('{n, plural, one {# point is} other {# points are}} on no face: not put in', { n: onNoFace }));
       if (r.doc.surfaces.length > 1) note.push(t('The file has {n} TIN surfaces; only {name} was imported.', { n: r.doc.surfaces.length, name }));
       if (faces && r.extra.length) note.push(t('{n, plural, one {# source data point is} other {# source data points are}} not put in: the file’s faces are the surface', { n: r.extra.length / 3 }));
       const hidden = [];
       r.hidden.forEach((v, k) => v && hidden.push(k));
       const source = { kind: 'import', format: 'LandXML', file: main.name, points, lines, faces: r.doc.faces, maxPoints: 3e6 };
-      if (faces) Object.assign(source, { tris: Array.from(r.faces), hidden });
+      if (faces) Object.assign(source, { tris: Array.from(tris), hidden });
       const id = await addRecord({ name, frame: f, vertical, crs: crsInfo, source });
       const kept = rts.get(id)?.kept ?? null;
-      if (kept?.skipped) note.push(t('{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, or the three are on one line', { n: kept.skipped }));
+      if (kept?.skipped) note.push(t('{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, the three are on one line, or the face overlaps another', { n: kept.skipped }));
+      if (kept?.open) note.push(t('the outline of the file’s faces could not be traced: the TIN covers the area between its points'));
       return { id, points: points.length, lines: lines.length, faces: r.doc.faces, hidden: hidden.length, kept, notes: note, agreement: await faceAgreement(id, r, conv) };
     }
     // Mass points and breaklines.
@@ -1053,7 +1069,8 @@ export function install(app) {
             const hit = guard(() => B.snap(rt.id, q.x, q.y, q.r)).line;
             if (!hit) return;
             const l = guard(() => B.lines(rt.id)).find((x) => x.key === hit.key);
-            if (!l || l.key < 1) return;
+            // A file's outline rings go with its faces: deleting one alone would turn the fill inside out.
+            if (!l || l.key < 1 || KIND_NAME[l.kind] === 'outline') return;
             s.line = { key: l.key, type: KIND_NAME[l.kind], closed: l.closed, defs: Array.from({ length: l.defs.length / 3 }, (_, k) => [l.defs[3 * k], l.defs[3 * k + 1], l.defs[3 * k + 2]]) };
             toast(t('Breakline picked: click one of its vertices, then where it goes'), { kind: 'info' });
           } else if (s.vertex === undefined) {

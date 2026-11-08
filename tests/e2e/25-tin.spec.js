@@ -486,7 +486,10 @@ test('REQ-GAP-39 OD-2.41 Import TIN keeps a LandXML file\'s own faces, outline, 
   // Excluded: the fill beside the notch (2 × 4), the hole (2), the hidden face, and slivers along the
   // straight sides (UTM lines are not quite straight in the TIN plane).
   expect(a.hidden.length).toBeGreaterThanOrEqual(11);
-  expect(a.z).toEqual(fx.P.map((p) => Number(p[2])).sort((x, y) => x - y));
+  // The file's own heights, at the points its faces use (the three beside the notch are on none).
+  const used = [...new Set(fx.F.flat())];
+  expect(used).toHaveLength(fx.P.length - 3);
+  expect(a.z).toEqual(used.map((k) => Number(fx.P[k - 1][2])).sort((x, y) => x - y));
   // A project file brings the same faces back in a fresh page.
   const b64 = await frame.evaluate(() => {
     const b = window.gisworkbench.__test.serialiseProject(window.gisworkbench);
@@ -501,6 +504,20 @@ test('REQ-GAP-39 OD-2.41 Import TIN keeps a LandXML file\'s own faces, outline, 
     await app.openProjectFile(new File([Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))], 'eg.gwb'));
   }, b64);
   expect(await faces(frame2)).toEqual(a);
+  // A file line deleted by the user (here a forced edge) does not give its key to the next edit.
+  const keys = await frame2.evaluate(async () => {
+    const T = window.gisworkbench.tin;
+    const id = window.gisworkbench.store.all('tin')[0].id;
+    const ring = (await T.lines(id)).filter((l) => l.type === 'swap').at(-1);
+    await T.edit('delline', { key: ring.key }, id);
+    const i = await T.info(id);
+    const [cx, cy] = [(i.x0 + i.x1) / 2, (i.y0 + i.y1) / 2];
+    const add = await T.edit('addline', { type: 'soft', closed: false, pts: [[cx - 20, cy - 15, NaN], [cx + 20, cy - 12, NaN]] }, id);
+    return { ring: ring.key, added: add.key, ok: add.ok, rings: (await T.lines(id)).filter((l) => l.type === 'outline').length };
+  });
+  expect(keys.ring).toBeGreaterThanOrEqual(2 ** 40);
+  expect(keys.added).toBeLessThan(2 ** 40);
+  expect(keys.rings).toBe(2);
   expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
   expect(logs2.filter((l) => !/favicon/.test(l))).toEqual([]);
 });
