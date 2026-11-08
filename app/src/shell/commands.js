@@ -463,7 +463,7 @@ const CATALOG = [
   ['pc.clip', N_('Clip Box/Polygon'), 'aoi', 'REQ-LDR-09', 'R2'],
   ['pc.colourise', N_('Colourise from Image'), 'image', 'REQ-LDR-10', 'R2'],
   ['pc.export', N_('Export LAS/LAZ/BPF'), 'save', 'REQ-LDR-10', 'R2', '', N_('LAS 1.4 (format 6 or 7, WGS 84 / UTM, optionally LAZ) or BPF v3 in any coordinate type.')],
-  ['pc.assigncrs', N_('Assign CRS'), 'globe', 'REQ-FMT-47', 'R5', '', N_('Places a point cloud opened in a local frame (BPF Cartesian or ENU) in the CRS you name.')],
+  ['pc.assigncrs', N_('Assign CRS'), 'globe', 'REQ-FMT-47', 'R5', '', N_('Places a point cloud in the CRS you name: a BPF opened in a local frame (Cartesian or ENU), or a LAS or LAZ file read again.')],
   // Feature Tools
   ['ext.toolbox', N_('ToolBox'), 'toolbox', 'REQ-EXT-01', 'R1'],
   ['ext.repeat', N_('Repeat'), 'reset', 'REQ-EXT-01', 'R1'],
