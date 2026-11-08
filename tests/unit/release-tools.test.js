@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { digestProblems, family, formatSums, missingFamilies, parseSums, uploadPlan } from '../../build/release/assets.mjs';
+import { manifestParts, webSbom } from '../../build/release/sbom.mjs';
 import { copyAndHash, plan } from '../../build/release/stage.mjs';
 
 const h = (s) => createHash('sha256').update(s).digest('hex');
@@ -58,6 +59,47 @@ describe('release assets', () => {
   });
 });
 
+describe('web app SBOM', () => {
+  const report = {
+    build: { id: 'abc', version: '2.7.0', date: '2026-11-08T00:00:00.000Z' },
+    packages: [{ name: '@mapbox/vector-tile', version: '3.0.0', license: 'BSD-3-Clause' }],
+    rustCrates: [{ name: 'brotli', version: '8.0.0', license: 'BSD-3-Clause/MIT' }, { name: 'nolicence', version: '1.0.0' }],
+  };
+
+  it('lists the embedded third-party blocks, and skips ours and those the package lists cover', () => {
+    const blocks = {
+      'wasm-sqlite': { kind: 'wasm', sha256: h('s'), licence: 'SQLite public domain; sql.js MIT' },
+      'data-egm96': { kind: 'data', sha256: h('e'), licence: 'public domain (NGA)' },
+      'wasm-core': { kind: 'wasm', sha256: h('c'), licence: 'Apache-2.0' },
+      'js-three': { kind: 'js', sha256: h('t'), licence: 'see notices' },
+      'data-tokens': { kind: 'data', sha256: h('k'), licence: 'own' },
+    };
+    const c = webSbom(report, { blocks }).components.filter((x) => x.properties[0].value === 'html-block');
+    expect(c).toEqual([
+      { type: 'data', name: 'data-egm96', hashes: [{ alg: 'SHA-256', content: h('e') }], licenses: [{ license: { name: 'public domain (NGA)' } }], properties: [{ name: 'gwb:part', value: 'html-block' }] },
+      { type: 'library', name: 'wasm-sqlite', hashes: [{ alg: 'SHA-256', content: h('s') }], licenses: [{ license: { name: 'SQLite public domain; sql.js MIT' } }], properties: [{ name: 'gwb:part', value: 'html-block' }] },
+    ]);
+  });
+
+  it('lists the bundled packages, crates and packs, with SPDX licences and purls', () => {
+    const s = webSbom(report, { packs: { proj: { title: 'PROJ', version: '9.7.0', file: 'proj-9.7.0.gwpack', sha256: h('p') }, ai: { title: 'AI', version: '1.0', file: 'ai-1.0.gwpack', sha256: h('a') } } });
+    expect(s).toMatchObject({ bomFormat: 'CycloneDX', specVersion: '1.5', metadata: { timestamp: report.build.date, component: { name: 'gis-workbench', version: '2.7.0' } } });
+    expect(s.components.map((c) => [c.name, c.purl ?? c.properties[1].value, c.licenses?.[0].expression])).toEqual([
+      ['@mapbox/vector-tile', 'pkg:npm/%40mapbox/vector-tile@3.0.0', 'BSD-3-Clause'],
+      ['brotli', 'pkg:cargo/brotli@8.0.0', 'BSD-3-Clause OR MIT'],
+      ['nolicence', 'pkg:cargo/nolicence@1.0.0', undefined],
+      ['ai.gwpack', 'ai-1.0.gwpack', undefined],
+      ['proj.gwpack', 'proj-9.7.0.gwpack', undefined],
+    ]);
+    expect(JSON.stringify(webSbom(report))).toBe(JSON.stringify(webSbom(report)));
+  });
+
+  it('reads the packs and blocks from the HTML build manifest', () => {
+    expect(manifestParts('<script type="application/json" id="build-manifest">{"packs":{"x":{"version":"1"}},"blocks":{"b":{"kind":"wasm"}}}</script>')).toEqual({ packs: { x: { version: '1' } }, blocks: { b: { kind: 'wasm' } } });
+    expect(manifestParts('<html></html>')).toEqual({ packs: {}, blocks: {} });
+  });
+});
+
 describe('stage', () => {
   let root;
   afterEach(() => rmSync(root, { recursive: true, force: true }));
@@ -68,7 +110,15 @@ describe('stage', () => {
   const tree = ({ stale = false, tamper = false } = {}) => {
     root = mkdtempSync(join(tmpdir(), 'gwb-stage-'));
     const dist = join(root, 'dist');
-    const files = { 'gis-workbench.html': 'full', 'gis-workbench-lite.html': 'lite', 'gis-workbench-airgap.html': 'airgap', 'packs/proj-9.7.0.gwpack': 'proj' };
+    const manifest = { packs: { proj: { title: 'PROJ', version: '9.7.0', file: 'proj-9.7.0.gwpack', sha256: h('proj') } } };
+    const report = { build: { id: 'b1', version: '2.7.0', date: '2026-11-08T00:00:00.000Z' }, packages: [{ name: 'a', version: '1.0.0', license: 'MIT' }], rustCrates: [] };
+    const files = {
+      'gis-workbench.html': `<script type="application/json" id="build-manifest">${JSON.stringify(manifest)}</script>`,
+      'gis-workbench-lite.html': 'lite',
+      'gis-workbench-airgap.html': 'airgap',
+      'packs/proj-9.7.0.gwpack': 'proj',
+      'build-report.json': JSON.stringify(report),
+    };
     for (const [n, t] of Object.entries(files)) put(join(dist, n), t);
     put(join(dist, 'SHA256SUMS'), formatSums(Object.entries(files).map(([name, t]) => ({ name, sha256: h(t) }))));
     if (stale) put(join(dist, 'packs', 'old-1.0.gwpack'), 'old');
@@ -88,11 +138,14 @@ describe('stage', () => {
     expect(done.entries.map((e) => e.name).sort()).toEqual([
       'GWB-Sidecar-0.3.0-amd64.deb', 'GWB-Sidecar-0.3.0-linux-sbom.cdx.json', 'GWB-Sidecar-0.3.0-linux-x86_64.tar.gz', 'GWB-Sidecar-0.3.0-sbom.cdx.json',
       'GWB-Sidecar-0.3.0-x64-portable.zip', 'GWB-Sidecar-0.3.0-x64.msi', 'GWB-Sidecar-0.3.0-x86_64.AppImage',
-      'gis-workbench-airgap.html', 'gis-workbench-lite.html', 'gis-workbench.html', 'gwb-sidecar-module-media-0.3.0.zip', 'gwb-sidecar-module-sfm-0.3.0.tar.gz', 'proj-9.7.0.gwpack',
+      'gis-workbench-2.7.0-sbom.cdx.json', 'gis-workbench-airgap.html', 'gis-workbench-lite.html', 'gis-workbench.html', 'gwb-sidecar-module-media-0.3.0.zip', 'gwb-sidecar-module-sfm-0.3.0.tar.gz', 'proj-9.7.0.gwpack',
     ]);
     const sums = parseSums(readFileSync(join(out, 'SHA256SUMS'), 'utf8'));
     expect(sums.get('GWB-Sidecar-0.3.0-sbom.cdx.json')).toBe(h('sbom.cdx.json'));
-    expect(sums.size).toBe(13);
+    expect(sums.size).toBe(14);
+    const sbom = JSON.parse(readFileSync(join(out, 'gis-workbench-2.7.0-sbom.cdx.json'), 'utf8'));
+    expect(sbom.components.map((c) => c.name)).toEqual(['a', 'proj.gwpack']);
+    expect(sbom.components[1].hashes).toEqual([{ alg: 'SHA-256', content: h('proj') }]);
     await expect(copyAndHash(picks, out)).rejects.toThrow(/isn't empty/);
   });
 
@@ -103,6 +156,12 @@ describe('stage', () => {
       expect.stringMatching(/old-1\.0\.gwpack isn't in dist\/SHA256SUMS/),
       expect.stringMatching(/linux: no \.deb$/),
     ]);
+  });
+
+  it('refuses a build report that changed after the build', () => {
+    const t = tree();
+    put(join(t.dist, 'build-report.json'), '{}');
+    expect(plan(t).problems).toEqual([expect.stringMatching(/build-report\.json doesn't match dist\/SHA256SUMS/)]);
   });
 
   it('refuses two different SBOMs for one platform', () => {

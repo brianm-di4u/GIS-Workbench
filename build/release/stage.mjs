@@ -4,7 +4,8 @@
 //   node build/release/stage.mjs --sidecar-version 0.3.0 --out D:/gwb-release/2.7.0
 //        [--dist dist] [--sidecar D:/gwb-sidecar-deps/release] [--like v2.6.0 [--allow-missing]]
 //
-// From --dist: the three HTML files and packs/*.gwpack, each checked against dist/SHA256SUMS.
+// From --dist: the three HTML files and packs/*.gwpack, each checked against dist/SHA256SUMS, and
+// gis-workbench-<v>-sbom.cdx.json, the web app's SBOM, written from dist/build-report.json.
 // From <sidecar>/<version>: the Windows MSI, portable ZIP, module ZIPs and SBOM.
 // From <sidecar>/<version>/linux: the .deb, AppImage, tar.gz, module tar.gz files and SBOM.
 // The two SBOMs are published as GWB-Sidecar-<v>-sbom.cdx.json and GWB-Sidecar-<v>-linux-sbom.cdx.json.
@@ -16,6 +17,7 @@ import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, re
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { family, formatSums, missingFamilies, parseSums } from './assets.mjs';
+import { manifestParts, webSbom } from './sbom.mjs';
 
 const HTML = ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'];
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -27,7 +29,7 @@ export function sha256File(path) {
   });
 }
 
-/** Works out what to copy, without copying. Returns {picks: [{from, name, expect?}], problems}. */
+/** Works out what to copy, without copying. Returns {picks: [{from or text, name, expect?}], problems}. */
 export function plan({ dist, sidecar, version }) {
   const picks = [];
   const problems = [];
@@ -41,6 +43,17 @@ export function plan({ dist, sidecar, version }) {
   };
   for (const n of HTML) fromDist(n, n);
   for (const n of list(join(dist, 'packs')).filter((x) => x.endsWith('.gwpack')).sort()) fromDist(`packs/${n}`, n);
+
+  // The web app's SBOM is written here, from the build report, rather than copied.
+  const report = join(dist, 'build-report.json');
+  if (!existsSync(report)) problems.push(`${report} is missing: build first`);
+  else if (distSums && createHash('sha256').update(readFileSync(report)).digest('hex') !== distSums.get('build-report.json')) problems.push(`${report} doesn't match dist/SHA256SUMS`);
+  else {
+    const r = JSON.parse(readFileSync(report, 'utf8'));
+    const html = join(dist, HTML[0]);
+    const sbom = webSbom(r, existsSync(html) ? manifestParts(readFileSync(html, 'utf8')) : {});
+    picks.push({ name: `gis-workbench-${r.build.version}-sbom.cdx.json`, text: JSON.stringify(sbom, null, 2) + '\n' });
+  }
 
   const v = escape(version);
   const take = (dir, pattern, { rename, min = 1, label }) => {
@@ -77,7 +90,8 @@ export async function copyAndHash(picks, out) {
   const problems = [];
   for (const p of picks) {
     const to = join(out, p.name);
-    copyFileSync(p.from, to);
+    if (p.text) writeFileSync(to, p.text);
+    else copyFileSync(p.from, to);
     const sha256 = await sha256File(to);
     if (p.expect && p.expect !== sha256) problems.push(`${p.name} doesn't match dist/SHA256SUMS`);
     entries.push({ name: p.name, sha256, bytes: statSync(to).size });
