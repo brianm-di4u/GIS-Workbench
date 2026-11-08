@@ -3,7 +3,10 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { parse, format, signature } from '../../app/src/i18n/icu.js';
 import { t, tc, tr, N_, setLocale, negotiate, gwError, msgOf, keyOf, dirOf, locale } from '../../app/src/i18n/index.js';
 import { num, int, length, area, setUnits, words, list } from '../../app/src/i18n/format.js';
-import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote } from '../../build/i18n.mjs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
 
 afterEach(() => {
   setLocale('en');
@@ -134,5 +137,24 @@ describe('build tooling', () => {
   it('flags bare user-visible literals', () => {
     const hits = lintJs(`toast('Saved the file');\nmodal({ title: 'Jump to Point', buttons: ['Jump', 'Cancel'] });\nh('p', { class: 'hint' }, 'Type a coordinate');\ntoast(t('Already fine'));\nh('div', { class: 'x' }, 'ok'); // i18n-ignore`, 'x.js');
     expect(hits.map((h) => h.kind).sort()).toEqual(['buttons', 'text', 'title', 'toast']);
+  });
+  it('keeps en.json still when a string only moves, and reports a new or dropped string', () => {
+    const root = mkdtempSync(join(tmpdir(), 'gwb-i18n-'));
+    try {
+      const file = join(root, 'app', 'src', 'a.js');
+      mkdirSync(join(root, 'app', 'src'), { recursive: true });
+      const write = (body) => writeFileSync(file, `import { t } from './i18n/index.js';\n${body}`);
+      write(`t('Open');\nt('Close');`);
+      const before = extract({ root });
+      expect(before.messages.map((m) => m.refs)).toEqual([['a.js'], ['a.js']]);
+      const saved = serializeSource(before);
+      write(`\n\n\nt('Close');\nt('Open');`);
+      expect(sourceDrift(extract({ root }), saved)).toBeNull();
+      expect(sourceDrift(extract({ root }), saved.replace(/\n/g, '\r\n'))).toBeNull();
+      write(`t('Open');\nt('Save');`);
+      expect(sourceDrift(extract({ root }), saved)).toEqual({ added: ['Save'], removed: ['Close'] });
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   });
 });

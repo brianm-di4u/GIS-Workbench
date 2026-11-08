@@ -66,6 +66,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
       }
     }
     if (code) {
+      step('Source catalogue', 'node', ['build/i18n.mjs', 'extract', '--check']);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
       step('Browser subset', 'npx', ['playwright', 'test', '--project=ci']);
