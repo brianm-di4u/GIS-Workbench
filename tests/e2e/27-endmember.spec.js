@@ -80,6 +80,13 @@ test('SCN-70 REQ-GAP-82 Automatic Endmembers finds the minerals, pins them, adds
     const ppi = layers.find((l) => l.msi?.kind === 'ppi');
     const ab = layers.find((l) => l.msi?.transform === 'unmix');
     const added = app.msi.libraries.slice(-pinned.length);
+    // An image with no band centres (the abundance layer) cannot add to the library.
+    let noWl = null;
+    try {
+      app.msi.addToLibrary(ab, pinned);
+    } catch (e) {
+      noWl = e.code;
+    }
     return {
       labels: pinned.map((s) => s.label),
       best: ends.map((e) => Math.min(...pinned.map((s) => angle(e, s.values)))),
@@ -89,6 +96,8 @@ test('SCN-70 REQ-GAP-82 Automatic Endmembers finds the minerals, pins them, adds
       library: app.msi.libraries.length,
       addedWl: added.every((s) => Array.isArray(s.wl) && s.wl.length === s.values.length),
       addedQuantity: [...new Set(added.map((s) => s.quantity))],
+      noWl,
+      libraryAfter: app.msi.libraries.length,
     };
   }, cube.ends);
   console.log(JSON.stringify(r));
@@ -100,5 +109,7 @@ test('SCN-70 REQ-GAP-82 Automatic Endmembers finds the minerals, pins them, adds
   expect(r.abNames.at(-1)).toBe('RMS residual');
   expect(r.library).toBe(before.library + 6);
   expect(r.addedWl).toBe(true);
+  expect(r.noWl).toBe('E_NO_WAVELENGTHS');
+  expect(r.libraryAfter).toBe(r.library);
   expect(logs).toEqual([]);
 });

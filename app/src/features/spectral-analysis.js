@@ -420,11 +420,18 @@ export function install(app) {
     }
     return { endmembers: ems, ppi, components: r.components };
   }
+  /** Band centres of l when every band has one (library spectra need them), else null. */
+  const bandCentres = (l) => {
+    const wl = msi().bandsOf(l).map((b) => b.cw);
+    return wl.length && wl.every(Number.isFinite) ? wl : null;
+  };
   /** Add spectra of l (endmembers or pinned) to the spectral library, with l's band centres. */
   function addToLibrary(l, spectra, { prefix = l.rec?.name ?? t('Image') } = {}) {
-    const wl = msi().bandsOf(l).map((b) => b.cw);
+    const wl = bandCentres(l);
+    // The library matches and plots by wavelength; every entry has them (importLibrary drops the rest).
+    if (!wl) throw gwError('{image} has no band centre wavelengths, so its spectra cannot go in the spectral library', { image: prefix }, 'E_NO_WAVELENGTHS');
     const unit = l.radiometry?.unit ?? '';
-    const added = spectra.map((s, i) => ({ name: `${prefix} ${s.label ?? `#${i + 1}`}`, wl: wl.every(Number.isFinite) ? wl : null, values: [...s.values], source: `${prefix} (endmembers)`, quantity: unit === 'reflectance' ? 'reflectance' : unit || 'unknown' }));
+    const added = spectra.map((s, i) => ({ name: `${prefix} ${s.label ?? `#${i + 1}`}`, wl, values: [...s.values], source: `${prefix} (endmembers)`, quantity: unit === 'reflectance' ? 'reflectance' : unit || 'unknown' }));
     libraries.push(...added);
     return added;
   }
@@ -733,7 +740,7 @@ export function install(app) {
       const max = Math.min(64, l.bands);
       const m = h('input', { class: 'inp inp-num', type: 'number', value: Math.min(5, max), min: 2, max, 'aria-label': t('Endmembers') });
       const sk = h('input', { class: 'inp inp-num', type: 'number', value: 1000, min: 0, max: 100000, step: 100, 'aria-label': t('Purity skewers') });
-      const lib = h('input', { type: 'checkbox', 'aria-label': t('Add them to the spectral library') });
+      const lib = h('input', { type: 'checkbox', disabled: !bandCentres(l), title: bandCentres(l) ? '' : t('The image has no band centre wavelengths'), 'aria-label': t('Add them to the spectral library') });
       const um = h('input', { type: 'checkbox', checked: true, 'aria-label': t('Unmix with them') });
       const body = h('div', {}, field(t('Endmembers'), m), field(t('Purity skewers (0: no purity image)'), sk), field(t('Add them to the spectral library'), lib), field(t('Unmix with them'), um));
       if ((await modal({ title: t('Automatic Endmembers'), body, buttons: [{ label: t('Run'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'msi-endmembers' })) !== 'run') return;
