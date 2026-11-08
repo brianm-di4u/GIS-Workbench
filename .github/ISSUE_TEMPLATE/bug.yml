@@ -1,6 +1,6 @@
 name: Bug report
 description: Something in GIS Workbench doesn't work as it should.
-labels: [triage]
+labels: [bug]
 body:
   - type: markdown
     attributes:

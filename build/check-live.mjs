@@ -33,8 +33,12 @@ export function liveVerdict({ sha256, build, tag, sums, file }) {
   return { ok: false, message: `The live app is not ${tag}'s ${file}: it hashes to ${sha256}, the release lists ${want}. The page says ${what}.` };
 }
 
+// The API call authenticates when CI provides a token: unauthenticated calls share 60 an hour per
+// runner IP, and a refused call must not read as a stale site.
 async function get(url) {
-  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'gis-workbench-check-live' } });
+  const token = url.startsWith('https://api.github.com/') ? process.env.GITHUB_TOKEN : undefined;
+  const headers = { 'user-agent': 'gis-workbench-check-live', ...(token ? { authorization: `Bearer ${token}` } : {}) };
+  const res = await fetch(url, { redirect: 'follow', headers });
   if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
@@ -61,7 +65,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   main().then(
     (code) => (process.exitCode = code),
     (err) => {
-      console.error(err.message);
+      console.error(`Could not check the live app: ${err.message}`);
       process.exitCode = 1;
     },
   );
