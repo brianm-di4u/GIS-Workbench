@@ -7,6 +7,10 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { wasmGate, crateLicenceGate, determinismGate, WASM_TOTAL_BUDGET } from './gates.mjs';
+import { scopeCargoTarget } from './cargo-target.mjs';
+
+// Every cargo call below, and build.mjs's, uses this checkout's target directory (#42).
+scopeCargoTarget();
 
 export const BUNDLES = [
   { name: 'core', crate: 'gw-bundle-core', load: 'eager', budget: 250 * 1024, opt: '3' },
