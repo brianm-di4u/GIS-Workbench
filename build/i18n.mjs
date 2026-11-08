@@ -22,8 +22,10 @@ const SRC = join(ROOT, 'app', 'src');
 const CAT = join(SRC, 'i18n', 'catalog');
 const CTX_SEP = '\u0004';
 
+// Sorted, because readdirSync's order differs between Windows and Linux, and en.json written on
+// one must match what `extract --check` computes on the other.
 function walk(dir, ext, out = []) {
-  for (const f of readdirSync(dir)) {
+  for (const f of readdirSync(dir).sort()) {
     const p = join(dir, f);
     const s = statSync(p);
     if (s.isDirectory()) {
