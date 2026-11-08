@@ -2,7 +2,10 @@
 // modes and class visibility, the point budget and EDL, elevation shaving, profiles with a swath,
 // 3D measurement, DSM/DTM/nDSM/intensity/density grids as layers, SMRF ground filtering and
 // classification edits (undoable through `pcedit` records), clipping, colourising from an image
-// and LAS 1.4 export (LAS or LAZ).
+// and LAS 1.4 export (LAS or LAZ). From the profile view (REQ-GAP-81): select points by box or
+// lasso, then reclassify them, set their withheld flag or delete them, each one a `pcedit` record.
+// Deleting keeps one mask, `c.deleted`, replayed from the records: the view, picks, profiles,
+// grids, the ground filter, clips, TINs and exports all leave deleted points out.
 
 import { writePointCloudTileset, enuToEcef, geoToEcef, write3tz, zipTileset, md5 } from '../formats/tiles3d-write.js';
 import { readLas, POINTCLOUD_EXT, inverseLattice, statsOf, reorder } from '../formats/las.js';
@@ -10,6 +13,7 @@ import { openCopc, openEpt, rangeFile } from '../formats/copc.js';
 import { parseBpf, parseAscii, cloudFromXyz, writeBpf, geodeticToEcefJs } from '../formats/points-io.js';
 import { View3D, CLASSES, COLOUR_MODES } from '../render/view3d.js';
 import { packColumns } from '../wasm/pointcloud.js';
+import { replay, kept, compact, selectBox, selectLasso, WITHHELD } from '../analysis/pc-edits.js';
 import { writeGeoTiff } from '../formats/geotiff-writer.js';
 import { openImageFile } from '../formats/open.js';
 import { crsOf, converter } from '../geo/crs.js';
@@ -155,6 +159,7 @@ export function install(app) {
     cloud.id = newId('pc');
     cloud.file = file;
     cloud.class0 = cloud.class.slice();
+    cloud.flags0 = cloud.flags.slice();
     app.pointClouds.set(cloud.id, cloud);
     S.transact(t('Open point cloud'), (tx) => tx.create('pointcloud', { pcId: cloud.id, name: cloud.name, points: cloud.n, crs: cloud.crs.label, vertical: cloud.crs.vertical, pane: p?.id ?? null }), { kind: 'load' });
     app.importLog.push({ file: file.name, errors: [], warnings: cloud.crs.warnings });
@@ -228,9 +233,10 @@ export function install(app) {
     app.emit('state');
   }
 
-  // ---- classification edits (undoable) ----
-  // Each `pcedit` record names its cloud and sequence; its change (indices and new classes) is
-  // kept in memory under the record id, and the classes are replayed over the file's own.
+  // ---- point edits (undoable) ----
+  // Each `pcedit` record names its cloud and sequence, and what it changes (params.field: classes,
+  // flags or the deleted mask); its change (indices and new values) is kept in memory under the
+  // record id, and everything is replayed over the file's own classes and flags (pc-edits.js).
   const diffs = new Map();
   const sigs = new Map();
   function syncEdits() {
@@ -239,45 +245,61 @@ export function install(app) {
       const sig = ops.map((o) => o.id).join(',');
       if ((sigs.get(c.id) ?? '') === sig) continue;
       sigs.set(c.id, sig);
-      const cls = c.class0.slice();
-      for (const o of ops) {
-        const d = diffs.get(o.id);
-        if (!d) continue;
-        for (let k = 0; k < d.index.length; k++) cls[d.index[k]] = d.value[k];
-      }
-      c.class = cls;
-      c.stats.classes = countClasses(cls);
-      for (const mp of app.desktop?.multiports ?? []) for (const p of mp.panes) p.view3d?.refresh(c, ['classification']);
+      const r = replay(c, ops, (o) => diffs.get(o.id));
+      Object.assign(c, { class: r.class, flags: r.flags, deleted: r.deleted, nDeleted: r.nDeleted });
+      c.stats.classes = countClasses(r.class, r.deleted);
+      for (const mp of app.desktop?.multiports ?? []) for (const p of mp.panes) p.view3d?.refresh(c, ['classification', 'deleted']);
+      if (app.pc?.lastProfile?.cloud === c) app.pc.redrawProfile?.(); // undo and redo show in an open profile
     }
   }
   S.on('change', syncEdits);
-  function countClasses(cls) {
+  /** Points per class, deleted points left out. */
+  function countClasses(cls, deleted = null) {
     const n = new Uint32Array(256);
-    for (let k = 0; k < cls.length; k++) n[cls[k]]++;
+    for (let k = 0; k < cls.length; k++) if (!deleted?.[k]) n[cls[k]]++;
     const o = {};
     for (let i = 0; i < 256; i++) if (n[i]) o[i] = n[i];
     return o;
+  }
+  /** Record one edit: `index` = the points it changes, `value` = their new values (none for a deletion). */
+  function recordEdit(c, field, index, value, label, params = {}) {
+    const seq = S.all('pcedit').filter((o) => o.pc === c.id).reduce((m, o) => Math.max(m, o.seq), 0) + 1;
+    let id;
+    S.transact(tr(label), (tx) => (id = tx.create('pcedit', { pc: c.id, seq, label, params: field === 'class' ? params : { ...params, field }, changed: index.length, created: new Date().toISOString(), analyst: app.prefs.get('analyst') ?? 'analyst' })));
+    diffs.set(id, { index, value });
+    sigs.delete(c.id);
+    syncEdits();
+    return { id, changed: index.length };
   }
   /** Record a classification change: `next` = full new class array (only differences are kept). */
   function recordClasses(c, next, label, params = {}) {
     const idx = [];
     for (let k = 0; k < c.n; k++) if (next[k] !== c.class[k]) idx.push(k);
-    const index = Uint32Array.from(idx);
-    const value = Uint8Array.from(idx, (k) => next[k]);
-    const seq = S.all('pcedit').filter((o) => o.pc === c.id).reduce((m, o) => Math.max(m, o.seq), 0) + 1;
-    let id;
-    S.transact(tr(label), (tx) => (id = tx.create('pcedit', { pc: c.id, seq, label, params, changed: idx.length, created: new Date().toISOString(), analyst: app.prefs.get('analyst') ?? 'analyst' })));
-    diffs.set(id, { index, value });
-    sigs.delete(c.id);
-    syncEdits();
-    return { id, changed: idx.length };
+    return recordEdit(c, 'class', Uint32Array.from(idx), Uint8Array.from(idx, (k) => next[k]), label, params);
+  }
+  /** The selected points (indices) that are not deleted: deleted points are left out of every edit. */
+  const live = (c, sel) => Array.from(sel).filter((k) => kept(c, k));
+  /** Reclassify selected points to class `to`. */
+  function reclassSelection(c, sel, to) {
+    const idx = live(c, sel).filter((k) => c.class[k] !== to);
+    return recordEdit(c, 'class', Uint32Array.from(idx), new Uint8Array(idx.length).fill(to), `Reclassify to ${to}`, { to, selected: sel.length });
+  }
+  /** Set (or with on = false clear) the LAS withheld flag of selected points. */
+  function withholdSelection(c, sel, on = true) {
+    const idx = live(c, sel).filter((k) => !!(c.flags[k] & WITHHELD) !== on);
+    return recordEdit(c, 'flags', Uint32Array.from(idx), Uint8Array.from(idx, (k) => (on ? c.flags[k] | WITHHELD : c.flags[k] & ~WITHHELD)), on ? N_('Set withheld') : N_('Clear withheld'), { on, selected: sel.length });
+  }
+  /** Delete selected points (undo brings them back). */
+  function deleteSelection(c, sel) {
+    return recordEdit(c, 'deleted', Uint32Array.from(live(c, sel)), null, N_('Delete points'), { selected: sel.length });
   }
 
   // ---- worker jobs ----
   const job = (op, args, transfer = []) => app.pool.run(op, args, { kind: 'pointcloud', transfer, label: t('{op} point cloud', { op }), timeout: 600000 });
+  // Every worker mask leaves deleted points out.
   const maskOf = (c, keep) => {
     const m = new Uint8Array(c.n);
-    for (let k = 0; k < c.n; k++) m[k] = keep(k) ? 1 : 0;
+    for (let k = 0; k < c.n; k++) m[k] = keep(k) && kept(c, k) ? 1 : 0;
     return m;
   };
   const withheld = (c, k) => (c.flags[k] & 4) !== 0;
@@ -351,7 +373,7 @@ export function install(app) {
       return { grid: g, heights: z, dsm: a.heights, dtm: b.heights };
     }
     if (kind === 'intensity') return { grid: g, heights: await job('grid', { pos, mask: maskOf(c, (k) => !NOISE.has(c.class[k])), val: Float32Array.from(c.intensity), prm: prm(GRID_MODE.value, fill ? 50 : 0) }) };
-    if (kind === 'density') return { grid: g, heights: await job('grid', { pos, mask: null, val: null, prm: prm(GRID_MODE.density, 0) }) };
+    if (kind === 'density') return { grid: g, heights: await job('grid', { pos, mask: c.deleted ? maskOf(c, () => true) : null, val: null, prm: prm(GRID_MODE.density, 0) }) };
     throw gwError('unknown grid kind {kind}', { kind }, 'E_GRID_KIND');
   }
 
@@ -457,6 +479,7 @@ export function install(app) {
     const ys = poly.map((p) => p[1]);
     const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
     for (let k = 0; k < c.n; k++) {
+      if (!kept(c, k)) continue;
       const x = c.pos[3 * k];
       const y = c.pos[3 * k + 1];
       const z = c.pos[3 * k + 2];
@@ -476,6 +499,7 @@ export function install(app) {
   async function clip(c, ring, { keep = 'inside', p = pane() } = {}) {
     const idx = [];
     for (let k = 0; k < c.n; k++) {
+      if (!kept(c, k)) continue;
       const x = c.pos[3 * k];
       const y = c.pos[3 * k + 1];
       let inside = false;
@@ -483,7 +507,7 @@ export function install(app) {
       if (inside === (keep === 'inside')) idx.push(k);
     }
     const perm = Uint32Array.from(idx);
-    const sub = { ...c, id: newId('pc'), name: t('{cloud} (clipped)', { cloud: c.name }), dtm: null, hag: null, order: null };
+    const sub = { ...c, id: newId('pc'), name: t('{cloud} (clipped)', { cloud: c.name }), dtm: null, hag: null, order: null, deleted: null, nDeleted: 0 };
     reorder(sub, perm);
     sub.n = perm.length;
     sub.stats = statsOf(sub, !!sub.rgb);
@@ -493,6 +517,7 @@ export function install(app) {
     reorder(sub, ix.perm);
     sub.tiles = ix.tiles;
     sub.class0 = sub.class.slice();
+    sub.flags0 = sub.flags.slice();
     app.pointClouds.set(sub.id, sub);
     S.transact(t('Clip point cloud'), (tx) => tx.create('pointcloud', { pcId: sub.id, name: sub.name, points: sub.n, crs: sub.crs.label, vertical: sub.crs.vertical, pane: p?.id ?? null, derivedFrom: c.id }), { kind: 'edit' });
     if (p) {
@@ -562,7 +587,8 @@ export function install(app) {
   }
 
   /** LAS 1.4 export (REQ-LDR-10): format 7 with colour else 6, in WGS 84 / UTM, HAE or EGM96 heights. */
-  async function exportLas(c, { compress = false, heights = 'hae' } = {}) {
+  async function exportLas(cloud, { compress = false, heights = 'hae' } = {}) {
+    const c = compact(cloud); // deleted points are not written
     const zone = Math.floor((c.origin.lon0 + 180) / 6) + 1;
     const south = c.origin.lat0 < 0;
     const epsg = (south ? 32700 : 32600) + zone;
@@ -587,7 +613,8 @@ export function install(app) {
    * A cloud as a 3D Tiles 1.1 implicit octree of pnts (REQ-FMT-37): ENU about the cloud's centre
    * (the root transform places it in ECEF), RGB (8-bit), Classification and Intensity per point.
    */
-  function exportTiles(c, { archive = false, maxPoints = 50000 } = {}) {
+  function exportTiles(cloud, { archive = false, maxPoints = 50000 } = {}) {
+    const c = compact(cloud);
     const o = c.origin;
     const st = c.stats;
     const ce = (st.min[0] + st.max[0]) / 2;
@@ -616,7 +643,8 @@ export function install(app) {
    * 3 ENU about the cloud's centre on the ellipsoid, 0 Cartesian = the coordinates of the cloud's own
    * CRS (a local-frame cloud gets its file coordinates back). zlib or no compression; every attribute.
    */
-  async function exportBpf(c, { coordType = 1, compression = 'zlib', interleave = 0 } = {}) {
+  async function exportBpf(cloud, { coordType = 1, compression = 'zlib', interleave = 0 } = {}) {
+    const c = compact(cloud);
     const n = c.n;
     const x = new Float64Array(n);
     const y = new Float64Array(n);
@@ -672,6 +700,7 @@ export function install(app) {
     const next = c.src ? await cloudFromXyz(c.src, { epsg, vertical, ...geoOpts() }) : await app.activity.track(t('Reading {file}…', { file: c.file.name }), (job) => readLas(c.file, { ...geoOpts(), assign: { epsg, vertical }, onProgress: (f) => job.set(f) }));
     Object.assign(next, { id: newId('pc'), file: c.file, ...(c.src ? { src: c.src } : {}) });
     next.class0 = next.class.slice();
+    next.flags0 = next.flags.slice();
     app.pointClouds.set(next.id, next);
     app.pointClouds.delete(c.id); // the old placement is not offered to other tools (obstruction, TIN sources)
     S.transact(t('Assign CRS to point cloud'), (tx) => tx.create('pointcloud', { pcId: next.id, name: next.name, points: next.n, crs: next.crs.label, vertical: next.crs.vertical, assigned: { epsg, vertical }, pane: p?.id ?? null, derivedFrom: c.id }), { kind: 'edit' });
@@ -728,7 +757,7 @@ export function install(app) {
     return app.extractR2.buildingsFromDsm({ dsm: app.terrain.entry(dsm.layer.id), dtm: app.terrain.entry(dtm.layer.id) });
   }
 
-  app.pc = { open, show, dod, extractFromPoints, close, view, cloudOf, stream, streamCopc, streamEpt, headerRows, groundFilter, makeGrid, generate, profile, measure, reclassPolygon, recordClasses, clip, colourise, exportLas, exportTiles, exportBpf, assignCrs, heightAboveGround, toGeo, toLocal, gridFor, syncEdits, edits: (c) => S.all('pcedit').filter((o) => o.pc === c.id).sort((a, b) => a.seq - b.seq) };
+  app.pc = { open, show, dod, extractFromPoints, close, view, cloudOf, stream, streamCopc, streamEpt, headerRows, groundFilter, makeGrid, generate, profile, measure, reclassPolygon, recordClasses, clip, colourise, exportLas, exportTiles, exportBpf, assignCrs, heightAboveGround, toGeo, toLocal, gridFor, syncEdits, compact, reclassSelection, withholdSelection, deleteSelection, edits: (c) => S.all('pcedit').filter((o) => o.pc === c.id).sort((a, b) => a.seq - b.seq) };
 
   // ---- hover read-out ----
   app.pointCloudHover = (v, p) => {
@@ -944,9 +973,8 @@ export function install(app) {
       },
     };
   }
-  C.implement('pc.profile', {
-    enabled: has,
-    run: run(async (c, v) => {
+  const profileTool = (mode) =>
+    run(async (c, v) => {
       const pts = [];
       app.toast(t('Profile: click the start and end on the cloud (Esc to stop)'), { kind: 'info' });
       clickTool(v, async (sx, sy) => {
@@ -957,11 +985,16 @@ export function install(app) {
         if (pts.length === 2) {
           v.tool = null;
           const pr = await profile(c, pts[0], pts[1], 1);
-          openProfileDialog(pr, v);
+          openProfileDialog(pr, v, { mode });
         }
       });
-    }),
-  });
+    });
+  C.implement('pc.profile', { enabled: has, run: profileTool('measure') });
+  // REQ-GAP-81: the same profile, ready to select points; the two edits act on the selection.
+  C.implement('pc.profileselect', { enabled: has, run: profileTool('box') });
+  const selected = () => !!app.pc.selection?.index.length;
+  C.implement('pc.withheld', { enabled: selected, run: () => editSelection('withheld') });
+  C.implement('pc.delete', { enabled: selected, run: () => editSelection('delete') });
   C.implement('pc.measure', {
     enabled: has,
     run: run(async (c, v) => {
@@ -1016,12 +1049,30 @@ export function install(app) {
     }),
   });
 
-  function openProfileDialog(pr, v) {
+  // The selection made in a profile (REQ-GAP-81): {cloud, index (point indices)}; the edit commands act on it.
+  app.pc.selection = null;
+  const setSelection = (c, index) => {
+    app.pc.selection = index?.length ? { cloud: c, index } : null;
+    app.emit('state');
+  };
+  /** Apply an edit to the profile selection: 'delete', 'withheld' or a class number. */
+  function editSelection(what) {
+    const s = app.pc.selection;
+    if (!s) return null;
+    const r = what === 'delete' ? deleteSelection(s.cloud, s.index) : what === 'withheld' ? withholdSelection(s.cloud, s.index) : reclassSelection(s.cloud, s.index, what);
+    app.toast(what === 'delete' ? t('{n, plural, one {# point} other {# points}} deleted (undo brings them back)', { n: r.changed }) : what === 'withheld' ? t('{n, plural, one {# point} other {# points}} set withheld', { n: r.changed }) : t('{n} points reclassified to {cls}', { n: int(r.changed), cls: String(what) }), { kind: 'info' });
+    setSelection(null, null);
+    app.pc.redrawProfile?.();
+    return r;
+  }
+
+  function openProfileDialog(pr, v, { mode: mode0 = 'measure' } = {}) {
     const c = pr.cloud;
     const W = 600;
     const H = 260;
-    const cv = h('canvas', { width: String(W), height: String(H), class: 'pc-profile', 'aria-label': t('Profile') });
-    const out = h('div', { class: 'hint' }, t('{n} points within {half} of the line; click two points to measure', { n: int(pr.index.length), half: length(pr.half) }));
+    const cv = h('canvas', { width: String(W), height: String(H), class: 'pc-profile', 'aria-label': t('Profile'), 'data-id': 'pc:profile-canvas' });
+    const hint = () => t('{n} points within {half} of the line', { n: int(pr.index.length - pr.index.filter((k) => !kept(c, k)).length), half: length(pr.half) });
+    const out = h('div', { class: 'hint', 'aria-live': 'polite' }, hint());
     const L = Math.hypot(pr.b[0] - pr.a[0], pr.b[1] - pr.a[1]);
     let zmin = Infinity;
     let zmax = -Infinity;
@@ -1031,18 +1082,87 @@ export function install(app) {
     }
     const sx = (t) => 30 + ((W - 40) * t) / L;
     const sy = (z) => H - 20 - ((H - 30) * (z - zmin)) / Math.max(1e-3, zmax - zmin);
+    // Canvas pixels → the profile's own plane (along the line, height).
+    const ax = (x) => ((x - 30) * L) / (W - 40);
+    const az = (y) => zmin + ((H - 20 - y) * Math.max(1e-3, zmax - zmin)) / (H - 30);
+    pr.toCanvas = (along, z) => [sx(along), sy(z)];
     const g = cv.getContext('2d');
-    g.fillStyle = '#111';
-    g.fillRect(0, 0, W, H);
-    for (let i = 0; i < pr.index.length; i++) {
-      g.fillStyle = v.palette[c.class[pr.index[i]]] ?? '#ccc';
-      g.fillRect(sx(pr.along[i]) - 1, sy(pr.z[i]) - 1, 2, 2);
+    let drag = null;
+    const selected = () => new Set(app.pc.selection?.cloud === c ? app.pc.selection.index : []);
+    function draw() {
+      const sel = selected();
+      g.fillStyle = '#111';
+      g.fillRect(0, 0, W, H);
+      for (let i = 0; i < pr.index.length; i++) {
+        const k = pr.index[i];
+        if (!kept(c, k)) continue;
+        g.fillStyle = sel.has(k) ? '#ffff00' : v.palette[c.class[k]] ?? '#ccc';
+        g.fillRect(sx(pr.along[i]) - 1, sy(pr.z[i]) - 1, sel.has(k) ? 3 : 2, sel.has(k) ? 3 : 2);
+      }
+      if (drag?.pts.length > 1) {
+        g.strokeStyle = '#ffd400';
+        g.beginPath();
+        if (drag.box) g.rect(drag.pts[0][0], drag.pts[0][1], drag.pts.at(-1)[0] - drag.pts[0][0], drag.pts.at(-1)[1] - drag.pts[0][1]);
+        else drag.pts.forEach(([x, y], k) => (k ? g.lineTo(x, y) : g.moveTo(x, y)));
+        g.stroke();
+      }
     }
+    app.pc.redrawProfile = () => {
+      draw();
+      out.textContent = hint();
+    };
+    const mode = h('select', { class: 'inp', 'aria-label': t('Profile tool'), 'data-id': 'pc:profile-mode' }, [['measure', N_('Measure')], ['box', N_('Select: box')], ['lasso', N_('Select: lasso')]].map(([val, text]) => h('option', { value: val }, tr(text))));
+    mode.value = mode0;
+    const count = h('span', { class: 'hint', 'data-id': 'pc:profile-count' });
+    const showCount = () => (count.textContent = t('{n, plural, one {# point} other {# points}} selected', { n: app.pc.selection?.cloud === c ? app.pc.selection.index.length : 0 }));
+    const select = (index) => {
+      setSelection(c, Uint32Array.from(Array.from(index).filter((k) => kept(c, k))));
+      showCount();
+      draw();
+    };
+    const to = h('select', { class: 'inp', 'aria-label': t('New class') }, Object.entries(CLASSES).map(([k, [n]]) => h('option', { value: k }, `${k} ${tr(n)}`)));
+    to.value = '7';
+    const btn = (label, fn, id) => h('button', { class: 'btn', type: 'button', 'data-id': id, onclick: fn }, label);
+    const after = () => {
+      showCount();
+      draw();
+      out.textContent = hint();
+    };
+    const actions = h(
+      'div',
+      { class: 'btn-row' },
+      btn(t('Select all'), () => select(Uint32Array.from(pr.index.filter((k) => kept(c, k)))), 'pc:profile-all'),
+      to,
+      btn(t('Reclassify'), () => (editSelection(Number(to.value)), after()), 'pc:profile-reclass'),
+      btn(t('Set withheld'), () => (editSelection('withheld'), after()), 'pc:profile-withheld'),
+      btn(t('Delete points'), () => (editSelection('delete'), after()), 'pc:profile-delete'),
+      count,
+    );
+    draw();
+    showCount();
+    const at = (e) => {
+      const r = cv.getBoundingClientRect();
+      return [((e.clientX - r.left) * W) / r.width, ((e.clientY - r.top) * H) / r.height];
+    };
+    cv.addEventListener('pointerdown', (e) => {
+      if (mode.value === 'measure') return;
+      drag = { box: mode.value === 'box', pts: [at(e)] };
+      cv.setPointerCapture?.(e.pointerId);
+    });
+    cv.addEventListener('pointerup', (e) => {
+      if (!drag) return;
+      drag.pts.push(at(e));
+      const d = drag;
+      drag = null;
+      const plane = d.pts.map(([x, y]) => [ax(x), az(y)]);
+      select(d.box ? selectBox(pr, [...plane[0], ...plane.at(-1)]) : selectLasso(pr, plane));
+    });
     const picks = [];
     const nearest = (x, y) => {
       let best = -1;
       let bd = 64;
       for (let i = 0; i < pr.index.length; i++) {
+        if (!kept(c, pr.index[i])) continue;
         const d = (sx(pr.along[i]) - x) ** 2 + (sy(pr.z[i]) - y) ** 2;
         if (d < bd) {
           bd = d;
@@ -1052,16 +1172,23 @@ export function install(app) {
       return best;
     };
     cv.addEventListener('pointermove', (e) => {
-      const r = cv.getBoundingClientRect();
-      const i = nearest(e.clientX - r.left, e.clientY - r.top);
+      if (drag) {
+        if (drag.box) drag.pts[1] = at(e);
+        else drag.pts.push(at(e));
+        draw();
+        return;
+      }
+      const [x, y] = at(e);
+      const i = nearest(x, y);
       if (i < 0) return;
       const k = pr.index[i];
       v.uniforms.uHighlight.value.set(c.pos[3 * k], c.pos[3 * k + 1], c.pos[3 * k + 2], 0.6);
       v.invalidate();
     });
     cv.addEventListener('click', (e) => {
-      const r = cv.getBoundingClientRect();
-      const i = nearest(e.clientX - r.left, e.clientY - r.top);
+      if (mode.value !== 'measure') return;
+      const [x, y] = at(e);
+      const i = nearest(x, y);
       if (i < 0) return;
       picks.push(i);
       if (picks.length === 2) {
@@ -1072,9 +1199,12 @@ export function install(app) {
       }
     });
     app.pc.lastProfile = pr;
-    modal({ title: t('Profile'), body: h('div', {}, cv, out), buttons: CLOSE(), width: W + 40, modeless: true, id: 'pc-profile' }).then(() => {
+    const tools = h('div', {}, field(t('Tool'), mode, t('Measure: click two points. Select: drag a box or a lasso around points, then reclassify, withhold or delete them; each edit undoes with Ctrl+Z.')), actions);
+    modal({ title: t('Profile'), body: h('div', {}, cv, out, tools), buttons: CLOSE(), width: W + 40, modeless: true, id: 'pc-profile' }).then(() => {
       v.uniforms.uHighlight.value.set(0, 0, 0, 0);
       v.setOverlay([]);
+      if (app.pc.selection?.cloud === c) setSelection(null, null);
+      app.pc.redrawProfile = null;
     });
     v.setOverlay([{ kind: 'line', points: [pr.a, pr.b] }]);
   }
