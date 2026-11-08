@@ -89,7 +89,6 @@ pub struct TileOut {
 }
 
 #[allow(clippy::too_many_arguments)]
-#[allow(clippy::too_many_arguments)]
 pub fn dsm_tile(left: &[f32], right: &[f32], w: usize, h: usize, dmin: i32, dmax: i32, pyr: usize, radius: i32, p: &SgmParams, lut: &Lut, grid: &PostGrid, engine: u32) -> TileOut {
     // Engine 1: NCC Fast (7 × 7 windows, edge-poor); else SGM.
     let r = if engine == 1 { crate::ncc::ncc_fast(left, right, w, h, dmin, dmax, 3, 0.6, p.uniqueness.max(0.5), p.lr_tol.max(1.0)) } else { sgm_pyramid(left, right, w, h, dmin, dmax, pyr, radius, p) };

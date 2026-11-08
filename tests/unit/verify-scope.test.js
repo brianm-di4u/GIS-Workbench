@@ -3,7 +3,7 @@ import { affectedCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Civilian-use check', 'Crate licences and sources', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Strict build', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
