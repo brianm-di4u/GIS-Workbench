@@ -1,15 +1,15 @@
 //! `spectral` bundle (lazy; analysis worker): band statistics and SNR, training statistics and
 //! separability, supervised and unsupervised classification and clean-up, accuracy, RX/MF/ACE/
-//! CEM/GMM, PCA/MNF/ICA/decorrelation/unmixing, DOS/ELM/IARR, brightness temperature, library
+//! CEM/GMM, PCA/MNF/ICA/decorrelation/unmixing, automatic endmembers, DOS/ELM/IARR, brightness temperature, library
 //! resampling and continuum removal, destriping, change vectors and template matching
-//! (REQ-MSI-05..14, 16; REQ-EXT-28).
+//! (REQ-MSI-05..14, 16; REQ-EXT-28; REQ-GAP-82).
 //!
 //! Cubes are BIP f32. Every output is `[u32 json length][json][padding to 4][sections…]` where
 //! the JSON lists the sections {name, type ('f32'|'u8'), len} in order.
 
 use gw_abi::{set_out, slice, status, Error, Json, Result};
 use gw_spectral::stats::Cube;
-use gw_spectral::{accuracy, classify, detect, misc, stats, transform};
+use gw_spectral::{accuracy, classify, detect, endmember, misc, stats, transform};
 
 gw_abi::export_abi!();
 
@@ -319,6 +319,39 @@ pub unsafe extern "C" fn gw_spec_transform(kind: i32, prm: *const f64, v: *const
             }
             _ => return Err(Error::invalid("spectral: unknown transform")),
         }
+        Ok(())
+    })())
+}
+
+/// Automatic endmembers (REQ-GAP-82): VCA on the MNF-reduced cube, and the PPI count of every
+/// pixel when `prm[4]` > 0. `prm` = [w, h, nb, m, skewers, seed, step]. JSON: the endmember pixel
+/// indices and the number of MNF components used; sections `spectra` (m × nb, the cube's own
+/// values at those pixels) and `ppi` (one count per pixel, empty without skewers).
+/// # Safety
+/// `prm` must hold 7 f64 and `v` n f32.
+#[no_mangle]
+pub unsafe extern "C" fn gw_spec_endmembers(prm: *const f64, v: *const f32, n: usize) -> i32 {
+    let p = slice(prm, 7);
+    status((|| {
+        let c = cube(p, slice(v, n))?;
+        let (m, skewers) = (p[3], p[4]);
+        if !((2.0..=64.0).contains(&m) && m.fract() == 0.0) || m as usize > c.nb {
+            return Err(Error::invalid("spectral: the number of endmembers must be 2 to 64 and no more than the bands"));
+        }
+        if !(0.0..=1e6).contains(&skewers) {
+            return Err(Error::invalid("spectral: PPI skewers must be 0 to 1,000,000"));
+        }
+        let r = endmember::extract(&c, m as usize, skewers as usize, p[5].max(0.0) as u64, (p[6] as usize).max(1)).ok_or_else(|| Error::invalid("spectral: too few valid pixels or bands for that many endmembers"))?;
+        let mut spectra = Vec::with_capacity(r.pixels.len() * c.nb);
+        for &q in &r.pixels {
+            spectra.extend_from_slice(c.px(q));
+        }
+        let ppi: Vec<f32> = r.ppi.iter().map(|&k| k as f32).collect();
+        let mut j = Json::new();
+        j.obj();
+        nums(&mut j, "pixels", &r.pixels.iter().map(|&q| q as f64).collect::<Vec<_>>());
+        j.kv_int("components", r.components as i64);
+        set_out(pack(j, &[Sec::F32("spectra", &spectra), Sec::F32("ppi", &ppi)]));
         Ok(())
     })())
 }

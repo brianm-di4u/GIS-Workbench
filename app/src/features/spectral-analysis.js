@@ -390,6 +390,45 @@ export function install(app) {
     return el;
   }
 
+  // ---- automatic endmembers (REQ-GAP-82) ----
+
+  /**
+   * Endmembers of l: VCA on the leading MNF components (S-62), with, when `skewers` > 0, a Pixel
+   * Purity Index layer. Each endmember is the image's own spectrum at the pixel VCA picked; with
+   * `pin` they replace the spectra pinned to the Spectral Plot, so unmixing uses them as they are.
+   * Returns {endmembers: [{x, y, values, label}], ppi: layer or null, components}.
+   */
+  async function endmembers(l, { m = 5, skewers = 1000, seed = 1, window = null, pin = true } = {}) {
+    const c0 = await msi().cube(l, fitWindow(l, window));
+    const { c } = usableBands(c0, l);
+    if (!(Number.isInteger(m) && m >= 2 && m <= Math.min(64, c.nb))) throw gwError('the number of endmembers must be 2 to {max} for this image', { max: Math.min(64, c.nb) }, 'E_ENDMEMBER_COUNT');
+    const r = await spec('endmembers', c.v, c.w, c.h, c.nb, { m, skewers, seed, step: 2 });
+    const bands = msi().bandsOf(l);
+    const ems = r.pixels.map((p, i) => {
+      const x = c0.x0 + (p % c0.w) * c0.step;
+      const y = c0.y0 + Math.floor(p / c0.w) * c0.step;
+      return { kind: 'point', x, y, values: Array.from(c0.v.subarray(p * c0.nb, (p + 1) * c0.nb)), std: null, bands, unit: l.radiometry.unit, endmember: true, label: t('EM {n} ({x}, {y})', { n: i + 1, x, y }) };
+    });
+    if (pin) {
+      msi().plot.pinned = [];
+      for (const e of ems) msi().pin(e, e.label);
+    }
+    let ppi = null;
+    if (r.ppi?.length) {
+      ppi = await openMemoryLayer(app, l, { name: t('{product} — {image}', { product: t('Pixel purity'), image: l.rec?.name ?? '' }), bands: 1, sampleType: 'f32', planes: [r.ppi], nodata: NaN, x0: c0.x0, y0: c0.y0, step: c0.step, width: c0.w, height: c0.h, chain: { bands: [0], stretch: 'linear2' }, info: { bandsMeta: [{ name: 'PPI count', cw: NaN, fwhm: NaN, bad: false }], radiometry: { state: 'PPI', gain: null, offset: null, unit: 'count', source: `PPI, ${skewers} skewers` } } });
+      ppi.msi = { kind: 'ppi', skewers };
+    }
+    return { endmembers: ems, ppi, components: r.components };
+  }
+  /** Add spectra of l (endmembers or pinned) to the spectral library, with l's band centres. */
+  function addToLibrary(l, spectra, { prefix = l.rec?.name ?? t('Image') } = {}) {
+    const wl = msi().bandsOf(l).map((b) => b.cw);
+    const unit = l.radiometry?.unit ?? '';
+    const added = spectra.map((s, i) => ({ name: `${prefix} ${s.label ?? `#${i + 1}`}`, wl: wl.every(Number.isFinite) ? wl : null, values: [...s.values], source: `${prefix} (endmembers)`, quantity: unit === 'reflectance' ? 'reflectance' : unit || 'unknown' }));
+    libraries.push(...added);
+    return added;
+  }
+
   // ---- libraries (REQ-MSI-13) ----
 
   // The embedded starter library (USGS splib07b, AVIRIS-2014 channels; acknowledgement in About):
@@ -582,7 +621,7 @@ export function install(app) {
     return { hits, step };
   }
 
-  Object.assign(app.msi, { classesOf, addClass, clearClasses, separability, classify, setThreshold, cluster, post, classVectors, assess, accuracyTable, detect, components, eigenPlot, libraries, importLibrary, resampled, brightnessTemperature, xport, destripe, spectralChange, templateMatch, chi2 });
+  Object.assign(app.msi, { classesOf, addClass, clearClasses, separability, classify, setThreshold, cluster, post, classVectors, assess, accuracyTable, detect, components, eigenPlot, endmembers, addToLibrary, libraries, importLibrary, resampled, brightnessTemperature, xport, destripe, spectralChange, templateMatch, chi2 });
 
   // ---- commands ----
   const run = (fn) => async () => {
@@ -685,6 +724,24 @@ export function install(app) {
       if (kind.value === 'unmix' && (endmembers?.length ?? 0) < 2) throw gwError('unmixing needs at least two pinned endmember spectra', null, 'E_NEED_ENDMEMBERS');
       const r = await components(layer(), kind.value, { k: Number(k.value), endmembers });
       if (r.values) await modal({ title: t('{transform} Eigenvalues', { transform: kind.value.toUpperCase() }), body: eigenPlot(r.values), buttons: [{ label: t('Close'), value: 'close', primary: true }], id: 'eigen' });
+    }),
+  });
+  C.implement('msi.endmembers', {
+    enabled: () => (layer()?.bands ?? 0) >= 3,
+    run: run(async () => {
+      const l = layer();
+      const max = Math.min(64, l.bands);
+      const m = h('input', { class: 'inp inp-num', type: 'number', value: Math.min(5, max), min: 2, max, 'aria-label': t('Endmembers') });
+      const sk = h('input', { class: 'inp inp-num', type: 'number', value: 1000, min: 0, max: 100000, step: 100, 'aria-label': t('Purity skewers') });
+      const lib = h('input', { type: 'checkbox', 'aria-label': t('Add them to the spectral library') });
+      const um = h('input', { type: 'checkbox', checked: true, 'aria-label': t('Unmix with them') });
+      const body = h('div', {}, field(t('Endmembers'), m), field(t('Purity skewers (0: no purity image)'), sk), field(t('Add them to the spectral library'), lib), field(t('Unmix with them'), um));
+      if ((await modal({ title: t('Automatic Endmembers'), body, buttons: [{ label: t('Run'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'msi-endmembers' })) !== 'run') return;
+      const r = await endmembers(l, { m: Math.round(Number(m.value)), skewers: Math.max(0, Math.round(Number(sk.value) || 0)) });
+      if (lib.checked) addToLibrary(l, r.endmembers);
+      const n = r.endmembers.length;
+      toast(lib.checked ? t('{n, plural, one {# endmember} other {# endmembers}} pinned to the Spectral Plot and added to the spectral library', { n }) : t('{n, plural, one {# endmember} other {# endmembers}} pinned to the Spectral Plot', { n }), { kind: 'info' });
+      if (um.checked) await components(l, 'unmix', { endmembers: r.endmembers.map((e) => e.values) });
     }),
   });
   C.implement('msi.library', {
