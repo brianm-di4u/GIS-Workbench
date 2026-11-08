@@ -11,6 +11,7 @@ import { SarBundle } from '../../wasm/sar.js';
 import { SpectralBundle } from '../../wasm/spectral.js';
 import { TinBundle } from '../../wasm/tin.js';
 import { AviationBundle } from '../../wasm/aviation.js';
+import { HydroBundle, HYDRO_MAX_POSTS } from '../../wasm/hydro.js';
 import { gpuDsmTile } from '../../analysis/gpu-sgm.js';
 import { gwError } from '../../i18n/index.js';
 import { ensureCsm, jobNeedsCsm } from '../../sensor/csm-worker.js';
@@ -352,4 +353,24 @@ GW.register('obs.grid', async ({ def, geo, z }) => {
 GW.register('obs.points', async ({ def, ll }) => {
   const r = (await aviationBundle()).points(def, ll);
   return GW.transfer(r, [r.limit.buffer, r.sid.buffer, ...(r.zoneLimit ? [r.zoneLimit.buffer, r.zoneSid.buffer] : [])]);
+});
+
+// Hydrology (REQ-GAP-80): the lazy `hydro` bundle. One run per job, stage by stage, with progress
+// and a cancel between stages (S-63). A run leaves memory grown by up to about 750 MiB, so the
+// instance is dropped once it holds more than 384 MiB.
+let hydro = null;
+GW.register('hydro.run', async ({ z, w, h, opts }, job) => {
+  if (w * h > HYDRO_MAX_POSTS) throw gwError('hydrology: {n} posts is more than the 48 million posts it takes; crop or resample the elevation model first', { n: String(w * h) }, 'E_HYDRO_SIZE');
+  if (grown(hydro)) hydro = null;
+  if (!hydro) {
+    await GW.ensure('hydro');
+    hydro = new HydroBundle(GW.ctx.modules.hydro);
+  }
+  const r = await hydro.run(z, w, h, opts, async (phase, p) => {
+    job.checkCancel();
+    job.progress(p, { phase });
+    await new Promise((ok) => setTimeout(ok, 0)); // let a cancel message in between stages
+    job.checkCancel();
+  });
+  return GW.transfer(r, ['filled', 'dir', 'acc', 'strahler', 'shreve', 'labels', 'dinfAcc', 'streams'].filter((k) => r[k]).map((k) => r[k].buffer));
 });

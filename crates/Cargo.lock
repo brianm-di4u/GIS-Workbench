@@ -150,6 +150,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "gw-bundle-hydro"
+version = "0.0.1"
+dependencies = [
+ "gw-abi",
+ "gw-hydro",
+]
+
+[[package]]
 name = "gw-bundle-j2k"
 version = "0.0.1"
 dependencies = [
@@ -318,6 +326,10 @@ dependencies = [
  "gw-abi",
  "miniz_oxide",
 ]
+
+[[package]]
+name = "gw-hydro"
+version = "0.0.1"
 
 [[package]]
 name = "gw-match"

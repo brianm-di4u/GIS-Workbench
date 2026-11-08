@@ -20,6 +20,7 @@ members = [
   "gw-tiles",
   "gw-tin",
   "gw-aviation",
+  "gw-hydro",
   "bundles/core",
   "bundles/parse",
   "bundles/j2k",
@@ -38,6 +39,7 @@ members = [
   "bundles/vendor",
   "bundles/tin",
   "bundles/aviation",
+  "bundles/hydro",
 ]
 # Vendored third-party crates (path dependencies, not members).
 exclude = ["vendor"]
@@ -67,6 +69,7 @@ gw-spectral = { path = "gw-spectral" }
 gw-tiles = { path = "gw-tiles" }
 gw-tin = { path = "gw-tin" }
 gw-aviation = { path = "gw-aviation" }
+gw-hydro = { path = "gw-hydro" }
 geographiclib-rs = { version = "0.2.7", default-features = false }
 # Inflate only (PDF object/content streams, TE-001). MIT OR Zlib OR Apache-2.0, pure Rust.
 miniz_oxide = { version = "0.9", default-features = false, features = ["with-alloc"] }

@@ -46,6 +46,8 @@ export const BUNDLES = [
   { name: 'tin', crate: 'gw-bundle-tin', load: 'lazy', budget: 96 * 1024, opt: 'z' },
   // 2.5 (REQ-GAP-73): airfield obstruction surfaces (FAA Part 77, ICAO Annex 14), analysis worker.
   { name: 'aviation', crate: 'gw-bundle-aviation', load: 'lazy', budget: 48 * 1024, opt: '3' },
+  // 2.7.0 (REQ-GAP-80, SDP-2.7 §4.2): hydrology on whole grids, analysis worker. S-63: about 12 KB.
+  { name: 'hydro', crate: 'gw-bundle-hydro', load: 'lazy', budget: 32 * 1024, opt: '3' },
 ];
 export const TOTAL_BUDGET = WASM_TOTAL_BUDGET;
 
