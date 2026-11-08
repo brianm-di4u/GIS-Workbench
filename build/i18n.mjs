@@ -418,7 +418,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const drift = sourceDrift(cat, readFileSync(join(CAT, 'en.json'), 'utf8'));
     if (drift) {
       const show = (list) => list.slice(0, 20).map((k) => `   ${JSON.stringify(k)}`).join('\n');
-      console.log(`en.json is out of date: ${drift.added.length} new, ${drift.removed.length} gone, the rest are strings that moved files.`);
+      console.log(`en.json is out of date: ${drift.added.length} new, ${drift.removed.length} gone, and any other difference is in refs or flags.`);
       if (drift.added.length) console.log(`New:\n${show(drift.added)}`);
       if (drift.removed.length) console.log(`Gone:\n${show(drift.removed)}`);
       console.log('Run `node build/i18n.mjs extract` and commit en.json.');
