@@ -34,3 +34,6 @@ Third-party data sources are pinned with their licenses in `build/packs-sources.
 
 | Source | URL | License | Version or commit | Used for |
 |---|---|---|---|---|
+| Earth Gravitational Model 2008 (EGM2008), U.S. National Geospatial-Intelligence Agency (NGA) | https://earth-info.nga.mil/ | Public, no restrictions; attribution below | 5′ grid from GeographicLib `egm2008-5`; 2.5′ grid `us_nga_egm08_25` from PROJ-data | The `geoid` and `geoid-egm2008-25` packs, and the planned 1′ pack |
+
+**EGM2008 attribution, as NGA gives it:** "The data and coefficients for Earth Gravitational Model 2008 (EGM2008), developed and released by the U.S. National Geospatial-Intelligence Agency (NGA), are publicly available with no special restrictions or limitations on their use."
