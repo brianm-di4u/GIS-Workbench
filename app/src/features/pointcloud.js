@@ -659,16 +659,22 @@ export function install(app) {
     return { bytes, name, coordType, coordId, enuOrigin: coordType === 3 ? { lat: c.origin.lat0, lon: c.origin.lon0, h: 0 } : null };
   }
 
-  /** Assign a CRS to a cloud opened in a local frame (REQ-LDR-13, REQ-FMT-47): it is placed again from its file coordinates. */
+  /** A LAS/LAZ cloud read whole from a file it still holds (not a clip or a stream): Assign CRS can read it again. */
+  const rereadable = (c) => !!(c?.info && c.order && c.file instanceof Blob && /\.la[sz]$/i.test(c.file.name));
+  /**
+   * Assign a CRS to a cloud (REQ-LDR-13, REQ-LDR-14, REQ-FMT-47): it is placed again from its file
+   * coordinates — BPF from the coordinates kept at open, LAS and LAZ by reading the file again with
+   * the CRS in place of the file's own. The new cloud replaces the old one in the panel.
+   */
   async function assignCrs(c, { epsg, vertical = 'hae', p = pane() } = {}) {
-    if (!c.src) throw new Error('this cloud has a CRS from its file; Assign CRS places clouds opened in a local frame (BPF Cartesian/ENU)');
+    if (!c.src && !rereadable(c)) throw new Error('Assign CRS places BPF clouds opened in a local frame and LAS or LAZ clouds read from a file; this cloud is neither');
     if (!(epsg > 0)) throw new Error('give the EPSG code of the coordinates');
     await app.proj?.prepare?.([epsg]);
-    const next = await cloudFromXyz(c.src, { epsg, vertical, ...geoOpts() });
-    Object.assign(next, { id: newId('pc'), file: c.file, src: c.src });
+    const next = c.src ? await cloudFromXyz(c.src, { epsg, vertical, ...geoOpts() }) : await app.activity.track(t('Reading {file}…', { file: c.file.name }), (job) => readLas(c.file, { ...geoOpts(), assign: { epsg, vertical }, onProgress: (f) => job.set(f) }));
+    Object.assign(next, { id: newId('pc'), file: c.file, ...(c.src ? { src: c.src } : {}) });
     next.class0 = next.class.slice();
     app.pointClouds.set(next.id, next);
-    S.transact(t('Assign CRS to point cloud'), (tx) => tx.create('pointcloud', { pcId: next.id, name: next.name, points: next.n, crs: next.crs.label, vertical: next.crs.vertical, pane: p?.id ?? null, derivedFrom: c.id }), { kind: 'edit' });
+    S.transact(t('Assign CRS to point cloud'), (tx) => tx.create('pointcloud', { pcId: next.id, name: next.name, points: next.n, crs: next.crs.label, vertical: next.crs.vertical, assigned: { epsg, vertical }, pane: p?.id ?? null, derivedFrom: c.id }), { kind: 'edit' });
     app.importLog.push({ file: c.name, errors: [], warnings: [t('CRS assigned: {crs}', { crs: next.crs.label }), ...next.crs.warnings] });
     if (p?.view3d) p.view3d.removeCloud(c);
     await show(next, p);
@@ -889,8 +895,10 @@ export function install(app) {
     }),
   });
   C.implement('pc.assigncrs', {
-    enabled: () => !!cloudOf()?.src,
+    enabled: () => !!cloudOf()?.src || rereadable(cloudOf()),
     run: run(async (c) => {
+      // A LAS/LAZ cloud with a CRS from its file: changing it is confirmed first (SDP-2.7 §4.7).
+      if (!c.src && !c.crs.local && (await modal({ title: t('Change CRS — {cloud}', { cloud: c.name }), body: h('p', {}, t('{cloud} is placed in {crs}, from its file. Read the file again in a CRS you give instead? Class edits made since it was opened are not carried over.', { cloud: c.name, crs: c.crs.label })), buttons: [{ label: t('Change CRS…'), value: 'ok', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'pc-changecrs' })) !== 'ok') return;
       const epsg = h('input', { class: 'inp inp-num', type: 'number', placeholder: t('e.g. {example}', { example: '32611' }), 'aria-label': t('EPSG code') });
       const vert = h('select', { class: 'inp', 'aria-label': t('Heights') }, h('option', { value: 'hae' }, t('Ellipsoidal (HAE)')), h('option', { value: 'egm96' }, t('EGM96 (MSL)')));
       if ((await modal({ title: t('Assign CRS — {cloud}', { cloud: c.name }), body: h('div', {}, h('p', { class: 'hint' }, t("{crs}: give the CRS the file's coordinates are in.", { crs: c.crs.label })), field(t('Coordinate system (EPSG)'), epsg), field(t('Heights'), vert)), buttons: OK_CANCEL(), id: 'pc-assigncrs' })) !== 'ok') return;
