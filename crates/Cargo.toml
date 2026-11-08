@@ -69,7 +69,7 @@ gw-tin = { path = "gw-tin" }
 gw-aviation = { path = "gw-aviation" }
 geographiclib-rs = { version = "0.2.7", default-features = false }
 # Inflate only (PDF object/content streams, TE-001). MIT OR Zlib OR Apache-2.0, pure Rust.
-miniz_oxide = { version = "0.8", default-features = false, features = ["with-alloc"] }
+miniz_oxide = { version = "0.9", default-features = false, features = ["with-alloc"] }
 
 # Appendix D §4: hot bundles use opt-level 3, cold ones "z" (set per bundle by build/rust.mjs
 # through CARGO_PROFILE_RELEASE_OPT_LEVEL). LTO fat, one codegen unit, abort on panic, strip.
