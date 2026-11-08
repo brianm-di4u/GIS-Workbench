@@ -86,7 +86,7 @@ async function spectralBundle() {
   return spectral;
 }
 // Spectral (REQ-MSI-05..14, 16, REQ-EXT-28): one entry point, `op` names the wrapper method.
-const SPEC_OPS = new Set(['stats', 'train', 'classify', 'kmeans', 'isodata', 'post', 'accuracy', 'detect', 'transform', 'correct', 'elm', 'bt', 'resample', 'template']);
+const SPEC_OPS = new Set(['stats', 'train', 'classify', 'kmeans', 'isodata', 'post', 'accuracy', 'detect', 'transform', 'endmembers', 'correct', 'elm', 'bt', 'resample', 'template']);
 GW.register('spectral', async ({ op, args }) => {
   if (!SPEC_OPS.has(op)) throw gwError('unknown spectral operation {op}', { op: String(op) });
   const b = await spectralBundle();

@@ -386,6 +386,7 @@ const CATALOG = [
   ['msi.accuracy', N_('Accuracy Assessment'), 'table', 'REQ-MSI-10', 'R3'],
   ['msi.detect', N_('Spectral Anomaly Detection…'), 'target', 'REQ-MSI-11', 'R3'],
   ['msi.pca', N_('PCA / MNF…'), 'bands', 'REQ-MSI-12', 'R3'],
+  ['msi.endmembers', N_('Automatic Endmembers…'), 'bands', 'REQ-GAP-82', 'R10', '', N_('Finds the purest spectra in a hyperspectral image, pins them to the Spectral Plot, and can unmix the image with them.')],
   ['msi.library', N_('Spectral Library…'), 'list', 'REQ-MSI-13', 'R3'],
   ['msi.library.browse', N_('Library Browser…'), 'search', 'REQ-MSI-13', 'R3', '', N_('Find, rank (spectral angle) and pin imported library spectra.')],
   ['msi.thermal', N_('Brightness Temperature…'), 'sun', 'REQ-MSI-14', 'R3'],

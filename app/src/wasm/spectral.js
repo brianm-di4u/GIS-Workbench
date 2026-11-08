@@ -104,6 +104,15 @@ export class SpectralBundle extends Bundle {
     return { ...r.json, cube: r.sections.cube };
   }
 
+  /**
+   * Automatic endmembers (REQ-GAP-82): VCA on the leading MNF components, and the PPI count of
+   * every pixel when `skewers` > 0 → {pixels, components, spectra (m × nb), ppi (n, or empty)}.
+   */
+  endmembers(v, w, h, nb, { m = 5, skewers = 1000, seed = 1, step = 2 } = {}) {
+    const r = this.run('endmembers', [[w, h, nb, m, skewers, seed, step], v], ([p], [a, n]) => this.x.gw_spec_endmembers(p, a, n));
+    return { ...r.json, spectra: r.sections.spectra, ppi: r.sections.ppi };
+  }
+
   /** kind: 'dos' (param = percentile) | 'mean' (aux = pixel indices) | 'destripe' | 'change' (b). */
   correct(kind, v, w, h, nb, { param = 0.0001, idx = null, b = null } = {}) {
     const code = { dos: 0, mean: 1, destripe: 2, change: 3 }[kind];

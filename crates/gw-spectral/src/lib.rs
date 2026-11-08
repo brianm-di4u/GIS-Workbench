@@ -1,9 +1,10 @@
 //! GIS Workbench spectral processing (Appendix D `gw-spectral`; REQ-MSI-05..14, 16;
-//! REQ-EXT-28). Cubes are BIP f32 (`stats::Cube`); labels are u8 (0 = unclassified).
+//! REQ-EXT-28; endmembers REQ-GAP-82). Cubes are BIP f32 (`stats::Cube`); labels are u8 (0 = unclassified).
 
 pub mod accuracy;
 pub mod classify;
 pub mod detect;
+pub mod endmember;
 pub mod linalg;
 pub mod misc;
 pub mod stats;
