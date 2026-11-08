@@ -47,9 +47,9 @@ futures-util = { version = "0.3", default-features = false, features = ["std"] }
 http-body-util = "0.1"
 bytes = "1"
 toml = { version = "0.8", default-features = false, features = ["parse"] }
-sha2 = "0.10"
+sha2 = "0.11"
 hex = "0.4"
-getrandom = "0.3"
+getrandom = "0.4"
 quick-xml = "0.41"
 # The CORS relay (REQ-GAP-08). Optional, and no release build turns it on (OD-2.17).
 rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"], optional = true }
