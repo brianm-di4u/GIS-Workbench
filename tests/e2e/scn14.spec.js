@@ -369,7 +369,8 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
   expect(del.nDeleted).toBe(box.hi);
   expect(del.deleted18).toBe(1);
   expect(del.picked).toBe(false);
-  expect(del.profileRaw).toBe(box.profile - box.hi); // the profile job's mask leaves them out
+  expect(del.profile).toBe(box.profile - box.hi); // left out when drawn
+  expect(del.profileRaw).toBe(box.profile); // the profile keeps them, so undo shows them again
   expect(del.export).toBe(s.n - box.hi);
   expect(del.classes18).toBe(10 - box.hi);
   expect(del.export18).toBe(10 - box.hi);
@@ -406,5 +407,29 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
   expect(un.afterOne).toEqual({ deleted: box.hi, withheld: 0 });
   expect(un.undone).toEqual({ deleted: 0, mask: null, export: s.n, classes18: 10 });
   expect(un.redone).toBe(box.hi);
+  // The other consumers of the one mask: a clip, a BPF and 3D Tiles leave the deleted point out, and
+  // a TIN of the ground points has five fewer vertices once five ground points are deleted.
+  const more = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    const st = c.stats;
+    const ring = [[st.min[0] - 1, st.min[1] - 1], [st.max[0] + 1, st.min[1] - 1], [st.max[0] + 1, st.max[1] + 1], [st.min[0] - 1, st.max[1] + 1]];
+    const sub = await app.pc.clip(c, ring, { p: null });
+    const bpf = await app.pc.exportBpf(c, { coordType: 1 });
+    const [bb] = await app.openPointClouds([new File([bpf.bytes], 'clean.bpf')]);
+    const tiles = app.pc.exportTiles(c);
+    const g5 = [];
+    for (let k = 0; k < c.n && g5.length < 5; k++) if (c.class[k] === 2 && !c.deleted?.[k]) g5.push(k);
+    const n0 = c.nDeleted;
+    app.pc.deleteSelection(c, Uint32Array.from(g5));
+    let ground = 0;
+    for (let k = 0; k < c.n; k++) if (c.class[k] === 2 && !c.deleted[k]) ground++;
+    const id = await app.tin.create({ from: 'lidar', pc: c.id });
+    return { n: c.n, n0, clip: sub.n, bpf: bb.n, tiles: tiles.stats.points, deleted: c.nDeleted, ground, tin: (await app.tin.info(id)).vertices };
+  });
+  console.log(JSON.stringify({ more }));
+  expect([more.clip, more.bpf, more.tiles]).toEqual([more.n - more.n0, more.n - more.n0, more.n - more.n0]);
+  expect(more.deleted).toBe(more.n0 + 5);
+  expect(more.tin).toBe(more.ground);
   expect(logs).toEqual([]);
 });

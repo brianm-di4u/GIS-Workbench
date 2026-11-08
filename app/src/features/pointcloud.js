@@ -239,6 +239,11 @@ export function install(app) {
   // record id, and everything is replayed over the file's own classes and flags (pc-edits.js).
   const diffs = new Map();
   const sigs = new Map();
+  // Open profile dialogs: each one's refresh, run after every edit, undo and redo.
+  const profileViews = new Set();
+  const refreshProfiles = () => {
+    for (const f of profileViews) f();
+  };
   function syncEdits() {
     for (const c of app.pointClouds.values()) {
       const ops = S.all('pcedit').filter((o) => o.pc === c.id).sort((a, b) => a.seq - b.seq);
@@ -249,7 +254,7 @@ export function install(app) {
       Object.assign(c, { class: r.class, flags: r.flags, deleted: r.deleted, nDeleted: r.nDeleted });
       c.stats.classes = countClasses(r.class, r.deleted);
       for (const mp of app.desktop?.multiports ?? []) for (const p of mp.panes) p.view3d?.refresh(c, ['classification', 'deleted']);
-      if (app.pc?.lastProfile?.cloud === c) app.pc.redrawProfile?.(); // undo and redo show in an open profile
+      refreshProfiles(); // undo and redo show in every open profile
     }
   }
   S.on('change', syncEdits);
@@ -282,16 +287,20 @@ export function install(app) {
   /** Reclassify selected points to class `to`. */
   function reclassSelection(c, sel, to) {
     const idx = live(c, sel).filter((k) => c.class[k] !== to);
+    if (!idx.length) return { id: null, changed: 0 }; // nothing to change: no empty undo step
     return recordEdit(c, 'class', Uint32Array.from(idx), new Uint8Array(idx.length).fill(to), `Reclassify to ${to}`, { to, selected: sel.length });
   }
   /** Set (or with on = false clear) the LAS withheld flag of selected points. */
   function withholdSelection(c, sel, on = true) {
     const idx = live(c, sel).filter((k) => !!(c.flags[k] & WITHHELD) !== on);
+    if (!idx.length) return { id: null, changed: 0 };
     return recordEdit(c, 'flags', Uint32Array.from(idx), Uint8Array.from(idx, (k) => (on ? c.flags[k] | WITHHELD : c.flags[k] & ~WITHHELD)), on ? N_('Set withheld') : N_('Clear withheld'), { on, selected: sel.length });
   }
   /** Delete selected points (undo brings them back). */
   function deleteSelection(c, sel) {
-    return recordEdit(c, 'deleted', Uint32Array.from(live(c, sel)), null, N_('Delete points'), { selected: sel.length });
+    const idx = live(c, sel);
+    if (!idx.length) return { id: null, changed: 0 };
+    return recordEdit(c, 'deleted', Uint32Array.from(idx), null, N_('Delete points'), { selected: sel.length });
   }
 
   // ---- worker jobs ----
@@ -435,7 +444,9 @@ export function install(app) {
   /** Profile (REQ-LDR-07): points within `half` m of a → b (local), ordered along. */
   async function profile(c, a, b, half = 1, { max = 200000, v = view() } = {}) {
     const vis = v ? (k) => v.classVisible[c.class[k]] : () => true;
-    const mask = maskOf(c, vis);
+    // Deleted points stay in the profile, left out when it is drawn, so undoing a deletion shows them again.
+    const mask = new Uint8Array(c.n);
+    for (let k = 0; k < c.n; k++) mask[k] = vis(k) ? 1 : 0;
     const r = await job('profile', { pos: c.pos, mask, prm: [a[0], a[1], b[0], b[1], half, max] }, [mask.buffer]);
     const z = Float32Array.from(r.index, (k) => c.pos[3 * k + 2]);
     return { ...r, z, a, b, half, cloud: c };
@@ -1049,10 +1060,11 @@ export function install(app) {
     }),
   });
 
-  // The selection made in a profile (REQ-GAP-81): {cloud, index (point indices)}; the edit commands act on it.
+  // The selection made in a profile (REQ-GAP-81): {cloud, index (point indices), owner (the profile
+  // it was made in)}; the edit commands act on it.
   app.pc.selection = null;
-  const setSelection = (c, index) => {
-    app.pc.selection = index?.length ? { cloud: c, index } : null;
+  const setSelection = (c, index, owner = null) => {
+    app.pc.selection = index?.length ? { cloud: c, index, owner } : null;
     app.emit('state');
   };
   /** Apply an edit to the profile selection: 'delete', 'withheld' or a class number. */
@@ -1062,7 +1074,7 @@ export function install(app) {
     const r = what === 'delete' ? deleteSelection(s.cloud, s.index) : what === 'withheld' ? withholdSelection(s.cloud, s.index) : reclassSelection(s.cloud, s.index, what);
     app.toast(what === 'delete' ? t('{n, plural, one {# point} other {# points}} deleted (undo brings them back)', { n: r.changed }) : what === 'withheld' ? t('{n, plural, one {# point} other {# points}} set withheld', { n: r.changed }) : t('{n} points reclassified to {cls}', { n: int(r.changed), cls: String(what) }), { kind: 'info' });
     setSelection(null, null);
-    app.pc.redrawProfile?.();
+    refreshProfiles();
     return r;
   }
 
@@ -1088,9 +1100,9 @@ export function install(app) {
     pr.toCanvas = (along, z) => [sx(along), sy(z)];
     const g = cv.getContext('2d');
     let drag = null;
-    const selected = () => new Set(app.pc.selection?.cloud === c ? app.pc.selection.index : []);
+    const mine = () => app.pc.selection?.owner === pr;
     function draw() {
-      const sel = selected();
+      const sel = new Set(mine() ? app.pc.selection.index : []);
       g.fillStyle = '#111';
       g.fillRect(0, 0, W, H);
       for (let i = 0; i < pr.index.length; i++) {
@@ -1107,39 +1119,34 @@ export function install(app) {
         g.stroke();
       }
     }
-    app.pc.redrawProfile = () => {
-      draw();
-      out.textContent = hint();
-    };
     const mode = h('select', { class: 'inp', 'aria-label': t('Profile tool'), 'data-id': 'pc:profile-mode' }, [['measure', N_('Measure')], ['box', N_('Select: box')], ['lasso', N_('Select: lasso')]].map(([val, text]) => h('option', { value: val }, tr(text))));
     mode.value = mode0;
     const count = h('span', { class: 'hint', 'data-id': 'pc:profile-count' });
-    const showCount = () => (count.textContent = t('{n, plural, one {# point} other {# points}} selected', { n: app.pc.selection?.cloud === c ? app.pc.selection.index.length : 0 }));
-    const select = (index) => {
-      setSelection(c, Uint32Array.from(Array.from(index).filter((k) => kept(c, k))));
-      showCount();
+    const showCount = () => (count.textContent = t('{n, plural, one {# point} other {# points}} selected', { n: mine() ? app.pc.selection.index.length : 0 }));
+    const refresh = () => {
       draw();
+      out.textContent = hint();
+      showCount();
+    };
+    profileViews.add(refresh);
+    const select = (index) => {
+      setSelection(c, Uint32Array.from(Array.from(index).filter((k) => kept(c, k))), pr);
+      refreshProfiles();
     };
     const to = h('select', { class: 'inp', 'aria-label': t('New class') }, Object.entries(CLASSES).map(([k, [n]]) => h('option', { value: k }, `${k} ${tr(n)}`)));
     to.value = '7';
     const btn = (label, fn, id) => h('button', { class: 'btn', type: 'button', 'data-id': id, onclick: fn }, label);
-    const after = () => {
-      showCount();
-      draw();
-      out.textContent = hint();
-    };
     const actions = h(
       'div',
       { class: 'btn-row' },
       btn(t('Select all'), () => select(Uint32Array.from(pr.index.filter((k) => kept(c, k)))), 'pc:profile-all'),
       to,
-      btn(t('Reclassify'), () => (editSelection(Number(to.value)), after()), 'pc:profile-reclass'),
-      btn(t('Set withheld'), () => (editSelection('withheld'), after()), 'pc:profile-withheld'),
-      btn(t('Delete points'), () => (editSelection('delete'), after()), 'pc:profile-delete'),
+      btn(t('Reclassify'), () => mine() && editSelection(Number(to.value)), 'pc:profile-reclass'),
+      btn(t('Set withheld'), () => mine() && editSelection('withheld'), 'pc:profile-withheld'),
+      btn(t('Delete points'), () => mine() && editSelection('delete'), 'pc:profile-delete'),
       count,
     );
-    draw();
-    showCount();
+    refresh();
     const at = (e) => {
       const r = cv.getBoundingClientRect();
       return [((e.clientX - r.left) * W) / r.width, ((e.clientY - r.top) * H) / r.height];
@@ -1148,6 +1155,10 @@ export function install(app) {
       if (mode.value === 'measure') return;
       drag = { box: mode.value === 'box', pts: [at(e)] };
       cv.setPointerCapture?.(e.pointerId);
+    });
+    cv.addEventListener('pointercancel', () => {
+      drag = null; // an interrupted drag selects nothing
+      draw();
     });
     cv.addEventListener('pointerup', (e) => {
       if (!drag) return;
@@ -1203,8 +1214,8 @@ export function install(app) {
     modal({ title: t('Profile'), body: h('div', {}, cv, out, tools), buttons: CLOSE(), width: W + 40, modeless: true, id: 'pc-profile' }).then(() => {
       v.uniforms.uHighlight.value.set(0, 0, 0, 0);
       v.setOverlay([]);
-      if (app.pc.selection?.cloud === c) setSelection(null, null);
-      app.pc.redrawProfile = null;
+      profileViews.delete(refresh);
+      if (mine()) setSelection(null, null);
     });
     v.setOverlay([{ kind: 'line', points: [pr.a, pr.b] }]);
   }
