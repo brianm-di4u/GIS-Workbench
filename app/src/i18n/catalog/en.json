@@ -776,6 +776,13 @@
    "error": true
   },
   {
+   "key": "5 700 kg or less on an ADG IIC to V runway: Table 4-14 has no values for these groups, so Table 4-15 is used.",
+   "src": "5 700 kg or less on an ADG IIC to V runway: Table 4-14 has no values for these groups, so Table 4-15 is used.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
    "key": "7 parameters (translations, rotations, scale)",
    "src": "7 parameters (translations, rotations, scale)",
    "refs": [
@@ -927,6 +934,13 @@
    "src": "A recipe runs a workflow step by step in front of you. Choose one, or open a .gwrecipe.json file.",
    "refs": [
     "features/recipes.js"
+   ]
+  },
+  {
+   "key": "A runway width is not known: the inner edges of Tables 4-1 and 4-2 are as printed, without the runway width notes.",
+   "src": "A runway width is not known: the inner edges of Tables 4-1 and 4-2 are as printed, without the runway width notes.",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -2310,6 +2324,20 @@
    ]
   },
   {
+   "key": "Aeroplane design group",
+   "src": "Aeroplane design group",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Aeroplane design group of runway {rwy}",
+   "src": "Aeroplane design group of runway {rwy}",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Affine",
    "src": "Affine",
    "refs": [
@@ -2697,6 +2725,13 @@
    ]
   },
   {
+   "key": "An aeroplane at 307 km/h or more matches no row of Table 1-2: by the \"highest values\" rule of §1.8.2 its speed counts in the IIC band, and the group is the higher of that and its wingspan’s.",
+   "src": "An aeroplane at 307 km/h or more matches no row of Table 1-2: by the \"highest values\" rule of §1.8.2 its speed counts in the IIC band, and the group is the higher of that and its wingspan’s.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
    "key": "An airport needs an identifier and an elevation",
    "src": "An airport needs an identifier and an elevation",
    "refs": [
@@ -2743,6 +2778,13 @@
    "src": "Analysis Fullscreen: browser shortcuts are captured. Hold Esc to leave.",
    "refs": [
     "features/navigation.js"
+   ]
+  },
+  {
+   "key": "Analysis date",
+   "src": "Analysis date",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -2856,6 +2898,13 @@
   {
    "key": "Annex 14 approach type of end {end}",
    "src": "Annex 14 approach type of end {end}",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Annex 14 edition",
+   "src": "Annex 14 edition",
    "refs": [
     "features/aviation-obstruction.js"
    ]
@@ -3368,6 +3417,13 @@
    "src": "Assistant transcript",
    "refs": [
     "features/ai.js"
+   ]
+  },
+  {
+   "key": "Assumptions",
+   "src": "Assumptions",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -6781,6 +6837,13 @@
    ]
   },
   {
+   "key": "Choose…",
+   "src": "Choose…",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Circle",
    "src": "Circle",
    "refs": [
@@ -7022,6 +7085,13 @@
    "src": "Clear classes",
    "refs": [
     "features/spectral-analysis.js"
+   ]
+  },
+  {
+   "key": "Clear withheld",
+   "src": "Clear withheld",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -9770,6 +9840,13 @@
    ]
   },
   {
+   "key": "Delete Points",
+   "src": "Delete Points",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Delete TIN",
    "src": "Delete TIN",
    "refs": [
@@ -9826,6 +9903,13 @@
    ]
   },
   {
+   "key": "Delete points",
+   "src": "Delete points",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
    "key": "Delete tie point {n}",
    "src": "Delete tie point {n}",
    "refs": [
@@ -9858,6 +9942,20 @@
    "src": "Delete {name}",
    "refs": [
     "features/portal-ui.js"
+   ]
+  },
+  {
+   "key": "Deletes the points selected in the profile (undoable); views, grids, clips and exports leave them out.",
+   "src": "Deletes the points selected in the profile (undoable); views, grids, clips and exports leave them out.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Deletes the selected points; undo brings them back.",
+   "src": "Deletes the selected points; undo brings them back.",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -9980,6 +10078,13 @@
    "refs": [
     "features/pointcloud.js",
     "svc/services.js"
+   ]
+  },
+  {
+   "key": "Design groups and masses of {ident}",
+   "src": "Design groups and masses of {ident}",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -10594,6 +10699,13 @@
    "src": "Draw a breakline or ring",
    "refs": [
     "features/tin-editor.js"
+   ]
+  },
+  {
+   "key": "Draw a profile, then select points in it with a box or a lasso to reclassify, withhold or delete them.",
+   "src": "Draw a profile, then select points in it with a box or a lasso to reclassify, withhold or delete them.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -11942,6 +12054,13 @@
    "src": "Exact origins such as {example}. Messages from other origins are ignored.",
    "refs": [
     "features/ai-extras.js"
+   ]
+  },
+  {
+   "key": "Exactly 5 700 kg takes Table 4-14, as §4.3.6.6 reads, although the table’s note a says \"up to but not including 5 700 kg\".",
+   "src": "Exactly 5 700 kg takes Table 4-14, as §4.3.6.6 reads, although the table’s note a says \"up to but not including 5 700 kg\".",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -13575,6 +13694,13 @@
    ]
   },
   {
+   "key": "Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces.",
+   "src": "Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces.",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030.",
    "src": "Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030.",
    "refs": [
@@ -13793,6 +13919,13 @@
    "refs": [
     "features/catalog.js",
     "mobile/shell.js"
+   ]
+  },
+  {
+   "key": "From 21 November 2030: OFS and OES",
+   "src": "From 21 November 2030: OFS and OES",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -16292,6 +16425,13 @@
    ]
   },
   {
+   "key": "Horizontal surface, {h} above the aerodrome",
+   "src": "Horizontal surface, {h} above the aerodrome",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Horizontal unit",
    "src": "Horizontal unit",
    "refs": [
@@ -17328,6 +17468,13 @@
    "src": "Install…",
    "refs": [
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "Instrument departure surface, departures on {end}",
+   "src": "Instrument departure surface, departures on {end}",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -21611,6 +21758,13 @@
    ]
   },
   {
+   "key": "Marks the selected points as withheld, so products leave them out.",
+   "src": "Marks the selected points as withheld, so products leave them out.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "Masked: {all} (layover {lay}, shadow {sh})",
    "src": "Masked: {all} (layover {lay}, shadow {sh})",
    "refs": [
@@ -21765,6 +21919,20 @@
    ]
   },
   {
+   "key": "Maximum take-off mass (kg)",
+   "src": "Maximum take-off mass (kg)",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Maximum take-off mass on runway {rwy} (kg)",
+   "src": "Maximum take-off mass on runway {rwy} (kg)",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Maximum zoom",
    "src": "Maximum zoom",
    "refs": [
@@ -21811,6 +21979,7 @@
    "key": "Measure",
    "src": "Measure",
    "refs": [
+    "features/pointcloud.js",
     "features/triangulation.js",
     "mobile/shell.js",
     "shell/command-meta.js",
@@ -21879,6 +22048,13 @@
    "src": "Measure {type}",
    "refs": [
     "tools/tools.js"
+   ]
+  },
+  {
+   "key": "Measure: click two points. Select: drag a box or a lasso around points, then reclassify, withhold or delete them; each edit undoes with Ctrl+Z.",
+   "src": "Measure: click two points. Select: drag a box or a lasso around points, then reclassify, withhold or delete them; each edit undoes with Ctrl+Z.",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -23614,6 +23790,13 @@
    ]
   },
   {
+   "key": "New class",
+   "src": "New class",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
    "key": "New class for the points inside the polygon",
    "src": "New class for the points inside the polygon",
    "refs": [
@@ -24050,6 +24233,13 @@
    ]
   },
   {
+   "key": "No object may stand above the inner approach, inner transitional and balked landing surfaces, and no new object above the approach and transitional surfaces (§4.4.1 to §4.4.7): these are the obstacle free surfaces, reported on their own. An object above an obstacle evaluation surface needs an aeronautical study (§4.4.8).",
+   "src": "No object may stand above the inner approach, inner transitional and balked landing surfaces, and no new object above the approach and transitional surfaces (§4.4.1 to §4.4.7): these are the obstacle free surfaces, reported on their own. An object above an obstacle evaluation surface needs an aeronautical study (§4.4.8).",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "No observations recorded.",
    "src": "No observations recorded.",
    "refs": [
@@ -24272,6 +24462,13 @@
    "src": "Non-instrument",
    "refs": [
     "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Non-instrument and non-precision runways: the inner transitional runs along the whole inner approach (§4.2.4.2 gives no height for its start), its vertical section measured from its lower edge.",
+   "src": "Non-instrument and non-precision runways: the inner transitional runs along the whole inner approach (§4.2.4.2 gives no height for its start), its vertical section measured from its lower edge.",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -25065,6 +25262,13 @@
    ]
   },
   {
+   "key": "Obstacle free surfaces",
+   "src": "Obstacle free surfaces",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Obstacle-free zone",
    "src": "Obstacle-free zone",
    "refs": [
@@ -25278,6 +25482,13 @@
    "src": "One PNG file per page",
    "refs": [
     "feedback/review.js"
+   ]
+  },
+  {
+   "key": "One aeroplane design group per runway, its critical aeroplane: the lower horizontal surfaces of smaller groups that also use it (Table 4-10 note) are not added.",
+   "src": "One aeroplane design group per runway, its critical aeroplane: the lower horizontal surfaces of smaller groups that also use it (Table 4-10 note) are not added.",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -28779,6 +28990,34 @@
    ]
   },
   {
+   "key": "Precision approach surface {end}, approach component",
+   "src": "Precision approach surface {end}, approach component",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Precision approach surface {end}, lower component",
+   "src": "Precision approach surface {end}, lower component",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Precision approach surface {end}, missed approach component",
+   "src": "Precision approach surface {end}, missed approach component",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Precision approach surface {end}, transitional components",
+   "src": "Precision approach surface {end}, transitional components",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Precision, category I",
    "src": "Precision, category I",
    "refs": [
@@ -29118,6 +29357,13 @@
    "src": "Profile / Cross-Section",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Profile tool",
+   "src": "Profile tool",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -30753,6 +30999,13 @@
    "src": "Recipes (navigation rail) run a workflow step by step along the bottom: watch each step’s state, result and time; click a step to change its settings and re-run from there; at a review gate accept or reject the candidates (✓ / ✗, or J then 1 / 2 / 3), then press Enter. Built in: Airfield triage, Damage triage, Convert a folder to COG and Building extraction. Save a recipe as a .gwrecipe.json file to share it; Open… loads one.",
    "refs": [
     "features/dialogs.js"
+   ]
+  },
+  {
+   "key": "Reclassify",
+   "src": "Reclassify",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -32469,6 +32722,20 @@
   {
    "key": "Runway {rwy} needs two ends",
    "src": "Runway {rwy} needs two ends",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
+   "key": "Runway {rwy}: Amendment 18 needs the aeroplane design group of its critical aeroplane (§1.8.1)",
+   "src": "Runway {rwy}: Amendment 18 needs the aeroplane design group of its critical aeroplane (§1.8.1)",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
+   "key": "Runway {rwy}: Amendment 18 needs the maximum take-off mass of its aeroplanes for the take-off climb surface (§4.3.6.6)",
+   "src": "Runway {rwy}: Amendment 18 needs the maximum take-off mass of its aeroplanes for the take-off climb surface (§4.3.6.6)",
    "refs": [
     "analysis/obstruction.js"
    ]
@@ -34295,6 +34562,13 @@
    ]
   },
   {
+   "key": "Select all",
+   "src": "Select all",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
    "key": "Select an item to see its metadata.",
    "src": "Select an item to see its metadata.",
    "refs": [
@@ -34330,10 +34604,31 @@
    ]
   },
   {
+   "key": "Select in Profile",
+   "src": "Select in Profile",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Select {name}",
    "src": "Select {name}",
    "refs": [
     "features/spectral-analysis.js"
+   ]
+  },
+  {
+   "key": "Select: box",
+   "src": "Select: box",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
+   "key": "Select: lasso",
+   "src": "Select: lasso",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -34374,6 +34669,13 @@
   {
    "key": "Selects features whose attributes match a condition.",
    "src": "Selects features whose attributes match a condition.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Selects points in a profile view, ready to clean them.",
+   "src": "Selects points in a profile view, ready to clean them.",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -34773,6 +35075,13 @@
    ]
   },
   {
+   "key": "Set Withheld",
+   "src": "Set Withheld",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Set active layer",
    "src": "Set active layer",
    "refs": [
@@ -34833,6 +35142,13 @@
    ]
   },
   {
+   "key": "Set withheld",
+   "src": "Set withheld",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
    "key": "Sets feature heights from the terrain.",
    "src": "Sets feature heights from the terrain.",
    "refs": [
@@ -34863,6 +35179,13 @@
   {
    "key": "Sets local contrast and brightness for this image automatically; Undo restores the previous look.",
    "src": "Sets local contrast and brightness for this image automatically; Undo restores the previous look.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Sets the LAS withheld flag on the points selected in the profile (undoable); grids and the ground filter leave them out.",
+   "src": "Sets the LAS withheld flag on the points selected in the profile (undoable); grids and the ground filter leave them out.",
    "refs": [
     "shell/commands.js"
    ]
@@ -36338,6 +36661,13 @@
    ]
   },
   {
+   "key": "Slopes and lengths as printed: not reduced for approach angles under 3°, visual approach slope indicators or an OCH above 150 m (§4.2.1.8 to §4.2.1.11, §4.2.3.7), nor the take-off climb for critical operating conditions (§4.3.6.9).",
+   "src": "Slopes and lengths as printed: not reduced for approach angles under 3°, visual approach slope indicators or an OCH above 150 m (§4.2.1.8 to §4.2.1.11, §4.2.3.7), nor the take-off climb for critical operating conditions (§4.3.6.9).",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
    "key": "Smallest change (pixels)",
    "src": "Smallest change (pixels)",
    "refs": [
@@ -37404,6 +37734,20 @@
    ]
   },
   {
+   "key": "Straight-in approach surface {rwy}, upper section",
+   "src": "Straight-in approach surface {rwy}, upper section",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Straight-in approach surface, lower section",
+   "src": "Straight-in approach surface, lower section",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
    "key": "Strategy",
    "src": "Strategy",
    "refs": [
@@ -38380,6 +38724,27 @@
    ]
   },
   {
+   "key": "Table 4-11: the shorter side is 7 410 m in all (3 705 m each side of the centre line) and the longer sides reach 5 350 m before and after the thresholds; the upper section is 60 m high.",
+   "src": "Table 4-11: the shorter side is 7 410 m in all (3 705 m each side of the centre line) and the longer sides reach 5 350 m before and after the thresholds; the upper section is 60 m high.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
+   "key": "Table 4-13 prints one 2.5 % slope, taken for both sections of the departure surface.",
+   "src": "Table 4-13 prints one 2.5 % slope, taken for both sections of the departure surface.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
+   "key": "Table 4-15 take-off climb surfaces start at the end of the take-off distance available (its distance row is \"-\").",
+   "src": "Table 4-15 take-off climb surfaces start at the end of the take-off distance available (its distance row is \"-\").",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
    "key": "Tabs",
    "src": "Tabs",
    "refs": [
@@ -38419,6 +38784,13 @@
    "src": "Take-off climb surface, departures on {end}",
    "refs": [
     "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Take-off climb surfaces start at the elevation of the runway end, and departure surfaces 5 m above it: §4.3.6.4 takes the highest point on the extended centre line, which this tool does not know.",
+   "src": "Take-off climb surfaces start at the elevation of the runway end, and departure surfaces 5 m above it: §4.3.6.4 takes the highest point on the extended centre line, which this tool does not know.",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -38864,6 +39236,13 @@
    ]
   },
   {
+   "key": "The OES follow the runways, not the operations (§4.5.2.1): a horizontal surface for every runway, except a runway whose best approach is non-precision, which has the straight-in surface instead; the precision approach surface at precision approach ends; an instrument departure surface beyond every take-off end of a runway with an instrument approach; a take-off climb surface beyond every take-off end.",
+   "src": "The OES follow the runways, not the operations (§4.5.2.1): a horizontal surface for every runway, except a runway whose best approach is non-precision, which has the straight-in surface instead; the precision approach surface at precision approach ends; an instrument departure surface beyond every take-off end of a runway with an instrument approach; a take-off climb surface beyond every take-off end.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
    "key": "The Online/Offline switch in the status bar decides whether anything may reach the network; every request is listed in the Network Log. Online, the corner button of a georeferenced panel puts a satellite, topographic, relief or night basemap under and around the image, and the 3D button shows the place in perspective with terrain. Drop a raster .pmtiles file to use your own basemap offline. The air-gapped file (gis-workbench-airgap.html) never uses the network.",
    "src": "The Online/Offline switch in the status bar decides whether anything may reach the network; every request is listed in the Network Log. Online, the corner button of a georeferenced panel puts a satellite, topographic, relief or night basemap under and around the image, and the 3D button shows the place in perspective with terrain. Drop a raster .pmtiles file to use your own basemap offline. The air-gapped file (gis-workbench-airgap.html) never uses the network.",
    "refs": [
@@ -39053,6 +39432,13 @@
    ]
   },
   {
+   "key": "The code letter F notes of Tables 4-3 to 4-5 and 4-9 are applied to ADG V.",
+   "src": "The code letter F notes of Tables 4-3 to 4-5 and 4-9 are applied to ADG V.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
    "key": "The curve applies after the stretch and before gamma, contrast and brightness. It is folded into the band LUT.",
    "src": "The curve applies after the stretch and before gamma, contrast and brightness. It is folded into the band LUT.",
    "refs": [
@@ -39064,6 +39450,13 @@
    "src": "The description is a draft observation in AI Assistant ▸ Proposals; accept it to keep it",
    "refs": [
     "features/ai-extras.js"
+   ]
+  },
+  {
+   "key": "The design group of the runway's critical aeroplane (Table 1-2: threshold speed and wingspan), and the largest maximum certificated take-off mass of the aeroplanes using it.",
+   "src": "The design group of the runway's critical aeroplane (Table 1-2: threshold speed and wingspan), and the largest maximum certificated take-off mass of the aeroplanes using it.",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -39162,6 +39555,13 @@
    "src": "The inner edges of the obstacle-free zone are 140 m on code 3 and 4 precision runways, for code letter F aeroplanes without go-around steering avionics.",
    "refs": [
     "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "The inner transitional surfaces start at half the inner approach width, along its sides carried on (§4.2.4.2 and §4.2.4.3 give no distance).",
+   "src": "The inner transitional surfaces start at half the inner approach width, along its sides carried on (§4.2.4.2 and §4.2.4.3 give no distance).",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -39470,6 +39870,20 @@
    "src": "The top is {px} px off the vertical through the base; the height uses its projection on the line",
    "refs": [
     "features/measure.js"
+   ]
+  },
+  {
+   "key": "The transitional slope is the current edition’s for the runway’s code number (Table 4-1): 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise. §4.2.2.5 gives only an upper limit of 20 %.",
+   "src": "The transitional slope is the current edition’s for the runway’s code number (Table 4-1): 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise. §4.2.2.5 gives only an upper limit of 20 %.",
+   "refs": [
+    "analysis/obstruction.js"
+   ]
+  },
+  {
+   "key": "The transitional surfaces start at the strip edge, its half-width from Chapter 3 as in the current edition (§4.2.2.2 gives no distance); the strip itself is limited at the elevation of the nearest centre line point and is not an OFS.",
+   "src": "The transitional surfaces start at the strip edge, its half-width from Chapter 3 as in the current edition (§4.2.2.2 gives no distance); the strip itself is limited at the elevation of the nearest centre line point and is not an OFS.",
+   "refs": [
+    "analysis/obstruction.js"
    ]
   },
   {
@@ -40111,6 +40525,13 @@
    "src": "Tonal curve: {preset}",
    "refs": [
     "features/enhance-tools.js"
+   ]
+  },
+  {
+   "key": "Tool",
+   "src": "Tool",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -40850,6 +41271,13 @@
    "src": "Unsupervised…",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Until 20 November 2030",
+   "src": "Until 20 November 2030",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {
@@ -45027,6 +45455,13 @@
    ]
   },
   {
+   "key": "box select",
+   "src": "box select",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "branch version",
    "src": "branch version",
    "refs": [
@@ -45499,6 +45934,13 @@
    ]
   },
   {
+   "key": "clean",
+   "src": "clean",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "clean-up {op}",
    "src": "clean-up {op}",
    "refs": [
@@ -45851,6 +46293,13 @@
    "src": "cross-image covariance is read for this image only",
    "refs": [
     "sensor/rsm.js"
+   ]
+  },
+  {
+   "key": "cross-section",
+   "src": "cross-section",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -46809,6 +47258,13 @@
    "src": "fitted",
    "refs": [
     "products/template.js"
+   ]
+  },
+  {
+   "key": "flag",
+   "src": "flag",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -48123,6 +48579,13 @@
    "src": "landscape",
    "refs": [
     "features/product-pages.js"
+   ]
+  },
+  {
+   "key": "lasso",
+   "src": "lasso",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -49884,6 +50347,13 @@
    ]
   },
   {
+   "key": "noise",
+   "src": "noise",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "non-digit in the MGRS numeric part",
    "src": "non-digit in the MGRS numeric part",
    "refs": [
@@ -51159,6 +51629,13 @@
    ]
   },
   {
+   "key": "outliers",
+   "src": "outliers",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "outside the model",
    "src": "outside the model",
    "refs": [
@@ -52413,6 +52890,13 @@
    "refs": [
     "tools/menlog.js",
     "tools/tools.js"
+   ]
+  },
+  {
+   "key": "remove points",
+   "src": "remove points",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -58450,6 +58934,13 @@
    "error": true
   },
   {
+   "key": "withheld",
+   "src": "withheld",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "without converting",
    "src": "without converting",
    "refs": [
@@ -59037,6 +59528,13 @@
   {
    "key": "{covered} {unit} lie under the inner approach, inner transitional and balked landing surfaces or inside the strip between them; {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.",
    "src": "{covered} {unit} lie under the inner approach, inner transitional and balked landing surfaces or inside the strip between them; {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.",
+   "refs": [
+    "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "{covered} {unit} lie under the obstacle free surfaces (approach, transitional, inner approach, inner transitional and balked landing); {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.",
+   "src": "{covered} {unit} lie under the obstacle free surfaces (approach, transitional, inner approach, inner transitional and balked landing); {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.",
    "refs": [
     "features/aviation-obstruction.js"
    ]
@@ -61925,6 +62423,13 @@
    ]
   },
   {
+   "key": "{n, plural, one {# point} other {# points}} deleted (undo brings them back)",
+   "src": "{n, plural, one {# point} other {# points}} deleted (undo brings them back)",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
    "key": "{n, plural, one {# point} other {# points}} from {file}",
    "src": "{n, plural, one {# point} other {# points}} from {file}",
    "refs": [
@@ -61936,6 +62441,20 @@
    "src": "{n, plural, one {# point} other {# points}} from {file}; {skipped, plural, one {# row} other {# rows}} skipped",
    "refs": [
     "features/workspace-tools.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# point} other {# points}} selected",
+   "src": "{n, plural, one {# point} other {# points}} selected",
+   "refs": [
+    "features/pointcloud.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# point} other {# points}} set withheld",
+   "src": "{n, plural, one {# point} other {# points}} set withheld",
+   "refs": [
+    "features/pointcloud.js"
    ]
   },
   {
@@ -62847,8 +63366,8 @@
    ]
   },
   {
-   "key": "{n} points within {half} of the line; click two points to measure",
-   "src": "{n} points within {half} of the line; click two points to measure",
+   "key": "{n} points within {half} of the line",
+   "src": "{n} points within {half} of the line",
    "refs": [
     "features/pointcloud.js"
    ]
@@ -63457,6 +63976,13 @@
    "src": "{size} — a package of its own: its files are listed when it opens",
    "refs": [
     "features/files.js"
+   ]
+  },
+  {
+   "key": "{src} does not reach the obstacle free surfaces, so they were not checked.",
+   "src": "{src} does not reach the obstacle free surfaces, so they were not checked.",
+   "refs": [
+    "features/aviation-obstruction.js"
    ]
   },
   {

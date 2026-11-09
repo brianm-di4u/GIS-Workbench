@@ -5,6 +5,8 @@
 //! * ICAO Annex 14 Volume I (8th edition, July 2018), Chapter 4 §4.1 and Tables 4-1 and 4-2:
 //!   approach, transitional, inner horizontal, conical and take-off climb surfaces, with the runway
 //!   strip of Chapter 3 §3.4 as the lower edge of the transitional surfaces.
+//! * ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November
+//!   2030: obstacle free surfaces and obstacle evaluation surfaces, table-driven (a18.rs).
 //!
 //! Every surface is a height above mean sea level as a function of the horizontal position, as both
 //! documents define them; heights in and out are orthometric metres. Positions are geodetic (WGS 84)
@@ -12,6 +14,7 @@
 //! the 15 km the longest surfaces reach. Where surfaces overlap, the lowest one limits (an object is
 //! an obstruction when it penetrates any of them, §77.17(a)(5); Annex 14 §4.2).
 
+pub mod a18;
 pub mod frame;
 pub mod hull;
 pub mod model;

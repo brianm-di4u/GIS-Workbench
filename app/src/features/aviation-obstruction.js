@@ -29,15 +29,37 @@ export function install(app) {
   const toast = (m, o) => app.toast(m, o);
   const airports = () => S.all('airport');
   const tpl = (p) => t(p.src, p.params ?? undefined);
-  /** The Annex 14 edition, in the reader's language; English in the files written. */
-  const editionLabel = () => t('Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030.');
+  /** The Annex 14 edition a regime follows, in the reader's language; English in the files written (OB.EDITIONS). */
+  const editionLabel = (regime) =>
+    regime === 'icao-a18'
+      ? t('Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces.')
+      : t('Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030.');
+  const REGIME_NAMES = { part77: 'FAA Part 77', icao: 'ICAO Annex 14', 'icao-a18': 'ICAO Annex 14 OFS/OES (2030)' }; // i18n-ignore: regulation names
 
   /** Display name of surface i of a model. */
   function surfaceNames(model, ap) {
-    return model.surfaces.map((s) => {
+    // Amendment 18 has no single horizontal height: one horizontal surface per height (Table 4-10).
+    const a18 = Number.isNaN(model.horizontal);
+    return model.surfaces.map((s, i) => {
       const r = ap.runways[s.runway];
       const e = r?.ends[s.end];
       switch (s.kind) {
+        case 'horizontal': {
+          const f = a18 ? model.facets.find((q) => q.s === i) : null;
+          return f ? t('Horizontal surface, {h} above the aerodrome', { h: height(f.ring[0][2] - ap.elev, 0) }) : t('Horizontal surface');
+        }
+        case 'straightIn':
+          return r ? t('Straight-in approach surface {rwy}, upper section', { rwy: r.id }) : t('Straight-in approach surface, lower section');
+        case 'precisionApproach':
+          return t('Precision approach surface {end}, approach component', { end: e.id });
+        case 'precisionMissedApproach':
+          return t('Precision approach surface {end}, missed approach component', { end: e.id });
+        case 'precisionTransitional':
+          return t('Precision approach surface {end}, transitional components', { end: e.id });
+        case 'precisionLower':
+          return t('Precision approach surface {end}, lower component', { end: e.id });
+        case 'departure':
+          return t('Instrument departure surface, departures on {end}', { end: r.ends[1 - s.end].id });
         case 'primary':
           return t('Primary surface {rwy}', { rwy: r.id });
         case 'strip':
@@ -49,8 +71,6 @@ export function install(app) {
         case 'takeoff':
           // Beyond end k: the climb-out of take-offs on the other end's runway.
           return t('Take-off climb surface, departures on {end}', { end: r.ends[1 - s.end].id });
-        case 'horizontal':
-          return t('Horizontal surface');
         case 'innerHorizontal':
           return t('Inner horizontal surface');
         case 'conical':
@@ -129,7 +149,10 @@ export function install(app) {
     const probs = OB.airportProblems(ap, regime);
     if (probs.length) throw gwError(probs[0].src, probs[0].params, 'E_AIRPORT_INVALID');
     const model = await app.pool.run('obs.surfaces', { def: def(ap, regime, ihsDatum, codeF) }, { kind: 'analysis', label: t('Obstruction surfaces') });
-    return { ...model, names: surfaceNames(model, ap), hasZone: model.surfaces.some((s) => OB.ZONE_KINDS.includes(s.kind)), regime, airport: ap };
+    // An ADG found from a speed beyond Table 1-2 is this module's own assumption.
+    const speedRule = regime === 'icao-a18' && ap.runways.some((r) => !OB.ADGS.includes(String(r.adg ?? '')) && !Number.isInteger(r.adg) && OB.adgOf(r.vat, r.span)?.assumed);
+    const assumed = (model.assumed ?? 0) | (speedRule ? OB.A18_ADG_SPEED : 0);
+    return { ...model, assumed, names: surfaceNames(model, ap), hasZone: OB.hasOfs(regime) || model.surfaces.some((s) => OB.ZONE_KINDS.includes(s.kind)), regime, airport: ap };
   }
 
   /**
@@ -213,7 +236,7 @@ export function install(app) {
 
   /**
    * Evaluate a terrain (DSM) or a point cloud against an airport's surfaces. opts: airport (record
-   * or id), regime ('part77' | 'icao'), source ('terrain' | 'points'), dem, cloud, minPen (m),
+   * or id), regime ('part77' | 'icao' | 'icao-a18'), source ('terrain' | 'points'), dem, cloud, minPen (m),
    * ihsDatum, codeF (code letter F aeroplanes without go-around steering avionics), cell (m, point
    * grouping), draw (graphics), overlay (coloured raster), keep (store record).
    */
@@ -364,23 +387,27 @@ export function install(app) {
     // Nothing under a surface says nothing about clearance: refused, as for a DEM off the surfaces.
     if (!res.covered) throw gwError('{dem} does not reach the surfaces of {ident}', { dem: srcName, ident: ap.ident }, 'E_OBS_NO_OVERLAP');
     notes.push(t('Runway and airport elevations from {source} are NAVD 88 in the United States; the surface heights are compared with the {what} heights as they are (the datums differ by about a metre).', { source: ap.source ?? t('the airport record'), what: source === 'terrain' ? t('DSM') : t('point cloud') }));
+    const a18 = regime === 'icao-a18';
     // A zone the source does not reach says nothing about the zone: it must not read as clear.
-    if (zone && !zone.covered) notes.push(t('{src} does not reach the obstacle-free zone (the inner approach, inner transitional and balked landing surfaces), so the zone was not checked.', { src: srcName }));
-    if (zone?.covered) notes.push(t('Annex 14 §4.2.18 allows above these surfaces only frangible objects that must stand on the strip because of their function, and a DSM or point cloud cannot tell which objects those are.'));
-    if (zone) notes.push(t('Annex 14 makes these surfaces a Recommendation for precision category I (§4.2.14) and a Standard for categories II and III (§4.2.15).'));
-    if (zone && codeF) notes.push(t('The inner edges of the obstacle-free zone are 140 m on code 3 and 4 precision runways, for code letter F aeroplanes without go-around steering avionics.'));
+    if (zone && !zone.covered) notes.push(a18 ? t('{src} does not reach the obstacle free surfaces, so they were not checked.', { src: srcName }) : t('{src} does not reach the obstacle-free zone (the inner approach, inner transitional and balked landing surfaces), so the zone was not checked.', { src: srcName }));
+    if (a18) notes.push(t('No object may stand above the inner approach, inner transitional and balked landing surfaces, and no new object above the approach and transitional surfaces (§4.4.1 to §4.4.7): these are the obstacle free surfaces, reported on their own. An object above an obstacle evaluation surface needs an aeronautical study (§4.4.8).'));
+    if (!a18 && zone?.covered) notes.push(t('Annex 14 §4.2.18 allows above these surfaces only frangible objects that must stand on the strip because of their function, and a DSM or point cloud cannot tell which objects those are.'));
+    if (!a18 && zone) notes.push(t('Annex 14 makes these surfaces a Recommendation for precision category I (§4.2.14) and a Standard for categories II and III (§4.2.15).'));
+    if (!a18 && zone && codeF) notes.push(t('The inner edges of the obstacle-free zone are 140 m on code 3 and 4 precision runways, for code letter F aeroplanes without go-around steering avionics.'));
     if (regime === 'icao' && model.surfaces.some((s) => s.kind === 'takeoff')) notes.push(t('Take-off climb surfaces start at the elevation of the runway end. Annex 14 §4.1.27 takes the highest point on the extended centre line or clearway up to the inner edge, which this tool does not know.'));
     const rowsOf = (list, prefix, inZone) => list.map((q, i) => ({ id: `${prefix}${i + 1}`, lat: q.lat, lon: q.lon, z: q.z, limit: q.limit, pen: q.pen, surface: model.names[q.sid] ?? '', kind: model.surfaces[q.sid]?.kind ?? '', posts: q.posts, zone: inZone }));
     const rows = rowsOf(res.obstacles, 'P', false);
     const statsOf = (c, n) => ({ evaluated: c.evaluated, covered: c.covered, penetrating: c.penetrating, obstacles: n, minClearance: c.minClearance, minClearanceAt: c.minPos, minClearanceSurface: model.names[c.minSid] ?? null });
     const zoneRows = zone ? rowsOf(zone.obstacles, 'Z', true) : [];
-    const result = { airport: ap.ident, airportId: ap.id ?? null, regime, edition: regime === 'icao' ? OB.ICAO_EDITION : null, codeF: regime === 'icao' && !!codeF, source: srcName, sourceKind: source, minPen, model, obstacles: rows, zone: zone ? { obstacles: zoneRows, stats: statsOf(zone, zoneRows.length) } : null, stats: { ...statsOf(res, rows.length), ms: Math.round(performance.now() - t0) }, notes, grid };
+    // The readings taken where Amendment 18 is silent or ambiguous: in the result, the record and the files.
+    const assumptions = a18 ? OB.assumptionsOf(model.assumed) : [];
+    const result = { airport: ap.ident, airportId: ap.id ?? null, regime, edition: OB.editionOf(regime), codeF: regime !== 'part77' && !!codeF, assumed: a18 ? model.assumed : 0, assumptions, source: srcName, sourceKind: source, minPen, model, obstacles: rows, zone: zone ? { obstacles: zoneRows, stats: statsOf(zone, zoneRows.length) } : null, stats: { ...statsOf(res, rows.length), ms: Math.round(performance.now() - t0) }, notes, grid };
     if (draw || (overlay && grid)) await step(0.92, t('Drawing the surfaces…'));
     if (draw) drawResult(result, maxMarkers);
     if (overlay && grid) result.overlay = await overlayOf(result);
     if (keep)
       S.transact(t('Obstruction analysis {ident}', { ident: ap.ident }), (tx) => {
-        result.recordId = tx.create('obstruction', { airport: ap.ident, airportId: ap.id ?? null, regime, edition: result.edition, codeF: result.codeF, source: srcName, sourceKind: source, minPen, stats: result.stats, obstacles: rows.slice(0, 2000), ...(zone ? { zone: { stats: result.zone.stats, obstacles: zoneRows.slice(0, 2000) } } : {}), notes, created: new Date().toISOString() });
+        result.recordId = tx.create('obstruction', { airport: ap.ident, airportId: ap.id ?? null, regime, edition: result.edition, codeF: result.codeF, ...(a18 ? { assumptions } : {}), source: srcName, sourceKind: source, minPen, stats: result.stats, obstacles: rows.slice(0, 2000), ...(zone ? { zone: { stats: result.zone.stats, obstacles: zoneRows.slice(0, 2000) } } : {}), notes, created: new Date().toISOString() });
       });
     app.aviation.last = result;
     return result;
@@ -440,7 +467,7 @@ export function install(app) {
 
   const blobOf = (r, fmt) => {
     const edition = r.edition ?? null;
-    const meta = { airport: r.airport, regime: r.regime, ...(edition ? { edition } : {}), source: r.source, minPenetration_m: r.minPen };
+    const meta = { airport: r.airport, regime: r.regime, ...(edition ? { edition } : {}), ...(r.assumptions?.length ? { assumptions: r.assumptions } : {}), source: r.source, minPenetration_m: r.minPen };
     const all = [...r.obstacles, ...(r.zone?.obstacles ?? [])];
     if (fmt === 'csv') return textBlob(OB.obstaclesCsv(all, { edition }), 'text/csv');
     if (fmt === 'geojson') return textBlob(OB.obstaclesGeoJson(all, meta), 'application/geo+json');
@@ -547,7 +574,8 @@ export function install(app) {
     const [ia, ib] = designator(inv.azi1).split('/');
     const elev = (q) => app.terrain.sample(q.lat, q.lon)?.msl ?? ap.elev;
     const end = (q, eid) => ({ id: eid, lat: q.lat, lon: q.lon, elev: elev(q), p77: 'B(V)', icao: 0, disp: 0, thrElev: null, clearway: 0, approach: true, takeoff: true });
-    const r = { id: `${ia}/${ib}`, length: inv.distance, width: 45, surface: '', paved: true, code: OB.icaoCodeNumber(inv.distance), ends: [end(a, ia), end(b, ib)] };
+    // No width: a drawn runway's width isn't known, and Amendment 18 must say so rather than use a guess.
+    const r = { id: `${ia}/${ib}`, length: inv.distance, width: null, surface: '', paved: true, code: OB.icaoCodeNumber(inv.distance), ends: [end(a, ia), end(b, ib)] };
     S.transact(t('Add runway {rwy}', { rwy: r.id }), (tx) => tx.set(ap.id, 'runways', [...ap.runways, r]));
     toast(t('Runway {rwy} added to {ident}: {len}', { rwy: r.id, ident: ap.ident, len: height(inv.distance, 0) }), { kind: 'info' });
     return r;
@@ -639,12 +667,44 @@ export function install(app) {
       if (!list0.length) return toast(t('Add an airport first (Airports and Runways)'), { kind: 'warn' });
       const o = { regime: 'part77', minPen: 0, draw: true, overlay: true, codeF: false, ...(app.prefs.get('obstruction') ?? {}) };
       const ap = select(app.aviation.current ?? list0[0].id, list0.map((a) => [a.id, `${a.ident} — ${a.name ?? ''}`]), t('Airport'));
-      const regime = select(o.regime, [['part77', t('FAA 14 CFR Part 77 (§77.19 imaginary surfaces)')], ['icao', t('ICAO Annex 14 (obstacle limitation surfaces)')]], t('Surfaces'));
+      const regime = select(o.regime === 'part77' ? 'part77' : 'icao', [['part77', t('FAA 14 CFR Part 77 (§77.19 imaginary surfaces)')], ['icao', t('ICAO Annex 14 (obstacle limitation surfaces)')]], t('Surfaces'));
       const codeF = h('input', { type: 'checkbox', style: { width: '18px', height: '18px', margin: '3px' }, 'aria-label': t('Code letter F aeroplanes without go-around steering avionics use this aerodrome') });
       codeF.checked = !!o.codeF;
-      const icaoOnly = h('div', { 'data-id': 'avn:icao-only' }, h('p', { class: 'hint', 'data-id': 'avn:edition' }, editionLabel()), h('label', { class: 'chk' }, codeF, ' ', t('Code letter F aeroplanes without go-around steering avionics use this aerodrome')));
-      const showIcao = () => { icaoOnly.hidden = regime.value !== 'icao'; };
+      // The edition follows the analysis date (Amendment 18's Chapter 4 from 21 November 2030) unless chosen.
+      const today = new Date().toISOString().slice(0, 10);
+      const date = input(today, t('Analysis date'), { type: 'date', 'data-id': 'avn:date' });
+      const edition = select(OB.editionForDate(today), [['icao', t('Until 20 November 2030')], ['icao-a18', t('From 21 November 2030: OFS and OES')]], t('Annex 14 edition'));
+      edition.dataset.id = 'avn:edition-select';
+      date.addEventListener('change', () => {
+        edition.value = OB.editionForDate(date.value);
+        showIcao();
+      });
+      const editionHint = h('p', { class: 'hint', 'data-id': 'avn:edition' }, editionLabel(edition.value));
+      // Amendment 18 needs each runway's aeroplane design group (§1.8.1) and, for its take-off climb
+      // surfaces, the maximum take-off mass (§4.3.6.6); they are kept on the runway records.
+      const a18Box = h('div', { 'data-id': 'avn:a18' });
+      let a18Rows = [];
+      const a18Table = () => {
+        const a = S.get(ap.value);
+        a18Rows = (a?.runways ?? []).map((r) => {
+          const n = OB.adgNumber(r);
+          const adg = select(n ? OB.ADGS[n - 1] : '', [['', t('Choose…')], ...OB.ADGS.map((g) => [g, g])], t('Aeroplane design group of runway {rwy}', { rwy: r.id }));
+          const mtom = numInput(r.mtom ?? NaN, t('Maximum take-off mass on runway {rwy} (kg)', { rwy: r.id }));
+          return { r, adg, mtom };
+        });
+        const head = h('thead', {}, h('tr', {}, ...[t('Runway'), t('Aeroplane design group'), t('Maximum take-off mass (kg)')].map((x) => h('th', {}, x))));
+        a18Box.replaceChildren(h('table', { class: 'tbl', 'data-id': 'avn:a18-runways' }, head, h('tbody', {}, ...a18Rows.map((q) => h('tr', {}, h('td', {}, q.r.id), h('td', {}, q.adg), h('td', {}, q.mtom))))), h('p', { class: 'hint' }, t('The design group of the runway\'s critical aeroplane (Table 1-2: threshold speed and wingspan), and the largest maximum certificated take-off mass of the aeroplanes using it.')));
+      };
+      ap.addEventListener('change', a18Table);
+      a18Table();
+      const icaoOnly = h('div', { 'data-id': 'avn:icao-only' }, field(t('Analysis date'), date), field(t('Annex 14 edition'), edition), editionHint, a18Box, h('label', { class: 'chk' }, codeF, ' ', t('Code letter F aeroplanes without go-around steering avionics use this aerodrome')));
+      function showIcao() {
+        icaoOnly.hidden = regime.value !== 'icao';
+        editionHint.textContent = editionLabel(edition.value);
+        a18Box.hidden = edition.value !== 'icao-a18';
+      }
       regime.addEventListener('change', showIcao);
+      edition.addEventListener('change', showIcao);
       showIcao();
       const clouds = [...(app.pointClouds?.values() ?? [])];
       const dems = app.terrain.dems;
@@ -656,9 +716,18 @@ export function install(app) {
       drawCb.checked = o.draw !== false;
       const body = h('div', {}, field(t('Airport'), ap), field(t('Surfaces'), regime), icaoOnly, field(t('Evaluate'), src), field(t('Report penetrations deeper than (m)'), minPen, t('0 reports every post or point above a surface.')), h('label', { class: 'chk' }, drawCb, ' ', t('Draw the surfaces and obstacles')), h('p', { class: 'hint' }, t('Every DSM post or cloud point under the surfaces is compared with the lowest surface there (Part 77 §77.17(a)(5): an object penetrating any surface is an obstruction).')));
       if ((await modal({ title: t('Obstruction Surfaces'), body, buttons: [{ label: t('Evaluate'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 560, id: 'avn-obstruction' })) !== 'run') return;
-      const opts = { regime: regime.value, minPen: Number(minPen.value) || 0, draw: drawCb.checked, codeF: codeF.checked };
+      const opts = { regime: regime.value === 'icao' ? edition.value : 'part77', minPen: Number(minPen.value) || 0, draw: drawCb.checked, codeF: codeF.checked };
       app.prefs.set('obstruction', opts);
       const [kind, i] = src.value.split(':');
+      if (opts.regime === 'icao-a18') {
+        const a = S.get(ap.value);
+        const runways = a.runways.map((r) => {
+          const q = a18Rows.find((x) => x.r.id === r.id);
+          const m = Number(q?.mtom.value);
+          return q ? { ...r, adg: q.adg.value || null, mtom: q.mtom.value !== '' && Number.isFinite(m) ? m : null } : r;
+        });
+        if (runways.some((r, k) => r.adg !== a.runways[k].adg || r.mtom !== a.runways[k].mtom)) S.transact(t('Design groups and masses of {ident}', { ident: a.ident }), (tx) => tx.set(a.id, 'runways', runways));
+      }
       try {
         const r = await evaluate({ airport: ap.value, ...opts, overlay: opts.draw, source: kind === 'dem' ? 'terrain' : 'points', dem: kind === 'dem' ? dems[+i] : null, cloud: kind === 'pc' ? clouds[+i] : null });
         await showResult(r);
@@ -688,23 +757,28 @@ export function install(app) {
     const table = tableOf(top, 'avn:penetrations');
     const unit = r.sourceKind === 'terrain' ? t('posts') : t('points');
     const z = r.zone;
+    const a18 = r.regime === 'icao-a18';
+    const zoneTitle = a18 ? t('Obstacle free surfaces') : t('Obstacle-free zone');
     const zoneBlock = z?.stats.covered
       ? [
-          h('h3', {}, t('Obstacle-free zone')),
-          h('p', { 'data-id': 'avn:zone-summary' }, t('{covered} {unit} lie under the inner approach, inner transitional and balked landing surfaces or inside the strip between them; {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.', { covered: int(z.stats.covered), unit, pen: int(z.stats.penetrating), n: z.stats.obstacles })),
+          h('h3', {}, zoneTitle),
+          h('p', { 'data-id': 'avn:zone-summary' }, a18 ? t('{covered} {unit} lie under the obstacle free surfaces (approach, transitional, inner approach, inner transitional and balked landing); {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.', { covered: int(z.stats.covered), unit, pen: int(z.stats.penetrating), n: z.stats.obstacles }) : t('{covered} {unit} lie under the inner approach, inner transitional and balked landing surfaces or inside the strip between them; {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.', { covered: int(z.stats.covered), unit, pen: int(z.stats.penetrating), n: z.stats.obstacles })),
           Number.isFinite(z.stats.minClearance) ? h('p', { 'data-id': 'avn:zone-clearance' }, z.stats.minClearance >= 0 ? t('Smallest clearance below the surfaces: {c} ({surface}).', { c: height(z.stats.minClearance, 1), surface: z.stats.minClearanceSurface ?? '' }) : t('Deepest penetration: {c} ({surface}).', { c: height(-z.stats.minClearance, 1), surface: z.stats.minClearanceSurface ?? '' })) : '',
-          z.obstacles.length ? h('div', { class: 'scroll', style: 'max-height: 240px; overflow: auto', tabindex: '0', role: 'region', 'aria-label': t('Obstacle-free zone') }, tableOf(z.obstacles, 'avn:zone-penetrations')) : h('p', {}, t('No penetrations.')),
+          z.obstacles.length ? h('div', { class: 'scroll', style: 'max-height: 240px; overflow: auto', tabindex: '0', role: 'region', 'aria-label': zoneTitle }, tableOf(z.obstacles, 'avn:zone-penetrations')) : h('p', {}, t('No penetrations.')),
         ]
       : [];
+    // What this run assumed where Amendment 18 is silent or ambiguous.
+    const assumed = r.assumptions?.length ? [h('h3', {}, t('Assumptions')), h('ul', { 'data-id': 'avn:assumptions' }, ...r.assumptions.map((x) => h('li', { class: 'hint' }, t(x))))] : [];
     const body = h(
       'div',
       {},
-      r.edition ? h('p', { class: 'hint', 'data-id': 'avn:edition' }, editionLabel()) : '',
-      h('p', { 'data-id': 'avn:summary' }, t('{ident} ({regime}) against {src}: {covered} of {evaluated} {unit} lie under a surface; {pen} penetrate it in {n, plural, one {# obstacle} other {# obstacles}} ({ms} ms).', { ident: r.airport, regime: r.regime === 'icao' ? 'ICAO Annex 14' : 'FAA Part 77', src: r.source, covered: int(s.covered), evaluated: int(s.evaluated), unit: r.sourceKind === 'terrain' ? t('posts') : t('points'), pen: int(s.penetrating), n: s.obstacles, ms: int(s.ms) })), // i18n-ignore: regulation names
+      r.edition ? h('p', { class: 'hint', 'data-id': 'avn:edition' }, editionLabel(r.regime)) : '',
+      h('p', { 'data-id': 'avn:summary' }, t('{ident} ({regime}) against {src}: {covered} of {evaluated} {unit} lie under a surface; {pen} penetrate it in {n, plural, one {# obstacle} other {# obstacles}} ({ms} ms).', { ident: r.airport, regime: REGIME_NAMES[r.regime], src: r.source, covered: int(s.covered), evaluated: int(s.evaluated), unit: r.sourceKind === 'terrain' ? t('posts') : t('points'), pen: int(s.penetrating), n: s.obstacles, ms: int(s.ms) })), // i18n-ignore: regulation names
       Number.isFinite(s.minClearance) ? h('p', { 'data-id': 'avn:clearance' }, s.minClearance >= 0 ? t('Smallest clearance below the surfaces: {c} ({surface}).', { c: height(s.minClearance, 1), surface: s.minClearanceSurface ?? '' }) : t('Deepest penetration: {c} ({surface}).', { c: height(-s.minClearance, 1), surface: s.minClearanceSurface ?? '' })) : '',
       top.length ? h('div', { class: 'scroll', style: 'max-height: 320px; overflow: auto' }, table) : h('p', {}, t('No penetrations.')),
       ...zoneBlock,
       ...r.notes.map((n) => h('p', { class: 'hint' }, n)),
+      ...assumed,
     );
     for (;;) {
       const v = await modal({ title: t('Obstruction Penetrations'), body, buttons: [{ label: t('Close'), value: 'close', primary: true }, { label: t('Export CSV'), value: 'csv' }, { label: t('Export GeoJSON'), value: 'geojson' }, { label: t('Export KML'), value: 'kml' }, { label: t('Surfaces as KML'), value: 'surfaces-kml' }, ...(r.grid ? [{ label: t('Clearance GeoTIFF'), value: 'clearance' }] : [])], width: 900, id: 'avn-results' });
