@@ -157,12 +157,18 @@ export function install(app) {
     };
   }
 
-  /** Orthometric heights of a terrain's crop: the source datum, or HAE less the active geoid's undulation. */
-  function orthometric(d, z, g) {
+  /**
+   * Orthometric heights of a terrain's crop: the source datum, or HAE less the active geoid's
+   * undulation. `tick(fraction)` is awaited every million or so posts: a full-detail terrain (REG-010)
+   * can hold tens of millions, which would otherwise hold the page for seconds (OD-2.27).
+   */
+  async function orthometric(d, z, g, tick = null) {
     if (d.vertical !== 'hae' || d.gridV) return { z, note: null };
     const N = undulationLattice();
     const o = new Float32Array(z.length);
+    const band = Math.max(1, Math.floor(1048576 / g.width));
     for (let j = 0; j < g.height; j++) {
+      if (tick && j && j % band === 0) await tick(j / g.height);
       const lat = g.lat0 - j * g.dlat;
       for (let i = 0; i < g.width; i++) {
         const k = j * g.width + i;
@@ -258,7 +264,7 @@ export function install(app) {
       // or more at LAS and HOU, and reported nothing at HOU, where the file has 33 above a surface.
       if (c.g.dlat * 111320 > COARSE_POST_M) notes.push(t('{dem} has posts about {m} m apart, so poles, towers and many buildings are missing from it: no penetration here does not mean none exists. Check against a survey or the obstacle data of your State.', { dem: d.name, m: int(c.g.dlat * 111320) }));
       if (c.g.width * c.g.height > 64e6) throw gwError('{n} M posts under the surfaces: more than 64 M; use a coarser DEM', { n: int((c.g.width * c.g.height) / 1e6) }, 'E_OBS_TOO_LARGE');
-      const o = orthometric(d, c.z, c.g);
+      const o = await orthometric(d, c.z, c.g, (f) => step(0.02 + 0.15 * f));
       if (o.note) notes.push(o.note);
       const bad = voidOutliers(o.z);
       if (bad) notes.push(t('{n, plural, one {# post} other {# posts}} with heights outside −500 to 9 000 m (undeclared no-data values) were left out.', { n: bad }));
