@@ -32,7 +32,8 @@ export function parseFragment(text, name) {
       sections[type] ??= [];
     } else if (line.startsWith('#')) problems.push(`${at}: only "### Section" headings go in a fragment`);
     else if (!type) problems.push(`${at}: start with a "### Section" heading`);
-    else if (/^[-*] \S/.test(line) || (/^\s/.test(raw) && sections[type].length)) sections[type].push(line);
+    // Only "- " items: the app's What's New dialog reads only those as list items.
+    else if (/^- \S/.test(line) || (/^\s/.test(raw) && sections[type].length)) sections[type].push(line);
     else problems.push(`${at}: expected a "- " list item`);
   });
   if (!Object.values(sections).some((lines) => lines.length)) problems.push(`${name}: no items`);
@@ -67,8 +68,9 @@ function readFragments(dir) {
 }
 
 function main() {
-  const { values, positionals } = parseArgs({ allowPositionals: true, options: { version: { type: 'string' }, date: { type: 'string' }, summary: { type: 'string' } } });
-  const dir = join(ROOT, 'changes');
+  const { values, positionals } = parseArgs({ allowPositionals: true, options: { version: { type: 'string' }, date: { type: 'string' }, summary: { type: 'string' }, root: { type: 'string' } } });
+  const root = values.root ?? ROOT;
+  const dir = join(root, 'changes');
   const fragments = readFragments(dir);
   const problems = fragments.flatMap((f) => f.problems);
   for (const p of problems) console.error(p);
@@ -86,7 +88,16 @@ function main() {
     return 1;
   }
   const date = values.date ?? new Date().toISOString().slice(0, 10);
-  const file = join(ROOT, 'CHANGELOG.md');
+  // The site's parser rejects the whole changelog if a heading doesn't look like this.
+  if (!/^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/.test(values.version)) {
+    console.error(`--version ${values.version}: write it as 2.7.0 or 2.7.0-beta.1, with no leading v`);
+    return 2;
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    console.error(`--date ${date}: write it as YYYY-MM-DD`);
+    return 2;
+  }
+  const file = join(root, 'CHANGELOG.md');
   writeFileSync(file, insertRelease(readFileSync(file, 'utf8'), assemble(fragments, { version: values.version, date, summary: values.summary }), values.version));
   for (const f of fragments) rmSync(join(dir, f.name));
   console.log(`CHANGELOG.md: ${values.version} from ${fragments.length} fragments, which are deleted. Read it through before committing.`);

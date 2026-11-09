@@ -20,9 +20,14 @@ describe('verify scope', () => {
     expect(names({ paths: ['docs/RUNBOOK.md', 'README.md'] })).toEqual(['Quarantine list', 'Civilian-use check']);
   });
 
-  it('checks changelog fragments only when one changed', () => {
+  it('checks changelog fragments when one or the checker changed', () => {
     expect(names({ paths: ['changes/fix-a.md'] })).toEqual(['Quarantine list', 'Civilian-use check', 'Changelog fragments']);
+    expect(names({ paths: ['build/release/changelog.mjs'] })).toContain('Changelog fragments');
     expect(names({ paths: ['app/src/a.js'] })).not.toContain('Changelog fragments');
+  });
+
+  it('runs the size report only after the strict build', () => {
+    expect(planSteps({ paths: ['app/src/a.js'] }).find((s) => s.name === 'Size report').after).toBe('Strict build');
   });
 
   it('checks the source catalogue for any code change', () => {

@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { assemble, insertRelease, parseFragment } from '../../build/release/changelog.mjs';
 
 describe('changelog fragments', () => {
@@ -17,6 +20,26 @@ describe('changelog fragments', () => {
     expect(bad('### Fixed\nplain text')[0]).toMatch(/list item/);
     expect(bad('### Fixed\n')).toEqual(['a.md: no items']);
     expect(bad('### Fixed\n- x', 'Fix Labels.md')[0]).toMatch(/lower case/);
+    expect(bad('### Fixed\n* x')[0]).toMatch(/list item/); // the app's What's New reads only "- "
+  });
+
+  it('assembles from the command line, and refuses a version or date the site would reject', () => {
+    const root = mkdtempSync(join(tmpdir(), 'gwb-changes-'));
+    const cli = (...args) => spawnSync(process.execPath, ['build/release/changelog.mjs', 'assemble', '--root', root, ...args], { encoding: 'utf8' });
+    try {
+      mkdirSync(join(root, 'changes'));
+      writeFileSync(join(root, 'changes', 'fix-a.md'), '### Fixed\n- fix a\n');
+      writeFileSync(join(root, 'CHANGELOG.md'), '# Changelog\n\n## [2.6.0] - 2026-11-06\n\n### Fixed\n- old\n');
+      expect(cli('--version', 'v2.7.0').status).toBe(2);
+      expect(cli('--version', '2.7.0', '--date', '2026-12-1').status).toBe(2);
+      expect(existsSync(join(root, 'changes', 'fix-a.md'))).toBe(true);
+      const ok = cli('--version', '2.7.0', '--date', '2026-12-01');
+      expect(ok.status).toBe(0);
+      expect(readFileSync(join(root, 'CHANGELOG.md'), 'utf8')).toBe('# Changelog\n\n## [2.7.0] - 2026-12-01\n\n### Fixed\n- fix a\n\n## [2.6.0] - 2026-11-06\n\n### Fixed\n- old\n');
+      expect(existsSync(join(root, 'changes', 'fix-a.md'))).toBe(false);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   });
 
   it('assembles fragments in Keep a Changelog order and puts the release on top', () => {

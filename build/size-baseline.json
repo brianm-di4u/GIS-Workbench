@@ -1,6 +1,7 @@
 {
  "version": "2.6.0",
  "build": "b7589f5fa98be77b",
+ "commit": "bb1d713",
  "files": {
   "total": 8896672,
   "airgap": 8892695,
