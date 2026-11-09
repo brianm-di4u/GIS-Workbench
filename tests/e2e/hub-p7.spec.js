@@ -56,10 +56,12 @@ test('REQ-HUB-01 Photoshop: raw base layer, Levels and Curves rebuilding the loo
   expect(names).toEqual(expect.arrayContaining(['Stretch (Levels)', 'Tonal curve (Curves)', 'Graphics']));
   const lev = psd.children.find((c) => c.name === 'Stretch (Levels)').adjustment;
   expect(lev.type).toBe('levels');
-  expect(lev.red.highlightInput).toBeGreaterThan(lev.red.shadowInput);
-  expect(lev.red.midtoneInput).toBeCloseTo(2 ** (20 / 50), 1);
+  const red = lev.channels[1]; // channels[0] is the composite, then red, green, blue
+  expect(lev.channels).toHaveLength(4);
+  expect(red.highlightInput).toBeGreaterThan(red.shadowInput);
+  expect(red.midtoneInput).toBeCloseTo(2 ** (20 / 50), 1);
   const cur = psd.children.find((c) => c.name === 'Tonal curve (Curves)').adjustment;
-  expect(cur.rgb.map((p) => p.input)).toEqual([0, 64, 191, 255]);
+  expect(cur.channels[0].map((p) => p.input)).toEqual([0, 64, 191, 255]);
   expect(world.name).toMatch(/\.psw$/);
   expect(world.bytes.toString().trim().split('\n')).toHaveLength(6);
 });
