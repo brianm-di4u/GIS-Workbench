@@ -82,6 +82,7 @@ describe('PT-04 manifest and CSP gates (REQ-ARC-02, REQ-SEC-01)', () => {
     expect(iconGate('p', page('<link rel="icon" href="data:,">'))).toEqual([]);
     expect(iconGate('p', page(''))[0]).toMatch(/p names no data: icon/);
     expect(iconGate('p', page('<link rel="icon" href="/favicon.ico">'))).toHaveLength(1);
+    expect(iconGate('p', '<html><body><link rel="icon" href="data:,"></body></html>')).toHaveLength(1); // no head at all
   });
 });
 
@@ -163,7 +164,6 @@ describe('PT-04 the shipped file passes its own gates', () => {
   // /favicon.ico, which the CSP (img-src data: blob:) blocks. Firefox reported it as a violation.
   for (const file of ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'])
     it.skipIf(!existsSync(`dist/${file}`))(`#109 ${file} declares a data: icon`, () => {
-      const head = readFileSync(`dist/${file}`, 'utf8').slice(0, 20000);
-      expect(head).toContain('<link rel="icon" href="data:,">');
+      expect(iconGate(file, readFileSync(`dist/${file}`, 'utf8'))).toEqual([]);
     });
 });

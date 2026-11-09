@@ -66,9 +66,9 @@ const warnings = [];
 // calls (REQ-ARC-04). Every entry names the bundle, the pattern, the count and the reason.
 const EVAL_ALLOW = JSON.parse(readFileSync(join(root, 'build', 'eval-allowlist.json'), 'utf8'));
 
-/** Shown from the first bytes of the file until the shell is ready (OD-2.27); styles/10-base.css hides it. */
 // Every head names an icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
 const ICON = '<link rel="icon" href="data:,">';
+/** Shown from the first bytes of the file until the shell is ready (OD-2.27); styles/10-base.css hides it. */
 const splash = (name) => `<div id="gw-splash" role="status" aria-label="${name} is starting"><b>${name}</b><span class="gw-splash-bar"><i></i></span></div>`;
 
 function scriptSafe(js) {
@@ -410,7 +410,7 @@ async function main() {
   const liteBuild = liteFile({ boot, liteApp, blocks, manifest, noticesText });
   errors.push(...liteBuild.errors);
   const lite = liteBuild.html;
-  errors.push(...iconGate('gis-workbench-lite.html', lite), ...iconGate('the Lite inner document', liteBuild.inner));
+  errors.push(...iconGate('gis-workbench-airgap.html', airgap), ...iconGate('gis-workbench-lite.html', lite), ...iconGate('the Lite inner document', liteBuild.inner));
   const lg = liteSizeGate({ total: Buffer.byteLength(lite) });
   errors.push(...lg.errors);
   warnings.push(...lg.warnings);

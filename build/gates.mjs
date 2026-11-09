@@ -123,7 +123,8 @@ export function cspGate(csp) {
 
 /** #109 REQ-SEC-01: a page names a data: icon, or the browser asks its server for /favicon.ico, which the CSP blocks. */
 export function iconGate(name, html) {
-  const head = html.slice(0, html.indexOf('</head>'));
+  const end = html.indexOf('</head>');
+  const head = end < 0 ? '' : html.slice(0, end);
   return /<link rel="icon" href="data:[^"]*">/.test(head) ? [] : [`REQ-SEC-01: ${name} names no data: icon, so a browser asks for /favicon.ico (#109)`];
 }
 
