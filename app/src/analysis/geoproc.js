@@ -453,8 +453,23 @@ function meets(a, b, c, d) {
   const on = (p, q, r) => Math.min(p[0], q[0]) <= r[0] && r[0] <= Math.max(p[0], q[0]) && Math.min(p[1], q[1]) <= r[1] && r[1] <= Math.max(p[1], q[1]);
   return (o1 === 0 && on(a, b, c)) || (o2 === 0 && on(a, b, d)) || (o3 === 0 && on(c, d, a)) || (o4 === 0 && on(c, d, b));
 }
-/** Segments ab and cd cross at a point inside both (not at an end, not along a shared line). */
-const crossesProperly = (a, b, c, d) => orient(a, b, c) * orient(a, b, d) < 0 && orient(c, d, a) * orient(c, d, b) < 0;
+/** Midpoints of the pieces of segment ab between the points where it meets the segments ss. */
+function pieces(a, b, ss) {
+  const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
+  const L = dx * dx + dy * dy;
+  const ts = [0, 1];
+  for (const [c, d] of ss) {
+    if (!meets(a, b, c, d)) continue;
+    const [ex, ey] = [d[0] - c[0], d[1] - c[1]];
+    const den = dx * ey - dy * ex;
+    if (den) ts.push(((c[0] - a[0]) * ey - (c[1] - a[1]) * ex) / den);
+    else if (L) for (const q of [c, d]) ts.push(((q[0] - a[0]) * dx + (q[1] - a[1]) * dy) / L);
+  }
+  const t = ts.filter((v) => v >= 0 && v <= 1).sort((u, v) => u - v);
+  const mids = [];
+  for (let k = 1; k < t.length; k++) if (t[k] - t[k - 1] > 1e-12) mids.push([a[0] + ((t[k] + t[k - 1]) / 2) * dx, a[1] + ((t[k] + t[k - 1]) / 2) * dy]);
+  return mids.length ? mids : [a];
+}
 
 /** Relation of geometries g and h in a frame: {intersects, within (g in h), contains (h in g), distance m}. */
 export function relate(g, h, F) {
@@ -476,9 +491,23 @@ export function relate(g, h, F) {
     for (const p of gp) for (const [a, b] of hsP) distance = Math.min(distance, segDist(p, a, b));
     for (const p of hp) for (const [a, b] of gsP) distance = Math.min(distance, segDist(p, a, b));
   }
-  // x within the polygons Y: every vertex of x in or on Y, and no edge of x crossing Y's boundary.
-  // A hole of Y inside x also puts part of x outside Y.
-  const inside = (xp, xs, XP, YP, ys) => YP.length > 0 && xp.every((p) => inOrOn(p, YP, ys)) && !xs.some(([a, b]) => ys.some(([c, d]) => crossesProperly(a, b, c, d))) && !YP.some((rs) => rs.slice(1).some((hole) => hole.some((q) => inPolys(q, XP))));
+  // x within the polygons Y, as GEOS defines it: no point of x outside Y, and the interiors meet.
+  // Each edge of x is cut where it meets Y's boundary, and every piece's midpoint must be in or on
+  // Y; so an edge running along the boundary, or across a notch from one boundary point to another,
+  // is tested between those points. A polygon x also must not have Y's boundary inside it (a hole,
+  // or Y's edge entering x through one of x's vertices). A point or line x needs a point strictly
+  // inside Y, so one lying along Y's boundary is not within it.
+  const inside = (xp, xs, XP, YP, ys) => {
+    if (!YP.length || !xp.every((p) => inOrOn(p, YP, ys))) return false;
+    const xm = xs.flatMap(([a, b]) => pieces(a, b, ys));
+    if (!xm.every((p) => inOrOn(p, YP, ys))) return false;
+    if (XP.length) {
+      const inX = (p) => inPolys(p, XP) && !onBoundary(p, xs);
+      return !ys.some(([c]) => inX(c)) && !ys.flatMap(([c, d]) => pieces(c, d, xs)).some(inX);
+    }
+    const inY = (p) => inPolys(p, YP) && !onBoundary(p, ys);
+    return xs.length ? xm.some(inY) : xp.some(inY);
+  };
   return { intersects: touch, within: touch && inside(gp, gs, gP, hP, hs), contains: touch && inside(hp, hs, hP, gP, gs), distance };
 }
 

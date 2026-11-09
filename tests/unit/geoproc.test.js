@@ -355,6 +355,24 @@ describe.skipIf(!haveWasm)('vector geoprocessing (REQ-GAP-79)', () => {
     expect(relate(sq(30, 30, 40), ring, F).within).toBe(false);
     expect(relate(sq(100, 0, 10), big, F)).toMatchObject({ intersects: true, within: false });
     expect(relate(sq(110, 0, 10), big, F).distance).toBeCloseTo(10, 6);
+    // Boundary contact is not "within" (GEOS): a point or a line on Y's edge, a road on the edge
+    // two parcels share, and the notch of a U-shaped polygon, which lies outside it.
+    const pt = (x, y) => fromParts('Point', [[[...F.from(x, y), 0]]]);
+    const line = (...xy) => fromParts('LineString', [xy.map(([a, b]) => [...F.from(a, b), 0])]);
+    expect(relate(pt(50, 0), big, F)).toMatchObject({ intersects: true, within: false });
+    expect(relate(pt(50, 50), big, F).within).toBe(true);
+    expect(relate(line([0, 0], [100, 0]), big, F)).toMatchObject({ intersects: true, within: false });
+    expect(relate(line([0, 0], [100, 100]), big, F).within).toBe(true);
+    expect(relate(big, big, F)).toMatchObject({ within: true, contains: true });
+    const road = { geom: line([100, 0], [100, 100]), attrs: {} };
+    const parcels = [{ geom: big, attrs: {} }, { geom: sq(100, 0, 100), attrs: {} }];
+    expect(spatialJoin([road], parcels, { predicate: 'within' })[0].attrs.join_count).toBe(0);
+    expect(spatialJoin([road], parcels, { predicate: 'intersects' })[0].attrs.join_count).toBe(2);
+    const U = fromParts('Polygon', [[[0, 0], [30, 0], [30, 30], [20, 30], [20, 10], [10, 10], [10, 30], [0, 30]].map(([a, b]) => [...F.from(a, b), 0])]);
+    const notch = fromParts('Polygon', [[[10, 10], [20, 10], [20, 30], [10, 30]].map(([a, b]) => [...F.from(a, b), 0])]);
+    expect(relate(notch, U, F)).toMatchObject({ intersects: true, within: false });
+    expect(relate(U, notch, F).contains).toBe(false);
+    expect(relate(sq(1, 1, 8), U, F).within).toBe(true);
   });
 
   it.skipIf(!havePy || !haveTiger)('a county of TIGER/Line block groups and roads matches GEOS (corpus)', () => {
