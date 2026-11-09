@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { buildRust, BUNDLES, rustNotices } from './rust.mjs';
 import { egm96Grid, encodePredicted, basemap, writeGeoidFixture } from './data.mjs';
 import { tokensCss } from './tokens.mjs';
-import { sizeGate, liteSizeGate, evalGate, licenceGate, manifestGate, cspGate, modelLicenceGate } from './gates.mjs';
+import { sizeGate, liteSizeGate, evalGate, licenceGate, manifestGate, cspGate, iconGate, modelLicenceGate } from './gates.mjs';
 import { buildPacks } from './packs.mjs';
 import { i18nBuild } from './i18n.mjs';
 import { vendorFixes } from './vendor-fixes.mjs';
@@ -67,6 +67,8 @@ const warnings = [];
 const EVAL_ALLOW = JSON.parse(readFileSync(join(root, 'build', 'eval-allowlist.json'), 'utf8'));
 
 /** Shown from the first bytes of the file until the shell is ready (OD-2.27); styles/10-base.css hides it. */
+// Every head names an icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
+const ICON = '<link rel="icon" href="data:,">';
 const splash = (name) => `<div id="gw-splash" role="status" aria-label="${name} is starting"><b>${name}</b><span class="gw-splash-bar"><i></i></span></div>`;
 
 function scriptSafe(js) {
@@ -348,8 +350,7 @@ async function main() {
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<meta name="generator" content="GIS Workbench ${VERSION}">`,
     `<meta name="gw-build" content="${buildId}">`,
-    // An icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
-    '<link rel="icon" href="data:,">',
+    ICON,
     '<title>GIS Workbench</title>',
     `<style id="app-css">${styles}</style>`,
     '</head>',
@@ -367,6 +368,7 @@ async function main() {
   ].join('\n');
 
   // 6. Gates
+  errors.push(...iconGate('gis-workbench.html', html));
   const total = Buffer.byteLength(html);
   const eagerBlocks = blocks.filter((b) => b.entry.load === 'eager').reduce((s, b) => s + b.entry.stored, 0);
   const eager = Buffer.byteLength(bootJs) + Buffer.byteLength(appJs) + Buffer.byteLength(styles) + Buffer.byteLength(manifestJson) + eagerBlocks;
@@ -408,6 +410,7 @@ async function main() {
   const liteBuild = liteFile({ boot, liteApp, blocks, manifest, noticesText });
   errors.push(...liteBuild.errors);
   const lite = liteBuild.html;
+  errors.push(...iconGate('gis-workbench-lite.html', lite), ...iconGate('the Lite inner document', liteBuild.inner));
   const lg = liteSizeGate({ total: Buffer.byteLength(lite) });
   errors.push(...lg.errors);
   warnings.push(...lg.warnings);
@@ -502,8 +505,7 @@ function liteFile({ boot, liteApp, blocks, manifest, noticesText }) {
     '<meta name="color-scheme" content="light dark">',
     `<meta name="generator" content="GIS Workbench ${VERSION} (Lite)">`,
     `<meta name="gw-build" content="${manifest.build.id}">`,
-    // An icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
-    '<link rel="icon" href="data:,">',
+    ICON,
     '<title>GIS Workbench Lite</title>',
     `<style id="app-css">${styles}</style>`,
     '</head>',
@@ -549,8 +551,7 @@ function liteHtml(html, csp) {
     `<meta http-equiv="Content-Security-Policy" content="${liteCsp}">`,
     '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">',
     `<meta name="generator" content="GIS Workbench ${VERSION} (Lite)">`,
-    // An icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
-    '<link rel="icon" href="data:,">',
+    ICON,
     '<title>GIS Workbench Lite</title>',
     // Unpacking takes a moment on a phone: the same splash, in the stub's own small style sheet.
     '<style>html,body{margin:0;height:100%}body{background:#fff;color:#1c1b1f;font:1.1rem system-ui,sans-serif}@media (prefers-color-scheme:dark){body{background:#1c1b1f;color:#e6e1e5}}#gw-splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}.gw-splash-bar{width:180px;height:3px;overflow:hidden;background:#8884}.gw-splash-bar i{display:block;width:40%;height:100%;background:currentColor;animation:s 1.1s linear infinite}@keyframes s{from{transform:translateX(-100%)}to{transform:translateX(250%)}}@media (prefers-reduced-motion:reduce){.gw-splash-bar i{animation:none;width:100%;opacity:.5}}</style>',

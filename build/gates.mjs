@@ -121,6 +121,12 @@ export function cspGate(csp) {
   return errors;
 }
 
+/** #109 REQ-SEC-01: a page names a data: icon, or the browser asks its server for /favicon.ico, which the CSP blocks. */
+export function iconGate(name, html) {
+  const head = html.slice(0, html.indexOf('</head>'));
+  return /<link rel="icon" href="data:[^"]*">/.test(head) ? [] : [`REQ-SEC-01: ${name} names no data: icon, so a browser asks for /favicon.ico (#109)`];
+}
+
 // REQ-GAP-24: the CSM host-model bridge (gw_sensor::host), a fixed set the page implements over
 // the usgscsm module's C ABI (app/src/sensor/csm-host.js); no other host functions.
 export const CSM_HOST_IMPORTS = ['g2i', 'i2g', 'partials', 'with_params', 'unmodelled', 'meta', 'names', 'load', 'error', 'free'].map((n) => `gw_host.csm_${n}`);

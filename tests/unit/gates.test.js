@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { gunzipSync } from 'node:zlib';
-import { sizeGate, evalGate, licenceGate, manifestGate, cspGate, wasmGate, crateLicenceGate, determinismGate, scanWasm, LIMITS } from '../../build/gates.mjs';
+import { sizeGate, evalGate, licenceGate, manifestGate, cspGate, iconGate, wasmGate, crateLicenceGate, determinismGate, scanWasm, LIMITS } from '../../build/gates.mjs';
 
 const MB = 1024 * 1024;
 
@@ -75,6 +75,13 @@ describe('PT-04 manifest and CSP gates (REQ-ARC-02, REQ-SEC-01)', () => {
     expect(cspGate(good.replace('connect-src blob:', 'connect-src blob: *'))).toHaveLength(1);
     expect(cspGate(good.replace('connect-src blob:', 'connect-src blob: https:'))).toHaveLength(1);
     expect(cspGate(good.replace("default-src 'none'", "default-src 'self'"))).toHaveLength(1);
+  });
+  it('#109 needs a data: icon in each head, so that no page asks for /favicon.ico', () => {
+    // An icon after the head does not count.
+    const page = (link) => `<html><head><meta charset="utf-8">${link}<title>t</title></head><body><link rel="icon" href="data:,"></body></html>`;
+    expect(iconGate('p', page('<link rel="icon" href="data:,">'))).toEqual([]);
+    expect(iconGate('p', page(''))[0]).toMatch(/p names no data: icon/);
+    expect(iconGate('p', page('<link rel="icon" href="/favicon.ico">'))).toHaveLength(1);
   });
 });
 
