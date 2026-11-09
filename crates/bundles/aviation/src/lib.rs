@@ -1,5 +1,6 @@
 //! `aviation` bundle (lazy; analysis worker): airfield obstruction surfaces (REQ-GAP-73). The
-//! surface model (FAA Part 77 §77.19, ICAO Annex 14 Chapter 4) is built from a definition list
+//! surface model (FAA Part 77 §77.19, ICAO Annex 14 Chapter 4 until 2030 and Amendment 18's
+//! Chapter 4 from 2030) is built from a definition list
 //! (gw_aviation::model) on each call; it is small (a few hundred bytes per runway). With an
 //! obstacle-free zone the evaluations return its limit as well as the lowest surface's.
 
@@ -32,10 +33,13 @@ fn limits_at(m: &Model, la: f64, lo: f64) -> ((f64, usize), (f64, usize)) {
 
 /// Surfaces of a definition list, as f64 (no float formatting in the module): `[n, then per
 /// surface: kind code, runway, end, slope count, slopes…; bbox s, w, n, e; horizontal height,
-/// conical top; facet count, then per facet: surface index, vertex count, (lat, lon, h)…]`. Kind
-/// codes: 0 primary, 1 approach, 2 transitional, 3 horizontal, 4 conical, 5 strip, 6 inner
-/// horizontal, 7 take-off climb, 8 inner approach, 9 inner transitional, 10 balked landing, 11 the
-/// strip within the obstacle-free zone (wasm/aviation.js decodes it).
+/// conical top (NaN for Amendment 18); facet count, then per facet: surface index, vertex count,
+/// (lat, lon, h)…; the Amendment 18 assumptions made (gw_aviation::a18 `A_*` bits)]`. Kind codes:
+/// 0 primary, 1 approach, 2 transitional, 3 horizontal, 4 conical, 5 strip, 6 inner horizontal, 7
+/// take-off climb, 8 inner approach, 9 inner transitional, 10 balked landing, 11 the strip within
+/// the obstacle-free zone, 12 straight-in instrument approach, 13 to 16 the approach, missed
+/// approach, transitional and lower components of the surface for precision approaches, 17
+/// instrument departure (wasm/aviation.js decodes it).
 /// # Safety
 /// The pointer must hold `dlen` values.
 #[no_mangle]
@@ -58,6 +62,7 @@ pub unsafe extern "C" fn gw_obs_surfaces(def: *const f64, dlen: usize) -> i32 {
                 v.extend([la, lo, z]);
             }
         }
+        v.push(m.assumed as f64);
         set_out(v.iter().flat_map(|x| x.to_le_bytes()).collect());
         Ok(())
     })())
