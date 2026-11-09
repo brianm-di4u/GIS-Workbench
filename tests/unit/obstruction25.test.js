@@ -257,6 +257,14 @@ describe.skipIf(!haveWasm)('REQ-GAP-78 Annex 14 Amendment 18 OFS/OES (2030): han
     expect(B.surfaces(encodeAirport(ap, 'icao')).assumed).toBe(0);
     expect(() => B.surfaces(encodeAirport({ ...ap, runways: [{ ...ap.runways[0], adg: null }] }, 'icao-a18'))).toThrow(/aeroplane design group/);
   });
+
+  it('a drawn runway saved with the old 45 m placeholder width has no known width', () => {
+    const ap = synthAirport({ elev: [100, 100], apElev: 100 });
+    const unknown = (rw) => assumptionsOf(B.surfaces(encodeAirport({ ...ap, runways: [{ ...ap.runways[0], adg: 'I', mtom: 5000, ...rw }] }, 'icao-a18')).assumed).some((x) => /runway width is not known/.test(x));
+    expect(unknown({ surface: '', width: 45 })).toBe(true);
+    expect(unknown({ surface: '', width: null })).toBe(true);
+    expect(unknown({ surface: 'ASPH', width: 45 })).toBe(false);
+  });
 });
 
 describe('REQ-GAP-78 editions, design groups and the definition list', () => {

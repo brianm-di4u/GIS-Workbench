@@ -290,7 +290,9 @@ export function airportProblems(ap, regime = null) {
 /** A runway's maximum take-off mass (kg) as the kernel takes it, or NaN. */
 const massOf = (r) => (Number.isFinite(r?.mtom) && r.mtom >= 1 && r.mtom <= 1e6 ? r.mtom : NaN);
 /** A runway's width (m) as the kernel takes it, or NaN (unknown). */
-const widthOf = (r) => (Number.isFinite(r?.width) && r.width >= 3 && r.width <= 150 ? r.width : NaN);
+// Draw Runway stored 45 m as a placeholder width (with no surface) until 2.7.0, and saved projects
+// keep it; that is not a measured width. A NASR width is whole feet, so never exactly 45 m.
+const widthOf = (r) => (r?.surface === '' && r.width === 45 ? NaN : Number.isFinite(r?.width) && r.width >= 3 && r.width <= 150 ? r.width : NaN);
 
 /**
  * The definition list (version 3) for the `aviation` bundle. regime 'part77', 'icao' (the current
