@@ -1,7 +1,7 @@
 {
   "id": "cx050-rtree-skip-fix",
   "source": "CX-050",
-  "split": "test",
+  "split": "train",
   "kind": "clean",
   "intent": "Write features with no position to a GeoPackage, but keep them out of the R-tree and the extent. With a test.",
   "base": {

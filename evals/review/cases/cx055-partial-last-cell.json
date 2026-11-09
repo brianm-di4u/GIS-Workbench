@@ -1,7 +1,7 @@
 {
   "id": "cx055-partial-last-cell",
   "source": "CX-055",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "hard": true,
   "intent": "Make coarse levels of raw cubes by sampling the centre post of each step x step cell, for overviews and statistics.",

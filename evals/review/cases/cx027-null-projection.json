@@ -1,7 +1,7 @@
 {
   "id": "cx027-null-projection",
   "source": "CX-027",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Add AOI from Graphic: the image rectangle around a graphic drawn on the map.",
   "base": {

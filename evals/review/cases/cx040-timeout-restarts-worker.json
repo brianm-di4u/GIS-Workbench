@@ -15,7 +15,26 @@
     {
       "file": "src/pool.js",
       "from": 13,
-      "to": 30,
+      "to": 13,
+      "words": [
+        "other jobs",
+        "every job",
+        "all jobs",
+        "pending",
+        "files open",
+        "opened in",
+        "cancel",
+        "cascade",
+        "unrelated",
+        "reopen"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/pool.js",
+      "from": 29,
+      "to": 29,
       "words": [
         "other jobs",
         "every job",

@@ -1,7 +1,7 @@
 {
   "id": "cx094-transmittance-as-reflectance",
   "source": "CX-094",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "hard": true,
   "intent": "Read ECOSTRESS spectrum files into the spectral library, where they are matched against reflectance images.",

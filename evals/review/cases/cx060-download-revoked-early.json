@@ -1,7 +1,7 @@
 {
   "id": "cx060-download-revoked-early",
   "source": "CX-060",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Save outputs as browser downloads, including multi-GB COGs streamed through temporary files.",
   "base": {

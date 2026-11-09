@@ -19,12 +19,12 @@
       "words": [
         "no ground",
         "ground points",
-        "empty",
         "unclassified",
         "all nan",
         "all void",
         "void",
-        "ground filter"
+        "ground filter",
+        "empty result"
       ]
     }
   ]

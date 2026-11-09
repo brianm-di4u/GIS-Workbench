@@ -1,7 +1,7 @@
 {
   "id": "cx084-unbounded-recording",
   "source": "CX-084",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "intent": "Burn-in export: record the player canvas from the start of a transport-stream clip to its end. Clips come from cameras and from a corpus of damaged streams.",
   "base": {

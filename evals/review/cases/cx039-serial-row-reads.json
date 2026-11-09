@@ -1,7 +1,7 @@
 {
   "id": "cx039-serial-row-reads",
   "source": "CX-039",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Read row windows from ENVI cubes (BSQ) for tiles, band maths and NDVI. Cubes are often several GB and sit on USB or network drives.",
   "base": {

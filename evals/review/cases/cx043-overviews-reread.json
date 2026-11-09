@@ -1,7 +1,7 @@
 {
   "id": "cx043-overviews-reread",
   "source": "CX-043",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Write a COG with its overview levels, streaming so large images fit in memory.",
   "base": {

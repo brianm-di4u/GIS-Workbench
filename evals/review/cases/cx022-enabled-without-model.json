@@ -1,7 +1,7 @@
 {
   "id": "cx022-enabled-without-model",
   "source": "CX-022",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "intent": "Add Chip by Preset Area: cut a square of a given ground size around a point from the active image.",
   "base": {

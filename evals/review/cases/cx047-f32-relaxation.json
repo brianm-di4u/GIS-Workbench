@@ -15,6 +15,25 @@
     {
       "file": "src/fill.js",
       "from": 3,
+      "to": 3,
+      "words": [
+        "float32",
+        "f32",
+        "single precision",
+        "single-precision",
+        "precision",
+        "never converge",
+        "float64",
+        "f64",
+        "ulp",
+        "rounding"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/fill.js",
+      "from": 29,
       "to": 29,
       "words": [
         "float32",

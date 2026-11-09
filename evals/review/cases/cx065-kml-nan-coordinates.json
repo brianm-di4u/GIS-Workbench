@@ -1,7 +1,7 @@
 {
   "id": "cx065-kml-nan-coordinates",
   "source": "CX-065",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Save point layers as KML, CSV layers included.",
   "base": {

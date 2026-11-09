@@ -1,7 +1,7 @@
 {
   "id": "cx083-empty-kml-ring",
   "source": "CX-083",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Read KML Polygons into features: the outer boundary, then each inner boundary.",
   "base": {
@@ -26,8 +26,7 @@
         "zero vertices",
         "no vertices",
         "no coordinates",
-        "ring[0]",
-        "empty"
+        "ring[0]"
       ]
     }
   ]

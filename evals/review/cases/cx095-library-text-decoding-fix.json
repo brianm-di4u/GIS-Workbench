@@ -1,7 +1,7 @@
 {
   "id": "cx095-library-text-decoding-fix",
   "source": "CX-095",
-  "split": "test",
+  "split": "train",
   "kind": "clean",
   "intent": "Decode library files as UTF-8 when they are valid UTF-8, and as Windows-1252 otherwise, so Latin-1 names keep their characters. With a test.",
   "base": {

@@ -26,7 +26,8 @@
         "spatial index",
         "sweep",
         "bucket",
-        "scal",
+        "scales",
+        "does not scale",
         "slow"
       ]
     }

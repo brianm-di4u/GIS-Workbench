@@ -1,7 +1,7 @@
 {
   "id": "cx080-open-limit-scales-fix",
   "source": "CX-080",
-  "split": "train",
+  "split": "test",
   "kind": "clean",
   "intent": "Let the open time limit grow with the file: 120 s plus 1 s per 10 MB. With a test.",
   "base": {

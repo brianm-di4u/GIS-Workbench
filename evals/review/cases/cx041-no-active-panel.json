@@ -1,7 +1,7 @@
 {
   "id": "cx041-no-active-panel",
   "source": "CX-041",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "intent": "Show a finished product (Destripe, filters, band maths) in a panel.",
   "base": {
@@ -22,7 +22,7 @@
         "no active",
         "parent",
         "closed",
-        "undefined"
+        "panel is undefined"
       ]
     }
   ]

@@ -1,7 +1,7 @@
 {
   "id": "cx019-extent-loop-fix",
   "source": "CX-019",
-  "split": "test",
+  "split": "train",
   "kind": "clean",
   "intent": "Work out the footprint extent with a loop, so a layer with millions of vertices no longer overflows the call stack. With a test.",
   "base": {

@@ -1,7 +1,7 @@
 {
   "id": "cx064-nested-attributes",
   "source": "CX-064",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "intent": "Save As FlatGeobuf: write every attribute as a string column, for layers from any reader.",
   "base": {

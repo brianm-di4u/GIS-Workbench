@@ -1,7 +1,7 @@
 {
   "id": "cx093-terrain-budget-fix",
   "source": "CX-093",
-  "split": "test",
+  "split": "train",
   "kind": "clean",
   "intent": "Fit a new terrain into the room the loaded terrains leave in the core, and refuse it by name when there is none. With a test.",
   "base": {

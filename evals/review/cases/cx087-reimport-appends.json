@@ -1,7 +1,7 @@
 {
   "id": "cx087-reimport-appends",
   "source": "CX-087",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Import spectral library files into the library, by drag and drop or File > Import, as often as the user likes.",
   "base": {

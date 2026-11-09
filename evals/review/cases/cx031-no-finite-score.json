@@ -1,7 +1,7 @@
 {
   "id": "cx031-no-finite-score",
   "source": "CX-031",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Show a summary line after spectral anomaly detection: how many pixels pass the threshold, and the best score.",
   "base": {
@@ -16,8 +16,9 @@
       "from": 5,
       "to": 6,
       "words": [
-        "empty",
-        "undefined",
+        "empty array",
+        "returns undefined",
+        "is undefined",
         "no finite",
         "no score",
         "none finite",

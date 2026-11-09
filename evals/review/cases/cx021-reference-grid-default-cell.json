@@ -1,7 +1,7 @@
 {
   "id": "cx021-reference-grid-default-cell",
   "source": "CX-021",
-  "split": "test",
+  "split": "train",
   "kind": "bug",
   "intent": "Add a Gridded Reference Graphic over the active layer's extent, from a drone image to a whole 1° DEM tile, with a default cell size the user can change.",
   "base": {

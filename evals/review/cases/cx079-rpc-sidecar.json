@@ -22,9 +22,11 @@
         "rpb",
         "rpcof",
         "tags.rpc",
-        "til",
+        ".til",
+        "til file",
         "tile offset",
-        "undefined"
+        "returns undefined",
+        "is undefined"
       ]
     }
   ],
@@ -38,9 +40,11 @@
         "rpb",
         "rpcof",
         "tags.rpc",
-        "til",
+        ".til",
+        "til file",
         "tile offset",
-        "undefined"
+        "returns undefined",
+        "is undefined"
       ]
     }
   ]

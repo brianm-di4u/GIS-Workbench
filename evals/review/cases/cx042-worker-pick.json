@@ -1,7 +1,7 @@
 {
   "id": "cx042-worker-pick",
   "source": "CX-042",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "intent": "Choose which decode worker opens a file, starting new workers as needed up to the core count. A file stays on the worker that opened it.",
   "base": {

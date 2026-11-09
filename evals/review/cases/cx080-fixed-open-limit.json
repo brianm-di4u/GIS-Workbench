@@ -14,6 +14,25 @@
     {
       "file": "src/open.js",
       "from": 1,
+      "to": 1,
+      "words": [
+        "file size",
+        "file.size",
+        "large file",
+        "larger file",
+        "scale",
+        "proportional",
+        "fixed limit",
+        "fixed 120",
+        "per mb",
+        "bytes"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/open.js",
+      "from": 6,
       "to": 8,
       "words": [
         "file size",

@@ -1,7 +1,7 @@
 {
   "id": "cx032-eigen-chart-nan",
   "source": "CX-032",
-  "split": "train",
+  "split": "test",
   "kind": "bug",
   "intent": "Draw the eigenvalue chart after PCA or MNF, with bars scaled to the largest eigenvalue. Eigenvalues come straight from the decomposition.",
   "base": {
