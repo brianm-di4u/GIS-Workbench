@@ -498,7 +498,8 @@ test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obst
   close(table(both.icao.low), { M1: [12.82, 'transitional'], M2: [8, 'approach'], M3: [31.2, 'approach'] });
   close(table(both.icao.zone), { M3: [31.2, 'innerApproach'] });
   close(table(both['icao-a18'].low), { M1: [14.25, 'precisionTransitional'], M2: [8, 'precisionApproach'], M3: [31.2, 'precisionApproach'] });
-  close(table(both['icao-a18'].zone), { M1: [12.82, 'transitional'], M3: [25.348, 'innerApproach'] });
+  // M3: the OFS approach and inner approach tie at 114.652 m (both 3.33 %); the approach is reported.
+  close(table(both['icao-a18'].zone), { M1: [12.82, 'transitional'], M3: [25.348, 'approach'] });
   expect(both.icao.edition).toMatch(/until 20 November 2030$/);
   expect(both['icao-a18'].edition).toBe(A18);
   expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
