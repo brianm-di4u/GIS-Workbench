@@ -5,6 +5,8 @@
 //
 //   node build/packs.mjs --fetch     download the pinned inputs into .cache/packs-src (checked)
 //
+// --fetch also gets the Noto font inputs, from commit-pinned URLs.
+//
 // Packs: geoid (EGM2008 5′ grid), hdf5 (h5wasm), proj (PROJ-WASM with proj.db), ai (onnxruntime-web
 // WASM and WebGPU runtimes + SlimSAM int8) and the 2.0 model packs (2.0 plan P5, DN-56), which need
 // the ai pack's runtime: ai-sam2 (SAM 2.1 tiny), ai-detect (OWLv2), ai-search (CLIP ViT-B/32) and
@@ -42,7 +44,7 @@ const cached = (id) => {
 
 async function fetchAll() {
   mkdirSync(CACHE, { recursive: true });
-  for (const s of SOURCES.downloads) {
+  for (const s of [...SOURCES.downloads, ...SOURCES.local.files]) {
     const f = join(CACHE, s.file);
     mkdirSync(dirname(f), { recursive: true }); // grids/ (REQ-GAP-16)
     if (!existsSync(f) || sha256(readFileSync(f)) !== s.sha256) {
