@@ -23,7 +23,7 @@ export function guessVertical(l) {
   if (v === 5773 || v === 5171) return 'egm96';
   if (v === 3855 || v === 1027) return 'egm2008';
   if (v === 5703 || v === 5103) return 'navd88';
-  if (v === 4979 || v === 6326 || v === 4326) return 'hae';
+  if (v === 5030 || v === 4979 || v === 6326 || v === 4326) return 'hae';
   const n = `${l.rec?.name ?? ''} ${l.info.meta?.gdalMetadata ?? ''}`;
   if (/copernicus|COP[-_]?DEM|COP30|COP90|EGM2008|EGM08/i.test(n)) return 'egm2008';
   if (/NAVD\s?88/i.test(n)) return 'navd88';

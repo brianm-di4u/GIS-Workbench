@@ -92,6 +92,9 @@ export const VERTICALS = {
   egm2008: { grid: 'us_nga_egm08_25', datum: 'WGS 84', name: 'EGM2008' },
 };
 
+/** The frame a vertical datum's geoid grid is referenced to (null: WGS 84 itself). */
+const frameOf = (v) => (v.datum === 'WGS 84' ? null : v.datum === 'ETRS89' ? 'ETRF2014' : v.datum);
+
 /** Parse "lat lon [h]" lines (spaces, commas or semicolons). */
 export function parsePoints(text) {
   const out = [];
@@ -292,7 +295,7 @@ export class GridEngine {
     const cubic = this.cubic(v.grid);
     const { width: W, height: H } = g;
     // Frame height change on a lattice of at most 33 × 33 nodes.
-    const frame = v.datum === 'WGS 84' ? null : v.datum === 'ETRS89' ? 'ETRF2014' : v.datum;
+    const frame = frameOf(v);
     const nx = Math.min(33, W);
     const ny = Math.min(33, H);
     const dh = new Float64Array(nx * ny);
@@ -337,6 +340,21 @@ export class GridEngine {
     const label = frame ? `${v.name} → HAE by ${cat.geoid ?? v.grid} (${cat.file}), ${frame} → ${WGS84_NOW} at ${this.epoch.toFixed(2)}` : `${v.name} → HAE by ${cat.geoid ?? v.grid} (${cat.file})`;
     // Voids (NaN, or sentinels such as −32767) stay as they are.
     return { convert: (heights) => Float32Array.from(heights, (z, k) => (Number.isFinite(z) && z > -10000 ? z + n[k] : z)), label, outside, path, accuracy: cat.accuracy + (path && Number.isFinite(path.accuracy) ? path.accuracy : 0) };
+  }
+
+  /**
+   * h − H for `vertical` heights at [lon, lat] points, as demHeights converts them: the datum's
+   * geoid grid plus the ellipsoidal height change from its frame to WGS 84 at the epoch. NaN outside
+   * the grid; null when the grid is not loaded.
+   */
+  separations(vertical, pts) {
+    const v = VERTICALS[vertical];
+    if (!v || !this.bundle || !this.has(v.grid)) return null;
+    const N = this.undulations(v.grid, pts);
+    const frame = frameOf(v);
+    if (!frame) return N;
+    const dh = this.bundle.frameTransform(frame, WGS84_NOW, pts.map((p) => [p[0], p[1], 0]), this.epoch).pts;
+    return N.map((n, k) => n + dh[k][2]);
   }
 
   /** The geoid of the loaded grid that converts `vertical` heights, or null when none is loaded. */

@@ -524,7 +524,7 @@ export function install(app) {
   /** GeoTIFF/COG bytes of a terrain entry (current heights, its vertical datum). */
   app.demGeoTiff = async (d = target() ?? app.terrain.dems[0]) => {
     const g = d.grid;
-    return writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: heightsOf(d) }, { epsg: 4326, vertical: d.vertical === 'hae' ? 'hae' : d.vertical === 'egm2008' ? 'egm2008' : 'egm96', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, overviews: true, tile: 256, description: `GIS Workbench DEM (${d.vertical === 'hae' ? 'heights above the WGS 84 ellipsoid' : 'orthometric heights'}, metres) from ${d.name}` });
+    return writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: heightsOf(d) }, { epsg: 4326, vertical: d.vertical, geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, overviews: true, tile: 256, description: `GIS Workbench DEM (${d.vertical === 'hae' ? 'heights above the WGS 84 ellipsoid' : 'orthometric heights'}, metres) from ${d.name}` });
   };
   /** DTED Level 1/2 cells (MSL EGM96, whole metres) covering the terrain: [{name, bytes}]. */
   app.demDted = (level = 2, d = target() ?? app.terrain.dems[0]) => {
@@ -625,10 +625,10 @@ export function install(app) {
   app.groundFilter = async (opts = {}, d = target() ?? app.terrain.dems[0]) => {
     const g = d.grid;
     const { dtm, ground } = smrf(g, heightsOf(d), opts);
-    const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: dtm }, { epsg: 4326, vertical: d.vertical === 'hae' ? 'hae' : 'egm96', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: `GIS Workbench DTM (SMRF ground filter) from ${d.name}` });
+    const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: dtm }, { epsg: 4326, vertical: d.vertical, geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: `GIS Workbench DTM (SMRF ground filter) from ${d.name}` });
     const file = new File([bytes], `DTM_${(app.layers.get(d.layerId)?.rec?.name ?? 'dem').replace(/\.[^.]+$/, '')}.tif`, { type: 'image/tiff' });
     const { layers } = await openImageFile(app, file);
-    await app.useAsTerrain(layers[0], d.vertical === 'hae' ? 'hae' : 'egm96');
+    await app.useAsTerrain(layers[0], d.vertical);
     const te = app.terrain.entry(layers[0].id);
     if (te) te.kind = 'DTM';
     return { layer: layers[0], groundFraction: ground.reduce((a, b) => a + b, 0) / ground.length, dtm };

@@ -53,13 +53,18 @@ export function install(app) {
   const editsOf = (tinId) => S.all('tinedit').filter((e) => e.tin === tinId).sort((a, b) => a.seq - b.seq);
   let activeId = null;
   const active = () => (activeId && recOf(activeId) ? activeId : (tins().at(-1)?.id ?? null));
-  const undulation = (lat, lon) => {
-    const N = app.core.undulation(lat, lon);
+  /**
+   * The ellipsoid's height above the TIN's datum (h − H), converted as its terrain is: the datum's
+   * geoid grid with the frame change when that pack is loaded, else the core's geoid (#86).
+   */
+  const separation = (rec, lat, lon) => {
+    if (rec.vertical === 'hae') return 0;
+    const s = rec.vertical === 'egm96' ? NaN : (app.grids?.separations?.(rec.vertical, [[lon, lat]])?.[0] ?? NaN);
+    const N = Number.isFinite(s) ? s : app.core.undulation(lat, lon);
     return Number.isFinite(N) ? N : 0;
   };
-  /** A HAE height in the TIN's vertical datum (orthometric datums through EGM96, as DEM edits do). */
-  const fromHae = (rec, lat, lon, hae) => (rec.vertical === 'hae' ? hae : hae - undulation(lat, lon));
-  const toHae = (rec, lat, lon, z) => (rec.vertical === 'hae' ? z : z + undulation(lat, lon));
+  const fromHae = (rec, lat, lon, hae) => hae - separation(rec, lat, lon);
+  const toHae = (rec, lat, lon, z) => z + separation(rec, lat, lon);
 
   // ---- sources ----
   const sourceSig = (rec) => JSON.stringify([rec.id, rec.source.kind, rec.source.layer, rec.source.pc, rec.source.tolerance, rec.source.maxPoints, rec.source.cell, rec.source.box, rec.source.points?.length, rec.source.lines?.length, rec.source.tris?.length]);
@@ -361,11 +366,10 @@ export function install(app) {
   async function toDem(tinId = active(), o = {}) {
     const rec = recOf(tinId);
     const { grid, z, postM } = await raster(tinId, o);
-    const vertical = rec.vertical === 'hae' ? 'hae' : rec.vertical === 'egm2008' ? 'egm2008' : 'egm96';
-    const bytes = await writeGeoTiff({ width: grid.width, height: grid.height, bands: 1, type: 'f32', data: z }, { epsg: 4326, vertical, geotransform: [grid.lon0 - grid.dlon / 2, grid.dlon, 0, grid.lat0 + grid.dlat / 2, 0, -grid.dlat], nodata: NaN, overviews: true, tile: 256, description: `GIS Workbench DEM from TIN ${rec.name} (linear interpolation in each triangle, ${postM.toFixed(3)} m posts)` });
+    const bytes = await writeGeoTiff({ width: grid.width, height: grid.height, bands: 1, type: 'f32', data: z }, { epsg: 4326, vertical: rec.vertical, geotransform: [grid.lon0 - grid.dlon / 2, grid.dlon, 0, grid.lat0 + grid.dlat / 2, 0, -grid.dlat], nodata: NaN, overviews: true, tile: 256, description: `GIS Workbench DEM from TIN ${rec.name} (linear interpolation in each triangle, ${postM.toFixed(3)} m posts)` });
     const file = new File([bytes], `${rec.name.replace(/[^\w.-]+/g, '_')}_DEM.tif`, { type: 'image/tiff' });
     const { layers } = await openImageFile(app, file);
-    await app.useAsTerrain(layers[0], rec.vertical === 'hae' ? 'hae' : rec.vertical === 'egm2008' ? 'egm2008' : 'egm96');
+    await app.useAsTerrain(layers[0], rec.vertical);
     const te = app.terrain.entry(layers[0].id);
     if (te) te.kind = 'TIN';
     return { layer: layers[0], grid, postM };
@@ -680,7 +684,7 @@ export function install(app) {
     const [w0, s0] = toGeo(f, i.x0, i.y0);
     const [e0, n0] = toGeo(f, i.x1, i.y1);
     const Ng = [];
-    for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) Ng.push(rec.vertical === 'hae' ? 0 : undulation(s0 + ((n0 - s0) * a) / 2, w0 + ((e0 - w0) * b) / 2));
+    for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) Ng.push(separation(rec, s0 + ((n0 - s0) * a) / 2, w0 + ((e0 - w0) * b) / 2));
     const Nat = (lon, lat) => {
       const u = Math.max(0, Math.min(2, (2 * (lon - w0)) / (e0 - w0 || 1)));
       const vv = Math.max(0, Math.min(2, (2 * (lat - s0)) / (n0 - s0 || 1)));
