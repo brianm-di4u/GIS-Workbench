@@ -5,13 +5,13 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { gzipSync } from 'node:zlib';
-import { BUNDLES } from '../../build/rust.mjs';
+import { BUNDLES, remapCargoHome } from '../../build/rust.mjs';
 
 const b = BUNDLES.find((x) => x.name === process.argv[2]);
 if (!b) throw new Error(`no bundle ${process.argv[2]}`);
 const crates = resolve('crates');
 const env = { ...process.env, CARGO_PROFILE_RELEASE_OPT_LEVEL: b.opt };
-const r = spawnSync('cargo', ['build', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'inherit', 'inherit'] });
+const r = spawnSync('cargo', [...remapCargoHome(), 'build', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'inherit', 'inherit'] });
 if (r.status !== 0) process.exit(1);
 const meta = JSON.parse(spawnSync('cargo', ['metadata', '--format-version', '1', '--no-deps'], { cwd: crates, encoding: 'utf8', maxBuffer: 64 << 20 }).stdout);
 const file = join(meta.target_directory, 'wasm32-unknown-unknown', 'release', `${b.crate.replace(/-/g, '_')}.wasm`);

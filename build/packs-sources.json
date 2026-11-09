@@ -410,59 +410,70 @@
       "file": "sparsemask/preprocessor_config.json",
       "sha256": "9166af14e9fbb145679178e02e123900028368ba5c2ca61a796599a83e95c3d2",
       "licence": "MIT (geobase/sparsemask on Hugging Face: MIT; source model cliffbb/OEM-Lightweight SparseMask: MIT; trained on OpenEarthMap, Zenodo 7223446, CC-BY-4.0)"
+    },
+    {
+      "id": "notosans-regular",
+      "url": "https://raw.githubusercontent.com/notofonts/notofonts.github.io/4cf78353cd1668040ba8efa13029cd910fcdf9e2/fonts/NotoSans/hinted/ttf/NotoSans-Regular.ttf",
+      "file": "fonts/NotoSans-Regular.ttf",
+      "sha256": "478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/latin-greek-cyrillic, Noto Sans 2.015 (hinted TTF)"
+    },
+    {
+      "id": "notosans-bold",
+      "url": "https://raw.githubusercontent.com/notofonts/notofonts.github.io/4cf78353cd1668040ba8efa13029cd910fcdf9e2/fonts/NotoSans/hinted/ttf/NotoSans-Bold.ttf",
+      "file": "fonts/NotoSans-Bold.ttf",
+      "sha256": "1df075a380fc7cb898acf64c1f7b3b4dd780de3caa860178bf929de35817a913",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/latin-greek-cyrillic, Noto Sans 2.015 (hinted TTF)"
+    },
+    {
+      "id": "notosanssc-regular",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf",
+      "file": "fonts/NotoSansSC-Regular.otf",
+      "sha256": "faa6c9df652116dde789d351359f3d7e5d2285a2b2a1f04a2d7244df706d5ea9",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/SC (CID-keyed CFF)"
+    },
+    {
+      "id": "notosanstc-regular",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/SubsetOTF/TC/NotoSansTC-Regular.otf",
+      "file": "fonts/NotoSansTC-Regular.otf",
+      "sha256": "5bab0cb3c1cf89dde07c4a95a4054b195afbcfe784d69d75c340780712237537",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/TC (CID-keyed CFF)"
+    },
+    {
+      "id": "notosansjp-regular",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf",
+      "file": "fonts/NotoSansJP-Regular.otf",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/JP (CID-keyed CFF)"
+    },
+    {
+      "id": "notosanskr-regular",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/SubsetOTF/KR/NotoSansKR-Regular.otf",
+      "file": "fonts/NotoSansKR-Regular.otf",
+      "sha256": "69975a0ac8472717870aefeab0a4d52739308d90856b9955313b2ad5e0148d68",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/KR (CID-keyed CFF)"
+    },
+    {
+      "id": "ofl-noto-sans",
+      "url": "https://raw.githubusercontent.com/notofonts/latin-greek-cyrillic/0ef94805d19e98ed658543a7c48c0a4f19cc0ac0/OFL.txt",
+      "file": "fonts/OFL-noto-sans.txt",
+      "sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/latin-greek-cyrillic OFL.txt"
+    },
+    {
+      "id": "ofl-noto-cjk",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/523d033d6cb47f4a80c58a35753646f5c3608a78/LICENSE",
+      "file": "fonts/OFL-noto-cjk.txt",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+      "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
+      "source": "notofonts/noto-cjk Sans/LICENSE"
     }
-  ],
-  "local": {
-    "note": "Inputs placed by hand in .cache/packs-src/<file> (no download URL is pinned); the build refuses a file whose SHA-256 differs from the pin. OFL-1.1 fonts are allowed in packs (OD-2.16), never in the HTML (REQ-SEC-08).",
-    "files": [
-      {
-        "id": "notosans-regular",
-        "file": "fonts/NotoSans-Regular.ttf",
-        "sha256": "478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823",
-        "source": "notofonts/latin-greek-cyrillic, Noto Sans 2.015 (hinted TTF)"
-      },
-      {
-        "id": "notosans-bold",
-        "file": "fonts/NotoSans-Bold.ttf",
-        "sha256": "1df075a380fc7cb898acf64c1f7b3b4dd780de3caa860178bf929de35817a913",
-        "source": "notofonts/latin-greek-cyrillic, Noto Sans 2.015 (hinted TTF)"
-      },
-      {
-        "id": "notosanssc-regular",
-        "file": "fonts/NotoSansSC-Regular.otf",
-        "sha256": "faa6c9df652116dde789d351359f3d7e5d2285a2b2a1f04a2d7244df706d5ea9",
-        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/SC (CID-keyed CFF)"
-      },
-      {
-        "id": "notosanstc-regular",
-        "file": "fonts/NotoSansTC-Regular.otf",
-        "sha256": "5bab0cb3c1cf89dde07c4a95a4054b195afbcfe784d69d75c340780712237537",
-        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/TC (CID-keyed CFF)"
-      },
-      {
-        "id": "notosansjp-regular",
-        "file": "fonts/NotoSansJP-Regular.otf",
-        "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
-        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/JP (CID-keyed CFF)"
-      },
-      {
-        "id": "notosanskr-regular",
-        "file": "fonts/NotoSansKR-Regular.otf",
-        "sha256": "69975a0ac8472717870aefeab0a4d52739308d90856b9955313b2ad5e0148d68",
-        "source": "notofonts/noto-cjk Sans 2.004, SubsetOTF/KR (CID-keyed CFF)"
-      },
-      {
-        "id": "ofl-noto-sans",
-        "file": "fonts/OFL-noto-sans.txt",
-        "sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a",
-        "source": "notofonts/latin-greek-cyrillic OFL.txt"
-      },
-      {
-        "id": "ofl-noto-cjk",
-        "file": "fonts/OFL-noto-cjk.txt",
-        "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
-        "source": "notofonts/noto-cjk Sans/LICENSE"
-      }
-    ]
-  }
+  ]
 }

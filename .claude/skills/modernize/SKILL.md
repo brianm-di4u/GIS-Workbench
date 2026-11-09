@@ -52,7 +52,7 @@ Be willing to recommend CLOSE. Age alone isn't evidence, and sunk effort is no r
 5. Run `node .pipeline/verify.mjs fast`. Tell real failures apart from pre-existing or infrastructure ones.
 6. Push with `--force-with-lease`. If the lease fails, fetch and reassess rather than overwriting new work.
 
-A conflict resolution changes the change hash, so the council verdict is void. Run `council` again before it can merge.
+The change hash covers the PR's own added and removed lines, so a rebase or a conflict resolution that keeps those lines keeps the hash and the council verdict. Resolving a conflict by changing any of them voids it: run `council` again before it can merge.
 
 ## Report
 

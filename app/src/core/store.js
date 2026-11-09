@@ -232,13 +232,16 @@ export class Store extends Emitter {
     return [...this.records.values()].map((r) => clone(r));
   }
 
-  /** Replace all records without history (project load). */
-  load(records) {
+  /**
+   * Replace all records without history (project load). `owned`: the records were made for the
+   * store (just parsed) and nothing else holds them, so they are taken as they are, not copied.
+   */
+  load(records, { owned = false } = {}) {
     this.records.clear();
     this.byType.clear();
     for (const r of records) {
       if (!r || typeof r.id !== 'string') continue;
-      const rec = clone(r);
+      const rec = owned ? r : clone(r);
       this.records.set(rec.id, rec);
       this._index(rec, true);
     }
