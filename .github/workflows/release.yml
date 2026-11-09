@@ -88,10 +88,11 @@ jobs:
     needs: check
     runs-on: windows-latest
     timeout-minutes: 60
+    # No signing permission here: npm, cargo and the pack fetch run third-party code.
     permissions:
       contents: read
-      id-token: write
-      attestations: write
+    outputs:
+      sums: ${{ steps.hash.outputs.sums }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -127,28 +128,38 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          # The HTML lists every pack, so a skipped pack would change it.
-          npm run build 2>&1 | tee "$RUNNER_TEMP/build.log"
+          # --strict fails without wasm-opt or cargo-deny. The HTML lists every pack, so a skipped pack would change it.
+          npm run build -- --strict 2>&1 | tee "$RUNNER_TEMP/build.log"
           ! grep -F 'skipped: its inputs are missing' "$RUNNER_TEMP/build.log"
       - name: Hash the HTML
+        id: hash
         shell: bash
-        working-directory: dist
-        run: sha256sum gis-workbench.html gis-workbench-lite.html gis-workbench-airgap.html | tee "$RUNNER_TEMP/CI-SHA256SUMS"
+        run: |
+          # The build's own SHA256SUMS lines for the three HTML files, checked again against the files.
+          grep -E '^[0-9a-f]{64}  gis-workbench(-lite|-airgap)?\.html$' dist/SHA256SUMS | tee "$RUNNER_TEMP/CI-SHA256SUMS"
+          [ "$(wc -l < "$RUNNER_TEMP/CI-SHA256SUMS")" -eq 3 ]
+          (cd dist && sha256sum -c "$RUNNER_TEMP/CI-SHA256SUMS")
+          echo "sums=$(base64 -w0 < "$RUNNER_TEMP/CI-SHA256SUMS")" >> "$GITHUB_OUTPUT"
+
+  # Signs the rebuild's hashes. It runs no repository or third-party code, so only it can sign.
+  attest:
+    needs: rebuild
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    env:
+      SUMS: ${{ needs.rebuild.outputs.sums }}
+    steps:
+      - run: echo "$SUMS" | base64 -d | tee "$RUNNER_TEMP/CI-SHA256SUMS"
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
-          subject-path: |
-            dist/gis-workbench.html
-            dist/gis-workbench-lite.html
-            dist/gis-workbench-airgap.html
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: ci-sums
-          path: ${{ runner.temp }}/CI-SHA256SUMS
-          if-no-files-found: error
-          retention-days: 7
+          subject-checksums: ${{ runner.temp }}/CI-SHA256SUMS
 
   draft:
-    needs: [app, sidecar, rebuild]
+    needs: [app, sidecar, rebuild, attest]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -158,12 +169,12 @@ jobs:
       GH_REPO: ${{ github.repository }}
       VERSION: ${{ inputs.version }}
       SHA: ${{ inputs.sha }}
+      SUMS: ${{ needs.rebuild.outputs.sums }}
     steps:
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: ci-sums
-          path: ${{ runner.temp }}/ci
-      - run: gh release create "$VERSION" "$RUNNER_TEMP/ci/CI-SHA256SUMS" --target "$SHA" --draft --prerelease --title "$VERSION" --notes "Draft. Assets are uploaded and checked before this is published."
+      # CI-SHA256SUMS comes from the rebuild job's output, which only that job can write.
+      - run: |
+          echo "$SUMS" | base64 -d > "$RUNNER_TEMP/CI-SHA256SUMS"
+          gh release create "$VERSION" "$RUNNER_TEMP/CI-SHA256SUMS" --target "$SHA" --draft --prerelease --title "$VERSION" --notes "Draft. Assets are uploaded and checked before this is published."
 
   promote:
     if: ${{ inputs.action == 'promote' && !github.event.repository.private }}
