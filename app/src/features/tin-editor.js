@@ -55,14 +55,14 @@ export function install(app) {
   const active = () => (activeId && recOf(activeId) ? activeId : (tins().at(-1)?.id ?? null));
   /**
    * The ellipsoid's height above the TIN's datum (h − H), converted as its terrain is: the datum's
-   * geoid grid with the frame change when that pack is loaded, else the core's geoid (#86).
+   * geoid grid with the frame change when that pack is loaded, else the core's geoid (#86, #105).
    */
   const separation = (rec, lat, lon) => {
-    if (rec.vertical === 'hae') return 0;
-    const s = rec.vertical === 'egm96' ? NaN : (app.grids?.separations?.(rec.vertical, [[lon, lat]])?.[0] ?? NaN);
-    const N = Number.isFinite(s) ? s : app.core.undulation(lat, lon);
+    const N = app.terrain.separations(rec.vertical, [[lon, lat]])[0];
     return Number.isFinite(N) ? N : 0;
   };
+  /** The geoid a TIN's heights go through when its datum's grid is not loaded (null: none needed). */
+  const fallbackGeoid = (rec) => (rec.vertical === 'hae' || rec.vertical === 'egm96' || app.grids?.geoidFor?.(rec.vertical) ? null : (app.core.demGeoid ?? 'EGM96'));
   const fromHae = (rec, lat, lon, hae) => hae - separation(rec, lat, lon);
   const toHae = (rec, lat, lon, z) => z + separation(rec, lat, lon);
 
@@ -1172,7 +1172,7 @@ export function install(app) {
       try {
         const i = await info(tin.value);
         const rec = recOf(tin.value);
-        stats.textContent = t('{v} points ({m} mass), {tr} triangles, {l} lines; heights {datum}; {e} edits ({s} skipped)', { v: int(i.vertices), m: int(i.mass), tr: int(i.triangles), l: int(i.lines.length), datum: tr(VERTICALS[rec.vertical] ?? rec.vertical), e: int(i.edits), s: int(i.skipped.length) });
+        stats.textContent = t('{v} points ({m} mass), {tr} triangles, {l} lines; heights {datum}; {e} edits ({s} skipped)', { v: int(i.vertices), m: int(i.mass), tr: int(i.triangles), l: int(i.lines.length), datum: fallbackGeoid(rec) ? t('{datum}, converted with {geoid}: its grid is not loaded', { datum: tr(VERTICALS[rec.vertical] ?? rec.vertical), geoid: fallbackGeoid(rec) }) : tr(VERTICALS[rec.vertical] ?? rec.vertical), e: int(i.edits), s: int(i.skipped.length) });
       } catch (e) {
         stats.textContent = msgOf(e);
       }
