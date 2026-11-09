@@ -4,6 +4,7 @@
 
 import { execFileSync, spawnSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { wasmGate, crateLicenceGate, determinismGate, WASM_TOTAL_BUDGET } from './gates.mjs';
@@ -58,13 +59,25 @@ function targetDir(cratesDir) {
   return JSON.parse(out).target_directory;
 }
 
+/**
+ * Panic messages carry each dependency's source path, which starts with the cargo home, such as
+ * C:\Users\<name>\.cargo. This maps it to /cargo, so the WASM doesn't name the user and a build
+ * on another machine can match the release byte for byte (#31). Cargo adds it to the
+ * config's rustflags rather than replacing them.
+ */
+export function remapCargoHome(cargoHome = process.env.CARGO_HOME || join(homedir(), '.cargo')) {
+  if (cargoHome.includes("'")) throw new Error(`rust: can't remap a cargo home with a quote in it: ${cargoHome}`);
+  return ['--config', `target.wasm32-unknown-unknown.rustflags=['--remap-path-prefix=${cargoHome}=/cargo']`];
+}
+
 export function buildRust(root, { log = console.log, strict = false } = {}) {
   const crates = join(root, 'crates');
   const results = [];
   const errors = [];
+  const remap = remapCargoHome();
   for (const b of BUNDLES) {
     const env = { ...process.env, CARGO_PROFILE_RELEASE_OPT_LEVEL: b.opt };
-    const r = spawnSync('cargo', ['build', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
+    const r = spawnSync('cargo', [...remap, 'build', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
     if (r.status !== 0) throw new Error(`cargo build ${b.crate} failed:\n${r.stderr}`);
   }
   const tdir = join(targetDir(crates), 'wasm32-unknown-unknown', 'release');
