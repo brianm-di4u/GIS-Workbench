@@ -5,7 +5,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { classifyFailure, classifyRun, isSetupStep } from '../../build/ci/classify-failure.mjs';
+import { classifyFailure, classifyRun, isSetupStep } from '../../.pipeline/lib/classify-failure.mjs';
 
 const step = (name, conclusion = 'success', status = 'completed') => ({ name, conclusion, status });
 const SETUP = [step('Set up job'), step('Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1')];
@@ -36,12 +36,6 @@ describe('classifyFailure: infrastructure', () => {
     expect(classifyFailure(run(green('app'), sidecar)).result).toBe('infra');
   });
 
-  it('calls a cancelled leg infra only when nothing newer is running on main', () => {
-    const cancelled = job('app', 'cancelled', [...SETUP, step('Run ./.github/actions/app-setup', 'cancelled')]);
-    expect(classifyFailure(run(cancelled, green('sidecar'))).result).toBe('infra');
-    expect(classifyFailure(run(cancelled, green('sidecar')), { newerRunOnMain: true }).result).toBe('real');
-  });
-
   it('calls a leg that was cut off in setup infra', () => {
     const cutOff = job('app', 'failure', [step('Set up job'), step('Run ./.github/actions/app-setup', null, 'in_progress')]);
     expect(classifyFailure(run(cutOff, green('sidecar'))).result).toBe('infra');
@@ -65,9 +59,11 @@ describe('classifyFailure: real', () => {
     expect(classifyFailure(run(app, green('sidecar'))).result).toBe('real');
   });
 
-  it('is real for a leg cancelled inside a test step, which is how a job timeout looks', () => {
+  it('is real for a leg cancelled after it started, in a test step (how a job timeout looks) or in setup', () => {
     const app = job('app', 'cancelled', [...SETUP, step('Run node .pipeline/verify.mjs full', 'cancelled')]);
     expect(classifyFailure(run(app, green('sidecar'))).result).toBe('real');
+    const inSetup = job('app', 'cancelled', [...SETUP, step('Run ./.github/actions/app-setup', 'cancelled')]);
+    expect(classifyFailure(run(inSetup, green('sidecar'))).result).toBe('real');
   });
 
   it('is real for a failure with no failed step to explain it, and a cancel with every step clean', () => {
@@ -88,30 +84,27 @@ describe('classifyFailure: real', () => {
 });
 
 describe('classifyRun', () => {
-  const cancelled = run(job('app', 'cancelled', [...SETUP, step('Run ./.github/actions/app-setup', 'cancelled')]), green('sidecar'));
-  const fakeGh = (tip, jobs = cancelled) => (args) => (args[1].includes('/actions/runs/') ? JSON.stringify(jobs) : `${tip}\n`);
-
-  it('asks for the run and for main, and treats a moved main as a newer run', () => {
+  it("asks GitHub for the run's jobs and classifies them", () => {
     const asked = [];
-    const gh = (args) => (asked.push(args), fakeGh('aaa')(args));
-    expect(classifyRun({ repo: 'o/r', runId: '7', headSha: 'aaa' }, gh).result).toBe('infra');
-    expect(asked[0][1]).toBe('repos/o/r/actions/runs/7/jobs?per_page=100');
-    expect(asked[1][1]).toBe('repos/o/r/git/ref/heads/main');
-    expect(classifyRun({ repo: 'o/r', runId: '7', headSha: 'aaa' }, fakeGh('bbb')).result).toBe('real');
+    const setup = job('app', 'failure', [...SETUP, step('Run ./.github/actions/app-setup', 'failure')]);
+    const gh = (args) => (asked.push(args), JSON.stringify(run(setup, green('sidecar'))));
+    expect(classifyRun({ repo: 'o/r', runId: '7' }, gh).result).toBe('infra');
+    expect(asked).toEqual([['api', 'repos/o/r/actions/runs/7/jobs?per_page=100']]);
   });
 
   it("throws when GitHub can't be read, which the command line turns into real", () => {
-    expect(() => classifyRun({ repo: 'o/r', runId: '7', headSha: 'a' }, () => 'not json')).toThrow();
+    expect(() => classifyRun({ repo: 'o/r', runId: '7' }, () => 'not json')).toThrow();
   });
 });
 
 describe('the command line', () => {
-  const cli = (body, ...flags) => {
+  const script = '.pipeline/lib/classify-failure.mjs';
+  const cli = (body) => {
     const dir = mkdtempSync(join(tmpdir(), 'gwb-classify-'));
     try {
       const file = join(dir, 'jobs.json');
       writeFileSync(file, body);
-      return execFileSync('node', ['build/ci/classify-failure.mjs', file, ...flags], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+      return execFileSync('node', [script, file], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
@@ -119,8 +112,7 @@ describe('the command line', () => {
 
   it('prints infra or real, and real for a file it cannot parse', () => {
     expect(cli(JSON.stringify(run(green('app'))))).toBe('infra');
-    expect(cli(JSON.stringify(run(job('app', 'cancelled', []), job('sidecar', 'cancelled', []))), '--newer-run-on-main')).toBe('infra'); // never started, so a newer run doesn't matter
     expect(cli('not json')).toBe('real');
-    expect(execFileSync(process.execPath, ['build/ci/classify-failure.mjs', '--run', '1', '--head-sha', 'x'], { encoding: 'utf8', env: { ...process.env, GITHUB_REPOSITORY: '', PATH: '' }, stdio: ['ignore', 'pipe', 'pipe'] }).trim()).toBe('real'); // no gh, so real
+    expect(execFileSync(process.execPath, [script, '--run', '1'], { encoding: 'utf8', env: { ...process.env, GITHUB_REPOSITORY: '', PATH: '' }, stdio: ['ignore', 'pipe', 'pipe'] }).trim()).toBe('real'); // no gh, so real
   });
 });
