@@ -89,8 +89,23 @@ jobs:
       - name: Secrets in history
         run: gitleaks git --config .gitleaks.toml --redact --no-banner
 
+  live:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+      - run: node build/check-live.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
   report:
-    needs: [chrome, firefox, webkit, fuzz, audit]
+    needs: [chrome, firefox, webkit, fuzz, audit, live]
     if: ${{ always() && !github.event.repository.private }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
