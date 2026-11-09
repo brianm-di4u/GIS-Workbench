@@ -35,4 +35,5 @@ Option B: the 17 readings stand, with item 4 changed. Each reading is named by i
 
 - Items 1 to 16 are labelled assumptions in each result, kept record and export that uses them. Item 17 only sets the dialog's default edition, and a run's edition is always named.
 - Amendment 18 results at code 3 and 4 runways show more transitional penetrations than the 20 % reading would.
+- Not covered by this ruling: precision approach runways of codes 1 and 2, which the current edition's Table 4-1 gives 14.3 %. The code uses 14.3 % for them until #125 is decided, and that decision amends or supersedes item 4.
 - A later ICAO clarification (Doc 9137 Part 6, or a corrigendum) that settles a gap supersedes the matching reading.
