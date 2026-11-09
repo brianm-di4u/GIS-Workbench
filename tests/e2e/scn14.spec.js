@@ -363,7 +363,7 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
     const pr = await app.pc.profile(c, app.pc.lastProfile.a, app.pc.lastProfile.b, 1);
     const ex = await app.pc.exportLas(c);
     const [back] = await app.openPointClouds([new File([ex.bytes], 'clean.las')]);
-    return { nDeleted: c.nDeleted, deleted18: c.deleted[k18], picked: pick?.index === k18, profile: pr.index.length, dialogProfile: app.pc.lastProfile.index.length, zmax: Math.max(...pr.z), zmax0: Math.max(...app.pc.lastProfile.z), export: back.n, export18: back.stats.classes[18] ?? 0, classes18: c.stats.classes[18] ?? 0, edits: app.pc.edits(c).map((e) => e.params.field ?? 'class') };
+    return { nDeleted: c.nDeleted, deleted18: c.deleted[k18], picked: pick?.index === k18, profile: pr.index.length, dialogProfile: app.pc.lastProfile.index.length, zmax: Math.max(...pr.z), zmax0: Math.max(...app.pc.lastProfile.z), dialogZmax: app.pc.lastProfile.zRange()[1], export: back.n, export18: back.stats.classes[18] ?? 0, classes18: c.stats.classes[18] ?? 0, edits: app.pc.edits(c).map((e) => e.params.field ?? 'class') };
   }, s.k18);
   console.log(JSON.stringify({ box, del }));
   expect(del.nDeleted).toBe(box.hi);
@@ -372,6 +372,7 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
   expect(del.profile).toBe(box.profile - box.hi); // a new profile leaves it out, and its height axis drops
   expect(del.zmax).toBeLessThan(del.zmax0 - 5);
   expect(del.dialogProfile).toBe(box.profile); // the open dialog keeps it undrawn, so undo shows it again
+  expect(del.dialogZmax).toBeLessThan(del.zmax0 - 5); // and its height axis drops to the points that are left
   expect(del.export).toBe(s.n - box.hi);
   expect(del.classes18).toBe(10 - box.hi);
   expect(del.export18).toBe(10 - box.hi);
@@ -401,12 +402,14 @@ test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, w
     app.commands.run('qat.undo');
     const all = await app.pc.exportLas(c);
     const [back] = await app.openPointClouds([new File([all.bytes], 'undone.las')]);
-    const undone = { deleted: c.nDeleted, mask: c.deleted, export: back.n, classes18: c.stats.classes[18] };
+    const undone = { deleted: c.nDeleted, mask: c.deleted, export: back.n, classes18: c.stats.classes[18], dialogZmax: app.pc.lastProfile.zRange()[1], zmax: Math.max(...app.pc.lastProfile.z) };
     app.commands.run('qat.redo');
     return { afterOne, undone, redone: c.nDeleted };
   });
   expect(un.afterOne).toEqual({ deleted: box.hi, withheld: 0 });
-  expect(un.undone).toEqual({ deleted: 0, mask: null, export: s.n, classes18: 10 });
+  // Undo rescales the open dialog, so the restored noise is drawn on the canvas again.
+  expect(un.undone.dialogZmax).toBe(un.undone.zmax);
+  expect({ ...un.undone, dialogZmax: 0, zmax: 0 }).toEqual({ deleted: 0, mask: null, export: s.n, classes18: 10, dialogZmax: 0, zmax: 0 });
   expect(un.redone).toBe(box.hi);
   // The other consumers of the one mask: a clip, a BPF and 3D Tiles leave the deleted point out, and
   // a TIN of the ground points has five fewer vertices once five ground points are deleted.

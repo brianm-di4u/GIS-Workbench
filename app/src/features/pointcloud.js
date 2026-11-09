@@ -1089,14 +1089,25 @@ export function install(app) {
     const hint = () => t('{n} points within {half} of the line', { n: int(pr.index.length - pr.index.filter((k) => !kept(c, k)).length), half: length(pr.half) });
     const out = h('div', { class: 'hint', 'aria-live': 'polite' }, hint());
     const L = Math.hypot(pr.b[0] - pr.a[0], pr.b[1] - pr.a[1]);
-    let zmin = Infinity;
-    let zmax = -Infinity;
-    // The height axis spans the points that are there (not deleted ones).
-    for (let i = 0; i < pr.index.length; i++) {
-      if (!kept(c, pr.index[i])) continue;
-      zmin = Math.min(zmin, pr.z[i]);
-      zmax = Math.max(zmax, pr.z[i]);
+    let zmin = 0;
+    let zmax = 1;
+    // The height axis spans the points that are there (not deleted ones), so it follows Delete,
+    // Undo and Redo. With nothing kept it spans them all.
+    function rescale() {
+      let lo = Infinity;
+      let hi = -Infinity;
+      for (const all of [false, true]) {
+        for (let i = 0; i < pr.index.length; i++) {
+          if (!all && !kept(c, pr.index[i])) continue;
+          lo = Math.min(lo, pr.z[i]);
+          hi = Math.max(hi, pr.z[i]);
+        }
+        if (lo <= hi) break;
+      }
+      if (lo <= hi) [zmin, zmax] = [lo, hi];
     }
+    rescale();
+    pr.zRange = () => [zmin, zmax];
     const sx = (t) => 30 + ((W - 40) * t) / L;
     const sy = (z) => H - 20 - ((H - 30) * (z - zmin)) / Math.max(1e-3, zmax - zmin);
     // Canvas pixels → the profile's own plane (along the line, height).
@@ -1129,6 +1140,7 @@ export function install(app) {
     const count = h('span', { class: 'hint', 'data-id': 'pc:profile-count' });
     const showCount = () => (count.textContent = t('{n, plural, one {# point} other {# points}} selected', { n: mine() ? app.pc.selection.index.filter((k) => kept(c, k)).length : 0 }));
     const refresh = () => {
+      rescale();
       draw();
       out.textContent = hint();
       showCount();
