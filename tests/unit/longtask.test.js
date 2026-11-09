@@ -3,9 +3,9 @@ import { describe, it, expect } from 'vitest';
 import { strToU8, zipSync } from 'fflate';
 import { clone, uuid } from '../../app/src/core/util.js';
 import { Store } from '../../app/src/core/store.js';
-import { readProject, readProjectAsync, serialiseProject, serialiseProjectAsync } from '../../app/src/storage/project.js';
+import { needsReviver, readProject, readProjectAsync, serialiseProject, serialiseProjectAsync } from '../../app/src/storage/project.js';
 
-describe('#63 clone copies as structuredClone does', () => {
+describe('REQ-ING-04 #63 clone copies as structuredClone does', () => {
   it('copies plain data deeply, and leaves other kinds to structuredClone', () => {
     const src = { a: [1, [2, { b: 'x' }]], n: null, u: undefined, f: new Float64Array([1, 2]), d: new Date(5), m: new Map([[1, 2]]) };
     const c = clone(src);
@@ -34,7 +34,7 @@ describe('#63 clone copies as structuredClone does', () => {
   });
 });
 
-describe('#63 uuid', () => {
+describe('REQ-ING-04 #63 uuid', () => {
   it('gives version 4 UUIDs, all different, across refills of its pool', () => {
     const seen = new Set();
     for (let i = 0; i < 2000; i++) {
@@ -46,7 +46,7 @@ describe('#63 uuid', () => {
   });
 });
 
-describe('#63 store.load takes parsed records without a copy only when told', () => {
+describe('REQ-ING-04 #63 store.load takes parsed records without a copy only when told', () => {
   it('copies by default and takes them as they are with owned', () => {
     const recs = [{ id: 'a', type: 'x', v: [1] }];
     const s = new Store();
@@ -64,7 +64,7 @@ const fakeApp = (records) => {
   return { store, desktop: { multiports: [], arrange: 'tile' }, undo: { history: () => [] }, project: () => ({ name: 'P' }), build: { version: 'test' } };
 };
 
-describe('#63 project save and open', () => {
+describe('REQ-ING-04 #63 project save and open', () => {
   const records = [
     { id: 'project', type: 'project', name: 'P' },
     { id: 'f1', type: 'feature', geom: { type: 'Point', xyz: [1, 2, 3] }, attrs: { name: 'ü — non-ASCII stays unescaped' } },
@@ -85,8 +85,11 @@ describe('#63 project save and open', () => {
       expect(r.bad.polluted, key).toBeUndefined();
     }
   });
-  it('a plain project skips the slow parse (no "__proto__" or escape in it)', () => {
-    const text = JSON.stringify(records);
-    expect(/__proto__|\\u/.test(text)).toBe(false);
+  it('only text that could hold the key takes the slow parse', () => {
+    expect(needsReviver(JSON.stringify(records))).toBe(false); // non-ASCII is written as it is
+    expect(needsReviver(String.raw`{"__proto__":1}`)).toBe(true);
+    expect(needsReviver(String.raw`{"\u005f_proto__":1}`)).toBe(true);
+    expect(needsReviver(String.raw`{"a":"\u0001"}`)).toBe(true);
+    expect(needsReviver(String.raw`{"u":"plain u, and a backslash \\ before n"}`)).toBe(false);
   });
 });

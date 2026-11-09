@@ -73,15 +73,20 @@ export function readProjectAsync(bytes) {
   return new Promise((res, rej) => unzip(bytes, unzipLimits(), (e, files) => (e ? rej(e) : res(files)))).then(parseProject);
 }
 
+/**
+ * Whether records text could hold a "__proto__" key: spelled out, or escaped (a \u escape can
+ * spell any key). Only then does open parse with the reviver that drops the key, which costs
+ * seconds on a large project (#63).
+ */
+export const needsReviver = (text) => /__proto__|\\u/.test(text);
+
 function parseProject(files) {
   const text = (n) => (files[n] ? strFromU8(files[n]) : null);
   const manifest = JSON.parse(text('manifest.json') ?? 'null');
   if (!manifest || manifest.format !== FORMAT) throw new Error('not a GIS Workbench project (.gwb)');
   if (manifest.version > VERSION) throw gwError('this project was saved by a newer GIS Workbench (format {version}); this build reads up to {max}', { version: String(manifest.version), max: String(VERSION) }, 'E_PROJECT_NEWER');
-  // A reviver costs seconds on a large project, so it runs only when the text could hold the key it
-  // removes: spelled out, or escaped (a \u escape can spell any key).
   const rtext = text('records.json') ?? '[]';
-  const records = /__proto__|\\u/.test(rtext) ? JSON.parse(rtext, (k, v) => (k === '__proto__' ? undefined : v)) : JSON.parse(rtext);
+  const records = needsReviver(rtext) ? JSON.parse(rtext, (k, v) => (k === '__proto__' ? undefined : v)) : JSON.parse(rtext);
   const views = JSON.parse(text('views.json') ?? '{}');
   return { manifest, records: migrate(records, manifest.version), views };
 }

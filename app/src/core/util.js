@@ -68,6 +68,8 @@ export function setPath(obj, path, value) {
  * are copied here several times faster than structuredClone copies them (#63: the store copies
  * every record it takes in or gives out). Anything else (typed arrays, Dates, Maps, class
  * instances), and anything nested deeper than plain data goes, is left to structuredClone.
+ * Unlike structuredClone, it does not keep shared references: an object reached twice is copied
+ * twice, and typed arrays over one buffer get a buffer each. Records do not share parts.
  */
 export function clone(v) {
   if (v === undefined || v === null || typeof v !== 'object') return v;
