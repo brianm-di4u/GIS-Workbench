@@ -15,7 +15,8 @@ export const haveGeoidEval = (name) => existsSync(EXE) && existsSync(join(DIR, `
 
 /** N (m, to 0.1 mm as GeoidEval prints it) at [lat, lon] points, cubic unless `linear`. */
 export function geoidEval(name, pts, { linear = false } = {}) {
-  const input = pts.map(([lat, lon]) => `${lat} ${lon}`).join('\n') + '\n';
+  // Fixed notation: GeoidEval refuses some numbers JS prints with an exponent ("1e-9 164.999999999").
+  const input = pts.map(([lat, lon]) => `${lat.toFixed(12)} ${lon.toFixed(12)}`).join('\n') + '\n';
   const env = { ...process.env, PATH: `${BIN}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}` };
   const out = execFileSync(EXE, ['-n', name, '-d', DIR, ...(linear ? ['-l'] : [])], { input, env, encoding: 'utf8', maxBuffer: 64 << 20 });
   return out.trim().split(/\r?\n/).map(Number);
