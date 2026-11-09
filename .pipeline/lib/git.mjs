@@ -48,12 +48,14 @@ export function rawChanges(from, to, cwd) {
 // The change hash binds a verdict or approval to what the PR itself changes, not to the files it
 // touches. For each changed path it covers the path, the old and new modes, and, for a text file,
 // the exact lines the PR adds and removes, in order, with whitespace kept and with hunk line
-// numbers and context dropped (as `git patch-id --verbatim`, computed here). A binary file or a
+// numbers and context dropped (as `git patch-id --verbatim`, but without its context lines, and
+// computed here). So where in a file the lines sit is not part of it. A binary file or a
 // submodule covers its old and new blob IDs instead. So a rebase onto a main that changed the same
 // files elsewhere keeps the hash, and any edit, addition or removal of a PR line voids it. Records
 // are sorted, so `diff.orderFile` can't affect them. A hash made under the old definition (blob
 // IDs at the merge base and the head) matches nothing, so an old verdict fails as "different
-// content" and evidence is looked up under a new name.
+// content" and evidence is looked up under a new name. Each record is a JSON array, so no path
+// can run into the next field or record.
 //
 // `patches` is patchLines' result for the same changes: path -> lines, or null for a binary.
 export function hashChanges(changes, patches) {
@@ -62,11 +64,11 @@ export function hashChanges(changes, patches) {
       const lines = patches.get(c.path);
       const head = [c.path, c.oldMode, c.newMode];
       if (!lines || c.oldMode === '160000' || c.newMode === '160000') {
-        return [...head, 'blob', c.oldSha, c.newSha].join(' ');
+        return JSON.stringify([...head, 'blob', c.oldSha, c.newSha]);
       }
       const body = createHash('sha256');
       for (const line of lines) body.update(Buffer.from(`${line}\n`, 'latin1'));
-      return [...head, 'text', body.digest('hex')].join(' ');
+      return JSON.stringify([...head, 'text', body.digest('hex')]);
     })
     .sort();
   return createHash('sha256').update(records.join('\n')).digest('hex');
@@ -74,8 +76,8 @@ export function hashChanges(changes, patches) {
 
 // Fixed, so no user or repository setting changes what a patch looks like: no rename detection, no
 // external diff or text conversion, no context, one algorithm and no slider heuristic. Attributes
-// are read from an empty tree, so text or binary is decided by content alone, the same in every
-// checkout.
+// in the tree are ignored (an empty tree), so a PR can't change how its own files are read. A
+// machine's own attributes files can still mark a file binary; that only voids a match.
 const PATCH_ARGS = [
   '-c', 'core.quotepath=false', '--literal-pathspecs', '--attr-source=4b825dc642cb6eb9a060e54bf8d69288fbee4904',
   'diff-tree', '-r', '-p', '--no-renames', '--no-ext-diff', '--no-textconv', '--no-color', '--no-abbrev',

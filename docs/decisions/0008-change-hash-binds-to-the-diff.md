@@ -11,9 +11,9 @@ The change hash ties a council verdict, local evidence and an admin's `/approve`
 
 ## Decision
 
-The hash binds to the PR's own diff. For each changed path it covers the path, the old and new modes, and for a text file the exact lines the PR adds and removes, in order, with whitespace kept and with hunk line numbers and context stripped, like `git patch-id --verbatim` but computed in `.pipeline/lib/git.mjs`. A binary file, or a submodule, keeps its old and new blob IDs. The records are sorted, then hashed with SHA-256.
+The hash binds to the PR's own diff. For each changed path it covers the path, the old and new modes, and for a text file the exact lines the PR adds and removes, in order, with whitespace kept and with hunk line numbers and context stripped, like `git patch-id --verbatim` but without its context lines, computed in `.pipeline/lib/git.mjs`. Where in the file the lines sit is not part of the hash. A binary file, or a submodule, keeps its old and new blob IDs. The records are sorted, then hashed with SHA-256.
 
-The patch is read with fixed options (no renames, no external diff or text conversion, no context, one diff algorithm, attributes ignored), so no setting in a checkout can change the hash. A move is still a delete plus an add.
+The patch is read with fixed options (no renames, no external diff or text conversion, no context, one diff algorithm, attributes in the tree ignored), so a PR can't change how its own files are read. A machine's own git attributes can still mark a file binary, which switches that file to blob IDs; that can only void a match, never create one. A move is still a delete plus an add.
 
 ## Consequences
 
@@ -31,7 +31,8 @@ What gets easier:
 Residual risk:
 
 - The approved lines can interact with new code on main in a way nobody reviewed. CI's run on the merged result and the tests are what catch that, not the hash.
-- Hunk positions are not hashed, so a conflict resolved by moving the same lines elsewhere in a file keeps the hash. Review of the resolved diff is what covers this.
+- Position is not hashed, and that is what lets an append conflict resolved by keeping both sides keep the hash. So anyone who can push to the PR branch after an approval can keep the approval while moving the same added and removed lines to another place in the same file, or removing a different copy of a repeated line, with no rebase and no change to main. The council found this in round 1. Binding to context would close it, but then an append conflict, or main editing within a few lines of the PR, would void the approval, which is the cost this decision removes. The admin accepted the context-free hash; reviewing the head the admin approves, and CI and tests on the merged result, are what cover the gap. Tightening it later means hashing a small context around each hunk.
+- Local evidence is looked up by the same hash, so after a rebase the local gate accepts evidence made before it. The CI gate does not: it reads the `verify` check run for the new head.
 
 Rollout:
 
