@@ -2,6 +2,8 @@
 // features (a 36 MB GeoJSON) go in through Open Vector, the same layer comes in again as a
 // GeoPackage, and the project is saved and opened again, each through its command. The GUI
 // sweep's watchdog (gui-lib.js) reports any main-thread task of 2 s or more (REQ-ING-04).
+// It measures real time, so it is in playwright.config.js TIMED: the local gate on the reference
+// machine (OD-2.43) runs it, and shared CI runners (about five times slower here) do not.
 //
 // On the development machine the longest task on each path is about 0.5 s at this size (it was
 // 1.4 s to 3.6 s), and under 2 s at 300 000 features (it was 7 s to 15 s).
