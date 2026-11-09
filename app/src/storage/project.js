@@ -13,15 +13,18 @@ const LIMITS = { entries: 2000, total: 512 << 20, ratio: 200 };
 
 export function serialiseProject(app) {
   const records = app.store.snapshot();
-  // What the opened project had and this shell does not show (Lite shows one panel and no docks)
-  // goes back as it came, so a Full project survives a save from Lite (REQ-GAP-86).
+  // What the opened project had and this shell does not show (Lite shows one panel, no docks and
+  // no arrangement) goes back as it came, so a Full project survives a save from Lite (REQ-GAP-86).
+  // Only for panels and ports still in the project: one deleted since is not carried on.
   const prev = app.projectViews ?? {};
-  const views = { ...prev.views };
+  const live = new Set(records.filter((r) => r.type === 'pane' || r.type === 'multiport').map((r) => r.id));
+  const carried = (o) => Object.fromEntries(Object.entries(o ?? {}).filter(([id]) => live.has(id)));
+  const views = carried(prev.views);
   for (const mp of app.desktop.multiports) for (const p of mp.panes) views[p.id] = clone(p.view);
-  const docks = { ...prev.docks };
+  const docks = carried(prev.docks);
   for (const mp of app.desktop.multiports) {
-    const l = mp.docks.layout();
-    if (l && Object.keys(l).length) docks[mp.id] = l;
+    const l = mp.docks.layout(); // null: this shell has no docks
+    if (l) docks[mp.id] = l;
   }
   const manifest = {
     format: FORMAT,

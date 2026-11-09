@@ -37,7 +37,6 @@ export async function pickFiles(app, { multiple = true, accept = [], description
   });
 }
 
-/** Save a Blob: in place to `handle` when given, else a save picker, else a download. */
 /**
  * Can the system share sheet take this file? Chrome on Android answers yes through canShare, then
  * refuses most formats with NotAllowedError (it passes images, media, PDF and text): offering Share
@@ -70,6 +69,7 @@ export async function shareOrSave(app, blob, { name, title = name, ...save } = {
   return saveBlob(app, blob, { name, ...save });
 }
 
+/** Save a Blob: in place to `handle` when given, else a save picker, else a download. */
 export async function saveBlob(app, blob, { name, handle = null, types = [], description = t('File'), preferPicker = true } = {}) {
   // Automation API v2 (REQ-GAP-01): while a headless call runs, saves come back in its result.
   if (typeof app?.saveCapture === 'function') {

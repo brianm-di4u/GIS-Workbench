@@ -155,8 +155,9 @@ class SheetDocks {
   hostTool() {
     return null;
   }
+  /** Lite has no docks: null keeps a Full project’s layout as it came (REQ-GAP-86). */
   layout() {
-    return {};
+    return null;
   }
   restore() {}
   saveSizes() {}
@@ -189,7 +190,7 @@ export class MobileShell {
       el: this.view,
       multiports: [],
       activeMp: null,
-      arrange: 'tile',
+      arrange: null, // one panel, no arrangement: a Full project keeps its own
       wsCollapsed: true,
       maximised: null,
       workspace: { map: { zoomToFootprints() {} }, render() {}, setView() {}, el: null },

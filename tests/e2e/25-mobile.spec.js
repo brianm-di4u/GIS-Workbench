@@ -911,7 +911,8 @@ test.describe('Lite: the project file goes to Full and back', () => {
     }, OBS('Gate', -114.999));
     const first = await saveFromLite(page, frame);
     expect(first.name).toMatch(/\.gwb$/);
-    // 2. Finished in Full: a second observation and a TIN (a Full-only record); saved.
+    // 2. Finished in Full: a second observation, a TIN (a Full-only record), a second panel, a second
+    // Multiport and a dock moved; saved.
     const F1 = await inFull(browser, first.b64);
     const out1 = await F1.frame.evaluate(async () => {
       const app = window.gisworkbench;
@@ -922,13 +923,20 @@ test.describe('Lite: the project file goes to Full and back', () => {
       for (let j = 0; j < 6; j++) for (let i = 0; i < 6; i++) rows.push(`${(-115 + i * 3e-4).toFixed(6)},${(36 + j * 3e-4 + i * 1e-5).toFixed(6)},${(600 + i + j * 0.5).toFixed(2)}`);
       const { id } = await app.tin.importFile(new File([rows.join('\n')], 'site.csv'), { vertical: 'hae' });
       const tri = (await app.tin.info(id)).triangles;
+      const mp1 = app.desktop.multiports[0];
+      mp1.setLayout('1x2');
+      await app.commands.run('win.new');
+      const dock = [...mp1.docks.registry.keys()].find((k) => !mp1.docks.registry.get(k).transient && !mp1.docks.isOpen?.(k));
+      mp1.docks.show(dock, 'right');
       const b = app.__test.serialiseProject(app);
+      const { views } = app.__test.readProject(b);
       let bin = '';
       for (let k = 0; k < b.length; k += 8192) bin += String.fromCharCode(...b.subarray(k, k + 8192));
-      return { got, tin: id, tri, b64: btoa(bin) };
+      return { got, tin: id, tri, b64: btoa(bin), views, first: mp1.panes[0].id };
     });
     expect(out1.got).toEqual({ obs: 1, graphics: 9, aoi: 1, layers: 1 });
     expect(out1.tri).toBeGreaterThan(10);
+    expect([Object.keys(out1.views.views).length, Object.keys(out1.views.docks).length]).toEqual([3, 2]);
     expect(F1.logs).toEqual([]);
     await F1.ctx.close();
     // 3. Reopened in Lite on the phone through Open Project: the work is there, the TIN is named and kept.
@@ -941,11 +949,14 @@ test.describe('Lite: the project file goes to Full and back', () => {
     await f2.waitForFunction(() => window.gisworkbench.store.all('observation').length === 2);
     await expect(page2.locator('.toast', { hasText: 'TIN surfaces' })).toBeVisible();
     const inLite = await f2.evaluate(() => {
-      const S = window.gisworkbench.store;
-      return { obs: S.all('observation').map((o) => o.text).sort(), tin: S.all('tin').length, graphics: S.all('graphic').length, profile: window.gisworkbench.commands.profile, note: window.gisworkbench.liteHidden(S.snapshot()) };
+      const app = window.gisworkbench;
+      const S = app.store;
+      return { obs: S.all('observation').map((o) => o.text).sort(), tin: S.all('tin').length, graphics: S.all('graphic').length, profile: app.commands.profile, ports: app.desktop.multiports.length, note: app.importLog.at(-1).warnings.join(' ') };
     });
-    expect(inLite).toMatchObject({ obs: ['Culvert', 'Gate'], tin: 1, graphics: 9, profile: 'lite' });
+    // One port and one panel shown; the TIN and the two other panels are named, and kept.
+    expect(inLite).toMatchObject({ obs: ['Culvert', 'Gate'], tin: 1, graphics: 9, profile: 'lite', ports: 1 });
     expect(inLite.note).toMatch(/TIN surfaces/);
+    expect(inLite.note).toMatch(/2 more panels/);
     // A third observation in the field, and save again.
     await f2.evaluate((o) => window.gisworkbench.store.transact('more field work', (tx) => tx.create('observation', o)), OBS('Washout', -114.9988));
     const second = await saveFromLite(page2, f2);
@@ -956,9 +967,15 @@ test.describe('Lite: the project file goes to Full and back', () => {
       const S = app.store;
       const id = S.all('tin')[0]?.id;
       await app.tin.ready(id);
-      return { obs: S.all('observation').map((o) => o.text).sort(), graphics: S.all('graphic').length, aoi: S.all('aoi').length, tri: (await app.tin.info(id)).triangles };
+      return { obs: S.all('observation').map((o) => o.text).sort(), graphics: S.all('graphic').length, aoi: S.all('aoi').length, tri: (await app.tin.info(id)).triangles, ports: app.desktop.multiports.length };
     });
-    expect(back).toEqual({ obs: ['Culvert', 'Gate', 'Washout'], graphics: 9, aoi: 1, tri: out1.tri });
+    expect(back).toEqual({ obs: ['Culvert', 'Gate', 'Washout'], graphics: 9, aoi: 1, tri: out1.tri, ports: 2 });
+    // Full's panels, docks and arrangement came back through Lite as they were; Lite saved its own view of the first panel.
+    const kept = await F2.frame.evaluate((b64) => window.gisworkbench.__test.readProject(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))).views, second.b64);
+    expect(kept.docks).toEqual(out1.views.docks);
+    expect(kept.arrange).toBe(out1.views.arrange);
+    expect(Object.keys(kept.views).sort()).toEqual(Object.keys(out1.views.views).sort());
+    for (const [id, v] of Object.entries(out1.views.views)) if (id !== out1.first) expect(kept.views[id], id).toEqual(v);
     expect(F2.logs).toEqual([]);
     await F2.ctx.close();
     expect(logs).toEqual([]);

@@ -2,7 +2,7 @@
 // relink imagery by fingerprint, project properties, recovery offer (REQ-ARC-08..11).
 
 import { pickFiles, saveBlob, shareOrSave } from '../storage/files.js';
-import { LITE_RECORDS } from '../core/profile.js';
+import { LITE_RECORDS, FULL_RECORD_NAMES } from '../core/profile.js';
 import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
 import { serialiseProject, readProject, relink } from '../storage/project.js';
@@ -545,7 +545,9 @@ export async function install(app) {
     // Lite (REQ-GAP-86) keeps what it cannot show, saves it back unchanged, and says what it is.
     const hidden = C.profile === 'lite' ? liteHidden(parsed.records) : null;
     if (hidden) warnings.push(hidden);
-    for (const mp of app.store.all('multiport')) {
+    // Lite shows one port (its first panel); the others stay in the project, counted in hidden.
+    const ports = app.store.all('multiport');
+    for (const mp of C.profile === 'lite' ? ports.slice(0, 1) : ports) {
       const m = app.desktop.addMultiport(mp.id);
       for (const p of m.panes) if (parsed.views.views?.[p.id]) Object.assign(p.view, parsed.views.views[p.id]);
       m.docks.restore(parsed.views.docks?.[mp.id]);
@@ -579,21 +581,18 @@ export async function install(app) {
   }
   app.openProjectFile = openProjectFile;
 
-  // Names for the records of Full that Lite does not show; others go by their type.
-  const RECORD_NAME = { tin: N_('TIN surfaces'), tinedit: N_('TIN edits'), pointcloud: N_('point clouds'), pcedit: N_('point cloud edits'), chip: N_('image chips'), template: N_('capture templates'), change: N_('change results'), detection: N_('detections'), demedit: N_('DEM edits'), demblock: N_('DEM edits'), bookmark: N_('bookmarks'), msiclass: N_('classifications'), fmvevent: N_('video events'), catalog: N_('catalogues'), airport: N_('airports'), obstruction: N_('obstruction surfaces') };
   /** What a project holds that Lite does not show (it is kept and saved back), or null. */
   function liteHidden(records) {
     const by = new Map();
     for (const r of records) if (!LITE_RECORDS.has(r.type)) by.set(r.type, (by.get(r.type) ?? 0) + 1);
     const extraPanes = Math.max(0, records.filter((r) => r.type === 'pane').length - 1);
     if (!by.size && !extraPanes) return null;
-    const names = [...new Set([...by.keys()].map((k) => (RECORD_NAME[k] ? tr(RECORD_NAME[k]) : k)))];
+    const names = [...new Set([...by.keys()].map((k) => (FULL_RECORD_NAMES[k] ? tr(FULL_RECORD_NAMES[k]) : k)))];
     const parts = [];
     if (by.size) parts.push(t('{n, plural, one {# item} other {# items}} that only GIS Workbench (Full) shows: {names}', { n: [...by.values()].reduce((s, v) => s + v, 0), names: names.join(', ') }));
     if (extraPanes) parts.push(t('{n, plural, one {# more panel} other {# more panels}} (Lite shows the first)', { n: extraPanes }));
     return t('This project has {parts}. They are kept and saved back unchanged.', { parts: parts.join('; ') });
   }
-  app.liteHidden = liteHidden;
 
   // ---- snapshot (REQ-ARC-19): the tool, the project and its smaller files in one HTML ----
   const b64 = (u8) => {
