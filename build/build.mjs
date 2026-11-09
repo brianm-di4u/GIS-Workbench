@@ -203,6 +203,9 @@ function usgscsmBytes(root, errors) {
   return bytes;
 }
 
+/** The inline starter of an app shipped as the js-app block (REG-166). */
+const APP_START = "__gw.runScript('js-app').catch((e) => { document.body.textContent = 'GIS Workbench failed to start: ' + (e && e.message); throw e; });";
+
 function block({ name, kind, bytes, gz = true, load = 'lazy', licence = 'see notices', extra = {} }) {
   const stored = gz ? gzipStable(bytes) : bytes;
   const b64 = Buffer.from(stored).toString('base64');
@@ -306,6 +309,9 @@ async function main() {
   errors.push(...evalGate(packs.code, EVAL_ALLOW));
   errors.push(...modelLicenceGate(packs.models));
 
+  // REG-166: the app script travels as an eager gzip block, inflated and hash-checked by the boot
+  // script like every other block, so the file and its eager part shrink by about 1.5 MB.
+  blocks.push(block({ name: 'js-app', kind: 'js', bytes: Buffer.from(app.text), load: 'eager', licence: 'own' }));
   const styles = css();
   // The id covers everything shipped: loader, app, styles and every block.
   const buildId = sha256(Buffer.concat([Buffer.from(boot.text), Buffer.from(app.text), Buffer.from(styles), ...blocks.map((b) => Buffer.from(b.entry.sha256))])).slice(0, 16);
@@ -323,7 +329,7 @@ async function main() {
 
   // 5. Assemble
   const bootJs = scriptSafe(boot.text);
-  const appJs = scriptSafe(app.text);
+  const appJs = APP_START;
   const manifestJson = JSON.stringify(manifest).replace(/</g, '\\u003c');
   const noticesText = notices(packages, rust.rustNotices, packs.manifest).replace(/<\/script/gi, '<\\/script');
   const csp = [
@@ -383,7 +389,7 @@ async function main() {
       eager,
       css: Buffer.byteLength(styles),
       boot: Buffer.byteLength(bootJs),
-      app: Buffer.byteLength(appJs),
+      app: Buffer.byteLength(app.text),
       notices: Buffer.byteLength(noticesText),
       blocks: Object.fromEntries(blocks.map((b) => [b.name, { raw: b.entry.size, stored: b.entry.stored, load: b.entry.load }])),
       rust: Object.fromEntries(rust.bundles.map((b) => [b.name, { raw: b.raw, gzip: b.gzip, budget: b.budget }])),

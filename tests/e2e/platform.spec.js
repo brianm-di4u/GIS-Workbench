@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { openApp, servers, openFiles, sample, DIST } from './helpers.js';
+import { openApp, servers, openFiles, sample, DIST, DIST_DIR } from './helpers.js';
 
 let srv;
 test.beforeAll(async () => {
@@ -31,9 +31,20 @@ for (const mode of ['file', 'http', 'iframe', 'srcdoc']) {
   });
 }
 
-// REQ-PRF-01 OD-2.27: bootMs starts after the HTML is parsed, so this gate counts from navigation.
-// Best of three, so a busy machine does not fail it. The 4× CPU figure is reported, not gated: it
-// stays over 1.5 s until the lazy pass planned for 2.7.
+// REG-166 (SCN-74): what the browser must parse before the app starts. The app script travels as an
+// eager gzip block (build.mjs js-app), so the eager part fell from 2.80 MB to about 1.58 MB.
+test('REQ-ARC-03 REG-166 the eager part is at most 2.0 MB, in Full and Lite', () => {
+  const rep = JSON.parse(readFileSync(join(DIST_DIR, 'build-report.json'), 'utf8'));
+  expect(rep.sizes.eager).toBeLessThanOrEqual(2_000_000);
+  expect(rep.sizes.liteEager).toBeLessThanOrEqual(2_000_000);
+  const manifest = JSON.parse(/<script type="application\/json" id="build-manifest">([\s\S]*?)<\/script>/.exec(readFileSync(DIST, 'utf8'))[1]);
+  expect(manifest.blocks['js-app']).toMatchObject({ load: 'eager', gz: true });
+});
+
+// REQ-PRF-01 OD-2.27 REG-166 (SCN-74): bootMs starts after the HTML is parsed, so this gate counts
+// from navigation. Best of three, so a busy machine does not fail it. 1.5 s at 1× in every mode, and
+// at 4× CPU over file and http. srcdoc is reported at 4×, not gated: its host page carries the whole
+// file as an attribute, which the browser parses twice.
 for (const mode of ['file', 'http', 'srcdoc']) {
   test(`REQ-PRF-01 interactive within 1.5 s of navigation over ${mode}`, async ({ context }) => {
     test.setTimeout(240_000);
@@ -49,6 +60,7 @@ for (const mode of ['file', 'http', 'srcdoc']) {
     const at = (rate) => rows.filter((r) => r.rate === rate).map((r) => r.ms);
     console.log(`Load ${mode} ms from navigation: 1x ${at(1)}; 4x ${at(4)}`);
     expect(Math.min(...at(1)), JSON.stringify(rows)).toBeLessThan(1500);
+    if (mode !== 'srcdoc') expect(Math.min(...at(4)), `4× CPU: ${JSON.stringify(rows)}`).toBeLessThan(1500);
   });
 }
 
