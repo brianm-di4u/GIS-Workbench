@@ -1,6 +1,6 @@
 //! 2.5 fuzz target (aviation group, REQ-GAP-73): the obstruction-surface definition list (parse,
 //! model build, the limit at positions around the aerodrome, and the display facets). Seeds are valid
-//! Part 77 and Annex 14 lists of one to three runways, with and without the 2.6 obstacle-free zone
+//! Part 77, Annex 14 and Annex 14 Amendment 18 OFS/OES lists of one to three runways, with and without the 2.6 obstacle-free zone
 //! and its code letter F width; mutations must fail cleanly or run to the end, never panic or hang. Iterations: GW_FUZZ_ITERS (default 1500); --release.
 
 use gw_aviation::model::{encode, parse, Airport, EndDef, Regime, RunwayDef};
@@ -27,17 +27,22 @@ fn end(lat: f64, lon: f64, elev: f64, p77: u8, icao: u8, disp: f64) -> EndDef {
 }
 
 fn seeds() -> Vec<Vec<u8>> {
-    let r1 = RunwayDef { paved: true, code: 4, tocs_width: f64::NAN, ends: [end(36.075, -115.170, 665.0, 5, 2, 178.0), end(36.099, -115.156, 635.0, 3, 1, 0.0)] };
-    let r2 = RunwayDef { paved: true, code: 4, tocs_width: f64::NAN, ends: [end(36.076, -115.171, 665.4, 2, 0, 0.0), end(36.076, -115.121, 619.6, 5, 2, 426.0)] };
-    let r3 = RunwayDef { paved: false, code: 1, tocs_width: 300.0, ends: [end(36.08, -115.20, 700.0, 0, 0, 0.0), end(36.083, -115.195, 702.0, 0, 0, 0.0)] };
+    let r1 = RunwayDef { paved: true, code: 4, tocs_width: f64::NAN, adg: 0, width: f64::NAN, mtom: f64::NAN, ends: [end(36.075, -115.170, 665.0, 5, 2, 178.0), end(36.099, -115.156, 635.0, 3, 1, 0.0)] };
+    let r2 = RunwayDef { paved: true, code: 4, tocs_width: f64::NAN, adg: 0, width: f64::NAN, mtom: f64::NAN, ends: [end(36.076, -115.171, 665.4, 2, 0, 0.0), end(36.076, -115.121, 619.6, 5, 2, 426.0)] };
+    let r3 = RunwayDef { paved: false, code: 1, tocs_width: 300.0, adg: 0, width: f64::NAN, mtom: f64::NAN, ends: [end(36.08, -115.20, 700.0, 0, 0, 0.0), end(36.083, -115.195, 702.0, 0, 0, 0.0)] };
     let mut out = Vec::new();
     // A category II or III end, and one whose threshold is near the far end.
-    let r4 = RunwayDef { paved: true, code: 3, tocs_width: f64::NAN, ends: [end(36.075, -115.170, 665.0, 5, 3, 1400.0), end(36.09, -115.16, 640.0, 5, 2, 0.0)] };
+    let r4 = RunwayDef { paved: true, code: 3, tocs_width: f64::NAN, adg: 0, width: f64::NAN, mtom: f64::NAN, ends: [end(36.075, -115.170, 665.0, 5, 3, 1400.0), end(36.09, -115.16, 640.0, 5, 2, 0.0)] };
     out.push(bytes(&encode(&Airport { regime: Regime::Icao, elev: 665.0, ihs_datum: f64::NAN, code_f: true, runways: vec![r4] })));
     for regime in [Regime::Part77, Regime::Icao] {
         for rw in [vec![r1], vec![r1, r2], vec![r1, r2, r3], vec![r3]] {
             out.push(bytes(&encode(&Airport { regime, elev: 665.4, ihs_datum: 660.0, code_f: rw.len() == 2, runways: rw })));
         }
+    }
+    // Amendment 18 OFS/OES (regime 2): every design group, light and heavy, with and without widths.
+    for (adg, mtom, width) in [(1u8, 1500.0, 18.0), (3, 5700.0, f64::NAN), (4, 5000.0, 30.0), (7, 400000.0, 60.0)] {
+        let rw: Vec<RunwayDef> = [r1, r2, r4].iter().map(|r| RunwayDef { adg, mtom, width, ..*r }).collect();
+        out.push(bytes(&encode(&Airport { regime: Regime::IcaoA18, elev: 665.4, ihs_datum: f64::NAN, code_f: adg == 7, runways: rw })));
     }
     out
 }

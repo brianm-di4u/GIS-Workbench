@@ -8,7 +8,7 @@ import { h } from '../shell/dom.js';
 import { modal, field, section } from '../shell/dialogs.js';
 import { t, tr, N_, msgOf, gwError } from '../i18n/index.js';
 import { int } from '../i18n/format.js';
-import { voidNoData } from '../layers/terrain.js';
+import { voidNoData, geographicGridFor } from '../layers/terrain.js';
 
 export const name = 'dem';
 
@@ -120,26 +120,36 @@ export function install(app) {
       const lats = fp.map((p) => p[0]);
       const lons = fp.map((p) => p[1]);
       const [n, s, w, e] = [maxOf(lats), minOf(lats), minOf(lons), maxOf(lons)];
-      const cell = l.demCell();
-      const dlat = Math.max(cell[1] / 111000, (n - s) / 2047);
-      const dlon = Math.max(cell[0] / (111000 * Math.cos(((n + s) / 2) * (Math.PI / 180))), (e - w) / 2047);
-      const W = Math.min(2048, Math.ceil((e - w) / dlon) + 1);
-      const H = Math.min(2048, Math.ceil((n - s) / dlat) + 1);
-      const pts = new Float64Array(W * H * 3);
-      for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) pts.set([n - j * dlat, w + i * dlon, 0], (j * W + i) * 3);
-      const xy = app.core.g2iBatch(l.modelId, pts);
+      // At the DEM's own post spacing (REG-010), within what the core can take at full detail.
+      const { dlat, dlon, width: W, height: H } = geographicGridFor({ n, s, w, e }, l.demCell(), step, Math.max(1e6, app.terrain.room()));
       const out = new Float32Array(W * H).fill(NaN);
       const src = r.heights;
-      for (let k = 0; k < W * H; k++) {
-        const x = (xy[2 * k] - 0.5) / step;
-        const y = (xy[2 * k + 1] - 0.5) / step;
-        const x0 = Math.floor(x);
-        const y0 = Math.floor(y);
-        if (x0 < 0 || y0 < 0 || x0 >= r.width - 1 || y0 >= r.height - 1) continue;
-        const fx = x - x0;
-        const fy = y - y0;
-        const at = (a, b) => src[b * r.width + a];
-        out[k] = (at(x0, y0) * (1 - fx) + at(x0 + 1, y0) * fx) * (1 - fy) + (at(x0, y0 + 1) * (1 - fx) + at(x0 + 1, y0 + 1) * fx) * fy;
+      // Rows in bands, so the ground points and their image positions stay small (24 + 16 B a post),
+      // with progress and a paint between bands: tens of millions of posts take a while (OD-2.27).
+      const BAND = Math.max(1, Math.floor(1048576 / W));
+      const job = W * H > 4e6 ? await app.activity.start(t('Resampling {layer} for terrain…', { layer: l.rec.name })) : null;
+      try {
+        for (let j0 = 0; j0 < H; j0 += BAND) {
+          const rows = Math.min(BAND, H - j0);
+          const pts = new Float64Array(rows * W * 3);
+          for (let j = 0; j < rows; j++) for (let i = 0; i < W; i++) pts.set([n - (j0 + j) * dlat, w + i * dlon, 0], (j * W + i) * 3);
+          const xy = app.core.g2iBatch(l.modelId, pts);
+          for (let q = 0; q < rows * W; q++) {
+            const k = j0 * W + q;
+            const x = (xy[2 * q] - 0.5) / step;
+            const y = (xy[2 * q + 1] - 0.5) / step;
+            const x0 = Math.floor(x);
+            const y0 = Math.floor(y);
+            if (x0 < 0 || y0 < 0 || x0 >= r.width - 1 || y0 >= r.height - 1) continue;
+            const fx = x - x0;
+            const fy = y - y0;
+            const at = (a, b) => src[b * r.width + a];
+            out[k] = (at(x0, y0) * (1 - fx) + at(x0 + 1, y0) * fx) * (1 - fy) + (at(x0, y0 + 1) * (1 - fx) + at(x0 + 1, y0 + 1) * fx) * fy;
+          }
+          await job?.step((j0 + rows) / H);
+        }
+      } finally {
+        job?.end();
       }
       grid = { lat0: n, lon0: w, dlat, dlon, width: W, height: H, heights: out, resampled: true };
     }

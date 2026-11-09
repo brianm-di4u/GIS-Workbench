@@ -13,7 +13,8 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { AviationBundle } from '../../app/src/wasm/aviation.js';
-import { nasrAirport, encodeAirport, airportProblems, clusterGrid, obstaclesCsv, obstaclesGeoJson, obstaclesKml, surfacesKml, ICAO_EDITION, ZONE_KINDS } from '../../app/src/analysis/obstruction.js';
+import { nasrAirport, encodeAirport, airportProblems, clusterGrid, obstaclesCsv, obstaclesGeoJson, obstaclesKml, surfacesKml, EDITIONS, ZONE_KINDS } from '../../app/src/analysis/obstruction.js';
+const ICAO_EDITION = EDITIONS.icao;
 
 const wasmPath = (() => {
   try {
