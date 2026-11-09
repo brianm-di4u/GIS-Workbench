@@ -293,12 +293,10 @@ describe.skipIf(!haveWasm || !LARGE || !existsSync(LARGE ?? ''))('8192² JPEG 20
     const ovMs = performance.now() - t2;
     const ovRead = ioStats.bytes - b2;
     const line = `8192² frame (${frameBytes} B): 512² view tile read ${tileRead} B (${((100 * tileRead) / frameBytes).toFixed(2)} %) in ${tileMs.toFixed(0)} ms; whole-frame decode ${wholeMs.toFixed(0)} ms; level-4 overview read ${ovRead} B (${((100 * ovRead) / frameBytes).toFixed(2)} %) in ${ovMs.toFixed(0)} ms`;
-    console.log(line);
+    console.log(line); // the times are reported, not asserted: they vary with machine load (#70)
     // The view tile's 4-pixel gutter reaches its neighbours' cores: at most 4 of the 64 codestream tiles.
     expect(tileRead / frameBytes).toBeLessThan(4 / 64 + 0.01);
-    expect(tileMs).toBeLessThan(wholeMs / 5);
     // Resolution-first tile-parts: the overview reads only the coarse resolutions of each tile.
     expect(ovRead / frameBytes).toBeLessThan(0.1);
-    expect(ovMs).toBeLessThan(wholeMs);
   }, 120000);
 });

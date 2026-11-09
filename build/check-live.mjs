@@ -35,9 +35,9 @@ export function liveVerdict({ sha256, build, tag, sums, file }) {
 
 // The API call authenticates when CI provides a token: unauthenticated calls share 60 an hour per
 // runner IP, and a refused call must not read as a stale site.
-async function get(url) {
+async function get(url, accept) {
   const token = url.startsWith('https://api.github.com/') ? process.env.GITHUB_TOKEN : undefined;
-  const headers = { 'user-agent': 'gis-workbench-check-live', ...(token ? { authorization: `Bearer ${token}` } : {}) };
+  const headers = { 'user-agent': 'gis-workbench-check-live', ...(accept ? { accept } : {}), ...(token ? { authorization: `Bearer ${token}` } : {}) };
   const res = await fetch(url, { redirect: 'follow', headers });
   if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
@@ -54,7 +54,9 @@ async function main() {
   const latest = JSON.parse((await get(`https://api.github.com/repos/${repo}/releases/latest`)).toString('utf8'));
   const asset = latest.assets?.find((a) => a.name === 'SHA256SUMS');
   if (!asset) throw new Error(`${latest.tag_name} has no SHA256SUMS asset.`);
-  const sums = parseSums((await get(asset.browser_download_url)).toString('utf8'));
+  // Through the API, not browser_download_url: on 2026-11-09 the public download URL returned 504
+  // for this file for at least 20 minutes while the API served it.
+  const sums = parseSums((await get(asset.url, 'application/octet-stream')).toString('utf8'));
   const page = await get(url);
   const verdict = liveVerdict({ sha256: createHash('sha256').update(page).digest('hex'), build: liveBuild(page.toString('utf8')), tag: latest.tag_name, sums, file });
   console.log(`${url}\n${verdict.message}`);

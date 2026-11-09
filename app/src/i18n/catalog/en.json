@@ -9165,6 +9165,7 @@
    "key": "DEM edits",
    "src": "DEM edits",
    "refs": [
+    "core/profile.js",
     "features/dem-tools.js"
    ]
   },
@@ -29382,6 +29383,13 @@
    ]
   },
   {
+   "key": "Project",
+   "src": "Project",
+   "refs": [
+    "mobile/shell.js"
+   ]
+  },
+  {
    "key": "Project Properties",
    "src": "Project Properties",
    "refs": [
@@ -31963,6 +31971,13 @@
    "src": "Resampling of the spectral bands",
    "refs": [
     "sidecar/profiles/raster-pansharpen.toml"
+   ]
+  },
+  {
+   "key": "Resampling {layer} for terrain…",
+   "src": "Resampling {layer} for terrain…",
+   "refs": [
+    "features/dem.js"
    ]
   },
   {
@@ -35359,7 +35374,8 @@
    "key": "Shared {file}",
    "src": "Shared {file}",
    "refs": [
-    "features/field.js"
+    "features/field.js",
+    "features/files.js"
    ]
   },
   {
@@ -38574,6 +38590,13 @@
    ]
   },
   {
+   "key": "TIN edits",
+   "src": "TIN edits",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "TIN export",
    "src": "TIN export",
    "refs": [
@@ -38606,6 +38629,13 @@
    "src": "TIN of {dem}",
    "refs": [
     "features/tin-editor.js"
+   ]
+  },
+  {
+   "key": "TIN surfaces",
+   "src": "TIN surfaces",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -40146,6 +40176,13 @@
    "src": "This project asks to use sign-in for {n, plural, one {# origin} other {# origins}}. Nothing is sent with your sign-in until you confirm.",
    "refs": [
     "features/signin.js"
+   ]
+  },
+  {
+   "key": "This project has {parts}. They are kept and saved back unchanged.",
+   "src": "This project has {parts}. They are kept and saved back unchanged.",
+   "refs": [
+    "features/files.js"
    ]
   },
   {
@@ -44630,6 +44667,13 @@
    ]
   },
   {
+   "key": "aerotriangulation solutions",
+   "src": "aerotriangulation solutions",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "aircraft",
    "src": "aircraft",
    "refs": [
@@ -44648,6 +44692,13 @@
    "src": "airport",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "airports",
+   "src": "airports",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -45390,6 +45441,13 @@
    ]
   },
   {
+   "key": "bookmarks",
+   "src": "bookmarks",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "boresight",
    "src": "boresight",
    "refs": [
@@ -45765,6 +45823,20 @@
    "error": true
   },
   {
+   "key": "capture templates",
+   "src": "capture templates",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
+   "key": "catalogues",
+   "src": "catalogues",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "centre",
    "src": "centre",
    "refs": [
@@ -45783,6 +45855,13 @@
    "src": "change",
    "refs": [
     "products/report.js"
+   ]
+  },
+  {
+   "key": "change results",
+   "src": "change results",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -45924,6 +46003,13 @@
    "src": "classic",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "classifications",
+   "src": "classifications",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -46564,6 +46650,13 @@
    "src": "detection {n}",
    "refs": [
     "features/hud.js"
+   ]
+  },
+  {
+   "key": "detections",
+   "src": "detections",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -47230,6 +47323,13 @@
    "src": "film",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "finished products",
+   "src": "finished products",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -48047,6 +48147,13 @@
     "features/globe.js",
     "products/chip.js",
     "products/template.js"
+   ]
+  },
+  {
+   "key": "image chips",
+   "src": "image chips",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -49798,6 +49905,13 @@
    ]
   },
   {
+   "key": "no face in the file is visible: the TIN covers the area between its points",
+   "src": "no face in the file is visible: the TIN covers the area between its points",
+   "refs": [
+    "features/tin-editor.js"
+   ]
+  },
+  {
    "key": "no feature catalogue {id}",
    "src": "no feature catalogue {id}",
    "refs": [
@@ -51206,6 +51320,13 @@
    ]
   },
   {
+   "key": "obstruction surfaces",
+   "src": "obstruction surfaces",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "obstruction surfaces: an empty list",
    "src": "obstruction surfaces: an empty list",
    "refs": [
@@ -52069,10 +52190,24 @@
    ]
   },
   {
+   "key": "point cloud edits",
+   "src": "point cloud edits",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "point cloud files make a TIN through Open Point Cloud, then New TIN from its ground points",
    "src": "point cloud files make a TIN through Open Point Cloud, then New TIN from its ground points",
    "refs": [
     "analysis/tin-io.js"
+   ]
+  },
+  {
+   "key": "point clouds",
+   "src": "point clouds",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -58132,6 +58267,20 @@
    ]
   },
   {
+   "key": "triangulation points",
+   "src": "triangulation points",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
+   "key": "triangulation solutions",
+   "src": "triangulation solutions",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "truncated PGM data",
    "src": "truncated PGM data",
    "refs": [
@@ -58610,6 +58759,13 @@
    ]
   },
   {
+   "key": "validation sessions",
+   "src": "validation sessions",
+   "refs": [
+    "core/profile.js"
+   ]
+  },
+  {
    "key": "value of several fields",
    "src": "value of several fields",
    "refs": [
@@ -58777,6 +58933,13 @@
    "src": "vertex {n} of {feature}",
    "refs": [
     "vector/index.js"
+   ]
+  },
+  {
+   "key": "video events",
+   "src": "video events",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -62239,6 +62402,13 @@
    ]
   },
   {
+   "key": "{n, plural, one {# item} other {# items}} that only GIS Workbench (Full) shows: {names}",
+   "src": "{n, plural, one {# item} other {# items}} that only GIS Workbench (Full) shows: {names}",
+   "refs": [
+    "features/files.js"
+   ]
+  },
+  {
    "key": "{n, plural, one {# job} other {# jobs}}",
    "src": "{n, plural, one {# job} other {# jobs}}",
    "refs": [
@@ -62320,6 +62490,13 @@
    "src": "{n, plural, one {# metadata row applied} other {# metadata rows applied}}",
    "refs": [
     "features/fmv.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# more panel} other {# more panels}} (Lite shows the first)",
+   "src": "{n, plural, one {# more panel} other {# more panels}} (Lite shows the first)",
+   "refs": [
+    "features/files.js"
    ]
   },
   {

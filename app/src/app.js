@@ -162,6 +162,7 @@ export class App extends Emitter {
 
   /** Create the default project: one Multiport with one panel. */
   newProject() {
+    this.projectViews = null; // the panel views of an opened project (storage/project.js)
     this.store.load([]);
     this.undo.clear();
     for (const l of this.layers.all()) l.dispose();

@@ -103,16 +103,6 @@ export function noEvalGlue(text) {
   return Buffer.from(text.replace(from, to));
 }
 
-/** A hand-placed pack input (packs-sources.json `local`), checked against its pin; null when absent. */
-const local = (file) => {
-  const s = SOURCES.local?.files?.find((d) => d.file === file);
-  const f = join(CACHE, file);
-  if (!s || !existsSync(f)) return null;
-  const b = readFileSync(f);
-  if (sha256(b) !== s.sha256) throw new Error(`pack input ${f} does not match its pinned SHA-256`);
-  return b;
-};
-
 /** The fonts pack's font files (entry paths; inputs in .cache/packs-src/fonts). */
 export const FONT_FILES = ['NotoSans-Regular.ttf', 'NotoSans-Bold.ttf', 'NotoSansSC-Regular.otf', 'NotoSansTC-Regular.otf', 'NotoSansJP-Regular.otf', 'NotoSansKR-Regular.otf'];
 
@@ -253,8 +243,9 @@ async function definitions(esbuild) {
   // ---- 2.3 fonts pack (SDP-2.3 §4.8, S-56, REQ-L10N-11): Noto Sans (Latin, Greek, Cyrillic) and
   // Noto Sans CJK SC/TC/JP/KR (OFL-1.1, allowed in packs by OD-2.16, never in the HTML), with
   // fontkit (MIT) to lay out and subset them for Unicode text in PDF and GeoPDF exports.
-  const fonts = FONT_FILES.map((f) => local(`fonts/${f}`));
-  const ofl = ['OFL-noto-sans.txt', 'OFL-noto-cjk.txt'].map((f) => local(`fonts/${f}`));
+  const font = (f) => cached(SOURCES.downloads.find((d) => d.file === `fonts/${f}`).id);
+  const fonts = FONT_FILES.map(font);
+  const ofl = ['OFL-noto-sans.txt', 'OFL-noto-cjk.txt'].map(font);
   if (fonts.every(Boolean) && ofl.every(Boolean) && existsSync(nm('@pdf-lib', 'fontkit', 'package.json'))) {
     const fk = await fontkitBundle(esbuild);
     const licence = [
