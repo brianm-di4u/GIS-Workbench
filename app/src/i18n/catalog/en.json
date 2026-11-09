@@ -930,6 +930,13 @@
    ]
   },
   {
+   "key": "A route needs at least two waypoints",
+   "src": "A route needs at least two waypoints",
+   "refs": [
+    "analysis/flight-plan.js"
+   ]
+  },
+  {
    "key": "A sidecar is running on {base}; this page is not paired yet. Click to pair.",
    "src": "A sidecar is running on {base}; this page is not paired yet. Click to pair.",
    "refs": [
@@ -19459,6 +19466,20 @@
    "src": "Leg {n} ({from} → {to}): {c} ft above the terrain {nm} NM along the route, under the {min} ft minimum.",
    "refs": [
     "features/flight-plan.js"
+   ]
+  },
+  {
+   "key": "Leg {n} needs a speed above zero",
+   "src": "Leg {n} needs a speed above zero",
+   "refs": [
+    "analysis/flight-plan.js"
+   ]
+  },
+  {
+   "key": "Leg {n} needs an altitude",
+   "src": "Leg {n} needs an altitude",
+   "refs": [
+    "analysis/flight-plan.js"
    ]
   },
   {
@@ -39396,6 +39417,13 @@
    ]
   },
   {
+   "key": "The route has {w} waypoints but {l} legs",
+   "src": "The route has {w} waypoints but {l} legs",
+   "refs": [
+    "analysis/flight-plan.js"
+   ]
+  },
+  {
    "key": "The same ranges for every channel; the support arrays are copied as they are",
    "src": "The same ranges for every channel; the support arrays are copied as they are",
    "refs": [
@@ -41974,6 +42002,13 @@
    "src": "Waypoint {n}",
    "refs": [
     "tools/tools.js"
+   ]
+  },
+  {
+   "key": "Waypoint {n} has no valid position",
+   "src": "Waypoint {n} has no valid position",
+   "refs": [
+    "analysis/flight-plan.js"
    ]
   },
   {
