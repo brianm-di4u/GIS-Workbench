@@ -5,8 +5,8 @@
 // It measures real time, so it is in playwright.config.js TIMED: the local gate on the reference
 // machine (OD-2.43) runs it, and shared CI runners (about five times slower here) do not.
 //
-// On the development machine the longest task on each path is about 0.5 s at this size (it was
-// 1.4 s to 3.6 s), and under 2 s at 300 000 features (it was 7 s to 15 s).
+// On the reference machine the longest task on each path, the journal's write of the new records
+// included, is 0.4 s to 1.2 s at this size; before #63 the step itself took 1.9 s to 4.9 s.
 
 import { test, expect } from '@playwright/test';
 import { boot, markNow, observe } from './gui-lib.js';
