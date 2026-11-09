@@ -13,8 +13,9 @@ const src = resolve('app/src');
 const read = (rel) => readFileSync(join(src, rel), 'utf8');
 const ids = LITE.groups.flatMap((g) => g.commands);
 
-/** Full-only areas (the brief's "leave out" list and the desktop shell). */
-const DESKTOP_ONLY = /^(stereo|3d|pc|sar|fmv|mie|sidecar|tri|ortho|align|model|lai|ai|rcp|hub|cnv|ext|prod|tpl|snap|chip|report|meta|dem|los|svc|det|vec|deck|patrol|triage|wb|auto|win|ws|dock|ribbon|ui|hud|glb|cat|pack|packs|tiles|vt|online|bg|link|ov|cmp|chg|img|bands|clip|profile|search|keys|input|display|theme|view|deco|panel|gfx|gps|sel|lay)\.|^msi\.(?!preset\.)|^file\.(save|saveas|saveoptions|openproject|newproject|recent|relink|print|opendem|openpointcloud|openurl|geopdf|projectprops)$|^men\.(height|target|bracket|depth|medial|centre|log|tracking|targettable)$/;
+/** Full-only areas (the brief's "leave out" list and the desktop shell). Save, Open Project and
+ * Relink Imagery joined Lite with the Lite project file (OD-2.40, REQ-GAP-86). */
+const DESKTOP_ONLY = /^(stereo|3d|pc|sar|fmv|mie|sidecar|tri|ortho|align|model|lai|ai|rcp|hub|cnv|ext|prod|tpl|snap|chip|report|meta|dem|los|svc|det|vec|deck|patrol|triage|wb|auto|win|ws|dock|ribbon|ui|hud|glb|cat|pack|packs|tiles|vt|online|bg|link|ov|cmp|chg|img|bands|clip|profile|search|keys|input|display|theme|view|deco|panel|gfx|gps|sel|lay)\.|^msi\.(?!preset\.)|^file\.(saveas|saveoptions|newproject|recent|print|opendem|openpointcloud|openurl|geopdf|projectprops)$|^men\.(height|target|bracket|depth|medial|centre|log|tracking|targettable)$/;
 
 /** The source files whose code the Lite build installs: mobile/features.js imports, and what mobile/* modules import. */
 function liteSources() {

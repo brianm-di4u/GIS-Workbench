@@ -100,8 +100,12 @@ function split(o, n) {
   return { ...low, zoneLimit: zone.limit, zoneSid: zone.sid };
 }
 
-const KINDS = ['primary', 'approach', 'transitional', 'horizontal', 'conical', 'strip', 'innerHorizontal', 'takeoff', 'innerApproach', 'innerTransitional', 'balkedLanding', 'ofzStrip'];
-/** The f64 list of gw_obs_surfaces → {surfaces, bbox, horizontal, conicalTop, facets}. */
+const KINDS = ['primary', 'approach', 'transitional', 'horizontal', 'conical', 'strip', 'innerHorizontal', 'takeoff', 'innerApproach', 'innerTransitional', 'balkedLanding', 'ofzStrip', 'straightIn', 'precisionApproach', 'precisionMissedApproach', 'precisionTransitional', 'precisionLower', 'departure'];
+/**
+ * The f64 list of gw_obs_surfaces → {surfaces, bbox, horizontal, conicalTop, facets, assumed}:
+ * `assumed` holds the Amendment 18 assumption bits the model made (analysis/obstruction.js
+ * A18_ASSUMPTIONS); horizontal and conicalTop are NaN for Amendment 18.
+ */
 function decodeSurfaces(o) {
   const v = new Float64Array(o.buffer, o.byteOffset, o.byteLength / 8);
   let k = 0;
@@ -126,5 +130,6 @@ function decodeSurfaces(o) {
     for (let i = 0; i < nv; i++, k += 3) ring.push([v[k], v[k + 1], v[k + 2]]);
     facets.push({ s, ring });
   }
-  return { surfaces, bbox, horizontal, conicalTop, facets };
+  const assumed = k < v.length ? v[k] : 0;
+  return { surfaces, bbox, horizontal, conicalTop, facets, assumed };
 }

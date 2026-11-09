@@ -45,7 +45,11 @@ export const BUNDLES = [
   // Size-optimised: opt 3 was 130 KB gzip, 'z' 91 KB (docs/validation/2.5/tin.md).
   { name: 'tin', crate: 'gw-bundle-tin', load: 'lazy', budget: 96 * 1024, opt: 'z' },
   // 2.5 (REQ-GAP-73): airfield obstruction surfaces (FAA Part 77, ICAO Annex 14), analysis worker.
-  { name: 'aviation', crate: 'gw-bundle-aviation', load: 'lazy', budget: 48 * 1024, opt: '3' },
+  // 2.7 (REQ-GAP-78, #60): Amendment 18's 2030 OFS/OES as a third regime; 64 KiB by OD-2.41. Kept at
+  // opt 3: at 's' gw_obs_points64 over fx09.las (1.0 M points under HOU 13R) was 6 % (Part 77), 12 %
+  // (Annex 14) and 9-41 % (Amendment 18) slower, against SDP-2.7 §4.6's 10 % allowance; 's' would
+  // save 1.5 KB of 52 KB gzip.
+  { name: 'aviation', crate: 'gw-bundle-aviation', load: 'lazy', budget: 64 * 1024, opt: '3' },
 ];
 export const TOTAL_BUDGET = WASM_TOTAL_BUDGET;
 

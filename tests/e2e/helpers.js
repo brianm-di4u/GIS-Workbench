@@ -137,10 +137,23 @@ export function needsData(...paths) {
   test.skip(Boolean(partial) && !paths.every((p) => existsSync(p)), 'needs data that only the release gate has');
 }
 
+let packsOfBuild;
+/** The build manifest's packs ({name: {file, …}}), or null without a build. */
+function builtPacks() {
+  if (packsOfBuild === undefined) {
+    const m = existsSync(DIST) ? /<script type="application\/json" id="build-manifest">([\s\S]*?)<\/script>/.exec(readFileSync(DIST, 'utf8')) : null;
+    packsOfBuild = m ? JSON.parse(m[1]).packs ?? null : null;
+  }
+  return packsOfBuild;
+}
+
 /** The built pack of this name (`ai` means the base AI pack). */
 export function packPath(name) {
   const dir = resolve(DIST_DIR, 'packs');
-  const file = existsSync(dir) ? readdirSync(dir).find((f) => (name === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${name}-`))) : undefined;
+  // The build manifest names each pack's file: "geoid-" also begins geoid-egm2008-25-…, and
+  // versions may hold hyphens, so a prefix alone can pick the wrong pack.
+  const m = builtPacks();
+  const file = m ? m[name]?.file : (existsSync(dir) ? readdirSync(dir).find((f) => (name === 'ai' ? /^ai-\d/.test(f) : f.startsWith(`${name}-`))) : undefined);
   needsData(join(dir, file ?? `${name}-is-not-built`));
   return resolve(dir, file);
 }
