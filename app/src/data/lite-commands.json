@@ -2,6 +2,8 @@
   "format": "gw-lite-commands/1",
   "decision": "OD-2.23 (2026-11-03); DN-63 docs/design/profiles.md",
   "rule": "Every command is in GIS Workbench (Full). A command is also in GIS Workbench Lite only when it is listed here, in a group with a reason. A command that is not listed is Full only. tests/unit/profile.test.js and tests/e2e/25-mobile.spec.js check this list.",
+  "records": ["project", "multiport", "pane", "layer", "fileref", "vlayer", "feature", "observation", "aoi", "graphic", "glayer", "measurement"],
+  "recordsRule": "The store record types Lite shows. A project opened in Lite keeps every other record untouched and saves it back; Lite names them when it opens the project (features/files.js).",
   "groups": [
     {
       "id": "open",
@@ -48,8 +50,14 @@
     {
       "id": "share",
       "title": "Export and share",
-      "reason": "Observations, the AOI, GRG and annotations leave the phone as KML or GeoJSON, through the system share sheet where the browser has one and as a download otherwise. A snapshot keeps the work, and its smaller images, in one file; Lite has no project file.",
+      "reason": "Observations, the AOI, GRG and annotations leave the phone as KML or GeoJSON, through the system share sheet where the browser has one and as a download otherwise. A snapshot keeps the work, and its smaller images, in one file.",
       "commands": ["obs.export", "file.snapshot"]
+    },
+    {
+      "id": "project",
+      "title": "Project file",
+      "reason": "A field survey saved as a project (.gwb) is finished in Full and opened again on the phone (OD-2.40, REQ-GAP-86). Lite saves the same file Full does, through the share sheet where the browser has one; it keeps every record it cannot show, so nothing made in Full is lost, and names those records when it opens the project. Imagery is referenced, never embedded, and is relinked on the device.",
+      "commands": ["file.save", "file.openproject", "file.relink"]
     },
     {
       "id": "settings",
