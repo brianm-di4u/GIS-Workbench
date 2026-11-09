@@ -521,3 +521,28 @@ test('REQ-GAP-39 OD-2.41 Import TIN keeps a LandXML file\'s own faces, outline, 
   expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
   expect(logs2.filter((l) => !/favicon/.test(l))).toEqual([]);
 });
+
+// #77: a file whose faces are all hidden has no surface of its own; the import says so.
+test('REQ-GAP-39 OD-2.41 Import TIN says when every face in a LandXML file is hidden', async ({ page }) => {
+  test.setTimeout(120000);
+  const { frame, logs } = await openApp(page, 'file');
+  const xml = landXmlFixture().xml.replace(/<F( i="1")?>/g, '<F i="1">');
+  await frame.evaluate(() => (window.gisworkbench.runMode.caps.fsaPicker = false));
+  const [fc] = await Promise.all([page.waitForEvent('filechooser'), frame.evaluate(() => void window.gisworkbench.commands.run('tin.import'))]);
+  await fc.setFiles({ name: 'hidden.xml', mimeType: 'application/xml', buffer: Buffer.from(xml) });
+  const dlg = frame.locator('[data-id="dialog:tin-import"]');
+  await expect(dlg).toBeVisible();
+  await dlg.getByRole('button', { name: 'Import' }).click();
+  await frame.waitForFunction(() => window.gisworkbench.store.all('tin').length === 1 && !!window.gisworkbench.tin.list()[0].info, null, { timeout: 60000 });
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const id = app.store.all('tin')[0].id;
+    const m = await app.tin.mesh(id);
+    return { warnings: app.importLog.flatMap((e) => e.warnings), excluded: m.excluded.filter(Boolean).length, rings: (await app.tin.lines(id)).filter((l) => l.type === 'outline').length };
+  });
+  expect(r.warnings).toContain('no face in the file is visible: the TIN covers the area between its points');
+  expect(r.rings).toBe(0); // no outline of visible faces, so nothing is excluded
+  expect(r.excluded).toBe(0);
+  await expect(frame.locator('.toast.toast-warn', { hasText: 'hidden.xml' })).toBeVisible();
+  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+});
