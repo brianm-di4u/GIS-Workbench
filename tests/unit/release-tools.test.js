@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { CI_SUMS, HTML, ciProblems, digestProblems, family, formatSums, missingFamilies, parseSums, uploadPlan } from '../../build/release/assets.mjs';
+import { CI_SUMS, CI_UPLOADER, HTML, ciAsset, ciProblems, digestProblems, family, formatSums, missingFamilies, parseSums, stagedNames, uploadPlan } from '../../build/release/assets.mjs';
 import { manifestParts, webSbom } from '../../build/release/sbom.mjs';
 import { copyAndHash, plan } from '../../build/release/stage.mjs';
 
@@ -66,13 +66,30 @@ describe('release assets', () => {
     expect(ciProblems(sums, ci)).toEqual([]);
     // Git Bash's sha256sum on Windows writes `hash *name` with CRLF.
     expect(ciProblems(sums, ci.replace(/\n/g, '\r\n').replace(/  /g, ' *'))).toEqual([]);
-    expect(ciProblems(sums, null)).toEqual([`${CI_SUMS} is not on the release, so the HTML can't be checked against the CI rebuild`]);
+    // PowerShell's Get-FileHash writes uppercase.
+    expect(ciProblems(sums, ci.toUpperCase().replace(/GIS-WORKBENCH(-LITE|-AIRGAP)?\.HTML/g, (m) => m.toLowerCase()))).toEqual([]);
+    expect(ciProblems(sums, null)).toEqual([`${CI_SUMS} from ${CI_UPLOADER} is not on the release, so the HTML can't be checked against the CI rebuild`]);
+    expect(ciProblems(new Map([...sums, [CI_SUMS, h('forged')]]), ci)).toEqual([`SHA256SUMS lists ${CI_SUMS}, which only the release workflow writes. Re-stage without it.`]);
     expect(ciProblems(sums, '')).toEqual(HTML.map((n) => `${n} is not in ${CI_SUMS}`));
     const lite = 'gis-workbench-lite.html';
     expect(ciProblems(sums, ci.replace(h(lite), h('other')))).toEqual([`${lite} doesn't match the CI rebuild: staged ${h(lite)}, CI ${h('other')}`]);
     const unstaged = new Map(sums);
     unstaged.delete(lite);
     expect(ciProblems(unstaged, ci)).toEqual([`${lite} is not staged`]);
+  });
+
+  it('trusts only the workflow-uploaded CI-SHA256SUMS', () => {
+    const own = { id: 1, name: CI_SUMS, state: 'uploaded', uploader: CI_UPLOADER };
+    expect(ciAsset([{ name: 'SHA256SUMS', state: 'uploaded', uploader: 'someone' }, own])).toBe(own);
+    expect(ciAsset([{ ...own, uploader: 'brianm-di4u' }])).toBeUndefined();
+    expect(ciAsset([{ ...own, state: 'starter' }])).toBeUndefined();
+    expect(ciAsset([])).toBeUndefined();
+  });
+
+  it('leaves out the assets that are never staged when comparing with an earlier release', () => {
+    const listed = [...HTML, 'x-2.7.0.gwpack', 'SHA256SUMS', CI_SUMS, ''];
+    expect(stagedNames(listed)).toEqual([...HTML, 'x-2.7.0.gwpack']);
+    expect(missingFamilies([...HTML, 'x-2.7.1.gwpack'], stagedNames(listed))).toEqual([]);
   });
 });
 

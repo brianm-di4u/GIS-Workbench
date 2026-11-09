@@ -5,16 +5,24 @@ export const HTML = ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workb
 
 /** The asset the release workflow adds to the draft: SHA256SUMS of its own rebuild of HTML. */
 export const CI_SUMS = 'CI-SHA256SUMS';
+/** Who uploads CI_SUMS: the release workflow's token. Anything else uploaded under that name is ignored. */
+export const CI_UPLOADER = 'github-actions[bot]';
 
-/** SHA256SUMS text to a Map of name -> hex hash. Accepts `hash  name` and `hash *name`. */
+/** SHA256SUMS text to a Map of name -> lowercase hex hash. Accepts `hash  name` and `hash *name`. */
 export function parseSums(text) {
   const sums = new Map();
   for (const line of text.split(/\r?\n/)) {
-    const m = /^([0-9a-f]{64}) [ *](.+)$/.exec(line.trim());
-    if (m) sums.set(m[2], m[1]);
+    const m = /^([0-9a-f]{64}) [ *](.+)$/i.exec(line.trim());
+    if (m) sums.set(m[2], m[1].toLowerCase());
   }
   return sums;
 }
+
+/** A release's asset names, less the two that are never staged, for comparing with what is. */
+export const stagedNames = (names) => names.filter((n) => n && n !== 'SHA256SUMS' && n !== CI_SUMS);
+
+/** The release workflow's CI_SUMS asset, or undefined. One uploaded by anyone else doesn't count. */
+export const ciAsset = (remote) => remote.find((a) => a.name === CI_SUMS && a.state === 'uploaded' && a.uploader === CI_UPLOADER);
 
 /** [{name, sha256}] to SHA256SUMS text, sorted by name so the file is stable. */
 export function formatSums(entries) {
@@ -55,9 +63,11 @@ export function digestProblems(want, remote) {
 
 /** Every way the staged HTML differs from the CI rebuild. `ciText` is CI-SHA256SUMS, or null when the release has none. Empty means they match. */
 export function ciProblems(sums, ciText) {
-  if (ciText == null) return [`${CI_SUMS} is not on the release, so the HTML can't be checked against the CI rebuild`];
+  if (ciText == null) return [`${CI_SUMS} from ${CI_UPLOADER} is not on the release, so the HTML can't be checked against the CI rebuild`];
   const ci = parseSums(ciText);
   const problems = [];
+  // Staging it would make upload.mjs replace the workflow's copy.
+  if (sums.has(CI_SUMS)) problems.push(`SHA256SUMS lists ${CI_SUMS}, which only the release workflow writes. Re-stage without it.`);
   for (const name of HTML) {
     if (!sums.has(name)) problems.push(`${name} is not staged`);
     else if (!ci.has(name)) problems.push(`${name} is not in ${CI_SUMS}`);

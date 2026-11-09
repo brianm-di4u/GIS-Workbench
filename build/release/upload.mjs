@@ -15,7 +15,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
-import { CI_SUMS, ciProblems, digestProblems, parseSums, uploadPlan } from './assets.mjs';
+import { CI_SUMS, ciAsset, ciProblems, digestProblems, parseSums, uploadPlan } from './assets.mjs';
 
 const run = promisify(execFile);
 const arg = (k, d) => {
@@ -28,7 +28,7 @@ function release(repo, tag) {
   const filter = `.[] | select(.tag_name == ${JSON.stringify(tag)}) | {id, draft}`;
   const [found] = lines(execFileSync('gh', ['api', `repos/${repo}/releases?per_page=100`, '--paginate', '--jq', filter], { encoding: 'utf8' }));
   if (!found) throw new Error(`No release ${tag} in ${repo}. The admin cuts the draft with the release workflow first.`);
-  const assets = lines(execFileSync('gh', ['api', `repos/${repo}/releases/${found.id}/assets?per_page=100`, '--paginate', '--jq', '.[] | {id, name, size, state, digest}'], { encoding: 'utf8' }));
+  const assets = lines(execFileSync('gh', ['api', `repos/${repo}/releases/${found.id}/assets?per_page=100`, '--paginate', '--jq', '.[] | {id, name, size, state, digest, uploader: .uploader.login}'], { encoding: 'utf8' }));
   return { ...found, assets };
 }
 
@@ -53,8 +53,8 @@ async function main() {
   const sums = parseSums(sumsText.toString('utf8'));
   const want = new Map([...sums, ['SHA256SUMS', createHash('sha256').update(sumsText).digest('hex')]]);
   let rel = release(repo, tag);
-  const ciAsset = rel.assets.find((a) => a.name === CI_SUMS && a.state === 'uploaded');
-  const ciText = ciAsset ? execFileSync('gh', ['api', '-H', 'Accept: application/octet-stream', `repos/${repo}/releases/assets/${ciAsset.id}`], { encoding: 'utf8' }) : null;
+  const ci = ciAsset(rel.assets);
+  const ciText = ci ? execFileSync('gh', ['api', '-H', 'Accept: application/octet-stream', `repos/${repo}/releases/assets/${ci.id}`], { encoding: 'utf8' }) : null;
   const ciFail = ciProblems(sums, ciText);
   if (ciFail.length) {
     console.error(`${tag}: the staged HTML isn't confirmed by the release workflow's rebuild, so don't publish it:\n  ${ciFail.join('\n  ')}`);
