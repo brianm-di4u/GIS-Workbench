@@ -1,5 +1,5 @@
 // REQ-GAP-16 (GR-05) end to end: the 2.4 grid packs in the built app. grids-eu and EGM2008 2.5′:
-// the active geoid from the grid (against PROJ cct), OSGB36 maps through OSTN15 (crs.js grid
+// the active geoid from the grid (Catmull-Rom, against GeographicLib GeoidEval; REG-024), OSGB36 maps through OSTN15 (crs.js grid
 // route, the model note naming transform, grid and accuracy), the PROJ pack given the same grid
 // (PROJ-WASM against geod in the browser), and the Datum Transform dialog (ODN heights by
 // OSGM15, report, axe). grids-na: the NADCON5 chain and the Canadian NTv2 fallback against cct.
@@ -10,6 +10,7 @@ import { resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { openApp, openFiles, servers, DIST, DIST_DIR, restart } from './helpers.js';
+import { haveGeoidEval, geoidEval } from '../tools/geoideval.mjs';
 
 const PACKS = resolve(DIST_DIR, 'packs');
 const pk = (n) => {
@@ -47,7 +48,13 @@ test('REQ-GAP-16 grids-eu + EGM2008 2.5′: geoid, OSTN15 maps, PROJ pack with t
   test.skip(!pk('grids-eu') || !pk('geoid-egm2008-25') || !haveCct, 'needs the grid packs in the build and the gw-te PROJ');
   const { frame, logs } = await openApp(page, 'file');
   const geoidPts = [[-0.1276, 51.5072, 0], [86.925, 27.9881, 0], [-77.0353, 38.8895, 0], [151.2153, -33.8568, 0], [179.99, 0.5, 0], [-179.99, -60, 0], [0, 89.9, 0], [10.5, -89.9, 0]];
-  const egmRef = cct(deg(['+step', '+proj=vgridshift', '+grids=us_nga_egm08_25.tif', '+multiplier=1']), geoidPts).map((v) => v[2]);
+  // EGM2008 2.5′ is cubic (REG-024). Its Catmull-Rom and GeoidEval's 12-point cubic agree to RMS
+  // 0.7 mm but part by up to 6.9 mm on Everest, so each point is held to 1 cm, as 27-geoid holds the
+  // worst case.
+  // Without GeoidEval, PROJ's bilinear value bounds it by bilinear's own worst error (13.5 cm).
+  const geoidEvalRef = haveGeoidEval('egm2008-2_5');
+  const egmRef = geoidEvalRef ? geoidEval('egm2008-2_5', geoidPts.map(([lo, la]) => [la, lo])) : cct(deg(['+step', '+proj=vgridshift', '+grids=us_nga_egm08_25.tif', '+multiplier=1']), geoidPts).map((v) => v[2]);
+  const egmTol = geoidEvalRef ? 0.01 : 0.135;
   // OSGM15 (ODN) and OSTN15 at points in Great Britain (ETRS89 / OSGB36 lon, lat).
   const gb = [[-0.1276, 51.5072, 50], [-3.1883, 55.9533, 120], [-5.7, 50.07, 10], [-1.5, 53.8, 200]];
   const osgmRef = cct(deg(['+step', '+inv', '+proj=vgridshift', '+grids=uk_os_OSGM15_GB.tif', '+multiplier=1']), gb).map((v) => v[2]);
@@ -72,7 +79,7 @@ test('REQ-GAP-16 grids-eu + EGM2008 2.5′: geoid, OSTN15 maps, PROJ pack with t
     await app.useEgm96();
     return { n, vd, grid: c.grid, note: c.note.name, acc: c.note.acc, steps: c.note.routes[0].steps.map((s) => `EPSG:${s.epsg}`), back: [back[0] - E, back[1] - N], ll, projLL, oursETRS: ours.pts[0], oursSteps: ours.steps.map((s) => s.epsg), mounted: [...app.proj.grids], name: app.core.geoidName };
   }, { geoidPts, gb });
-  r.n.forEach((v, i) => expect(Math.abs(v - egmRef[i]), `EGM2008 2.5′ N at ${geoidPts[i]}`).toBeLessThanOrEqual(MM));
+  r.n.forEach((v, i) => expect(Math.abs(v - egmRef[i]), `EGM2008 2.5′ N at ${geoidPts[i]}`).toBeLessThanOrEqual(egmTol));
   expect(r.vd).toBe('MSL(EGM2008 2.5′)');
   expect(r.name).toBe('EGM96');
   expect(r.grid).toBe(true);

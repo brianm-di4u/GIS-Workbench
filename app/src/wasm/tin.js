@@ -93,7 +93,7 @@ export class TinBundle extends Bundle {
   /**
    * Keep a file's own faces in a TIN built through its points (LandXML): `pts` = the file's x, y, z
    * (plane metres), `faces` = Uint32Array of point indices, three per face, `hidden` = one byte per
-   * face → {faces, skipped, forced, rings, kept, open}.
+   * face → {faces, skipped, forced, rings, visible, kept, open}.
    */
   keepFaces(id, pts, faces, hidden = new Uint8Array(0)) {
     return this.guard(() => {

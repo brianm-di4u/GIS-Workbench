@@ -25,6 +25,19 @@ export function curvesFor(curve) {
   return pts;
 }
 
+const NEUTRAL_LEVELS = { shadowInput: 0, highlightInput: 255, shadowOutput: 0, highlightOutput: 255, midtoneInput: 1 };
+
+/**
+ * The Levels and Curves adjustment layers, in ag-psd's form: `channels[0]` is the composite and
+ * the red, green and blue channels follow. One band goes on the composite; three go per channel.
+ */
+export function adjustmentsFor(levels, mono, curves) {
+  return {
+    levels: { type: 'levels', channels: mono ? [levels[0]] : [NEUTRAL_LEVELS, ...levels.slice(0, 3)] },
+    curves: curves ? { type: 'curves', channels: [curves] } : null,
+  };
+}
+
 /**
  * A Photoshop Curves preset (.acv, version 1: composite then red, green, blue) that rebuilds the
  * look on the 16-bit TIFF export: each channel maps its stretch range (`levels` on the 0–255
@@ -93,10 +106,9 @@ export async function viewPsd({ l, region, step, read, writePsd, graphics = null
   }
   for (let i = 0; i < W * H; i++) rgba[4 * i + 3] = 255;
   const children = [{ name: `${l.rec?.name ?? 'Image'} (raw, full range)`, imageData: { width: W, height: H, data: rgba } }];
-  const mono = r.planes.length === 1;
-  children.push({ name: 'Stretch (Levels)', adjustment: mono ? { type: 'levels', rgb: levels[0] } : { type: 'levels', red: levels[0], green: levels[1], blue: levels[2] } });
-  const curves = curvesFor(l.chain?.tone?.curve);
-  if (curves) children.push({ name: 'Tonal curve (Curves)', adjustment: { type: 'curves', rgb: curves } });
+  const adj = adjustmentsFor(levels, r.planes.length === 1, curvesFor(l.chain?.tone?.curve));
+  children.push({ name: 'Stretch (Levels)', adjustment: adj.levels });
+  if (adj.curves) children.push({ name: 'Tonal curve (Curves)', adjustment: adj.curves });
   if (graphics) children.push({ name: 'Graphics', canvas: graphics });
   const bytes = writePsd({ width: W, height: H, children }, { generateThumbnail: false, noBackground: true });
   // Georeference of the PSD grid: the region's corners on the ground.

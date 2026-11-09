@@ -485,6 +485,42 @@ pub fn vgrid_value_fwd<'a>(sets: &[&'a GridSet], lam: f64, phi: f64, mult: f64) 
     vgrid_value_raw(sets, adjlon(lam), phi, mult)
 }
 
+/// Catmull-Rom bicubic value × multiplier of a geographic vertical grid (as `geoid.rs`
+/// interpolates the EGM grids; GeographicLib `GeoidEval` interpolates cubically too), forward
+/// entry. The stencil wraps across ±180° on a world grid and clamps at other edges. Where any of
+/// the 16 nodes is nodata it falls back to `vgrid_value_fwd`'s bilinear value. PROJ has no cubic
+/// vgridshift, so only grids the app marks cubic (EGM2008 2.5′) come this way.
+pub fn vgrid_value_cubic<'a>(sets: &[&'a GridSet], lam: f64, phi: f64, mult: f64) -> Option<(f64, Used<'a>)> {
+    let lin = vgrid_value_fwd(sets, lam, phi, mult)?;
+    let g = lin.1.grid;
+    let e = &g.extent;
+    let lam = adjlon(lam);
+    let w = g.width as f64;
+    let mut gx = (lam - e.west) * e.inv_res_x;
+    if e.full_world_longitude() {
+        gx = (gx % w + w) % w;
+    }
+    let gy = (phi - e.south) * e.inv_res_y;
+    let (ix, iy) = (ifloor(gx), ifloor(gy));
+    let (wx, wy) = (crate::geoid::catmull_rom(gx - ix as f64), crate::geoid::catmull_rom(gy - iy as f64));
+    let iz = g.idx_z.unwrap_or(0);
+    let mut v = 0.0;
+    for (j, wj) in wy.iter().enumerate() {
+        let y = (iy + j as i32 - 1).max(0).min(g.height - 1);
+        let mut row = 0.0;
+        for (i, wi) in wx.iter().enumerate() {
+            let x = ix + i as i32 - 1;
+            let x = if e.full_world_longitude() { x.rem_euclid(g.width) } else { x.max(0).min(g.width - 1) };
+            match g.raw(iz, x, y) {
+                Some(s) if !g.is_nodata(s, mult) => row += wi * s as f64,
+                _ => return Some(lin),
+            }
+        }
+        v += wj * row;
+    }
+    Some((v * mult, lin.1))
+}
+
 fn vgrid_value_raw<'a>(sets: &[&'a GridSet], lam: f64, phi: f64, mult: f64) -> Option<(f64, Used<'a>)> {
     let mut used = None;
     for (i, s) in sets.iter().enumerate() {
@@ -563,4 +599,67 @@ fn vgrid_value_raw<'a>(sets: &[&'a GridSet], lam: f64, phi: f64, mult: f64) -> O
         v / tw
     };
     Some((value * mult, used))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::datum::grid::{Role, DEG_TO_RAD};
+
+    /// A world GTX grid of 1° nodes (lon −180…179, lat −90…90) holding f(lon, lat).
+    fn world(f: impl Fn(f64, f64) -> f32) -> GridSet {
+        let (rows, cols) = (181i32, 360i32);
+        let mut b = Vec::new();
+        for v in [-90.0f64, -180.0, 1.0, 1.0] {
+            b.extend(v.to_be_bytes());
+        }
+        b.extend(rows.to_be_bytes());
+        b.extend(cols.to_be_bytes());
+        for r in 0..rows {
+            for c in 0..cols {
+                b.extend(f(-180.0 + c as f64, -90.0 + r as f64).to_be_bytes());
+            }
+        }
+        GridSet::open("t.gtx", b, Role::Vertical, 1 << 20).unwrap()
+    }
+
+    fn cubic(s: &GridSet, lon: f64, lat: f64) -> f64 {
+        vgrid_value_cubic(&[s], lon * DEG_TO_RAD, lat * DEG_TO_RAD, 1.0).unwrap().0
+    }
+    fn linear(s: &GridSet, lon: f64, lat: f64) -> f64 {
+        vgrid_value_fwd(&[s], lon * DEG_TO_RAD, lat * DEG_TO_RAD, 1.0).unwrap().0
+    }
+
+    #[test]
+    fn cubic_is_exact_at_nodes_and_on_planes() {
+        let s = world(|lon, lat| (2.0 * lon + 3.0 * lat) as f32);
+        assert!((cubic(&s, 10.0, 20.0) - 80.0).abs() < 1e-9);
+        // Catmull-Rom reproduces a plane, as bilinear does.
+        for (lon, lat) in [(10.25, 20.75), (-33.5, -60.125), (100.9, 45.01)] {
+            assert!((cubic(&s, lon, lat) - (2.0 * lon + 3.0 * lat)).abs() < 1e-6, "{lon} {lat}");
+            assert!((cubic(&s, lon, lat) - linear(&s, lon, lat)).abs() < 1e-6);
+        }
+    }
+
+    #[test]
+    fn cubic_wraps_across_the_antimeridian_and_beats_bilinear() {
+        let f = |lon: f64, lat: f64| 10.0 * (3.0 * lon.to_radians()).sin() * lat.to_radians().cos();
+        let s = world(|lon, lat| f(lon, lat) as f32);
+        let (e, w) = (cubic(&s, 179.999_999, 12.3), cubic(&s, -179.999_999, 12.3));
+        assert!((e - w).abs() < 1e-4, "{e} {w}");
+        let (mut ec, mut el) = (0f64, 0f64);
+        for k in 0..200 {
+            let (lon, lat) = (-180.0 + 1.8 * k as f64 + 0.37, -80.0 + 0.8 * k as f64 + 0.21);
+            ec = ec.max((cubic(&s, lon, lat) - f(lon, lat)).abs());
+            el = el.max((linear(&s, lon, lat) - f(lon, lat)).abs());
+        }
+        assert!(ec < el / 4.0, "cubic {ec} bilinear {el}");
+    }
+
+    #[test]
+    fn cubic_falls_back_to_bilinear_beside_nodata() {
+        let s = world(|lon, lat| if lon == 12.0 && lat == 22.0 { -88.8888 } else { (lon * lat / 100.0) as f32 });
+        assert_eq!(cubic(&s, 10.5, 20.5), linear(&s, 10.5, 20.5));
+        assert_ne!(cubic(&s, 30.5, 20.5), linear(&s, 30.5, 20.5));
+    }
 }
