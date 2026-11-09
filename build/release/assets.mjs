@@ -1,5 +1,11 @@
 // Pure helpers for the release tools in this folder. Nothing here reads or writes files.
 
+/** The three HTML files a release publishes. The release workflow rebuilds and attests these. */
+export const HTML = ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'];
+
+/** The asset the release workflow adds to the draft: SHA256SUMS of its own rebuild of HTML. */
+export const CI_SUMS = 'CI-SHA256SUMS';
+
 /** SHA256SUMS text to a Map of name -> hex hash. Accepts `hash  name` and `hash *name`. */
 export function parseSums(text) {
   const sums = new Map();
@@ -43,6 +49,19 @@ export function digestProblems(want, remote) {
     else if (!a.digest) problems.push(`GitHub reports no digest for ${name}`);
     else if (a.digest !== `sha256:${hash}`) problems.push(`${name} has digest ${a.digest}, but the staged file's is ${hash}`);
   }
-  for (const a of remote) if (!want.has(a.name)) problems.push(`${a.name} is on the release but not in SHA256SUMS`);
+  for (const a of remote) if (!want.has(a.name) && a.name !== CI_SUMS) problems.push(`${a.name} is on the release but not in SHA256SUMS`);
+  return problems;
+}
+
+/** Every way the staged HTML differs from the CI rebuild. `ciText` is CI-SHA256SUMS, or null when the release has none. Empty means they match. */
+export function ciProblems(sums, ciText) {
+  if (ciText == null) return [`${CI_SUMS} is not on the release, so the HTML can't be checked against the CI rebuild`];
+  const ci = parseSums(ciText);
+  const problems = [];
+  for (const name of HTML) {
+    if (!sums.has(name)) problems.push(`${name} is not staged`);
+    else if (!ci.has(name)) problems.push(`${name} is not in ${CI_SUMS}`);
+    else if (ci.get(name) !== sums.get(name)) problems.push(`${name} doesn't match the CI rebuild: staged ${sums.get(name)}, CI ${ci.get(name)}`);
+  }
   return problems;
 }

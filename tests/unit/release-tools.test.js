@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { digestProblems, family, formatSums, missingFamilies, parseSums, uploadPlan } from '../../build/release/assets.mjs';
+import { CI_SUMS, HTML, ciProblems, digestProblems, family, formatSums, missingFamilies, parseSums, uploadPlan } from '../../build/release/assets.mjs';
 import { manifestParts, webSbom } from '../../build/release/sbom.mjs';
 import { copyAndHash, plan } from '../../build/release/stage.mjs';
 
@@ -56,6 +56,23 @@ describe('release assets', () => {
     ]);
     expect(digestProblems(new Map([['SHA256SUMS', h('s')]]), [])).toEqual(['SHA256SUMS is not on the release']);
     expect(digestProblems(new Map([['a', h('a')], ['SHA256SUMS', h('s')]]), [remote[0], { name: 'SHA256SUMS', state: 'uploaded', digest: `sha256:${h('s')}` }])).toEqual([]);
+    // The release workflow's own asset isn't staged, and isn't a stray.
+    expect(digestProblems(new Map([['SHA256SUMS', h('s')]]), [{ name: 'SHA256SUMS', state: 'uploaded', digest: `sha256:${h('s')}` }, { name: CI_SUMS, state: 'uploaded', digest: 'sha256:00' }])).toEqual([]);
+  });
+
+  it('passes only when every staged HTML file matches the CI rebuild', () => {
+    const sums = new Map([...HTML.map((n) => [n, h(n)]), ['x.gwpack', h('x')]]);
+    const ci = formatSums(HTML.map((n) => ({ name: n, sha256: h(n) })));
+    expect(ciProblems(sums, ci)).toEqual([]);
+    // Git Bash's sha256sum on Windows writes `hash *name` with CRLF.
+    expect(ciProblems(sums, ci.replace(/\n/g, '\r\n').replace(/  /g, ' *'))).toEqual([]);
+    expect(ciProblems(sums, null)).toEqual([`${CI_SUMS} is not on the release, so the HTML can't be checked against the CI rebuild`]);
+    expect(ciProblems(sums, '')).toEqual(HTML.map((n) => `${n} is not in ${CI_SUMS}`));
+    const lite = 'gis-workbench-lite.html';
+    expect(ciProblems(sums, ci.replace(h(lite), h('other')))).toEqual([`${lite} doesn't match the CI rebuild: staged ${h(lite)}, CI ${h('other')}`]);
+    const unstaged = new Map(sums);
+    unstaged.delete(lite);
+    expect(ciProblems(unstaged, ci)).toEqual([`${lite} is not staged`]);
   });
 });
 

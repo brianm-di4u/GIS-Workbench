@@ -16,10 +16,9 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { family, formatSums, missingFamilies, parseSums } from './assets.mjs';
+import { HTML, family, formatSums, missingFamilies, parseSums } from './assets.mjs';
 import { manifestParts, webSbom } from './sbom.mjs';
 
-const HTML = ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'];
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export function sha256File(path) {
