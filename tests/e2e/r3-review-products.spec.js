@@ -175,7 +175,7 @@ test('REQ-PRD-09 REQ-PRD-12 PowerPoint template import; animated GIF and a video
     const html = app.buildReport({ title: 'Media report' });
     const pptx = await app.media.pptx();
     const enc = (u8) => { let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode(...u8.subarray(i, i + 0x8000)); return btoa(s); };
-    return { t: { size: t.size, fonts: t.fonts, background: t.background, pictures: t.pictures.map((p) => ({ x: p.x, y: p.y, w: p.w, h: p.h })) }, gif: { frames: gif.frames, w: gif.width, h: gif.height, bytes: enc(gif.bytes) }, vid: { mime: vid.mime, size: vid.bytes.length }, html: { gif: html.includes('data:image/gif;base64'), video: /<video[^>]+src="data:video\//.test(html) }, pptx: enc(pptx) };
+    return { t: { size: t.size, fonts: t.fonts, background: t.background, pictures: t.pictures.map((p) => ({ x: p.x, y: p.y, w: p.w, h: p.h })) }, gif: { frames: gif.frames, w: gif.width, h: gif.height, bytes: enc(gif.bytes) }, vid: { mime: vid.mime, size: vid.bytes.length, head: [...vid.bytes.subarray(0, 12)] }, html: { gif: html.includes('data:image/gif;base64'), video: /<video[^>]+src="data:video\//.test(html) }, pptx: enc(pptx) };
   }, b64(readFileSync(P('template.pptx'))));
   expect(r.t.size).toEqual({ w: 10, h: 5.625 });
   expect(r.t.fonts).toEqual({ title: 'Georgia', body: 'Verdana' });
@@ -185,7 +185,12 @@ test('REQ-PRD-09 REQ-PRD-12 PowerPoint template import; animated GIF and a video
   expect([r.gif.w, r.gif.h]).toEqual([320, 180]);
   const g = fromB64(r.gif.bytes);
   expect(String.fromCharCode(...g.subarray(0, 6))).toBe('GIF89a');
-  expect(r.vid.size).toBeGreaterThan(10000);
+  // The clip records in real time, so its size depends on machine load (#29): check the container, not a byte count.
+  const vh = r.vid.head;
+  const container = vh[0] === 0x1a && vh[1] === 0x45 && vh[2] === 0xdf && vh[3] === 0xa3 ? 'webm' : String.fromCharCode(...vh.slice(4, 8)) === 'ftyp' ? 'mp4' : 'unknown';
+  expect(container).toBe(r.vid.mime.includes('webm') ? 'webm' : 'mp4');
+  expect(r.vid.size).toBeGreaterThan(1000);
+  test.info().annotations.push({ type: 'measure', description: `report clip ${r.vid.size} B` });
   expect(r.vid.mime).toMatch(/^video\/(mp4|webm)/);
   expect(r.html.gif && r.html.video).toBe(true);
   const z = unzipSync(fromB64(r.pptx));
