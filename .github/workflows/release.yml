@@ -3,6 +3,9 @@
 # tags on a personal account, so a tag pushed by anything else starts nothing here.
 #
 # The assets are built on the admin's PC and uploaded to the draft. See the release skill.
+# At cut, the rebuild job builds the three HTML files again on Windows, the OS the admin builds
+# on, attests them, and the draft gets their hashes as CI-SHA256SUMS. upload.mjs refuses staged
+# HTML that doesn't match (decision #31).
 name: release
 
 on:
@@ -81,8 +84,71 @@ jobs:
       - uses: ./.github/actions/sidecar-setup
       - run: node .pipeline/verify.mjs full
 
+  rebuild:
+    needs: check
+    runs-on: windows-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+      - name: Install the Rust toolchain from crates/rust-toolchain.toml
+        shell: bash
+        working-directory: crates
+        run: rustup toolchain install
+      - name: Install binaryen 133
+        shell: bash
+        run: |
+          # Git Bash's tar reads "D:" as a remote host, so use the POSIX form of the temp path.
+          t=$(cygpath -u "$RUNNER_TEMP")
+          curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 -o "$t/binaryen.tar.gz" https://github.com/WebAssembly/binaryen/releases/download/version_133/binaryen-version_133-x86_64-windows.tar.gz
+          echo "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b  $t/binaryen.tar.gz" | sha256sum -c -
+          mkdir -p "$t/binaryen"
+          tar -xzf "$t/binaryen.tar.gz" -C "$t/binaryen" --strip-components=1
+          cygpath -w "$t/binaryen/bin" >> "$GITHUB_PATH"
+      - uses: taiki-e/install-action@3a3daafd3b7f23b8f65d9f5ba2db203fb59b79e2
+        with:
+          tool: cargo-deny@0.20.2
+      - run: npm ci --ignore-scripts
+      - name: Fetch the pinned pack inputs
+        shell: bash
+        run: |
+          # Each input is checked against its pinned SHA-256. A retry keeps what already matches.
+          for i in 1 2 3; do node build/packs.mjs --fetch && exit 0; sleep 30; done
+          exit 1
+      - name: Build
+        shell: bash
+        run: |
+          # The HTML lists every pack, so a skipped pack would change it.
+          npm run build 2>&1 | tee "$RUNNER_TEMP/build.log"
+          ! grep -F 'skipped: its inputs are missing' "$RUNNER_TEMP/build.log"
+      - name: Hash the HTML
+        shell: bash
+        working-directory: dist
+        run: sha256sum gis-workbench.html gis-workbench-lite.html gis-workbench-airgap.html | tee "$RUNNER_TEMP/CI-SHA256SUMS"
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: |
+            dist/gis-workbench.html
+            dist/gis-workbench-lite.html
+            dist/gis-workbench-airgap.html
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ci-sums
+          path: ${{ runner.temp }}/CI-SHA256SUMS
+          if-no-files-found: error
+          retention-days: 7
+
   draft:
-    needs: [app, sidecar]
+    needs: [app, sidecar, rebuild]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -93,7 +159,11 @@ jobs:
       VERSION: ${{ inputs.version }}
       SHA: ${{ inputs.sha }}
     steps:
-      - run: gh release create "$VERSION" --target "$SHA" --draft --prerelease --title "$VERSION" --notes "Draft. Assets are uploaded and checked before this is published."
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ci-sums
+          path: ${{ runner.temp }}/ci
+      - run: gh release create "$VERSION" "$RUNNER_TEMP/ci/CI-SHA256SUMS" --target "$SHA" --draft --prerelease --title "$VERSION" --notes "Draft. Assets are uploaded and checked before this is published."
 
   promote:
     if: ${{ inputs.action == 'promote' && !github.event.repository.private }}
