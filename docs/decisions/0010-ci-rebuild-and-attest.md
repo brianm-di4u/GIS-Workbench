@@ -1,4 +1,4 @@
-# 0009: Rebuild and attest the release HTML in CI
+# 0010: Rebuild and attest the release HTML in CI
 
 - **Date:** 2026-11-09
 - **Class:** security

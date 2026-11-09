@@ -56,6 +56,8 @@ async function main() {
   const ci = ciAsset(rel.assets);
   const ciText = ci ? execFileSync('gh', ['api', '-H', 'Accept: application/octet-stream', `repos/${repo}/releases/assets/${ci.id}`], { encoding: 'utf8' }) : null;
   const ciFail = ciProblems(sums, ciText);
+  const other = !ci && rel.assets.find((a) => a.name === CI_SUMS);
+  if (other) ciFail.push(`the ${CI_SUMS} on the release is from ${other.uploader} (${other.state}), so it doesn't count`);
   if (ciFail.length) {
     console.error(`${tag}: the staged HTML isn't confirmed by the release workflow's rebuild, so don't publish it:\n  ${ciFail.join('\n  ')}`);
     process.exit(1);
