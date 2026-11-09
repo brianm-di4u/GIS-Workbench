@@ -5,6 +5,10 @@
 //   point cloud with a hand-placed crane under its approach; exports; axe on the dialogs. No-data
 //   posts become voids on both Use as Terrain paths, and a cloud that cannot be placed under the
 //   surfaces is refused by name rather than reported as clear.
+// * REQ-GAP-78 (SCN-72): Annex 14 Amendment 18's 2030 obstacle free and obstacle evaluation surfaces
+//   through the dialog's edition selector (the default follows the analysis date), its design group
+//   and mass inputs, the edition and assumptions in the results and files, and one point-cloud survey
+//   with hand-placed masts under both editions.
 // * REQ-GAP-74 flight planning: a route drawn on the map from North Las Vegas towards Mount
 //   Charleston, leg altitudes and speeds in the Flight Plan dialog, the terrain warnings, distances
 //   and courses against GeographicLib, the profile minimum against the DSM read here, and KML and
@@ -375,6 +379,127 @@ test('REQ-GAP-73 an airport entered by hand, a runway drawn on the map, a crane 
   expect(Math.abs(o.pen - (68 - 539.04 / 20))).toBeLessThan(0.2);
   expect(Math.abs(o.lat - crane.lat)).toBeLessThan(1e-6);
   expect(o.posts).toBeGreaterThan(10);
+  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+});
+
+test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obstacle survey under both editions', async ({ page }) => {
+  test.setTimeout(300000);
+  const { frame, logs } = await openApp(page, 'file');
+  await frame.evaluate(axeSource);
+  // A runway on the meridian 115° W, 3 000 m north from 36° N, level at 100 m: a precision approach to
+  // 36 (the south end), take-offs beyond 18 only. Stations s m north of the 36 threshold, offsets t m
+  // east; metres per degree at 36° N.
+  const mLat = 110950.6;
+  const mLon = 111412.84 * Math.cos((36 * Math.PI) / 180) - 93.5 * Math.cos((3 * 36 * Math.PI) / 180);
+  const at = (s, t) => [36 + s / mLat, -115 + t / mLon];
+  const AP = {
+    ident: 'SYNA',
+    name: 'Synthetic 2030',
+    elev: 100,
+    source: 'test',
+    runways: [{ id: '18/36', length: 3000, width: 45, paved: true, code: 4, ends: [{ id: '36', lat: 36, lon: -115, elev: 100, p77: 'PIR', icao: 2, disp: 0, thrElev: null, clearway: 0, approach: true, takeoff: false }, { id: '18', lat: 36 + 3000 / mLat, lon: -115, elev: 100, p77: 'PIR', icao: 2, disp: 0, thrElev: null, clearway: 0, approach: false, takeoff: true }] }],
+  };
+  // The survey: ground at 99 m every 50 m, and three masts, worked out here from the tables (ADG IV):
+  // M1 (s 1 500, t 400, top 150 m): current edition, the 14.3 % transitional off the 140 m strip
+  //   (Table 4-1) at 137.18 m → 12.82 m through; Amendment 18, the 20 % transitional (§4.2.2.5) at
+  //   152 m → clear, but the missed approach component's transitional (Table 4-12: 115 m at 254.88 m
+  //   off, 14.3 %) at 135.75 m → 14.25 m through an OES.
+  // M2 (s −1 060, t 0, top 128 m): 2 % from 60 m out in both (Table 4-1; Table 4-12's approach
+  //   component) → 8 m through; the OFS approach (Table 4-2, 3.33 %) at 133.3 m → clear.
+  // M3 (s −500, t 0, top 140 m): 108.8 m in both → 31.2 m through; the current inner approach (zone)
+  //   at 108.8 m, Amendment 18's OFS (approach and inner approach, 3.33 %) at 114.652 m → 25.348 m.
+  const lines = [];
+  for (let s = -1200; s <= 1600; s += 50) for (let t = -500; t <= 500; t += 50) lines.push(at(s, t).reverse().concat(99).map((v) => v.toFixed(8)).join(' '));
+  const MASTS = { M1: [1500, 400, 150], M2: [-1060, 0, 128], M3: [-500, 0, 140] };
+  for (const [s, t, top] of Object.values(MASTS)) for (let z = 99; z <= top + 1e-9; z += 1) lines.push(at(s, t).reverse().concat(z).map((v) => v.toFixed(8)).join(' '));
+  const ids = await frame.evaluate(async ({ ap, text }) => {
+    const app = window.gisworkbench;
+    Object.assign(app.runMode.caps, { fsaSave: false, fsaPicker: false });
+    app.__saved = [];
+    app.saveCapture = (blob, name) => app.__saved.push({ blob, name });
+    app.asciiPick = { epsg: 4326, vertical: 'egm96' };
+    const [c] = await app.openPointClouds([new File([text], 'masts.xyz', { type: 'text/plain' })]);
+    app.aviation.current = await app.aviation.addAirport(ap);
+    return { airport: app.aviation.current, n: c.n };
+  }, { ap: AP, text: lines.join('\n') });
+  expect(ids.n).toBe(lines.length);
+  // The dialog: Annex 14 follows the analysis date; from 21 November 2030 Amendment 18, which asks for
+  // each runway's design group and take-off mass.
+  await frame.evaluate(() => void window.gisworkbench.commands.run('los.obstruction'));
+  const dlg = frame.locator('[data-id="dialog:avn-obstruction"]');
+  await expect(dlg).toBeVisible();
+  await dlg.getByLabel('Surfaces', { exact: true }).selectOption('icao');
+  await expect(dlg.getByLabel('Annex 14 edition')).toHaveValue('icao'); // today, before 2030
+  await expect(dlg.locator('[data-id="avn:edition"]')).toHaveText('Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030.');
+  await expect(dlg.locator('[data-id="avn:a18"]')).toBeHidden();
+  await dlg.getByLabel('Analysis date').fill('2030-11-21');
+  await expect(dlg.getByLabel('Annex 14 edition')).toHaveValue('icao-a18');
+  await expect(dlg.locator('[data-id="avn:edition"]')).toHaveText('Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces.');
+  await expect(dlg.locator('[data-id="avn:a18"]')).toBeVisible();
+  await dlg.getByLabel('Analysis date').fill('2030-11-20');
+  await expect(dlg.getByLabel('Annex 14 edition')).toHaveValue('icao');
+  await dlg.getByLabel('Analysis date').fill('2031-01-01');
+  await dlg.getByLabel('Aeroplane design group of runway 18/36').selectOption('IV');
+  await dlg.getByLabel('Maximum take-off mass on runway 18/36 (kg)').fill('300000');
+  expect(await axeOn(frame, '[data-id="dialog:avn-obstruction"]')).toEqual([]);
+  await dlg.getByRole('button', { name: 'Evaluate' }).click();
+  const res = frame.locator('[data-id="dialog:avn-results"]');
+  await expect(res).toBeVisible({ timeout: 120000 });
+  await expect(res.locator('[data-id="avn:edition"]')).toHaveText(/Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces\.$/);
+  await expect(res.locator('[data-id="avn:summary"]')).toContainText('SYNA (ICAO Annex 14 OFS/OES (2030)) against masts.xyz');
+  await expect(res.getByRole('heading', { name: 'Obstacle free surfaces' })).toBeVisible();
+  await expect(res.locator('[data-id="avn:zone-penetrations"] tbody tr')).toHaveCount(1);
+  await expect(res.locator('[data-id="avn:assumptions"] li').first()).toBeVisible();
+  const shownAssumptions = await res.locator('[data-id="avn:assumptions"] li').allTextContents();
+  expect(shownAssumptions.some((x) => /^The transitional surfaces start at the strip edge/.test(x))).toBe(true);
+  expect(await axeOn(frame, '[data-id="dialog:avn-results"]')).toEqual([]);
+  await res.getByRole('button', { name: 'Export CSV' }).click();
+  await res.getByRole('button', { name: 'Export GeoJSON' }).click();
+  await res.getByRole('button', { name: 'Surfaces as KML' }).click();
+  await res.locator('.dlg-buttons').getByRole('button', { name: 'Close' }).click();
+  const A18 = 'ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces';
+  const csv = await savedText(frame, /^penetrations-SYNA-icao-a18\.csv$/);
+  expect(csv.text.split('\n')[0].endsWith(',obstacle_free_zone,edition')).toBe(true);
+  expect(csv.text).toContain(`"${A18}"`);
+  const gj = JSON.parse((await savedText(frame, /^penetrations-SYNA-icao-a18\.geojson$/)).text);
+  expect(gj.gisWorkbench.edition).toBe(A18);
+  expect(gj.gisWorkbench.assumptions.length).toBe(shownAssumptions.length);
+  const skml = await savedText(frame, /^surfaces-SYNA-icao-a18\.kml$/);
+  expect(skml.text).toContain(A18);
+  expect(skml.text).toMatch(/<Folder><name>Precision approach surface 36, missed approach component<\/name>/);
+  expect(skml.text).toMatch(/<Folder><name>Horizontal surface, 90 m above the aerodrome<\/name>/);
+  const kept = await frame.evaluate(() => ({ rec: window.gisworkbench.store.all('obstruction').at(-1), rwy: window.gisworkbench.store.all('airport').find((a) => a.ident === 'SYNA').runways[0] }));
+  expect(kept.rec.edition).toBe(A18);
+  expect(kept.rec.assumptions.length).toBe(shownAssumptions.length);
+  expect([kept.rwy.adg, kept.rwy.mtom]).toEqual(['IV', 300000]);
+  // SCN-72: the same survey under both editions, through the API.
+  const both = await frame.evaluate(async (id) => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    const out = {};
+    for (const regime of ['icao', 'icao-a18']) {
+      const r = await app.aviation.evaluate({ airport: id, regime, source: 'points', cloud: c, minPen: 0, draw: false, keep: false });
+      const pick = (o) => ({ lat: o.lat, lon: o.lon, z: o.z, limit: o.limit, pen: o.pen, kind: o.kind });
+      out[regime] = { edition: r.edition, low: r.obstacles.map(pick), zone: (r.zone?.obstacles ?? []).map(pick) };
+    }
+    return out;
+  }, ids.airport);
+  const which = (o) => Object.entries(MASTS).find(([, [s, t]]) => Math.abs(o.lat - at(s, t)[0]) < 2e-6 && Math.abs(o.lon - at(s, t)[1]) < 2e-6)?.[0];
+  const table = (list) => Object.fromEntries(list.map((o) => [which(o), [+o.pen.toFixed(2), o.kind]]));
+  const close = (got, want) => {
+    expect(Object.keys(got).sort()).toEqual(Object.keys(want).sort());
+    for (const [k, [pen, kind]] of Object.entries(want)) {
+      expect(Math.abs(got[k][0] - pen), `${k}: ${got[k]}`).toBeLessThan(0.2);
+      expect(got[k][1], k).toBe(kind);
+    }
+  };
+  close(table(both.icao.low), { M1: [12.82, 'transitional'], M2: [8, 'approach'], M3: [31.2, 'approach'] });
+  close(table(both.icao.zone), { M3: [31.2, 'innerApproach'] });
+  close(table(both['icao-a18'].low), { M1: [14.25, 'precisionTransitional'], M2: [8, 'precisionApproach'], M3: [31.2, 'precisionApproach'] });
+  expect(Object.keys(table(both['icao-a18'].zone))).toEqual(['M3']);
+  expect(Math.abs(table(both['icao-a18'].zone).M3[0] - 25.348)).toBeLessThan(0.2);
+  expect(both.icao.edition).toMatch(/until 20 November 2030$/);
+  expect(both['icao-a18'].edition).toBe(A18);
   expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
 });
 

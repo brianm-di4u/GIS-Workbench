@@ -6,7 +6,10 @@
 //   published runway lengths and true alignments;
 // * a differential test against the independent Python reference (tests/tools/obstruction_ref.py,
 //   pyproj geodesics and shapely), run when the gw-te environment is present;
-// * obstacle grouping on grids and point sets with hand-placed obstacles; malformed definitions refused.
+// * obstacle grouping on grids and point sets with hand-placed obstacles; malformed definitions refused;
+// * REQ-GAP-78: Annex 14 Amendment 18's 2030 OFS/OES (regime 'icao-a18'), hand-computed from its
+//   printed tables with the PDF page cited per case, the edition's date rule and Table 1-2 design
+//   groups, and the same differential test against the reference under both editions (SCN-72).
 // Skipped when the bundle is absent.
 import { describe, it, expect } from 'vitest';
 import { existsSync, readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
@@ -14,7 +17,7 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { AviationBundle } from '../../app/src/wasm/aviation.js';
-import { nasrAirport, encodeAirport, clusterGrid, clusterPoints, airportProblems, csvRow, obstaclesCsv, surfacesKml, FT } from '../../app/src/analysis/obstruction.js';
+import { nasrAirport, encodeAirport, clusterGrid, clusterPoints, airportProblems, csvRow, obstaclesCsv, surfacesKml, FT, EDITIONS, editionOf, editionForDate, adgOf, adgNumber, A18_ASSUMPTIONS, assumptionsOf } from '../../app/src/analysis/obstruction.js';
 
 const wasmPath = (() => {
   try {
@@ -150,9 +153,156 @@ describe.skipIf(!haveWasm)('REQ-GAP-73 surfaces: hand-computed heights', () => {
     const def = encodeAirport(synthAirport(), 'part77');
     for (const bad of [new Float64Array(0), Float64Array.from([1, 0, 0, 0, 1, 0]), def.slice(0, def.length - 1), Float64Array.from([...def.slice(0, 6), 1, 9, NaN, ...def.slice(9)])]) expect(() => B.surfaces(bad)).toThrow(/obstruction surfaces/);
     const d2 = def.slice();
-    d2[9] = 95; // latitude of end A
+    d2[12] = 95; // latitude of end A (version 3: six values per runway before its ends)
     expect(() => B.points64(d2, Float64Array.from([36, -115]))).toThrow(/position/);
     expect(B.surfaces(def).surfaces.length).toBe(6);
+  });
+});
+
+/** Limits of a synthetic runway under a regime, with the codeF option: lowest and zone with kinds. */
+function limitsKinds(ap, regime, pts, opts = {}) {
+  const def = encodeAirport(ap, regime, opts);
+  const kinds = B.surfaces(def).surfaces.map((s) => s.kind);
+  const r = ap.runways[0].ends[0];
+  const o = B.points64(def, Float64Array.from(pts.flatMap(([s, t]) => offset(r.lat, r.lon, s, t))));
+  return pts.map((_, k) => ({ z: o.limit[k], kind: kinds[o.sid[k]] ?? null, zz: o.zoneLimit[k], zkind: kinds[o.zoneSid[k]] ?? null }));
+}
+
+describe.skipIf(!haveWasm)('REQ-GAP-78 Annex 14 Amendment 18 OFS/OES (2030): hand-computed heights', () => {
+  // Values worked here from the printed tables of Amendment 18 (SL 2025/23), Chapter 4 as applicable
+  // from 21 November 2030; PDF pages are the file's (C:/GIS Workbench/Research/references/
+  // ICAO-SL-2025-23-Annex14-Vol-I-Amendment-18.pdf), the printed page being 26 less.
+  const near = (a, b) => (Number.isNaN(b) ? Number.isNaN(a) : Math.abs(a - b) < 0.01);
+  const run = (ap, cases, opts) => {
+    const got = limitsKinds(ap, 'icao-a18', cases.map((c) => [c[0], c[1]]), opts);
+    cases.forEach(([s, t, z, kind, zz, zkind, cite], k) => {
+      const g = got[k];
+      expect(near(g.z, z), `${cite}: lowest ${g.z} (${g.kind})`).toBe(true);
+      if (kind !== undefined) expect(g.kind, cite).toBe(kind);
+      expect(near(g.zz, zz), `${cite}: OFS ${g.zz} (${g.zkind})`).toBe(true);
+      if (zkind !== undefined) expect(g.zkind, cite).toBe(zkind);
+    });
+  };
+
+  it('a precision approach runway, ADG IV (Tables 4-2, 4-5, 4-8, 4-9, 4-10, 4-12, 4-13, 4-15)', () => {
+    // End 36 (south): a precision approach, no take-off climb beyond it; end 18: take-offs only.
+    const ap = synthAirport({ elev: [100, 100], apElev: 100 });
+    Object.assign(ap.runways[0], { adg: 'IV', width: 45, mtom: 300000 });
+    ap.runways[0].ends[0].takeoff = false;
+    ap.runways[0].ends[1].approach = false;
+    const len = 3000;
+    run(ap, [
+      [-1060, 0, 120, 'precisionApproach', 133.3, undefined, 'Table 4-12 (PDF p.54): approach component 60 m out, 2 %; Table 4-2 (PDF p.39) approach 3.33 %'],
+      [-4060, 0, 185, 'precisionApproach', 233.2, 'approach', 'Table 4-12: 3 000 m at 2 % then 2.5 %; under the 90 m horizontal surface (Table 4-10, PDF p.49)'],
+      [-5060, 0, 190, 'horizontal', NaN, null, 'Table 4-10 IV: 10 750 m, 90 m; beyond the 4 500 m approach no OFS'],
+      [-560, 150, 110, 'precisionApproach', 118.15, 'transitional', '§4.2.2.5: 20 % beyond the approach half-width 92.5 + 50 m'],
+      [-560, 300, 110 + 75 * 0.143, 'precisionTransitional', 148.15, 'transitional', 'Table 4-12: transitional components 14.3 %'],
+      [300, 200, 107.15, 'precisionTransitional', 112, 'transitional', 'Table 4-12: off the lower component; §4.2.2 off the 140 m strip'],
+      [1500, 100, 100, 'strip', 113.32, 'innerTransitional', 'Table 4-8 (PDF p.45): 33.3 % beyond the 60 m half-width of Table 4-5'],
+      [2100, 0, 100, 'strip', 109.99, 'balkedLanding', 'Table 4-9 (PDF p.45): 1 800 m after the threshold, 3.33 %'],
+      [3700, 700, 170, 'precisionMissedApproach', NaN, null, 'Table 4-12: missed approach 900 m after, 1 800 m at 17.48 % then 25 %, 2.5 %'],
+      [len + 1060, 0, 121.2, 'takeoff', NaN, null, 'Table 4-15 IV (PDF p.60): from the end of the TODA, 180 m, 2 %'],
+      [len + 11500, 1000, 392.5, 'departure', NaN, null, 'Table 4-13 (PDF p.57): 5 m above the end, 2.5 %, 26.8 % then 57.8 %'],
+      [1500, 10700, 190, 'horizontal', NaN, null, 'Table 4-10: within the 10 750 m arcs'],
+      [1500, 10800, NaN, null, NaN, null, 'outside every surface'],
+    ]);
+  });
+
+  it('a non-precision approach runway, ADG IIC, 30 m wide: the straight-in surface (Tables 4-2 c, 4-4, 4-7, 4-11)', () => {
+    const ap = synthAirport({ elev: [50, 50], apElev: 50, icao: [1, 1], code: 3, cats: ['C', 'C'] });
+    Object.assign(ap.runways[0], { adg: 'IIC', width: 30 });
+    for (const e of ap.runways[0].ends) e.takeoff = false;
+    run(ap, [
+      [-360, 75, 59.99, 'approach', 59.99, 'approach', 'Table 4-2 note c: 140 m inner edge; 300 m at 3.33 %'],
+      [1500, 62, 50, 'strip', 55.666, 'innerTransitional', 'Table 4-7 (PDF p.44): 5 m vertical section 60 m out (Table 4-4: 120 m), then 33.3 %'],
+      [1500, 200, 62, 'transitional', 62, 'transitional', '§4.2.2.5: 20 % off the 140 m strip'],
+      [1500, 3300, 95, 'straightIn', NaN, null, 'Table 4-11 (PDF p.51): lower section, the ADG I horizontal surface (3 350 m, 45 m)'],
+      [1500, 3700, 110, 'straightIn', NaN, null, 'Table 4-11: upper section 60 m, 7 410 m wide'],
+      [1500, 3710, NaN, null, NaN, null, 'Table 4-11: beyond the 3 705 m half'],
+      [-5000, 0, 110, 'straightIn', NaN, null, 'Table 4-11: 5 350 m before the threshold'],
+      [-5400, 0, NaN, null, NaN, null, 'Table 4-11: beyond 5 350 m'],
+    ]);
+  });
+
+  it('take-off climb surfaces by maximum take-off mass (Tables 4-14 and 4-15, §4.3.6.6)', () => {
+    const light = (adg, mtom) => {
+      const ap = synthAirport({ elev: [10, 10], apElev: 10, icao: [0, 0], code: 1, cats: ['A(V)', 'A(V)'] });
+      Object.assign(ap.runways[0], { adg, width: 18, mtom });
+      for (const e of ap.runways[0].ends) e.approach = false;
+      return ap;
+    };
+    const len = 3000;
+    run(light('I', 1500), [
+      [len + 530, 79, 35, 'takeoff', NaN, null, 'Table 4-14 I: 30 m beyond the end, 60 m, 10 %, 5 %'],
+      [len + 530, 81, 55, 'horizontal', NaN, null, 'Table 4-10 I-IIA: 45 m'],
+    ]);
+    run(light('I', 5701), [[len + 530, 130, 36.5, 'takeoff', NaN, null, 'Table 4-15 I: 144 m from the TODA end, 12.5 %, 5 %']]);
+    run(light('IIB', 5700), [[len + 560, 89, 30, 'takeoff', NaN, null, 'Table 4-14 IIA-IIB at exactly 5 700 kg (§4.3.6.6): 60 m, 80 m, 4 %']]);
+    run(light('IIC', 5000), [[len + 500, 0, 20, 'takeoff', NaN, null, 'Table 4-15 IIC: Table 4-14 has no IIC column']]);
+  });
+
+  it('reports the assumptions it made, and names its surfaces apart from the current edition', () => {
+    const ap = synthAirport({ elev: [100, 100], apElev: 100 });
+    Object.assign(ap.runways[0], { adg: 'V', mtom: 5700 });
+    const m = B.surfaces(encodeAirport(ap, 'icao-a18', { codeF: true }));
+    expect(Number.isNaN(m.horizontal)).toBe(true);
+    const texts = assumptionsOf(m.assumed);
+    // No width: Table 4-2 has no width note for ADG V, so no width assumption; code letter F on ADG V.
+    expect(texts.some((x) => /code letter F/.test(x))).toBe(true);
+    expect(texts.some((x) => /runway width is not known/.test(x))).toBe(false);
+    expect(texts.some((x) => /Table 4-15 is used/.test(x))).toBe(true);
+    expect(texts.some((x) => /Exactly 5 700 kg/.test(x))).toBe(true);
+    expect(new Set(m.surfaces.map((s) => s.kind))).toEqual(new Set(['strip', 'transitional', 'approach', 'precisionApproach', 'precisionMissedApproach', 'precisionTransitional', 'precisionLower', 'takeoff', 'departure', 'innerApproach', 'innerTransitional', 'balkedLanding', 'ofzStrip', 'horizontal']));
+    // The current edition's lists are unchanged by the regime's arrival.
+    expect(B.surfaces(encodeAirport(ap, 'icao')).assumed).toBe(0);
+    expect(() => B.surfaces(encodeAirport({ ...ap, runways: [{ ...ap.runways[0], adg: null }] }, 'icao-a18'))).toThrow(/aeroplane design group/);
+  });
+});
+
+describe('REQ-GAP-78 editions, design groups and the definition list', () => {
+  it('the edition follows the analysis date: Amendment 18 from 21 November 2030', () => {
+    expect(editionForDate('2030-11-20')).toBe('icao');
+    expect(editionForDate('2030-11-21')).toBe('icao-a18');
+    expect(editionForDate(new Date('2031-06-01T12:00:00Z'))).toBe('icao-a18');
+    expect(editionForDate('2026-11-08')).toBe('icao');
+    expect(editionForDate('')).toBe('icao');
+    expect(editionOf('part77')).toBeNull();
+    expect(editionOf('icao')).toBe(EDITIONS.icao);
+    expect(editionOf('icao-a18')).toMatch(/Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces$/);
+  });
+
+  it('Table 1-2 design groups, with the "highest values" rule at 307 km/h and above', () => {
+    // (Vat km/h, wingspan m) → ADG (1 I … 7 V); Table 1-2, PDF pp.29-30.
+    for (const [v, w, g] of [
+      [150, 20, 1],
+      [150, 30, 2],
+      [200, 20, 3],
+      [200, 35, 3],
+      [250, 30, 4],
+      [250, 40, 5],
+      [250, 60, 6],
+      [250, 70, 7],
+    ])
+      expect(adgOf(v, w), `${v} km/h ${w} m`).toEqual({ adg: g, assumed: false });
+    expect(adgOf(320, 30)).toEqual({ adg: 4, assumed: true });
+    expect(adgOf(320, 60)).toEqual({ adg: 6, assumed: true });
+    expect(adgOf(250, 80)).toBeNull();
+    expect([adgNumber({ adg: 'IIB' }), adgNumber({ adg: 5 }), adgNumber({ vat: 150, span: 30 }), adgNumber({})]).toEqual([3, 5, 2, 0]);
+    // Every bit the kernel can set has a text, and the JS one besides.
+    expect(A18_ASSUMPTIONS.map(([b]) => b)).toEqual(Array.from({ length: 16 }, (_, k) => 1 << k));
+  });
+
+  it('version 3 lists carry the design group, width and mass; problems are named', () => {
+    const ap = synthAirport();
+    Object.assign(ap.runways[0], { adg: 'IIC', width: 30, mtom: 5000 });
+    const v = encodeAirport(ap, 'icao-a18');
+    expect([...v.slice(0, 2)]).toEqual([3, 2]);
+    expect([...v.slice(9, 12)]).toEqual([4, 30, 5000]);
+    expect(encodeAirport(ap, 'part77')[1]).toBe(0);
+    expect(airportProblems({ ...ap, runways: [{ ...ap.runways[0], adg: null }] }, 'icao-a18').map((p) => p.src)).toEqual(['Runway {rwy}: Amendment 18 needs the aeroplane design group of its critical aeroplane (§1.8.1)']);
+    expect(airportProblems({ ...ap, runways: [{ ...ap.runways[0], mtom: null }] }, 'icao-a18').map((p) => p.src)).toEqual(['Runway {rwy}: Amendment 18 needs the maximum take-off mass of its aeroplanes for the take-off climb surface (§4.3.6.6)']);
+    expect(airportProblems(ap, 'icao-a18')).toEqual([]);
+    expect(airportProblems({ ...ap, runways: [{ ...ap.runways[0], adg: null }] }, 'icao')).toEqual([]);
   });
 });
 
@@ -219,10 +369,27 @@ describe.skipIf(!haveWasm || !havePy)('REQ-GAP-73 differential: Rust kernel vs t
     ['HOU', 'icao'],
     ['SYN-PIR', 'part77'],
     ['SYN-NI1', 'icao'],
+    // SCN-72: the same surveys under Amendment 18's 2030 OFS/OES.
+    ['LAS', 'icao-a18'],
+    ['HOU', 'icao-a18'],
+    ['CYS', 'icao-a18'],
+    ['SYN-PIR', 'icao-a18'],
+    ['SYN-NPA', 'icao-a18'],
+    ['SYN-NI1', 'icao-a18'],
   ];
+  /** Design groups and masses for Amendment 18 (the NASR records carry neither): by code number. */
+  const a18 = (ap) => ({ ...ap, runways: ap.runways.map((r, k) => ({ ...r, adg: r.adg ?? ['I', 'IIB', 'IIC', 'IV'][r.code - 1], mtom: r.mtom ?? [1500, 5700, 30000, 300000][r.code - 1] - (k % 2) * 100, width: r.width ?? (k % 2 ? NaN : 30) })) });
   for (const [id, regime] of cases)
     it(`${id} ${regime}: 20 000 points agree within 1 cm`, () => {
-      const ap = id === 'SYN-PIR' ? synthAirport() : id === 'SYN-NI1' ? synthAirport({ cats: ['A(V)', 'A(V)'], icao: [0, 0], code: 1, len: 700, elev: [50, 52], apElev: 52 }) : nasrAirport(T, id);
+      const base =
+        id === 'SYN-PIR'
+          ? synthAirport()
+          : id === 'SYN-NI1'
+            ? synthAirport({ cats: ['A(V)', 'A(V)'], icao: [0, 0], code: 1, len: 700, elev: [50, 52], apElev: 52 })
+            : id === 'SYN-NPA'
+              ? synthAirport({ cats: ['C', 'B(V)'], icao: [1, 0], code: 3, elev: [50, 56], apElev: 56 })
+              : nasrAirport(T, id);
+      const ap = regime === 'icao-a18' ? a18(base) : base;
       const def = encodeAirport(ap, regime);
       const m = B.surfaces(def);
       const [s, w, n, e] = m.bbox;
@@ -236,7 +403,8 @@ describe.skipIf(!haveWasm || !havePy)('REQ-GAP-73 differential: Rust kernel vs t
       }
       const r = B.points64(def, Float64Array.from(ll.flat()));
       const dir = mkdtempSync(join(tmpdir(), 'obsref-'));
-      const spec = { regime, airport: { elev: ap.elev, runways: ap.runways.map((rw) => ({ paved: rw.paved, code: rw.code, ends: rw.ends.map((en) => ({ lat: en.lat, lon: en.lon, elev: en.elev, p77: en.p77, icao: en.icao, disp: regime === 'icao' ? en.disp : 0, thrElev: en.thrElev, approach: en.approach, takeoff: en.takeoff, clearway: en.clearway })) })) }, points: ll };
+      const annex = regime !== 'part77';
+      const spec = { regime, airport: { elev: ap.elev, runways: ap.runways.map((rw) => ({ paved: rw.paved, code: rw.code, adg: adgNumber(rw), width: Number.isFinite(rw.width) ? rw.width : null, mtom: rw.mtom ?? null, ends: rw.ends.map((en) => ({ lat: en.lat, lon: en.lon, elev: en.elev, p77: en.p77, icao: en.icao, disp: annex ? en.disp : 0, thrElev: en.thrElev, approach: en.approach, takeoff: en.takeoff, clearway: en.clearway })) })) }, points: ll };
       writeFileSync(join(dir, 'in.json'), JSON.stringify(spec));
       execFileSync(PY, ['-I', resolve('tests/tools/obstruction_ref.py'), join(dir, 'in.json'), join(dir, 'out.json')], { timeout: 600000 });
       const ref = JSON.parse(readFileSync(join(dir, 'out.json'), 'utf8'));
@@ -263,7 +431,30 @@ describe.skipIf(!haveWasm || !havePy)('REQ-GAP-73 differential: Rust kernel vs t
       }
       expect(both).toBeGreaterThan(5000);
       expect(maxd).toBeLessThan(0.01);
-      console.log(`${id} ${regime}: ${both} points on surfaces, max |Δ| ${(maxd * 1000).toFixed(2)} mm, ${existence.length} edge points`);
+      // Amendment 18: the obstacle free surfaces' own limit too, by the same rules.
+      let zboth = 0;
+      let zmax = 0;
+      if (regime === 'icao-a18') {
+        const zedge = [];
+        for (let k = 0; k < ll.length; k++) {
+          const a = r.zoneLimit[k];
+          const b = ref.ofzLimit[k];
+          if (Number.isFinite(a) && b !== null) {
+            zboth++;
+            zmax = Math.max(zmax, Math.abs(a - b));
+          } else if (Number.isFinite(a) !== (b !== null)) zedge.push(k);
+        }
+        for (const k of zedge) {
+          const [la, lo] = ll[k];
+          const nb = [];
+          for (let q = 0; q < 8; q++) nb.push(offset(la, lo, 0.5 * Math.cos((q * Math.PI) / 4), 0.5 * Math.sin((q * Math.PI) / 4)));
+          const rr = B.points64(def, Float64Array.from(nb.flat()));
+          expect([...rr.zoneLimit].some((v) => Number.isFinite(v) !== Number.isFinite(r.zoneLimit[k])), `${id} OFS point ${k} (${la}, ${lo}): kernel ${r.zoneLimit[k]}, reference ${ref.ofzLimit[k]}`).toBe(true);
+        }
+        expect(zboth).toBeGreaterThan(500);
+        expect(zmax).toBeLessThan(0.01);
+      }
+      console.log(`${id} ${regime}: ${both} points on surfaces, max |Δ| ${(maxd * 1000).toFixed(2)} mm, ${existence.length} edge points${regime === 'icao-a18' ? `; OFS ${zboth} points, max |Δ| ${(zmax * 1000).toFixed(2)} mm` : ''}`);
     }, 120000);
 });
 

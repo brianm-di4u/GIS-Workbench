@@ -19,8 +19,16 @@ from the printed Table 4-1, columns (9) to (11), not from the kernel. These surf
 their own (ofzLimit, ofzKind) as well as in the lowest limit: they mostly lie above the strip,
 transitional and approach surfaces, so the lowest limit alone would never show them.
 
+Amendment 18's Chapter 4 as applicable from 21 November 2030 (regime "icao-a18") is a fourth
+method: every runway-attached surface is a triangle mesh in station and offset (geodesic polar
+coordinates as above), each triangle planar because the surfaces are linear between their breaks, and
+a position takes the lowest triangle holding it; the horizontal surfaces are shapely hulls. Its
+tables are typed from the amendment's printed Tables 4-1 to 4-15. The obstacle free surfaces' own
+lowest limit is reported as ofzLimit.
+
 Usage: python -I obstruction_ref.py IN.json OUT.json
-IN = {"regime": "part77"|"icao", "airport": {elev, ihsDatum?, codeF?, runways: [{paved, code, tocsWidth?,
+IN = {"regime": "part77"|"icao"|"icao-a18", "airport": {elev, ihsDatum?, codeF?, runways: [{paved, code,
+      tocsWidth?, adg? (1 I .. 7 V), width?, mtom?,
       ends: [{lat, lon, elev, p77, icao, disp, thrElev, approach, takeoff, clearway}]×2}]},
       "points": [[lat, lon], ...]}
 OUT = {"limit": [m or null], "kind": [str or null], "ofzLimit": [m or null], "ofzKind": [str or null]}
@@ -207,10 +215,316 @@ def ofz_eval(rws, lats, lons, h_elev, code_f):
     return best, kind
 
 
+# ---- Annex 14 Amendment 18, Chapter 4 as applicable from 21 November 2030 (regime "icao-a18") ----
+# Typed from the amendment's printed Tables 4-1 to 4-15 (PDF pp.38-60), not from the kernel. Columns
+# are the tables' ADG columns: I | IIA-IIB | IIC | III | IV | V; Table 4-10's are I-IIA | IIB | IIC |
+# III | IV | V. The readings taken where the document is silent or ambiguous are the kernel's
+# assumptions (crates/gw-aviation/src/a18.rs A_*), restated here in words where they are used.
+ADG = ["I", "IIA", "IIB", "IIC", "III", "IV", "V"]
+A18_T41 = {"dist": [30, 60, 60, 60, 60, 60], "edge": [60, 80, 100, 125, 135, 150], "len": [1600, 2500, 2500, 2500, 2500, 2500], "slope": [0.05, 0.04, 0.0333, 0.0333, 0.0333, 0.0333]}
+A18_T42 = {"dist": [60] * 6, "edge": [110, 125, 155, 175, 185, 200], "len": [4500] * 6, "slope": [0.0333] * 6}
+A18_INNER = {0: ([60, 80, 100, 110, 120, 120], [900, 1125, 1350, 1350, 1350, 1350]), 1: ([80, 80, 120, 120, 120, 120], [1350] * 6), 2: ([90, 90, 120, 120, 120, 120], [1350] * 6)}
+A18_VERT = {0: [6, 6, 8.4, 10, 5, 5], 1: [6, 6, 5, 5, 5, 5]}
+A18_IT_SLOPE = [0.40, 0.40, 0.333, 0.333, 0.333, 0.333]
+A18_BALKED_SLOPE = [0.05, 0.04, 0.0333, 0.0333, 0.0333, 0.0333]
+A18_HORIZ = ([3350, 5350, 10750, 10750, 10750, 10750], [45, 60, 90, 90, 90, 90])
+A18_T414 = [(30, 60, 0.10, 380, 1600, 0.05), (60, 80, 0.10, 580, 2500, 0.04)]
+A18_T415_EDGE = [144, 156, 156, 172, 180, 180]
+A18_T415_SLOPE = [0.05, 0.04, 0.02, 0.02, 0.02, 0.02]
+
+
+def a18_col(adg):
+    return [0, 1, 1, 2, 3, 4, 5][adg - 1]
+
+
+def a18_col10(adg):
+    return [0, 0, 1, 2, 3, 4, 5][adg - 1]
+
+
+def a18_edge(instrument, c, width):
+    """Tables 4-1 and 4-2 inner edge with the runway-width notes (none when the width is unknown)."""
+    tb = A18_T42 if instrument else A18_T41
+    if width is None:
+        return tb["edge"][c]
+    if not instrument:
+        if c == 0:
+            return 100 if width > 30 else 80 if width > 23 else 60
+        if c in (1, 2) and width > 45:
+            return 110
+        if c == 1 and width > 30:
+            return 100
+        return tb["edge"][c]
+    if c == 0 and width > 30:
+        return 125
+    if c == 1 and width > 30:
+        return 140
+    if c == 2 and width <= 30:
+        return 140
+    return tb["edge"][c]
+
+
+class Mesh:
+    """Triangles in (s, t, z) about one runway: s along it from end A, t >= 0 off its centre line."""
+
+    def __init__(self):
+        self.tris = []
+
+    def quad(self, kind, ofs, a, b, c, d):
+        self.tris.append((kind, ofs, (a, b, c)))
+        self.tris.append((kind, ofs, (a, c, d)))
+
+
+def lin(p, q, f):
+    return tuple(a + (b - a) * f for a, b in zip(p, q))
+
+
+def fan_mesh(mesh, kind, ofs, s0, d, hw0, sections, base, hwmax=math.inf, side=None):
+    """A fan from station s0 running in direction d: its top (t >= 0 half) as planar quads between
+    its breaks, and its lateral surface (slope, kind, top) as planar bands up to the top."""
+    xs = [0.0]
+    for length, _, _ in sections:
+        xs.append(xs[-1] + length)
+    total = xs[-1]
+
+    def at(x):
+        z, hw, x0 = base, hw0, 0.0
+        for length, slope, div in sections:
+            dx = min(max(x - x0, 0.0), length)
+            z += dx * slope
+            hw += dx * div
+            x0 += length
+        return z, min(hw, hwmax)
+
+    # Breaks: section ends, where the half-width reaches its final value, where the fan passes its
+    # lateral surface's top.
+    brk = set(xs)
+    x0 = 0.0
+    hw = hw0
+    for length, slope, div in sections:
+        if div > 0 and hw < hwmax < hw + length * div:
+            brk.add(x0 + (hwmax - hw) / div)
+        hw += length * div
+        x0 += length
+    if side:
+        x0, z = 0.0, base
+        for length, slope, _ in sections:
+            if slope > 0 and z < side[2] < z + length * slope:
+                brk.add(x0 + (side[2] - z) / slope)
+            x0 += length
+            z += length * slope
+    xs = sorted(x for x in brk if 0 <= x <= total)
+    for xa, xb in zip(xs, xs[1:]):
+        (za, ha), (zb, hb) = at(xa), at(xb)
+        sa, sb = s0 + d * xa, s0 + d * xb
+        mesh.quad(kind, ofs, (sa, 0.0, za), (sb, 0.0, zb), (sb, hb, zb), (sa, ha, za))
+        if side and za < side[2] - 1e-9:
+            slope, skind, top = side
+            mesh.quad(skind, ofs, (sa, ha, za), (sb, hb, zb), (sb, hb + (top - zb) / slope, top), (sa, ha + (top - za) / slope, top))
+
+
+def a18_runway(rw, r, ap, mesh, horiz_discs, rects):
+    """Every runway-attached Amendment 18 surface of one runway as triangles, and its horizontal discs."""
+    A, B, L = rw["A"], rw["B"], rw["L"]
+    adg = r["adg"]
+    c = a18_col(adg)
+    width = r.get("width")
+    mtom = r.get("mtom")
+    typ = max(A["icao"], B["icao"])
+    # Chapter 3 strip (the current edition's values): the transitional's lower edge.
+    hw = ([30, 40, 55, 75][r["code"] - 1] if typ == 0 else [70, 70, 140, 140][r["code"] - 1])
+    ext = (30 if r["code"] == 1 else 60) if typ == 0 else 60
+    rw["hw"], rw["ext"] = hw, ext
+    thr = [E["thrElev"] if E.get("thrElev") is not None else E["elev"] for E in (A, B)]
+    top = max(thr) + 60.0
+    elevA, elevB = A["elev"], B["elev"]
+
+    def centre(s):
+        return elevA + (elevB - elevA) * min(1.0, max(0.0, s / L))
+
+    # The strip (not an OFS) and the 20 % transitional off its edge, up to 60 m above the highest threshold.
+    cuts = [-ext, 0.0, L, L + ext]
+    for sa, sb in zip(cuts, cuts[1:]):
+        za, zb = centre(sa), centre(sb)
+        mesh.quad("strip", False, (sa, 0.0, za), (sb, 0.0, zb), (sb, hw, zb), (sa, hw, za))
+        mesh.quad("transitional", True, (sa, hw, za), (sb, hw, zb), (sb, hw + (top - zb) / 0.20, top), (sa, hw + (top - za) / 0.20, top))
+    s_thr = [A.get("disp", 0.0), L - B.get("disp", 0.0)]
+    appr = [E["icao"] for E in (A, B) if E.get("approach", True)]
+    best = max(appr) if appr else None
+    if best == 1:
+        # The straight-in surface instead of the horizontal: lower = ADG I horizontal; upper = a 7 410 m
+        # wide rectangle reaching 5 350 m beyond the thresholds, 60 m up.
+        for s in s_thr:
+            horiz_discs.setdefault("straight", []).append((rw, s, 3350.0))
+        rects.append((rw, s_thr[0] - 5350.0, s_thr[1] + 5350.0, 3705.0, ap["elev"] + 60.0))
+    else:
+        k = a18_col10(adg)
+        for s in s_thr:
+            horiz_discs.setdefault(k, []).append((rw, s, A18_HORIZ[0][k]))
+    for k, E in enumerate((A, B)):
+        out = -1.0 if k == 0 else 1.0
+        end_s = 0.0 if k == 0 else L
+        if E.get("approach", True):
+            inst = E["icao"] >= 1
+            tb = A18_T42 if inst else A18_T41
+            fan_mesh(mesh, "approach", True, s_thr[k] + out * tb["dist"][c], out, a18_edge(inst, c, width) / 2, [(tb["len"][c], tb["slope"][c], 0.10)], thr[k], side=(0.20, "transitional", top))
+            if E["icao"] >= 2:
+                side = (0.143, "precisionTransitional", thr[k] + 300.0)
+                fan_mesh(mesh, "precisionApproach", False, s_thr[k] + out * 60, out, 150, [(3000, 0.02, 0.15), (9600, 0.025, 0.15)], thr[k], side=side)
+                fan_mesh(mesh, "precisionMissedApproach", False, s_thr[k] - out * 900, -out, 150, [(1800, 0.025, 0.1748), (10200, 0.025, 0.25)], thr[k], side=side)
+                fan_mesh(mesh, "precisionLower", False, s_thr[k] + out * 60, -out, 150, [(960, 0.0, 0.0)], thr[k], side=side)
+        if E.get("takeoff", True):
+            cw = E.get("clearway", 0.0)
+            if mtom <= 5700 and c <= 1:
+                d0, edge, div, wf, length, slope = A18_T414[c]
+                start = max(d0, cw)
+            else:
+                edge, div, wf, length, slope = A18_T415_EDGE[c], 0.125, 1800, 10000, A18_T415_SLOPE[c]
+                start = cw
+            if r.get("tocsWidth") is not None:
+                wf = r["tocsWidth"]
+            fan_mesh(mesh, "takeoff", False, end_s + out * start, out, edge / 2, [(length, slope, div)], E["elev"], hwmax=wf / 2)
+            if (best or 0) >= 1:
+                fan_mesh(mesh, "departure", False, end_s + out * cw, out, 150, [(3500, 0.025, 0.268), (8300, 0.025, 0.578)], E["elev"] + 5.0)
+    # Inner approach, inner transitional, balked landing: in (u after the threshold, t) of the landing
+    # direction, then mapped to s.
+    for k, E in enumerate((A, B)):
+        if not E.get("approach", True):
+            continue
+        ty = min(E["icao"], 2)
+        tb = A18_T42 if E["icao"] >= 1 else A18_T41
+        w = A18_INNER[ty][0][c]
+        if c == 5 and ap.get("codeF"):
+            w = 140
+        w0 = w / 2
+        dist, ia_len, ia_slope = tb["dist"][c], A18_INNER[ty][1][c], tb["slope"][c]
+        run = L - E.get("disp", 0.0)
+        ub = run + ext if c <= 1 else min(1800.0, run)
+        vert = 0.0 if ty == 2 else A18_VERT[ty][c]
+        its = A18_IT_SLOPE[c]
+        sgn = 1.0 if k == 0 else -1.0
+
+        def to_s(u, sgn=sgn, k=k):
+            return s_thr[k] + sgn * u
+
+        def cen(u, to_s=to_s):
+            return centre(to_s(u))
+
+        far, near = -(dist + ia_len), -dist
+        zfar = thr[k] + ia_len * ia_slope
+        S = lambda p, to_s=to_s: (to_s(p[0]), p[1], p[2])
+        mesh.quad("innerApproach", True, *[S(p) for p in [(near, 0.0, thr[k]), (near, w0, thr[k]), (far, w0, zfar), (far, 0.0, zfar)]])
+        ucuts = sorted({near, ub, *[u for u in (-E.get("disp", 0.0), run) if near < u < ub]})
+        for a, b in zip(ucuts, ucuts[1:]):
+            mesh.quad("ofzStrip", True, *[S(p) for p in [(a, 0.0, cen(a)), (b, 0.0, cen(b)), (b, w0, cen(b)), (a, w0, cen(a))]])
+        edge = [(far, w0, zfar), (near, w0, thr[k])] + [(u, w0, cen(u)) for u in ucuts]
+        if ty == 2:
+            zb = cen(ub)
+            bl_len = max(0.0, (top - zb) / A18_BALKED_SLOPE[c])
+            if bl_len > 0:
+                wout = w0 + 0.10 * bl_len
+                mesh.quad("balkedLanding", True, *[S(p) for p in [(ub, 0.0, zb), (ub, w0, zb), (ub + bl_len, wout, top), (ub + bl_len, 0.0, top)]])
+                edge.append((ub + bl_len, wout, top))
+        # The inner transitional off that edge: a vertical section of `vert`, then `its` up to the top.
+        raised = [(u, t, z + vert) for u, t, z in edge]
+        cut = []
+        for a, b in zip(raised, raised[1:]):
+            cut.append(a)
+            if (a[2] - top) * (b[2] - top) < 0:
+                cut.append(lin(a, b, (top - a[2]) / (b[2] - a[2])))
+        cut.append(raised[-1])
+        runs, cur = [], []
+        for p in cut:
+            if p[2] <= top + 1e-9:
+                cur.append(p)
+            else:
+                if len(cur) > 1:
+                    runs.append(cur)
+                cur = []
+        if len(cur) > 1:
+            runs.append(cur)
+        for run_ in runs:
+            upper = [(u, t + (top - z) / its, top) for u, t, z in run_]
+            for (a, b), (cc, dd) in zip(zip(run_, run_[1:]), zip(upper, upper[1:])):
+                if abs(a[0] - b[0]) < 1e-9:
+                    continue
+                mesh.quad("innerTransitional", True, S(a), S(b), S(dd), S(cc))
+
+
+def a18_main(spec):
+    ap = spec["airport"]
+    pts = np.array(spec["points"], dtype=float).reshape(-1, 2)
+    lats, lons = pts[:, 0], pts[:, 1]
+    n = len(lats)
+    lat0 = sum(e["lat"] for r in ap["runways"] for e in r["ends"]) / (2 * len(ap["runways"]))
+    lon0 = sum(e["lon"] for r in ap["runways"] for e in r["ends"]) / (2 * len(ap["runways"]))
+    aeqd = Transformer.from_crs("EPSG:4326", f"+proj=aeqd +lat_0={lat0} +lon_0={lon0} +ellps=WGS84 +units=m", always_xy=True)
+    best = np.full(n, np.inf)
+    kind = np.full(n, None, dtype=object)
+    zbest = np.full(n, np.inf)
+    zkind = np.full(n, None, dtype=object)
+
+    def take(z, k, ofs, hit):
+        m = hit & (z < best)
+        best[m] = z[m]
+        kind[m] = k
+        if ofs:
+            m = hit & (z < zbest)
+            zbest[m] = z[m]
+            zkind[m] = k
+
+    horiz_discs, rects = {}, []
+    for r in ap["runways"]:
+        A, B = r["ends"]
+        azAB, azBA, L = G.inv(A["lon"], A["lat"], B["lon"], B["lat"])
+        rw = {"A": A, "B": B, "azAB": azAB, "azBA": azBA, "L": L}
+        mesh = Mesh()
+        a18_runway(rw, r, ap, mesh, horiz_discs, rects)
+        fa, _, da = G.inv(np.full(n, A["lon"]), np.full(n, A["lat"]), lons, lats)
+        fb, _, db = G.inv(np.full(n, B["lon"]), np.full(n, B["lat"]), lons, lats)
+        sa = da * np.cos(np.radians(fa - azAB))
+        ta = np.abs(da * np.sin(np.radians(fa - azAB)))
+        sb = db * np.cos(np.radians(fb - azBA))
+        tb = np.abs(db * np.sin(np.radians(fb - azBA)))
+        near_a = sa <= L / 2
+        s = np.where(near_a, sa, L - sb)
+        t = np.where(near_a, ta, tb)
+        rw["s"], rw["t"] = s, t
+        for k, ofs, (p, q, rr) in mesh.tris:
+            d = (q[1] - rr[1]) * (p[0] - rr[0]) + (rr[0] - q[0]) * (p[1] - rr[1])
+            if abs(d) < 1e-12:
+                continue
+            l1 = ((q[1] - rr[1]) * (s - rr[0]) + (rr[0] - q[0]) * (t - rr[1])) / d
+            l2 = ((rr[1] - p[1]) * (s - rr[0]) + (p[0] - rr[0]) * (t - rr[1])) / d
+            l3 = 1 - l1 - l2
+            z = l1 * p[2] + l2 * q[2] + l3 * rr[2]
+            take(z, k, ofs, (l1 >= -1e-9) & (l2 >= -1e-9) & (l3 >= -1e-9))
+    for rw, s0, s1, hw, z in rects:
+        take(np.full(n, z), "straightIn", False, (rw["t"] <= hw) & (rw["s"] >= s0) & (rw["s"] <= s1))
+    # Horizontal surfaces (and the straight-in lower section): the convex hull of circles about the
+    # thresholds, by shapely in an azimuthal equidistant projection.
+    px, py = aeqd.transform(lons, lats)
+    for key, discs in horiz_discs.items():
+        polys = []
+        for rw, s, rad in discs:
+            A = rw["A"]
+            lon, lat, _ = G.fwd(A["lon"], A["lat"], rw["azAB"], s) if s >= 0 else G.fwd(A["lon"], A["lat"], rw["azAB"] + 180.0, -s)
+            x, y = aeqd.transform(lon, lat)
+            polys.append(Point(x, y).buffer(rad, quad_segs=512))
+        hull = unary_union(polys).convex_hull
+        inside = np.array([hull.contains(Point(a, b)) for a, b in zip(px, py)])
+        z = ap["elev"] + (A18_HORIZ[1][key] if key != "straight" else 45.0)
+        take(np.full(n, z), "horizontal" if key != "straight" else "straightIn", False, inside)
+    fin = lambda v: [float(x) if math.isfinite(x) else None for x in v]
+    return {"limit": fin(best), "kind": [k for k in kind], "ofzLimit": fin(zbest), "ofzKind": [k for k in zkind]}
+
+
 def main(inp, outp):
     spec = json.load(open(inp, encoding="utf8"))
     regime = spec["regime"]
     ap = spec["airport"]
+    if regime == "icao-a18":
+        json.dump(a18_main(spec), open(outp, "w", encoding="utf8"))
+        return
     icao = regime == "icao"
     lats = [e["lat"] for r in ap["runways"] for e in r["ends"]]
     lons = [e["lon"] for r in ap["runways"] for e in r["ends"]]
