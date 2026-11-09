@@ -503,30 +503,32 @@ export async function install(app) {
   // ---- project ----
   async function save(as = false) {
     // The crash journal restarts from what this save writes, keeping the edits made after it (#99).
+    // Journal writes wait until it ends: edits made meanwhile are lost only to a crash in that time.
     const since = app.journal.hold();
+    let held = true;
     const kept = {};
     let r, blob, name;
     try {
       blob = new Blob([serialiseProject(app, kept)], { type: 'application/zip' });
       name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
       r = await saveBlob(app, blob, { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') });
-    } catch (e) {
-      void app.journal.release();
-      throw e;
+      if (r.how === 'cancelled') return;
+      if (r.handle) app.projectHandle = r.handle;
+      const until = app.journal.seq; // the change sets after this one are the save's own
+      app.store.transact(
+        t('Mark saved'),
+        (tx) => {
+          for (const l of app.store.all('layer')) if (l.saved === false) tx.set(l.id, 'saved', true);
+          tx.set('project', 'savedAt', new Date().toISOString());
+        },
+        { kind: 'load' },
+      );
+      app.dirty = false;
+      held = false;
+      await app.journal.saved(kept, since, until);
+    } finally {
+      if (held) void app.journal.release(); // cancelled or failed: the journal goes on as before
     }
-    if (r.how === 'cancelled') return void app.journal.release();
-    if (r.handle) app.projectHandle = r.handle;
-    const until = app.journal.seq; // the change sets after this one are the save's own
-    app.store.transact(
-      t('Mark saved'),
-      (tx) => {
-        for (const l of app.store.all('layer')) if (l.saved === false) tx.set(l.id, 'saved', true);
-        tx.set('project', 'savedAt', new Date().toISOString());
-      },
-      { kind: 'load' },
-    );
-    app.dirty = false;
-    await app.journal.saved(kept, since, until);
     app.noteRecent?.(name, app.projectHandle);
     app.toast(r.how === 'in-place' ? t('Saved {file} in place', { file: name }) : r.how === 'download' ? t('Downloaded {file} ({size})', { file: name, size: fmtBytes(blob.size) }) : r.how === 'export-panel' ? t('Use the export panel to keep the project') : t('Saved {file}', { file: name }), { kind: 'info' });
     app.emit('state');

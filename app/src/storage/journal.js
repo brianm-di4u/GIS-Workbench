@@ -36,8 +36,10 @@ export class Journal {
     this.key = await deriveKey(pass, this.salt);
     // Re-write the current journal under the key.
     const pid = this.projectKey();
-    const prev = await this.get('journal', pid);
-    if (prev && !prev.enc) await this.put('journal', pid, await this.seal(prev));
+    await this.after(async () => {
+      const prev = await this.get('journal', pid);
+      if (prev && !prev.enc) await this.put('journal', pid, await this.seal(prev));
+    });
   }
 
   async seal(value) {
@@ -136,6 +138,7 @@ export class Journal {
 
   async write() {
     if (!this.queue.length || !this.available || this.holding) return;
+    const batch = this.queue.splice(0); // taken now: a save may begin while this reads
     const pid = this.projectKey();
     // The first write of a project starts from `base`: its first records, the panes among them, are in no change set.
     let prev = (await this.get('journal', pid)) ?? { changesets: [], snapshot: this.base, views: this.views };
@@ -147,7 +150,7 @@ export class Journal {
         prev = { changesets: [], snapshot: null };
       }
     }
-    prev.changesets.push(...this.queue.splice(0));
+    prev.changesets.push(...batch);
     // Snapshot every 200 change sets so recovery stays fast.
     if (prev.changesets.length >= 200) {
       prev.snapshot = this.app.store.snapshot();
@@ -181,14 +184,16 @@ export class Journal {
    * change set the journal is cleared, as a save always cleared it.
    */
   saved({ records, views }, since, until) {
-    this.holding--;
-    this.base = records;
-    this.views = views;
-    this.queue = this.queue.filter((c) => c.seq > since && c.seq <= until);
+    const own = this.seq; // the save's own change sets are those after `until` and up to here
+    const pid = this.projectKey();
     clearTimeout(this.timer);
     this.timer = 0;
-    const pid = this.projectKey();
+    // In turn with the writes queued before it, which still hold: none takes an edit made during the save.
     return this.after(async () => {
+      this.holding--;
+      this.base = records;
+      this.views = views;
+      this.queue = this.queue.filter((c) => c.seq > since && (c.seq <= until || c.seq > own));
       await this.del('journal', pid);
       await this.write();
     });

@@ -108,4 +108,24 @@ describe('Journal after a save (#99)', () => {
     expect(db.get('gw/7').changesets.map((c) => c.label)).toEqual(['B']);
     expect(recover().names).toEqual(['A1', 'A2', 'B']);
   });
+  it('REQ-ARC-11 #99 an edit made during a save is not taken by a write that began before it', async () => {
+    const { j, add, recover, save } = setup();
+    add('A1');
+    await j.flush();
+    add('A2');
+    const old = j.flush(); // takes A2, then reads
+    await save({ during: 'D' });
+    await old;
+    expect(recover().names).toEqual(['A1', 'A2', 'D']);
+  });
+  it('REQ-ARC-11 #99 an edit made just after a save, before the journal has caught up, stays', async () => {
+    const { j, add, recover, save } = setup();
+    add('A');
+    await j.flush();
+    const saving = save();
+    add('B');
+    await saving;
+    await j.flush();
+    expect(recover().names).toEqual(['A', 'B']);
+  });
 });
