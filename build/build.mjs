@@ -348,6 +348,8 @@ async function main() {
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<meta name="generator" content="GIS Workbench ${VERSION}">`,
     `<meta name="gw-build" content="${buildId}">`,
+    // An icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
+    '<link rel="icon" href="data:,">',
     '<title>GIS Workbench</title>',
     `<style id="app-css">${styles}</style>`,
     '</head>',
@@ -500,6 +502,8 @@ function liteFile({ boot, liteApp, blocks, manifest, noticesText }) {
     '<meta name="color-scheme" content="light dark">',
     `<meta name="generator" content="GIS Workbench ${VERSION} (Lite)">`,
     `<meta name="gw-build" content="${manifest.build.id}">`,
+    // An icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
+    '<link rel="icon" href="data:,">',
     '<title>GIS Workbench Lite</title>',
     `<style id="app-css">${styles}</style>`,
     '</head>',
@@ -545,6 +549,8 @@ function liteHtml(html, csp) {
     `<meta http-equiv="Content-Security-Policy" content="${liteCsp}">`,
     '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">',
     `<meta name="generator" content="GIS Workbench ${VERSION} (Lite)">`,
+    // An icon of its own: without one, a browser asks the server for /favicon.ico, which the CSP blocks (#109).
+    '<link rel="icon" href="data:,">',
     '<title>GIS Workbench Lite</title>',
     // Unpacking takes a moment on a phone: the same splash, in the stub's own small style sheet.
     '<style>html,body{margin:0;height:100%}body{background:#fff;color:#1c1b1f;font:1.1rem system-ui,sans-serif}@media (prefers-color-scheme:dark){body{background:#1c1b1f;color:#e6e1e5}}#gw-splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}.gw-splash-bar{width:180px;height:3px;overflow:hidden;background:#8884}.gw-splash-bar i{display:block;width:40%;height:100%;background:currentColor;animation:s 1.1s linear infinite}@keyframes s{from{transform:translateX(-100%)}to{transform:translateX(250%)}}@media (prefers-reduced-motion:reduce){.gw-splash-bar i{animation:none;width:100%;opacity:.5}}</style>',

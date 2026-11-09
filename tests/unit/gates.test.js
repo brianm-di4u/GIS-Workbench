@@ -152,4 +152,11 @@ describe('PT-04 the shipped file passes its own gates', () => {
     expect(cspGate(csp)).toEqual([]);
     expect(sizeGate({ total: Buffer.byteLength(html), eager: 0 }).errors).toEqual([]);
   });
+  // #109: each shipped page names its own icon, so that a browser does not ask the server for
+  // /favicon.ico, which the CSP (img-src data: blob:) blocks. Firefox reported it as a violation.
+  for (const file of ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'])
+    it.skipIf(!existsSync(`dist/${file}`))(`#109 ${file} declares a data: icon`, () => {
+      const head = readFileSync(`dist/${file}`, 'utf8').slice(0, 20000);
+      expect(head).toContain('<link rel="icon" href="data:,">');
+    });
 });
