@@ -14,6 +14,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, openAsBlob, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
 import vm from 'node:vm';
 import zlib from 'node:zlib';
 import { Bundle } from '../../app/src/wasm/abi.js';
@@ -29,7 +30,8 @@ import { geoToEcef } from '../../app/src/formats/tiles3d-write.js';
 const DATA = 'D:/gwb25/data-models3d';
 const SLPK = `${DATA}/slpk`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
-const WORK = `${DATA}/work/vitest`;
+// The writer tests need somewhere to write even when the D: data drive is absent.
+const WORK = existsSync(DATA) ? `${DATA}/work/vitest` : join(tmpdir(), 'gw-models3d-vitest').replaceAll('\\', '/');
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const PY = `${PYENV}/python.exe`;
 const OSG = 'D:/gwb25/envs/osg/Library/bin';
