@@ -783,8 +783,8 @@
    ]
   },
   {
-   "key": "; {same} of {faces} of the file’s faces are in the rebuilt TIN",
-   "src": "; {same} of {faces} of the file’s faces are in the rebuilt TIN",
+   "key": "; {same} of {faces} of the file’s faces are in the TIN",
+   "src": "; {same} of {faces} of the file’s faces are in the TIN",
    "refs": [
     "features/tin-editor.js"
    ]
@@ -55839,6 +55839,13 @@
    "error": true
   },
   {
+   "key": "the outline of the file’s faces could not be traced: the TIN covers the area between its points",
+   "src": "the outline of the file’s faces could not be traced: the TIN covers the area between its points",
+   "refs": [
+    "features/tin-editor.js"
+   ]
+  },
+  {
    "key": "the page has no ground position (no sensor model when it was captured)",
    "src": "the page has no ground position (no sensor model when it was captured)",
    "refs": [
@@ -57443,6 +57450,14 @@
    "src": "tin state: unknown line kind",
    "refs": [
     "crates/gw-tin/src/state.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "tin: bad faces",
+   "src": "tin: bad faces",
+   "refs": [
+    "crates/bundles/tin/src/lib.rs"
    ],
    "error": true
   },
@@ -61542,8 +61557,8 @@
    ]
   },
   {
-   "key": "{n, plural, one {# face is} other {# faces are}} hidden in the file and no boundary excludes {n, plural, one {it} other {them}}: the TIN covers {n, plural, one {it} other {them}}",
-   "src": "{n, plural, one {# face is} other {# faces are}} hidden in the file and no boundary excludes {n, plural, one {it} other {them}}: the TIN covers {n, plural, one {it} other {them}}",
+   "key": "{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, the three are on one line, or the face overlaps another",
+   "src": "{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, the three are on one line, or the face overlaps another",
    "refs": [
     "features/tin-editor.js"
    ]
@@ -61873,6 +61888,13 @@
    ]
   },
   {
+   "key": "{n, plural, one {# point is} other {# points are}} on no face: not put in",
+   "src": "{n, plural, one {# point is} other {# points are}} on no face: not put in",
+   "refs": [
+    "features/tin-editor.js"
+   ]
+  },
+  {
    "key": "{n, plural, one {# point is} other {# points are}} outside the grids or on nodata.",
    "src": "{n, plural, one {# point is} other {# points are}} outside the grids or on nodata.",
    "refs": [
@@ -62061,6 +62083,13 @@
    "src": "{n, plural, one {# slide} other {# slides}}",
    "refs": [
     "features/recipes.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# source data point is} other {# source data points are}} not put in: the file’s faces are the surface",
+   "src": "{n, plural, one {# source data point is} other {# source data points are}} not put in: the file’s faces are the surface",
+   "refs": [
+    "features/tin-editor.js"
    ]
   },
   {
