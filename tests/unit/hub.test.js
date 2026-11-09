@@ -1,7 +1,8 @@
 // REQ-HUB-01..03: the bridge writers — PSD levels/curves from the
 // image chain, layered PDF (optional content) and SVG, the terrain grid, the relay signature.
 import { describe, it, expect } from 'vitest';
-import { levelsFor, curvesFor } from '../../app/src/hub/psd.js';
+import { readPsd, writePsd } from 'ag-psd';
+import { levelsFor, curvesFor, adjustmentsFor } from '../../app/src/hub/psd.js';
 import { layeredPdf, layeredSvg, rgba } from '../../app/src/hub/layers.js';
 import { terrainGrid, enu, uvLookup } from '../../app/src/hub/terrain3d.js';
 
@@ -13,6 +14,22 @@ describe('Photoshop adjustments', () => {
   it('turns the tonal curve into Curves points with both ends', () => {
     expect(curvesFor([[0.25, 0.1], [0.75, 0.9]])).toEqual([{ input: 0, output: 0 }, { input: 64, output: 26 }, { input: 191, output: 230 }, { input: 255, output: 255 }]);
     expect(curvesFor(null)).toBe(null);
+  });
+  it('REQ-HUB-01 writes Levels and Curves that ag-psd reads back, per channel and on the composite (#122)', () => {
+    const levels = [26, 40, 60].map((lo) => ({ shadowInput: lo, highlightInput: 200, shadowOutput: 0, highlightOutput: 255, midtoneInput: 1.32 }));
+    const curve = curvesFor([[0.25, 0.2], [0.75, 0.85]]);
+    const back = (mono) => {
+      const adj = adjustmentsFor(levels, mono, curve);
+      const bytes = writePsd({ width: 2, height: 2, children: [{ name: 'L', adjustment: adj.levels }, { name: 'C', adjustment: adj.curves }] }, { generateThumbnail: false, noBackground: true });
+      return readPsd(bytes, { skipLayerImageData: true, skipCompositeImageData: true, skipThumbnail: true }).children.map((c) => c.adjustment);
+    };
+    const [lev, cur] = back(false);
+    expect(lev.channels.map((c) => c.shadowInput)).toEqual([0, 26, 40, 60]);
+    expect(lev.channels[1].midtoneInput).toBeCloseTo(1.32, 2);
+    expect(cur.channels[0].map((p) => p.input)).toEqual([0, 64, 191, 255]);
+    const [mono] = back(true);
+    expect(mono.channels[0].shadowInput).toBe(26);
+    expect(mono.channels.slice(1).every((c) => c.shadowInput === 0 && c.highlightInput === 255)).toBe(true);
   });
 });
 

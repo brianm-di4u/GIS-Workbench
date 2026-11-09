@@ -93,7 +93,8 @@ describe.skipIf(!have)('REQ-GAP-22 the photo bundle solves a synthetic block bui
       const n = (s - 1) * 55;
       truth.push({ lat: lat0 + n * mN, lon: lon0 + e * mE, hae: 400 + 2 * rnd(), opk: [2 * rnd(), 2 * rnd(), (s % 2 ? -90 : 90) + 3 * rnd()] });
     }
-  const models = truth.map((t) => core.frameModelEx(frameParams(truthCam, t, { kind: 'opk', omega: t.opk[0], phi: t.opk[1], kappa: t.opk[2] }), 'truth'));
+  // describe.skipIf still runs this body at collection, so nothing here may touch an unbuilt bundle.
+  const models = !have ? [] : truth.map((t) => core.frameModelEx(frameParams(truthCam, t, { kind: 'opk', omega: t.opk[0], phi: t.opk[1], kappa: t.opk[2] }), 'truth'));
   const points = [];
   const obs = [];
   for (let e = -120; e <= 120; e += 9)

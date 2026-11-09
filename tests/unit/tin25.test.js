@@ -15,7 +15,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import { TinBundle, encodeTinEdits, KIND } from '../../app/src/wasm/tin.js';
+import { TinBundle, encodeTinEdits, KIND, FILE_KEY0 } from '../../app/src/wasm/tin.js';
 import { frameAt, toPlane, toGeo, gridSpec, rasterGrid, importForm, exportForm, fromFeatures, fromTable, writeLandXml, writeCsv } from '../../app/src/analysis/tin-io.js';
 import { fromParts } from '../../app/src/vector/geom.js';
 
@@ -540,7 +540,9 @@ describe.skipIf(!haveWasm)('REQ-GAP-39 TIN bundle', () => {
     const r = B.landxml(new TextEncoder().encode(x));
     const tin = B.fromPoints(r.points).id;
     const kept = B.keepFaces(tin, r.points, r.faces, r.hidden);
-    expect(kept).toMatchObject({ faces: faces.length / 3, skipped: 0, rings: 2 });
+    expect(kept).toMatchObject({ faces: faces.length / 3, skipped: 0, rings: 2, visible: faces.length / 3 - 1 });
+    // The app's FILE_KEY0 is the bundle's: the first forced edge has that key (#77).
+    expect(Math.min(...B.lines(tin).filter((l) => l.kind === KIND.swap).map((l) => l.key))).toBe(FILE_KEY0);
     expect(kept.forced).toBeGreaterThan(30);
     const m = B.mesh(tin);
     const key = (xy) => xy.map(([a, b]) => `${Math.round(a * 1000)},${Math.round(b * 1000)}`).sort().join(' ');
