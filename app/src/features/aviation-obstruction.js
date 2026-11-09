@@ -574,7 +574,8 @@ export function install(app) {
     const [ia, ib] = designator(inv.azi1).split('/');
     const elev = (q) => app.terrain.sample(q.lat, q.lon)?.msl ?? ap.elev;
     const end = (q, eid) => ({ id: eid, lat: q.lat, lon: q.lon, elev: elev(q), p77: 'B(V)', icao: 0, disp: 0, thrElev: null, clearway: 0, approach: true, takeoff: true });
-    const r = { id: `${ia}/${ib}`, length: inv.distance, width: 45, surface: '', paved: true, code: OB.icaoCodeNumber(inv.distance), ends: [end(a, ia), end(b, ib)] };
+    // No width: a drawn runway's width isn't known, and Amendment 18 must say so rather than use a guess.
+    const r = { id: `${ia}/${ib}`, length: inv.distance, width: null, surface: '', paved: true, code: OB.icaoCodeNumber(inv.distance), ends: [end(a, ia), end(b, ib)] };
     S.transact(t('Add runway {rwy}', { rwy: r.id }), (tx) => tx.set(ap.id, 'runways', [...ap.runways, r]));
     toast(t('Runway {rwy} added to {ident}: {len}', { rwy: r.id, ident: ap.ident, len: height(inv.distance, 0) }), { kind: 'info' });
     return r;

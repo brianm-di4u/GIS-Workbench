@@ -343,6 +343,8 @@ test('REQ-GAP-73 an airport entered by hand, a runway drawn on the map, a crane 
   expect(ap.runways.length).toBe(1);
   const rw = ap.runways[0];
   expect(rw.id).toBe('09/27');
+  // Its width is unknown, not a placeholder that Amendment 18 would read as measured.
+  expect(rw.width).toBeNull();
   // The clicked ends are within a panel pixel (≈ 8 m at this zoom) of the intended ones.
   expect(Math.abs(rw.length - 1200)).toBeLessThan(20);
   // Edit in the dialog: end 09 is a B(V) visual end; paved.
