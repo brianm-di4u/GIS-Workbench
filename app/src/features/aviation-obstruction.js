@@ -296,7 +296,9 @@ export function install(app) {
       grid.limit = limit;
       grid.sid = sid;
     } else {
-      const c = cloud ?? [...(app.pointClouds?.values() ?? [])][0];
+      const c0 = cloud ?? [...(app.pointClouds?.values() ?? [])][0];
+      // Deleted points (REQ-GAP-81) are not obstacles.
+      const c = c0 && app.pc?.compact ? app.pc.compact(c0) : c0;
       if (!c?.pos) throw gwError('Obstruction surfaces need a DSM loaded as terrain, or a point cloud', null, 'E_OBS_NO_SURFACE');
       srcName = c.name;
       // A cloud with no CRS sits in a local frame at 0°, 0°: nothing would fall under the surfaces,

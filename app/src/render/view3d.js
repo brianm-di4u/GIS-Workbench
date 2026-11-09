@@ -46,6 +46,7 @@ in vec3 rgb;
 in float gpsTime;
 in float source;
 in float hag;
+in float deleted;
 uniform int uMode;
 uniform vec2 uZRange;
 uniform vec2 uIRange;
@@ -64,7 +65,7 @@ vec3 ramp(float t) { return texture(uRamp, vec2(clamp(t, 0.0, 1.0), 0.5)).rgb; }
 void main() {
   vec4 pal = texelFetch(uPalette, ivec2(int(classification + 0.5), 0), 0);
   float sv = uShave.z > 0.5 ? hag : position.z;
-  bool hidden = pal.a < 0.5 || (uShave.x > 0.5 && uShave.x < 1.5 && sv > uShave.y) || (uShave.x > 1.5 && sv < uShave.y);
+  bool hidden = deleted > 0.5 || pal.a < 0.5 ||(uShave.x > 0.5 && uShave.x < 1.5 && sv > uShave.y) || (uShave.x > 1.5 && sv < uShave.y);
   if (hidden) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; vColor = vec3(0.0); return; }
   vec4 mv = modelViewMatrix * vec4(position, 1.0);
   gl_Position = projectionMatrix * mv;
@@ -319,6 +320,7 @@ export class View3D {
     g.setAttribute('source', attr(cloud.source.subarray(s, e), 1));
     if (cloud.rgb) g.setAttribute('rgb', attr(cloud.rgb.subarray(3 * s, 3 * e), 3, true));
     if (cloud.hag) g.setAttribute('hag', attr(cloud.hag.subarray(s, e), 1));
+    if (cloud.deleted) g.setAttribute('deleted', attr(cloud.deleted.subarray(s, e), 1));
     g.boundingBox = new T.Box3(new T.Vector3(...t.min), new T.Vector3(...t.max));
     g.boundingSphere = g.boundingBox.getBoundingSphere(new T.Sphere());
     const uSpacing = { value: 1 };
@@ -365,7 +367,17 @@ export class View3D {
       const s = tl.t.start;
       const n = tl.t.count;
       for (const f of fields) {
-        if (f === 'hag' && cloud.hag && !tl.geom.getAttribute('hag')) tl.geom.setAttribute('hag', new this.T.BufferAttribute(cloud.hag.subarray(s, s + n), 1));
+        // Deleted points (REQ-GAP-81): the attribute exists only while some are; without it the shader reads 0.
+        if (f === 'deleted') {
+          const a = tl.geom.getAttribute('deleted');
+          if (!cloud.deleted) {
+            if (a) tl.geom.deleteAttribute('deleted');
+          } else if (!a) tl.geom.setAttribute('deleted', new this.T.BufferAttribute(cloud.deleted.subarray(s, s + n), 1));
+          else {
+            a.array = cloud.deleted.subarray(s, s + n);
+            a.needsUpdate = true;
+          }
+        } else if (f === 'hag' && cloud.hag && !tl.geom.getAttribute('hag')) tl.geom.setAttribute('hag', new this.T.BufferAttribute(cloud.hag.subarray(s, s + n), 1));
         else if (f === 'rgb' && cloud.rgb && !tl.geom.getAttribute('rgb')) tl.geom.setAttribute('rgb', new this.T.BufferAttribute(cloud.rgb.subarray(3 * s, 3 * (s + n)), 3, true));
         else {
           const a = tl.geom.getAttribute(f);
@@ -750,7 +762,7 @@ export class View3D {
         if (!tl.count) continue;
         const s = tl.t.start;
         for (let k = s; k < s + tl.count; k++) {
-          if (!this.classVisible[cl.class[k]]) continue;
+          if (!this.classVisible[cl.class[k]] || cl.deleted?.[k]) continue;
           const x = cl.pos[3 * k];
           const y = cl.pos[3 * k + 1];
           const z = cl.pos[3 * k + 2];
