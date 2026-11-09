@@ -117,18 +117,8 @@ impl Geoid {
         let ix = fx.floor() as isize;
         let ty = fy - iy as f64;
         let tx = fx - ix as f64;
-        let w = |t: f64| -> [f64; 4] {
-            let t2 = t * t;
-            let t3 = t2 * t;
-            [
-                (-t3 + 2.0 * t2 - t) / 2.0,
-                (3.0 * t3 - 5.0 * t2 + 2.0) / 2.0,
-                (-3.0 * t3 + 4.0 * t2 + t) / 2.0,
-                (t3 - t2) / 2.0,
-            ]
-        };
-        let wy = w(ty);
-        let wx = w(tx);
+        let wy = catmull_rom(ty);
+        let wx = catmull_rom(tx);
         let mut v = 0.0;
         for (j, wyj) in wy.iter().enumerate() {
             let mut row = 0.0;
@@ -151,6 +141,14 @@ impl Geoid {
 }
 
 /// Encode a grid with the predictor (used by the build and by round-trip tests).
+/// Catmull-Rom weights of the four nodes around a fractional position `t` in [0, 1): nodes −1, 0,
+/// 1 and 2. Shared by the geoid grids here and the EGM2008 2.5′ grid in `datum::shift`.
+pub fn catmull_rom(t: f64) -> [f64; 4] {
+    let t2 = t * t;
+    let t3 = t2 * t;
+    [(-t3 + 2.0 * t2 - t) / 2.0, (3.0 * t3 - 5.0 * t2 + 2.0) / 2.0, (-3.0 * t3 + 4.0 * t2 + t) / 2.0, (t3 - t2) / 2.0]
+}
+
 pub fn encode_predicted_planes(width: usize, height: usize, v: &[i16]) -> Vec<u8> {
     let n = width * height;
     let mut out = vec![0u8; 2 * n];

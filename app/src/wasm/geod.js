@@ -43,7 +43,8 @@ export class GeodBundle extends Bundle {
 
   /**
    * Apply grids to points. kind 'hgridshift' | 'gridshift' | 'vgridshift'; ids = grid ids in
-   * the order PROJ lists them. Options: inverse, interpolation ('bilinear'|'biquadratic'),
+   * the order PROJ lists them. Options: inverse, interpolation ('bilinear'|'biquadratic', or
+   * 'cubic': Catmull-Rom for vgridshift, which PROJ lacks),
    * noZ, multiplier (vgridshift; PROJ default −1). Returns {pts, failed, grids: {name: count}};
    * a point outside every grid (or on nodata) comes back as NaN.
    */
@@ -57,7 +58,7 @@ export class GeodBundle extends Bundle {
       const ip = this.x.gw_alloc(idArr.byteLength);
       new Int32Array(this.mem, ip, idArr.length).set(idArr);
       try {
-        const flags = (interpolation ? 1 : 0) | (interpolation === 'biquadratic' ? 2 : 0) | (noZ ? 4 : 0);
+        const flags = interpolation === 'cubic' ? 8 | (noZ ? 4 : 0) : (interpolation ? 1 : 0) | (interpolation === 'biquadratic' ? 2 : 0) | (noZ ? 4 : 0);
         this.check(this.x.gw_grid_apply(KIND[kind], ip, idArr.length, inverse ? 1 : 0, a, n, flags, multiplier), 'grid_apply');
         const r = new Float64Array(this.mem, a, 3 * n).slice();
         const meta = this.outJson();
@@ -69,9 +70,9 @@ export class GeodBundle extends Bundle {
     });
   }
 
-  /** Grid value × multiplier at one point (NaN outside or on nodata): geoid N with multiplier 1. */
-  value(id, lon, lat, multiplier = 1) {
-    return this.x.gw_vgrid_value(id, lon, lat, multiplier);
+  /** Grid value × multiplier at one point (NaN outside or on nodata): geoid N with multiplier 1; Catmull-Rom when cubic. */
+  value(id, lon, lat, multiplier = 1, cubic = false) {
+    return this.x.gw_vgrid_value(id, lon, lat, multiplier, cubic ? 1 : 0);
   }
 
   /** [{name, geocentric, geographic3d, geographic2d, ellipsoid}] */
