@@ -104,6 +104,12 @@ export function parsePoints(text) {
   return out;
 }
 
+/**
+ * Grids interpolated Catmull-Rom bicubic rather than PROJ's bilinear (REG-024): EGM2008 2.5′,
+ * whose worst bilinear error is 13.5 cm against 3.1 cm cubic (GeographicLib's figures).
+ */
+const CUBIC = new Set(['us_nga_egm08_25']);
+
 export class GridEngine {
   constructor(app) {
     this.app = app;
@@ -132,7 +138,7 @@ export class GridEngine {
     if (cat.format !== 'gw-grids/1') return [];
     await this.ensure();
     this.packs.set(pack.name, pack);
-    for (const g of cat.grids) this.catalogue.set(g.id, { ...g, pack: pack.name });
+    for (const g of cat.grids) this.catalogue.set(g.id, { ...g, ...(CUBIC.has(g.id) && { interpolation: 'cubic' }), pack: pack.name });
     this._emit();
     return cat.grids.map((g) => g.id);
   }
@@ -221,7 +227,7 @@ export class GridEngine {
         for (const gid of list) {
           const g = this.catalogue.get(gid);
           const h = this.handle(gid);
-          const r = this.bundle.apply(g.op, [h], cur, { inverse, noZ: !g.heights });
+          const r = this.bundle.apply(g.op, [h], cur, { inverse, noZ: !g.heights, interpolation: g.interpolation === 'cubic' ? 'cubic' : null });
           cur = r.pts.map((p, k) => {
             if (!Number.isFinite(p[0])) ok[k] = false;
             return Number.isFinite(p[0]) ? p : cur[k];
@@ -255,14 +261,19 @@ export class GridEngine {
   /** Geoid (or hybrid geoid) height N at a point from a loaded grid; NaN outside or on nodata. */
   undulation(gridId, lon, lat) {
     const h = this.handle(gridId);
-    return h ? this.bundle.value(h, lon, lat, 1) : NaN;
+    return h ? this.bundle.value(h, lon, lat, 1, this.cubic(gridId)) : NaN;
   }
 
   /** Many undulations at once (one WASM call). */
   undulations(gridId, pts) {
     const h = this.handle(gridId);
     if (!h) return pts.map(() => NaN);
-    return this.bundle.apply('vgridshift', [h], pts.map((p) => [p[0], p[1], 0]), { multiplier: 1 }).pts.map((p) => p[2]);
+    return this.bundle.apply('vgridshift', [h], pts.map((p) => [p[0], p[1], 0]), { multiplier: 1, interpolation: this.cubic(gridId) ? 'cubic' : null }).pts.map((p) => p[2]);
+  }
+
+  /** True when a grid is interpolated Catmull-Rom (EGM2008 2.5′). */
+  cubic(gridId) {
+    return this.catalogue.get(gridId)?.interpolation === 'cubic';
   }
 
   /**
@@ -278,6 +289,7 @@ export class GridEngine {
     const v = VERTICALS[vertical];
     if (!v || !this.bundle || !this.has(v.grid)) return null;
     const h = this.handle(v.grid);
+    const cubic = this.cubic(v.grid);
     const { width: W, height: H } = g;
     // Frame height change on a lattice of at most 33 × 33 nodes.
     const frame = v.datum === 'WGS 84' ? null : v.datum === 'ETRS89' ? 'ETRF2014' : v.datum;
@@ -313,7 +325,7 @@ export class GridEngine {
       const lat = g.lat0 - r * g.dlat;
       for (let c = 0; c < W; c++) {
         const lon = g.lon0 + c * g.dlon;
-        let N = this.bundle.value(h, lon, lat, 1);
+        let N = this.bundle.value(h, lon, lat, 1, cubic);
         if (!Number.isFinite(N)) {
           N = fallbackN ? fallbackN(lat, lon) : NaN;
           outside++;

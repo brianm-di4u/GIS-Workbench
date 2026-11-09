@@ -37,6 +37,38 @@ export async function pickFiles(app, { multiple = true, accept = [], description
   });
 }
 
+/**
+ * Can the system share sheet take this file? Chrome on Android answers yes through canShare, then
+ * refuses most formats with NotAllowedError (it passes images, media, PDF and text): offering Share
+ * there would only ever end in the fallback.
+ */
+export function canShareFile(file) {
+  if (/Android/.test(navigator.userAgent)) return false;
+  try {
+    return !!navigator.share && !!navigator.canShare?.({ files: [file] });
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Hand a file to the share sheet where there is one (a phone keeps it where the user chooses),
+ * else save it as saveBlob does. → {how: 'shared' | 'cancelled' | saveBlob's}.
+ */
+export async function shareOrSave(app, blob, { name, title = name, ...save } = {}) {
+  const file = new File([blob], name, { type: blob.type });
+  if (typeof app?.saveCapture !== 'function' && canShareFile(file)) {
+    try {
+      await navigator.share({ files: [file], title });
+      return { how: 'shared' };
+    } catch (e) {
+      if (e?.name === 'AbortError') return { how: 'cancelled' };
+      app.log('warn', `share: ${e?.message ?? e}`);
+    }
+  }
+  return saveBlob(app, blob, { name, ...save });
+}
+
 /** Save a Blob: in place to `handle` when given, else a save picker, else a download. */
 export async function saveBlob(app, blob, { name, handle = null, types = [], description = t('File'), preferPicker = true } = {}) {
   // Automation API v2 (REQ-GAP-01): while a headless call runs, saves come back in its result.
