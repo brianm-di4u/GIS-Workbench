@@ -450,3 +450,29 @@ test('REQ-ARC-11 the IndexedDB journal recovers unsaved edits after a reload; no
   const size = await f2.evaluate(async () => JSON.stringify(await window.gisworkbench.journal.recoverable()).length);
   expect(size).toBeLessThan(20000);
 });
+
+test('REQ-ARC-11 #99 a crash after a save recovers the saved work, the later edits and the panel views', async ({ page }) => {
+  const { frame } = await openApp(page, 'file');
+  const view = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const layer = (name) => app.store.transact(name, (tx) => tx.create('vlayer', { name, visible: true, fields: [], source: { format: 'new' } }));
+    layer('Saved layer');
+    await app.journal.flush();
+    const pane = app.desktop.multiports[0].panes[0];
+    Object.assign(pane.view, { lon: 12.5, lat: 41.9, zoom: 300 });
+    app.saveCapture = () => {};
+    await app.commands.run('file.save');
+    delete app.saveCapture;
+    layer('After the save');
+    await app.journal.flush();
+    return { id: pane.id, ...pane.view };
+  });
+  const f2 = await restart(page);
+  const toast = f2.locator('.toast', { hasText: 'Unsaved work' });
+  await expect(toast).toBeVisible({ timeout: 10000 });
+  await toast.getByRole('button', { name: 'Recover' }).click();
+  await f2.waitForFunction(() => window.gisworkbench.store.all('vlayer').some((v) => v.name === 'After the save'));
+  expect(await f2.evaluate(() => window.gisworkbench.store.all('vlayer').map((v) => v.name).sort())).toEqual(['After the save', 'Saved layer']);
+  const back = await f2.evaluate((id) => window.gisworkbench.desktop.multiports.flatMap((m) => m.panes).find((p) => p.id === id)?.view, view.id);
+  expect(back).toMatchObject({ lon: 12.5, lat: 41.9, zoom: 300 });
+});

@@ -4,7 +4,7 @@
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
-import { serialiseProject, readProject, relink } from '../storage/project.js';
+import { serialiseProject, readProject, parseRecords, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
 import { groupFiles, openImageFile, attachFile, recoverHandle, isRpfToc } from '../formats/open.js';
 import { frameCoverage } from '../formats/rpf-coverage.js';
@@ -49,7 +49,10 @@ export async function install(app) {
   app.journal = new Journal(app);
   await app.journal.open();
   if (!app.journal.available) app.storageWarning = t('Browser storage is unavailable here: no crash recovery and no saved whiteboard sessions.');
-  const markBase = () => (app.journal.base = app.store.snapshot());
+  const markBase = () => {
+    app.journal.base = app.store.snapshot();
+    app.journal.views = null; // an opened project sets its own
+  };
   markBase();
   app.store.on('reset', markBase);
   app.store.on('commit', (cs) => {
@@ -499,12 +502,21 @@ export async function install(app) {
 
   // ---- project ----
   async function save(as = false) {
-    const bytes = serialiseProject(app);
-    const blob = new Blob([bytes], { type: 'application/zip' });
-    const name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
-    const r = await saveBlob(app, blob, { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') });
-    if (r.how === 'cancelled') return;
+    // The crash journal restarts from what this save writes, keeping the edits made after it (#99).
+    const since = app.journal.hold();
+    const kept = {};
+    let r, blob, name;
+    try {
+      blob = new Blob([serialiseProject(app, kept)], { type: 'application/zip' });
+      name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
+      r = await saveBlob(app, blob, { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') });
+    } catch (e) {
+      void app.journal.release();
+      throw e;
+    }
+    if (r.how === 'cancelled') return void app.journal.release();
     if (r.handle) app.projectHandle = r.handle;
+    const until = app.journal.seq; // the change sets after this one are the save's own
     app.store.transact(
       t('Mark saved'),
       (tx) => {
@@ -514,7 +526,7 @@ export async function install(app) {
       { kind: 'load' },
     );
     app.dirty = false;
-    await app.journal.clear();
+    await app.journal.saved(kept, since, until);
     app.noteRecent?.(name, app.projectHandle);
     app.toast(r.how === 'in-place' ? t('Saved {file} in place', { file: name }) : r.how === 'download' ? t('Downloaded {file} ({size})', { file: name, size: fmtBytes(blob.size) }) : r.how === 'export-panel' ? t('Use the export panel to keep the project') : t('Saved {file}', { file: name }), { kind: 'info' });
     app.emit('state');
@@ -538,11 +550,8 @@ export async function install(app) {
     app.store.load(parsed.records);
     app.undo.clear();
     app.projectHandle = file.__handle ?? null;
-    for (const mp of app.store.all('multiport')) {
-      const m = app.desktop.addMultiport(mp.id);
-      for (const p of m.panes) if (parsed.views.views?.[p.id]) Object.assign(p.view, parsed.views.views[p.id]);
-      m.docks.restore(parsed.views.docks?.[mp.id]);
-    }
+    addPanels(parsed.views);
+    app.journal.views = parsed.views;
     app.emit('layers');
     const refs = app.store.all('fileref');
     if (attach) {
@@ -570,6 +579,15 @@ export async function install(app) {
     app.toast(t('Opened project {name}', { name: parsed.manifest.project }), { kind: 'info' });
   }
   app.openProjectFile = openProjectFile;
+
+  /** Add the store's panels, with the pane views and dock layouts of `views` (a project's views.json). */
+  function addPanels(views) {
+    for (const mp of app.store.all('multiport')) {
+      const m = app.desktop.addMultiport(mp.id);
+      for (const p of m.panes) if (views?.views?.[p.id]) Object.assign(p.view, views.views[p.id]);
+      m.docks.restore(views?.docks?.[mp.id]);
+    }
+  }
 
   // ---- snapshot (REQ-ARC-19): the tool, the project and its smaller files in one HTML ----
   const b64 = (u8) => {
@@ -724,7 +742,8 @@ export async function install(app) {
                 return app.toast(t('Recovery: {msg}', { msg: errMsg(e) }), { kind: 'error' });
               }
             }
-            const base = rec.snapshot ?? app.store.snapshot();
+            // After a save the base is the saved file's records.json text (#99).
+            const base = typeof rec.snapshot === 'string' ? parseRecords(rec.snapshot) : (rec.snapshot ?? app.store.snapshot());
             app.store.load(base);
             for (const cs of rec.changesets) {
               try {
@@ -734,7 +753,8 @@ export async function install(app) {
               }
             }
             for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
-            for (const mp of app.store.all('multiport')) app.desktop.addMultiport(mp.id);
+            addPanels(rec.views);
+            app.journal.views = rec.views ?? null;
             app.emit('layers');
             await relinkDialog(app.store.all('fileref'));
           },

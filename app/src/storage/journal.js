@@ -11,7 +11,13 @@ export class Journal {
     this.app = app;
     this.db = null;
     this.queue = [];
+    // What the journal starts from: the records (an array, or a saved file's records.json text)
+    // and the panel views (that file's views.json) as they were at the last open or save (#99).
     this.base = null;
+    this.views = null;
+    this.seq = 0; // change sets recorded so far
+    this.holding = 0; // saves under way: no write until they finish
+    this.chain = Promise.resolve(); // the writes, one after another
     this.timer = 0;
     this.enabled = app.prefs.get('journal') !== 'off';
     this.available = false;
@@ -112,18 +118,27 @@ export class Journal {
   /** Journal a committed change set (batched every 500 ms or 50 ops). */
   record(cs) {
     if (!this.enabled || !this.available) return;
-    this.queue.push({ label: cs.label, kind: cs.kind, ts: cs.ts, ops: cs.ops });
+    this.queue.push({ label: cs.label, kind: cs.kind, ts: cs.ts, ops: cs.ops, seq: ++this.seq });
     if (this.queue.length >= 50) this.flush();
     else if (!this.timer) this.timer = setTimeout(() => this.flush(), 500);
   }
 
-  async flush() {
+  flush() {
     clearTimeout(this.timer);
     this.timer = 0;
-    if (!this.queue.length || !this.available) return;
+    return this.after(() => this.write());
+  }
+
+  /** Run fn after the journal's earlier writes, so that no two read and write the record at once. */
+  after(fn) {
+    return (this.chain = this.chain.catch(() => {}).then(fn));
+  }
+
+  async write() {
+    if (!this.queue.length || !this.available || this.holding) return;
     const pid = this.projectKey();
     // The first write of a project starts from `base`: its first records, the panes among them, are in no change set.
-    let prev = (await this.get('journal', pid)) ?? { changesets: [], snapshot: this.base };
+    let prev = (await this.get('journal', pid)) ?? { changesets: [], snapshot: this.base, views: this.views };
     if (prev.enc) {
       // Encrypted earlier in this session: open with the session key, else start afresh.
       try {
@@ -146,10 +161,37 @@ export class Journal {
     return `gw/${this.app.project()?.created ?? 'none'}`;
   }
 
-  /** A clean save clears the journal. */
-  async clear() {
-    this.queue.length = 0;
-    await this.del('journal', this.projectKey());
+  /** A save is starting: hold the writes until it ends. Returns the mark to pass to saved(). */
+  hold() {
+    this.holding++;
+    return this.seq;
+  }
+
+  /** The save that hold() began did not finish: write what is waiting. */
+  release() {
+    this.holding--;
+    return this.flush();
+  }
+
+  /**
+   * The save that hold() began is done: the saved records (records.json's text) and views become
+   * the base, and the change sets kept are those made while it wrote: after it read the store
+   * (`since`, from hold()) and up to `until` (the save's own come after). Recovery then gives the
+   * saved work and what came after it, not the records as they were opened (#99). With no such
+   * change set the journal is cleared, as a save always cleared it.
+   */
+  saved({ records, views }, since, until) {
+    this.holding--;
+    this.base = records;
+    this.views = views;
+    this.queue = this.queue.filter((c) => c.seq > since && c.seq <= until);
+    clearTimeout(this.timer);
+    this.timer = 0;
+    const pid = this.projectKey();
+    return this.after(async () => {
+      await this.del('journal', pid);
+      await this.write();
+    });
   }
 
   async recoverable() {

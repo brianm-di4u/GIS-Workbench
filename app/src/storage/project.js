@@ -11,7 +11,11 @@ export const FORMAT = 'gis-workbench-project';
 export const VERSION = 1;
 const LIMITS = { entries: 2000, total: 512 << 20, ratio: 200 };
 
-export function serialiseProject(app) {
+/**
+ * The project file's bytes. `kept`, when given, receives the records' JSON text and the views as
+ * saved: the crash journal starts from them after a save (#99).
+ */
+export function serialiseProject(app, kept = null) {
   const records = app.store.snapshot();
   const views = {};
   for (const mp of app.desktop.multiports) for (const p of mp.panes) views[p.id] = clone(p.view);
@@ -27,10 +31,13 @@ export function serialiseProject(app) {
     note: 'Imagery is referenced, not embedded. Open the project and relink files by fingerprint.',
   };
   const journal = app.undo.history().slice(0, 50);
+  const text = JSON.stringify(records);
+  const shown = { views, docks, arrange: app.desktop.arrange };
+  if (kept) Object.assign(kept, { records: text, views: shown });
   const files = {
     'manifest.json': strToU8(JSON.stringify(manifest, null, 2)),
-    'records.json': strToU8(JSON.stringify(records)),
-    'views.json': strToU8(JSON.stringify({ views, docks, arrange: app.desktop.arrange })),
+    'records.json': strToU8(text),
+    'views.json': strToU8(JSON.stringify(shown)),
     'journal.json': strToU8(JSON.stringify(journal)),
   };
   return zipSync(files, { level: 6 });
@@ -55,9 +62,14 @@ export function readProject(bytes) {
   const manifest = JSON.parse(text('manifest.json') ?? 'null');
   if (!manifest || manifest.format !== FORMAT) throw new Error('not a GIS Workbench project (.gwb)');
   if (manifest.version > VERSION) throw gwError('this project was saved by a newer GIS Workbench (format {version}); this build reads up to {max}', { version: String(manifest.version), max: String(VERSION) }, 'E_PROJECT_NEWER');
-  const records = JSON.parse(text('records.json') ?? '[]', (k, v) => (k === '__proto__' ? undefined : v));
+  const records = parseRecords(text('records.json') ?? '[]', manifest.version);
   const views = JSON.parse(text('views.json') ?? '{}');
-  return { manifest, records: migrate(records, manifest.version), views };
+  return { manifest, records, views };
+}
+
+/** Records from a project's records.json text (or the journal's copy of it): no "__proto__" keys, and each with an id and a type. */
+export function parseRecords(text, version = VERSION) {
+  return migrate(JSON.parse(text, (k, v) => (k === '__proto__' ? undefined : v)), version);
 }
 
 function migrate(records) {
