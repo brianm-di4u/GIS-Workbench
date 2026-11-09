@@ -102,7 +102,7 @@ export function install(app) {
       const pts = new Float64Array(3 * n);
       let m = 0;
       for (let k = 0; k < c.n; k++) {
-        if (!classes.has(c.class[k])) continue;
+        if (!classes.has(c.class[k]) || c.deleted?.[k]) continue; // deleted points (REQ-GAP-81) are not ground
         const x = ox + c.pos[3 * k] * sx;
         const y = oy + c.pos[3 * k + 1] * sy;
         if (s.box && (x < s.box[0] || y < s.box[1] || x > s.box[2] || y > s.box[3])) continue;

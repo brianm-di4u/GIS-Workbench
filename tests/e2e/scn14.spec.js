@@ -2,7 +2,8 @@
 // LAZ decoded in parallel workers and equal to the LAS (AT-14.1 second half), the header panel and
 // class counts against the truth (AT-14.2), the DTM against the analytic terrain, from the file's
 // classes and from SMRF (AT-14.3), nDSM building heights (AT-14.4), the profile swath and point-
-// snapped vertical picks (AT-14.5), US-feet GeoTIFF keys (REQ-LDR-03), class edits with undo,
+// snapped vertical picks (AT-14.5), US-feet GeoTIFF keys (REQ-LDR-03), class edits with undo, profile
+// edits (SCN-69: select, delete, withhold, undo, export),
 // colourising from FX-01, LAS 1.4 export round trips, and the 5 M-point frame rate (AT-14.1).
 import { test, expect } from '@playwright/test';
 import { readFileSync, existsSync } from 'node:fs';
@@ -288,5 +289,150 @@ test('SCN-14 AT-14.1 REQ-PRF-05 REQ-LDR-04 FX-09 5 M points render at 30 fps or 
   expect(r.drawn).toBeLessThanOrEqual(r.budget);
   expect(r.drawn).toBeGreaterThan(2_000_000);
   expect(r.fps).toBeGreaterThanOrEqual(30);
+  expect(logs).toEqual([]);
+});
+
+// SCN-69 (REQ-GAP-81): clean noise from a lidar strip in the profile view, undo it, and export.
+// Through the commands: Select in Profile (two clicks on the 3D view), a box dragged on the
+// profile around the high-noise points, Delete Points; then Set Withheld on a selection; undo,
+// redo and LAS export. Deleted points leave the view's picks, the profile, the grids and the file.
+test('SCN-69 REQ-GAP-81 FX-09 clean noise in the profile view: select, delete, withhold, undo, export', async ({ page }) => {
+  test.setTimeout(300000);
+  const { frame, logs } = await openApp(page, 'file');
+  await openFiles(frame, [resolve('fixtures/fx09/fx09.laz')]);
+  await frame.waitForFunction(() => window.gisworkbench.pointClouds?.size > 0, null, { timeout: 120000 });
+  // A high-noise point (class 18), two ground points 30 m either side of it, seen from above.
+  const s = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    const v = app.pc.view();
+    let k18 = -1;
+    for (let k = 0; k < c.n && k18 < 0; k++) if (c.class[k] === 18) k18 = k;
+    const [x, y] = [c.pos[3 * k18], c.pos[3 * k18 + 1]];
+    const near = (tx, ty) => {
+      let best = -1;
+      let bd = Infinity;
+      for (let k = 0; k < c.n; k++) {
+        if (c.class[k] !== 2) continue;
+        const d = (c.pos[3 * k] - tx) ** 2 + (c.pos[3 * k + 1] - ty) ** 2;
+        if (d < bd) [best, bd] = [k, d];
+      }
+      return best;
+    };
+    v.lookDown(x, y, 120);
+    v.render();
+    v.canvas.dataset.testid = 'v3d';
+    const at = (k) => v.project([c.pos[3 * k], c.pos[3 * k + 1], c.pos[3 * k + 2]]);
+    return { n: c.n, k18, ends: [at(near(x - 30, y)), at(near(x + 30, y))] };
+  });
+  const v3d = frame.locator('[data-testid="v3d"]');
+  await frame.evaluate(() => void window.gisworkbench.commands.run('pc.profileselect'));
+  for (const e of s.ends) await v3d.click({ position: { x: e.sx, y: e.sy } });
+  const dlg = frame.locator('[data-id="dialog:pc-profile"]');
+  await expect(dlg).toBeVisible({ timeout: 60000 });
+  await expect(dlg.locator('[data-id="pc:profile-mode"]')).toHaveValue('box');
+  // The box: round every profile point at least 10 m above the profile's median height.
+  const box = await frame.evaluate(() => {
+    const pr = window.gisworkbench.pc.lastProfile;
+    const zs = Array.from(pr.z).sort((a, b) => a - b);
+    const cut = zs[zs.length >> 1] + 10;
+    const hi = [];
+    for (let i = 0; i < pr.index.length; i++) if (pr.z[i] > cut) hi.push([pr.along[i], pr.z[i], pr.cloud.class[pr.index[i]]]);
+    const xs = hi.map((p) => pr.toCanvas(p[0], p[1]));
+    const pad = 6;
+    return { hi: hi.length, classes: [...new Set(hi.map((p) => p[2]))], x0: Math.min(...xs.map((p) => p[0])) - pad, y0: Math.min(...xs.map((p) => p[1])) - pad, x1: Math.max(...xs.map((p) => p[0])) + pad, y1: Math.max(...xs.map((p) => p[1])) + pad, profile: pr.index.length };
+  });
+  expect(box.hi).toBeGreaterThan(0);
+  expect(box.classes).toEqual([18]);
+  const cv = await dlg.locator('[data-id="pc:profile-canvas"]').boundingBox();
+  const sc = cv.width / 600;
+  await page.mouse.move(cv.x + box.x0 * sc, cv.y + box.y0 * sc);
+  await page.mouse.down();
+  await page.mouse.move(cv.x + ((box.x0 + box.x1) / 2) * sc, cv.y + ((box.y0 + box.y1) / 2) * sc, { steps: 4 });
+  await page.mouse.move(cv.x + box.x1 * sc, cv.y + box.y1 * sc, { steps: 4 });
+  await page.mouse.up();
+  await expect(dlg.locator('[data-id="pc:profile-count"]')).toHaveText(new RegExp(`^${box.hi} point`));
+  // Delete through the command (the ribbon's Delete Points), not the dialog button.
+  await frame.evaluate(() => void window.gisworkbench.commands.run('pc.delete'));
+  const del = await frame.evaluate(async (k18) => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    const v = app.pc.view();
+    const p = v.project([c.pos[3 * k18], c.pos[3 * k18 + 1], c.pos[3 * k18 + 2]]);
+    const pick = v.pick(p.sx, p.sy, 2);
+    const pr = await app.pc.profile(c, app.pc.lastProfile.a, app.pc.lastProfile.b, 1);
+    const ex = await app.pc.exportLas(c);
+    const [back] = await app.openPointClouds([new File([ex.bytes], 'clean.las')]);
+    return { nDeleted: c.nDeleted, deleted18: c.deleted[k18], picked: pick?.index === k18, profile: pr.index.length, dialogProfile: app.pc.lastProfile.index.length, zmax: Math.max(...pr.z), zmax0: Math.max(...app.pc.lastProfile.z), dialogZmax: app.pc.lastProfile.zRange()[1], export: back.n, export18: back.stats.classes[18] ?? 0, classes18: c.stats.classes[18] ?? 0, edits: app.pc.edits(c).map((e) => e.params.field ?? 'class') };
+  }, s.k18);
+  console.log(JSON.stringify({ box, del }));
+  expect(del.nDeleted).toBe(box.hi);
+  expect(del.deleted18).toBe(1);
+  expect(del.picked).toBe(false);
+  expect(del.profile).toBe(box.profile - box.hi); // a new profile leaves it out, and its height axis drops
+  expect(del.zmax).toBeLessThan(del.zmax0 - 5);
+  expect(del.dialogProfile).toBe(box.profile); // the open dialog keeps it undrawn, so undo shows it again
+  expect(del.dialogZmax).toBeLessThan(del.zmax0 - 5); // and its height axis drops to the points that are left
+  expect(del.export).toBe(s.n - box.hi);
+  expect(del.classes18).toBe(10 - box.hi);
+  expect(del.export18).toBe(10 - box.hi);
+  expect(del.edits).toEqual(['deleted']);
+  // Withhold: Select all in the profile, then the Set Withheld command; the LAS file carries the flag.
+  await dlg.locator('[data-id="pc:profile-all"]').click();
+  await frame.evaluate(() => void window.gisworkbench.commands.run('pc.withheld'));
+  const wh = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    let n = 0;
+    for (let k = 0; k < c.n; k++) if (c.flags[k] & 4) n++;
+    const ex = await app.pc.exportLas(c);
+    const [back] = await app.openPointClouds([new File([ex.bytes], 'withheld.las')]);
+    let m = 0;
+    for (let k = 0; k < back.n; k++) if (back.flags[k] & 4) m++;
+    return { withheld: n, exported: m, profile: app.pc.lastProfile.index.filter((k) => !c.deleted?.[k]).length };
+  });
+  expect(wh.withheld).toBe(wh.profile);
+  expect(wh.exported).toBe(wh.withheld);
+  // Undo both: every point is back, nothing withheld, and the export is the whole cloud. Redo the deletion.
+  const un = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    app.commands.run('qat.undo');
+    const afterOne = { deleted: c.nDeleted, withheld: c.flags.reduce((s, f) => s + (f & 4 ? 1 : 0), 0) };
+    app.commands.run('qat.undo');
+    const all = await app.pc.exportLas(c);
+    const [back] = await app.openPointClouds([new File([all.bytes], 'undone.las')]);
+    const undone = { deleted: c.nDeleted, mask: c.deleted, export: back.n, classes18: c.stats.classes[18], dialogZmax: app.pc.lastProfile.zRange()[1], zmax: Math.max(...app.pc.lastProfile.z) };
+    app.commands.run('qat.redo');
+    return { afterOne, undone, redone: c.nDeleted };
+  });
+  expect(un.afterOne).toEqual({ deleted: box.hi, withheld: 0 });
+  // Undo rescales the open dialog, so the restored noise is drawn on the canvas again.
+  expect(un.undone.dialogZmax).toBe(un.undone.zmax);
+  expect({ ...un.undone, dialogZmax: 0, zmax: 0 }).toEqual({ deleted: 0, mask: null, export: s.n, classes18: 10, dialogZmax: 0, zmax: 0 });
+  expect(un.redone).toBe(box.hi);
+  // The other consumers of the one mask: a clip, a BPF and 3D Tiles leave the deleted point out, and
+  // a TIN of the ground points has five fewer vertices once five ground points are deleted.
+  const more = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const c = [...app.pointClouds.values()][0];
+    const st = c.stats;
+    const ring = [[st.min[0] - 1, st.min[1] - 1], [st.max[0] + 1, st.min[1] - 1], [st.max[0] + 1, st.max[1] + 1], [st.min[0] - 1, st.max[1] + 1]];
+    const sub = await app.pc.clip(c, ring, { p: null });
+    const bpf = await app.pc.exportBpf(c, { coordType: 1 });
+    const [bb] = await app.openPointClouds([new File([bpf.bytes], 'clean.bpf')]);
+    const tiles = app.pc.exportTiles(c);
+    const g5 = [];
+    for (let k = 0; k < c.n && g5.length < 5; k++) if (c.class[k] === 2 && !c.deleted?.[k]) g5.push(k);
+    const n0 = c.nDeleted;
+    app.pc.deleteSelection(c, Uint32Array.from(g5));
+    let ground = 0;
+    for (let k = 0; k < c.n; k++) if (c.class[k] === 2 && !c.deleted[k]) ground++;
+    const id = await app.tin.create({ from: 'lidar', pc: c.id });
+    return { n: c.n, n0, clip: sub.n, bpf: bb.n, tiles: tiles.stats.points, deleted: c.nDeleted, ground, tin: (await app.tin.info(id)).vertices };
+  });
+  expect([more.clip, more.bpf, more.tiles]).toEqual([more.n - more.n0, more.n - more.n0, more.n - more.n0]);
+  expect(more.deleted).toBe(more.n0 + 5);
+  expect(more.tin).toBe(more.ground);
   expect(logs).toEqual([]);
 });
