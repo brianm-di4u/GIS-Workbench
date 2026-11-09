@@ -960,6 +960,14 @@ test.describe('Lite: the project file goes to Full and back', () => {
     // A third observation in the field, and save again.
     await f2.evaluate((o) => window.gisworkbench.store.transact('more field work', (tx) => tx.create('observation', o)), OBS('Washout', -114.9988));
     const second = await saveFromLite(page2, f2);
+    // Crash recovery in Lite shows one port too: a change after the save, a reload, then Recover.
+    await f2.evaluate((o) => window.gisworkbench.store.transact('after the save', (tx) => tx.create('observation', o)), OBS('Rut', -114.9989));
+    await page2.waitForTimeout(2500); // the journal writes on a timer
+    const f3 = await restart(page2);
+    await page2.locator('button', { hasText: /^Recover$/ }).tap();
+    await f3.waitForFunction(() => window.gisworkbench.store.all('observation').some((o) => o.text === 'Rut'));
+    expect(await f3.evaluate(() => [window.gisworkbench.store.all('multiport').length, window.gisworkbench.desktop.multiports.length])).toEqual([2, 1]);
+    expect(await page2.locator('.m-view .pane').count()).toBe(1);
     // 4. Back in Full: all three observations, and the TIN still builds with its triangles.
     const F2 = await inFull(browser, second.b64);
     const back = await F2.frame.evaluate(async () => {

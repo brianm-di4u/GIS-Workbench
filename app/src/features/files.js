@@ -545,9 +545,7 @@ export async function install(app) {
     // Lite (REQ-GAP-86) keeps what it cannot show, saves it back unchanged, and says what it is.
     const hidden = C.profile === 'lite' ? liteHidden(parsed.records) : null;
     if (hidden) warnings.push(hidden);
-    // Lite shows one port (its first panel); the others stay in the project, counted in hidden.
-    const ports = app.store.all('multiport');
-    for (const mp of C.profile === 'lite' ? ports.slice(0, 1) : ports) {
+    for (const mp of shownPorts()) {
       const m = app.desktop.addMultiport(mp.id);
       for (const p of m.panes) if (parsed.views.views?.[p.id]) Object.assign(p.view, parsed.views.views[p.id]);
       m.docks.restore(parsed.views.docks?.[mp.id]);
@@ -580,6 +578,12 @@ export async function install(app) {
     app.toast(hidden ? `${opened} ${hidden}` : opened, hidden ? { kind: 'info', ms: 12000 } : { kind: 'info' });
   }
   app.openProjectFile = openProjectFile;
+
+  /** The ports this shell shows: Lite shows one (its first panel); the others stay in the project. */
+  const shownPorts = () => {
+    const ports = app.store.all('multiport');
+    return C.profile === 'lite' ? ports.slice(0, 1) : ports;
+  };
 
   /** What a project holds that Lite does not show (it is kept and saved back), or null. */
   function liteHidden(records) {
@@ -757,7 +761,7 @@ export async function install(app) {
               }
             }
             for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
-            for (const mp of app.store.all('multiport')) app.desktop.addMultiport(mp.id);
+            for (const mp of shownPorts()) app.desktop.addMultiport(mp.id);
             app.emit('layers');
             await relinkDialog(app.store.all('fileref'));
           },
