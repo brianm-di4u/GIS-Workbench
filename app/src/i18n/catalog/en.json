@@ -31966,6 +31966,13 @@
    ]
   },
   {
+   "key": "Resampling {layer} for terrain…",
+   "src": "Resampling {layer} for terrain…",
+   "refs": [
+    "features/dem.js"
+   ]
+  },
+  {
    "key": "Reserved / model key",
    "src": "Reserved / model key",
    "refs": [
