@@ -2,7 +2,7 @@
 // views.json and the journal tail. Imagery is never copied in; it is referenced by name,
 // size, time and fingerprint, and relinked on open by fingerprint or by the user's pick.
 
-import { zipSync, unzipSync, strToU8, strFromU8 } from 'fflate';
+import { zip, unzip, zipSync, unzipSync, strToU8, strFromU8 } from 'fflate';
 import { fingerprint } from '../formats/open.js';
 import { clone } from '../core/util.js';
 import { gwError } from '../i18n/index.js';
@@ -11,8 +11,9 @@ export const FORMAT = 'gis-workbench-project';
 export const VERSION = 1;
 const LIMITS = { entries: 2000, total: 512 << 20, ratio: 200 };
 
-export function serialiseProject(app) {
-  const records = app.store.snapshot();
+/** The project's files, ready to zip. Records are read, not copied: JSON.stringify changes nothing. */
+function projectFiles(app) {
+  const records = app.store.all();
   const views = {};
   for (const mp of app.desktop.multiports) for (const p of mp.panes) views[p.id] = clone(p.view);
   const docks = Object.fromEntries(app.desktop.multiports.map((mp) => [mp.id, mp.docks.layout()]));
@@ -33,14 +34,24 @@ export function serialiseProject(app) {
     'views.json': strToU8(JSON.stringify({ views, docks, arrange: app.desktop.arrange })),
     'journal.json': strToU8(JSON.stringify(journal)),
   };
-  return zipSync(files, { level: 6 });
+  return files;
+}
+
+export function serialiseProject(app) {
+  return zipSync(projectFiles(app), { level: 6 });
+}
+
+/** As serialiseProject, with the compression in a worker so that a large project does not freeze the page (#63). */
+export function serialiseProjectAsync(app) {
+  const files = projectFiles(app);
+  return new Promise((res, rej) => zip(files, { level: 6 }, (e, out) => (e ? rej(e) : res(out))));
 }
 
 /** Bounded unzip of a project (zip bombs, path tricks). */
-export function readProject(bytes) {
+function unzipLimits() {
   let total = 0;
   let count = 0;
-  const files = unzipSync(bytes, {
+  return {
     filter(f) {
       count++;
       if (count > LIMITS.entries) throw new Error('project has too many entries');
@@ -50,12 +61,27 @@ export function readProject(bytes) {
       if (f.size && f.originalSize / f.size > LIMITS.ratio) throw gwError('entry {name} has a suspicious compression ratio', { name: f.name }, 'E_PROJECT_RATIO');
       return true;
     },
-  });
+  };
+}
+
+export function readProject(bytes) {
+  return parseProject(unzipSync(bytes, unzipLimits()));
+}
+
+/** As readProject, with the decompression in a worker (#63). */
+export function readProjectAsync(bytes) {
+  return new Promise((res, rej) => unzip(bytes, unzipLimits(), (e, files) => (e ? rej(e) : res(files)))).then(parseProject);
+}
+
+function parseProject(files) {
   const text = (n) => (files[n] ? strFromU8(files[n]) : null);
   const manifest = JSON.parse(text('manifest.json') ?? 'null');
   if (!manifest || manifest.format !== FORMAT) throw new Error('not a GIS Workbench project (.gwb)');
   if (manifest.version > VERSION) throw gwError('this project was saved by a newer GIS Workbench (format {version}); this build reads up to {max}', { version: String(manifest.version), max: String(VERSION) }, 'E_PROJECT_NEWER');
-  const records = JSON.parse(text('records.json') ?? '[]', (k, v) => (k === '__proto__' ? undefined : v));
+  // A reviver costs seconds on a large project, so it runs only when the text could hold the key it
+  // removes: spelled out, or escaped (a \u escape can spell any key).
+  const rtext = text('records.json') ?? '[]';
+  const records = /__proto__|\\u/.test(rtext) ? JSON.parse(rtext, (k, v) => (k === '__proto__' ? undefined : v)) : JSON.parse(rtext);
   const views = JSON.parse(text('views.json') ?? '{}');
   return { manifest, records: migrate(records, manifest.version), views };
 }
