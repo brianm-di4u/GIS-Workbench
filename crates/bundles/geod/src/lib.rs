@@ -8,6 +8,7 @@ use gw_geodesy::datum::grid::{Format, GridSet, Role, DEG_TO_RAD};
 use gw_geodesy::datum::helmert::{frame_count, frame_index, frame_name, path, transform, Step};
 use gw_geodesy::datum::shift::{generic_plan, gridshift_apply, hgrid_apply, vgrid_value, vgrid_value_cubic, vgrid_value_fwd};
 use gw_geodesy::datum::frames::FRAMES;
+use gw_geodesy::geoid_tile::TiledGeoid;
 use std::cell::RefCell;
 
 gw_abi::export_abi!();
@@ -15,6 +16,16 @@ gw_abi::export_abi!();
 thread_local! {
     static SETS: RefCell<Vec<(i32, GridSet)>> = const { RefCell::new(Vec::new()) };
     static NEXT: RefCell<i32> = const { RefCell::new(1) };
+    static TILED: RefCell<Vec<(i32, TiledGeoid)>> = const { RefCell::new(Vec::new()) };
+}
+
+fn next_id() -> i32 {
+    NEXT.with(|n| {
+        let mut n = n.borrow_mut();
+        let id = *n;
+        *n += 1;
+        id
+    })
 }
 
 fn str_arg(p: *const u8, n: usize) -> String {
@@ -38,12 +49,7 @@ pub unsafe extern "C" fn gw_grid_open(ptr: *const u8, len: usize, role: i32, nam
     };
     match GridSet::open(&name, bytes, role, (cache_mb.clamp(1, 1024) as usize) << 20) {
         Ok(s) => {
-            let id = NEXT.with(|n| {
-                let mut n = n.borrow_mut();
-                let id = *n;
-                *n += 1;
-                id
-            });
+            let id = next_id();
             SETS.with(|m| m.borrow_mut().push((id, s)));
             id
         }
@@ -303,4 +309,53 @@ pub extern "C" fn gw_vgrid_value(id: i32, lon: f64, lat: f64, mult: f64, cubic: 
         let (lam, phi) = (lon * DEG_TO_RAD, lat * DEG_TO_RAD);
         if cubic != 0 { vgrid_value_cubic(&[s], lam, phi, mult) } else { vgrid_value_fwd(&[s], lam, phi, mult) }.map_or(f64::NAN, |(v, _)| v)
     })
+}
+
+// ---- EGM2008 1′ as a tiled pack (REG-024): tiles are decoded on demand from the pack in memory.
+
+/// Open a tiled geoid: the whole grid is `rows` × `cols` samples, tiles `cells` cells square,
+/// value = `offset` + `scale` · sample, `cap` decoded tiles kept (32 × 179 KiB at 5° of 1′).
+/// Returns an id > 0, or minus the error status.
+#[no_mangle]
+pub extern "C" fn gw_tgeoid_open(rows: i32, cols: i32, cells: i32, offset: f64, scale: f64, cap: i32) -> i32 {
+    let geo = TiledGeoid::new(rows.max(0) as usize, cols.max(0) as usize, cells.max(0) as usize, offset, scale, cap.max(1) as usize);
+    match geo {
+        Ok(t) => {
+            let id = next_id();
+            TILED.with(|m| m.borrow_mut().push((id, t)));
+            id
+        }
+        Err(e) => -status::<()>(Err(e)),
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn gw_tgeoid_free(id: i32) {
+    TILED.with(|m| m.borrow_mut().retain(|e| e.0 != id));
+}
+
+/// The tile a point needs (−1 for an unknown id).
+#[no_mangle]
+pub extern "C" fn gw_tgeoid_tile(id: i32, lat: f64, lon: f64) -> i32 {
+    TILED.with(|m| m.borrow().iter().find(|e| e.0 == id).map_or(-1, |e| e.1.tile_of(lat, lon) as i32))
+}
+
+/// Decode and keep tile `tile` from the pack's bytes.
+/// # Safety
+/// `ptr` must hold `len` bytes.
+#[no_mangle]
+pub unsafe extern "C" fn gw_tgeoid_put(id: i32, tile: i32, ptr: *const u8, len: usize) -> i32 {
+    let b = slice(ptr, len);
+    status(TILED.with(|m| {
+        let mut m = m.borrow_mut();
+        let t = m.iter_mut().find(|e| e.0 == id).map(|e| &mut e.1).ok_or_else(|| Error::invalid("unknown geoid id"))?;
+        t.put(tile.max(0) as u32, b)
+    }))
+}
+
+/// Undulation N (m) at a point, Catmull-Rom; NaN when its tile is not loaded (`gw_tgeoid_tile`
+/// says which) or the id is unknown.
+#[no_mangle]
+pub extern "C" fn gw_tgeoid_value(id: i32, lat: f64, lon: f64) -> f64 {
+    TILED.with(|m| m.borrow_mut().iter_mut().find(|e| e.0 == id).and_then(|e| e.1.value(lat, lon)).unwrap_or(f64::NAN))
 }

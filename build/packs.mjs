@@ -15,6 +15,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { deflateRawSync } from 'node:zlib';
 import { execFileSync } from 'node:child_process';
 import { zipSync, strToU8 } from 'fflate';
 import { embindNoEval } from './d3-decoders.mjs';
@@ -167,6 +168,66 @@ export async function fontkitBundle(esbuild) {
   return r.outputFiles[0].text;
 }
 
+/**
+ * EGM2008 1′ as tiles (REG-024, S-64): GeographicLib's 10,801 × 21,600 PGM cut into 5° tiles of
+ * 300 cells with one sample before and two after (303 × 303), rows clamped at the poles and
+ * columns wrapped at 360°, so cubic interpolation never leaves a tile. Each tile is A + B − C
+ * predicted, split into low and high byte planes and raw-DEFLATE compressed (as
+ * gw-geodesy/src/geoid_tile.rs `encode_tile` and `TiledGeoid::put`). The tiles go end to end in
+ * one stored `tiles.bin`, indexed by `tiles.json`, so the pack has two entries, not 2,593.
+ */
+export function geoidTiles(pgm, cells = 300) {
+  let pos = 2;
+  const nums = [];
+  const meta = {};
+  while (nums.length < 3) {
+    while (pgm[pos] <= 32) pos++;
+    if (pgm[pos] === 35) {
+      const e = pgm.indexOf(10, pos);
+      const [k, v] = pgm.toString('latin1', pos + 1, e).trim().split(/\s+/);
+      meta[k] = v;
+      pos = e;
+      continue;
+    }
+    const st = pos;
+    while (pgm[pos] >= 48 && pgm[pos] <= 57) pos++;
+    nums.push(Number(pgm.toString('latin1', st, pos)));
+  }
+  pos++;
+  const [cols, rows] = nums;
+  if (pgm.toString('latin1', 0, 2) !== 'P5' || nums[2] !== 65535 || (rows - 1) % cells || cols % cells) throw new Error('geoid tiles: not a 16-bit GeographicLib PGM the tiles divide');
+  const at = (r, c) => pgm.readUInt16BE(pos + 2 * (r * cols + c));
+  const S = cells + 3;
+  const n = S * S;
+  const [bands, tcols] = [(rows - 1) / cells, cols / cells];
+  const t = new Uint16Array(n);
+  const o = new Uint8Array(2 * n);
+  const parts = [];
+  const offsets = [0];
+  for (let k = 0; k < bands * tcols; k++) {
+    const [b, tc] = [Math.floor(k / tcols), k % tcols];
+    for (let j = 0; j < S; j++) {
+      const r = Math.min(rows - 1, Math.max(0, b * cells + j - 1));
+      for (let i = 0; i < S; i++) t[j * S + i] = at(r, (tc * cells + i + cols - 1) % cols);
+    }
+    for (let i = 0; i < n; i++) {
+      const c = i % S;
+      const a = c ? t[i - 1] : 0;
+      const up = i >= S ? t[i - S] : 0;
+      const ul = c && i >= S ? t[i - S - 1] : 0;
+      const res = (t[i] - (a + up - ul)) & 0xffff;
+      o[i] = res & 255;
+      o[n + i] = res >> 8;
+    }
+    // Level 6: level 9 is 13 times slower (9 minutes a build) for 5 % less.
+    const z = deflateRawSync(o, { level: 6 });
+    parts.push(z);
+    offsets.push(offsets.at(-1) + z.length);
+  }
+  const index = { format: 'gw-geoid-tiles/1', rows, cols, cells, offset: Number(meta.Offset), scale: Number(meta.Scale), tiles: bands * tcols, offsets };
+  return { index: Buffer.from(JSON.stringify(index)), bin: Buffer.concat(parts) };
+}
+
 const HDF5_NOTICE ='h5wasm (https://github.com/usnistgov/h5wasm) is NIST-developed software. Acknowledgement: National Institute of Standards and Technology. GIS Workbench ships the h5wasm IIFE build unchanged.\n\n';
 
 /** Pack definitions: entries [{path, kind: 'js'|'wasm'|'model'|'data', bytes}] or null when inputs are missing. */
@@ -176,6 +237,13 @@ async function definitions(esbuild) {
   if (egm) {
     const s = SOURCES.downloads.find((d) => d.id === 'egm2008-5');
     out.push({ name: 'geoid', title: 'EGM2008 geoid (5′ grid)', version: '2008.5min', description: 'EGM2008 geoid heights on a 5′ grid (GeographicLib PGM), for MSL ↔ HAE where EGM96 is not enough (REQ-GEO).', licence: s.licence, entries: [{ path: 'egm2008-5.pgm', kind: 'data', bytes: egm }] });
+  }
+  // 2.7.0 (REG-024): EGM2008 1′, read a tile at a time by geod (geo/grids.js).
+  const egm1 = cached('egm2008-1');
+  if (egm1) {
+    const s = SOURCES.downloads.find((d) => d.id === 'egm2008-1');
+    const { index, bin } = geoidTiles(egm1);
+    out.push({ name: 'geoid-egm2008-1', title: 'EGM2008 geoid (1′ grid)', version: '2008.1min', description: 'EGM2008 geoid heights on a 1′ grid (GeographicLib egm2008-1), in 5° tiles read as needed: MSL and EGM2008 heights within 2 mm of the full model, where the 2.5′ grid leaves up to 3 cm (REG-024).', licence: s.licence, entries: [{ path: 'tiles.json', kind: 'data', bytes: index }, { path: 'tiles.bin', kind: 'data', stored: true, bytes: bin }] });
   }
   if (existsSync(nm('h5wasm', 'dist', 'iife', 'h5wasm.js'))) {
     out.push({ name: 'hdf5', title: 'HDF5 reader (h5wasm)', version: pkgVersion('h5wasm'), description: 'Reads HDF5 / HDF-EOS5 / NetCDF-4 hyperspectral products (PRISMA, EnMAP, EMIT) in the decode worker (REQ-MSI-02).', licence: HDF5_NOTICE + readFileSync(nm('h5wasm', 'LICENSE.txt'), 'utf8'), entries: [{ path: 'h5wasm.js', kind: 'js', bytes: readFileSync(nm('h5wasm', 'dist', 'iife', 'h5wasm.js')) }] });
@@ -377,7 +445,7 @@ export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new
   const models = []; // REQ-LAI-08: {pack, spdx, licence} of every pack that carries a model
   const warnings = [];
   const defs = [...(await definitions(esbuild)), ...extra];
-  for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
+  for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'geoid-egm2008-1', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
   for (const p of defs) {
     const entries = p.entries.map((e) => ({ path: e.path, kind: e.kind, size: e.bytes.length, sha256: sha256(e.bytes) }));
     const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: buildDate.slice(0, 10), entries };

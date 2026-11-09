@@ -1,6 +1,6 @@
 // Datum grids and time-dependent frames in the UI (REQ-GAP-16, SDP-2.3 GR-05): the grid packs
-// (grids-na, grids-eu, grids-oceania, geoid-egm2008-25), the grid route for CRSs in geo/crs.js,
-// the PROJ pack's view of the same grids, EGM2008 2.5′ as the active geoid, and the
+// (grids-na, grids-eu, grids-oceania, geoid-egm2008-25, geoid-egm2008-1), the grid route for CRSs
+// in geo/crs.js, the PROJ pack's view of the same grids, EGM2008 1′ or 2.5′ as the active geoid, and the
 // Georeference ▸ Datum Transform dialog, which says which operations and grids it used and
 // their accuracy. Grid packs are kept in OPFS on the hosted copy (storage/packs.js). The dialog
 // (features/datum-dialog.js) is the lazy js-geod block; everything else here is needed as soon as
@@ -13,8 +13,10 @@ import { loadBlock, once, lazyCommands } from './lazy-host.js';
 
 export const name = 'datum-grids';
 
-export const GRID_PACKS = ['grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25'];
+export const GRID_PACKS = ['grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'geoid-egm2008-1'];
 const EGM08 = 'us_nga_egm08_25';
+// The packs whose grid can be the active geoid: EGM2008 1′ (tiled, REG-024) is preferred to 2.5′.
+const EGM_PACKS = ['geoid-egm2008-1', 'geoid-egm2008-25'];
 
 /** Horizontal systems a vertical datum is defined on (the dialog checks the pairing). */
 const HEIGHT_FRAMES = {
@@ -40,16 +42,16 @@ export async function install(app) {
     packs.on((nm) => {
       const p = packs.loaded.get(nm);
       if (!p && grids.packs.has(nm)) {
-        // Forgotten: release its grids; the EGM2008 grid geoid gives way to EGM96.
+        // Forgotten: release its grids; the EGM2008 grid geoid gives way to the other EGM2008 grid, else EGM96.
         grids.dropPack(nm);
-        if (nm === 'geoid-egm2008-25' && gridGeoid) app.useEgm96?.();
+        if (EGM_PACKS.includes(nm) && gridGeoid && !useEgm2008()) app.useEgm96?.();
         return;
       }
       if (!p || !GRID_PACKS.includes(nm) || grids.packs.get(nm) === p) return;
       grids
         .addPack(p)
         .then(() => {
-          if (nm === 'geoid-egm2008-25') useEgm2008();
+          if (EGM_PACKS.includes(nm)) useEgm2008();
           mountForProj(p).catch(() => {});
           app.emit('state');
         })
@@ -60,21 +62,21 @@ export async function install(app) {
     });
   }
 
-  // ---- EGM2008 2.5′ as the active geoid (app.core.undulation is the one entry the app uses) ----
+  // ---- EGM2008 1′ or 2.5′ as the active geoid (app.core.undulation is the one entry the app uses) ----
   const core = app.core;
   const coreUndulation = core.undulation.bind(core);
   const coreLoad = core.loadGeoid.bind(core);
   let gridGeoid = false;
-  core.undulation = (lat, lon) => (gridGeoid ? grids.undulation(EGM08, lon, lat) : coreUndulation(lat, lon));
+  core.undulation = (lat, lon) => (gridGeoid ? grids.undulation(gridGeoid, lon, lat) : coreUndulation(lat, lon));
   core.loadGeoid = (...a) => {
     gridGeoid = false;
     return coreLoad(...a);
   };
   function useEgm2008() {
-    if (!grids.has(EGM08)) return false;
-    grids.handle(EGM08);
-    gridGeoid = true;
-    core.geoidName = 'EGM2008 2.5′';
+    const id = grids.gridFor('egm2008');
+    if (!grids.has(id) || !grids.handle(id)) return false;
+    gridGeoid = id;
+    core.geoidName = grids.catalogue.get(id).geoid;
     app._geoid = Promise.resolve(core.geoidName);
     app._geoidLoaded = true;
     for (const mp of app.desktop?.multiports ?? []) mp.status?.set({ vdatum: `MSL(${core.geoidName})` });
@@ -93,7 +95,7 @@ export async function install(app) {
   // ---- PROJ pack: the grids are offered to PROJ as well (REQ-GAP-16 with REQ-GEO-12) ----
   async function mountForProj(pack) {
     if (!app.proj?.mod) return;
-    const list = [...grids.catalogue.values()].filter((g) => g.pack === pack.name && g.file !== `${EGM08}.tif`).map((g) => ({ file: g.file, bytes: pack.entries.get(g.file) }));
+    const list = [...grids.catalogue.values()].filter((g) => g.pack === pack.name && g.file !== `${EGM08}.tif` && !g.tiled).map((g) => ({ file: g.file, bytes: pack.entries.get(g.file) }));
     await app.proj.mountGrids(list);
   }
   if (app.proj) {
@@ -121,17 +123,18 @@ export async function install(app) {
     const bad = new Set();
     const vstep = (key, sign, sys) => {
       const v = VERTICALS[key];
+      const grid = grids.gridFor(key);
       if (!HEIGHT_FRAMES[key].includes(sys)) throw gwError('{height} heights are defined on {frame}: choose it as the system on that side', { height: v.name, frame: HEIGHT_FRAMES[key][0] }, 'E_DATUM_HEIGHT_FRAME');
-      if (!grids.has(v.grid)) throw gwError('{height} heights need the {grid} grid: open its data pack first', { height: v.name, grid: v.grid }, 'E_STEP_FIRST');
-      const g = grids.catalogue.get(v.grid);
-      const n = grids.undulations(v.grid, cur);
+      if (!grids.has(grid)) throw gwError('{height} heights need the {grid} grid: open its data pack first', { height: v.name, grid: v.grid }, 'E_STEP_FIRST');
+      const g = grids.catalogue.get(grid);
+      const n = grids.undulations(grid, cur);
       cur = cur.map((p, i) => {
         if (!Number.isFinite(n[i])) bad.add(i);
         return [p[0], p[1], p[2] + sign * (n[i] ?? NaN)];
       });
       steps.push({
         kind: 'grid',
-        grid: g.file,
+        grid: g.tiled ? g.pack : g.file,
         op: 'vgridshift',
         epsg: g.epsg,
         name: g.name,
