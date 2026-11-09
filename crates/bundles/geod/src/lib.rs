@@ -6,7 +6,7 @@
 use gw_abi::{set_out_json, slice, slice_mut, status, Error, Json};
 use gw_geodesy::datum::grid::{Format, GridSet, Role, DEG_TO_RAD};
 use gw_geodesy::datum::helmert::{frame_count, frame_index, frame_name, path, transform, Step};
-use gw_geodesy::datum::shift::{generic_plan, gridshift_apply, hgrid_apply, vgrid_value, vgrid_value_fwd};
+use gw_geodesy::datum::shift::{generic_plan, gridshift_apply, hgrid_apply, vgrid_value, vgrid_value_cubic, vgrid_value_fwd};
 use gw_geodesy::datum::frames::FRAMES;
 use std::cell::RefCell;
 
@@ -125,7 +125,8 @@ pub unsafe extern "C" fn gw_grid_extents(id: i32, out: *mut f64, cap: usize) -> 
 
 /// Apply grids to points in place. kind 0 hgridshift, 1 gridshift, 2 vgridshift; `pts` holds
 /// (longitude °, latitude °, height m) triples. flags: bit 0 overrides the interpolation with
-/// bit 1 (1 = biquadratic, 0 = bilinear); bit 2 skips the height (gridshift +no_z_transform).
+/// bit 1 (1 = biquadratic, 0 = bilinear); bit 2 skips the height (gridshift +no_z_transform);
+/// bit 3 interpolates vgridshift with Catmull-Rom bicubic (not PROJ: the EGM2008 2.5′ grid).
 /// For vgridshift the height becomes h + mult·value (PROJ: forward multiplier −1 by default;
 /// `+inv` with multiplier 1 gives H = h − N). A point outside every grid, or on nodata,
 /// becomes NaN. Output JSON: {"failed": n, "grids": {name: count}}.
@@ -146,6 +147,7 @@ pub unsafe extern "C" fn gw_grid_apply(kind: i32, ids: *const i32, nids: usize, 
         }
         let force = if flags & 1 != 0 { Some(flags & 2 != 0) } else { None };
         let want_z = flags & 4 == 0;
+        let cubic = flags & 8 != 0;
         let plan = if kind == 1 { Some(generic_plan(&sets).ok_or_else(|| Error::invalid("gridshift: unsupported mix of grid types"))?) } else { None };
         let mut used: Vec<(String, usize)> = Vec::new();
         let mut failed = 0usize;
@@ -155,7 +157,7 @@ pub unsafe extern "C" fn gw_grid_apply(kind: i32, ids: *const i32, nids: usize, 
             let r: Option<((f64, f64, f64), String)> = match kind {
                 0 => hgrid_apply(&sets, lam, phi, inv).map(|(l, f, u)| ((l, f, h), u.grid.name.clone())),
                 1 => gridshift_apply(&sets, plan.as_ref().expect("plan"), (lam, phi, h), inv, force, want_z).map(|(o, u)| (o, u.grid.name.clone())),
-                _ => if inv { vgrid_value(&sets, lam, phi, mult) } else { vgrid_value_fwd(&sets, lam, phi, mult) }.map(|(v, u)| ((lam, phi, if inv { h - v } else { h + v }), u.grid.name.clone())),
+                _ => if cubic { vgrid_value_cubic(&sets, lam, phi, mult) } else if inv { vgrid_value(&sets, lam, phi, mult) } else { vgrid_value_fwd(&sets, lam, phi, mult) }.map(|(v, u)| ((lam, phi, if inv { h - v } else { h + v }), u.grid.name.clone())),
             };
             match r {
                 Some(((l, f, z), name)) if l.is_finite() && f.is_finite() && z.is_finite() => {
@@ -292,11 +294,13 @@ pub extern "C" fn gw_frame_count() -> i32 {
 
 /// One grid value × multiplier at a point (vgridshift arithmetic, forward entry), NaN outside
 /// the grid or on nodata. The fast path for geoid heights at the cursor and over DEM posts.
+/// `cubic` 1 interpolates Catmull-Rom bicubic instead of PROJ's bilinear.
 #[no_mangle]
-pub extern "C" fn gw_vgrid_value(id: i32, lon: f64, lat: f64, mult: f64) -> f64 {
+pub extern "C" fn gw_vgrid_value(id: i32, lon: f64, lat: f64, mult: f64, cubic: i32) -> f64 {
     SETS.with(|m| {
         let m = m.borrow();
         let Ok(s) = find(&m, id) else { return f64::NAN };
-        vgrid_value_fwd(&[s], lon * DEG_TO_RAD, lat * DEG_TO_RAD, mult).map_or(f64::NAN, |(v, _)| v)
+        let (lam, phi) = (lon * DEG_TO_RAD, lat * DEG_TO_RAD);
+        if cubic != 0 { vgrid_value_cubic(&[s], lam, phi, mult) } else { vgrid_value_fwd(&[s], lam, phi, mult) }.map_or(f64::NAN, |(v, _)| v)
     })
 }
