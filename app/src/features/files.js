@@ -5,7 +5,7 @@ import { pickFiles, saveBlob, shareOrSave } from '../storage/files.js';
 import { LITE_RECORDS, FULL_RECORD_NAMES } from '../core/profile.js';
 import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
-import { serialiseProject, readProject, parseRecords, relink } from '../storage/project.js';
+import { serialiseProject, serialiseProjectAsync, readProject, readProjectAsync, parseRecords, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
 import { groupFiles, openImageFile, attachFile, recoverHandle, isRpfToc } from '../formats/open.js';
 import { frameCoverage } from '../formats/rpf-coverage.js';
@@ -502,15 +502,23 @@ export async function install(app) {
   C.implement('dem.select', { run: () => C.run('file.opendem') });
 
   // ---- project ----
+  /** Long work with the activity indicator, where the shell has one. */
+  const tracked = (label, fn) => (app.activity ? app.activity.track(label, fn) : fn());
+
   async function save(as = false) {
     // The crash journal restarts from what this save writes, keeping the edits made after it (#99).
     // Journal writes wait until it ends: edits made meanwhile are lost only to a crash in that time.
-    const since = app.journal.hold();
-    let held = true;
     const kept = {};
+    let since = 0;
+    let held = false;
     let r, blob, name;
     try {
-      blob = new Blob([serialiseProject(app, kept)], { type: 'application/zip' });
+      const bytes = await tracked(t('Writing the project…'), () => {
+        since = app.journal.hold(); // the records are read now: the edits after this mark stay in the journal
+        held = true;
+        return serialiseProjectAsync(app, kept);
+      });
+      blob = new Blob([bytes], { type: 'application/zip' });
       name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
       // Lite (REQ-GAP-86): a phone keeps the file through the share sheet where there is one.
       const opts = { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') };
@@ -542,7 +550,7 @@ export async function install(app) {
   async function openProjectFile(file, { attach = null } = {}) {
     let parsed;
     try {
-      parsed = readProject(new Uint8Array(await file.arrayBuffer()));
+      parsed = await tracked(t('Reading the project…'), async () => readProjectAsync(new Uint8Array(await file.arrayBuffer())));
     } catch (e) {
       app.importLog?.push({ file: file.name, errors: [errMsg(e)], warnings: [] });
       return app.toast(t('{file}: {msg}', { file: file.name, msg: errMsg(e) }), { kind: 'error', ms: 8000 });
@@ -552,7 +560,7 @@ export async function install(app) {
     for (const l of app.layers.all()) l.dispose();
     app.layers.clear();
     app.files.clear();
-    app.store.load(parsed.records);
+    app.store.load(parsed.records, { owned: true }); // just parsed: nothing else holds them
     app.undo.clear();
     app.projectViews = parsed.views;
     app.projectHandle = file.__handle ?? null;
@@ -626,7 +634,7 @@ export async function install(app) {
   };
   const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
   async function snapshotHtml({ maxFileMB = 25, maxTotalMB = 100 } = {}) {
-    const project = serialiseProject(app);
+    const project = await serialiseProjectAsync(app);
     const files = [];
     const skipped = [];
     let total = project.length;

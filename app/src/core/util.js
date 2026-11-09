@@ -6,14 +6,21 @@ import { bytes } from '../i18n/format.js';
 
 let counter = 0;
 
+// Random bytes for uuid(), drawn 256 ids at a time: an import gives every feature one, and a
+// crypto call per id cost a third of a second per 100 000 features (#63).
+const HEX = Array.from({ length: 256 }, (_, i) => i.toString(16).padStart(2, '0'));
+const pool = new Uint8Array(4096);
+let poolAt = pool.length;
+
+/** A random (version 4) UUID. */
 export function uuid() {
-  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
-  const b = new Uint8Array(16);
-  globalThis.crypto.getRandomValues(b);
-  b[6] = (b[6] & 0x0f) | 0x40;
-  b[8] = (b[8] & 0x3f) | 0x80;
-  const h = [...b].map((x) => x.toString(16).padStart(2, '0')).join('');
-  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+  if (poolAt === pool.length) {
+    globalThis.crypto.getRandomValues(pool);
+    poolAt = 0;
+  }
+  const b = pool.subarray(poolAt, (poolAt += 16));
+  const h = (i) => HEX[b[i]];
+  return `${h(0)}${h(1)}${h(2)}${h(3)}-${h(4)}${h(5)}-${HEX[(b[6] & 0x0f) | 0x40]}${h(7)}-${HEX[(b[8] & 0x3f) | 0x80]}${h(9)}-${h(10)}${h(11)}${h(12)}${h(13)}${h(14)}${h(15)}`;
 }
 
 /** Short, readable, unique id with a type prefix, e.g. "gfx_k3x9…". */
@@ -56,9 +63,45 @@ export function setPath(obj, path, value) {
   return had ? prev : undefined;
 }
 
+/**
+ * A deep copy, as structuredClone makes it. Records are mostly plain objects and arrays, which
+ * are copied here several times faster than structuredClone copies them (#63: the store copies
+ * every record it takes in or gives out). Anything else (typed arrays, Dates, Maps, class
+ * instances), and anything nested deeper than plain data goes, is left to structuredClone.
+ * Unlike structuredClone, it does not keep shared references: an object reached twice is copied
+ * twice, and typed arrays over one buffer get a buffer each. Records do not share parts.
+ */
 export function clone(v) {
   if (v === undefined || v === null || typeof v !== 'object') return v;
-  return structuredClone(v);
+  try {
+    return plainCopy(v, 0);
+  } catch (e) {
+    if (e !== TOO_DEEP) throw e;
+    return structuredClone(v); // a cycle, or very deep data
+  }
+}
+const TOO_DEEP = Symbol('too deep');
+function plainCopy(v, depth) {
+  if (v === null || typeof v !== 'object') {
+    if (typeof v === 'function' || typeof v === 'symbol') return structuredClone(v); // throws, as structuredClone does
+    return v;
+  }
+  if (depth > 100) throw TOO_DEEP;
+  if (Array.isArray(v)) {
+    const n = v.length;
+    const out = new Array(n);
+    for (let i = 0; i < n; i++) out[i] = plainCopy(v[i], depth + 1);
+    return out;
+  }
+  const proto = Object.getPrototypeOf(v);
+  if (proto !== Object.prototype && proto !== null) return structuredClone(v);
+  const out = {};
+  for (const k of Object.keys(v)) {
+    // An own "__proto__" key (JSON can carry one) stays a plain key, as structuredClone keeps it.
+    if (k === '__proto__') Object.defineProperty(out, k, { value: plainCopy(v[k], depth + 1), enumerable: true, writable: true, configurable: true });
+    else out[k] = plainCopy(v[k], depth + 1);
+  }
+  return out;
 }
 
 export function deepEqual(a, b) {
