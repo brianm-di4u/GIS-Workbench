@@ -34,6 +34,30 @@ export function decimateGrid(g, heights, k) {
   return { lat0: g.lat0, lon0: g.lon0, dlat: g.dlat * k, dlon: g.dlon * k, width: w, height: h, heights: out };
 }
 
+/**
+ * The geographic grid a DEM not in EPSG:4326 is resampled onto when used as terrain (REG-010): its own
+ * post spacing (`cell` [x, y] m, times the `step` it was read at) over `bounds` {n, s, w, e} (degrees),
+ * spaced out evenly only when that would pass `budget` posts (Terrain.room(): what the core can take
+ * at full detail, so Terrain.load() does not thin it again). It used to stop at 2,048 posts a side,
+ * which blurred any projected DEM larger than that. Returns {dlat, dlon, width, height}.
+ */
+export function geographicGridFor({ n, s, w, e }, cell, step = 1, budget = TERRAIN_POSTS) {
+  let dlat = (Math.max(cell[1], 1e-3) * step) / 111000;
+  let dlon = (Math.max(cell[0], 1e-3) * step) / (111000 * Math.cos(((n + s) / 2) * (Math.PI / 180)));
+  const size = () => [Math.ceil((e - w) / dlon) + 1, Math.ceil((n - s) / dlat) + 1];
+  let [width, height] = size();
+  if (width * height > budget) {
+    const k = Math.sqrt((width * height) / budget);
+    dlat *= k;
+    dlon *= k;
+    for ([width, height] = size(); width * height > budget; [width, height] = size()) {
+      dlat *= 1.002;
+      dlon *= 1.002;
+    }
+  }
+  return { dlat, dlon, width, height };
+}
+
 /** The post step that keeps `posts` within the budget beside `used` posts already loaded (0: none fits). */
 export function terrainStep(width, height, used, budget = TERRAIN_POSTS) {
   for (let k = 1; k <= 16; k++) if (used + 2 * Math.ceil(width / k) * Math.ceil(height / k) <= budget) return k;
@@ -77,6 +101,15 @@ export class Terrain {
       }
     }
     if (changed) this.app.emit('terrain');
+  }
+
+  /**
+   * The most posts one more grid can hold at full detail: load() counts the copy a grid makes on its
+   * way in, so it is half of what the other terrains leave of the budget.
+   */
+  room() {
+    const used = this.all.reduce((s, d) => s + (d.posts ?? d.grid.width * d.grid.height), 0);
+    return Math.max(0, Math.floor((TERRAIN_POSTS - used) / 2));
   }
 
   /** Load a grid into the core within the terrain budget: {coreId, posts, step}. */
