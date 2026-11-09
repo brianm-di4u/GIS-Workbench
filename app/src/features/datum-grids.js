@@ -136,7 +136,7 @@ export async function install(app) {
         epsg: g.epsg,
         name: g.name,
         accuracy: g.accuracy,
-        interpolation: 'bilinear',
+        interpolation: g.interpolation ?? 'bilinear',
         inverse: sign < 0,
       });
       acc += g.accuracy;
