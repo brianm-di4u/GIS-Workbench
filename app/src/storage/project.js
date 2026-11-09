@@ -17,9 +17,19 @@ const LIMITS = { entries: 2000, total: 512 << 20, ratio: 200 };
  */
 export function serialiseProject(app, kept = null) {
   const records = app.store.snapshot();
-  const views = {};
+  // What the opened project had and this shell does not show (Lite shows one panel, no docks and
+  // no arrangement) goes back as it came, so a Full project survives a save from Lite (REQ-GAP-86).
+  // Only for panels and ports still in the project: one deleted since is not carried on.
+  const prev = app.projectViews ?? {};
+  const live = new Set(records.filter((r) => r.type === 'pane' || r.type === 'multiport').map((r) => r.id));
+  const carried = (o) => Object.fromEntries(Object.entries(o ?? {}).filter(([id]) => live.has(id)));
+  const views = carried(prev.views);
   for (const mp of app.desktop.multiports) for (const p of mp.panes) views[p.id] = clone(p.view);
-  const docks = Object.fromEntries(app.desktop.multiports.map((mp) => [mp.id, mp.docks.layout()]));
+  const docks = carried(prev.docks);
+  for (const mp of app.desktop.multiports) {
+    const l = mp.docks.layout(); // null: this shell has no docks
+    if (l) docks[mp.id] = l;
+  }
   const manifest = {
     format: FORMAT,
     version: VERSION,
@@ -32,7 +42,7 @@ export function serialiseProject(app, kept = null) {
   };
   const journal = app.undo.history().slice(0, 50);
   const text = JSON.stringify(records);
-  const shown = { views, docks, arrange: app.desktop.arrange };
+  const shown = { views, docks, arrange: app.desktop.arrange ?? prev.arrange };
   if (kept) Object.assign(kept, { records: text, views: shown });
   const files = {
     'manifest.json': strToU8(JSON.stringify(manifest, null, 2)),

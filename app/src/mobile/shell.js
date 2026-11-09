@@ -25,7 +25,10 @@ const BAR = [
 
 /** The sheets' command groups (every id is a Lite command; tests/unit/profile.test.js checks it). */
 export const SHEETS = {
-  open: () => [{ title: t('Open from this device'), cmds: ['file.openimage', 'file.openvector', 'file.openpack'] }],
+  open: () => [
+    { title: t('Open from this device'), cmds: ['file.openimage', 'file.openvector', 'file.openpack'] },
+    { title: t('Project'), cmds: ['file.openproject', 'file.save', 'file.relink'] },
+  ],
   measure: () => [{ title: t('Measure on the image'), cmds: ['men.rangebearing', 'men.length', 'men.area', 'men.point'] }],
   observe: () => [
     { title: t('Observations'), cmds: ['obs.field', 'obs.table', 'obs.export', 'file.snapshot'] },
@@ -152,8 +155,9 @@ class SheetDocks {
   hostTool() {
     return null;
   }
+  /** Lite has no docks: null keeps a Full project’s layout as it came (REQ-GAP-86). */
   layout() {
-    return {};
+    return null;
   }
   restore() {}
   saveSizes() {}
@@ -186,7 +190,7 @@ export class MobileShell {
       el: this.view,
       multiports: [],
       activeMp: null,
-      arrange: 'tile',
+      arrange: null, // one panel, no arrangement: a Full project keeps its own
       wsCollapsed: true,
       maximised: null,
       workspace: { map: { zoomToFootprints() {} }, render() {}, setView() {}, el: null },

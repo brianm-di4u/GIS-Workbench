@@ -15,12 +15,82 @@ export const P77_CODES = ['A(V)', 'A(NP)', 'B(V)', 'C', 'D', 'PIR'];
 /** Annex 14 approach runway types, in definition-list order. */
 export const ICAO_TYPES = ['NI', 'NPA', 'PA-I', 'PA-II/III'];
 /**
- * What the Annex 14 surfaces follow. A message of its own, in the dialog, the results and the exports,
- * so that the label can only say what the kernel does: it changes with the tables, never apart.
+ * What each regime's surfaces follow, by regime ('part77' has none). In the dialog, the results and
+ * the exports, so that a label can only say what the kernel does: it changes with the tables, never
+ * apart. English in files; the app translates its own copies.
  */
-export const ICAO_EDITION = 'ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030';
-/** The surfaces of the obstacle-free zone of a precision approach runway (crates/gw-aviation). */
+export const EDITIONS = {
+  icao: 'ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030',
+  'icao-a18': 'ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces',
+};
+export const editionOf = (regime) => EDITIONS[regime] ?? null;
+/** Regimes in definition-list order. */
+export const REGIMES = ['part77', 'icao', 'icao-a18'];
+/** Amendment 18's Chapter 4 applies from this date (SL 2025/23; PDF pp.24-25). */
+export const A18_FROM = '2030-11-21';
+/** The Annex 14 edition that applies on a date (YYYY-MM-DD, or a Date): the regime key. */
+export function editionForDate(date) {
+  const d = date instanceof Date ? date.toISOString().slice(0, 10) : String(date ?? '').slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= A18_FROM ? 'icao-a18' : 'icao';
+}
+/** Aeroplane design groups (Table 1-2), in definition-list order from 1. */
+export const ADGS = ['I', 'IIA', 'IIB', 'IIC', 'III', 'IV', 'V'];
+/** Surfaces reported apart as the zone: the current edition's obstacle-free zone (crates/gw-aviation). */
 export const ZONE_KINDS = ['innerApproach', 'innerTransitional', 'balkedLanding', 'ofzStrip'];
+/** Amendment 18's obstacle free surfaces (§4.2), its zone; every other surface of it is an OES. */
+export const OFS_KINDS = ['approach', 'transitional', 'innerApproach', 'innerTransitional', 'balkedLanding', 'ofzStrip'];
+/** A regime whose model always reports a zone limit. */
+export const hasOfs = (regime) => regime === 'icao-a18';
+
+/**
+ * Table 1-2 (Amendment 18, PDF pp.29-30): the ADG (1 I … 7 V) of an aeroplane from its indicated
+ * airspeed at threshold (km/h) and wingspan (m), or null beyond the table's 80 m. The table covers
+ * speeds below 307 km/h only; at 307 km/h and above §1.8.2's "highest values" rule is applied: the
+ * speed then counts as IIC's band, the highest, and the group is the higher of that and the wingspan's
+ * (`assumed` says so).
+ */
+export function adgOf(vatKmh, spanM) {
+  if (!(Number.isFinite(vatKmh) && vatKmh > 0 && Number.isFinite(spanM) && spanM > 0) || spanM >= 80) return null;
+  const bySpan = spanM < 24 ? 1 : spanM < 36 ? 2 : spanM < 52 ? 5 : spanM < 65 ? 6 : 7;
+  const bySpeed = vatKmh < 169 ? 1 : vatKmh < 224 ? 3 : 4;
+  return { adg: Math.max(bySpan, bySpeed), assumed: vatKmh >= 307 };
+}
+
+/** A runway's ADG as a number 1-7 (from r.adg, a label or number, else r.vat and r.span), or 0. */
+export function adgNumber(r) {
+  if (Number.isInteger(r?.adg) && r.adg >= 1 && r.adg <= 7) return r.adg;
+  const i = ADGS.indexOf(String(r?.adg ?? ''));
+  if (i >= 0) return i + 1;
+  return adgOf(r?.vat, r?.span)?.adg ?? 0;
+}
+
+/**
+ * The readings the Amendment 18 kernel takes where the document is silent or ambiguous
+ * (crates/gw-aviation/src/a18.rs A_*), by bit; the last is this module's (adgOf). A run's result lists
+ * those its model made.
+ */
+export const A18_ASSUMPTIONS = [
+  [1 << 0, N_('The transitional surfaces start at the strip edge, its half-width from Chapter 3 as in the current edition (§4.2.2.2 gives no distance); the strip itself is limited at the elevation of the nearest centre line point and is not an OFS.')],
+  [1 << 1, N_('The inner transitional surfaces start at half the inner approach width, along its sides carried on (§4.2.4.2 and §4.2.4.3 give no distance).')],
+  [1 << 2, N_('Non-instrument and non-precision runways: the inner transitional runs along the whole inner approach (§4.2.4.2 gives no height for its start), its vertical section measured from its lower edge.')],
+  [1 << 3, N_('The transitional slope is the current edition’s for the runway’s code number (Table 4-1): 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise. §4.2.2.5 gives only an upper limit of 20 %.')],
+  [1 << 4, N_('The OES follow the runways, not the operations (§4.5.2.1): a horizontal surface for every runway, except a runway whose best approach is non-precision, which has the straight-in surface instead; the precision approach surface at precision approach ends; an instrument departure surface beyond every take-off end of a runway with an instrument approach; a take-off climb surface beyond every take-off end.')],
+  [1 << 5, N_('Table 4-11: the shorter side is 7 410 m in all (3 705 m each side of the centre line) and the longer sides reach 5 350 m before and after the thresholds; the upper section is 60 m high.')],
+  [1 << 6, N_('One aeroplane design group per runway, its critical aeroplane: the lower horizontal surfaces of smaller groups that also use it (Table 4-10 note) are not added.')],
+  [1 << 7, N_('Exactly 5 700 kg takes Table 4-14, as §4.3.6.6 reads, although the table’s note a says "up to but not including 5 700 kg".')],
+  [1 << 8, N_('5 700 kg or less on an ADG IIC to V runway: Table 4-14 has no values for these groups, so Table 4-15 is used.')],
+  [1 << 9, N_('Table 4-15 take-off climb surfaces start at the end of the take-off distance available (its distance row is "-").')],
+  [1 << 10, N_('Take-off climb surfaces start at the elevation of the runway end, and departure surfaces 5 m above it: §4.3.6.4 takes the highest point on the extended centre line, which this tool does not know.')],
+  [1 << 11, N_('Table 4-13 prints one 2.5 % slope, taken for both sections of the departure surface.')],
+  [1 << 12, N_('A runway width is not known: the inner edges of Tables 4-1 and 4-2 are as printed, without the runway width notes.')],
+  [1 << 13, N_('The code letter F notes of Tables 4-3 to 4-5 and 4-9 are applied to ADG V.')],
+  [1 << 14, N_('Slopes and lengths as printed: not reduced for approach angles under 3°, visual approach slope indicators or an OCH above 150 m (§4.2.1.8 to §4.2.1.11, §4.2.3.7), nor the take-off climb for critical operating conditions (§4.3.6.9).')],
+  [1 << 15, N_('An aeroplane at 307 km/h or more matches no row of Table 1-2: by the "highest values" rule of §1.8.2 its speed counts in the IIC band, and the group is the higher of that and its wingspan’s.')],
+];
+/** The JS-side assumption bit: an ADG found from a speed of 307 km/h or more. */
+export const A18_ADG_SPEED = 1 << 15;
+/** The English texts of the assumptions in `bits`. */
+export const assumptionsOf = (bits) => A18_ASSUMPTIONS.filter(([b]) => bits & b).map(([, s]) => s);
 
 /** One CSV record (RFC 4180 quoting) → fields. */
 export function csvRow(line) {
@@ -208,25 +278,40 @@ export function airportProblems(ap, regime = null) {
         p.push({ src: N_('Runway end {end} needs a position and an elevation'), params: { end: e.id } });
     if (![1, 2, 3, 4].includes(r.code)) p.push({ src: N_('Runway {rwy}: the code number must be 1 to 4'), params: { rwy: r.id } });
     else if (regime === 'icao' && r.code < 3 && r.ends.some((e) => e.icao === 3)) p.push({ src: N_('Runway {rwy}: Annex 14 Table 4-1 has no precision category II or III column for code number {code}'), params: { rwy: r.id, code: r.code } });
-    if (regime === 'icao') for (const e of r.ends) if (e.icao >= 2 && Number.isFinite(r.length) && (e.disp ?? 0) >= r.length) p.push({ src: N_('Runway end {end}: the displaced threshold lies beyond the far end of the runway'), params: { end: e.id } });
+    if (regime === 'icao' || regime === 'icao-a18') for (const e of r.ends) if ((e.icao >= 2 || (regime === 'icao-a18' && e.approach !== false)) && Number.isFinite(r.length) && (e.disp ?? 0) >= r.length) p.push({ src: N_('Runway end {end}: the displaced threshold lies beyond the far end of the runway'), params: { end: e.id } });
+    if (regime === 'icao-a18') {
+      if (!adgNumber(r)) p.push({ src: N_('Runway {rwy}: Amendment 18 needs the aeroplane design group of its critical aeroplane (§1.8.1)'), params: { rwy: r.id } });
+      if (r.ends.some((e) => e.takeoff !== false) && !massOf(r)) p.push({ src: N_('Runway {rwy}: Amendment 18 needs the maximum take-off mass of its aeroplanes for the take-off climb surface (§4.3.6.6)'), params: { rwy: r.id } });
+    }
   }
   return p;
 }
 
+/** A runway's maximum take-off mass (kg) as the kernel takes it, or NaN. */
+const massOf = (r) => (Number.isFinite(r?.mtom) && r.mtom >= 1 && r.mtom <= 1e6 ? r.mtom : NaN);
+/** A runway's width (m) as the kernel takes it, or NaN (unknown). */
+// Draw Runway stored 45 m as a placeholder width (with no surface) until 2.7.0, and saved projects
+// keep it; that is not a measured width. A NASR width is whole feet, so never exactly 45 m.
+const widthOf = (r) => (r?.surface === '' && r.width === 45 ? NaN : Number.isFinite(r?.width) && r.width >= 3 && r.width <= 150 ? r.width : NaN);
+
 /**
- * The definition list for the `aviation` bundle. regime 'part77' or 'icao'; opts.ihsDatum (m) for
- * the Annex 14 inner horizontal surface (default: the aerodrome elevation); opts.codeF when the
- * aerodrome takes code letter F aeroplanes without go-around steering avionics (the inner edges of
- * the obstacle-free zone are then 140 m on code 3 and 4 precision runways).
+ * The definition list (version 3) for the `aviation` bundle. regime 'part77', 'icao' (the current
+ * Annex 14 Chapter 4) or 'icao-a18' (Amendment 18's from 21 November 2030, which needs each runway's
+ * aeroplane design group, `adg`, and for take-off climb surfaces its maximum take-off mass, `mtom` kg;
+ * its width, `width` m, chooses the approach inner edge); opts.ihsDatum (m) for the current Annex 14
+ * inner horizontal surface (default: the aerodrome elevation); opts.codeF when the aerodrome takes code
+ * letter F aeroplanes without go-around steering avionics (the inner edges of the obstacle-free zone
+ * are then 140 m on code 3 and 4 precision runways, and on ADG V runways under Amendment 18).
  */
 export function encodeAirport(ap, regime, { ihsDatum = NaN, codeF = false } = {}) {
-  const v = [2, regime === 'icao' ? 1 : 0, ap.elev, Number.isFinite(ihsDatum) ? ihsDatum : NaN, ap.runways.length, codeF ? 1 : 0];
+  const v = [3, Math.max(0, REGIMES.indexOf(regime)), ap.elev, Number.isFinite(ihsDatum) ? ihsDatum : NaN, ap.runways.length, codeF ? 1 : 0];
+  const annex = regime === 'icao' || regime === 'icao-a18';
   for (const r of ap.runways) {
-    v.push(r.paved ? 1 : 0, r.code ?? icaoCodeNumber(r.length ?? 0), Number.isFinite(r.tocsWidth) ? r.tocsWidth : NaN);
+    v.push(r.paved ? 1 : 0, r.code ?? icaoCodeNumber(r.length ?? 0), Number.isFinite(r.tocsWidth) ? r.tocsWidth : NaN, adgNumber(r), widthOf(r), massOf(r));
     for (const e of r.ends) {
       const p77 = Math.max(0, P77_CODES.indexOf(e.p77));
       const flags = (e.approach !== false ? 1 : 0) + (e.takeoff !== false ? 2 : 0);
-      v.push(e.lat, e.lon, e.elev, p77, e.icao ?? icaoTypeOf(e.p77), regime === 'icao' ? e.disp ?? 0 : 0, Number.isFinite(e.thrElev) ? e.thrElev : NaN, flags, e.clearway ?? 0);
+      v.push(e.lat, e.lon, e.elev, p77, e.icao ?? icaoTypeOf(e.p77), annex ? e.disp ?? 0 : 0, Number.isFinite(e.thrElev) ? e.thrElev : NaN, flags, e.clearway ?? 0);
     }
   }
   return Float64Array.from(v);
@@ -388,7 +473,7 @@ export function obstaclesKml(rows, name, { edition = null } = {}) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>${esc(name)}</name>${kmlNote(edition)}<Style id="pen"><IconStyle><color>ff0000ff</color></IconStyle></Style>${pm.join('')}</Document></kml>\n`;
 }
 
-const SURF_COLOUR = { primary: '#ffffff', strip: '#ffffff', approach: '#00c853', transitional: '#ffab00', horizontal: '#2979ff', innerHorizontal: '#2979ff', conical: '#d500f9', takeoff: '#00e5ff', innerApproach: '#76ff03', innerTransitional: '#ff6d00', balkedLanding: '#ffea00', ofzStrip: '#ffffff' };
+const SURF_COLOUR = { primary: '#ffffff', strip: '#ffffff', approach: '#00c853', transitional: '#ffab00', horizontal: '#2979ff', innerHorizontal: '#2979ff', conical: '#d500f9', takeoff: '#00e5ff', innerApproach: '#76ff03', innerTransitional: '#ff6d00', balkedLanding: '#ffea00', ofzStrip: '#ffffff', straightIn: '#2979ff', precisionApproach: '#1de9b6', precisionMissedApproach: '#c6ff00', precisionTransitional: '#ffd180', precisionLower: '#b2dfdb', departure: '#18ffff' };
 export const surfaceColour = (kind) => SURF_COLOUR[kind] ?? '#888888';
 const kmlColour = (hex, a = 'ff') => `${a}${hex.slice(5, 7)}${hex.slice(3, 5)}${hex.slice(1, 3)}`;
 

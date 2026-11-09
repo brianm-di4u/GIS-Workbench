@@ -1,7 +1,8 @@
 // File commands: open imagery and DEMs (picker or drop), new/open/save project (.gwb),
 // relink imagery by fingerprint, project properties, recovery offer (REQ-ARC-08..11).
 
-import { pickFiles, saveBlob } from '../storage/files.js';
+import { pickFiles, saveBlob, shareOrSave } from '../storage/files.js';
+import { LITE_RECORDS, FULL_RECORD_NAMES } from '../core/profile.js';
 import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
 import { serialiseProject, readProject, parseRecords, relink } from '../storage/project.js';
@@ -14,7 +15,7 @@ import { modal, field, confirmBox, promptBox } from '../shell/dialogs.js';
 import { h } from '../shell/dom.js';
 import { fmtBytes, errorText } from '../core/util.js';
 import { FEEDBACK_EMAIL } from '../feedback/contact.js';
-import { t, tc, N_, msgOf } from '../i18n/index.js';
+import { t, tc, tr, N_, msgOf } from '../i18n/index.js';
 import { dateTime } from '../i18n/format.js';
 import { kmzHasModel } from '../hub/mesh-import.js';
 import { openModelFile } from './imaging-lazy.js'; // the COLLADA reader is in the lazy js-imaging block
@@ -510,8 +511,10 @@ export async function install(app) {
     let r, blob, name;
     try {
       blob = new Blob([serialiseProject(app, kept)], { type: 'application/zip' });
-      name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
-      r = await saveBlob(app, blob, { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') });
+      name = `${(app.project()?.name || 'Untitled').replace(/[^w.-]+/g, '_')}.gwb`;
+      // Lite (REQ-GAP-86): a phone keeps the file through the share sheet where there is one.
+      const opts = { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') };
+      r = C.profile === 'lite' ? await shareOrSave(app, blob, { ...opts, title: t('GIS Workbench project') }) : await saveBlob(app, blob, opts);
       if (r.how === 'cancelled') return;
       if (r.handle) app.projectHandle = r.handle;
       const until = app.journal.seq; // the change sets after this one are the save's own
@@ -530,7 +533,7 @@ export async function install(app) {
       if (held) void app.journal.release(); // cancelled or failed: the journal goes on as before
     }
     app.noteRecent?.(name, app.projectHandle);
-    app.toast(r.how === 'in-place' ? t('Saved {file} in place', { file: name }) : r.how === 'download' ? t('Downloaded {file} ({size})', { file: name, size: fmtBytes(blob.size) }) : r.how === 'export-panel' ? t('Use the export panel to keep the project') : t('Saved {file}', { file: name }), { kind: 'info' });
+    app.toast(r.how === 'shared' ? t('Shared {file}', { file: name }) : r.how === 'in-place' ? t('Saved {file} in place', { file: name }) : r.how === 'download' ? t('Downloaded {file} ({size})', { file: name, size: fmtBytes(blob.size) }) : r.how === 'export-panel' ? t('Use the export panel to keep the project') : t('Saved {file}', { file: name }), { kind: 'info' });
     app.emit('state');
   }
   C.implement('file.save', { run: () => save(false) });
@@ -551,7 +554,11 @@ export async function install(app) {
     app.files.clear();
     app.store.load(parsed.records);
     app.undo.clear();
+    app.projectViews = parsed.views;
     app.projectHandle = file.__handle ?? null;
+    // Lite (REQ-GAP-86) keeps what it cannot show, saves it back unchanged, and says what it is.
+    const hidden = C.profile === 'lite' ? liteHidden(parsed.records) : null;
+    if (hidden) warnings.push(hidden);
     addPanels(parsed.views);
     app.journal.views = parsed.views;
     app.emit('layers');
@@ -578,17 +585,37 @@ export async function install(app) {
     app.dirty = false;
     app.noteRecent?.(file.name, file.__handle ?? null);
     app.importLog?.push({ file: file.name, errors: [], warnings });
-    app.toast(t('Opened project {name}', { name: parsed.manifest.project }), { kind: 'info' });
+    const opened = t('Opened project {name}', { name: parsed.manifest.project });
+    app.toast(hidden ? `${opened} ${hidden}` : opened, hidden ? { kind: 'info', ms: 12000 } : { kind: 'info' });
   }
   app.openProjectFile = openProjectFile;
 
-  /** Add the store's panels, with the pane views and dock layouts of `views` (a project's views.json). */
+  /** The ports this shell shows: Lite shows one (its first panel); the others stay in the project. */
+  const shownPorts = () => {
+    const ports = app.store.all('multiport');
+    return C.profile === 'lite' ? ports.slice(0, 1) : ports;
+  };
+
+  /** Add the panels this shell shows, with the pane views and dock layouts of `views` (a project's views.json). */
   function addPanels(views) {
-    for (const mp of app.store.all('multiport')) {
+    for (const mp of shownPorts()) {
       const m = app.desktop.addMultiport(mp.id);
       for (const p of m.panes) if (views?.views?.[p.id]) Object.assign(p.view, views.views[p.id]);
       m.docks.restore(views?.docks?.[mp.id]);
     }
+  }
+
+  /** What a project holds that Lite does not show (it is kept and saved back), or null. */
+  function liteHidden(records) {
+    const by = new Map();
+    for (const r of records) if (!LITE_RECORDS.has(r.type)) by.set(r.type, (by.get(r.type) ?? 0) + 1);
+    const extraPanes = Math.max(0, records.filter((r) => r.type === 'pane').length - 1);
+    if (!by.size && !extraPanes) return null;
+    const names = [...new Set([...by.keys()].map((k) => (FULL_RECORD_NAMES[k] ? tr(FULL_RECORD_NAMES[k]) : k)))];
+    const parts = [];
+    if (by.size) parts.push(t('{n, plural, one {# item} other {# items}} that only GIS Workbench (Full) shows: {names}', { n: [...by.values()].reduce((s, v) => s + v, 0), names: names.join(', ') }));
+    if (extraPanes) parts.push(t('{n, plural, one {# more panel} other {# more panels}} (Lite shows the first)', { n: extraPanes }));
+    return t('This project has {parts}. They are kept and saved back unchanged.', { parts: parts.join('; ') });
   }
 
   // ---- snapshot (REQ-ARC-19): the tool, the project and its smaller files in one HTML ----
@@ -756,7 +783,9 @@ export async function install(app) {
             }
             for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
             addPanels(rec.views);
+            // The views as of the last open or save: Lite carries the ones it does not show (REQ-GAP-86).
             app.journal.views = rec.views ?? null;
+            app.projectViews = rec.views ?? null;
             app.emit('layers');
             await relinkDialog(app.store.all('fileref'));
           },
