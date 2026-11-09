@@ -450,8 +450,9 @@ export function install(app) {
       const id = await addRecord({ name, frame: f, vertical, crs: crsInfo, source });
       const kept = rts.get(id)?.kept ?? null;
       if (kept?.skipped) note.push(t('{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, the three are on one line, or the face overlaps another', { n: kept.skipped }));
-      // A file whose faces are all hidden has no surface of its own to keep (#77): say so.
-      if (kept && kept.faces > 0 && kept.visible === 0) note.push(t('every face in the file is hidden: the TIN covers the area between its points'));
+      // A file with faces but none visible (all hidden, or hidden and left out) has no surface of its
+      // own to keep (#77): say so. The note above names the faces left out.
+      if (kept && kept.faces > 0 && kept.visible === 0) note.push(t('no face in the file is visible: the TIN covers the area between its points'));
       if (kept?.open) note.push(t('the outline of the file’s faces could not be traced: the TIN covers the area between its points'));
       return { id, points: points.length, lines: lines.length, faces: r.doc.faces, hidden: hidden.length, kept, notes: note, agreement: await faceAgreement(id, r, conv) };
     }

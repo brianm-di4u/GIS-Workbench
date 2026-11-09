@@ -540,7 +540,7 @@ test('REQ-GAP-39 OD-2.41 Import TIN says when every face in a LandXML file is hi
     const m = await app.tin.mesh(id);
     return { warnings: app.importLog.flatMap((e) => e.warnings), excluded: m.excluded.filter(Boolean).length, rings: (await app.tin.lines(id)).filter((l) => l.type === 'outline').length };
   });
-  expect(r.warnings).toContain('every face in the file is hidden: the TIN covers the area between its points');
+  expect(r.warnings).toContain('no face in the file is visible: the TIN covers the area between its points');
   expect(r.rings).toBe(0); // no outline of visible faces, so nothing is excluded
   expect(r.excluded).toBe(0);
   await expect(frame.locator('.toast.toast-warn', { hasText: 'hidden.xml' })).toBeVisible();

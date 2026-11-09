@@ -275,6 +275,10 @@ mod tests {
         let (mut m2, _) = from_points(&pts, 0.001, 0.0, 100).unwrap();
         let k2 = keep_faces(&mut m2, &pts, &[0, 1, 2, 0, 2, 3], &[1, 1], 1 << 40).unwrap();
         assert_eq!((k2.visible, k2.rings, k2.kept), (0, 0, 0), "{k2:?}");
+        // Every face left out (a corner repeated), none hidden: none visible either, so the same note.
+        let (mut m3, _) = from_points(&pts, 0.001, 0.0, 100).unwrap();
+        let k3 = keep_faces(&mut m3, &pts, &[0, 0, 1, 2, 2, 3], &[], 1 << 40).unwrap();
+        assert_eq!((k3.faces, k3.skipped, k3.visible, k3.rings), (2, 2, 0, 0), "{k3:?}");
         m.check().unwrap();
         let (vis, _) = faces_of(&mut m);
         assert_eq!(vis, file_faces(&m, &pts, &[0, 1, 2, 0, 2, 3]));
