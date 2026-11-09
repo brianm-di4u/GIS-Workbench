@@ -60,7 +60,7 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
   const errors = [];
   for (const b of BUNDLES) {
     const env = { ...process.env, CARGO_PROFILE_RELEASE_OPT_LEVEL: b.opt };
-    const r = spawnSync('cargo', ['build', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
+    const r = spawnSync('cargo', ['build', '--locked', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
     if (r.status !== 0) throw new Error(`cargo build ${b.crate} failed:\n${r.stderr}`);
   }
   const tdir = join(targetDir(crates), 'wasm32-unknown-unknown', 'release');
@@ -93,7 +93,7 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
   errors.push(...wasmGate(results));
   errors.push(...determinismGate(results.map((r) => ({ name: r.name, bytes: r.bytes }))));
   // REQ-RUST-09: licence gate, when cargo-deny is installed.
-  const deny = spawnSync('cargo', ['deny', '--all-features', 'check', 'licenses'], { cwd: crates, encoding: 'utf8' });
+  const deny = spawnSync('cargo', ['deny', '--locked', '--all-features', 'check', 'licenses'], { cwd: crates, encoding: 'utf8' });
   const licenceGate = deny.error ? 'not run (cargo-deny unavailable)' : deny.status === 0 ? 'pass' : 'fail';
   if (licenceGate === 'fail') errors.push(`REQ-RUST-09: cargo-deny licences failed:\n${deny.stderr.slice(-2000)}`);
   if (strict && deny.error) errors.push('rust: --strict needs cargo-deny');
@@ -105,7 +105,7 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
 /** Licence summary of third-party crates linked into the bundles (for the notices block). */
 export function rustNotices(crates) {
   try {
-    const out = execFileSync('cargo', ['metadata', '--format-version', '1', '--filter-platform', 'wasm32-unknown-unknown'], { cwd: crates, encoding: 'utf8', maxBuffer: 64 << 20 });
+    const out = execFileSync('cargo', ['metadata', '--locked', '--format-version', '1', '--filter-platform', 'wasm32-unknown-unknown'], { cwd: crates, encoding: 'utf8', maxBuffer: 64 << 20 });
     const meta = JSON.parse(out);
     const ws = new Set(meta.workspace_members);
     return meta.packages.filter((p) => !ws.has(p.id)).map((p) => ({ name: p.name, version: p.version, license: p.license ?? 'unknown', repository: p.repository ?? '' }));
