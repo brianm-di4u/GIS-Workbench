@@ -5,7 +5,7 @@ import { pickFiles, saveBlob, shareOrSave } from '../storage/files.js';
 import { LITE_RECORDS, FULL_RECORD_NAMES } from '../core/profile.js';
 import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
-import { serialiseProject, readProject, relink } from '../storage/project.js';
+import { serialiseProject, serialiseProjectAsync, readProject, readProjectAsync, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
 import { groupFiles, openImageFile, attachFile, recoverHandle, isRpfToc } from '../formats/open.js';
 import { frameCoverage } from '../formats/rpf-coverage.js';
@@ -499,8 +499,11 @@ export async function install(app) {
   C.implement('dem.select', { run: () => C.run('file.opendem') });
 
   // ---- project ----
+  /** Long work with the activity indicator, where the shell has one. */
+  const tracked = (label, fn) => (app.activity ? app.activity.track(label, fn) : fn());
+
   async function save(as = false) {
-    const bytes = serialiseProject(app);
+    const bytes = await tracked(t('Writing the project…'), () => serialiseProjectAsync(app));
     const blob = new Blob([bytes], { type: 'application/zip' });
     const name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
     // Lite (REQ-GAP-86): a phone keeps the file through the share sheet where there is one.
@@ -528,7 +531,7 @@ export async function install(app) {
   async function openProjectFile(file, { attach = null } = {}) {
     let parsed;
     try {
-      parsed = readProject(new Uint8Array(await file.arrayBuffer()));
+      parsed = await tracked(t('Reading the project…'), async () => readProjectAsync(new Uint8Array(await file.arrayBuffer())));
     } catch (e) {
       app.importLog?.push({ file: file.name, errors: [errMsg(e)], warnings: [] });
       return app.toast(t('{file}: {msg}', { file: file.name, msg: errMsg(e) }), { kind: 'error', ms: 8000 });
@@ -538,7 +541,7 @@ export async function install(app) {
     for (const l of app.layers.all()) l.dispose();
     app.layers.clear();
     app.files.clear();
-    app.store.load(parsed.records);
+    app.store.load(parsed.records, { owned: true }); // just parsed: nothing else holds them
     app.undo.clear();
     app.projectViews = parsed.views;
     app.projectHandle = file.__handle ?? null;
@@ -606,7 +609,7 @@ export async function install(app) {
   };
   const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
   async function snapshotHtml({ maxFileMB = 25, maxTotalMB = 100 } = {}) {
-    const project = serialiseProject(app);
+    const project = await serialiseProjectAsync(app);
     const files = [];
     const skipped = [];
     let total = project.length;
