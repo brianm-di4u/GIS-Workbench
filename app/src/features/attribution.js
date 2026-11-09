@@ -19,6 +19,7 @@ import { crsOf, converter } from '../geo/crs.js';
 import { decodeGrayPng } from '../formats/png-gray.js';
 import { writeGeoTiff } from '../formats/geotiff-writer.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
+import { yieldNow } from '../core/util.js';
 
 export const name = 'attribution';
 
@@ -327,6 +328,7 @@ export function install(app) {
     const cat = hasDomains ? registerCatalog(catalogFromLayers(nm.replace(/\.gpkg$/i, ''), layers)) : null;
     const ids = [];
     for (const l of layers) {
+      await yieldNow(); // storing a large table is long: a task of its own after the read (#63)
       const id = app.addVectorLayer(l, { format: 'GeoPackage', file: nm, table: l.table, report });
       if (cat) {
         const code = l.features.find((x) => x.attrs?.F_CODE)?.attrs.F_CODE ?? l.table;

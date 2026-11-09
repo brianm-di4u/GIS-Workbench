@@ -10,7 +10,7 @@ import { LITE_RECORDS, LITE_COMMANDS, FULL_RECORD_NAMES } from '../../app/src/co
 /** The parts of an app serialiseProject reads. */
 function fakeApp(records, ports, extra = {}) {
   return {
-    store: { snapshot: () => structuredClone(records), all: (type) => records.filter((r) => r.type === type) },
+    store: { snapshot: () => structuredClone(records), all: (type) => (type ? records.filter((r) => r.type === type) : [...records]) },
     desktop: { multiports: ports },
     undo: { history: () => [] },
     project: () => ({ name: 'Survey', origins: [] }),
