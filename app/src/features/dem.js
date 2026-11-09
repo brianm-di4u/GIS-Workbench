@@ -120,8 +120,8 @@ export function install(app) {
       const lats = fp.map((p) => p[0]);
       const lons = fp.map((p) => p[1]);
       const [n, s, w, e] = [maxOf(lats), minOf(lats), minOf(lons), maxOf(lons)];
-      // At the DEM's own post spacing (REG-010); Terrain.load() thins it only when other terrains fill the core.
-      const { dlat, dlon, width: W, height: H } = geographicGridFor({ n, s, w, e }, l.demCell(), step);
+      // At the DEM's own post spacing (REG-010), within what the core can take at full detail.
+      const { dlat, dlon, width: W, height: H } = geographicGridFor({ n, s, w, e }, l.demCell(), step, Math.max(1e6, app.terrain.room()));
       const out = new Float32Array(W * H).fill(NaN);
       const src = r.heights;
       // Rows in bands, so the ground points and their image positions stay small (24 + 16 B a post),

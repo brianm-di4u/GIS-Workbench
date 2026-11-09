@@ -37,7 +37,8 @@ export function decimateGrid(g, heights, k) {
 /**
  * The geographic grid a DEM not in EPSG:4326 is resampled onto when used as terrain (REG-010): its own
  * post spacing (`cell` [x, y] m, times the `step` it was read at) over `bounds` {n, s, w, e} (degrees),
- * spaced out evenly only when that would pass `budget` posts. It used to stop at 2,048 posts a side,
+ * spaced out evenly only when that would pass `budget` posts (Terrain.room(): what the core can take
+ * at full detail, so Terrain.load() does not thin it again). It used to stop at 2,048 posts a side,
  * which blurred any projected DEM larger than that. Returns {dlat, dlon, width, height}.
  */
 export function geographicGridFor({ n, s, w, e }, cell, step = 1, budget = TERRAIN_POSTS) {
@@ -100,6 +101,15 @@ export class Terrain {
       }
     }
     if (changed) this.app.emit('terrain');
+  }
+
+  /**
+   * The most posts one more grid can hold at full detail: load() counts the copy a grid makes on its
+   * way in, so it is half of what the other terrains leave of the budget.
+   */
+  room() {
+    const used = this.all.reduce((s, d) => s + (d.posts ?? d.grid.width * d.grid.height), 0);
+    return Math.max(0, Math.floor((TERRAIN_POSTS - used) / 2));
   }
 
   /** Load a grid into the core within the terrain budget: {coreId, posts, step}. */
