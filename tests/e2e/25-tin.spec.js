@@ -544,5 +544,5 @@ test('REQ-GAP-39 OD-2.41 Import TIN says when every face in a LandXML file is hi
   expect(r.rings).toBe(0); // no outline of visible faces, so nothing is excluded
   expect(r.excluded).toBe(0);
   await expect(frame.locator('.toast.toast-warn', { hasText: 'hidden.xml' })).toBeVisible();
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
