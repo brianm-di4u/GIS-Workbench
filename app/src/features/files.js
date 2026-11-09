@@ -511,7 +511,7 @@ export async function install(app) {
     let r, blob, name;
     try {
       blob = new Blob([serialiseProject(app, kept)], { type: 'application/zip' });
-      name = `${(app.project()?.name || 'Untitled').replace(/[^w.-]+/g, '_')}.gwb`;
+      name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
       // Lite (REQ-GAP-86): a phone keeps the file through the share sheet where there is one.
       const opts = { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') };
       r = C.profile === 'lite' ? await shareOrSave(app, blob, { ...opts, title: t('GIS Workbench project') }) : await saveBlob(app, blob, opts);

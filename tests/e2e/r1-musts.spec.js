@@ -460,13 +460,16 @@ test('REQ-ARC-11 #99 a crash after a save recovers the saved work, the later edi
     await app.journal.flush();
     const pane = app.desktop.multiports[0].panes[0];
     Object.assign(pane.view, { lon: 12.5, lat: 41.9, zoom: 300 });
-    app.saveCapture = () => {};
+    app.store.transact('Name', (tx) => tx.set('project', 'name', 'Survey Plan 1'));
+    let saved = null;
+    app.saveCapture = (_blob, name) => (saved = name);
     await app.commands.run('file.save');
     delete app.saveCapture;
     layer('After the save');
     await app.journal.flush();
-    return { id: pane.id, ...pane.view };
+    return { id: pane.id, saved, ...pane.view };
   });
+  expect(view.saved).toBe('Survey_Plan_1.gwb');
   const f2 = await restart(page);
   const toast = f2.locator('.toast', { hasText: 'Unsaved work' });
   await expect(toast).toBeVisible({ timeout: 10000 });
