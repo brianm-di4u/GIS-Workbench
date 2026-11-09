@@ -1,0 +1,33 @@
+{
+  "id": "cx043-overviews-reread",
+  "source": "CX-043",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Write a COG with its overview levels, streaming so large images fit in memory.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/source.js": "// An image source. read(x, y, width, height, step) decodes the full-resolution window and keeps every step-th pixel.\nexport function sourceOf(decoder, width, height) {\n  return {\n    width,\n    height,\n    read: (x, y, w, h, step) => decoder.window(x, y, w, h, step),\n  };\n}\n"
+  },
+  "head": {
+    "src/cog-writer.js": "// Streamed COG writer: full resolution, then each overview level.\nexport async function writeCog(source, sink, levels) {\n  await writeLevel(sink, 0, source.width, source.height, (y, rows) => source.read(0, y, source.width, rows, 1));\n  for (let level = 1; level <= levels; level += 1) {\n    const step = 2 ** level;\n    const width = Math.ceil(source.width / step);\n    const height = Math.ceil(source.height / step);\n    await writeLevel(sink, level, width, height, (y, rows) =>\n      source.read(0, y * step, source.width, rows * step, step));\n  }\n}\n\nasync function writeLevel(sink, level, width, height, read) {\n  for (let y = 0; y < height; y += 256) {\n    const rows = Math.min(256, height - y);\n    sink.write(level, y, await read(y, rows));\n  }\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/cog-writer.js",
+      "from": 8,
+      "to": 9,
+      "words": [
+        "re-read",
+        "reread",
+        "every level",
+        "each level",
+        "each overview",
+        "full resolution",
+        "previous level",
+        "decodes again",
+        "decoded again",
+        "once per level"
+      ]
+    }
+  ]
+}

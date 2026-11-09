@@ -1,0 +1,31 @@
+{
+  "id": "cx042-worker-pick",
+  "source": "CX-042",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Choose which decode worker opens a file, starting new workers as needed up to the core count. A file stays on the worker that opened it.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/decoders.js": "// Open files on decode workers.\nexport class Decoders {\n  constructor(spawn, max) {\n    this.spawn = spawn;\n    this.max = max;\n    this.workers = [];\n  }\n\n  pick() {\n    const free = this.workers.find((w) => w.queue.length < 4);\n    if (free) return free;\n    if (this.workers.length < this.max) {\n      const worker = this.spawn();\n      this.workers.push(worker);\n      return worker;\n    }\n    return this.workers.reduce((a, b) => (a.queue.length <= b.queue.length ? a : b));\n  }\n\n  open(file) {\n    const worker = this.pick();\n    worker.files.add(file);\n    return worker.post({ op: 'open', file });\n  }\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/decoders.js",
+      "from": 10,
+      "to": 11,
+      "words": [
+        "balanc",
+        "fewest",
+        "least",
+        "same worker",
+        "one worker",
+        "distribut",
+        "spread",
+        "files.size",
+        "queue length"
+      ]
+    }
+  ]
+}

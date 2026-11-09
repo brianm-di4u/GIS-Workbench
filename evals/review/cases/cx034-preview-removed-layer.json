@@ -1,0 +1,29 @@
+{
+  "id": "cx034-preview-removed-layer",
+  "source": "CX-034",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Workspace panel: show a preview of the selected layer.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/store.js": "// The layer store. Undo of an add calls remove(); redo adds the layer back with the same id.\n// The workspace keeps its selection across undo and redo.\nexport class Store {\n  constructor() {\n    this.layers = new Map();\n  }\n\n  add(layer) {\n    this.layers.set(layer.id, layer);\n  }\n\n  remove(id) {\n    this.layers.delete(id);\n  }\n\n  get(id) {\n    return this.layers.get(id);\n  }\n}\n"
+  },
+  "head": {
+    "src/workspace-preview.js": "// Workspace panel: a preview of the selected layer.\nexport function previewOf(store, selection) {\n  const layer = store.get(selection.id);\n  return { title: layer.name, size: layer.width + ' x ' + layer.height, bands: layer.bands.length };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/workspace-preview.js",
+      "from": 3,
+      "to": 4,
+      "words": [
+        "undefined",
+        "removed",
+        "undo",
+        "no longer",
+        "missing layer",
+        "stale"
+      ]
+    }
+  ]
+}

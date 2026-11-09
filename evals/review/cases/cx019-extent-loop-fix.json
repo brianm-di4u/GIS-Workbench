@@ -1,0 +1,15 @@
+{
+  "id": "cx019-extent-loop-fix",
+  "source": "CX-019",
+  "split": "test",
+  "kind": "clean",
+  "intent": "Work out the footprint extent with a loop, so a layer with millions of vertices no longer overflows the call stack. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/extent.js": "// The extent of a layer's footprints, for 3D export.\nexport function extentOf(features) {\n  const xs = [];\n  const ys = [];\n  for (const feature of features) {\n    for (const [x, y] of feature.vertices) {\n      xs.push(x);\n      ys.push(y);\n    }\n  }\n  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];\n}\n"
+  },
+  "head": {
+    "src/extent.js": "// The extent of a layer's footprints, for 3D export.\nexport function extentOf(features) {\n  let minX = Infinity;\n  let minY = Infinity;\n  let maxX = -Infinity;\n  let maxY = -Infinity;\n  for (const feature of features) {\n    for (const [x, y] of feature.vertices) {\n      if (x < minX) minX = x;\n      if (x > maxX) maxX = x;\n      if (y < minY) minY = y;\n      if (y > maxY) maxY = y;\n    }\n  }\n  return [minX, minY, maxX, maxY];\n}\n",
+    "tests/extent.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { extentOf } from '../src/extent.js';\n\ntest('the extent of a few footprints', () => {\n  const features = [{ vertices: [[1, 5], [3, 2]] }, { vertices: [[-4, 7]] }];\n  assert.deepEqual(extentOf(features), [-4, 2, 3, 7]);\n});\n\ntest('two million vertices do not overflow the stack', () => {\n  const vertices = Array.from({ length: 2_000_000 }, (_, i) => [i, 2 * i]);\n  assert.deepEqual(extentOf([{ vertices }]), [0, 0, 1_999_999, 3_999_998]);\n});\n"
+  }
+}

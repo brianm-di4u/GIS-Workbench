@@ -1,0 +1,34 @@
+{
+  "id": "cx012-validate-all-pairs",
+  "source": "CX-012",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Validate Features: report polygon rings that cross themselves. It must work on whole country boundary layers.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/validate.js": "// Validate Features: polygon rings that cross themselves.\n\nfunction side(p, q, r) {\n  return Math.sign((q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]));\n}\n\nfunction segmentsCross(a, b, p, q) {\n  return side(a, b, p) !== side(a, b, q) && side(p, q, a) !== side(p, q, b);\n}\n\nexport function selfIntersections(ring) {\n  const found = [];\n  const n = ring.length - 1;\n  for (let i = 0; i < n; i += 1) {\n    for (let j = i + 2; j < n; j += 1) {\n      if (i === 0 && j === n - 1) continue;\n      if (segmentsCross(ring[i], ring[i + 1], ring[j], ring[j + 1])) found.push([i, j]);\n    }\n  }\n  return found;\n}\n\nexport function validateLayer(layer) {\n  const problems = [];\n  for (const feature of layer.features) {\n    for (const ring of feature.rings) {\n      for (const [i, j] of selfIntersections(ring)) problems.push({ id: feature.id, i, j });\n    }\n  }\n  return problems;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/validate.js",
+      "from": 14,
+      "to": 17,
+      "words": [
+        "quadratic",
+        "o(n",
+        "n^2",
+        "n²",
+        "n*n",
+        "all pairs",
+        "every pair",
+        "spatial index",
+        "sweep",
+        "bucket",
+        "scal",
+        "slow"
+      ]
+    }
+  ]
+}

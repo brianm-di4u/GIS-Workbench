@@ -1,0 +1,30 @@
+{
+  "id": "cx057-flatmap-typed-rings",
+  "source": "CX-057",
+  "split": "train",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Save As Shapefile: write each polygon record's bounding box, for layers read by the columnar reader (FlatGeobuf, GeoParquet).",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/columnar.js": "// Columnar vector reader: each ring is a Float64Array of x, y pairs.\nexport function ringsOf(coords, ends) {\n  const rings = [];\n  let start = 0;\n  for (const end of ends) {\n    rings.push(new Float64Array(coords.subarray(start * 2, end * 2)));\n    start = end;\n  }\n  return rings;\n}\n"
+  },
+  "head": {
+    "src/shp-box.js": "// Shapefile writer: the bounding box of each polygon record.\nexport function recordBox(geometry) {\n  const flat = geometry.rings.flatMap((ring) => ring);\n  let minX = Infinity;\n  let minY = Infinity;\n  let maxX = -Infinity;\n  let maxY = -Infinity;\n  for (let i = 0; i < flat.length; i += 2) {\n    minX = Math.min(minX, flat[i]);\n    maxX = Math.max(maxX, flat[i]);\n    minY = Math.min(minY, flat[i + 1]);\n    maxY = Math.max(maxY, flat[i + 1]);\n  }\n  return [minX, minY, maxX, maxY];\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/shp-box.js",
+      "from": 3,
+      "to": 8,
+      "words": [
+        "typed array",
+        "float64array",
+        "flatmap",
+        "flatten",
+        "not an array",
+        "nan"
+      ]
+    }
+  ]
+}

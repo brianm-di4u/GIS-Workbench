@@ -1,0 +1,30 @@
+{
+  "id": "cx025-enabled-run-mismatch",
+  "source": "CX-025",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Add Ortho On-the-Fly to the panel menu: show an RPC image orthorectified as the view moves.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/commands/ootf.js": "export const orthoOnTheFly = {\n  id: 'ortho.live',\n  label: 'Ortho On-the-Fly',\n  enabled: (panel) => panel.layers.some((layer) => layer.rpc),\n  run(panel) {\n    const layer = panel.active;\n    if (!layer?.rpc) throw new Error('Ortho On-the-Fly needs an image with an RPC model');\n    return panel.setDisplay({ kind: 'ortho', layer: layer.id });\n  },\n};\n"
+  },
+  "expect": [
+    {
+      "file": "src/commands/ootf.js",
+      "from": 4,
+      "to": 6,
+      "words": [
+        "active",
+        "mismatch",
+        "inconsistent",
+        ".some",
+        "any layer",
+        "any rpc",
+        "enabled but",
+        "refus"
+      ]
+    }
+  ]
+}

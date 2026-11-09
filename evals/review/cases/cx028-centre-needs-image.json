@@ -1,0 +1,29 @@
+{
+  "id": "cx028-centre-needs-image",
+  "source": "CX-028",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Measure > Centre Point: report the ground position at the centre of the selected graphic or feature, which may come from an image or a vector layer.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/app.js": "// The active image layer, or null when the active layer is not an image (a vector layer) or no panel is open.\nexport function activeImage(app) {\n  const layer = app.panel?.active;\n  return layer?.kind === 'image' ? layer : null;\n}\n"
+  },
+  "head": {
+    "src/measure.js": "import { activeImage } from './app.js';\n\nfunction centroid(points) {\n  let x = 0;\n  let y = 0;\n  for (const p of points) {\n    x += p[0];\n    y += p[1];\n  }\n  return [x / points.length, y / points.length];\n}\n\n// Measure > Centre Point.\nexport function centrePoint(app, shape) {\n  const image = activeImage(app);\n  const [x, y] = centroid(image.toPixels(shape));\n  return image.model.imageToGround(x, y);\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/measure.js",
+      "from": 15,
+      "to": 17,
+      "words": [
+        "null",
+        "vector",
+        "no image",
+        "only vectors",
+        "not an image",
+        "activeimage"
+      ]
+    }
+  ]
+}

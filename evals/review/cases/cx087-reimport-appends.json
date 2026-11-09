@@ -1,0 +1,30 @@
+{
+  "id": "cx087-reimport-appends",
+  "source": "CX-087",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Import spectral library files into the library, by drag and drop or File > Import, as often as the user likes.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/library.js": "// The spectral library: spectra imported from library files.\nexport class Library {\n  constructor() {\n    this.spectra = [];\n  }\n\n  import(fileName, spectra) {\n    for (const spectrum of spectra) this.spectra.push({ ...spectrum, source: fileName });\n    return spectra.length;\n  }\n\n  bySource(fileName) {\n    return this.spectra.filter((s) => s.source === fileName);\n  }\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/library.js",
+      "from": 8,
+      "to": 8,
+      "words": [
+        "duplicate",
+        "twice",
+        "again",
+        "re-import",
+        "reimport",
+        "second copy",
+        "already",
+        "replace"
+      ]
+    }
+  ]
+}

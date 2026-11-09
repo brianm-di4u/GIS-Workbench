@@ -1,0 +1,33 @@
+{
+  "id": "cx084-unbounded-recording",
+  "source": "CX-084",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Burn-in export: record the player canvas from the start of a transport-stream clip to its end. Clips come from cameras and from a corpus of damaged streams.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/burn-in.js": "// Burn-in export: record the player's canvas until the clip ends.\nexport async function recordClip(video, recorder) {\n  recorder.start();\n  video.play();\n  await new Promise((resolve) => {\n    const check = () => {\n      if (video.currentTime >= video.duration - 0.05) resolve();\n      else requestAnimationFrame(check);\n    };\n    check();\n  });\n  recorder.stop();\n  return recorder.result();\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/burn-in.js",
+      "from": 7,
+      "to": 8,
+      "words": [
+        "never end",
+        "never finish",
+        "never resolve",
+        "forever",
+        "no timeout",
+        "no bound",
+        "unbounded",
+        "stall",
+        "duration",
+        "infinite",
+        "ended"
+      ]
+    }
+  ]
+}

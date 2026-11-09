@@ -1,0 +1,33 @@
+{
+  "id": "cx040-timeout-restarts-worker",
+  "source": "CX-040",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Put a time limit on decode worker jobs, so a stuck job does not hang the app.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/worker.js": "// A decode worker. Several files are open in each worker, and many jobs can be pending on it.\n// terminate() rejects every pending job and drops the files opened in the worker.\n// cancel(job) asks the worker to stop one job; it rejects that job as cancelled.\nexport class DecodeWorker {\n  constructor(port) {\n    this.port = port;\n  }\n\n  post(job) {\n    return this.port.request(job);\n  }\n\n  cancel(job) {\n    return this.port.request({ op: 'cancel', id: job.id });\n  }\n\n  terminate() {\n    this.port.close();\n  }\n}\n"
+  },
+  "head": {
+    "src/pool.js": "// Run jobs on decode workers, with a time limit per job.\nexport class Pool {\n  constructor(spawn) {\n    this.spawn = spawn;\n    this.workers = [];\n  }\n\n  run(index, job, limit) {\n    const worker = this.workers[index];\n    return new Promise((resolve, reject) => {\n      const timer = setTimeout(() => {\n        reject(new Error(job.name + ' timed out after ' + limit / 1000 + ' s'));\n        this.restart(index);\n      }, limit);\n      worker.post(job).then(\n        (value) => {\n          clearTimeout(timer);\n          resolve(value);\n        },\n        (error) => {\n          clearTimeout(timer);\n          reject(error);\n        },\n      );\n    });\n  }\n\n  restart(index) {\n    this.workers[index].terminate();\n    this.workers[index] = this.spawn();\n  }\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/pool.js",
+      "from": 13,
+      "to": 30,
+      "words": [
+        "other jobs",
+        "every job",
+        "all jobs",
+        "pending",
+        "files open",
+        "opened in",
+        "cancel",
+        "cascade",
+        "unrelated",
+        "reopen"
+      ]
+    }
+  ]
+}

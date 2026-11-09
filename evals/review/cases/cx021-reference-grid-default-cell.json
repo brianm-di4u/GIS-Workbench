@@ -1,0 +1,32 @@
+{
+  "id": "cx021-reference-grid-default-cell",
+  "source": "CX-021",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Add a Gridded Reference Graphic over the active layer's extent, from a drone image to a whole 1° DEM tile, with a default cell size the user can change.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/grid.js": "export const MAX_CELLS = 10000;\n\nexport function makeGrid(extent, cell) {\n  const cols = Math.ceil((extent.maxX - extent.minX) / cell);\n  const rows = Math.ceil((extent.maxY - extent.minY) / cell);\n  if (cols * rows > MAX_CELLS) throw new Error('The grid would have more than ' + MAX_CELLS + ' cells');\n  const cells = [];\n  for (let r = 0; r < rows; r += 1) {\n    for (let k = 0; k < cols; k += 1) {\n      cells.push({ x: extent.minX + k * cell, y: extent.maxY - (r + 1) * cell, size: cell });\n    }\n  }\n  return { cols, rows, cells };\n}\n"
+  },
+  "head": {
+    "src/reference-graphic.js": "import { makeGrid } from './grid.js';\n\n// Gridded Reference Graphic over the active layer's extent, in metres.\nexport function referenceGraphic(layer, options = {}) {\n  const cell = options.cell ?? 100;\n  const grid = makeGrid(layer.extentMetres, cell);\n  return grid.cells.map((cellBox, i) => ({ ...cellBox, label: labelOf(i, grid.cols) }));\n}\n\nfunction labelOf(i, cols) {\n  return String.fromCharCode(65 + (Math.floor(i / cols) % 26)) + ((i % cols) + 1);\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/reference-graphic.js",
+      "from": 5,
+      "to": 6,
+      "words": [
+        "max_cells",
+        "cell limit",
+        "too many cells",
+        "10000",
+        "10,000",
+        "default cell",
+        "scale the",
+        "large extent",
+        "throw"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "cx031-no-finite-score",
+  "source": "CX-031",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Show a summary line after spectral anomaly detection: how many pixels pass the threshold, and the best score.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/detect-summary.js": "// The summary line after anomaly detection.\nexport function detectionSummary(scores, threshold) {\n  const finite = scores.filter(Number.isFinite);\n  const hits = finite.filter((s) => s >= threshold).length;\n  const best = finite.sort((a, b) => b - a)[0];\n  return hits + ' pixels above ' + threshold + '; best score ' + best.toPrecision(3);\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/detect-summary.js",
+      "from": 5,
+      "to": 6,
+      "words": [
+        "empty",
+        "undefined",
+        "no finite",
+        "no score",
+        "none finite",
+        "all nan",
+        "toprecision"
+      ]
+    }
+  ]
+}

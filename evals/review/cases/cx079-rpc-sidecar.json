@@ -1,0 +1,47 @@
+{
+  "id": "cx079-rpc-sidecar",
+  "source": "CX-079",
+  "split": "train",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Stereo > Align: a block adjustment of the RPC models of two images from tie points.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/rpc.js": "// RPC models. Embedded in NITF (RPC00B) or GeoTIFF tags they arrive as layer.tags.rpc. From a\n// DigitalGlobe .RPB sidecar the loader stores layer.sidecar.rpc, with the .TIL tile offset in\n// layer.sidecar.offset. rpcOf(layer) returns the record from either place, or null.\nexport function rpcOf(layer) {\n  const record = layer.tags?.rpc ?? layer.sidecar?.rpc;\n  if (!record) return null;\n  const [dl, ds] = layer.sidecar?.offset ?? [0, 0];\n  return { ...record, lineOff: record.lineOff - dl, sampOff: record.sampOff - ds };\n}\n\n// Image (line, sample) of a ground point, to first order.\nexport function project(rpc, [lon, lat]) {\n  const { lineOff, sampOff, lineScale, sampScale, latOff, lonOff, latScale, lonScale } = rpc;\n  return [lineOff - ((lat - latOff) / latScale) * lineScale, sampOff + ((lon - lonOff) / lonScale) * sampScale];\n}\n"
+  },
+  "head": {
+    "src/align.js": "import { project } from './rpc.js';\n\n// Stereo > Align: line and sample bias corrections for two images, from tie points.\nexport function alignPair(left, right, ties) {\n  const models = [left, right].map((layer) => layer.tags.rpc);\n  const bias = models.map(() => ({ line: 0, sample: 0 }));\n  for (const tie of ties) {\n    models.forEach((model, k) => {\n      const [line, sample] = project(model, tie.ground);\n      bias[k].line += (tie.image[k][1] - line) / ties.length;\n      bias[k].sample += (tie.image[k][0] - sample) / ties.length;\n    });\n  }\n  return bias;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/align.js",
+      "from": 5,
+      "to": 5,
+      "words": [
+        "sidecar",
+        "rpb",
+        "rpcof",
+        "tags.rpc",
+        "til",
+        "tile offset",
+        "undefined"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/align.js",
+      "from": 9,
+      "to": 9,
+      "words": [
+        "sidecar",
+        "rpb",
+        "rpcof",
+        "tags.rpc",
+        "til",
+        "tile offset",
+        "undefined"
+      ]
+    }
+  ]
+}

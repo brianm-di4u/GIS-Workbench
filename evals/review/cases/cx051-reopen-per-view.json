@@ -1,0 +1,33 @@
+{
+  "id": "cx051-reopen-per-view",
+  "source": "CX-051",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Xport: open up to 16 linked views of one file, each with its own band combination.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/handles.js": "// openFile reads the whole file into the worker's memory and returns a handle; close() frees it.\nexport async function openFile(worker, file) {\n  const id = await worker.post({ op: 'open', file });\n  return { id, close: () => worker.post({ op: 'close', id }) };\n}\n"
+  },
+  "head": {
+    "src/xport.js": "import { openFile } from './handles.js';\n\n// Xport: linked views of one file.\nexport async function openViews(worker, file, combos) {\n  const views = [];\n  for (const bands of combos.slice(0, 16)) {\n    const handle = await openFile(worker, file);\n    views.push({ handle, bands });\n  }\n  return views;\n}\n\nexport function closeViews(views) {\n  for (const view of views) view.handle.close();\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/xport.js",
+      "from": 7,
+      "to": 7,
+      "words": [
+        "each view",
+        "per view",
+        "every view",
+        "reopen",
+        "open once",
+        "share",
+        "memory",
+        "16 copies",
+        "copies",
+        "reference count"
+      ]
+    }
+  ]
+}

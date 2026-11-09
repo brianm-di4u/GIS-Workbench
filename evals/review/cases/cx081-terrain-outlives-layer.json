@@ -1,0 +1,51 @@
+{
+  "id": "cx081-terrain-outlives-layer",
+  "source": "CX-081",
+  "split": "train",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Keep the DEM layers used as terrain. The newest is the target for Save DEM As.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/project.js": "// The project's layers. Undo of an add calls removeLayer(); redo calls addLayer() again with the\n// same layer. on(fn) is called with ('add' | 'remove', layer) for each change.\nexport class Project {\n  constructor() {\n    this.layers = new Map();\n    this.listeners = [];\n  }\n\n  addLayer(layer) {\n    this.layers.set(layer.id, layer);\n    this.emit('add', layer);\n  }\n\n  removeLayer(id) {\n    const layer = this.layers.get(id);\n    this.layers.delete(id);\n    this.emit('remove', layer);\n  }\n\n  on(fn) {\n    this.listeners.push(fn);\n  }\n\n  emit(type, layer) {\n    for (const fn of this.listeners) fn(type, layer);\n  }\n}\n"
+  },
+  "head": {
+    "src/terrains.js": "// Terrains: DEM layers used as terrain.\nexport class Terrains {\n  constructor(project) {\n    this.project = project;\n    this.list = [];\n    this.target = null;\n  }\n\n  use(layer, grid) {\n    const entry = { layerId: layer.id, grid };\n    this.list.push(entry);\n    this.target = entry;\n    return entry;\n  }\n\n  saveTarget(writer) {\n    const layer = this.project.layers.get(this.target.layerId);\n    return writer.write(layer.name, this.target.grid);\n  }\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/terrains.js",
+      "from": 10,
+      "to": 12,
+      "words": [
+        "undo",
+        "removed",
+        "removelayer",
+        "remove event",
+        "stale",
+        "outlive",
+        "dangling",
+        "listener",
+        "undefined"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/terrains.js",
+      "from": 17,
+      "to": 18,
+      "words": [
+        "undo",
+        "removed",
+        "removelayer",
+        "remove event",
+        "stale",
+        "outlive",
+        "dangling",
+        "listener",
+        "undefined"
+      ]
+    }
+  ]
+}

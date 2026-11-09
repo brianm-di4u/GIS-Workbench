@@ -1,0 +1,28 @@
+{
+  "id": "cx065-kml-nan-coordinates",
+  "source": "CX-065",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Save point layers as KML, CSV layers included.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/kml-writer.js": "function esc(s) {\n  return s.replace(/[<>&\"]/g, (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '\"': '&quot;' })[ch]);\n}\n\n// KML writer: one Placemark per feature.\nexport function placemark(feature) {\n  const data = Object.entries(feature.properties)\n    .map(([k, v]) => '<Data name=\"' + esc(k) + '\"><value>' + esc(String(v)) + '</value></Data>')\n    .join('');\n  const [lon, lat] = feature.geometry?.coordinates ?? [NaN, NaN];\n  return '<Placemark><ExtendedData>' + data + '</ExtendedData><Point><coordinates>' + lon + ',' + lat + '</coordinates></Point></Placemark>';\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/kml-writer.js",
+      "from": 10,
+      "to": 11,
+      "words": [
+        "nan",
+        "no position",
+        "null geometry",
+        "no geometry",
+        "missing geometry",
+        "without coordinates"
+      ]
+    }
+  ]
+}
