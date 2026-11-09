@@ -3,7 +3,7 @@
 import { describe, it, expect } from 'vitest';
 import { geoKeys } from '../../app/src/formats/geotiff-writer.js';
 import { guessVertical } from '../../app/src/features/dem.js';
-import { GridEngine } from '../../app/src/geo/grids.js';
+import { GridEngine, VERTICALS } from '../../app/src/geo/grids.js';
 
 /** The GeoKeyDirectory geoKeys() writes, as the reader's {name: value} object. */
 function keysOf(dir) {
@@ -14,7 +14,8 @@ function keysOf(dir) {
 }
 
 describe('#92 the vertical key round-trips', () => {
-  for (const vertical of ['hae', 'egm96', 'egm2008', 'navd88']) {
+  // Every datum the app can label terrain with, so a new one cannot be written without a key.
+  for (const vertical of ['hae', 'egm96', ...Object.keys(VERTICALS)]) {
     it(vertical, () => {
       const l = { rec: { name: 'DTM_x.tif' }, info: { meta: { geoKeys: keysOf(geoKeys({ epsg: 4326, vertical })) } } };
       expect(guessVertical(l)).toBe(vertical);
