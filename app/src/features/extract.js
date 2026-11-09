@@ -6,7 +6,7 @@
 // and zoom-to; queries by attribute and location; open and save GeoJSON, Shapefile, KML/KMZ
 // with a round-trip report.
 
-import { minOf, maxOf, errorText } from '../core/util.js';
+import { minOf, maxOf, errorText, uuid, yieldNow } from '../core/util.js';
 import { h, clear } from '../shell/dom.js';
 import { modal, field, section, confirmBox, promptBox } from '../shell/dialogs.js';
 import { saveBlob, pickFiles, textBlob } from '../storage/files.js';
@@ -33,7 +33,6 @@ const SEL = '#e000e0';
 const VTX = '#08b0f0';
 const VECTOR_FILE_CAP = 512 * 2 ** 20; // bytes read whole (TE-024)
 const VECTOR_ZIP_CAP = 256 * 2 ** 20;
-const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`);
 
 /** Local metric frame about an origin: meridian and prime-vertical radii of WGS 84 (exact scale
  * at the origin, so angles are right to second order over building-scale extents). */
@@ -1191,6 +1190,9 @@ export function install(app) {
   }
 
   async function openVectorFiles(files) {
+    // Reading a large file and storing its features are each long: storing runs as a task of its
+    // own, so the page can draw (and the activity indicator move) between them (#63).
+    const addLayerLater = async (layer, source) => (await yieldNow(), addLayer(layer, source));
     const out = [];
     const bytes = {};
     files = files.filter((f) => {
@@ -1238,7 +1240,7 @@ export function install(app) {
       // A damaged set is reported like any other file, not thrown to the caller (TE 2.0.4 cross, c56).
       try {
         const { layer, report } = readShapefile(set, { name: set.stem, reproject });
-        out.push({ id: addLayer(layer, { format: 'Shapefile', file: `${set.stem}.shp`, report }), report });
+        out.push({ id: await addLayerLater(layer, { format: 'Shapefile', file: `${set.stem}.shp`, report }), report });
       } catch (e) {
         app.toast(t('{file}: {msg}', { file: `${set.stem}.shp`, msg: errMsg(e) }), { kind: 'error' });
         app.importLog?.push({ file: `${set.stem}.shp`, errors: [errMsg(e)], warnings: [] });
@@ -1254,7 +1256,7 @@ export function install(app) {
             const c = converter(crs);
             return (x, y) => c.toLonLat(x, y);
           } });
-          out.push({ id: addLayer(layer, { format: 'GeoJSON', file: nm, report }), report });
+          out.push({ id: await addLayerLater(layer, { format: 'GeoJSON', file: nm, report }), report });
         } else if (/\.(gpkg|csv)$/i.test(nm) && app.vectorReaders) {
           const ext = /\.(\w+)$/.exec(nm)[1].toLowerCase();
           const got = await app.vectorReaders[ext](b, nm);
@@ -1275,7 +1277,7 @@ export function install(app) {
           } });
           report.format = fgb ? 'FlatGeobuf' : 'GeoParquet';
           report.warnings.unshift(...notes);
-          out.push({ id: addLayer(layer, { format: report.format, file: nm, report }), report });
+          out.push({ id: await addLayerLater(layer, { format: report.format, file: nm, report }), report });
         } else if (/\.gml$/i.test(nm)) {
           const { layer, report } = readGml(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), reproject: (epsg) => {
             const crs = crsOf({ epsg });
@@ -1283,7 +1285,7 @@ export function install(app) {
             const c = converter(crs);
             return (x, y) => c.toLonLat(x, y);
           } });
-          out.push({ id: addLayer(layer, { format: 'GML', file: nm, report }), report });
+          out.push({ id: await addLayerLater(layer, { format: 'GML', file: nm, report }), report });
         } else if (/\.gpx$/i.test(nm)) {
           // Convert reads GPX as features (waypoints → points, routes and track segments → lines, Z = HAE);
           // a GPX dropped on the map is drawn as ground graphics instead (REQ-IMG-31).
@@ -1297,10 +1299,10 @@ export function install(app) {
           if (!features.length) throw new Error('the GPX has no waypoints, routes or tracks');
           const { layer, report } = readGeoJSON(JSON.stringify({ type: 'FeatureCollection', features }), { name: nm.replace(/\.\w+$/, '') });
           report.format = 'GPX';
-          out.push({ id: addLayer(layer, { format: 'GPX', file: nm, report }), report });
+          out.push({ id: await addLayerLater(layer, { format: 'GPX', file: nm, report }), report });
         } else if (/\.kml$/i.test(nm)) {
           const { layer, report } = readKml(new TextDecoder().decode(b), { name: nm.replace(/\.\w+$/, ''), toHae });
-          out.push({ id: addLayer(layer, { format: 'KML', file: nm, report }), report });
+          out.push({ id: await addLayerLater(layer, { format: 'KML', file: nm, report }), report });
         } else if (/\.kmz$/i.test(nm)) {
           const z = unzipSync(b);
           const doc = Object.keys(z).find((k) => /(^|\/)doc\.kml$/i.test(k)) ?? Object.keys(z).find((k) => /\.kml$/i.test(k));
@@ -1329,7 +1331,7 @@ export function install(app) {
           if (linked) report.warnings.push(t('{n, plural, one {# linked KML document} other {# linked KML documents}} in the KMZ read (NetworkLink)', { n: linked }));
           layer.assets = Object.fromEntries(Object.entries(z).filter(([k]) => k !== doc && !k.endsWith('/')));
           report.warnings.push(t('{n, plural, one {# file} other {# files}} kept from the KMZ (icons and overlays)', { n: Object.keys(layer.assets).length }));
-          out.push({ id: addLayer(layer, { format: 'KMZ', file: nm, report }), report });
+          out.push({ id: await addLayerLater(layer, { format: 'KMZ', file: nm, report }), report });
         }
       } catch (e) {
         // A .json beside the data in a ZIP that is not GeoJSON (a chip record, STAC or other metadata)

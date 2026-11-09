@@ -18,6 +18,8 @@ export const FX = (...p) => join(ROOT, 'fixtures', ...p);
 /** Refusals that are the build working as designed, not an error. */
 export const LITE_MSG = /GIS Workbench Lite leaves out/;
 export const AIRGAP_MSG = /air-gapped file/;
+/** A main-thread task this long is a freeze (REQ-ING-04: anything past 2 s says what is running). */
+export const LONG_TASK_MS = 2000;
 
 /**
  * Data states. `setup` runs after the files open (commands only to reach a mode the GUI
@@ -64,6 +66,15 @@ export async function boot(page, build, { prefs, keepDownloads = false } = {}) {
           if (n.classList?.contains('toast')) window.__toasts.push({ kind: [...n.classList].find((c) => c.startsWith('toast-'))?.slice(6), text: n.textContent });
     }).observe(document.body, { childList: true, subtree: true });
     window.print = () => {};
+    // The long-task watchdog (#63): every main-thread task over 50 ms, as the browser reports it.
+    window.__longtasks = [];
+    try {
+      new PerformanceObserver((l) => {
+        for (const e of l.getEntries()) window.__longtasks.push(Math.round(e.duration));
+      }).observe({ type: 'longtask' });
+    } catch {
+      /* no long-task timing in this browser (Firefox, WebKit) */
+    }
   });
   app.build = build;
   return app;
@@ -100,11 +111,13 @@ export async function observe(page, app, mark, build) {
   for (const l of app.logs.slice(mark.logs)) problems.push(`console: ${l.slice(0, 300)}`);
   const csp = await app.csp();
   for (const c of csp.slice(mark.csp)) problems.push(`csp: ${c}`);
+  const long = await page.evaluate((n) => window.__longtasks.slice(n), mark.long);
+  for (const ms of long) if (ms >= LONG_TASK_MS) problems.push(`long task: ${ms} ms`);
   return { problems, toasts: toasts.map((t) => `${t.kind}: ${t.text}`) };
 }
 
 export async function markNow(page, app) {
-  return { toasts: await page.evaluate(() => window.__toasts.length), logs: app.logs.length, csp: (await app.csp()).length };
+  return { toasts: await page.evaluate(() => window.__toasts.length), logs: app.logs.length, csp: (await app.csp()).length, long: await page.evaluate(() => window.__longtasks.length) };
 }
 
 /**
