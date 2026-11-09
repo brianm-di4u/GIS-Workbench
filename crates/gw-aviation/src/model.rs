@@ -531,7 +531,7 @@ fn icao_approach(typ: u8, code: u8) -> (f64, f64, f64, Vec<(f64, f64)>) {
 
 /// Annex 14 Table 4-1 transitional slope, inner horizontal radius and conical height, for the
 /// runway's most demanding approach type.
-fn icao_runway(typ: u8, code: u8) -> (f64, f64, f64) {
+pub(crate) fn icao_runway(typ: u8, code: u8) -> (f64, f64, f64) {
     let c = (code.clamp(1, 4) - 1) as usize;
     match typ {
         0 => ([0.20, 0.20, 0.143, 0.143][c], [2000.0, 2500.0, 4000.0, 4000.0][c], [35.0, 55.0, 75.0, 100.0][c]),

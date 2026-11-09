@@ -341,12 +341,14 @@ def a18_runway(rw, r, ap, mesh, horiz_discs, rects):
     def centre(s):
         return elevA + (elevB - elevA) * min(1.0, max(0.0, s / L))
 
-    # The strip (not an OFS) and the 20 % transitional off its edge, up to 60 m above the highest threshold.
+    # The strip (not an OFS) and the transitional off its edge, up to 60 m above the highest threshold:
+    # A_TRANS_SLOPE, the current edition's Table 4-1 slope for the code number and approach type.
+    ts = icao_tables(typ, r["code"])[1]
     cuts = [-ext, 0.0, L, L + ext]
     for sa, sb in zip(cuts, cuts[1:]):
         za, zb = centre(sa), centre(sb)
         mesh.quad("strip", False, (sa, 0.0, za), (sb, 0.0, zb), (sb, hw, zb), (sa, hw, za))
-        mesh.quad("transitional", True, (sa, hw, za), (sb, hw, zb), (sb, hw + (top - zb) / 0.20, top), (sa, hw + (top - za) / 0.20, top))
+        mesh.quad("transitional", True, (sa, hw, za), (sb, hw, zb), (sb, hw + (top - zb) / ts, top), (sa, hw + (top - za) / ts, top))
     s_thr = [A.get("disp", 0.0), L - B.get("disp", 0.0)]
     appr = [E["icao"] for E in (A, B) if E.get("approach", True)]
     best = max(appr) if appr else None
@@ -366,7 +368,7 @@ def a18_runway(rw, r, ap, mesh, horiz_discs, rects):
         if E.get("approach", True):
             inst = E["icao"] >= 1
             tb = A18_T42 if inst else A18_T41
-            fan_mesh(mesh, "approach", True, s_thr[k] + out * tb["dist"][c], out, a18_edge(inst, c, width) / 2, [(tb["len"][c], tb["slope"][c], 0.10)], thr[k], side=(0.20, "transitional", top))
+            fan_mesh(mesh, "approach", True, s_thr[k] + out * tb["dist"][c], out, a18_edge(inst, c, width) / 2, [(tb["len"][c], tb["slope"][c], 0.10)], thr[k], side=(ts, "transitional", top))
             if E["icao"] >= 2:
                 side = (0.143, "precisionTransitional", thr[k] + 300.0)
                 fan_mesh(mesh, "precisionApproach", False, s_thr[k] + out * 60, out, 150, [(3000, 0.02, 0.15), (9600, 0.025, 0.15)], thr[k], side=side)

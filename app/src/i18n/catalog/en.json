@@ -39873,8 +39873,8 @@
    ]
   },
   {
-   "key": "The transitional slope is the 20 % upper limit of §4.2.2.5.",
-   "src": "The transitional slope is the 20 % upper limit of §4.2.2.5.",
+   "key": "The transitional slope is the current edition’s for the runway’s code number (Table 4-1): 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise. §4.2.2.5 gives only an upper limit of 20 %.",
+   "src": "The transitional slope is the current edition’s for the runway’s code number (Table 4-1): 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise. §4.2.2.5 gives only an upper limit of 20 %.",
    "refs": [
     "analysis/obstruction.js"
    ]

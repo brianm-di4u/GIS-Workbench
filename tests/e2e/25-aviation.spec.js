@@ -403,9 +403,9 @@ test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obst
   };
   // The survey: ground at 99 m every 50 m, and three masts, worked out here from the tables (ADG IV):
   // M1 (s 1 500, t 400, top 150 m): current edition, the 14.3 % transitional off the 140 m strip
-  //   (Table 4-1) at 137.18 m → 12.82 m through; Amendment 18, the 20 % transitional (§4.2.2.5) at
-  //   152 m → clear, but the missed approach component's transitional (Table 4-12: 115 m at 254.88 m
-  //   off, 14.3 %) at 135.75 m → 14.25 m through an OES.
+  //   (Table 4-1) at 137.18 m → 12.82 m through; Amendment 18, the same 14.3 % (A_TRANS_SLOPE, decision
+  //   #97) → 12.82 m through the OFS, and the missed approach component's transitional (Table 4-12:
+  //   115 m at 254.88 m off, 14.3 %) at 135.75 m → 14.25 m through an OES.
   // M2 (s −1 060, t 0, top 128 m): 2 % from 60 m out in both (Table 4-1; Table 4-12's approach
   //   component) → 8 m through; the OFS approach (Table 4-2, 3.33 %) at 133.3 m → clear.
   // M3 (s −500, t 0, top 140 m): 108.8 m in both → 31.2 m through; the current inner approach (zone)
@@ -450,7 +450,7 @@ test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obst
   await expect(res.locator('[data-id="avn:edition"]')).toHaveText(/Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces\.$/);
   await expect(res.locator('[data-id="avn:summary"]')).toContainText('SYNA (ICAO Annex 14 OFS/OES (2030)) against masts.xyz');
   await expect(res.getByRole('heading', { name: 'Obstacle free surfaces' })).toBeVisible();
-  await expect(res.locator('[data-id="avn:zone-penetrations"] tbody tr')).toHaveCount(1);
+  await expect(res.locator('[data-id="avn:zone-penetrations"] tbody tr')).toHaveCount(2);
   await expect(res.locator('[data-id="avn:assumptions"] li').first()).toBeVisible();
   const shownAssumptions = await res.locator('[data-id="avn:assumptions"] li').allTextContents();
   expect(shownAssumptions.some((x) => /^The transitional surfaces start at the strip edge/.test(x))).toBe(true);
@@ -498,8 +498,7 @@ test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obst
   close(table(both.icao.low), { M1: [12.82, 'transitional'], M2: [8, 'approach'], M3: [31.2, 'approach'] });
   close(table(both.icao.zone), { M3: [31.2, 'innerApproach'] });
   close(table(both['icao-a18'].low), { M1: [14.25, 'precisionTransitional'], M2: [8, 'precisionApproach'], M3: [31.2, 'precisionApproach'] });
-  expect(Object.keys(table(both['icao-a18'].zone))).toEqual(['M3']);
-  expect(Math.abs(table(both['icao-a18'].zone).M3[0] - 25.348)).toBeLessThan(0.2);
+  close(table(both['icao-a18'].zone), { M1: [12.82, 'transitional'], M3: [25.348, 'innerApproach'] });
   expect(both.icao.edition).toMatch(/until 20 November 2030$/);
   expect(both['icao-a18'].edition).toBe(A18);
   expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);

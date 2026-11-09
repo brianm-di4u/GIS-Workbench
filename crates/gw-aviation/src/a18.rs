@@ -13,7 +13,7 @@
 //! them.
 
 use crate::hull::{Disc, DiscHull};
-use crate::model::{bad, icao_strip, Airport, Fan, Horiz, Kind, Ofz, Rect, RunwayDef, Rwy, Side, Surfaces};
+use crate::model::{bad, icao_runway, icao_strip, Airport, Fan, Horiz, Kind, Ofz, Rect, RunwayDef, Rwy, Side, Surfaces};
 
 /// One value per ADG column of Tables 4-1 to 4-9, 4-14 and 4-15: I | IIA-IIB | IIC | III | IV | V.
 type Row = [f64; 6];
@@ -76,8 +76,6 @@ pub(crate) const BALKED_SLOPE: Row = [0.05, 0.04, 0.0333, 0.0333, 0.0333, 0.0333
 /// §4.2.2.2b, §4.2.4.2b, §4.2.4.3b, §4.2.5.2c: the upper edges of the transitional, inner
 /// transitional and balked landing surfaces lie 60 m above the highest threshold of the runway.
 pub(crate) const OFS_TOP: f64 = 60.0;
-/// §4.2.2.5: the transitional slope "shall not be greater than 20 per cent" (A_TRANS_SLOPE).
-pub(crate) const TRANS_SLOPE: f64 = 0.20;
 
 /// Table 4-10 (PDF p.49), horizontal surface, columns I-IIA | IIB | IIC | III | IV | V: radius about
 /// the thresholds and height above the aerodrome elevation.
@@ -135,7 +133,9 @@ pub const A_INNER_EDGE: u32 = 1 << 1;
 /// approach (§4.2.4.2a1 gives no height for its start), its vertical section rising above its lower
 /// edge.
 pub const A_INNER_START: u32 = 1 << 2;
-/// The transitional slope is the 20 % upper limit of §4.2.2.5.
+/// §4.2.2.5 sets only an upper limit ("shall not be greater than 20 per cent"): the transitional
+/// slope is the current edition's Table 4-1 value for the runway's code number and approach type,
+/// 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise (decision #97).
 pub const A_TRANS_SLOPE: u32 = 1 << 3;
 /// The OES follow the runways, not the operations (§4.5.2.1): a horizontal surface for every
 /// runway, except a runway whose most demanding approach is non-precision, which has the surface
@@ -240,8 +240,10 @@ pub(crate) fn runway(a: &Airport, r: &RunwayDef, ri: i32, rw: &mut Rwy, sf: &mut
     rw.hw = hs;
     rw.ext = ext;
     rw.base_id = sf.add(Kind::Strip, ri, -1, vec![0.0]);
-    rw.trans_slope = TRANS_SLOPE;
-    rw.trans_id = sf.add(Kind::Transitional, ri, -1, vec![TRANS_SLOPE]);
+    // A_TRANS_SLOPE: the current edition's slope, not §4.2.2.5's 20 % limit.
+    let trans = icao_runway(typ, r.code).0;
+    rw.trans_slope = trans;
+    rw.trans_id = sf.add(Kind::Transitional, ri, -1, vec![trans]);
     let top = r.ends[0].thr_elev.max(r.ends[1].thr_elev) + OFS_TOP;
     rw.trans_top = Some(top);
     acc.assumed |= A_STRIP | A_TRANS_SLOPE | A_OES_CHOICE | A_AS_PRINTED;
@@ -277,7 +279,7 @@ pub(crate) fn runway(a: &Airport, r: &RunwayDef, ri: i32, rw: &mut Rwy, sf: &mut
             let t = if instrument { &T4_2 } else { &T4_1 };
             let edge = approach_edge(instrument, c, r.width, &mut acc.assumed);
             let id = sf.add(Kind::Approach, ri, ki, vec![t.slope[c]]);
-            let side = Some(Side { slope: TRANS_SLOPE, id: rw.trans_id, top });
+            let side = Some(Side { slope: trans, id: rw.trans_id, top });
             rw.fans.push(Fan { id, s0: s_thr[k] + out * t.dist[c], dir: out, hw0: edge / 2.0, hw_max: f64::INFINITY, sections: vec![(t.len[c], t.slope[c], APPROACH_DIV)], len: t.len[c], base: e.thr_elev, pir: false, side });
             if e.icao >= 2 {
                 // §4.3.4: approach, missed approach, transitional and lower components.
@@ -476,15 +478,17 @@ mod tests {
                 // Beyond the 4 500 m approach: no OFS. The component (2.5 %, 210 m) is above the
                 // horizontal surface.
                 (-5060.0, 0.0, 190.0, Some(Horizontal), f64::NAN, None),
-                // 500 m out, 150 m off: the approach's half-width is 92.5 + 50 = 142.5 m, so the 20 %
-                // transitional (§4.2.2.5) is 1.5 m above its 116.65 m side; the approach component
-                // (half-width 150 + 75 = 225 m) is lower at 110 m.
-                (-560.0, 150.0, 110.0, Some(PrecisionApproach), 118.15, Some(Transitional)),
-                // 300 m off: the transitional component, 14.3 % beyond 225 m → 120.725 m.
-                (-560.0, 300.0, 120.725, Some(PrecisionTransitional), 148.15, Some(Transitional)),
+                // 500 m out, 150 m off: the approach's half-width is 92.5 + 50 = 142.5 m, so the 14.3 %
+                // transitional (A_TRANS_SLOPE: Table 4-1 of the current edition, code 4) is 1.0725 m
+                // above its 116.65 m side; the approach component (half-width 150 + 75 = 225 m) is
+                // lower at 110 m.
+                (-560.0, 150.0, 110.0, Some(PrecisionApproach), 117.7225, Some(Transitional)),
+                // 300 m off: the transitional component, 14.3 % beyond 225 m → 120.725 m; the OFS
+                // transitional 157.5 m beyond the approach's side → 139.1725 m.
+                (-560.0, 300.0, 120.725, Some(PrecisionTransitional), 139.1725, Some(Transitional)),
                 // Over the runway, 200 m off: the transitional component off the lower component's
-                // 150 m side → 107.15 m; the OFS transitional off the 140 m strip → 112 m.
-                (300.0, 200.0, 107.15, Some(PrecisionTransitional), 112.0, Some(Transitional)),
+                // 150 m side → 107.15 m; the OFS transitional off the 140 m strip → 108.58 m.
+                (300.0, 200.0, 107.15, Some(PrecisionTransitional), 108.58, Some(Transitional)),
                 // Mid-runway, 100 m off: the strip; the inner transitional (Table 4-8, 33.3 %, PDF
                 // p.45) 40 m beyond the inner approach's 60 m half-width → 113.32 m.
                 (1500.0, 100.0, 100.0, Some(Strip), 113.32, Some(InnerTransitional)),
@@ -529,7 +533,8 @@ mod tests {
                 // Table 4-7 IIC (PDF p.44): a 5 m vertical section 60 m out (Table 4-4's 120 m), then
                 // 33.3 %: 2 m beyond → 55.666 m.
                 (1500.0, 62.0, 50.0, Some(Strip), 55.666, Some(InnerTransitional)),
-                (1500.0, 200.0, 62.0, Some(Transitional), 62.0, Some(Transitional)),
+                // Code 3: the 14.3 % transitional (A_TRANS_SLOPE) 60 m beyond the 140 m strip.
+                (1500.0, 200.0, 58.58, Some(Transitional), 58.58, Some(Transitional)),
                 // Table 4-11 (PDF p.51): the lower section is the ADG I horizontal surface (3 350 m,
                 // 45 m), the upper a 7 410 m by (runway + 2 × 5 350 m) rectangle at 60 m.
                 (1500.0, 3300.0, 95.0, Some(StraightIn), f64::NAN, None),
@@ -604,13 +609,20 @@ mod tests {
         let (_, (z, k)) = at(&m, 1500.0, 60.0);
         assert_eq!(k, Some(Kind::InnerTransitional));
         assert!((z - (20.0 + 10.0 + 5.0 * 0.333)).abs() < 1e-9, "{z}");
-        // Code 3: the strip is 55 m, the inner approach's half-width, so the 20 % transitional lies
-        // below the vertical section all along it.
+        // Code 3: the strip is 55 m, the inner approach's half-width, so the transitional (14.3 %,
+        // A_TRANS_SLOPE) lies below the vertical section all along it.
         r.code = 3;
         let m = model(r, 20.0, false);
         let (_, (z, k)) = at(&m, 1500.0, 56.0);
         assert_eq!(k, Some(Kind::Transitional));
-        assert!((z - 20.2).abs() < 1e-9, "{z}");
+        assert!((z - 20.143).abs() < 1e-9, "{z}");
+        let slope = |m: &Model| m.surfaces.iter().find(|s| s.kind == Kind::Transitional).unwrap().slopes[0];
+        assert_eq!(slope(&m), 0.143);
+        // Codes 1 and 2 without a precision approach: 20 %; precision approach runways: 14.3 %.
+        r.code = 2;
+        assert_eq!(slope(&model(r, 20.0, false)), 0.20);
+        r.ends[0].icao = 2;
+        assert_eq!(slope(&model(r, 20.0, false)), 0.143);
     }
 
     #[test]
