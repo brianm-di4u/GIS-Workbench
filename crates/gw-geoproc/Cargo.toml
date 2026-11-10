@@ -1,0 +1,10 @@
+[package]
+name = "gw-geoproc"
+description = "GIS Workbench vector geoprocessing: buffer and dissolve on a planar frame (REQ-GAP-79)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+i_overlay.workspace = true

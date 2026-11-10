@@ -21,6 +21,7 @@ members = [
   "gw-tin",
   "gw-aviation",
   "gw-hydro",
+  "gw-geoproc",
   "bundles/core",
   "bundles/parse",
   "bundles/j2k",
@@ -40,6 +41,7 @@ members = [
   "bundles/tin",
   "bundles/aviation",
   "bundles/hydro",
+  "bundles/geoproc",
 ]
 # Vendored third-party crates (path dependencies, not members).
 exclude = ["vendor"]
@@ -70,8 +72,12 @@ gw-tiles = { path = "gw-tiles" }
 gw-tin = { path = "gw-tin" }
 gw-aviation = { path = "gw-aviation" }
 gw-hydro = { path = "gw-hydro" }
+gw-geoproc = { path = "gw-geoproc" }
 geographiclib-rs = { version = "0.2.7", default-features = false }
 # Inflate only (PDF object/content streams, TE-001). MIT OR Zlib OR Apache-2.0, pure Rust.
+# Boolean operations, offsets and strokes for vector geoprocessing (REQ-GAP-79). MIT OR Apache-2.0,
+# pure Rust; its dependencies i_float, i_shape, i_tree, i_key_sort and libm are MIT.
+i_overlay = { version = "9.1.0", default-features = false }
 miniz_oxide = { version = "0.9", default-features = false, features = ["with-alloc"] }
 
 # Appendix D §4: hot bundles use opt-level 3, cold ones "z" (set per bundle by build/rust.mjs

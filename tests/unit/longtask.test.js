@@ -92,4 +92,11 @@ describe('REQ-ING-04 #63 project save and open', () => {
     expect(needsReviver(String.raw`{"a":"\u0001"}`)).toBe(true);
     expect(needsReviver(String.raw`{"u":"plain u, and a backslash \\ before n"}`)).toBe(false);
   });
+  it('a Windows path keeps the fast parse, and a real escape after a backslash still takes the slow one (#131)', () => {
+    expect(needsReviver(JSON.stringify([{ id: 'a', type: 'x', src: 'C:\\users\\me\\data.shp' }]))).toBe(false);
+    expect(needsReviver(String.raw`{"p":"\\\\u"}`)).toBe(false);
+    expect(needsReviver(String.raw`{"__\u0070roto__":1}`)).toBe(true); // any letter can be escaped
+    expect(needsReviver(String.raw`{"p":"\\\u005f"}`)).toBe(true); // an escaped backslash, then an escape
+    expect(needsReviver(String.raw`\u005b`)).toBe(true);
+  });
 });

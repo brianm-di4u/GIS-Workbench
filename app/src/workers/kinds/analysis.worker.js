@@ -12,6 +12,8 @@ import { SpectralBundle } from '../../wasm/spectral.js';
 import { TinBundle } from '../../wasm/tin.js';
 import { AviationBundle } from '../../wasm/aviation.js';
 import { HydroBundle, HYDRO_MAX_POSTS } from '../../wasm/hydro.js';
+import { GeoprocBundle } from '../../wasm/geoproc.js';
+import { bufferGeoms, dissolveFeatures, overlay, spatialJoin } from '../../analysis/geoproc.js';
 import { gpuDsmTile } from '../../analysis/gpu-sgm.js';
 import { gwError } from '../../i18n/index.js';
 import { ensureCsm, jobNeedsCsm } from '../../sensor/csm-worker.js';
@@ -374,3 +376,35 @@ GW.register('hydro.run', async ({ z, w, h, opts }, job) => {
   });
   return GW.transfer(r, ['filled', 'dir', 'acc', 'strahler', 'shreve', 'labels', 'dinfAcc', 'streams'].filter((k) => r[k]).map((k) => r[k].buffer));
 });
+
+// Vector geoprocessing (REQ-GAP-79): buffer and dissolve on the lazy `geoproc` bundle; overlay and
+// spatial join in JavaScript (analysis/geoproc.js, S-62). Geodesic buffers use the core bundle's
+// WGS 84 geodesics.
+let geoproc = null;
+async function geoprocBundle() {
+  if (grown(geoproc)) geoproc = null;
+  if (!geoproc) {
+    await GW.ensure('geoproc');
+    geoproc = new GeoprocBundle(GW.ctx.modules.geoproc);
+  }
+  return geoproc;
+}
+GW.register('geo.buffer', async ({ geoms, distance, cap = 'round', quadSegs = 8, geodesic = false }, job) => {
+  const b = await geoprocBundle();
+  const geo = geodesic ? GW.bundle('core') : null;
+  const out = [];
+  // In chunks, for progress and Cancel.
+  for (let k = 0; k < geoms.length; k += 500) {
+    job.checkCancel();
+    const part = geoms.slice(k, k + 500);
+    out.push(...bufferGeoms(part, { distance, cap, quadSegs, geodesic, geo, run: (flat, d, c, q) => b.buffer(flat, d, c, q, part.length) }));
+    job.progress(Math.min(1, (k + part.length) / geoms.length));
+  }
+  return out;
+});
+GW.register('geo.dissolve', async ({ features, field = null }) => {
+  const b = await geoprocBundle();
+  return dissolveFeatures(features, { field, run: (flat, groups) => b.dissolve(flat, groups) });
+});
+GW.register('geo.overlay', async ({ a, b, op, aFields, bFields }, job) => overlay(a, b, op, { aFields, bFields, job }));
+GW.register('geo.join', async ({ targets, joins, predicate, field = null, maxDistance = Infinity }, job) => spatialJoin(targets, joins, { predicate, field, maxDistance: maxDistance ?? Infinity, job }));
