@@ -67,11 +67,14 @@ const plan = args
 // Attributes are read from the merge base, so a .gitattributes line in the change under review, such
 // as `-diff` or `binary`, can't blank what the seats read, while the base's own binary rules still hold.
 const GIT_DIFF = `git --attr-source=${plan.mergeBase} diff --no-ext-diff --no-textconv`
+// The base marks fixtures/** binary, so a changed golden or oracle file (.json, .xml, .geojson, .txt, .csv)
+// reads as "Binary files differ". Seats read those one at a time with --text, never the whole diff with it.
+const TEXT_NOTE = `A changed text file that shows "Binary files differ", such as a fixtures/ truth or oracle file, must still be read: run the same command with --text and -- <path> for that file.`
 
 const scope =
   plan.mode === 'full'
-    ? `Review the whole change: ${GIT_DIFF} ${plan.mergeBase} ${plan.head}`
-    : `Review only what changed since the last round: ${GIT_DIFF} ${plan.lastReviewedSha} ${plan.head}. Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
+    ? `Review the whole change: ${GIT_DIFF} ${plan.mergeBase} ${plan.head}. ${TEXT_NOTE}`
+    : `Review only what changed since the last round: ${GIT_DIFF} ${plan.lastReviewedSha} ${plan.head}. ${TEXT_NOTE} Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
 
 const location = plan.cwd
   ? `The repository under review is at ${plan.cwd}. Change to it first, and read nothing outside it.\n\n`

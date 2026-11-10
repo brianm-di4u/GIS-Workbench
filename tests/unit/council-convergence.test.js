@@ -1,5 +1,6 @@
 // The council's two-phase convergence rule (decision 0014): a loop phase on one model, then close-out
 // on another, each ending after two clean rounds in a row with nothing open, each with a hard cap.
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { buildVerdict, capFor, cleanTail, emptyLedger, lastCompleteRound, nextStep, phaseState, recordRound, resolveFinding, selectSeats } from '../../.pipeline/lib/ledger.mjs';
 
@@ -308,6 +309,13 @@ describe('the rest', () => {
     const close = selectSeats({ tier: 1, paths, council: {}, diffLines: 50, model: 'opus' });
     expect(close.seats.every((seat) => seat.model === 'opus')).toBe(true);
     expect(close.panel).toEqual(['opus', 'opus']);
+  });
+
+  it('keeps the geo-correctness seat on a T2 change to a crate, under the real config (issue 168)', () => {
+    const config = JSON.parse(readFileSync('pipeline.config.json', 'utf8'));
+    const paths = ['crates/gw-geodesy/src/lib.rs', 'crates/gw-geodesy/Cargo.toml'];
+    const { seats } = selectSeats({ tier: 2, paths, council: config.council, diffLines: 50, model: 'sonnet' });
+    expect(seats.map((seat) => seat.agent)).toContain('council-geo-correctness');
   });
 
   it('treats a round recorded before phases as never clean', () => {
