@@ -3,13 +3,17 @@
 // catalogues from data packs (entries named *.gwcatalog.json). An imported catalogue is kept in
 // the project (a `catalog` record, saved in the .gwb) and in the settings (IndexedDB, so a large
 // catalogue does not fill the preferences), as the user chooses; both come back on the next start
-// or project open. Catalogues are data: they are checked by validateCatalog and never run.
+// or project open. Catalogues are data: they are checked by validateCatalog and never run. Since
+// 2.7.1 (REQ-GAP-87) Import also reads civil catalogues in their own formats: an ISO 19110 file, an
+// INSPIRE application schema with its code lists, or OpenStreetMap presets (iD's presets.json and
+// fields.json), converted to gw-catalog/1 by vector/catalog-import.js.
 
 import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles } from '../storage/files.js';
 import { txDone } from '../storage/idb.js';
 import { validateCatalog, registerCatalog, getCatalog, listCatalogs, unregisterCatalog, DEFAULT_CATALOG } from '../vector/schema.js';
+import { catalogFromFiles } from '../vector/catalog-import.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int } from '../i18n/format.js';
 
@@ -168,11 +172,16 @@ export function installCatalogs(app) {
     for (const n of app.packs?.loaded.keys() ?? []) fromPack(n);
   });
 
+  /** Files (File objects or {name, text}) → a checked catalogue: gw-catalog/1, ISO 19110, INSPIRE XSD and code lists, or iD presets and fields. */
+  async function catalogOf(files) {
+    const texts = await Promise.all(files.map(async (f) => ({ name: f.name, text: typeof f.text === 'function' ? await f.text() : String(f.text ?? '') })));
+    return validateCatalog(catalogFromFiles(texts));
+  }
+
   async function importDialog() {
-    const [f] = await pickFiles(app, { multiple: false, accept: ['.json'], description: t('Feature catalogue (JSON)') });
-    if (!f) return null;
-    const json = parseCatalogText(await f.text());
-    const cat = validateCatalog(json);
+    const files = await pickFiles(app, { multiple: true, accept: ['.json', '.xml', '.xsd'], description: t('Feature catalogue (gw-catalog/1, ISO 19110, INSPIRE schema and code lists, or OpenStreetMap presets)') });
+    if (!files?.length) return null;
+    const cat = await catalogOf(files);
     const inProject = h('input', { type: 'checkbox', checked: true, 'data-id': 'catalog-import:project', 'aria-label': t('Keep it in this project') });
     const inSettings = h('input', { type: 'checkbox', checked: true, 'data-id': 'catalog-import:settings', 'aria-label': t('Keep it in my settings for every project') });
     const facts = t('{name} {version}: {types, plural, one {# feature type} other {# feature types}}, {attrs, plural, one {# attribute} other {# attributes}}, {rules, plural, one {# rule} other {# rules}}', { name: cat.name, version: cat.version, types: cat.types.length, attrs: Object.keys(cat.attributes).length, rules: (cat.rules?.length ?? 0) + cat.types.reduce((s, x) => s + (x.rules?.length ?? 0), 0) });
@@ -208,10 +217,10 @@ export function installCatalogs(app) {
         return h('tr', {}, h('td', {}, c.name), h('td', {}, c.version ?? ''), h('td', {}, int(i.types)), h('td', {}, where), h('td', {}, keptText), h('td', {}, act));
       });
       const tbl = h('table', { class: 'tbl', 'aria-label': t('Feature catalogues') }, h('thead', {}, h('tr', {}, [t('Catalogue'), t('Version'), t('Types'), t('Source'), t('Kept in'), ''].map((x) => h('th', {}, x)))), h('tbody', {}, rows));
-      const r = await modal({ title: t('Feature Catalogues'), body: h('div', {}, tbl, field(t('Import'), h('span', { class: 'hint' }, t('Import… reads a gw-catalog/1 JSON file.')))), buttons: [{ label: t('Import…'), value: 'import', primary: true }, { label: t('Close'), value: 'close' }], id: 'catalogs', width: 680 });
+      const r = await modal({ title: t('Feature Catalogues'), body: h('div', {}, tbl, field(t('Import'), h('span', { class: 'hint' }, t('Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.')))), buttons: [{ label: t('Import…'), value: 'import', primary: true }, { label: t('Close'), value: 'close' }], id: 'catalogs', width: 680 });
       if (r === 'import') await C.run('ext.importcatalog');
     },
   });
 
-  app.catalogs = { import: importCatalog, forget: forgetCatalog, list: () => listCatalogs().map(info), info: (id) => (getCatalog(id) ? info(getCatalog(id)) : null), restored, sourceOf: (id) => source.get(id) ?? null };
+  app.catalogs = { import: importCatalog, importFiles: async (files, opts) => importCatalog(await catalogOf(files), opts), forget: forgetCatalog, list: () => listCatalogs().map(info), info: (id) => (getCatalog(id) ? info(getCatalog(id)) : null), restored, sourceOf: (id) => source.get(id) ?? null };
 }

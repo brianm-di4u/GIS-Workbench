@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A sample ISO 19110 feature catalogue written for GIS Workbench's tests (REQ-GAP-87). -->
+<gfc:FC_FeatureCatalogue xmlns:gfc="http://standards.iso.org/iso/19110/gfc/1.1" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0">
+  <cat:name><gco:CharacterString>Sample transport catalogue</gco:CharacterString></cat:name>
+  <cat:versionNumber><gco:CharacterString>2.1</gco:CharacterString></cat:versionNumber>
+  <gfc:featureType>
+    <gfc:FC_FeatureType>
+      <gfc:typeName>Road</gfc:typeName>
+      <gfc:definition><gco:CharacterString>A way for vehicles.</gco:CharacterString></gfc:definition>
+      <gfc:code><gco:CharacterString>RD</gco:CharacterString></gfc:code>
+      <gfc:carrierOfCharacteristics>
+        <gfc:FC_FeatureAttribute>
+          <gfc:memberName>geometry</gfc:memberName>
+          <gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>GM_Curve</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType>
+        </gfc:FC_FeatureAttribute>
+      </gfc:carrierOfCharacteristics>
+      <gfc:carrierOfCharacteristics>
+        <gfc:FC_FeatureAttribute>
+          <gfc:memberName>surface</gfc:memberName>
+          <gfc:definition><gco:CharacterString>What the road is made of.</gco:CharacterString></gfc:definition>
+          <gfc:cardinality><gco:CharacterString>1</gco:CharacterString></gfc:cardinality>
+          <gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType>
+          <gfc:listedValue><gfc:FC_ListedValue><gfc:label><gco:CharacterString>Paved</gco:CharacterString></gfc:label><gfc:code><gco:CharacterString>1</gco:CharacterString></gfc:code></gfc:FC_ListedValue></gfc:listedValue>
+          <gfc:listedValue><gfc:FC_ListedValue><gfc:label><gco:CharacterString>Unpaved</gco:CharacterString></gfc:label><gfc:code><gco:CharacterString>2</gco:CharacterString></gfc:code></gfc:FC_ListedValue></gfc:listedValue>
+        </gfc:FC_FeatureAttribute>
+      </gfc:carrierOfCharacteristics>
+      <gfc:carrierOfCharacteristics>
+        <gfc:FC_FeatureAttribute>
+          <gfc:memberName>lanes</gfc:memberName>
+          <gfc:cardinality><gco:CharacterString>0..1</gco:CharacterString></gfc:cardinality>
+          <gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>Integer</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType>
+        </gfc:FC_FeatureAttribute>
+      </gfc:carrierOfCharacteristics>
+      <gfc:carrierOfCharacteristics>
+        <gfc:FC_FeatureAttribute>
+          <gfc:memberName>name</gfc:memberName>
+          <gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType>
+        </gfc:FC_FeatureAttribute>
+      </gfc:carrierOfCharacteristics>
+    </gfc:FC_FeatureType>
+  </gfc:featureType>
+  <gfc:featureType>
+    <gfc:FC_FeatureType>
+      <gfc:typeName>Bridge marker</gfc:typeName>
+      <gfc:code><gco:CharacterString>BR</gco:CharacterString></gfc:code>
+      <gfc:carrierOfCharacteristics>
+        <gfc:FC_FeatureAttribute>
+          <gfc:memberName>position</gfc:memberName>
+          <gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>GM_Point</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType>
+        </gfc:FC_FeatureAttribute>
+      </gfc:carrierOfCharacteristics>
+      <gfc:carrierOfCharacteristics>
+        <gfc:FC_FeatureAttribute>
+          <gfc:memberName>name</gfc:memberName>
+          <gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType>
+        </gfc:FC_FeatureAttribute>
+      </gfc:carrierOfCharacteristics>
+    </gfc:FC_FeatureType>
+  </gfc:featureType>
+</gfc:FC_FeatureCatalogue>
