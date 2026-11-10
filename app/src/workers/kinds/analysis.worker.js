@@ -173,6 +173,8 @@ GW.register('sar.stereoDsm', async ({ prm, recA, recB, prior, chipA, chipB, post
   }
 });
 GW.register('validate', async ({ prm, data }) => (await vectorBundle()).validate(prm, data));
+// Road networks (REQ-GAP-85): a route, or the cost to every node of a service area.
+GW.register('network', async ({ prm, data }) => (await vectorBundle()).network(prm, data));
 GW.register('rtin', async ({ z, size, maxError }) => {
   const r = (await terrainBundle()).rtin(z, size, maxError);
   return GW.transfer(r, [r.xy.buffer, r.tris.buffer]);

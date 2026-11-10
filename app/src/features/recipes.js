@@ -170,6 +170,19 @@ export function install(app) {
       const l = await app.timeseries.anomaly(undefined, { from, to, by, z });
       return { summary: t('{n, plural, one {# date} other {# dates}}', { n: l.bands }) };
     } },
+    // Geocoding and routing on the user's own data (REQ-GAP-85): the index and the network come first (addr.index, route.roads).
+    geocodeTable: { title: N_('Geocode a table'), defaults: { address: 'address', place: '' }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
+      const r = await app.routing.geocodeTable(text, { address, place });
+      return { summary: t('{ok} of {n} addresses found', { ok: r.matched, n: r.matched + r.unmatched }) };
+    } },
+    route: { title: N_('Shortest route'), defaults: { from: null, to: null }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
+      const r = await app.routing.route(from, to);
+      return { summary: r ? t('Route of {n} m', { n: Math.round(r.metres) }) : t('No route') };
+    } },
+    serviceArea: { title: N_('Service area'), defaults: { at: null, breaks: [300, 600] }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
+      const r = await app.routing.serviceArea(at, breaks);
+      return { summary: t('{n} nodes reached', { n: r.nodes }) };
+    } },
     command: { title: N_('Run a command'), defaults: { id: '' }, run: async ({ id, args }) => {
       await C.run(id, args);
       return { summary: id };
