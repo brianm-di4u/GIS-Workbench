@@ -8,8 +8,8 @@
 //
 // GW_SIGNOFF_RUNS (default 7) cold starts per build and CPU rate; GW_SIGNOFF_MAX_BUSY (default 10)
 // the most CPU use, in per cent, that still counts as idle; GW_SIGNOFF_OUT (default reports) where
-// signoff-<build>.json and .md go. A missed target is a soft failure: every row is still measured
-// and recorded, and the run fails at the end.
+// signoff-<build>.json and .md go, rewritten after each section. A missed target, or a section that
+// throws, is a soft failure: every other row is still measured and recorded, and the run fails at the end.
 //
 // Procedure for the sign-off:
 // 1. Main has #62's lazy pass. Check out main at the release candidate and `npm run build`.
@@ -70,10 +70,10 @@ async function busy(ms = 5000) {
   return Math.round(1000 * (1 - (b.idle - a.idle) / (b.all - a.all))) / 10;
 }
 
-const result = { mode: MODE, started: new Date().toISOString(), runs: RUNS, machine: {}, idle: [], sizes: [], start: {}, firstTile: {}, missing: [] };
+const result = { mode: MODE, started: new Date().toISOString(), runs: RUNS, machine: {}, idle: [], sizes: [], start: {}, firstTile: {}, missing: [], errors: [] };
 let release_ = () => {};
 
-test.describe.configure({ timeout: 900_000 });
+test.describe.configure({ timeout: 1_800_000 });
 
 test.beforeAll(async ({ browser }) => {
   if (!MODE) return;
@@ -89,17 +89,21 @@ test.afterAll(async () => {
   if (!MODE) return;
   release_();
   result.finished = new Date().toISOString();
+  writeRecord();
+});
+
+/** Writes signoff-<build>.json and .md as they stand: after every section, so a crash keeps the rows so far. */
+function writeRecord() {
   mkdirSync(OUT, { recursive: true });
   const id = String(result.build?.id ?? 'build').slice(0, 12);
   writeFileSync(join(OUT, `signoff-${id}.json`), JSON.stringify(result, null, 1));
   writeFileSync(join(OUT, `signoff-${id}.md`), markdown(result));
-});
+}
 
-/** A row that could not be measured: recorded, and a failure in `final`, a skip in `dry`. */
+/** A row that could not be measured: recorded, and a failure in `final`. */
 function missing(what) {
   result.missing.push(what);
   if (FINAL) expect.soft(false, `${what}: a sign-off measures every row`).toBe(true);
-  else test.skip(true, what);
 }
 
 /** Waits for an idle machine (up to six 5 s samples); `final` records a failure if it never is. */
@@ -110,33 +114,28 @@ async function idle(label) {
   if (FINAL) expect.soft(pct, `${label}: the machine is ${pct} % busy; a sign-off needs ≤ ${MAX_BUSY} %`).toBeLessThanOrEqual(MAX_BUSY);
 }
 
-test('SDP-2.7 §6 sizes against their budgets, Full and Lite', async () => {
-  test.skip(!MODE, 'a measurement: GW_SIGNOFF=dry or final, one worker');
+function sizes() {
   const s = JSON.parse(readFileSync(join(DIST_DIR, 'build-report.json'), 'utf8')).sizes;
-  // The report must belong to the files measured.
-  expect(s.total, 'build-report.json and gis-workbench.html are from one build').toBe(statSync(DIST).size);
-  if (existsSync(LITE)) expect(s.lite, 'build-report.json and gis-workbench-lite.html are from one build').toBe(statSync(LITE).size);
   for (const b of SIZE_BUDGETS) result.sizes.push({ id: b.id, bytes: b.get(s), limit: b.limit, warn: b.warn ?? null, target: b.target ?? null });
   // Each bundle may run 10 % over its budget, as the build gate allows (build/gates.mjs, REQ-RUST-08).
   for (const [name, r] of Object.entries(s.rust ?? {})) result.sizes.push({ id: `WASM ${name} (gzip)`, bytes: r.gzip, limit: Math.floor(r.budget * 1.1), warn: r.budget, target: null });
   for (const r of result.sizes) expect.soft(r.bytes, r.id).toBeLessThanOrEqual(r.limit);
-});
+  // The report must belong to the files measured.
+  expect.soft(s.total, 'build-report.json and gis-workbench.html are from one build').toBe(statSync(DIST).size);
+  if (existsSync(LITE)) expect.soft(s.lite, 'build-report.json and gis-workbench-lite.html are from one build').toBe(statSync(LITE).size);
+}
 
-// A first start: no stored preferences, so each build opens with its shipped defaults.
-for (const [name, html] of [
-  ['Full', DIST],
-  ['Lite', LITE],
-]) {
-  test(`SCN-74 REQ-PRF-01 ${name}: cold start from navigation at 1× and 4× CPU`, async ({ browser }) => {
-    test.skip(!MODE, 'a measurement: GW_SIGNOFF=dry or final, one worker');
-    if (!existsSync(html)) return missing(`${name}: ${html} is not built`);
-    for (const rate of [1, 4]) {
-      await idle(`${name} ${rate}×`);
-      const total = [];
-      const marks = [];
-      for (let i = 0; i < RUNS; i++) {
-        // A new context per run: no HTTP or code cache and no storage from the previous start.
-        const ctx = await browser.newContext(VIEW);
+/** Cold starts of one build. A first start: no stored preferences, so it opens with its shipped defaults. */
+async function coldStart(browser, name, html) {
+  if (!existsSync(html)) return missing(`${name}: ${html} is not built`);
+  for (const rate of [1, 4]) {
+    await idle(`${name} ${rate}×`);
+    const total = [];
+    const marks = [];
+    for (let i = 0; i < RUNS; i++) {
+      // A new context per run: no HTTP or code cache and no storage from the previous start.
+      const ctx = await browser.newContext(VIEW);
+      try {
         const page = await ctx.newPage();
         const cdp = await ctx.newCDPSession(page);
         await cdp.send('Emulation.setCPUThrottlingRate', { rate });
@@ -144,42 +143,66 @@ for (const [name, html] of [
         const r = await frame.evaluate(() => ({ total: Math.round(window.__gw.bootStart + window.gisworkbench.bootMs), marks: window.gisworkbench.bootMarks ?? null }));
         total.push(r.total);
         marks.push(r.marks);
+      } finally {
         await ctx.close();
       }
-      const row = { ...stats(total), marks: marks[nearMedian(total)], target: START_MS };
-      row.met = row.median < START_MS;
-      result.start[`${name} ${rate}×`] = row;
-      if (FINAL) expect.soft(row.median, `${name} at ${rate}× CPU, median of ${RUNS}: ${total}`).toBeLessThan(START_MS);
     }
-  });
+    const row = { ...stats(total), marks: marks[nearMedian(total)], target: START_MS };
+    row.met = row.median < START_MS;
+    result.start[`${name} ${rate}×`] = row;
+    if (FINAL) expect.soft(row.median, `${name} at ${rate}× CPU, median of ${RUNS}: ${total}`).toBeLessThan(START_MS);
+  }
 }
 
-test('REQ-PRF-03 first tile of a local NITF and a COG, cold', async ({ browser }) => {
-  test.skip(!MODE, 'a measurement: GW_SIGNOFF=dry or final, one worker');
+async function firstTile(browser) {
   await idle('first tile');
   for (const [name, file] of FILES) {
     if (!existsSync(file)) {
-      result.missing.push(`${name}: ${file} is not on this machine`);
-      if (FINAL) expect.soft(false, `${name}: ${file} is not on this machine; a sign-off measures every row`).toBe(true);
+      missing(`${name}: ${file} is not on this machine`);
       continue;
     }
     const ms = [];
     for (let i = 0; i < RUNS; i++) {
       const ctx = await browser.newContext(VIEW);
-      // The same first start as above; the clock starts when the file is handed over (REQ-PRF-03).
-      const { frame } = await openApp(await ctx.newPage(), 'file', { prefs: null });
-      const t0 = Date.now();
-      await openFiles(frame, [file]);
-      await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.lutTex && l.tiles.gpu.size > 0), null, { timeout: 15_000, polling: 10 });
-      ms.push(Date.now() - t0);
-      await ctx.close();
+      try {
+        // The same first start as above; the clock starts when the file is handed over (REQ-PRF-03).
+        const { frame } = await openApp(await ctx.newPage(), 'file', { prefs: null });
+        const t0 = Date.now();
+        await openFiles(frame, [file]);
+        await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.lutTex && l.tiles.gpu.size > 0), null, { timeout: 15_000, polling: 10 });
+        ms.push(Date.now() - t0);
+      } finally {
+        await ctx.close();
+      }
     }
     const row = { ...stats(ms), target: FIRST_TILE_MS };
     row.met = row.median < FIRST_TILE_MS;
     result.firstTile[name] = row;
     if (FINAL) expect.soft(row.median, `${name}, median of ${RUNS}: ${ms}`).toBeLessThan(FIRST_TILE_MS);
   }
-  if (!FINAL && !Object.keys(result.firstTile).length) test.skip(true, 'neither FX-01 nor the WV3 COG is on this machine');
+}
+
+// One test, one worker: a section that throws is recorded and the rest still run, and no worker
+// restart can start a second, partial record.
+test('2.7.0 sign-off: SDP-2.7 §6 sizes, SCN-74 REQ-PRF-01 cold starts, REQ-PRF-03 first tile', async ({ browser }) => {
+  test.skip(!MODE, 'a measurement: GW_SIGNOFF=dry or final, one worker');
+  const sections = [
+    ['Sizes', () => sizes()],
+    ['Full cold start', () => coldStart(browser, 'Full', DIST)],
+    ['Lite cold start', () => coldStart(browser, 'Lite', LITE)],
+    ['First tile', () => firstTile(browser)],
+  ];
+  for (const [label, run] of sections) {
+    await test.step(label, async () => {
+      try {
+        await run();
+      } catch (e) {
+        result.errors.push(`${label}: ${String(e.message ?? e).split('\n')[0]}`);
+        expect.soft(false, `${label} failed: ${e.message ?? e}`).toBe(true);
+      }
+      writeRecord();
+    });
+  }
 });
 
 function markdown(r) {
@@ -191,6 +214,7 @@ function markdown(r) {
     `Build ${JSON.stringify(r.build)}. ${r.machine.cpu}, ${r.machine.cores} threads, ${r.machine.memGiB} GiB, ${r.machine.os}, Chrome ${r.machine.browser}. ${r.runs} runs per row.`,
     `Busy before each batch (idle is ≤ ${MAX_BUSY} %): ${r.idle.map((i) => `${i.before} ${i.busyPct} %${i.idle ? '' : ' (not idle)'}`).join('; ')}.`,
     ...(r.missing.length ? ['', `**Not measured:** ${r.missing.join('; ')}.`] : []),
+    ...(r.errors.length ? ['', `**Errors:** ${r.errors.join('; ')}.`] : []),
     '',
     '## Start-up from navigation (ms)',
     '| Build and CPU | Median | Min | Max | Target | Result |',
