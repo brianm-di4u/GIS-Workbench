@@ -83,20 +83,28 @@ describe('SAR stereo DSM levelling', () => {
   });
 });
 
-// Council round 3: a saved DSM is read back by GDAL metadata items, not by its prose description.
-describe('SAR stereo DSM metadata (REG-084)', async () => {
-  const { dsmMetadata, metaItem } = await import('../../app/src/features/sarstereo.js');
-  it('round-trips the product, the pair side and a long prior with XML characters', () => {
-    const prior = `GLO-30 <tile & "N38">${'; levelled on 3DEP by 1.00 m, residual NMAD 0.50 m over 900 stable posts'.repeat(40)}`;
-    const md = dsmMetadata({ prior, stats: { geometry: { sameSide: false } } }, true);
-    expect(metaItem(md, 'GWB_PRODUCT')).toBe('SAR_STEREO_DSM');
-    expect(metaItem(md, 'GWB_SAME_SIDE')).toBe('0');
-    expect(metaItem(md, 'GWB_PRIOR')).toBe(prior);
-    expect(md.length).toBeLessThan(20000);
-    expect(metaItem(dsmMetadata({ stats: { geometry: { sameSide: true } } }, true), 'GWB_SAME_SIDE')).toBe('1');
+
+// A saved DSM is read back by its GDAL items, and a file 2.6 wrote (prose only) by its description.
+describe('SAR stereo DSM file facts (REG-084)', async () => {
+  const { dsmItems, dsmFileFacts } = await import('../../app/src/features/sarstereo.js');
+  const { gdalMetadataXml } = await import('../../app/src/formats/geotiff-writer.js');
+  const v26 = (prior, opposite) => `GIS Workbench SAR stereo DSM (radargrammetry) from A + B: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${prior}${opposite ? '; opposite-side pair, not recommended' : ''}`;
+  it('writes the product, the pair side, the prior and band names, escaped', () => {
+    const it2 = dsmItems({ prior: 'GLO-30 <N38 & W122>', stats: { geometry: { sameSide: false } } }, true);
+    expect(it2).toEqual({ dataset: { GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '0', GWB_PRIOR: 'GLO-30 <N38 & W122>' }, bands: ['height', 'sigma', 'score', 'flags'] });
+    const xml = gdalMetadataXml(it2);
+    expect(xml).toContain('<Item name="GWB_PRIOR">GLO-30 &lt;N38 &amp; W122&gt;</Item>');
+    expect(xml).toContain('<Item name="DESCRIPTION" sample="3" role="description">flags</Item>');
+    expect(gdalMetadataXml(dsmItems({}, false))).toBe(undefined);
   });
-  it('marks a heights-only DSM as no product', () => {
-    expect(metaItem(dsmMetadata({ prior: 'x' }, false) ?? '', 'GWB_PRODUCT')).toBe(null);
-    expect(dsmMetadata({}, false)).toBe(undefined);
+  it('reads a tagged product by its items, and a missing pair side as opposite-side', () => {
+    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '1', GWB_PRIOR: 'P' }, '')).toEqual({ product: true, sameSide: true, prior: 'P' });
+    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '0' }, v26('P', false))).toEqual({ product: true, sameSide: false, prior: null });
+    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM' }, '').sameSide).toBe(false);
+  });
+  it('reads a file 2.6 wrote by its description', () => {
+    expect(dsmFileFacts({}, v26('Copernicus GLO-30', false))).toEqual({ product: true, sameSide: true, prior: 'Copernicus GLO-30' });
+    expect(dsmFileFacts({}, v26('Copernicus GLO-30', true))).toEqual({ product: true, sameSide: false, prior: 'Copernicus GLO-30' });
+    expect(dsmFileFacts({}, 'Some other DEM')).toEqual({ product: false, sameSide: true, prior: null });
   });
 });

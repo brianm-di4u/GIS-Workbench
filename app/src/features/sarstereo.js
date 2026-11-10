@@ -17,7 +17,7 @@
 
 import { h } from '../shell/dom.js';
 import { modal, field, section } from '../shell/dialogs.js';
-import { writeGeoTiff } from '../formats/geotiff-writer.js';
+import { writeGeoTiff, gdalMetadataXml } from '../formats/geotiff-writer.js';
 import { openImageFile } from '../formats/open.js';
 import { saveBlob, textBlob } from '../storage/files.js';
 import { t, N_, tr, gwError, msgOf } from '../i18n/index.js';
@@ -40,28 +40,27 @@ export const DESPECKLE = [
 /** Defaults of a DSM job (gw_sar_stereo_new parameters). */
 export const DEFAULTS = { levels: 3, window: 4, searchM: 60, stepFrac: 0.5, cost: 'zncc', minScore: 0.3, minMargin: 0.03, shiftM: 30, anchor: false, maskStepM: 5, maskTol: 0.5, subs: 2, priorSigma: 4, despeckle: 'none', latticeStep: 8, sizeM: 1000 };
 
-const XML_ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
-const xmlEsc = (s) => String(s).replace(/[&<>"]/g, (c) => XML_ESC[c]);
-
 /**
- * GDAL_METADATA for a saved DSM: machine-readable items (GWB_PRODUCT, GWB_SAME_SIDE, GWB_PRIOR) that
- * a reopened file is read by, and band names other tools show. `full` is the four-band product.
+ * GDAL metadata for a saved DSM ({dataset, bands}, for gdalMetadataXml): the items a reopened file is
+ * read by (GWB_PRODUCT, GWB_SAME_SIDE, GWB_PRIOR) and band names other tools show. `full` is the
+ * four-band product.
  */
-export function dsmMetadata(dsm, full) {
-  const item = (name, v, attrs = '') => `<Item name="${name}"${attrs}>${xmlEsc(v)}</Item>`;
-  const items = [];
-  if (full) {
-    items.push(item('GWB_PRODUCT', 'SAR_STEREO_DSM'), item('GWB_SAME_SIDE', dsm.stats?.geometry?.sameSide === false ? '0' : '1'));
-    ['height', 'sigma', 'score', 'flags'].forEach((b, i) => items.push(item('DESCRIPTION', b, ` sample="${i}" role="description"`)));
-  }
-  if (dsm.prior) items.push(item('GWB_PRIOR', dsm.prior));
-  return items.length ? `<GDALMetadata>${items.join('')}</GDALMetadata>` : undefined;
+export function dsmItems(dsm, full) {
+  const dataset = full ? { GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: dsm.stats?.geometry?.sameSide === false ? '0' : '1' } : {};
+  if (dsm.prior) dataset.GWB_PRIOR = dsm.prior;
+  return { dataset, bands: full ? ['height', 'sigma', 'score', 'flags'] : [] };
 }
 
-/** A dataset-level item from GDAL_METADATA text, or null. */
-export function metaItem(xml, name) {
-  const m = new RegExp(`<Item name="${name}">([^<]*)</Item>`).exec(xml);
-  return m ? m[1].replace(/&(amp|lt|gt|quot);/g, (_, e) => ({ amp: '&', lt: '<', gt: '>', quot: '"' })[e]) : null;
+/**
+ * What a reopened file says about itself, from its GDAL items (meta.gdalItems) and, for a file 2.6
+ * wrote (prose only, never levelled, so never cut short), its ImageDescription. A tagged product
+ * whose pair side is missing reads as opposite-side, so it is refused rather than levelled.
+ * Returns {product, sameSide, prior}.
+ */
+export function dsmFileFacts(items = {}, desc = '') {
+  if (items.GWB_PRODUCT != null) return { product: items.GWB_PRODUCT === 'SAR_STEREO_DSM', sameSide: items.GWB_SAME_SIDE === '1', prior: items.GWB_PRIOR ?? null };
+  const legacy = /SAR stereo DSM \(radargrammetry\)/.test(desc);
+  return { product: legacy, sameSide: !/opposite-side pair/.test(desc), prior: items.GWB_PRIOR ?? (legacy ? /; prior (.*?)(?:; opposite-side pair, not recommended)?$/.exec(desc)?.[1] ?? null : null) };
 }
 
 const RUN_CANCEL = () => [{ label: t('Run'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }];
@@ -331,7 +330,7 @@ export function install(app) {
     const desc = full
       ? `GIS Workbench SAR stereo DSM (radargrammetry) from ${dsm.names.join(' + ')}: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${dsm.prior}${dsm.stats?.geometry?.sameSide === false ? '; opposite-side pair, not recommended' : ''}`
       : `GIS Workbench DSM from ${dsm.names.join(' + ')}: height above the WGS 84 ellipsoid (m); ${dsm.prior ?? ''}`;
-    const bytes = await writeGeoTiff({ width: g.nx, height: g.ny, bands: nb, type: 'f32', data }, { epsg: 4326, vertical: 'hae', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: desc, gdalMetadata: dsmMetadata(dsm, full), overviews: true });
+    const bytes = await writeGeoTiff({ width: g.nx, height: g.ny, bands: nb, type: 'f32', data }, { epsg: 4326, vertical: 'hae', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: desc, gdalMetadata: gdalMetadataXml(dsmItems(dsm, full)), overviews: true });
     const file = new File([bytes], fname ?? `SARDSM_${dsm.pair.join('_')}.tif`.replace(/[^\w.-]+/g, '_'), { type: 'image/tiff', lastModified: Date.now() });
     if (!open) return { file };
     const { layers } = await openImageFile(app, file, { pane: pane() });
@@ -360,19 +359,19 @@ export function install(app) {
 
   /**
    * dsmOfTerrain, with a SAR stereo DSM's σ, score and flags read back from its bands 2 to 4, and
-   * its pair side and prior from its GDAL metadata, so a reopened product levels as it was made.
-   * The ImageDescription is prose for people; these items are what a reopened file is read by.
+   * its pair side and prior from what the file says about itself (dsmFileFacts), so a reopened
+   * product reports and levels as it was made.
    */
   async function dsmFromTerrain(d) {
     const dsm = dsmOfTerrain(d);
     if (dsm.flags) return dsm;
     const l = app.layers.get(d.layerId);
-    const md = String(l?.info?.meta?.gdalMetadata ?? '');
-    if (metaItem(md, 'GWB_PRIOR') != null) dsm.prior = metaItem(md, 'GWB_PRIOR');
-    if (l?.bands !== 4 || metaItem(md, 'GWB_PRODUCT') !== 'SAR_STEREO_DSM') return dsm;
+    const f = dsmFileFacts(l?.info?.meta?.gdalItems ?? {}, String(l?.info?.meta?.imageDescription ?? ''));
+    if (f.prior) dsm.prior = f.prior;
+    if (l?.bands !== 4 || !f.product) return dsm;
     const g = dsm.grid;
     const r = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: g.nx, h: g.ny, bands: [1, 2, 3], maxSamples: 3 * g.nx * g.ny }, { affinity: l.affinity, label: t('Reading {layer}', { layer: d.name }) });
-    return { ...dsm, sigma: r.planes[0], score: r.planes[1], flags: Uint8Array.from(r.planes[2], (v) => (Number.isFinite(v) ? v : 128)), stats: { geometry: { sameSide: metaItem(md, 'GWB_SAME_SIDE') !== '0' } } };
+    return { ...dsm, sigma: r.planes[0], score: r.planes[1], flags: Uint8Array.from(r.planes[2], (v) => (Number.isFinite(v) ? v : 128)), stats: { geometry: { sameSide: f.sameSide } } };
   }
 
   const fmtStats = (s) => (s ? [int(s.n), num(s.mean, 2), num(s.median, 2), num(s.nmad, 2), num(s.rmse, 2), num(s.le90, 2)] : ['0', '–', '–', '–', '–', '–']);
@@ -478,7 +477,7 @@ export function install(app) {
     if ((await modal({ title: t('DSM Accuracy Report'), body, buttons: RUN_CANCEL(), id: 'sarstereo-report-pick' })) !== 'run') return null;
     if (dsmSel.value === refSel.value) return app.toast(t('choose a reference other than the DSM'), { kind: 'warn' });
     const d = tl.find((x) => x.layerId === dsmSel.value);
-    const dsm = dsmOfTerrain(d);
+    const dsm = await dsmFromTerrain(d);
     return reportDialog(report(dsm, tl.find((x) => x.layerId === refSel.value)), dsm);
   }
 
