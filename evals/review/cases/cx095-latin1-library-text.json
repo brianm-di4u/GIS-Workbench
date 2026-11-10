@@ -1,0 +1,34 @@
+{
+  "id": "cx095-latin1-library-text",
+  "source": "CX-095",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Import dropped spectrum files into the spectral library.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "docs/library-sources.md": "# Library sources\n\nSpectral library files come from JPL (ECOSTRESS), the USGS and ASD exports. Many were written by\nolder Windows tools.\n",
+    "src/speclib.js": "// A spectrum file: its first line is the name, then wavelength and value pairs.\nexport function parseSpectrum(text) {\n  const [name, ...rows] = text.split(/\\r?\\n/).filter((line) => line.trim());\n  const pairs = rows.map((row) => row.trim().split(/\\s+/).map(Number));\n  return { name: name.trim(), wavelengths: pairs.map((p) => p[0]), values: pairs.map((p) => p[1]) };\n}\n"
+  },
+  "head": {
+    "src/library-import.js": "import { parseSpectrum } from './speclib.js';\n\n// Import dropped spectrum files.\nexport async function importSpectra(library, files) {\n  for (const file of files) {\n    const text = await file.text();\n    library.import(file.name, [parseSpectrum(text)]);\n  }\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/library-import.js",
+      "from": 6,
+      "to": 6,
+      "words": [
+        "latin",
+        "encoding",
+        "utf-8",
+        "utf8",
+        "1252",
+        "ansi",
+        "charset",
+        "textdecoder",
+        "replacement character",
+        "decode"
+      ]
+    }
+  ]
+}

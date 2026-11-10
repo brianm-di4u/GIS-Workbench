@@ -1,0 +1,52 @@
+{
+  "id": "cx047-f32-relaxation",
+  "source": "CX-047",
+  "split": "train",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Fill holes in DSMs and DTMs made from lidar by over-relaxation, stopping when a sweep changes no hole by more than 0.1 mm. Heights are metres above the ellipsoid.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/fill.js": "// Fill DSM holes by successive over-relaxation, starting from the mean of the valid posts.\nexport function fillHoles(heights, width, height, tolerance = 1e-4) {\n  const z = Float32Array.from(heights);\n  const holes = [];\n  let sum = 0;\n  let count = 0;\n  for (let i = 0; i < z.length; i += 1) {\n    if (Number.isNaN(z[i])) holes.push(i);\n    else {\n      sum += z[i];\n      count += 1;\n    }\n  }\n  for (const i of holes) z[i] = sum / count;\n  const omega = 1.8;\n  for (let sweep = 0; sweep < 800; sweep += 1) {\n    let change = 0;\n    for (const i of holes) {\n      const x = i % width;\n      const y = (i - x) / width;\n      const left = z[x > 0 ? i - 1 : i];\n      const right = z[x < width - 1 ? i + 1 : i];\n      const up = z[y > 0 ? i - width : i];\n      const down = z[y < height - 1 ? i + width : i];\n      const next = z[i] + omega * ((left + right + up + down) / 4 - z[i]);\n      change = Math.max(change, Math.abs(next - z[i]));\n      z[i] = next;\n    }\n    if (change < tolerance) break;\n  }\n  return z;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/fill.js",
+      "from": 3,
+      "to": 3,
+      "words": [
+        "float32",
+        "f32",
+        "single precision",
+        "single-precision",
+        "precision",
+        "never converge",
+        "float64",
+        "f64",
+        "ulp",
+        "rounding"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/fill.js",
+      "from": 29,
+      "to": 29,
+      "words": [
+        "float32",
+        "f32",
+        "single precision",
+        "single-precision",
+        "precision",
+        "never converge",
+        "float64",
+        "f64",
+        "ulp",
+        "rounding"
+      ]
+    }
+  ]
+}

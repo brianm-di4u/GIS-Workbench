@@ -1,0 +1,32 @@
+{
+  "id": "cx020-stats-read-every-row",
+  "source": "CX-020",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Band statistics: sample one row and one column in 20, so statistics of large images stay fast.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/stats.js": "// Band statistics from a sample of one row and column in step.\nexport async function bandStats(image, band, step = 20) {\n  let n = 0;\n  let sum = 0;\n  let min = Infinity;\n  let max = -Infinity;\n  for (let y = 0; y < image.height; y += 1) {\n    const row = await image.readRow(band, y);\n    if (y % step !== 0) continue;\n    for (let x = 0; x < row.length; x += step) {\n      const v = row[x];\n      if (!Number.isFinite(v)) continue;\n      n += 1;\n      sum += v;\n      if (v < min) min = v;\n      if (v > max) max = v;\n    }\n  }\n  return { n, mean: sum / n, min, max };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/stats.js",
+      "from": 7,
+      "to": 9,
+      "words": [
+        "every row",
+        "each row",
+        "all rows",
+        "reads all",
+        "before skipping",
+        "wasted",
+        "y += step",
+        "pyramid",
+        "overview",
+        "discard"
+      ]
+    }
+  ]
+}
