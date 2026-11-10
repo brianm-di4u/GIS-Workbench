@@ -7,8 +7,9 @@ const chrome = LINUX ? {} : { channel: 'chrome' };
 const CI = Boolean(process.env.CI);
 
 // Tests that measure real time. A shared runner with no GPU can't run them fairly, so they stay in
-// the local gate.
-const TIMED = /REQ-FMT-52 FC-22|REQ-GAP-47 playback|REQ-GAP-48 (MPEG-2|S-58)|REQ-GAP-49 (SCN-55|AES-128|live sliding window)|REQ-PRF-01 interactive within|SCN-12 AT-12\.2|SCN-14 AT-14\.1|SCN-15 AT-15\.3|REQ-HOST-05 gestures|REQ-ING-04 a 100 000-feature layer/;
+// the local gate. The frame-rate and time budgets of perf.spec.js and perf-r2.spec.js are among
+// them: on the nightly runner's SwiftShader the anaglyph pans at under 2 fps (#48).
+const TIMED = /REQ-PRF-03 first tile of a local|REQ-PRF-02 REQ-PRF-08 a 2×2|REQ-PRF-06 a 4k|AT-05\.3 REQ-STR-04|REQ-FMT-52 FC-22|REQ-GAP-47 playback|REQ-GAP-48 (MPEG-2|S-58)|REQ-GAP-49 (SCN-55|AES-128|live sliding window)|REQ-PRF-01 interactive within|SCN-12 AT-12\.2|SCN-14 AT-14\.1|SCN-15 AT-15\.3|REQ-HOST-05 gestures|REQ-ING-04 a 100 000-feature layer/;
 const QUARANTINED = CI ? grepInvert(readQuarantine()) : undefined;
 const ON_RUNNERS = [TIMED, QUARANTINED].filter(Boolean);
 

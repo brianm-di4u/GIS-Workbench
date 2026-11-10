@@ -3,6 +3,7 @@
 // action, and settling whatever the action opened. Used by gui-sweep.spec.js (Classic layout)
 // and gui-modern.spec.js (Modern layout, the 2.0 default).
 
+import { test } from '@playwright/test';
 import { mkdirSync, writeFileSync, appendFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { openApp, openFiles, ROOT, DIST_DIR } from './helpers.js';
@@ -20,6 +21,20 @@ export const LITE_MSG = /GIS Workbench Lite leaves out/;
 export const AIRGAP_MSG = /air-gapped file/;
 /** A main-thread task this long is a freeze (REQ-ING-04: anything past 2 s says what is running). */
 export const LONG_TASK_MS = 2000;
+/**
+ * With software WebGL (SwiftShader on a runner with no GPU, llvmpipe) the GPU work of a filter or an
+ * export runs on the CPU: a CLAHE that is instant on a GPU blocks for 5 s (#48). There a freeze is
+ * reported, not failed, and an action may wait 30 s. A machine with a GPU keeps both checks.
+ */
+const SOFTWARE_GL = /swiftshader|llvmpipe|softpipe|software/i;
+const SOFTWARE_ACTION_MS = 30_000;
+/** How long a dialog, the palette or the radial menu has to close after Esc: a busy main thread is not ignoring it. */
+const ESC_MS = 5_000;
+/** Whether `sel` (with aria-label `label`, if given) is gone within ESC_MS. */
+const gone = (page, sel, label) =>
+  page
+    .waitForFunction(([s, l]) => ![...document.querySelectorAll(s)].some((d) => l === null || d.getAttribute('aria-label') === l), [sel, label ?? null], { timeout: ESC_MS })
+    .then(() => true, () => false);
 
 /**
  * Data states. `setup` runs after the files open (commands only to reach a mode the GUI
@@ -77,6 +92,16 @@ export async function boot(page, build, { prefs, keepDownloads = false } = {}) {
     }
   });
   app.build = build;
+  app.renderer = await app.frame.evaluate(() => {
+    const gl = document.createElement('canvas').getContext('webgl2');
+    const info = gl?.getExtension('WEBGL_debug_renderer_info');
+    return gl ? String(gl.getParameter(info ? info.UNMASKED_RENDERER_WEBGL : gl.RENDERER)) : '';
+  });
+  app.softwareGl = SOFTWARE_GL.test(app.renderer);
+  if (app.softwareGl) {
+    page.setDefaultTimeout(SOFTWARE_ACTION_MS);
+    await page.evaluate(() => (window.__softwareGl = true));
+  }
   return app;
 }
 
@@ -112,7 +137,11 @@ export async function observe(page, app, mark, build) {
   const csp = await app.csp();
   for (const c of csp.slice(mark.csp)) problems.push(`csp: ${c}`);
   const long = await page.evaluate((n) => window.__longtasks.slice(n), mark.long);
-  for (const ms of long) if (ms >= LONG_TASK_MS) problems.push(`long task: ${ms} ms`);
+  for (const ms of long) {
+    if (ms < LONG_TASK_MS) continue;
+    if (app.softwareGl) test.info().annotations.push({ type: 'timing', description: `long task: ${ms} ms on ${app.renderer}` });
+    else problems.push(`long task: ${ms} ms`);
+  }
   return { problems, toasts: toasts.map((t) => `${t.kind}: ${t.text}`) };
 }
 
@@ -128,6 +157,23 @@ export async function markNow(page, app) {
 export async function settle(page, { layout = 'classic' } = {}) {
   const seen = { dialogs: [], menus: 0, problems: [] };
   await page.waitForTimeout(350);
+  // With software WebGL an action's pixel reads and jobs can outlast the wait above, and the dialog
+  // it opens then lands on the next action (#48). Wait for a quiet half second: no long task and no
+  // running job.
+  if (await page.evaluate(() => !!window.__softwareGl))
+    await page
+      .waitForFunction(
+        () => {
+          const busy = window.gisworkbench.activity?.items().length ?? 0;
+          const n = window.__longtasks.length;
+          const now = performance.now();
+          if (busy || window.__quiet?.n !== n) return (window.__quiet = { n, t: now }), false;
+          return now - window.__quiet.t > 500;
+        },
+        null,
+        { timeout: 60_000, polling: 200 },
+      )
+      .catch(() => {});
   for (let i = 0; i < 6; i++) {
     const st = await page.evaluate(() => {
       const d = [...document.querySelectorAll('.dlg[role="dialog"]')];
@@ -149,16 +195,14 @@ export async function settle(page, { layout = 'classic' } = {}) {
     // The radial menu (REQ-SHL-10) closes with Esc.
     if (st.radial) {
       await page.keyboard.press('Escape');
-      await page.waitForTimeout(100);
-      if (await page.locator('[data-id="radial"]').count()) seen.problems.push('the radial menu ignores Esc');
+      if (!(await gone(page, '[data-id="radial"]'))) seen.problems.push('the radial menu ignores Esc');
       continue;
     }
     // The command palette (REQ-SHL-05) closes with Esc like a dialog.
     if (st.palette) {
       seen.dialogs.push('palette');
       await page.keyboard.press('Escape');
-      await page.waitForTimeout(150);
-      if (await page.locator('[data-id="palette"]').count()) seen.problems.push('the command palette ignores Esc');
+      if (!(await gone(page, '[data-id="palette"]'))) seen.problems.push('the command palette ignores Esc');
       continue;
     }
     if (st.dlg) {
@@ -167,9 +211,7 @@ export async function settle(page, { layout = 'classic' } = {}) {
       if (st.overflow) seen.problems.push(`dialog "${st.dlg}" body scrolls sideways`);
       if (st.unnamed.length) seen.problems.push(`dialog "${st.dlg}" has controls without a name: ${[...new Set(st.unnamed)].join(', ')}`);
       await page.keyboard.press('Escape');
-      await page.waitForTimeout(250);
-      const still = await page.evaluate((l) => [...document.querySelectorAll('.dlg[role="dialog"]')].some((d) => d.getAttribute('aria-label') === l), st.dlg);
-      if (still) {
+      if (!(await gone(page, '.dlg[role="dialog"]', st.dlg))) {
         seen.problems.push(`dialog "${st.dlg}" ignores Esc`);
         await page.locator('.dlg .dlg-x').last().click().catch(() => {});
         await page.waitForTimeout(200);
