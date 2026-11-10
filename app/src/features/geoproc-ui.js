@@ -5,7 +5,7 @@
 
 import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
-import { t, gwError } from '../i18n/index.js';
+import { t, tc, gwError } from '../i18n/index.js';
 import { isPolygonal } from '../vector/geom.js';
 
 export function install(app) {
@@ -78,7 +78,7 @@ export function install(app) {
       const L = layerSelect(t('Layer'));
       const d = h('input', { class: 'inp inp-num', type: 'number', value: 100, step: 'any', 'aria-label': t('Distance (m)') });
       const m = choice(t('Method'), [['geodesic', t('Geodesic (WGS 84)')], ['planar', t('Planar (local frame)')]]);
-      const cap = choice(t('Line ends'), [['round', t('Round')], ['flat', t('Flat')], ['square', t('Square')]]);
+      const cap = choice(t('Line ends'), [['round', t('Round')], ['flat', t('Flat')], ['square', tc('line end', 'Square')]]);
       const q = h('input', { class: 'inp inp-num', type: 'number', value: 8, min: 1, max: 90, 'aria-label': t('Segments per quarter circle') });
       const dis = h('input', { type: 'checkbox', 'aria-label': t('Dissolve the result') });
       if (!(await ask('vec-buffer', t('Buffer'), [field(t('Layer'), L), field(t('Distance (m)'), d), field(t('Method'), m), field(t('Line ends'), cap), field(t('Segments per quarter circle'), q), field(t('Dissolve the result'), dis)]))) return;

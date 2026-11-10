@@ -37788,7 +37788,6 @@
    "src": "Square",
    "refs": [
     "features/extract.js",
-    "features/geoproc-ui.js",
     "shell/commands.js"
    ]
   },
@@ -49804,6 +49803,14 @@
    "refs": [
     "features/aoi.js",
     "features/spectral.js"
+   ]
+  },
+  {
+   "key": "line end\u0004Square",
+   "src": "Square",
+   "ctx": "line end",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
