@@ -1,6 +1,7 @@
 // REQ-GAP-74 flight planning (app/src/analysis/flight-plan.js) against GeographicLib. The
 // end-to-end checks are in tests/e2e/25-aviation.spec.js.
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
 import geodesic from 'geographiclib-geodesic';
 import { legTable, terrainProfile, toKml, toGpx, planFromJson, planFromPoints, planProblems, fitLegs, FT, NM, KT } from '../../app/src/analysis/flight-plan.js';
 import { designator } from '../../app/src/analysis/obstruction.js';
@@ -75,6 +76,14 @@ describe('REQ-GAP-74 legs and profile', () => {
     p.legs[1].speed = 0;
     expect(planProblems(p).map((x) => x.src)).toEqual(['Leg {n} needs a speed above zero']);
     expect(fitLegs(p.waypoints.concat([{ lat: 37, lon: -114 }]), p.legs).length).toBe(3);
+  });
+
+  it('REG-164 the refusals are in the extracted catalogue, so they can be translated', () => {
+    const keys = new Set(JSON.parse(readFileSync('app/src/i18n/catalog/en.json', 'utf8')).messages.map((m) => m.key));
+    const bad = { waypoints: [{ lat: 99, lon: 0 }, { lat: 1, lon: 1 }], legs: [{ speed: 0, alt: NaN }, {}] };
+    const srcs = [...planProblems(bad), ...planProblems({ waypoints: [], legs: [] })].map((x) => x.src);
+    expect(new Set(srcs).size).toBe(5);
+    for (const s of srcs) expect(keys.has(s), s).toBe(true);
   });
 
   it('KML and GPX carry the waypoints, altitudes and speeds and read back', () => {
