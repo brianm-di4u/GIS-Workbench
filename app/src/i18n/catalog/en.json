@@ -96,6 +96,13 @@
    ]
   },
   {
+   "key": "(count only)",
+   "src": "(count only)",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "(default)",
    "src": "(default)",
    "refs": [
@@ -160,6 +167,13 @@
     "features/scene3d.js",
     "features/workspace-tools.js",
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "(none: one feature)",
+   "src": "(none: one feature)",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -920,6 +934,13 @@
    "src": "A pack is verified entry by entry against its pack.json, and its code against this build's manifest, every time it is read.",
    "refs": [
     "features/packs.js"
+   ]
+  },
+  {
+   "key": "A post is on a stream when at least this much area drains through it. Links carry their Strahler order and Shreve magnitude.",
+   "src": "A post is on a stream when at least this much area drains through it. Links carry their Strahler order and Shreve magnitude.",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -2265,6 +2286,13 @@
    "src": "Adds titles, insets, north arrow and scale to a product page.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Adds to each feature the count and the sum, mean, minimum and maximum of another layer’s features it touches, lies in, contains or is nearest to.",
+   "src": "Adds to each feature the count and the sum, mean, minimum and maximum of another layer’s features it touches, lies in, contains or is nearest to.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -4822,7 +4850,22 @@
    "key": "Buffer",
    "src": "Buffer",
    "refs": [
+    "features/geoproc-ui.js",
     "features/terrain-analysis.js"
+   ]
+  },
+  {
+   "key": "Buffer {layer}",
+   "src": "Buffer {layer}",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Buffer…",
+   "src": "Buffer…",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -7249,6 +7292,13 @@
    ]
   },
   {
+   "key": "Click the pour point (a gauge or outlet).",
+   "src": "Click the pour point (a gauge or outlet).",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "Click to centre the view on a point",
    "src": "Click to centre the view on a point",
    "refs": [
@@ -8864,6 +8914,13 @@
    ]
   },
   {
+   "key": "Counts the posts upslope of each post (D8 or D-infinity) as a new layer.",
+   "src": "Counts the posts upslope of each post (D8 or D-infinity) as a new layer.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Course (°T)",
    "src": "Course (°T)",
    "refs": [
@@ -9109,6 +9166,27 @@
    "src": "Cuts a feature in two along a line.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "D-infinity (shared between two posts)",
+   "src": "D-infinity (shared between two posts)",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "D-infinity flow",
+   "src": "D-infinity flow",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "D8 (single direction)",
+   "src": "D8 (single direction)",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -10227,6 +10305,41 @@
    ]
   },
   {
+   "key": "Dissolve",
+   "src": "Dissolve",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Dissolve field",
+   "src": "Dissolve field",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Dissolve the result",
+   "src": "Dissolve the result",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Dissolve {layer}",
+   "src": "Dissolve {layer}",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Dissolve…",
+   "src": "Dissolve…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Distance",
    "src": "Distance",
    "refs": [
@@ -10246,7 +10359,8 @@
    "key": "Distance (m)",
    "src": "Distance (m)",
    "refs": [
-    "features/extract.js"
+    "features/extract.js",
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -10660,6 +10774,20 @@
    ]
   },
   {
+   "key": "Drain flats",
+   "src": "Drain flats",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Drain flats: raise filled posts by the smallest step so every post flows somewhere",
+   "src": "Drain flats: raise filled posts by the smallest step so every post flows somewhere",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "Drain: cut so heights fall along the line",
    "src": "Drain: cut so heights fall along the line",
    "refs": [
@@ -10823,8 +10951,22 @@
    ]
   },
   {
+   "key": "Draws the area within a distance of every feature of a layer, geodesic or planar, with round, flat or square line ends.",
+   "src": "Draws the area within a distance of every feature of a layer, geodesic or planar, with round, flat or square line ends.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Draws the outline of the image on the ground.",
    "src": "Draws the outline of the image on the ground.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Draws the stream network and orders its branches.",
+   "src": "Draws the stream network and orders its branches.",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -10939,8 +11081,22 @@
    "error": true
   },
   {
+   "key": "EGM2008 geoid (1′ grid)",
+   "src": "EGM2008 geoid (1′ grid)",
+   "refs": [
+    "build/packs.mjs"
+   ]
+  },
+  {
    "key": "EGM2008 geoid (5′ grid)",
    "src": "EGM2008 geoid (5′ grid)",
+   "refs": [
+    "build/packs.mjs"
+   ]
+  },
+  {
+   "key": "EGM2008 geoid heights on a 1′ grid (GeographicLib egm2008-1), in 5° tiles read as needed: MSL and EGM2008 heights within 2 mm of the full model, where the 2.5′ grid leaves up to 3 cm (REG-024).",
+   "src": "EGM2008 geoid heights on a 1′ grid (GeographicLib egm2008-1), in 5° tiles read as needed: MSL and EGM2008 heights within 2 mm of the full model, where the 2.5′ grid leaves up to 3 cm (REG-024).",
    "refs": [
     "build/packs.mjs"
    ]
@@ -10960,8 +11116,8 @@
    ]
   },
   {
-   "key": "EGM2008 height (2.5′ grid)",
-   "src": "EGM2008 height (2.5′ grid)",
+   "key": "EGM2008 height (1′ or 2.5′ grid)",
+   "src": "EGM2008 height (1′ or 2.5′ grid)",
    "refs": [
     "features/datum-dialog.js"
    ]
@@ -11858,6 +12014,7 @@
    "key": "Erase",
    "src": "Erase",
    "refs": [
+    "features/geoproc-ui.js",
     "feedback/whiteboard.js"
    ]
   },
@@ -12889,6 +13046,27 @@
    ]
   },
   {
+   "key": "Fill Sinks",
+   "src": "Fill Sinks",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Fill Sinks: {n, plural, one {# post} other {# posts}} raised of {total}",
+   "src": "Fill Sinks: {n, plural, one {# post} other {# posts}} raised of {total}",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Fill Sinks…",
+   "src": "Fill Sinks…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Fill Unclassified",
    "src": "Fill Unclassified",
    "refs": [
@@ -12907,6 +13085,20 @@
    "src": "Fill opacity (100 − transparency)",
    "refs": [
     "features/graphics.js"
+   ]
+  },
+  {
+   "key": "Fills pits in the elevation model so water can run off it.",
+   "src": "Fills pits in the elevation model so water can run off it.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Fills the pits of the elevation model so water can flow off it, as a new terrain layer.",
+   "src": "Fills the pits of the elevation model so water can flow off it, as a new terrain layer.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -13532,6 +13724,13 @@
    ]
   },
   {
+   "key": "Flat",
+   "src": "Flat",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Flat earth",
    "src": "Flat earth",
    "refs": [
@@ -13628,6 +13827,34 @@
    "src": "Floating Cursor",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Flow Accumulation",
+   "src": "Flow Accumulation",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Flow Accumulation: up to {n} upslope posts",
+   "src": "Flow Accumulation: up to {n} upslope posts",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Flow Accumulation…",
+   "src": "Flow Accumulation…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Flow model",
+   "src": "Flow model",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -14835,6 +15062,13 @@
    ]
   },
   {
+   "key": "Geodesic (WGS 84)",
+   "src": "Geodesic (WGS 84)",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Geoid",
    "src": "Geoid",
    "refs": [
@@ -14904,6 +15138,13 @@
    "src": "Geomorphic — slope breaks kept",
    "refs": [
     "features/extract-r2.js"
+   ]
+  },
+  {
+   "key": "Geoprocessing",
+   "src": "Geoprocessing",
+   "refs": [
+    "shell/ribbon-data.js"
    ]
   },
   {
@@ -16468,6 +16709,27 @@
    ]
   },
   {
+   "key": "Hydrology",
+   "src": "Hydrology",
+   "refs": [
+    "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Hydrology on {dem}",
+   "src": "Hydrology on {dem}",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Hydrology on {dem}: {stage}",
+   "src": "Hydrology on {dem}: {stage}",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "Hyperspherical colour sharpening (HCS)",
    "src": "Hyperspherical colour sharpening (HCS)",
    "refs": [
@@ -17416,6 +17678,13 @@
    ]
   },
   {
+   "key": "Input layer",
+   "src": "Input layer",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Insert vertex",
    "src": "Insert vertex",
    "refs": [
@@ -17600,10 +17869,31 @@
    ]
   },
   {
+   "key": "Intersect",
+   "src": "Intersect",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Intersection °",
    "src": "Intersection °",
    "refs": [
     "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "Intersects",
+   "src": "Intersects",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Intersects, unions, erases or takes the symmetric difference of two polygon layers, keeping both layers’ attributes.",
+   "src": "Intersects, unions, erases or takes the symmetric difference of two polygon layers, keeping both layers’ attributes.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -18290,6 +18580,20 @@
    "src": "Jobs: {running} running, {queued} queued",
    "refs": [
     "shell/workspace.js"
+   ]
+  },
+  {
+   "key": "Join layer",
+   "src": "Join layer",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Join {b} to {a}",
+   "src": "Join {b} to {a}",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -19346,10 +19650,10 @@
    "refs": [
     "features/extract-r2.js",
     "features/extract.js",
+    "features/geoproc-ui.js",
     "features/online.js",
     "features/sar21.js",
-    "features/tilesets.js",
-    "svc/services.js"
+    "features/tilesets.js"
    ]
   },
   {
@@ -19851,6 +20155,13 @@
    "src": "Line colour",
    "refs": [
     "features/graphics.js"
+   ]
+  },
+  {
+   "key": "Line ends",
+   "src": "Line ends",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -21052,8 +21363,8 @@
    ]
   },
   {
-   "key": "MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 (5′ grid) when its data pack is loaded.",
-   "src": "MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 (5′ grid) when its data pack is loaded.",
+   "key": "MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 from the data pack opened last: the 5′ grid, the 2.5′ grid or the 1′ grid (read a tile at a time, and preferred to the 2.5′ grid when both are open), all interpolated cubic.",
+   "src": "MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 from the data pack opened last: the 5′ grid, the 2.5′ grid or the 1′ grid (read a tile at a time, and preferred to the 2.5′ grid when both are open), all interpolated cubic.",
    "refs": [
     "features/dialogs.js"
    ]
@@ -21920,6 +22231,13 @@
    ]
   },
   {
+   "key": "Maximum distance (m)",
+   "src": "Maximum distance (m)",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Maximum iterations",
    "src": "Maximum iterations",
    "refs": [
@@ -22338,6 +22656,13 @@
    ]
   },
   {
+   "key": "Merges the polygons of a layer that share a value, or all of them, into one feature each.",
+   "src": "Merges the polygons of a layer that share a value, or all of them, into one feature each.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Mesh error (m)",
    "src": "Mesh error (m)",
    "refs": [
@@ -22407,11 +22732,11 @@
    "src": "Method",
    "refs": [
     "features/fusion.js",
+    "features/geoproc-ui.js",
     "features/ortho.js",
     "features/panels.js",
     "features/pansharpen.js",
-    "mobile/shell.js",
-    "tools/menlog.js"
+    "mobile/shell.js"
    ]
   },
   {
@@ -22521,6 +22846,13 @@
    "src": "Minimum confidence ({min})",
    "refs": [
     "features/detections.js"
+   ]
+  },
+  {
+   "key": "Minimum contributing area (km²)",
+   "src": "Minimum contributing area (km²)",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -23468,6 +23800,7 @@
    "key": "Nearest",
    "src": "Nearest",
    "refs": [
+    "features/geoproc-ui.js",
     "features/navigation.js"
    ]
   },
@@ -24107,8 +24440,8 @@
    ]
   },
   {
-   "key": "No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania or geoid-egm2008-25 with File ▸ Open ▸ Open Data Pack.",
-   "src": "No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania or geoid-egm2008-25 with File ▸ Open ▸ Open Data Pack.",
+   "key": "No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania, geoid-egm2008-25 or geoid-egm2008-1 with File ▸ Open ▸ Open Data Pack.",
+   "src": "No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania, geoid-egm2008-25 or geoid-egm2008-1 with File ▸ Open ▸ Open Data Pack.",
    "refs": [
     "features/datum-dialog.js"
    ]
@@ -26385,7 +26718,8 @@
    "src": "Operation",
    "refs": [
     "features/enhance-tools.js",
-    "features/enhance.js"
+    "features/enhance.js",
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -26429,6 +26763,13 @@
    "src": "Order images",
    "refs": [
     "features/views.js"
+   ]
+  },
+  {
+   "key": "Order {n}",
+   "src": "Order {n}",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -26725,6 +27066,20 @@
    ]
   },
   {
+   "key": "Outlines the area draining to a point you pick, such as a stream gauge.",
+   "src": "Outlines the area draining to a point you pick, such as a stream gauge.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Outlines the land that drains to a point you pick.",
+   "src": "Outlines the land that drains to a point you pick.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "Outlook draft",
    "src": "Outlook draft",
    "refs": [
@@ -26818,10 +27173,38 @@
    ]
   },
   {
+   "key": "Overlay",
+   "src": "Overlay",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Overlay layer",
+   "src": "Overlay layer",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Overlay opacity",
    "src": "Overlay opacity",
    "refs": [
     "features/terrain-analysis.js"
+   ]
+  },
+  {
+   "key": "Overlay {a} and {b}",
+   "src": "Overlay {a} and {b}",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Overlay…",
+   "src": "Overlay…",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -28047,6 +28430,13 @@
    ]
   },
   {
+   "key": "Pick Pour Point",
+   "src": "Pick Pour Point",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "Pick a starting workspace. You can switch any time from the button in the top bar, or keep the 1.x Classic layout.",
    "src": "Pick a starting workspace. You can switch any time from the button in the top bar, or keep the 1.x Classic layout.",
    "refs": [
@@ -28228,6 +28618,13 @@
    "src": "Plain-text body for any mail client",
    "refs": [
     "feedback/review.js"
+   ]
+  },
+  {
+   "key": "Planar (local frame)",
+   "src": "Planar (local frame)",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -30875,6 +31272,13 @@
    ]
   },
   {
+   "key": "Reading the project…",
+   "src": "Reading the project…",
+   "refs": [
+    "features/files.js"
+   ]
+  },
+  {
    "key": "Reading {file} from the sidecar…",
    "src": "Reading {file} from the sidecar…",
    "refs": [
@@ -31538,6 +31942,13 @@
    "src": "Relation",
    "refs": [
     "features/extract.js"
+   ]
+  },
+  {
+   "key": "Relationship",
+   "src": "Relationship",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -32467,6 +32878,13 @@
    "src": "Rotation, wheel and keyboard gains",
    "refs": [
     "features/devices.js"
+   ]
+  },
+  {
+   "key": "Round",
+   "src": "Round",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -34517,6 +34935,13 @@
    ]
   },
   {
+   "key": "Segments per quarter circle",
+   "src": "Segments per quarter circle",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Segments — {file}",
    "src": "Segments — {file}",
    "refs": [
@@ -35806,6 +36231,13 @@
    ]
   },
   {
+   "key": "Shows how much ground drains through each point.",
+   "src": "Shows how much ground drains through each point.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "Shows image footprints on a world map and zooms to them.",
    "src": "Shows image footprints on a world map and zooms to them.",
    "refs": [
@@ -36819,6 +37251,13 @@
    ]
   },
   {
+   "key": "Snap distance (m)",
+   "src": "Snap distance (m)",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "Snap to Ground",
    "src": "Snap to Ground",
    "refs": [
@@ -37111,6 +37550,20 @@
    ]
   },
   {
+   "key": "Spatial Join",
+   "src": "Spatial Join",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Spatial Join…",
+   "src": "Spatial Join…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Special",
    "src": "Special",
    "refs": [
@@ -37335,6 +37788,7 @@
    "src": "Square",
    "refs": [
     "features/extract.js",
+    "features/geoproc-ui.js",
     "shell/commands.js"
    ]
   },
@@ -37792,6 +38246,27 @@
    ]
   },
   {
+   "key": "Stream Network",
+   "src": "Stream Network",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Stream Network: {n, plural, one {# link} other {# links}}, up to order {order}",
+   "src": "Stream Network: {n, plural, one {# link} other {# links}}, up to order {order}",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Stream Network…",
+   "src": "Stream Network…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Stream Point Cloud",
    "src": "Stream Point Cloud",
    "refs": [
@@ -37834,6 +38309,13 @@
    ]
   },
   {
+   "key": "Stream network",
+   "src": "Stream network",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "Stream point cloud",
    "src": "Stream point cloud",
    "refs": [
@@ -37845,6 +38327,13 @@
    "src": "Streaming {file} by range ({n} points)",
    "refs": [
     "features/pointcloud.js"
+   ]
+  },
+  {
+   "key": "Streams ≥ {area} ({dem})",
+   "src": "Streams ≥ {area} ({dem})",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -38015,6 +38504,13 @@
    "src": "Sum of weights: {sum} (1 keeps the mean brightness)",
    "refs": [
     "features/enhance-tools.js"
+   ]
+  },
+  {
+   "key": "Summarise field",
+   "src": "Summarise field",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -38297,6 +38793,13 @@
    "src": "Switches to the light print theme.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Symmetric difference",
+   "src": "Symmetric difference",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -38873,6 +39376,13 @@
    ]
   },
   {
+   "key": "Target contains join feature",
+   "src": "Target contains join feature",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Target height",
    "src": "Target height",
    "refs": [
@@ -38894,10 +39404,24 @@
    ]
   },
   {
+   "key": "Target layer",
+   "src": "Target layer",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "Target system",
    "src": "Target system",
    "refs": [
     "features/datum-dialog.js"
+   ]
+  },
+  {
+   "key": "Target within join feature",
+   "src": "Target within join feature",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -39784,6 +40308,13 @@
    ]
   },
   {
+   "key": "The pour point moves to the post with the most flow within this distance, as a gauge on the channel should.",
+   "src": "The pour point moves to the post with the most flow within this distance, as a gauge on the channel should.",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "The preferred route. From a file opened from disk the device-code sign-in is used; from the hosted copy, a sign-in window (PKCE).",
    "src": "The preferred route. From a file opened from disk the device-code sign-in is used; from the hosted copy, a sign-in window (PKCE).",
    "refs": [
@@ -39900,6 +40431,13 @@
    "src": "The sign-in window was blocked. Allow pop-ups for this page, or open the sign-in page yourself and paste the address you are sent back to.",
    "refs": [
     "features/signin-ui.js"
+   ]
+  },
+  {
+   "key": "The sinks are filled first. The result counts the posts upslope of each post.",
+   "src": "The sinks are filled first. The result counts the posts upslope of each post.",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -40674,6 +41212,13 @@
    ]
   },
   {
+   "key": "Traces the streams draining at least an area you set, with their Strahler order and Shreve magnitude.",
+   "src": "Traces the streams draining at least an area you set, with their Strahler order and Shreve magnitude.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Training",
    "src": "Training",
    "refs": [
@@ -41264,6 +41809,13 @@
    "src": "Unedited",
    "refs": [
     "features/dem-tools.js"
+   ]
+  },
+  {
+   "key": "Union",
+   "src": "Union",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -42448,6 +43000,34 @@
    ]
   },
   {
+   "key": "Watershed",
+   "src": "Watershed",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Watershed {lat}, {lon} ({dem})",
+   "src": "Watershed {lat}, {lon} ({dem})",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Watershed: {area} above {lat}, {lon} ({length} snap)",
+   "src": "Watershed: {area} above {lat}, {lon} ({length} snap)",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Watershed…",
+   "src": "Watershed…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Wavelength (µm)",
    "src": "Wavelength (µm)",
    "refs": [
@@ -43178,6 +43758,13 @@
    "src": "Writing product",
    "refs": [
     "features/products.js"
+   ]
+  },
+  {
+   "key": "Writing the project…",
+   "src": "Writing the project…",
+   "refs": [
+    "features/files.js"
    ]
   },
   {
@@ -44709,6 +45296,13 @@
    ]
   },
   {
+   "key": "aggregate",
+   "src": "aggregate",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "aircraft",
    "src": "aircraft",
    "refs": [
@@ -45630,6 +46224,13 @@
    ]
   },
   {
+   "key": "buffer",
+   "src": "buffer",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "buffer view {i} runs past its buffer",
    "src": "buffer view {i} runs past its buffer",
    "refs": [
@@ -45872,6 +46473,13 @@
    ]
   },
   {
+   "key": "catchment",
+   "src": "catchment",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "centre",
    "src": "centre",
    "refs": [
@@ -45904,6 +46512,13 @@
    "src": "channel centre {fc}, bandwidth {bw}",
    "refs": [
     "features/sar21.js"
+   ]
+  },
+  {
+   "key": "channels",
+   "src": "channels",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -45966,6 +46581,7 @@
    "key": "choose a vector layer",
    "src": "choose a vector layer",
    "refs": [
+    "features/geoproc-ui.js",
     "features/portal-ui.js"
    ]
   },
@@ -46071,6 +46687,13 @@
   {
    "key": "click to polygon segment anything sam",
    "src": "click to polygon segment anything sam",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "clip",
+   "src": "clip",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -46388,6 +47011,13 @@
    ]
   },
   {
+   "key": "count",
+   "src": "count",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "coverage tile",
    "src": "coverage tile",
    "refs": [
@@ -46667,6 +47297,13 @@
    "error": true
   },
   {
+   "key": "depressions",
+   "src": "depressions",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "detect objects open vocabulary owl count",
    "src": "detect objects open vocabulary owl count",
    "refs": [
@@ -46692,6 +47329,13 @@
    "src": "detections",
    "refs": [
     "core/profile.js"
+   ]
+  },
+  {
+   "key": "difference",
+   "src": "difference",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -46737,6 +47381,13 @@
    "src": "distance",
    "refs": [
     "features/spectral-analysis.js"
+   ]
+  },
+  {
+   "key": "distance zone",
+   "src": "distance zone",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -46796,6 +47447,27 @@
   {
    "key": "drain",
    "src": "drain",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "drainage",
+   "src": "drainage",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "drainage basin",
+   "src": "drainage basin",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "drainage network",
+   "src": "drainage network",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -47045,6 +47717,14 @@
    "src": "equiangular lat/lon grid, {dx}″ × {dy}″",
    "refs": [
     "features/sar21.js"
+   ]
+  },
+  {
+   "key": "erase",
+   "src": "erase",
+   "refs": [
+    "features/geoproc-ui.js",
+    "shell/command-meta.js"
    ]
   },
   {
@@ -47347,10 +48027,24 @@
    ]
   },
   {
+   "key": "fill",
+   "src": "fill",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "fill on a line symbol",
    "src": "fill on a line symbol",
    "refs": [
     "formats/lyrx.js"
+   ]
+  },
+  {
+   "key": "filling sinks",
+   "src": "filling sinks",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -47365,6 +48059,13 @@
    "src": "finished products",
    "refs": [
     "core/profile.js"
+   ]
+  },
+  {
+   "key": "finishing",
+   "src": "finishing",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -47422,6 +48123,28 @@
    "src": "flight plan",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "flow accumulation",
+   "src": "flow accumulation",
+   "refs": [
+    "features/hydrology-tools.js",
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "flow direction",
+   "src": "flow direction",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "flow directions",
+   "src": "flow directions",
+   "refs": [
+    "features/hydrology-tools.js"
    ]
   },
   {
@@ -47602,10 +48325,24 @@
    ]
   },
   {
+   "key": "gauge",
+   "src": "gauge",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "gcp",
    "src": "gcp",
    "refs": [
     "features/triangulation.js"
+   ]
+  },
+  {
+   "key": "geodesic",
+   "src": "geodesic",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -47614,6 +48351,14 @@
    "refs": [
     "tools/menlog.js"
    ]
+  },
+  {
+   "key": "geodesic buffers need the geodesic functions",
+   "src": "geodesic buffers need the geodesic functions",
+   "refs": [
+    "analysis/geoproc.js"
+   ],
+   "error": true
   },
   {
    "key": "geodesic-equivalent local ENU",
@@ -47682,6 +48427,38 @@
    "refs": [
     "features/extract-r2.js"
    ]
+  },
+  {
+   "key": "geoprocessing: malformed geometry list",
+   "src": "geoprocessing: malformed geometry list",
+   "refs": [
+    "crates/bundles/geoproc/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "geoprocessing: one group number per geometry, from 0",
+   "src": "geoprocessing: one group number per geometry, from 0",
+   "refs": [
+    "crates/bundles/geoproc/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "geoprocessing: the buffer distance must be finite and within 20,000 km",
+   "src": "geoprocessing: the buffer distance must be finite and within 20,000 km",
+   "refs": [
+    "crates/bundles/geoproc/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "geoprocessing: unknown line end",
+   "src": "geoprocessing: unknown line end",
+   "refs": [
+    "crates/bundles/geoproc/src/lib.rs"
+   ],
+   "error": true
   },
   {
    "key": "give a box or a list of tiles",
@@ -48123,6 +48900,91 @@
    ]
   },
   {
+   "key": "hydrology",
+   "src": "hydrology",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "hydrology needs an elevation model loaded as terrain",
+   "src": "hydrology needs an elevation model loaded as terrain",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "hydrology: a pour point is outside the grid",
+   "src": "hydrology: a pour point is outside the grid",
+   "refs": [
+    "crates/bundles/hydro/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "hydrology: out of memory allocating {n} bytes",
+   "src": "hydrology: out of memory allocating {n} bytes",
+   "refs": [
+    "wasm/hydro.js"
+   ]
+  },
+  {
+   "key": "hydrology: the grid is larger than 48 million posts",
+   "src": "hydrology: the grid is larger than 48 million posts",
+   "refs": [
+    "crates/bundles/hydro/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "hydrology: the grid needs at least 3 × 3 posts",
+   "src": "hydrology: the grid needs at least 3 × 3 posts",
+   "refs": [
+    "crates/bundles/hydro/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "hydrology: the grid size overflows",
+   "src": "hydrology: the grid size overflows",
+   "refs": [
+    "crates/bundles/hydro/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "hydrology: the heights do not match the grid size",
+   "src": "hydrology: the heights do not match the grid size",
+   "refs": [
+    "wasm/hydro.js"
+   ],
+   "error": true
+  },
+  {
+   "key": "hydrology: the post spacing must be positive",
+   "src": "hydrology: the post spacing must be positive",
+   "refs": [
+    "crates/bundles/hydro/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "hydrology: the pour point {lat}, {lon} is outside {dem}",
+   "src": "hydrology: the pour point {lat}, {lon} is outside {dem}",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "hydrology: {n} posts is more than the 48 million posts it takes; crop or resample the elevation model first",
+   "src": "hydrology: {n} posts is more than the 48 million posts it takes; crop or resample the elevation model first",
+   "refs": [
+    "features/hydrology-tools.js",
+    "wasm/hydro.js",
+    "workers/kinds/analysis.worker.js"
+   ]
+  },
+  {
    "key": "hyperspectral",
    "src": "hyperspectral",
    "refs": [
@@ -48379,6 +49241,14 @@
     "formats/gltf-compress.js"
    ],
    "error": true
+  },
+  {
+   "key": "intersect",
+   "src": "intersect",
+   "refs": [
+    "features/geoproc-ui.js",
+    "shell/command-meta.js"
+   ]
   },
   {
    "key": "intersection angle",
@@ -49313,6 +50183,13 @@
    ]
   },
   {
+   "key": "merge",
+   "src": "merge",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "merge features of one geometry type",
    "src": "merge features of one geometry type",
    "refs": [
@@ -49548,6 +50425,13 @@
    "refs": [
     "features/ai-local.js",
     "features/ai-local24.js"
+   ]
+  },
+  {
+   "key": "nearest",
+   "src": "nearest",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -50093,6 +50977,13 @@
    "src": "no lens calibration: distortion not modelled",
    "refs": [
     "sensor/exif.js"
+   ]
+  },
+  {
+   "key": "no limit",
+   "src": "no limit",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -51402,6 +52293,13 @@
    "error": true
   },
   {
+   "key": "offset",
+   "src": "offset",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "offset corners (Items 26–33)",
    "src": "offset corners (Items 26–33)",
    "refs": [
@@ -51814,6 +52712,13 @@
    ]
   },
   {
+   "key": "overlay needs polygons in both layers",
+   "src": "overlay needs polygons in both layers",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "overshoot",
    "src": "overshoot",
    "refs": [
@@ -52087,6 +52992,13 @@
    ]
   },
   {
+   "key": "pits",
+   "src": "pits",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "pixel classification",
    "src": "pixel classification",
    "refs": [
@@ -52246,6 +53158,13 @@
    ]
   },
   {
+   "key": "point in polygon",
+   "src": "point in polygon",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "point symbol without a vector, simple or character marker",
    "src": "point symbol without a vector, simple or character marker",
    "refs": [
@@ -52349,6 +53268,13 @@
    "src": "posts",
    "refs": [
     "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "pour point",
+   "src": "pour point",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -53288,6 +54214,13 @@
    ]
   },
   {
+   "key": "rivers",
+   "src": "rivers",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "rotation",
    "src": "rotation",
    "refs": [
@@ -53958,6 +54891,13 @@
    "error": true
   },
   {
+   "key": "sinks",
+   "src": "sinks",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "sketchup collada 3d model mesh",
    "src": "sketchup collada 3d model mesh",
    "refs": [
@@ -54052,6 +54992,13 @@
     "features/triangulation.js"
    ],
    "error": true
+  },
+  {
+   "key": "spatial join",
+   "src": "spatial join",
+   "refs": [
+    "shell/command-meta.js"
+   ]
   },
   {
    "key": "speckle export needs a complex SICD (the filter runs on intensity from the complex data)",
@@ -54367,6 +55314,13 @@
    ]
   },
   {
+   "key": "stream lines",
+   "src": "stream lines",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "stroke effect {type}",
    "src": "stroke effect {type}",
    "refs": [
@@ -54406,6 +55360,13 @@
    "src": "suitable",
    "refs": [
     "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "summarise",
+   "src": "summarise",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -54507,6 +55468,14 @@
    "key": "symbology",
    "src": "symbology",
    "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "symmetric difference",
+   "src": "symmetric difference",
+   "refs": [
+    "features/geoproc-ui.js",
     "shell/command-meta.js"
    ]
   },
@@ -55541,6 +56510,13 @@
    "src": "the browser refused a stream segment",
    "refs": [
     "features/hls-player.js"
+   ]
+  },
+  {
+   "key": "the buffer distance must be a number other than 0",
+   "src": "the buffer distance must be a number other than 0",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -57847,6 +58823,46 @@
    ]
   },
   {
+   "key": "tiled geoid: corrupt tile",
+   "src": "tiled geoid: corrupt tile",
+   "refs": [
+    "crates/gw-geodesy/src/geoid_tile.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "tiled geoid: no such tile",
+   "src": "tiled geoid: no such tile",
+   "refs": [
+    "crates/gw-geodesy/src/geoid_tile.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "tiled geoid: the index does not match the tiles",
+   "src": "tiled geoid: the index does not match the tiles",
+   "refs": [
+    "wasm/geod.js"
+   ],
+   "error": true
+  },
+  {
+   "key": "tiled geoid: the tiles do not divide the grid",
+   "src": "tiled geoid: the tiles do not divide the grid",
+   "refs": [
+    "crates/gw-geodesy/src/geoid_tile.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "tiled geoid: tile size mismatch",
+   "src": "tiled geoid: tile size mismatch",
+   "refs": [
+    "crates/gw-geodesy/src/geoid_tile.rs"
+   ],
+   "error": true
+  },
+  {
    "key": "tiler input claims more items than it holds",
    "src": "tiler input claims more items than it holds",
    "refs": [
@@ -58401,6 +59417,21 @@
    ]
   },
   {
+   "key": "union",
+   "src": "union",
+   "refs": [
+    "features/geoproc-ui.js",
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "union by attribute",
+   "src": "union by attribute",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "unique values",
    "src": "unique values",
    "refs": [
@@ -58527,6 +59558,14 @@
    "refs": [
     "features/extract.js"
    ]
+  },
+  {
+   "key": "unknown geoid id",
+   "src": "unknown geoid id",
+   "refs": [
+    "crates/bundles/geod/src/lib.rs"
+   ],
+   "error": true
   },
   {
    "key": "unknown geometry type in tiler input",
@@ -59087,6 +60126,13 @@
    ]
   },
   {
+   "key": "watershed",
+   "src": "watershed",
+   "refs": [
+    "features/hydrology-tools.js"
+   ]
+  },
+  {
    "key": "waypoints",
    "src": "waypoints",
    "refs": [
@@ -59413,10 +60459,24 @@
    ]
   },
   {
+   "key": "{a} joined with {b}",
+   "src": "{a} joined with {b}",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "{a} vs {b}",
    "src": "{a} vs {b}",
    "refs": [
     "features/spectral.js"
+   ]
+  },
+  {
+   "key": "{a} {op} {b}",
+   "src": "{a} {op} {b}",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -61616,6 +62676,13 @@
    ]
   },
   {
+   "key": "{layer} buffer {distance} m",
+   "src": "{layer} buffer {distance} m",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "{layer} cannot be opened as an image layer",
    "src": "{layer} cannot be opened as an image layer",
    "refs": [
@@ -61637,6 +62704,20 @@
    ]
   },
   {
+   "key": "{layer} dissolved",
+   "src": "{layer} dissolved",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "{layer} dissolved by {field}",
+   "src": "{layer} dissolved by {field}",
+   "refs": [
+    "features/geoproc-ui.js"
+   ]
+  },
+  {
    "key": "{layer} does not cover the area",
    "src": "{layer} does not cover the area",
    "refs": [
@@ -61647,6 +62728,7 @@
    "key": "{layer} has no features",
    "src": "{layer} has no features",
    "refs": [
+    "features/geoproc-ui.js",
     "features/tilesets.js"
    ]
   },
@@ -61895,6 +62977,13 @@
    "refs": [
     "features/dem.js",
     "svc/services.js"
+   ]
+  },
+  {
+   "key": "{layer}: {n, plural, one {# feature} other {# features}}",
+   "src": "{layer}: {n, plural, one {# feature} other {# features}}",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -62595,6 +63684,13 @@
    "src": "{n, plural, one {# outline} other {# outlines}}",
    "refs": [
     "features/recipes.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# pair of polygons} other {# pairs of polygons}} could not be overlaid and were left out",
+   "src": "{n, plural, one {# pair of polygons} other {# pairs of polygons}} could not be overlaid and were left out",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
