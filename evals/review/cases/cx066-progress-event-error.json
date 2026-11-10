@@ -1,0 +1,30 @@
+{
+  "id": "cx066-progress-event-error",
+  "source": "CX-066",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Read part of a file in a worker, for decoders that need a byte range.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/errors.js": "// The message shown when a read fails.\nexport const messageOf = (error) => 'Could not read the file: ' + String(error?.message ?? error);\n"
+  },
+  "head": {
+    "src/read-slice.js": "// Read a byte range of a file in a worker.\nexport function readSlice(file, start, end) {\n  return new Promise((resolve, reject) => {\n    const reader = new FileReader();\n    reader.onload = () => resolve(reader.result);\n    reader.onerror = reject;\n    reader.readAsArrayBuffer(file.slice(start, end));\n  });\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/read-slice.js",
+      "from": 6,
+      "to": 6,
+      "words": [
+        "progressevent",
+        "event object",
+        "the event",
+        "reader.error",
+        "domexception",
+        "[object",
+        "no message"
+      ]
+    }
+  ]
+}

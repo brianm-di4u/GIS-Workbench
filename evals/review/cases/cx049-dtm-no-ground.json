@@ -1,0 +1,31 @@
+{
+  "id": "cx049-dtm-no-ground",
+  "source": "CX-049",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Make a DTM from a point cloud's ground class. It runs on every cloud the app opens.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/grid.js": "// The lowest point in each post; posts with no point are NaN.\nexport function gridMin(points, bounds, spacing) {\n  const width = Math.ceil((bounds.maxX - bounds.minX) / spacing) + 1;\n  const height = Math.ceil((bounds.maxY - bounds.minY) / spacing) + 1;\n  const values = new Float32Array(width * height).fill(NaN);\n  for (const p of points) {\n    const i = Math.round((bounds.maxY - p.y) / spacing) * width + Math.round((p.x - bounds.minX) / spacing);\n    if (!(values[i] <= p.z)) values[i] = p.z;\n  }\n  return { width, height, values };\n}\n\n// Fills NaN posts with the mean of the valid ones. A grid with no valid post is returned as it is.\nexport function fillHoles(grid) {\n  let sum = 0;\n  let n = 0;\n  for (const v of grid.values) if (Number.isFinite(v)) (sum += v), (n += 1);\n  if (n === 0) return grid;\n  return { ...grid, values: grid.values.map((v) => (Number.isFinite(v) ? v : sum / n)) };\n}\n"
+  },
+  "head": {
+    "src/dtm.js": "import { gridMin, fillHoles } from './grid.js';\n\n// DTM from a point cloud: the lowest ground-classified point in each post, holes filled.\nexport function dtmFromPoints(cloud, spacing) {\n  const ground = cloud.points.filter((p) => p.classification === 2);\n  const grid = gridMin(ground, cloud.bounds, spacing);\n  return fillHoles(grid);\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/dtm.js",
+      "from": 5,
+      "to": 6,
+      "words": [
+        "no ground",
+        "ground points",
+        "unclassified",
+        "all nan",
+        "all void",
+        "void",
+        "ground filter",
+        "empty result"
+      ]
+    }
+  ]
+}

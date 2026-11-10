@@ -1,0 +1,15 @@
+{
+  "id": "cx065-kml-no-position-fix",
+  "source": "CX-065",
+  "split": "train",
+  "kind": "clean",
+  "intent": "In KML, write a feature with no position as a Placemark with its data and no geometry, instead of NaN coordinates. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/kml-writer.js": "function esc(s) {\n  return s.replace(/[<>&\"]/g, (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '\"': '&quot;' })[ch]);\n}\n\n// KML writer: one Placemark per feature.\nexport function placemark(feature) {\n  const data = Object.entries(feature.properties)\n    .map(([k, v]) => '<Data name=\"' + esc(k) + '\"><value>' + esc(String(v)) + '</value></Data>')\n    .join('');\n  const [lon, lat] = feature.geometry?.coordinates ?? [NaN, NaN];\n  return '<Placemark><ExtendedData>' + data + '</ExtendedData><Point><coordinates>' + lon + ',' + lat + '</coordinates></Point></Placemark>';\n}\n"
+  },
+  "head": {
+    "src/kml-writer.js": "function esc(s) {\n  return s.replace(/[<>&\"]/g, (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '\"': '&quot;' })[ch]);\n}\n\n// KML writer: one Placemark per feature. A feature with no position keeps its data and has no geometry.\nexport function placemark(feature) {\n  const data = Object.entries(feature.properties)\n    .map(([k, v]) => '<Data name=\"' + esc(k) + '\"><value>' + esc(String(v)) + '</value></Data>')\n    .join('');\n  const point = feature.geometry?.coordinates;\n  const geometry = point ? '<Point><coordinates>' + point[0] + ',' + point[1] + '</coordinates></Point>' : '';\n  return '<Placemark><ExtendedData>' + data + '</ExtendedData>' + geometry + '</Placemark>';\n}\n",
+    "tests/kml-writer.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { placemark } from '../src/kml-writer.js';\n\ntest('a point is written with its coordinates', () => {\n  const kml = placemark({ properties: { name: 'A' }, geometry: { coordinates: [-105.2, 39.7] } });\n  assert.match(kml, /<Point><coordinates>-105.2,39.7<\\/coordinates><\\/Point>/);\n});\n\ntest('a row with no position keeps its data and writes no NaN', () => {\n  const kml = placemark({ properties: { name: 'B' }, geometry: null });\n  assert.match(kml, /<value>B<\\/value>/);\n  assert.doesNotMatch(kml, /NaN|<Point>/);\n});\n"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "cx083-empty-kml-ring-fix",
+  "source": "CX-083",
+  "split": "train",
+  "kind": "clean",
+  "intent": "Never keep empty rings from KML: leave out empty inner boundaries, and give a Polygon with an empty outer boundary no geometry. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/validate.js": "// Validate Features: rings that are not closed.\nexport function openRings(features) {\n  const problems = [];\n  for (const feature of features) {\n    for (const [index, ring] of (feature.geometry?.rings ?? []).entries()) {\n      const [x0, y0] = ring[0];\n      const [xn, yn] = ring[ring.length - 1];\n      if (x0 !== xn || y0 !== yn) problems.push({ id: feature.id, ring: index });\n    }\n  }\n  return problems;\n}\n",
+    "src/kml-polygon.js": "function ringOf(text) {\n  const t = (text ?? '').trim();\n  return t ? t.split(/\\s+/).map((pair) => pair.split(',').map(Number)) : [];\n}\n\n// KML Polygon to rings: the outer boundary, then each inner boundary.\nexport function polygonRings(polygon) {\n  const rings = [ringOf(polygon.outer)];\n  for (const text of polygon.inner) rings.push(ringOf(text));\n  return rings;\n}\n",
+    "src/kml-reader.js": "import { polygonRings } from './kml-polygon.js';\n\n// A Placemark as a feature.\nexport function featureOf(placemark) {\n  const geometry = placemark.polygon ? { type: 'Polygon', rings: polygonRings(placemark.polygon) } : null;\n  return { id: placemark.id, properties: placemark.data, geometry };\n}\n"
+  },
+  "head": {
+    "src/kml-polygon.js": "function ringOf(text) {\n  const t = (text ?? '').trim();\n  return t ? t.split(/\\s+/).map((pair) => pair.split(',').map(Number)) : [];\n}\n\n// KML Polygon to rings: the outer boundary, then each inner boundary. Empty inner boundaries are\n// left out, and a Polygon whose outer boundary is empty has no rings (null).\nexport function polygonRings(polygon) {\n  const outer = ringOf(polygon.outer);\n  if (outer.length === 0) return null;\n  return [outer, ...polygon.inner.map(ringOf).filter((ring) => ring.length > 0)];\n}\n",
+    "src/kml-reader.js": "import { polygonRings } from './kml-polygon.js';\n\n// A Placemark as a feature. A Polygon with no outer boundary gives a feature with no geometry.\nexport function featureOf(placemark) {\n  const rings = placemark.polygon ? polygonRings(placemark.polygon) : null;\n  const geometry = rings ? { type: 'Polygon', rings } : null;\n  return { id: placemark.id, properties: placemark.data, geometry };\n}\n",
+    "tests/kml-polygon.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { featureOf } from '../src/kml-reader.js';\nimport { openRings } from '../src/validate.js';\n\nconst square = '0,0 1,0 1,1 0,1 0,0';\n\ntest('an empty inner boundary is left out', () => {\n  const feature = featureOf({ id: 1, data: {}, polygon: { outer: square, inner: ['  ', square] } });\n  assert.equal(feature.geometry.rings.length, 2);\n  assert.deepEqual(openRings([feature]), []);\n});\n\ntest('a Polygon with an empty outer boundary has no geometry', () => {\n  const feature = featureOf({ id: 2, data: { name: 'x' }, polygon: { outer: '', inner: [square] } });\n  assert.equal(feature.geometry, null);\n  assert.deepEqual(openRings([feature]), []);\n});\n"
+  }
+}

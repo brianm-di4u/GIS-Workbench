@@ -1,0 +1,32 @@
+{
+  "id": "cx017-gpkg-tile-padding",
+  "source": "CX-017",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Open a GeoPackage tile table as one image, from its tile matrix set, tile matrix and gpkg_contents rows.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/gpkg-tiles.js": "// Open a GeoPackage tile table as one image.\nexport function mosaicOf(matrixSet, matrix, contents) {\n  const width = matrix.matrixWidth * matrix.tileWidth;\n  const height = matrix.matrixHeight * matrix.tileHeight;\n  const bounds = [matrixSet.minX, matrixSet.minY, matrixSet.maxX, matrixSet.maxY];\n  const pixelX = (bounds[2] - bounds[0]) / width;\n  const pixelY = (bounds[3] - bounds[1]) / height;\n  return { width, height, bounds, pixelX, pixelY, srs: contents.srsId };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/gpkg-tiles.js",
+      "from": 3,
+      "to": 5,
+      "words": [
+        "padding",
+        "contents extent",
+        "data extent",
+        "gpkg_contents",
+        "clip",
+        "partial tile",
+        "empty tile",
+        "beyond the data",
+        "min_x",
+        "minx"
+      ]
+    }
+  ]
+}
