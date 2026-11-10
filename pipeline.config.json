@@ -7,6 +7,24 @@
   "trustedBots": [
     "dependabot[bot]"
   ],
+  "delegates": [
+    {
+      "login": "gwb-gardener",
+      "approve": true,
+      "decide": [
+        "design",
+        "security",
+        "determination"
+      ],
+      "rearm": true,
+      "direct": true
+    }
+  ],
+  "models": {
+    "worker": "sonnet",
+    "workerComplex": "opus",
+    "workerSimple": "haiku"
+  },
   "verify": {
     "fast": [
       "node build/check-policy.mjs",
@@ -84,6 +102,13 @@
     ],
     "decisionPaths": [
       "docs/decisions/**"
+    ],
+    "adminOnlyPaths": [
+      "docs/POLICY.md",
+      "docs/PRD.md",
+      "LICENSE*",
+      "THIRD_PARTY*",
+      "TRADEMARKS.md"
     ],
     "sizeWarnLines": 800
   },
