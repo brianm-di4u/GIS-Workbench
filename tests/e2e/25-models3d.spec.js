@@ -232,10 +232,13 @@ test('REQ-GAP-35 buildings and terrain as SLPK (i3s_converter validates; the app
     return got;
   };
   const [tslpk] = await dl('hub.slpk', 1);
-  const [tflt, tjpg] = await dl('hub.flt', 2);
+  // The two downloads can arrive in either order (#141).
+  const terrainFlt = await dl('hub.flt', 2);
+  const tflt = terrainFlt.find((f) => f.name.endsWith('.flt'));
+  const tjpg = terrainFlt.find((f) => f.name.endsWith('.jpg'));
   expect(tslpk.name).toMatch(/_terrain\.slpk$/);
-  expect(tflt.name).toMatch(/_terrain\.flt$/);
-  expect(tjpg.name).toMatch(/_terrain\.jpg$/);
+  expect(tflt?.name).toMatch(/_terrain\.flt$/);
+  expect(tjpg?.name).toMatch(/_terrain\.jpg$/);
   const pts = join(TMP, tslpk.name);
   writeFileSync(pts, tslpk.bytes);
   writeFileSync(join(TMP, tflt.name), tflt.bytes);
