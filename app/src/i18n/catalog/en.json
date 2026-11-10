@@ -54754,6 +54754,14 @@
    "error": true
   },
   {
+   "key": "sargeo: the look side must be 1, -1 or 0",
+   "src": "sargeo: the look side must be 1, -1 or 0",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
    "key": "sargeo: the mask step must be positive",
    "src": "sargeo: the mask step must be positive",
    "refs": [
