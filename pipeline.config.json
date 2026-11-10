@@ -94,13 +94,14 @@
   },
   "privateAutoMerge": false,
   "council": {
-    "maxRounds": 3,
-    "maxRoundsSensitive": 5,
     "maxNits": 5,
     "maxSeats": 5,
     "maxDiffGrowth": 1.5,
+    "loopModel": "sonnet",
+    "closeModel": "opus",
+    "maxLoopRounds": 8,
+    "maxCloseRounds": 4,
     "externalSeats": [],
-    "t1Model": "sonnet",
     "triggers": {
       "ui": [
         "**/*.html",

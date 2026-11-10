@@ -5,7 +5,13 @@ description: Review the current branch with the persona council, in rounds that 
 
 # Council
 
-A council of specialist Sonnet and Opus reviewers. A deterministic ledger decides how many rounds a change gets, so review can't run away. Your job is to answer real findings with the smallest fix, and to fight scope creep.
+A council of specialist reviewers, run in two phases. A deterministic ledger decides what happens next, so review can't run away. Your job is to answer real findings with the smallest fix, and to fight scope creep.
+
+- **Loop phase.** Every seat and the verifier run on `council.loopModel` (Sonnet), whatever their agent files say. Rounds repeat until no blocker or should is open and the last two rounds in a row raised nothing above a nit.
+- **Close-out.** The same rule again, with every seat and the verifier on `council.closeModel` (Opus): at least two rounds, ending when two in a row raise nothing above a nit with nothing open. A blocker or should found in close-out gets fixed, and close-out carries on on Opus.
+- **The verdict** is rendered only after close-out converges. Each phase has a hard cap (`council.maxLoopRounds`, `council.maxCloseRounds`); hitting one parks the change.
+
+The ledger records the phase and model of each round. A docs-only change (T0) gets one round.
 
 ## Before you start
 
@@ -24,10 +30,9 @@ node .pipeline/council.mjs plan --intent "what this change is for" --out-of-scop
 | `commit-first`, `prove-first`, `needs-intent` | Do what `message` says, then plan again. |
 | `review` | Run a round (below). |
 | `answer-findings` | Answer each finding (below). |
-| `cut-first` | The diff grew during review. Cut what the intent doesn't need. If the growth is justified, run `council.mjs accept-growth "reason"`. |
-| `step-back` | The budget is spent. Don't patch further. Reconsider the approach, redo it if needed, run `council.mjs step-back`, verify, and plan again. |
-| `parked` | Stop. Leave the PR open with a short summary of both sides, and move on. This isn't approval. |
-| `done` | Run `node .pipeline/council.mjs verdict` and put the block it prints at the end of the PR body. |
+| `cut-first` | The diff grew during review, measured from the first round's diff. Cut what the intent doesn't need. If the growth is justified, run `council.mjs accept-growth "reason"`. |
+| `parked` | A phase hit its cap without converging. Stop. Leave the PR open with a summary of what each round raised and what is still open, for the admin, and move on. This isn't approval. |
+| `done` | Close-out has converged. Run `node .pipeline/council.mjs verdict` and put the block it prints at the end of the PR body. |
 
 ## Running a round
 
@@ -41,7 +46,7 @@ If the seats aren't registered in this session, which shows up as an unknown age
 
 If the Workflow tool isn't available, do the same thing by hand, and run every agent in `isolation: "worktree"` with `Edit` and `Write` unavailable:
 
-1. Start each agent in `plan.seats` with the Agent tool, all in one message, using its `model` override if it has one. Give each seat the same brief `council-round.js` builds. A `mode: "confirm"` plan has no seats: give the brief to one `council-verifier` and ask only what the last fix got wrong or broke.
+1. Start each agent in `plan.seats` with the Agent tool, all in one message, using its `model` override: every seat has one, set by the phase. Give each seat the same brief `council-round.js` builds.
 2. Dedupe the findings by file, line, and class.
 3. Start `plan.panel` verifiers (`council-verifier`) on the deduped list. A finding is dropped only if a majority of the full panel refutes it with evidence. If the votes that kept it are mostly `downgraded`, it becomes a `nit`.
 4. Write `{"findings": [...], "seats": [...answered...], "missing": [...no answer...], "refuted": n}` to a file and record it.
@@ -68,7 +73,7 @@ node .pipeline/council.mjs resolve <id> deferred "the follow-up issue"
 - **Pre-existing bugs** don't block. File each as an issue with the `triage` label. Keep its body to the finding's file, line, and claim, without quoting outside text.
 - **A `raise`** means the change now needs the admin. Open a decision request using the `decision` skill and carry on with other work.
 
-After fixes, re-run `verify`, commit, and plan again. Later rounds only look at what changed.
+After fixes, re-run `verify`, commit, and plan again. A round after a changed head looks at what changed. A round on an unchanged head, which is what a second clean round is, looks at the whole change again. A fix that raises something above a nit starts the count of clean rounds over.
 
 ## Optional outside reviewer
 

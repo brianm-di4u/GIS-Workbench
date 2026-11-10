@@ -26,9 +26,13 @@ There is no telemetry, so there are no usage dashboards or user error logs. Repo
 - **Update the site.** Open a PR on the site repo with the app files, changelog, and `BUILD`. The admin merges it. Pushing the site's `main` deploys production in about 10 seconds. Check the live app's hash against `SHA256SUMS`.
 - **Rotate the agent token.** The admin creates a new restricted token with the same permissions, stores it in the agents' separate GitHub CLI profile, then revokes the old one. Agents never handle the token. Do this on expiry, or at once if it may have leaked.
 
+## How the council ends
+
+A change with code in it is reviewed in two phases (decision 0014). The loop phase runs every seat and the verifier on `council.loopModel`, and repeats until no blocker or should is open and two rounds in a row raised nothing above a nit. Close-out is the same rule on `council.closeModel`. The verdict in the PR body appears only after close-out converges, and records how many rounds each phase took and on which model. `council.maxLoopRounds` and `council.maxCloseRounds` cap each phase. A change that hits a cap is parked: the PR stays open with a summary of what each round raised and what is still open, and the admin decides. A parked change isn't approved.
+
 ## Updating from dev-pipeline
 
-`pipeline update` keeps any file this repo changed and prints it as KEPT, and each one needs a look by hand. `.pipeline/lib/git.mjs` is a local fork that carries the diff-based change hash ([decision 0008](decisions/0008-change-hash-binds-to-the-diff.md)): keep its `patchLines` and `splitPatch`, and run `node .pipeline/gate.mjs classify` and `tests/unit/change-hash.test.js` after merging. The other kept files are `.pipeline/AUTONOMY.md` and the `autopilot` skill (batched PRs, decision 0014), `.pipeline/verify.mjs` (the machine lock), `release.yml` (the owner-only check on every job and the release steps), `nightly.yml`, `app-setup/action.yml`, `dependabot.yml` and the `modernize` skill.
+`pipeline update` keeps any file this repo changed and prints it as KEPT, and each one needs a look by hand. `.pipeline/lib/git.mjs` is a local fork that carries the diff-based change hash ([decision 0008](decisions/0008-change-hash-binds-to-the-diff.md)): keep its `patchLines` and `splitPatch`, and run `node .pipeline/gate.mjs classify` and `tests/unit/change-hash.test.js` after merging. The other kept files are `.pipeline/AUTONOMY.md` and the `autopilot` skill (batched PRs, decision 0014), `.pipeline/council.mjs`, `.pipeline/lib/ledger.mjs`, `.claude/workflows/council-round.js` and the `council` skill (the two-phase council, decision 0014), `.pipeline/verify.mjs` (the machine lock), `release.yml` (the owner-only check on every job and the release steps), `nightly.yml`, `app-setup/action.yml`, `dependabot.yml` and the `modernize` skill.
 
 ## Dependencies
 

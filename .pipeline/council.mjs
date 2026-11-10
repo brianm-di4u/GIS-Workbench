@@ -7,7 +7,6 @@
 //   council.mjs record <result.json>                         Record a round's result
 //   council.mjs resolve <id> <fixed|wrong|intentional|wont-matter|deferred> ["reason"]
 //   council.mjs accept-growth "reason"                       Accept justified diff growth
-//   council.mjs step-back                                    Record a re-approach
 //   council.mjs verdict                                      Print the verdict block for the PR body
 //
 // The ledger lives in .pipeline/runs/, which is gitignored.
@@ -140,10 +139,10 @@ function plan(args) {
       paths: ctx.changes.map((c) => c.path),
       council: ctx.config.council,
       diffLines: ctx.diffLines,
+      model: step.model,
     });
     Object.assign(output, {
       ...selection,
-      seats: step.mode === 'confirm' ? [] : selection.seats,
       head: git(['rev-parse', 'HEAD']).trim(),
       mergeBase: ctx.mergeBase,
       lastReviewedSha: reviewedBase(last, ctx.mergeBase),
@@ -203,6 +202,8 @@ function record([file]) {
   const outcome = recordRound(ledger, {
     mode: step.mode,
     round: step.round,
+    phase: step.phase,
+    model: step.model,
     hash: ctx.hash,
     sha: git(['rev-parse', 'HEAD']).trim(),
     diffLines: ctx.diffLines,
@@ -214,6 +215,8 @@ function record([file]) {
       {
         round: step.round,
         mode: step.mode,
+        phase: step.phase,
+        model: step.model,
         complete: outcome.complete,
         missing: result.missing ?? [],
         answerThese: outcome.added.map(({ id, severity, class: bugClass, file: f, line, claim, fix }) => ({
@@ -256,12 +259,6 @@ const commands = {
     if (!args[0]) throw new Error('Give a reason.');
     const ledger = loadLedger();
     ledger.growthAccepted = args[0];
-    saveLedger(ledger);
-    return 0;
-  },
-  'step-back': () => {
-    const ledger = loadLedger();
-    ledger.steppedBack = true;
     saveLedger(ledger);
     return 0;
   },

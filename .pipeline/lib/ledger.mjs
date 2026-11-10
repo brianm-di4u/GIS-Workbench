@@ -1,18 +1,21 @@
-// Council bookkeeping. Which seats run, how many rounds a change gets, and when
-// review stops all live here as plain code, so convergence doesn't depend on a
-// model remembering the rules. Upstream's unbounded loop is what produced an
-// 80,000-line PR; this is the fix.
+// Council bookkeeping. Which seats run, which model they run on, and when review stops all live
+// here as plain code, so convergence doesn't depend on a model remembering the rules. Upstream's
+// unbounded loop is what produced an 80,000-line PR; the per-phase caps are the fix.
+//
+// A change is reviewed in two phases. In the loop phase every seat and the verifier run on
+// `council.loopModel`. Rounds repeat until no blocker or should is open and the last two rounds in a
+// row raised nothing above a nit. Then close-out repeats the same rule on `council.closeModel`. The
+// verdict is rendered only after close-out converges. Each phase has a hard cap, and hitting it parks
+// the change.
 import { matchesAny } from './paths.mjs';
 
 export const SEVERITIES = ['blocker', 'should', 'nit'];
 const BLOCKING = new Set(['blocker', 'should']);
+export const CLEAN_ROUNDS = 2;
 
-// How many rounds each tier gets before the author has to step back.
-export function budgetFor(tier, council) {
-  if (tier === 0) return 1;
-  if (tier === 2) return council.maxRoundsSensitive ?? 5;
-  return council.maxRounds ?? 3;
-}
+export const PHASES = ['loop', 'close'];
+export const modelFor = (phase, council = {}) => (phase === 'close' ? council.closeModel ?? 'opus' : council.loopModel ?? 'sonnet');
+export const capFor = (phase, council = {}) => (phase === 'close' ? council.maxCloseRounds ?? 4 : council.maxLoopRounds ?? 8);
 
 export const DEFAULT_TRIGGERS = {
   ui: ['**/*.html', '**/*.css', '**/*.scss', '**/*.jsx', '**/*.tsx', '**/*.vue', '**/*.svelte', '**/ui/**'],
@@ -31,15 +34,15 @@ const T1_CORE = ['council-security-auditor', 'council-evidence-auditor'];
 // Most droppable first. Security and architect never drop on T2.
 const DROP_ORDER = ['council-ux-a11y-reviewer', 'council-reliability-engineer', 'council-legal-reviewer'];
 
-export function selectSeats({ tier, paths, council = {}, diffLines = 0 }) {
+export function selectSeats({ tier, paths, council = {}, diffLines = 0, model = null }) {
   const triggers = { ...DEFAULT_TRIGGERS, ...council.triggers };
   const code = paths.filter((p) => !matchesAny(p, ['**/*.md', 'tests/**', '**/*.test.*']));
   const touches = (globs) => code.some((p) => matchesAny(p, globs));
 
   if (tier === 0) {
     return {
-      seats: ALWAYS.map((agent) => ({ agent, model: 'sonnet' })),
-      panel: ['sonnet'],
+      seats: ALWAYS.map((agent) => ({ agent, model: model ?? 'sonnet' })),
+      panel: [model ?? 'sonnet'],
       dropped: [],
     };
   }
@@ -70,16 +73,18 @@ export function selectSeats({ tier, paths, council = {}, diffLines = 0 }) {
     }
   }
 
-  const model = tier === 1 ? council.t1Model : null;
+  // A model passed in overrides every seat's own model and the whole verifier panel. Without one
+  // (a caller that isn't running a phase), seats keep their own and the panel is as it always was.
+  const size = tier === 2 ? 3 : 2;
   return {
     seats: wanted.map((agent) => (model ? { agent, model } : { agent })),
-    panel: tier === 2 ? ['sonnet', 'sonnet', 'opus'] : ['sonnet', 'sonnet'],
+    panel: model ? Array(size).fill(model) : tier === 2 ? ['sonnet', 'sonnet', 'opus'] : ['sonnet', 'sonnet'],
     dropped,
   };
 }
 
 export function emptyLedger() {
-  return { rounds: [], findings: [], nextId: 1, steppedBack: false, confirmUsed: false, growthAccepted: null, raise: null };
+  return { rounds: [], findings: [], nextId: 1, growthAccepted: null, raise: null };
 }
 
 const STOPWORDS = new Set(['this', 'that', 'with', 'from', 'when', 'which', 'bug', 'class', 'missing', 'error', 'issue', 'problem']);
@@ -102,20 +107,49 @@ export function sameFinding(a, b) {
 const unanswered = (ledger) => ledger.findings.filter((f) => f.status === 'open');
 const blockingOpen = (ledger) => unanswered(ledger).filter((f) => BLOCKING.has(f.severity));
 
-export function nextStep({ ledger, tier, hash, council, cleanTree, evidenceOk, diffLines }) {
-  // Stepping back and re-approaching earns one fresh, full round.
-  const budget = budgetFor(tier, council) + (ledger.steppedBack ? 1 : 0);
-  const counted = ledger.rounds.filter((r) => r.mode !== 'confirm');
+// A round is clean when it finished and raised nothing above a nit. A round from before phases
+// were recorded has no `raised`, so it is never clean and doesn't count toward either phase.
+const isClean = (round) => round.complete && round.raised != null && round.raised.blocker + round.raised.should === 0;
+const roundsIn = (ledger, phase) => ledger.rounds.filter((r) => r.phase === phase && r.complete);
+
+// How many of the latest rounds in a row were clean.
+export function cleanTail(rounds) {
+  let count = 0;
+  for (let i = rounds.length - 1; i >= 0 && isClean(rounds[i]); i -= 1) count += 1;
+  return count;
+}
+
+// Where a change stands: the loop phase is done once its latest rounds are two clean ones in a row,
+// whatever happens after. Close-out is done when its latest rounds are two clean ones in a row on this
+// exact content, with nothing open.
+export function phaseState(ledger, hash) {
+  const loop = roundsIn(ledger, 'loop');
+  const close = roundsIn(ledger, 'close');
+  const loopDone = cleanTail(loop) >= CLEAN_ROUNDS;
+  const closeDone = loopDone && cleanTail(close) >= CLEAN_ROUNDS && close.at(-1).hash === hash && blockingOpen(ledger).length === 0;
+  return { loop, close, loopDone, closeDone };
+}
+
+export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidenceOk, diffLines }) {
   const last = ledger.rounds.at(-1);
-  const base = { tier, hash, budget, roundsUsed: counted.length };
+  const complete = ledger.rounds.filter((r) => r.complete);
+  const base = { tier, hash, roundsUsed: complete.length };
 
   if (!cleanTree) return { ...base, status: 'commit-first', message: 'Commit everything first. The council reviews commits.' };
   if (!evidenceOk) {
     return { ...base, status: 'prove-first', message: 'Run node .pipeline/verify.mjs full on this exact change first.' };
   }
   if (last && !last.complete) {
-    // Timeout or no reply isn't approval. Rerun the same round.
-    return { ...base, status: 'review', mode: last.mode, round: last.number, message: 'The last round was incomplete: a seat or voter gave no answer. Run it again.' };
+    // Timeout or no reply isn't approval. Rerun the same round, on the same phase and model.
+    return {
+      ...base,
+      status: 'review',
+      mode: last.mode,
+      phase: last.phase ?? 'loop',
+      model: last.model ?? modelFor('loop', council),
+      round: last.number,
+      message: 'The last round was incomplete: a seat or voter gave no answer. Run it again.',
+    };
   }
   if (blockingOpen(ledger).length > 0) {
     return {
@@ -126,8 +160,27 @@ export function nextStep({ ledger, tier, hash, council, cleanTree, evidenceOk, d
     };
   }
 
-  if (last && last.hash === hash) {
-    return { ...base, status: 'done', message: 'The council has reviewed this exact change. Render the verdict.' };
+  // Docs-only changes get the one round.
+  if (tier === 0) {
+    if (last && last.hash === hash) return { ...base, status: 'done', message: 'The council has reviewed this exact change. Render the verdict.' };
+    return { ...base, status: 'review', mode: 'full', phase: 'loop', model: modelFor('loop', council), round: complete.length + 1 };
+  }
+
+  const state = phaseState(ledger, hash);
+  if (state.closeDone) {
+    return { ...base, status: 'done', message: 'Close-out has converged on this exact change. Render the verdict.' };
+  }
+
+  const phase = state.loopDone ? 'close' : 'loop';
+  const used = (phase === 'close' ? state.close : state.loop).length;
+  const cap = capFor(phase, council);
+  if (used >= cap) {
+    return {
+      ...base,
+      status: 'parked',
+      phase,
+      message: `The ${phase === 'close' ? 'close-out' : 'loop'} phase hit its cap of ${cap} rounds without converging. Stop, leave the PR open, and summarize on it what each round raised and what is still open, for the admin. This isn't approval.`,
+    };
   }
 
   const firstLines = ledger.rounds[0]?.diffLines ?? null;
@@ -140,32 +193,23 @@ export function nextStep({ ledger, tier, hash, council, cleanTree, evidenceOk, d
     };
   }
 
-  if (counted.length === 0) return { ...base, status: 'review', mode: 'full', round: 1 };
-  if (counted.length < budget) {
-    const fresh = ledger.steppedBack && counted.length === budget - 1;
-    return { ...base, status: 'review', mode: fresh ? 'full' : 'diff', round: counted.length + 1 };
-  }
-
-  // Budget spent, but the last fix hasn't been checked. One free confirmation
-  // keeps a good final fix from wedging the PR.
-  if (!ledger.confirmUsed) {
-    return { ...base, status: 'review', mode: 'confirm', round: counted.length, message: 'Budget spent. One diff-only confirmation of the last fix, which does not count.' };
-  }
-  if (!ledger.steppedBack) {
-    return {
-      ...base,
-      status: 'step-back',
-      message: 'The budget is spent and the change still is not settling. Reconsider the approach rather than patching further, then run: node .pipeline/council.mjs step-back',
-    };
-  }
+  // The first round of a phase looks at everything. After that a changed head gets a diff from the
+  // last reviewed commit, and an unchanged one gets another full, independent look.
+  const previous = (phase === 'close' ? state.close : state.loop).at(-1);
+  const mode = !previous || previous.hash === hash ? 'full' : 'diff';
   return {
     ...base,
-    status: 'parked',
-    message: 'This change has not converged, even after re-approaching it. Stop, leave the PR open, summarize both sides on it, and move on.',
+    status: 'review',
+    mode,
+    phase,
+    model: modelFor(phase, council),
+    round: complete.length + 1,
+    phaseRound: used + 1,
+    phaseCap: cap,
   };
 }
 
-export function recordRound(ledger, { mode, round, hash, sha, diffLines, result }) {
+export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
   const seen = [...ledger.findings];
   const added = [];
   const repeats = [];
@@ -205,11 +249,20 @@ export function recordRound(ledger, { mode, round, hash, sha, diffLines, result 
   }
 
   const complete = (result.missing ?? []).length === 0;
-  // A rerun replaces an incomplete round, so a timeout doesn't use up the budget.
+  // What this round raised, before earlier findings are set aside as repeats: a fixed bug that comes
+  // back, or a should again, is still a round that found something. A bug this change didn't introduce
+  // never blocks. An incomplete round raised nothing we can count.
+  const raised = complete
+    ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting).length]))
+    : null;
+  // A rerun replaces an incomplete round, so a timeout doesn't use up a phase's cap.
   if (ledger.rounds.at(-1)?.complete === false) ledger.rounds.pop();
   ledger.rounds.push({
     number: round,
     mode,
+    phase,
+    model,
+    raised,
     hash,
     sha,
     diffLines,
@@ -218,7 +271,6 @@ export function recordRound(ledger, { mode, round, hash, sha, diffLines, result 
     missing: result.missing ?? [],
     refuted: result.refuted ?? 0,
   });
-  if (mode === 'confirm' && complete) ledger.confirmUsed = true;
   return { added, repeats, droppedNits, complete };
 }
 
@@ -244,15 +296,21 @@ export function buildVerdict({ ledger, tier, hash }) {
   if (!last.complete) throw new Error('The last round was incomplete.');
   const open = blockingOpen(ledger);
   if (open.length > 0) throw new Error(`Open findings: ${open.map((f) => f.id).join(', ')}`);
+  // The verdict comes only after close-out converges (a docs-only change has the one round).
+  if (tier > 0 && !phaseState(ledger, hash).closeDone) {
+    throw new Error('Close-out has not converged on this change: it needs two clean rounds in a row on the close-out model. Run another round.');
+  }
 
-  const counted = ledger.rounds.filter((r) => r.mode !== 'confirm');
+  const counted = ledger.rounds.filter((r) => r.complete);
   const count = (severity) =>
     ledger.findings.filter((f) => f.severity === severity && f.status === 'open').length;
+  const phases = Object.fromEntries(PHASES.map((phase) => [phase, { rounds: roundsIn(ledger, phase).length, model: roundsIn(ledger, phase).at(-1)?.model ?? null }]));
   return {
     schema: 1,
     changeHash: hash,
     tier: ledger.raise ? Math.max(tier, 2) : tier,
     rounds: counted.length,
+    ...(tier > 0 ? { phases } : {}),
     open: { blocker: count('blocker'), should: count('should'), nit: ledger.findings.filter((f) => f.severity === 'nit').length },
     ...(ledger.raise ? { raise: ledger.raise } : {}),
     // Self-reported by `council.mjs plan --worker <model>`, for the digest.
