@@ -1,8 +1,1 @@
-[
-  {
-    "test": "REQ-UI-26 REQ-ARC-16 an online background draws only after its origin is allowed",
-    "issue": 2,
-    "expires": "2027-02-07",
-    "reason": "Failed once in four Firefox runs."
-  }
-]
+[]

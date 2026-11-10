@@ -4,7 +4,7 @@
 // backgrounds through the allow-list (REQ-UI-26, REQ-ARC-16).
 import { test, expect } from '@playwright/test';
 import { createServer } from 'node:http';
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { deflateSync } from 'node:zlib';
@@ -230,11 +230,12 @@ test('REQ-UI-26 REQ-ARC-16 an online background draws only after its origin is a
   });
   await new Promise((r) => srv.listen(0, '127.0.0.1', r));
   const origin = `http://127.0.0.1:${srv.address().port}`;
+  // A folder of its own: runs in parallel each serve a different port, and a shared copy could
+  // be another run's, with that run's origin allowed and not this one's (#2).
+  const dir = mkdtempSync(join(tmpdir(), 'gw-online-'));
   try {
     const { frame } = await openApp(page, 'file');
     const html = await frame.evaluate((o) => window.gisworkbench.__test.htmlWithOrigins([o]), origin);
-    const dir = join(tmpdir(), 'gw-online');
-    mkdirSync(dir, { recursive: true });
     const copy = join(dir, 'gis-workbench-online.html');
     writeFileSync(copy, html);
     const page2 = await page.context().newPage();
@@ -264,5 +265,6 @@ test('REQ-UI-26 REQ-ARC-16 an online background draws only after its origin is a
     await page2.close();
   } finally {
     srv.close();
+    rmSync(dir, { recursive: true, force: true });
   }
 });
