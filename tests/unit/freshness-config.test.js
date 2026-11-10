@@ -45,7 +45,9 @@ describe('the freshness setting', () => {
     for (const path of [
       'pipeline.config.json', '.pipeline/gate.mjs', '.github/workflows/gate.yml', 'package-lock.json', 'sidecar/Cargo.lock', 'crates/Cargo.toml',
       'build/rust.mjs', 'build/release/stage.mjs', 'playwright.config.js', 'playwright.webkit.config.js', 'vitest.config.js', '.node-version',
-      'crates/rust-toolchain.toml', 'crates/deny.toml', 'sidecar/deny.toml', 'REVIEW.md', 'CLAUDE.md', '.claude/agents/council-architect.md',
+      'crates/rust-toolchain.toml', 'sidecar/rust-toolchain.toml', 'crates/deny.toml', 'sidecar/deny.toml',
+      '.cargo/config.toml', 'crates/.cargo/config.toml', 'crates/gw-tin/build.rs', 'crates/vendor/fax/src/lib.rs',
+      'REVIEW.md', 'CLAUDE.md', '.claude/agents/council-architect.md',
       '.claude/workflows/council-round.js', '.claude/skills/full-send/SKILL.md',
     ]) {
       expect(stale([path], unrelated), path).toBe(true);

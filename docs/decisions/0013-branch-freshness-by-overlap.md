@@ -17,12 +17,13 @@ GitHub's "require branches to be up to date" rule makes landing serial: each mer
 - a file in a group the PR also touches, or
 - a path on the floor: the pipeline's built-in floor (the pipeline's own files, `.github/`, and dependency manifests and lockfiles anywhere), plus this repo's additions below.
 
-The gate then fails with its own title, "update the branch", and a marker the worker's wait script and the queue tools read as a job for the worker, not a call for a person. A clean update keeps the change hash, so an approval and a council verdict survive it unless main changed a file the PR also changes. Config can add to the floor and never take from it, and a malformed setting fails closed, to "every branch up to date".
+The gate then fails with its own title, "update the branch", and a marker the worker's wait script and the queue tools read as a job for the worker, not a call for a person. A clean update keeps the change hash (decision 0008 hashes only the PR's own added and removed lines), so an approval and a council verdict survive it, even when main changed the same file. Only a merge that has to change the PR's own lines changes the hash, and then they are needed again. The gate's message for an overlapping update says they are always needed again; that is upstream wording and is cautious, so a worker compares `node .pipeline/gate.mjs classify` before and after the update. Config can add to the floor and never take from it, and a malformed setting fails closed, to "every branch up to date".
 
 **This repo's floor additions.** Wider is safer, because a floor change stales every open PR:
 - `build/**`: the build and gate scripts and their data, which decide what verify and the release do for everyone.
 - `playwright*.config.js` and `vitest.config.js`: how every test runs.
-- `.node-version`, `crates/rust-toolchain.toml`, `crates/deny.toml` and `sidecar/deny.toml`: the toolchains and the licence and advisory gates CI uses.
+- `.node-version`, `crates/rust-toolchain.toml`, `sidecar/rust-toolchain.toml`, `crates/deny.toml` and `sidecar/deny.toml`: the toolchains and the licence and advisory gates CI uses.
+- `.cargo/**`, `crates/.cargo/**`, `**/build.rs` and `crates/vendor/**`: build-time code and settings that run on every crate build.
 - `REVIEW.md`, `CLAUDE.md`, `AGENTS.md`, `.claude/agents/**`, `.claude/workflows/**` and `.claude/skills/**`: what steers agents and the council.
 
 **Groups,** each one unit, so two PRs in the same group meet even when they edit different files:

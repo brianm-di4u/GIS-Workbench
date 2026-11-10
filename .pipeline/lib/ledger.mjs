@@ -15,7 +15,12 @@ export const CLEAN_ROUNDS = 2;
 
 export const PHASES = ['loop', 'close'];
 export const modelFor = (phase, council = {}) => (phase === 'close' ? council.closeModel ?? 'opus' : council.loopModel ?? 'sonnet');
-export const capFor = (phase, council = {}) => (phase === 'close' ? council.maxCloseRounds ?? 4 : council.maxLoopRounds ?? 8);
+// A cap has to leave room for the clean rounds a phase needs, and a value that isn't a number falls
+// back to the default rather than removing the cap.
+export const capFor = (phase, council = {}) => {
+  const [value, fallback] = phase === 'close' ? [council.maxCloseRounds, 4] : [council.maxLoopRounds, 8];
+  return Number.isInteger(value) ? Math.max(CLEAN_ROUNDS, value) : fallback;
+};
 
 export const DEFAULT_TRIGGERS = {
   ui: ['**/*.html', '**/*.css', '**/*.scss', '**/*.jsx', '**/*.tsx', '**/*.vue', '**/*.svelte', '**/ui/**'],
