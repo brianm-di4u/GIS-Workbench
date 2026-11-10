@@ -6,6 +6,7 @@ pub mod coords;
 pub mod datum;
 pub mod geodesic;
 pub mod geoid;
+pub mod geoid_tile;
 pub mod grids;
 pub mod math;
 pub mod projection;
