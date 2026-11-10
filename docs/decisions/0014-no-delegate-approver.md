@@ -3,6 +3,7 @@
 - **Date:** 2026-11-10
 - **Class:** major
 - **Issue:** none; the admin decided in chat on 2026-11-10 ("Yes, simplify")
+- **Status:** accepted
 - **Supersedes:** [0012](0012-gardener-delegate.md)
 
 ## Context
