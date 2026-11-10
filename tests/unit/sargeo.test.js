@@ -38,7 +38,7 @@ const ann0 = {
   orbit: { t: [990, 1000, 1010, 1020, 1030], p: Array(15).fill(1), v: Array(15).fill(2) },
 };
 
-describe('SAR geocoding jobs', () => {
+describe('REQ-GAP-90 REG-085 SAR geocoding jobs', () => {
   it('uses an orbit file only when it covers the product with a minute to spare', () => {
     const t = Array.from({ length: 100 }, (_, k) => 500 + 10 * k);
     const file = { type: 'AUX_POEORB', orbit: { t, p: t.flatMap(() => [1, 2, 3]), v: t.flatMap(() => [4, 5, 6]) } };
@@ -65,7 +65,7 @@ describe('SAR geocoding jobs', () => {
     const bursts = imageGeometry({ ...ann0, bursts: [{ t: 1000.5, firstLine: 0, validLines: [3, 48] }, { t: 1001.4, firstLine: 50, validLines: [53, 98] }] });
     expect(bursts.blocks[0].t0).toBeCloseTo(0.5, 9);
     expect(bursts.blocks[1].t0).toBeCloseTo(1.4, 9);
-    const grd = imageGeometry({ ...ann0, productType: 'GRD', conversion: [{ t: 1001, sr0: 8e5, gr0: 0, grsr: [0, 1.6], srgr: [8e5, 0.6] }] });
+    const grd = imageGeometry({ ...ann0, productType: 'GRD', conversion: [{ t: 1001, sr0: 8e5, gr0: 0, srgr: [0, 1.6], grsr: [8e5, 0.6] }] });
     expect(grd.range.kind).toBe('ground');
     expect(grd.range.recs[0].t).toBe(1);
     expect(imageGeometry({ ...ann0, productType: 'GRD', conversion: [] })).toBeNull();
@@ -79,8 +79,8 @@ describe('SAR geocoding jobs', () => {
     expect(l.beta[0]).toBeCloseTo((1 + 10 + 1 + 1) / 4, 6);
     expect(l.beta[1]).toBeCloseTo(1, 6); // NaN samples left out
     const prm = sargeoParams({ t: [1, 2, 3, 4], p: Array(12).fill(0), v: Array(12).fill(0) }, 1, imageGeometry(ann0), { width: 2, height: 3, lat0: 1, lon0: 2, dlat: 0.1, dlon: 0.1 }, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: true });
-    // 1 + 4 + 12 + 12 (orbit) + 3 + 4 (one block) + 3 (slant) + 6 (DEM) + 6 (window) + 4 (options)
-    expect(prm.length).toBe(55);
+    // 1 + 4 + 12 + 12 (orbit) + 3 + 4 (one block) + 3 (slant) + 6 (DEM) + 6 (window) + 5 (options)
+    expect(prm.length).toBe(56);
     expect(Array.from(prm.slice(1, 5))).toEqual([0, 1, 2, 3]);
   });
 
@@ -121,7 +121,7 @@ describe.skipIf(!haveWasm || !haveScene)('sargeo on a Sentinel-1 IW SLC (S-72 or
     for (let k = 0; k < g.lat.length; k++) {
       const dem = { width: 2, height: 2, lat0: g.lat[k], lon0: g.lon[k], dlat: 1e-5, dlon: 1e-5 };
       const z = new Float32Array(4).fill(g.height[k]);
-      const prm = sargeoParams(orbit, ann.t0, one, dem, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: false });
+      const prm = sargeoParams(orbit, ann.t0, one, dem, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: false, look: 1 });
       const r = await sg.run(prm, z, new Float32Array(1), { coords: true });
       const line = (g.t[k] - ann.t0) / geom.dt;
       const pixel = ((g.tau[k] * C) / 2 - geom.range.r0) / geom.range.dr;

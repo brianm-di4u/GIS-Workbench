@@ -49,7 +49,7 @@ export function imageGeometry(ann, epoch = ann.t0) {
     : [{ t0: ann.t0 - epoch, firstLine: 0, valid: [0, ann.lines] }];
   let range;
   if (ann.productType === 'GRD') {
-    const recs = (ann.conversion ?? []).filter((r) => Number.isFinite(r.t) && Number.isFinite(r.sr0) && r.grsr?.length && r.srgr?.length >= 2);
+    const recs = (ann.conversion ?? []).filter((r) => Number.isFinite(r.t) && Number.isFinite(r.sr0) && r.srgr?.length && r.grsr?.length >= 2);
     if (!recs.length) return null;
     range = { kind: 'ground', dg: ann.rangeSpacing, recs: recs.map((r) => ({ t: r.t - epoch, r0: r.sr0, g0: r.gr0 ?? 0, grsr: r.grsr, srgr: r.srgr })) };
   } else {
@@ -115,7 +115,8 @@ export function looks(db, w, h, kl, ks) {
 /**
  * The bundle's parameter list (crates/bundles/sargeo). orbit {t, p, v} absolute, `epoch`
  * subtracted here; geom from imageGeometry; dem {width, height, lat0, lon0, dlat, dlon};
- * win {l0, s0, kl, ks, nl, ns}; opts {flatten, maskStride, maskStep, maskTol}.
+ * win {l0, s0, kl, ks, nl, ns}; opts {flatten, maskStride, maskStep, maskTol, look (1 right, -1 left,
+ * 0 either; Sentinel-1 looks right)}.
  */
 export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
   const n = orbit.t.length;
@@ -128,6 +129,6 @@ export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
   }
   out.push(dem.width, dem.height, dem.lat0, dem.lon0, dem.dlat, dem.dlon);
   out.push(win.l0, win.s0, win.kl, win.ks, win.nl, win.ns);
-  out.push(opts.flatten ? 1 : 0, opts.maskStride ?? 0, opts.maskStep ?? 0, opts.maskTol ?? 0);
+  out.push(opts.flatten ? 1 : 0, opts.maskStride ?? 0, opts.maskStep ?? 0, opts.maskTol ?? 0, opts.look ?? 0);
   return Float64Array.from(out);
 }

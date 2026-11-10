@@ -7,7 +7,7 @@
 //! `n, t[n], p[3n], v[3n]` (orbit), `dt, az_spacing, nb, (t0, first_line, valid_lo, valid_hi)×nb`
 //! (image timing), `0, r0, dr` (slant range) or `1, dg, nr, (t, r0, g0, ng, grsr[ng], ns,
 //! srgr[ns])×nr` (ground range), `w, h, lat0, lon0, dlat, dlon` (DEM), `l0, s0, kl, ks, nl, ns`
-//! (window), `flatten, mask_stride, mask_step, mask_tol`. The DEM heights (HAE, `w·h` f32) and the
+//! (window), `flatten, mask_stride, mask_step, mask_tol, look` (1 right, −1 left, 0 either). The DEM heights (HAE, `w·h` f32) and the
 //! window's β⁰ (`nl·ns` f32) are their own buffers.
 
 use gw_abi::{set_out, slice, status, Error, Result};
@@ -93,13 +93,16 @@ fn job(prm: &[f64], z: &[f32], beta: &[f32]) -> Result<Job> {
     if nl.checked_mul(ns).map_or(true, |c| c > MAX_CELLS) || beta.len() != nl * ns {
         return Err(Error::limit("sargeo: the radar window is larger than 48 million pixels, or its values are the wrong length"));
     }
-    let (flatten, stride, step, tol) = (r.f()?, r.n(1024)?, r.f()?, r.f()?);
+    let (flatten, stride, step, tol, look) = (r.f()?, r.n(1024)?, r.f()?, r.f()?, r.f()?);
+    if ![-1.0, 0.0, 1.0].contains(&look) {
+        return Err(Error::invalid("sargeo: the look side must be 1, -1 or 0"));
+    }
     if stride > 0 && !(step > 0.0 && step.is_finite() && tol >= 0.0) {
         return Err(Error::invalid("sargeo: the mask step must be positive"));
     }
     let dem = Dem { w, h, z: z.to_vec(), lat0, lon0, dlat, dlon };
     let win = Window { l0, s0, kl, ks, nl, ns, beta: beta.to_vec() };
-    Job::new(orbit, img, dem, win, Opts { flatten: flatten != 0.0, mask_stride: stride, mask_step: step, mask_tol: tol }).map_err(Error::invalid)
+    Job::new(orbit, img, dem, win, Opts { flatten: flatten != 0.0, mask_stride: stride, mask_step: step, mask_tol: tol, look }).map_err(Error::invalid)
 }
 
 /// Create a job. Output: its handle (u32).

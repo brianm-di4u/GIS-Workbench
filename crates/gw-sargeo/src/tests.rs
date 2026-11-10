@@ -78,9 +78,10 @@ fn image_lines_follow_blocks_and_ground_range_round_trips() {
     let l = img.line(1.95).unwrap();
     assert!((l - 975.0).abs() < 1e-9 || (l - 1025.0).abs() < 1e-9);
     assert!((img.pixel(1.0, 800e3 + 23.3) - 10.0).abs() < 1e-9);
-    // GRD: slant = 850 km + 0.6·(g − g0) + 1e-7·(g − g0)²; grsr its inverse to second order.
+    // GRD, as Sentinel-1 annotates it: grsr gives slant = 850 km + 0.6·(g − g0) + 1e-8·(g − g0)²,
+    // srgr the ground range from (R − sr0), its inverse to second order.
     let (a, b) = (0.6, 1e-8);
-    let rec = |t| GrRec { t, r0: 850e3, g0: 0.0, srgr: vec![850e3, a, b], grsr: vec![0.0, 1.0 / a, -b / (a * a * a)] };
+    let rec = |t| GrRec { t, r0: 850e3, g0: 0.0, grsr: vec![850e3, a, b], srgr: vec![0.0, 1.0 / a, -b / (a * a * a)] };
     let grd = Image { dt: 0.002, blocks: vec![Block { t0: 0.0, first_line: 0.0, valid: (0.0, 1e4) }], range: Range::Ground { dg: 10.0, recs: vec![rec(0.0), rec(5.0)] }, az_spacing: 10.0 };
     for px in [0.0, 100.0, 2500.0] {
         let g: f64 = px * 10.0;
@@ -132,10 +133,15 @@ fn run(s: &Scene, flatten: bool, masks: bool) -> Job {
 }
 
 fn run_with(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>) -> Job {
+    run_side(s, flatten, masks, blocks, -1.0)
+}
+
+/// The test orbit runs east along the equator, so the patch north of it is on its left.
+fn run_side(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64) -> Job {
     let img = Image { dt: s.dt, blocks, range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: s.az };
     let dem = Dem { w: s.w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: DD, dlon: DD };
     let win = Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl: s.nl, ns: s.ns, beta: s.beta.clone() };
-    let opts = Opts { flatten, mask_stride: if masks { 4 } else { 0 }, mask_step: 2.5, mask_tol: 0.5 };
+    let opts = Opts { flatten, mask_stride: if masks { 4 } else { 0 }, mask_step: 2.5, mask_tol: 0.5, look };
     let mut job = Job::new(orbit(-100.0, 100.0, 10.0), img, dem, win, opts).unwrap();
     let mut last = 0.0;
     loop {
@@ -218,7 +224,7 @@ fn malformed_inputs_are_refused() {
     let img = || Image { dt: s.dt, blocks: vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, 10.0) }], range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: 20.0 };
     let dem = |w| Dem { w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: DD, dlon: DD };
     let win = |nl| Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl, ns: s.ns, beta: s.beta.clone() };
-    let opts = || Opts { flatten: true, mask_stride: 0, mask_step: 1.0, mask_tol: 0.5 };
+    let opts = || Opts { flatten: true, mask_stride: 0, mask_step: 1.0, mask_tol: 0.5, look: -1.0 };
     let o = || orbit(-100.0, 100.0, 10.0);
     assert!(Job::new(o(), img(), dem(s.w + 1), win(s.nl), opts()).is_err(), "DEM size");
     assert!(Job::new(o(), img(), dem(s.w), win(s.nl + 1), opts()).is_err(), "window size");
@@ -293,4 +299,20 @@ fn on_a_slope_facing_the_sensor_the_rim_widens_and_the_posts_inside_it_are_right
     for jj in [first, first + 1, last - 1, last] {
         assert!((col(jj) / mid - 1.0).abs() < 0.03, "post {jj}: {} against {mid} inside", col(jj));
     }
+}
+
+#[test]
+fn posts_on_the_side_the_radar_does_not_look_get_no_value() {
+    // Every post north of the track has a mirror south of it with the same zero-Doppler time and
+    // range. Told the radar looks right (south), the run leaves the whole northern patch out.
+    let s = scene(|_, _| 0.0);
+    let blocks = || vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, s.nl as f64) }];
+    let left = run_side(&s, true, true, blocks(), -1.0);
+    let right = run_side(&s, true, true, blocks(), 1.0);
+    let valued = |j: &Job| j.value.iter().filter(|v| v.is_finite()).count();
+    assert!(valued(&left) > s.w * s.h / 2, "seen side: {} of {}", valued(&left), s.w * s.h);
+    assert_eq!(valued(&right), 0);
+    assert!(right.mask.iter().all(|&m| m == 0), "no layover or shadow on posts never seen");
+    // Either side (0) is the old behaviour: the patch is valued.
+    assert_eq!(valued(&run_side(&s, true, false, blocks(), 0.0)), valued(&run_side(&s, true, false, blocks(), -1.0)));
 }

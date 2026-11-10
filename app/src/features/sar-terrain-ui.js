@@ -67,12 +67,14 @@ export function install(app) {
     const w = windowOver(ann, bounds);
     if (!w) throw gwError('{dem} does not overlap {layer}', { dem: dem.name, layer: layer.rec?.name ?? '' }, 'E_SAR_NO_OVERLAP');
     if (w.w * w.h > MAX_WINDOW) throw gwError('terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model', { dem: dem.name, n: int(w.w * w.h) }, 'E_SAR_SIZE');
-    // Looks: about one DEM post of ground per look, at the scene's incidence.
+    // Looks: about one DEM post of ground per look, at the scene's incidence. Sentinel-1 orbits are
+    // near-polar, so azimuth runs about north-south (the post's dy) and range about east-west (dx).
     const lat = (bounds.north + bounds.south) / 2;
     const dy = g.dlat * core.inverse(lat - 0.5, 0, lat + 0.5, 0).distance;
+    const dx = g.dlon * core.inverse(lat, -0.5, lat, 0.5).distance;
     const sinInc = Math.sin(((ann.incidenceMid ?? 35) * Math.PI) / 180);
     const groundRange = geom.range.kind === 'slant' ? geom.range.dr / sinInc : geom.range.dg;
-    const [kl, ks] = lk ?? [Math.max(1, Math.round(dy / geom.azSpacing)), Math.max(1, Math.round(dy / groundRange))];
+    const [kl, ks] = lk ?? [Math.max(1, Math.round(dy / geom.azSpacing)), Math.max(1, Math.round(dx / groundRange))];
     const label = t('Terrain correction of {layer}', { layer: layer.rec?.name ?? '' });
     let task = null;
     return app.activity.track(
@@ -82,7 +84,7 @@ export function install(app) {
         const L = looks(read.planes[0], w.w, w.h, kl, ks);
         if (!L.nl || !L.ns) throw gwError('terrain correction: the radar window over {dem} is smaller than one look', { dem: dem.name }, 'E_SAR_NO_OVERLAP');
         const z = app.terrain.haeHeights(dem);
-        const prm = sargeoParams(orb, ann.t0, geom, g, { l0: w.y0, s0: w.x0, kl, ks, nl: L.nl, ns: L.ns }, { flatten, maskStride: masks ? 1 : 0, maskStep: Math.max(1, dy / 2), maskTol: 0.5 });
+        const prm = sargeoParams(orb, ann.t0, geom, g, { l0: w.y0, s0: w.x0, kl, ks, nl: L.nl, ns: L.ns }, { flatten, maskStride: masks ? 1 : 0, maskStep: Math.max(1, dy / 2), maskTol: 0.5, look: 1 });
         task = app.pool.run('sargeo.run', { prm, z, beta: L.beta }, { kind: 'analysis', transfer: [prm.buffer, z.buffer, L.beta.buffer], timeout: 3600000, label, part: true, onProgress: (p) => job.set(p) });
         const r = await task;
         const db = Float32Array.from(r.value, (v) => (v > 0 ? 10 * Math.log10(v) : NaN));

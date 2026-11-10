@@ -144,10 +144,10 @@ pub struct GrRec {
     pub r0: f64,
     /// Ground range origin (m).
     pub g0: f64,
-    /// Ground range from the first pixel = Σ grsr[k] (R − r0)^k.
-    pub grsr: Vec<f64>,
-    /// Slant range = Σ srgr[k] (g − g0)^k.
+    /// Ground range from the first pixel = Σ srgr[k] (R − r0)^k (the annotation's srgrCoefficients).
     pub srgr: Vec<f64>,
+    /// Slant range = Σ grsr[k] (g − g0)^k (its grsrCoefficients).
+    pub grsr: Vec<f64>,
 }
 
 /// The range axis of an image.
@@ -208,8 +208,8 @@ impl Image {
             Range::Slant { r0, dr } => (r - r0) / dr,
             Range::Ground { dg, recs } => {
                 let (a, b, w) = Image::recs_at(recs, t);
-                // grsr gives the ground range from the first pixel directly (srgr takes it less gr0).
-                let g = |q: &GrRec| poly(&q.grsr, r - q.r0) / dg;
+                // srgr gives the ground range from the first pixel directly (grsr takes it less gr0).
+                let g = |q: &GrRec| poly(&q.srgr, r - q.r0) / dg;
                 g(&recs[a]) * (1.0 - w) + g(&recs[b]) * w
             }
         }
@@ -221,7 +221,7 @@ impl Image {
             Range::Slant { dr, .. } => *dr,
             Range::Ground { dg, recs } => {
                 let (a, b, w) = Image::recs_at(recs, t);
-                let d = |q: &GrRec| dpoly(&q.srgr, pixel * dg - q.g0) * dg;
+                let d = |q: &GrRec| dpoly(&q.grsr, pixel * dg - q.g0) * dg;
                 d(&recs[a]) * (1.0 - w) + d(&recs[b]) * w
             }
         }
@@ -296,6 +296,10 @@ pub struct Opts {
     pub mask_stride: usize,
     pub mask_step: f64,
     pub mask_tol: f64,
+    /// The side the radar looks to, seen along its velocity: 1 right (Sentinel-1), −1 left, 0 either.
+    /// A point and its mirror across the ground track share a zero-Doppler time and a range, so a
+    /// post on the other side is left out rather than given the image value of its mirror.
+    pub look: f64,
 }
 
 /// A geocoding run, a few DEM rows per `step` so the caller can report progress and cancel.
@@ -342,7 +346,7 @@ impl Job {
         }
         match &img.range {
             Range::Slant { dr, .. } if !(*dr > 0.0) => return Err("sargeo: the range spacing must be positive"),
-            Range::Ground { dg, recs } if !(*dg > 0.0) || recs.is_empty() || recs.iter().any(|r| r.grsr.is_empty() || r.srgr.len() < 2) => {
+            Range::Ground { dg, recs } if !(*dg > 0.0) || recs.is_empty() || recs.iter().any(|r| r.srgr.is_empty() || r.grsr.len() < 2) => {
                 return Err("sargeo: a ground-range image needs its conversion records")
             }
             _ => {}
@@ -404,6 +408,15 @@ impl Job {
         ((before + w * self.row as f64 / h as f64) / 9.0).min(0.999)
     }
 
+    /// Whether `x` is on the side the radar looks to at time `t` (always, with look 0).
+    fn seen_side(&self, t: f64, x: V3) -> bool {
+        if self.opts.look == 0.0 {
+            return true;
+        }
+        let (p, v, _) = self.orbit.state(t);
+        dot(sub(x, p), cross(v, p)) * self.opts.look > 0.0
+    }
+
     /// Stage 0: each post's zero-Doppler time and window position.
     fn map_row(&mut self, j: usize) {
         let w = self.dem.w;
@@ -416,6 +429,9 @@ impl Job {
             let Some(x) = self.dem.ecef(i, j) else { continue };
             let Some((t, r)) = zero_doppler(&self.orbit, x, seed) else { continue };
             seed = t;
+            if !self.seen_side(t, x) {
+                continue;
+            }
             let Some(line) = self.img.line(t) else { continue };
             let pixel = self.img.pixel(t, r);
             let (wl, wp) = self.win.at(line, pixel);
@@ -473,7 +489,7 @@ impl Job {
                 // where the corners fall either side of a burst switch, about 150 lines apart.
                 let tc = (self.t[tri[0].1] + self.t[tri[1].1] + self.t[tri[2].1]) / 3.0;
                 let Some((t, r)) = zero_doppler(&self.orbit, cen, tc) else { continue };
-                if self.img.line(t).is_none() {
+                if self.img.line(t).is_none() || !self.seen_side(t, cen) {
                     continue; // imaged by no block
                 }
                 let look = sub(self.orbit.state(t).0, cen);

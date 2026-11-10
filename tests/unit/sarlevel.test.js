@@ -47,7 +47,7 @@ function makeDsm(bias, { steepExtra = 0, opposite = false } = {}) {
   return { grid: g, heights, flags, stats: { geometry: { sameSide: !opposite } } };
 }
 
-describe('SAR stereo DSM levelling', () => {
+describe('REQ-GAP-91 REG-084 SAR stereo DSM levelling', () => {
   it('recovers the offset from stable posts despite outliers and flagged posts', () => {
     const lv = levelDsm(makeDsm(() => 7.5), ref);
     expect(lv.offset).toBeGreaterThan(7.3);
@@ -85,7 +85,7 @@ describe('SAR stereo DSM levelling', () => {
 
 
 // A saved DSM is read back by its GDAL items, and a file 2.6 wrote (prose only) by its description.
-describe('SAR stereo DSM file facts (REG-084)', async () => {
+describe('REQ-GAP-91 REG-084 SAR stereo DSM file facts', async () => {
   const { dsmItems, dsmFileFacts } = await import('../../app/src/features/sarstereo.js');
   const { gdalMetadataXml } = await import('../../app/src/formats/geotiff-writer.js');
   const v26 = (prior, opposite) => `GIS Workbench SAR stereo DSM (radargrammetry) from A + B: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${prior}${opposite ? '; opposite-side pair, not recommended' : ''}`;
