@@ -16,7 +16,7 @@ const HEIGHTS = [
   ['odn', N_('ODN height (OSGM15)')],
   ['ahd', N_('AHD height (AUSGeoid2020)')],
   ['cgvd2013', N_('CGVD2013 height (CGG2013a)')],
-  ['egm2008', N_('EGM2008 height (2.5′ grid)')],
+  ['egm2008', N_('EGM2008 height (1′ or 2.5′ grid)')],
 ];
 
 /** Implement geo.transform for features/datum-grids.js: ctx = {grids, transform} and the geo/grids.js tables it shows (passed, so the block carries no copy). */
@@ -49,7 +49,7 @@ export function installDatumDialog(app, ctx) {
         HEIGHTS.map(([k, l]) => ({
           value: k,
           text: tr(l),
-          disabled: k !== 'hae' && !grids.has(VERTICALS[k].grid),
+          disabled: k !== 'hae' && !grids.has(grids.gridFor(k)),
         }));
       const srcSel = sel(systems(), WGS84_NOW, t('Source system'));
       const tgtSel = sel(systems(), 'ITRF2014', t('Target system'));
@@ -173,7 +173,7 @@ export function installDatumDialog(app, ctx) {
         table,
         h('p', {}, copyBtn),
         section(t('Transformation and accuracy'), report),
-        h('p', { class: 'hint' }, loaded ? t('{n, plural, one {# grid} other {# grids}} loaded from data packs.', { n: loaded }) : t('No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania or geoid-egm2008-25 with File ▸ Open ▸ Open Data Pack.')),
+        h('p', { class: 'hint' }, loaded ? t('{n, plural, one {# grid} other {# grids}} loaded from data packs.', { n: loaded }) : t('No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania, geoid-egm2008-25 or geoid-egm2008-1 with File ▸ Open ▸ Open Data Pack.')),
       );
       update();
       await modal({ title: t('Datum Transform'), body, buttons: [{ label: t('Close'), value: 'close', primary: true }], width: 720, id: 'datum-transform' });

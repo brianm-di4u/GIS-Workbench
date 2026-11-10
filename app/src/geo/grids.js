@@ -112,6 +112,8 @@ export function parsePoints(text) {
  * whose worst bilinear error is 13.5 cm against 3.1 cm cubic (GeographicLib's figures).
  */
 const CUBIC = new Set(['us_nga_egm08_25']);
+/** The EGM2008 1′ tiled geoid's catalogue id (pack geoid-egm2008-1). */
+export const EGM08_1 = 'egm2008-1';
 
 export class GridEngine {
   constructor(app) {
@@ -135,6 +137,8 @@ export class GridEngine {
 
   /** Register a verified grid pack (its grids.json catalogue); grids open on first use. */
   async addPack(pack) {
+    const tiles = pack.entries.get('tiles.json');
+    if (tiles) return this.addTiledGeoid(pack, JSON.parse(new TextDecoder().decode(tiles)));
     const raw = pack.entries.get('grids.json');
     if (!raw) return [];
     const cat = JSON.parse(new TextDecoder().decode(raw));
@@ -144,6 +148,16 @@ export class GridEngine {
     for (const g of cat.grids) this.catalogue.set(g.id, { ...g, ...(CUBIC.has(g.id) && { interpolation: 'cubic' }), pack: pack.name });
     this._emit();
     return cat.grids.map((g) => g.id);
+  }
+
+  /** EGM2008 1′ (geoid-egm2008-1, REG-024): one tiled geoid, read a tile at a time in geod. */
+  async addTiledGeoid(pack, index) {
+    if (index.format !== 'gw-geoid-tiles/1') return [];
+    await this.ensure();
+    this.packs.set(pack.name, pack);
+    this.catalogue.set(EGM08_1, { id: EGM08_1, file: 'tiles.bin', op: 'vgridshift', tiled: index, epsg: 3859, name: 'WGS 84 to EGM2008 height (2)', accuracy: 0.11, vertical: 'egm2008', frame: 'WGS 84', geoid: 'EGM2008 1′', interpolation: 'cubic', pack: pack.name });
+    this._emit();
+    return [EGM08_1];
   }
 
   /** A grid the user opened as a plain file (GeoTIFF, .gsb, .gtx): op from its kind. */
@@ -172,6 +186,11 @@ export class GridEngine {
     const pack = this.packs.get(g.pack);
     const bytes = pack?.entries.get(g.file);
     if (!bytes) return null;
+    if (g.tiled) {
+      const t = this.bundle.tiledGeoid(g.tiled, bytes);
+      this.open.set(id, t);
+      return t;
+    }
     const role = g.op === 'vgridshift' ? 'vertical' : g.op === 'gridshift' ? 'generic' : 'horizontal';
     const h = this.bundle.open(bytes, role, g.file, { cacheMb: g.op === 'vgridshift' && /egm08/.test(g.file) ? 96 : 64 });
     this.open.set(id, h);
@@ -263,14 +282,31 @@ export class GridEngine {
 
   /** Geoid (or hybrid geoid) height N at a point from a loaded grid; NaN outside or on nodata. */
   undulation(gridId, lon, lat) {
+    const f = this.sampler(gridId);
+    return f ? f(lon, lat) : NaN;
+  }
+
+  /** N(lon, lat) of a loaded vertical grid (NaN outside or on nodata), or null when it is not loaded. */
+  sampler(gridId) {
     const h = this.handle(gridId);
-    return h ? this.bundle.value(h, lon, lat, 1, this.cubic(gridId)) : NaN;
+    if (!h) return null;
+    if (h.value) return (lon, lat) => h.value(lat, lon);
+    const cubic = this.cubic(gridId);
+    return (lon, lat) => this.bundle.value(h, lon, lat, 1, cubic);
+  }
+
+  /** The grid that converts heights in a vertical datum: for EGM2008, the 1′ pack when it is open. */
+  gridFor(vertical) {
+    const v = VERTICALS[vertical];
+    if (!v) return null;
+    return vertical === 'egm2008' && this.has(EGM08_1) ? EGM08_1 : v.grid;
   }
 
   /** Many undulations at once (one WASM call). */
   undulations(gridId, pts) {
     const h = this.handle(gridId);
     if (!h) return pts.map(() => NaN);
+    if (h.value) return pts.map((p) => h.value(p[1], p[0]));
     return this.bundle.apply('vgridshift', [h], pts.map((p) => [p[0], p[1], 0]), { multiplier: 1, interpolation: this.cubic(gridId) ? 'cubic' : null }).pts.map((p) => p[2]);
   }
 
@@ -290,9 +326,10 @@ export class GridEngine {
    */
   demHeights(g, vertical, fallbackN) {
     const v = VERTICALS[vertical];
-    if (!v || !this.bundle || !this.has(v.grid)) return null;
-    const h = this.handle(v.grid);
-    const cubic = this.cubic(v.grid);
+    const grid = this.gridFor(vertical);
+    if (!v || !this.bundle || !this.has(grid)) return null;
+    const N = this.sampler(grid);
+    if (!N) return null;
     const { width: W, height: H } = g;
     // Frame height change on a lattice of at most 33 × 33 nodes.
     const frame = frameOf(v);
@@ -328,16 +365,17 @@ export class GridEngine {
       const lat = g.lat0 - r * g.dlat;
       for (let c = 0; c < W; c++) {
         const lon = g.lon0 + c * g.dlon;
-        let N = this.bundle.value(h, lon, lat, 1, cubic);
-        if (!Number.isFinite(N)) {
-          N = fallbackN ? fallbackN(lat, lon) : NaN;
+        let nv = N(lon, lat);
+        if (!Number.isFinite(nv)) {
+          nv = fallbackN ? fallbackN(lat, lon) : NaN;
           outside++;
         }
-        n[r * W + c] = N + dhAt(r, c);
+        n[r * W + c] = nv + dhAt(r, c);
       }
     }
-    const cat = this.catalogue.get(v.grid);
-    const label = frame ? `${v.name} → HAE by ${cat.geoid ?? v.grid} (${cat.file}), ${frame} → ${WGS84_NOW} at ${this.epoch.toFixed(2)}` : `${v.name} → HAE by ${cat.geoid ?? v.grid} (${cat.file})`;
+    const cat = this.catalogue.get(grid);
+    const file = cat.tiled ? cat.pack : cat.file;
+    const label = frame ? `${v.name} → HAE by ${cat.geoid ?? grid} (${file}), ${frame} → ${WGS84_NOW} at ${this.epoch.toFixed(2)}` : `${v.name} → HAE by ${cat.geoid ?? grid} (${file})`;
     // Voids (NaN, or sentinels such as −32767) stay as they are.
     return { convert: (heights) => Float32Array.from(heights, (z, k) => (Number.isFinite(z) && z > -10000 ? z + n[k] : z)), label, outside, path, accuracy: cat.accuracy + (path && Number.isFinite(path.accuracy) ? path.accuracy : 0) };
   }
@@ -359,15 +397,17 @@ export class GridEngine {
 
   /** The geoid of the loaded grid that converts `vertical` heights, or null when none is loaded. */
   geoidFor(vertical) {
-    const v = VERTICALS[vertical];
-    return v && this.has(v.grid) ? this.catalogue.get(v.grid).geoid ?? v.grid : null;
+    const grid = this.gridFor(vertical);
+    return grid && this.has(grid) ? this.catalogue.get(grid).geoid ?? grid : null;
   }
 
   /** Release every WASM grid of a pack (when a pack is forgotten). */
   dropPack(name) {
     for (const [id, g] of this.catalogue) {
       if (g.pack !== name) continue;
-      if (this.open.has(id)) this.bundle.close(this.open.get(id));
+      const h = this.open.get(id);
+      if (h?.close) h.close();
+      else if (h) this.bundle.close(h);
       this.open.delete(id);
       this.catalogue.delete(id);
     }
