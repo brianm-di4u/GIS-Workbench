@@ -39,3 +39,81 @@ Before anything runs, the runner refuses a recipe that would wait for a person a
 ### Without a console window
 
 `gwb-sidecar run …` takes the same arguments as `gwb-run`, but opens no window at all, not even a console. Use it from Windows Task Scheduler, which would otherwise show a console window while the run lasts. It prints nothing. Its log in the output folder, and its exit code, are its output.
+
+## Running it on a schedule
+
+The sidecar never registers a task or a service. A schedule is one that you create, and it runs as you, when you are signed in.
+
+### Windows Task Scheduler
+
+Change the paths, then run this in PowerShell. It creates a task that runs every night at 02:00:
+
+<!-- example: windows-task -->
+```powershell
+$sidecar = 'C:\Tools\GIS Workbench Sidecar\gwb-sidecar.exe'
+$arguments = 'run folder-to-cog --in "s1=C:\GIS\in\site.tif" --out "C:\GIS\nightly"'
+$action = New-ScheduledTaskAction -Execute $sidecar -Argument $arguments
+$trigger = New-ScheduledTaskTrigger -Daily -At 2am
+$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 2)
+Register-ScheduledTask -TaskName 'GIS Workbench nightly' -Action $action -Trigger $trigger -Settings $settings
+```
+
+The same task with `schtasks`, from a Command Prompt:
+
+<!-- example: windows-schtasks -->
+```
+schtasks /Create /TN "GIS Workbench nightly" /SC DAILY /ST 02:00 /TR "\"C:\Tools\GIS Workbench Sidecar\gwb-sidecar.exe\" run folder-to-cog --in \"s1=C:\GIS\in\site.tif\" --out \"C:\GIS\nightly\""
+```
+
+To see how it went, open `C:\GIS\nightly\gwb-run.log`, or look at the task's **Last Run Result** in Task Scheduler (0 is success; the other codes are in the table above). To remove the task, run `Unregister-ScheduledTask -TaskName 'GIS Workbench nightly'`, or `schtasks /Delete /TN "GIS Workbench nightly"`.
+
+### Linux: cron
+
+Add this line with `crontab -e`:
+
+<!-- example: linux-cron -->
+```
+0 2 * * * /usr/bin/gwb-run folder-to-cog --in s1=/home/me/gis/in/site.tif --out /home/me/gis/nightly >/dev/null 2>&1
+```
+
+The run's own log is in the output folder, so cron doesn't need to mail you its output.
+
+### Linux: a systemd timer
+
+Save these two files in `~/.config/systemd/user/`:
+
+<!-- example: linux-service -->
+```ini
+# gwb-nightly.service
+[Unit]
+Description=GIS Workbench nightly recipe
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gwb-run folder-to-cog --in s1=%h/gis/in/site.tif --out %h/gis/nightly
+```
+
+<!-- example: linux-timer -->
+```ini
+# gwb-nightly.timer
+[Unit]
+Description=GIS Workbench nightly recipe
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+Then run `systemctl --user daemon-reload` and `systemctl --user enable --now gwb-nightly.timer`. `systemctl --user list-timers` shows when it runs next. To run it while you are signed out, run `loginctl enable-linger` once.
+
+## How these examples are tested
+
+The automated tests never register a task. They run each example's command directly, and check each task definition without creating it (`sidecar/gwb-sidecar/tests/gwb_run.rs`):
+
+- **Windows:** the PowerShell example builds its task with `New-ScheduledTask` instead of registering it.
+- **Linux:** `systemd-analyze verify` checks the units, and a transient `systemd-run --user` timer runs the command.
+
+Before each release, `npm run test:schedule-live` registers a real one-shot task with a unique name. It waits for the task to run, checks its files and provenance, and deletes the task. Its report goes in the release evidence.
