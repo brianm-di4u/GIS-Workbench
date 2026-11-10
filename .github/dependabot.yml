@@ -39,9 +39,3 @@ updates:
     groups:
       sidecar:
         patterns: ['*']
-    ignore:
-      # Both break the sidecar build until it's ported (#33).
-      - dependency-name: toml
-        versions: ['>= 0.9.0']
-      - dependency-name: quick-xml
-        versions: ['>= 0.42.0']

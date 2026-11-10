@@ -46,11 +46,11 @@ tokio-util = { version = "0.7", features = ["io"] }
 futures-util = { version = "0.3", default-features = false, features = ["std"] }
 http-body-util = "0.1"
 bytes = "1"
-toml = { version = "0.8", default-features = false, features = ["parse"] }
+toml = { version = "1", default-features = false, features = ["parse", "serde"] }
 sha2 = "0.11"
 hex = "0.4"
 getrandom = "0.4"
-quick-xml = "0.41"
+quick-xml = "0.42"
 # The CORS relay (REQ-GAP-08). Optional, and no release build turns it on (OD-2.17).
 rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"], optional = true }
 tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12"], optional = true }
