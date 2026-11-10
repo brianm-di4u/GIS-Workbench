@@ -17,12 +17,18 @@ describe('the freshness setting', () => {
     expect(setting.floor.length).toBeGreaterThan(0);
   });
 
-  it('keeps every group non-empty and gives each crate its own group', () => {
+  it('keeps every group non-empty, and each crate group on a crate that exists', () => {
     for (const [name, globs] of Object.entries(setting.groups)) expect(globs.length, name).toBeGreaterThan(0);
-    // Every crate directory, so a new crate fails here until its group is added.
+    // Not the other way round: a new crate starts ungrouped, so adding one stays a T1 change.
+    // Its group follows in a later config change, and until then it is held on same-file overlap.
     const crates = readdirSync('crates', { withFileTypes: true }).filter((d) => d.isDirectory() && d.name.startsWith('gw-')).map((d) => d.name);
-    expect(crates.length).toBeGreaterThan(0);
-    for (const crate of crates) expect(setting.groups[`crate-${crate}`], crate).toEqual([`crates/${crate}/**`]);
+    const grouped = Object.entries(setting.groups).filter(([name]) => name.startsWith('crate-gw-'));
+    expect(grouped.length).toBeGreaterThan(0);
+    for (const [name, globs] of grouped) {
+      const crate = name.slice('crate-'.length);
+      expect(crates, name).toContain(crate);
+      expect(globs, name).toEqual([`crates/${crate}/**`]);
+    }
   });
 
   it('lets unrelated PRs merge without updating', () => {
