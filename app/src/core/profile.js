@@ -30,6 +30,7 @@ export const FULL_RECORD_NAMES = {
   msiclass: N_('classifications'),
   fmvevent: N_('video events'),
   catalog: N_('catalogues'),
+  workflow: N_('workflows'),
   airport: N_('airports'),
   obstruction: N_('obstruction surfaces'),
   tripoint: N_('triangulation points'),

@@ -124,6 +124,27 @@
 .rcp-done .rcp-n { background: #2e7d32; color: #fff; }
 .rcp-failed { border-color: #c62828; }
 .rcp-failed .rcp-n { background: #c62828; color: #fff; }
+/* Workflow Builder (REQ-GAP-84): node graph and list view. */
+.wf-panel { display: flex; flex-direction: column; gap: 6px; padding: 6px; min-height: 0; }
+.wf-canvas { overflow: auto; border: 1px solid color-mix(in srgb, currentColor 16%, transparent); border-radius: var(--shape-medium, 8px); min-height: 160px; }
+.wf-graph { display: block; }
+.wf-node rect { fill: var(--c-m3-surfaceContainer, #f3f4f8); stroke: color-mix(in srgb, currentColor 30%, transparent); }
+.wf-node:focus-visible rect, .wf-sel rect { stroke: var(--c-m3-primary, #2f5fb3); stroke-width: 2; }
+.wf-node:focus { outline: none; }
+.wf-node text { fill: currentColor; font-size: 11px; }
+.wf-title { font-weight: 600; font-size: 12px; }
+.wf-done rect { stroke: #2e7d32; }
+.wf-failed rect { stroke: #c62828; stroke-width: 2; }
+.wf-running rect, .wf-waiting rect { stroke: var(--c-m3-primary, #2f5fb3); stroke-dasharray: 4 3; }
+.wf-stale rect { stroke-dasharray: 2 2; }
+.wf-port { fill: var(--c-m3-primary, #2f5fb3); cursor: crosshair; }
+.wf-wire { fill: none; stroke: color-mix(in srgb, currentColor 55%, transparent); stroke-width: 1.5; }
+.wf-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.wf-item { border: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius: var(--shape-medium, 8px); padding: 6px; }
+.wf-item.wf-sel, .wf-item:focus-visible { outline: 2px solid var(--c-m3-primary, #2f5fb3); }
+.wf-item-head { display: flex; justify-content: space-between; gap: 8px; }
+.wf-badge { font-size: 11px; opacity: 0.8; }
+.wf-error { color: #c62828; }
 .rcp-waiting { border-color: #f9a825; box-shadow: 0 0 0 2px color-mix(in srgb, #f9a825 35%, transparent); }
 .rcp-waiting .rcp-n { background: #f9a825; color: #000; }
 .rcp-stale, .rcp-skipped { opacity: .65; }

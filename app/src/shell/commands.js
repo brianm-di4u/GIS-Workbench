@@ -556,7 +556,8 @@ const CATALOG = [
   ['align.ai', N_('Auto Align (AI)'), 'align', 'REQ-LAI-05', 'R4', '', N_('Lines up the active image with the reference by matching learned keypoints; works across dates and sensors.')],
   // ---- 2.0 recipes (P6) ----
   ['rcp.open', N_('Recipes'), 'template', 'REQ-PIP-02', 'R4', '', N_('Shows the recipe stepper: run a workflow step by step, change a step and re-run from there.')],
-  ['rcp.import', N_('Open Recipe…'), 'open', 'REQ-PIP-01', 'R4', '', N_('Opens a .gwrecipe.json file and keeps it in your recipe list.')],
+  ['rcp.import', N_('Open Recipe…'), 'open', 'REQ-PIP-01', 'R4', '', N_('Opens a .gwrecipe.json file and keeps it in your recipe library.')],
+  ['pip.builder', N_('Workflow Builder'), 'list', 'REQ-GAP-84', 'R10', '', N_('Wires steps into a workflow, output to input; saves it in the project and your library, and runs it again on new inputs.')],
   ['rcp.airfield-triage', N_('Airfield Triage'), 'list', 'REQ-PIP-04', 'R4', '', N_('Runs the recipe: auto contrast, find aircraft, your review, a chip deck and a GeoJSON of the accepted ones.')],
   ['rcp.damage-triage', N_('Damage Triage'), 'list', 'REQ-PIP-04', 'R4', '', N_('Runs the recipe: align the post-event image, find damage, your review, GeoJSON.')],
   ['rcp.folder-to-cog', N_('Convert a Folder to COG'), 'list', 'REQ-PIP-04', 'R4', '', N_('Runs the recipe: every raster in a folder becomes a Cloud-Optimized GeoTIFF.')],

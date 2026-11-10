@@ -67,7 +67,7 @@ test('REQ-PIP-01 REQ-PIP-02 REQ-PIP-03 a recipe runs as a stepper, pauses at its
   // Save: the edited parameter goes with the file.
   const [dl2] = await Promise.all([page.waitForEvent('download'), frame.locator('[data-id="recipe:save"]').click()]);
   const saved = JSON.parse(readFileSync(await dl2.path(), 'utf8'));
-  expect(saved.format).toBe('gw-recipe/1');
+  expect(saved.format).toBe('gw-recipe/2');
   expect(saved.steps[1].params.threshold).toBe(0.3);
 });
 
