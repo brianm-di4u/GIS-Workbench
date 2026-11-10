@@ -52,6 +52,9 @@ export const BUNDLES = [
   // (Annex 14) and 9-41 % (Amendment 18) slower, against SDP-2.7 §4.6's 10 % allowance; 's' would
   // save 1.5 KB of 52 KB gzip.
   { name: 'aviation', crate: 'gw-bundle-aviation', load: 'lazy', budget: 64 * 1024, opt: '3' },
+  // 2.7.0 vector geoprocessing (REQ-GAP-79): buffer and dissolve on i_overlay, which alone is about
+  // 51 KB gzip with its boolean engine and 68 KB with offsets and strokes at opt z (validation/2.7).
+  { name: 'geoproc', crate: 'gw-bundle-geoproc', load: 'lazy', budget: 96 * 1024, opt: 'z' },
 ];
 export const TOTAL_BUDGET = WASM_TOTAL_BUDGET;
 
@@ -78,7 +81,7 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
   const remap = remapCargoHome();
   for (const b of BUNDLES) {
     const env = { ...process.env, CARGO_PROFILE_RELEASE_OPT_LEVEL: b.opt };
-    const r = spawnSync('cargo', [...remap, 'build', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
+    const r = spawnSync('cargo', [...remap, 'build', '--locked', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
     if (r.status !== 0) throw new Error(`cargo build ${b.crate} failed:\n${r.stderr}`);
   }
   const tdir = join(targetDir(crates), 'wasm32-unknown-unknown', 'release');
@@ -115,7 +118,7 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
   errors.push(...wasmGate(results));
   errors.push(...determinismGate(results.map((r) => ({ name: r.name, bytes: r.bytes }))));
   // REQ-RUST-09: licence gate, when cargo-deny is installed.
-  const deny = spawnSync('cargo', ['deny', '--all-features', 'check', 'licenses'], { cwd: crates, encoding: 'utf8' });
+  const deny = spawnSync('cargo', ['deny', '--locked', '--all-features', 'check', 'licenses'], { cwd: crates, encoding: 'utf8' });
   const licenceGate = deny.error ? 'not run (cargo-deny unavailable)' : deny.status === 0 ? 'pass' : 'fail';
   if (licenceGate === 'fail') errors.push(`REQ-RUST-09: cargo-deny licences failed:\n${deny.stderr.slice(-2000)}`);
   if (strict && deny.error) errors.push('rust: --strict needs cargo-deny');
@@ -127,7 +130,7 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
 /** Licence summary of third-party crates linked into the bundles (for the notices block). */
 export function rustNotices(crates) {
   try {
-    const out = execFileSync('cargo', ['metadata', '--format-version', '1', '--filter-platform', 'wasm32-unknown-unknown'], { cwd: crates, encoding: 'utf8', maxBuffer: 64 << 20 });
+    const out = execFileSync('cargo', ['metadata', '--locked', '--format-version', '1', '--filter-platform', 'wasm32-unknown-unknown'], { cwd: crates, encoding: 'utf8', maxBuffer: 64 << 20 });
     const meta = JSON.parse(out);
     const ws = new Set(meta.workspace_members);
     return meta.packages.filter((p) => !ws.has(p.id)).map((p) => ({ name: p.name, version: p.version, license: p.license ?? 'unknown', repository: p.repository ?? '' }));

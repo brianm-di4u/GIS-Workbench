@@ -61,7 +61,7 @@ async function allowed(page, origins) {
   const r = await openApp(page2, 'file', { htmlPath: copy });
   return { page2, ...r };
 }
-const quiet = (logs) => logs.filter((l) => !/favicon|ERR_CONNECTION_REFUSED|127\.0\.0\.1:4782|status of 404|status of 499/.test(l));
+const quiet = (logs) => logs.filter((l) => !/ERR_CONNECTION_REFUSED|127\.0\.0\.1:4782|status of 404|status of 499/.test(l));
 
 async function axe(frame, sel) {
   if (!(await frame.evaluate(() => !!window.axe))) await frame.evaluate(AXE);

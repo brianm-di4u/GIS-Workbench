@@ -102,9 +102,10 @@ export function upgradeGltf1(b) {
     const v = m.extensions?.KHR_materials_common?.values ?? m.values ?? {};
     const d = v.diffuse ?? v.u_diffuse ?? v.ambient;
     const pbr = { metallicFactor: 0, roughnessFactor: 1 };
-    if (Array.isArray(d)) pbr.baseColorFactor = [d[0] ?? 1, d[1] ?? 1, d[2] ?? 1, d[3] ?? 1];
-    else if (typeof d === 'string' && texIdx.has(d)) pbr.baseColorTexture = { index: texIdx.get(d) };
-    else if (Array.isArray(d) && typeof d[0] === 'string' && texIdx.has(d[0])) pbr.baseColorTexture = { index: texIdx.get(d[0]) };
+    const tex = Array.isArray(d) ? d[0] : d; // a texture is named alone or as the array's first item (#37)
+    if (typeof tex === 'string') {
+      if (texIdx.has(tex)) pbr.baseColorTexture = { index: texIdx.get(tex) };
+    } else if (Array.isArray(d)) pbr.baseColorFactor = [d[0] ?? 1, d[1] ?? 1, d[2] ?? 1, d[3] ?? 1];
     return { name: m.name ?? k, pbrMetallicRoughness: pbr, doubleSided: !!(m.extensions?.KHR_materials_common?.doubleSided ?? v.doubleSided) };
   });
   const meshIdx = index(j.meshes);
