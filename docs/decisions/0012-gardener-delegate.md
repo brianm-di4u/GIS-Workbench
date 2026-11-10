@@ -3,7 +3,7 @@
 - **Date:** 2026-11-09
 - **Class:** major
 - **Issue:** none; the admin approved the plan in chat on 2026-11-09
-- **Status:** accepted
+- **Status:** superseded by [0014](0014-no-delegate-approver.md)
 
 ## Context
 

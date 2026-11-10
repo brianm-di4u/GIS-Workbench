@@ -26,20 +26,6 @@ There is no telemetry, so there are no usage dashboards or user error logs. Repo
 - **Update the site.** Open a PR on the site repo with the app files, changelog, and `BUILD`. The admin merges it. Pushing the site's `main` deploys production in about 10 seconds. Check the live app's hash against `SHA256SUMS`.
 - **Rotate the agent token.** The admin creates a new restricted token with the same permissions, stores it in the agents' separate GitHub CLI profile, then revokes the old one. Agents never handle the token. Do this on expiry, or at once if it may have leaked.
 
-## The delegate
-
-The Gardener is the GitHub account `gwb-gardener`, listed under `delegates` in `pipeline.config.json`. [Decision 0012](decisions/0012-gardener-delegate.md) says what it may and may not do.
-
-- **Rotate its token.** Do this on expiry, or at once if the token may have leaked. In your own terminal, never in an agent session:
-  1. On the `gwb-gardener` account, create a new classic token with only `public_repo` and `workflow`.
-  2. Run `pwsh -File <dev-pipeline>\tools\setup-delegate.ps1 -Clone <the Gardener's clone>`. It prompts for the token without echoing it and keeps it out of git.
-  3. Revoke the old token on the account.
-  4. In the Gardener's clone, check that `gh api user --jq .login` prints `gwb-gardener`.
-- **Lift a suspension.** Two bad gardener-approved merges inside the breaker window, or a forged `pipeline/gate` check, make the bot open a `pipeline:delegate-suspended` issue. Read why, fix the cause, then comment `/rearm` on that issue yourself. Only an admin's comment lifts it. A command the delegate posted while suspended never counts, so it must post it again.
-- **If the token may have leaked.** The off-switch below is a PR, and the Gardener's earlier approvals keep counting until it merges. So first remove `gwb-gardener` as a collaborator and revoke the token. Then delete its `/approve`, `/decide` and `/rearm` comments on open PRs, decision issues and breaker issues, so the gate stops counting them. Deleting a `/decide` does not re-run the gate on a PR that already cites it, so edit the body of each open PR that cites a decision the Gardener answered. Review the PRs labelled `pipeline:delegate-approved` that merged after the suspected leak. Then turn it off, or rotate the token as above.
-- **If the account is deleted or renamed,** remove its entry from `delegates` first.
-- **Turn it off.** Remove `delegates` from `pipeline.config.json` in a PR you approve. With the key gone the pipeline behaves as it did before: only an admin's commands count, and the admin-only paths no longer apply. Then revoke the token, and remove the account as a collaborator. `tiers.adminOnlyPaths` and `models` can stay.
-
 ## Updating from dev-pipeline
 
 `pipeline update` keeps any file this repo changed and prints it as KEPT, and each one needs a look by hand. `.pipeline/lib/git.mjs` is a local fork that carries the diff-based change hash ([decision 0008](decisions/0008-change-hash-binds-to-the-diff.md)): keep its `patchLines` and `splitPatch`, and run `node .pipeline/gate.mjs classify` and `tests/unit/change-hash.test.js` after merging. The other kept files are `.pipeline/verify.mjs` (the machine lock), `release.yml` (the owner-only check on every job and the release steps), `nightly.yml`, `app-setup/action.yml`, `dependabot.yml` and the `modernize` skill.
