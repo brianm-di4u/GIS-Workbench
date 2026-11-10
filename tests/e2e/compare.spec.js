@@ -110,9 +110,11 @@ test('REQ-IMG-24 porthole, swiper, blend, flicker and two-colour draw the expect
   expect(logs).toEqual([]);
 });
 
-test('AT-11.1 swipe and porthole render a 2k viewport at ≥ 30 fps', async ({ page }) => {
+test('AT-11.1 swipe and porthole render a 2k viewport at ≥ 30 fps', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 2560, height: 1440 });
   const { frame } = await ready(page);
+  // A real-time budget: Firefox on a runner's software GL (llvmpipe) draws about 9 fps (#48).
+  test.skip(browserName === 'firefox' && (await frame.evaluate(() => !!window.gisworkbench.softwareGl)), 'a frame-rate budget software GL cannot meet');
   for (const mode of ['cmp.swiper', 'cmp.porthole']) {
     const fps = await frame.evaluate(async (cmd) => {
       const app = window.gisworkbench;
