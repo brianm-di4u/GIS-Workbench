@@ -75,6 +75,36 @@ export class GeodBundle extends Bundle {
     return this.x.gw_vgrid_value(id, lon, lat, multiplier, cubic ? 1 : 0);
   }
 
+  /**
+   * A geoid read a tile at a time (EGM2008 1′, REG-024): `index` is the pack's tiles.json
+   * ({rows, cols, cells, offset, scale, tiles, offsets}), `bin` its tiles.bin. Tiles are decoded
+   * in WASM as points need them, `cap` kept. Returns {value(lat, lon) → N, close()}.
+   */
+  tiledGeoid(index, bin, { cap = 32 } = {}) {
+    const { offsets } = index;
+    if (offsets?.length !== index.tiles + 1 || offsets.at(-1) !== bin.length) throw new Error('tiled geoid: the index does not match the tiles');
+    const id = this.x.gw_tgeoid_open(index.rows, index.cols, index.cells, index.offset, index.scale, cap);
+    if (id <= 0) this.check(-id, 'tgeoid_open');
+    const load = (k) =>
+      this.guard(() => {
+        const [p, n] = this.put(bin.subarray(offsets[k], offsets[k + 1]));
+        try {
+          this.check(this.x.gw_tgeoid_put(id, k, p, n), 'tgeoid_put');
+        } finally {
+          this.free(p, n);
+        }
+      });
+    return {
+      value: (lat, lon) => {
+        const v = this.x.gw_tgeoid_value(id, lat, lon);
+        if (!Number.isNaN(v) || !Number.isFinite(lat) || !Number.isFinite(lon)) return v;
+        load(this.x.gw_tgeoid_tile(id, lat, lon));
+        return this.x.gw_tgeoid_value(id, lat, lon);
+      },
+      close: () => this.x.gw_tgeoid_free(id),
+    };
+  }
+
   /** [{name, geocentric, geographic3d, geographic2d, ellipsoid}] */
   frames() {
     return this.guard(() => {
