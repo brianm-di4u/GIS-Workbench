@@ -57,6 +57,6 @@ Keep `CLAUDE.md` and `REVIEW.md` short, and remove lines that have stopped being
 ## Staying honest
 
 - Show evidence, not claims: the command that ran and what it returned. Green mocked tests don't prove UI or runtime behavior, so run it and look.
-- Keep changes small. Prefer the fix that deletes or narrows code.
+- Batch related work: one PR may close several issues from the same area, with one commit per issue. Keep each fix narrow, and prefer the fix that deletes or narrows code. Never put a T2 path into a T1 batch. Split it out instead.
 - Say what you couldn't verify.
 - You land it, you own it: if your change breaks main, reverting it or fixing it comes first.

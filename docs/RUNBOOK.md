@@ -28,7 +28,7 @@ There is no telemetry, so there are no usage dashboards or user error logs. Repo
 
 ## Updating from dev-pipeline
 
-`pipeline update` keeps any file this repo changed and prints it as KEPT, and each one needs a look by hand. `.pipeline/lib/git.mjs` is a local fork that carries the diff-based change hash ([decision 0008](decisions/0008-change-hash-binds-to-the-diff.md)): keep its `patchLines` and `splitPatch`, and run `node .pipeline/gate.mjs classify` and `tests/unit/change-hash.test.js` after merging. The other kept files are `.pipeline/verify.mjs` (the machine lock), `release.yml` (the owner-only check on every job and the release steps), `nightly.yml`, `app-setup/action.yml`, `dependabot.yml` and the `modernize` skill.
+`pipeline update` keeps any file this repo changed and prints it as KEPT, and each one needs a look by hand. `.pipeline/lib/git.mjs` is a local fork that carries the diff-based change hash ([decision 0008](decisions/0008-change-hash-binds-to-the-diff.md)): keep its `patchLines` and `splitPatch`, and run `node .pipeline/gate.mjs classify` and `tests/unit/change-hash.test.js` after merging. The other kept files are `.pipeline/AUTONOMY.md` and the `autopilot` skill (batched PRs, decision 0014), `.pipeline/verify.mjs` (the machine lock), `release.yml` (the owner-only check on every job and the release steps), `nightly.yml`, `app-setup/action.yml`, `dependabot.yml` and the `modernize` skill.
 
 ## Dependencies
 
