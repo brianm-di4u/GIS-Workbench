@@ -48,6 +48,7 @@ const PREFIX_CAT = {
   bands: 'spectral', clip: 'enhance', profile: 'analyze', lay: 'view', cmp: 'compare', chg: 'compare', dem: 'terrain', los: 'terrain', msi: 'spectral', tin: 'terrain',
   fmv: 'video', mie: 'video', sar: 'sar', pc: 'points', ext: 'extract', obs: 'extract', det: 'extract', vec: 'extract', tools: 'file', ui: 'view',
   hud: 'view', deck: 'products', patrol: 'nav', triage: 'extract', net: 'data', glb: 'scene3d', cat: 'data', cnv: 'file', lai: 'ai', rcp: 'analyze', hub: 'products',
+  hydro: 'terrain',
 };
 
 /** Plain-language names for jargon, searched by the palette (REQ-SHL-06, review item 9). */
@@ -484,6 +485,10 @@ const OUT = {
   'pc.withheld': N_('Marks the selected points as withheld, so products leave them out.'),
   'pc.delete': N_('Deletes the selected points; undo brings them back.'),
   'pc.colourise': N_('Gives points the colour of the image below them.'),
+  'hydro.fill': N_('Fills pits in the elevation model so water can run off it.'),
+  'hydro.flow': N_('Shows how much ground drains through each point.'),
+  'hydro.streams': N_('Draws the stream network and orders its branches.'),
+  'hydro.watershed': N_('Outlines the land that drains to a point you pick.'),
   'pc.assigncrs': N_('Puts a point cloud with no usable coordinate system in the right place on the map.'),
   'ext.toolbox': N_('Shows the feature capture tools.'),
   'ext.repeat': N_('Repeats the last capture tool.'),
@@ -543,6 +548,10 @@ const KW = {
   'model.csm': ['csm', 'usgscsm', 'isd', 'ale', N_('sensor model'), N_('camera')],
   'model.ossim': ['ossim', 'radarsat', 'terrasar', 'pleiades', 'rpc', N_('sensor model'), N_('sidecar')],
   'msi.endmembers': ['vca', 'ppi', 'n-findr', N_('endmember'), N_('unmixing'), N_('pixel purity'), N_('hyperspectral')],
+  'hydro.fill': [N_('hydrology'), N_('sinks'), N_('depressions'), N_('pits'), N_('fill')],
+  'hydro.flow': [N_('hydrology'), N_('flow direction'), N_('flow accumulation'), 'd8', 'dinf', N_('drainage')],
+  'hydro.streams': [N_('hydrology'), N_('rivers'), N_('channels'), N_('drainage network'), 'strahler', 'shreve'],
+  'hydro.watershed': [N_('hydrology'), N_('catchment'), N_('drainage basin'), N_('pour point'), N_('gauge')],
   'vec.buffer': [N_('buffer'), N_('offset'), N_('distance zone'), N_('geodesic')],
   'vec.overlay': [N_('intersect'), N_('union'), N_('erase'), N_('clip'), N_('difference'), N_('symmetric difference')],
   'vec.dissolve': [N_('merge'), N_('aggregate'), N_('union by attribute')],

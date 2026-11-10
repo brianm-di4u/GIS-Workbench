@@ -38,7 +38,7 @@ export async function readFgb(lib, bytes, { run = null } = {}) {
   // the library loops for ever, synchronously, on a cut file (TE 2.0.4 cross, damaged-file pass).
   try {
     if (run) ({ header, got } = await run(bytes));
-    else for await (const f of lib.deserialize(new Blob([bytes]).stream(), undefined, (h) => (header = h))) got.push(f);
+    else for await (const f of lib.deserialize(new Blob([bytes]).stream(), { headerMetaFn: (h) => (header = h) })) got.push(f);
   } catch (e) {
     if (/is not valid JSON|Unexpected token/.test(e.message)) throw new Error('a Json column holds text that is not JSON (written so by its producer)');
     throw gwError('the FlatGeobuf file is not readable ({detail})', { detail: e.message }, 'E_FGB_UNREADABLE');

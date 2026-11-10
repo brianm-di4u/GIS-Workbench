@@ -277,40 +277,40 @@ pub fn parse_creation_options(text: &str, tag: &str) -> Vec<CreationOption> {
     let mut depth_option = false;
     loop {
         match r.read_event() {
-            Ok(Event::Start(e)) | Ok(Event::Empty(e)) if e.name().as_ref() == b"Option" => {
+            Ok(Event::Start(e)) | Ok(Event::Empty(e)) if e.name().as_ref() == "Option" => {
                 let mut o = CreationOption { name: String::new(), kind: "string".into(), values: vec![], default: None, description: None, min: None, max: None };
                 for at in e.attributes().flatten() {
                     let v = at.normalized_value(quick_xml::XmlVersion::Implicit1_0).map(|c| c.into_owned()).unwrap_or_default();
                     match at.key.as_ref() {
-                        b"name" => o.name = v,
-                        b"type" => o.kind = v,
-                        b"default" => o.default = Some(v),
-                        b"description" => o.description = Some(v),
-                        b"min" => o.min = v.parse().ok(),
-                        b"max" => o.max = v.parse().ok(),
+                        "name" => o.name = v,
+                        "type" => o.kind = v,
+                        "default" => o.default = Some(v),
+                        "description" => o.description = Some(v),
+                        "min" => o.min = v.parse().ok(),
+                        "max" => o.max = v.parse().ok(),
                         _ => {}
                     }
                 }
                 depth_option = true;
                 out.push(o);
             }
-            Ok(Event::End(e)) if e.name().as_ref() == b"Option" => depth_option = false,
-            Ok(Event::Start(e)) if e.name().as_ref() == b"Value" => in_value = depth_option,
-            Ok(Event::End(e)) if e.name().as_ref() == b"Value" => in_value = false,
+            Ok(Event::End(e)) if e.name().as_ref() == "Option" => depth_option = false,
+            Ok(Event::Start(e)) if e.name().as_ref() == "Value" => in_value = depth_option,
+            Ok(Event::End(e)) if e.name().as_ref() == "Value" => in_value = false,
             Ok(Event::Text(t)) if in_value => {
-                if let (Some(o), Ok(v)) = (out.last_mut(), t.decode()) {
+                if let Some(o) = out.last_mut() {
+                    let v = t.xml_content(quick_xml::XmlVersion::Implicit1_0);
                     o.values.push(v.trim().to_string());
                 }
             }
             // Entities in a value arrive as their own events (quick-xml >= 0.38).
             Ok(Event::GeneralRef(r)) if in_value => {
-                let name: &[u8] = &r;
-                let ch = match name {
-                    b"amp" => "&",
-                    b"lt" => "<",
-                    b"gt" => ">",
-                    b"quot" => "\"",
-                    b"apos" => "'",
+                let ch = match r.as_ref() {
+                    "amp" => "&",
+                    "lt" => "<",
+                    "gt" => ">",
+                    "quot" => "\"",
+                    "apos" => "'",
                     _ => "",
                 };
                 if let Some(o) = out.last_mut() {
@@ -358,6 +358,14 @@ mod tests {
         let l = parse_creation_options(t, "LayerCreationOptionList");
         assert_eq!(l.len(), 1);
         assert_eq!(l[0].name, "FID");
+    }
+
+    #[test]
+    fn creation_option_entities() {
+        let t = "<CreationOptionList><Option name='SEP' type='string-select' description='a &amp; b'><Value>&amp;</Value><Value>TAB</Value></Option></CreationOptionList>";
+        let o = parse_creation_options(t, "CreationOptionList");
+        assert_eq!(o[0].description.as_deref(), Some("a & b"));
+        assert_eq!(o[0].values, vec!["&", "TAB"]);
     }
 
     #[test]

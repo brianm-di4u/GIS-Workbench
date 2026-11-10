@@ -9,7 +9,8 @@ import * as esbuild from 'esbuild';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, statSync } from 'node:fs';
+import { gzipStable, shippedWasm } from './repro.mjs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildRust, BUNDLES, rustNotices } from './rust.mjs';
@@ -203,7 +204,7 @@ function usgscsmBytes(root, errors) {
 }
 
 function block({ name, kind, bytes, gz = true, load = 'lazy', licence = 'see notices', extra = {} }) {
-  const stored = gz ? gzipSync(bytes, { level: 9 }) : bytes;
+  const stored = gz ? gzipStable(bytes) : bytes;
   const b64 = Buffer.from(stored).toString('base64');
   const sha = sha256(bytes);
   return {
@@ -224,15 +225,13 @@ async function main() {
     errors.push(...rust.errors);
     log(`rust: ${rust.bundles.map((b) => `${b.name} ${(b.gzip / 1024).toFixed(1)} KB gz`).join(', ')}; licences ${rust.licenceGate}`);
   } else {
-    // Reuse the last cargo output, as the full build ships it: the wasm-opt output when it is not
-    // older than the cargo output (else the size and boot figures are those of unoptimised modules).
+    // Reuse the last cargo output, as the full build ships it: the wasm-opt output when it was made
+    // from these cargo bytes (else the size and boot figures are those of unoptimised modules).
     const { execFileSync } = await import('node:child_process');
     const tdir = JSON.parse(execFileSync('cargo', ['metadata', '--format-version', '1', '--no-deps'], { cwd: join(root, 'crates'), encoding: 'utf8' })).target_directory;
     for (const b of BUNDLES) {
       const raw = join(tdir, 'wasm32-unknown-unknown', 'release', `${b.crate.replace(/-/g, '_')}.wasm`);
-      const opt = `${raw}.opt.wasm`;
-      const f = existsSync(opt) && statSync(opt).mtimeMs >= statSync(raw).mtimeMs ? opt : raw;
-      const bytes = readFileSync(f);
+      const bytes = readFileSync(shippedWasm(raw, (why) => warnings.push(`rust: ${b.name} ships unoptimised: its wasm-opt output is not used, because ${why}; run npm run build to refresh it`)));
       rust.bundles.push({ ...b, bytes, raw: bytes.length, gzip: gzipSync(bytes, { level: 9 }).length, licence: 'Apache-2.0' });
     }
     rust.rustNotices = rustNotices(join(root, 'crates')); // the notices list the linked crates either way
@@ -526,7 +525,7 @@ function liteFile({ boot, liteApp, blocks, manifest, noticesText }) {
 }
 
 function liteHtml(html, csp) {
-  const payload = gzipSync(Buffer.from(html), { level: 9 }).toString('base64');
+  const payload = gzipStable(Buffer.from(html)).toString('base64');
   const stub = [
     '(async () => {',
     "  const el = document.getElementById('gw-payload');",

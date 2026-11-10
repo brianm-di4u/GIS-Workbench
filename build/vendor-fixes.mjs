@@ -15,6 +15,24 @@ const FIXES = [
     replace: 'new DataSlice(data[0], $1, this.littleEndian, false)',
     count: 2,
   },
+  {
+    // #32: flatgeobuf 4.6 works out a zstd.wasm URL from document.currentScript when the module
+    // loads. Blocks run from blob: URLs, which cannot be a base, so `new URL` threw, js-fgb never
+    // registered and Convert ▸ FlatGeobuf failed. The URL only serves seekable Zstandard reads,
+    // which the app does not ask for (no `seekableZstd` option).
+    file: /[\\/]flatgeobuf[\\/]lib[\\/]mjs[\\/]generic[\\/]featurecollection\.js$/,
+    find: /const browserWasmUrl = \(\(\) => \{[\s\S]*?\n\}\)\(\);/g,
+    replace: 'const browserWasmUrl = undefined;',
+    count: 1,
+  },
+  {
+    // #32: and the codec for those reads, @bokuweb/zstd-wasm, is left out of the js-fgb block
+    // rather than shipped unused. A seekable Zstandard file is refused with a message.
+    file: /[\\/]flatgeobuf[\\/]lib[\\/]mjs[\\/]seekable-zstd\.js$/,
+    find: /import\('@bokuweb\/zstd-wasm'\)/g,
+    replace: "Promise.reject(new Error('seekable Zstandard FlatGeobuf files are not supported'))",
+    count: 1,
+  },
 ];
 
 export const vendorFixes = {

@@ -7,6 +7,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
+import { stampOptimised, unstampOptimised } from './repro.mjs';
 import { wasmGate, crateLicenceGate, determinismGate, WASM_TOTAL_BUDGET } from './gates.mjs';
 import { scopeCargoTarget } from './cargo-target.mjs';
 
@@ -51,6 +52,8 @@ export const BUNDLES = [
   // (Annex 14) and 9-41 % (Amendment 18) slower, against SDP-2.7 §4.6's 10 % allowance; 's' would
   // save 1.5 KB of 52 KB gzip.
   { name: 'aviation', crate: 'gw-bundle-aviation', load: 'lazy', budget: 64 * 1024, opt: '3' },
+  // 2.7.0 (REQ-GAP-80, SDP-2.7 §4.2): hydrology on whole grids, analysis worker. S-63: about 12 KB.
+  { name: 'hydro', crate: 'gw-bundle-hydro', load: 'lazy', budget: 32 * 1024, opt: '3' },
   // 2.7.0 vector geoprocessing (REQ-GAP-79): buffer and dissolve on i_overlay, which alone is about
   // 51 KB gzip with its boolean engine and 68 KB with offsets and strokes at opt z (validation/2.7).
   { name: 'geoproc', crate: 'gw-bundle-geoproc', load: 'lazy', budget: 96 * 1024, opt: 'z' },
@@ -100,8 +103,12 @@ export function buildRust(root, { log = console.log, strict = false } = {}) {
       // not relaxed SIMD. With SIMD alone binaryen validated against the MVP and refused every module
       // (memory.copy), so wasm-opt had never run on a release.
       const features = ['--enable-simd', '--disable-relaxed-simd', '--enable-bulk-memory', '--enable-bulk-memory-opt', '--enable-nontrapping-float-to-int', '--enable-sign-ext', '--enable-mutable-globals', '--enable-multivalue', '--enable-reference-types'];
+      unstampOptimised(out); // a wasm-opt run that fails or is cut short must not keep the last record
       const r = spawnSync('wasm-opt', [`-O${b.opt === 'z' ? 'z' : '3'}`, ...features, ...(b.wasmSkip ?? []).map((p) => `--skip-pass=${p}`), '--strip-debug', '--strip-producers', file, '-o', out], { encoding: 'utf8' });
-      if (r.status === 0) bytes = readFileSync(out);
+      if (r.status === 0) {
+        bytes = readFileSync(out);
+        stampOptimised(file, out);
+      }
       else errors.push(`rust: wasm-opt rejected ${b.name}: ${(r.stderr || '').trim().split('\n')[0]}`);
     }
     const mod = new WebAssembly.Module(bytes);
