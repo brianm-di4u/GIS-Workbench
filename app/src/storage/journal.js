@@ -19,6 +19,8 @@ export class Journal {
     this.holding = 0; // saves under way: no write until they finish
     this.chain = Promise.resolve(); // the writes, one after another
     this.timer = 0;
+    this.replace = null; // the entry Recover read: the next write starts afresh in its place (#117)
+    this.upto = 0; // the last change set the entry's snapshot holds, when a write compacted it
     this.enabled = app.prefs.get('journal') !== 'off';
     this.available = false;
     this.key = null; // AES-GCM key from the session passphrase (REQ-SEC-06); never stored
@@ -141,7 +143,9 @@ export class Journal {
     const batch = this.queue.splice(0); // taken now: a save may begin while this reads
     const pid = this.projectKey();
     // The first write of a project starts from `base`: its first records, the panes among them, are in no change set.
-    let prev = (await this.get('journal', pid)) ?? { changesets: [], snapshot: this.base, views: this.views };
+    const replace = this.replace;
+    this.replace = null;
+    let prev = (!replace && (await this.get('journal', pid))) || { changesets: [], snapshot: this.base, views: this.views };
     if (prev.enc) {
       // Encrypted earlier in this session: open with the session key, else start afresh.
       try {
@@ -150,14 +154,17 @@ export class Journal {
         prev = { changesets: [], snapshot: null };
       }
     }
-    prev.changesets.push(...batch);
+    // A change set committed while an earlier write compacted is in that snapshot already (#117).
+    prev.changesets.push(...batch.filter((c) => c.seq > this.upto));
     // Snapshot every 200 change sets so recovery stays fast.
     if (prev.changesets.length >= 200) {
       prev.snapshot = this.app.store.snapshot();
       prev.changesets = [];
+      this.upto = this.seq;
     }
     prev.updated = Date.now();
     await this.put('journal', pid, await this.seal(prev));
+    if (replace && replace !== pid) await this.del('journal', replace);
   }
 
   projectKey() {
@@ -193,9 +200,29 @@ export class Journal {
       this.holding--;
       this.base = records;
       this.views = views;
+      this.upto = 0; // a fresh entry from the saved records: no snapshot of the store's
       this.queue = this.queue.filter((c) => c.seq > since && (c.seq <= until || c.seq > own));
+      const recovered = this.replace; // the save holds what Recover read, so its entry goes too
+      this.replace = null;
       await this.del('journal', pid);
+      if (recovered && recovered !== pid) await this.del('journal', recovered);
       await this.write();
+    });
+  }
+
+  /**
+   * Recover is rebuilding the store from the entry under `key`. The next write replaces that entry
+   * with the recovered base and the replays, instead of appending them to it, which a second crash
+   * would replay twice (#117). The change sets queued for the store it replaces are dropped. The old
+   * entry stays until then, so a crash before that write still finds it.
+   */
+  recovering(key) {
+    clearTimeout(this.timer);
+    this.timer = 0;
+    return this.after(() => {
+      this.queue.length = 0;
+      this.replace = key;
+      this.upto = 0;
     });
   }
 
