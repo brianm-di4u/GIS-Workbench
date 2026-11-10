@@ -1,0 +1,30 @@
+{
+  "id": "cx029-mesh-nan-heights",
+  "source": "CX-029",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Open 3D: build a mesh of the terrain under the current view.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/terrain.js": "// Terrain height at a ground point, in metres; NaN where no loaded terrain covers the point.\nexport function heightAt(terrains, lon, lat) {\n  for (const t of terrains) {\n    const c = Math.round((lon - t.lon0) / t.dlon);\n    const r = Math.round((t.lat0 - lat) / t.dlat);\n    if (c >= 0 && r >= 0 && c < t.width && r < t.height) return t.heights[r * t.width + c];\n  }\n  return NaN;\n}\n"
+  },
+  "head": {
+    "src/mesh.js": "import { heightAt } from './terrain.js';\n\n// Open 3D: a mesh of the terrain under the current view.\nexport function terrainMesh(terrains, view, size = 128) {\n  const positions = new Float32Array(size * size * 3);\n  for (let r = 0; r < size; r += 1) {\n    for (let k = 0; k < size; k += 1) {\n      const lon = view.west + ((view.east - view.west) * k) / (size - 1);\n      const lat = view.north - ((view.north - view.south) * r) / (size - 1);\n      const i = (r * size + k) * 3;\n      positions[i] = lon;\n      positions[i + 1] = lat;\n      positions[i + 2] = heightAt(terrains, lon, lat);\n    }\n  }\n  return { positions, size };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/mesh.js",
+      "from": 13,
+      "to": 13,
+      "words": [
+        "nan",
+        "not covered",
+        "no terrain",
+        "outside",
+        "coverage",
+        "does not cover",
+        "doesn't cover"
+      ]
+    }
+  ]
+}

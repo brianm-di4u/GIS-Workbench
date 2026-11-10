@@ -1,0 +1,36 @@
+{
+  "id": "cx048-one-post-bilinear",
+  "source": "CX-048",
+  "split": "test",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Ground Filter samples its coarse grids bilinearly. It runs on every point cloud the app opens, including the small sample files of the LAS version matrix.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/bilinear.js": "// Bilinear sample of a grid at fractional post (x, y), clamped to the grid.\nexport function bilinear(grid, width, height, x, y) {\n  const x0 = Math.max(0, Math.min(Math.floor(x), width - 2));\n  const y0 = Math.max(0, Math.min(Math.floor(y), height - 2));\n  const fx = Math.min(Math.max(x - x0, 0), 1);\n  const fy = Math.min(Math.max(y - y0, 0), 1);\n  const i = y0 * width + x0;\n  const top = grid[i] * (1 - fx) + grid[i + 1] * fx;\n  const bottom = grid[i + width] * (1 - fx) + grid[i + width + 1] * fx;\n  return top * (1 - fy) + bottom * fy;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/bilinear.js",
+      "from": 3,
+      "to": 9,
+      "words": [
+        "width 1",
+        "width of 1",
+        "one post",
+        "one-post",
+        "single post",
+        "single row",
+        "single column",
+        "1-wide",
+        "one wide",
+        "out of bounds",
+        "next row",
+        "width - 2",
+        "degenerate"
+      ]
+    }
+  ]
+}

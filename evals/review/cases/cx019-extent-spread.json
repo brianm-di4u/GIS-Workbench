@@ -1,0 +1,29 @@
+{
+  "id": "cx019-extent-spread",
+  "source": "CX-019",
+  "split": "train",
+  "kind": "bug",
+  "intent": "3D export: work out the extent of a building footprints layer.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/extent.js": "// The extent of a layer's footprints, for 3D export.\nexport function extentOf(features) {\n  const xs = [];\n  const ys = [];\n  for (const feature of features) {\n    for (const [x, y] of feature.vertices) {\n      xs.push(x);\n      ys.push(y);\n    }\n  }\n  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/extent.js",
+      "from": 11,
+      "to": 11,
+      "words": [
+        "spread",
+        "call stack",
+        "stack size",
+        "too many arguments",
+        "argument",
+        "rangeerror",
+        "loop"
+      ]
+    }
+  ]
+}

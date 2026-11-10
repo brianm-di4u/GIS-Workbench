@@ -135,7 +135,8 @@ pub const A_INNER_EDGE: u32 = 1 << 1;
 pub const A_INNER_START: u32 = 1 << 2;
 /// §4.2.2.5 sets only an upper limit ("shall not be greater than 20 per cent"): the transitional
 /// slope is the current edition's Table 4-1 value for the runway's code number and approach type,
-/// 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise (decision #97).
+/// 14.3 % for codes 3 and 4 and 20 % for codes 1 and 2 (decision #97), except 14.3 % for precision
+/// approach runways of codes 1 and 2, which #97 doesn't cover (pending decision #125).
 pub const A_TRANS_SLOPE: u32 = 1 << 3;
 /// The OES follow the runways, not the operations (§4.5.2.1): a horizontal surface for every
 /// runway, except a runway whose most demanding approach is non-precision, which has the surface

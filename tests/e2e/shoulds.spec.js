@@ -61,6 +61,15 @@ test('REQ-UI-04 REQ-SEC-06 QAT customisation, recent projects, encrypted journal
   await dlg.locator('input').fill('correct horse');
   await dlg.getByRole('button', { name: 'OK' }).click();
   await f2.waitForFunction(() => window.gisworkbench.store.all('vlayer').some((v) => v.name === 'Encrypted journal layer'));
+  // #117: the entry Recover rewrites stays encrypted, under the passphrase just typed.
+  const again = await f2.evaluate(async () => {
+    const app = window.gisworkbench;
+    await app.journal.flush();
+    const raw = await app.journal.recoverable();
+    return { enc: raw?.enc, plainLeak: JSON.stringify(raw).includes('Encrypted journal layer') };
+  });
+  expect(again.enc).toMatch(/AES-GCM/);
+  expect(again.plainLeak).toBe(false);
   // Turning the journal off clears it.
   const off = await f2.evaluate(async () => {
     const app = window.gisworkbench;

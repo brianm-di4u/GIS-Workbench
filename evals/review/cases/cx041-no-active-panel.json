@@ -1,0 +1,29 @@
+{
+  "id": "cx041-no-active-panel",
+  "source": "CX-041",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Show a finished product (Destripe, filters, band maths) in a panel.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/app.js": "// activePanel is null when every panel is closed or none has focus. A layer's panel is layer.panel.\nexport const app = { panels: [], activePanel: null };\n"
+  },
+  "head": {
+    "src/products.js": "import { app } from './app.js';\n\n// Show a finished product to the user.\nexport function showProduct(parent, product) {\n  const panel = app.activePanel;\n  panel.add(product);\n  product.parentId = parent.id;\n  return panel.id;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/products.js",
+      "from": 5,
+      "to": 6,
+      "words": [
+        "null",
+        "no panel",
+        "no active",
+        "parent",
+        "closed",
+        "panel is undefined"
+      ]
+    }
+  ]
+}
