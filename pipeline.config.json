@@ -209,6 +209,9 @@
       "crate-gw-geoproc": [
         "crates/gw-geoproc/**"
       ],
+      "crate-gw-hydro": [
+        "crates/gw-hydro/**"
+      ],
       "crate-gw-match": [
         "crates/gw-match/**"
       ],
