@@ -35,7 +35,7 @@ const LIBYA = resolve('..', 'TE-corpus', 'eo-maxar-libya-floods-wv3-prepost');
 const PRE = join(LIBYA, '2023-08-01', '1040010087AB7E00-visual.tif');
 const POST = join(LIBYA, '2023-09-15', '104001008B282A00-visual.tif');
 const CATALOG = resolve('fixtures', 'fx24', 'extai', 'mini-ggdm.gwcatalog.json');
-const LANDCOVER = 'D:/gwb24/data-extai/sparsemask/onnx/model.onnx';
+const LANDCOVER = 'E:/gwb24/data-extai/sparsemask/onnx/model.onnx';
 const QUIET = { prefs: { welcomeDone: true } };
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -426,7 +426,7 @@ test.describe('REQ-GAP-56 WebGPU fp16', () => {
 // ---------------------------------------------------------------- REQ-GAP-57
 
 test('REQ-GAP-57 user ONNX model: hash and licence checked, refusals, run on the view; the land-cover pack', async ({ page }) => {
-  test.skip(!existsSync(LANDCOVER) || !havePacks('ai'), 'needs the land-cover ONNX file on D: and the ai pack');
+  test.skip(!existsSync(LANDCOVER) || !havePacks('ai'), 'needs the land-cover ONNX file on E: and the ai pack');
   const truth = JSON.parse(readFileSync(VEGAS_TRUTH, 'utf8')).features.filter((f) => f.geometry?.type === 'Polygon');
   const packs = ['ai', ...(havePacks('ai-landcover') ? ['ai-landcover'] : [])];
   const { frame, logs } = await withImage(page, packs, VEGAS);

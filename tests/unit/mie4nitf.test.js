@@ -253,9 +253,9 @@ describe.skipIf(!haveWasm || !truth)('worker sequences (parse + j2k WASM)', asyn
   });
 });
 
-// The large tiled frame on D: (build/fixtures/fx24-motion.mjs --large): a viewport reads a few tiles.
+// The large tiled frame on E: (build/fixtures/fx24-motion.mjs --large): a viewport reads a few tiles.
 const LARGE = truth?.large?.path;
-describe.skipIf(!haveWasm || !LARGE || !existsSync(LARGE ?? ''))('8192² JPEG 2000 WAMI frames (D:)', async () => {
+describe.skipIf(!haveWasm || !LARGE || !existsSync(LARGE ?? ''))('8192² JPEG 2000 WAMI frames (E:)', async () => {
   const { Bundle } = await import('../../app/src/wasm/abi.js');
   const { openNitf, ioStats } = await import('../../app/src/workers/decode/nitf.js');
   const { openMie, isMieImage } = await import('../../app/src/workers/decode/mie.js');

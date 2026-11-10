@@ -6,7 +6,7 @@
 //   can see (constraints block the view).
 // * TIN to grid: matplotlib.tri linear interpolation on the bundle's own triangles, and
 //   the same on Qhull's own triangles for unconstrained points (tests/tools/tin_oracle.py says why).
-// * Corpus (D:\TE-corpus, skipped when absent): a 1000 × 1000 window of the USGS 3DEP 1 m DEM
+// * Corpus (E:\TE-corpus, skipped when absent): a 1000 × 1000 window of the USGS 3DEP 1 m DEM
 //   (1 M posts) and LiDAR ground points: build time, memory and edit latency (printed and kept in
 //   reports/tin25-measure.json), and the thinning tolerance checked post by post.
 // The JS module code (encodeTinEdits, tin-io conversions and writers) is tested without the bundle.
@@ -32,9 +32,9 @@ const haveWasm = !!wasmPath && existsSync(wasmPath);
 const GWTE = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const haveTe = existsSync(`${GWTE}/python.exe`);
 const ORACLE = resolve('tests/tools/tin_oracle.py');
-const DEM = 'D:/TE-corpus/usgs-3dep-1m-x48y441-drcog2020/USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif';
-const LAZ = 'D:/TE-corpus/lidar-3dep-co-drcog-2020-2x2/USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz';
-const DERIVED = 'D:/gwb25/data-tin/derived';
+const DEM = 'E:/TE-corpus/usgs-3dep-1m-x48y441-drcog2020/USGS_1M_13_x48y441_CO_DRCOG_2020_B20.tif';
+const LAZ = 'E:/TE-corpus/lidar-3dep-co-drcog-2020-2x2/USGS_LPC_CO_DRCOG_2020_B20_w0474n4416.laz';
+const DERIVED = 'E:/gwb25/data-tin/derived';
 const MEASURE = resolve('reports/tin25-measure.json');
 
 const bundle = () => new TinBundle(new WebAssembly.Module(readFileSync(wasmPath)));

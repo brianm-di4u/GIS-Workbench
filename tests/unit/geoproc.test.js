@@ -35,7 +35,7 @@ const PY = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/python.exe';
 const havePy = existsSync(PY);
 // GDAL's and numpy's DLLs load from the environment's Library\bin, on PATH only when activated.
 const PYENV = { ...process.env, PATH: [join(PY, '..'), join(PY, '..', 'Library', 'bin'), process.env.PATH].join(';') };
-const TIGER = 'D:/TE-corpus/vector-tiger-2024-colorado';
+const TIGER = 'E:/TE-corpus/vector-tiger-2024-colorado';
 const haveTiger = existsSync(join(TIGER, 'tl_2024_08_bg.zip')) && existsSync(join(TIGER, 'tl_2024_08013_roads.zip'));
 
 function ref(spec) {

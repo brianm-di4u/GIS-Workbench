@@ -111,10 +111,10 @@ export async function runJob(sc, profile, inputs, options = {}, { timeoutMs = 4 
 export const exists = existsSync;
 
 // ---- the oracle: tests/tools/plugindata_oracle.py, in its own environment. ----
-export const DATA = process.env.GWB_PLUGINDATA ?? (LINUX ? '/mnt/d/gwb26/data-plugindata' : 'D:/gwb26/data-plugindata');
-export const PY = process.env.GWB_PLUGINDATA_PY ?? (LINUX ? '/mnt/d/gwb26/envs/plugindata/python.exe' : 'D:/gwb26/envs/plugindata/python.exe');
+export const DATA = process.env.GWB_PLUGINDATA ?? (LINUX ? '/mnt/e/gwb26/data-plugindata' : 'E:/gwb26/data-plugindata');
+export const PY = process.env.GWB_PLUGINDATA_PY ?? (LINUX ? '/mnt/e/gwb26/envs/plugindata/python.exe' : 'E:/gwb26/envs/plugindata/python.exe');
 const ORACLE = new URL('../../tools/plugindata_oracle.py', import.meta.url);
-// In WSL the oracle may be a Windows Python: /mnt/d/x is D:/x to it, and the Linux disk a share.
+// In WSL the oracle may be a Windows Python: /mnt/e/x is E:/x to it, and the Linux disk a share.
 const winPath = (p) => (PY.endsWith('.exe') && LINUX ? String(p).replace(/^\/mnt\/([a-z])\//, (_, d) => `${d.toUpperCase()}:/`).replace(/^\/home\//, '//wsl.localhost/Ubuntu/home/') : String(p));
 export function oracle(cmd, ...args) {
   const file = decodeURIComponent(ORACLE.pathname).replace(/^\/([A-Za-z]:)/, '$1');

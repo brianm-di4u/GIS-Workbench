@@ -185,7 +185,7 @@ test('REQ-FMV-15 REQ-FMT-56 FC-23 REQ-GAP-48 MPEG-2 video (program stream and MP
   }
 });
 
-// The real archive (TE-corpus, D: USB disk): seeks on a 10.7-minute MPEG-1 program stream.
+// The real archive (TE-corpus, E: USB disk): seeks on a 10.7-minute MPEG-1 program stream.
 const MISSION = resolve(process.env.TE_CORPUS ?? '../TE-corpus', 'mpeg1-ps-prelinger/MissionA1942.mpg');
 test('REQ-FMT-52 FC-22 real MPEG-1 program stream (Prelinger, 112 MB, 19,243 pictures): seeks land on the exact frame in under 1 s', async ({ page }) => {
   test.skip(!existsSync(MISSION), 'TE-corpus not mounted');

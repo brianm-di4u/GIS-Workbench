@@ -10,7 +10,7 @@ import { unzipSync, strFromU8 } from 'fflate';
 import { observationsGeoJSON, observationsKml, observationsKmz, dataUrlBytes, photoPath, placed } from '../../app/src/vector/obs-export.js';
 import { fitSize, PHOTO_MAX } from '../../app/src/features/field.js';
 
-const GDAL = process.env.GW_GDAL_BIN ?? 'D:/gwb-sidecar-deps/osgeo4w/root/bin';
+const GDAL = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const haveGdal = existsSync(join(GDAL, 'ogrinfo.exe')) || existsSync(join(GDAL, 'ogrinfo'));
 const gdalEnv = { ...process.env, PATH: `${GDAL}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}`, GDAL_DATA: resolve(GDAL, '../apps/gdal/share/gdal'), PROJ_DATA: resolve(GDAL, '../share/proj'), PROJ_LIB: resolve(GDAL, '../share/proj') };
 const ogrJson = (file) => JSON.parse(execFileSync(join(GDAL, 'ogrinfo'), ['-json', '-features', '-ro', file], { env: gdalEnv, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 << 20 }));

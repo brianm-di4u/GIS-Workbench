@@ -1,7 +1,7 @@
 //! REQ-GAP-20, map-projected products: the line of sight of Landsat 8 Collection 1 and 2 L1TP (ANG)
 //! and Sentinel-2B L1C (MTD_TL viewing grids) and the map + line-of-sight model built from it.
 //! Corpus items: `landsat8-c1-l1tp-044034-20210508`, `landsat8-c2-l1tp-044034-20240820-tierb`,
-//! `s2-l1c-jp2-safe-10seh-20240816` (`build/campaign/corpus.json`). The files stay on D:; the tests
+//! `s2-l1c-jp2-safe-10seh-20240816` (`build/campaign/corpus.json`). The files stay on E:; the tests
 //! skip cleanly when they are absent.
 //!
 //! Errors are stated as the image displacement error, in pixels, of a point at a height above the
@@ -10,8 +10,8 @@
 //!
 //! Oracles:
 //! - Landsat C2: the USGS per-pixel view-angle bands (VZA, VAA, 0.01°), sampled every 61 pixels by
-//!   `D:/gwb25/data-vendor/tools/landsat_angle_oracle.py` into
-//!   `D:/gwb25/data-vendor/oracle/landsat8-c2-044034-20240820-vza-vaa.csv`.
+//!   `E:/gwb25/data-vendor/tools/landsat_angle_oracle.py` into
+//!   `E:/gwb25/data-vendor/oracle/landsat8-c2-044034-20240820-vza-vaa.csv`.
 //! - Landsat C1 and C2, Sentinel-2: the product's own ephemeris (ANG EPHEMERIS, MTD_DS GPS
 //!   points). The line of sight from a ground point must point at the satellite at some time of the
 //!   pass; the angle left at the best time is the cross-track inconsistency.
@@ -103,11 +103,11 @@ fn landsat(dir: &str) -> Option<(Ang, String)> {
 
 #[test]
 fn landsat_line_of_sight_against_usgs_angles_and_ephemeris() {
-    let items = [("C2 2024-08-20", "D:/TE-corpus/landsat8-c2-l1tp-044034-20240820-tierb"), ("C1 2021-05-08", "D:/TE-corpus/landsat8-c1-l1tp-044034-20210508")];
+    let items = [("C2 2024-08-20", "E:/TE-corpus/landsat8-c2-l1tp-044034-20240820-tierb"), ("C1 2021-05-08", "E:/TE-corpus/landsat8-c1-l1tp-044034-20210508")];
     let mut any = false;
     for (label, dir) in items {
         let Some((ang, base)) = landsat(dir) else {
-            eprintln!("skipped {label}: not on D:");
+            eprintln!("skipped {label}: not on E:");
             continue;
         };
         any = true;
@@ -122,7 +122,7 @@ fn landsat_line_of_sight_against_usgs_angles_and_ephemeris() {
         let crs = gw_sensor::geotransform::MapCrs::from_epsg(ang.epsg()).unwrap();
         let map = gw_sensor::geotransform::GeoTransformModel::new(gt, crs).unwrap();
         // (1) Against the USGS view-angle bands (C2 only).
-        let csv = "D:/gwb25/data-vendor/oracle/landsat8-c2-044034-20240820-vza-vaa.csv";
+        let csv = "E:/gwb25/data-vendor/oracle/landsat8-c2-044034-20240820-vza-vaa.csv";
         if label.starts_with("C2") {
             if let Ok(t) = std::fs::read_to_string(csv) {
                 // Points one SCA sees: the line of sight against the USGS angles. Points in an SCA
@@ -239,15 +239,15 @@ fn landsat_line_of_sight_against_usgs_angles_and_ephemeris() {
         assert!(r < 0.12 && mx < 1.0, "grid vs direct at 3000 m: RMS {r}, max {mx}");
     }
     if !any {
-        eprintln!("skipped: no Landsat corpus item on D:");
+        eprintln!("skipped: no Landsat corpus item on E:");
     }
 }
 
 #[test]
 fn sentinel2_line_of_sight_against_the_datastrip_ephemeris() {
-    let root = Path::new("D:/TE-corpus/s2-l1c-jp2-safe-10seh-20240816");
+    let root = Path::new("E:/TE-corpus/s2-l1c-jp2-safe-10seh-20240816");
     let Some(safe) = std::fs::read_dir(root).ok().and_then(|r| r.flatten().map(|e| e.path()).find(|p| p.is_dir())) else {
-        eprintln!("skipped: the Sentinel-2 SAFE is not on D:");
+        eprintln!("skipped: the Sentinel-2 SAFE is not on E:");
         return;
     };
     let find = |sub: &str, name: &str| -> Option<String> {

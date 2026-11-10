@@ -4,7 +4,7 @@ import { grepInvert, readQuarantine } from './build/check-quarantine.mjs';
 // A non-blocking Firefox run (OD-2.31 D24): Playwright's own Firefox build over a core set of specs.
 // Firefox is not a release target and this config is no release gate: playwright.config.js and the
 // gates do not read it. Run by hand, with the browser under PLAYWRIGHT_BROWSERS_PATH:
-//   PLAYWRIGHT_BROWSERS_PATH=D:/gwb26/tools-oracles/pw-browsers GW_DIST=dist-oracles \
+//   PLAYWRIGHT_BROWSERS_PATH=E:/gwb26/tools-oracles/pw-browsers GW_DIST=dist-oracles \
 //     npx playwright test -c playwright.firefox.config.js
 // What it finds is in docs/validation/2.6/oracles.md.
 export default defineConfig({
