@@ -1172,7 +1172,7 @@ export function install(app) {
    */
   async function fgbInWorker(bytes) {
     const code = await app.gw.text('js-fgb');
-    const glue = `;onmessage = async (ev) => { const { deserialize } = globalThis.__lib['js-fgb']; let header = null; const got = []; try { for await (const f of deserialize(new Blob([ev.data]).stream(), undefined, (h) => (header = h))) got.push(f); postMessage({ ok: true, header: header && { crs: header.crs ? { org: header.crs.org, code: header.crs.code } : null }, got }); } catch (e) { postMessage({ ok: false, message: String((e && e.message) || e) }); } };`;
+    const glue = `;onmessage = async (ev) => { const { deserialize } = globalThis.__lib['js-fgb']; let header = null; const got = []; try { for await (const f of deserialize(new Blob([ev.data]).stream(), { headerMetaFn: (h) => (header = h) })) got.push(f); postMessage({ ok: true, header: header && { crs: header.crs ? { org: header.crs.org, code: header.crs.code } : null }, got }); } catch (e) { postMessage({ ok: false, message: String((e && e.message) || e) }); } };`;
     const url = URL.createObjectURL(new Blob([code, glue], { type: 'text/javascript' }));
     const w = new Worker(url);
     URL.revokeObjectURL(url);

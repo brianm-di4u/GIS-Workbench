@@ -17,10 +17,6 @@ updates:
     groups:
       npm:
         patterns: ['*']
-    ignore:
-      # 4.6.1 crashes Convert ▸ FlatGeobuf and changes deserialize (#32).
-      - dependency-name: flatgeobuf
-        versions: ['>= 4.5.0']
   - package-ecosystem: cargo
     directory: /crates
     schedule:
@@ -39,9 +35,3 @@ updates:
     groups:
       sidecar:
         patterns: ['*']
-    ignore:
-      # Both break the sidecar build until it's ported (#33).
-      - dependency-name: toml
-        versions: ['>= 0.9.0']
-      - dependency-name: quick-xml
-        versions: ['>= 0.42.0']
