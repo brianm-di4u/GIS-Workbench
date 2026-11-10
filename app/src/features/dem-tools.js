@@ -243,19 +243,13 @@ export function install(app) {
     const dsm = await app.extractDsm(pair[0], pair[1], { aoi, preset, postM: postM ?? Math.min(cx, cy), signal, onProgress });
     const G = dsm.grid;
     if (G.nx * G.ny > 1e6) throw gwError('the area is {n} re-correlation posts; draw a smaller area', { n: String(G.nx * G.ny) }, 'E_RECORR_LARGE');
-    const heights = new Array(G.nx * G.ny);
-    let matched = 0;
-    for (let y = 0; y < G.ny; y++)
-      for (let x = 0; x < G.nx; x++) {
-        const k = y * G.nx + x;
-        const v = dsm.heights[k];
-        if (dsm.fom[k] >= 4 && Number.isFinite(v)) {
-          const lat = G.lat0 - y * G.dlat;
-          const lon = G.lon0 + x * G.dlon;
-          heights[k] = Math.round((d.vertical === 'hae' ? v : v - app.core.undulation(lat, lon)) * 1000) / 1000;
-          matched++;
-        } else heights[k] = null;
-      }
+    const heights = new Array(G.nx * G.ny).fill(null);
+    const ks = [];
+    for (let k = 0; k < heights.length; k++) if (dsm.fom[k] >= 4 && Number.isFinite(dsm.heights[k])) ks.push(k);
+    // HAE to the DEM's datum as its terrain converts it (#105), in one call.
+    const N = app.terrain.separations(d.vertical, ks.map((k) => [G.lon0 + (k % G.nx) * G.dlon, G.lat0 - Math.floor(k / G.nx) * G.dlat]), !!d.gridV);
+    ks.forEach((k, i) => (heights[k] = Math.round((dsm.heights[k] - N[i]) * 1000) / 1000));
+    const matched = ks.length;
     if (!matched) throw gwError('re-correlation matched no posts in the area (low texture, occlusion or the wrong height range)', null, 'E_RECORR_NONE');
     const patch = { lat0: G.lat0, lon0: G.lon0, dlat: G.dlat, dlon: G.dlon, nx: G.nx, ny: G.ny, heights };
     const before = heightsOf(d).slice();
@@ -497,11 +491,13 @@ export function install(app) {
   app.contourLines = (interval, { indexEvery = 5, d = target() ?? app.terrain.dems[0] } = {}) => {
     if (!d?.grid) throw new Error('contour lines need a DEM loaded as terrain');
     const lines = contourLines(d.grid, heightsOf(d), interval, { indexEvery });
-    const toHae = d.vertical === 'hae' ? (lat, lon, hh) => hh : (lat, lon, hh) => hh + app.core.undulation(lat, lon);
+    // To HAE as the terrain converts this DEM (#105), all vertices in one call.
+    const N = app.terrain.separations(d.vertical, lines.flatMap((c) => c.pts.map(([lon, lat]) => [lon, lat])), !!d.gridV);
+    let at = 0;
     let id;
     S.transact(t('Contours {interval} m', { interval: numMax(interval, 3) }), (tx) => {
       id = tx.create('vlayer', { name: t('Contours {interval} m ({datum})', { interval: numMax(interval, 3), datum: d.vertical === 'hae' ? 'HAE' : 'MSL' }), visible: true, style: { stroke: '#d8a040', width: 1, fill: '#00000000', labelField: 'ELEV', labelWhen: 'INDEX', stereo: true }, fields: [{ name: 'ELEV', type: 'real' }, { name: 'INDEX', type: 'integer' }], source: { format: 'contours', dem: d.name }, created: new Date().toISOString() });
-      for (const c of lines) tx.create('feature', { vlayer: id, geom: fromParts('LineString', [c.pts.map(([lon, lat, hh]) => [lon, lat, toHae(lat, lon, hh)])]), attrs: { ELEV: c.level, INDEX: c.index ? 1 : 0 }, style: c.index ? { width: 2.2, stroke: '#ffcc66' } : null, name: `${c.level} m`, prov: { kind: 'contour', dem: d.name } });
+      for (const c of lines) tx.create('feature', { vlayer: id, geom: fromParts('LineString', [c.pts.map(([lon, lat, hh]) => [lon, lat, hh + N[at++]])]), attrs: { ELEV: c.level, INDEX: c.index ? 1 : 0 }, style: c.index ? { width: 2.2, stroke: '#ffcc66' } : null, name: `${c.level} m`, prov: { kind: 'contour', dem: d.name } });
     });
     return { layer: id, lines: lines.length, index: lines.filter((c) => c.index).length };
   };
@@ -524,7 +520,7 @@ export function install(app) {
   /** GeoTIFF/COG bytes of a terrain entry (current heights, its vertical datum). */
   app.demGeoTiff = async (d = target() ?? app.terrain.dems[0]) => {
     const g = d.grid;
-    return writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: heightsOf(d) }, { epsg: 4326, vertical: d.vertical === 'hae' ? 'hae' : d.vertical === 'egm2008' ? 'egm2008' : 'egm96', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, overviews: true, tile: 256, description: `GIS Workbench DEM (${d.vertical === 'hae' ? 'heights above the WGS 84 ellipsoid' : 'orthometric heights'}, metres) from ${d.name}` });
+    return writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: heightsOf(d) }, { epsg: 4326, vertical: d.vertical, geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, overviews: true, tile: 256, description: `GIS Workbench DEM (${d.vertical === 'hae' ? 'heights above the WGS 84 ellipsoid' : 'orthometric heights'}, metres) from ${d.name}` });
   };
   /** DTED Level 1/2 cells (MSL EGM96, whole metres) covering the terrain: [{name, bytes}]. */
   app.demDted = (level = 2, d = target() ?? app.terrain.dems[0]) => {
@@ -625,10 +621,10 @@ export function install(app) {
   app.groundFilter = async (opts = {}, d = target() ?? app.terrain.dems[0]) => {
     const g = d.grid;
     const { dtm, ground } = smrf(g, heightsOf(d), opts);
-    const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: dtm }, { epsg: 4326, vertical: d.vertical === 'hae' ? 'hae' : 'egm96', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: `GIS Workbench DTM (SMRF ground filter) from ${d.name}` });
+    const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: dtm }, { epsg: 4326, vertical: d.vertical, geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: `GIS Workbench DTM (SMRF ground filter) from ${d.name}` });
     const file = new File([bytes], `DTM_${(app.layers.get(d.layerId)?.rec?.name ?? 'dem').replace(/\.[^.]+$/, '')}.tif`, { type: 'image/tiff' });
     const { layers } = await openImageFile(app, file);
-    await app.useAsTerrain(layers[0], d.vertical === 'hae' ? 'hae' : 'egm96');
+    await app.useAsTerrain(layers[0], d.vertical);
     const te = app.terrain.entry(layers[0].id);
     if (te) te.kind = 'DTM';
     return { layer: layers[0], groundFraction: ground.reduce((a, b) => a + b, 0) / ground.length, dtm };

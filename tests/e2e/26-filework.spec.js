@@ -75,7 +75,7 @@ test('REQ-GAP-73 masts on a synthetic DSM: the zone reads them apart from the lo
   // Part 77 has neither a zone nor an edition.
   expect(r.p77.edition).toBeNull();
   expect(r.p77.zone).toBeNull();
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-73 no precision approach: the zone does not apply, and the results say so', async ({ page }) => {
@@ -100,7 +100,7 @@ test('REQ-GAP-73 no precision approach: the zone does not apply, and the results
   expect(r.notes.some((n) => /do not apply \(Table 4-1\)/.test(n))).toBe(true);
   expect(r.refused.code).toBe('E_AIRPORT_INVALID');
   expect(r.refused.msg).toMatch(/no precision category II or III column for code number 2/);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-73 a source that misses the zone is reported as not checked, never as clear', async ({ page }) => {
@@ -125,7 +125,7 @@ test('REQ-GAP-73 a source that misses the zone is reported as not checked, never
   // The surfaces it does reach are still reported.
   await expect(res.locator('[data-id="avn:summary"]')).toContainText('lie under a surface');
   await res.locator('.dlg-buttons').getByRole('button', { name: 'Close' }).click();
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-73 the dialog, the results and the files name the edition', async ({ page }) => {
@@ -187,7 +187,7 @@ test('REQ-GAP-73 the dialog, the results and the files name the edition', async 
   const rec = await frame.evaluate(() => window.gisworkbench.store.all('obstruction').at(-1));
   expect(rec.edition).toBe(EDITION);
   expect(rec.zone.stats.covered).toBeGreaterThan(0);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 for (const [name, dsm, id, vertical] of [['LAS against Copernicus GLO-30', LAS_DSM, 'LAS', 'egm2008'], ['HOU against the DFC2018 lidar DSM', HOU_DSM, 'HOU', 'hae']])
@@ -221,5 +221,5 @@ for (const [name, dsm, id, vertical] of [['LAS against Copernicus GLO-30', LAS_D
       expect(r.zone.covered).toBe(0);
       expect(r.notes.some((n) => /so the zone was not checked/.test(n))).toBe(true);
     }
-    expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+    expect(logs).toEqual([]);
   });

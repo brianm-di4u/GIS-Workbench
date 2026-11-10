@@ -226,7 +226,7 @@ test('REQ-GAP-46 an ortho registered to a point cloud: image error, cloud datum 
     await expect(rd.locator('[data-id="lreg:after"]')).toContainText('Held-out checkpoints after');
     expect(await frame.evaluate(async (o) => (await window.axe.run(document.querySelector('[data-id="dialog:lidar-register-report"]'), o)).violations.map((x) => x.id), tags)).toEqual([]);
     await rd.locator('button.btn', { hasText: 'Close' }).click();
-    expect(logs.filter((x) => !/favicon/.test(x))).toEqual([]);
+    expect(logs).toEqual([]);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

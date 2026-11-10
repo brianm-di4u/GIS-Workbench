@@ -79,6 +79,18 @@ export class Terrain {
   }
 
   /** The vertical part of a terrain's name: the datum of its heights and what really converts them. */
+  /**
+   * h − H (m) at [lon, lat] points for heights in `vertical`, converted as a terrain converts them
+   * (#105): 0 for HAE; the datum's geoid grid plus its frame's height change while that grid is
+   * loaded; the core's geoid otherwise and outside the grid (NaN where it has none). `grid` false:
+   * a DEM registered before its grid was loaded, whose heights went through the core's geoid.
+   */
+  separations(vertical, pts, grid = true) {
+    if (vertical === 'hae') return pts.map(() => 0);
+    const s = grid && vertical !== 'egm96' ? (this.app.grids?.separations?.(vertical, pts) ?? null) : null;
+    return pts.map(([lon, lat], k) => (Number.isFinite(s?.[k]) ? s[k] : this.app.core.undulation(lat, lon)));
+  }
+
   verticalName(vertical, gridV = null) {
     if (gridV) return gridV.label;
     const g = this.app.core.demGeoid ?? 'EGM96';
