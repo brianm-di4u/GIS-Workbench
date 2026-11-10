@@ -220,6 +220,15 @@ describe('repeats and content', () => {
     expect(step(ledger).status).toBe('answer-findings');
   });
 
+  it('does not let a declined should answer a later blocker at the same place', () => {
+    const ledger = emptyLedger();
+    run(ledger, [same('should')]);
+    ledger.findings.filter((f) => f.status === 'open').forEach((f) => resolveFinding(ledger, f.id, 'intentional', 'why'));
+    run(ledger, [same('blocker')]);
+    expect(cleanTail(ledger.rounds)).toBe(0);
+    expect(ledger.findings.filter((f) => f.status === 'open').map((f) => f.severity)).toEqual(['blocker']);
+  });
+
   it('still treats a nit again, or a lesser finding, at an answered place as a repeat', () => {
     const ledger = emptyLedger();
     run(ledger, [same('should')]);
