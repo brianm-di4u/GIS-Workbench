@@ -112,16 +112,18 @@ const blockingOpen = (ledger) => unanswered(ledger).filter((f) => BLOCKING.has(f
 const isClean = (round) => round.complete && round.raised != null && round.raised.blocker + round.raised.should === 0;
 const roundsIn = (ledger, phase) => ledger.rounds.filter((r) => r.phase === phase && r.complete);
 
-// How many of the latest rounds in a row were clean.
+// How many of the latest rounds in a row were clean on the same content. A round after the content
+// changed starts the count again, so two clean rounds are two looks at the same change.
 export function cleanTail(rounds) {
+  const hash = rounds.at(-1)?.hash;
   let count = 0;
-  for (let i = rounds.length - 1; i >= 0 && isClean(rounds[i]); i -= 1) count += 1;
+  for (let i = rounds.length - 1; i >= 0 && isClean(rounds[i]) && rounds[i].hash === hash; i -= 1) count += 1;
   return count;
 }
 
-// Where a change stands: the loop phase is done once its latest rounds are two clean ones in a row,
-// whatever happens after. Close-out is done when its latest rounds are two clean ones in a row on this
-// exact content, with nothing open.
+// Where a change stands: the loop phase is done once its latest rounds are two clean ones in a row on
+// the same content, whatever happens after. Close-out is done when its latest rounds are two clean ones
+// in a row on this exact content, with nothing open. The caps count every round in a phase, clean or not.
 export function phaseState(ledger, hash) {
   const loop = roundsIn(ledger, 'loop');
   const close = roundsIn(ledger, 'close');
@@ -163,6 +165,10 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
   // Docs-only changes get the one round.
   if (tier === 0) {
     if (last && last.hash === hash) return { ...base, status: 'done', message: 'The council has reviewed this exact change. Render the verdict.' };
+    const cap = capFor('loop', council);
+    if (roundsIn(ledger, 'loop').length >= cap) {
+      return { ...base, status: 'parked', phase: 'loop', message: `A docs-only change that needs more than ${cap} rounds isn't settling. Stop, leave the PR open, and summarize on it what each round raised and what is still open, for the admin. This isn't approval.` };
+    }
     return { ...base, status: 'review', mode: 'full', phase: 'loop', model: modelFor('loop', council), round: complete.length + 1 };
   }
 
@@ -210,6 +216,14 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
 }
 
 export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
+  // What this round raised. A bug this change didn't introduce never blocks. An incomplete round
+  // raised nothing we can count.
+  // A repeat of a finding the author already declined doesn't count: that is a reviewer asking again.
+  // A repeat of one that was fixed does: the bug came back.
+  const answered = (f) => ledger.findings.some((earlier) => earlier.status !== 'fixed' && sameFinding(earlier, f));
+  const raised = (result.missing ?? []).length === 0
+    ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting && !answered(f)).length]))
+    : null;
   const seen = [...ledger.findings];
   const added = [];
   const repeats = [];
@@ -249,12 +263,6 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
   }
 
   const complete = (result.missing ?? []).length === 0;
-  // What this round raised, before earlier findings are set aside as repeats: a fixed bug that comes
-  // back, or a should again, is still a round that found something. A bug this change didn't introduce
-  // never blocks. An incomplete round raised nothing we can count.
-  const raised = complete
-    ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting).length]))
-    : null;
   // A rerun replaces an incomplete round, so a timeout doesn't use up a phase's cap.
   if (ledger.rounds.at(-1)?.complete === false) ledger.rounds.pop();
   ledger.rounds.push({
@@ -289,7 +297,9 @@ export function resolveFinding(ledger, id, disposition, reason) {
   return finding;
 }
 
-export function buildVerdict({ ledger, tier, hash }) {
+export function buildVerdict({ ledger, tier: reviewedTier, hash }) {
+  // A finding that raised the change to the admin raises its tier, here as in the plan.
+  const tier = ledger.raise ? Math.max(reviewedTier, 2) : reviewedTier;
   const last = ledger.rounds.at(-1);
   if (!last) throw new Error('The council has not reviewed this change.');
   if (last.hash !== hash) throw new Error('The last round reviewed different content. Run another round.');
@@ -308,7 +318,7 @@ export function buildVerdict({ ledger, tier, hash }) {
   return {
     schema: 1,
     changeHash: hash,
-    tier: ledger.raise ? Math.max(tier, 2) : tier,
+    tier,
     rounds: counted.length,
     ...(tier > 0 ? { phases } : {}),
     open: { blocker: count('blocker'), should: count('should'), nit: ledger.findings.filter((f) => f.severity === 'nit').length },

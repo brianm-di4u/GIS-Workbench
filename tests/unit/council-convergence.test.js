@@ -188,6 +188,55 @@ describe('the caps', () => {
   });
 });
 
+describe('repeats and content', () => {
+  const same = (severity) => ({ severity, class: 'null dereference', file: 'src/same.js', line: 10, claim: 'the lookup can return null', evidence: 'e', fix: 'f', preExisting: false });
+
+  it('does not count a repeat of a finding the author already declined', () => {
+    const ledger = emptyLedger();
+    run(ledger, [same('should')]);
+    ledger.findings.filter((f) => f.status === 'open').forEach((f) => resolveFinding(ledger, f.id, 'wrong', 'evidence: src/same.js:10'));
+    run(ledger, [same('should')]); // a reviewer asking again
+    run(ledger, [same('should')]);
+    expect(cleanTail(ledger.rounds)).toBe(2);
+    expect(step(ledger)).toMatchObject({ status: 'review', phase: 'close' });
+  });
+
+  it('counts a repeat of a finding that was fixed, since the bug came back', () => {
+    const ledger = emptyLedger();
+    run(ledger, [same('should')]);
+    fixAll(ledger);
+    run(ledger, [same('should')]);
+    expect(cleanTail(ledger.rounds)).toBe(0);
+  });
+
+  it('needs both clean rounds on the same content', () => {
+    const b = 'b'.repeat(64);
+    const ledger = emptyLedger();
+    run(ledger);
+    run(ledger, [], { hash: b }); // clean, but the first clean round saw other content
+    expect(step(ledger, { hash: b })).toMatchObject({ status: 'review', phase: 'loop', mode: 'full' });
+    run(ledger, [], { hash: b });
+    expect(step(ledger, { hash: b })).toMatchObject({ status: 'review', phase: 'close' });
+  });
+
+  it('holds a docs-only change to the loop cap too', () => {
+    const small = { ...council, maxLoopRounds: 2 };
+    const ledger = emptyLedger();
+    for (let i = 0; i < 2; i += 1) {
+      run(ledger, [finding('should')], { tier: 0, council: small, hash: String(i).repeat(64) });
+      fixAll(ledger);
+    }
+    expect(step(ledger, { tier: 0, council: small, hash: '9'.repeat(64) })).toMatchObject({ status: 'parked' });
+  });
+
+  it('holds a change a finding raised to T2 to close-out, whatever tier it started at', () => {
+    const ledger = emptyLedger();
+    run(ledger, [], { tier: 0 });
+    ledger.raise = { class: 'security', reason: 'r' };
+    expect(() => buildVerdict({ ledger, tier: 0, hash: HASH })).toThrow(/Close-out has not converged/);
+  });
+});
+
 describe('the rest', () => {
   it('gives a docs-only change the one round', () => {
     const ledger = emptyLedger();
