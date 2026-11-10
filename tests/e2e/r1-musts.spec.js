@@ -450,3 +450,59 @@ test('REQ-ARC-11 the IndexedDB journal recovers unsaved edits after a reload; no
   const size = await f2.evaluate(async () => JSON.stringify(await window.gisworkbench.journal.recoverable()).length);
   expect(size).toBeLessThan(20000);
 });
+
+test('REQ-ARC-11 #99 a crash after a save recovers the saved work, the later edits and the panel views', async ({ page }) => {
+  const { frame } = await openApp(page, 'file');
+  const view = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const layer = (name) => app.store.transact(name, (tx) => tx.create('vlayer', { name, visible: true, fields: [], source: { format: 'new' } }));
+    layer('Saved layer');
+    await app.journal.flush();
+    const pane = app.desktop.multiports[0].panes[0];
+    Object.assign(pane.view, { lon: 12.5, lat: 41.9, zoom: 300 });
+    app.store.transact('Name', (tx) => tx.set('project', 'name', 'Survey Plan 1'));
+    let saved = null;
+    app.saveCapture = (_blob, name) => (saved = name);
+    await app.commands.run('file.save');
+    delete app.saveCapture;
+    layer('After the save');
+    await app.journal.flush();
+    return { id: pane.id, saved, ...pane.view };
+  });
+  expect(view.saved).toBe('Survey_Plan_1.gwb');
+  const f2 = await restart(page);
+  const toast = f2.locator('.toast', { hasText: 'Unsaved work' });
+  await expect(toast).toBeVisible({ timeout: 10000 });
+  await toast.getByRole('button', { name: 'Recover' }).click();
+  await f2.waitForFunction(() => window.gisworkbench.store.all('vlayer').some((v) => v.name === 'After the save'));
+  expect(await f2.evaluate(() => window.gisworkbench.store.all('vlayer').map((v) => v.name).sort())).toEqual(['After the save', 'Saved layer']);
+  const back = await f2.evaluate((id) => window.gisworkbench.desktop.multiports.flatMap((m) => m.panes).find((p) => p.id === id)?.view, view.id);
+  expect(back).toMatchObject({ lon: 12.5, lat: 41.9, zoom: 300 });
+});
+
+test('REQ-ARC-11 #117 crash, Recover, edit, crash again: the second Recover replays each edit once', async ({ page }) => {
+  const { frame } = await openApp(page, 'file');
+  const layer = (f, name) =>
+    f.evaluate(async (name) => {
+      const app = window.gisworkbench;
+      app.store.transact(name, (tx) => tx.create('vlayer', { name, visible: true, fields: [], source: { format: 'new' } }));
+      await app.journal.flush();
+    }, name);
+  await layer(frame, 'First');
+  const edits = (text) => Number(/\((\d+) edits?/.exec(text)[1]);
+  const recover = async (f) => {
+    const toast = f.locator('.toast', { hasText: 'Unsaved work' });
+    await expect(toast).toBeVisible({ timeout: 10000 });
+    const n = edits(await toast.textContent());
+    await toast.getByRole('button', { name: 'Recover' }).click();
+    await f.waitForFunction(() => window.gisworkbench.store.all('vlayer').some((v) => v.name === 'First'));
+    return n;
+  };
+  const f2 = await restart(page);
+  const before = await recover(f2);
+  await layer(f2, 'Second');
+  const f3 = await restart(page);
+  // The entry holds the recovered edits once and the new one, not the recovered edits twice.
+  expect(await recover(f3)).toBe(before + 1);
+  expect(await f3.evaluate(() => window.gisworkbench.store.all('vlayer').map((v) => v.name).sort())).toEqual(['First', 'Second']);
+});

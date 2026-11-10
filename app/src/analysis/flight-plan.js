@@ -7,6 +7,8 @@
 // (m/s); the aircraft changes level at the waypoints. `geod` is {inverse(lat1, lon1, lat2, lon2) →
 // {distance, azi1, azi2}, direct(lat, lon, azi, s) → {lat, lon}} (the app core, or GeographicLib).
 
+import { N_ } from '../i18n/index.js';
+
 export const FT = 0.3048;
 export const NM = 1852;
 export const KT = NM / 3600;
@@ -17,15 +19,15 @@ const norm360 = (a) => ((a % 360) + 360) % 360;
 export function planProblems(plan) {
   const p = [];
   const w = plan?.waypoints ?? [];
-  if (w.length < 2) p.push({ src: 'A route needs at least two waypoints', params: null });
+  if (w.length < 2) p.push({ src: N_('A route needs at least two waypoints'), params: null });
   w.forEach((q, i) => {
-    if (!Number.isFinite(q.lat) || !Number.isFinite(q.lon) || Math.abs(q.lat) > 90 || Math.abs(q.lon) > 180) p.push({ src: 'Waypoint {n} has no valid position', params: { n: i + 1 } });
+    if (!Number.isFinite(q.lat) || !Number.isFinite(q.lon) || Math.abs(q.lat) > 90 || Math.abs(q.lon) > 180) p.push({ src: N_('Waypoint {n} has no valid position'), params: { n: i + 1 } });
   });
   (plan?.legs ?? []).forEach((l, i) => {
-    if (!(l.speed > 0)) p.push({ src: 'Leg {n} needs a speed above zero', params: { n: i + 1 } });
-    if (!Number.isFinite(l.alt)) p.push({ src: 'Leg {n} needs an altitude', params: { n: i + 1 } });
+    if (!(l.speed > 0)) p.push({ src: N_('Leg {n} needs a speed above zero'), params: { n: i + 1 } });
+    if (!Number.isFinite(l.alt)) p.push({ src: N_('Leg {n} needs an altitude'), params: { n: i + 1 } });
   });
-  if (w.length >= 2 && (plan.legs?.length ?? 0) !== w.length - 1) p.push({ src: 'The route has {w} waypoints but {l} legs', params: { w: w.length, l: plan.legs?.length ?? 0 } });
+  if (w.length >= 2 && (plan.legs?.length ?? 0) !== w.length - 1) p.push({ src: N_('The route has {w} waypoints but {l} legs'), params: { w: w.length, l: plan.legs?.length ?? 0 } });
   return p;
 }
 

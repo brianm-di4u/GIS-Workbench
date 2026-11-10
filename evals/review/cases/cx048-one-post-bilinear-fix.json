@@ -1,0 +1,15 @@
+{
+  "id": "cx048-one-post-bilinear-fix",
+  "source": "CX-048",
+  "split": "test",
+  "kind": "clean",
+  "intent": "Make bilinear sampling work on grids one post wide or high, which a cloud of a single point or a single row makes. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/bilinear.js": "// Bilinear sample of a grid at fractional post (x, y), clamped to the grid.\nexport function bilinear(grid, width, height, x, y) {\n  const x0 = Math.max(0, Math.min(Math.floor(x), width - 2));\n  const y0 = Math.max(0, Math.min(Math.floor(y), height - 2));\n  const fx = Math.min(Math.max(x - x0, 0), 1);\n  const fy = Math.min(Math.max(y - y0, 0), 1);\n  const i = y0 * width + x0;\n  const top = grid[i] * (1 - fx) + grid[i + 1] * fx;\n  const bottom = grid[i + width] * (1 - fx) + grid[i + width + 1] * fx;\n  return top * (1 - fy) + bottom * fy;\n}\n"
+  },
+  "head": {
+    "src/bilinear.js": "// Bilinear sample of a grid at fractional post (x, y), clamped to the grid. A grid one post wide or\n// high is sampled along its other axis only.\nexport function bilinear(grid, width, height, x, y) {\n  const x0 = Math.max(0, Math.min(Math.floor(x), width - 2));\n  const y0 = Math.max(0, Math.min(Math.floor(y), height - 2));\n  const x1 = Math.min(x0 + 1, width - 1);\n  const y1 = Math.min(y0 + 1, height - 1);\n  const fx = x1 === x0 ? 0 : Math.min(Math.max(x - x0, 0), 1);\n  const fy = y1 === y0 ? 0 : Math.min(Math.max(y - y0, 0), 1);\n  const top = grid[y0 * width + x0] * (1 - fx) + grid[y0 * width + x1] * fx;\n  const bottom = grid[y1 * width + x0] * (1 - fx) + grid[y1 * width + x1] * fx;\n  return top * (1 - fy) + bottom * fy;\n}\n",
+    "tests/bilinear.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { bilinear } from '../src/bilinear.js';\n\ntest('a 2 x 2 grid interpolates in both axes', () => {\n  assert.equal(bilinear([0, 2, 4, 6], 2, 2, 0.5, 0.5), 3);\n  assert.equal(bilinear([0, 2, 4, 6], 2, 2, 5, 5), 6);\n});\n\ntest('a one-post grid returns its post', () => {\n  assert.equal(bilinear([7], 1, 1, 0.3, 0.8), 7);\n});\n\ntest('a single row and a single column interpolate along their length', () => {\n  assert.equal(bilinear([0, 10, 20], 3, 1, 1.5, 0), 15);\n  assert.equal(bilinear([0, 10, 20], 1, 3, 0, 0.5), 5);\n});\n"
+  }
+}

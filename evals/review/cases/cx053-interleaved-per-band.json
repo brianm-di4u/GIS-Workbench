@@ -1,0 +1,33 @@
+{
+  "id": "cx053-interleaved-per-band",
+  "source": "CX-053",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Band Statistics for every band of a BIP or BIL cube.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/cube.js": "// Interleaved (BIP/BIL) cubes keep a pixel's bands together, so readBand(b) reads the whole image\n// area and keeps one band. readBands(first, count) reads it once and returns count bands.\nexport function interleavedCube(read, header) {\n  return {\n    bands: header.bands,\n    readBand: async (band) => (await read(band, 1))[0],\n    readBands: (first, count) => read(first, count),\n  };\n}\n"
+  },
+  "head": {
+    "src/interleaved-stats.js": "function summarise(values) {\n  let min = Infinity;\n  let max = -Infinity;\n  let sum = 0;\n  for (const v of values) {\n    if (v < min) min = v;\n    if (v > max) max = v;\n    sum += v;\n  }\n  return { min, max, mean: sum / values.length };\n}\n\n// Band statistics of a BIP or BIL cube.\nexport async function allBandStats(cube) {\n  const stats = [];\n  for (let band = 0; band < cube.bands; band += 1) {\n    const values = await cube.readBand(band);\n    stats.push(summarise(values));\n  }\n  return stats;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/interleaved-stats.js",
+      "from": 17,
+      "to": 17,
+      "words": [
+        "once per band",
+        "every band",
+        "each band",
+        "whole file",
+        "whole image",
+        "re-read",
+        "reread",
+        "readbands",
+        "interleav",
+        "repeated"
+      ]
+    }
+  ]
+}
