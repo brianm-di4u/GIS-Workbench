@@ -407,20 +407,25 @@ describe('a file from the phone', () => {
         return add.call(this);
       };
     }`);
-    await s.tapOn(m('m:cmd:file.openimage'));
-    await sleep(2500);
-    await shot('picker-1');
-    const accept = await s.js('() => window.__accept');
-    const chose = await s.tapNative(['Choose Files', 'Choose File', 'Browse Files'], { timeout: 4000 });
-    await sleep(2500);
-    await shot('picker-2');
-    const tab = await s.tapNative(['Browse'], { timeout: 4000, anyType: true });
-    await sleep(2500);
-    await shot('picker-3');
-    note('picker', { accept, chose, tab });
-    assert.deepEqual(accept, ['']);
-    assert.ok(chose && tab, 'the document picker opened');
-    await restart();
+    try {
+      await s.tapOn(m('m:cmd:file.openimage'));
+      await sleep(2500);
+      await shot('picker-1');
+      const accept = await s.js('() => window.__accept');
+      const chose = await s.tapNative(['Choose Files', 'Choose File', 'Browse Files'], { timeout: 4000 });
+      await sleep(2500);
+      await shot('picker-2');
+      // The picker can take seconds to draw on the runner (#185): it was still blank when a 4 s wait ran out.
+      const tab = await s.tapNative(['Browse'], { timeout: 15_000, anyType: true });
+      await sleep(2500);
+      await shot('picker-3');
+      note('picker', { accept, chose, tab });
+      assert.deepEqual(accept, ['']);
+      assert.ok(chose && tab, 'the document picker opened');
+    } finally {
+      // The picker stays over Safari until it closes; leave it open and every later test taps under it.
+      await restart();
+    }
   });
 });
 
