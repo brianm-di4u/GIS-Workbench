@@ -179,7 +179,10 @@ export function subtypeOf(cat, code, subtype) {
 }
 
 /** Store field type for a catalogue attribute. */
-const storeType = (a) => (a.type === 'text' ? 'string' : a.type === 'real' ? 'number' : a.type === 'boolean' ? 'boolean' : 'integer');
+// A coded attribute is stored as its codes are: whole numbers (TDS, ISO 19110 often) or text (INSPIRE
+// code lists, OpenStreetMap, and codes such as '01' that a number would not give back).
+const wholeCode = (k) => Number.isSafeInteger(Number(k)) && String(Number(k)) === k;
+const storeType = (a) => (a.type === 'text' ? 'string' : a.type === 'real' ? 'number' : a.type === 'boolean' ? 'boolean' : a.type === 'enum' && !Object.keys(a.domain ?? {}).every(wholeCode) ? 'string' : 'integer');
 
 /**
  * Layer fields for a feature class (and subtype): [{name, type, title, domain?, range?, unit?,
@@ -324,12 +327,19 @@ export function ruleIssues(cat, schema, fields, attrs) {
   return out;
 }
 
-/** The TDS null ("no information") value of an attribute. */
+/**
+ * The null ("no information") value of an attribute: the catalogue's own, else TDS's. A catalogue
+ * may set '' or null to mean an empty value (catalogues converted from ISO, INSPIRE or OSM).
+ */
 export function nullOf(cat, field) {
   const nulls = cat?.nulls ?? {};
-  if (field.domain) return field.type === 'integer' ? Number(nulls.enum ?? -999999) : String(nulls.enum ?? '-999999');
-  if (field.type === 'string') return nulls.text ?? 'noInformation';
-  return nulls.number ?? -999999;
+  const of = (k, d) => (nulls[k] !== undefined ? nulls[k] : d);
+  if (field.domain) {
+    const e = of('enum', -999999);
+    return e === null || e === '' ? '' : field.type === 'integer' ? Number(e) : String(e);
+  }
+  if (field.type === 'string') return of('text', 'noInformation');
+  return of('number', -999999);
 }
 
 const isNullValue = (cat, f, v) => v === null || v === undefined || v === '' || String(v) === String(nullOf(cat, f));

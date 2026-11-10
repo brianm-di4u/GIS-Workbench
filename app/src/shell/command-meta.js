@@ -555,6 +555,7 @@ const KW = {
   'hydro.watershed': [N_('hydrology'), N_('catchment'), N_('drainage basin'), N_('pour point'), N_('gauge')],
   'vec.buffer': [N_('buffer'), N_('offset'), N_('distance zone'), N_('geodesic')],
   'pip.builder': [N_('workflow'), N_('model builder'), N_('node editor'), N_('graph'), N_('pipeline'), N_('batch')],
+  'ext.importcatalog': ['iso 19110', 'inspire', 'openstreetmap', N_('presets'), N_('feature catalogue'), N_('code list'), N_('schema')],
   'vec.overlay': [N_('intersect'), N_('union'), N_('erase'), N_('clip'), N_('difference'), N_('symmetric difference')],
   'vec.dissolve': [N_('merge'), N_('aggregate'), N_('union by attribute')],
   'vec.join': [N_('spatial join'), N_('point in polygon'), N_('nearest'), N_('count'), N_('summarise')],

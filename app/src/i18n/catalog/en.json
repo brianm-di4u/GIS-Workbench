@@ -124,6 +124,13 @@
    ]
   },
   {
+   "key": "(given when run)",
+   "src": "(given when run)",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "(language pack)",
    "src": "(language pack)",
    "refs": [
@@ -2050,6 +2057,27 @@
    ]
   },
   {
+   "key": "Add a step",
+   "src": "Add a step",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Add a step to begin. In the graph, drag from an output on the right of a step to an input on the left of another; in the list, choose each input from the outputs before it.",
+   "src": "Add a step to begin. In the graph, drag from an output on the right of a step to an input on the left of another; in the list, choose each input from the outputs before it.",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Add a step…",
+   "src": "Add a step…",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "Add airport {ident}",
    "src": "Add airport {ident}",
    "refs": [
@@ -3469,6 +3497,13 @@
    ]
   },
   {
+   "key": "At most",
+   "src": "At most",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "At most 32 runways can be evaluated together",
    "src": "At most 32 runways can be evaluated together",
    "refs": [
@@ -4851,6 +4886,7 @@
    "src": "Buffer",
    "refs": [
     "features/geoproc-ui.js",
+    "features/recipes.js",
     "features/terrain-analysis.js"
    ]
   },
@@ -8030,6 +8066,13 @@
    ]
   },
   {
+   "key": "Command id",
+   "src": "Command id",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Command palette",
    "src": "Command palette",
    "refs": [
@@ -10214,6 +10257,7 @@
    "key": "Detections",
    "src": "Detections",
    "refs": [
+    "features/recipes.js",
     "shell/ribbon-data.js"
    ]
   },
@@ -10308,21 +10352,24 @@
    "key": "Dissolve",
    "src": "Dissolve",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
    "key": "Dissolve field",
    "src": "Dissolve field",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
    "key": "Dissolve the result",
    "src": "Dissolve the result",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -10343,6 +10390,7 @@
    "key": "Distance",
    "src": "Distance",
    "refs": [
+    "features/recipes.js",
     "shell/commands.js",
     "tools/menlog.js",
     "tools/tools.js"
@@ -11956,6 +12004,7 @@
    "key": "Endmembers",
    "src": "Endmembers",
    "refs": [
+    "features/recipes.js",
     "features/spectral-analysis.js"
    ]
   },
@@ -11994,6 +12043,13 @@
    "src": "Epipolar pair: {w} × {h} px at {step} display px per pixel",
    "refs": [
     "features/stereo.js"
+   ]
+  },
+  {
+   "key": "Epsilon (a small slope across flats)",
+   "src": "Epsilon (a small slope across flats)",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -12426,6 +12482,13 @@
    ]
   },
   {
+   "key": "Export a vector layer",
+   "src": "Export a vector layer",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Export as",
    "src": "Export as",
    "refs": [
@@ -12486,6 +12549,13 @@
    "src": "Exports the view or product as a PDF.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Export…",
+   "src": "Export…",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -12774,10 +12844,17 @@
    ]
   },
   {
-   "key": "Feature catalogue (JSON)",
-   "src": "Feature catalogue (JSON)",
+   "key": "Feature catalogue (gw-catalog/1, ISO 19110, INSPIRE schema and code lists, or OpenStreetMap presets)",
+   "src": "Feature catalogue (gw-catalog/1, ISO 19110, INSPIRE schema and code lists, or OpenStreetMap presets)",
    "refs": [
     "features/catalogs.js"
+   ]
+  },
+  {
+   "key": "Feature catalogue (id)",
+   "src": "Feature catalogue (id)",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -12808,6 +12885,13 @@
    "refs": [
     "features/remote-edit.js",
     "svc/publish.js"
+   ]
+  },
+  {
+   "key": "Feature type (code)",
+   "src": "Feature type (code)",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -13085,6 +13169,13 @@
    "src": "Fill opacity (100 − transparency)",
    "refs": [
     "features/graphics.js"
+   ]
+  },
+  {
+   "key": "Fill sinks",
+   "src": "Fill sinks",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -13851,6 +13942,13 @@
    ]
   },
   {
+   "key": "Flow accumulation",
+   "src": "Flow accumulation",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Flow model",
    "src": "Flow model",
    "refs": [
@@ -14167,7 +14265,8 @@
    "key": "From a file…",
    "src": "From a file…",
    "refs": [
-    "features/product-pages.js"
+    "features/product-pages.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -15065,7 +15164,8 @@
    "key": "Geodesic (WGS 84)",
    "src": "Geodesic (WGS 84)",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -15351,6 +15451,13 @@
    "src": "Gram–Schmidt (gain injection)",
    "refs": [
     "features/fusion.js"
+   ]
+  },
+  {
+   "key": "Graph",
+   "src": "Graph",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -17492,8 +17599,8 @@
    ]
   },
   {
-   "key": "Import… reads a gw-catalog/1 JSON file.",
-   "src": "Import… reads a gw-catalog/1 JSON file.",
+   "key": "Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.",
+   "src": "Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.",
    "refs": [
     "features/catalogs.js"
    ]
@@ -17682,6 +17789,20 @@
    "src": "Input layer",
    "refs": [
     "features/geoproc-ui.js"
+   ]
+  },
+  {
+   "key": "Input {name}",
+   "src": "Input {name}",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Input {name} ({type})",
+   "src": "Input {name} ({type})",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -19657,6 +19778,13 @@
    ]
   },
   {
+   "key": "Layer (name or id)",
+   "src": "Layer (name or id)",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Layer Manager",
    "src": "Layer Manager",
    "refs": [
@@ -19713,6 +19841,13 @@
    "src": "Layer creation options",
    "refs": [
     "sidecar/profiles/export-ogr.toml"
+   ]
+  },
+  {
+   "key": "Layer name",
+   "src": "Layer name",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -20161,7 +20296,8 @@
    "key": "Line ends",
    "src": "Line ends",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -20365,7 +20501,8 @@
    "key": "List",
    "src": "List",
    "refs": [
-    "features/catalog.js"
+    "features/catalog.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -22231,6 +22368,13 @@
    ]
   },
   {
+   "key": "Maximum distance",
+   "src": "Maximum distance",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Maximum distance (m)",
    "src": "Maximum distance (m)",
    "refs": [
@@ -22673,7 +22817,8 @@
    "key": "Message",
    "src": "Message",
    "refs": [
-    "features/extract-r2.js"
+    "features/extract-r2.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -22736,7 +22881,7 @@
     "features/ortho.js",
     "features/panels.js",
     "features/pansharpen.js",
-    "mobile/shell.js"
+    "features/recipes.js"
    ]
   },
   {
@@ -24166,6 +24311,13 @@
    ]
   },
   {
+   "key": "New layer from schema",
+   "src": "New layer from schema",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "New observation…",
    "src": "New observation…",
    "refs": [
@@ -24205,6 +24357,13 @@
    "src": "New vector layer",
    "refs": [
     "features/extract.js"
+   ]
+  },
+  {
+   "key": "New workflow",
+   "src": "New workflow",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -25494,6 +25653,13 @@
    ]
   },
   {
+   "key": "Objects",
+   "src": "Objects",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Objects to count",
    "src": "Objects to count",
    "refs": [
@@ -26058,6 +26224,7 @@
    "src": "Open",
    "refs": [
     "features/stereo.js",
+    "features/workflow-editor.js",
     "mobile/shell.js",
     "shell/ribbon-data.js"
    ]
@@ -26214,6 +26381,13 @@
    "src": "Open Video…",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Open Workflow",
+   "src": "Open Workflow",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -26546,8 +26720,8 @@
    ]
   },
   {
-   "key": "Opens a .gwrecipe.json file and keeps it in your recipe list.",
-   "src": "Opens a .gwrecipe.json file and keeps it in your recipe list.",
+   "key": "Opens a .gwrecipe.json file and keeps it in your recipe library.",
+   "src": "Opens a .gwrecipe.json file and keeps it in your recipe library.",
    "refs": [
     "shell/commands.js"
    ]
@@ -26710,7 +26884,8 @@
    "key": "Open…",
    "src": "Open…",
    "refs": [
-    "features/recipes.js"
+    "features/recipes.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -26719,7 +26894,8 @@
    "refs": [
     "features/enhance-tools.js",
     "features/enhance.js",
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -27176,7 +27352,8 @@
    "key": "Overlay",
    "src": "Overlay",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -28537,6 +28714,13 @@
    ]
   },
   {
+   "key": "Pixel purity skewers (0: none)",
+   "src": "Pixel purity skewers (0: none)",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Pixel size (mm)",
    "src": "Pixel size (mm)",
    "refs": [
@@ -28597,6 +28781,13 @@
    "src": "Placed by",
    "refs": [
     "features/footprint.js"
+   ]
+  },
+  {
+   "key": "Places",
+   "src": "Places",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -29349,6 +29540,13 @@
    "src": "Posts within this height of the ground surface (plus the slope allowance) are ground.",
    "refs": [
     "features/dem-tools.js"
+   ]
+  },
+  {
+   "key": "Pour point (longitude, latitude)",
+   "src": "Pour point (longitude, latitude)",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -30982,6 +31180,13 @@
    ]
   },
   {
+   "key": "Random seed",
+   "src": "Random seed",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Range & Bearing",
    "src": "Range & Bearing",
    "refs": [
@@ -31080,6 +31285,13 @@
    "src": "Raster column",
    "refs": [
     "sidecar/profiles/pgraster-cog.toml"
+   ]
+  },
+  {
+   "key": "Raster layer",
+   "src": "Raster layer",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -31347,8 +31559,8 @@
    ]
   },
   {
-   "key": "Reads your own feature catalogue (gw-catalog/1 JSON) and keeps it in the project and in your settings; New Layer from Schema then offers it.",
-   "src": "Reads your own feature catalogue (gw-catalog/1 JSON) and keeps it in the project and in your settings; New Layer from Schema then offers it.",
+   "key": "Reads your feature catalogue (ISO 19110, an INSPIRE schema with code lists, OpenStreetMap presets or gw-catalog/1) for New Layer from Schema.",
+   "src": "Reads your feature catalogue (ISO 19110, an INSPIRE schema with code lists, OpenStreetMap presets or gw-catalog/1) for New Layer from Schema.",
    "refs": [
     "shell/commands.js"
    ]
@@ -31948,7 +32160,8 @@
    "key": "Relationship",
    "src": "Relationship",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -32081,6 +32294,13 @@
    "src": "Remove spikes and wells",
    "refs": [
     "features/dem-tools.js"
+   ]
+  },
+  {
+   "key": "Remove step",
+   "src": "Remove step",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -34276,6 +34496,13 @@
    ]
   },
   {
+   "key": "Save workflow",
+   "src": "Save workflow",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "Save {name}",
    "src": "Save {name}",
    "refs": [
@@ -34308,6 +34535,20 @@
    "src": "Saved by the sidecar",
    "refs": [
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "Saved in the project and the library",
+   "src": "Saved in the project and the library",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Saved in the project; this browser has no storage for your library.",
+   "src": "Saved in the project; this browser has no storage for your library.",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -34938,7 +35179,8 @@
    "key": "Segments per quarter circle",
    "src": "Segments per quarter circle",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -37151,6 +37393,13 @@
    ]
   },
   {
+   "key": "Smallest contributing area",
+   "src": "Smallest contributing area",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Smart Select (local AI)",
    "src": "Smart Select (local AI)",
    "refs": [
@@ -37276,6 +37525,13 @@
    "src": "Snap tolerance (px)",
    "refs": [
     "features/extract.js"
+   ]
+  },
+  {
+   "key": "Snap within",
+   "src": "Snap within",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -37564,6 +37820,13 @@
    ]
   },
   {
+   "key": "Spatial join",
+   "src": "Spatial join",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Special",
    "src": "Special",
    "refs": [
@@ -37811,6 +38074,13 @@
    "src": "Square root",
    "refs": [
     "render/chain.js"
+   ]
+  },
+  {
+   "key": "Square the corners",
+   "src": "Square the corners",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -38192,7 +38462,8 @@
    "refs": [
     "features/aero-ui.js",
     "features/ai.js",
-    "features/recipes.js"
+    "features/recipes.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -38312,7 +38583,8 @@
    "key": "Stream network",
    "src": "Stream network",
    "refs": [
-    "features/hydrology-tools.js"
+    "features/hydrology-tools.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -38479,6 +38751,13 @@
    ]
   },
   {
+   "key": "Subtype (code)",
+   "src": "Subtype (code)",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Suggest graphics marking the main features in view, and one or two draft observations.",
    "src": "Suggest graphics marking the main features in view, and one or two draft observations.",
    "refs": [
@@ -38510,7 +38789,8 @@
    "key": "Summarise field",
    "src": "Summarise field",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -39658,6 +39938,7 @@
    "refs": [
     "features/fmv.js",
     "features/graphics.js",
+    "features/recipes.js",
     "feedback/whiteboard.js",
     "tools/tools.js"
    ]
@@ -40343,6 +40624,13 @@
    ]
   },
   {
+   "key": "The recipe is open, but this browser has no storage to keep it in your library.",
+   "src": "The recipe is open, but this browser has no storage to keep it in your library.",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "The recovery journal is encrypted for this session",
    "src": "The recovery journal is encrypted for this session",
    "refs": [
@@ -40783,6 +41071,7 @@
    "key": "Threshold",
    "src": "Threshold",
    "refs": [
+    "features/recipes.js",
     "features/spectral-analysis.js"
    ]
   },
@@ -42432,6 +42721,7 @@
    "key": "Vector layer",
    "src": "Vector layer",
    "refs": [
+    "features/recipes.js",
     "formats/geopdf-map.js"
    ]
   },
@@ -42475,6 +42765,13 @@
    "src": "Vectors (from, to)",
    "refs": [
     "features/sar21.js"
+   ]
+  },
+  {
+   "key": "Vectors to",
+   "src": "Vectors to",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -43003,7 +43300,8 @@
    "key": "Watershed",
    "src": "Watershed",
    "refs": [
-    "features/hydrology-tools.js"
+    "features/hydrology-tools.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -43257,6 +43555,7 @@
    "key": "What",
    "src": "What",
    "refs": [
+    "features/recipes.js",
     "svc/publish.js"
    ]
   },
@@ -43519,6 +43818,20 @@
    ]
   },
   {
+   "key": "Wires steps into a workflow you can save and run again.",
+   "src": "Wires steps into a workflow you can save and run again.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Wires steps into a workflow, output to input; saves it in the project and your library, and runs it again on new inputs.",
+   "src": "Wires steps into a workflow, output to input; saves it in the project and your library, and runs it again on new inputs.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Wishart classification (H/α start)",
    "src": "Wishart classification (H/α start)",
    "refs": [
@@ -43558,6 +43871,50 @@
    "src": "Work online",
    "refs": [
     "shell2/personas.js"
+   ]
+  },
+  {
+   "key": "Workflow",
+   "src": "Workflow",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Workflow Builder",
+   "src": "Workflow Builder",
+   "refs": [
+    "features/recipes.js",
+    "features/workflow-editor.js",
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Workflow graph",
+   "src": "Workflow graph",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Workflow name",
+   "src": "Workflow name",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Workflow steps",
+   "src": "Workflow steps",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Workflow {name}: step {step}",
+   "src": "Workflow {name}: step {step}",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -44777,12 +45134,11 @@
    ]
   },
   {
-   "key": "a recipe has at most 50 steps",
-   "src": "a recipe has at most 50 steps",
+   "key": "a recipe has at most {n} steps",
+   "src": "a recipe has at most {n} steps",
    "refs": [
     "recipes/recipe.js"
-   ],
-   "error": true
+   ]
   },
   {
    "key": "a recipe is a JSON object",
@@ -44920,6 +45276,13 @@
     "features/terrain-analysis.js"
    ],
    "error": true
+  },
+  {
+   "key": "a workflow with wires runs headless from its first step (from 0)",
+   "src": "a workflow with wires runs headless from its first step (from 0)",
+   "refs": [
+    "features/recipes.js"
+   ]
   },
   {
    "key": "absent",
@@ -45894,6 +46257,13 @@
    ]
   },
   {
+   "key": "batch",
+   "src": "batch",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "below the minimum",
    "src": "below the minimum",
    "refs": [
@@ -46286,7 +46656,8 @@
    "key": "built in",
    "src": "built in",
    "refs": [
-    "features/catalogs.js"
+    "features/catalogs.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -46723,6 +47094,13 @@
   {
    "key": "co-register learned matching lightglue",
    "src": "co-register learned matching lightglue",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "code list",
+   "src": "code list",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -47411,6 +47789,7 @@
    "refs": [
     "features/panels.js",
     "features/recipes.js",
+    "features/workflow-editor.js",
     "feedback/model.js"
    ]
   },
@@ -47851,6 +48230,7 @@
    "refs": [
     "features/panels.js",
     "features/recipes.js",
+    "features/workflow-editor.js",
     "sidecar/feature.js"
    ]
   },
@@ -47866,6 +48246,13 @@
    "src": "feature",
    "refs": [
     "vector/index.js"
+   ]
+  },
+  {
+   "key": "feature catalogue",
+   "src": "feature catalogue",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -48506,6 +48893,13 @@
    ]
   },
   {
+   "key": "give the pour point as longitude, latitude",
+   "src": "give the pour point as longitude, latitude",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "give the reference height",
    "src": "give the reference height",
    "refs": [
@@ -48573,6 +48967,13 @@
   {
    "key": "goto",
    "src": "goto",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "graph",
+   "src": "graph",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -49213,6 +49614,20 @@
    "error": true
   },
   {
+   "key": "input {input} has no layer: wire it to a step, or give it when the workflow runs",
+   "src": "input {input} has no layer: wire it to a step, or give it when the workflow runs",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
+   "key": "input {input}: no {kind} layer {layer}",
+   "src": "input {input}: no {kind} layer {layer}",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "intensity",
    "src": "intensity",
    "refs": [
@@ -49594,6 +50009,13 @@
    ]
   },
   {
+   "key": "largest {n}",
+   "src": "largest {n}",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "lasso",
    "src": "lasso",
    "refs": [
@@ -49782,6 +50204,13 @@
    "src": "lever arm z",
    "refs": [
     "features/aero-ui.js"
+   ]
+  },
+  {
+   "key": "library",
+   "src": "library",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -50263,6 +50692,13 @@
     "crates/gw-geodesy/src/grids.rs"
    ],
    "error": true
+  },
+  {
+   "key": "model builder",
+   "src": "model builder",
+   "refs": [
+    "shell/command-meta.js"
+   ]
   },
   {
    "key": "model type {t} is not adjustable yet",
@@ -51090,6 +51526,13 @@
    ]
   },
   {
+   "key": "no raster layer {layer}",
+   "src": "no raster layer {layer}",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "no raster writer \"{format}\"",
    "src": "no raster writer \"{format}\"",
    "refs": [
@@ -51172,6 +51615,13 @@
    "error": true
   },
   {
+   "key": "no step {id}",
+   "src": "no step {id}",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "no step {n}",
    "src": "no step {n}",
    "refs": [
@@ -51227,12 +51677,26 @@
    "error": true
   },
   {
+   "key": "no such port",
+   "src": "no such port",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "no such program stream index",
    "src": "no such program stream index",
    "refs": [
     "crates/bundles/mpeg/src/ps.rs"
    ],
    "error": true
+  },
+  {
+   "key": "no such step",
+   "src": "no such step",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
   },
   {
    "key": "no symbol",
@@ -51350,6 +51814,13 @@
    "error": true
   },
   {
+   "key": "no vector layer {layer}",
+   "src": "no vector layer {layer}",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "no vector tile set: open a vector MBTiles or PMTiles first",
    "src": "no vector tile set: open a vector MBTiles or PMTiles first",
    "refs": [
@@ -51384,6 +51855,13 @@
    "src": "no — add it",
    "refs": [
     "features/ai.js"
+   ]
+  },
+  {
+   "key": "node editor",
+   "src": "node editor",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -52071,6 +52549,13 @@
    ]
   },
   {
+   "key": "not run",
+   "src": "not run",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "not started",
    "src": "not started",
    "refs": [
@@ -52683,6 +53168,13 @@
    ]
   },
   {
+   "key": "out of date",
+   "src": "out of date",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "outliers",
    "src": "outliers",
    "refs": [
@@ -52939,7 +53431,8 @@
    "key": "pending",
    "src": "pending",
    "refs": [
-    "features/recipes.js"
+    "features/recipes.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -52989,6 +53482,13 @@
    "src": "picked file",
    "refs": [
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "pipeline",
+   "src": "pipeline",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -53292,6 +53792,13 @@
    ]
   },
   {
+   "key": "presets",
+   "src": "presets",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "principal components",
    "src": "principal components",
    "refs": [
@@ -53331,7 +53838,8 @@
    "key": "project",
    "src": "project",
    "refs": [
-    "features/catalogs.js"
+    "features/catalogs.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -53713,6 +54221,13 @@
    "src": "radians",
    "refs": [
     "features/spectral-analysis.js"
+   ]
+  },
+  {
+   "key": "raster",
+   "src": "raster",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -54326,6 +54841,7 @@
    "refs": [
     "features/panels.js",
     "features/recipes.js",
+    "features/workflow-editor.js",
     "sidecar/feature.js"
    ]
   },
@@ -54507,6 +55023,13 @@
    "src": "scene layer package",
    "refs": [
     "features/models3d.js"
+   ]
+  },
+  {
+   "key": "schema",
+   "src": "schema",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -54908,7 +55431,8 @@
    "key": "skipped",
    "src": "skipped",
    "refs": [
-    "features/recipes.js"
+    "features/recipes.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -55233,41 +55757,6 @@
     "features/hud.js"
    ],
    "error": true
-  },
-  {
-   "key": "step {n} is not an object",
-   "src": "step {n} is not an object",
-   "refs": [
-    "recipes/recipe.js"
-   ]
-  },
-  {
-   "key": "step {n}: duplicate id \"{id}\"",
-   "src": "step {n}: duplicate id \"{id}\"",
-   "refs": [
-    "recipes/recipe.js"
-   ]
-  },
-  {
-   "key": "step {n}: parameter {param} is not data",
-   "src": "step {n}: parameter {param} is not data",
-   "refs": [
-    "recipes/recipe.js"
-   ]
-  },
-  {
-   "key": "step {n}: params must be an object",
-   "src": "step {n}: params must be an object",
-   "refs": [
-    "recipes/recipe.js"
-   ]
-  },
-  {
-   "key": "step {n}: unknown operation \"{op}\"",
-   "src": "step {n}: unknown operation \"{op}\"",
-   "refs": [
-    "recipes/recipe.js"
-   ]
   },
   {
    "key": "stereo",
@@ -58448,6 +58937,13 @@
    ]
   },
   {
+   "key": "the workflow has no steps",
+   "src": "the workflow has no steps",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "the {format} tiles cannot be decoded by this browser ({msg})",
    "src": "the {format} tiles cannot be decoded by this browser ({msg})",
    "refs": [
@@ -59655,6 +60151,13 @@
    "error": true
   },
   {
+   "key": "unknown operation \"{op}\"",
+   "src": "unknown operation \"{op}\"",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "unknown page size \"{size}\"",
    "src": "unknown page size \"{size}\"",
    "refs": [
@@ -59881,6 +60384,7 @@
    "key": "vector",
    "src": "vector",
    "refs": [
+    "features/recipes.js",
     "mobile/shell.js"
    ]
   },
@@ -60087,7 +60591,8 @@
    "key": "waiting",
    "src": "waiting",
    "refs": [
-    "features/recipes.js"
+    "features/recipes.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -60206,10 +60711,24 @@
    ]
   },
   {
+   "key": "workflow",
+   "src": "workflow",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "workflow pipeline automation steps",
    "src": "workflow pipeline automation steps",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "workflows",
+   "src": "workflows",
+   "refs": [
+    "core/profile.js"
    ]
   },
   {
@@ -62415,6 +62934,13 @@
    ]
   },
   {
+   "key": "{input} takes {want}, not {got}",
+   "src": "{input} takes {want}, not {got}",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
    "key": "{issuer} publishes no OpenID Connect or OAuth metadata",
    "src": "{issuer} publishes no OpenID Connect or OAuth metadata",
    "refs": [
@@ -62755,6 +63281,13 @@
    ]
   },
   {
+   "key": "{layer} is not loaded as terrain: use it as terrain first",
+   "src": "{layer} is not loaded as terrain: use it as terrain first",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "{layer} is now terrain ({datum, select, hae {heights above the ellipsoid} other {{DATUM} heights converted to HAE with {geoid}}})",
    "src": "{layer} is now terrain ({datum, select, hae {heights above the ellipsoid} other {{DATUM} heights converted to HAE with {geoid}}})",
    "refs": [
@@ -62983,7 +63516,8 @@
    "key": "{layer}: {n, plural, one {# feature} other {# features}}",
    "src": "{layer}: {n, plural, one {# feature} other {# features}}",
    "refs": [
-    "features/geoproc-ui.js"
+    "features/geoproc-ui.js",
+    "features/recipes.js"
    ]
   },
   {
@@ -63339,6 +63873,13 @@
    "src": "{n, plural, one {# detection} other {# detections}} imported ({pixel} in pixel coordinates)",
    "refs": [
     "features/detections.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# endmember} other {# endmembers}}",
+   "src": "{n, plural, one {# endmember} other {# endmembers}}",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -63826,6 +64367,13 @@
    "src": "{n, plural, one {# polygon} other {# polygons}} from {name}",
    "refs": [
     "features/terrain-analysis.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# post raised} other {# posts raised}}",
+   "src": "{n, plural, one {# post raised} other {# posts raised}}",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -65531,6 +66079,13 @@
    "src": "{title} {state}: {error}",
    "refs": [
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "{title}, step {id}: {status}",
+   "src": "{title}, step {id}: {status}",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {

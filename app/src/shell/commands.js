@@ -601,7 +601,7 @@ const CATALOG = [
   // 2.4 auth (REQ-GAP-09, REQ-GAP-10)
   ['net.signin', N_('Sign-In for Data Origins…'), 'network', 'REQ-GAP-10', 'R8', '', N_('Per origin: sign in with OpenID Connect, or mark it "use my sign-in" for your certificate and single sign-on.')],
   // ---- 2.4 feature catalogues and local AI (gap wave T0a, group extai) ----
-  ['ext.importcatalog', N_('Import Feature Catalogue…'), 'open', 'REQ-GAP-52', 'R8', '', N_('Reads your own feature catalogue (gw-catalog/1 JSON) and keeps it in the project and in your settings; New Layer from Schema then offers it.')],
+  ['ext.importcatalog', N_('Import Feature Catalogue…'), 'open', 'REQ-GAP-52', 'R8', '', N_('Reads your feature catalogue (ISO 19110, an INSPIRE schema with code lists, OpenStreetMap presets or gw-catalog/1) for New Layer from Schema.')],
   ['ext.catalogs', N_('Feature Catalogues…'), 'list', 'REQ-GAP-53', 'R8', '', N_('Lists the feature catalogues: built in, from data packs and imported; removes the ones you imported.')],
   ['lai.findscene', N_('Find Objects in Whole Scene (AI)…'), 'search', 'REQ-GAP-56', 'R8', '', N_('Finds the objects you name over the whole image as a background job on this device; they go to the detections review queue.')],
   ['lai.describe', N_('Draft Observation (AI)…'), 'observation', 'REQ-LAI-04', 'R8', '', N_('Moondream2 on this device drafts an observation or a count for the AOI or the view; the draft is a proposal labelled AI-drafted, with no measurements.')],
