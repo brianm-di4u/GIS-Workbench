@@ -22,5 +22,5 @@ Layout: `app/` is the browser app, `crates/` is Rust compiled to WASM, `sidecar/
 
 - `dist/` is built, not tracked. Tests use the built file, so rebuild after changing `app/` or `crates/`.
 - Never hand-edit `app/src/i18n/catalog/`. English strings come from `t()` and `N_()`, and translations land in their own PRs.
-- Keep large test output on D:. Set `TE_OUT` for anything that writes gigabytes.
+- Keep large test output on E:. D: is failing; write nothing to it. Set `TE_OUT` for anything that writes gigabytes.
 - Windows paths here contain spaces. Quote them.
