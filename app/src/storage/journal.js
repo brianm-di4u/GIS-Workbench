@@ -202,7 +202,10 @@ export class Journal {
       this.views = views;
       this.upto = 0; // a fresh entry from the saved records: no snapshot of the store's
       this.queue = this.queue.filter((c) => c.seq > since && (c.seq <= until || c.seq > own));
+      const recovered = this.replace; // the save holds what Recover read, so its entry goes too
+      this.replace = null;
       await this.del('journal', pid);
+      if (recovered && recovered !== pid) await this.del('journal', recovered);
       await this.write();
     });
   }

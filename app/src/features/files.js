@@ -778,6 +778,8 @@ export async function install(app) {
               } catch (e) {
                 return app.toast(t('Recovery: {msg}', { msg: errMsg(e) }), { kind: 'error' });
               }
+              // The recovered work is journalled again under the same passphrase, not in the clear (#117).
+              if (!app.journal.key) await app.journal.setPassphrase(pass);
             }
             // After a save the base is the saved file's records.json text (#99).
             const base = typeof rec.snapshot === 'string' ? parseRecords(rec.snapshot) : (rec.snapshot ?? app.store.snapshot());

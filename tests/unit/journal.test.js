@@ -170,4 +170,13 @@ describe('Journal after a Recover (#117)', () => {
     expect(first.db.get('gw/7').changesets.map((c) => c.label)).toEqual(['A', 'B', 'C']);
     expect(second.recover().names).toEqual(['A', 'B', 'C']);
   });
+  it('REQ-ARC-11 #117 a save straight after Recover removes the entry Recover read, under whatever key', async () => {
+    const { j, db, store, save } = setup();
+    db.set('gw/old', { changesets: [], snapshot: store.snapshot(), views: null, updated: 1 });
+    await j.recovering('gw/old');
+    store.load(db.get('gw/old').snapshot); // nothing to replay, so no write follows
+    await j.flush();
+    await save();
+    expect([...db.keys()]).toEqual([]);
+  });
 });
