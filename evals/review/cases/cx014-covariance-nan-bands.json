@@ -1,0 +1,29 @@
+{
+  "id": "cx014-covariance-nan-bands",
+  "source": "CX-014",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Principal components: compute the band means and covariance of a hyperspectral cube.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/cube.js": "// Hyperspectral cubes. A band listed as bad in the header's bbl reads as NaN.\nexport function readBand(cube, index) {\n  if (cube.badBands.includes(index)) return new Float32Array(cube.width * cube.height).fill(NaN);\n  return cube.bands[index];\n}\n"
+  },
+  "head": {
+    "src/pca.js": "import { readBand } from './cube.js';\n\nexport function covariance(cube) {\n  const bands = [];\n  for (let b = 0; b < cube.bandCount; b += 1) bands.push(readBand(cube, b));\n  const pixels = cube.width * cube.height;\n  const mean = bands.map((band) => band.reduce((sum, v) => sum + v, 0) / pixels);\n  const n = bands.length;\n  const cov = Array.from({ length: n }, () => new Float64Array(n));\n  for (let i = 0; i < n; i += 1) {\n    for (let j = i; j < n; j += 1) {\n      let sum = 0;\n      for (let p = 0; p < pixels; p += 1) sum += (bands[i][p] - mean[i]) * (bands[j][p] - mean[j]);\n      cov[i][j] = cov[j][i] = sum / (pixels - 1);\n    }\n  }\n  return { mean, cov };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/pca.js",
+      "from": 5,
+      "to": 7,
+      "words": [
+        "nan",
+        "non-finite",
+        "isfinite",
+        "bad band",
+        "badbands",
+        "bbl"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "cx083-empty-kml-ring",
+  "source": "CX-083",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Read KML Polygons into features: the outer boundary, then each inner boundary.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/validate.js": "// Validate Features: rings that are not closed.\nexport function openRings(features) {\n  const problems = [];\n  for (const feature of features) {\n    for (const [index, ring] of (feature.geometry?.rings ?? []).entries()) {\n      const [x0, y0] = ring[0];\n      const [xn, yn] = ring[ring.length - 1];\n      if (x0 !== xn || y0 !== yn) problems.push({ id: feature.id, ring: index });\n    }\n  }\n  return problems;\n}\n"
+  },
+  "head": {
+    "src/kml-polygon.js": "function ringOf(text) {\n  const t = (text ?? '').trim();\n  return t ? t.split(/\\s+/).map((pair) => pair.split(',').map(Number)) : [];\n}\n\n// KML Polygon to rings: the outer boundary, then each inner boundary.\nexport function polygonRings(polygon) {\n  const rings = [ringOf(polygon.outer)];\n  for (const text of polygon.inner) rings.push(ringOf(text));\n  return rings;\n}\n",
+    "src/kml-reader.js": "import { polygonRings } from './kml-polygon.js';\n\n// A Placemark as a feature.\nexport function featureOf(placemark) {\n  const geometry = placemark.polygon ? { type: 'Polygon', rings: polygonRings(placemark.polygon) } : null;\n  return { id: placemark.id, properties: placemark.data, geometry };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/kml-polygon.js",
+      "from": 8,
+      "to": 9,
+      "words": [
+        "empty ring",
+        "empty inner",
+        "empty outer",
+        "empty boundary",
+        "zero-vertex",
+        "zero vertices",
+        "no vertices",
+        "no coordinates",
+        "ring[0]"
+      ]
+    }
+  ]
+}
