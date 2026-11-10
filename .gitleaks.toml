@@ -1,9 +1,19 @@
-# For gitleaks: the same allowlist as .github/secret_scanning.yml.
+# For gitleaks: the same allowlist as .github/secret_scanning.yml, plus the chord rule GitHub's
+# scanner has no use for (it has no generic-key pattern).
 title = "GIS Workbench"
 
 [extend]
 useDefault = true
 
-[allowlist]
+[[allowlists]]
 description = "Throwaway test certificate key (see fixtures/fx26/native/SOURCE.txt)"
 paths = ['''fixtures/fx26/native/certs/''']
+
+[[allowlists]]
+description = "The relay wire contract's fixed test token: a fixture both test runners send, which no relay accepts outside the tests"
+paths = ['''^sidecar/python/contract/relay-contract\.json$''']
+
+[[allowlists]]
+description = "Browser key chords (Mod+KeyN, Mod+Shift+KeyW) that generic-api-key reads as a value after the word Key, in app/src/input/keys.js and the built HTML once tracked"
+regexTarget = "secret"
+regexes = ['''^Mod\+(Shift\+)?Key[A-Z]$''']
