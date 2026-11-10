@@ -97,7 +97,11 @@
           await new Promise((res, rej) => {
             const s = document.createElement('script');
             s.src = url;
-            s.onload = res;
+            // Once it has run, the element is only residue: out of the DOM, out of any copy of it.
+            s.onload = () => {
+              s.remove();
+              res();
+            };
             s.onerror = () => rej(new Error(`script block "${name}" failed to run`));
             document.head.appendChild(s);
           });

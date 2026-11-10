@@ -628,7 +628,8 @@ test.describe('Lite: location, command list, sidecar, languages, size', () => {
   // Measured on this workstation under phone emulation, which does not slow anything down, and again
   // with the CPU slowed 4× as a rough stand-in for a mid-range phone: not a real-phone number.
   // `total` counts from navigation, so it holds the loader stub's unpacking; bootMs starts after it.
-  test('REQ-PRF-01 Lite start-up time on the emulated phone (recorded for the validation note)', async ({ context }) => {
+  // REG-166 (SCN-74) gates the 4× figure at 1.5 s, best of three.
+  test('REQ-PRF-01 interactive within 1.5 s at 4× CPU: Lite on the emulated phone', async ({ context }) => {
     const rows = [];
     for (const rate of [1, 1, 1, 4, 4, 4]) {
       const p = await context.newPage();
@@ -639,7 +640,7 @@ test.describe('Lite: location, command list, sidecar, languages, size', () => {
       await p.close();
     }
     console.log(`Lite boot ms: ${rows.map((r) => `${r.rate}x app ${r.app} total ${r.total}`).join(', ')}`);
-    expect(Math.min(...rows.map((r) => r.total))).toBeLessThan(20_000);
+    expect(Math.min(...rows.filter((r) => r.rate === 4).map((r) => r.total)), JSON.stringify(rows)).toBeLessThan(1500);
   });
 
   test('REQ-HOST-05 the Lite size gate: at most 5.5 MB, its own app script, smaller than Full', async () => {
