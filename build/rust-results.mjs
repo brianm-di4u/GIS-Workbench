@@ -27,7 +27,7 @@ let failed = 0;
 for (const m of members) {
   let out;
   try {
-    out = execSync(`cargo test --manifest-path "${join(crates, 'Cargo.toml')}" -p ${m.name} 2>&1`, { encoding: 'utf8', maxBuffer: 1 << 28 });
+    out = execSync(`cargo test --locked --manifest-path "${join(crates, 'Cargo.toml')}" -p ${m.name} 2>&1`, { encoding: 'utf8', maxBuffer: 1 << 28 });
   } catch (e) {
     out = String(e.stdout ?? '');
     failed++;
