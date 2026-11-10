@@ -17,7 +17,8 @@
         "determination"
       ],
       "rearm": true,
-      "direct": true
+      "direct": true,
+      "since": "2026-11-10T02:53:00Z"
     }
   ],
   "models": {

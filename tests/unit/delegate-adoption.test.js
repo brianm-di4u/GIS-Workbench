@@ -16,6 +16,8 @@ describe('the delegate grant', () => {
     const grant = auth.delegateOf('gwb-gardener');
     expect(grant).toMatchObject({ approve: true, rearm: true, direct: true, approveWorkflows: false, approveExternal: false });
     expect(grant.decide).toEqual(['design', 'security', 'determination']);
+    // Commands the account posted before this moment never count (it was signed in by mistake earlier).
+    expect(grant.since).toBe('2026-11-10T02:53:00Z');
     expect(auth.isAdmin('gwb-gardener')).toBe(false);
   });
 
