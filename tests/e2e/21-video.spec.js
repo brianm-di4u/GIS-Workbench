@@ -129,7 +129,7 @@ test('REQ-FMT-52 FC-22 MPEG-1 program stream with KLV plays in real time, seeks,
     return b.size;
   });
   expect(blob).toBeGreaterThan(1000);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-FMT-52 FC-22 MPEG-1 in MPEG-TS and a bare MPEG-1 stream play through the same decoder', async ({ page }) => {

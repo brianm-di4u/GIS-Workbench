@@ -37,7 +37,7 @@ async function app(page) {
   await page.addInitScript(() => delete window.showSaveFilePicker); // saves become downloads
   return openApp(page, 'file', { prefs: { welcomeDone: true, network: 'online' } });
 }
-const quiet = (logs) => logs.filter((l) => !/favicon|ERR_CONNECTION_REFUSED|WebGL|GPU stall|GL Driver/.test(l));
+const quiet = (logs) => logs.filter((l) => !/ERR_CONNECTION_REFUSED|WebGL|GPU stall|GL Driver/.test(l));
 
 /** The I3S layers of the 3D view after `settle`: stats and depth reached. */
 const settle = (frame, ms = 120000) =>
@@ -232,10 +232,13 @@ test('REQ-GAP-35 buildings and terrain as SLPK (i3s_converter validates; the app
     return got;
   };
   const [tslpk] = await dl('hub.slpk', 1);
-  const [tflt, tjpg] = await dl('hub.flt', 2);
+  // The two downloads can arrive in either order (#141).
+  const terrainFlt = await dl('hub.flt', 2);
+  const tflt = terrainFlt.find((f) => f.name.endsWith('.flt'));
+  const tjpg = terrainFlt.find((f) => f.name.endsWith('.jpg'));
   expect(tslpk.name).toMatch(/_terrain\.slpk$/);
-  expect(tflt.name).toMatch(/_terrain\.flt$/);
-  expect(tjpg.name).toMatch(/_terrain\.jpg$/);
+  expect(tflt?.name).toMatch(/_terrain\.flt$/);
+  expect(tjpg?.name).toMatch(/_terrain\.jpg$/);
   const pts = join(TMP, tslpk.name);
   writeFileSync(pts, tslpk.bytes);
   writeFileSync(join(TMP, tflt.name), tflt.bytes);

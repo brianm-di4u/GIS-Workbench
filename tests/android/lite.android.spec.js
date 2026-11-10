@@ -109,6 +109,8 @@ test.describe('load routes', () => {
     expect(f.ready).toBe('1');
     expect(f.edition).toBe('lite');
     expect(f.problems).toEqual([]);
+    // The hosted copy is the last release, which predates the data: icon (#109). Drop this filter
+    // once a release that carries the icon is on the site.
     expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
   });
 

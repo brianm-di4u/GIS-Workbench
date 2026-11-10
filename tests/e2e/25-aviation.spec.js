@@ -129,7 +129,7 @@ test('Use as Terrain: declared no-data posts become voids, on the resampled and 
     expect(o.centre, k).toBeNull(); // the middle of the block has no height
   }
   expect(out.wgs84.voids).toBe(64);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-73 a point cloud that cannot be placed under the surfaces is refused, never reported clear', async ({ page }, info) => {
@@ -229,7 +229,7 @@ test('REQ-GAP-73 LAS from NASR against the Copernicus DSM: Part 77 and Annex 14,
   expect(ricao.notes.some((n) => /^Not checked/.test(n))).toBe(false); // 2.6 builds the zone: tests/e2e/26-filework.spec.js
   expect(ricao.stats.obstacles).toBeGreaterThan(0);
   writeFileSync(join(OUT, 'las-copernicus.json'), JSON.stringify({ part77: r77, icao: ricao }, null, 1));
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 const DFC = 'D:/TE-corpus/ieee-dfc2018-houston';
@@ -309,7 +309,7 @@ test('REQ-GAP-73 HOU runway 13R approach over the DFC2018 Houston lidar: DSM and
   // The cloud keeps returns the DSM's posts (and its resampling) smooth over: over the same ground
   // the smallest clearance agrees within 10 m.
   for (const k of ['part77', 'icao']) expect(Math.abs(pc[k].stats.minClearance - pc[k].dsmInFootprint.minClearance), k).toBeLessThan(10);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-73 an airport entered by hand, a runway drawn on the map, a crane in a point cloud', async ({ page }) => {
@@ -381,7 +381,7 @@ test('REQ-GAP-73 an airport entered by hand, a runway drawn on the map, a crane 
   expect(Math.abs(o.pen - (68 - 539.04 / 20))).toBeLessThan(0.2);
   expect(Math.abs(o.lat - crane.lat)).toBeLessThan(1e-6);
   expect(o.posts).toBeGreaterThan(10);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obstacle survey under both editions', async ({ page }) => {
@@ -502,7 +502,7 @@ test('REQ-GAP-78 SCN-72 Amendment 18 OFS/OES: the edition selector, and one obst
   close(table(both['icao-a18'].zone), { M1: [12.82, 'transitional'], M3: [25.348, 'approach'] });
   expect(both.icao.edition).toMatch(/until 20 November 2030$/);
   expect(both['icao-a18'].edition).toBe(A18);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-74 a route on the map: legs, profile against the DSM, warnings, KML and GPX', async ({ page }) => {
@@ -642,5 +642,5 @@ test('REQ-GAP-74 a route on the map: legs, profile against the DSM, warnings, KM
   expect(back.refused).toMatch(/DTD/);
   expect(back.unread).toMatch(/old\.cot is not a GPX or KML route/);
   writeFileSync(join(OUT, 'route-vgt-charleston.json'), JSON.stringify({ shown, warnings, legs: calc.table.legs, minClearance: calc.profile.legs.map((l) => l.minClearance), dsmPostTopLeg2: top, dsmLowerBoundLeg2: low, appTopLeg2: appTop, profileStep: calc.profile.step }, null, 1));
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
