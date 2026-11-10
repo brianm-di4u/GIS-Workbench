@@ -1,0 +1,9 @@
+[package]
+name = "gw-hydro"
+description = "GIS Workbench hydrology on whole grids: priority-flood fill, D8 and D-infinity flow, accumulation, Strahler and Shreve order, watersheds and stream lines (REQ-GAP-80)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
