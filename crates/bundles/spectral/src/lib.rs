@@ -1,15 +1,15 @@
 //! `spectral` bundle (lazy; analysis worker): band statistics and SNR, training statistics and
 //! separability, supervised and unsupervised classification and clean-up, accuracy, RX/MF/ACE/
-//! CEM/GMM, PCA/MNF/ICA/decorrelation/unmixing, automatic endmembers, DOS/ELM/IARR, brightness temperature, library
+//! CEM/GMM, PCA/MNF/ICA/decorrelation/unmixing, automatic endmembers, temporal trend and anomaly, DOS/ELM/IARR, brightness temperature, library
 //! resampling and continuum removal, destriping, change vectors and template matching
-//! (REQ-MSI-05..14, 16; REQ-EXT-28; REQ-GAP-82).
+//! (REQ-MSI-05..14, 16; REQ-EXT-28; REQ-GAP-82, 83).
 //!
 //! Cubes are BIP f32. Every output is `[u32 json length][json][padding to 4][sections…]` where
 //! the JSON lists the sections {name, type ('f32'|'u8'), len} in order.
 
 use gw_abi::{set_out, slice, status, Error, Json, Result};
 use gw_spectral::stats::Cube;
-use gw_spectral::{accuracy, classify, detect, endmember, misc, stats, transform};
+use gw_spectral::{accuracy, classify, detect, endmember, misc, stats, temporal, transform};
 
 gw_abi::export_abi!();
 
@@ -468,6 +468,46 @@ pub unsafe extern "C" fn gw_spec_template(w: f64, h: f64, img: *const f32, tw: f
         let mut j = Json::new();
         j.obj().kv_int("w", (w + 1).saturating_sub(tw) as i64).kv_int("h", (h + 1).saturating_sub(th) as i64);
         set_out(pack(j, &[Sec::F32("ncc", &r)]));
+        Ok(())
+    })())
+}
+
+/// Time series (REQ-GAP-83), one band per date. Kind 0, trend: `aux` = the nt dates (decimal
+/// years); sections `slope` (per year), `pvalue` and `n`. Kind 1, anomaly: `aux` = nt baseline
+/// flags (1 = in the baseline) then nt group ids (0 for one group); `prm[3]` = 1 for a z-score;
+/// section `anomaly` (BIP, as the input). `prm` = [w, h, nt, z].
+/// # Safety
+/// `prm` must hold 4 f64, `v` n f32 and `aux` naux f64.
+#[no_mangle]
+pub unsafe extern "C" fn gw_spec_temporal(kind: i32, prm: *const f64, v: *const f32, n: usize, aux: *const f64, naux: usize) -> i32 {
+    let p = slice(prm, 4);
+    status((|| {
+        let c = cube(p, slice(v, n))?;
+        let a = slice(aux, naux);
+        let mut j = Json::new();
+        j.obj();
+        match kind {
+            0 => {
+                if a.len() != c.nb || a.iter().any(|t| !t.is_finite()) {
+                    return Err(Error::invalid("spectral: a trend needs one finite date per band"));
+                }
+                let r = temporal::trend(&c, a);
+                set_out(pack(j, &[Sec::F32("slope", &r.slope), Sec::F32("pvalue", &r.pvalue), Sec::F32("n", &r.n)]));
+            }
+            1 => {
+                if a.len() != 2 * c.nb || a[c.nb..].iter().any(|g| !(0.0..1024.0).contains(g) || g.fract() != 0.0) {
+                    return Err(Error::invalid("spectral: an anomaly needs a baseline flag and a group per band"));
+                }
+                let base: Vec<bool> = a[..c.nb].iter().map(|&f| f != 0.0).collect();
+                if !base.iter().any(|&b| b) {
+                    return Err(Error::invalid("spectral: the baseline holds no dates"));
+                }
+                let group: Vec<u32> = a[c.nb..].iter().map(|&g| g as u32).collect();
+                let r = temporal::anomaly(&c, &base, &group, p[3] != 0.0);
+                set_out(pack(j, &[Sec::F32("anomaly", &r)]));
+            }
+            _ => return Err(Error::invalid("spectral: unknown temporal operation")),
+        }
         Ok(())
     })())
 }

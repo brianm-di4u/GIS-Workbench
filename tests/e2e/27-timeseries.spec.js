@@ -1,0 +1,204 @@
+// SCN-76 REQ-GAP-83 time series, through the commands: a ten-year monthly NDVI stack (CF NetCDF-3,
+// fixtures/timeseries) opens with a date on every band; the Time Series panel's slider shows a
+// date; the temporal profile at a pixel and over a rectangle matches the file; Temporal Trend gives
+// scipy's slope, p-value and date count at every pixel and Temporal Anomaly the reference anomaly
+// (tests/tools/timeseries_ref.py); Time Stack orders two dated ENVI images on different grids and
+// resamples one onto the other; the recipe op runs the trend headless.
+import { test, expect } from '@playwright/test';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { openApp, openFiles } from './helpers.js';
+
+const NC = resolve('fixtures/timeseries/ndvi-2010-2019.nc');
+const REF = JSON.parse(readFileSync(resolve('fixtures/timeseries/ndvi-2010-2019.ref.json'), 'utf8'));
+const { width: W, height: H, dates } = REF;
+const NT = dates.length;
+
+/** The file's values at pixel p, one per date (NaN for the fill value): ndvi ends the file. */
+function fileSeries() {
+  const b = readFileSync(NC);
+  const dv = new DataView(b.buffer, b.byteOffset + b.length - NT * H * W * 4, NT * H * W * 4);
+  return (p) => Array.from({ length: NT }, (_, k) => {
+    const x = dv.getFloat32((k * W * H + p) * 4, false);
+    return x === -9999 ? NaN : x;
+  });
+}
+
+/** A one-band float ENVI image on a lat/lon grid: value = 100 × column + row. */
+function enviImage(dir, name, { w, h, lon0, lat0, d }) {
+  const v = new Float32Array(w * h);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) v[y * w + x] = 100 * x + y;
+  writeFileSync(join(dir, `${name}.img`), Buffer.from(v.buffer));
+  writeFileSync(join(dir, `${name}.hdr`), `ENVI\nsamples = ${w}\nlines = ${h}\nbands = 1\nheader offset = 0\nfile type = ENVI Standard\ndata type = 4\ninterleave = bsq\nbyte order = 0\nmap info = {Geographic Lat/Lon, 1, 1, ${lon0}, ${lat0}, ${d}, ${d}, WGS-84, units=Degrees}\n`);
+  return [join(dir, `${name}.img`), join(dir, `${name}.hdr`)];
+}
+
+test('SCN-76 REQ-GAP-83 a NetCDF NDVI stack: dates, slider, profile, trend and anomaly against the reference', async ({ page }) => {
+  test.setTimeout(300000);
+  const { frame, logs } = await openApp(page, 'file');
+  await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    app.__saved = [];
+    app.saveCapture = (blob, name) => app.__saved.push({ blob, name });
+  });
+  await openFiles(frame, [NC]);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.lutTex), null, { timeout: 90000 });
+  const got = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const l = app.activeLayer();
+    return { bands: l.bands, dates: app.timeseries.datesOf(l), names: app.msi.bandsOf(l).slice(0, 2).map((b) => b.name), trendOn: app.commands.get('ts.trend').enabled() };
+  });
+  expect(got.bands).toBe(NT);
+  expect(got.dates).toEqual(dates);
+  expect(got.names[0]).toBe('time=2010-01-16T00:00:00Z');
+  expect(got.trendOn).toBe(true);
+
+  // The panel and its slider.
+  await frame.evaluate(() => window.gisworkbench.commands.run('ts.panel'));
+  const slider = frame.locator('.ts-slider');
+  await expect(slider).toBeVisible();
+  await slider.fill('60');
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.activeLayer().chain.bands[0])).toBe(60);
+  await expect(frame.locator('.ts-date')).toContainText('2015');
+  // A model run's year 1 is labelled year 1, not 1901; 30 February is shown as written.
+  const early = await frame.evaluate(() => [window.gisworkbench.timeseries.label('0001-07-15T00:00:00Z'), window.gisworkbench.timeseries.label('0001-02-30T00:00:00Z')]);
+  expect(early[0]).not.toContain('19');
+  expect(early[0]).toMatch(/\b1\b/);
+  expect(early[1]).toBe('0001-02-30');
+  // The slider keeps keyboard focus while it steps, and the rate keeps its value through a redraw.
+  await slider.focus();
+  await slider.press('ArrowRight');
+  await slider.press('ArrowRight');
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.activeLayer().chain.bands[0])).toBe(62);
+  expect(await slider.evaluate((s) => document.activeElement === s)).toBe(true);
+  const rate = frame.getByLabel('Dates per second');
+  await rate.selectOption('16');
+  await frame.evaluate(() => window.gisworkbench.emit('state'));
+  await expect(rate).toHaveValue('16');
+  // Stopping a recording part way saves it and ends the pass.
+  const rec = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    if (typeof VideoEncoder !== 'function') return { skipped: true };
+    const n = app.__saved.length;
+    const pass = app.timeseries.play(app.activeLayer(), { rate: 16, record: true });
+    await new Promise((r) => setTimeout(r, 300));
+    const during = !!app.compareRecording();
+    app.timeseries.stop();
+    await pass;
+    for (let i = 0; i < 100 && app.__saved.length === n; i++) await new Promise((r) => setTimeout(r, 100));
+    return { during, after: !!app.compareRecording(), saved: app.__saved.length - n };
+  });
+  if (!rec.skipped) expect(rec).toEqual({ during: true, after: false, saved: 1 });
+
+  // The temporal profile: at a pixel, and per date over a rectangle with its missing values left out.
+  const series = fileSeries();
+  const prof = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const l = app.activeLayer();
+    const point = await app.timeseries.profile(l, { x: 7.4, y: 3.6 });
+    const region = await app.timeseries.profile(l, { rect: { x0: 0, y0: 0, w: 4, h: 2 } });
+    await app.timeseries.exportProfile(l, { rect: { x0: 0, y0: 0, w: 4, h: 2 } });
+    const f = app.__saved.at(-1);
+    return { point: point.mean, region: { mean: region.mean, n: region.n }, csvName: f.name, csv: (await f.blob.text()).split('\r\n').slice(0, 2) };
+  });
+  const expPoint = series(3 * W + 7);
+  prof.point.forEach((v, k) => (Number.isNaN(expPoint[k]) ? expect(v).toBeNaN() : expect(v).toBeCloseTo(expPoint[k], 6)));
+  for (let k = 0; k < NT; k++) {
+    const vals = [0, 1, 2, 3, W, W + 1, W + 2, W + 3].map((p) => series(p)[k]).filter(Number.isFinite);
+    expect(prof.region.n[k]).toBe(vals.length);
+    expect(prof.region.mean[k]).toBeCloseTo(vals.reduce((a, b) => a + b, 0) / vals.length, 5);
+  }
+  expect(prof.csvName).toMatch(/_profile\.csv$/);
+  expect(prof.csv[0]).toBe('date,mean,std,pixels');
+  expect(prof.csv[1]).toMatch(/^2010-01-16T00:00:00Z,0\.\d+,/);
+
+  // Temporal Trend through its dialog: scipy's slope, p-value and date count at every pixel.
+  const n0 = await frame.evaluate(() => window.gisworkbench.layers.size);
+  await frame.evaluate(() => {
+    window.gisworkbench.commands.run('ts.trend');
+  });
+  const dlg = frame.locator('[data-id="dialog:ts-trend"]');
+  await expect(dlg).toBeVisible();
+  await dlg.getByRole('button', { name: 'Run' }).click();
+  await frame.waitForFunction((n) => window.gisworkbench.layers.size > n, n0, { timeout: 120000 });
+  const tr = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const l = app.activeLayer();
+    const c = await app.msi.cube(l);
+    return { bands: l.bands, w: c.w, h: c.h, names: app.msi.bandsOf(l).map((b) => b.name), v: Array.from(c.v) };
+  });
+  expect([tr.bands, tr.w, tr.h]).toEqual([3, W, H]);
+  expect(tr.names[1]).toBe('p-value');
+  let worstSlope = 0;
+  let worstLogP = 0;
+  for (let p = 0; p < W * H; p++) {
+    expect(tr.v[p * 3 + 2]).toBe(REF.trend.n[p]);
+    worstSlope = Math.max(worstSlope, Math.abs(tr.v[p * 3] - REF.trend.slope[p]));
+    worstLogP = Math.max(worstLogP, Math.abs(Math.log10(tr.v[p * 3 + 1]) - Math.log10(REF.trend.pvalue[p])));
+  }
+  console.log(JSON.stringify({ worstSlope, worstLogP }));
+  expect(worstSlope).toBeLessThan(2e-6);
+  expect(worstLogP).toBeLessThan(1e-4);
+
+  // Temporal Anomaly headless (as a recipe or script would run it), by calendar month against 2010-2014.
+  const an = await frame.evaluate(async (samples) => {
+    const app = window.gisworkbench;
+    const ser = [...app.layers.values()].find((l) => l.bands === 120 && !l.rec?.memory);
+    app.store.transact('select', (tx) => tx.set(app.activePane().id, 'activeLayer', ser.id));
+    const r = await app.commands.run('ts.anomaly', { headless: true, from: '2010-01-01', to: '2014-12-31', by: 'month' });
+    const l = app.layers.get(r.id);
+    const out = [];
+    for (const s of samples) out.push(Array.from((await app.msi.cube(l, { x0: s.x, y0: s.y, w: 1, h: 1 })).v));
+    return { bands: l.bands, dates: app.timeseries.datesOf(l).length, out };
+  }, REF.anomaly);
+  expect(an.bands).toBe(NT);
+  expect(an.dates).toBe(NT);
+  REF.anomaly.forEach((s, i) => s.anomaly.forEach((e, k) => (e === null ? expect(an.out[i][k]).toBeNaN() : expect(Math.abs(an.out[i][k] - e)).toBeLessThan(2e-6))));
+
+  // The recipe op runs the trend with no dialog.
+  const op = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const ser = [...app.layers.values()].find((l) => l.bands === 120 && !l.rec?.memory);
+    app.store.transact('select', (tx) => tx.set(app.activePane().id, 'activeLayer', ser.id));
+    const n = app.layers.size;
+    const r = await app.recipes.runOp('timeTrend', {});
+    return { summary: r.summary, added: app.layers.size - n };
+  });
+  expect(op.added).toBe(1);
+  expect(op.summary).toMatch(/768/);
+  expect(logs).toEqual([]);
+});
+
+test('SCN-76 REQ-GAP-83 Time Stack orders dated images and resamples one on another grid', async ({ page }, info) => {
+  test.setTimeout(180000);
+  const dir = info.outputPath('stack');
+  mkdirSync(dir, { recursive: true });
+  // The later image is first on disk, on a grid 2.5 times as fine over the same place (no reference
+  // pixel centre falls on one of its pixel edges, so nearest neighbour has one answer).
+  const files = [
+    ...enviImage(dir, 'LC08_L2SP_044034_20200715_20200912_02_T1_NDVI', { w: 50, h: 25, lon0: -105, lat0: 40, d: 0.004 }),
+    ...enviImage(dir, 'LC08_L2SP_044034_20190713_20200827_02_T1_NDVI', { w: 20, h: 10, lon0: -105, lat0: 40, d: 0.01 }),
+  ];
+  const { frame, logs } = await openApp(page, 'file');
+  await openFiles(frame, files);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].filter((l) => l.lutTex).length >= 2, null, { timeout: 90000 });
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const ids = [...app.layers.values()].map((l) => l.id);
+    const s = await app.commands.run('ts.stack', { layers: ids });
+    const l = app.layers.get(s.id);
+    const c = await app.msi.cube(l);
+    return { ...s, w: l.width, h: l.height, v: Array.from(c.v), panelOn: app.commands.get('ts.trend').enabled() };
+  });
+  expect(r.dates).toEqual(['2019-07-13T00:00:00Z', '2020-07-15T00:00:00Z']);
+  expect(r.resampled).toBe(1);
+  // The 2019 grid (20 × 10, 0.01°) is the reference; the 2020 image is read at its pixel centres:
+  // the centre of reference pixel x is at 2.5x + 1.25 fine pixels.
+  expect([r.w, r.h]).toEqual([20, 10]);
+  for (const [x, y] of [[0, 0], [7, 3], [19, 9]]) {
+    const p = y * 20 + x;
+    expect(r.v[p * 2]).toBe(100 * x + y);
+    expect(r.v[p * 2 + 1]).toBe(100 * Math.floor(2.5 * x + 1.25) + Math.floor(2.5 * y + 1.25));
+  }
+  expect(logs).toEqual([]);
+});

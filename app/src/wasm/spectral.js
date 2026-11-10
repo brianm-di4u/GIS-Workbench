@@ -113,6 +113,19 @@ export class SpectralBundle extends Bundle {
     return { ...r.json, spectra: r.sections.spectra, ppi: r.sections.ppi };
   }
 
+  /** Per-pixel linear trend over nt dates (decimal years): {slope (per year), pvalue, n} (REQ-GAP-83). */
+  trend(v, w, h, nt, years) {
+    const r = this.run('trend', [[w, h, nt, 0], v, years], ([p], [a, n], [x, nx]) => this.x.gw_spec_temporal(0, p, a, n, x, nx));
+    return r.sections;
+  }
+
+  /** Anomaly of each date against the baseline dates (flags) of its group, or its z-score: {anomaly} (BIP). */
+  anomaly(v, w, h, nt, { base, groups = null, z = false }) {
+    const aux = [...base.map((b) => (b ? 1 : 0)), ...(groups ?? base.map(() => 0))];
+    const r = this.run('anomaly', [[w, h, nt, z ? 1 : 0], v, aux], ([p], [a, n], [x, nx]) => this.x.gw_spec_temporal(1, p, a, n, x, nx));
+    return r.sections;
+  }
+
   /** kind: 'dos' (param = percentile) | 'mean' (aux = pixel indices) | 'destripe' | 'change' (b). */
   correct(kind, v, w, h, nb, { param = 0.0001, idx = null, b = null } = {}) {
     const code = { dos: 0, mean: 1, destripe: 2, change: 3 }[kind];
