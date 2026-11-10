@@ -11,7 +11,7 @@ A council of specialist reviewers, run in two phases. A deterministic ledger dec
 - **Close-out.** The same rule again, with every seat and the verifier on `council.closeModel` (Opus): at least two rounds, ending when two in a row raise nothing above a nit with nothing open. A blocker or should found in close-out gets fixed, and close-out carries on on Opus.
 - **The verdict** is rendered only after close-out converges. Each phase has a hard cap (`council.maxLoopRounds`, `council.maxCloseRounds`); hitting one parks the change.
 
-"Two in a row" means two clean rounds on the same content, so a change to the code starts the count again. A repeat of a finding you already declined doesn't count as raising it; a fixed bug that comes back does. The caps count every round in a phase, clean or not. The ledger records the phase and model of each round. A docs-only change (T0) gets one round, and the loop cap applies to it if it keeps raising things.
+"Two in a row" means two clean rounds on the same content, so a change to the code starts the count again. A repeat of a finding you already answered doesn't count as raising it; a fixed bug that comes back does, and comes back as a new finding for you to answer, and so does a more severe finding at a place that only had a nit. The caps count every round in a phase, clean or not. The ledger records the phase and model of each round. A docs-only change (T0) gets one round, and the loop cap applies to it if it keeps raising things.
 
 ## Before you start
 

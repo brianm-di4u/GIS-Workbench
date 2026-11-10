@@ -218,9 +218,13 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
 export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
   // What this round raised. A bug this change didn't introduce never blocks. An incomplete round
   // raised nothing we can count.
-  // A repeat of a finding the author already declined doesn't count: that is a reviewer asking again.
-  // A repeat of one that was fixed does: the bug came back.
-  const answered = (f) => ledger.findings.some((earlier) => earlier.status !== 'fixed' && sameFinding(earlier, f));
+  // A repeat of a finding already on the ledger doesn't count: that is a reviewer asking again. Two
+  // things are not repeats: a finding the author fixed, because the bug came back, and a more severe
+  // finding than the earlier one at that place, because an automatically declined nit has not
+  // answered a blocker.
+  const repeatOf = (list, f) =>
+    list.some((earlier) => earlier.status !== 'fixed' && SEVERITIES.indexOf(f.severity) >= SEVERITIES.indexOf(earlier.severity) && sameFinding(earlier, f));
+  const answered = (f) => repeatOf(ledger.findings, f);
   const raised = (result.missing ?? []).length === 0
     ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting && !answered(f)).length]))
     : null;
@@ -237,7 +241,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     (a, b) => SEVERITIES.indexOf(a.severity) - SEVERITIES.indexOf(b.severity),
   );
   for (const finding of ordered) {
-    if (seen.some((earlier) => sameFinding(earlier, finding))) {
+    if (repeatOf(seen, finding)) {
       repeats.push(finding);
       continue;
     }

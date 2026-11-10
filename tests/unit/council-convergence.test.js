@@ -201,12 +201,32 @@ describe('repeats and content', () => {
     expect(step(ledger)).toMatchObject({ status: 'review', phase: 'close' });
   });
 
-  it('counts a repeat of a finding that was fixed, since the bug came back', () => {
+  it('counts a repeat of a finding that was fixed, shows it to the author, and waits for an answer', () => {
     const ledger = emptyLedger();
     run(ledger, [same('should')]);
     fixAll(ledger);
     run(ledger, [same('should')]);
     expect(cleanTail(ledger.rounds)).toBe(0);
+    expect(ledger.findings.filter((f) => f.status === 'open')).toHaveLength(1);
+    expect(step(ledger).status).toBe('answer-findings');
+  });
+
+  it('does not let a nit that was declined by default answer a later blocker at the same place', () => {
+    const ledger = emptyLedger();
+    run(ledger, [same('nit')]);
+    run(ledger, [same('blocker')]);
+    expect(cleanTail(ledger.rounds)).toBe(0);
+    expect(ledger.findings.filter((f) => f.status === 'open').map((f) => f.severity)).toEqual(['blocker']);
+    expect(step(ledger).status).toBe('answer-findings');
+  });
+
+  it('still treats a nit again, or a lesser finding, at an answered place as a repeat', () => {
+    const ledger = emptyLedger();
+    run(ledger, [same('should')]);
+    ledger.findings.filter((f) => f.status === 'open').forEach((f) => resolveFinding(ledger, f.id, 'intentional', 'why'));
+    run(ledger, [same('nit')]);
+    expect(cleanTail(ledger.rounds)).toBe(1);
+    expect(ledger.findings).toHaveLength(1);
   });
 
   it('needs both clean rounds on the same content', () => {
