@@ -187,4 +187,11 @@ describe('one source text, two meanings', () => {
     expect(keys('features/geoproc-ui.js', 'Erase')).toEqual([keyOf('Erase', 'overlay')]);
     expect(keys('feedback/whiteboard.js', 'Erase')).toEqual([keyOf('Erase')]);
   });
+
+  // A storage bucket's Region is the provider's data centre region; spectral classification's
+  // Region is a part of the image, and ja translated it as that ("領域").
+  it("gives a bucket's Region its own key, apart from a region of the image", () => {
+    expect(keys('features/catalog.js', 'Region')).toEqual([keyOf('Region', 'cloud storage')]);
+    expect(keys('features/spectral-analysis.js', 'Region')).toEqual([keyOf('Region')]);
+  });
 });

@@ -31811,7 +31811,6 @@
    "key": "Region",
    "src": "Region",
    "refs": [
-    "features/catalog.js",
     "features/spectral-analysis.js"
    ]
   },
@@ -46702,6 +46701,14 @@
     "features/fmv.js"
    ],
    "error": true
+  },
+  {
+   "key": "cloud storage\u0004Region",
+   "src": "Region",
+   "ctx": "cloud storage",
+   "refs": [
+    "features/catalog.js"
+   ]
   },
   {
    "key": "clustering or binning",
