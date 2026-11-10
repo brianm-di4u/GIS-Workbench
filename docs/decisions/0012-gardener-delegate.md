@@ -34,7 +34,18 @@ A separate GitHub account, `gwb-gardener`, is a delegate in `pipeline.config.jso
 - **Shared blind spots.** A Fable Gardener reviewing Opus and Sonnet work can miss what they miss. The suspend rule and the revert rate are the check.
 - **The worker gate is still soft.** Workers hold a token under the admin's login, and the Gardener's token file is readable by any session of the admin's Windows user. Moving workers to their own account, and the token to a separate OS user, are the later fixes.
 - **Class decides who rules on a decision.** The bot records the class at open so the Gardener can't lower it, but a worker can mis-class at filing. The Gardener re-judges the class and escalates when it disagrees.
+- **A pushed workflow can also run the signing jobs.** The `workflow` scope lets a branch run workflow code with `id-token` and attestation permissions, and the documented `gh attestation verify` pins the repository only. The owner check in `release.yml` guards the default branch's copy. Dropping `workflow` from the token closes this and the gate-forgery risk together. Pinning verification to the release workflow and `refs/heads/main` is the alternative. Details belong in a draft security advisory, not here.
+- **The hash residual from 0008 now covers Gardener approvals.** A change hash without context lets anyone who can push after an approval move the approved lines within a file and keep the approval. Workers push under the admin's login, so no delegate-touch marker fires. The Gardener reads the diff on the head it approves, which is the mitigation.
 - **Unverified until the Gardener first runs:** that the clone's local settings override the user-level token for both `gh` and the guard hook. If they don't, the guard denies, which is the safe failure.
+
+## Left to the admin's choice
+
+The council raised two gaps in the grant. Neither is fixed here, because each changes the authority model the admin approved.
+
+- **Enforcement files.** `tiers.adminOnlyPaths` lists the rule files (`docs/POLICY.md`, `docs/PRD.md`, `LICENSE*`, `THIRD_PARTY*`, `TRADEMARKS.md`) but not the files that enforce them or steer agents: `build/check-policy*`, `crates/deny.toml`, `build/origins.json`, `build/airgap.mjs`, `**/CLAUDE.md`, `AGENTS.md`, `REVIEW.md`, and the `decision`, `release` and `full-send` skills. They are T2, so the Gardener may approve changes to them. Adding them sends more PRs to the admin.
+- **Decision records.** `docs/decisions/**` is not admin-only. A record that cites no `/decide` is T2, and the Gardener may approve it, which then settles the question for every agent. Adding `docs/decisions/**` to `tiers.adminOnlyPaths` makes every record need the admin.
+
+Both are one-line config changes, and the admin can make either at approval.
 
 ## Baseline
 

@@ -36,6 +36,7 @@ The Gardener is the GitHub account `gwb-gardener`, listed under `delegates` in `
   3. Revoke the old token on the account.
   4. In the Gardener's clone, check that `gh api user --jq .login` prints `gwb-gardener`.
 - **Lift a suspension.** Two bad gardener-approved merges inside the breaker window, or a forged `pipeline/gate` check, make the bot open a `pipeline:delegate-suspended` issue. Read why, fix the cause, then comment `/rearm` on that issue yourself. Only an admin's comment lifts it. A command the delegate posted while suspended never counts, so it must post it again.
+- **If the token may have leaked.** The off-switch below is a PR, and the Gardener's earlier approvals keep counting until it merges. So first remove `gwb-gardener` as a collaborator and revoke the token. Then delete its `/approve` and `/decide` comments on open PRs and decision issues, so the gate stops counting them. Then turn it off, or rotate the token as above.
 - **Turn it off.** Remove `delegates` from `pipeline.config.json` in a PR you approve. With the key gone the pipeline behaves as it did before: only an admin's commands count, and the admin-only paths no longer apply. Then revoke the token, and remove the account as a collaborator. `tiers.adminOnlyPaths` and `models` can stay.
 
 ## Dependencies
