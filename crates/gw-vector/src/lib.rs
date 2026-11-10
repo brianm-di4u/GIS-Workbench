@@ -5,6 +5,8 @@
 //! overshoots past a crossing, with a trim fix) and slivers. Attribute domains and required
 //! fields are checked by the caller against its schema.
 
+pub mod network;
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Kind {
     Point,
