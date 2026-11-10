@@ -23,4 +23,4 @@ What the admin chose.
 What this makes easier, harder, or off-limits.
 ```
 
-Open the PR with a line reading `Decision: #123`. The gate checks that the issue carries the admin's `/decide`.
+Open the PR with a line reading `Decision: #123`. The gate checks that the issue carries a `/decide` that counts: the admin's, or a delegate's for a class in its grant ([0012](0012-gardener-delegate.md)).
