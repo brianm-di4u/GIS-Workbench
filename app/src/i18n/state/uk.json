@@ -4638,10 +4638,6 @@
    "h": "1bed60b8786e",
    "state": "passed"
   },
-  "EGM2008 heights are converted with EGM96: differences up to about 1 m": {
-   "h": "20bd801694c3",
-   "state": "passed"
-  },
   "EGM96 (MSL)": {
    "h": "944fde8b9098",
    "state": "passed"
@@ -8785,10 +8781,6 @@
    "h": "62d8b945eb2a",
    "state": "passed"
   },
-  "MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 (5′ grid) when its data pack is loaded.": {
-   "h": "6ee20fe6f4f8",
-   "state": "passed"
-  },
   "MTF compensation (5×5 kernel)": {
    "h": "6d43bbfaa038",
    "state": "passed"
@@ -9696,10 +9688,6 @@
    "h": "e2f79e5b6033",
    "state": "passed"
   },
-  "NAVD88 heights are converted to HAE with EGM96 (no GEOID18 pack): about 1 m uncertainty": {
-   "h": "34a2efc17aa5",
-   "state": "passed"
-  },
   "NBPP {nbpp} not supported": {
    "h": "f7381e56bc86",
    "state": "passed"
@@ -10128,11 +10116,6 @@
   "No heuristic suggests a legacy UTC encoder.": {
    "h": "a1020a98aa3f",
    "state": "passed"
-  },
-  "No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful.": {
-   "h": "8c8c9748870c",
-   "state": "passed",
-   "note": "review: map overlays ≠ layover «накладання»"
   },
   "No image": {
    "h": "0a8216612de0",
@@ -11760,10 +11743,6 @@
   },
   "Places a GPS waypoint.": {
    "h": "5a574a1aea36",
-   "state": "passed"
-  },
-  "Places a point cloud opened in a local frame (BPF Cartesian or ENU) in the CRS you name.": {
-   "h": "bff2cb8575ac",
    "state": "passed"
   },
   "Plain-text body for any mail client": {
@@ -22355,10 +22334,6 @@
    "h": "2a2384342973",
    "state": "passed"
   },
-  "this cloud has a CRS from its file; Assign CRS places clouds opened in a local frame (BPF Cartesian/ENU)": {
-   "h": "5c712da728e5",
-   "state": "passed"
-  },
   "this frame has no KLV frame model (angles and FOV): mensuration is not available": {
    "h": "9b375cf7139d",
    "state": "passed"
@@ -24446,10 +24421,6 @@
    "h": "0c80770e2af2",
    "state": "passed"
   },
-  "{n} points within {half} of the line; click two points to measure": {
-   "h": "cfd9409e5699",
-   "state": "passed"
-  },
   "{n} s left": {
    "h": "8fa7d97f8710",
    "state": "passed"
@@ -25697,10 +25668,6 @@
    "h": "1fe4a4b794ec",
    "state": "passed"
   },
-  "EGM2008 height (2.5′ grid)": {
-   "h": "872c1786b48e",
-   "state": "passed"
-  },
   "EPSG:{code} {name}: Helmert, {acc}": {
    "h": "f12336fa31d0",
    "state": "passed"
@@ -26154,10 +26121,6 @@
   },
   "No": {
    "h": "1ea442a134b2",
-   "state": "passed"
-  },
-  "No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania or geoid-egm2008-25 with File ▸ Open ▸ Open Data Pack.": {
-   "h": "528658264df0",
    "state": "passed"
   },
   "No models yet: load the ai-landcover pack, or add your own ONNX model.": {
@@ -28706,10 +28669,6 @@
   },
   "7 parameters (translations, rotations, scale)": {
    "h": "e48159a920b4",
-   "state": "passed"
-  },
-  "; {same} of {faces} of the file’s faces are in the rebuilt TIN": {
-   "h": "e03419608af9",
    "state": "passed"
   },
   "A DEM layer from the TIN: linear interpolation in each triangle.": {
@@ -33784,10 +33743,6 @@
    "h": "edda9e29693d",
    "state": "passed"
   },
-  "{n, plural, one {# face is} other {# faces are}} hidden in the file and no boundary excludes {n, plural, one {it} other {them}}: the TIN covers {n, plural, one {it} other {them}}": {
-   "h": "a7c52d374047",
-   "state": "passed"
-  },
   "{n, plural, one {# feature or row was} other {# features or rows were}} skipped (no geometry or no height)": {
    "h": "d97b1bf7820a",
    "state": "passed"
@@ -35491,6 +35446,1246 @@
   },
   "Everything in 1.x is still here. To work as before, choose View ▸ Display ▸ Interface Layout ▸ Classic (or the Pro workspace and then Classic): the Ribbon, Quick Access Toolbar, KeyTips, Layer Manager, Cue Cards, Workspace window and the north arrow on the image come back, with the Classic themes. Your keyboard shortcuts, Quick Access Toolbar and ribbon customisations carry over. In the Modern layout the same commands are in Ctrl+K (type the name you know: DRA, CLAHE, orthorectify), in the navigation rail and in the right-click menu. Two defaults changed: the large north arrow is now a small compass (View ▸ Decorations brings the arrow back), and GIS Workbench starts Offline until you choose (status bar switch). A site can lock the layout and Offline through Common preferences.": {
    "h": "acf7baab4812",
+   "state": "passed"
+  },
+  "(count only)": {
+   "h": "4694ef332a50",
+   "state": "passed"
+  },
+  "(none: one feature)": {
+   "h": "c39631e7c707",
+   "state": "passed"
+  },
+  "5 700 kg or less on an ADG IIC to V runway: Table 4-14 has no values for these groups, so Table 4-15 is used.": {
+   "h": "7f1cefc2729c",
+   "state": "passed"
+  },
+  "; {same} of {faces} of the file’s faces are in the TIN": {
+   "h": "04a1585b95c5",
+   "state": "passed"
+  },
+  "A post is on a stream when at least this much area drains through it. Links carry their Strahler order and Shreve magnitude.": {
+   "h": "fc635c3d9c77",
+   "state": "passed",
+   "note": "case: \"на водотоці\" (locative)"
+  },
+  "A route needs at least two waypoints": {
+   "h": "fa06faceda59",
+   "state": "passed"
+  },
+  "A runway width is not known: the inner edges of Tables 4-1 and 4-2 are as printed, without the runway width notes.": {
+   "h": "ce3ee9be321a",
+   "state": "passed"
+  },
+  "Add them to the spectral library": {
+   "h": "6809764aa1d0",
+   "state": "passed"
+  },
+  "Adds to each feature the count and the sum, mean, minimum and maximum of another layer’s features it touches, lies in, contains or is nearest to.": {
+   "h": "2068cba0b2f2",
+   "state": "passed"
+  },
+  "Aeroplane design group": {
+   "h": "319c20ad090a",
+   "state": "passed"
+  },
+  "Aeroplane design group of runway {rwy}": {
+   "h": "7835dd50eaec",
+   "state": "passed"
+  },
+  "An aeroplane at 307 km/h or more matches no row of Table 1-2: by the \"highest values\" rule of §1.8.2 its speed counts in the IIC band, and the group is the higher of that and its wingspan’s.": {
+   "h": "7b7ccbc40b33",
+   "state": "passed"
+  },
+  "Analysis date": {
+   "h": "9c56b9887dfb",
+   "state": "passed"
+  },
+  "Annex 14 edition": {
+   "h": "d532e44c3222",
+   "state": "passed"
+  },
+  "Assign CRS places BPF clouds opened in a local frame and LAS or LAZ clouds read from a file; this cloud is neither": {
+   "h": "58c6e6927dbf",
+   "state": "passed"
+  },
+  "Assumptions": {
+   "h": "69ef1ef347b5",
+   "state": "passed"
+  },
+  "Automatic Endmembers": {
+   "h": "38dcd97d23ae",
+   "state": "passed"
+  },
+  "Automatic Endmembers…": {
+   "h": "9db91f9e7c95",
+   "state": "passed"
+  },
+  "Buffer {layer}": {
+   "h": "2a95b89c8d5a",
+   "state": "passed"
+  },
+  "Buffer…": {
+   "h": "1ecd0693d49d",
+   "state": "passed"
+  },
+  "Change CRS — {cloud}": {
+   "h": "242aea556315",
+   "state": "passed"
+  },
+  "Change CRS…": {
+   "h": "f3ce7ce4c5eb",
+   "state": "passed"
+  },
+  "Choose…": {
+   "h": "7ca41615c19b",
+   "state": "passed"
+  },
+  "Clear withheld": {
+   "h": "ae0790d82f60",
+   "state": "passed"
+  },
+  "Click the pour point (a gauge or outlet).": {
+   "h": "f77259e3ecf2",
+   "state": "passed"
+  },
+  "Counts the posts upslope of each post (D8 or D-infinity) as a new layer.": {
+   "h": "532c459840f5",
+   "state": "passed"
+  },
+  "D-infinity (shared between two posts)": {
+   "h": "ff0a372dae26",
+   "state": "passed"
+  },
+  "D-infinity flow": {
+   "h": "50c9e577948e",
+   "state": "passed"
+  },
+  "D8 (single direction)": {
+   "h": "0d00709c8cd3",
+   "state": "passed"
+  },
+  "Delete Points": {
+   "h": "393e1935b7bb",
+   "state": "passed"
+  },
+  "Delete points": {
+   "h": "ae09c5e92496",
+   "state": "passed"
+  },
+  "Deletes the points selected in the profile (undoable); views, grids, clips and exports leave them out.": {
+   "h": "05a0851ef689",
+   "state": "passed"
+  },
+  "Deletes the selected points; undo brings them back.": {
+   "h": "d009f025e586",
+   "state": "passed"
+  },
+  "Design groups and masses of {ident}": {
+   "h": "5414fad4c00b",
+   "state": "passed"
+  },
+  "Dissolve": {
+   "h": "8bb135de011f",
+   "state": "passed"
+  },
+  "Dissolve field": {
+   "h": "31b6f461e3f3",
+   "state": "passed"
+  },
+  "Dissolve the result": {
+   "h": "9bd1c09b21cf",
+   "state": "passed"
+  },
+  "Dissolve {layer}": {
+   "h": "0a2bc8d45c53",
+   "state": "passed"
+  },
+  "Dissolve…": {
+   "h": "27cef147cf0d",
+   "state": "passed"
+  },
+  "Drain flats": {
+   "h": "27fc6ae9854b",
+   "state": "passed"
+  },
+  "Drain flats: raise filled posts by the smallest step so every post flows somewhere": {
+   "h": "96fae3359e8d",
+   "state": "passed"
+  },
+  "Draw a profile, then select points in it with a box or a lasso to reclassify, withhold or delete them.": {
+   "h": "0128413327fe",
+   "state": "passed"
+  },
+  "Draws the area within a distance of every feature of a layer, geodesic or planar, with round, flat or square line ends.": {
+   "h": "5a3ef6672b8e",
+   "state": "passed"
+  },
+  "Draws the stream network and orders its branches.": {
+   "h": "0ce60d6bb36a",
+   "state": "passed"
+  },
+  "EGM2008 geoid (1′ grid)": {
+   "h": "668eddb03c91",
+   "state": "passed"
+  },
+  "EGM2008 geoid heights on a 1′ grid (GeographicLib egm2008-1), in 5° tiles read as needed: MSL and EGM2008 heights within 2 mm of the full model, where the 2.5′ grid leaves up to 3 cm (REG-024).": {
+   "h": "4467252dd001",
+   "state": "passed"
+  },
+  "EGM2008 height (1′ or 2.5′ grid)": {
+   "h": "92b7fb8a0422",
+   "state": "passed"
+  },
+  "EGM2008 heights are converted with {geoid}: differences up to about 1 m": {
+   "h": "0678a5bce84f",
+   "state": "passed"
+  },
+  "EGM96 heights are converted with {geoid}: differences up to about 1 m": {
+   "h": "1914eeee4a89",
+   "state": "passed"
+  },
+  "EM {n} ({x}, {y})": {
+   "h": "48cd9e8a666f",
+   "state": "passed"
+  },
+  "Endmembers": {
+   "h": "a9f7a62b2c99",
+   "state": "passed"
+  },
+  "Exactly 5 700 kg takes Table 4-14, as §4.3.6.6 reads, although the table’s note a says \"up to but not including 5 700 kg\".": {
+   "h": "eddc22e5c0ce",
+   "state": "passed"
+  },
+  "Fill Sinks": {
+   "h": "d69c0a811fef",
+   "state": "passed"
+  },
+  "Fill Sinks: {n, plural, one {# post} other {# posts}} raised of {total}": {
+   "h": "3c009bd37d52",
+   "state": "passed"
+  },
+  "Fill Sinks…": {
+   "h": "b23513052d60",
+   "state": "passed"
+  },
+  "Fills pits in the elevation model so water can run off it.": {
+   "h": "af7f25f57b8c",
+   "state": "passed"
+  },
+  "Fills the pits of the elevation model so water can flow off it, as a new terrain layer.": {
+   "h": "201069929363",
+   "state": "passed"
+  },
+  "Finds the purest spectra in a hyperspectral image, pins them to the Spectral Plot, and can unmix the image with them.": {
+   "h": "b02bafa67e0c",
+   "state": "passed"
+  },
+  "Flat": {
+   "h": "9285cedcf26a",
+   "state": "passed"
+  },
+  "Flow Accumulation": {
+   "h": "492eadb6d920",
+   "state": "passed"
+  },
+  "Flow Accumulation: up to {n} upslope posts": {
+   "h": "e4493a4c67f8",
+   "state": "passed"
+  },
+  "Flow Accumulation…": {
+   "h": "1fa8ff035553",
+   "state": "passed"
+  },
+  "Flow model": {
+   "h": "c5a9727e8dca",
+   "state": "passed"
+  },
+  "Follows ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable from 21 November 2030: obstacle free surfaces and obstacle evaluation surfaces.": {
+   "h": "56838b588b65",
+   "state": "passed",
+   "note": "\"Amendment 18\" left in English inside a Ukrainian sentence: now \"Поправка 18\""
+  },
+  "From 21 November 2030: OFS and OES": {
+   "h": "4e630db3ea45",
+   "state": "passed"
+  },
+  "Geodesic (WGS 84)": {
+   "h": "2b07bfb2e9a0",
+   "state": "passed"
+  },
+  "Geoprocessing": {
+   "h": "5cc99aebab7a",
+   "state": "passed"
+  },
+  "Horizontal surface, {h} above the aerodrome": {
+   "h": "109baacf4903",
+   "state": "passed"
+  },
+  "Hydrology": {
+   "h": "9376ca7bee00",
+   "state": "passed"
+  },
+  "Hydrology on {dem}": {
+   "h": "5fab7ab120f2",
+   "state": "passed"
+  },
+  "Hydrology on {dem}: {stage}": {
+   "h": "d0b9c652964a",
+   "state": "passed"
+  },
+  "Input layer": {
+   "h": "f7ea5c0618c1",
+   "state": "passed"
+  },
+  "Instrument departure surface, departures on {end}": {
+   "h": "65b9fcc0f760",
+   "state": "passed"
+  },
+  "Intersect": {
+   "h": "a069db5bb928",
+   "state": "passed"
+  },
+  "Intersects": {
+   "h": "cc1a162293a8",
+   "state": "passed"
+  },
+  "Intersects, unions, erases or takes the symmetric difference of two polygon layers, keeping both layers’ attributes.": {
+   "h": "b0cb2d62002a",
+   "state": "passed",
+   "note": "\"Erase\" is \"Стерти\" in the shipped catalogue"
+  },
+  "Join layer": {
+   "h": "fb65d2605c4c",
+   "state": "passed"
+  },
+  "Join {b} to {a}": {
+   "h": "25ec283023a1",
+   "state": "passed"
+  },
+  "Leg {n} needs a speed above zero": {
+   "h": "8037636eda98",
+   "state": "passed"
+  },
+  "Leg {n} needs an altitude": {
+   "h": "ba4494a6aef7",
+   "state": "passed"
+  },
+  "Line ends": {
+   "h": "6a7da6084240",
+   "state": "passed"
+  },
+  "MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 from the data pack opened last: the 5′ grid, the 2.5′ grid or the 1′ grid (read a tile at a time, and preferred to the 2.5′ grid when both are open), all interpolated cubic.": {
+   "h": "7d55a517308f",
+   "state": "passed"
+  },
+  "Marks the selected points as withheld, so products leave them out.": {
+   "h": "8e17de7009fc",
+   "state": "passed"
+  },
+  "Maximum distance (m)": {
+   "h": "2875e2e88f7f",
+   "state": "passed"
+  },
+  "Maximum take-off mass (kg)": {
+   "h": "2d9b0bd18456",
+   "state": "passed"
+  },
+  "Maximum take-off mass on runway {rwy} (kg)": {
+   "h": "18c0a334af24",
+   "state": "passed"
+  },
+  "Measure: click two points. Select: drag a box or a lasso around points, then reclassify, withhold or delete them; each edit undoes with Ctrl+Z.": {
+   "h": "3f9cb6674289",
+   "state": "passed"
+  },
+  "Merges the polygons of a layer that share a value, or all of them, into one feature each.": {
+   "h": "305af8413a0e",
+   "state": "passed"
+  },
+  "Minimum contributing area (km²)": {
+   "h": "8c92d728fc25",
+   "state": "passed"
+  },
+  "NAVD88 heights are converted to HAE with {geoid} (no GEOID18 pack): about 1 m uncertainty": {
+   "h": "6a2a76e92057",
+   "state": "passed"
+  },
+  "New class": {
+   "h": "01b00fd6e4b4",
+   "state": "passed"
+  },
+  "No grid pack loaded: frames only. Open grids-na, grids-eu, grids-oceania, geoid-egm2008-25 or geoid-egm2008-1 with File ▸ Open ▸ Open Data Pack.": {
+   "h": "69fbebf16fbe",
+   "state": "passed"
+  },
+  "No horizontal CRS in the file: shown in a local metric frame placed at 0°, 0°. Lengths, areas and heights are exact; map overlays, geographic coordinates and CE90 are not meaningful until a CRS is assigned (Point Cloud ▸ Assign CRS).": {
+   "h": "c9b7e4433225",
+   "state": "passed"
+  },
+  "No object may stand above the inner approach, inner transitional and balked landing surfaces, and no new object above the approach and transitional surfaces (§4.4.1 to §4.4.7): these are the obstacle free surfaces, reported on their own. An object above an obstacle evaluation surface needs an aeronautical study (§4.4.8).": {
+   "h": "7a5461073a19",
+   "state": "passed"
+  },
+  "Non-instrument and non-precision runways: the inner transitional runs along the whole inner approach (§4.2.4.2 gives no height for its start), its vertical section measured from its lower edge.": {
+   "h": "751618b05864",
+   "state": "passed"
+  },
+  "Obstacle free surfaces": {
+   "h": "96a6a1d47e1d",
+   "state": "passed"
+  },
+  "One aeroplane design group per runway, its critical aeroplane: the lower horizontal surfaces of smaller groups that also use it (Table 4-10 note) are not added.": {
+   "h": "0505da58fdba",
+   "state": "passed"
+  },
+  "Order {n}": {
+   "h": "76bd13580cae",
+   "state": "passed"
+  },
+  "Outlines the area draining to a point you pick, such as a stream gauge.": {
+   "h": "e8c31c278282",
+   "state": "passed"
+  },
+  "Outlines the land that drains to a point you pick.": {
+   "h": "a58689acb30c",
+   "state": "passed"
+  },
+  "Overlay": {
+   "h": "2af93aeb435d",
+   "state": "passed"
+  },
+  "Overlay layer": {
+   "h": "22e86f1ef30b",
+   "state": "passed"
+  },
+  "Overlay {a} and {b}": {
+   "h": "5fbcffa9b4fd",
+   "state": "passed"
+  },
+  "Overlay…": {
+   "h": "d5ed8842a518",
+   "state": "passed"
+  },
+  "Pick Pour Point": {
+   "h": "b269007d4d21",
+   "state": "passed"
+  },
+  "Pixel purity": {
+   "h": "a60fd05bc644",
+   "state": "passed"
+  },
+  "Places a point cloud in the CRS you name: a BPF opened in a local frame (Cartesian or ENU), or a LAS or LAZ file read again.": {
+   "h": "2c6eb44f9376",
+   "state": "passed"
+  },
+  "Planar (local frame)": {
+   "h": "f86e4e5eb8ec",
+   "state": "passed"
+  },
+  "Precision approach surface {end}, approach component": {
+   "h": "cee6a21ef139",
+   "state": "passed"
+  },
+  "Precision approach surface {end}, lower component": {
+   "h": "814c69ec306e",
+   "state": "passed"
+  },
+  "Precision approach surface {end}, missed approach component": {
+   "h": "4b10654e6e69",
+   "state": "passed"
+  },
+  "Precision approach surface {end}, transitional components": {
+   "h": "3b923246c4ea",
+   "state": "passed"
+  },
+  "Profile tool": {
+   "h": "07516561a41e",
+   "state": "passed"
+  },
+  "Project": {
+   "h": "985959785319",
+   "state": "passed"
+  },
+  "Purity skewers": {
+   "h": "a16afc01b06a",
+   "state": "passed"
+  },
+  "Purity skewers (0: no purity image)": {
+   "h": "f69eeba53a11",
+   "state": "passed"
+  },
+  "Puts a point cloud with no usable coordinate system in the right place on the map.": {
+   "h": "dcd55231070f",
+   "state": "passed"
+  },
+  "Reading the project…": {
+   "h": "9f7f1dd1e61f",
+   "state": "passed"
+  },
+  "Reclassify": {
+   "h": "7ed025323360",
+   "state": "passed"
+  },
+  "Relationship": {
+   "h": "25490a10d071",
+   "state": "passed"
+  },
+  "Resampling {layer} for terrain…": {
+   "h": "a9182fc62571",
+   "state": "passed"
+  },
+  "Round": {
+   "h": "cd9558acfc38",
+   "state": "passed"
+  },
+  "Runway {rwy}: Amendment 18 needs the aeroplane design group of its critical aeroplane (§1.8.1)": {
+   "h": "1c6ed3ca6927",
+   "state": "passed",
+   "note": "\"Amendment 18\" rendered as \"Поправка 18\""
+  },
+  "Runway {rwy}: Amendment 18 needs the maximum take-off mass of its aeroplanes for the take-off climb surface (§4.3.6.6)": {
+   "h": "ab1c7af7ea5a",
+   "state": "passed",
+   "note": "\"Amendment 18\" rendered as \"Поправка 18\""
+  },
+  "Segments per quarter circle": {
+   "h": "e3df9f7de7d5",
+   "state": "passed"
+  },
+  "Select all": {
+   "h": "1fc9a387654d",
+   "state": "passed"
+  },
+  "Select in Profile": {
+   "h": "5c3c99db7e41",
+   "state": "passed"
+  },
+  "Select: box": {
+   "h": "f3a47fbc12d7",
+   "state": "passed"
+  },
+  "Select: lasso": {
+   "h": "1696d146d85b",
+   "state": "passed"
+  },
+  "Selects points in a profile view, ready to clean them.": {
+   "h": "cc1e3ceb6f7e",
+   "state": "passed"
+  },
+  "Set Withheld": {
+   "h": "ef0ee0ec9e49",
+   "state": "passed"
+  },
+  "Set withheld": {
+   "h": "2091e134141c",
+   "state": "passed"
+  },
+  "Sets the LAS withheld flag on the points selected in the profile (undoable); grids and the ground filter leave them out.": {
+   "h": "efffb7f291d5",
+   "state": "passed"
+  },
+  "Shows how much ground drains through each point.": {
+   "h": "9b964252f729",
+   "state": "passed"
+  },
+  "Slopes and lengths as printed: not reduced for approach angles under 3°, visual approach slope indicators or an OCH above 150 m (§4.2.1.8 to §4.2.1.11, §4.2.3.7), nor the take-off climb for critical operating conditions (§4.3.6.9).": {
+   "h": "697ba5501189",
+   "state": "passed"
+  },
+  "Snap distance (m)": {
+   "h": "a7e57cdfb6fc",
+   "state": "passed"
+  },
+  "Spatial Join": {
+   "h": "ffae79636b13",
+   "state": "passed"
+  },
+  "Spatial Join…": {
+   "h": "d2cae44356a5",
+   "state": "passed"
+  },
+  "Straight-in approach surface {rwy}, upper section": {
+   "h": "e011844c1b88",
+   "state": "passed"
+  },
+  "Straight-in approach surface, lower section": {
+   "h": "ea0cd3ae0df2",
+   "state": "passed"
+  },
+  "Stream Network": {
+   "h": "8020507e7d75",
+   "state": "passed"
+  },
+  "Stream Network: {n, plural, one {# link} other {# links}}, up to order {order}": {
+   "h": "6ccbb277ecfa",
+   "state": "passed"
+  },
+  "Stream Network…": {
+   "h": "e4e6566a6bb0",
+   "state": "passed"
+  },
+  "Stream network": {
+   "h": "8028d54dc009",
+   "state": "passed"
+  },
+  "Streams ≥ {area} ({dem})": {
+   "h": "5821f95a471c",
+   "state": "passed"
+  },
+  "Summarise field": {
+   "h": "5bf6dfd7d344",
+   "state": "passed"
+  },
+  "Symmetric difference": {
+   "h": "bc5a5a2e0d93",
+   "state": "passed"
+  },
+  "TIN edits": {
+   "h": "53f1c6736d1f",
+   "state": "passed"
+  },
+  "TIN surfaces": {
+   "h": "646c473d30b8",
+   "state": "passed"
+  },
+  "Table 4-11: the shorter side is 7 410 m in all (3 705 m each side of the centre line) and the longer sides reach 5 350 m before and after the thresholds; the upper section is 60 m high.": {
+   "h": "14317ea1957a",
+   "state": "passed"
+  },
+  "Table 4-13 prints one 2.5 % slope, taken for both sections of the departure surface.": {
+   "h": "14c72118442e",
+   "state": "passed"
+  },
+  "Table 4-15 take-off climb surfaces start at the end of the take-off distance available (its distance row is \"-\").": {
+   "h": "ea6fcd20a204",
+   "state": "passed"
+  },
+  "Take-off climb surfaces start at the elevation of the runway end, and departure surfaces 5 m above it: §4.3.6.4 takes the highest point on the extended centre line, which this tool does not know.": {
+   "h": "e8db5e3ed42e",
+   "state": "passed"
+  },
+  "Target contains join feature": {
+   "h": "3984f7ddb359",
+   "state": "passed"
+  },
+  "Target layer": {
+   "h": "3532260c61d0",
+   "state": "passed"
+  },
+  "Target within join feature": {
+   "h": "d8969ffc82c4",
+   "state": "passed"
+  },
+  "The OES follow the runways, not the operations (§4.5.2.1): a horizontal surface for every runway, except a runway whose best approach is non-precision, which has the straight-in surface instead; the precision approach surface at precision approach ends; an instrument departure surface beyond every take-off end of a runway with an instrument approach; a take-off climb surface beyond every take-off end.": {
+   "h": "91e781ad9818",
+   "state": "passed"
+  },
+  "The code letter F notes of Tables 4-3 to 4-5 and 4-9 are applied to ADG V.": {
+   "h": "5df243c890e3",
+   "state": "passed"
+  },
+  "The design group of the runway's critical aeroplane (Table 1-2: threshold speed and wingspan), and the largest maximum certificated take-off mass of the aeroplanes using it.": {
+   "h": "7cb6a63d891f",
+   "state": "passed"
+  },
+  "The image has no band centre wavelengths": {
+   "h": "8fdadcafadb5",
+   "state": "passed"
+  },
+  "The inner transitional surfaces start at half the inner approach width, along its sides carried on (§4.2.4.2 and §4.2.4.3 give no distance).": {
+   "h": "82b56b367846",
+   "state": "passed"
+  },
+  "The pour point moves to the post with the most flow within this distance, as a gauge on the channel should.": {
+   "h": "1765aa2a9c1e",
+   "state": "passed"
+  },
+  "The route has {w} waypoints but {l} legs": {
+   "h": "f9e011c77dbc",
+   "state": "passed"
+  },
+  "The sinks are filled first. The result counts the posts upslope of each post.": {
+   "h": "1d2fd58eef7c",
+   "state": "passed"
+  },
+  "The transitional slope is the current edition’s for the runway’s code number (Table 4-1): 14.3 % for codes 3 and 4 and for precision approach runways, 20 % otherwise. §4.2.2.5 gives only an upper limit of 20 %.": {
+   "h": "10aa695dfc62",
+   "state": "passed"
+  },
+  "The transitional surfaces start at the strip edge, its half-width from Chapter 3 as in the current edition (§4.2.2.2 gives no distance); the strip itself is limited at the elevation of the nearest centre line point and is not an OFS.": {
+   "h": "e0256b30cce1",
+   "state": "passed"
+  },
+  "This project has {parts}. They are kept and saved back unchanged.": {
+   "h": "45e2fbc83f1b",
+   "state": "passed"
+  },
+  "Tool": {
+   "h": "2e53bdcd0740",
+   "state": "passed"
+  },
+  "Traces the streams draining at least an area you set, with their Strahler order and Shreve magnitude.": {
+   "h": "f4a55ca70a72",
+   "state": "passed"
+  },
+  "Union": {
+   "h": "22b99db15e3d",
+   "state": "passed"
+  },
+  "Unmix with them": {
+   "h": "02ef7d0bee52",
+   "state": "passed"
+  },
+  "Until 20 November 2030": {
+   "h": "018a134c81ed",
+   "state": "passed"
+  },
+  "Watershed": {
+   "h": "91191e3cc144",
+   "state": "passed"
+  },
+  "Watershed {lat}, {lon} ({dem})": {
+   "h": "b906c94557c1",
+   "state": "passed"
+  },
+  "Watershed: {area} above {lat}, {lon} ({length} snap)": {
+   "h": "679462847d89",
+   "state": "passed"
+  },
+  "Watershed…": {
+   "h": "86d1be8f67bb",
+   "state": "passed"
+  },
+  "Waypoint {n} has no valid position": {
+   "h": "d646aedce7a9",
+   "state": "passed"
+  },
+  "Writing the project…": {
+   "h": "b44d642bdcd0",
+   "state": "passed"
+  },
+  "aerial triangulation: the roll about the strip axis cannot be determined: the GNSS positions lie on one line and nothing else holds the block; add GCPs, an IMU attitude or a second strip": {
+   "h": "63d564f9a81a",
+   "state": "passed",
+   "note": "roll angle = \"крен\""
+  },
+  "aerotriangulation solutions": {
+   "h": "0818ca071e35",
+   "state": "passed"
+  },
+  "aggregate": {
+   "h": "ee3c65b5c7f4",
+   "state": "passed"
+  },
+  "airports": {
+   "h": "d9903ac96966",
+   "state": "passed"
+  },
+  "bookmarks": {
+   "h": "37d15b9571f5",
+   "state": "passed"
+  },
+  "box select": {
+   "h": "5fb1689a9de8",
+   "state": "passed"
+  },
+  "buffer": {
+   "h": "d0ca8c2ac0da",
+   "state": "passed"
+  },
+  "capture templates": {
+   "h": "e23e538207c2",
+   "state": "passed"
+  },
+  "catalogues": {
+   "h": "ecc366ef7ced",
+   "state": "passed"
+  },
+  "catchment": {
+   "h": "9861b4675c4e",
+   "state": "passed"
+  },
+  "change results": {
+   "h": "0bcd08e18783",
+   "state": "passed"
+  },
+  "channels": {
+   "h": "61ffa9c8c703",
+   "state": "passed"
+  },
+  "classifications": {
+   "h": "8c71ff76e316",
+   "state": "passed"
+  },
+  "clean": {
+   "h": "3b066804f6d1",
+   "state": "passed"
+  },
+  "clip": {
+   "h": "67905ad3cc2d",
+   "state": "passed"
+  },
+  "coordinate system": {
+   "h": "4b417ae5c840",
+   "state": "passed"
+  },
+  "count": {
+   "h": "6c35493a2b93",
+   "state": "passed"
+  },
+  "cross-section": {
+   "h": "a1ccd61ad82e",
+   "state": "passed"
+  },
+  "depressions": {
+   "h": "221225954e8a",
+   "state": "passed"
+  },
+  "detections": {
+   "h": "af200873a214",
+   "state": "passed"
+  },
+  "difference": {
+   "h": "69ea741e98fd",
+   "state": "passed"
+  },
+  "distance zone": {
+   "h": "148aba5ce2fe",
+   "state": "passed"
+  },
+  "drainage": {
+   "h": "6b9b4cf9d162",
+   "state": "passed"
+  },
+  "drainage basin": {
+   "h": "9fb9001fc2ca",
+   "state": "passed"
+  },
+  "drainage network": {
+   "h": "cb63c762bd6e",
+   "state": "passed"
+  },
+  "endmember": {
+   "h": "95e83156c137",
+   "state": "passed"
+  },
+  "erase": {
+   "h": "5cf46cd89515",
+   "state": "passed",
+   "note": "\"Erase\" is \"Стерти\" in the shipped catalogue"
+  },
+  "fill": {
+   "h": "dcd32479a72e",
+   "state": "passed"
+  },
+  "filling sinks": {
+   "h": "2a7ca714e1f6",
+   "state": "passed"
+  },
+  "finished products": {
+   "h": "11c442eecca2",
+   "state": "passed"
+  },
+  "finishing": {
+   "h": "119572831346",
+   "state": "passed"
+  },
+  "flag": {
+   "h": "807d0fbcae7c",
+   "state": "passed"
+  },
+  "flow accumulation": {
+   "h": "6a8b9987de83",
+   "state": "passed"
+  },
+  "flow direction": {
+   "h": "10501d3626bc",
+   "state": "passed"
+  },
+  "flow directions": {
+   "h": "195c8c2d5013",
+   "state": "passed"
+  },
+  "gauge": {
+   "h": "a90fd9a9a1e6",
+   "state": "passed"
+  },
+  "geodesic": {
+   "h": "c5bcd26c44f1",
+   "state": "passed"
+  },
+  "geodesic buffers need the geodesic functions": {
+   "h": "026673638ac9",
+   "state": "passed"
+  },
+  "geoprocessing: malformed geometry list": {
+   "h": "56f3a485459a",
+   "state": "passed"
+  },
+  "geoprocessing: one group number per geometry, from 0": {
+   "h": "9f185e513a11",
+   "state": "passed"
+  },
+  "geoprocessing: the buffer distance must be finite and within 20,000 km": {
+   "h": "7484a252e4c4",
+   "state": "passed"
+  },
+  "geoprocessing: unknown line end": {
+   "h": "48faa53ae66f",
+   "state": "passed"
+  },
+  "hydrology": {
+   "h": "a139eb3f6f87",
+   "state": "passed"
+  },
+  "hydrology needs an elevation model loaded as terrain": {
+   "h": "64e5548fbb19",
+   "state": "passed"
+  },
+  "hydrology: a pour point is outside the grid": {
+   "h": "864e796d2c32",
+   "state": "passed"
+  },
+  "hydrology: out of memory allocating {n} bytes": {
+   "h": "4c8c3c6f1037",
+   "state": "passed"
+  },
+  "hydrology: the grid is larger than 48 million posts": {
+   "h": "e51989fa5dab",
+   "state": "passed"
+  },
+  "hydrology: the grid needs at least 3 × 3 posts": {
+   "h": "bcd81a486180",
+   "state": "passed"
+  },
+  "hydrology: the grid size overflows": {
+   "h": "a0c524254a6b",
+   "state": "passed"
+  },
+  "hydrology: the heights do not match the grid size": {
+   "h": "749a6f35f790",
+   "state": "passed"
+  },
+  "hydrology: the post spacing must be positive": {
+   "h": "3c0b1afb9eb9",
+   "state": "passed"
+  },
+  "hydrology: the pour point {lat}, {lon} is outside {dem}": {
+   "h": "f9723863c863",
+   "state": "passed"
+  },
+  "hydrology: {n} posts is more than the 48 million posts it takes; crop or resample the elevation model first": {
+   "h": "648dafdb7e83",
+   "state": "passed"
+  },
+  "hyperspectral": {
+   "h": "63fed351873f",
+   "state": "passed"
+  },
+  "image chips": {
+   "h": "8c06ceb94e34",
+   "state": "passed"
+  },
+  "intersect": {
+   "h": "4780c43f8dcb",
+   "state": "passed"
+  },
+  "lasso": {
+   "h": "fad4382334c0",
+   "state": "passed"
+  },
+  "local frame": {
+   "h": "7451d7f3a50d",
+   "state": "passed"
+  },
+  "merge": {
+   "h": "283128acef14",
+   "state": "passed"
+  },
+  "nearest": {
+   "h": "4ad71c2c3eca",
+   "state": "passed"
+  },
+  "no CRS": {
+   "h": "c7b4bff5b21b",
+   "state": "passed"
+  },
+  "no face in the file is visible: the TIN covers the area between its points": {
+   "h": "9f30168ae4cd",
+   "state": "passed"
+  },
+  "no limit": {
+   "h": "b53557b24e11",
+   "state": "passed"
+  },
+  "noise": {
+   "h": "efe2a5c09e6d",
+   "state": "passed"
+  },
+  "obstruction surfaces": {
+   "h": "fd7c6ed8a687",
+   "state": "passed"
+  },
+  "offset": {
+   "h": "c1d60fe5815f",
+   "state": "passed"
+  },
+  "outliers": {
+   "h": "81e2d3c92e49",
+   "state": "passed"
+  },
+  "overlay needs polygons in both layers": {
+   "h": "dafe5c715caa",
+   "state": "passed"
+  },
+  "pits": {
+   "h": "07acfde2f082",
+   "state": "passed"
+  },
+  "pixel purity": {
+   "h": "dd1ab84fa765",
+   "state": "passed"
+  },
+  "point cloud edits": {
+   "h": "085e78d73269",
+   "state": "passed"
+  },
+  "point clouds": {
+   "h": "7e953e78e7f9",
+   "state": "passed"
+  },
+  "point in polygon": {
+   "h": "dc3c49fe169f",
+   "state": "passed"
+  },
+  "pour point": {
+   "h": "a86e279a251b",
+   "state": "passed"
+  },
+  "projection": {
+   "h": "1b250ea199be",
+   "state": "passed"
+  },
+  "pure spectra unmixing": {
+   "h": "3e0f67ce2a4b",
+   "state": "passed"
+  },
+  "remove points": {
+   "h": "8db32a326784",
+   "state": "passed"
+  },
+  "rivers": {
+   "h": "cfa5b4838953",
+   "state": "passed"
+  },
+  "sinks": {
+   "h": "16f45146bdd7",
+   "state": "passed"
+  },
+  "spatial join": {
+   "h": "6f5f240c5d81",
+   "state": "passed"
+  },
+  "spectral: PPI skewers must be 0 to 1,000,000": {
+   "h": "0aa2847682e6",
+   "state": "passed"
+  },
+  "spectral: the number of endmembers must be 2 to 64 and no more than the bands": {
+   "h": "a1e975e4bb9e",
+   "state": "passed"
+  },
+  "spectral: too few valid pixels or bands for that many endmembers": {
+   "h": "c2e2a876e0ef",
+   "state": "passed"
+  },
+  "stream lines": {
+   "h": "2bf6e84e6598",
+   "state": "passed"
+  },
+  "summarise": {
+   "h": "df6456da0dd8",
+   "state": "passed"
+  },
+  "symmetric difference": {
+   "h": "0d5cbc12ca30",
+   "state": "passed"
+  },
+  "the buffer distance must be a number other than 0": {
+   "h": "a84f9699e8bd",
+   "state": "passed"
+  },
+  "the number of endmembers must be 2 to {max} for this image": {
+   "h": "d980f946e39b",
+   "state": "passed"
+  },
+  "the outline of the file’s faces could not be traced: the TIN covers the area between its points": {
+   "h": "5be8a3614f1c",
+   "state": "passed"
+  },
+  "tiled geoid: corrupt tile": {
+   "h": "b9e37ea5737c",
+   "state": "passed"
+  },
+  "tiled geoid: no such tile": {
+   "h": "55fad33575bd",
+   "state": "passed"
+  },
+  "tiled geoid: the index does not match the tiles": {
+   "h": "874ee83a3e47",
+   "state": "passed"
+  },
+  "tiled geoid: the tiles do not divide the grid": {
+   "h": "de7e407762b1",
+   "state": "passed"
+  },
+  "tiled geoid: tile size mismatch": {
+   "h": "b3053826af0b",
+   "state": "passed"
+  },
+  "tin: bad faces": {
+   "h": "3550af3722c3",
+   "state": "passed"
+  },
+  "triangulation points": {
+   "h": "c4d6569c4788",
+   "state": "passed"
+  },
+  "triangulation solutions": {
+   "h": "36a5e028ca90",
+   "state": "passed"
+  },
+  "union": {
+   "h": "ef3ff703d756",
+   "state": "passed"
+  },
+  "union by attribute": {
+   "h": "be542814bf33",
+   "state": "passed"
+  },
+  "unknown geoid id": {
+   "h": "5e89e2fcf2f2",
+   "state": "passed"
+  },
+  "unmixing": {
+   "h": "1b1e506ca9d4",
+   "state": "passed"
+  },
+  "validation sessions": {
+   "h": "92e1b19f1a26",
+   "state": "passed"
+  },
+  "video events": {
+   "h": "f87ec3fd2136",
+   "state": "passed"
+  },
+  "watershed": {
+   "h": "1fa5ec1566b7",
+   "state": "passed"
+  },
+  "withheld": {
+   "h": "a3b3d76fdf1e",
+   "state": "passed"
+  },
+  "{a} joined with {b}": {
+   "h": "747571314104",
+   "state": "passed"
+  },
+  "{a} {op} {b}": {
+   "h": "37a43c3dc46c",
+   "state": "passed"
+  },
+  "{cloud} is placed in {crs}, from its file. Read the file again in a CRS you give instead? Class edits made since it was opened are not carried over.": {
+   "h": "ac7349fd76e1",
+   "state": "passed"
+  },
+  "{covered} {unit} lie under the obstacle free surfaces (approach, transitional, inner approach, inner transitional and balked landing); {pen} rise above them in {n, plural, one {# obstacle} other {# obstacles}}.": {
+   "h": "39631a94a671",
+   "state": "passed",
+   "note": "plural cases after \"в\" must be locative (в 1 перешкоді, в 2 перешкодах); the list of surfaces agreed with \"під поверхнями\""
+  },
+  "{datum} (converted with {geoid})": {
+   "h": "ef90f5cac064",
+   "state": "passed"
+  },
+  "{datum}, converted with {geoid}: its grid is not loaded": {
+   "h": "9f2b16fc75d1",
+   "state": "passed"
+  },
+  "{file}: {detail}": {
+   "h": "d7ad126f364e",
+   "state": "passed"
+  },
+  "{image} has no band centre wavelengths, so its spectra cannot go in the spectral library": {
+   "h": "64f6a183254e",
+   "state": "passed"
+  },
+  "{layer} buffer {distance} m": {
+   "h": "fe59be7b412f",
+   "state": "passed"
+  },
+  "{layer} dissolved": {
+   "h": "237cb5e8ea73",
+   "state": "passed"
+  },
+  "{layer} dissolved by {field}": {
+   "h": "9ac9b1021f1d",
+   "state": "passed"
+  },
+  "{layer}: {n, plural, one {# feature} other {# features}}": {
+   "h": "0fadeb285dc4",
+   "state": "passed"
+  },
+  "{n, plural, one {# endmember} other {# endmembers}} pinned to the Spectral Plot": {
+   "h": "cd8a1fc78246",
+   "state": "passed"
+  },
+  "{n, plural, one {# endmember} other {# endmembers}} pinned to the Spectral Plot and added to the spectral library": {
+   "h": "98190fea1dec",
+   "state": "passed"
+  },
+  "{n, plural, one {# face was} other {# faces were}} left out: a corner repeats another, the three are on one line, or the face overlaps another": {
+   "h": "8a9a81417272",
+   "state": "passed"
+  },
+  "{n, plural, one {# item} other {# items}} that only GIS Workbench (Full) shows: {names}": {
+   "h": "060748ee68bd",
+   "state": "passed"
+  },
+  "{n, plural, one {# more panel} other {# more panels}} (Lite shows the first)": {
+   "h": "690e4ecb4e23",
+   "state": "passed"
+  },
+  "{n, plural, one {# pair of polygons} other {# pairs of polygons}} could not be overlaid and were left out": {
+   "h": "6f883e722f09",
+   "state": "passed"
+  },
+  "{n, plural, one {# point is} other {# points are}} on no face: not put in": {
+   "h": "42350a9ca8d5",
+   "state": "passed"
+  },
+  "{n, plural, one {# point} other {# points}} deleted (undo brings them back)": {
+   "h": "11369369057e",
+   "state": "passed"
+  },
+  "{n, plural, one {# point} other {# points}} selected": {
+   "h": "2b645b7ea1d5",
+   "state": "passed"
+  },
+  "{n, plural, one {# point} other {# points}} set withheld": {
+   "h": "4c61e6fc1d86",
+   "state": "passed"
+  },
+  "{n, plural, one {# source data point is} other {# source data points are}} not put in: the file’s faces are the surface": {
+   "h": "3986cd004996",
+   "state": "passed"
+  },
+  "{n} points within {half} of the line": {
+   "h": "cac01469df62",
+   "state": "passed"
+  },
+  "{src} does not reach the obstacle free surfaces, so they were not checked.": {
+   "h": "3af5f25c91b6",
    "state": "passed"
   }
  }
