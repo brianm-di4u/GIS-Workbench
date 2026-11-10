@@ -80,7 +80,7 @@ test('REQ-GAP-42 FX-25 SAR stereo: pair finder, radargrammetric DSM with masks, 
     const { layer } = await app.sarStereo.saveDsm(dsm);
     // Reopened from its file, the product keeps its σ, score and flags.
     const re = await app.sarStereo.dsmFromTerrain(app.terrain.entry(layer.id));
-    const reopened = { flags: re.flags?.length ?? 0, same: re.flags ? re.flags.every((v, k) => v === dsm.flags[k]) : false, sigma: !!re.sigma, sameSide: re.stats?.geometry?.sameSide };
+    const reopened = { flags: re.flags?.length ?? 0, same: re.flags ? re.flags.every((v, k) => v === dsm.flags[k]) : false, sigma: !!re.sigma, sameSide: re.stats?.geometry?.sameSide, prior: re.prior === dsm.prior };
     return { lev: { offset: lev.offset, sigma: lev.sigma, used: lev.used, terrain: !!app.terrain.entry(lev.layer.id), truth: levTruth.error, bare, enabled: app.commands.enabled('sar.stereolevel') }, enabled, pairs: pairs.map((p) => ({ ok: p.ok, g: p.geometry, notes: p.notes })), stats: dsm.stats, ms, vsTruth, vsPrior, ridge, ridgeMasked, anch: { stats: anch.stats, prior: anchPrior.error, truth: anchTruth.error }, product: { bands: layer.bands, terrain: !!app.terrain.entry(layer.id), name: layer.rec.name }, reopened };
   }, { lat: truth.centre.lat, lon: truth.centre.lon, ridge: truth.ridge });
   console.log(JSON.stringify({ ms: r.ms, stats: { matched: r.stats.matched, posts: r.stats.posts, shiftM: r.stats.shiftM, levels: r.stats.levels, latticeMaxPx: r.stats.latticeMaxPx, intersectMaxM: r.stats.intersectMaxM }, vsTruth: { error: r.vsTruth.error, completeness: r.vsTruth.completeness, masked: r.vsTruth.masked, calibration: r.vsTruth.calibration, bySlope: r.vsTruth.bySlope }, vsPrior: r.vsPrior.error, ridge: [r.ridgeMasked, r.ridge], anch: r.anch, lev: r.lev }));
@@ -123,7 +123,7 @@ test('REQ-GAP-42 FX-25 SAR stereo: pair finder, radargrammetric DSM with masks, 
   expect(r.lev.terrain).toBe(true);
   // A heights-only DSM levels to a heights-only product, not to four bands with zero flags.
   expect(r.lev.bare).toBe(1);
-  expect(r.reopened).toEqual({ flags: r.stats.posts, same: true, sigma: true, sameSide: true });
+  expect(r.reopened).toEqual({ flags: r.stats.posts, same: true, sigma: true, sameSide: true, prior: true });
   // The product: four bands, opened as terrain.
   expect(r.product.bands).toBe(4);
   expect(r.product.terrain).toBe(true);
@@ -207,9 +207,15 @@ test('REQ-GAP-42 an opposite-side pair is listed as poor, runs only by choice, a
     const rep = app.sarStereo.report(dsm, prior);
     // REG-084: an opposite-side DSM is not levelled.
     const levelCode = await app.sarStereo.level(dsm, prior).then(() => null, (e) => e.code);
-    return { code, levelCode, warning: rep.warning, sameSide: app.sarStereo.report({ ...dsm, stats: { ...dsm.stats, geometry: { ...dsm.stats.geometry, sameSide: true } } }, prior).warning ?? null };
+    // Saved and reopened, it is still known as opposite-side (GDAL metadata, not the prose), so still refused.
+    const { layer } = await app.sarStereo.saveDsm(dsm);
+    app.sarStereo.last = null;
+    const re = await app.sarStereo.dsmFromTerrain(app.terrain.entry(layer.id));
+    if (re === dsm) throw new Error('reopened from the session, not the file');
+    const reopenedCode = await app.sarStereo.level(re, prior).then(() => null, (e) => e.code);
+    return { code, levelCode, reopenedCode, warning: rep.warning, sameSide: app.sarStereo.report({ ...dsm, stats: { ...dsm.stats, geometry: { ...dsm.stats.geometry, sameSide: true } } }, prior).warning ?? null };
   }, { lat: truth.centre.lat, lon: truth.centre.lon });
-  expect(r).toEqual({ code: 'E_SARSTEREO_OPPOSITE', levelCode: 'E_SARSTEREO_OPPOSITE', warning: 'opposite-side pair, not recommended', sameSide: null });
+  expect(r).toEqual({ code: 'E_SARSTEREO_OPPOSITE', levelCode: 'E_SARSTEREO_OPPOSITE', reopenedCode: 'E_SARSTEREO_OPPOSITE', warning: 'opposite-side pair, not recommended', sameSide: null });
   await frame.evaluate(() => void window.gisworkbench.commands.run('sar.stereopairs'));
   await expect(page.locator('[data-id="sarstereo-pairs"]')).toContainText('poor: opposite side, not recommended');
   await page.locator('[data-id="dialog:sarstereo-pairs"] .dlg-buttons button', { hasText: 'Extract DSM' }).click();

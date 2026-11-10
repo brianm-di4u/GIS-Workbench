@@ -82,3 +82,21 @@ describe('SAR stereo DSM levelling', () => {
     expect(() => levelDsm(makeDsm(() => 3), () => NaN)).toThrow(/stable posts/);
   });
 });
+
+// Council round 3: a saved DSM is read back by GDAL metadata items, not by its prose description.
+describe('SAR stereo DSM metadata (REG-084)', async () => {
+  const { dsmMetadata, metaItem } = await import('../../app/src/features/sarstereo.js');
+  it('round-trips the product, the pair side and a long prior with XML characters', () => {
+    const prior = `GLO-30 <tile & "N38">${'; levelled on 3DEP by 1.00 m, residual NMAD 0.50 m over 900 stable posts'.repeat(40)}`;
+    const md = dsmMetadata({ prior, stats: { geometry: { sameSide: false } } }, true);
+    expect(metaItem(md, 'GWB_PRODUCT')).toBe('SAR_STEREO_DSM');
+    expect(metaItem(md, 'GWB_SAME_SIDE')).toBe('0');
+    expect(metaItem(md, 'GWB_PRIOR')).toBe(prior);
+    expect(md.length).toBeLessThan(20000);
+    expect(metaItem(dsmMetadata({ stats: { geometry: { sameSide: true } } }, true), 'GWB_SAME_SIDE')).toBe('1');
+  });
+  it('marks a heights-only DSM as no product', () => {
+    expect(metaItem(dsmMetadata({ prior: 'x' }, false) ?? '', 'GWB_PRODUCT')).toBe(null);
+    expect(dsmMetadata({}, false)).toBe(undefined);
+  });
+});
