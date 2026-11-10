@@ -20,7 +20,7 @@ export const modelFor = (phase, council = {}) => (phase === 'close' ? council.cl
 // The admin can grant one PR extra rounds in a phase: `ledger.extraRounds.<phase>` is a whole number
 // written into that PR's own ledger, so it never reaches the config or another PR.
 export const capFor = (phase, council = {}, ledger = {}) => {
-  const [value, fallback] = phase === 'close' ? [council.maxCloseRounds, 4] : [council.maxLoopRounds, 8];
+  const [value, fallback] = phase === 'close' ? [council.maxCloseRounds, 8] : [council.maxLoopRounds, 16];
   const base = Number.isInteger(value) ? Math.max(CLEAN_ROUNDS, value) : fallback;
   const extra = ledger.extraRounds?.[phase];
   return Number.isInteger(extra) && extra > 0 ? base + extra : base;

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { buildVerdict, capFor, cleanTail, emptyLedger, lastCompleteRound, nextStep, phaseState, recordRound, resolveFinding, selectSeats } from '../../.pipeline/lib/ledger.mjs';
 
-const council = { loopModel: 'sonnet', closeModel: 'opus', maxLoopRounds: 8, maxCloseRounds: 4 };
+const council = { loopModel: 'sonnet', closeModel: 'opus', maxLoopRounds: 16, maxCloseRounds: 8 };
 const HASH = 'a'.repeat(64);
 
 const step = (ledger, over = {}) =>
@@ -262,16 +262,16 @@ describe('repeats and content', () => {
   it('keeps a cap workable: never below the clean rounds a phase needs, and never removed by a bad value', () => {
     expect(capFor('loop', { maxLoopRounds: 0 })).toBe(2);
     expect(capFor('close', { maxCloseRounds: 1 })).toBe(2);
-    expect(capFor('loop', { maxLoopRounds: 'many' })).toBe(8);
-    expect(capFor('close', {})).toBe(4);
+    expect(capFor('loop', { maxLoopRounds: 'many' })).toBe(16);
+    expect(capFor('close', {})).toBe(8);
     expect(capFor('close', { maxCloseRounds: 6 })).toBe(6);
   });
 
   it('adds a per-PR grant of extra rounds from the ledger, and ignores a bad one', () => {
-    expect(capFor('close', council, { extraRounds: { close: 2 } })).toBe(6);
-    expect(capFor('loop', council, { extraRounds: { close: 2 } })).toBe(8);
-    expect(capFor('close', council, { extraRounds: { close: -1 } })).toBe(4);
-    expect(capFor('close', council, { extraRounds: { close: '2' } })).toBe(4);
+    expect(capFor('close', council, { extraRounds: { close: 2 } })).toBe(10);
+    expect(capFor('loop', council, { extraRounds: { close: 2 } })).toBe(16);
+    expect(capFor('close', council, { extraRounds: { close: -1 } })).toBe(8);
+    expect(capFor('close', council, { extraRounds: { close: '2' } })).toBe(8);
     const small = { ...council, maxCloseRounds: 2 };
     const ledger = emptyLedger();
     run(ledger, [], { council: small });

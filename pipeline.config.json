@@ -99,8 +99,8 @@
     "maxDiffGrowth": 1.5,
     "loopModel": "sonnet",
     "closeModel": "opus",
-    "maxLoopRounds": 8,
-    "maxCloseRounds": 4,
+    "maxLoopRounds": 16,
+    "maxCloseRounds": 8,
     "externalSeats": [],
     "triggers": {
       "ui": [

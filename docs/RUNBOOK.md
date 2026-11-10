@@ -28,7 +28,7 @@ There is no telemetry, so there are no usage dashboards or user error logs. Repo
 
 ## How the council ends
 
-A change with code in it is reviewed in two phases, the loop on `council.loopModel` and then close-out on `council.closeModel`, each until two clean rounds in a row. The rule, the caps (`council.maxLoopRounds`, `council.maxCloseRounds`) and what parking means are in decision 0014. A parked change isn't approved: the PR stays open with a summary, and the admin decides.
+A change with code in it is reviewed in two phases, the loop on `council.loopModel` and then close-out on `council.closeModel`, each until two clean rounds in a row. The rule, the caps (`council.maxLoopRounds`, 16, and `council.maxCloseRounds`, 8) and what parking means are in decision 0014. A parked change isn't approved: the PR stays open with a summary, and the admin decides.
 
 ## Updating from dev-pipeline
 
