@@ -267,6 +267,24 @@ describe('repeats and content', () => {
     expect(capFor('close', { maxCloseRounds: 6 })).toBe(6);
   });
 
+  it('adds a per-PR grant of extra rounds from the ledger, and ignores a bad one', () => {
+    expect(capFor('close', council, { extraRounds: { close: 2 } })).toBe(6);
+    expect(capFor('loop', council, { extraRounds: { close: 2 } })).toBe(8);
+    expect(capFor('close', council, { extraRounds: { close: -1 } })).toBe(4);
+    expect(capFor('close', council, { extraRounds: { close: '2' } })).toBe(4);
+    const small = { ...council, maxCloseRounds: 2 };
+    const ledger = emptyLedger();
+    run(ledger, [], { council: small });
+    run(ledger, [], { council: small });
+    for (let i = 0; i < 2; i += 1) {
+      run(ledger, [finding('should')], { council: small });
+      fixAll(ledger);
+    }
+    expect(step(ledger, { council: small }).status).toBe('parked');
+    ledger.extraRounds = { close: 2 };
+    expect(step(ledger, { council: small })).toMatchObject({ status: 'review', phase: 'close' });
+  });
+
   it('holds a docs-only change to the loop cap too', () => {
     const small = { ...council, maxLoopRounds: 2 };
     const ledger = emptyLedger();

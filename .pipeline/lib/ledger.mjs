@@ -17,9 +17,13 @@ export const PHASES = ['loop', 'close'];
 export const modelFor = (phase, council = {}) => (phase === 'close' ? council.closeModel ?? 'opus' : council.loopModel ?? 'sonnet');
 // A cap has to leave room for the clean rounds a phase needs, and a value that isn't a number falls
 // back to the default rather than removing the cap.
-export const capFor = (phase, council = {}) => {
+// The admin can grant one PR extra rounds in a phase: `ledger.extraRounds.<phase>` is a whole number
+// written into that PR's own ledger, so it never reaches the config or another PR.
+export const capFor = (phase, council = {}, ledger = {}) => {
   const [value, fallback] = phase === 'close' ? [council.maxCloseRounds, 4] : [council.maxLoopRounds, 8];
-  return Number.isInteger(value) ? Math.max(CLEAN_ROUNDS, value) : fallback;
+  const base = Number.isInteger(value) ? Math.max(CLEAN_ROUNDS, value) : fallback;
+  const extra = ledger.extraRounds?.[phase];
+  return Number.isInteger(extra) && extra > 0 ? base + extra : base;
 };
 
 export const DEFAULT_TRIGGERS = {
@@ -174,7 +178,7 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
   // Docs-only changes get the one round.
   if (tier === 0) {
     if (last && last.hash === hash) return { ...base, status: 'done', message: 'The council has reviewed this exact change. Render the verdict.' };
-    const cap = capFor('loop', council);
+    const cap = capFor('loop', council, ledger);
     if (roundsIn(ledger, 'loop').length >= cap) {
       return { ...base, status: 'parked', phase: 'loop', message: `A docs-only change that needs more than ${cap} rounds isn't settling. Stop, leave the PR open, and summarize on it what each round raised and what is still open, for the admin. This isn't approval.` };
     }
@@ -188,7 +192,7 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
 
   const phase = state.loopDone ? 'close' : 'loop';
   const used = (phase === 'close' ? state.close : state.loop).length;
-  const cap = capFor(phase, council);
+  const cap = capFor(phase, council, ledger);
   if (used >= cap) {
     return {
       ...base,
