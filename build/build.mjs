@@ -9,6 +9,7 @@ import * as esbuild from 'esbuild';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
+import { gzipStable } from './repro.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -201,7 +202,7 @@ function usgscsmBytes(root, errors) {
 }
 
 function block({ name, kind, bytes, gz = true, load = 'lazy', licence = 'see notices', extra = {} }) {
-  const stored = gz ? gzipSync(bytes, { level: 9 }) : bytes;
+  const stored = gz ? gzipStable(bytes) : bytes;
   const b64 = Buffer.from(stored).toString('base64');
   const sha = sha256(bytes);
   return {
@@ -524,7 +525,7 @@ function liteFile({ boot, liteApp, blocks, manifest, noticesText }) {
 }
 
 function liteHtml(html, csp) {
-  const payload = gzipSync(Buffer.from(html), { level: 9 }).toString('base64');
+  const payload = gzipStable(Buffer.from(html)).toString('base64');
   const stub = [
     '(async () => {',
     "  const el = document.getElementById('gw-payload');",

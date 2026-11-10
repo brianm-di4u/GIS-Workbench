@@ -27,3 +27,16 @@ describe('reproducible packs', () => {
     expect(h(packZip({ ...files(), 'a.js': strToU8('y') }))).not.toBe(h(packZip(files())));
   });
 });
+
+describe('reproducible HTML blocks (#34)', () => {
+  it('gzip headers say "unknown OS", not the build machine', async () => {
+    const { gunzipSync } = await import('node:zlib');
+    const { gzipStable } = await import('../../build/repro.mjs');
+    const data = strToU8('x'.repeat(5000));
+    const z = gzipStable(data);
+    expect(z[9]).toBe(255);
+    expect([...z.subarray(4, 8)]).toEqual([0, 0, 0, 0]); // no time stamp either
+    expect(h(gunzipSync(z))).toBe(h(data));
+  });
+
+});
