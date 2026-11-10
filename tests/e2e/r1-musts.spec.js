@@ -479,3 +479,30 @@ test('REQ-ARC-11 #99 a crash after a save recovers the saved work, the later edi
   const back = await f2.evaluate((id) => window.gisworkbench.desktop.multiports.flatMap((m) => m.panes).find((p) => p.id === id)?.view, view.id);
   expect(back).toMatchObject({ lon: 12.5, lat: 41.9, zoom: 300 });
 });
+
+test('REQ-ARC-11 #117 crash, Recover, edit, crash again: the second Recover replays each edit once', async ({ page }) => {
+  const { frame } = await openApp(page, 'file');
+  const layer = (f, name) =>
+    f.evaluate(async (name) => {
+      const app = window.gisworkbench;
+      app.store.transact(name, (tx) => tx.create('vlayer', { name, visible: true, fields: [], source: { format: 'new' } }));
+      await app.journal.flush();
+    }, name);
+  await layer(frame, 'First');
+  const edits = (text) => Number(/\((\d+) edits?/.exec(text)[1]);
+  const recover = async (f) => {
+    const toast = f.locator('.toast', { hasText: 'Unsaved work' });
+    await expect(toast).toBeVisible({ timeout: 10000 });
+    const n = edits(await toast.textContent());
+    await toast.getByRole('button', { name: 'Recover' }).click();
+    await f.waitForFunction(() => window.gisworkbench.store.all('vlayer').some((v) => v.name === 'First'));
+    return n;
+  };
+  const f2 = await restart(page);
+  const before = await recover(f2);
+  await layer(f2, 'Second');
+  const f3 = await restart(page);
+  // The entry holds the recovered edits once and the new one, not the recovered edits twice.
+  expect(await recover(f3)).toBe(before + 1);
+  expect(await f3.evaluate(() => window.gisworkbench.store.all('vlayer').map((v) => v.name).sort())).toEqual(['First', 'Second']);
+});
