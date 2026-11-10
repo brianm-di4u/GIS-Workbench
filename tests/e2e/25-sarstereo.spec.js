@@ -71,10 +71,19 @@ test('REQ-GAP-42 FX-25 SAR stereo: pair finder, radargrammetric DSM with masks, 
     const anch = await app.sarStereo.extract(A, B, { aoi, postM: 4, levels: 2, shiftM: 8, prior, anchor: true });
     const anchPrior = app.sarStereo.report(anch, prior);
     const anchTruth = app.sarStereo.report(anch, tr);
+    // REG-084: the anchored DSM, levelled on the (biased) prior, levelled again on the truth.
+    const lev = await app.sarStereo.level(anch, tr);
+    const levTruth = app.sarStereo.report(lev.dsm, tr);
+    // A DSM read back from a terrain has heights only (no σ, score or flags): it levels and saves too.
+    const pg = prior.grid;
+    const bare = await app.sarStereo.level({ grid: { lat0: pg.lat0, lon0: pg.lon0, dlat: pg.dlat, dlon: pg.dlon, nx: pg.width, ny: pg.height }, heights: prior.current ?? pg.heights, sigma: null, flags: null, names: [prior.name], stats: null }, tr).then((x) => x.layer.bands, (e) => e.message);
     const { layer } = await app.sarStereo.saveDsm(dsm);
-    return { enabled, pairs: pairs.map((p) => ({ ok: p.ok, g: p.geometry, notes: p.notes })), stats: dsm.stats, ms, vsTruth, vsPrior, ridge, ridgeMasked, anch: { stats: anch.stats, prior: anchPrior.error, truth: anchTruth.error }, product: { bands: layer.bands, terrain: !!app.terrain.entry(layer.id), name: layer.rec.name } };
+    // Reopened from its file, the product keeps its σ, score and flags.
+    const re = await app.sarStereo.dsmFromTerrain(app.terrain.entry(layer.id));
+    const reopened = { flags: re.flags?.length ?? 0, same: re.flags ? re.flags.every((v, k) => v === dsm.flags[k]) : false, sigma: !!re.sigma, sameSide: re.stats?.geometry?.sameSide };
+    return { lev: { offset: lev.offset, sigma: lev.sigma, used: lev.used, terrain: !!app.terrain.entry(lev.layer.id), truth: levTruth.error, bare, enabled: app.commands.enabled('sar.stereolevel') }, enabled, pairs: pairs.map((p) => ({ ok: p.ok, g: p.geometry, notes: p.notes })), stats: dsm.stats, ms, vsTruth, vsPrior, ridge, ridgeMasked, anch: { stats: anch.stats, prior: anchPrior.error, truth: anchTruth.error }, product: { bands: layer.bands, terrain: !!app.terrain.entry(layer.id), name: layer.rec.name }, reopened };
   }, { lat: truth.centre.lat, lon: truth.centre.lon, ridge: truth.ridge });
-  console.log(JSON.stringify({ ms: r.ms, stats: { matched: r.stats.matched, posts: r.stats.posts, shiftM: r.stats.shiftM, levels: r.stats.levels, latticeMaxPx: r.stats.latticeMaxPx, intersectMaxM: r.stats.intersectMaxM }, vsTruth: { error: r.vsTruth.error, completeness: r.vsTruth.completeness, masked: r.vsTruth.masked, calibration: r.vsTruth.calibration, bySlope: r.vsTruth.bySlope }, vsPrior: r.vsPrior.error, ridge: [r.ridgeMasked, r.ridge], anch: r.anch }));
+  console.log(JSON.stringify({ ms: r.ms, stats: { matched: r.stats.matched, posts: r.stats.posts, shiftM: r.stats.shiftM, levels: r.stats.levels, latticeMaxPx: r.stats.latticeMaxPx, intersectMaxM: r.stats.intersectMaxM }, vsTruth: { error: r.vsTruth.error, completeness: r.vsTruth.completeness, masked: r.vsTruth.masked, calibration: r.vsTruth.calibration, bySlope: r.vsTruth.bySlope }, vsPrior: r.vsPrior.error, ridge: [r.ridgeMasked, r.ridge], anch: r.anch, lev: r.lev }));
   expect(r.enabled).toEqual([true, true, true]);
   // Pair finder: the 10° same-side Umbra geometry.
   expect(r.pairs.length).toBe(1);
@@ -105,6 +114,16 @@ test('REQ-GAP-42 FX-25 SAR stereo: pair finder, radargrammetric DSM with masks, 
   expect(Math.abs(r.anch.prior.median)).toBeLessThan(0.3);
   expect(r.anch.truth.median).toBeGreaterThan(1.5);
   expect(r.anch.stats.anchored).toBe(true);
+  // REG-084: levelled on the truth, the +3 m comes off (it is the prior's bias), over stable posts.
+  expect(r.lev.enabled).toBe(true);
+  expect(r.lev.offset).toBeGreaterThan(1.5);
+  expect(r.lev.offset).toBeLessThan(4.5);
+  expect(Math.abs(r.lev.truth.median)).toBeLessThan(0.5);
+  expect(r.lev.used).toBeGreaterThan(500);
+  expect(r.lev.terrain).toBe(true);
+  // A heights-only DSM levels to a heights-only product, not to four bands with zero flags.
+  expect(r.lev.bare).toBe(1);
+  expect(r.reopened).toEqual({ flags: r.stats.posts, same: true, sigma: true, sameSide: true });
   // The product: four bands, opened as terrain.
   expect(r.product.bands).toBe(4);
   expect(r.product.terrain).toBe(true);
@@ -150,7 +169,17 @@ test('REQ-GAP-42 SAR stereo dialogs pass axe and run the DSM with its report', a
   expect(await axeOn(frame, '[data-id="dialog:sarstereo-report-pick"]')).toEqual([]);
   await pick.getByLabel('Reference DEM').selectOption(truthId);
   await pick.getByRole('button', { name: 'Run' }).click();
-  await expect(frame.locator('[data-id="dialog:sarstereo-report"]')).toBeVisible();
+  const rd = frame.locator('[data-id="dialog:sarstereo-report"]');
+  await expect(rd).toBeVisible();
+  await rd.getByRole('button', { name: 'Close' }).first().click();
+  // REG-084: Level DSM on Reference, against the truth.
+  await frame.evaluate(() => void window.gisworkbench.commands.run('sar.stereolevel'));
+  const lv = frame.locator('[data-id="dialog:sarstereo-level"]');
+  await expect(lv).toBeVisible();
+  expect(await axeOn(frame, '[data-id="dialog:sarstereo-level"]')).toEqual([]);
+  await lv.getByLabel('Reference DEM').selectOption(truthId);
+  await lv.getByRole('button', { name: 'Run' }).click();
+  await expect.poll(() => frame.evaluate(() => [...window.gisworkbench.layers.values()].map((l) => l.rec?.name ?? '').join(' | ')), { timeout: 30_000 }).toMatch(/_LEVELLED/);
   expect(logs.filter((l) => l.type === 'error')).toEqual([]);
 });
 
@@ -176,9 +205,11 @@ test('REQ-GAP-42 an opposite-side pair is listed as poor, runs only by choice, a
     const dsm = await app.sarStereo.extract(A, B, { aoi, postM: 4, levels: 2, shiftM: 8, prior, allowOpposite: true });
     dsm.stats.geometry.sameSide = false;
     const rep = app.sarStereo.report(dsm, prior);
-    return { code, warning: rep.warning, sameSide: app.sarStereo.report({ ...dsm, stats: { ...dsm.stats, geometry: { ...dsm.stats.geometry, sameSide: true } } }, prior).warning ?? null };
+    // REG-084: an opposite-side DSM is not levelled.
+    const levelCode = await app.sarStereo.level(dsm, prior).then(() => null, (e) => e.code);
+    return { code, levelCode, warning: rep.warning, sameSide: app.sarStereo.report({ ...dsm, stats: { ...dsm.stats, geometry: { ...dsm.stats.geometry, sameSide: true } } }, prior).warning ?? null };
   }, { lat: truth.centre.lat, lon: truth.centre.lon });
-  expect(r).toEqual({ code: 'E_SARSTEREO_OPPOSITE', warning: 'opposite-side pair, not recommended', sameSide: null });
+  expect(r).toEqual({ code: 'E_SARSTEREO_OPPOSITE', levelCode: 'E_SARSTEREO_OPPOSITE', warning: 'opposite-side pair, not recommended', sameSide: null });
   await frame.evaluate(() => void window.gisworkbench.commands.run('sar.stereopairs'));
   await expect(page.locator('[data-id="sarstereo-pairs"]')).toContainText('poor: opposite side, not recommended');
   await page.locator('[data-id="dialog:sarstereo-pairs"] .dlg-buttons button', { hasText: 'Extract DSM' }).click();

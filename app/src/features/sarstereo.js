@@ -22,7 +22,7 @@ import { openImageFile } from '../formats/open.js';
 import { saveBlob, textBlob } from '../storage/files.js';
 import { t, N_, tr, gwError, msgOf } from '../i18n/index.js';
 import { num, int, pct } from '../i18n/format.js';
-import { dsmAccuracy, reportCsv, FLAG } from '../analysis/sarstereo-report.js';
+import { dsmAccuracy, reportCsv, levelDsm, FLAG } from '../analysis/sarstereo-report.js';
 
 export const name = 'sarstereo';
 
@@ -292,15 +292,22 @@ export function install(app) {
   async function saveDsm(dsm, { name: fname, open = true } = {}) {
     const { grid: g } = dsm;
     const n = g.nx * g.ny;
-    const data = new Float32Array(n * 4);
+    // A DSM with no flags (any DEM levelled, not a SAR stereo product) is written as heights only:
+    // a flags band of zeros would read as "every post clean".
+    const full = !!dsm.flags;
+    const nb = full ? 4 : 1;
+    const data = new Float32Array(n * nb);
     for (let i = 0; i < n; i++) {
-      data[4 * i] = dsm.heights[i];
-      data[4 * i + 1] = dsm.sigma[i];
-      data[4 * i + 2] = dsm.score[i];
+      data[nb * i] = dsm.heights[i];
+      if (!full) continue;
+      data[4 * i + 1] = dsm.sigma?.[i] ?? NaN;
+      data[4 * i + 2] = dsm.score?.[i] ?? NaN;
       data[4 * i + 3] = dsm.flags[i];
     }
-    const desc = `GIS Workbench SAR stereo DSM (radargrammetry) from ${dsm.names.join(' + ')}: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${dsm.prior}${dsm.stats?.geometry?.sameSide === false ? '; opposite-side pair, not recommended' : ''}`;
-    const bytes = await writeGeoTiff({ width: g.nx, height: g.ny, bands: 4, type: 'f32', data }, { epsg: 4326, vertical: 'hae', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: desc, overviews: true });
+    const desc = full
+      ? `GIS Workbench SAR stereo DSM (radargrammetry) from ${dsm.names.join(' + ')}: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${dsm.prior}${dsm.stats?.geometry?.sameSide === false ? '; opposite-side pair, not recommended' : ''}`
+      : `GIS Workbench DSM from ${dsm.names.join(' + ')}: height above the WGS 84 ellipsoid (m); ${dsm.prior ?? ''}`;
+    const bytes = await writeGeoTiff({ width: g.nx, height: g.ny, bands: nb, type: 'f32', data }, { epsg: 4326, vertical: 'hae', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: desc, overviews: true });
     const file = new File([bytes], fname ?? `SARDSM_${dsm.pair.join('_')}.tif`.replace(/[^\w.-]+/g, '_'), { type: 'image/tiff', lastModified: Date.now() });
     if (!open) return { file };
     const { layers } = await openImageFile(app, file, { pane: pane() });
@@ -324,7 +331,22 @@ export function install(app) {
     const last = app.sarStereo.last;
     if (last && last.layerId === d.layerId) return last;
     const g = d.grid;
-    return { grid: { lat0: g.lat0, lon0: g.lon0, dlat: g.dlat, dlon: g.dlon, nx: g.width, ny: g.height }, heights: d.current ?? g.heights, sigma: null, flags: null, names: [d.name], stats: null };
+    return { grid: { lat0: g.lat0, lon0: g.lon0, dlat: g.dlat, dlon: g.dlon, nx: g.width, ny: g.height }, heights: d.current ?? g.heights, sigma: null, flags: null, names: [d.name], stats: null, layerId: d.layerId };
+  }
+
+  /**
+   * dsmOfTerrain, with a SAR stereo DSM's σ, score and flags read back from its bands 2 to 4, and
+   * an opposite-side pair known from its description, so a reopened product levels as it was made.
+   */
+  async function dsmFromTerrain(d) {
+    const dsm = dsmOfTerrain(d);
+    if (dsm.flags) return dsm;
+    const l = app.layers.get(d.layerId);
+    const desc = String(l?.info?.meta?.imageDescription ?? '');
+    if (l?.bands !== 4 || !/SAR stereo DSM \(radargrammetry\)/.test(desc)) return dsm;
+    const g = dsm.grid;
+    const r = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: g.nx, h: g.ny, bands: [1, 2, 3], maxSamples: 3 * g.nx * g.ny }, { affinity: l.affinity, label: t('Reading {layer}', { layer: d.name }) });
+    return { ...dsm, sigma: r.planes[0], score: r.planes[1], flags: Uint8Array.from(r.planes[2], (v) => (Number.isFinite(v) ? v : 128)), stats: { geometry: { sameSide: !/opposite-side pair/.test(desc) } } };
   }
 
   const fmtStats = (s) => (s ? [int(s.n), num(s.mean, 2), num(s.median, 2), num(s.nmad, 2), num(s.rmse, 2), num(s.le90, 2)] : ['0', '–', '–', '–', '–', '–']);
@@ -434,8 +456,54 @@ export function install(app) {
     return reportDialog(report(dsm, tl.find((x) => x.layerId === refSel.value)), dsm);
   }
 
-  Object.assign(app.sarStereo, { findPairs, extract, saveDsm, report, reportDialog, pairsDialog, dsmDialog, FLAG });
+  /**
+   * Level a DSM on a reference DEM (REQ-GAP-91, REG-084): offset, and with tilt a plane, fitted over
+   * stable terrain (levelDsm), removed, and the result saved as a new DSM opened as terrain. An
+   * opposite-side pair is refused unless allowOpposite. Returns {layer, offset, tilt, sigma, …}.
+   */
+  async function level(dsm, ref, { tilt = false, slopeMax = 10, allowOpposite = false } = {}) {
+    if (!ref) throw gwError('load a reference DEM as terrain first', null, 'E_SARSTEREO_NO_REF');
+    let lv;
+    try {
+      lv = levelDsm(dsm, (la, lo) => (coverOf(ref, la, lo) ? core.demHae(ref.coreId, la, lo) : NaN), { tilt, slopeMax, allowOpposite });
+    } catch (e) {
+      if (e.code === 'E_SARSTEREO_OPPOSITE') throw gwError('{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled', { dsm: dsm.names?.join(' + ') ?? '' }, e.code);
+      if (e.code === 'E_SARSTEREO_FEW_POSTS') throw gwError('levelling needs at least 50 stable posts (unflagged, under {slope}° of slope) with a reference height', { slope: num(slopeMax, 0) }, e.code);
+      throw e;
+    }
+    const levelled = { ...dsm, heights: lv.heights, names: [...(dsm.names ?? [])], prior: `${dsm.prior ?? ''}; levelled on ${ref.name} by ${(-lv.offset).toFixed(2)} m${lv.tilt ? ` and ${(-lv.tilt[0]).toFixed(3)} / ${(-lv.tilt[1]).toFixed(3)} m per km east / north` : ''}, residual NMAD ${lv.sigma.toFixed(2)} m over ${lv.used} stable posts` };
+    const base = (app.layers.get(dsm.layerId)?.rec?.name ?? `SARDSM_${(dsm.pair ?? []).join('_')}`).replace(/\.[^.]+$/, '');
+    const { layer } = await saveDsm(levelled, { name: `${base}_LEVELLED.tif`.replace(/[^\w.-]+/g, '_') });
+    const out = { layer, dsm: levelled, offset: lv.offset, tilt: lv.tilt, sigma: lv.sigma, offsetSigma: lv.offsetSigma, used: lv.used, before: lv.before, after: lv.after, reference: ref.name };
+    return out;
+  }
+
+  async function levelCommand() {
+    const tl = terrains();
+    if (tl.length < 2) return app.toast(t('levelling needs a DSM and a reference DEM loaded as terrain'), { kind: 'warn' });
+    const opts = tl.map((d) => [d.layerId, d.name]);
+    const last = app.sarStereo.last;
+    const dsmSel = sel(opts, last?.layerId && tl.some((d) => d.layerId === last.layerId) ? last.layerId : opts[opts.length - 1][0], t('DSM'));
+    const refSel = sel(opts, opts[0][0], t('Reference DEM'));
+    const tiltBox = h('input', { type: 'checkbox', 'aria-label': t('Also remove a tilt') });
+    const slope = h('input', { class: 'inp inp-num', type: 'number', min: '1', max: '45', step: '1', value: '10', 'aria-label': t('Steepest slope used (°)') });
+    const body = h('div', {}, field(t('DSM'), dsmSel), field(t('Reference DEM'), refSel), field(t('Also remove a tilt'), tiltBox, t('Fits a plane (offset and slope east and north) instead of an offset alone.')), field(t('Steepest slope used (°)'), slope), h('p', { class: 'hint' }, t('The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.')));
+    if ((await modal({ title: t('Level DSM on Reference'), body, buttons: RUN_CANCEL(), id: 'sarstereo-level' })) !== 'run') return null;
+    if (dsmSel.value === refSel.value) return app.toast(t('choose a reference other than the DSM'), { kind: 'warn' });
+    try {
+      const dsm = await dsmFromTerrain(tl.find((x) => x.layerId === dsmSel.value));
+      const r = await level(dsm, tl.find((x) => x.layerId === refSel.value), { tilt: tiltBox.checked, slopeMax: Number(slope.value) || 10 });
+      app.toast(t('Levelled by {d} m on {ref}; residual {s} m (NMAD) over {n} stable posts.', { d: num(-r.offset, 2), ref: r.reference, s: num(r.sigma, 2), n: int(r.used) }), { kind: 'info', ms: 8000 });
+      return r;
+    } catch (e) {
+      app.toast(t('Level DSM: {msg}', { msg: msgOf(e) }), { kind: e?.code?.startsWith?.('E_SARSTEREO') ? 'warn' : 'error', ms: 8000 });
+      return null;
+    }
+  }
+
+  Object.assign(app.sarStereo, { findPairs, extract, saveDsm, report, reportDialog, pairsDialog, dsmDialog, level, dsmFromTerrain, FLAG });
   C.implement('sar.stereopairs', { enabled: () => sicds().length >= 2, run: () => pairsDialog().catch((e) => app.toast(t('SAR stereo pair finder: {msg}', { msg: msgOf(e) }), { kind: e?.code === 'E_SARSTEREO_NEED_TWO' ? 'warn' : 'error' })) });
   C.implement('sar.stereodsm', { enabled: () => sicds().length >= 2, run: () => dsmDialog() });
   C.implement('sar.stereoreport', { enabled: () => terrains().length >= 2, run: () => reportCommand() });
+  C.implement('sar.stereolevel', { enabled: () => terrains().length >= 2, run: () => levelCommand() });
 }

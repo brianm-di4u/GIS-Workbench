@@ -140,3 +140,100 @@ export function reportCsv(rep, label = '') {
   if (rep.warning) lines.push(`${label},warning,${rep.warning}`);
   return `${lines.join('\n')}\n`;
 }
+
+/**
+ * Level a SAR stereo DSM against a reference DEM (REQ-GAP-91, REG-084): the vertical offset, and with
+ * `tilt` a plane (offset + east and north slope), fitted to DSM − reference over stable terrain only:
+ * posts with a height and a reference, no flag (masked, weak, ambiguous, rejected, no data) and a
+ * reference slope under `slopeMax` degrees. The plane is fitted robustly (Tukey biweight, from the
+ * median), so the heavy tails of real pairs do not pull it. ref(lat, lon) → reference HAE or NaN.
+ * An opposite-side pair is refused unless `allowOpposite`: its errors are not a bias a plane removes.
+ * Returns {heights (levelled), offset (m, at the grid centre), tilt [east, north] (m per km) | null,
+ * offsetSigma (m), used, before, after (errorStats of the stable posts), sigma (the residual NMAD)}.
+ */
+export function levelDsm(dsm, ref, { tilt = false, slopeMax = 10, allowOpposite = false, minPosts = 50 } = {}) {
+  if (dsm.stats?.geometry?.sameSide === false && !allowOpposite) {
+    const e = new Error('an opposite-side pair is not levelled: its errors are not a bias a plane removes');
+    e.code = 'E_SARSTEREO_OPPOSITE';
+    throw e;
+  }
+  const { grid: g, heights, flags } = dsm;
+  const n = g.nx * g.ny;
+  const phi = ((g.lat0 - ((g.ny - 1) * g.dlat) / 2) * Math.PI) / 180;
+  const kn = 111_132.954 - 559.822 * Math.cos(2 * phi) + 1.175 * Math.cos(4 * phi);
+  const ke = 111_412.84 * Math.cos(phi) - 93.5 * Math.cos(3 * phi);
+  const refv = new Float64Array(n).fill(NaN);
+  for (let j = 0; j < g.ny; j++) for (let i = 0; i < g.nx; i++) refv[j * g.nx + i] = ref(g.lat0 - j * g.dlat, g.lon0 + i * g.dlon);
+  const v = (i, j) => (i >= 0 && j >= 0 && i < g.nx && j < g.ny ? refv[j * g.nx + i] : NaN);
+  const slope = (i, j) => {
+    const dx = (v(i + 1, j) - v(i - 1, j)) / (2 * g.dlon * ke);
+    const dy = (v(i, j - 1) - v(i, j + 1)) / (2 * g.dlat * kn);
+    return (Math.atan(Math.hypot(dx, dy)) * 180) / Math.PI;
+  };
+  // Stable posts: x, y (km from the grid centre), e = DSM − reference.
+  const cx = (g.nx - 1) / 2;
+  const cy = (g.ny - 1) / 2;
+  const xs = [];
+  const ys = [];
+  const es = [];
+  for (let j = 0; j < g.ny; j++)
+    for (let i = 0; i < g.nx; i++) {
+      const k = j * g.nx + i;
+      const e = heights[k] - refv[k];
+      if (!Number.isFinite(e) || (flags && flags[k]) || !(slope(i, j) < slopeMax)) continue;
+      xs.push(((i - cx) * g.dlon * ke) / 1000);
+      ys.push(((cy - j) * g.dlat * kn) / 1000);
+      es.push(e);
+    }
+  if (es.length < minPosts) {
+    const e = new Error(`levelling needs at least ${minPosts} stable posts with a reference height; ${es.length} found`);
+    e.code = 'E_SARSTEREO_FEW_POSTS';
+    throw e;
+  }
+  const before = errorStats(es);
+  let p = [before.median, 0, 0];
+  if (tilt) {
+    // Iteratively reweighted least squares, Tukey biweight at 4.685 × the residual NMAD.
+    for (let it = 0; it < 20; it++) {
+      const r = es.map((e, k) => e - (p[0] + p[1] * xs[k] + p[2] * ys[k]));
+      const s = errorStats(r).nmad || 1e-6;
+      const c = 4.685 * s;
+      const A = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
+      const b = [0, 0, 0];
+      for (let k = 0; k < es.length; k++) {
+        const u = r[k] / c;
+        const w = Math.abs(u) < 1 ? (1 - u * u) ** 2 : 0;
+        if (!w) continue;
+        const row = [1, xs[k], ys[k]];
+        for (let a = 0; a < 3; a++) {
+          b[a] += w * row[a] * es[k];
+          for (let bb = 0; bb < 3; bb++) A[a][bb] += w * row[a] * row[bb];
+        }
+      }
+      const q = solve3(A, b);
+      if (!q) break;
+      const moved = Math.abs(q[0] - p[0]) + Math.abs(q[1] - p[1]) + Math.abs(q[2] - p[2]);
+      p = q;
+      if (moved < 1e-6) break;
+    }
+  }
+  const fit = (i, j) => p[0] + p[1] * (((i - cx) * g.dlon * ke) / 1000) + p[2] * (((cy - j) * g.dlat * kn) / 1000);
+  const out = new Float32Array(n);
+  for (let j = 0; j < g.ny; j++) for (let i = 0; i < g.nx; i++) out[j * g.nx + i] = heights[j * g.nx + i] - fit(i, j);
+  const after = errorStats(es.map((e, k) => e - (p[0] + p[1] * xs[k] + p[2] * ys[k])));
+  // The offset's own σ: the residual NMAD over √n, for posts about a post apart (correlated
+  // neighbours make it optimistic; the residual σ is the figure that matters per post).
+  return { heights: out, offset: p[0], tilt: tilt ? [p[1], p[2]] : null, offsetSigma: after.nmad / Math.sqrt(es.length), used: es.length, before, after, sigma: after.nmad };
+}
+
+/** 3 × 3 linear solve by Cramer's rule; null when singular. */
+function solve3(A, b) {
+  const det = (m) => m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+  const d = det(A);
+  if (!(Math.abs(d) > 1e-12)) return null;
+  return [0, 1, 2].map((c) => det(A.map((row, r) => row.map((x, k) => (k === c ? b[r] : x)))) / d);
+}
