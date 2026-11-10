@@ -16,10 +16,9 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { family, formatSums, missingFamilies, parseSums } from './assets.mjs';
+import { HTML, family, formatSums, missingFamilies, parseSums, stagedNames } from './assets.mjs';
 import { manifestParts, webSbom } from './sbom.mjs';
 
-const HTML = ['gis-workbench.html', 'gis-workbench-lite.html', 'gis-workbench-airgap.html'];
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export function sha256File(path) {
@@ -114,7 +113,8 @@ async function main() {
   const { picks, problems } = plan({ dist: resolve(arg('--dist', 'dist')), sidecar: resolve(arg('--sidecar', 'D:/gwb-sidecar-deps/release')), version });
   const like = arg('--like');
   if (like) {
-    const previous = execFileSync('gh', ['release', 'view', like, '--json', 'assets', '--jq', '.assets[].name'], { encoding: 'utf8' }).split(/\r?\n/).filter((n) => n && n !== 'SHA256SUMS');
+    const listed = execFileSync('gh', ['release', 'view', like, '--json', 'assets', '--jq', '.assets[].name'], { encoding: 'utf8' }).split(/\r?\n/);
+    const previous = stagedNames(listed);
     const missing = missingFamilies(picks.map((p) => p.name), previous);
     const added = [...new Set(picks.map((p) => family(p.name)))].filter((f) => !previous.some((n) => family(n) === f));
     if (added.length) console.log(`New since ${like}: ${added.join(', ')}`);

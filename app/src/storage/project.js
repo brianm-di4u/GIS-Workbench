@@ -2,7 +2,7 @@
 // views.json and the journal tail. Imagery is never copied in; it is referenced by name,
 // size, time and fingerprint, and relinked on open by fingerprint or by the user's pick.
 
-import { zipSync, unzipSync, strToU8, strFromU8 } from 'fflate';
+import { zip, unzip, zipSync, unzipSync, strToU8, strFromU8 } from 'fflate';
 import { fingerprint } from '../formats/open.js';
 import { clone } from '../core/util.js';
 import { gwError } from '../i18n/index.js';
@@ -11,8 +11,13 @@ export const FORMAT = 'gis-workbench-project';
 export const VERSION = 1;
 const LIMITS = { entries: 2000, total: 512 << 20, ratio: 200 };
 
-export function serialiseProject(app) {
-  const records = app.store.snapshot();
+/**
+ * The project's files, ready to zip. Records are read, not copied: JSON.stringify changes nothing.
+ * `kept`, when given, receives the records' JSON text and the views as saved: the crash journal
+ * starts from them after a save (#99).
+ */
+function projectFiles(app, kept = null) {
+  const records = app.store.all();
   // What the opened project had and this shell does not show (Lite shows one panel, no docks and
   // no arrangement) goes back as it came, so a Full project survives a save from Lite (REQ-GAP-86).
   // Only for panels and ports still in the project: one deleted since is not carried on.
@@ -37,20 +42,33 @@ export function serialiseProject(app) {
     note: 'Imagery is referenced, not embedded. Open the project and relink files by fingerprint.',
   };
   const journal = app.undo.history().slice(0, 50);
+  const text = JSON.stringify(records);
+  const shown = { views, docks, arrange: app.desktop.arrange ?? prev.arrange };
+  if (kept) Object.assign(kept, { records: text, views: shown });
   const files = {
     'manifest.json': strToU8(JSON.stringify(manifest, null, 2)),
-    'records.json': strToU8(JSON.stringify(records)),
-    'views.json': strToU8(JSON.stringify({ views, docks, arrange: app.desktop.arrange ?? prev.arrange })),
+    'records.json': strToU8(text),
+    'views.json': strToU8(JSON.stringify(shown)),
     'journal.json': strToU8(JSON.stringify(journal)),
   };
-  return zipSync(files, { level: 6 });
+  return files;
+}
+
+export function serialiseProject(app, kept = null) {
+  return zipSync(projectFiles(app, kept), { level: 6 });
+}
+
+/** As serialiseProject, with the compression in a worker so that a large project does not freeze the page (#63). */
+export function serialiseProjectAsync(app, kept = null) {
+  const files = projectFiles(app, kept);
+  return new Promise((res, rej) => zip(files, { level: 6 }, (e, out) => (e ? rej(e) : res(out))));
 }
 
 /** Bounded unzip of a project (zip bombs, path tricks). */
-export function readProject(bytes) {
+function unzipLimits() {
   let total = 0;
   let count = 0;
-  const files = unzipSync(bytes, {
+  return {
     filter(f) {
       count++;
       if (count > LIMITS.entries) throw new Error('project has too many entries');
@@ -60,14 +78,38 @@ export function readProject(bytes) {
       if (f.size && f.originalSize / f.size > LIMITS.ratio) throw gwError('entry {name} has a suspicious compression ratio', { name: f.name }, 'E_PROJECT_RATIO');
       return true;
     },
-  });
+  };
+}
+
+export function readProject(bytes) {
+  return parseProject(unzipSync(bytes, unzipLimits()));
+}
+
+/** As readProject, with the decompression in a worker (#63). */
+export function readProjectAsync(bytes) {
+  return new Promise((res, rej) => unzip(bytes, unzipLimits(), (e, files) => (e ? rej(e) : res(files)))).then(parseProject);
+}
+
+/**
+ * Whether records text could hold a "__proto__" key: spelled out, or escaped (a \u escape can
+ * spell any key). Only then does open parse with the reviver that drops the key, which costs
+ * seconds on a large project (#63).
+ */
+export const needsReviver = (text) => /__proto__|\\u/.test(text);
+
+function parseProject(files) {
   const text = (n) => (files[n] ? strFromU8(files[n]) : null);
   const manifest = JSON.parse(text('manifest.json') ?? 'null');
   if (!manifest || manifest.format !== FORMAT) throw new Error('not a GIS Workbench project (.gwb)');
   if (manifest.version > VERSION) throw gwError('this project was saved by a newer GIS Workbench (format {version}); this build reads up to {max}', { version: String(manifest.version), max: String(VERSION) }, 'E_PROJECT_NEWER');
-  const records = JSON.parse(text('records.json') ?? '[]', (k, v) => (k === '__proto__' ? undefined : v));
+  const records = parseRecords(text('records.json') ?? '[]', manifest.version);
   const views = JSON.parse(text('views.json') ?? '{}');
-  return { manifest, records: migrate(records, manifest.version), views };
+  return { manifest, records, views };
+}
+
+/** Records from a project's records.json text (or the journal's copy of it): no "__proto__" keys, and each with an id and a type. The slow reviver runs only when needed (#63). */
+export function parseRecords(text, version = VERSION) {
+  return migrate(needsReviver(text) ? JSON.parse(text, (k, v) => (k === '__proto__' ? undefined : v)) : JSON.parse(text), version);
 }
 
 function migrate(records) {
