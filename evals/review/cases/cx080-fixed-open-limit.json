@@ -1,0 +1,51 @@
+{
+  "id": "cx080-fixed-open-limit",
+  "source": "CX-080",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Put a time limit on opening a file in a decode worker. Files range from small vectors to multi-GB NetCDF cubes read from USB disks.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/open.js": "const OPEN_LIMIT = 120_000;\n\n// Open a file in a decode worker, giving up after OPEN_LIMIT.\nexport function openWithLimit(worker, file) {\n  return new Promise((resolve, reject) => {\n    const timer = setTimeout(\n      () => reject(new Error('open ' + file.name + ' timed out after ' + OPEN_LIMIT / 1000 + ' s')),\n      OPEN_LIMIT,\n    );\n    worker.post({ op: 'open', file }).then(\n      (handle) => {\n        clearTimeout(timer);\n        resolve(handle);\n      },\n      (error) => {\n        clearTimeout(timer);\n        reject(error);\n      },\n    );\n  });\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/open.js",
+      "from": 1,
+      "to": 1,
+      "words": [
+        "file size",
+        "file.size",
+        "large file",
+        "larger file",
+        "scale",
+        "proportional",
+        "fixed limit",
+        "fixed 120",
+        "per mb",
+        "bytes"
+      ]
+    }
+  ],
+  "alsoAccept": [
+    {
+      "file": "src/open.js",
+      "from": 6,
+      "to": 8,
+      "words": [
+        "file size",
+        "file.size",
+        "large file",
+        "larger file",
+        "scale",
+        "proportional",
+        "fixed limit",
+        "fixed 120",
+        "per mb",
+        "bytes"
+      ]
+    }
+  ]
+}

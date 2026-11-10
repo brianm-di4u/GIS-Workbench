@@ -6,12 +6,11 @@ import { parseRecords } from '../../app/src/storage/project.js';
 import { Store } from '../../app/src/core/store.js';
 
 /** A journal over an in-memory record store, fed by a Store's commits, as files.js wires it. */
-function setup() {
+function setup(db = new Map()) {
   const store = new Store();
   store.transact('start', (tx) => tx.create('project', { name: 'P', created: 7 }, 'project'));
   const app = { prefs: { get: () => 'on', set() {} }, store, project: () => store.get('project'), log() {} };
   const j = new Journal(app);
-  const db = new Map();
   j.available = true;
   // A read takes a moment, as IndexedDB's does, so that writes can overlap.
   j.get = async (_s, k) => {
@@ -22,6 +21,7 @@ function setup() {
   j.put = async (_s, k, v) => void db.set(k, structuredClone(v));
   j.del = async (_s, k) => void db.delete(k);
   j.base = store.snapshot();
+  store.on('reset', () => (j.base = store.snapshot()));
   store.on('commit', (cs) => j.record(cs));
   const add = (name) => store.transact(name, (tx) => tx.create('vlayer', { name }));
   /** What Recover would rebuild from the journal, as files.js does it. */
@@ -42,7 +42,14 @@ function setup() {
     store.transact('Mark saved', (tx) => tx.set('project', 'savedAt', 'now'), { kind: 'load' });
     await j.saved(kept, since, until);
   };
-  return { j, db, add, recover, save };
+  /** Click Recover in this session, as files.js does: the journal entry is replayed into the store. */
+  const recoverHere = async () => {
+    const rec = { key: 'gw/7', ...structuredClone(db.get('gw/7')) };
+    await j.recovering(rec.key);
+    store.load(typeof rec.snapshot === 'string' ? parseRecords(rec.snapshot) : rec.snapshot);
+    for (const cs of rec.changesets) store.applyChangeSet(cs, { kind: 'load' });
+  };
+  return { j, db, store, add, recover, save, recoverHere };
 }
 
 describe('Journal after a save (#99)', () => {
@@ -101,6 +108,7 @@ describe('Journal after a save (#99)', () => {
     await j.flush();
     add('A2');
     const old = j.flush(); // still reading the journal (A1) when the save lands
+    await new Promise((r) => setTimeout(r, 1)); // the write has taken its batch and is reading
     await save();
     await old;
     add('B');
@@ -114,6 +122,7 @@ describe('Journal after a save (#99)', () => {
     await j.flush();
     add('A2');
     const old = j.flush(); // takes A2, then reads
+    await new Promise((r) => setTimeout(r, 1)); // the write has taken its batch and is reading
     await save({ during: 'D' });
     await old;
     expect(recover().names).toEqual(['A1', 'A2', 'D']);
@@ -127,5 +136,47 @@ describe('Journal after a save (#99)', () => {
     await saving;
     await j.flush();
     expect(recover().names).toEqual(['A', 'B']);
+  });
+});
+
+describe('Journal after a Recover (#117)', () => {
+  it('REQ-ARC-11 #117 an edit made while a write compacts the journal is replayed once', async () => {
+    const { j, db, add, recover } = setup();
+    for (let i = 0; i < 199; i++) add('L' + i);
+    await j.flush();
+    add('L199');
+    const compacting = j.flush(); // the 200th change set: this write snapshots the store
+    await new Promise((r) => setTimeout(r, 1));
+    add('X'); // committed while that write reads, so the snapshot holds it
+    await compacting;
+    await j.flush();
+    expect(db.get('gw/7').changesets.map((c) => c.label)).toEqual([]);
+    expect(recover().names.filter((n) => n === 'X')).toEqual(['X']);
+  });
+  it('REQ-ARC-11 #117 crash, Recover, edit, crash again: each edit is recovered once', async () => {
+    const first = setup();
+    first.add('A');
+    first.add('B');
+    await first.j.flush();
+    // Crash. The next session starts afresh and recovers.
+    const second = setup(first.db);
+    await second.recoverHere();
+    expect(second.store.all('vlayer').map((v) => v.name).sort()).toEqual(['A', 'B']);
+    // Until the replays are written, a crash still finds the entry they came from.
+    expect(second.recover().names).toEqual(['A', 'B']);
+    second.add('C');
+    await second.j.flush();
+    // Crash again: the entry holds each edit once, not A and B twice.
+    expect(first.db.get('gw/7').changesets.map((c) => c.label)).toEqual(['A', 'B', 'C']);
+    expect(second.recover().names).toEqual(['A', 'B', 'C']);
+  });
+  it('REQ-ARC-11 #117 a save straight after Recover removes the entry Recover read, under whatever key', async () => {
+    const { j, db, store, save } = setup();
+    db.set('gw/old', { changesets: [], snapshot: store.snapshot(), views: null, updated: 1 });
+    await j.recovering('gw/old');
+    store.load(db.get('gw/old').snapshot); // nothing to replay, so no write follows
+    await j.flush();
+    await save();
+    expect([...db.keys()]).toEqual([]);
   });
 });

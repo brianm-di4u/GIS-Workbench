@@ -1,0 +1,30 @@
+{
+  "id": "cx050-rtree-nan-bounds",
+  "source": "CX-050",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Save As GeoPackage: write the features with an R-tree index and the layer extent, for any vector layer, CSV layers included.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/geometry.js": "// Bounds of a geometry. A row with no position (a CSV row without coordinates) has geometry null.\nexport function boundsOf(geometry) {\n  const points = geometry?.points ?? [];\n  if (points.length === 0) return [NaN, NaN, NaN, NaN];\n  let minX = Infinity;\n  let minY = Infinity;\n  let maxX = -Infinity;\n  let maxY = -Infinity;\n  for (const [x, y] of points) {\n    minX = Math.min(minX, x);\n    minY = Math.min(minY, y);\n    maxX = Math.max(maxX, x);\n    maxY = Math.max(maxY, y);\n  }\n  return [minX, minY, maxX, maxY];\n}\n\nexport function encodeGeometry(geometry) {\n  return geometry ? JSON.stringify(geometry) : null;\n}\n"
+  },
+  "head": {
+    "src/gpkg-writer.js": "import { boundsOf, encodeGeometry } from './geometry.js';\n\n// GeoPackage writer: features, their R-tree index and the layer extent.\nexport function writeFeatures(db, table, features) {\n  const insert = db.prepare('INSERT INTO \"' + table + '\" (fid, geom) VALUES (?, ?)');\n  const index = db.prepare('INSERT INTO \"rtree_' + table + '_geom\" VALUES (?, ?, ?, ?, ?)');\n  const extent = [Infinity, Infinity, -Infinity, -Infinity];\n  for (const feature of features) {\n    const [minX, minY, maxX, maxY] = boundsOf(feature.geometry);\n    insert.run(feature.id, encodeGeometry(feature.geometry));\n    index.run(feature.id, minX, maxX, minY, maxY);\n    extent[0] = Math.min(extent[0], minX);\n    extent[1] = Math.min(extent[1], minY);\n    extent[2] = Math.max(extent[2], maxX);\n    extent[3] = Math.max(extent[3], maxY);\n  }\n  return extent;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/gpkg-writer.js",
+      "from": 9,
+      "to": 12,
+      "words": [
+        "nan",
+        "no position",
+        "null geometry",
+        "non-finite",
+        "without coordinates",
+        "no geometry",
+        "constraint"
+      ]
+    }
+  ]
+}

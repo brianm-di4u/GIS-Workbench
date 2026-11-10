@@ -1,5 +1,8 @@
 // Git plumbing. Everything here reads objects only. Nothing checks out or runs
 // PR content, so it is safe on untrusted refs.
+//
+// A local fork: the change hash is diff-based (decision 0008). `pipeline update` keeps this
+// file. Keep `patchLines` and `splitPatch` when merging by hand. See docs/RUNBOOK.md.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 

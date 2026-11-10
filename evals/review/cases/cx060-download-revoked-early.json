@@ -1,0 +1,33 @@
+{
+  "id": "cx060-download-revoked-early",
+  "source": "CX-060",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Save outputs as browser downloads, including multi-GB COGs streamed through temporary files.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/temp.js": "// Temporary files for streamed outputs. A Blob made from them reads from the files while the browser saves it.\nexport async function tempFile(root, name) {\n  const handle = await root.getFileHandle(name, { create: true });\n  return { handle, remove: () => root.removeEntry(name) };\n}\n"
+  },
+  "head": {
+    "src/save.js": "// Save a finished output as a browser download.\nexport function download(blob, name, temps = []) {\n  const url = URL.createObjectURL(blob);\n  const a = document.createElement('a');\n  a.href = url;\n  a.download = name;\n  a.click();\n  for (const temp of temps) temp.remove();\n  setTimeout(() => URL.revokeObjectURL(url), 60_000);\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/save.js",
+      "from": 8,
+      "to": 9,
+      "words": [
+        "revoke",
+        "too early",
+        "too soon",
+        "still saving",
+        "still being",
+        "in progress",
+        "before the download",
+        "large",
+        "minute",
+        "remove"
+      ]
+    }
+  ]
+}

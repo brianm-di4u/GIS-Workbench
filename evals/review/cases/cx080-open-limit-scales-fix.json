@@ -1,0 +1,15 @@
+{
+  "id": "cx080-open-limit-scales-fix",
+  "source": "CX-080",
+  "split": "test",
+  "kind": "clean",
+  "intent": "Let the open time limit grow with the file: 120 s plus 1 s per 10 MB. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/open.js": "const OPEN_LIMIT = 120_000;\n\n// Open a file in a decode worker, giving up after OPEN_LIMIT.\nexport function openWithLimit(worker, file) {\n  return new Promise((resolve, reject) => {\n    const timer = setTimeout(\n      () => reject(new Error('open ' + file.name + ' timed out after ' + OPEN_LIMIT / 1000 + ' s')),\n      OPEN_LIMIT,\n    );\n    worker.post({ op: 'open', file }).then(\n      (handle) => {\n        clearTimeout(timer);\n        resolve(handle);\n      },\n      (error) => {\n        clearTimeout(timer);\n        reject(error);\n      },\n    );\n  });\n}\n"
+  },
+  "head": {
+    "src/open.js": "// The time limit for opening a file: 120 s, plus 1 s per 10 MB.\nexport const openLimit = (bytes) => 120_000 + Math.ceil(bytes / 10e6) * 1000;\n\n// Open a file in a decode worker, giving up after openLimit(file.size).\nexport function openWithLimit(worker, file) {\n  const limit = openLimit(file.size);\n  return new Promise((resolve, reject) => {\n    const timer = setTimeout(\n      () => reject(new Error('open ' + file.name + ' timed out after ' + limit / 1000 + ' s')),\n      limit,\n    );\n    worker.post({ op: 'open', file }).then(\n      (handle) => {\n        clearTimeout(timer);\n        resolve(handle);\n      },\n      (error) => {\n        clearTimeout(timer);\n        reject(error);\n      },\n    );\n  });\n}\n",
+    "tests/open.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { openLimit, openWithLimit } from '../src/open.js';\n\ntest('the limit is 120 s plus 1 s per 10 MB', () => {\n  assert.equal(openLimit(0), 120_000);\n  assert.equal(openLimit(5e6), 121_000);\n  assert.equal(openLimit(1.85e9), 305_000);\n});\n\ntest('a file that opens in time resolves with its handle', async () => {\n  const worker = { post: async () => 'handle-1' };\n  assert.equal(await openWithLimit(worker, { name: 'a.nc', size: 1e6 }), 'handle-1');\n});\n"
+  }
+}

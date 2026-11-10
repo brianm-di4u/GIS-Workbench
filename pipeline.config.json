@@ -7,6 +7,25 @@
   "trustedBots": [
     "dependabot[bot]"
   ],
+  "delegates": [
+    {
+      "login": "gwb-gardener",
+      "approve": true,
+      "decide": [
+        "design",
+        "security",
+        "determination"
+      ],
+      "rearm": true,
+      "direct": true,
+      "since": "2026-11-10T02:53:00Z"
+    }
+  ],
+  "models": {
+    "worker": "sonnet",
+    "workerComplex": "opus",
+    "workerSimple": "haiku"
+  },
   "verify": {
     "fast": [
       "node build/check-policy.mjs",
@@ -83,6 +102,27 @@
       ".claude/skills/**"
     ],
     "decisionPaths": [
+      "docs/decisions/**"
+    ],
+    "adminOnlyPaths": [
+      "docs/POLICY.md",
+      "docs/PRD.md",
+      "LICENSE*",
+      "THIRD_PARTY*",
+      "TRADEMARKS.md",
+      "SECURITY.md",
+      "build/check-policy*",
+      "crates/deny.toml",
+      "build/origins.json",
+      "build/airgap.mjs",
+      "sidecar/installer/licences.json",
+      "build/packs-sources.json",
+      "build/csm/NOTICES.txt",
+      "crates/vendor/**/LICENSE*",
+      "crates/vendor/**/COPYING*",
+      "crates/vendor/**/NOTICE*",
+      ".claude/skills/release/**",
+      ".claude/skills/decision/**",
       "docs/decisions/**"
     ],
     "sizeWarnLines": 800

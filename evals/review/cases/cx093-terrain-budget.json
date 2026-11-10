@@ -1,0 +1,32 @@
+{
+  "id": "cx093-terrain-budget",
+  "source": "CX-093",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Load a DEM into the core as terrain, at every k-th post when it would not fit. Users often load several DEM tiles side by side.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/core.js": "// The core holds at most CORE_POSTS terrain posts in all. Past it an allocation traps, the core\n// restarts, and every loaded terrain is dropped. loadedPosts(core) is how many it holds now.\nexport const CORE_POSTS = 48e6;\n\nexport function loadedPosts(core) {\n  return core.terrains.reduce((sum, t) => sum + t.posts, 0);\n}\n"
+  },
+  "head": {
+    "src/terrain-load.js": "import { CORE_POSTS } from './core.js';\n\n// The step that fits a DEM in the core.\nexport function loadStep(dem) {\n  let step = 1;\n  while (Math.ceil(dem.width / step) * Math.ceil(dem.height / step) > CORE_POSTS) step += 1;\n  return step;\n}\n\nexport function loadTerrain(core, dem) {\n  return core.addTerrain(dem, loadStep(dem));\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/terrain-load.js",
+      "from": 6,
+      "to": 11,
+      "words": [
+        "already loaded",
+        "loadedposts",
+        "other terrain",
+        "existing terrain",
+        "in all",
+        "total",
+        "cumulative",
+        "several",
+        "sum"
+      ]
+    }
+  ]
+}
