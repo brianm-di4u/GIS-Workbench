@@ -22,7 +22,7 @@ export function pickOrbit(ann, orbitFile = null) {
     // not cover this one, still falls back to the annotation's orbit.
     if (orbitFile.mission && ann.missionId && sat(orbitFile.mission) !== sat(ann.missionId)) {
       const e = new Error(`the orbit file is for ${orbitFile.mission}, the image is ${ann.missionId}`);
-      e.code = 'E_SAR_ORBIT_MISSION';
+      Object.assign(e, { code: 'E_SAR_ORBIT_MISSION', orbit: orbitFile.mission, image: ann.missionId });
       throw e;
     }
     // Only the scene's part: two minutes either side.

@@ -349,12 +349,15 @@ export function install(app) {
     return { ...rep, reference: ref.name, dsm: dsm.names?.join(' + ') ?? '', stats: dsm.stats, anchored: !!dsm.stats?.anchored, ...(dsm.stats?.geometry?.sameSide === false ? { warning: 'opposite-side pair, not recommended' } : {}) };
   }
 
-  /** A terrain entry's DSM-like view: its grid, with σ and flags when it is a SAR stereo product. */
+  /**
+   * A terrain entry's DSM-like view: its grid and its heights on the ellipsoid (an orthometric DEM is
+   * converted as the terrain converts it, so levelling never fits the geoid as a bias).
+   */
   function dsmOfTerrain(d) {
     const last = app.sarStereo.last;
     if (last && last.layerId === d.layerId) return last;
     const g = d.grid;
-    return { grid: { lat0: g.lat0, lon0: g.lon0, dlat: g.dlat, dlon: g.dlon, nx: g.width, ny: g.height }, heights: d.current ?? g.heights, sigma: null, flags: null, names: [d.name], stats: null, layerId: d.layerId };
+    return { grid: { lat0: g.lat0, lon0: g.lon0, dlat: g.dlat, dlon: g.dlon, nx: g.width, ny: g.height }, heights: app.terrain.haeHeights(d), sigma: null, flags: null, names: [d.name], stats: null, layerId: d.layerId };
   }
 
   /**

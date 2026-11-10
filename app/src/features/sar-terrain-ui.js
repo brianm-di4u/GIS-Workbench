@@ -12,7 +12,7 @@ import { openImageFile } from '../formats/open.js';
 import { pickOrbit, imageGeometry, windowOver, looks, sargeoParams } from '../analysis/sargeo-job.js';
 import { t, gwError } from '../i18n/index.js';
 import { int } from '../i18n/format.js';
-import { s1Layer } from './sar-terrain.js';
+import { s1Layer } from '../analysis/s1-layer.js';
 
 /** β⁰ (dB) among the decode worker's SAR bands (workers/decode/sicd.js SAR_BANDS). */
 const BETA0 = 5;
@@ -42,35 +42,6 @@ export function install(app) {
     return app.sarTerrain.orbit;
   }
 
-  /** The DEM's heights on the ellipsoid: h = H + N, N from a coarse lattice (the geoid is smooth). */
-  function haeOf(d) {
-    const g = d.grid;
-    const H = d.current ?? g.heights;
-    if (d.vertical === 'hae') return Float32Array.from(H);
-    const step = Math.max(1, Math.ceil(Math.max(g.width, g.height) / 64));
-    const nx = Math.ceil((g.width - 1) / step) + 1;
-    const ny = Math.ceil((g.height - 1) / step) + 1;
-    const pts = [];
-    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) pts.push([g.lon0 + Math.min(i * step, g.width - 1) * g.dlon, g.lat0 - Math.min(j * step, g.height - 1) * g.dlat]);
-    // As the terrain itself converts (its grid only when it was registered with one).
-    const N = app.terrain.separations(d.vertical, pts, !!d.gridV);
-    const out = new Float32Array(g.width * g.height);
-    for (let j = 0; j < g.height; j++) {
-      const fy = Math.min(j / step, ny - 1);
-      const j0 = Math.min(Math.floor(fy), ny - 2 < 0 ? 0 : ny - 2);
-      const wy = ny > 1 ? fy - j0 : 0;
-      for (let i = 0; i < g.width; i++) {
-        const fx = Math.min(i / step, nx - 1);
-        const i0 = Math.min(Math.floor(fx), nx - 2 < 0 ? 0 : nx - 2);
-        const wx = nx > 1 ? fx - i0 : 0;
-        const n = (a, b) => N[Math.min(b, ny - 1) * nx + Math.min(a, nx - 1)];
-        const sep = (n(i0, j0) * (1 - wx) + n(i0 + 1, j0) * wx) * (1 - wy) + (n(i0, j0 + 1) * (1 - wx) + n(i0 + 1, j0 + 1) * wx) * wy;
-        out[j * g.width + i] = H[j * g.width + i] + sep;
-      }
-    }
-    return out;
-  }
-
   /**
    * Terrain-correct SAR layer `layer` onto terrain `dem`. opts: flatten (γ⁰, default true; else β⁰),
    * masks (layover and shadow, default true), orbit (a parsed .EOF; default the last one read),
@@ -82,7 +53,13 @@ export function install(app) {
     const ann = layer.info.meta.s1.annotation;
     const g = dem.grid;
     if (g.width * g.height > MAX_POSTS) throw gwError('terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first', { n: int(g.width * g.height) }, 'E_SAR_SIZE');
-    const orb = pickOrbit(ann, orbit);
+    let orb;
+    try {
+      orb = pickOrbit(ann, orbit);
+    } catch (e) {
+      if (e.code === 'E_SAR_ORBIT_MISSION') throw gwError('the orbit file is for {orbit}, the image is {image}', { orbit: e.orbit, image: e.image }, e.code);
+      throw e;
+    }
     if (!orb) throw gwError('{layer} has no orbit state vectors, and no orbit file covers it', { layer: layer.rec?.name ?? '' }, 'E_SAR_ORBIT');
     const geom = imageGeometry(ann);
     if (!geom) throw gwError('{layer}: the annotation lacks the timing or range sampling geocoding needs', { layer: layer.rec?.name ?? '' }, 'E_SAR_TIMING');
@@ -104,7 +81,7 @@ export function install(app) {
         const read = await app.pool.run('window', { handle: layer.handle, x0: w.x0, y0: w.y0, w: w.w, h: w.h, bands: [BETA0], maxSamples: MAX_WINDOW }, { affinity: layer.affinity, label, timeout: 600000 });
         const L = looks(read.planes[0], w.w, w.h, kl, ks);
         if (!L.nl || !L.ns) throw gwError('terrain correction: the radar window over {dem} is smaller than one look', { dem: dem.name }, 'E_SAR_NO_OVERLAP');
-        const z = haeOf(dem);
+        const z = app.terrain.haeHeights(dem);
         const prm = sargeoParams(orb, ann.t0, geom, g, { l0: w.y0, s0: w.x0, kl, ks, nl: L.nl, ns: L.ns }, { flatten, maskStride: masks ? 1 : 0, maskStep: Math.max(1, dy / 2), maskTol: 0.5 });
         task = app.pool.run('sargeo.run', { prm, z, beta: L.beta }, { kind: 'analysis', transfer: [prm.buffer, z.buffer, L.beta.buffer], timeout: 3600000, label, part: true, onProgress: (p) => job.set(p) });
         const r = await task;

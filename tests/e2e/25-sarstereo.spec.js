@@ -77,11 +77,19 @@ test('REQ-GAP-42 FX-25 SAR stereo: pair finder, radargrammetric DSM with masks, 
     // A DSM read back from a terrain has heights only (no σ, score or flags): it levels and saves too.
     const pg = prior.grid;
     const bare = await app.sarStereo.level({ grid: { lat0: pg.lat0, lon0: pg.lon0, dlat: pg.dlat, dlon: pg.dlon, nx: pg.width, ny: pg.height }, heights: prior.current ?? pg.heights, sigma: null, flags: null, names: [prior.name], stats: null }, tr).then((x) => x.layer.bands, (e) => e.message);
+    // A DEM with orthometric (EGM96) heights levels on the ellipsoid: the truth as H = h − N levels
+    // on the truth by about 0, not by the geoid separation N.
+    const tg = tr.grid;
+    const N = app.core.undulation(tg.lat0 - (tg.height / 2) * tg.dlat, tg.lon0 + (tg.width / 2) * tg.dlon);
+    const Hs = Float32Array.from(tr.current ?? tg.heights, (v, k) => v - app.core.undulation(tg.lat0 - Math.floor(k / tg.width) * tg.dlat, tg.lon0 + (k % tg.width) * tg.dlon));
+    const msl = await app.sarStereo.dsmFromTerrain({ ...tr, vertical: 'egm96', gridV: null, current: Hs });
+    const mslLev = await app.sarStereo.level(msl, tr);
+    const geoid = { N, offset: mslLev.offset };
     const { layer } = await app.sarStereo.saveDsm(dsm);
     // Reopened from its file, the product keeps its σ, score and flags.
     const re = await app.sarStereo.dsmFromTerrain(app.terrain.entry(layer.id));
     const reopened = { flags: re.flags?.length ?? 0, same: re.flags ? re.flags.every((v, k) => v === dsm.flags[k]) : false, sigma: !!re.sigma, sameSide: re.stats?.geometry?.sameSide, prior: re.prior === dsm.prior, items: layer.info?.meta?.gdalItems ?? null };
-    return { lev: { offset: lev.offset, sigma: lev.sigma, used: lev.used, terrain: !!app.terrain.entry(lev.layer.id), truth: levTruth.error, bare, enabled: app.commands.enabled('sar.stereolevel') }, enabled, pairs: pairs.map((p) => ({ ok: p.ok, g: p.geometry, notes: p.notes })), stats: dsm.stats, ms, vsTruth, vsPrior, ridge, ridgeMasked, anch: { stats: anch.stats, prior: anchPrior.error, truth: anchTruth.error }, product: { bands: layer.bands, terrain: !!app.terrain.entry(layer.id), name: layer.rec.name }, reopened };
+    return { lev: { offset: lev.offset, sigma: lev.sigma, used: lev.used, terrain: !!app.terrain.entry(lev.layer.id), truth: levTruth.error, bare, enabled: app.commands.enabled('sar.stereolevel') }, enabled, pairs: pairs.map((p) => ({ ok: p.ok, g: p.geometry, notes: p.notes })), stats: dsm.stats, ms, vsTruth, vsPrior, ridge, ridgeMasked, anch: { stats: anch.stats, prior: anchPrior.error, truth: anchTruth.error }, product: { bands: layer.bands, terrain: !!app.terrain.entry(layer.id), name: layer.rec.name }, reopened, geoid };
   }, { lat: truth.centre.lat, lon: truth.centre.lon, ridge: truth.ridge });
   console.log(JSON.stringify({ ms: r.ms, stats: { matched: r.stats.matched, posts: r.stats.posts, shiftM: r.stats.shiftM, levels: r.stats.levels, latticeMaxPx: r.stats.latticeMaxPx, intersectMaxM: r.stats.intersectMaxM }, vsTruth: { error: r.vsTruth.error, completeness: r.vsTruth.completeness, masked: r.vsTruth.masked, calibration: r.vsTruth.calibration, bySlope: r.vsTruth.bySlope }, vsPrior: r.vsPrior.error, ridge: [r.ridgeMasked, r.ridge], anch: r.anch, lev: r.lev }));
   expect(r.enabled).toEqual([true, true, true]);
@@ -124,6 +132,9 @@ test('REQ-GAP-42 FX-25 SAR stereo: pair finder, radargrammetric DSM with masks, 
   // A heights-only DSM levels to a heights-only product, not to four bands with zero flags.
   expect(r.lev.bare).toBe(1);
   expect(r.reopened).toEqual({ flags: r.stats.posts, same: true, sigma: true, sameSide: true, prior: true, items: { GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '1', GWB_PRIOR: expect.any(String) } });
+  // REG-084: an EGM96 DEM is levelled on the ellipsoid, so the geoid is not fitted as a bias.
+  expect(Math.abs(r.geoid.N)).toBeGreaterThan(1);
+  expect(Math.abs(r.geoid.offset)).toBeLessThan(0.1);
   // The product: four bands, opened as terrain.
   expect(r.product.bands).toBe(4);
   expect(r.product.terrain).toBe(true);

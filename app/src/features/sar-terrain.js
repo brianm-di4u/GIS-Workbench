@@ -3,14 +3,13 @@
 // features/sar-terrain-ui.js), and the `sargeo` WASM bundle for the analysis workers.
 
 import { loadBlock, once, lazyCommands, lazyMethods } from './lazy-host.js';
+// A Sentinel-1 SAFE layer whose annotation carries the timing and orbit geocoding needs, opened with
+// its calibration (β⁰ is read from the calibrated band; without the LUT it is NaN).
+import { s1Layer } from '../analysis/s1-layer.js';
+
+export { s1Layer };
 
 export const name = 'sar-terrain';
-
-/**
- * A Sentinel-1 SAFE layer whose annotation carries the timing and orbit geocoding needs, opened with
- * its calibration (β⁰ is read from the calibrated band; without the LUT it is NaN).
- */
-export const s1Layer = (l) => !!l?.info?.meta?.s1?.annotation?.orbit?.t?.length && !!l.info.meta.s1.files?.calibration;
 
 export function install(app) {
   if (app.pool?.lazyModules && !app.pool.lazyModules.sargeo) app.pool.lazyModules.sargeo = () => app.gw.wasm('wasm-sargeo');

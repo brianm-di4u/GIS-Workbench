@@ -52622,8 +52622,22 @@
    "error": true
   },
   {
+   "key": "open a DSM and a reference DEM as terrain first",
+   "src": "open a DSM and a reference DEM as terrain first",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "open a SAR image (SICD) first",
    "src": "open a SAR image (SICD) first",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "open a Sentinel-1 SAFE product with its annotation and calibration first",
+   "src": "open a Sentinel-1 SAFE product with its annotation and calibration first",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -57826,6 +57840,13 @@
     "features/terrain-analysis.js"
    ],
    "error": true
+  },
+  {
+   "key": "the orbit file is for {orbit}, the image is {image}",
+   "src": "the orbit file is for {orbit}, the image is {image}",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
   },
   {
    "key": "the orbit file is in the {frame} frame; an earth-fixed one is needed",

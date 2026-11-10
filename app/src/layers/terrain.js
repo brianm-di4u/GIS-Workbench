@@ -91,6 +91,37 @@ export class Terrain {
     return pts.map(([lon, lat], k) => (Number.isFinite(s?.[k]) ? s[k] : this.app.core.undulation(lat, lon)));
   }
 
+  /**
+   * A terrain entry's heights on the ellipsoid (h = H + N) as a new Float32Array, N from a coarse
+   * lattice of separations (the geoid is smooth), converted as the terrain itself converts them.
+   */
+  haeHeights(d) {
+    const g = d.grid;
+    const H = d.current ?? g.heights;
+    if (d.vertical === 'hae') return Float32Array.from(H);
+    const step = Math.max(1, Math.ceil(Math.max(g.width, g.height) / 64));
+    const nx = Math.ceil((g.width - 1) / step) + 1;
+    const ny = Math.ceil((g.height - 1) / step) + 1;
+    const pts = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) pts.push([g.lon0 + Math.min(i * step, g.width - 1) * g.dlon, g.lat0 - Math.min(j * step, g.height - 1) * g.dlat]);
+    const N = this.separations(d.vertical, pts, !!d.gridV);
+    const out = new Float32Array(g.width * g.height);
+    const n = (a, b) => N[Math.min(b, ny - 1) * nx + Math.min(a, nx - 1)];
+    for (let j = 0; j < g.height; j++) {
+      const fy = Math.min(j / step, ny - 1);
+      const j0 = Math.min(Math.floor(fy), Math.max(0, ny - 2));
+      const wy = ny > 1 ? fy - j0 : 0;
+      for (let i = 0; i < g.width; i++) {
+        const fx = Math.min(i / step, nx - 1);
+        const i0 = Math.min(Math.floor(fx), Math.max(0, nx - 2));
+        const wx = nx > 1 ? fx - i0 : 0;
+        const sep = (n(i0, j0) * (1 - wx) + n(i0 + 1, j0) * wx) * (1 - wy) + (n(i0, j0 + 1) * (1 - wx) + n(i0 + 1, j0 + 1) * wx) * wy;
+        out[j * g.width + i] = H[j * g.width + i] + sep;
+      }
+    }
+    return out;
+  }
+
   verticalName(vertical, gridV = null) {
     if (gridV) return gridV.label;
     const g = this.app.core.demGeoid ?? 'EGM96';

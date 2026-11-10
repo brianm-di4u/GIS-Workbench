@@ -625,6 +625,8 @@ export function needOf(app, id) {
   const pane = app.activePane?.();
   const open = (app.layers?.size ?? 0) > 0 || !!pane?.video || !!pane?.view3d;
   if (id === 'stereo.open') return t('open two images with 3-D sensor models in this panel first');
+  if (id === 'sar.terrain') return t('open a Sentinel-1 SAFE product with its annotation and calibration first');
+  if (id === 'sar.stereolevel') return t('open a DSM and a reference DEM as terrain first');
   if (cat === 'stereo') return t('open the Stereo Panel first');
   if (cat === 'scene3d') return open ? t('show the 3D view first') : t('open a georeferenced image or a point cloud first');
   if (NEED[cat]) return tr(NEED[cat]);
