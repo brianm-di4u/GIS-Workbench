@@ -47,10 +47,12 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   const code = everything || paths.some((path) => !isProse(path));
   const rust = everything || paths.some((path) => path.startsWith('crates/') && !isProse(path));
   const rustAll = everything || crates === null || paths.some((path) => RUST_EVERYTHING.test(path));
+  // The checker's own changes count too, so a stricter rule is tried on the fragments already there.
+  const fragments = everything || paths.some((path) => path.startsWith('changes/') || path === 'build/release/changelog.mjs');
   const sidecar = everything || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
 
   const steps = [];
-  const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
+  const step = (name, command, args, cwd, after) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}), ...(after ? { after } : {}) });
   const cargoDeny = ['deny', '--locked', '--all-features', 'check', 'licenses', 'bans', 'sources'];
   // Bug-class lints only: correctness and suspicious. Style lints stay off.
   const clippy = (targets) => ['clippy', '--locked', '--all-targets', '--keep-going', ...targets, '--', '-A', 'clippy::all', '-D', 'clippy::correctness', '-D', 'clippy::suspicious'];
@@ -58,6 +60,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
     step('Civilian-use check', 'node', ['build/check-policy.mjs']);
+    if (fragments) step('Changelog fragments', 'node', ['build/release/changelog.mjs', 'check']);
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
       const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
@@ -67,7 +70,9 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
       }
     }
     if (code) {
+      step('Source catalogue', 'node', ['build/i18n.mjs', 'extract', '--check']);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
+      step('Size report', 'node', ['build/size-report.mjs'], undefined, 'Strict build');
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
       step('Browser subset', 'npx', ['playwright', 'test', '--project=ci']);
     }
@@ -124,7 +129,13 @@ function main() {
   // Every step runs even after a failure: a CI run is too slow to find problems one at a time.
   const failed = [];
   const env = { ...process.env, GWB_PARTIAL_DATA: '1' };
-  for (const { name, command, args, cwd } of steps) {
+  for (const { name, command, args, cwd, after } of steps) {
+    // A step that reads another's output says so, and skips when that step failed, rather than
+    // reporting on a stale or half-written file.
+    if (after && failed.includes(after)) {
+      console.log(`\n=== ${name}: skipped, because ${after} failed`);
+      continue;
+    }
     console.log(`\n=== ${name}`);
     const started = Date.now();
     const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, env, shell: process.platform === 'win32' });
