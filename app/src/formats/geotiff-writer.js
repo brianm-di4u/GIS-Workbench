@@ -90,8 +90,9 @@ export function geoKeys({ epsg, vertical = null }) {
   keys.push(geographic ? [2048, 0, 1, epsg] : [3072, 0, 1, epsg]);
   if (geographic) keys.push([2054, 0, 1, 9102]); // angular unit: degree
   else keys.push([3076, 0, 1, 9001]); // linear unit: metre
-  // VerticalCSTypeGeoKey (GeoTIFF 1.1): 5030 WGS 84 ellipsoid (HAE), 5773 EGM96, 3855 EGM2008, 5703 NAVD88; metres.
-  const vcs = { hae: 5030, egm96: 5773, egm2008: 3855, navd88: 5703 }[vertical];
+  // VerticalCSTypeGeoKey (GeoTIFF 1.1): 5030 WGS 84 ellipsoid (HAE), 5773 EGM96, 3855 EGM2008,
+  // 5703 NAVD88; metres. guessVertical (features/dem.js) reads each back.
+  const vcs = { hae: 5030, egm96: 5773, egm2008: 3855, navd88: 5703, odn: 5701, ahd: 5711, cgvd2013: 6647 }[vertical];
   if (vcs) keys.push([4096, 0, 1, vcs], [4099, 0, 1, 9001]);
   keys.sort((a, b) => a[0] - b[0]);
   return [1, 1, 1, keys.length, ...keys.flat()]; // GeoTIFF 1.1 (KeyDirectoryVersion 1, revision 1.1)

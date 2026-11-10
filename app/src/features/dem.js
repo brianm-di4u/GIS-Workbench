@@ -16,6 +16,9 @@ const MODES = { 'dem.hillshade': 'hillshade', 'dem.slope': 'slope', 'dem.aspect'
 const MODE_LABEL = { hillshade: N_('Hillshade'), slope: N_('Slope'), aspect: N_('Aspect'), relief: N_('Relief') };
 const OK_CANCEL = () => [{ label: t('OK'), value: 'ok', primary: true }, { label: t('Cancel'), value: 'cancel' }];
 
+/** The datums Use as Terrain offers, in order: every value guessVertical can return. */
+export const TERRAIN_VERTICALS = ['egm96', 'egm2008', 'hae', 'navd88', 'odn', 'ahd', 'cgvd2013'];
+
 /** Vertical datum from GeoTIFF keys, GDAL metadata or the file name (REQ-DEM-02). */
 export function guessVertical(l) {
   const keys = l.info.meta?.geoKeys ?? {};
@@ -23,7 +26,10 @@ export function guessVertical(l) {
   if (v === 5773 || v === 5171) return 'egm96';
   if (v === 3855 || v === 1027) return 'egm2008';
   if (v === 5703 || v === 5103) return 'navd88';
-  if (v === 4979 || v === 6326 || v === 4326) return 'hae';
+  if (v === 5701 || v === 5101) return 'odn';
+  if (v === 5711 || v === 5111) return 'ahd';
+  if (v === 6647) return 'cgvd2013';
+  if (v === 5030 || v === 4979 || v === 6326 || v === 4326) return 'hae';
   const n = `${l.rec?.name ?? ''} ${l.info.meta?.gdalMetadata ?? ''}`;
   if (/copernicus|COP[-_]?DEM|COP30|COP90|EGM2008|EGM08/i.test(n)) return 'egm2008';
   if (/NAVD\s?88/i.test(n)) return 'navd88';
@@ -169,7 +175,9 @@ export function install(app) {
 
   app.terrainDialog = async (l) => {
     const via = (v) => app.terrain.converter(v);
-    const sel = h('select', { class: 'inp' }, [['egm96', tr(N_('Orthometric, EGM96 (SRTM, DTED, most global DEMs)'))], ['egm2008', t('Orthometric, EGM2008 (Copernicus DEM; converted with {geoid})', { geoid: via('egm2008') })], ['hae', tr(N_('Ellipsoidal (HAE, WGS 84)'))], ['navd88', t('NAVD88 (converted with {geoid})', { geoid: via('navd88') })]].map(([v, text]) => h('option', { value: v }, text)));
+    const label = { egm96: () => tr(N_('Orthometric, EGM96 (SRTM, DTED, most global DEMs)')), egm2008: () => t('Orthometric, EGM2008 (Copernicus DEM; converted with {geoid})', { geoid: via('egm2008') }), hae: () => tr(N_('Ellipsoidal (HAE, WGS 84)')), navd88: () => t('NAVD88 (converted with {geoid})', { geoid: via('navd88') }) };
+    const other = { odn: 'ODN', ahd: 'AHD', cgvd2013: 'CGVD2013' };
+    const sel = h('select', { class: 'inp' }, TERRAIN_VERTICALS.map((v) => h('option', { value: v }, label[v]?.() ?? t('{datum} (converted with {geoid})', { datum: other[v], geoid: via(v) }))));
     sel.value = guessVertical(l);
     const body = h('div', {}, field(t('Vertical datum of the heights'), sel), h('p', { class: 'hint' }, t('Heights convert to HAE before any sensor-model call (REQ-GEO-03). The choice is recorded with the terrain and shown wherever its heights are used.')));
     if ((await modal({ title: t('Use as Terrain — {layer}', { layer: l.rec.name }), body, buttons: OK_CANCEL(), id: 'use-terrain' })) !== 'ok') return;

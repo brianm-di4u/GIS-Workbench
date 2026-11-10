@@ -59822,6 +59822,13 @@
    ]
   },
   {
+   "key": "{datum} (converted with {geoid})",
+   "src": "{datum} (converted with {geoid})",
+   "refs": [
+    "features/dem.js"
+   ]
+  },
+  {
    "key": "{datum} (needs a grid pack)",
    "src": "{datum} (needs a grid pack)",
    "refs": [
@@ -59847,6 +59854,13 @@
    "src": "{datum} needs a grid pack: open its data pack first",
    "refs": [
     "features/datum-grids.js"
+   ]
+  },
+  {
+   "key": "{datum}, converted with {geoid}: its grid is not loaded",
+   "src": "{datum}, converted with {geoid}: its grid is not loaded",
+   "refs": [
+    "features/tin-editor.js"
    ]
   },
   {
