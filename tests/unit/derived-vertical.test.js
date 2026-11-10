@@ -2,7 +2,7 @@
 // each datum reads back as the same datum, and TIN heights convert through the datum's own grid.
 import { describe, it, expect } from 'vitest';
 import { geoKeys } from '../../app/src/formats/geotiff-writer.js';
-import { guessVertical } from '../../app/src/features/dem.js';
+import { guessVertical, TERRAIN_VERTICALS } from '../../app/src/features/dem.js';
 import { GridEngine, VERTICALS } from '../../app/src/geo/grids.js';
 import { Terrain } from '../../app/src/layers/terrain.js';
 
@@ -20,6 +20,8 @@ describe('#92 the vertical key round-trips', () => {
     it(vertical, () => {
       const l = { rec: { name: 'DTM_x.tif' }, info: { meta: { geoKeys: keysOf(geoKeys({ epsg: 4326, vertical })) } } };
       expect(guessVertical(l)).toBe(vertical);
+      // Use as Terrain must offer what it proposes, or its select is left empty.
+      expect(TERRAIN_VERTICALS).toContain(vertical);
     });
   }
 });

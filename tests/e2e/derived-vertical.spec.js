@@ -27,4 +27,13 @@ test('#86 #92 derived DEMs keep the source vertical datum', async ({ page }) => 
   console.log(JSON.stringify(r));
   expect(r.egm2008).toEqual({ tin: 'egm2008', dtm: { terrain: 'egm2008', key: 3855 }, tinDem: { terrain: 'egm2008', key: 3855 } });
   expect(r.navd88).toEqual({ tin: 'navd88', dtm: { terrain: 'navd88', key: 5703 }, tinDem: { terrain: 'navd88', key: 5703 } });
+  // A DEM keyed ODN (as a derived ODN DEM is written) opens Use as Terrain with ODN chosen, not an empty select.
+  await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const src = [...app.layers.values()].find((l) => /dsm_truth/.test(l.rec.name));
+    src.info.meta.geoKeys = { ...src.info.meta.geoKeys, VerticalCSTypeGeoKey: 5701 };
+    app.terrainDialog(src);
+  });
+  await expect(frame.locator('[data-id="dialog:use-terrain"] select')).toHaveValue('odn');
+  await expect(frame.locator('[data-id="dialog:use-terrain"] option[value="odn"]')).toContainText('ODN (converted with');
 });
