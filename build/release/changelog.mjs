@@ -54,7 +54,7 @@ export function assemble(fragments, { version, date, summary }) {
 /** CHANGELOG.md with the block above its newest release. */
 export function insertRelease(changelog, block, version) {
   const text = changelog.replace(/\r\n?/g, '\n');
-  if (new RegExp(`^## \\[${version.replace(/\./g, '\\.')}\\]`, 'm').test(text)) throw new Error(`CHANGELOG.md already has ${version}`);
+  if (text.split('\n').some((line) => line.startsWith(`## [${version}]`))) throw new Error(`CHANGELOG.md already has ${version}`);
   const at = text.search(/^## \[/m);
   return at < 0 ? `${text.trimEnd()}\n\n${block}` : `${text.slice(0, at)}${block}\n${text.slice(at)}`;
 }

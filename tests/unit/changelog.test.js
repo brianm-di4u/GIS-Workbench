@@ -50,6 +50,10 @@ describe('changelog fragments', () => {
     const log = '# Changelog\n\nIntro.\n\n## [2.6.0] - 2026-11-06\n\n### Fixed\n- old\n';
     expect(insertRelease(log, block, '2.7.0')).toBe(`# Changelog\n\nIntro.\n\n${block}\n## [2.6.0] - 2026-11-06\n\n### Fixed\n- old\n`);
     expect(() => insertRelease(log, block, '2.6.0')).toThrow(/already has 2.6.0/);
+    // The version is matched as text, not a pattern: '.' is no wildcard, and '(' or '\' can't break it.
+    expect(insertRelease(log, block, '2x6x0')).toContain('## [2.6.0]');
+    expect(insertRelease(log, block, '2.6.0(')).toContain('## [2.6.0]');
+    expect(insertRelease(log, block, '2.6.0\\')).toContain('## [2.6.0]');
   });
 
   it('accepts every section of the real CHANGELOG.md as a fragment', () => {
