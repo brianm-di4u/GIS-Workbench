@@ -30,19 +30,33 @@ describe('the admin-only paths in use', () => {
   it('flag real file names, and leave ordinary code alone', () => {
     const config = loadConfig('pipeline.config.json', { warn: () => {} });
     const change = (path) => ({ path, oldMode: '100644', newMode: '100644', oldSha: 'a', newSha: 'b' });
-    const flagged = (path) => classify({ changes: [change(path)], config, author: 'brianm-di4u' }).flags.adminOnly;
+    const flagged = (path) => classify({ changes: [change(path)], config, author: config.admins[0] }).flags.adminOnly;
     for (const path of ['docs/POLICY.md', 'LICENSE', 'LICENSE-APACHE', 'THIRD_PARTY.md', 'THIRD_PARTY_NOTICES.md', 'TRADEMARKS.md', '.pipeline/gate.mjs']) {
       expect(flagged(path), path).toEqual([path]);
     }
     expect(flagged('app/src/main.js')).toEqual([]);
+    // The root-level globs do not reach nested licence files. See "Left to the admin's choice" in decision 0012.
+    expect(flagged('crates/vendor/fax/LICENSE')).toEqual([]);
   });
 });
 
 describe('release.yml', () => {
-  it('runs every job only for the repository owner', () => {
-    const text = readFileSync('.github/workflows/release.yml', 'utf8');
-    const jobs = text.slice(text.indexOf('\njobs:\n')).split(/\n {2}(?=[a-z][\w-]*:\n)/).slice(1);
-    expect(jobs.length).toBeGreaterThan(1);
-    for (const job of jobs) expect(job, job.split('\n')[0]).toMatch(/\n {4}if: .*github\.triggering_actor == github\.repository_owner/);
+  const text = readFileSync('.github/workflows/release.yml', 'utf8');
+  // One entry per job, split at each two-space job key, with or without a trailing comment.
+  const jobs = text.slice(text.indexOf('\njobs:\n')).split(/\n {2}(?=[a-z][\w-]*:[ \t]*(?:#.*)?\n)/).slice(1);
+  const OWNER =
+    "(github.event.repository.owner.type == 'Organization' || (github.actor == github.repository_owner && github.triggering_actor == github.repository_owner))";
+
+  it('has the jobs it should', () => {
+    expect(jobs.map((job) => job.match(/^([a-z][\w-]*):/)[1])).toEqual(['check', 'app', 'sidecar', 'rebuild', 'attest', 'draft', 'promote']);
+  });
+
+  it('runs every job only for the repository owner, by the same expression', () => {
+    for (const job of jobs) {
+      const condition = job.match(/\n {4}if: (.*)\n/)?.[1];
+      expect(condition, job.split('\n')[0]).toBeDefined();
+      expect(condition, job.split('\n')[0]).toContain(OWNER);
+      expect(condition).toMatch(/^\$\{\{ (.* && )?\(github\.event\.repository\.owner\.type/);
+    }
   });
 });

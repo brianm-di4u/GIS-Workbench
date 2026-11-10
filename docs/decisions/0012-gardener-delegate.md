@@ -17,7 +17,7 @@ A separate GitHub account, `gwb-gardener`, is a delegate in `pipeline.config.jso
 - anything that defines the Gardener's own authority, which is a floor built into the pipeline: `pipeline.config.json`, `pipeline.lock.json`, `.pipeline/**`, the hooks, `.claude/settings*.json`, the gardener skill, and the `gate`, `decisions`, `post-merge`, `audit` and `release` workflows. This repo adds `docs/POLICY.md`, `docs/PRD.md`, `LICENSE*`, `THIRD_PARTY*` and `TRADEMARKS.md` under `tiers.adminOnlyPaths`. Config can add to the floor and never take from it;
 - every change to a workflow or action, because `approveWorkflows` is left unset;
 - decisions of class legal or major, and any the bot couldn't classify;
-- every public release, betas included, and `release.yml` now refuses any actor but the repo owner on every job;
+- every public release, betas included, and `release.yml` now refuses any actor but the repo owner on every job (on a personal repo; an organization has no single owner login, so the check does not apply there);
 - PRD scope, policy, money, repository settings and secrets, the site repo, and a second breaker trip in one window;
 - lifting a suspension of the Gardener.
 
@@ -32,19 +32,20 @@ A separate GitHub account, `gwb-gardener`, is a delegate in `pipeline.config.jso
 - **The `workflow` scope lets the Gardener's token change CI.** So the Gardener's limits hold against mistakes and stale judgement, not against a deliberate bypass or a successful prompt injection. The forged-gate check catches one such bypass after the merge, not before. Dropping the scope removes the risk, at the cost of workflow pushes staying with the admin. The mechanisms are for a draft security advisory, not this record.
 - **Releases stay the admin's by policy, not by token.** Any agent with write access can create a release through the API, as today. The delegate's guard and the owner check in `release.yml` stop the Gardener's accidents. A worker session is held only by policy.
 - **Shared blind spots.** A Fable Gardener reviewing Opus and Sonnet work can miss what they miss. The suspend rule and the revert rate are the check.
-- **The worker gate is still soft.** Workers hold a token under the admin's login, and the Gardener's token file is readable by any session of the admin's Windows user. Moving workers to their own account, and the token to a separate OS user, are the later fixes.
+- **The worker gate is still soft.** Workers hold a token under the admin's login, and the Gardener's token is held in a file on the admin's machine, so any session of that Windows user may reach it. Moving workers to their own account, and the token to a separate OS user, are the later fixes.
 - **Class decides who rules on a decision.** The bot records the class at open so the Gardener can't lower it, but a worker can mis-class at filing. The Gardener re-judges the class and escalates when it disagrees.
+- **The Gardener reads untrusted text and its issues start work.** With `direct`, an issue the Gardener files and labels `ready` becomes work for a worker, and the Gardener reads pull request bodies, Dependabot release notes and worker reports. Text an outsider controls can reach a worker as an instruction, through one model step, and the worker acts under the admin's token. Setting `direct` to false sends the Gardener's issues through `triage` like any other agent's.
 - **The hash residual from 0008 now covers Gardener approvals.** A change hash without context lets anyone who can push after an approval move the approved lines within a file and keep the approval. Workers push under the admin's login, so no delegate-touch marker fires. The Gardener reads the diff on the head it approves, which is the mitigation.
 - **Unverified until the Gardener first runs:** that the clone's local settings override the user-level token for both `gh` and the guard hook. If they don't, the guard denies, which is the safe failure.
 
 ## Left to the admin's choice
 
-The council raised two gaps in the grant. Neither is fixed here, because each changes the authority model the admin approved.
+**These are open. This record does not settle them.** The council raised two gaps in the grant. Neither is fixed here, because each changes the authority model the admin approved, and the admin should pick from the lists below.
 
-- **Enforcement files.** `tiers.adminOnlyPaths` lists the rule files (`docs/POLICY.md`, `docs/PRD.md`, `LICENSE*`, `THIRD_PARTY*`, `TRADEMARKS.md`) but not the files that enforce them or steer agents: `build/check-policy*`, `crates/deny.toml`, `build/origins.json`, `build/airgap.mjs`, `**/CLAUDE.md`, `AGENTS.md`, `REVIEW.md`, the council's seats and round script (`.claude/agents/**`, `.claude/workflows/**`), and the `decision`, `release` and `full-send` skills. They are T2, so the Gardener may approve changes to them. Adding them sends more PRs to the admin.
+- **Enforcement files.** `tiers.adminOnlyPaths` lists the rule files (`docs/POLICY.md`, `docs/PRD.md`, `LICENSE*`, `THIRD_PARTY*`, `TRADEMARKS.md`) but not the files that enforce them or steer agents: `build/check-policy*`, `crates/deny.toml`, `build/origins.json`, `build/airgap.mjs`, `**/CLAUDE.md`, `AGENTS.md`, `REVIEW.md`, the council's seats and round script (`.claude/agents/**`, `.claude/workflows/**`), and the `decision`, `release` and `full-send` skills. Files that carry licence or third-party terms are in the same position: `crates/vendor/**` (each vendored crate's own licence files), `sidecar/installer/licences.json`, `build/packs-sources.json`, `build/csm/NOTICES.txt` and `SECURITY.md`. The `LICENSE*` and `THIRD_PARTY*` globs match only root-level names. They are T2, so the Gardener may approve changes to them. Adding them sends more PRs to the admin.
 - **Decision records.** `docs/decisions/**` is not admin-only. A record that cites no `/decide` is T2, and the Gardener may approve it, which then settles the question for every agent. Adding `docs/decisions/**` to `tiers.adminOnlyPaths` makes every record need the admin.
 
-Both are one-line config changes, and the admin can make either at approval.
+Both are one-line config changes, and the admin can make either at approval. A record that says "approved in chat" cannot be told from a forged one by the gate, which is why the second matters.
 
 ## Baseline
 
