@@ -440,6 +440,7 @@ const CATALOG = [
   // ---- 2.5 SAR stereo terrain (gap wave T0b, group sarstereo, REQ-GAP-42) ----
   ['sar.stereopairs', N_('Stereo Pair Finder…'), 'stereo', 'REQ-GAP-42', 'R8', '', N_('Ranks pairs of the open SICDs for radargrammetry: intersection angle, same or opposite side, look, incidence, days apart, overlap and height sensitivity.')],
   ['sar.stereodsm', N_('SAR Stereo DSM…'), 'terrain', 'REQ-GAP-42', 'R8', '', N_('A DSM from two SICDs: both images sampled on the ground through their models, speckle-aware matching about a prior DEM, layover and shadow masks, and a height and σ per post.')],
+  ['sar.terrain', N_('Terrain Correction…'), 'terrain', 'REQ-GAP-90', 'R10', '', N_('Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.')],
   ['sar.stereoreport', N_('DSM Accuracy Report…'), 'report', 'REQ-GAP-42', 'R8', '', N_('Compares a DSM with a reference DEM: bias, NMAD, RMSE, LE90, completeness and the masked share, by slope, and how well the stated σ predicts the error.')],
   ['pc.header', N_('Header'), 'info', 'REQ-LDR-01', 'R2', '', N_('The LAS header, VLRs, CRS and class counts.')],
   ['pc.close', N_('Close 3D View'), 'close', 'REQ-LDR-04', 'R2'],

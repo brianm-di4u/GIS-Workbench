@@ -1,0 +1,11 @@
+[package]
+name = "gw-sargeo"
+description = "GIS Workbench SAR geocoding and terrain correction: orbits, range-Doppler, backward geocoding, gamma-nought flattening (REQ-GAP-90)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+gw-geodesy.workspace = true
+gw-terrain.workspace = true

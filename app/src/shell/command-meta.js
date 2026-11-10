@@ -552,6 +552,7 @@ const KW = {
   'hydro.flow': [N_('hydrology'), N_('flow direction'), N_('flow accumulation'), 'd8', 'dinf', N_('drainage')],
   'hydro.streams': [N_('hydrology'), N_('rivers'), N_('channels'), N_('drainage network'), 'strahler', 'shreve'],
   'hydro.watershed': [N_('hydrology'), N_('catchment'), N_('drainage basin'), N_('pour point'), N_('gauge')],
+  'sar.terrain': [N_('terrain correction'), N_('geocoding'), N_('orthorectification'), N_('range-Doppler'), N_('gamma nought'), N_('radiometric terrain flattening'), N_('orbit file'), 'RTC', 'POEORB'],
   'vec.buffer': [N_('buffer'), N_('offset'), N_('distance zone'), N_('geodesic')],
   'vec.overlay': [N_('intersect'), N_('union'), N_('erase'), N_('clip'), N_('difference'), N_('symmetric difference')],
   'vec.dissolve': [N_('merge'), N_('aggregate'), N_('union by attribute')],
