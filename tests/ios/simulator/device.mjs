@@ -229,7 +229,13 @@ export class Safari {
     await sleep(500);
     await this.inNative();
     try {
-      const id = await this.find('-ios predicate string', `label == "gw-calibrate"`);
+      // The button reaches the accessibility tree some time after it is added; 500 ms was not
+      // always enough on the runner (#185).
+      let id;
+      for (const end = Date.now() + 5000; !id; await sleep(250)) {
+        [id] = await this.findAll('-ios predicate string', `label == "gw-calibrate"`);
+        if (!id && Date.now() > end) throw new Error('the calibration button never reached the accessibility tree');
+      }
       const r = await this.cmd('GET', `/element/${id}/rect`);
       this.calibrated = { key, x: r.x - 100, y: r.y - 200 };
       note('page-origin', this.calibrated);

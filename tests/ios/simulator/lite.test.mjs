@@ -245,7 +245,15 @@ describe('real input', () => {
     const v0 = await view();
     await s.swipe(c.cx, c.cy - 80, c.cx, c.cy + 80);
     await sleep(500);
-    const v1 = await view();
+    let v1 = await view();
+    if (v1.cx === v0.cx && v1.cy === v0.cy) {
+      // The first touch of a test is sometimes lost on the runner (#185), as in openSheet.
+      retries += 1;
+      note('tap-retries', retries);
+      await s.swipe(c.cx, c.cy - 80, c.cx, c.cy + 80);
+      await sleep(500);
+      v1 = await view();
+    }
     assert.ok(Math.hypot(v1.cx - v0.cx, v1.cy - v0.cy) > 0, 'the view panned');
     await s.hold(c.cx, c.cy);
     await s.until(visible('m:point'), { timeout: 8000, what: 'the point sheet' });
