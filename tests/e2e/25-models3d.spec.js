@@ -37,7 +37,7 @@ async function app(page) {
   await page.addInitScript(() => delete window.showSaveFilePicker); // saves become downloads
   return openApp(page, 'file', { prefs: { welcomeDone: true, network: 'online' } });
 }
-const quiet = (logs) => logs.filter((l) => !/favicon|ERR_CONNECTION_REFUSED|WebGL|GPU stall|GL Driver/.test(l));
+const quiet = (logs) => logs.filter((l) => !/ERR_CONNECTION_REFUSED|WebGL|GPU stall|GL Driver/.test(l));
 
 /** The I3S layers of the 3D view after `settle`: stats and depth reached. */
 const settle = (frame, ms = 120000) =>

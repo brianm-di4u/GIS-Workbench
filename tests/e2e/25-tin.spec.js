@@ -344,7 +344,7 @@ test('REQ-GAP-39 FX-02 TIN: build, edits, ridge and drain, undo, display, TIN to
   await expect(imp).toBeVisible();
   expect(await axeOn(frame, '[data-id="dialog:tin-import"]')).toEqual([]);
   await imp.locator('button.btn', { hasText: 'Cancel' }).click();
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-39 FX-09 TIN from LiDAR ground points through the New TIN dialog', async ({ page }) => {
@@ -383,7 +383,7 @@ test('REQ-GAP-39 FX-09 TIN from LiDAR ground points through the New TIN dialog',
   expect(r.vertical).toBe('hae');
   expect(r.nan).toBe(0);
   expect(r.p99).toBeLessThan(0.01);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
 
 test('REQ-GAP-39 a TIN and its edits come back from a project file in a fresh page', async ({ page }) => {
@@ -428,8 +428,8 @@ test('REQ-GAP-39 a TIN and its edits come back from a project file in a fresh pa
   expect(back.info.triangles).toBe(saved.info.triangles);
   expect(back.info.lines).toBe(saved.info.lines.length);
   expect(back.heights).toEqual(saved.heights);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
-  expect(logs2.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
+  expect(logs2).toEqual([]);
 });
 
 // OD-2.41 (REQ-GAP-39 amended 2.7): Import TIN keeps a LandXML surface's own faces. The file is a
@@ -518,8 +518,8 @@ test('REQ-GAP-39 OD-2.41 Import TIN keeps a LandXML file\'s own faces, outline, 
   expect(keys.ring).toBeGreaterThanOrEqual(2 ** 40);
   expect(keys.added).toBeLessThan(2 ** 40);
   expect(keys.rings).toBe(2);
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
-  expect(logs2.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
+  expect(logs2).toEqual([]);
 });
 
 // #77: a file whose faces are all hidden has no surface of its own; the import says so.
@@ -544,5 +544,5 @@ test('REQ-GAP-39 OD-2.41 Import TIN says when every face in a LandXML file is hi
   expect(r.rings).toBe(0); // no outline of visible faces, so nothing is excluded
   expect(r.excluded).toBe(0);
   await expect(frame.locator('.toast.toast-warn', { hasText: 'hidden.xml' })).toBeVisible();
-  expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+  expect(logs).toEqual([]);
 });
