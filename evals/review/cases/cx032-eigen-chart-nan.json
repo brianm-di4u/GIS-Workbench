@@ -1,0 +1,28 @@
+{
+  "id": "cx032-eigen-chart-nan",
+  "source": "CX-032",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Draw the eigenvalue chart after PCA or MNF, with bars scaled to the largest eigenvalue. Eigenvalues come straight from the decomposition.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/eigen-chart.js": "// Bars for the eigenvalue chart, scaled to the largest eigenvalue.\nexport function eigenBars(values, height, barWidth = 12) {\n  const max = Math.max(...values);\n  return values.map((v, i) => ({ x: i * barWidth, width: barWidth - 2, height: (v / max) * height }));\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/eigen-chart.js",
+      "from": 3,
+      "to": 4,
+      "words": [
+        "nan",
+        "zero",
+        "divide",
+        "division",
+        "non-finite",
+        "negative"
+      ]
+    }
+  ]
+}

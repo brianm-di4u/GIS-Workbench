@@ -1,0 +1,33 @@
+{
+  "id": "cx076-unknown-crs",
+  "source": "CX-076",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Measure > Centre Point of a line feature: the geodesic midpoint of its ends.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/layers.js": "// Vector layers are reprojected to longitude/latitude on import when their CRS is known. When it is\n// not (layer.crs is null), coordinates are kept as given.\nexport function vectorLayer(features, crs) {\n  return { kind: 'vector', features, crs };\n}\n",
+    "src/geodesy.js": "function check(lat) {\n  if (!(lat >= -90 && lat <= 90)) throw new Error('latitude ' + lat + ' not in [-90, 90]');\n}\n\n// The midpoint of the geodesic between two points, on a sphere.\nexport function geodesicMidpoint(lon1, lat1, lon2, lat2) {\n  check(lat1);\n  check(lat2);\n  const r = Math.PI / 180;\n  const bx = Math.cos(lat2 * r) * Math.cos((lon2 - lon1) * r);\n  const by = Math.cos(lat2 * r) * Math.sin((lon2 - lon1) * r);\n  const lat = Math.atan2(Math.sin(lat1 * r) + Math.sin(lat2 * r), Math.hypot(Math.cos(lat1 * r) + bx, by));\n  const lon = lon1 * r + Math.atan2(by, Math.cos(lat1 * r) + bx);\n  return { lon: lon / r, lat: lat / r };\n}\n"
+  },
+  "head": {
+    "src/centre.js": "import { geodesicMidpoint } from './geodesy.js';\n\n// Measure > Centre Point of a line feature.\nexport function lineCentre(layer, feature) {\n  const coords = feature.geometry.coordinates;\n  const [lon1, lat1] = coords[0];\n  const [lon2, lat2] = coords[coords.length - 1];\n  return geodesicMidpoint(lon1, lat1, lon2, lat2);\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/centre.js",
+      "from": 6,
+      "to": 8,
+      "words": [
+        "crs",
+        "projected",
+        "not longitude",
+        "not lon",
+        "degrees",
+        "unknown",
+        "not recognised",
+        "not recognized",
+        "layer.crs"
+      ]
+    }
+  ]
+}

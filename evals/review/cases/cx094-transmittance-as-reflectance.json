@@ -1,0 +1,30 @@
+{
+  "id": "cx094-transmittance-as-reflectance",
+  "source": "CX-094",
+  "split": "test",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Read ECOSTRESS spectrum files into the spectral library, where they are matched against reflectance images.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "docs/spectrum-format.md": "# ECOSTRESS spectrum files\n\nA header of \"Key: value\" lines, then one wavelength and value pair per line:\n\n    Name: Basalt H-1\n    Type: Rock\n    Measurement: Directional (10 Degree) Hemispherical Reflectance\n    X Units: Wavelength (micrometers)\n    Y Units: Reflectance (percent)\n\nMineral files may instead be measured in transmission, with Y Units such as \"Transmittance (percent)\".\n"
+  },
+  "head": {
+    "src/speclib.js": "// ECOSTRESS spectrum files: a header of \"Key: value\" lines, then wavelength and value pairs.\nexport function parseSpectrum(text) {\n  const lines = text.split(/\\r?\\n/);\n  const header = {};\n  let i = 0;\n  for (; i < lines.length && /^[A-Za-z ]+:/.test(lines[i]); i += 1) {\n    const [key, ...rest] = lines[i].split(':');\n    header[key.trim().toLowerCase()] = rest.join(':').trim();\n  }\n  const scale = /percent/i.test(header['y units'] ?? '') ? 0.01 : 1;\n  const pairs = lines.slice(i).filter((line) => line.trim()).map((line) => line.trim().split(/\\s+/).map(Number));\n  pairs.sort((a, b) => a[0] - b[0]);\n  return {\n    name: header.name,\n    wavelengths: pairs.map((p) => p[0]),\n    reflectance: pairs.map((p) => p[1] * scale),\n  };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/speclib.js",
+      "from": 16,
+      "to": 16,
+      "words": [
+        "transmittance",
+        "transmission",
+        "measurement",
+        "y units",
+        "quantity",
+        "not reflectance"
+      ]
+    }
+  ]
+}
