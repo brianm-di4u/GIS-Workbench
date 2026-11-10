@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "palyginimui su biblioteka reikia juostų centrinių bangos ilgių",
   "library header": "bibliotekos antraštė",
   "line": "linija",
+  "line end\u0004Square": "Kvadratinis",
   "line of sight for {file}": "{file} matomumo linija",
   "line scanner: seven parameter corrections expected": "linijinis skeneris: tikėtasi septynių parametrų pataisų",
   "line scanner: the detector line does not sweep this point": "linijinis skeneris: detektorių linija nepereina šio taško",

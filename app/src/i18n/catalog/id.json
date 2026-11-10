@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "perbandingan pustaka memerlukan panjang gelombang tengah kanal",
   "library header": "header pustaka",
   "line": "garis",
+  "line end\u0004Square": "Persegi",
   "line of sight for {file}": "garis pandang untuk {file}",
   "line scanner: seven parameter corrections expected": "pemindai baris: diharapkan tujuh koreksi parameter",
   "line scanner: the detector line does not sweep this point": "pemindai baris: baris detektor tidak menyapu titik ini",

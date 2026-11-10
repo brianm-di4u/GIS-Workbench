@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "a comparação com a biblioteca requer os comprimentos de onda centrais das bandas",
   "library header": "cabeçalho da biblioteca",
   "line": "linha",
+  "line end\u0004Square": "Quadrada",
   "line of sight for {file}": "linha de visão de {file}",
   "line scanner: seven parameter corrections expected": "sensor de varrimento por linhas: eram esperadas sete correções de parâmetros",
   "line scanner: the detector line does not sweep this point": "sensor de varrimento por linhas: a linha de detetores não passa por este ponto",

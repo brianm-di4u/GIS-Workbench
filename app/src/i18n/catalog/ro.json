@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "compararea cu biblioteca necesită lungimile de undă centrale ale benzilor",
   "library header": "antetul bibliotecii",
   "line": "linie",
+  "line end\u0004Square": "Pătrat",
   "line of sight for {file}": "linia de vizare pentru {file}",
   "line scanner: seven parameter corrections expected": "scaner liniar: se așteaptă șapte corecții de parametri",
   "line scanner: the detector line does not sweep this point": "scaner liniar: linia de detectori nu baleiază acest punct",

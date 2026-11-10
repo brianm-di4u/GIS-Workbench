@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "kütüphane karşılaştırması bant merkez dalga boylarını gerektirir",
   "library header": "kütüphane başlığı",
   "line": "çizgi",
+  "line end\u0004Square": "Kare",
   "line of sight for {file}": "{file} için görüş hattı",
   "line scanner: seven parameter corrections expected": "satır tarayıcı: yedi parametre düzeltmesi bekleniyor",
   "line scanner: the detector line does not sweep this point": "satır tarayıcı: dedektör çizgisi bu noktayı taramıyor",

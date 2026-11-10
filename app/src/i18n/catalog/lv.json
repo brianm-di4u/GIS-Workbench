@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "salīdzināšanai ar bibliotēku nepieciešami joslu centra viļņu garumi",
   "library header": "bibliotēkas galvene",
   "line": "līnija",
+  "line end\u0004Square": "Kvadrātveida",
   "line of sight for {file}": "{file} redzamības līnija",
   "line scanner: seven parameter corrections expected": "rindu skeneris: gaidītas septiņas parametru korekcijas",
   "line scanner: the detector line does not sweep this point": "rindu skeneris: detektoru rinda neskenē šo punktu",

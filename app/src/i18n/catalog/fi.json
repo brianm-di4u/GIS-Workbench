@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "kirjastovertailu vaatii kanavien keskiaallonpituudet",
   "library header": "kirjaston otsake",
   "line": "viiva",
+  "line end\u0004Square": "Nelikulmainen",
   "line of sight for {file}": "{file}: näkösäde",
   "line scanner: seven parameter corrections expected": "rivikeilain: odotettiin seitsemää parametrikorjausta",
   "line scanner: the detector line does not sweep this point": "rivikeilain: ilmaisinrivi ei pyyhkäise tämän pisteen yli",

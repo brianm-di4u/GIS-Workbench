@@ -36849,6 +36849,10 @@
   "{src} does not reach the obstacle free surfaces, so they were not checked.": {
    "h": "3af5f25c91b6",
    "state": "passed"
+  },
+  "line end\u0004Square": {
+   "h": "c11092bc0861",
+   "state": "passed"
   }
  }
 }

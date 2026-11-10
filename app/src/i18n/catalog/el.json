@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "η σύγκριση με βιβλιοθήκη απαιτεί τα κεντρικά μήκη κύματος των ζωνών",
   "library header": "κεφαλίδα βιβλιοθήκης",
   "line": "γραμμή",
+  "line end\u0004Square": "Τετράγωνα",
   "line of sight for {file}": "γραμμή ορατότητας για το {file}",
   "line scanner: seven parameter corrections expected": "σαρωτής γραμμών: αναμένονται επτά διορθώσεις παραμέτρων",
   "line scanner: the detector line does not sweep this point": "σαρωτής γραμμών: η γραμμή ανιχνευτών δεν σαρώνει αυτό το σημείο",

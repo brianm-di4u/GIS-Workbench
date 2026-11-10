@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "a könyvtári összehasonlításhoz a sávok középső hullámhosszai szükségesek",
   "library header": "könyvtárfejléc",
   "line": "vonal",
+  "line end\u0004Square": "Négyzetes",
   "line of sight for {file}": "{file} látóvonala",
   "line scanner: seven parameter corrections expected": "sorszkenner: hét paraméterkorrekció szükséges",
   "line scanner: the detector line does not sweep this point": "sorszkenner: a detektorsor nem halad át ezen a ponton",

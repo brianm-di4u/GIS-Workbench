@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "vergelijking met bibliotheek vereist de centrale golflengten van de banden",
   "library header": "bibliotheekheader",
   "line": "lijn",
+  "line end\u0004Square": "Vierkant",
   "line of sight for {file}": "zichtlijn voor {file}",
   "line scanner: seven parameter corrections expected": "lijnscanner: zeven parametercorrecties verwacht",
   "line scanner: the detector line does not sweep this point": "lijnscanner: de detectorrij bestrijkt dit punt niet",

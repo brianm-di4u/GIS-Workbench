@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "teegiga võrdlemine vajab kanalite kesklainepikkusi",
   "library header": "teegi päis",
   "line": "joon",
+  "line end\u0004Square": "Kandiline",
   "line of sight for {file}": "faili {file} nähtavusjoon",
   "line scanner: seven parameter corrections expected": "joonskanner: oodati seitset parameetri parandust",
   "line scanner: the detector line does not sweep this point": "joonskanner: detektoririda ei läbi seda punkti",

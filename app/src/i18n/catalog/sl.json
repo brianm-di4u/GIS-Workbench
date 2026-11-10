@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "primerjava s knjižnico potrebuje središčne valovne dolžine kanalov",
   "library header": "glava knjižnice",
   "line": "linija",
+  "line end\u0004Square": "Kvadratni",
   "line of sight for {file}": "vidna linija za {file}",
   "line scanner: seven parameter corrections expected": "vrstični skener: pričakovanih je sedem popravkov parametrov",
   "line scanner: the detector line does not sweep this point": "vrstični skener: vrstica detektorjev ne preleti te točke",

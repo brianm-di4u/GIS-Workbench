@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "il confronto con la libreria richiede le lunghezze d'onda centrali delle bande",
   "library header": "intestazione della libreria",
   "line": "linea",
+  "line end\u0004Square": "Quadrata",
   "line of sight for {file}": "linea di vista per {file}",
   "line scanner: seven parameter corrections expected": "scanner lineare: attese sette correzioni dei parametri",
   "line scanner: the detector line does not sweep this point": "scanner lineare: la linea di rivelatori non passa su questo punto",

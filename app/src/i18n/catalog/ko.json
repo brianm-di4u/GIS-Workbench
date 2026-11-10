@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "라이브러리 비교에는 밴드 중심 파장이 필요합니다",
   "library header": "라이브러리 헤더",
   "line": "라인",
+  "line end\u0004Square": "네모난",
   "line of sight for {file}": "{file}의 가시선",
   "line scanner: seven parameter corrections expected": "라인 스캐너: 매개 변수 보정 7개가 필요합니다",
   "line scanner: the detector line does not sweep this point": "라인 스캐너: 검출기 라인이 이 점을 지나가지 않습니다",

@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "biblioteksjämförelse kräver bandens centrumvåglängder",
   "library header": "bibliotekshuvud",
   "line": "linje",
+  "line end\u0004Square": "Fyrkantig",
   "line of sight for {file}": "siktlinje för {file}",
   "line scanner: seven parameter corrections expected": "radskanner: sju parameterkorrektioner förväntades",
   "line scanner: the detector line does not sweep this point": "radskanner: detektorraden sveper inte över den här punkten",

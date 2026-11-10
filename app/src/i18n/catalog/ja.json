@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "ライブラリとの比較にはバンドの中心波長が必要です",
   "library header": "ライブラリ ヘッダー",
   "line": "ライン",
+  "line end\u0004Square": "四角",
   "line of sight for {file}": "{file}の見通し線",
   "line scanner: seven parameter corrections expected": "ラインスキャナー: 7個のパラメーター補正が必要です",
   "line scanner: the detector line does not sweep this point": "ラインスキャナー: 検出器ラインがこのポイントを走査しません",

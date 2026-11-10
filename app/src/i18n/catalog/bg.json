@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "сравнението с библиотека изисква централните дължини на вълната на каналите",
   "library header": "заглавна част на библиотеката",
   "line": "линия",
+  "line end\u0004Square": "Квадратни",
   "line of sight for {file}": "линия на видимост за {file}",
   "line scanner: seven parameter corrections expected": "линеен скенер: очакват се седем корекции на параметри",
   "line scanner: the detector line does not sweep this point": "линеен скенер: линията от детектори не преминава през тази точка",

@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "光谱库比较需要波段中心波长",
   "library header": "光谱库头",
   "line": "线",
+  "line end\u0004Square": "方形",
   "line of sight for {file}": "{file} 的视线",
   "line scanner: seven parameter corrections expected": "线阵扫描模型：应有七个参数改正数",
   "line scanner: the detector line does not sweep this point": "线阵扫描模型：探测器行未扫过此点",

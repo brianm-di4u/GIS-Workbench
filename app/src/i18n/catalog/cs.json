@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "porovnání s knihovnou vyžaduje centrální vlnové délky pásem",
   "library header": "hlavička knihovny",
   "line": "linie",
+  "line end\u0004Square": "Čtvercový",
   "line of sight for {file}": "zorný paprsek pro {file}",
   "line scanner: seven parameter corrections expected": "řádkový skener: očekává se sedm oprav parametrů",
   "line scanner: the detector line does not sweep this point": "řádkový skener: řádek detektorů tímto bodem neprochází",

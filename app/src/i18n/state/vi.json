@@ -36758,6 +36758,10 @@
    "h": "3af5f25c91b6",
    "state": "passed",
    "note": "'không có chướng ngại vật' as shipped"
+  },
+  "line end\u0004Square": {
+   "h": "c11092bc0861",
+   "state": "passed"
   }
  }
 }

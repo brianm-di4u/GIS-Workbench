@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "光譜庫比較需要波段中心波長",
   "library header": "光譜庫標頭",
   "line": "線條",
+  "line end\u0004Square": "方形",
   "line of sight for {file}": "{file} 的視線",
   "line scanner: seven parameter corrections expected": "線掃描器：應有七個參數改正數",
   "line scanner: the detector line does not sweep this point": "線掃描器：偵測器列未掃過此點",

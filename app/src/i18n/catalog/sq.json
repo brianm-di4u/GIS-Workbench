@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "krahasimi me bibliotekën kërkon gjatësitë e valëve qendrore të brezave",
   "library header": "koka e bibliotekës",
   "line": "vijë",
+  "line end\u0004Square": "I katror",
   "line of sight for {file}": "vija e shikimit për {file}",
   "line scanner: seven parameter corrections expected": "skaner me rreshta: priten shtatë korrigjime parametrash",
   "line scanner: the detector line does not sweep this point": "skaner me rreshta: vija e detektorit nuk e përshkon këtë pikë",

@@ -6876,6 +6876,7 @@
   "library comparison needs the band centre wavelengths": "so sánh với thư viện cần bước sóng trung tâm của các kênh phổ",
   "library header": "tiêu đề thư viện",
   "line": "đường",
+  "line end\u0004Square": "Vuông",
   "line of sight for {file}": "tầm nhìn thẳng của {file}",
   "line scanner: seven parameter corrections expected": "máy quét dòng: cần bảy hiệu chỉnh tham số",
   "line scanner: the detector line does not sweep this point": "máy quét dòng: dòng bộ dò không quét qua điểm này",
