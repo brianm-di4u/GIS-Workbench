@@ -781,6 +781,7 @@ export async function install(app) {
             }
             // After a save the base is the saved file's records.json text (#99).
             const base = typeof rec.snapshot === 'string' ? parseRecords(rec.snapshot) : (rec.snapshot ?? app.store.snapshot());
+            await app.journal.recovering(rec.key);
             app.store.load(base);
             for (const cs of rec.changesets) {
               try {
@@ -794,6 +795,7 @@ export async function install(app) {
             // The views as of the last open or save: Lite carries the ones it does not show (REQ-GAP-86).
             app.journal.views = rec.views ?? null;
             app.projectViews = rec.views ?? null;
+            void app.journal.flush(); // the replays replace the entry they came from (#117)
             app.emit('layers');
             await relinkDialog(app.store.all('fileref'));
           },
