@@ -64,10 +64,14 @@ const VOTES = {
 
 const plan = args
 
+// The flags keep a .gitattributes line such as `-diff` or `binary` in the change under review from
+// blanking what the seats read.
+const DIFF_FLAGS = '--text --no-ext-diff --no-textconv'
+
 const scope =
   plan.mode === 'full'
-    ? `Review the whole change: git diff ${plan.mergeBase} ${plan.head}`
-    : `Review only what changed since the last round: git diff ${plan.lastReviewedSha} ${plan.head}. Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
+    ? `Review the whole change: git diff ${DIFF_FLAGS} ${plan.mergeBase} ${plan.head}`
+    : `Review only what changed since the last round: git diff ${DIFF_FLAGS} ${plan.lastReviewedSha} ${plan.head}. Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
 
 const location = plan.cwd
   ? `The repository under review is at ${plan.cwd}. Change to it first, and read nothing outside it.\n\n`

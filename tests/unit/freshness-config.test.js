@@ -1,5 +1,6 @@
 // This repo's branch-freshness setting (decision 0013): a PR that is behind main is held only when
 // main changed a file it also changes, a floor path, or a path in a group it also touches.
+import { readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { loadConfig } from '../../.pipeline/lib/config.mjs';
 import { cleanFreshness, expandEntries, freshnessOf } from '../../.pipeline/lib/freshness.mjs';
@@ -18,7 +19,10 @@ describe('the freshness setting', () => {
 
   it('keeps every group non-empty and gives each crate its own group', () => {
     for (const [name, globs] of Object.entries(setting.groups)) expect(globs.length, name).toBeGreaterThan(0);
-    for (const crate of ['gw-abi', 'gw-tin', 'gw-raster', 'gw-vector']) expect(setting.groups[`crate-${crate}`]).toEqual([`crates/${crate}/**`]);
+    // Every crate directory, so a new crate fails here until its group is added.
+    const crates = readdirSync('crates', { withFileTypes: true }).filter((d) => d.isDirectory() && d.name.startsWith('gw-')).map((d) => d.name);
+    expect(crates.length).toBeGreaterThan(0);
+    for (const crate of crates) expect(setting.groups[`crate-${crate}`], crate).toEqual([`crates/${crate}/**`]);
   });
 
   it('lets unrelated PRs merge without updating', () => {

@@ -133,7 +133,9 @@ function plan(args) {
   });
   const output = { ...step, reasons: ctx.reasons };
   if (step.status === 'review') {
-    const last = ledger.rounds.at(-1);
+    // An incomplete round is rerun on the same head, so a diff from it would be empty: the base is the
+    // last round that finished.
+    const last = ledger.rounds.filter((r) => r.complete).at(-1);
     const selection = selectSeats({
       tier,
       paths: ctx.changes.map((c) => c.path),
