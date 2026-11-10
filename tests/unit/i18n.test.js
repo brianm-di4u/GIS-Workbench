@@ -180,4 +180,11 @@ describe('one source text, two meanings', () => {
     expect(keys('features/terrain-analysis.js', 'Buffer')).toEqual([keyOf('Buffer', 'landing zone')]);
     expect(keys('features/geoproc-ui.js', 'Buffer')).toEqual([keyOf('Buffer')]);
   });
+
+  // Overlay's Erase removes the overlap; the whiteboard's Erase is the eraser, and the locales
+  // translated it as that (de "Radieren", fr "Gommer", it "Gomma").
+  it("gives overlay's Erase operation its own key, apart from the whiteboard eraser", () => {
+    expect(keys('features/geoproc-ui.js', 'Erase')).toEqual([keyOf('Erase', 'overlay')]);
+    expect(keys('feedback/whiteboard.js', 'Erase')).toEqual([keyOf('Erase')]);
+  });
 });

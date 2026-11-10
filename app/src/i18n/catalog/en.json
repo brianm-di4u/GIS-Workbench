@@ -12013,7 +12013,6 @@
    "key": "Erase",
    "src": "Erase",
    "refs": [
-    "features/geoproc-ui.js",
     "feedback/whiteboard.js"
    ]
   },
@@ -52723,6 +52722,14 @@
    "src": "overlap",
    "refs": [
     "features/extract-r2.js"
+   ]
+  },
+  {
+   "key": "overlay\u0004Erase",
+   "src": "Erase",
+   "ctx": "overlay",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {

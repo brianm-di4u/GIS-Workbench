@@ -90,7 +90,7 @@ export function install(app) {
     run: async () => {
       const a = layerSelect(t('Input layer'));
       const b = layerSelect(t('Overlay layer'), layers().find((v) => v.id !== app.prefs.get('vlayerActive'))?.id);
-      const op = choice(t('Operation'), [['intersect', t('Intersect')], ['union', t('Union')], ['erase', t('Erase')], ['symdiff', t('Symmetric difference')]]);
+      const op = choice(t('Operation'), [['intersect', t('Intersect')], ['union', t('Union')], ['erase', tc('overlay', 'Erase')], ['symdiff', t('Symmetric difference')]]);
       if (!(await ask('vec-overlay', t('Overlay'), [field(t('Input layer'), a), field(t('Overlay layer'), b), field(t('Operation'), op)]))) return;
       done(await overlay(a.value, b.value, op.value));
     },
