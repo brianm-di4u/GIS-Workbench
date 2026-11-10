@@ -161,6 +161,15 @@ export function install(app) {
       await app.convertFiles(files, vectors);
       return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
     } },
+    // Time series (REQ-GAP-83) on the active layer, no dialog.
+    timeTrend: { title: N_('Temporal trend'), pythonHint: 'gw.time_trend()', run: async () => {
+      const l = await app.timeseries.trend();
+      return { summary: t('Trend of {n} pixels', { n: l.width * l.height }) };
+    } },
+    timeAnomaly: { title: N_('Temporal anomaly'), defaults: { from: '', to: '', by: 'month', z: false }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
+      const l = await app.timeseries.anomaly(undefined, { from, to, by, z });
+      return { summary: t('{n, plural, one {# date} other {# dates}}', { n: l.bands }) };
+    } },
     command: { title: N_('Run a command'), defaults: { id: '' }, run: async ({ id, args }) => {
       await C.run(id, args);
       return { summary: id };

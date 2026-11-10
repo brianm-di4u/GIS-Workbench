@@ -8,6 +8,7 @@ pub mod endmember;
 pub mod linalg;
 pub mod misc;
 pub mod stats;
+pub mod temporal;
 pub mod transform;
 
 #[cfg(test)]
