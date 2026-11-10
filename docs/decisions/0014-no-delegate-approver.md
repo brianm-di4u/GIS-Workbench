@@ -27,6 +27,7 @@ Decision 0012 added a delegate account that could approve and decide within a gr
   - **The verdict** is rendered only after close-out converges. The ledger records each round's phase and model, and the verdict records the rounds and model of each phase.
   - **Replaced:** `maxRounds`, `maxRoundsSensitive`, `t1Model`, the confirmation round and step-back. Hard caps per phase, `council.maxLoopRounds` (8) and `council.maxCloseRounds` (4) per PR, park a change that doesn't converge, with a summary left on the PR for the admin. The admin confirmed the cap in chat on 2026-11-10 ("Keep the cap"). `maxDiffGrowth` stays and is measured from the first round's diff.
   - A docs-only change (T0) still gets one round.
+  - `council.maxSeats` is 6, the code's default, so the cap no longer drops `council-geo-correctness` from a change that touches geodesy (issue #168). The security and architect seats still never drop on T2.
   - These files differ from dev-pipeline's, so the next `pipeline update` keeps them for a hand merge, and the rule is a candidate to go upstream.
 - **The baseline** carries over from 0012: from 2026-11-07 to 2026-11-09, 62 merges (T0 4, T1 30, T2 27, 1 revert), 39 admin approvals, approval wait from PR opening a median of 0.98 hours and a p90 of 7.6 hours, and a decision wait with a median of 1 hour. Reviewing a week of the new setup against it is how to tell whether this helped.
 

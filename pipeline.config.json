@@ -95,7 +95,7 @@
   "privateAutoMerge": false,
   "council": {
     "maxNits": 5,
-    "maxSeats": 5,
+    "maxSeats": 6,
     "maxDiffGrowth": 1.5,
     "loopModel": "sonnet",
     "closeModel": "opus",
