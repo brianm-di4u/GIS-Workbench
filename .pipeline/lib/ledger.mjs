@@ -112,6 +112,10 @@ export function sameFinding(a, b) {
 const unanswered = (ledger) => ledger.findings.filter((f) => f.status === 'open');
 const blockingOpen = (ledger) => unanswered(ledger).filter((f) => BLOCKING.has(f.severity));
 
+// The round a new one is diffed from. An incomplete round is rerun on the same head, so a diff from
+// it would be empty and read as clean.
+export const lastCompleteRound = (ledger) => ledger.rounds.filter((r) => r.complete).at(-1);
+
 // A round is clean when it finished and raised nothing above a nit. A round from before phases
 // were recorded has no `raised`, so it is never clean and doesn't count toward either phase.
 const isClean = (round) => round.complete && round.raised != null && round.raised.blocker + round.raised.should === 0;

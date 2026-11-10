@@ -1,7 +1,7 @@
 // The council's two-phase convergence rule (decision 0014): a loop phase on one model, then close-out
 // on another, each ending after two clean rounds in a row with nothing open, each with a hard cap.
 import { describe, expect, it } from 'vitest';
-import { buildVerdict, capFor, cleanTail, emptyLedger, nextStep, phaseState, recordRound, resolveFinding, selectSeats } from '../../.pipeline/lib/ledger.mjs';
+import { buildVerdict, capFor, cleanTail, emptyLedger, lastCompleteRound, nextStep, phaseState, recordRound, resolveFinding, selectSeats } from '../../.pipeline/lib/ledger.mjs';
 
 const council = { loopModel: 'sonnet', closeModel: 'opus', maxLoopRounds: 8, maxCloseRounds: 4 };
 const HASH = 'a'.repeat(64);
@@ -246,6 +246,16 @@ describe('repeats and content', () => {
     expect(step(ledger, { hash: b })).toMatchObject({ status: 'review', phase: 'loop', mode: 'full' });
     run(ledger, [], { hash: b });
     expect(step(ledger, { hash: b })).toMatchObject({ status: 'review', phase: 'close' });
+  });
+
+  it('bases the next diff on the last round that finished, never on an incomplete one at the same head', () => {
+    const ledger = emptyLedger();
+    run(ledger, [], { hash: 'b'.repeat(64) });
+    const finished = ledger.rounds.at(-1);
+    const next = step(ledger, { hash: 'c'.repeat(64) });
+    recordRound(ledger, { mode: next.mode, round: next.round, phase: next.phase, model: next.model, hash: 'c'.repeat(64), sha: 'sha-c', diffLines: 10, result: { findings: [], seats: [], missing: ['council-bug-hunter'] } });
+    expect(ledger.rounds.at(-1).complete).toBe(false);
+    expect(lastCompleteRound(ledger)).toBe(finished);
   });
 
   it('keeps a cap workable: never below the clean rounds a phase needs, and never removed by a bad value', () => {

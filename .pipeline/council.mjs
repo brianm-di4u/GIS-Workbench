@@ -21,6 +21,7 @@ import {
   buildVerdict,
   emptyLedger,
   nextStep,
+  lastCompleteRound,
   recordRound,
   resolveFinding,
   selectSeats,
@@ -94,7 +95,8 @@ function context() {
     scriptsChangedIn: scriptsChanged(changes, mergeBase, 'HEAD'),
     adrCited: decided(loadLedger().decisions ?? [], config),
   });
-  const shortstat = tryGit(['diff', '--shortstat', mergeBase, 'HEAD']) ?? '';
+  // Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
+  const shortstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '--shortstat', mergeBase, 'HEAD']) ?? '';
   const diffLines = [...shortstat.matchAll(/(\d+) (?:insertion|deletion)/g)].reduce((sum, m) => sum + Number(m[1]), 0);
   return { config, mergeBase, changes, hash, tier, reasons, diffLines };
 }
@@ -135,7 +137,7 @@ function plan(args) {
   if (step.status === 'review') {
     // An incomplete round is rerun on the same head, so a diff from it would be empty: the base is the
     // last round that finished.
-    const last = ledger.rounds.filter((r) => r.complete).at(-1);
+    const last = lastCompleteRound(ledger);
     const selection = selectSeats({
       tier,
       paths: ctx.changes.map((c) => c.path),

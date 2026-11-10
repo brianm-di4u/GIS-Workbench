@@ -206,6 +206,9 @@
       "crate-gw-geodesy": [
         "crates/gw-geodesy/**"
       ],
+      "crate-gw-geoproc": [
+        "crates/gw-geoproc/**"
+      ],
       "crate-gw-match": [
         "crates/gw-match/**"
       ],
