@@ -1,0 +1,30 @@
+{
+  "id": "cx064-nested-attributes",
+  "source": "CX-064",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Save As FlatGeobuf: write every attribute as a string column, for layers from any reader.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/readers.md": "# Readers\n\nGeoJSON and GeoParquet attributes keep their types: GeoParquet lists, structs and maps are read as\narrays and objects, and GeoJSON properties can hold any JSON value.\n"
+  },
+  "head": {
+    "src/props-writer.js": "// Write feature attributes as string columns.\nexport function encodeProperties(properties) {\n  const out = {};\n  for (const [key, value] of Object.entries(properties)) {\n    out[key] = value == null ? null : String(value);\n  }\n  return out;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/props-writer.js",
+      "from": 5,
+      "to": 5,
+      "words": [
+        "object object",
+        "[object",
+        "nested",
+        "json.stringify",
+        "stringify",
+        "struct",
+        "array"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "cx096-fwhm-unit-guess",
+  "source": "CX-096",
+  "split": "train",
+  "kind": "bug",
+  "hard": true,
+  "intent": "Read band centres and widths (FWHM) from ENVI headers, in micrometres, for resampling library spectra to an image.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/envi-bands.js": "// Without \"wavelength units\", values above 100 are taken as nanometres.\nconst toMicrometres = (v) => (v > 100 ? v / 1000 : v);\n\n// Band centres and widths from an ENVI header, in micrometres.\nexport function bandsOf(header) {\n  const unit = header['wavelength units']?.toLowerCase();\n  if (unit === 'nanometers') return { centres: header.wavelength.map((v) => v / 1000), fwhm: header.fwhm?.map((v) => v / 1000) };\n  if (unit === 'micrometers') return { centres: header.wavelength, fwhm: header.fwhm };\n  return { centres: header.wavelength.map(toMicrometres), fwhm: header.fwhm?.map(toMicrometres) };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/envi-bands.js",
+      "from": 2,
+      "to": 9,
+      "words": [
+        "fwhm",
+        "width",
+        "per value",
+        "each value",
+        "value by value",
+        "inconsistent",
+        "same unit",
+        "centre unit",
+        "center unit"
+      ]
+    }
+  ]
+}

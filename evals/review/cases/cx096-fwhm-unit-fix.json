@@ -1,0 +1,15 @@
+{
+  "id": "cx096-fwhm-unit-fix",
+  "source": "CX-096",
+  "split": "train",
+  "kind": "clean",
+  "intent": "When an ENVI header has no wavelength units, give the FWHM the same unit as the band centres (nanometres when any centre is above 100). With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/envi-bands.js": "// Without \"wavelength units\", values above 100 are taken as nanometres.\nconst toMicrometres = (v) => (v > 100 ? v / 1000 : v);\n\n// Band centres and widths from an ENVI header, in micrometres.\nexport function bandsOf(header) {\n  const unit = header['wavelength units']?.toLowerCase();\n  if (unit === 'nanometers') return { centres: header.wavelength.map((v) => v / 1000), fwhm: header.fwhm?.map((v) => v / 1000) };\n  if (unit === 'micrometers') return { centres: header.wavelength, fwhm: header.fwhm };\n  return { centres: header.wavelength.map(toMicrometres), fwhm: header.fwhm?.map(toMicrometres) };\n}\n"
+  },
+  "head": {
+    "src/envi-bands.js": "// Band centres and widths from an ENVI header, in micrometres. Without \"wavelength units\", the\n// header is in nanometres when any centre is above 100, and the widths take the centres' unit.\nexport function bandsOf(header) {\n  const unit = header['wavelength units']?.toLowerCase();\n  const nanometres = unit === 'nanometers' || (unit !== 'micrometers' && header.wavelength.some((v) => v > 100));\n  const scale = nanometres ? 1 / 1000 : 1;\n  return { centres: header.wavelength.map((v) => v * scale), fwhm: header.fwhm?.map((v) => v * scale) };\n}\n",
+    "tests/envi-bands.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { bandsOf } from '../src/envi-bands.js';\n\nconst close = (a, b) => assert.ok(Math.abs(a - b) < 1e-9, a + ' is not ' + b);\n\ntest('without units, narrow widths take the nanometre unit of the centres', () => {\n  const bands = bandsOf({ wavelength: [366, 2496], fwhm: [9.85, 9.6] });\n  close(bands.centres[0], 0.366);\n  close(bands.fwhm[0], 0.00985);\n});\n\ntest('without units, micrometre centres keep their widths', () => {\n  const bands = bandsOf({ wavelength: [0.45, 2.2], fwhm: [0.01, 0.02] });\n  assert.deepEqual(bands.fwhm, [0.01, 0.02]);\n});\n\ntest('stated units are used as given', () => {\n  const nm = bandsOf({ 'wavelength units': 'Nanometers', wavelength: [500], fwhm: [10] });\n  close(nm.centres[0], 0.5);\n  close(nm.fwhm[0], 0.01);\n  const um = bandsOf({ 'wavelength units': 'Micrometers', wavelength: [0.5], fwhm: [0.01] });\n  assert.deepEqual(um, { centres: [0.5], fwhm: [0.01] });\n});\n"
+  }
+}

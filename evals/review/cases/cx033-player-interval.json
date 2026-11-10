@@ -1,0 +1,31 @@
+{
+  "id": "cx033-player-interval",
+  "source": "CX-033",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Play a sequence of frames (a motion imagery file) in a display panel. Playback must stop when its panel is closed.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/panel.js": "// A display panel. close() removes its canvas and tells its onClose listeners; show() on a closed panel throws.\nexport class Panel {\n  constructor(canvas) {\n    this.canvas = canvas;\n    this.closed = false;\n    this.listeners = new Set();\n  }\n\n  onClose(fn) {\n    this.listeners.add(fn);\n  }\n\n  close() {\n    this.closed = true;\n    this.canvas = null;\n    for (const fn of this.listeners) fn();\n  }\n\n  show(frame) {\n    if (this.closed) throw new Error('panel is closed');\n    this.canvas.draw(frame);\n  }\n}\n"
+  },
+  "head": {
+    "src/player.js": "// Play a sequence of frames in a panel.\nexport function play(panel, frames, fps) {\n  let index = 0;\n  const timer = setInterval(() => {\n    panel.show(frames[index % frames.length]);\n    index += 1;\n  }, 1000 / fps);\n  return { stop: () => clearInterval(timer) };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/player.js",
+      "from": 4,
+      "to": 5,
+      "words": [
+        "clearinterval",
+        "onclose",
+        "never stop",
+        "keeps running",
+        "keeps firing",
+        "still running",
+        "leak",
+        "closed"
+      ]
+    }
+  ]
+}

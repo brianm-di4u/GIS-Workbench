@@ -1,0 +1,31 @@
+{
+  "id": "cx063-decimated-full-read",
+  "source": "CX-063",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Decimated windows for the 3D globe drape and decimated chips: every step-th pixel of a region of the image.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/source.js": "// readWindow(level, x, y, width, height) reads a window of a pyramid level, where level n is 2^n\n// times coarser and x, y, width, height are in that level's pixels. Sources build their levels from\n// overviews, JPEG 2000 resolution levels or strided reads.\nexport function pyramidSource(levels) {\n  return { levels: levels.length, readWindow: (level, x, y, w, h) => levels[level].read(x, y, w, h) };\n}\n"
+  },
+  "head": {
+    "src/window.js": "// A decimated window: every step-th pixel of a region.\nexport async function decimatedWindow(source, x, y, width, height, step) {\n  const full = await source.readWindow(0, x, y, width, height);\n  const w = Math.ceil(width / step);\n  const h = Math.ceil(height / step);\n  const out = new full.constructor(w * h);\n  for (let j = 0; j < h; j += 1) {\n    for (let i = 0; i < w; i += 1) out[j * w + i] = full[j * step * width + i * step];\n  }\n  return { width: w, height: h, data: out };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/window.js",
+      "from": 3,
+      "to": 3,
+      "words": [
+        "full resolution",
+        "full-resolution",
+        "level 0",
+        "coarser level",
+        "pyramid",
+        "overview",
+        "memory",
+        "whole region"
+      ]
+    }
+  ]
+}
