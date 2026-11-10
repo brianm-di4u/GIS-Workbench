@@ -1,0 +1,29 @@
+{
+  "id": "cx022-enabled-without-model",
+  "source": "CX-022",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Add Chip by Preset Area: cut a square of a given ground size around a point from the active image.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/layers.js": "// An image layer. model maps image to ground; it is null for images with no geolocation (a plain PNG or JPEG).\nexport function imageLayer(source, model = null) {\n  return { kind: 'image', source, model };\n}\n",
+    "src/geo.js": "// The corners of a square of side sizeMetres around a (lon, lat) centre.\nexport function squareAround([lon, lat], sizeMetres) {\n  const half = sizeMetres / 2;\n  const dLat = half / 111320;\n  const dLon = half / (111320 * Math.cos((lat * Math.PI) / 180));\n  return [[lon - dLon, lat + dLat], [lon + dLon, lat + dLat], [lon + dLon, lat - dLat], [lon - dLon, lat - dLat]];\n}\n"
+  },
+  "head": {
+    "src/commands/chip.js": "import { squareAround } from '../geo.js';\n\nexport const chipByArea = {\n  id: 'chip.area',\n  label: 'Chip by Preset Area',\n  enabled: (layer) => layer?.kind === 'image',\n  run(layer, centre, sizeMetres) {\n    const corners = squareAround(centre, sizeMetres).map(([lon, lat]) => layer.model.groundToImage(lon, lat));\n    return layer.source.window(corners);\n  },\n};\n"
+  },
+  "expect": [
+    {
+      "file": "src/commands/chip.js",
+      "from": 6,
+      "to": 8,
+      "words": [
+        "model",
+        "geolocat",
+        "georef",
+        "sensor",
+        "no geolocation"
+      ]
+    }
+  ]
+}

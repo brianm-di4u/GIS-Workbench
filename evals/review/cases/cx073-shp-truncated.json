@@ -1,0 +1,32 @@
+{
+  "id": "cx073-shp-truncated",
+  "source": "CX-073",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Read the records of a .shp file.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/shp.js": "// Shapefile reader: the records of a .shp file.\nexport function readRecords(buffer) {\n  const view = new DataView(buffer);\n  const fileBytes = view.getInt32(24, false) * 2;\n  const records = [];\n  let offset = 100;\n  while (offset < fileBytes) {\n    const length = view.getInt32(offset + 4, false) * 2;\n    const type = view.getInt32(offset + 8, true);\n    records.push({ type, offset: offset + 8, length });\n    offset += 8 + length;\n  }\n  return records;\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/shp.js",
+      "from": 4,
+      "to": 8,
+      "words": [
+        "truncat",
+        "bytelength",
+        "buffer length",
+        "cut short",
+        "past the end",
+        "beyond the end",
+        "rangeerror",
+        "out of bounds",
+        "header length",
+        "trust"
+      ]
+    }
+  ]
+}

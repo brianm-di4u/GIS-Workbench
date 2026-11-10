@@ -1,0 +1,29 @@
+{
+  "id": "cx027-null-projection",
+  "source": "CX-027",
+  "split": "train",
+  "kind": "bug",
+  "intent": "Add AOI from Graphic: the image rectangle around a graphic drawn on the map.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/model.js": "// Ground (lon, lat) to image (x, y). Returns null when the point does not project onto the image.\nexport function groundToImage(model, lon, lat) {\n  const x = (lon - model.lon0) / model.dlon;\n  const y = (model.lat0 - lat) / model.dlat;\n  if (x < 0 || y < 0 || x > model.width || y > model.height) return null;\n  return { x, y };\n}\n"
+  },
+  "head": {
+    "src/aoi.js": "import { groundToImage } from './model.js';\n\n// AOI from Graphic: the image rectangle around a drawn graphic.\nexport function aoiFromGraphic(layer, graphic) {\n  const pixels = graphic.vertices.map(([lon, lat]) => groundToImage(layer.model, lon, lat));\n  const xs = pixels.map((p) => p.x);\n  const ys = pixels.map((p) => p.y);\n  return {\n    x0: Math.floor(Math.min(...xs)),\n    y0: Math.floor(Math.min(...ys)),\n    x1: Math.ceil(Math.max(...xs)),\n    y1: Math.ceil(Math.max(...ys)),\n  };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/aoi.js",
+      "from": 5,
+      "to": 7,
+      "words": [
+        "null",
+        "off the image",
+        "outside the image",
+        "does not project",
+        "doesn't project",
+        "not project"
+      ]
+    }
+  ]
+}
