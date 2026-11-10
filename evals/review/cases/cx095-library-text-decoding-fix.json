@@ -1,0 +1,16 @@
+{
+  "id": "cx095-library-text-decoding-fix",
+  "source": "CX-095",
+  "split": "train",
+  "kind": "clean",
+  "intent": "Decode library files as UTF-8 when they are valid UTF-8, and as Windows-1252 otherwise, so Latin-1 names keep their characters. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/speclib.js": "// A spectrum file: its first line is the name, then wavelength and value pairs.\nexport function parseSpectrum(text) {\n  const [name, ...rows] = text.split(/\\r?\\n/).filter((line) => line.trim());\n  const pairs = rows.map((row) => row.trim().split(/\\s+/).map(Number));\n  return { name: name.trim(), wavelengths: pairs.map((p) => p[0]), values: pairs.map((p) => p[1]) };\n}\n",
+    "src/library-import.js": "import { parseSpectrum } from './speclib.js';\n\n// Import dropped spectrum files.\nexport async function importSpectra(library, files) {\n  for (const file of files) {\n    const text = await file.text();\n    library.import(file.name, [parseSpectrum(text)]);\n  }\n}\n"
+  },
+  "head": {
+    "src/library-import.js": "import { parseSpectrum } from './speclib.js';\n\n// Library text is UTF-8 when it is valid UTF-8, and Windows-1252 (a superset of Latin-1) otherwise.\nexport function decodeLibraryText(bytes) {\n  try {\n    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);\n  } catch {\n    return new TextDecoder('windows-1252').decode(bytes);\n  }\n}\n\n// Import dropped spectrum files.\nexport async function importSpectra(library, files) {\n  for (const file of files) {\n    const text = decodeLibraryText(new Uint8Array(await file.arrayBuffer()));\n    library.import(file.name, [parseSpectrum(text)]);\n  }\n}\n",
+    "tests/library-import.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { decodeLibraryText, importSpectra } from '../src/library-import.js';\n\ntest('UTF-8 text is decoded as UTF-8', () => {\n  assert.equal(decodeLibraryText(new TextEncoder().encode('Na2CO3·10H2O')), 'Na2CO3·10H2O');\n});\n\ntest('Latin-1 text keeps its middle dot', () => {\n  const bytes = Uint8Array.from([0x4e, 0x61, 0xb7, 0x31, 0x30]);\n  assert.equal(decodeLibraryText(bytes), 'Na·10');\n});\n\ntest('a dropped Latin-1 file imports with its name intact', async () => {\n  const bytes = Uint8Array.from([...new TextEncoder().encode('natron '), 0xb7, ...new TextEncoder().encode('\\n0.4 12\\n')]);\n  const file = { name: 'natron.txt', arrayBuffer: async () => bytes.buffer };\n  const imported = [];\n  await importSpectra({ import: (name, spectra) => imported.push(...spectra) }, [file]);\n  assert.equal(imported[0].name, 'natron ·');\n});\n"
+  }
+}

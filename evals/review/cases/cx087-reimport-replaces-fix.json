@@ -1,0 +1,15 @@
+{
+  "id": "cx087-reimport-replaces-fix",
+  "source": "CX-087",
+  "split": "train",
+  "kind": "clean",
+  "intent": "Importing a library file again replaces its earlier spectra instead of adding a second copy. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/library.js": "// The spectral library: spectra imported from library files.\nexport class Library {\n  constructor() {\n    this.spectra = [];\n  }\n\n  import(fileName, spectra) {\n    for (const spectrum of spectra) this.spectra.push({ ...spectrum, source: fileName });\n    return spectra.length;\n  }\n\n  bySource(fileName) {\n    return this.spectra.filter((s) => s.source === fileName);\n  }\n}\n"
+  },
+  "head": {
+    "src/library.js": "// The spectral library: spectra imported from library files.\nexport class Library {\n  constructor() {\n    this.spectra = [];\n  }\n\n  // Importing a file again replaces its earlier spectra.\n  import(fileName, spectra) {\n    this.spectra = this.spectra.filter((s) => s.source !== fileName);\n    for (const spectrum of spectra) this.spectra.push({ ...spectrum, source: fileName });\n    return spectra.length;\n  }\n\n  bySource(fileName) {\n    return this.spectra.filter((s) => s.source === fileName);\n  }\n}\n",
+    "tests/library.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { Library } from '../src/library.js';\n\ntest('importing a file again replaces its spectra and keeps the others', () => {\n  const library = new Library();\n  library.import('rocks.txt', [{ name: 'basalt' }, { name: 'granite' }]);\n  library.import('leaves.txt', [{ name: 'oak' }]);\n  library.import('rocks.txt', [{ name: 'basalt' }]);\n  assert.deepEqual(library.bySource('rocks.txt').map((s) => s.name), ['basalt']);\n  assert.equal(library.spectra.length, 2);\n});\n"
+  }
+}

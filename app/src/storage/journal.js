@@ -11,8 +11,16 @@ export class Journal {
     this.app = app;
     this.db = null;
     this.queue = [];
+    // What the journal starts from: the records (an array, or a saved file's records.json text)
+    // and the panel views (that file's views.json) as they were at the last open or save (#99).
     this.base = null;
+    this.views = null;
+    this.seq = 0; // change sets recorded so far
+    this.holding = 0; // saves under way: no write until they finish
+    this.chain = Promise.resolve(); // the writes, one after another
     this.timer = 0;
+    this.replace = null; // the entry Recover read: the next write starts afresh in its place (#117)
+    this.upto = 0; // the last change set the entry's snapshot holds, when a write compacted it
     this.enabled = app.prefs.get('journal') !== 'off';
     this.available = false;
     this.key = null; // AES-GCM key from the session passphrase (REQ-SEC-06); never stored
@@ -30,8 +38,10 @@ export class Journal {
     this.key = await deriveKey(pass, this.salt);
     // Re-write the current journal under the key.
     const pid = this.projectKey();
-    const prev = await this.get('journal', pid);
-    if (prev && !prev.enc) await this.put('journal', pid, await this.seal(prev));
+    await this.after(async () => {
+      const prev = await this.get('journal', pid);
+      if (prev && !prev.enc) await this.put('journal', pid, await this.seal(prev));
+    });
   }
 
   async seal(value) {
@@ -112,18 +122,30 @@ export class Journal {
   /** Journal a committed change set (batched every 500 ms or 50 ops). */
   record(cs) {
     if (!this.enabled || !this.available) return;
-    this.queue.push({ label: cs.label, kind: cs.kind, ts: cs.ts, ops: cs.ops });
+    this.queue.push({ label: cs.label, kind: cs.kind, ts: cs.ts, ops: cs.ops, seq: ++this.seq });
     if (this.queue.length >= 50) this.flush();
     else if (!this.timer) this.timer = setTimeout(() => this.flush(), 500);
   }
 
-  async flush() {
+  flush() {
     clearTimeout(this.timer);
     this.timer = 0;
-    if (!this.queue.length || !this.available) return;
+    return this.after(() => this.write());
+  }
+
+  /** Run fn after the journal's earlier writes, so that no two read and write the record at once. */
+  after(fn) {
+    return (this.chain = this.chain.catch(() => {}).then(fn));
+  }
+
+  async write() {
+    if (!this.queue.length || !this.available || this.holding) return;
+    const batch = this.queue.splice(0); // taken now: a save may begin while this reads
     const pid = this.projectKey();
     // The first write of a project starts from `base`: its first records, the panes among them, are in no change set.
-    let prev = (await this.get('journal', pid)) ?? { changesets: [], snapshot: this.base };
+    const replace = this.replace;
+    this.replace = null;
+    let prev = (!replace && (await this.get('journal', pid))) || { changesets: [], snapshot: this.base, views: this.views };
     if (prev.enc) {
       // Encrypted earlier in this session: open with the session key, else start afresh.
       try {
@@ -132,24 +154,76 @@ export class Journal {
         prev = { changesets: [], snapshot: null };
       }
     }
-    prev.changesets.push(...this.queue.splice(0));
+    // A change set committed while an earlier write compacted is in that snapshot already (#117).
+    prev.changesets.push(...batch.filter((c) => c.seq > this.upto));
     // Snapshot every 200 change sets so recovery stays fast.
     if (prev.changesets.length >= 200) {
       prev.snapshot = this.app.store.snapshot();
       prev.changesets = [];
+      this.upto = this.seq;
     }
     prev.updated = Date.now();
     await this.put('journal', pid, await this.seal(prev));
+    if (replace && replace !== pid) await this.del('journal', replace);
   }
 
   projectKey() {
     return `gw/${this.app.project()?.created ?? 'none'}`;
   }
 
-  /** A clean save clears the journal. */
-  async clear() {
-    this.queue.length = 0;
-    await this.del('journal', this.projectKey());
+  /** A save is starting: hold the writes until it ends. Returns the mark to pass to saved(). */
+  hold() {
+    this.holding++;
+    return this.seq;
+  }
+
+  /** The save that hold() began did not finish: write what is waiting. */
+  release() {
+    this.holding--;
+    return this.flush();
+  }
+
+  /**
+   * The save that hold() began is done: the saved records (records.json's text) and views become
+   * the base, and the change sets kept are those made while it wrote: after it read the store
+   * (`since`, from hold()) and up to `until` (the save's own come after). Recovery then gives the
+   * saved work and what came after it, not the records as they were opened (#99). With no such
+   * change set the journal is cleared, as a save always cleared it.
+   */
+  saved({ records, views }, since, until) {
+    const own = this.seq; // the save's own change sets are those after `until` and up to here
+    const pid = this.projectKey();
+    clearTimeout(this.timer);
+    this.timer = 0;
+    // In turn with the writes queued before it, which still hold: none takes an edit made during the save.
+    return this.after(async () => {
+      this.holding--;
+      this.base = records;
+      this.views = views;
+      this.upto = 0; // a fresh entry from the saved records: no snapshot of the store's
+      this.queue = this.queue.filter((c) => c.seq > since && (c.seq <= until || c.seq > own));
+      const recovered = this.replace; // the save holds what Recover read, so its entry goes too
+      this.replace = null;
+      await this.del('journal', pid);
+      if (recovered && recovered !== pid) await this.del('journal', recovered);
+      await this.write();
+    });
+  }
+
+  /**
+   * Recover is rebuilding the store from the entry under `key`. The next write replaces that entry
+   * with the recovered base and the replays, instead of appending them to it, which a second crash
+   * would replay twice (#117). The change sets queued for the store it replaces are dropped. The old
+   * entry stays until then, so a crash before that write still finds it.
+   */
+  recovering(key) {
+    clearTimeout(this.timer);
+    this.timer = 0;
+    return this.after(() => {
+      this.queue.length = 0;
+      this.replace = key;
+      this.upto = 0;
+    });
   }
 
   async recoverable() {
