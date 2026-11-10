@@ -273,7 +273,8 @@ pub fn parse_creation_options(text: &str, tag: &str) -> Vec<CreationOption> {
     let xml = &text[a..a + b + close.len()];
     let mut r = quick_xml::Reader::from_str(xml);
     let mut out: Vec<CreationOption> = Vec::new();
-    let mut in_value = false;
+    // The <Value> being read: its text and entities, joined, and pushed at </Value>.
+    let mut value: Option<String> = None;
     let mut depth_option = false;
     loop {
         match r.read_event() {
@@ -295,28 +296,32 @@ pub fn parse_creation_options(text: &str, tag: &str) -> Vec<CreationOption> {
                 out.push(o);
             }
             Ok(Event::End(e)) if e.name().as_ref() == "Option" => depth_option = false,
-            Ok(Event::Start(e)) if e.name().as_ref() == "Value" => in_value = depth_option,
-            Ok(Event::End(e)) if e.name().as_ref() == "Value" => in_value = false,
-            Ok(Event::Text(t)) if in_value => {
-                if let Some(o) = out.last_mut() {
-                    let v = t.xml_content(quick_xml::XmlVersion::Implicit1_0);
+            Ok(Event::Start(e)) if e.name().as_ref() == "Value" && depth_option => value = Some(String::new()),
+            Ok(Event::End(e)) if e.name().as_ref() == "Value" => {
+                if let (Some(v), Some(o)) = (value.take(), out.last_mut()) {
                     o.values.push(v.trim().to_string());
                 }
             }
-            // Entities in a value arrive as their own events (quick-xml >= 0.38).
-            Ok(Event::GeneralRef(r)) if in_value => {
-                let ch = match r.as_ref() {
-                    "amp" => "&",
-                    "lt" => "<",
-                    "gt" => ">",
-                    "quot" => "\"",
-                    "apos" => "'",
-                    _ => "",
-                };
-                if let Some(o) = out.last_mut() {
-                    match o.values.last_mut() {
-                        Some(last) => last.push_str(ch),
-                        None => o.values.push(ch.to_string()),
+            Ok(Event::Text(t)) => {
+                if let Some(v) = value.as_mut() {
+                    v.push_str(&t.xml_content(quick_xml::XmlVersion::Implicit1_0));
+                }
+            }
+            // Entities in a value arrive as their own events (quick-xml >= 0.38), between the text
+            // around them (#156).
+            Ok(Event::GeneralRef(r)) => {
+                if let Some(v) = value.as_mut() {
+                    match r.as_ref() {
+                        "amp" => v.push('&'),
+                        "lt" => v.push('<'),
+                        "gt" => v.push('>'),
+                        "quot" => v.push('"'),
+                        "apos" => v.push('\''),
+                        _ => {
+                            if let Ok(Some(c)) = r.resolve_char_ref() {
+                                v.push(c);
+                            }
+                        }
                     }
                 }
             }
@@ -366,6 +371,14 @@ mod tests {
         let o = parse_creation_options(t, "CreationOptionList");
         assert_eq!(o[0].description.as_deref(), Some("a & b"));
         assert_eq!(o[0].values, vec!["&", "TAB"]);
+    }
+
+    #[test]
+    fn creation_option_value_with_an_entity_inside() {
+        // #156: text around an entity arrives as separate events, and is one value.
+        let t = "<CreationOptionList><Option name='X' type='string-select'><Value>a &amp; b</Value><Value> &lt;none&gt; </Value><Value>c</Value><Value>x&#38;y</Value></Option></CreationOptionList>";
+        let o = parse_creation_options(t, "CreationOptionList");
+        assert_eq!(o[0].values, vec!["a & b", "<none>", "c", "x&y"]);
     }
 
     #[test]
