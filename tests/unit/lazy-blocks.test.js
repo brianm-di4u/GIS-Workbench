@@ -12,7 +12,7 @@ import { vendorFixes } from '../../build/vendor-fixes.mjs';
 const root = resolve('.');
 const src = join(root, 'app', 'src');
 const lazyDir = join(src, 'lazy');
-const APP_BLOCKS = ['ai24', 'apiv2', 'field', 'geod', 'imaging', 'services', 'signin', 'sarstereo', 'streams', 'portal', 'relay'];
+const APP_BLOCKS = ['ai24', 'apiv2', 'field', 'geod', 'geoproc', 'imaging', 'services', 'signin', 'sarstereo', 'streams', 'portal', 'relay'];
 
 describe('lazy app blocks', () => {
   it('hands over exactly the modules the build binds', () => {
