@@ -77,7 +77,10 @@ test('REQ-IMG-08 REQ-IMG-06 REQ-IMG-09 filters, curve, manual stretch and clip c
   // Kernel falls back to bilinear while a filter is on.
   expect(await frame.evaluate(() => window.gisworkbench.activeLayer().kernelEffective)).toBe('bilinear');
   await set('c.filter.op = "none"; c.sharpen.usm = 0;');
-  expect(await frame.evaluate(() => window.gisworkbench.activeLayer().kernelEffective)).toBe('bicubic');
+  // Software GL keeps bilinear by design (REQ-IMG-33): Firefox on llvmpipe in the nightly does.
+  // Only there: elsewhere a software flag set wrongly must not hide a kernel regression.
+  const soft = test.info().project.use.browserName === 'firefox' && (await frame.evaluate(() => !!window.gisworkbench.softwareGl));
+  expect(await frame.evaluate(() => window.gisworkbench.activeLayer().kernelEffective)).toBe(soft ? 'bilinear' : 'bicubic');
 
   // Tone curve (darken) lowers the mean; manual stretch sets the LUT limits per band.
   await set('c.tone.curve = [[0, 0], [0.6, 0.3], [1, 1]];');

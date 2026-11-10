@@ -17,6 +17,14 @@ export default defineConfig({
   retries: 0,
   outputDir: 'test-results/firefox',
   reporter: [['list'], ['json', { outputFile: process.env.GW_E2E_JSON ?? 'reports/oracles/e2e-firefox.json' }]],
-  use: { browserName: 'firefox', viewport: { width: 1440, height: 900 } },
+  // With no display (a CI runner), Firefox makes no WebGL context through GLX: EGL with Mesa's
+  // llvmpipe does, when Firefox is told to use it and not to block the software renderer. A runner
+  // on ubuntu-26.04 failed every test at boot without this (#48); in WSL with no display it fails
+  // the same way, and passes with it.
+  use: {
+    browserName: 'firefox',
+    viewport: { width: 1440, height: 900 },
+    launchOptions: { env: { ...process.env, MOZ_WEBGL_FORCE_EGL: '1' }, firefoxUserPrefs: { 'webgl.force-enabled': true } },
+  },
   projects: [{ name: 'firefox' }],
 });
