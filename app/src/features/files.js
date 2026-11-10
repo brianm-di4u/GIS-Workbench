@@ -5,7 +5,7 @@ import { pickFiles, saveBlob, shareOrSave } from '../storage/files.js';
 import { LITE_RECORDS, FULL_RECORD_NAMES } from '../core/profile.js';
 import { sniffName, walkFolder } from '../formats/sniff.js';
 import { templateHtml } from '../storage/selfsave.js';
-import { serialiseProject, serialiseProjectAsync, readProject, readProjectAsync, relink } from '../storage/project.js';
+import { serialiseProject, serialiseProjectAsync, readProject, readProjectAsync, parseRecords, relink } from '../storage/project.js';
 import { Journal } from '../storage/journal.js';
 import { groupFiles, openImageFile, attachFile, recoverHandle, isRpfToc } from '../formats/open.js';
 import { frameCoverage } from '../formats/rpf-coverage.js';
@@ -50,7 +50,10 @@ export async function install(app) {
   app.journal = new Journal(app);
   await app.journal.open();
   if (!app.journal.available) app.storageWarning = t('Browser storage is unavailable here: no crash recovery and no saved whiteboard sessions.');
-  const markBase = () => (app.journal.base = app.store.snapshot());
+  const markBase = () => {
+    app.journal.base = app.store.snapshot();
+    app.journal.views = null; // an opened project sets its own
+  };
   markBase();
   app.store.on('reset', markBase);
   app.store.on('commit', (cs) => {
@@ -503,24 +506,40 @@ export async function install(app) {
   const tracked = (label, fn) => (app.activity ? app.activity.track(label, fn) : fn());
 
   async function save(as = false) {
-    const bytes = await tracked(t('Writing the project…'), () => serialiseProjectAsync(app));
-    const blob = new Blob([bytes], { type: 'application/zip' });
-    const name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
-    // Lite (REQ-GAP-86): a phone keeps the file through the share sheet where there is one.
-    const opts = { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') };
-    const r = C.profile === 'lite' ? await shareOrSave(app, blob, { ...opts, title: t('GIS Workbench project') }) : await saveBlob(app, blob, opts);
-    if (r.how === 'cancelled') return;
-    if (r.handle) app.projectHandle = r.handle;
-    app.store.transact(
-      t('Mark saved'),
-      (tx) => {
-        for (const l of app.store.all('layer')) if (l.saved === false) tx.set(l.id, 'saved', true);
-        tx.set('project', 'savedAt', new Date().toISOString());
-      },
-      { kind: 'load' },
-    );
-    app.dirty = false;
-    await app.journal.clear();
+    // The crash journal restarts from what this save writes, keeping the edits made after it (#99).
+    // Journal writes wait until it ends: edits made meanwhile are lost only to a crash in that time.
+    const kept = {};
+    let since = 0;
+    let held = false;
+    let r, blob, name;
+    try {
+      const bytes = await tracked(t('Writing the project…'), () => {
+        since = app.journal.hold(); // the records are read now: the edits after this mark stay in the journal
+        held = true;
+        return serialiseProjectAsync(app, kept);
+      });
+      blob = new Blob([bytes], { type: 'application/zip' });
+      name = `${(app.project()?.name || 'Untitled').replace(/[^\w.-]+/g, '_')}.gwb`;
+      // Lite (REQ-GAP-86): a phone keeps the file through the share sheet where there is one.
+      const opts = { name, handle: as ? null : app.projectHandle, types: ['.gwb'], description: t('GIS Workbench project') };
+      r = C.profile === 'lite' ? await shareOrSave(app, blob, { ...opts, title: t('GIS Workbench project') }) : await saveBlob(app, blob, opts);
+      if (r.how === 'cancelled') return;
+      if (r.handle) app.projectHandle = r.handle;
+      const until = app.journal.seq; // the change sets after this one are the save's own
+      app.store.transact(
+        t('Mark saved'),
+        (tx) => {
+          for (const l of app.store.all('layer')) if (l.saved === false) tx.set(l.id, 'saved', true);
+          tx.set('project', 'savedAt', new Date().toISOString());
+        },
+        { kind: 'load' },
+      );
+      app.dirty = false;
+      held = false;
+      await app.journal.saved(kept, since, until);
+    } finally {
+      if (held) void app.journal.release(); // cancelled or failed: the journal goes on as before
+    }
     app.noteRecent?.(name, app.projectHandle);
     app.toast(r.how === 'shared' ? t('Shared {file}', { file: name }) : r.how === 'in-place' ? t('Saved {file} in place', { file: name }) : r.how === 'download' ? t('Downloaded {file} ({size})', { file: name, size: fmtBytes(blob.size) }) : r.how === 'export-panel' ? t('Use the export panel to keep the project') : t('Saved {file}', { file: name }), { kind: 'info' });
     app.emit('state');
@@ -548,11 +567,8 @@ export async function install(app) {
     // Lite (REQ-GAP-86) keeps what it cannot show, saves it back unchanged, and says what it is.
     const hidden = C.profile === 'lite' ? liteHidden(parsed.records) : null;
     if (hidden) warnings.push(hidden);
-    for (const mp of shownPorts()) {
-      const m = app.desktop.addMultiport(mp.id);
-      for (const p of m.panes) if (parsed.views.views?.[p.id]) Object.assign(p.view, parsed.views.views[p.id]);
-      m.docks.restore(parsed.views.docks?.[mp.id]);
-    }
+    addPanels(parsed.views);
+    app.journal.views = parsed.views;
     app.emit('layers');
     const refs = app.store.all('fileref');
     if (attach) {
@@ -587,6 +603,15 @@ export async function install(app) {
     const ports = app.store.all('multiport');
     return C.profile === 'lite' ? ports.slice(0, 1) : ports;
   };
+
+  /** Add the panels this shell shows, with the pane views and dock layouts of `views` (a project's views.json). */
+  function addPanels(views) {
+    for (const mp of shownPorts()) {
+      const m = app.desktop.addMultiport(mp.id);
+      for (const p of m.panes) if (views?.views?.[p.id]) Object.assign(p.view, views.views[p.id]);
+      m.docks.restore(views?.docks?.[mp.id]);
+    }
+  }
 
   /** What a project holds that Lite does not show (it is kept and saved back), or null. */
   function liteHidden(records) {
@@ -753,8 +778,12 @@ export async function install(app) {
               } catch (e) {
                 return app.toast(t('Recovery: {msg}', { msg: errMsg(e) }), { kind: 'error' });
               }
+              // The recovered work is journalled again under the same passphrase, not in the clear (#117).
+              if (!app.journal.key) await app.journal.setPassphrase(pass);
             }
-            const base = rec.snapshot ?? app.store.snapshot();
+            // After a save the base is the saved file's records.json text (#99).
+            const base = typeof rec.snapshot === 'string' ? parseRecords(rec.snapshot) : (rec.snapshot ?? app.store.snapshot());
+            await app.journal.recovering(rec.key);
             app.store.load(base);
             for (const cs of rec.changesets) {
               try {
@@ -764,7 +793,11 @@ export async function install(app) {
               }
             }
             for (const mp of [...app.desktop.multiports]) app.desktop.removeMultiport(mp);
-            for (const mp of shownPorts()) app.desktop.addMultiport(mp.id);
+            addPanels(rec.views);
+            // The views as of the last open or save: Lite carries the ones it does not show (REQ-GAP-86).
+            app.journal.views = rec.views ?? null;
+            app.projectViews = rec.views ?? null;
+            void app.journal.flush(); // the replays replace the entry they came from (#117)
             app.emit('layers');
             await relinkDialog(app.store.all('fileref'));
           },

@@ -1,0 +1,30 @@
+{
+  "id": "cx058-empty-layer-schema",
+  "source": "CX-058",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Save As FlatGeobuf: build the column schema from the layer's attributes.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/fgb-schema.js": "function typeOf(value) {\n  if (typeof value === 'number') return Number.isInteger(value) ? 'Long' : 'Double';\n  if (typeof value === 'boolean') return 'Bool';\n  return 'String';\n}\n\n// FlatGeobuf writer: the column schema.\nexport function columnsOf(layer) {\n  const first = layer.features[0].properties;\n  return Object.entries(first).map(([name, value]) => ({ name, type: typeOf(value) }));\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/fgb-schema.js",
+      "from": 9,
+      "to": 9,
+      "words": [
+        "empty layer",
+        "empty collection",
+        "empty array",
+        "no features",
+        "zero features",
+        "features[0]",
+        "returns undefined",
+        "is undefined"
+      ]
+    }
+  ]
+}

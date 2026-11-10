@@ -1,0 +1,15 @@
+{
+  "id": "cx031-refuse-no-score-fix",
+  "source": "CX-031",
+  "split": "train",
+  "kind": "clean",
+  "intent": "When no pixel has a finite score, refuse by name instead of crashing on the summary line. With a test.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n",
+    "src/detect-summary.js": "// The summary line after anomaly detection.\nexport function detectionSummary(scores, threshold) {\n  const finite = scores.filter(Number.isFinite);\n  const hits = finite.filter((s) => s >= threshold).length;\n  const best = finite.sort((a, b) => b - a)[0];\n  return hits + ' pixels above ' + threshold + '; best score ' + best.toPrecision(3);\n}\n"
+  },
+  "head": {
+    "src/detect-summary.js": "// The summary line after anomaly detection.\nexport function detectionSummary(scores, threshold) {\n  const finite = scores.filter(Number.isFinite);\n  if (finite.length === 0) throw new Error('No pixel has a finite score, so there is nothing to report');\n  const hits = finite.filter((s) => s >= threshold).length;\n  const best = finite.sort((a, b) => b - a)[0];\n  return hits + ' pixels above ' + threshold + '; best score ' + best.toPrecision(3);\n}\n",
+    "tests/detect-summary.test.js": "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { detectionSummary } from '../src/detect-summary.js';\n\ntest('the summary counts hits and gives the best score', () => {\n  assert.equal(detectionSummary([0.2, NaN, 0.9, 0.5], 0.4), '2 pixels above 0.4; best score 0.900');\n});\n\ntest('no finite score is refused by name', () => {\n  assert.throws(() => detectionSummary([NaN, Infinity], 0.4), /no pixel has a finite score/i);\n});\n"
+  }
+}
