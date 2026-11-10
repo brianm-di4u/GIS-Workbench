@@ -14,6 +14,19 @@
       "licence": "EGM2008: NGA, public domain. Grid packaging: GeographicLib geoids distribution (C. F. F. Karney, MIT)."
     },
     {
+      "id": "egm2008-1",
+      "url": "https://sourceforge.net/projects/geographiclib/files/geoids-distrib/egm2008-1.tar.bz2/download",
+      "file": "egm2008-1.tar.bz2",
+      "sha256": "bdb382d0be7ece9142450eacc24b7b7f0889ee3e0ba4f535b04ec383f94c0fb5",
+      "size": 162388303,
+      "extract": {
+        "member": "geoids/egm2008-1.pgm",
+        "to": "egm2008-1.pgm",
+        "sha256": "b5b3fd38ba630285d8a0dc76071b5e7c730d9d882d8570efee45cfd58729525a"
+      },
+      "licence": "Earth Gravitational Model 2008 (EGM2008), U.S. National Geospatial-Intelligence Agency (NGA): \"The data and coefficients for Earth Gravitational Model 2008 (EGM2008), developed and released by the U.S. National Geospatial-Intelligence Agency (NGA), are publicly available with no special restrictions or limitations on their use.\" Grid packaging: GeographicLib geoids distribution, egm2008-1 (C. F. F. Karney, MIT); cut into tiles by GIS Workbench, values unchanged."
+    },
+    {
       "id": "slimsam-encoder",
       "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/main/onnx/vision_encoder_quantized.onnx",
       "file": "slimsam_vision_encoder_quantized.onnx",

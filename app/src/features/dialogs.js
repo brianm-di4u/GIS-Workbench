@@ -58,7 +58,7 @@ export const HELP_TOPICS = [
 export const LIMITS_TEXT = [
   [N_('Accuracy claims'), N_('GIS Workbench does not claim CSM or NITF conformance (D14). It is designed to follow those references. Every measurement shows CE90/LE90 from the sensor model and terrain, or "error not available".')],
   [N_('Mono heights'), N_('RPC00B carries horizontal error only. A mono point has no vertical model error; LE90 comes from the DEM, or shows "error not available".')],
-  [N_('Geoid'), N_('MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 (5′ grid) when its data pack is loaded.')],
+  [N_('Geoid'), N_('MSL heights use the embedded EGM96 15′ grid (Catmull-Rom; ≈0.17 m max interpolation error), or EGM2008 from the data pack opened last: the 5′ grid, the 2.5′ grid or the 1′ grid (read a tile at a time, and preferred to the 2.5′ grid when both are open), all interpolated cubic.')],
   [N_('Stereo'), N_('In the browser, quad-buffer and active-shutter stereo are not supported (D7); the sidecar’s Native Stereo Viewer offers them. Anaglyph, split-screen, interleaved, dual-window and WebXR outputs work in the browser.')],
   [N_('WebGPU'), N_('Viewsheds and SGM terrain extraction run on the GPU where WebGPU is available (Preferences ▸ Display) and fall back to the workers; NCC Fast always runs in the workers.')],
   [N_('RPF'), N_('CADRG and CIB frames open one by one or as a mosaic through their A.TOC.')],
