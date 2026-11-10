@@ -92,10 +92,11 @@ export function readProjectAsync(bytes) {
 
 /**
  * Whether records text could hold a "__proto__" key: spelled out, or escaped (a \u escape can
- * spell any key). Only then does open parse with the reviver that drops the key, which costs
- * seconds on a large project (#63).
+ * spell any letter of it). Only then does open parse with the reviver that drops the key, which
+ * costs seconds on a large project (#63). A \u escape follows an even number of backslashes: in
+ * a Windows path, "C:\\users" is an escaped backslash and then a "u", not an escape (#131).
  */
-export const needsReviver = (text) => /__proto__|\\u/.test(text);
+export const needsReviver = (text) => /__proto__|(?:^|[^\\])(?:\\\\)*\\u/.test(text);
 
 function parseProject(files) {
   const text = (n) => (files[n] ? strFromU8(files[n]) : null);

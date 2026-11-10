@@ -108,7 +108,7 @@ test('PT-14 SCN-27 file:// — pair, MrSID refused → Convert with Sidecar → 
   expect(requests, 'no request leaves the computer').toEqual([]);
   expect(await csp()).toEqual([]);
   // Linux: the MrSID refusal above is the one expected error.
-  expect(logs.filter((l) => !/favicon/.test(l) && !(LINUX && /cannot decode MrSID/.test(l)))).toEqual([]);
+  expect(logs.filter((l) => !(LINUX && /cannot decode MrSID/.test(l)))).toEqual([]);
   // The job and its provenance are in the dock.
   await frame.evaluate(() => window.gisworkbench.commands.run('sidecar.jobs'));
   await expect(frame.locator('[data-id="sidecar:jobs"] [data-state="succeeded"]').first()).toBeVisible();

@@ -35,7 +35,7 @@ async function allowed(page) {
   await r.frame.evaluate(() => window.gisworkbench.loadServices());
   return { page2, ...r };
 }
-const quiet = (logs) => logs.filter((l) => !/favicon|ERR_CONNECTION_REFUSED|127\.0\.0\.1:4782/.test(l));
+const quiet = (logs) => logs.filter((l) => !/ERR_CONNECTION_REFUSED|127\.0\.0\.1:4782/.test(l));
 
 test('REQ-SEC-12 REQ-ARC-16 a service origin that is not allowed is refused with no request', async ({ page }) => {
   const { frame } = await openApp(page, 'file');
