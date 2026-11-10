@@ -18,7 +18,7 @@ GIS Workbench 2.7.0 is a civilian-use application: it is designed and intended f
 - **SBOM for the web app:** each release now carries a CycloneDX SBOM for the HTML files.
 
 ### Changed
-- **Faster start:** the Full file starts in about 1 s at 4× CPU slowdown on the reference machine, and Lite in under 0.8 s, against a 1.5 s target. The Full file is about 7.9 MB. (REQ-PRF-01, SCN-74)
+- **Faster start:** the Full file starts in about 1 s at 4× CPU slowdown on the reference machine, and Lite in under 0.8 s, against a 1.5 s target. The Full file is about 8.0 MB. (REQ-PRF-01, SCN-74)
 - **EGM2008 2.5′ heights** are now interpolated cubically, within 1 mm RMS of GeographicLib. They were up to 13.5 cm off. Heights already converted and saved don't change.
 - **Terrain from projected DEMs** keeps all its posts, instead of being thinned to 2,048 a side. Tools that walk the grid take longer on large DEMs.
 - **LandXML import** keeps the file's own triangles, so a round trip changes nothing. A breakline that crosses faces away from their vertices still splits them, and the import says how many faces changed.
