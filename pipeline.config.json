@@ -7,20 +7,6 @@
   "trustedBots": [
     "dependabot[bot]"
   ],
-  "delegates": [
-    {
-      "login": "gwb-gardener",
-      "approve": true,
-      "decide": [
-        "design",
-        "security",
-        "determination"
-      ],
-      "rearm": true,
-      "direct": true,
-      "since": "2026-11-10T02:53:00Z"
-    }
-  ],
   "models": {
     "worker": "sonnet",
     "workerComplex": "opus",
@@ -60,51 +46,15 @@
       ".pipeline/**",
       "pipeline.config.json",
       "pipeline.lock.json",
-      ".gitattributes",
       ".claude/settings*.json",
       ".claude/hooks/**",
       ".claude/agents/**",
       ".claude/workflows/**",
-      "LICENSE*",
-      "THIRD_PARTY*",
-      "docs/PRD.md",
-      "**/auth/**",
-      "**/billing/**",
-      "**/migrations/**",
-      "**/build.rs",
-      ".cargo/**",
-      "build/build.mjs",
-      "build/gates.mjs",
-      "build/rust.mjs",
-      "build/e2e.mjs",
-      "build/airgap.mjs",
-      "build/origins.json",
-      "build/eval-allowlist.json",
-      "build/packs-sources.json",
-      "build/check-policy*",
-      "build/check-quarantine.mjs",
-      "build/verify-scope.mjs",
-      "build/release/**",
-      "sidecar/**",
-      "crates/deny.toml",
-      "crates/rust-toolchain.toml",
-      "crates/.cargo/**",
-      "crates/vendor/**",
-      "**/package-lock.json",
-      "**/Cargo.lock",
-      ".node-version",
-      "TRADEMARKS.md",
-      "docs/POLICY.md",
-      "SECURITY.md",
+      ".claude/skills/council/**",
+      ".claude/skills/reviewer-eval/**",
+      "REVIEW.md",
       "**/CLAUDE.md",
       "**/AGENTS.md",
-      "REVIEW.md",
-      ".claude/skills/**"
-    ],
-    "decisionPaths": [
-      "docs/decisions/**"
-    ],
-    "adminOnlyPaths": [
       "docs/POLICY.md",
       "docs/PRD.md",
       "LICENSE*",
@@ -118,11 +68,21 @@
       "sidecar/installer/licences.json",
       "build/packs-sources.json",
       "build/csm/NOTICES.txt",
+      "sidecar/installer/**/*NOTICE*",
       "crates/vendor/**/LICENSE*",
       "crates/vendor/**/COPYING*",
       "crates/vendor/**/NOTICE*",
       ".claude/skills/release/**",
       ".claude/skills/decision/**",
+      "docs/decisions/**",
+      "sidecar/**",
+      "**/build.rs",
+      ".cargo/**",
+      "crates/.cargo/**",
+      "crates/vendor/**",
+      "build/release/**"
+    ],
+    "decisionPaths": [
       "docs/decisions/**"
     ],
     "sizeWarnLines": 800
@@ -134,13 +94,14 @@
   },
   "privateAutoMerge": false,
   "council": {
-    "maxRounds": 3,
-    "maxRoundsSensitive": 5,
     "maxNits": 5,
-    "maxSeats": 5,
+    "maxSeats": 6,
     "maxDiffGrowth": 1.5,
+    "loopModel": "sonnet",
+    "closeModel": "opus",
+    "maxLoopRounds": 16,
+    "maxCloseRounds": 8,
     "externalSeats": [],
-    "t1Model": "sonnet",
     "triggers": {
       "ui": [
         "**/*.html",
@@ -177,6 +138,114 @@
         ]
       }
     ]
+  },
+  "freshness": {
+    "mode": "overlap",
+    "floor": [
+      "build/**",
+      "playwright*.config.js",
+      "vitest.config.js",
+      ".node-version",
+      "crates/rust-toolchain.toml",
+      "sidecar/rust-toolchain.toml",
+      "crates/deny.toml",
+      "sidecar/deny.toml",
+      ".cargo/**",
+      "crates/.cargo/**",
+      "**/build.rs",
+      "crates/vendor/**",
+      "REVIEW.md",
+      "CLAUDE.md",
+      "AGENTS.md",
+      ".claude/agents/**",
+      ".claude/workflows/**",
+      ".claude/skills/**"
+    ],
+    "groups": {
+      "i18n-and-commands": [
+        "app/src/i18n/**",
+        "app/src/shell/command-meta.js",
+        "app/src/shell/ribbon-data.js",
+        "app/src/shell/commands.js"
+      ],
+      "test-support": [
+        "tests/quarantine.json",
+        "tests/e2e/helpers.js"
+      ],
+      "crate-bundles": [
+        "crates/bundles/**"
+      ],
+      "sidecar": [
+        "sidecar/**"
+      ],
+      "sidecar-client": [
+        "app/src/sidecar/**",
+        "sidecar/gwb-sidecar-api/**"
+      ],
+      "crate-gw-abi": [
+        "crates/gw-abi/**"
+      ],
+      "crate-gw-adjust": [
+        "crates/gw-adjust/**"
+      ],
+      "crate-gw-aero": [
+        "crates/gw-aero/**"
+      ],
+      "crate-gw-aviation": [
+        "crates/gw-aviation/**"
+      ],
+      "crate-gw-codec": [
+        "crates/gw-codec/**"
+      ],
+      "crate-gw-extract": [
+        "crates/gw-extract/**"
+      ],
+      "crate-gw-fuzz": [
+        "crates/gw-fuzz/**"
+      ],
+      "crate-gw-geodesy": [
+        "crates/gw-geodesy/**"
+      ],
+      "crate-gw-geoproc": [
+        "crates/gw-geoproc/**"
+      ],
+      "crate-gw-hydro": [
+        "crates/gw-hydro/**"
+      ],
+      "crate-gw-match": [
+        "crates/gw-match/**"
+      ],
+      "crate-gw-parse": [
+        "crates/gw-parse/**"
+      ],
+      "crate-gw-pointcloud": [
+        "crates/gw-pointcloud/**"
+      ],
+      "crate-gw-raster": [
+        "crates/gw-raster/**"
+      ],
+      "crate-gw-sar": [
+        "crates/gw-sar/**"
+      ],
+      "crate-gw-sensor": [
+        "crates/gw-sensor/**"
+      ],
+      "crate-gw-spectral": [
+        "crates/gw-spectral/**"
+      ],
+      "crate-gw-terrain": [
+        "crates/gw-terrain/**"
+      ],
+      "crate-gw-tiles": [
+        "crates/gw-tiles/**"
+      ],
+      "crate-gw-tin": [
+        "crates/gw-tin/**"
+      ],
+      "crate-gw-vector": [
+        "crates/gw-vector/**"
+      ]
+    }
   },
   "breaker": {
     "window": 20,

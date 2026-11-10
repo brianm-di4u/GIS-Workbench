@@ -64,10 +64,17 @@ const VOTES = {
 
 const plan = args
 
+// Attributes are read from the merge base, so a .gitattributes line in the change under review, such
+// as `-diff` or `binary`, can't blank what the seats read, while the base's own binary rules still hold.
+const GIT_DIFF = `git --attr-source=${plan.mergeBase} diff --no-ext-diff --no-textconv`
+// The base marks fixtures/** binary, so a changed golden or oracle file (.json, .xml, .geojson, .txt, .csv)
+// reads as "Binary files differ". Seats read those one at a time with --text, never the whole diff with it.
+const TEXT_NOTE = `A changed text file that shows "Binary files differ", such as a fixtures/ truth or oracle file, must still be read: run the same command with --text and -- <path> for that file.`
+
 const scope =
   plan.mode === 'full'
-    ? `Review the whole change: git diff ${plan.mergeBase} ${plan.head}`
-    : `Review only what changed since the last round: git diff ${plan.lastReviewedSha} ${plan.head}. Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
+    ? `Review the whole change: ${GIT_DIFF} ${plan.mergeBase} ${plan.head}. ${TEXT_NOTE}`
+    : `Review only what changed since the last round: ${GIT_DIFF} ${plan.lastReviewedSha} ${plan.head}. ${TEXT_NOTE} Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
 
 const location = plan.cwd
   ? `The repository under review is at ${plan.cwd}. Change to it first, and read nothing outside it.\n\n`
@@ -84,6 +91,7 @@ ${location}${visibility}
 Intent of this change: ${plan.intent}
 Out of scope: ${plan.outOfScope ?? 'anything the intent does not need'}
 Risk tier: T${plan.tier}. Base: ${plan.mergeBase}. Head: ${plan.head}.
+Review phase: ${plan.phase ?? 'loop'}, run on ${plan.model ?? 'the default model'}.
 ${scope}
 
 Evidence from the author's verification is in: ${plan.evidenceDir}
@@ -162,32 +170,22 @@ log(`${candidates.length} candidate findings from ${answered.length} seats`)
 phase('Verify')
 let survivors = []
 let refuted = 0
-const voters = plan.mode === 'confirm' ? plan.panel.slice(0, 1) : plan.panel
+const voters = plan.panel
 
-// A confirmation pass still has to look at the last fix, even with no candidates.
-const confirmation =
-  plan.mode === 'confirm'
-    ? await seatCall(
-        'council-verifier',
-        `${brief}\n\nYou are confirming the author's last fix. Report only what that fix got wrong or broke.`,
-        { label: 'confirm', phase: 'Verify', schema: FINDINGS, model: 'sonnet' },
-      )
-    : null
-if (plan.mode === 'confirm') {
-  if (confirmation?.headVisible === true) {
-    candidates.push(...confirmation.findings.map((f, i) => ({ ...f, seat: 'confirm', key: i })))
-  } else {
-    missing.push('council-verifier')
-  }
-}
-
-if (candidates.length > 0 && plan.mode !== 'confirm') {
+if (candidates.length > 0) {
   const list = candidates.map(({ key, severity, file, line, claim, evidence }) => ({ key, severity, file, line, claim, evidence }))
   const ballots = await parallel(
     voters.map((model, index) => () =>
       seatCall(
         'council-verifier',
-        `${location}${visibility}\n\nIntent of this change: ${plan.intent}\nBase: ${plan.mergeBase}. Head: ${plan.head}.\n\nTry to refute each of these review findings against the source, as your instructions say. Vote on every key.\n\n${JSON.stringify(list, null, 2)}`,
+        `${location}${visibility}
+
+Intent of this change: ${plan.intent}
+Base: ${plan.mergeBase}. Head: ${plan.head}.
+
+Try to refute each of these review findings against the source, as your instructions say. Vote on every key.
+
+${JSON.stringify(list, null, 2)}`,
         { label: `verifier-${index + 1}`, phase: 'Verify', schema: VOTES, model },
       ),
     ),
@@ -213,8 +211,6 @@ if (candidates.length > 0 && plan.mode !== 'confirm') {
     }
   }
   if (incomplete) missing.push('council-verifier')
-} else if (plan.mode === 'confirm') {
-  survivors = candidates
 }
 
 survivors.sort((a, b) => rank[a.severity] - rank[b.severity])
