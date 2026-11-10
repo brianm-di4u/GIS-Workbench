@@ -209,7 +209,7 @@ for (const [name, dev] of PHONES) {
         await page.keyboard.press('Escape');
         await frame.waitForFunction(() => !document.querySelector('.dlg'));
       }
-      expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+      expect(logs).toEqual([]);
     });
 
     test(`REQ-HOST-05 gestures: pinch, two-finger rotate, double tap, long press (${name})`, async ({ page }) => {
@@ -388,7 +388,7 @@ for (const [name, dev] of PHONES) {
       await page.locator('[data-id="m:cmd:obs.table"]').tap();
       await expect(page.locator('[data-id="obs-table"]')).toContainText('Two vehicles at the gate');
       expect(await axe(frame)).toEqual([]);
-      expect(logs.filter((l) => !/favicon/.test(l))).toEqual([]);
+      expect(logs).toEqual([]);
     });
   });
 }
