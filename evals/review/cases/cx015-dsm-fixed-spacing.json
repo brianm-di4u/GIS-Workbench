@@ -1,0 +1,33 @@
+{
+  "id": "cx015-dsm-fixed-spacing",
+  "source": "CX-015",
+  "split": "test",
+  "kind": "bug",
+  "intent": "Make a DSM grid from a point cloud: the highest point in each post. It runs on every cloud the app opens, from LAS tiles to COPC files.",
+  "base": {
+    "package.json": "{ \"name\": \"fixture\", \"private\": true, \"type\": \"module\" }\n"
+  },
+  "head": {
+    "src/dsm.js": "// A DSM from a point cloud: the highest point in each post.\nexport function dsmFromPoints(cloud, spacing = 1) {\n  const { minX, minY, maxX, maxY } = cloud.bounds;\n  const width = Math.ceil((maxX - minX) / spacing) + 1;\n  const height = Math.ceil((maxY - minY) / spacing) + 1;\n  const grid = new Float32Array(width * height).fill(NaN);\n  for (const [x, y, z] of cloud.points) {\n    const i = Math.round((maxY - y) / spacing) * width + Math.round((x - minX) / spacing);\n    if (!(grid[i] >= z)) grid[i] = z;\n  }\n  return { width, height, spacing, grid };\n}\n"
+  },
+  "expect": [
+    {
+      "file": "src/dsm.js",
+      "from": 2,
+      "to": 6,
+      "words": [
+        "density",
+        "point spacing",
+        "sparse",
+        "huge",
+        "memory",
+        "no cap",
+        "uncapped",
+        "too many posts",
+        "allocat",
+        "unbounded",
+        "limit"
+      ]
+    }
+  ]
+}
