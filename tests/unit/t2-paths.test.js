@@ -9,11 +9,12 @@ const config = loadConfig('pipeline.config.json', { warn: (message) => warnings.
 const change = (path) => ({ path, oldMode: '100644', newMode: '100644', oldSha: 'a', newSha: 'b' });
 const tierOf = (...paths) => classify({ changes: paths.map(change), config, author: config.admins[0] }).tier;
 
-// What needs the admin: pipeline and permission files, the review machinery, the rule and licence
+// What needs the admin: pipeline and permission files (the secret scanner's allowlist among them),
+// the review machinery, the rule and licence
 // files, and four things kept for security: the sidecar, build-time code, vendored crates and the
 // release tools.
 const KEPT = [
-  '.github/**', '.pipeline/**', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings*.json', '.claude/hooks/**',
+  '.github/**', '.gitleaks.toml', '.pipeline/**', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings*.json', '.claude/hooks/**',
   '.claude/agents/**', '.claude/workflows/**', '.claude/skills/**', 'REVIEW.md', '**/CLAUDE.md', '**/AGENTS.md',
   'docs/POLICY.md', 'docs/PRD.md', 'LICENSE*', 'THIRD_PARTY*', 'TRADEMARKS.md', 'SECURITY.md',
   'build/check-policy*', 'crates/deny.toml', 'build/origins.json', 'build/airgap.mjs',
@@ -36,7 +37,7 @@ describe('tiers.t2Paths', () => {
 
   it('needs the admin for a real file name under each kept glob', () => {
     for (const path of [
-      '.github/workflows/gate.yml', '.pipeline/gate.mjs', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings.json', '.claude/hooks/guard.mjs',
+      '.github/workflows/gate.yml', '.github/secret_scanning.yml', '.gitleaks.toml', '.pipeline/gate.mjs', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings.json', '.claude/hooks/guard.mjs',
       '.claude/agents/council-architect.md', '.claude/workflows/council-round.js', '.claude/skills/council/SKILL.md', '.claude/skills/reviewer-eval/SKILL.md',
       '.claude/skills/full-send/SKILL.md', '.claude/skills/autopilot/SKILL.md', '.claude/skills/babysit-pr/scripts/pr-wait',
       'REVIEW.md', 'CLAUDE.md', 'sidecar/CLAUDE.md', 'AGENTS.md',
