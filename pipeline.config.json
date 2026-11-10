@@ -109,7 +109,21 @@
       "docs/PRD.md",
       "LICENSE*",
       "THIRD_PARTY*",
-      "TRADEMARKS.md"
+      "TRADEMARKS.md",
+      "SECURITY.md",
+      "build/check-policy*",
+      "crates/deny.toml",
+      "build/origins.json",
+      "build/airgap.mjs",
+      "sidecar/installer/licences.json",
+      "build/packs-sources.json",
+      "build/csm/NOTICES.txt",
+      "crates/vendor/**/LICENSE*",
+      "crates/vendor/**/COPYING*",
+      "crates/vendor/**/NOTICE*",
+      ".claude/skills/release/**",
+      ".claude/skills/decision/**",
+      "docs/decisions/**"
     ],
     "sizeWarnLines": 800
   },

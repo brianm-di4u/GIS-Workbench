@@ -40,14 +40,16 @@ A separate GitHub account, `gwb-gardener`, is a delegate in `pipeline.config.jso
 - **The hash residual from 0008 now covers Gardener approvals.** A change hash without context lets anyone who can push after an approval move the approved lines within a file and keep the approval. Workers push under the admin's login, so no delegate-touch marker fires. The Gardener reads the diff on the head it approves, which is the mitigation.
 - **Unverified until the Gardener first runs:** that the clone's local settings override the user-level token for both `gh` and the guard hook. If they don't, the guard denies, which is the safe failure.
 
-## Left to the admin's choice
+## What the admin chose
 
-**These are open. This record does not settle them.** The council raised two gaps in the grant. Neither is fixed here, because each changes the authority model the admin approved, and the admin should pick from the lists below.
+The council raised two gaps in the grant. On 2026-11-10 the admin chose in chat to close them ("Yes, add them"). `tiers.adminOnlyPaths` also lists:
 
-- **Enforcement files.** `tiers.adminOnlyPaths` lists the rule files (`docs/POLICY.md`, `docs/PRD.md`, `LICENSE*`, `THIRD_PARTY*`, `TRADEMARKS.md`) but not the files that enforce them or steer agents: `build/check-policy*`, `crates/deny.toml`, `build/origins.json`, `build/airgap.mjs`, `**/CLAUDE.md`, `AGENTS.md`, `REVIEW.md`, the council's seats and round script (`.claude/agents/**`, `.claude/workflows/**`), and the `decision`, `release` and `full-send` skills. Files that carry licence or third-party terms are in the same position: `crates/vendor/**` (each vendored crate's own licence files), `sidecar/installer/licences.json`, `build/packs-sources.json`, `build/csm/NOTICES.txt` and `SECURITY.md`. The `LICENSE*` and `THIRD_PARTY*` globs match only root-level names. They are T2, so the Gardener may approve changes to them. Adding them sends more PRs to the admin.
-- **Decision records.** `docs/decisions/**` is not admin-only. A record that cites no `/decide` is T2, and the Gardener may approve it, which then settles the question for every agent. Adding `docs/decisions/**` to `tiers.adminOnlyPaths` makes every record need the admin.
+- **Policy and licence enforcement:** `build/check-policy*`, `crates/deny.toml`, `build/origins.json`, `build/airgap.mjs`, `sidecar/installer/licences.json`, `build/packs-sources.json`, `build/csm/NOTICES.txt` and `SECURITY.md`.
+- **Licence files in vendored crates:** `crates/vendor/**/LICENSE*`, `COPYING*` and `NOTICE*`. The vendored code itself stays with the Gardener.
+- **Skills:** `.claude/skills/release/**` and `.claude/skills/decision/**`.
+- **Decision records:** `docs/decisions/**`, for now. A record that cites no decide command is T2, and the gate can't tell "approved in chat" from a forged claim, so every record needs the admin until the gate can check a record against the decision it cites (issue #145).
 
-Both are one-line config changes, and the admin can make either at approval. A record that says "approved in chat" cannot be told from a forged one by the gate, which is why the second matters.
+Left with the Gardener on purpose: `**/CLAUDE.md`, `AGENTS.md`, `REVIEW.md`, `.claude/agents/**` (the council's seats), `.claude/workflows/**` (its round script) and the `full-send` skill. The council noted that the seats and round script steer reviews the Gardener relies on. The admin accepted that.
 
 ## Baseline
 
