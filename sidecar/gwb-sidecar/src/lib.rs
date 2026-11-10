@@ -4,6 +4,7 @@
 
 pub mod appserve;
 pub mod caps;
+pub mod cdp;
 pub mod config;
 #[cfg(feature = "cors-relay")]
 pub mod corsrelay;
@@ -16,6 +17,7 @@ pub mod paths;
 pub mod picker;
 pub mod profiles;
 pub mod prosync;
+pub mod recipe_run;
 pub mod relay;
 pub mod runner;
 pub mod security;
