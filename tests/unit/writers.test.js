@@ -3,7 +3,7 @@
 // field layout (header length, RPC00B and ICHIPB sizes, IGEOLO) and PDF cross-reference offsets.
 import { describe, it, expect } from 'vitest';
 import { fromArrayBuffer } from 'geotiff';
-import { writeGeoTiff, halve } from '../../app/src/formats/geotiff-writer.js';
+import { writeGeoTiff, halve, geoKeys } from '../../app/src/formats/geotiff-writer.js';
 import { writeNitf, rpc00b, ichipb, dms, securityGroup } from '../../app/src/formats/nitf-writer.js';
 import { writePdf } from '../../app/src/formats/pdf-writer.js';
 import { resolveTokens, acqTime } from '../../app/src/products/tokens.js';
@@ -186,5 +186,16 @@ describe('NITF writer: more than 9 bands', () => {
     // Band-interleaved by block: the last band's first sample follows 11 bands of 6 samples.
     const dataStart = u8.length - nb * 6 * 2;
     expect(new DataView(u8.buffer, u8.byteOffset).getUint16(dataStart + 11 * 12, false)).toBe(110);
+  });
+});
+
+describe('GeoTIFF vertical keys (REQ-GAP-80: derived DEMs keep their datum)', () => {
+  it('states NAVD88, EGM2008, EGM96 and HAE heights by their EPSG codes', () => {
+    const vcs = (vertical) => {
+      const k = geoKeys({ epsg: 4326, vertical });
+      for (let i = 4; i < k.length; i += 4) if (k[i] === 4096) return k[i + 3];
+      return null;
+    };
+    expect([vcs('navd88'), vcs('egm2008'), vcs('egm96'), vcs('hae'), vcs(null)]).toEqual([5703, 3855, 5773, 5030, null]);
   });
 });
