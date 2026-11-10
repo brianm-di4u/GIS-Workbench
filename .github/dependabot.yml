@@ -17,10 +17,6 @@ updates:
     groups:
       npm:
         patterns: ['*']
-    ignore:
-      # 4.6.1 crashes Convert ▸ FlatGeobuf and changes deserialize (#32).
-      - dependency-name: flatgeobuf
-        versions: ['>= 4.5.0']
   - package-ecosystem: cargo
     directory: /crates
     schedule:

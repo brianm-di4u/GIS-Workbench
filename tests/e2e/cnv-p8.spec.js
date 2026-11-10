@@ -68,9 +68,22 @@ test('REQ-CNV-02 vectors convert to FlatGeobuf', async ({ page }) => {
   expect(Array.from(bytes.subarray(0, 3))).toEqual([0x66, 0x67, 0x62]); // "fgb"
   let header = null;
   const all = [];
-  for await (const f of deserialize(bytes, undefined, (h) => (header = h))) all.push(f);
+  for await (const f of deserialize(bytes, { headerMetaFn: (h) => (header = h) })) all.push(f);
   const src = JSON.parse(readFileSync(FX12, 'utf8'));
   expect(all.length).toBe(src.features.length);
   expect(header.featuresCount).toBe(src.features.length);
   expect(header.crs?.code).toBe(4326);
+  // The app's own reader (its worker glue) keeps a projected CRS: a UTM 13N point comes back near
+  // Denver, not at 500000, 4400000 (#32: flatgeobuf 4.6 takes the header callback in an options object).
+  const xyz = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const Fgb = await app.gw.runScript('js-fgb');
+    const fc = { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { n: 1 }, geometry: { type: 'Point', coordinates: [500000, 4400000] } }] };
+    const before = new Set(app.store.all('vlayer').map((v) => v.id));
+    await app.openVectorFiles([new File([Fgb.serialize(fc, 32613)], 'utm.fgb')]);
+    const v = app.store.all('vlayer').find((x) => !before.has(x.id));
+    return app.store.all('feature').find((x) => x.vlayer === v.id).geom.xyz;
+  });
+  expect(xyz[0]).toBeCloseTo(-105, 6);
+  expect(xyz[1]).toBeCloseTo(39.7499, 3);
 });

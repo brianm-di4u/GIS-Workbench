@@ -23,7 +23,7 @@
     "@mapbox/vector-tile": "3.0.0",
     "ag-psd": "34.1.0",
     "fflate": "0.8.3",
-    "flatgeobuf": "4.4.0",
+    "flatgeobuf": "4.6.1",
     "geotiff": "3.0.5",
     "hyparquet-writer": "0.18.0",
     "kdbush": "4.1.0",
