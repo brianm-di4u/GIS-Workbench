@@ -384,7 +384,10 @@ describe('device features', () => {
     await sleep(3000);
     await shot('save-2');
     const root = join(homedir(), 'Library', 'Developer', 'CoreSimulator', 'Devices', UDID, 'data');
-    const files = execFileSync('find', [root, '-name', 'observations-*.geojson'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+    const find = () => execFileSync('find', [root, '-name', 'observations-*.geojson'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+    // The download can land some seconds after it is accepted on the runner (#185).
+    let files = find();
+    for (const end = Date.now() + 15_000; !files.length && Date.now() < end; files = find()) await sleep(1000);
     note('save', { label, files });
     assert.ok(files.length > 0, 'a saved file');
     assert.equal(JSON.parse(readFileSync(files.at(-1), 'utf8')).features.length, 1);
