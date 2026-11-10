@@ -170,4 +170,14 @@ describe('one source text, two meanings', () => {
     expect(command.map((m) => m.key)).toEqual([keyOf('Square')]);
     expect(option[0].key).not.toBe(command[0].key);
   });
+
+  // The keys of every message with this source text in one file under app/src.
+  const keys = (file, src) => messagesInJs(readFileSync(join('app', 'src', ...file.split('/')), 'utf8')).filter((m) => m.src === src).map((m) => m.key);
+
+  // #193: the vector Buffer dialog shared "Buffer" with the landing-zone clearance margin, so
+  // Spanish titled the dialog "Margen libre".
+  it('gives the landing-zone Buffer margin its own key, apart from the vector Buffer dialog', () => {
+    expect(keys('features/terrain-analysis.js', 'Buffer')).toEqual([keyOf('Buffer', 'landing zone')]);
+    expect(keys('features/geoproc-ui.js', 'Buffer')).toEqual([keyOf('Buffer')]);
+  });
 });

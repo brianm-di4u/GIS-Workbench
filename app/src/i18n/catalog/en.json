@@ -4850,8 +4850,7 @@
    "key": "Buffer",
    "src": "Buffer",
    "refs": [
-    "features/geoproc-ui.js",
-    "features/terrain-analysis.js"
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -49583,6 +49582,14 @@
    "src": "labels",
    "refs": [
     "formats/lyrx.js"
+   ]
+  },
+  {
+   "key": "landing zone\u0004Buffer",
+   "src": "Buffer",
+   "ctx": "landing zone",
+   "refs": [
+    "features/terrain-analysis.js"
    ]
   },
   {
