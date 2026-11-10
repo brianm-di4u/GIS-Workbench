@@ -35,6 +35,10 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/app-setup
+      # Firefox has no SwiftShader of its own: its WebGL2 needs the system Mesa, which the ubuntu-26.04
+      # image lacks, so every test failed at boot with "cannot start here" (#48).
+      - name: Mesa for Firefox WebGL
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libegl1 libgl1-mesa-dri
       - run: npx playwright install --with-deps firefox
       - run: node build/build.mjs --strict
       - run: npx playwright test --config playwright.firefox.config.js
