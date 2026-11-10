@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { parse, format, signature } from '../../app/src/i18n/icu.js';
 import { t, tc, tr, N_, setLocale, negotiate, gwError, msgOf, keyOf, dirOf, locale } from '../../app/src/i18n/index.js';
 import { num, int, length, area, setUnits, words, list } from '../../app/src/i18n/format.js';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
@@ -156,5 +156,18 @@ describe('build tooling', () => {
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
+  });
+});
+
+describe('one source text, two meanings', () => {
+  // #187: Buffer's line-end option "Square" shared its key with the Square command (make corners
+  // square), so other locales showed the command's verb in the Line ends list.
+  it("gives Buffer's Square line end its own key, apart from the Square command", () => {
+    const read = (f) => messagesInJs(readFileSync(join('app', 'src', f), 'utf8')).filter((m) => m.src === 'Square');
+    const option = read(join('features', 'geoproc-ui.js'));
+    const command = read(join('shell', 'commands.js'));
+    expect(option.map((m) => m.key)).toEqual([keyOf('Square', 'line end')]);
+    expect(command.map((m) => m.key)).toEqual([keyOf('Square')]);
+    expect(option[0].key).not.toBe(command[0].key);
   });
 });
