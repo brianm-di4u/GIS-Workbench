@@ -10512,6 +10512,13 @@
    ]
   },
   {
+   "key": "Directions: T against the line, F along it (HERE)",
+   "src": "Directions: T against the line, F along it (HERE)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Discard",
    "src": "Discard",
    "refs": [
@@ -15436,6 +15443,13 @@
   {
    "key": "Geocoded",
    "src": "Geocoded",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Geocoding {n, plural, one {# address} other {# addresses}}…",
+   "src": "Geocoding {n, plural, one {# address} other {# addresses}}…",
    "refs": [
     "features/routing-tools.js"
    ]
@@ -39630,6 +39644,13 @@
    ]
   },
   {
+   "key": "T and F mean",
+   "src": "T and F mean",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "T.4 bi-level images with several blocks need a block mask (IC=M1)",
    "src": "T.4 bi-level images with several blocks need a block mask (IC=M1)",
    "refs": [
@@ -41296,6 +41317,13 @@
    ]
   },
   {
+   "key": "The start and the end are the same place on the road network",
+   "src": "The start and the end are the same place on the road network",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "The stream’s origin, and its key server for an AES-128 stream, must be in this file’s network allow-list (Add-Ins ▸ Network Allow-List). H.264 plays live or on demand; MPEG-2 plays on demand through the app’s decoder.",
    "src": "The stream’s origin, and its key server for an AES-128 stream, must be in this file’s network allow-list (Add-Ins ▸ Network Allow-List). H.264 plays live or on demand; MPEG-2 plays on demand through the app’s decoder.",
    "refs": [
@@ -41492,6 +41520,13 @@
    "src": "This data set was tested to meet ASPRS Positional Accuracy Standards for Digital Geospatial Data, Edition 2 (2023), for a {rmse} cm RMSEz vertical accuracy class. Actual NVA accuracy was found to be RMSEz = {rmse} cm; VVA RMSEz = {vva} cm, from {n, plural, one {# checkpoint} other {# checkpoints}}.",
    "refs": [
     "features/dem-tools.js"
+   ]
+  },
+  {
+   "key": "This field holds only T and F, which can mean either.",
+   "src": "This field holds only T and F, which can mean either.",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -42315,6 +42350,13 @@
    "src": "True Ortho",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "True and false: T one-way along the line, F two-way",
+   "src": "True and false: T one-way along the line, F two-way",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -47388,6 +47430,7 @@
    "src": "cancelled",
    "refs": [
     "features/aviation-obstruction.js",
+    "features/routing-tools.js",
     "sidecar/feature.js",
     "workers/pool.js"
    ]
