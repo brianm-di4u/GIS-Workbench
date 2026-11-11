@@ -166,6 +166,10 @@ pub struct Image {
     pub range: Range,
     /// Along-track spacing of a line on the ground (m), for the β⁰ reference area.
     pub az_spacing: f64,
+    /// A pixel's zero-Doppler time less its line's time, a + s·τ (s; τ the two-way slant range
+    /// time): Sentinel-1's bistatic azimuth delay, (τ − τ_ref)/2, as the product's own geolocation
+    /// grid states it. (0, 0) for none.
+    pub az_delay: (f64, f64),
 }
 
 fn poly(c: &[f64], x: f64) -> f64 {
@@ -176,8 +180,14 @@ fn dpoly(c: &[f64], x: f64) -> f64 {
 }
 
 impl Image {
-    /// The image line of zero-Doppler time `t`, in the block whose valid lines hold it (the one
-    /// whose centre is nearest where blocks overlap). None outside every block.
+    /// The image line of a point at zero-Doppler time `t` and slant range `r` (m): `line` at the
+    /// time of its line, its zero-Doppler time less the azimuth delay.
+    pub fn line_at(&self, t: f64, r: f64) -> Option<f64> {
+        self.line(t - (self.az_delay.0 + self.az_delay.1 * 2.0 * r / C))
+    }
+
+    /// The image line of line time `t`, in the block whose valid lines hold it (the one whose
+    /// centre is nearest where blocks overlap). None outside every block.
     pub fn line(&self, t: f64) -> Option<f64> {
         let mut best: Option<(f64, f64)> = None;
         for b in &self.blocks {
@@ -341,7 +351,7 @@ impl Job {
         if win.nl == 0 || win.ns == 0 || win.beta.len() != win.nl * win.ns || !(win.kl >= 1.0) || !(win.ks >= 1.0) {
             return Err("sargeo: the radar window is malformed");
         }
-        if img.blocks.is_empty() || !(img.dt > 0.0) || !(img.az_spacing > 0.0) {
+        if img.blocks.is_empty() || !(img.dt > 0.0) || !(img.az_spacing > 0.0) || !(img.az_delay.0.abs() < 1.0 && img.az_delay.1.abs() < 10.0) {
             return Err("sargeo: the image timing is malformed");
         }
         match &img.range {
@@ -353,6 +363,12 @@ impl Job {
         }
         let zrange = dem.z.iter().filter(|v| v.is_finite()).fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), &v| (a.min(v as f64), b.max(v as f64)));
         Ok(Job { orbit, img, dem, win, opts, stage: 0, row: 0, t: vec![f64::NAN; n], wl: vec![f32::NAN; n], wp: vec![f32::NAN; n], area: Vec::new(), arows: 0, at0: 0.0, trusted: Vec::new(), zrange, value: vec![f32::NAN; n], mask: vec![0; n], counts: [0; 3] })
+    }
+
+    /// The mask as written: 1 layover, 2 shadow, 0 neither, and NO_GEOMETRY where the post has no
+    /// image position (outside the swath, on the side the radar does not see, or a void).
+    pub fn mask_out(&self) -> Vec<u8> {
+        self.mask.iter().zip(&self.t).map(|(&m, t)| if t.is_finite() { m } else { NO_GEOMETRY }).collect()
     }
 
     /// Each post's image line and pixel, interleaved (NaN where it has none): for checks against
@@ -432,7 +448,7 @@ impl Job {
             if !self.seen_side(t, x) {
                 continue;
             }
-            let Some(line) = self.img.line(t) else { continue };
+            let Some(line) = self.img.line_at(t, r) else { continue };
             let pixel = self.img.pixel(t, r);
             let (wl, wp) = self.win.at(line, pixel);
             self.t[k] = t;
@@ -489,7 +505,7 @@ impl Job {
                 // where the corners fall either side of a burst switch, about 150 lines apart.
                 let tc = (self.t[tri[0].1] + self.t[tri[1].1] + self.t[tri[2].1]) / 3.0;
                 let Some((t, r)) = zero_doppler(&self.orbit, cen, tc) else { continue };
-                if self.img.line(t).is_none() || !self.seen_side(t, cen) {
+                if self.img.line_at(t, r).is_none() || !self.seen_side(t, cen) {
                     continue; // imaged by no block
                 }
                 let look = sub(self.orbit.state(t).0, cen);
@@ -683,6 +699,9 @@ impl Job {
         }
     }
 }
+
+/// The mask value of a post with no image position.
+pub const NO_GEOMETRY: u8 = 255;
 
 /// The largest spacing, in A_γ grid pixels, between the points a triangle's area is spread over.
 const SUB: f64 = 0.25;

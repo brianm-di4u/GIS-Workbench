@@ -80,8 +80,8 @@ describe('REQ-GAP-90 REG-085 SAR geocoding jobs', () => {
     expect(l.beta[1]).toBeCloseTo(1, 6); // NaN samples left out
     const prm = sargeoParams({ t: [1, 2, 3, 4], p: Array(12).fill(0), v: Array(12).fill(0) }, 1, imageGeometry(ann0), { width: 2, height: 3, lat0: 1, lon0: 2, dlat: 0.1, dlon: 0.1 }, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: true, look: 1 });
     expect(() => sargeoParams({ t: [1, 2, 3, 4], p: Array(12).fill(0), v: Array(12).fill(0) }, 1, imageGeometry(ann0), { width: 2, height: 3, lat0: 1, lon0: 2, dlat: 0.1, dlon: 0.1 }, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: true })).toThrow(/look/);
-    // 1 + 4 + 12 + 12 (orbit) + 3 + 4 (one block) + 3 (slant) + 6 (DEM) + 6 (window) + 5 (options)
-    expect(prm.length).toBe(56);
+    // 1 + 4 + 12 + 12 (orbit) + 3 + 4 (one block) + 3 (slant) + 6 (DEM) + 6 (window) + 5 (options) + 2 (azimuth delay)
+    expect(prm.length).toBe(58);
     expect(Array.from(prm.slice(1, 5))).toEqual([0, 1, 2, 3]);
   });
 
@@ -118,7 +118,8 @@ describe.skipIf(!haveWasm || !haveScene)('sargeo on a Sentinel-1 IW SLC (S-72 or
     const orbit = pickOrbit(ann, null);
     const geom = imageGeometry(ann);
     expect(geom.blocks.length).toBe(ann.bursts.length);
-    const one = { ...geom, blocks: [{ t0: 0, firstLine: 0, valid: [-1e9, 1e9] }] };
+    // The solver alone: no azimuth delay, so the line is the zero-Doppler time's.
+    const one = { ...geom, blocks: [{ t0: 0, firstLine: 0, valid: [-1e9, 1e9] }], azDelay: [0, 0] };
     const sg = new SargeoBundle(new WebAssembly.Module(readFileSync(wasm('sargeo'))));
     const g = ann.grid;
     let worst = [0, 0];
@@ -135,5 +136,41 @@ describe.skipIf(!haveWasm || !haveScene)('sargeo on a Sentinel-1 IW SLC (S-72 or
     // S-72: 2.4 µs in azimuth is 0.0012 lines (dt 2.06 ms); 8 mm in range is 0.004 pixels (2.33 m).
     expect(worst[0], `worst line error ${worst[0]}`).toBeLessThan(0.005);
     expect(worst[1], `worst pixel error ${worst[1]}`).toBeLessThan(0.01);
+  });
+
+  // The same points through the real burst blocks. The grid's rows are each burst's first line,
+  // which is outside its valid lines, so a point lands in the burst before (bursts overlap in
+  // time). Its line must lie in that burst's valid lines and, by the grid row that starts that
+  // burst, be at the point's own azimuth time: line = row line + (t − row t)/dt.
+  it.each(['iw1', 'iw2', 'iw3'])('%s: through the real TOPS bursts, each point lands on a valid line at its own time', async (sw) => {
+    const dir = join(SAFE, 'annotation');
+    const ann = annotation(join(dir, readdirSync(dir).find((f) => f.includes(`-${sw}-`) && f.includes('-vv-'))));
+    const orbit = pickOrbit(ann, null);
+    const geom = imageGeometry(ann);
+    // The grid's bistatic azimuth delay: half the slant range time, less a constant.
+    expect(geom.azDelay[1]).toBeCloseTo(0.5, 3);
+    const sg = new SargeoBundle(new WebAssembly.Module(readFileSync(wasm('sargeo'))));
+    const g = ann.grid;
+    const nx = g.pixels.length;
+    let [worst, n, outside] = [0, 0, 0];
+    for (let k = 0; k < g.lat.length; k++) {
+      const dem = { width: 2, height: 2, lat0: g.lat[k], lon0: g.lon[k], dlat: 1e-5, dlon: 1e-5 };
+      const z = new Float32Array(4).fill(g.height[k]);
+      const prm = sargeoParams(orbit, ann.t0, geom, dem, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: false, look: 1 });
+      const line = (await sg.run(prm, z, new Float32Array(1), { coords: true })).coords[0];
+      if (!Number.isFinite(line)) continue;
+      n++;
+      const b = ann.bursts.find((x) => x.validLines && line >= x.validLines[0] && line < x.validLines[1]); // absolute lines
+      if (!b) {
+        outside++;
+        continue;
+      }
+      const j = g.lines.findLastIndex((l) => l <= line);
+      const rowT = g.t[j * nx + (k % nx)];
+      worst = Math.max(worst, Math.abs(line - (g.lines[j] + (g.t[k] - rowT) / geom.dt)));
+    }
+    expect(n, 'points with a line').toBeGreaterThan(0.6 * g.lat.length);
+    expect(outside, 'points outside every burst’s valid lines').toBe(0);
+    expect(worst, `worst line error ${worst}`).toBeLessThan(0.005);
   });
 });

@@ -82,7 +82,7 @@ fn job(prm: &[f64], z: &[f32], beta: &[f32]) -> Result<Job> {
             Range::Ground { dg, recs }
         }
     };
-    let img = Image { dt, blocks, range, az_spacing };
+    let mut img = Image { dt, blocks, range, az_spacing, az_delay: (0.0, 0.0) };
     let (w, h) = (r.n(MAX_CELLS)?, r.n(MAX_CELLS)?);
     let (lat0, lon0, dlat, dlon) = (r.f()?, r.f()?, r.f()?, r.f()?);
     if w.checked_mul(h).map_or(true, |c| c > MAX_CELLS) || z.len() != w * h {
@@ -97,6 +97,7 @@ fn job(prm: &[f64], z: &[f32], beta: &[f32]) -> Result<Job> {
     if ![-1.0, 0.0, 1.0].contains(&look) {
         return Err(Error::invalid("sargeo: the look side must be 1, -1 or 0"));
     }
+    img.az_delay = (r.f()?, r.f()?);
     if stride > 0 && !(step > 0.0 && step.is_finite() && tol >= 0.0) {
         return Err(Error::invalid("sargeo: the mask step must be positive"));
     }
@@ -140,13 +141,13 @@ pub extern "C" fn gw_sargeo_step(h: u32, rows: u32) -> i32 {
 }
 
 /// A finished job's output: 0 the values (f32 per DEM post, NaN = none), 1 the mask (u8 per post:
-/// 1 layover, 2 shadow), 2 the counts [posts with a value, layover, shadow] (f64), 3 each post's
+/// 1 layover, 2 shadow, 255 no image position), 2 the counts [posts with a value, layover, shadow] (f64), 3 each post's
 /// image line and pixel (f32 pairs, NaN where it has none).
 #[no_mangle]
 pub extern "C" fn gw_sargeo_result(h: u32, what: u32) -> i32 {
     status(with_job(h, |j| match what {
         0 => Ok(set_out(j.value.iter().flat_map(|v| v.to_le_bytes()).collect())),
-        1 => Ok(set_out(j.mask.clone())),
+        1 => Ok(set_out(j.mask_out())),
         2 => Ok(set_out(j.counts.iter().flat_map(|&c| (c as f64).to_le_bytes()).collect())),
         3 => Ok(set_out(j.image_coords().iter().flat_map(|v| v.to_le_bytes()).collect())),
         _ => Err(Error::invalid("sargeo: unknown output")),

@@ -57,7 +57,43 @@ export function imageGeometry(ann, epoch = ann.t0) {
     range = { kind: 'slant', r0: (ann.slantRangeTime * C) / 2, dr: C / (2 * ann.rangeSamplingRate) };
   }
   if (!(dt > 0) || !(ann.azimuthSpacing > 0)) return null;
-  return { dt, azSpacing: ann.azimuthSpacing, blocks, range };
+  return { dt, azSpacing: ann.azimuthSpacing, blocks, range, azDelay: azDelay(ann, bursts, dt) };
+}
+
+/**
+ * A pixel's zero-Doppler time less its line's time, as [a, s] for a + s·τ (s; τ the slant range
+ * time), fitted to the product's own geolocation grid: each grid point gives its line, its
+ * zero-Doppler time and its τ, and the line's time comes from the burst it starts in. Sentinel-1
+ * IW SLC grids show the bistatic azimuth delay, (τ − τ_ref)/2: s = ½ to 10⁻⁴ and about a
+ * microsecond of scatter, an eighth of a line at the swath edges. [0, 0] without such a grid,
+ * or when a line fits it worse than 50 µs.
+ */
+export function azDelay(ann, bursts, dt) {
+  const g = ann.grid;
+  if (!g?.t?.length || !g?.tau?.length || !g.lines?.length) return [0, 0];
+  const nx = g.pixels.length;
+  const xs = [];
+  const ys = [];
+  for (let j = 0; j < g.lines.length; j++) {
+    const L = g.lines[j];
+    const b = bursts.length ? bursts.findLast((x) => x.firstLine <= L) : null;
+    const lineT = b ? b.t + (L - b.firstLine) * dt : ann.t0 + L * dt;
+    for (let i = 0; i < nx; i++) {
+      const k = j * nx + i;
+      if (Number.isFinite(g.t[k]) && Number.isFinite(g.tau[k]) && Number.isFinite(lineT)) {
+        xs.push(g.tau[k]);
+        ys.push(g.t[k] - lineT);
+      }
+    }
+  }
+  if (xs.length < 3) return [0, 0];
+  const mx = xs.reduce((s, x) => s + x, 0) / xs.length;
+  const my = ys.reduce((s, y) => s + y, 0) / ys.length;
+  const sxx = xs.reduce((s, x) => s + (x - mx) ** 2, 0);
+  const sl = sxx > 0 ? xs.reduce((s, x, k) => s + (x - mx) * (ys[k] - my), 0) / sxx : 0;
+  const a = my - sl * mx;
+  const worst = Math.max(...xs.map((x, k) => Math.abs(ys[k] - (a + sl * x))));
+  return worst < 50e-6 && Number.isFinite(a) && Number.isFinite(sl) ? [a, sl] : [0, 0];
 }
 
 /**
@@ -120,7 +156,7 @@ export function looks(db, w, h, kl, ks) {
  * The bundle's parameter list (crates/bundles/sargeo). orbit {t, p, v} absolute, `epoch`
  * subtracted here; geom from imageGeometry; dem {width, height, lat0, lon0, dlat, dlon};
  * win {l0, s0, kl, ks, nl, ns}; opts {flatten, maskStride, maskStep, maskTol, look (1 right, -1 left,
- * 0 either; Sentinel-1 looks right)}.
+ * 0 either; Sentinel-1 looks right)}; then geom.azDelay [a, s].
  */
 export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
   // Stated, never defaulted: 0 (either side) would give a post on the unseen side its mirror's value.
@@ -136,5 +172,6 @@ export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
   out.push(dem.width, dem.height, dem.lat0, dem.lon0, dem.dlat, dem.dlon);
   out.push(win.l0, win.s0, win.kl, win.ks, win.nl, win.ns);
   out.push(opts.flatten ? 1 : 0, opts.maskStride ?? 0, opts.maskStep ?? 0, opts.maskTol ?? 0, opts.look);
+  out.push(...(geom.azDelay ?? [0, 0]));
   return Float64Array.from(out);
 }

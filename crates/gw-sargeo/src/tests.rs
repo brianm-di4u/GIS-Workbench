@@ -67,13 +67,20 @@ fn zero_doppler_matches_the_closed_form() {
 #[test]
 fn image_lines_follow_blocks_and_ground_range_round_trips() {
     // Two overlapping bursts: the nearest centre wins in the overlap.
-    let img = Image {
+    let mk = |az_delay| Image {
         dt: 0.002,
         blocks: vec![Block { t0: 0.0, first_line: 0.0, valid: (10.0, 990.0) }, Block { t0: 1.9, first_line: 1000.0, valid: (1010.0, 1990.0) }],
         range: Range::Slant { r0: 800e3, dr: 2.33 },
         az_spacing: 14.0,
+        az_delay,
     };
+    let img = mk((0.0, 0.0));
     assert!(img.line(0.0).is_none(), "before the first valid line");
+    // The azimuth delay a + s·τ comes off the zero-Doppler time before the line is found: with
+    // s = ½ at τ = 4 ms it is 2 ms, one line; a = 4 ms is two.
+    assert!((mk((0.0, 0.5)).line_at(1.0, 0.004 * C / 2.0).unwrap() - 499.0).abs() < 1e-6);
+    assert!((mk((0.004, 0.0)).line_at(1.0, 9e5).unwrap() - 498.0).abs() < 1e-6);
+    assert!((img.line_at(1.0, 9e5).unwrap() - 500.0).abs() < 1e-9);
     assert!((img.line(1.0).unwrap() - 500.0).abs() < 1e-9);
     let l = img.line(1.95).unwrap();
     assert!((l - 975.0).abs() < 1e-9 || (l - 1025.0).abs() < 1e-9);
@@ -82,7 +89,7 @@ fn image_lines_follow_blocks_and_ground_range_round_trips() {
     // srgr the ground range from (R − sr0), its inverse to second order.
     let (a, b) = (0.6, 1e-8);
     let rec = |t| GrRec { t, r0: 850e3, g0: 0.0, grsr: vec![850e3, a, b], srgr: vec![0.0, 1.0 / a, -b / (a * a * a)] };
-    let grd = Image { dt: 0.002, blocks: vec![Block { t0: 0.0, first_line: 0.0, valid: (0.0, 1e4) }], range: Range::Ground { dg: 10.0, recs: vec![rec(0.0), rec(5.0)] }, az_spacing: 10.0 };
+    let grd = Image { dt: 0.002, blocks: vec![Block { t0: 0.0, first_line: 0.0, valid: (0.0, 1e4) }], range: Range::Ground { dg: 10.0, recs: vec![rec(0.0), rec(5.0)] }, az_spacing: 10.0, az_delay: (0.0, 0.0) };
     for px in [0.0, 100.0, 2500.0] {
         let g: f64 = px * 10.0;
         let r = 850e3 + a * g + b * g * g;
@@ -144,7 +151,7 @@ fn run_with(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>) -> Job {
 
 /// The test orbit runs east along the equator, so the patch north of it is on its left.
 fn run_side(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64) -> Job {
-    let img = Image { dt: s.dt, blocks, range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: s.az };
+    let img = Image { dt: s.dt, blocks, range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: s.az, az_delay: (0.0, 0.0) };
     let dem = Dem { w: s.w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: s.dd, dlon: s.dd };
     let win = Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl: s.nl, ns: s.ns, beta: s.beta.clone() };
     let opts = Opts { flatten, mask_stride: if masks { 4 } else { 0 }, mask_step: 2.5, mask_tol: 0.5, look };
@@ -280,7 +287,7 @@ fn a_steep_ridge_has_layover_on_its_fore_slope_and_shadow_behind() {
 #[test]
 fn malformed_inputs_are_refused() {
     let s = scene(|_, _| 0.0);
-    let img = || Image { dt: s.dt, blocks: vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, 10.0) }], range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: 20.0 };
+    let img = || Image { dt: s.dt, blocks: vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, 10.0) }], range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: 20.0, az_delay: (0.0, 0.0) };
     let dem = |w| Dem { w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: DD, dlon: DD };
     let win = |nl| Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl, ns: s.ns, beta: s.beta.clone() };
     let opts = || Opts { flatten: true, mask_stride: 0, mask_step: 1.0, mask_tol: 0.5, look: -1.0 };
@@ -372,6 +379,9 @@ fn posts_on_the_side_the_radar_does_not_look_get_no_value() {
     assert!(valued(&left) > s.w * s.h / 2, "seen side: {} of {}", valued(&left), s.w * s.h);
     assert_eq!(valued(&right), 0);
     assert!(right.mask.iter().all(|&m| m == 0), "no layover or shadow on posts never seen");
+    // As written, they are marked as having no image position, not as clear.
+    assert!(right.mask_out().iter().all(|&m| m == NO_GEOMETRY));
+    assert!(left.mask_out().iter().filter(|&&m| m != NO_GEOMETRY).count() >= valued(&left));
     // Either side (0) is the old behaviour: the patch is valued.
     assert_eq!(valued(&run_side(&s, true, false, blocks(), 0.0)), valued(&run_side(&s, true, false, blocks(), -1.0)));
 }

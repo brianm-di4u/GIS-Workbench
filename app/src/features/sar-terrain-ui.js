@@ -107,7 +107,7 @@ export function install(app) {
         const { layers } = await openImageFile(app, new File([bytes], `${what}_TC_${base}.tif`, { type: 'image/tiff' }));
         let maskLayer = null;
         if (masks) {
-          const mb = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'u8', data: r.mask }, { epsg: 4326, geotransform: gt, description: `GIS Workbench layover (1) and shadow (2) mask of ${layer.rec?.name ?? ''} on ${dem.name}` });
+          const mb = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'u8', data: r.mask }, { epsg: 4326, geotransform: gt, nodata: 255, description: `GIS Workbench layover (1) and shadow (2) mask (255: no image position) of ${layer.rec?.name ?? ''} on ${dem.name}` });
           maskLayer = (await openImageFile(app, new File([mb], `MASK_TC_${base}.tif`, { type: 'image/tiff' }))).layers[0];
         }
         const stats = { posts: g.width * g.height, valued: r.counts[0], layover: r.counts[1], shadow: r.counts[2], orbit: orb.source, looks: [kl, ks] };
@@ -142,11 +142,13 @@ export function install(app) {
           app.toast(e.message, { kind: 'error', ms: 6000 });
         }
       });
-      const pick = h('button', { class: 'btn', type: 'button', onclick: () => file.click() }, t('Orbit File…'));
+      // Named for themselves: inside the field's <label>, a button would take the whole row as its name.
+      const pick = h('button', { class: 'btn', type: 'button', 'aria-label': t('Orbit File…'), onclick: () => file.click() }, t('Orbit File…'));
       // Back to the annotation's orbit: a remembered file for another satellite would refuse every run.
       const clear = h('button', {
         class: 'btn',
         type: 'button',
+        'aria-label': t('Use the Annotation’s Orbit'),
         onclick: () => {
           app.sarTerrain.orbit = null;
           file.value = '';

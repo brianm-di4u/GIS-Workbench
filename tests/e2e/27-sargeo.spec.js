@@ -152,6 +152,20 @@ test('SCN-87 REQ-GAP-90 Terrain Correction of a Sentinel-1 IW SLC swath: γ⁰ o
     });
     console.log(JSON.stringify(f));
     expect(f.orbit).toBe('AUX_POEORB');
+    // Back to the annotation's orbit from the dialog.
+    await frame.evaluate(() => {
+      const app = window.gisworkbench;
+      const id = [...app.layers.values()].find((x) => x.info?.meta?.s1).id;
+      app.store.transact('Active layer', (tx) => tx.set(app.activePane().id, 'activeLayer', id));
+      void app.commands.run('sar.terrain');
+    });
+    await expect(dlg).toBeVisible();
+    await expect(dlg).toContainText('S1A_OPER_AUX_POEORB_TEST.EOF');
+    expect(await dlg.getByRole('button', { name: 'Orbit File…', exact: true }).count()).toBe(1);
+    await dlg.getByRole('button', { name: 'Use the Annotation’s Orbit', exact: true }).click();
+    await expect(dlg).toContainText('The annotation’s own orbit');
+    expect(await frame.evaluate(() => window.gisworkbench.sarTerrain.orbit)).toBeNull();
+    await dlg.getByRole('button', { name: 'Cancel' }).click();
     expect(f.fb).toBe(f.fa);
     expect(f.median).toBeLessThan(1e-3);
     expect(f.p99).toBeLessThan(1e-3);
