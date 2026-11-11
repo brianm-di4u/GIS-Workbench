@@ -31,6 +31,8 @@ export const MAX_ADDRESSES = 1_000_000;
 export const MAX_EDGES = 1_000_000;
 /** How far a picked point may be from the road network. */
 const SNAP_M = 500;
+/** How long batch geocoding runs before it lets the page draw (ms). */
+const SLICE_MS = 100;
 // A number field: blank, null and text are no number (NaN), not 0.
 const numberOf = (v) => (v === null || v === undefined || String(v).trim() === '' ? NaN : Number(v));
 
@@ -44,7 +46,8 @@ export function install(app) {
     try {
       return await fn(args);
     } catch (e) {
-      toast(msgOf(e), { kind: /^E_NEED_/.test(e.code ?? '') ? 'warn' : 'error' });
+      // Cancel in the activity indicator: the user knows.
+      if (!e.cancelled) toast(msgOf(e), { kind: /^E_NEED_/.test(e.code ?? '') ? 'warn' : 'error' });
       return undefined;
     }
   };
@@ -87,7 +90,12 @@ export function install(app) {
     return { streets: ix.streets.size, addresses: ix.count };
   }
 
-  /** The index as a GeoPackage: the addresses as a point or line layer, an FTS4 table of their normalised streets, and the mapping. */
+  /**
+   * The index as a GeoPackage: the addresses as a point or line layer, an FTS4 table of their
+   * normalised streets, and the mapping. The FTS4 table is for other tools (sqlite3, QGIS) to search
+   * the addresses with; openIndex rebuilds the trigram index from the layer, which fuzzy and
+   * interpolated matches need, so it does not read the table back.
+   */
   async function saveIndex() {
     const g = need();
     const SQL = await loadSqlite(app.gw);
@@ -116,7 +124,12 @@ export function install(app) {
     const SQL = await loadSqlite(app.gw);
     const db = new SQL.Database(bytes);
     try {
-      const meta = db.exec("SELECT value FROM gw_geocode_meta WHERE key = 'format'")[0]?.values?.[0]?.[0];
+      let meta = null;
+      try {
+        meta = db.exec("SELECT value FROM gw_geocode_meta WHERE key = 'format'")[0]?.values?.[0]?.[0];
+      } catch {
+        // No gw_geocode_meta table: another GeoPackage, refused below.
+      }
       if (meta !== 'gis-workbench-address-index/1') throw gwError('{name} is not an address index GeoPackage written by GIS Workbench', { name }, 'E_NEED_ADDRESSES');
       const { layers } = readGpkg(SQL, bytes, { name });
       const points = [];
@@ -178,8 +191,12 @@ export function install(app) {
 
   // ---- batch ----
 
-  /** Geocode every row of a CSV (text): a point layer with the row's fields, the match, its score and what it matched. */
-  function geocodeTable(text, { address, place = '', name = t('Geocoded') }) {
+  /**
+   * Geocode every row of a CSV (text): a point layer with the row's fields, the match, its score and
+   * what it matched. A long table runs in slices with the activity indicator up, so the page keeps
+   * answering; Cancel stops it and adds no layer.
+   */
+  async function geocodeTable(text, { address, place = '', name = t('Geocoded') }) {
     const { rows } = parseDelimited(text);
     const [head, ...body] = rows;
     const ai = head.indexOf(address);
@@ -187,13 +204,24 @@ export function install(app) {
     if (ai < 0) throw gwError('No column {col} in the table', { col: address }, 'E_NEED_ADDRESSES');
     const ok = [];
     const failed = [];
-    for (const r of body) {
-      const q = pi >= 0 && r[pi] ? `${r[ai]}, ${r[pi]}` : r[ai];
-      const [best] = geocode(q, { limit: 1 });
-      const attrs = Object.fromEntries(head.map((k, i) => [k, r[i] ?? '']));
-      if (best) ok.push({ at: best.at, attrs: { ...attrs, match: best.match, score: Math.round(best.score), matched: `${best.number ? `${best.number} ` : ''}${best.street}` } });
-      else failed.push(attrs);
-    }
+    const work = async (job) => {
+      let slice = performance.now();
+      for (let i = 0; i < body.length; i++) {
+        if (performance.now() - slice > SLICE_MS) {
+          await job.step(i / body.length);
+          if (job.cancelled) throw Object.assign(gwError('cancelled'), { cancelled: true });
+          slice = performance.now();
+        }
+        const r = body[i];
+        const q = pi >= 0 && r[pi] ? `${r[ai]}, ${r[pi]}` : r[ai];
+        const [best] = geocode(q, { limit: 1 });
+        const attrs = Object.fromEntries(head.map((k, j) => [k, r[j] ?? '']));
+        if (best) ok.push({ at: best.at, attrs: { ...attrs, match: best.match, score: Math.round(best.score), matched: `${best.number ? `${best.number} ` : ''}${best.street}` } });
+        else failed.push(attrs);
+      }
+    };
+    const label = t('Geocoding {n, plural, one {# address} other {# addresses}}…', { n: body.length });
+    await (app.activity ? app.activity.track(label, work, { cancel: true }) : work({ step: async () => {}, cancelled: false }));
     const id = ok.length ? addLayer(name, 'Point', ok, { stroke: '#e0a020', fill: '#e0a02099' }) : null;
     return { layer: id, matched: ok.length, unmatched: failed.length, failed };
   }
@@ -372,7 +400,7 @@ export function install(app) {
       const a = fieldSel(head, guess(head, /addr|address|street/i), t('Address column'), false);
       const p = fieldSel(head, guess(head, /city|town|place/i), t('Place column'));
       if ((await modal({ title: t('Geocode a Table'), body: h('div', {}, field(t('Address column'), a), field(t('Place column'), p)), buttons: [{ label: t('Geocode'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-batch' })) !== 'go') return undefined;
-      const r = geocodeTable(text, { address: a.value, place: p.value, name: f.name.replace(/\.\w+$/, '') });
+      const r = await geocodeTable(text, { address: a.value, place: p.value, name: f.name.replace(/\.\w+$/, '') });
       toast(t('{ok} of {n} addresses found', { ok: int(r.matched), n: int(r.matched + r.unmatched) }), { kind: r.unmatched ? 'warn' : 'info' });
       return r;
     }),

@@ -89,10 +89,13 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     const f = app.__saved.at(-1);
     const bytes = new Uint8Array(await f.blob.arrayBuffer());
     app.routing.geocoder = null;
+    // A GeoPackage with no gw_geocode_meta table is refused by name, not with SQLite's error.
+    const other = await app.routing.openIndex(new Uint8Array(0), 'other.gpkg').then(() => 'opened', (e) => e.message);
     const o = await app.routing.openIndex(bytes, f.name);
     const again = app.routing.geocode('1101 12th St', { limit: 1 })[0];
-    return { name: f.name, saved: s.addresses, opened: o, again };
+    return { name: f.name, saved: s.addresses, opened: o, again, other };
   });
+  expect(gp.other).toBe('other.gpkg is not an address index GeoPackage written by GIS Workbench');
   expect(gp.name).toMatch(/\.addresses\.gpkg$/);
   expect(gp.opened.addresses).toBe(528);
   expect(gp.again.at).toEqual(REF.queries[2].at);
