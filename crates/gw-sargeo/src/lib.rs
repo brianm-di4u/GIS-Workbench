@@ -304,9 +304,17 @@ impl Job {
     }
 
     /// The mask as written: 1 layover, 2 shadow, 0 neither, and NO_GEOMETRY where the post has no
-    /// image position (outside the swath, on the side the radar does not see, or a void).
+    /// image position in the window (outside the swath or the window, on the side the radar does
+    /// not see, or a void).
     pub fn mask_out(&self) -> Vec<u8> {
-        self.mask.iter().zip(&self.t).map(|(&m, t)| if t.is_finite() { m } else { NO_GEOMETRY }).collect()
+        self.mask.iter().enumerate().map(|(k, &m)| if self.in_window(k) { m } else { NO_GEOMETRY }).collect()
+    }
+
+    /// Whether post `k` maps inside the window, where its β⁰ can be read. Posts mapped beyond it
+    /// keep their position for A_γ at the window's edge, but get no value or mask.
+    fn in_window(&self, k: usize) -> bool {
+        let (l, p) = (self.wl[k] as f64, self.wp[k] as f64);
+        self.t[k].is_finite() && l >= 0.0 && p >= 0.0 && l <= (self.win.nl - 1) as f64 && p <= (self.win.ns - 1) as f64
     }
 
     /// Each post's image line and pixel, interleaved (NaN where it has none): for checks against
@@ -603,7 +611,7 @@ impl Job {
         while i < d.w {
             let kk = j * d.w + i;
             let t = self.t[kk];
-            if t.is_finite() {
+            if self.in_window(kk) {
                 let (la, lo) = d.ll(i, j);
                 let (e, n) = ((lo - lonc) * ke, (la - latc) * kn);
                 if let Some(pt) = enu.point(e, n) {
@@ -620,11 +628,12 @@ impl Job {
             }
             i += st;
         }
-        if j + st >= d.h || (j + st) % st == 0 {
-            // Counted once all blocks of this band are set.
-            for jj in j..(j + st).min(d.h) {
-                for ii in 0..d.w {
-                    let mk = self.mask[jj * d.w + ii];
+        // Counted once all blocks of this band are set, over the posts that keep their mask.
+        for jj in j..(j + st).min(d.h) {
+            for ii in 0..d.w {
+                let kk = jj * d.w + ii;
+                let mk = self.mask[kk];
+                if mk != 0 && self.in_window(kk) {
                     if mk & sarmask::LAYOVER != 0 {
                         self.counts[1] += 1;
                     }

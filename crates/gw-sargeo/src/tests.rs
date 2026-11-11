@@ -427,3 +427,34 @@ fn an_offset_multi_look_window_samples_the_same_image_position() {
     assert!(n > 10_000, "{n} posts checked");
     assert!(worst < 1e-5, "β⁰ off its image position by {:.2e} (relative)", worst);
 }
+
+#[test]
+fn posts_beyond_the_window_in_range_have_no_image_position() {
+    // The window covers only the near half of the patch in range: the far posts get no value,
+    // NO_GEOMETRY in the mask (not clear), and are left out of the counts.
+    let mut s = scene_at(DD * 4.0, 120, |_, _| 0.0);
+    let blocks = || vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, s.nl as f64) }];
+    let at = run_side(&s, false, false, blocks(), -1.0).image_coords();
+    let px: Vec<f64> = at.chunks(2).filter(|c| c[0].is_finite()).map(|c| c[1] as f64).collect();
+    let mid = (px.iter().cloned().fold(f64::INFINITY, f64::min) + px.iter().cloned().fold(f64::NEG_INFINITY, f64::max)) / 2.0;
+    s.ns = mid as usize;
+    s.beta = vec![1.0; s.nl * s.ns];
+    let j = run_side(&s, true, true, blocks(), -1.0);
+    let m = j.mask_out();
+    let (mut near, mut far) = (0, 0);
+    for (k, c) in at.chunks(2).enumerate() {
+        if !c[0].is_finite() {
+            continue;
+        }
+        if (c[1] as f64) > (s.ns - 1) as f64 {
+            far += 1;
+            assert_eq!(m[k], NO_GEOMETRY, "post {k} beyond the window");
+            assert!(j.value[k].is_nan());
+        } else if (c[1] as f64) < (s.ns - 2) as f64 {
+            near += 1;
+            assert_ne!(m[k], NO_GEOMETRY, "post {k} inside the window");
+        }
+    }
+    assert!(near > 1000 && far > 1000, "near {near}, far {far}");
+    assert_eq!(j.counts[1] + j.counts[2], 0, "flat ground: nothing counted");
+}
