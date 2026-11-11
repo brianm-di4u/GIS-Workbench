@@ -172,7 +172,11 @@ export class Safari {
     );
     await this.go(LITE_URL);
     const r = await this.ready();
-    if (String(r) !== '1') throw new Error(`the app did not start: ready=${r}`);
+    if (String(r) !== '1') {
+      // Lite says why on the page: missing WebGL2 or WebAssembly, or the error boot threw (#185).
+      const why = await this.js('() => document.getElementById("app")?.innerText.slice(0, 400)').catch(() => null);
+      throw new Error(`the app did not start: ready=${r}; the page says: ${JSON.stringify(why)}`);
+    }
   }
 
   /** The image, sent through the driver in pieces: the app's connect-src allows only blob:. */
