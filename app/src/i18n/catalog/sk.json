@@ -6599,7 +6599,7 @@
   "epipolar {eye}": "epipolárne {eye}",
   "epoch": "epocha",
   "equiangular lat/lon grid, {dx}″ × {dy}″": "rovnouhlá mriežka šírky/dĺžky, {dx}″ × {dy}″",
-  "erase": "odčítanie",
+  "erase": "rozdiel",
   "error not available": "chyba nie je k dispozícii",
   "error not available (the sensor model states no error)": "chyba nie je dostupná (model senzora neuvádza chybu)",
   "esri arcgis pro add-in cursor view link follow": "esri arcgis pro doplnok kurzor zobrazenie prepojenie sledovanie",

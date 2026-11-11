@@ -6599,7 +6599,7 @@
   "epipolar {eye}": "epipolaarne {eye}",
   "epoch": "epohh epoch",
   "equiangular lat/lon grid, {dx}″ × {dy}″": "võrdnurkne laius-/pikkusruudustik, {dx}″ × {dy}″",
-  "erase": "kustuta",
+  "erase": "vahe",
   "error not available": "viga pole saadaval",
   "error not available (the sensor model states no error)": "viga pole saadaval (sensori mudel ei esita viga)",
   "esri arcgis pro add-in cursor view link follow": "esri arcgis pro add-in cursor view link follow lisandmoodul kursor vaade link jälgimine",
