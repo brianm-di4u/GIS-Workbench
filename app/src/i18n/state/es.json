@@ -1929,7 +1929,7 @@
   "Buffer": {
    "h": "e44193fd2d21",
    "state": "passed",
-   "note": "review: HLZ clearance buffer, not GIS buffer zone; matches \"Clear buffer\""
+   "note": "Generic key is now only the GIS buffer (#193, #196); the landing-zone sense keeps Margen libre."
   },
   "Build": {
    "h": "bdd254b65baa",
@@ -36686,6 +36686,18 @@
   },
   "line end\u0004Square": {
    "h": "c11092bc0861",
+   "state": "passed"
+  },
+  "landing zone\u0004Buffer": {
+   "h": "e44193fd2d21",
+   "state": "passed"
+  },
+  "overlay\u0004Erase": {
+   "h": "511a2da097fa",
+   "state": "passed"
+  },
+  "cloud storage\u0004Region": {
+   "h": "d3a008ef1335",
    "state": "passed"
   }
  }
