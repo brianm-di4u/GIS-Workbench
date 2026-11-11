@@ -51,6 +51,9 @@ export function install(app) {
     if (!s1Layer(layer)) throw gwError('terrain correction needs a Sentinel-1 SAFE layer opened with its annotation', null, 'E_SAR_NO_S1');
     if (!dem?.grid) throw gwError('terrain correction needs an elevation model loaded as terrain', null, 'E_SAR_NO_DEM');
     const ann = layer.info.meta.s1.annotation;
+    // GRD geocoding (ground-range conversion records) is checked only on synthetic records so far;
+    // no real GRD product has been compared with its own geolocation grid, so it is not offered.
+    if (ann.productType !== 'SLC') throw gwError('Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}', { layer: layer.rec?.name ?? '', type: String(ann.productType ?? '') }, 'E_SAR_PRODUCT');
     const g = dem.grid;
     if (g.width * g.height > MAX_POSTS) throw gwError('terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first', { n: int(g.width * g.height) }, 'E_SAR_SIZE');
     let orb;
@@ -80,19 +83,27 @@ export function install(app) {
     return app.activity.track(
       label,
       async (job) => {
-        const read = await app.pool.run('window', { handle: layer.handle, x0: w.x0, y0: w.y0, w: w.w, h: w.h, bands: [BETA0], maxSamples: MAX_WINDOW }, { affinity: layer.affinity, label, timeout: 600000 });
+        // Cancel reaches the worker job through `task`; between the steps it is checked here.
+        const live = () => {
+          if (job.cancelled) throw Object.assign(gwError('cancelled'), { cancelled: true });
+        };
+        task = app.pool.run('window', { handle: layer.handle, x0: w.x0, y0: w.y0, w: w.w, h: w.h, bands: [BETA0], maxSamples: MAX_WINDOW }, { affinity: layer.affinity, label, timeout: 600000 });
+        const read = await task;
+        live();
         const L = looks(read.planes[0], w.w, w.h, kl, ks);
         if (!L.nl || !L.ns) throw gwError('terrain correction: the radar window over {dem} is smaller than one look', { dem: dem.name }, 'E_SAR_NO_OVERLAP');
         const z = app.terrain.haeHeights(dem);
         const prm = sargeoParams(orb, ann.t0, geom, g, { l0: w.y0, s0: w.x0, kl, ks, nl: L.nl, ns: L.ns }, { flatten, maskStride: masks ? 1 : 0, maskStep: Math.max(1, dy / 2), maskTol: 0.5, look: 1 });
         task = app.pool.run('sargeo.run', { prm, z, beta: L.beta }, { kind: 'analysis', transfer: [prm.buffer, z.buffer, L.beta.buffer], timeout: 3600000, label, part: true, onProgress: (p) => job.set(p) });
         const r = await task;
+        live();
         const db = Float32Array.from(r.value, (v) => (v > 0 ? 10 * Math.log10(v) : NaN));
         const base = (layer.rec?.name ?? 'sar').replace(/\.[^.]+$/, '');
         const what = flatten ? 'GAMMA0' : 'BETA0';
         const gt = [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat];
         const desc = `GIS Workbench terrain correction (range-Doppler, ${orb.source} orbit${flatten ? ', gamma-nought by projected area' : ''}) of ${layer.rec?.name ?? ''} on ${dem.name}, dB`;
         const bytes = await writeGeoTiff({ width: g.width, height: g.height, bands: 1, type: 'f32', data: db }, { epsg: 4326, geotransform: gt, nodata: NaN, description: desc });
+        live();
         const { layers } = await openImageFile(app, new File([bytes], `${what}_TC_${base}.tif`, { type: 'image/tiff' }));
         let maskLayer = null;
         if (masks) {
@@ -132,13 +143,23 @@ export function install(app) {
         }
       });
       const pick = h('button', { class: 'btn', type: 'button', onclick: () => file.click() }, t('Orbit File…'));
+      // Back to the annotation's orbit: a remembered file for another satellite would refuse every run.
+      const clear = h('button', {
+        class: 'btn',
+        type: 'button',
+        onclick: () => {
+          app.sarTerrain.orbit = null;
+          file.value = '';
+          orbitName.textContent = t('The annotation’s own orbit');
+        },
+      }, t('Use the Annotation’s Orbit'));
       const body = h(
         'div',
         {},
         field(t('Image'), h('span', {}, layer?.rec?.name ?? '')),
         field(t('Elevation model'), demSel),
         field(t('Output'), out),
-        field(t('Orbit'), h('div', {}, orbitName, ' ', pick, file)),
+        field(t('Orbit'), h('div', {}, orbitName, ' ', pick, ' ', clear, file)),
         h('label', { class: 'fld fld-inline' }, mk, h('span', {}, t('Layover and shadow mask'))),
         h('p', { class: 'hint' }, t('A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.')),
       );

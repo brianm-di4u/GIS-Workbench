@@ -83,6 +83,20 @@ test('SCN-87 REQ-GAP-90 Terrain Correction of a Sentinel-1 IW SLC swath: γ⁰ o
     expect(r.stats.layover + r.stats.shadow).toBe(0);
     expect(r.masked).toBe(0);
     expect(r.names[0]).toMatch(/^GAMMA0_TC_/);
+    // A GRD product is refused: its ground-range path is not yet checked against a real product.
+    const grd = await frame.evaluate(async () => {
+      const app = window.gisworkbench;
+      const sar = [...app.layers.values()].find((l) => l.info?.meta?.s1);
+      const ann = sar.info.meta.s1.annotation;
+      const was = ann.productType;
+      ann.productType = 'GRD';
+      try {
+        return await app.sarTerrain.run({ layer: sar, dem: app.terrain.dems[0] }).then(() => 'ran', (e) => e.code);
+      } finally {
+        ann.productType = was;
+      }
+    });
+    expect(grd).toBe('E_SAR_PRODUCT');
     // The dialog, with an orbit file read through the worker. No real POEORB is in the corpus, so
     // the file is written from the annotation's own state vectors: the same orbit, so the β⁰ it
     // gives matches the API run's, and the run reports the file's type. That checks the .EOF

@@ -71,13 +71,17 @@ export function windowOver(ann, bounds) {
   const nx = g.pixels.length;
   const ny = g.lines.length;
   const dLat = Math.abs(g.lat[nx] - g.lat[0]) || 0.1;
-  const dLon = Math.abs(g.lon[1] - g.lon[0]) || 0.1;
+  const dLon = Math.abs(((g.lon[1] - g.lon[0] + 540) % 360) - 180) || 0.1;
   const m = Math.max(dLat, dLon) * 1.5;
+  // Grid longitudes are in [−180, 180]; the DEM's may run past 180. Each is taken within 180° of
+  // the DEM's middle, so a DEM across the antimeridian finds the grid points on both sides.
+  const mid = (bounds.west + bounds.east) / 2;
   let [l0, l1, p0, p1] = [Infinity, -Infinity, Infinity, -Infinity];
   for (let j = 0; j < ny; j++)
     for (let i = 0; i < nx; i++) {
       const la = g.lat[j * nx + i];
-      const lo = g.lon[j * nx + i];
+      const lo0 = g.lon[j * nx + i];
+      const lo = lo0 + 360 * Math.round((mid - lo0) / 360);
       if (la < bounds.south - m || la > bounds.north + m || lo < bounds.west - m || lo > bounds.east + m) continue;
       l0 = Math.min(l0, g.lines[j]);
       l1 = Math.max(l1, g.lines[j]);

@@ -39641,6 +39641,13 @@
    ]
   },
   {
+   "key": "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}",
+   "src": "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "Terrain Correction…",
    "src": "Terrain Correction…",
    "refs": [
@@ -42262,6 +42269,13 @@
    "src": "Use one of these ways to keep the file.",
    "refs": [
     "storage/files.js"
+   ]
+  },
+  {
+   "key": "Use the Annotation’s Orbit",
+   "src": "Use the Annotation’s Orbit",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -46549,6 +46563,7 @@
    "src": "cancelled",
    "refs": [
     "features/aviation-obstruction.js",
+    "features/sar-terrain-ui.js",
     "sidecar/feature.js",
     "workers/pool.js"
    ]

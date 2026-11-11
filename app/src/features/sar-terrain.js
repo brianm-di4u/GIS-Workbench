@@ -7,8 +7,6 @@ import { loadBlock, once, lazyCommands, lazyMethods } from './lazy-host.js';
 // its calibration (β⁰ is read from the calibrated band; without the LUT it is NaN).
 import { s1Layer } from '../analysis/s1-layer.js';
 
-export { s1Layer };
-
 export const name = 'sar-terrain';
 
 export function install(app) {

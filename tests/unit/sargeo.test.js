@@ -90,6 +90,9 @@ describe('REQ-GAP-90 REG-085 SAR geocoding jobs', () => {
     const w = windowOver({ ...ann0, grid }, { south: 36.15, north: 36.25, west: -115.2, east: -115.1 });
     expect(w).toEqual({ x0: 0, y0: 0, w: 50, h: 100 });
     expect(windowOver({ ...ann0, grid }, { south: 10, north: 11, west: 0, east: 1 })).toBeNull();
+    // A scene and a DEM across the antimeridian: the grid's −180 and −179.5 are the DEM's 180 and 180.5.
+    const am = { regular: true, lines: [0, 99], pixels: [0, 33, 66, 99], lat: [10.5, 10.5, 10.5, 10.5, 10, 10, 10, 10], lon: [179, 179.5, -180, -179.5, 179, 179.5, -180, -179.5] };
+    expect(windowOver({ ...ann0, samples: 100, lines: 100, grid: am }, { south: 10.1, north: 10.4, west: 180.6, east: 181 })).toEqual({ x0: 66, y0: 0, w: 34, h: 100 });
   });
 });
 
