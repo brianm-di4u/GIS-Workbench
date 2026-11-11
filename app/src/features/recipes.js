@@ -176,10 +176,10 @@ export function install(app) {
       if (format === 'gpkg') {
         const { bytes } = await app.attribution.gpkgBytes([id]);
         const stem = (S.get(id).name || 'layer').replace(/[^\w.-]+/g, '_');
-        await saveBlob(app, new Blob([bytes], { type: 'application/geopackage+sqlite3' }), { name: `${stem}.gpkg`, types: ['.gpkg'], description: 'GeoPackage' });
+        await saveBlob(app, new Blob([bytes], { type: 'application/geopackage+sqlite3' }), { name: `${stem}.gpkg`, types: ['.gpkg'], description: 'GeoPackage', preferPicker: false });
       } else {
         const out = app.encodeLayer(id, format);
-        await saveBlob(app, out.blob, { name: out.name, types: out.types, description: format.toUpperCase() });
+        await saveBlob(app, out.blob, { name: out.name, types: out.types, description: format.toUpperCase(), preferPicker: false });
       }
       return { summary: vSummary(id) };
     } },
@@ -256,13 +256,13 @@ export function install(app) {
         const gs = S.all('graphic').filter((g) => g.tag === 'recipe-outline' && g.anchor === 'ground');
         if (!gs.length) return { summary: t('no outlines') };
         const fc = { type: 'FeatureCollection', features: gs.map((g) => ({ type: 'Feature', properties: { source: g.provenance?.model ?? 'SAM', iou: g.provenance?.iou ?? null }, geometry: { type: 'Polygon', coordinates: [[...g.coords.map((c) => [c[0], c[1]]), [g.coords[0][0], g.coords[0][1]]]] } })) };
-        await saveBlob(app, new Blob([JSON.stringify(fc)], { type: 'application/geo+json' }), { name: 'outlines.geojson', types: ['.geojson'], description: 'GeoJSON' });
+        await saveBlob(app, new Blob([JSON.stringify(fc)], { type: 'application/geo+json' }), { name: 'outlines.geojson', types: ['.geojson'], description: 'GeoJSON', preferPicker: false });
         return { summary: t('{n, plural, one {# outline} other {# outlines}}', { n: gs.length }) };
       }
       const v = S.all('vlayer').find((x) => x.role === 'accepted-detections');
       if (!v) return { summary: t('no accepted detections') };
       const out = app.encodeLayer(v.id, 'geojson');
-      await saveBlob(app, out.blob, { name: 'accepted-detections.geojson', types: out.types, description: 'GeoJSON' });
+      await saveBlob(app, out.blob, { name: 'accepted-detections.geojson', types: out.types, description: 'GeoJSON', preferPicker: false });
       return { summary: t('{n, plural, one {# feature} other {# features}}', { n: S.all('feature').filter((f) => f.vlayer === v.id).length }) };
     } },
     convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, run: async ({ vectors, files: given }, ctx) => {

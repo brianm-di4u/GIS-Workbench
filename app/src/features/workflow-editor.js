@@ -113,11 +113,13 @@ export function install(app) {
   /** Positions for steps a file gave none (a gw-recipe/1 chain, or a hand-written file): a column per depth of wiring. */
   function layout(steps) {
     const depth = new Map();
-    const deep = (x, seen = new Set()) => {
+    // `path` is the steps being followed, so a cycle stops; a step two branches share counts in both.
+    const deep = (x, path = new Set()) => {
       if (depth.has(x.id)) return depth.get(x.id);
-      seen.add(x.id);
-      const ups = Object.values(x.inputs ?? {}).filter((w) => w.from && !seen.has(w.from)).map((w) => stepById(w.from)).filter(Boolean);
-      const d = ups.length ? 1 + Math.max(...ups.map((u) => deep(u, seen))) : 0;
+      path.add(x.id);
+      const ups = Object.values(x.inputs ?? {}).filter((w) => w.from && !path.has(w.from)).map((w) => stepById(w.from)).filter(Boolean);
+      const d = ups.length ? 1 + Math.max(...ups.map((u) => deep(u, path))) : 0;
+      path.delete(x.id);
       depth.set(x.id, d);
       return d;
     };
