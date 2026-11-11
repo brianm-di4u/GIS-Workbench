@@ -366,10 +366,18 @@ describe('device features', () => {
     const toast = await s.js(`() => [...document.querySelectorAll('.toast, [role=status], [role=alert]')].map((e) => e.textContent)`);
     note('share-sheet', { sheet: /ActivityListView|ActivityContentView|Copy/.test(tree), toast });
     assert.match(tree, /ActivityListView|ActivityContentView/, `the iOS share sheet; the app said ${JSON.stringify(toast)}`);
-    const closed = await s.tapNative(['Close', 'Cancel', 'Done'], { timeout: 2500 });
-    if (!closed) await s.tap(220, 60); // no button on it in iOS 26: a tap outside closes it
-    await sleep(1500);
-    assert.doesNotMatch(await s.nativeSource(), /ActivityListView|ActivityContentView/, 'the share sheet closed');
+    // No button on it in iOS 26: a tap outside closes it. On the runner the tap sometimes did not,
+    // and the open sheet then failed the next test too (#185). Nor did a swipe, so the later tries
+    // use the sheet's Copy action, which closes it.
+    const sheet = /ActivityListView|ActivityContentView/;
+    let tries = 0;
+    for (; tries < 3 && sheet.test(await s.nativeSource()); tries++) {
+      const closed = await s.tapNative(['Close', 'Cancel', 'Done'], { timeout: 2500 });
+      if (!closed) await (tries === 0 ? s.tap(220, 60) : s.tapNative(['Copy'], { timeout: 2500, anyType: true }));
+      await sleep(1500);
+    }
+    note('share-close-tries', tries);
+    assert.doesNotMatch(await s.nativeSource(), sheet, 'the share sheet closed');
   });
 
   test('REQ-HOST-05 a real Save lands in the Downloads folder', async () => {
