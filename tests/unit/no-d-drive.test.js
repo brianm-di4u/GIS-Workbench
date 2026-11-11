@@ -15,20 +15,27 @@ const D_PATH = new RegExp([
   /(?:^|[\s(]|(?:=|:-)['"]?)\/[Dd]\/(?=[\w.-])/, // Git Bash, cd /d/x, X="/d/x" and ${VAR:-/d/x}
 ].map((r) => r.source).join('|'));
 
-// A wider pattern git grep can run, so only the lines that might match reach D_PATH. -I skips
-// binaries without reading them as text.
+// A wider pattern git grep can run, so only the lines that might match reach D_PATH.
 const MAYBE = String.raw`[Dd]:[\\/]|/mnt/d|['"${'`'}][Dd]:|\\[?.]\\|[Dd]:[$][{]|/[Dd]/`;
 
-/** Tracked lines that name a D: path, as `file:line: text`, outside the files `skip` matches. */
-function dDrivePaths(skip) {
+// Tracked lines matching `pattern`, as [file, line, text]. -I skips binaries without reading them.
+// .gitattributes marks fixtures/** binary, text files included, so the attributes come from the
+// empty tree instead: a file counts as binary only by its content.
+const EMPTY_TREE = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
+function grep(pattern, ...paths) {
   let out;
   try {
-    out = execFileSync('git', ['grep', '-nI', '--null', '-E', '-e', MAYBE], { encoding: 'utf8', maxBuffer: 64 << 20 });
+    out = execFileSync('git', [`--attr-source=${EMPTY_TREE}`, 'grep', '-nI', '--null', '-E', '-e', pattern, '--', ...paths], { encoding: 'utf8', maxBuffer: 64 << 20 });
   } catch (e) {
     if (e.status === 1) return []; // git grep found no line
     throw e;
   }
-  return out.split('\n').filter(Boolean).map((l) => l.split('\0')).filter(([f, , text]) => !skip.test(f) && D_PATH.test(text)).map(([f, n, text]) => `${f}:${n}: ${text.trim().slice(0, 120)}`);
+  return out.split('\n').filter(Boolean).map((l) => l.split('\0'));
+}
+
+/** Tracked lines that name a D: path, as `file:line: text`, outside the files `skip` matches. */
+function dDrivePaths(skip) {
+  return grep(MAYBE).filter(([f, , text]) => !skip.test(f) && D_PATH.test(text)).map(([f, n, text]) => `${f}:${n}: ${text.trim().slice(0, 120)}`);
 }
 
 describe('no tracked path on the failing D: drive', () => {
@@ -47,6 +54,10 @@ describe('no tracked path on the failing D: drive', () => {
     // git grep must see every line D_PATH can match.
     const maybe = new RegExp(MAYBE);
     expect(Object.keys(hits).filter((k) => !maybe.test(hits[k]))).toEqual([]);
+  });
+
+  it('reads the text files .gitattributes marks binary', () => {
+    expect(grep('E:/gwb25/data-aero', 'fixtures/fx25/aero/SOURCE.txt')).toHaveLength(1);
   });
 
   it('has none in the repository', () => {
