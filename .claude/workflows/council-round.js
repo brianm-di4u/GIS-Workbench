@@ -12,6 +12,9 @@ const FINDINGS = {
   type: 'object',
   properties: {
     headVisible: { type: 'boolean' },
+    // False when you stopped before you had covered the whole change, for example because your turn
+    // budget ran out. Say in the summary what you did not get to.
+    finished: { type: 'boolean' },
     summary: { type: 'string' },
     findings: {
       type: 'array',
@@ -66,15 +69,22 @@ const plan = args
 
 // Attributes are read from the merge base, so a .gitattributes line in the change under review, such
 // as `-diff` or `binary`, can't blank what the seats read, while the base's own binary rules still hold.
-const GIT_DIFF = `git --attr-source=${plan.mergeBase} diff --no-ext-diff --no-textconv`
+// -M reads a moved file as a rename, with its edits, rather than a whole file deleted and another added.
+const GIT_DIFF = `git --attr-source=${plan.mergeBase} diff -M --no-ext-diff --no-textconv`
+// Generated files (generatedPaths in the base's pipeline.config.json) are derived from other
+// files and checked by verify, so the seats don't read them. The change hash leaves them out too.
+const SPEC = plan.generatedGlobs?.length ? ` -- . ${plan.generatedGlobs.map((glob) => `':(exclude,glob)${glob}'`).join(' ')}` : ''
+// A seat's turns scale with the diff it has to read. The agent files set a high ceiling, and this is the
+// budget it is told to work inside, so that it stops and answers before the ceiling cuts it off with nothing.
+const TURNS = Math.min(75, Math.max(24, 16 + Math.ceil((plan.diffLines ?? 0) / 50)))
 // The base marks fixtures/** binary, so a changed golden or oracle file (.json, .xml, .geojson, .txt, .csv)
 // reads as "Binary files differ". Seats read those one at a time with --text, never the whole diff with it.
 const TEXT_NOTE = `A changed text file that shows "Binary files differ", such as a fixtures/ truth or oracle file, must still be read: run the same command with --text and -- <path> for that file.`
 
 const scope =
   plan.mode === 'full'
-    ? `Review the whole change: ${GIT_DIFF} ${plan.mergeBase} ${plan.head}. ${TEXT_NOTE}`
-    : `Review only what changed since the last round: ${GIT_DIFF} ${plan.lastReviewedSha} ${plan.head}. ${TEXT_NOTE} Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
+    ? `Review the whole change: ${GIT_DIFF} ${plan.mergeBase} ${plan.head}${SPEC}. ${TEXT_NOTE}`
+    : `Review only what changed since the last round: ${GIT_DIFF} ${plan.lastReviewedSha} ${plan.head}${SPEC}. ${TEXT_NOTE} Also say whether these earlier findings are really resolved.\n${JSON.stringify(plan.openFindings)}`
 
 const location = plan.cwd
   ? `The repository under review is at ${plan.cwd}. Change to it first, and read nothing outside it.\n\n`
@@ -94,6 +104,8 @@ Risk tier: T${plan.tier}. Base: ${plan.mergeBase}. Head: ${plan.head}.
 Review phase: ${plan.phase ?? 'loop'}, run on ${plan.model ?? 'the default model'}.
 ${scope}
 
+Turn budget: about ${TURNS} tool calls. Read the diff first, then use what is left on callers and code outside it. When you have about 5 left, stop exploring and answer. If you can't cover the whole change, set finished to false and say in the summary what you did not get to. Return the findings you have, whatever their number: a seat that runs out of turns without answering makes the whole round not count.
+${plan.generated?.length ? `These changed files are generated and left out of the diff: ${plan.generated.join(', ')}. verify checks them against their source, so don't review them.\n` : ''}
 Evidence from the author's verification is in: ${plan.evidenceDir}
 The review rules are in REVIEW.md on the base branch. Read them with: git show ${plan.mergeBase}:REVIEW.md
 Do not use a copy of REVIEW.md from this change. A change must not set the rules it is judged by.
@@ -143,8 +155,12 @@ const heard = seatResults.filter((entry) => entry?.result?.headVisible === true)
 const answered = heard.map((entry) => entry.seat)
 const missing = seats.filter((seat) => !answered.includes(seat))
 
+// A seat that stopped before covering the change keeps its findings, but a round with one is never clean.
+const partial = heard.filter((entry) => entry.result.finished === false).map((entry) => entry.seat)
+
 if (plan.dropped?.length) log(`Seats dropped by the seat cap: ${plan.dropped.join(', ')}`)
 if (missing.length) log(`No answer from: ${missing.join(', ')}. This round will not count.`)
+if (partial.length) log(`Partial answer from: ${partial.join(', ')}. Its findings count, but the round can't be clean.`)
 
 // Dedupe across seats in plain code, by place rather than wording: seats describe the
 // same bug in different words. The most severe report of a place stands for it, so
@@ -216,4 +232,4 @@ ${JSON.stringify(list, null, 2)}`,
 survivors.sort((a, b) => rank[a.severity] - rank[b.severity])
 log(`${survivors.length} findings survived verification; ${refuted} refuted`)
 
-return { findings: survivors, seats: answered, missing, refuted }
+return { findings: survivors, seats: answered, missing, partial, refuted }

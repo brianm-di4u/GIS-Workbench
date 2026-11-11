@@ -7,6 +7,7 @@
 //   council.mjs record <result.json>                         Record a round's result
 //   council.mjs resolve <id> <fixed|wrong|intentional|wont-matter|deferred> ["reason"]
 //   council.mjs accept-growth "reason"                       Accept justified diff growth
+//   council.mjs mechanical "reason"                          Carry clean rounds over a small mechanical change
 //   council.mjs verdict                                      Print the verdict block for the PR body
 //
 // The ledger lives in .pipeline/runs/, which is gitignored.
@@ -16,10 +17,11 @@ import { join, resolve } from 'node:path';
 import { authority } from './lib/authority.mjs';
 import { MODEL_NAME, parseConfig } from './lib/config.mjs';
 import { findDecision, renderVerdict } from './lib/contract.mjs';
-import { changeSet, git, tryGit } from './lib/git.mjs';
+import { changeSet, excludeSpecs, git, tryGit } from './lib/git.mjs';
 import {
   buildVerdict,
   emptyLedger,
+  linkMechanical,
   nextStep,
   lastCompleteRound,
   recordRound,
@@ -85,9 +87,17 @@ function reviewedBase(last, mergeBase) {
   return commits.find((sha) => changeSet(BASE, sha).hash === last.hash) ?? mergeBase;
 }
 
+// Changed lines between two commits, as the seats see them: renames read as renames, and generated
+// files, which `verify` checks and the council doesn't read, are left out.
+// Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
+function countLines(from, to, mergeBase, globs) {
+  const shortstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '-M', '--shortstat', from, to, ...excludeSpecs(globs)]) ?? '';
+  return [...shortstat.matchAll(/(\d+) (?:insertion|deletion)/g)].reduce((sum, m) => sum + Number(m[1]), 0);
+}
+
 function context() {
   const config = parseConfig(readFileSync('pipeline.config.json', 'utf8'));
-  const { mergeBase, changes, hash } = changeSet(BASE, 'HEAD');
+  const { mergeBase, changes, hash, generated, generatedGlobs } = changeSet(BASE, 'HEAD');
   const { tier, reasons } = classify({
     changes,
     config,
@@ -95,10 +105,8 @@ function context() {
     scriptsChangedIn: scriptsChanged(changes, mergeBase, 'HEAD'),
     adrCited: decided(loadLedger().decisions ?? [], config),
   });
-  // Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
-  const shortstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '--shortstat', mergeBase, 'HEAD']) ?? '';
-  const diffLines = [...shortstat.matchAll(/(\d+) (?:insertion|deletion)/g)].reduce((sum, m) => sum + Number(m[1]), 0);
-  return { config, mergeBase, changes, hash, tier, reasons, diffLines };
+  const diffLines = countLines(mergeBase, 'HEAD', mergeBase, generatedGlobs);
+  return { config, mergeBase, changes, hash, tier, reasons, diffLines, generated, generatedGlobs };
 }
 
 function evidence(hash) {
@@ -151,6 +159,8 @@ function plan(args) {
       mergeBase: ctx.mergeBase,
       lastReviewedSha: reviewedBase(last, ctx.mergeBase),
       diffLines: ctx.diffLines,
+      generatedGlobs: ctx.generatedGlobs,
+      generated: ctx.generated,
       evidenceDir: resolve(proof.dir).replaceAll('\\', '/'),
       maxNits: ctx.config.council.maxNits ?? 5,
       intent: option(args, '--intent') ?? ledger.intent ?? null,
@@ -223,6 +233,7 @@ function record([file]) {
         model: step.model,
         complete: outcome.complete,
         missing: result.missing ?? [],
+        partial: result.partial ?? [],
         answerThese: outcome.added.map(({ id, severity, class: bugClass, file: f, line, claim, fix }) => ({
           id, severity, class: bugClass, file: f, line, claim, fix,
         })),
@@ -245,6 +256,24 @@ function resolveCommand([id, disposition, reason]) {
   return 0;
 }
 
+// Issue 184: say that what changed since the last finished round is mechanical, so the clean rounds
+// before it carry over and one round on just that diff confirms it. The diff is from the reviewed
+// commit to this one, so it needs that commit on this branch, and it is bounded by
+// council.maxMechanicalLines. A round that finds anything puts it back to a normal change.
+function mechanical([reason]) {
+  const ctx = context();
+  const ledger = loadLedger();
+  const last = lastCompleteRound(ledger);
+  if (!last?.sha || tryGit(['merge-base', '--is-ancestor', last.sha, 'HEAD']) === null) {
+    throw new Error('The last reviewed commit is not on this branch (a rebase that resolved a conflict rewrites it), so the change cannot be bounded. Run a normal round.');
+  }
+  const lines = countLines(last.sha, 'HEAD', ctx.mergeBase, ctx.generatedGlobs);
+  const link = linkMechanical(ledger, { to: ctx.hash, reason, lines, maxLines: ctx.config.council.maxMechanicalLines ?? 40 });
+  saveLedger(ledger);
+  console.log(`Carried the ${last.phase ?? 'loop'} rounds on ${link.from.slice(0, 12)} over to ${link.to.slice(0, 12)} (${lines} lines). The next round reads only that diff.`);
+  return 0;
+}
+
 function verdict() {
   const ctx = context();
   const ledger = loadLedger();
@@ -259,6 +288,7 @@ const commands = {
   record: () => record(args),
   resolve: () => resolveCommand(args),
   verdict,
+  mechanical: () => mechanical(args),
   'accept-growth': () => {
     if (!args[0]) throw new Error('Give a reason.');
     const ledger = loadLedger();

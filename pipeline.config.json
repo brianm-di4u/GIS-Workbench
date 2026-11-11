@@ -90,11 +90,15 @@
     "t1": "auto",
     "t2": "human"
   },
+  "generatedPaths": [
+    "app/src/i18n/catalog/en.json"
+  ],
   "privateAutoMerge": false,
   "council": {
     "maxNits": 5,
     "maxSeats": 6,
     "maxDiffGrowth": 1.5,
+    "maxMechanicalLines": 40,
     "loopModel": "sonnet",
     "closeModel": "opus",
     "maxLoopRounds": 16,

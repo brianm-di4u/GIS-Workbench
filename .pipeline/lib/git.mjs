@@ -5,6 +5,7 @@
 // file. Keep `patchLines` and `splitPatch` when merging by hand. See docs/RUNBOOK.md.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { matchesAny } from './paths.mjs';
 
 export function git(args, cwd = process.cwd()) {
   return execFileSync('git', args, {
@@ -136,14 +137,34 @@ export function splitPatch(text) {
   return sections;
 }
 
+export function readBlob(ref, path, cwd) {
+  return tryGit(['show', `${ref}:${path}`], cwd);
+}
+
+// Generated files (issue 174): the globs the base's own pipeline.config.json lists as `generatedPaths`.
+// They are derived from other files and `verify` checks that they match, so a change to one is
+// neither reviewed nor bound by the change hash. They are read from the merge base, never from the
+// change, so a PR can't exempt its own files, and a missing, unreadable or malformed list means
+// nothing is exempt. The tier floors still see the paths.
+export function generatedGlobs(base, cwd) {
+  try {
+    const list = JSON.parse(readBlob(base, 'pipeline.config.json', cwd) ?? 'null')?.generatedPaths;
+    return Array.isArray(list) && list.every((glob) => typeof glob === 'string' && glob.length > 0) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
+// The same globs as git pathspecs, for a command that reads or counts the change's diff.
+export const excludeSpecs = (globs) => (globs.length > 0 ? ['--', '.', ...globs.map((glob) => `:(exclude,glob)${glob}`)] : []);
+
 export function changeSet(baseRef, headRef, cwd) {
   const base = mergeBase(baseRef, headRef, cwd);
   const changes = rawChanges(base, headRef, cwd);
-  return { mergeBase: base, changes, hash: hashChanges(changes, patchLines(base, headRef, changes, cwd)) };
-}
-
-export function readBlob(ref, path, cwd) {
-  return tryGit(['show', `${ref}:${path}`], cwd);
+  const globs = generatedGlobs(base, cwd);
+  const generated = changes.filter((c) => matchesAny(c.path, globs)).map((c) => c.path);
+  const hashed = changes.filter((c) => !generated.includes(c.path));
+  return { mergeBase: base, changes, generated, generatedGlobs: globs, hash: hashChanges(hashed, patchLines(base, headRef, changes, cwd)) };
 }
 
 export function commitMessage(ref, cwd) {
