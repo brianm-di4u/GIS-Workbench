@@ -4886,8 +4886,7 @@
    "src": "Buffer",
    "refs": [
     "features/geoproc-ui.js",
-    "features/recipes.js",
-    "features/terrain-analysis.js"
+    "features/recipes.js"
    ]
   },
   {
@@ -12070,7 +12069,6 @@
    "key": "Erase",
    "src": "Erase",
    "refs": [
-    "features/geoproc-ui.js",
     "feedback/whiteboard.js"
    ]
   },
@@ -32025,7 +32023,6 @@
    "key": "Region",
    "src": "Region",
    "refs": [
-    "features/catalog.js",
     "features/spectral-analysis.js"
    ]
   },
@@ -38051,7 +38048,6 @@
    "src": "Square",
    "refs": [
     "features/extract.js",
-    "features/geoproc-ui.js",
     "shell/commands.js"
    ]
   },
@@ -47078,6 +47074,14 @@
    "error": true
   },
   {
+   "key": "cloud storage\u0004Region",
+   "src": "Region",
+   "ctx": "cloud storage",
+   "refs": [
+    "features/catalog.js"
+   ]
+  },
+  {
    "key": "clustering or binning",
    "src": "clustering or binning",
    "refs": [
@@ -50002,6 +50006,14 @@
    ]
   },
   {
+   "key": "landing zone\u0004Buffer",
+   "src": "Buffer",
+   "ctx": "landing zone",
+   "refs": [
+    "features/terrain-analysis.js"
+   ]
+  },
+  {
    "key": "landscape",
    "src": "landscape",
    "refs": [
@@ -50233,6 +50245,14 @@
    "refs": [
     "features/aoi.js",
     "features/spectral.js"
+   ]
+  },
+  {
+   "key": "line end\u0004Square",
+   "src": "Square",
+   "ctx": "line end",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -53201,6 +53221,14 @@
    "src": "overlap",
    "refs": [
     "features/extract-r2.js"
+   ]
+  },
+  {
+   "key": "overlay\u0004Erase",
+   "src": "Erase",
+   "ctx": "overlay",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
