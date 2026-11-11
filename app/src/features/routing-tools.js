@@ -18,7 +18,7 @@ import { loadSqlite, writeGpkg, readGpkg } from '../vector/gpkg.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int, length as fmtLength } from '../i18n/format.js';
 import { buildIndex, search, reverse, normalise } from '../analysis/geocode.js';
-import { buildGraph, graphData, nearestNode, routeLine, serviceLines } from '../analysis/network.js';
+import { buildGraph, graphData, snapToEdge, routeLine, serviceLines } from '../analysis/network.js';
 
 /**
  * Limits (S-67, measured on 2026-11-10): an address costs about 390 bytes of memory with its layer
@@ -29,7 +29,7 @@ import { buildGraph, graphData, nearestNode, routeLine, serviceLines } from '../
  */
 export const MAX_ADDRESSES = 1_000_000;
 export const MAX_EDGES = 1_000_000;
-/** How far a picked point may be from the nearest network node. */
+/** How far a picked point may be from the road network. */
 const SNAP_M = 500;
 // A number field: blank, null and text are no number (NaN), not 0.
 const numberOf = (v) => (v === null || v === undefined || String(v).trim() === '' ? NaN : Number(v));
@@ -232,19 +232,23 @@ export function install(app) {
     if (!net.graph) throw gwError('No road network: use Road Network… on a line layer first', {}, 'E_NEED_ROADS');
     return net.graph;
   };
-  const call = (prm) => app.pool.run('network', { prm, data: graph().data }, { kind: 'analysis', label: t('road network'), timeout: 300000 });
-  const snap = (at) => {
-    const { g } = graph();
-    const s = nearestNode(g, at);
-    if (s.node < 0 || s.metres > SNAP_M) throw gwError('That point is {d} from the road network (more than {max})', { d: fmtLength(s.metres), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
-    return s.node;
+  /** Run the bundle on `g`: the built graph, or one with a picked point split into an edge. */
+  const call = (prm, g) => app.pool.run('network', { prm, data: g === graph().g ? graph().data : graphData(g) }, { kind: 'analysis', label: t('road network'), timeout: 300000 });
+  /** `g` with a node where `at` meets the network: {g, node}. */
+  const snap = (g, at) => {
+    const s = snapToEdge(g, at);
+    if (!s || s.metres > SNAP_M) throw gwError('That point is {d} from the road network (more than {max})', { d: fmtLength(s?.metres ?? Infinity), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
+    return s;
   };
   const costLabel = (c) => (graph().g.cost === 'time' ? t('{min} min', { min: (c / 60).toFixed(1) }) : fmtLength(c));
 
   /** The least-cost route between two lon/lat points as a line layer; null when there is none. */
   async function route(from, to) {
-    const { g } = graph();
-    const r = await call([0, snap(from), snap(to)]);
+    const a = snap(graph().g, from);
+    const b = snap(a.g, to);
+    if (a.node === b.node) throw gwError('The start and the end are the same place on the road network', {}, 'E_NEED_ROADS');
+    const { g } = b;
+    const r = await call([0, a.node, b.node], g);
     if (r.cost === null) return null;
     const coords = routeLine(g, r.edges, r.forward.map(Boolean));
     const metres = r.edges.reduce((s, e) => s + g.edges[e].len, 0);
@@ -255,13 +259,15 @@ export function install(app) {
 
   /** The network within each break (cost units: seconds or metres) of a lon/lat point, as lines with their break. */
   async function serviceArea(at, breaks) {
-    const { g } = graph();
     const bs = [...new Set(breaks.filter((b) => b > 0))].sort((a, b) => a - b);
     if (!bs.length) throw gwError('Give at least one break greater than zero', {}, 'E_NEED_ROADS');
-    const r = await call([1, bs.at(-1), snap(at)]);
+    const built = graph().g.nodes.length;
+    const { g, node } = snap(graph().g, at);
+    const r = await call([1, bs.at(-1), node], g);
     const pieces = serviceLines(g, r.cost, bs).reverse();
     const id = addLayer(t('Service area'), 'LineString', pieces.map((p) => ({ coords: p.coords, attrs: { break: p.brk } })), { stroke: '#1a9850', width: 3 });
-    return { layer: id, nodes: r.cost.filter((c) => c !== null && c <= bs.at(-1)).length, pieces: pieces.length };
+    // The network's own nodes reached: not the one the pick added.
+    return { layer: id, nodes: r.cost.slice(0, built).filter((c) => c !== null && c <= bs.at(-1)).length, pieces: pieces.length };
   }
 
   // ---- commands ----

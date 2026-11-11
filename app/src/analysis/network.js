@@ -13,6 +13,12 @@ function radii(lat) {
   const r = Math.PI / 180;
   return { kx: ((a / Math.sqrt(w)) * Math.cos((lat * Math.PI) / 180)) * r, ky: ((a * (1 - e2)) / (w * Math.sqrt(w))) * r };
 }
+/** A segment's length (m) at its own latitude: within parts per million of the geodesic. */
+function segment(a, b) {
+  const r = radii((a[1] + b[1]) / 2);
+  return Math.hypot((b[0] - a[0]) * r.kx, (b[1] - a[1]) * r.ky);
+}
+const lengthOf = (coords) => coords.reduce((s, p, i) => (i ? s + segment(coords[i - 1], p) : 0), 0);
 /** Equal vertices: the same to about a centimetre. */
 const key = (p) => `${Math.round(p[0] * 1e7)},${Math.round(p[1] * 1e7)}`;
 
@@ -51,7 +57,7 @@ export function onewayOf(v, rule = 'here') {
 export function buildGraph(lines, { oneway = null, speed = null, cost = 'length', defaultSpeed = 50, bans = [] } = {}) {
   const ok = lines.filter((l) => Array.isArray(l.coords) && l.coords.length >= 2);
   if (!ok.length) return null;
-  // A local frame, metres east and north, for the A* heuristic and the nearest node. It must never
+  // A local frame, metres east and north, for the A* heuristic and snapping to the network. It must never
   // make two nodes look further apart than they are, so it takes the east–west scale at the
   // latitude furthest from the equator and the north–south scale at the one nearest it.
   let sx = 0;
@@ -74,12 +80,7 @@ export function buildGraph(lines, { oneway = null, speed = null, cost = 'length'
   const kx = radii(far).kx;
   const ky = radii(near).ky;
   const to = (p) => [(p[0] - lon0) * kx, (p[1] - lat0) * ky];
-  // Lengths, though, use the scale at each segment's own latitude: within parts per million of the
-  // geodesic over a segment, wherever the network is.
-  const segment = (a, b) => {
-    const r = radii((a[1] + b[1]) / 2);
-    return Math.hypot((b[0] - a[0]) * r.kx, (b[1] - a[1]) * r.ky);
-  };
+  // Lengths, though, use the scale at each segment's own latitude (segment), wherever the network is.
   // Vertices used by more than one line, or twice by one, are nodes; so are line ends.
   const uses = new Map();
   // Every visit counts, so a line that loops back onto itself (a cul-de-sac drawn as one line) is
@@ -116,8 +117,7 @@ export function buildGraph(lines, { oneway = null, speed = null, cost = 'length'
     for (let i = 1; i < l.coords.length; i++) {
       if (i < l.coords.length - 1 && (uses.get(key(l.coords[i])) ?? 0) < 2) continue;
       const part = l.coords.slice(start, i + 1);
-      let len = 0;
-      for (let k = 1; k < part.length; k++) len += segment(part[k - 1], part[k]);
+      const len = lengthOf(part);
       // A vertex digitised twice in a row is no edge.
       if (len === 0) {
         start = i;
@@ -169,21 +169,55 @@ export function graphData(g) {
   return d;
 }
 
-/** The node nearest a lon/lat that some edge can leave or reach, and how far away it is (m). */
-export function nearestNode(g, at) {
+/**
+ * Where a lon/lat meets the network: the graph with a node at the nearest point of the nearest
+ * edge, that node, and how far away it is (m). The edge is split there into two pieces with its
+ * line, one-way rule and turn bans, and costs in proportion to their lengths, so a route starts
+ * where the user clicked, not at the far end of a long road. A point within `tol` metres of an
+ * end of the edge takes the node there and leaves the graph as it is. `g` is never changed.
+ */
+export function snapToEdge(g, at, tol = 1) {
   const { lon0, lat0, kx, ky } = g.frame;
-  const x = (at[0] - lon0) * kx;
-  const y = (at[1] - lat0) * ky;
-  let best = -1;
-  let bd = Infinity;
-  for (let i = 0; i < g.nodes.length; i++) {
-    const d = Math.hypot(g.xy[2 * i] - x, g.xy[2 * i + 1] - y);
-    if (d < bd) {
-      bd = d;
-      best = i;
+  const px = (at[0] - lon0) * kx;
+  const py = (at[1] - lat0) * ky;
+  let best = null;
+  g.edges.forEach((e, ei) => {
+    for (let i = 1; i < e.coords.length; i++) {
+      const ax = (e.coords[i - 1][0] - lon0) * kx;
+      const ay = (e.coords[i - 1][1] - lat0) * ky;
+      const dx = (e.coords[i][0] - lon0) * kx - ax;
+      const dy = (e.coords[i][1] - lat0) * ky - ay;
+      const L2 = dx * dx + dy * dy;
+      const u = L2 > 0 ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / L2)) : 0;
+      const d = Math.hypot(ax + u * dx - px, ay + u * dy - py);
+      if (!best || d < best.metres) best = { ei, i, u, metres: d };
     }
-  }
-  return { node: best, metres: bd };
+  });
+  if (!best) return null;
+  const { ei, i, u, metres } = best;
+  const e = g.edges[ei];
+  const [a, b] = [e.coords[i - 1], e.coords[i]];
+  const P = [a[0] + u * (b[0] - a[0]), a[1] + u * (b[1] - a[1])];
+  const head = [...e.coords.slice(0, i), P];
+  const la = lengthOf(head);
+  if (la <= tol) return { g, node: e.from, metres };
+  if (e.len - la <= tol) return { g, node: e.to, metres };
+  const n = g.nodes.length;
+  const f = la / e.len;
+  const edges = g.edges.slice();
+  edges[ei] = { ...e, to: n, fwd: e.fwd * f, bwd: e.bwd * f, len: la, coords: head };
+  const bi = edges.push({ ...e, from: n, fwd: e.fwd * (1 - f), bwd: e.bwd * (1 - f), len: e.len - la, coords: [P, ...e.coords.slice(i)] }) - 1;
+  // A ban on the split edge holds where it was: at its start for the first piece, at its end for
+  // the second. The new node joins only the two pieces, so no ban is placed there.
+  const pieces = (x) => (x === ei ? [ei, bi] : [x]);
+  const meet = (x, y) => [edges[x].from, edges[x].to].some((v) => v !== n && (v === edges[y].from || v === edges[y].to));
+  const banned = [];
+  for (const [x, y] of g.banned) for (const p of pieces(x)) for (const q of pieces(y)) if (p !== q && meet(p, q)) banned.push([p, q]);
+  const xy = new Float64Array(g.xy.length + 2);
+  xy.set(g.xy);
+  xy[g.xy.length] = (P[0] - lon0) * kx;
+  xy[g.xy.length + 1] = (P[1] - lat0) * ky;
+  return { g: { ...g, nodes: [...g.nodes, P], edges, banned, xy }, node: n, metres };
 }
 
 /** A route's line: the edges' vertices in the direction travelled, without repeating the joins. */

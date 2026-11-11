@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { VectorBundle } from '../../app/src/wasm/vector.js';
-import { buildGraph, graphData, nearestNode, onewayOf, onewayRule, routeLine, serviceLines } from '../../app/src/analysis/network.js';
+import { buildGraph, graphData, snapToEdge, onewayOf, onewayRule, routeLine, serviceLines } from '../../app/src/analysis/network.js';
 
 const wasmPath = (() => {
   try {
@@ -98,14 +98,45 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     expect(s).toHaveLength(1);
     expect(s[0].coords[0]).toEqual([0, 0]);
     expect(s[0].coords.at(-1)[0]).toBeCloseTo(0.001, 6);
-    expect(nearestNode(g, [0.0019, 0.0001]).node).toBe(g.edges[0].to);
+  });
+  it('snaps a pick to the nearest point of the nearest edge, and splits the edge there', () => {
+    const lines = [{ id: 'a', coords: [[0, 0], [0.001, 0], [0.002, 0]], attrs: { ow: 'yes' } }, { id: 'b', coords: [[0.002, 0], [0.002, 0.001]], attrs: { ow: 'no' } }];
+    const g = buildGraph(lines, { oneway: 'ow', bans: [{ from: 'a', to: 'b' }] });
+    const [a] = g.edges;
+    // A quarter of the way along a, 11 m north of it.
+    const s = snapToEdge(g, [0.0005, 0.0001]);
+    expect(s.metres).toBeCloseTo(11.06, 1);
+    expect(s.node).toBe(g.nodes.length);
+    expect(s.g.nodes.at(-1)).toEqual([0.0005, 0]);
+    const [p, , q] = s.g.edges;
+    expect([p.from, p.to, q.from, q.to]).toEqual([a.from, s.node, s.node, a.to]);
+    expect(p.len + q.len).toBeCloseTo(a.len, 9);
+    expect(p.len / a.len).toBeCloseTo(0.25, 6);
+    expect(p.fwd / a.fwd).toBeCloseTo(0.25, 6);
+    // One-way along the line in both pieces, and the ban stays where a meets b: on the second piece.
+    expect([p.bwd, q.bwd]).toEqual([Infinity, Infinity]);
+    expect(g.banned).toEqual([[0, 1]]);
+    expect(s.g.banned).toEqual([[2, 1]]);
+    expect(s.g.xy).toHaveLength(2 * s.g.nodes.length);
+    expect(graphData(s.g)[0]).toBe(g.nodes.length + 1);
+    // The built graph is left as it was.
+    expect(g.edges).toHaveLength(2);
+    expect(g.nodes).toHaveLength(3);
+    // A pick next to a node takes the node, and the graph as it is.
+    const end = snapToEdge(g, [0.002, -0.00002]);
+    expect(end.g).toBe(g);
+    expect(end.node).toBe(a.to);
+    // A second pick on the same edge splits the piece it falls on.
+    const t = snapToEdge(s.g, [0.0015, 0]);
+    expect(t.node).toBe(s.node + 1);
+    expect(t.g.edges.map((e) => e.len).reduce((x, y) => x + y)).toBeCloseTo(a.len + g.edges[1].len, 9);
   });
 });
 
 describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) against scipy', () => {
   const g = buildGraph(ROADS, { oneway: 'oneway', speed: 'speed', cost: 'time' });
   const data = graphData(g);
-  const at = (p) => nearestNode(g, p).node;
+  const at = (p) => snapToEdge(g, p).node;
   it('gives the reference travel time for every route, one-way detours included', () => {
     for (const r of REF.routes) {
       const out = B.network([0, at(r.from), at(r.to)], data);
@@ -124,6 +155,16 @@ describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) 
       const got = g.nodes.filter((_, v) => c[v] !== null && c[v] <= b).map((p) => p.join()).sort();
       expect(got, `${b} s`).toEqual(s.within[String(b)].map((p) => p.join()).sort());
     }
+  });
+  it('starts a route where the pick is, part way along an edge', () => {
+    // Half way along the 1st St block east of A Ave, and its east end: half the block's time.
+    const s = snapToEdge(g, [-104.9994, 40]);
+    const e = s.g.edges.find((x) => x.to === s.node);
+    const end = at([-104.9988, 40]);
+    const out = B.network([0, s.node, end], graphData(s.g));
+    const full = g.edges.find((x) => [x.from, x.to].includes(end) && x.coords.some((p) => p[0] === -105) && x.line === 'st0');
+    expect(out.cost).toBeCloseTo(full.fwd / 2, 6);
+    expect(e.fwd).toBeCloseTo(full.fwd / 2, 6);
   });
   it('says when a node cannot be reached, and refuses a malformed graph', () => {
     const lines = [{ id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'yes' } }];
