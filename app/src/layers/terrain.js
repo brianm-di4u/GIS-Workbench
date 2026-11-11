@@ -107,14 +107,19 @@ export class Terrain {
     const N = this.separations(d.vertical, pts, !!d.gridV);
     const out = new Float32Array(g.width * g.height);
     const n = (a, b) => N[Math.min(b, ny - 1) * nx + Math.min(a, nx - 1)];
+    // The lattice node before post p and the weight of the one after, by the nodes' own posts: the
+    // last node sits on the last post, which can be nearer than a step to the one before it.
+    const at = (p, m, len) => {
+      if (m < 2) return [0, 0];
+      const k = Math.min(Math.floor(p / step), m - 2);
+      const a = k * step;
+      const b = Math.min((k + 1) * step, len - 1);
+      return [k, b > a ? Math.min(1, (p - a) / (b - a)) : 0];
+    };
     for (let j = 0; j < g.height; j++) {
-      const fy = Math.min(j / step, ny - 1);
-      const j0 = Math.min(Math.floor(fy), Math.max(0, ny - 2));
-      const wy = ny > 1 ? fy - j0 : 0;
+      const [j0, wy] = at(j, ny, g.height);
       for (let i = 0; i < g.width; i++) {
-        const fx = Math.min(i / step, nx - 1);
-        const i0 = Math.min(Math.floor(fx), Math.max(0, nx - 2));
-        const wx = nx > 1 ? fx - i0 : 0;
+        const [i0, wx] = at(i, nx, g.width);
         const sep = (n(i0, j0) * (1 - wx) + n(i0 + 1, j0) * wx) * (1 - wy) + (n(i0, j0 + 1) * (1 - wx) + n(i0 + 1, j0 + 1) * wx) * wy;
         out[j * g.width + i] = H[j * g.width + i] + sep;
       }

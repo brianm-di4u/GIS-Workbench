@@ -228,6 +228,21 @@ fn a_slope_facing_the_sensor_is_darkened_and_one_facing_away_brightened() {
     let k = 225 * flat.w + 225;
     assert!(a.value[k] < f.value[k] * 0.9, "toward {} vs flat {}", a.value[k], f.value[k]);
     assert!(b.value[k] > f.value[k] * 1.1, "away {} vs flat {}", b.value[k], f.value[k]);
+    // And by how much: the tilt is in the range plane (north-south, across this orbit), so the
+    // look meets the plane at the ellipsoid incidence θ less (facing) or plus (away) the slope α,
+    // and γ⁰/β⁰ is tan(θ ∓ α), as tan θ is on flat ground.
+    let alpha = tilt.atan();
+    let mut worst = 0.0f64;
+    for jj in (100..=350).step_by(50) {
+        for ii in (100..=350).step_by(50) {
+            let th = tan_incidence(LAT0 - jj as f64 * DD, LON0 + ii as f64 * DD).atan();
+            let k = jj * flat.w + ii;
+            for (v, want) in [(a.value[k], (th - alpha).tan()), (b.value[k], (th + alpha).tan())] {
+                worst = worst.max((v as f64 / want - 1.0).abs());
+            }
+        }
+    }
+    assert!(worst < 0.03, "γ⁰/β⁰ off tan(θ ∓ α) by {:.2} %", worst * 100.0);
 }
 
 #[test]
@@ -244,6 +259,22 @@ fn a_steep_ridge_has_layover_on_its_fore_slope_and_shadow_behind() {
     assert!(j.counts[2] > 0, "shadow posts: {}", j.counts[2]);
     // The far south and north edges are flat and clear.
     assert_eq!(j.mask[5 * s.w + 225] & sarmask::LAYOVER, 0);
+    // Rows run south from the crest (row 225); each face is 60 rows of 5 m. Layover on the face
+    // toward the sensor (south) and no shadow there; shadow on the face away (north). The fore slope
+    // spans 300·sin θ − 600·cos θ ≈ −290 m of range (its top is nearest), and the back slope moves
+    // away at sin θ + 2·cos θ ≈ 2.2 m of range per metre, so its first ≈ 130 m share range with
+    // the fore slope and are laid over too, and the rest is not.
+    let share = |rows: std::ops::Range<usize>, bit: u8| {
+        let n = rows.len() * 200;
+        rows.flat_map(|jj| (125..325).map(move |ii| (jj, ii))).filter(|&(jj, ii)| j.mask[jj * s.w + ii] & bit != 0).count() as f64 / n as f64
+    };
+    let (fore, back) = (235..280, 170..215);
+    assert!(share(fore.clone(), sarmask::LAYOVER) > 0.9, "layover on the fore slope: {:.2}", share(fore.clone(), sarmask::LAYOVER));
+    assert!(share(back.clone(), sarmask::SHADOW) > 0.9, "shadow on the back slope: {:.2}", share(back.clone(), sarmask::SHADOW));
+    assert!(share(fore.clone(), sarmask::SHADOW) < 0.05, "shadow on the fore slope: {:.2}", share(fore, sarmask::SHADOW));
+    let (near, far) = (205..215, 170..190); // 50 to 100 m and 175 to 275 m north of the crest
+    assert!(share(near.clone(), sarmask::LAYOVER) > 0.9, "layover just behind the crest: {:.2}", share(near, sarmask::LAYOVER));
+    assert!(share(far.clone(), sarmask::LAYOVER) < 0.05, "layover far down the back slope: {:.2}", share(far, sarmask::LAYOVER));
 }
 
 #[test]
