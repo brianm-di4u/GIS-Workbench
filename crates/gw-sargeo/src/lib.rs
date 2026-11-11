@@ -498,7 +498,26 @@ impl Job {
                     continue; // facing away: no area seen
                 }
                 let (y, x) = (self.arow(t), self.wcol(self.img.pixel(t, r)));
-                splat(&mut self.area, self.win.ns, self.arows, y, x, a_g);
+                // A triangle can span a pixel or more of the grid (about one post per look is the
+                // default), and one splat at its centre then leaves a ripple in A_γ that reads as
+                // texture. So its area is spread over n² equal sub-triangles no more than SUB of a
+                // pixel apart, placed by its corners' grid positions about the centre's own.
+                let c = tri.map(|(_, k)| (self.arow(self.t[k]), self.wp[k] as f64));
+                let ext = (0..3).map(|m| (c[m].0 - c[(m + 1) % 3].0).abs().max((c[m].1 - c[(m + 1) % 3].1).abs())).fold(0.0, f64::max);
+                let n = ((ext / SUB).ceil() as usize).clamp(1, 16);
+                let (eu, ev) = ((c[1].0 - c[0].0, c[1].1 - c[0].1), (c[2].0 - c[0].0, c[2].1 - c[0].1));
+                let (nf, wt) = (n as f64, a_g / (n * n) as f64);
+                for a in 0..n {
+                    for b in 0..n - a {
+                        // The sub-triangle pointing up, then (where there is one) the one pointing down.
+                        for (d, has) in [(1.0 / 3.0, true), (2.0 / 3.0, a + b + 1 < n)] {
+                            if has {
+                                let (u, v) = ((a as f64 + d) / nf - 1.0 / 3.0, (b as f64 + d) / nf - 1.0 / 3.0);
+                                splat(&mut self.area, self.win.ns, self.arows, y + eu.0 * u + ev.0 * v, x + eu.1 * u + ev.1 * v, wt);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -664,6 +683,9 @@ impl Job {
         }
     }
 }
+
+/// The largest spacing, in A_γ grid pixels, between the points a triangle's area is spread over.
+const SUB: f64 = 0.25;
 
 /// Add `v` to the four window pixels around (y, x), bilinearly.
 fn splat(a: &mut [f32], w: usize, h: usize, y: f64, x: f64, v: f64) {

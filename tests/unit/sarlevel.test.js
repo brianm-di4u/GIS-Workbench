@@ -97,14 +97,21 @@ describe('REQ-GAP-91 REG-084 SAR stereo DSM file facts', async () => {
     expect(xml).toContain('<Item name="DESCRIPTION" sample="3" role="description">flags</Item>');
     expect(gdalMetadataXml(dsmItems({}, false))).toBe(undefined);
   });
+  it('keeps the prior DEM name apart from the levelling record', () => {
+    const lv = dsmItems({ prior: 'GLO-30', stats: { geometry: { sameSide: true } }, levelling: ['on A by 1.00 m', 'on B by 0.20 m'] }, true).dataset;
+    expect(lv.GWB_PRIOR).toBe('GLO-30');
+    expect(lv.GWB_LEVELLING).toBe('on A by 1.00 m; on B by 0.20 m');
+    expect(dsmFileFacts(lv, '')).toEqual({ product: true, sameSide: true, prior: 'GLO-30', levelling: 'on A by 1.00 m; on B by 0.20 m' });
+    expect(dsmItems({ levelling: ['on A by 1.00 m'] }, false).dataset).toEqual({ GWB_LEVELLING: 'on A by 1.00 m' });
+  });
   it('reads a tagged product by its items, and a missing pair side as opposite-side', () => {
-    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '1', GWB_PRIOR: 'P' }, '')).toEqual({ product: true, sameSide: true, prior: 'P' });
-    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '0' }, v26('P', false))).toEqual({ product: true, sameSide: false, prior: null });
+    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '1', GWB_PRIOR: 'P' }, '')).toEqual({ product: true, sameSide: true, prior: 'P', levelling: null });
+    expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: '0' }, v26('P', false))).toEqual({ product: true, sameSide: false, prior: null, levelling: null });
     expect(dsmFileFacts({ GWB_PRODUCT: 'SAR_STEREO_DSM' }, '').sameSide).toBe(false);
   });
   it('reads a file 2.6 wrote by its description', () => {
-    expect(dsmFileFacts({}, v26('Copernicus GLO-30', false))).toEqual({ product: true, sameSide: true, prior: 'Copernicus GLO-30' });
-    expect(dsmFileFacts({}, v26('Copernicus GLO-30', true))).toEqual({ product: true, sameSide: false, prior: 'Copernicus GLO-30' });
-    expect(dsmFileFacts({}, 'Some other DEM')).toEqual({ product: false, sameSide: true, prior: null });
+    expect(dsmFileFacts({}, v26('Copernicus GLO-30', false))).toEqual({ product: true, sameSide: true, prior: 'Copernicus GLO-30', levelling: null });
+    expect(dsmFileFacts({}, v26('Copernicus GLO-30', true))).toEqual({ product: true, sameSide: false, prior: 'Copernicus GLO-30', levelling: null });
+    expect(dsmFileFacts({}, 'Some other DEM')).toEqual({ product: false, sameSide: true, prior: null, levelling: null });
   });
 });

@@ -145,7 +145,10 @@ export function install(app) {
       const r = await modal({ title: t('Terrain Correction'), body, buttons: [{ label: t('Run'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'sar-terrain' });
       if (r !== 'run') return;
       const res = await run({ layer, dem: dems[Number(demSel.value)], flatten: out.value === 'gamma', masks: mk.checked });
-      app.toast(t('Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow ({orbit} orbit).', { n: int(res.stats.valued), lay: int(res.stats.layover), sh: int(res.stats.shadow), orbit: res.stats.orbit }), { kind: 'info', ms: 8000 });
+      const c = { n: int(res.stats.valued), lay: int(res.stats.layover), sh: int(res.stats.shadow), orbit: res.stats.orbit };
+      // The source is a code: the annotation's orbit, or the orbit file's File_Type.
+      const msg = c.orbit === 'annotation' ? t('Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).', c) : t('Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (orbit file, {orbit}).', c);
+      app.toast(msg, { kind: 'info', ms: 8000 });
     },
   });
 }

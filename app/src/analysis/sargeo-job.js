@@ -29,7 +29,7 @@ export function pickOrbit(ann, orbitFile = null) {
     const i0 = Math.max(0, f.t.findIndex((x) => x >= t0 - 120) - 1);
     const k = f.t.findIndex((x) => x > t1 + 120);
     const i1 = k < 0 ? f.t.length : k + 1;
-    return { source: orbitFile.type || 'orbit file', t: f.t.slice(i0, i1), p: f.p.slice(3 * i0, 3 * i1), v: f.v.slice(3 * i0, 3 * i1) };
+    return { source: orbitFile.type || 'EOF', t: f.t.slice(i0, i1), p: f.p.slice(3 * i0, 3 * i1), v: f.v.slice(3 * i0, 3 * i1) };
   }
   const a = ann.orbit;
   if (!(a?.t?.length >= 4)) return null;

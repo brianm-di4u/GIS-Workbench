@@ -103,6 +103,7 @@ struct Scene {
     r0: f64,
     dt: f64,
     az: f64,
+    dd: f64,
 }
 
 const LAT0: f64 = 4.02;
@@ -110,22 +111,27 @@ const LON0: f64 = -0.01;
 const DD: f64 = 0.000_045; // ≈ 5 m
 
 fn scene(height: impl Fn(f64, f64) -> f64) -> Scene {
-    let (w, h) = (450, 450);
+    scene_at(DD, 450, height)
+}
+
+/// A patch of n × n posts `dd` degrees apart.
+fn scene_at(dd: f64, n: usize, height: impl Fn(f64, f64) -> f64) -> Scene {
+    let (w, h) = (n, n);
     let mut z = vec![0.0f32; w * h];
     for j in 0..h {
         for i in 0..w {
-            z[j * w + i] = height(LAT0 - j as f64 * DD, LON0 + i as f64 * DD) as f32;
+            z[j * w + i] = height(LAT0 - j as f64 * dd, LON0 + i as f64 * dd) as f32;
         }
     }
     // Along-track ground spacing of a line at the patch: the zero-Doppler plane turns at W, so a
     // point at distance ρ from the axis moves by W·ρ per second.
-    let x = geodetic_to_ecef(LAT0 - 225.0 * DD, 0.0, 0.0);
+    let x = geodetic_to_ecef(LAT0 - (h / 2) as f64 * dd, 0.0, 0.0);
     let rho = x[0].hypot(x[1]);
     let dt = 20.0 / (omega() * rho);
     let o = orbit(-100.0, 100.0, 10.0);
-    let r_min = (0..h).step_by(50).flat_map(|j| [0usize, w - 1].map(move |i| (i, j))).filter_map(|(i, j)| zero_doppler(&o, geodetic_to_ecef(LAT0 - j as f64 * DD, LON0 + i as f64 * DD, 0.0), 0.0).map(|r| r.1)).fold(f64::INFINITY, f64::min);
+    let r_min = (0..h).step_by(50).flat_map(|j| [0usize, w - 1].map(move |i| (i, j))).filter_map(|(i, j)| zero_doppler(&o, geodetic_to_ecef(LAT0 - j as f64 * dd, LON0 + i as f64 * dd, 0.0), 0.0).map(|r| r.1)).fold(f64::INFINITY, f64::min);
     let (nl, ns) = (4000, 300);
-    Scene { z, beta: vec![1.0; nl * ns], w, h, nl, ns, r0: r_min - 2000.0, dt, az: 20.0 }
+    Scene { z, beta: vec![1.0; nl * ns], w, h, nl, ns, r0: r_min - 2000.0, dt, az: 20.0, dd }
 }
 
 fn run(s: &Scene, flatten: bool, masks: bool) -> Job {
@@ -139,7 +145,7 @@ fn run_with(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>) -> Job {
 /// The test orbit runs east along the equator, so the patch north of it is on its left.
 fn run_side(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64) -> Job {
     let img = Image { dt: s.dt, blocks, range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: s.az };
-    let dem = Dem { w: s.w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: DD, dlon: DD };
+    let dem = Dem { w: s.w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: s.dd, dlon: s.dd };
     let win = Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl: s.nl, ns: s.ns, beta: s.beta.clone() };
     let opts = Opts { flatten, mask_stride: if masks { 4 } else { 0 }, mask_step: 2.5, mask_tol: 0.5, look };
     let mut job = Job::new(orbit(-100.0, 100.0, 10.0), img, dem, win, opts).unwrap();
@@ -186,6 +192,28 @@ fn flat_ground_gives_gamma_of_beta_times_tan_incidence() {
     // Unflattened: β⁰ as it was.
     let b = run(&s, false, false);
     assert!((b.value[225 * s.w + 225] - 1.0).abs() < 1e-6);
+}
+
+#[test]
+fn posts_about_one_look_apart_flatten_without_a_ripple() {
+    // 28 m posts against 20 m slant (about 32 m ground) pixels and 20 m lines: about one post per
+    // pixel, where one splat per triangle left γ⁰ 0.89 to 1.21 of β⁰·tan θ from post to post.
+    let dd = 0.000_252;
+    let s = scene_at(dd, 80, |_, _| 0.0);
+    let j = run(&s, true, false);
+    let (mut lo, mut hi, mut n) = (f64::INFINITY, 0.0f64, 0);
+    for jj in 10..s.h - 10 {
+        for ii in 10..s.w - 10 {
+            let v = j.value[jj * s.w + ii] as f64;
+            if !v.is_finite() {
+                continue;
+            }
+            let r = v / tan_incidence(LAT0 - jj as f64 * dd, LON0 + ii as f64 * dd);
+            (lo, hi, n) = (lo.min(r), hi.max(r), n + 1);
+        }
+    }
+    assert!(n > 3000, "{n} posts flattened");
+    assert!(lo > 0.97 && hi < 1.03, "γ⁰/(β⁰·tan θ) from {lo:.3} to {hi:.3}");
 }
 
 #[test]

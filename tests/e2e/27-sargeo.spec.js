@@ -3,13 +3,18 @@
 // without it). The DEM is flat at the scene's height, so the radiometry has a closed form: γ⁰/β⁰ is
 // tan θ on flat ground, and there is no layover or shadow. Geolocation against the product's own
 // grid is the unit test's (tests/unit/sargeo.test.js); against a reference processor's product is
-// SCN-87's remaining part.
+// SCN-87's remaining part. The dialog is then run with an orbit file.
 import { test, expect } from '@playwright/test';
-import { existsSync, mkdtempSync, readdirSync, writeFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { createRequire } from 'node:module';
 import { openApp, openFiles } from './helpers.js';
 import { writeGeoTiff } from '../../app/src/formats/geotiff-writer.js';
+
+const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
+const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+const axeOn = (frame, sel) => frame.evaluate(async ({ s, tags }) => (await window.axe.run(document.querySelector(s), { runOnly: { type: 'tag', values: tags } })).violations.map((x) => `${x.id}: ${x.nodes.map((n) => n.target.join(' ')).slice(0, 5).join(', ')}`), { s: sel, tags: AXE_TAGS });
 
 const CORPUS = process.env.TE_CORPUS ?? 'C:/GIS Workbench/TE-corpus';
 const SAFE = join(CORPUS, 'sar-s1-iw-slc-vegas-20240626-20240708', 'S1A_IW_SLC__1SDV_20240626T134404_20240626T134432_054495_06A1B9_6F14.SAFE');
@@ -78,6 +83,64 @@ test('SCN-87 REQ-GAP-90 Terrain Correction of a Sentinel-1 IW SLC swath: γ⁰ o
     expect(r.stats.layover + r.stats.shadow).toBe(0);
     expect(r.masked).toBe(0);
     expect(r.names[0]).toMatch(/^GAMMA0_TC_/);
+    // The dialog, with an orbit file read through the worker. No real POEORB is in the corpus, so
+    // the file is written from the annotation's own state vectors: the same orbit, so the β⁰ it
+    // gives matches the API run's, and the run reports the file's type. That checks the .EOF
+    // parser, the mission check against a real annotation's missionId and the coverage rule.
+    const ann = await frame.evaluate(() => {
+      const a = [...window.gisworkbench.layers.values()].find((x) => x.info?.meta?.s1).info.meta.s1.annotation;
+      return { t: a.orbit.t, p: a.orbit.p, v: a.orbit.v, t0: a.t0, t1: a.t1, mission: a.missionId };
+    });
+    expect(ann.mission).toBe('S1A');
+    expect(ann.t[0]).toBeLessThanOrEqual(ann.t0 - 60);
+    expect(ann.t[ann.t.length - 1]).toBeGreaterThanOrEqual(ann.t1 + 60);
+    // To the microsecond, as an EOF has them: a millisecond is 7.5 m along the orbit.
+    const utc = (s) => {
+      const us = Math.round((s - Math.floor(s)) * 1e6);
+      const sec = Math.floor(s) + (us === 1e6 ? 1 : 0);
+      return `UTC=${new Date(Date.UTC(2000, 0, 1) + sec * 1000).toISOString().slice(0, 19)}.${String(us % 1e6).padStart(6, '0')}`;
+    };
+    const osv = ann.t.map((s, i) => `<OSV><UTC>${utc(s)}</UTC><X unit="m">${ann.p[3 * i]}</X><Y unit="m">${ann.p[3 * i + 1]}</Y><Z unit="m">${ann.p[3 * i + 2]}</Z><VX unit="m/s">${ann.v[3 * i]}</VX><VY unit="m/s">${ann.v[3 * i + 1]}</VY><VZ unit="m/s">${ann.v[3 * i + 2]}</VZ></OSV>`);
+    const eof = join(dir, 'S1A_OPER_AUX_POEORB_TEST.EOF');
+    writeFileSync(eof, `<?xml version="1.0"?><Earth_Explorer_File><Earth_Explorer_Header><Fixed_Header><Mission>Sentinel-1A</Mission><File_Type>AUX_POEORB</File_Type></Fixed_Header><Variable_Header><Ref_Frame>EARTH_FIXED</Ref_Frame></Variable_Header></Earth_Explorer_Header><Data_Block type="xml"><List_of_OSVs count="${osv.length}">${osv.join('')}</List_of_OSVs></Data_Block></Earth_Explorer_File>`);
+    await frame.evaluate(axeSource);
+    await frame.evaluate(() => {
+      const app = window.gisworkbench;
+      const id = [...app.layers.values()].find((x) => x.info?.meta?.s1).id;
+      app.store.transact('Active layer', (tx) => tx.set(app.activePane().id, 'activeLayer', id));
+      void app.commands.run('sar.terrain');
+    });
+    const dlg = frame.locator('[data-id="dialog:sar-terrain"]');
+    await expect(dlg).toBeVisible();
+    expect(await axeOn(frame, '[data-id="dialog:sar-terrain"]')).toEqual([]);
+    await dlg.getByLabel('Output').selectOption('beta');
+    await dlg.getByLabel('Layover and shadow mask').first().uncheck();
+    await dlg.locator('input[type=file]').setInputFiles(eof);
+    await expect(dlg).toContainText('S1A_OPER_AUX_POEORB_TEST.EOF');
+    await dlg.getByRole('button', { name: 'Run' }).click();
+    const betaCount = () => frame.evaluate(() => [...window.gisworkbench.layers.values()].filter((l) => /^BETA0_TC_/.test(l.rec?.name ?? '')).length);
+    await expect.poll(betaCount, { timeout: 300_000 }).toBe(2);
+    const f = await frame.evaluate(async () => {
+      const app = window.gisworkbench;
+      const [api, ui] = [...app.layers.values()].filter((l) => /^BETA0_TC_/.test(l.rec?.name ?? ''));
+      const read = async (l) => (await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: 200, h: 166, bands: [0] }, { affinity: l.affinity })).planes[0];
+      const [a, b] = [await read(api), await read(ui)];
+      const d = [];
+      let fa = 0;
+      let fb = 0;
+      for (let k = 0; k < a.length; k++) {
+        fa += Number.isFinite(a[k]);
+        fb += Number.isFinite(b[k]);
+        if (Number.isFinite(a[k]) && Number.isFinite(b[k])) d.push(Math.abs(a[k] - b[k]));
+      }
+      d.sort((x, y) => x - y);
+      return { orbit: app.sarTerrain.last.orbit, fa, fb, median: d[d.length >> 1], p99: d[Math.floor(d.length * 0.99)] };
+    });
+    console.log(JSON.stringify(f));
+    expect(f.orbit).toBe('AUX_POEORB');
+    expect(f.fb).toBe(f.fa);
+    expect(f.median).toBeLessThan(1e-3);
+    expect(f.p99).toBeLessThan(1e-3);
     expect(logs).toEqual([]);
   } finally {
     rmSync(dir, { recursive: true, force: true });

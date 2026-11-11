@@ -39691,8 +39691,15 @@
    ]
   },
   {
-   "key": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow ({orbit} orbit).",
-   "src": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow ({orbit} orbit).",
+   "key": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (orbit file, {orbit}).",
+   "src": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (orbit file, {orbit}).",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).",
+   "src": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).",
    "refs": [
     "features/sar-terrain-ui.js"
    ]
@@ -61451,6 +61458,13 @@
   {
    "key": "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled",
    "src": "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts",
+   "src": "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts",
    "refs": [
     "features/sarstereo.js"
    ]

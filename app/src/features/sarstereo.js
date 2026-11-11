@@ -42,12 +42,13 @@ export const DEFAULTS = { levels: 3, window: 4, searchM: 60, stepFrac: 0.5, cost
 
 /**
  * GDAL metadata for a saved DSM ({dataset, bands}, for gdalMetadataXml): the items a reopened file is
- * read by (GWB_PRODUCT, GWB_SAME_SIDE, GWB_PRIOR) and band names other tools show. `full` is the
+ * read by (GWB_PRODUCT, GWB_SAME_SIDE, GWB_PRIOR, GWB_LEVELLING) and band names other tools show. `full` is the
  * four-band product.
  */
 export function dsmItems(dsm, full) {
   const dataset = full ? { GWB_PRODUCT: 'SAR_STEREO_DSM', GWB_SAME_SIDE: dsm.stats?.geometry?.sameSide === false ? '0' : '1' } : {};
   if (dsm.prior) dataset.GWB_PRIOR = dsm.prior;
+  if (dsm.levelling?.length) dataset.GWB_LEVELLING = dsm.levelling.join('; ');
   return { dataset, bands: full ? ['height', 'sigma', 'score', 'flags'] : [] };
 }
 
@@ -55,12 +56,13 @@ export function dsmItems(dsm, full) {
  * What a reopened file says about itself, from its GDAL items (meta.gdalItems) and, for a file 2.6
  * wrote (prose only, never levelled, so never cut short), its ImageDescription. A tagged product
  * whose pair side is missing reads as opposite-side, so it is refused rather than levelled.
- * Returns {product, sameSide, prior}.
+ * Returns {product, sameSide, prior, levelling}.
  */
 export function dsmFileFacts(items = {}, desc = '') {
-  if (items.GWB_PRODUCT != null) return { product: items.GWB_PRODUCT === 'SAR_STEREO_DSM', sameSide: items.GWB_SAME_SIDE === '1', prior: items.GWB_PRIOR ?? null };
+  const levelling = items.GWB_LEVELLING ?? null;
+  if (items.GWB_PRODUCT != null) return { product: items.GWB_PRODUCT === 'SAR_STEREO_DSM', sameSide: items.GWB_SAME_SIDE === '1', prior: items.GWB_PRIOR ?? null, levelling };
   const legacy = /SAR stereo DSM \(radargrammetry\)/.test(desc);
-  return { product: legacy, sameSide: !/opposite-side pair/.test(desc), prior: items.GWB_PRIOR ?? (legacy ? /; prior (.*?)(?:; opposite-side pair, not recommended)?$/.exec(desc)?.[1] ?? null : null) };
+  return { product: legacy, sameSide: !/opposite-side pair/.test(desc), prior: items.GWB_PRIOR ?? (legacy ? /; prior (.*?)(?:; opposite-side pair, not recommended)?$/.exec(desc)?.[1] ?? null : null), levelling };
 }
 
 const RUN_CANCEL = () => [{ label: t('Run'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }];
@@ -327,9 +329,10 @@ export function install(app) {
       data[4 * i + 2] = dsm.score?.[i] ?? NaN;
       data[4 * i + 3] = dsm.flags[i];
     }
+    const lev = dsm.levelling?.length ? `; levelled ${dsm.levelling.join('; levelled ')}` : '';
     const desc = full
-      ? `GIS Workbench SAR stereo DSM (radargrammetry) from ${dsm.names.join(' + ')}: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${dsm.prior}${dsm.stats?.geometry?.sameSide === false ? '; opposite-side pair, not recommended' : ''}`
-      : `GIS Workbench DSM from ${dsm.names.join(' + ')}: height above the WGS 84 ellipsoid (m); ${dsm.prior ?? ''}`;
+      ? `GIS Workbench SAR stereo DSM (radargrammetry) from ${dsm.names.join(' + ')}: band 1 height above the WGS 84 ellipsoid (m), band 2 per-post sigma (m), band 3 matching score, band 4 flags (1/2 layover A/B, 4/8 shadow A/B, 16 weak, 32 ambiguous, 64 rejected, 128 no data); prior ${dsm.prior}${dsm.stats?.geometry?.sameSide === false ? '; opposite-side pair, not recommended' : ''}${lev}`
+      : `GIS Workbench DSM from ${dsm.names.join(' + ')}: height above the WGS 84 ellipsoid (m)${dsm.prior ? `; prior ${dsm.prior}` : ''}${lev}`;
     const bytes = await writeGeoTiff({ width: g.nx, height: g.ny, bands: nb, type: 'f32', data }, { epsg: 4326, vertical: 'hae', geotransform: [g.lon0 - g.dlon / 2, g.dlon, 0, g.lat0 + g.dlat / 2, 0, -g.dlat], nodata: NaN, description: desc, gdalMetadata: gdalMetadataXml(dsmItems(dsm, full)), overviews: true });
     const file = new File([bytes], fname ?? `SARDSM_${dsm.pair.join('_')}.tif`.replace(/[^\w.-]+/g, '_'), { type: 'image/tiff', lastModified: Date.now() });
     if (!open) return { file };
@@ -371,7 +374,11 @@ export function install(app) {
     const l = app.layers.get(d.layerId);
     const f = dsmFileFacts(l?.info?.meta?.gdalItems ?? {}, String(l?.info?.meta?.imageDescription ?? ''));
     if (f.prior) dsm.prior = f.prior;
+    if (f.levelling) dsm.levelling = [f.levelling];
     if (l?.bands !== 4 || !f.product) return dsm;
+    // Bands 2 to 4 are read at the raster's own pixels, which are the terrain grid's only when the
+    // terrain kept every post unresampled.
+    if (!d.aligned) throw gwError('{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts', { dsm: d.name }, 'E_SARSTEREO_ALIGN');
     const g = dsm.grid;
     const r = await app.pool.run('window', { handle: l.handle, x0: 0, y0: 0, w: g.nx, h: g.ny, bands: [1, 2, 3], maxSamples: 3 * g.nx * g.ny }, { affinity: l.affinity, label: t('Reading {layer}', { layer: d.name }) });
     return { ...dsm, sigma: r.planes[0], score: r.planes[1], flags: Uint8Array.from(r.planes[2], (v) => (Number.isFinite(v) ? v : 128)), stats: { geometry: { sameSide: f.sameSide } } };
@@ -499,11 +506,11 @@ export function install(app) {
       if (e.code === 'E_SARSTEREO_FEW_POSTS') throw gwError('levelling needs at least 50 stable posts (unflagged, under {slope}° of slope) with a reference height', { slope: num(slopeMax, 0) }, e.code);
       throw e;
     }
-    const levelled = { ...dsm, heights: lv.heights, names: [...(dsm.names ?? [])], prior: `${dsm.prior ? `${dsm.prior}; ` : ''}levelled on ${ref.name} by ${(-lv.offset).toFixed(2)} m${lv.tilt ? ` and ${(-lv.tilt[0]).toFixed(3)} / ${(-lv.tilt[1]).toFixed(3)} m per km east / north` : ''}, residual NMAD ${lv.sigma.toFixed(2)} m over ${lv.used} stable posts` };
+    const step = `on ${ref.name} by ${(-lv.offset).toFixed(2)} m${lv.tilt ? ` and ${(-lv.tilt[0]).toFixed(3)} / ${(-lv.tilt[1]).toFixed(3)} m per km east / north` : ''}, residual NMAD ${lv.sigma.toFixed(2)} m over ${lv.used} stable posts`;
+    const levelled = { ...dsm, heights: lv.heights, names: [...(dsm.names ?? [])], levelling: [...(dsm.levelling ?? []), step] };
     const base = (app.layers.get(dsm.layerId)?.rec?.name ?? `SARDSM_${(dsm.pair ?? []).join('_')}`).replace(/\.[^.]+$/, '');
     const { layer } = await saveDsm(levelled, { name: `${base}_LEVELLED.tif`.replace(/[^\w.-]+/g, '_') });
-    const out = { layer, dsm: levelled, offset: lv.offset, tilt: lv.tilt, sigma: lv.sigma, offsetSigma: lv.offsetSigma, used: lv.used, before: lv.before, after: lv.after, reference: ref.name };
-    return out;
+    return { layer, dsm: levelled, offset: lv.offset, tilt: lv.tilt, sigma: lv.sigma, offsetSigma: lv.offsetSigma, used: lv.used, before: lv.before, after: lv.after, reference: ref.name };
   }
 
   async function levelCommand() {
