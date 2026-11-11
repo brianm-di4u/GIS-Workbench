@@ -2,7 +2,7 @@
 // Development twin of `gwb-sidecar-setup vendor` (S-44, REQ-SDC-12): installs the MrSID or ECW
 // GDAL plug-in module from the OSGeo4W packages gdal-mrsid / gdal-ecw.
 //
-//   node sidecar/installer/vendor.mjs --modules D:/gwb-sidecar-deps/bundle/modules --accept mrsid ecw
+//   node sidecar/installer/vendor.mjs --modules E:/gwb-sidecar-deps/bundle/modules --accept mrsid ecw
 //
 // The packages come from OSGeo4W (never from this repository); --accept records that the licence
 // text (shown first, printed here) was accepted. The plug-in was built against OSGeo4W's
@@ -34,7 +34,7 @@ export function retargetImport(buf, from = 'gdal313.dll', to = 'gdal.dll') {
   return buf;
 }
 
-export async function installVendor(modulesDir, which, { accept = false, cache = 'D:/gwb-sidecar-deps/osgeo4w', log = console.log } = {}) {
+export async function installVendor(modulesDir, which, { accept = false, cache = 'E:/gwb-sidecar-deps/osgeo4w', log = console.log } = {}) {
   const v = VENDOR_MODULES[which];
   if (!v) throw new Error(`unknown vendor module ${which}`);
   const tree = `vendor-${which}`;
@@ -66,7 +66,7 @@ export async function installVendor(modulesDir, which, { accept = false, cache =
 if (process.argv[1]?.endsWith('vendor.mjs')) {
   const args = process.argv.slice(2);
   const i = args.indexOf('--modules');
-  const dir = i >= 0 ? args[i + 1] : 'D:/gwb-sidecar-deps/bundle/modules';
+  const dir = i >= 0 ? args[i + 1] : 'E:/gwb-sidecar-deps/bundle/modules';
   const accept = args.includes('--accept');
   const which = args.filter((a, k) => !a.startsWith('--') && args[k - 1] !== '--modules');
   (async () => {
