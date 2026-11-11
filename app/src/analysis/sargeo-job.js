@@ -119,6 +119,8 @@ export function looks(db, w, h, kl, ks) {
  * 0 either; Sentinel-1 looks right)}.
  */
 export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
+  // Stated, never defaulted: 0 (either side) would give a post on the unseen side its mirror's value.
+  if (![1, -1, 0].includes(opts.look)) throw new Error('sargeoParams: opts.look must be 1 (right), -1 (left) or 0 (either)');
   const n = orbit.t.length;
   const out = [n, ...orbit.t.map((t) => t - epoch), ...orbit.p, ...orbit.v, geom.dt, geom.azSpacing, geom.blocks.length];
   for (const b of geom.blocks) out.push(b.t0, b.firstLine, b.valid[0], b.valid[1]);
@@ -129,6 +131,6 @@ export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
   }
   out.push(dem.width, dem.height, dem.lat0, dem.lon0, dem.dlat, dem.dlon);
   out.push(win.l0, win.s0, win.kl, win.ks, win.nl, win.ns);
-  out.push(opts.flatten ? 1 : 0, opts.maskStride ?? 0, opts.maskStep ?? 0, opts.maskTol ?? 0, opts.look ?? 0);
+  out.push(opts.flatten ? 1 : 0, opts.maskStride ?? 0, opts.maskStep ?? 0, opts.maskTol ?? 0, opts.look);
   return Float64Array.from(out);
 }

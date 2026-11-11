@@ -54802,6 +54802,14 @@
    "error": true
   },
   {
+   "key": "sargeoParams: opts.look must be 1 (right), -1 (left) or 0 (either)",
+   "src": "sargeoParams: opts.look must be 1 (right), -1 (left) or 0 (either)",
+   "refs": [
+    "analysis/sargeo-job.js"
+   ],
+   "error": true
+  },
+  {
    "key": "satellite and map backgrounds, cloud catalogs (Earth Search, Planetary Computer, open data buckets). Every request is listed in the Network Log; leave it off to keep everything on this computer.",
    "src": "satellite and map backgrounds, cloud catalogs (Earth Search, Planetary Computer, open data buckets). Every request is listed in the Network Log; leave it off to keep everything on this computer.",
    "refs": [

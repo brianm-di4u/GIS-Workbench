@@ -78,7 +78,8 @@ describe('REQ-GAP-90 REG-085 SAR geocoding jobs', () => {
     expect(l.ns).toBe(2);
     expect(l.beta[0]).toBeCloseTo((1 + 10 + 1 + 1) / 4, 6);
     expect(l.beta[1]).toBeCloseTo(1, 6); // NaN samples left out
-    const prm = sargeoParams({ t: [1, 2, 3, 4], p: Array(12).fill(0), v: Array(12).fill(0) }, 1, imageGeometry(ann0), { width: 2, height: 3, lat0: 1, lon0: 2, dlat: 0.1, dlon: 0.1 }, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: true });
+    const prm = sargeoParams({ t: [1, 2, 3, 4], p: Array(12).fill(0), v: Array(12).fill(0) }, 1, imageGeometry(ann0), { width: 2, height: 3, lat0: 1, lon0: 2, dlat: 0.1, dlon: 0.1 }, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: true, look: 1 });
+    expect(() => sargeoParams({ t: [1, 2, 3, 4], p: Array(12).fill(0), v: Array(12).fill(0) }, 1, imageGeometry(ann0), { width: 2, height: 3, lat0: 1, lon0: 2, dlat: 0.1, dlon: 0.1 }, { l0: 0, s0: 0, kl: 1, ks: 1, nl: 1, ns: 1 }, { flatten: true })).toThrow(/look/);
     // 1 + 4 + 12 + 12 (orbit) + 3 + 4 (one block) + 3 (slant) + 6 (DEM) + 6 (window) + 5 (options)
     expect(prm.length).toBe(56);
     expect(Array.from(prm.slice(1, 5))).toEqual([0, 1, 2, 3]);
