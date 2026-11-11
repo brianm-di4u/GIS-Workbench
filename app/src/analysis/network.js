@@ -36,12 +36,23 @@ export function onewayRule(values) {
 }
 
 /**
+ * Whether a one-way field holds only T and F (and blanks). Those are HERE directions (T against
+ * the line, F along it) or true and false (T one-way, F two-way), and the values cannot tell which.
+ */
+export function onewayAmbiguous(values) {
+  const s = new Set([...values].map(flag).filter(Boolean));
+  return s.size > 0 && [...s].every((x) => x === 't' || x === 'f');
+}
+
+/**
  * One-way rule from a field value: 1 = along the line only, -1 = against it only, 0 = both ways,
  * null = closed. Knows OSM (yes, -1, no), Y/N, Esri and HERE (FT, TF, B, N) and true/false. N is
- * closed only under the 'here' rule (see onewayRule).
+ * closed only under the 'here' rule (see onewayRule). Under the 'bool' rule T and F are true and
+ * false: T is one-way along the line, F two-way.
  */
 export function onewayOf(v, rule = 'here') {
   const s = flag(v);
+  if (rule === 'bool' && (s === 't' || s === 'f')) return s === 't' ? 1 : 0;
   if (['yes', 'y', 'true', '1', 'ft', 'f', 'forward'].includes(s)) return 1;
   if (['-1', 'tf', 't', 'reverse', 'backward'].includes(s)) return -1;
   if (s === 'closed' || (s === 'n' && rule === 'here')) return null;
@@ -50,11 +61,12 @@ export function onewayOf(v, rule = 'here') {
 
 /**
  * The graph of `lines` ([{id, coords: [[lon, lat]…], attrs}]). Options: `oneway` and `speed`
- * fields (null for none), `cost` 'length' (metres) or 'time' (seconds at the speed, km/h, or
+ * fields (null for none), `onewayAs` the one-way rule ('here', 'yn' or 'bool'; by default read
+ * from the field's values, see onewayRule), `cost` 'length' (metres) or 'time' (seconds at the speed, km/h, or
  * `defaultSpeed` where the field is empty), and `bans` ([{from, to}] line ids: no turn from the
  * first line straight onto the second where they meet).
  */
-export function buildGraph(lines, { oneway = null, speed = null, cost = 'length', defaultSpeed = 50, bans = [] } = {}) {
+export function buildGraph(lines, { oneway = null, onewayAs = null, speed = null, cost = 'length', defaultSpeed = 50, bans = [] } = {}) {
   const ok = lines.filter((l) => Array.isArray(l.coords) && l.coords.length >= 2);
   if (!ok.length) return null;
   // A local frame, metres east and north, for the A* heuristic and snapping to the network. It must never
@@ -106,7 +118,7 @@ export function buildGraph(lines, { oneway = null, speed = null, cost = 'length'
   };
   const edges = [];
   const byLine = new Map();
-  const rule = oneway ? onewayRule(new Set(ok.map((l) => l.attrs?.[oneway]))) : 'yn';
+  const rule = oneway ? (onewayAs ?? onewayRule(new Set(ok.map((l) => l.attrs?.[oneway])))) : 'yn';
   for (const l of ok) {
     const way = oneway ? onewayOf(l.attrs?.[oneway], rule) : 0;
     if (way === null) continue;

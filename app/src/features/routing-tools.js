@@ -18,7 +18,7 @@ import { loadSqlite, writeGpkg, readGpkg } from '../vector/gpkg.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int, length as fmtLength } from '../i18n/format.js';
 import { buildIndex, search, reverse, normalise } from '../analysis/geocode.js';
-import { buildGraph, graphData, snapToEdge, routeLine, serviceLines } from '../analysis/network.js';
+import { buildGraph, graphData, snapToEdge, routeLine, serviceLines, onewayAmbiguous } from '../analysis/network.js';
 
 /**
  * Limits (S-67, measured on 2026-11-10): an address costs about 390 bytes of memory with its layer
@@ -399,13 +399,23 @@ export function install(app) {
       const sels = {};
       const costSel = h('select', { class: 'inp', 'aria-label': t('Cost') }, h('option', { value: 'time' }, t('Travel time')), h('option', { value: 'length' }, t('Distance')));
       const dflt = h('input', { class: 'inp inp-num', type: 'number', value: '50', min: '1', max: '300', 'aria-label': t('Speed where none is given (km/h)') });
+      // A one-way field of only T and F can mean either; ask which.
+      const tfSel = h('select', { class: 'inp', 'aria-label': t('T and F mean') }, h('option', { value: 'here' }, t('Directions: T against the line, F along it (HERE)')), h('option', { value: 'bool' }, t('True and false: T one-way along the line, F two-way')));
+      const tfBox = h('div');
+      const tfCheck = () => {
+        clear(tfBox);
+        const k = sels.oneway.value;
+        if (k && onewayAmbiguous(S.all('feature').filter((f) => f.vlayer === L.value).map((f) => valueOf(f, k)))) tfBox.append(field(t('T and F mean'), tfSel, t('This field holds only T and F, which can mean either.')));
+      };
       const fill = () => {
         clear(box);
         const fs = fieldsOf(L.value);
         sels.oneway = fieldSel(fs, guess(fs, /one.?way|dir/i), t('One-way field'));
+        sels.oneway.addEventListener('change', tfCheck);
         sels.speed = fieldSel(fs, guess(fs, /speed|maxspeed|kmh|limit/i), t('Speed field (km/h)'));
         sels.id = fieldSel(fs, guess(fs, /^(id|osm_?id|link_?id|road_?id|fid)$/i), t('Road id field'));
-        box.append(field(t('One-way field'), sels.oneway, t('yes, -1, no (OpenStreetMap), Y and N, or FT, TF, B, N (HERE, where N is closed).')), field(t('Speed field (km/h)'), sels.speed), field(t('Road id field'), sels.id, t('Only for turn bans, which name roads by it.')));
+        box.append(field(t('One-way field'), sels.oneway, t('yes, -1, no (OpenStreetMap), Y and N, or FT, TF, B, N (HERE, where N is closed).')), tfBox, field(t('Speed field (km/h)'), sels.speed), field(t('Road id field'), sels.id, t('Only for turn bans, which name roads by it.')));
+        tfCheck();
       };
       L.addEventListener('change', fill);
       fill();
@@ -424,7 +434,7 @@ export function install(app) {
       });
       const body = h('div', {}, field(t('Road layer'), L), box, field(t('Cost'), costSel), field(t('Speed where none is given (km/h)'), dflt), field(t('Turn bans'), h('div', { class: 'ts-bar' }, bansBtn, bansNote), t('A table with "from" and "to" road ids: no turn from the first road onto the second where they meet.')), h('p', { class: 'hint' }, t('Roads join where lines share a vertex, so a bridge that only crosses a road stays apart from it.')));
       if ((await modal({ title: t('Road Network'), body, buttons: [{ label: t('Build'), value: 'build', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 520, id: 'net-roads' })) !== 'build') return undefined;
-      const r = buildRoads(L.value, { oneway: sels.oneway.value || null, speed: sels.speed.value || null, cost: costSel.value, defaultSpeed: +dflt.value || 50, idField: sels.id.value || null, bans });
+      const r = buildRoads(L.value, { oneway: sels.oneway.value || null, onewayAs: tfBox.firstChild ? tfSel.value : null, speed: sels.speed.value || null, cost: costSel.value, defaultSpeed: +dflt.value || 50, idField: sels.id.value || null, bans });
       toast(t('Road network of {n} nodes and {e} pieces', { n: int(r.nodes), e: int(r.edges) }), { kind: 'info' });
       return r;
     }),

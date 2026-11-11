@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { VectorBundle } from '../../app/src/wasm/vector.js';
-import { buildGraph, graphData, snapToEdge, onewayOf, onewayRule, routeLine, serviceLines } from '../../app/src/analysis/network.js';
+import { buildGraph, graphData, snapToEdge, onewayAmbiguous, onewayOf, onewayRule, routeLine, serviceLines } from '../../app/src/analysis/network.js';
 
 const wasmPath = (() => {
   try {
@@ -42,6 +42,20 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     ];
     const g = buildGraph(lines, { oneway: 'ow' });
     expect(g.edges.map((e) => [e.line, Number.isFinite(e.fwd), Number.isFinite(e.bwd)])).toEqual([['a', true, false], ['b', true, true]]);
+  });
+  it('asks about a field of only T and F, and reads it either way', () => {
+    expect(onewayAmbiguous(['T', 'F', '', null, 't'])).toBe(true);
+    expect([['T', 'F', 'B'], ['yes', 'no'], [], ['', null]].map(onewayAmbiguous)).toEqual([false, false, false, false]);
+    const lines = [
+      { id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'T' } },
+      { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'F' } },
+    ];
+    const ways = (o) => buildGraph(lines, { oneway: 'ow', ...o }).edges.map((e) => [Number.isFinite(e.fwd), Number.isFinite(e.bwd)]);
+    // HERE directions, as before: T against the line, F along it.
+    expect(ways({})).toEqual([[false, true], [true, false]]);
+    expect(ways({ onewayAs: 'here' })).toEqual([[false, true], [true, false]]);
+    // True and false: T one-way along the line, F two-way.
+    expect(ways({ onewayAs: 'bool' })).toEqual([[true, false], [true, true]]);
   });
   it('splits a line where it loops back onto itself', () => {
     // A cul-de-sac drawn as one line: A to J, round the loop, back to J.
