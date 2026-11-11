@@ -150,11 +150,15 @@ jobs:
           echo "sums=$(base64 -w0 < "$RUNNER_TEMP/CI-SHA256SUMS")" >> "$GITHUB_OUTPUT"
 
   # Signs the rebuild's hashes. It runs no repository or third-party code, so only it can sign.
+  # It is the one job of a cut that waits for the admin's approval (the release environment), and
+  # draft needs it, so a cut takes one approval. promote is a separate run and is the moment a
+  # release goes public, so it waits for its own.
   attest:
     needs: rebuild
     if: ${{ (github.event.repository.owner.type == 'Organization' || (github.actor == github.repository_owner && github.triggering_actor == github.repository_owner)) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment: release
     permissions:
       contents: read
       id-token: write
@@ -190,6 +194,7 @@ jobs:
     if: ${{ inputs.action == 'promote' && !github.event.repository.private && (github.event.repository.owner.type == 'Organization' || (github.actor == github.repository_owner && github.triggering_actor == github.repository_owner)) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment: release
     permissions:
       contents: write
     env:
