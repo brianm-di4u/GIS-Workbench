@@ -170,4 +170,28 @@ describe('one source text, two meanings', () => {
     expect(command.map((m) => m.key)).toEqual([keyOf('Square')]);
     expect(option[0].key).not.toBe(command[0].key);
   });
+
+  // The keys of every message with this source text in one file under app/src.
+  const keys = (file, src) => messagesInJs(readFileSync(join('app', 'src', ...file.split('/')), 'utf8')).filter((m) => m.src === src).map((m) => m.key);
+
+  // #193: the vector Buffer dialog shared "Buffer" with the landing-zone clearance margin, so
+  // Spanish titled the dialog "Margen libre".
+  it('gives the landing-zone Buffer margin its own key, apart from the vector Buffer dialog', () => {
+    expect(keys('features/terrain-analysis.js', 'Buffer')).toEqual([keyOf('Buffer', 'landing zone')]);
+    expect(keys('features/geoproc-ui.js', 'Buffer')).toEqual([keyOf('Buffer')]);
+  });
+
+  // Overlay's Erase removes the overlap; the whiteboard's Erase is the eraser, and the locales
+  // translated it as that (de "Radieren", fr "Gommer", it "Gomma").
+  it("gives overlay's Erase operation its own key, apart from the whiteboard eraser", () => {
+    expect(keys('features/geoproc-ui.js', 'Erase')).toEqual([keyOf('Erase', 'overlay')]);
+    expect(keys('feedback/whiteboard.js', 'Erase')).toEqual([keyOf('Erase')]);
+  });
+
+  // A storage bucket's Region is the provider's data centre region; spectral classification's
+  // Region is a part of the image, and ja translated it as that ("領域").
+  it("gives a bucket's Region its own key, apart from a region of the image", () => {
+    expect(keys('features/catalog.js', 'Region')).toEqual([keyOf('Region', 'cloud storage')]);
+    expect(keys('features/spectral-analysis.js', 'Region')).toEqual([keyOf('Region')]);
+  });
 });

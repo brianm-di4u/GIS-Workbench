@@ -11,7 +11,7 @@ import { openImageFile } from '../formats/open.js';
 import { fromParts } from '../vector/geom.js';
 import { groundOf } from '../tools/tools.js';
 import { contourLines } from './dem-tools.js';
-import { t, N_, tr, msgOf } from '../i18n/index.js';
+import { t, tc, N_, tr, msgOf } from '../i18n/index.js';
 import { num, int, pct, height } from '../i18n/format.js';
 
 export const name = 'terrain-analysis';
@@ -274,7 +274,7 @@ export function install(app) {
       const presets = { ...DOCTRINES };
       const sel = h('select', { class: 'inp', 'aria-label': t('Doctrine') }, ...Object.entries(presets).map(([k, v]) => h('option', { value: k }, tr(v.label))));
       const numIn = (lab) => h('input', { class: 'inp inp-num', type: 'number', step: 'any', 'aria-label': lab });
-      const f = { zone: numIn(t('Zone diameter')), buffer: numIn(t('Buffer')), slopeSuitable: numIn(t('Suitable slope')), slopeMarginal: numIn(t('Marginal slope')), obstructionH: numIn(t('Obstruction height')) };
+      const f = { zone: numIn(t('Zone diameter')), buffer: numIn(tc('landing zone', 'Buffer')), slopeSuitable: numIn(t('Suitable slope')), slopeMarginal: numIn(t('Marginal slope')), obstructionH: numIn(t('Obstruction height')) };
       const fill = () => {
         const d = { ...presets[sel.value], ...(app.prefs.get('hlzDoctrines')?.[sel.value] ?? {}) };
         for (const k of Object.keys(f)) f[k].value = d[k];
