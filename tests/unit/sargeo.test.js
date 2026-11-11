@@ -92,7 +92,33 @@ describe('REQ-GAP-90 REG-085 SAR geocoding jobs', () => {
     expect(windowOver({ ...ann0, grid }, { south: 10, north: 11, west: 0, east: 1 })).toBeNull();
     // A scene and a DEM across the antimeridian: the grid's −180 and −179.5 are the DEM's 180 and 180.5.
     const am = { regular: true, lines: [0, 99], pixels: [0, 33, 66, 99], lat: [10.5, 10.5, 10.5, 10.5, 10, 10, 10, 10], lon: [179, 179.5, -180, -179.5, 179, 179.5, -180, -179.5] };
-    expect(windowOver({ ...ann0, samples: 100, lines: 100, grid: am }, { south: 10.1, north: 10.4, west: 180.6, east: 181 })).toEqual({ x0: 66, y0: 0, w: 34, h: 100 });
+    expect(windowOver({ ...ann0, samples: 100, lines: 100, grid: am }, { south: 10.1, north: 10.4, west: 180.3, east: 181 })).toEqual({ x0: 66, y0: 0, w: 34, h: 100 });
+  });
+
+  it('keeps the window over a 0.2° DEM inside the read cap on a Sentinel-1 IW-like grid', () => {
+    // Rows a burst apart (0.18°, 1500 lines), columns 0.05° apart (1050 pixels), a slight skew.
+    const [nx, ny] = [21, 10];
+    const g = { regular: true, lines: [], pixels: [], lat: [], lon: [] };
+    for (let j = 0; j < ny; j++) g.lines.push(j * 1500);
+    for (let i = 0; i < nx; i++) g.pixels.push(i * 1050);
+    for (let j = 0; j < ny; j++)
+      for (let i = 0; i < nx; i++) {
+        g.lat.push(37 - 0.18 * j);
+        g.lon.push(-116 + 0.05 * i + 0.01 * j);
+      }
+    const b = { south: 36.1, north: 36.3, west: -115.6, east: -115.4 };
+    const w = windowOver({ ...ann0, samples: 21000, lines: 13500, grid: g }, b);
+    expect(w.w * w.h).toBeLessThan(64e6);
+    // It still holds every grid point inside the DEM.
+    for (let j = 0; j < ny; j++)
+      for (let i = 0; i < nx; i++) {
+        const k = j * nx + i;
+        if (g.lat[k] < b.south || g.lat[k] > b.north || g.lon[k] < b.west || g.lon[k] > b.east) continue;
+        expect(g.lines[j]).toBeGreaterThanOrEqual(w.y0);
+        expect(g.lines[j]).toBeLessThan(w.y0 + w.h);
+        expect(g.pixels[i]).toBeGreaterThanOrEqual(w.x0);
+        expect(g.pixels[i]).toBeLessThan(w.x0 + w.w);
+      }
   });
 });
 

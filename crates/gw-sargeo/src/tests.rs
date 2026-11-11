@@ -151,9 +151,13 @@ fn run_with(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>) -> Job {
 
 /// The test orbit runs east along the equator, so the patch north of it is on its left.
 fn run_side(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64) -> Job {
+    let win = Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl: s.nl, ns: s.ns, beta: s.beta.clone() };
+    run_window(s, flatten, masks, blocks, look, win)
+}
+
+fn run_window(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64, win: Window) -> Job {
     let img = Image { dt: s.dt, blocks, range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: s.az, az_delay: (0.0, 0.0) };
     let dem = Dem { w: s.w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: s.dd, dlon: s.dd };
-    let win = Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl: s.nl, ns: s.ns, beta: s.beta.clone() };
     let opts = Opts { flatten, mask_stride: if masks { 4 } else { 0 }, mask_step: 2.5, mask_tol: 0.5, look };
     let mut job = Job::new(orbit(-100.0, 100.0, 10.0), img, dem, win, opts).unwrap();
     let mut last = 0.0;
@@ -384,4 +388,52 @@ fn posts_on_the_side_the_radar_does_not_look_get_no_value() {
     assert!(left.mask_out().iter().filter(|&&m| m != NO_GEOMETRY).count() >= valued(&left));
     // Either side (0) is the old behaviour: the patch is valued.
     assert_eq!(valued(&run_side(&s, true, false, blocks(), 0.0)), valued(&run_side(&s, true, false, blocks(), -1.0)));
+}
+
+#[test]
+fn an_offset_multi_look_window_samples_the_same_image_position() {
+    // A β⁰ ramp over the full-resolution image: the mean of a look is the ramp at the look's
+    // centre, and bilinear sampling of a ramp is exact, so every post must read the ramp at its
+    // own image position whatever the window's offset and looks.
+    let ramp = |l: f64, p: f64| 1.0 + 0.001 * l + 0.01 * p;
+    let mut s = scene_at(DD * 4.0, 120, |_, _| 0.0);
+    let blocks = || vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, s.nl as f64) }];
+    let base = run_side(&s, false, false, blocks(), -1.0);
+    let at = base.image_coords();
+    let (mut l_lo, mut l_hi, mut p_lo, mut p_hi) = (f64::INFINITY, f64::NEG_INFINITY, f64::INFINITY, f64::NEG_INFINITY);
+    for c in at.chunks(2).filter(|c| c[0].is_finite()) {
+        (l_lo, l_hi, p_lo, p_hi) = (l_lo.min(c[0] as f64), l_hi.max(c[0] as f64), p_lo.min(c[1] as f64), p_hi.max(c[1] as f64));
+    }
+    assert!(l_hi - l_lo > 50.0 && p_hi - p_lo > 20.0, "the patch spans the image");
+    let (kl, ks) = (3usize, 5usize);
+    let (l0, s0) = ((l_lo - 7.0).floor(), (p_lo - 11.0).floor());
+    let nl = ((l_hi + 10.0 - l0) / kl as f64).ceil() as usize;
+    let ns = ((p_hi + 15.0 - s0) / ks as f64).ceil() as usize;
+    let mut beta = vec![0.0f32; nl * ns];
+    for r in 0..nl {
+        for c in 0..ns {
+            let mut sum = 0.0;
+            for y in 0..kl {
+                for x in 0..ks {
+                    sum += ramp(l0 + (r * kl + y) as f64, s0 + (c * ks + x) as f64);
+                }
+            }
+            beta[r * ns + c] = (sum / (kl * ks) as f64) as f32;
+        }
+    }
+    s.beta = beta.clone();
+    let win = Window { l0, s0, kl: kl as f64, ks: ks as f64, nl, ns, beta };
+    let j = run_window(&s, false, false, blocks(), -1.0, win);
+    let mut n = 0;
+    let mut worst = 0.0f64;
+    for (i, c) in at.chunks(2).enumerate() {
+        if !c[0].is_finite() {
+            continue;
+        }
+        let want = ramp(c[0] as f64, c[1] as f64);
+        worst = worst.max((j.value[i] as f64 - want).abs() / want);
+        n += 1;
+    }
+    assert!(n > 10_000, "{n} posts checked");
+    assert!(worst < 1e-5, "β⁰ off its image position by {:.2e} (relative)", worst);
 }

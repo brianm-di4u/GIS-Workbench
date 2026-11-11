@@ -97,32 +97,42 @@ export function azDelay(ann, bursts, dt) {
 }
 
 /**
- * The radar window over a DEM: the lines and pixels of the annotation's geolocation grid nodes
- * within the DEM's bounds (with one grid cell of margin), clamped to the image. Null when the
- * DEM is outside the product.
+ * Ground margin for terrain off the grid's heights: a post h metres above them sits h·cot θ
+ * nearer in range, so 0.05° (about 5.5 km) covers 3 km of relief at Sentinel-1's 29° nearest
+ * incidence. Posts beyond the window get no image position (mask 255), not a wrong value.
+ */
+const RELIEF_DEG = 0.05;
+
+/**
+ * The radar window over a DEM: the lines and pixels of every geolocation grid cell whose corners'
+ * box meets the DEM's bounds, widened by RELIEF_DEG for the range shift of terrain above or below
+ * the grid's heights; clamped to the image. Null when the DEM is outside the product.
+ * Grid rows are a burst apart (about 0.18° on Sentinel-1 IW) and columns about 0.05°, so the
+ * margin is per cell, not one grid step on both axes.
  */
 export function windowOver(ann, bounds) {
   const g = ann.grid;
   if (!g?.regular) return null;
   const nx = g.pixels.length;
   const ny = g.lines.length;
-  const dLat = Math.abs(g.lat[nx] - g.lat[0]) || 0.1;
-  const dLon = Math.abs(((g.lon[1] - g.lon[0] + 540) % 360) - 180) || 0.1;
-  const m = Math.max(dLat, dLon) * 1.5;
   // Grid longitudes are in [−180, 180]; the DEM's may run past 180. Each is taken within 180° of
   // the DEM's middle, so a DEM across the antimeridian finds the grid points on both sides.
   const mid = (bounds.west + bounds.east) / 2;
+  const lon = (k) => g.lon[k] + 360 * Math.round((mid - g.lon[k]) / 360);
+  const mLat = RELIEF_DEG;
+  const mLon = RELIEF_DEG / Math.max(0.1, Math.cos((((bounds.south + bounds.north) / 2) * Math.PI) / 180));
   let [l0, l1, p0, p1] = [Infinity, -Infinity, Infinity, -Infinity];
-  for (let j = 0; j < ny; j++)
-    for (let i = 0; i < nx; i++) {
-      const la = g.lat[j * nx + i];
-      const lo0 = g.lon[j * nx + i];
-      const lo = lo0 + 360 * Math.round((mid - lo0) / 360);
-      if (la < bounds.south - m || la > bounds.north + m || lo < bounds.west - m || lo > bounds.east + m) continue;
+  for (let j = 0; j + 1 < Math.max(ny, 2); j++)
+    for (let i = 0; i + 1 < Math.max(nx, 2); i++) {
+      const ks = [j * nx + i, j * nx + Math.min(i + 1, nx - 1), Math.min(j + 1, ny - 1) * nx + i, Math.min(j + 1, ny - 1) * nx + Math.min(i + 1, nx - 1)];
+      const la = ks.map((k) => g.lat[k]);
+      const lo = ks.map(lon);
+      if (Math.max(...la) < bounds.south - mLat || Math.min(...la) > bounds.north + mLat) continue;
+      if (Math.max(...lo) < bounds.west - mLon || Math.min(...lo) > bounds.east + mLon) continue;
       l0 = Math.min(l0, g.lines[j]);
-      l1 = Math.max(l1, g.lines[j]);
+      l1 = Math.max(l1, g.lines[Math.min(j + 1, ny - 1)]);
       p0 = Math.min(p0, g.pixels[i]);
-      p1 = Math.max(p1, g.pixels[i]);
+      p1 = Math.max(p1, g.pixels[Math.min(i + 1, nx - 1)]);
     }
   if (!(l1 >= l0)) return null;
   const x0 = Math.max(0, Math.floor(p0));
