@@ -8,8 +8,7 @@
 //!   and its slant range. Atmospheric delay and solid-Earth tides are not modelled (centimetres to
 //!   a few decimetres).
 //! * **Image**: zero-Doppler time and slant range → (line, pixel), for slant-range products (SLC,
-//!   bursts or one block) and ground-range ones (GRD, through the product's ground-to-slant
-//!   polynomials).
+//!   bursts or one block).
 //! * **Backward geocoding** onto a DEM in latitude and longitude with heights above the ellipsoid,
 //!   with radiometric terrain flattening: γ⁰ = β⁰ · A_β / A_γ, where A_γ is the DEM's area seen by
 //!   each radar pixel, projected on the plane normal to the look direction (Small 2011, the
@@ -125,7 +124,7 @@ pub fn zero_doppler(o: &Orbit, x: V3, t0: f64) -> Option<(f64, f64)> {
 
 // ------------------------------------------------------------------ image geometry
 
-/// A block of lines with one timing: a TOPS burst, or the whole of a stripmap or GRD image.
+/// A block of lines with one timing: a TOPS burst, or the whole of a stripmap image.
 #[derive(Clone, Copy)]
 pub struct Block {
     /// Zero-Doppler time of `first_line`.
@@ -136,47 +135,20 @@ pub struct Block {
     pub valid: (f64, f64),
 }
 
-/// One ground-to-slant conversion record of a GRD product.
-pub struct GrRec {
-    /// Its zero-Doppler time.
-    pub t: f64,
-    /// Slant range origin (m), from the record's slant range time.
-    pub r0: f64,
-    /// Ground range origin (m).
-    pub g0: f64,
-    /// Ground range from the first pixel = Σ srgr[k] (R − r0)^k (the annotation's srgrCoefficients).
-    pub srgr: Vec<f64>,
-    /// Slant range = Σ grsr[k] (g − g0)^k (its grsrCoefficients).
-    pub grsr: Vec<f64>,
-}
-
-/// The range axis of an image.
-pub enum Range {
-    /// Slant-range samples: pixel = (R − r0) / dr.
-    Slant { r0: f64, dr: f64 },
-    /// Ground-range samples `dg` metres apart, through the product's conversion records.
-    Ground { dg: f64, recs: Vec<GrRec> },
-}
-
 /// Timing and range of an image.
 pub struct Image {
     /// Seconds per line.
     pub dt: f64,
     pub blocks: Vec<Block>,
-    pub range: Range,
+    /// Slant range of pixel 0 and between pixels (m): pixel = (R − r0) / dr.
+    pub r0: f64,
+    pub dr: f64,
     /// Along-track spacing of a line on the ground (m), for the β⁰ reference area.
     pub az_spacing: f64,
     /// A pixel's zero-Doppler time less its line's time, a + s·τ (s; τ the two-way slant range
     /// time): Sentinel-1's bistatic azimuth delay, (τ − τ_ref)/2, as the product's own geolocation
     /// grid states it. (0, 0) for none.
     pub az_delay: (f64, f64),
-}
-
-fn poly(c: &[f64], x: f64) -> f64 {
-    c.iter().rev().fold(0.0, |s, &k| s * x + k)
-}
-fn dpoly(c: &[f64], x: f64) -> f64 {
-    c.iter().enumerate().skip(1).rev().fold(0.0, |s, (i, &k)| s * x + i as f64 * k)
 }
 
 impl Image {
@@ -202,39 +174,9 @@ impl Image {
         best.map(|(l, _)| l)
     }
 
-    /// The two conversion records around `t` and the weight of the second.
-    fn recs_at(recs: &[GrRec], t: f64) -> (usize, usize, f64) {
-        if recs.len() == 1 {
-            return (0, 0, 0.0);
-        }
-        let k = recs.partition_point(|r| r.t <= t).clamp(1, recs.len() - 1) - 1;
-        let w = ((t - recs[k].t) / (recs[k + 1].t - recs[k].t)).clamp(0.0, 1.0);
-        (k, k + 1, if w.is_finite() { w } else { 0.0 })
-    }
-
-    /// The image pixel of slant range `r` at time `t`.
-    pub fn pixel(&self, t: f64, r: f64) -> f64 {
-        match &self.range {
-            Range::Slant { r0, dr } => (r - r0) / dr,
-            Range::Ground { dg, recs } => {
-                let (a, b, w) = Image::recs_at(recs, t);
-                // srgr gives the ground range from the first pixel directly (grsr takes it less gr0).
-                let g = |q: &GrRec| poly(&q.srgr, r - q.r0) / dg;
-                g(&recs[a]) * (1.0 - w) + g(&recs[b]) * w
-            }
-        }
-    }
-
-    /// Slant-range distance between neighbouring pixels at (t, pixel), metres.
-    pub fn slant_spacing(&self, t: f64, pixel: f64) -> f64 {
-        match &self.range {
-            Range::Slant { dr, .. } => *dr,
-            Range::Ground { dg, recs } => {
-                let (a, b, w) = Image::recs_at(recs, t);
-                let d = |q: &GrRec| dpoly(&q.grsr, pixel * dg - q.g0) * dg;
-                d(&recs[a]) * (1.0 - w) + d(&recs[b]) * w
-            }
-        }
+    /// The image pixel of slant range `r`.
+    pub fn pixel(&self, r: f64) -> f64 {
+        (r - self.r0) / self.dr
     }
 }
 
@@ -354,12 +296,8 @@ impl Job {
         if img.blocks.is_empty() || !(img.dt > 0.0) || !(img.az_spacing > 0.0) || !(img.az_delay.0.abs() < 1.0 && img.az_delay.1.abs() < 10.0) {
             return Err("sargeo: the image timing is malformed");
         }
-        match &img.range {
-            Range::Slant { dr, .. } if !(*dr > 0.0) => return Err("sargeo: the range spacing must be positive"),
-            Range::Ground { dg, recs } if !(*dg > 0.0) || recs.is_empty() || recs.iter().any(|r| r.srgr.is_empty() || r.grsr.len() < 2) => {
-                return Err("sargeo: a ground-range image needs its conversion records")
-            }
-            _ => {}
+        if !(img.dr > 0.0) || !img.r0.is_finite() {
+            return Err("sargeo: the range spacing must be positive");
         }
         let zrange = dem.z.iter().filter(|v| v.is_finite()).fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), &v| (a.min(v as f64), b.max(v as f64)));
         Ok(Job { orbit, img, dem, win, opts, stage: 0, row: 0, t: vec![f64::NAN; n], wl: vec![f32::NAN; n], wp: vec![f32::NAN; n], area: Vec::new(), arows: 0, at0: 0.0, trusted: Vec::new(), zrange, value: vec![f32::NAN; n], mask: vec![0; n], counts: [0; 3] })
@@ -449,7 +387,7 @@ impl Job {
                 continue;
             }
             let Some(line) = self.img.line_at(t, r) else { continue };
-            let pixel = self.img.pixel(t, r);
+            let pixel = self.img.pixel(r);
             let (wl, wp) = self.win.at(line, pixel);
             self.t[k] = t;
             self.wl[k] = wl as f32;
@@ -513,7 +451,7 @@ impl Job {
                 if !(a_g > 0.0) {
                     continue; // facing away: no area seen
                 }
-                let (y, x) = (self.arow(t), self.wcol(self.img.pixel(t, r)));
+                let (y, x) = (self.arow(t), self.wcol(self.img.pixel(r)));
                 // A triangle can span a pixel or more of the grid (about one post per look is the
                 // default), and one splat at its centre then leaves a ripple in A_γ that reads as
                 // texture. So its area is spread over n² equal sub-triangles no more than SUB of a
@@ -559,8 +497,7 @@ impl Job {
                     continue;
                 }
                 let a_g = bilinear(&self.area, self.win.ns, self.arows, self.arow(self.t[k]), wp);
-                let pixel = self.win.s0 + (self.win.ks - 1.0) / 2.0 + wp * self.win.ks;
-                let a_b = self.img.slant_spacing(self.t[k], pixel) * self.img.az_spacing * self.win.kl * self.win.ks;
+                let a_b = self.img.dr * self.img.az_spacing * self.win.kl * self.win.ks;
                 if a_g > 1e-6 * a_b {
                     beta * a_b / a_g
                 } else {

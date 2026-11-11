@@ -51,8 +51,8 @@ export function install(app) {
     if (!s1Layer(layer)) throw gwError('terrain correction needs a Sentinel-1 SAFE layer opened with its annotation', null, 'E_SAR_NO_S1');
     if (!dem?.grid) throw gwError('terrain correction needs an elevation model loaded as terrain', null, 'E_SAR_NO_DEM');
     const ann = layer.info.meta.s1.annotation;
-    // GRD geocoding (ground-range conversion records) is checked only on synthetic records so far;
-    // no real GRD product has been compared with its own geolocation grid, so it is not offered.
+    // GRD (ground range) is not geocoded: no real GRD product is at hand to check it against its
+    // own geolocation grid.
     if (ann.productType !== 'SLC') throw gwError('Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}', { layer: layer.rec?.name ?? '', type: String(ann.productType ?? '') }, 'E_SAR_PRODUCT');
     const g = dem.grid;
     if (g.width * g.height > MAX_POSTS) throw gwError('terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first', { n: int(g.width * g.height) }, 'E_SAR_SIZE');
@@ -76,7 +76,7 @@ export function install(app) {
     const dy = g.dlat * core.inverse(lat - 0.5, 0, lat + 0.5, 0).distance;
     const dx = g.dlon * core.inverse(lat, -0.5, lat, 0.5).distance;
     const sinInc = Math.sin(((ann.incidenceMid ?? 35) * Math.PI) / 180);
-    const groundRange = geom.range.kind === 'slant' ? geom.range.dr / sinInc : geom.range.dg;
+    const groundRange = geom.range.dr / sinInc;
     const [kl, ks] = lk ?? [Math.max(1, Math.round(dy / geom.azSpacing)), Math.max(1, Math.round(dx / groundRange))];
     const label = t('Terrain correction of {layer}', { layer: layer.rec?.name ?? '' });
     let task = null;

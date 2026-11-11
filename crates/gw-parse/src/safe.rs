@@ -219,8 +219,8 @@ pub fn annotation(b: &[u8]) -> Result<String> {
         Some(v) => j.kv_num("radarFrequency", v),
         None => j.key("radarFrequency").null(),
     };
-    // For range-Doppler geocoding (REG-085): sampling, line times, the orbit, and for GRD the
-    // ground-to-slant range conversion records. Times are seconds since 2000 (UTC).
+    // For range-Doppler geocoding (REG-085): sampling, line times and the orbit. Times are seconds
+    // since 2000 (UTC).
     match first(&root, "productInformation").and_then(|p| num(p, "rangeSamplingRate")) {
         Some(v) => j.kv_num("rangeSamplingRate", v),
         None => j.key("rangeSamplingRate").null(),
@@ -229,23 +229,6 @@ pub fn annotation(b: &[u8]) -> Result<String> {
     utc(&mut j, "t1", info.map(|i| text(i, "productLastLineUtcTime")).unwrap_or(""));
     let orbit = first(&root, "orbitList").map(|o| all_named(o, "orbit")).unwrap_or_default();
     state_vectors(&mut j, "orbit", &orbit, "time", ["position/x", "position/y", "position/z"], ["velocity/x", "velocity/y", "velocity/z"]);
-    j.key("conversion").arr();
-    if let Some(cl) = first(&root, "coordinateConversionList") {
-        for r in all_named(cl, "coordinateConversion").into_iter().take(10_000) {
-            j.obj();
-            utc(&mut j, "t", text(r, "azimuthTime"));
-            for (k, src) in [("slantRangeTime", "slantRangeTime"), ("sr0", "sr0"), ("gr0", "gr0")] {
-                match num(r, src) {
-                    Some(v) => j.kv_num(k, v),
-                    None => j.key(k).null(),
-                };
-            }
-            arr(&mut j, "srgr", &nums(text(r, "srgrCoefficients"))?);
-            arr(&mut j, "grsr", &nums(text(r, "grsrCoefficients"))?);
-            j.end_obj();
-        }
-    }
-    j.end_arr();
     // TOPS bursts: each burst's lines, and its valid line and sample ranges.
     let st = first(&root, "swathTiming");
     let lpb = st.and_then(|s| num(s, "linesPerBurst")).unwrap_or(0.0);
@@ -455,10 +438,9 @@ mod tests {
         assert!(s.contains("\"p\":[1,2,3]") && s.contains("\"v\":[4,5,6]") && s.contains("\"type\":\"AUX_POEORB\""), "{s}");
         assert!(eof(String::from_utf8_lossy(e).replace("EARTH_FIXED", "INERTIAL").as_bytes()).is_err());
         assert!(eof(b"<product/>").is_err());
-        let a = br#"<product><adsHeader><missionId>S1A</missionId></adsHeader><generalAnnotation><productInformation><rangeSamplingRate>6.4e7</rangeSamplingRate><radarFrequency>5.405e9</radarFrequency></productInformation><orbitList count="1"><orbit><time>2024-06-26T13:43:55.000000</time><frame>Earth Fixed</frame><position><x>1</x><y>2</y><z>3</z></position><velocity><x>4</x><y>5</y><z>6</z></velocity></orbit></orbitList></generalAnnotation><imageAnnotation><imageInformation><productFirstLineUtcTime>2024-06-26T13:44:05.5</productFirstLineUtcTime></imageInformation></imageAnnotation><coordinateConversion><coordinateConversionList count="1"><coordinateConversion><azimuthTime>2024-06-26T13:44:05.5</azimuthTime><slantRangeTime>5.3e-3</slantRangeTime><sr0>8.0e5</sr0><srgrCoefficients count="2">0 1.6</srgrCoefficients><gr0>0</gr0><grsrCoefficients count="2">8.0e5 0.6</grsrCoefficients></coordinateConversion></coordinateConversionList></coordinateConversion></product>"#;
+        let a = br#"<product><adsHeader><missionId>S1A</missionId></adsHeader><generalAnnotation><productInformation><rangeSamplingRate>6.4e7</rangeSamplingRate><radarFrequency>5.405e9</radarFrequency></productInformation><orbitList count="1"><orbit><time>2024-06-26T13:43:55.000000</time><frame>Earth Fixed</frame><position><x>1</x><y>2</y><z>3</z></position><velocity><x>4</x><y>5</y><z>6</z></velocity></orbit></orbitList></generalAnnotation><imageAnnotation><imageInformation><productFirstLineUtcTime>2024-06-26T13:44:05.5</productFirstLineUtcTime></imageInformation></imageAnnotation></product>"#;
         let s = annotation(a).unwrap();
         assert!(s.contains("\"orbit\":{\"t\":[772724635],\"p\":[1,2,3],\"v\":[4,5,6]}"), "{s}");
         assert!(s.contains("\"rangeSamplingRate\":64000000") && s.contains("\"t0\":772724645.5"), "{s}");
-        assert!(s.contains("\"sr0\":800000") && s.contains("\"srgr\":[0,1.6]") && s.contains("\"grsr\":[800000,0.6]"), "{s}");
     }
 }

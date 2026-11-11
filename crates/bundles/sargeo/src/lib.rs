@@ -5,13 +5,13 @@
 //!
 //! Parameters, one f64 list:
 //! `n, t[n], p[3n], v[3n]` (orbit), `dt, az_spacing, nb, (t0, first_line, valid_lo, valid_hi)×nb`
-//! (image timing), `0, r0, dr` (slant range) or `1, dg, nr, (t, r0, g0, ng, grsr[ng], ns,
-//! srgr[ns])×nr` (ground range), `w, h, lat0, lon0, dlat, dlon` (DEM), `l0, s0, kl, ks, nl, ns`
-//! (window), `flatten, mask_stride, mask_step, mask_tol, look` (1 right, −1 left, 0 either). The DEM heights (HAE, `w·h` f32) and the
+//! (image timing), `r0, dr` (slant range), `w, h, lat0, lon0, dlat, dlon` (DEM),
+//! `l0, s0, kl, ks, nl, ns` (window), `flatten, mask_stride, mask_step, mask_tol, look` (1 right,
+//! −1 left, 0 either), `a, s` (azimuth delay a + s·τ). The DEM heights (HAE, `w·h` f32) and the
 //! window's β⁰ (`nl·ns` f32) are their own buffers.
 
 use gw_abi::{set_out, slice, status, Error, Result};
-use gw_sargeo::{Block, Dem, GrRec, Image, Job, Opts, Orbit, Range, Window};
+use gw_sargeo::{Block, Dem, Image, Job, Opts, Orbit, Window};
 use std::cell::RefCell;
 
 gw_abi::export_abi!();
@@ -65,24 +65,8 @@ fn job(prm: &[f64], z: &[f32], beta: &[f32]) -> Result<Job> {
         let (t0, first_line, lo, hi) = (r.f()?, r.f()?, r.f()?, r.f()?);
         blocks.push(Block { t0, first_line, valid: (lo, hi) });
     }
-    let range = match r.n(1)? {
-        0 => Range::Slant { r0: r.f()?, dr: r.f()? },
-        _ => {
-            let dg = r.f()?;
-            let nr = r.n(10_000)?;
-            let mut recs = Vec::with_capacity(nr);
-            for _ in 0..nr {
-                let (t, r0, g0) = (r.f()?, r.f()?, r.f()?);
-                let ng = r.n(16)?;
-                let grsr = r.take(ng)?;
-                let ns = r.n(16)?;
-                let srgr = r.take(ns)?;
-                recs.push(GrRec { t, r0, g0, grsr, srgr });
-            }
-            Range::Ground { dg, recs }
-        }
-    };
-    let mut img = Image { dt, blocks, range, az_spacing, az_delay: (0.0, 0.0) };
+    let (r0, dr) = (r.f()?, r.f()?);
+    let mut img = Image { dt, blocks, r0, dr, az_spacing, az_delay: (0.0, 0.0) };
     let (w, h) = (r.n(MAX_CELLS)?, r.n(MAX_CELLS)?);
     let (lat0, lon0, dlat, dlon) = (r.f()?, r.f()?, r.f()?, r.f()?);
     if w.checked_mul(h).map_or(true, |c| c > MAX_CELLS) || z.len() != w * h {

@@ -38,8 +38,7 @@ export function pickOrbit(ann, orbitFile = null) {
 
 /**
  * Image timing and range axis from an annotation: TOPS bursts as blocks (each burst's valid lines),
- * else one block for the whole image; slant range for SLC, the conversion records for GRD.
- * Times relative to `epoch`.
+ * else one block for the whole image; slant range (SLC only). Times relative to `epoch`.
  */
 export function imageGeometry(ann, epoch = ann.t0) {
   const dt = ann.azimuthTimeInterval;
@@ -47,15 +46,8 @@ export function imageGeometry(ann, epoch = ann.t0) {
   const blocks = bursts.length
     ? bursts.map((b) => ({ t0: b.t - epoch, firstLine: b.firstLine, valid: b.validLines }))
     : [{ t0: ann.t0 - epoch, firstLine: 0, valid: [0, ann.lines] }];
-  let range;
-  if (ann.productType === 'GRD') {
-    const recs = (ann.conversion ?? []).filter((r) => Number.isFinite(r.t) && Number.isFinite(r.sr0) && r.srgr?.length && r.grsr?.length >= 2);
-    if (!recs.length) return null;
-    range = { kind: 'ground', dg: ann.rangeSpacing, recs: recs.map((r) => ({ t: r.t - epoch, r0: r.sr0, g0: r.gr0 ?? 0, grsr: r.grsr, srgr: r.srgr })) };
-  } else {
-    if (!(ann.rangeSamplingRate > 0) || !Number.isFinite(ann.slantRangeTime)) return null;
-    range = { kind: 'slant', r0: (ann.slantRangeTime * C) / 2, dr: C / (2 * ann.rangeSamplingRate) };
-  }
+  if (ann.productType !== 'SLC' || !(ann.rangeSamplingRate > 0) || !Number.isFinite(ann.slantRangeTime)) return null;
+  const range = { r0: (ann.slantRangeTime * C) / 2, dr: C / (2 * ann.rangeSamplingRate) };
   if (!(dt > 0) || !(ann.azimuthSpacing > 0)) return null;
   return { dt, azSpacing: ann.azimuthSpacing, blocks, range, azDelay: azDelay(ann, bursts, dt) };
 }
@@ -174,11 +166,7 @@ export function sargeoParams(orbit, epoch, geom, dem, win, opts) {
   const n = orbit.t.length;
   const out = [n, ...orbit.t.map((t) => t - epoch), ...orbit.p, ...orbit.v, geom.dt, geom.azSpacing, geom.blocks.length];
   for (const b of geom.blocks) out.push(b.t0, b.firstLine, b.valid[0], b.valid[1]);
-  if (geom.range.kind === 'slant') out.push(0, geom.range.r0, geom.range.dr);
-  else {
-    out.push(1, geom.range.dg, geom.range.recs.length);
-    for (const r of geom.range.recs) out.push(r.t, r.r0, r.g0, r.grsr.length, ...r.grsr, r.srgr.length, ...r.srgr);
-  }
+  out.push(geom.range.r0, geom.range.dr);
   out.push(dem.width, dem.height, dem.lat0, dem.lon0, dem.dlat, dem.dlon);
   out.push(win.l0, win.s0, win.kl, win.ks, win.nl, win.ns);
   out.push(opts.flatten ? 1 : 0, opts.maskStride ?? 0, opts.maskStep ?? 0, opts.maskTol ?? 0, opts.look);

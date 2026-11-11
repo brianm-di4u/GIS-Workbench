@@ -65,12 +65,13 @@ fn zero_doppler_matches_the_closed_form() {
 }
 
 #[test]
-fn image_lines_follow_blocks_and_ground_range_round_trips() {
+fn image_lines_follow_blocks_and_their_azimuth_delay() {
     // Two overlapping bursts: the nearest centre wins in the overlap.
     let mk = |az_delay| Image {
         dt: 0.002,
         blocks: vec![Block { t0: 0.0, first_line: 0.0, valid: (10.0, 990.0) }, Block { t0: 1.9, first_line: 1000.0, valid: (1010.0, 1990.0) }],
-        range: Range::Slant { r0: 800e3, dr: 2.33 },
+        r0: 800e3,
+        dr: 2.33,
         az_spacing: 14.0,
         az_delay,
     };
@@ -84,18 +85,7 @@ fn image_lines_follow_blocks_and_ground_range_round_trips() {
     assert!((img.line(1.0).unwrap() - 500.0).abs() < 1e-9);
     let l = img.line(1.95).unwrap();
     assert!((l - 975.0).abs() < 1e-9 || (l - 1025.0).abs() < 1e-9);
-    assert!((img.pixel(1.0, 800e3 + 23.3) - 10.0).abs() < 1e-9);
-    // GRD, as Sentinel-1 annotates it: grsr gives slant = 850 km + 0.6·(g − g0) + 1e-8·(g − g0)²,
-    // srgr the ground range from (R − sr0), its inverse to second order.
-    let (a, b) = (0.6, 1e-8);
-    let rec = |t| GrRec { t, r0: 850e3, g0: 0.0, grsr: vec![850e3, a, b], srgr: vec![0.0, 1.0 / a, -b / (a * a * a)] };
-    let grd = Image { dt: 0.002, blocks: vec![Block { t0: 0.0, first_line: 0.0, valid: (0.0, 1e4) }], range: Range::Ground { dg: 10.0, recs: vec![rec(0.0), rec(5.0)] }, az_spacing: 10.0, az_delay: (0.0, 0.0) };
-    for px in [0.0, 100.0, 2500.0] {
-        let g: f64 = px * 10.0;
-        let r = 850e3 + a * g + b * g * g;
-        assert!((grd.pixel(2.0, r) - px).abs() < 0.05, "pixel {px}: {}", grd.pixel(2.0, r));
-        assert!((grd.slant_spacing(2.0, px) - (a + 2.0 * b * g) * 10.0).abs() < 1e-9);
-    }
+    assert!((img.pixel(800e3 + 23.3) - 10.0).abs() < 1e-9);
 }
 
 /// A flat patch around latitude 4°, longitude 0, seen from the equatorial orbit (incidence near
@@ -156,7 +146,7 @@ fn run_side(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64
 }
 
 fn run_window(s: &Scene, flatten: bool, masks: bool, blocks: Vec<Block>, look: f64, win: Window) -> Job {
-    let img = Image { dt: s.dt, blocks, range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: s.az, az_delay: (0.0, 0.0) };
+    let img = Image { dt: s.dt, blocks, r0: s.r0, dr: 20.0, az_spacing: s.az, az_delay: (0.0, 0.0) };
     let dem = Dem { w: s.w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: s.dd, dlon: s.dd };
     let opts = Opts { flatten, mask_stride: if masks { 4 } else { 0 }, mask_step: 2.5, mask_tol: 0.5, look };
     let mut job = Job::new(orbit(-100.0, 100.0, 10.0), img, dem, win, opts).unwrap();
@@ -291,15 +281,15 @@ fn a_steep_ridge_has_layover_on_its_fore_slope_and_shadow_behind() {
 #[test]
 fn malformed_inputs_are_refused() {
     let s = scene(|_, _| 0.0);
-    let img = || Image { dt: s.dt, blocks: vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, 10.0) }], range: Range::Slant { r0: s.r0, dr: 20.0 }, az_spacing: 20.0, az_delay: (0.0, 0.0) };
+    let img = || Image { dt: s.dt, blocks: vec![Block { t0: -5.0, first_line: 0.0, valid: (0.0, 10.0) }], r0: s.r0, dr: 20.0, az_spacing: 20.0, az_delay: (0.0, 0.0) };
     let dem = |w| Dem { w, h: s.h, z: s.z.clone(), lat0: LAT0, lon0: LON0, dlat: DD, dlon: DD };
     let win = |nl| Window { l0: 0.0, s0: 0.0, kl: 1.0, ks: 1.0, nl, ns: s.ns, beta: s.beta.clone() };
     let opts = || Opts { flatten: true, mask_stride: 0, mask_step: 1.0, mask_tol: 0.5, look: -1.0 };
     let o = || orbit(-100.0, 100.0, 10.0);
     assert!(Job::new(o(), img(), dem(s.w + 1), win(s.nl), opts()).is_err(), "DEM size");
     assert!(Job::new(o(), img(), dem(s.w), win(s.nl + 1), opts()).is_err(), "window size");
-    let bad = Image { range: Range::Ground { dg: 10.0, recs: Vec::new() }, ..img() };
-    assert!(Job::new(o(), bad, dem(s.w), win(s.nl), opts()).is_err(), "GRD with no records");
+    let bad = Image { dr: 0.0, ..img() };
+    assert!(Job::new(o(), bad, dem(s.w), win(s.nl), opts()).is_err(), "range spacing");
     assert!(Job::new(o(), img(), dem(s.w), win(s.nl), opts()).is_ok());
 }
 
