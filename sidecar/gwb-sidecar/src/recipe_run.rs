@@ -580,7 +580,7 @@ fn output_names(raw: Vec<&str>) -> Vec<String> {
             let clean: String = last
                 .chars()
                 .map(|c| {
-                    if c.is_control() || "<>:\"|?*".contains(c) {
+                    if c.is_control() || "<>:\"|?*\u{202e}\u{feff}".contains(c) {
                         '_'
                     } else {
                         c
@@ -588,7 +588,9 @@ fn output_names(raw: Vec<&str>) -> Vec<String> {
                 })
                 .collect();
             let clean = clean.trim_matches([' ', '.']).to_string();
+            // A Windows device name (nul.json, con.tif) would write to the device, not a file.
             let base = if clean.is_empty()
+                || crate::paths::is_reserved(&clean)
                 || clean.eq_ignore_ascii_case("gwb-run.log")
                 || clean.eq_ignore_ascii_case("gwb-run.json")
             {
@@ -868,6 +870,9 @@ mod tests {
                 "gwb-run.log",
                 "",
                 "..",
+                "nul.json",
+                "Con.tif",
+                "x\u{202e}y.txt",
             ]),
             vec![
                 "a.tif",
@@ -878,6 +883,9 @@ mod tests {
                 "output-gwb-run.log",
                 "output-",
                 "output- (2)",
+                "output-nul.json",
+                "output-Con.tif",
+                "x_y.txt",
             ]
         );
     }
