@@ -3,8 +3,8 @@
 // First it checks the staged HTML against CI-SHA256SUMS, which the release workflow's rebuild adds
 // to the draft, and stops if they differ or the draft has none.
 //
-//   node build/release/upload.mjs --tag v2.7.0 --dir D:/gwb-release/2.7.0 [--jobs 6] [--repo owner/name]
-//   node build/release/upload.mjs --tag v2.7.0 --dir D:/gwb-release/2.7.0 --check
+//   node build/release/upload.mjs --tag v2.7.0 --dir E:/gwb-release/2.7.0 [--jobs 6] [--repo owner/name]
+//   node build/release/upload.mjs --tag v2.7.0 --dir E:/gwb-release/2.7.0 --check
 //
 // It can be stopped and run again: an asset already uploaded with the staged file's digest is
 // skipped, and anything else is replaced. SHA256SUMS itself is checked like every other asset. Each file goes up in its own `gh release upload --clobber`, smallest

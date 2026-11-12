@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // Sidecar bundle composition (S-43, REQ-SDC-11, REQ-SDC-12).
 //
-//   node sidecar/installer/compose.mjs --out D:/gwb-sidecar-deps/bundle [--check]
+//   node sidecar/installer/compose.mjs --out E:/gwb-sidecar-deps/bundle [--check]
 //
-// Builds the relocatable module folders from the tool trees on D: (never from git):
-//   core-gdal  conda-forge libgdal-core + non-GPL plugins (D:/gwb-sidecar-deps/conda-gdal)
+// Builds the relocatable module folders from the tool trees on E: (never from git):
+//   core-gdal  conda-forge libgdal-core + non-GPL plugins (E:/gwb-sidecar-deps/conda-gdal)
 //   points     PDAL from the same conda env (shares core-gdal's DLLs through PATH)
-//   media      FFmpeg, LGPL only, built from the ffmpeg.org source by build-ffmpeg.sh (D:/gwb-sidecar-deps/ffmpeg-26)
-//   sar        python-build-standalone + numpy, for the 3D model export (D:/gwb-sidecar-deps/python)
-//   proj-grids the full proj-data set, data only (D:/gwb-sidecar-deps/proj-data-26)
+//   media      FFmpeg, LGPL only, built from the ffmpeg.org source by build-ffmpeg.sh (E:/gwb-sidecar-deps/ffmpeg-26)
+//   sar        python-build-standalone + numpy, for the 3D model export (E:/gwb-sidecar-deps/python)
+//   proj-grids the full proj-data set, data only (E:/gwb-sidecar-deps/proj-data-26)
 //   model3d    Assimp and the parser and Python layer of IfcOpenShell (2.6: assimp-26, ifc-subset-26;
 //              on Linux ifc-subset-g217, built from source by build-ifcopenshell.sh)
 //   sfm        COLMAP built by sfm/build-colmap.sh, statically, and gwb-sfm (2.6: colmap-26/stage)
@@ -35,10 +35,10 @@ import { peImports, isSystemDll } from './pe.mjs';
 import { elfNeeded, isSystemSo } from './elf.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const DEPS = process.env.GWB_SIDECAR_DEPS ?? 'D:/gwb-sidecar-deps';
+const DEPS = process.env.GWB_SIDECAR_DEPS ?? 'E:/gwb-sidecar-deps';
 let PLATFORM = process.env.GWB_SIDECAR_PLATFORM ?? (process.platform === 'win32' ? 'windows' : 'linux');
 const linux = () => PLATFORM === 'linux';
-// The Python tree on D: holds more than the module needs. An allow-list, so a new package stays out
+// The Python tree on E: holds more than the module needs. An allow-list, so a new package stays out
 // until it is reviewed: mesh_export.py imports IfcOpenShell, and IfcOpenShell imports numpy.
 const PY_SITE = /^(?:Lib|lib\/python3\.\d+)\/site-packages\/([^/]+)/;
 const PY_KEEP = /^numpy(\.libs|-[^/]+\.dist-info)?$/;

@@ -16,8 +16,8 @@ const arg = (k, d) => {
   const i = process.argv.indexOf(k);
   return i > 0 ? process.argv[i + 1] : d;
 };
-const CSM = resolve(arg('--csm', 'D:/gwb26/data-csmhost/src/x/csm-3.0.4'));
-const OUT = resolve(arg('--out', 'D:/gwb26/data-csmhost/build/csmhost-win-install'));
+const CSM = resolve(arg('--csm', 'E:/gwb26/data-csmhost/src/x/csm-3.0.4'));
+const OUT = resolve(arg('--out', 'E:/gwb26/data-csmhost/build/csmhost-win-install'));
 const BUILD = resolve(arg('--build', `${OUT}-obj`));
 const win = process.platform === 'win32';
 let env = process.env;
