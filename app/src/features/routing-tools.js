@@ -115,9 +115,9 @@ export function install(app) {
     try {
       const meta = db.exec("SELECT value FROM gw_geocode_meta WHERE key = 'format'")[0]?.values?.[0]?.[0];
       if (meta !== 'gis-workbench-address-index/1') throw gwError('{name} is not an address index GeoPackage written by GIS Workbench', { name }, 'E_NEED_ADDRESSES');
-      // Count before reading: the file may come from anywhere, and reading it whole is the cost.
-      const table = db.exec("SELECT table_name FROM gpkg_contents WHERE data_type = 'features' LIMIT 1")[0]?.values?.[0]?.[0];
-      const n = table ? Number(db.exec('SELECT COUNT(*) FROM "' + String(table).replace(/"/g, '""') + '"')[0]?.values?.[0]?.[0] ?? 0) : 0;
+      // Count before reading: the file may come from anywhere, and the reader takes every feature table whole.
+      const tables = (db.exec("SELECT table_name FROM gpkg_contents WHERE data_type = 'features'")[0]?.values ?? []).map((r) => String(r[0]));
+      const n = tables.reduce((sum, table) => sum + Number(db.exec('SELECT COUNT(*) FROM "' + table.replace(/"/g, '""') + '"')[0]?.values?.[0]?.[0] ?? 0), 0);
       if (n > MAX_ADDRESSES) throw gwError('{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage', { n: int(n), max: int(MAX_ADDRESSES) }, 'E_NEED_SPLIT');
       const { layers } = readGpkg(SQL, bytes, { name });
       const points = [];

@@ -114,10 +114,10 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     const module = await app.gw.wasm('wasm-sqlite');
     const SQL = await lib.initSqlJs({ instantiateWasm: (imports, ok) => (WebAssembly.instantiate(module, imports).then(ok), {}) });
     const db = new SQL.Database(new Uint8Array(await f.blob.arrayBuffer()));
-    const table = db.exec("SELECT table_name FROM gpkg_contents WHERE data_type = 'features' LIMIT 1")[0].values[0][0];
-    // The R*Tree triggers call ST_ functions this bare SQLite lacks; the rows need no geometry.
-    for (const [name] of db.exec("SELECT name FROM sqlite_master WHERE type = 'trigger'")[0]?.values ?? []) db.run(`DROP TRIGGER "${name}"`);
-    db.run(`WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 1000000) INSERT INTO "${table}" (geom) SELECT NULL FROM n`);
+    // The padding goes in a second feature table: every table the reader would take is counted, not only the first.
+    db.run('CREATE TABLE extra (fid INTEGER PRIMARY KEY, geom BLOB)');
+    db.run("INSERT INTO gpkg_contents (table_name, data_type, identifier) VALUES ('extra', 'features', 'extra')");
+    db.run('WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 1000000) INSERT INTO extra (geom) SELECT NULL FROM n');
     const bytes = db.export();
     db.close();
     try {
