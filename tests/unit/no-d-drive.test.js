@@ -61,9 +61,8 @@ describe('no tracked path on the failing D: drive', () => {
   });
 
   it('has none in the repository', () => {
-    // GitHub's Windows runners have a D: of their own. The sidecar and release scripts are T2 paths,
-    // so their defaults move in a PR of their own, which drops them from this exclusion.
-    const SKIP = /^(\.github|sidecar|build\/release)\/|^tests\/unit\/no-d-drive\.test\.js$/;
+    // GitHub's Windows runners have a D: of their own.
+    const SKIP = /^\.github\/|^tests\/unit\/no-d-drive\.test\.js$/;
     expect(dDrivePaths(SKIP)).toEqual([]);
   });
 });
