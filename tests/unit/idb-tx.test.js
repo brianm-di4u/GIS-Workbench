@@ -24,6 +24,22 @@ describe('txDone', () => {
     await expect(p).rejects.toThrow('quota');
   });
 
+  it("rejects with the failed request's error before the browser sets t.error (#209)", async () => {
+    const t = fakeTx();
+    const p = txDone(t, () => 1);
+    const req = { error: new DOMException('key already exists', 'ConstraintError') };
+    t.onerror({ target: req }); // the request's error event bubbles here while t.error is still null
+    await expect(p).rejects.toThrow('key already exists');
+  });
+
+  it("keeps the transaction's cause over a pending request's AbortError", async () => {
+    const t = fakeTx();
+    const p = txDone(t, () => 1);
+    t.error = new DOMException('disk full', 'QuotaExceededError'); // set before the AbortErrors fire
+    t.onerror({ target: { error: new DOMException('aborted', 'AbortError') } });
+    await expect(p).rejects.toThrow('disk full');
+  });
+
   it('rejects when the transaction aborts with no error on it', async () => {
     const t = fakeTx();
     const p = txDone(t, () => 1);
