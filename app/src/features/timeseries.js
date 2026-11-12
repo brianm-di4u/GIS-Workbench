@@ -22,7 +22,7 @@ export function install(app) {
   app.timeseries = { datesOf };
   lazyMethods(app.timeseries, TS_METHODS, load);
   const series = () => datesOf(app.activeLayer())?.length >= 2;
-  const images = () => [...(app.layers?.values() ?? [])].filter((l) => l.rec?.pane === app.activePane()?.id && l.handle).length;
+  const images = () => [...(app.layers?.values() ?? [])].filter((l) => l.rec?.pane === app.activePane()?.id && l.handle && l.rec?.kind !== 'dem').length;
   lazyCommands(app, TS_COMMANDS, load, {
     'ts.stack': { enabled: () => images() >= 2 },
     'ts.trend': { enabled: series },

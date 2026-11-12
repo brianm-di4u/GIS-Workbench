@@ -182,12 +182,18 @@ export function install(app) {
 
   // ---- batch ----
 
+  /** The rows of a table; a file whose header has no delimiter is one column, a cell per line. */
+  function tableRows(text) {
+    const lines = String(text).replace(/^\uFEFF/, '').split(/\r?\n/).filter((l) => l.trim());
+    if (lines.length && !/[\t,;|]/.test(lines[0])) return lines.map((l) => [l.trim().replace(/^"(.*)"$/, '$1').replace(/""/g, '"')]);
+    return parseDelimited(text).rows;
+  }
   /** Geocode every row of a CSV (text): a point layer with the row's fields, the match, its score and what it matched. */
   function geocodeTable(text, opts) {
     return app.activity.track(t('Geocoding a table…'), (job) => geocodeRows(text, opts, job));
   }
   async function geocodeRows(text, { address, place = '', name = t('Geocoded') }, job) {
-    const { rows } = parseDelimited(text);
+    const rows = tableRows(text);
     const [head, ...body] = rows;
     const ai = head.indexOf(address);
     const pi = place ? head.indexOf(place) : -1;
@@ -281,14 +287,21 @@ export function install(app) {
     return { layer: id, nodes: r.cost.filter((c) => c !== null && c <= bs.at(-1)).length, pieces: pieces.length };
   }
 
+  /** `fn` with the activity indicator up, painted first: indexing and building a network hold the page. */
+  const tracked = (label, fn) => (...a) => app.activity.track(label(), () => fn(...a), { immediate: true });
+  const indexing = tracked(() => t('Building the address index…'), indexLayer);
+  const saving = tracked(() => t('Saving the address index…'), saveIndex);
+  const opening = tracked(() => t('Opening the address index…'), openIndex);
+  const building = tracked(() => t('Building the road network…'), buildRoads);
+
   // ---- commands ----
 
   C.implement('addr.index', {
-    enabled: () => vlayers().length > 0,
+    enabled: () => vlayers(/Point|LineString/).length > 0,
     run: run(async (args) => {
       if (args?.layer) {
-        const r = indexLayer(args.layer, args.map ?? {});
-        return args.save ? { ...r, saved: await saveIndex() } : r;
+        const r = await indexing(args.layer, args.map ?? {});
+        return args.save ? { ...r, saved: await saving() } : r;
       }
       const layers = vlayers(/Point|LineString/);
       const L = layerSel(layers, t('Address layer'));
@@ -322,7 +335,7 @@ export function install(app) {
         const [f] = await pickFiles(app, { multiple: false, accept: ['.gpkg'], description: t('Address index') });
         if (!f) return;
         try {
-          opened = await openIndex(new Uint8Array(await f.arrayBuffer()), f.name);
+          opened = await opening(new Uint8Array(await f.arrayBuffer()), f.name);
           toast(t('Address index of {n} addresses on {s} streets opened', { n: int(opened.addresses), s: int(opened.streets) }), { kind: 'info' });
         } catch (e) {
           toast(msgOf(e), { kind: 'error' });
@@ -331,9 +344,9 @@ export function install(app) {
       const v = await modal({ title: t('Address Index'), body, buttons: [{ label: t('Build'), value: 'build', primary: true }, { label: t('Close'), value: 'cancel' }], width: 520, id: 'net-addresses' });
       if (v !== 'build') return opened ?? undefined;
       const map = Object.fromEntries(Object.entries(sels).map(([k, s]) => [k, s.value]));
-      const r = indexLayer(L.value, map);
+      const r = await indexing(L.value, map);
       toast(t('Address index of {n} addresses on {s} streets', { n: int(r.addresses), s: int(r.streets) }), { kind: 'info' });
-      if (save.checked) await saveIndex();
+      if (save.checked) await saving();
       return r;
     }),
   });
@@ -403,7 +416,7 @@ export function install(app) {
   C.implement('route.roads', {
     enabled: () => vlayers(/LineString/).length > 0,
     run: run(async (args) => {
-      if (args?.layer) return buildRoads(args.layer, { ...args, bans: args.bansCsv ? bansFromCsv(args.bansCsv) : args.bans });
+      if (args?.layer) return building(args.layer, { ...args, bans: args.bansCsv ? bansFromCsv(args.bansCsv) : args.bans });
       const layers = vlayers(/LineString/);
       const L = layerSel(layers, t('Road layer'));
       const box = h('div');
@@ -435,7 +448,7 @@ export function install(app) {
       });
       const body = h('div', {}, field(t('Road layer'), L), box, field(t('Cost'), costSel), field(t('Speed where none is given (km/h)'), dflt), field(t('Turn bans'), h('div', { class: 'ts-bar' }, bansBtn, bansNote), t('A table with "from" and "to" road ids: no turn from the first road onto the second where they meet.')), h('p', { class: 'hint' }, t('Roads join where lines share a vertex, so a bridge that only crosses a road stays apart from it.')));
       if ((await modal({ title: t('Road Network'), body, buttons: [{ label: t('Build'), value: 'build', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 520, id: 'net-roads' })) !== 'build') return undefined;
-      const r = buildRoads(L.value, { oneway: sels.oneway.value || null, speed: sels.speed.value || null, cost: costSel.value, defaultSpeed: +dflt.value || 50, idField: sels.id.value || null, bans });
+      const r = await building(L.value, { oneway: sels.oneway.value || null, speed: sels.speed.value || null, cost: costSel.value, defaultSpeed: +dflt.value || 50, idField: sels.id.value || null, bans });
       toast(t('Road network of {n} nodes and {e} pieces', { n: int(r.nodes), e: int(r.edges) }), { kind: 'info' });
       return r;
     }),
@@ -481,5 +494,5 @@ export function install(app) {
     }),
   });
 
-  Object.assign(net, { indexLayer, saveIndex, openIndex, geocode, reverse: (at, o) => reverse(need().index, at, o), geocodeTable, buildRoads, route, serviceArea });
+  Object.assign(net, { indexLayer: indexing, saveIndex: saving, openIndex: opening, geocode, reverse: (at, o) => reverse(need().index, at, o), geocodeTable, buildRoads: building, route, serviceArea });
 }

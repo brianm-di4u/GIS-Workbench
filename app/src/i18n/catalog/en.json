@@ -5139,10 +5139,24 @@
    ]
   },
   {
+   "key": "Building the address index…",
+   "src": "Building the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Building the orthomosaic…",
    "src": "Building the orthomosaic…",
    "refs": [
     "features/ortho.js"
+   ]
+  },
+  {
+   "key": "Building the road network…",
+   "src": "Building the road network…",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -27098,6 +27112,13 @@
    ]
   },
   {
+   "key": "Opening the address index…",
+   "src": "Opening the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Opening the stereo pair in the sidecar…",
    "src": "Opening the stereo pair in the sidecar…",
    "refs": [
@@ -35293,6 +35314,13 @@
    "refs": [
     "features/products.js",
     "features/recipes.js"
+   ]
+  },
+  {
+   "key": "Saving the address index…",
+   "src": "Saving the address index…",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
