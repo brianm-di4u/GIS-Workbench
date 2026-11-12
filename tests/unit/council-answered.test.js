@@ -98,6 +98,34 @@ describe('a mechanical change', () => {
     expect(step(ledger, B)).toMatchObject({ status: 'review', phase: 'loop' });
   });
 
+  it('does not let a should answered before the change skip its own fresh review', () => {
+    const ledger = emptyLedger();
+    run(ledger);
+    run(ledger);
+    run(ledger); // close-out, clean
+    run(ledger, [finding('should')]); // close-out, answered without a change
+    declineAll(ledger);
+    linkMechanical(ledger, { to: B, reason: 'r', lines: 3 });
+    run(ledger, [], { hash: B }); // the diff-only round, clean
+    expect(step(ledger, B).status).toBe('review');
+    run(ledger, [], { hash: B });
+    expect(step(ledger, B).status).toBe('done');
+  });
+
+  it('does not let a should answered on the new diff bridge back over the link', () => {
+    const ledger = emptyLedger();
+    run(ledger);
+    run(ledger);
+    run(ledger); // close-out, clean
+    linkMechanical(ledger, { to: B, reason: 'r', lines: 3 });
+    run(ledger, [finding('should')], { hash: B });
+    declineAll(ledger);
+    run(ledger, [], { hash: B });
+    expect(step(ledger, B).status).toBe('review'); // one clean round on B is not two
+    run(ledger, [], { hash: B });
+    expect(step(ledger, B).status).toBe('done');
+  });
+
   it('does not carry over past a second, unlinked change', () => {
     const ledger = emptyLedger();
     run(ledger);

@@ -149,15 +149,24 @@ const isAnswered = (round, findings) => {
 // changed starts the count again, so two clean rounds are two looks at the same change. A round that
 // was answered without a change in the middle of the run doesn't end it, as long as a clean round
 // comes after it: the answered round is not a clean look, so it doesn't count either.
+// That bridge never crosses a mechanical link: an answered round is passed only on the newest round's own
+// hash, and once one has been passed, the count stops at the link. So a should answered before or after
+// a mechanical change gets a fresh clean round of its own (SKILL.md: a round that finds anything makes
+// it a normal change again).
 export function cleanTail(rounds, { findings = [], links = {} } = {}) {
   if (rounds.length === 0) return 0;
-  const content = contentOf(rounds.at(-1).hash, links);
+  const newest = rounds.at(-1).hash;
+  const content = contentOf(newest, links);
   let count = 0;
+  let bridged = false;
   for (let i = rounds.length - 1; i >= 0; i -= 1) {
     const round = rounds[i];
     if (contentOf(round.hash, links) !== content) break;
-    if (isClean(round)) count += 1;
-    else if (!(count > 0 && isAnswered(round, findings))) break;
+    if (isClean(round)) {
+      if (bridged && round.hash !== newest) break;
+      count += 1;
+    } else if (count > 0 && round.hash === newest && isAnswered(round, findings)) bridged = true;
+    else break;
   }
   return count;
 }
