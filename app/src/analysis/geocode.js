@@ -225,11 +225,14 @@ function searchAs(index, q, fuzzy) {
     // One candidate per place the street is in: Main St in two towns is two streets.
     const groups = new Map();
     const group = (pl) => groups.get(pl) ?? groups.set(pl, { points: [], ranges: [] }).get(pl);
-    for (const p of s.points) if (placeOk(p.place)) group(p.place).points.push(p);
-    for (const r of s.ranges) if (placeOk(r.place)) group(r.place).ranges.push(r);
-    // With no place to tell them apart, none of them is certain.
-    const k = groups.size > 1 ? 0.9 : 1;
-    for (const g of groups.values()) {
+    for (const p of s.points) group(p.place).points.push(p);
+    for (const r of s.ranges) group(r.place).ranges.push(r);
+    // A place named after the comma ranks the addresses there first; it never hides the others,
+    // as a postcode or a spelling the index lacks (Saint Louis, St. Louis) would otherwise do.
+    const named = q.rest ? [...groups.keys()].filter(placeOk) : [];
+    for (const [pl, g] of groups) {
+      // With no place to tell them apart, none of them is certain.
+      const k = !q.rest ? (groups.size > 1 ? 0.9 : 1) : placeOk(pl) ? (named.length > 1 ? 0.9 : 1) : 0.7;
       const c = candidate(s, g, q, 100 * sim * k);
       if (c) out.push(c);
     }

@@ -140,6 +140,24 @@ describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) 
       expect(at(line.at(-1))).toBe(at(r.to));
     }
   });
+  it('draws no road beyond a banned turn in a service area', () => {
+    // a then b straight on, with the turn a → b banned; c turns off at the same junction.
+    const lines = [
+      { id: 'a', coords: [[0, 0], [0.001, 0]] },
+      { id: 'b', coords: [[0.001, 0], [0.002, 0]] },
+      { id: 'c', coords: [[0.001, 0], [0.001, 0.0002]] },
+    ];
+    const t = buildGraph(lines, { bans: [{ from: 'a', to: 'b' }] });
+    const r = B.network([1, 150, nearestNode(t, [0, 0]).node], graphData(t));
+    // Only b has points east of x = 0.001.
+    const onB = (entry) => serviceLines(t, r.cost, [150], entry).some((p) => p.coords.some(([x]) => x > 0.001 + 1e-9));
+    expect(r.entry).toHaveLength(2 * t.edges.length);
+    expect(r.entry[2 * t.edges.findIndex((e) => e.line === 'b') + 1]).toBeNull();
+    // From the entry costs b is not drawn; from the node costs alone it would be.
+    expect(onB(r.entry)).toBe(false);
+    expect(onB(null)).toBe(true);
+    expect(serviceLines(t, r.cost, [150], r.entry).some((p) => p.coords.some(([, y]) => y > 0))).toBe(true);
+  });
   it('reaches the reference nodes within each break', () => {
     const s = REF.service;
     const c = B.network([1, Math.max(...s.breaks), at(s.from)], data).cost;

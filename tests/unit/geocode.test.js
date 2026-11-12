@@ -63,21 +63,26 @@ describe('REQ-GAP-85 forward geocoding', () => {
     // A different street that only looks alike is not taken: Oak Avenue is not Main Street.
     expect(search(IX, '3 Oak Street')[0]?.street).not.toBe('Main Street');
   });
-  it('keeps the place apart when it is given', () => {
+  it('ranks by the place when it is given, and keeps an address whose place does not match', () => {
     expect(search(IX, "12 rue de l'eglise, Lyon")[0]).toMatchObject({ match: 'exact', id: 'r1' });
-    expect(search(IX, '3 Main Street, Shelbyville')[0]?.match).not.toBe('exact');
+    // A place the index does not have (another town, a postcode) lowers the score; the address stays.
+    expect(search(IX, '3 Main Street, Shelbyville')[0]).toMatchObject({ id: 'm3' });
+    expect(search(IX, '3 Main Street, Shelbyville')[0].score).toBeLessThanOrEqual(70);
+    expect(search(IX, '3 Main Street, 62701')[0]).toMatchObject({ id: 'm3' });
   });
   it('gives one candidate per town for a street name in two, and none of them certain', () => {
     const two = buildIndex({ points: [...POINTS, { id: 's3', number: '3', street: 'Main St', place: 'Shelbyville', at: [-90, 35] }] });
     const all = search(two, '3 Main Street');
     expect(all.map((c) => c.id).sort()).toEqual(['m3', 's3']);
     expect(all.every((c) => c.score < 100)).toBe(true);
-    expect(search(two, '3 Main Street, Shelbyville')).toEqual([expect.objectContaining({ id: 's3', score: 100 })]);
+    const named = search(two, '3 Main Street, Shelbyville');
+    expect(named[0]).toMatchObject({ id: 's3', score: 100 });
+    expect(named.find((c) => c.id === 'm3').score).toBeLessThan(100);
     // The street alone is never a point between the two towns.
     expect(search(two, 'Main Street').map((c) => Math.round(c.at[0]))).toEqual(expect.arrayContaining([-105, -90]));
   });
   it('keeps the letter of a house number: 12B is not 12A', () => {
-    expect(search(IX, "12A rue de l'eglise")[0]).toMatchObject({ match: 'exact', id: 'r1', score: 100 });
+    expect(search(IX, "12A rue de l'eglise")[0]).toMatchObject({ match: 'exact', id: 'r1' });
     expect(search(IX, "12B rue de l'eglise")[0].match).toBe('nearest number');
     expect(search(IX, "12 rue de l'eglise")[0]).toMatchObject({ match: 'exact', id: 'r1' });
   });

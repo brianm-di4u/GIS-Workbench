@@ -161,8 +161,11 @@ impl Graph<'_> {
         out
     }
 
-    /// Least cost from any of `sources` to every node, up to `max` (Dijkstra); infinite beyond it.
-    pub fn reach(&self, sources: &[usize], max: f64) -> Vec<f64> {
+    /// Least cost from any of `sources` to every node, up to `max` (Dijkstra), infinite beyond it;
+    /// and per edge direction (index 2e + 1 along, 2e against) the least cost at which that edge can
+    /// be entered at its tail. With turn bans the two differ: a node reached only by a road that may
+    /// not turn into an edge does not open that edge.
+    pub fn reach(&self, sources: &[usize], max: f64) -> Reach {
         let adj = self.adjacency();
         let edge_based = !self.banned.is_empty();
         let ns = if edge_based { 2 * self.from.len() + self.n } else { self.n };
@@ -199,8 +202,30 @@ impl Graph<'_> {
                 }
             }
         }
-        best
+        // Entry costs: from every settled state, the edges it may go on to (the same rule as the search).
+        let ne = self.from.len();
+        let mut entry = vec![f64::INFINITY; 2 * ne];
+        for (s, &f) in g.iter().enumerate() {
+            if !f.is_finite() {
+                continue;
+            }
+            let came = if edge_based && s < 2 * ne { Some((s / 2) as u32) } else { None };
+            for &(e, fw) in &adj[node_of(s)] {
+                if came.is_some_and(|a| self.banned.contains(&(a, e))) {
+                    continue;
+                }
+                let k = 2 * e as usize + usize::from(fw);
+                entry[k] = entry[k].min(f);
+            }
+        }
+        Reach { node: best, entry }
     }
+}
+
+/// The result of [`Graph::reach`].
+pub struct Reach {
+    pub node: Vec<f64>,
+    pub entry: Vec<f64>,
 }
 
 #[cfg(test)]
@@ -271,12 +296,33 @@ mod tests {
     fn service_area_costs() {
         let (from, to, len, xy) = grid();
         let g = Graph { n: 9, from: &from, to: &to, fwd: &len, bwd: &len, len: &len, xy: &xy, banned: HashSet::new() };
-        let c = g.reach(&[4], 150.0);
+        let c = g.reach(&[4], 150.0).node;
         assert_eq!(c[4], 0.0);
         assert_eq!(c[1], 100.0);
         assert!(c[0].is_infinite());
-        let c = g.reach(&[0, 8], f64::INFINITY);
+        let c = g.reach(&[0, 8], f64::INFINITY).node;
         assert_eq!(c[4], 200.0);
         assert_eq!(c[2], 200.0);
+    }
+
+    #[test]
+    fn an_edge_behind_a_turn_ban_is_not_entered() {
+        // A T: a = 0-1, b = 1-2 straight on, c = 1-3. The turn a → b is banned.
+        let (from, to) = (vec![0u32, 1, 1], vec![1u32, 2, 3]);
+        let len = vec![100.0; 3];
+        let xy = vec![0.0, 0.0, 100.0, 0.0, 200.0, 0.0, 100.0, 100.0];
+        let banned: HashSet<(u32, u32)> = [(0, 1)].into_iter().collect();
+        let g = Graph { n: 4, from: &from, to: &to, fwd: &len, bwd: &len, len: &len, xy: &xy, banned };
+        // 250 m: the way round (a, c, back along c, then b) is 400 m, beyond it.
+        let r = g.reach(&[0], 250.0);
+        // Node 1 is reached at 100 m, yet b cannot be entered from it: 2 is out of reach.
+        assert_eq!(r.node[1], 100.0);
+        assert!(r.node[2].is_infinite());
+        assert!(r.entry[2 * 1 + 1].is_infinite());
+        // c can: its entry along is 100 m.
+        assert_eq!(r.entry[2 * 2 + 1], 100.0);
+        // Without the ban, b is entered at 100 m too.
+        let g = Graph { n: 4, from: &from, to: &to, fwd: &len, bwd: &len, len: &len, xy: &xy, banned: HashSet::new() };
+        assert_eq!(g.reach(&[0], 250.0).entry[2 * 1 + 1], 100.0);
     }
 }

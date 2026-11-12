@@ -276,7 +276,7 @@ export function install(app) {
     const bs = [...new Set(breaks.filter((b) => b > 0))].sort((a, b) => a - b);
     if (!bs.length) throw gwError('Give at least one break greater than zero', {}, 'E_NEED_ROADS');
     const r = await call([1, bs.at(-1), snap(at)]);
-    const pieces = serviceLines(g, r.cost, bs).reverse();
+    const pieces = serviceLines(g, r.cost, bs, r.entry).reverse();
     const id = addLayer(t('Service area'), 'LineString', pieces.map((p) => ({ coords: p.coords, attrs: { break: p.brk } })), { stroke: '#1a9850', width: 3 });
     return { layer: id, nodes: r.cost.filter((c) => c !== null && c <= bs.at(-1)).length, pieces: pieces.length };
   }
