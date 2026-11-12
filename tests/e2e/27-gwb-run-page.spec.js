@@ -89,3 +89,8 @@ test('REG-150 a step called "open" gets the file the command line names for it',
   expect(r.threw).toBeUndefined();
   expect([r.status?.ok, r.status?.steps?.map((s) => s.status)]).toEqual([true, ['done']]);
 });
+
+test('REG-150 the page script refuses files given to a step that reads none', async ({ page }) => {
+  const r = await runPage(page, { recipe: STRETCH, inputs: ['s1'] }, [RASTER]);
+  expect(r.refused).toMatch(/\(s1\) takes no files, so the files given to it would be ignored/);
+});
