@@ -163,6 +163,21 @@ fn a_run_writes_its_files_provenance_and_log() {
         .unwrap()
         .flatten()
         .all(|e| !e.file_name().to_string_lossy().ends_with(".part")));
+    // A run that stops early into the same folder doesn't leave this run's status as its own.
+    let (code, text) = run(&[
+        "echo",
+        "--app-dir",
+        a.to_str().unwrap(),
+        "--out",
+        out.to_str().unwrap(),
+        "--gates",
+        "stop",
+    ]);
+    assert_eq!(code, 4, "{text}");
+    assert!(
+        !out.join("gwb-run.json").exists(),
+        "the last run's status is still there"
+    );
     let _ = std::fs::remove_dir_all(&d);
 }
 

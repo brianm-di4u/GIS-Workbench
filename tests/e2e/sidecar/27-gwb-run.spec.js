@@ -102,3 +102,23 @@ test('REG-150 a step that needs a dialog, or a gate set to stop, is refused befo
   // Nothing ran, so nothing but the log is in the output folder.
   expect(readdirSync(out)).toEqual(['gwb-run.log']);
 });
+
+test('REG-150 a file given with a plain --in opens in the app first, and one it cannot open stops the run', () => {
+  const app = existsSync(join(WORK, 'app', 'SHA256SUMS')) ? join(WORK, 'app') : appDir();
+  mkdirSync(join(WORK, 'r'), { recursive: true });
+  const stretch = join(WORK, 'r', 'stretch.gwrecipe.json');
+  writeFileSync(stretch, JSON.stringify({ format: 'gw-recipe/1', name: 'Stretch', steps: [{ op: 'contrast' }] }));
+  const out = join(WORK, 'opened');
+  // The contrast step needs an image layer: it runs only if the raster opened first.
+  const good = gwbRun([stretch, '--app-dir', app, '--out', out, '--in', INPUTS[0]]);
+  expect(good.code, good.out).toBe(0);
+  expect(good.out).toMatch(/s1 done/);
+  expect(JSON.parse(readFileSync(join(out, 'gwb-run.json'), 'utf8')).ok).toBe(true);
+  const junk = join(WORK, 'r', 'junk.tif');
+  writeFileSync(junk, 'not a tiff');
+  const bad = gwbRun([stretch, '--app-dir', app, '--out', out, '--in', junk]);
+  expect(bad.code, bad.out).toBe(1);
+  expect(bad.out).toMatch(/an input did not open: junk\.tif: /);
+  // The status left is not the good run's.
+  expect(existsSync(join(out, 'gwb-run.json'))).toBe(false);
+});

@@ -18,7 +18,8 @@
 //! step that would open a dialog, or a review gate when gates are set to stop, is refused before
 //! anything runs, naming the step. `--params FILE` is a JSON object of parameter overrides by step
 //! id. The run's files are written to DIR, each with a `.gwb-provenance.json` beside it, and the
-//! run appends to DIR/gwb-run.log and writes its status to DIR/gwb-run.json.
+//! run appends to DIR/gwb-run.log and writes its status to DIR/gwb-run.json when it finishes (a
+//! run removes the last one when it starts).
 //!
 //! `--check` only starts the browser and the app, and prints the browser, the app build and the
 //! automation API version.
@@ -158,6 +159,11 @@ pub fn main(argv: &[String]) -> u8 {
             return 2;
         }
     };
+    // The status is written only when a run gets to its end, so a run that stops early must not
+    // leave the last run's status looking like its own.
+    if let Some(out) = &args.out {
+        let _ = std::fs::remove_file(out.join("gwb-run.json"));
+    }
     if args.check {
         return match check(&args) {
             Ok(()) => 0,
