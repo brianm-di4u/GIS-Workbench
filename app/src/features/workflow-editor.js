@@ -102,11 +102,9 @@ export function install(app) {
     const r = own(validateRecipe(wf, ops));
     if (wf === ed.wf) ed.wf.id = r.id;
     const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
-    // The version counts saved changes: the newest copy here or in the library, plus one if this differs.
-    const copies = [rec?.recipe, ...(await listLibrary().catch(() => [])).filter((x) => x.id === r.id)].filter(Boolean);
+    // The version counts this project's saves of it: the stored copy's, plus one if this differs.
     const body = (x) => JSON.stringify({ ...toFile(x), version: 0 });
-    const last = copies.reduce((a, x) => (!a || (x.version ?? 1) > (a.version ?? 1) ? x : a), null);
-    if (last) r.version = (last.version ?? 1) + (body(last) === body(r) ? 0 : 1);
+    if (rec?.recipe) r.version = (rec.recipe.version ?? 1) + (body(rec.recipe) === body(r) ? 0 : 1);
     if (wf === ed.wf) ed.wf.version = r.version;
     S.transact(t('Save workflow'), (tx) => (rec ? tx.set(rec.id, 'recipe', toFile(r)) : tx.create('workflow', { recipe: toFile(r) })));
     if (!(await R.keep(toFile(r)))) toast(t('Saved in the project; this browser has no storage for your library.'), { kind: 'warn' });
@@ -290,7 +288,7 @@ export function install(app) {
       for (const [k, v] of Object.entries(params)) form.append(control(x, k, op.schema?.[k], v));
       // Inputs: a choice of the outputs upstream that fit, or none.
       for (const p of op.inputs ?? []) {
-        const choices = wf.steps.filter((y) => y.id !== x.id).flatMap((y) => (ops[y.op].outputs ?? []).filter((o) => fits(o.type, p.type)).map((o) => ({ value: `${y.id}.${o.name}`, label: `${y.id} · ${y.title} → ${o.name}` })));
+        const choices = wf.steps.filter((y) => y.id !== x.id).flatMap((y) => (ops[y.op].outputs ?? []).filter((o) => fits(o.type, p.type)).map((o) => ({ value: `${y.id}.${o.name}`, label: `${y.id} · ${tr(y.title)} → ${o.name}` })));
         const cur = x.inputs[p.name];
         const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)));
         sel.addEventListener('change', () => {
