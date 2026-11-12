@@ -393,6 +393,14 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
     return { ids, lib: lib.version, proj: app.store.all('workflow').filter((w) => w.recipe.id === 'old-2').map((w) => w.recipe.version) };
   });
   expect(first).toEqual({ ids: ['old-2', 'old-2'], lib: 2, proj: [2] });
+  // A library copy that differs only in where its steps sit is the same workflow: no clash.
+  const layoutOnly = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = (await app.recipes.library(true)).find((r) => r.id === 'old-2');
+    await app.recipes.keep({ ...lib, steps: lib.steps.map((s, k) => ({ ...s, at: { x: 500 + k, y: 7 } })) });
+    return app.recipes.known().filter((r) => r.id === 'old-2').map((r) => `${r.source}${r.clash ? ' clash' : ''}`);
+  });
+  expect(layoutOnly).toEqual(['project']);
 });
 test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
   await page.addInitScript(() => {

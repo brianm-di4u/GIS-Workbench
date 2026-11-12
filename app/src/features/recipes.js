@@ -11,7 +11,7 @@
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, defaults, checkParam, FORMAT } from '../recipes/recipe.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, FORMAT } from '../recipes/recipe.js';
 import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
 import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
@@ -319,7 +319,7 @@ export function install(app) {
    */
   const known = () => {
     const builtin = new Set(BUILTIN.map((r) => r.id));
-    const body = (r) => JSON.stringify({ ...r, version: 0 });
+    const body = (r) => contentOf(r, OPS);
     const project = new Map();
     for (const r of S.all('workflow').map((x) => x.recipe)) if (r && !builtin.has(r.id) && !project.has(r.id)) project.set(r.id, r);
     const lib = new Map();

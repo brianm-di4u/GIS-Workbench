@@ -10,7 +10,7 @@ import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles, saveBlob, textBlob } from '../storage/files.js';
 import { t, tr, msgOf, gwError } from '../i18n/index.js';
-import { validateRecipe, checkParam, fits, splitPort, FORMAT2 } from '../recipes/recipe.js';
+import { validateRecipe, checkParam, fits, splitPort, contentOf, FORMAT2 } from '../recipes/recipe.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const s = (tag, attrs = {}, ...kids) => {
@@ -115,7 +115,7 @@ export function install(app) {
     // copy of this id only if it is the copy that was opened. A different one (a shared project's,
     // or another project's in the library) stays, and this is saved as a new workflow.
     const stored = [rec?.recipe, lib].filter(Boolean);
-    if (stored.some((x) => same(x) !== ed.base)) {
+    if (stored.some((x) => body(x) !== ed.base)) {
       r.id = `${r.id}-${Date.now().toString(36)}`;
       r.version = 1;
       rec = null;
@@ -132,19 +132,7 @@ export function install(app) {
     return r.id;
   }
   const toFile = (r) => JSON.parse(JSON.stringify({ ...r, format: FORMAT2 }));
-  /** A workflow's content, its version and where its steps sit in the graph aside: what tells two stored copies of one id apart. */
-  const body = (x) => {
-    const f = toFile(x);
-    return JSON.stringify({ ...f, source: undefined, clash: undefined, version: 0, steps: f.steps?.map(({ at, ...s }) => s) });
-  };
-  /** A stored copy's content in the form open() gives it (an old gw-recipe/1 row is normalised the same way). */
-  const same = (x) => {
-    try {
-      return body(validateRecipe(x, ops));
-    } catch {
-      return null;
-    }
-  };
+  const body = (x) => contentOf(x, ops);
 
   /** Positions for steps a file gave none (a gw-recipe/1 chain, or a hand-written file): a column per depth of wiring. */
   function layout(steps) {
