@@ -119,6 +119,24 @@ describe.skipIf(!haveWasm)('radargrammetry ABI (sar bundle)', () => {
     for (const [k, v] of Object.entries(x)) expect(core.modelInfo(core.sicdModel(v.record, k)).sigmaH ?? null, k).toBeNull();
   });
 
+  // REG-081 (#163): JSON turns an absent AzSF or R_CA_SCP (record 36, 37) into null. Read as 0, an
+  // RGZERO or RGAZCOMP grid would build a model on a zero range or scale; absent, it is refused.
+  it('REG-081 an absent AzSF or R_CA_SCP is refused by a grid that needs it, not read as 0', async () => {
+    const x = await sicd();
+    const core = new Core(await load('core'));
+    const needs = { RGZERO: [37, /R_CA_SCP/], RGAZCOMP: [36, /AzSF/] };
+    let checked = 0;
+    for (const [k, v] of Object.entries(x)) {
+      const need = needs[v.gridType];
+      if (!need) continue;
+      const rec = [...v.record];
+      rec[need[0]] = null;
+      expect(() => core.sicdModel(rec, k), k).toThrow(need[1]);
+      checked++;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
   it('ranks the Hetch Hetchy and Capella pairs by their geometry', async () => {
     const x = await sicd();
     const sar = new SarBundle(await load('sar'));

@@ -7,9 +7,9 @@
 import { gwError } from '../../i18n/index.js';
 import { wasmError, nested } from '../errors.js';
 
-const KIND = { manifest: 1, annotation: 2, calibration: 3, noise: 4 };
+const KIND = { manifest: 1, annotation: 2, calibration: 3, noise: 4, orbit: 5 };
 
-/** One SAFE XML document → its JSON (kind: manifest | annotation | calibration | noise). */
+/** One SAFE XML document → its JSON (kind: manifest | annotation | calibration | noise | orbit, a POEORB or RESORB .EOF). */
 export function safeXml(B, kind, bytes) {
   const [p, n] = B.put(bytes);
   try {
