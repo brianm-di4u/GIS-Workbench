@@ -168,6 +168,71 @@ pub fn parse_points(b: &[u8]) -> Res<HashMap<u64, Point>> {
     Ok(out)
 }
 
+/// Each image's observations of 3D points: image id to (pixel, point id), unmatched ones left out.
+pub fn parse_observations(b: &[u8]) -> Res<HashMap<u32, Vec<([f64; 2], u64)>>> {
+    let mut r = Rd { b, p: 0, what: "images.bin" };
+    let n = r.count(64)?;
+    let mut out = HashMap::with_capacity(n);
+    for _ in 0..n {
+        let id = r.u32()?;
+        r.take(7 * 8 + 4)?;
+        while r.u8()? != 0 {}
+        let np = r.count(24)?;
+        let mut obs = Vec::new();
+        for _ in 0..np {
+            let xy = [r.f64()?, r.f64()?];
+            let pid = r.u64()?;
+            if pid != u64::MAX {
+                obs.push((xy, pid));
+            }
+        }
+        out.insert(id, obs);
+    }
+    Ok(out)
+}
+
+/// images.bin with the poses of the images in `poses` (id to quaternion w x y z, translation)
+/// replaced, every other byte kept.
+pub fn patch_poses(b: &[u8], poses: &HashMap<u32, ([f64; 4], V3)>) -> Res<Vec<u8>> {
+    let mut out = b.to_vec();
+    let mut r = Rd { b, p: 0, what: "images.bin" };
+    let n = r.count(64)?;
+    for _ in 0..n {
+        let id = r.u32()?;
+        let at = r.p;
+        r.take(7 * 8 + 4)?;
+        if let Some((q, t)) = poses.get(&id) {
+            for (k, v) in q.iter().chain(t.iter()).enumerate() {
+                out[at + 8 * k..at + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+        while r.u8()? != 0 {}
+        let np = r.count(24)?;
+        r.take(np * 24)?;
+    }
+    Ok(out)
+}
+
+/// points3D.bin with the positions of the points in `xyz` replaced, every other byte kept.
+pub fn patch_points(b: &[u8], xyz: &HashMap<u64, V3>) -> Res<Vec<u8>> {
+    let mut out = b.to_vec();
+    let mut r = Rd { b, p: 0, what: "points3D.bin" };
+    let n = r.count(43)?;
+    for _ in 0..n {
+        let id = r.u64()?;
+        let at = r.p;
+        r.take(3 * 8 + 3 + 8)?;
+        if let Some(x) = xyz.get(&id) {
+            for (k, v) in x.iter().enumerate() {
+                out[at + 8 * k..at + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+        let nt = r.count(8)?;
+        r.take(nt * 8)?;
+    }
+    Ok(out)
+}
+
 pub fn read_model(dir: &Path) -> Res<Model> {
     let rd = |n: &str| std::fs::read(dir.join(n)).map_err(|e| format!("cannot read {n} of the model: {e}"));
     Ok(Model { cameras: parse_cameras(&rd("cameras.bin")?)?, images: parse_images(&rd("images.bin")?)?, points: parse_points(&rd("points3D.bin")?)? })

@@ -412,6 +412,166 @@ pub fn fit_control(model: &Model, control: &Control, offset: V3) -> Res<ControlF
     })
 }
 
+/// Marks are placed by hand: 2 px is a fair standard deviation.
+const MARK_SIGMA_PX: f64 = 2.0;
+/// COLMAP's tie points, after its own bundle adjustment.
+const TIE_SIGMA_PX: f64 = 1.0;
+
+/// The block after the bundle adjustment with ground control, back in the model's frame.
+pub struct Adjusted {
+    /// Image id to (quaternion w x y z, translation), world to camera.
+    pub poses: std::collections::HashMap<u32, ([f64; 4], V3)>,
+    /// Point id to position.
+    pub points: std::collections::HashMap<u64, V3>,
+    pub residuals: Vec<Residual>,
+    pub stats: crate::ba::Stats,
+}
+
+/// Adjust the block (poses and tie points) with the ground control points as sigma-weighted
+/// priors and their marks as observations, starting from the control fit `sim3`. Checkpoints stay
+/// out of it, and are measured after it by triangulating their marks through the adjusted cameras.
+pub fn adjust_block(
+    model: &Model,
+    obs: &std::collections::HashMap<u32, Vec<([f64; 2], u64)>>,
+    control: &Control,
+    sim3: &Sim3,
+    offset: V3,
+) -> Res<Adjusted> {
+    use crate::ba::{adjust, rotate_into, Obs, Pose, Prior, Problem};
+    use crate::colmap::centre;
+    use crate::geo::{mat_mul, mat_to_quat, quat_to_mat, scale, transpose};
+    let rs = quat_to_mat(sim3.q);
+    let mut cams = Vec::with_capacity(model.images.len());
+    let mut cam_of = std::collections::HashMap::new();
+    for (k, im) in model.images.iter().enumerate() {
+        let intr = model
+            .cameras
+            .get(&im.camera)
+            .ok_or_else(|| format!("photograph {} has no camera", im.name))?
+            .clone();
+        cams.push(Pose {
+            r: rotate_into(&rotation(im), &rs),
+            c: sim3.apply(centre(im)),
+            intr,
+        });
+        cam_of.insert(im.id, k);
+    }
+    let ids: Vec<u64> = model.points.keys().copied().collect();
+    let index: std::collections::HashMap<u64, usize> =
+        ids.iter().enumerate().map(|(k, id)| (*id, k)).collect();
+    let mut pts: Vec<V3> = ids
+        .iter()
+        .map(|id| sim3.apply(model.points[id].xyz))
+        .collect();
+    let mut ba_obs = Vec::new();
+    for (img, list) in obs {
+        let Some(&cam) = cam_of.get(img) else {
+            continue;
+        };
+        for (xy, pid) in list {
+            if let Some(&pt) = index.get(pid) {
+                ba_obs.push(Obs {
+                    cam,
+                    pt,
+                    xy: *xy,
+                    sigma: TIE_SIGMA_PX,
+                });
+            }
+        }
+    }
+    let mut priors = Vec::new();
+    let mut gcp_index = Vec::new();
+    for p in control.points.iter().filter(|p| !p.check) {
+        let Some((x, _)) = triangulate(model, &p.marks)? else {
+            continue;
+        };
+        let pt = pts.len();
+        pts.push(sim3.apply(x));
+        for m in &p.marks {
+            if let Some(&cam) = model.images.iter().position(|i| i.name == m.image).as_ref() {
+                ba_obs.push(Obs {
+                    cam,
+                    pt,
+                    xy: [m.px, m.py],
+                    sigma: MARK_SIGMA_PX,
+                });
+            }
+        }
+        priors.push(Prior {
+            pt,
+            at: sub(p.xyz, offset),
+            sigma: p.sigma,
+        });
+        gcp_index.push((p.id.clone(), pt));
+    }
+    if priors.len() < 3 {
+        return Err(format!("{} ground control points are marked in two or more registered photographs; at least 3 are needed", priors.len()));
+    }
+    let mut pr = Problem {
+        cams,
+        pts,
+        obs: ba_obs,
+        priors,
+    };
+    let stats = adjust(&mut pr, 30);
+    let mut residuals: Vec<Residual> = gcp_index
+        .iter()
+        .map(|(id, pt)| {
+            let at = pr
+                .priors
+                .iter()
+                .find(|q| q.pt == *pt)
+                .map(|q| q.at)
+                .unwrap_or([0.0; 3]);
+            Residual {
+                id: id.clone(),
+                check: false,
+                d: sub(pr.pts[*pt], at),
+            }
+        })
+        .collect();
+    // Checkpoints through the adjusted cameras (the map frame less the offset).
+    let mut adjusted = Model {
+        cameras: model.cameras.clone(),
+        images: model.images.clone(),
+        points: Default::default(),
+    };
+    for (k, im) in adjusted.images.iter_mut().enumerate() {
+        let c = &pr.cams[k];
+        im.q = mat_to_quat(&c.r);
+        im.t = scale(mat_vec(&c.r, c.c), -1.0);
+    }
+    for p in control.points.iter().filter(|p| p.check) {
+        if let Some((x, _)) = triangulate(&adjusted, &p.marks)? {
+            residuals.push(Residual {
+                id: p.id.clone(),
+                check: true,
+                d: sub(x, sub(p.xyz, offset)),
+            });
+        }
+    }
+    // Back to the model's frame: x = rs^T (y - t) / s.
+    let back = |y: V3| scale(mat_vec(&transpose(&rs), sub(y, sim3.t)), 1.0 / sim3.s);
+    let mut poses = std::collections::HashMap::new();
+    for (k, im) in model.images.iter().enumerate() {
+        let c = &pr.cams[k];
+        let r_m = mat_mul(&c.r, &rs);
+        let c_m = back(c.c);
+        poses.insert(im.id, (mat_to_quat(&r_m), scale(mat_vec(&r_m, c_m), -1.0)));
+    }
+    let points = ids
+        .iter()
+        .enumerate()
+        .map(|(k, id)| (*id, back(pr.pts[k])))
+        .collect();
+    Ok(Adjusted {
+        poses,
+        points,
+        residuals,
+        stats,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

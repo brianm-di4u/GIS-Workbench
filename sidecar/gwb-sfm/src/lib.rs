@@ -6,6 +6,7 @@
 
 #![allow(clippy::too_many_arguments, clippy::type_complexity)]
 
+pub mod ba;
 pub mod colmap;
 pub mod exifgps;
 pub mod gcp;
