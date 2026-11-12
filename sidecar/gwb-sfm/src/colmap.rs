@@ -213,6 +213,30 @@ pub fn patch_poses(b: &[u8], poses: &HashMap<u32, ([f64; 4], V3)>) -> Res<Vec<u8
     Ok(out)
 }
 
+/// cameras.bin with the parameters of the cameras in `params` replaced, every other byte kept.
+pub fn patch_cameras(b: &[u8], params: &HashMap<u32, Vec<f64>>) -> Res<Vec<u8>> {
+    let mut out = b.to_vec();
+    let mut r = Rd { b, p: 0, what: "cameras.bin" };
+    let n = r.count(24)?;
+    for _ in 0..n {
+        let id = r.u32()?;
+        let model = r.u32()? as i32;
+        r.take(16)?;
+        let np = params_of(model).ok_or_else(|| format!("cameras.bin: camera model {model} is not known"))?;
+        let at = r.p;
+        r.take(np * 8)?;
+        if let Some(p) = params.get(&id) {
+            if p.len() != np {
+                return Err(format!("cameras.bin: camera {id} has {np} parameters, not {}", p.len()));
+            }
+            for (k, v) in p.iter().enumerate() {
+                out[at + 8 * k..at + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+    }
+    Ok(out)
+}
+
 /// points3D.bin with the positions of the points in `xyz` replaced, every other byte kept.
 pub fn patch_points(b: &[u8], xyz: &HashMap<u64, V3>) -> Res<Vec<u8>> {
     let mut out = b.to_vec();

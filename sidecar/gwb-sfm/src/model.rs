@@ -137,6 +137,11 @@ pub fn import(images: &Path, inputs: &[PathBuf], sparse: &Path, gps: &Path, cont
     g["stage_one"] = h["stage_one"].clone();
     fs::write(gps, serde_json::to_vec(&g).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
     fs::write(control, text).map_err(|e| e.to_string())?;
+    // model_transformer writes beside the sparse model and needs its folder made (prepare does this
+    // in the first stage).
+    if let Some(geo) = sparse.parent().map(|p| p.join("geo")) {
+        fs::create_dir_all(geo).map_err(|e| e.to_string())?;
+    }
     Ok(json!({ "images": h["images"].as_array().map_or(0, |a| a.len()), "control_points": c.points.len(), "checkpoints": c.points.iter().filter(|p| p.check).count(), "epsg": c.epsg }))
 }
 
@@ -199,6 +204,7 @@ mod tests {
         assert!(run(&[file.clone(), junk]).unwrap_err().contains("neither a model file"));
         let out = run(&[ctl.clone(), file.clone()]).unwrap();
         assert_eq!(out["control_points"], 1);
+        assert!(dir.join("geo").is_dir(), "model_transformer's folder");
         for (f, want) in [("cameras.bin", &cam), ("images.bin", &im)] {
             assert_eq!(&fs::read(dir.join("sparse").join("0").join(f)).unwrap(), want);
         }

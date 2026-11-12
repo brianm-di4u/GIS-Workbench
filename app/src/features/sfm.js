@@ -28,6 +28,10 @@ export function summaryRows(r) {
   const c = g.control;
   if (c?.rmse_check_m) rows.push([t('Checkpoints ({n}, RMS east, north, up)', { n: c.checks }), t('{e} m, {n} m, {u} m', { e: c.rmse_check_m.east.toFixed(3), n: c.rmse_check_m.north.toFixed(3), u: c.rmse_check_m.up.toFixed(3) })]);
   if (c?.rmse_gcp_m) rows.push([t('Ground control points ({n}, RMS east, north, up)', { n: c.gcps }), t('{e} m, {n} m, {u} m', { e: c.rmse_gcp_m.east.toFixed(3), n: c.rmse_gcp_m.north.toFixed(3), u: c.rmse_gcp_m.up.toFixed(3) })]);
+  const lens = c?.adjustment?.lens;
+  if (lens) rows.push([t('Focal length after the adjustment with the control'), t('{px} px (was {was} px)', { px: lens.after[0].toFixed(1), was: lens.before[0].toFixed(1) })]);
+  const worst = (c?.points ?? []).filter((p) => p.marks_px).sort((a, b) => b.marks_px.max_px - a.marks_px.max_px)[0];
+  if (worst) rows.push([t('Mark farthest from where its survey puts it'), t('{px} px, on {id}', { px: worst.marks_px.max_px.toFixed(1), id: worst.id })]);
   if (g.focal) rows.push([t('Focal length'), g.focal.refined ? t('{px} px, refined from the photographs', { px: g.focal.px.toFixed(1) }) : t('{px} px, held at the EXIF value', { px: g.focal.px.toFixed(1) })]);
   if (r?.cloud_points != null) rows.push([t('Dense cloud'), t('{n, plural, one {# point} other {# points}}', { n: r.cloud_points })]);
   if (r?.dsm) rows.push([t('DSM cell'), t('{m} m', { m: r.dsm.resolution_m })]);
@@ -203,7 +207,7 @@ export function install(app) {
       {},
       h('p', {}, t('{folder}: {n, plural, one {# JPEG photograph} other {# JPEG photographs}}. One camera, with GPS in EXIF.', { folder: folder.name, n: count })),
       h('p', { class: 'hint' }, t('Orients the photographs, then makes a dense cloud, a DSM and an orthomosaic. It runs on the CPU, and a block of 100 photographs can take an hour or more.')),
-      h('p', { class: 'hint' }, t('The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used.')),
+      h('p', { class: 'hint' }, t('The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used here: Structure from Motion with Ground Control uses them.')),
       form.el,
     );
     const r = args.yes ? 'run' : await modal({ title: t('Structure from Motion with Sidecar'), body, buttons: [{ label: t('Run'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 640, id: 'sidecar-sfm' });

@@ -1,7 +1,8 @@
 # The second stage of a UAV block placed by ground control (REG-075, decision 0018): the first
 # stage's model file and a ground control file with the points marked in the photographs. gwb-sfm
-# places the block on the control points and adjusts it with them, weighted by each point's sigma,
-# then the dense cloud, DSM and orthomosaic are made as in sfm-block. The inputs are, in order: the
+# places the block on the control points and adjusts it with them (camera poses, tie points and the
+# lens: focal length and distortion), weighted by each point's sigma, then the dense cloud, DSM and
+# orthomosaic are made as in sfm-block. The inputs are, in order: the
 # folder of photographs the first stage ran on, then the model file and the control file in either
 # order; gwb-sfm import tells them apart and refuses anything else.
 id = "sfm-control"

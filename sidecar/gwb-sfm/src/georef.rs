@@ -77,14 +77,18 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
         }
     };
     fs::create_dir_all(out_model).map_err(|e| e.to_string())?;
-    for f in ["cameras.bin", "images.bin", "points3D.bin", "rigs.bin", "frames.bin"] {
+    // COLMAP 4 takes the poses from frames.bin when it is there and ignores those in images.bin, so a
+    // block adjusted with ground control is written without rigs and frames: COLMAP then makes one
+    // rig per camera and one frame per photograph from images.bin, which is the same block.
+    let files: &[&str] = if control.is_some() { &["cameras.bin", "images.bin", "points3D.bin"] } else { &["cameras.bin", "images.bin", "points3D.bin", "rigs.bin", "frames.bin"] };
+    for f in files {
         let from = best.join(f);
         if from.exists() {
             fs::copy(&from, out_model.join(f)).map_err(|e| e.to_string())?;
         }
     }
-    // With ground control, the block is adjusted (poses and points, the control weighted by its
-    // sigma) and written back in the model's frame, so the steps after this one are unchanged.
+    // With ground control, the block is adjusted (poses, points and the lens, the control weighted
+    // by its sigma) and written back in the model's frame, so the steps after this one are unchanged.
     let control_json = match control_json {
         None => None,
         Some((c, cf)) => {
@@ -94,8 +98,12 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
             fs::write(out_model.join("images.bin"), crate::colmap::patch_poses(&images, &a.poses)?).map_err(|e| e.to_string())?;
             let points = fs::read(out_model.join("points3D.bin")).map_err(|e| e.to_string())?;
             fs::write(out_model.join("points3D.bin"), crate::colmap::patch_points(&points, &a.points)?).map_err(|e| e.to_string())?;
+            let cams = fs::read(out_model.join("cameras.bin")).map_err(|e| e.to_string())?;
+            fs::write(out_model.join("cameras.bin"), crate::colmap::patch_cameras(&cams, &a.cameras)?).map_err(|e| e.to_string())?;
+            let lens = a.cameras.values().next().map(|after| json!({ "model": camera.model, "before": camera.params, "after": after }));
+            let mark = |id: &str| a.marks.iter().find(|m| m.id == id).map(|m| json!({ "marks": m.marks, "rms_px": m.rms_px, "max_px": m.max_px, "own_rms_px": m.own_rms_px }));
             let axes = |v: Option<V3>| v.map(|v| json!({ "east": v[0], "north": v[1], "up": v[2] }));
-            let point = |r: &crate::gcp::Residual| json!({ "id": r.id, "role": if r.check { "check" } else { "gcp" }, "residual_m": { "east": r.d[0], "north": r.d[1], "up": r.d[2] } });
+            let point = |r: &crate::gcp::Residual| json!({ "id": r.id, "role": if r.check { "check" } else { "gcp" }, "residual_m": { "east": r.d[0], "north": r.d[1], "up": r.d[2] }, "marks_px": mark(&r.id) });
             Some(json!({
                 "epsg": c.epsg,
                 "gcps": a.residuals.iter().filter(|r| !r.check).count(),
@@ -108,7 +116,7 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
                     "rmse_gcp_m": axes(crate::gcp::rmse(&cf.residuals, false)),
                     "rmse_check_m": axes(crate::gcp::rmse(&cf.residuals, true)),
                 },
-                "adjustment": { "iterations": a.stats.iterations, "reprojection_px_before": a.stats.rms_px_before, "reprojection_px_after": a.stats.rms_px_after },
+                "adjustment": { "iterations": a.stats.iterations, "reprojection_px_before": a.stats.rms_px_before, "reprojection_px_after": a.stats.rms_px_after, "lens": lens },
             }))
         }
     };
@@ -401,6 +409,9 @@ mod tests {
         let sparse = dir.join("sparse").join("0");
         fs::write(sparse.join("images.bin"), ib).unwrap();
         fs::write(sparse.join("points3D.bin"), pb).unwrap();
+        // COLMAP 4's rigs and frames, which would override the adjusted poses if copied.
+        fs::write(sparse.join("rigs.bin"), 0u64.to_le_bytes()).unwrap();
+        fs::write(sparse.join("frames.bin"), 0u64.to_le_bytes()).unwrap();
         let offset = [440000.0, 4564000.0, 0.0];
         let gcps = [
             [-20.0, -15.0, 0.0],
@@ -452,6 +463,7 @@ mod tests {
         .unwrap();
         // The model written back, placed by the sim3 written beside it.
         let model = crate::colmap::read_model(&dir.join("model")).unwrap();
+        let carried = ["rigs.bin", "frames.bin"].map(|f| dir.join("model").join(f).exists());
         let v: Vec<f64> = fs::read_to_string(dir.join("sim3.txt"))
             .unwrap()
             .split_whitespace()
@@ -483,6 +495,7 @@ mod tests {
             worst < 0.05,
             "the written model puts a checkpoint {worst} m off: {c}"
         );
+        assert_eq!(carried, [false, false], "rigs.bin and frames.bin would override the adjusted poses");
     }
 
     #[test]
