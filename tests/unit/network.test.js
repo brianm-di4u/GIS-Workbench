@@ -100,6 +100,22 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     expect(s[0].coords.at(-1)[0]).toBeCloseTo(0.001, 6);
     expect(nearestNode(g, [0.0019, 0.0001]).node).toBe(g.edges[0].to);
   });
+  it('snaps to a road that can be travelled, never to the end of a closed one', () => {
+    // HERE flags: N is closed. The closed road ends beside the click; the open one is 1 km away.
+    const lines = [
+      { id: 'shut', coords: [[0, 0], [0.001, 0]], attrs: { dir: 'N' } },
+      { id: 'open', coords: [[0, 0.01], [0.001, 0.01]], attrs: { dir: 'B' } },
+    ];
+    const g = buildGraph(lines, { oneway: 'dir' });
+    expect(g.nodes).toHaveLength(2);
+    expect(g.edges.map((e) => e.line)).toEqual(['open']);
+    const s = nearestNode(g, [0.001, 0.0001]);
+    expect(g.nodes[s.node]).toEqual([0.001, 0.01]);
+    expect(s.metres).toBeGreaterThan(1000);
+    // With every road closed there is no node to snap to. (N alone reads as Y/N, so closed is spelt out.)
+    const shut = buildGraph([{ id: 'x', coords: [[0, 0], [0.001, 0]], attrs: { dir: 'closed' } }], { oneway: 'dir' });
+    expect(shut?.nodes ?? []).toHaveLength(0);
+  });
 });
 
 describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) against scipy', () => {
