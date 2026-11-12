@@ -186,6 +186,95 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   // One-way 3rd St: west is a detour, east is not.
   expect(REF.routes[3].seconds).toBeGreaterThan(REF.routes[2].seconds);
   expect(out.service.nodes).toBe(REF.service.within['60'].length);
+  // The dialog: 1 minute is 60 s, and the start is a click on the map at the same place.
+  await frame.evaluate(([lon, lat]) => {
+    const p = window.gisworkbench.activePane();
+    const q = p.geoLayer().imageAt(lat, lon, 0);
+    p.setView({ cx: q.x, cy: q.y, zoom: 4, rot: 0, mode: 'native' });
+  }, REF.service.from);
+  const viaDialog = frame.evaluate(() => window.gisworkbench.commands.run('route.service'));
+  const sd = frame.locator('[data-id="dialog:net-service"]');
+  await expect(sd).toBeVisible();
+  await sd.getByLabel('Breaks (minutes)').fill('1');
+  await sd.getByRole('button', { name: 'Next' }).click();
+  const start = await frame.evaluate(([lon, lat]) => {
+    const p = window.gisworkbench.activePane();
+    const q = p.geoLayer().imageAt(lat, lon, 0);
+    return ((x, y) => {
+    const p = window.gisworkbench.activePane();
+    const s = p.screenPoint(x, y);
+    const r = p.el.getBoundingClientRect();
+    return { x: r.left + s.x, y: r.top + s.y };
+  })(q.x, q.y);
+  }, REF.service.from);
+  await page.mouse.click(start.x, start.y);
+  const picked = await viaDialog;
+  expect(picked.nodes).toBe(REF.service.within['60'].length);
+  // Shortest Route by two clicks on the map gives the route the coordinates give.
+  const clickOn = async ([lon, lat]) => {
+    const s = await frame.evaluate(([lon, lat]) => {
+      const p = window.gisworkbench.activePane();
+      const q = p.geoLayer().imageAt(lat, lon, 0);
+      p.setView({ cx: q.x, cy: q.y, zoom: 4, rot: 0, mode: 'native' });
+      const s = p.screenPoint(q.x, q.y);
+      const r = p.el.getBoundingClientRect();
+      return { x: r.left + s.x, y: r.top + s.y };
+    }, [lon, lat]);
+    await page.mouse.click(s.x, s.y);
+  };
+  const viaClicks = frame.evaluate(() => window.gisworkbench.commands.run('route.shortest'));
+  await clickOn(REF.routes[0].from);
+  await frame.waitForTimeout(300);
+  await clickOn(REF.routes[0].to);
+  const clicked = await viaClicks;
+  expect(Math.abs(clicked.cost - REF.routes[0].seconds) / REF.routes[0].seconds).toBeLessThan(5e-5);
+  // Find Address as you type: the matches are listed, and picking one adds its point.
+  const viaFind = frame.evaluate(() => window.gisworkbench.commands.run('addr.find'));
+  const fd = frame.locator('[data-id="dialog:net-find"]');
+  await expect(fd).toBeVisible();
+  await fd.getByLabel('Address').fill('101 1st Street');
+  const first = fd.getByRole('option').first();
+  await expect(first).toHaveText(/^101 1st St · 100% /);
+  await first.click();
+  await expect
+    .poll(() => frame.evaluate(() => window.gisworkbench.store.all('feature').filter((f) => window.gisworkbench.store.get(f.vlayer)?.name === 'Found: 101 1st Street').map((f) => [f.geom.xyz[0], f.geom.xyz[1]])))
+    .toEqual([REF.queries[0].at]);
+  await fd.getByRole('button', { name: 'Close' }).last().click();
+  await viaFind;
+  // Reverse Geocode by a click beside 101 1st St.
+  const viaReverse = frame.evaluate(() => window.gisworkbench.commands.run('addr.reverse'));
+  await frame.waitForTimeout(200);
+  await clickOn([-104.99934, 40.00011]);
+  expect(await viaReverse).toMatchObject({ number: '101', street: '1st St' });
+  // Geocode a Table from a file: a one-column list whose header has a space is offered as one column.
+  // (The file input, which Playwright answers; the File System Access picker it cannot.)
+  const nLayers = await frame.evaluate(() => ((window.gisworkbench.runMode.caps.fsaPicker = false), window.gisworkbench.store.all('vlayer').length));
+  const [bfc] = await Promise.all([page.waitForEvent('filechooser'), frame.evaluate(() => void window.gisworkbench.commands.run('addr.batch'))]);
+  await bfc.setFiles({ name: 'list.txt', mimeType: 'text/plain', buffer: Buffer.from(['Street Address', '101 1st Street', '1101 12th St', ''].join('\n')) });
+  const bd = frame.locator('[data-id="dialog:net-batch"]');
+  await expect(bd).toBeVisible();
+  await expect(bd.getByLabel('Address column')).toHaveValue('Street Address');
+  await bd.getByRole('button', { name: 'Geocode' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.store.all('vlayer').length)).toBe(nLayers + 1);
+  const listed = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const v = app.store.all('vlayer').at(-1);
+    return app.store.all('feature').filter((f) => f.vlayer === v.id).map((f) => [f.geom.xyz[0], f.geom.xyz[1]]);
+  });
+  expect(listed).toEqual([REF.queries[0].at, REF.queries[2].at]);
+  // Road Network with turn bans from a file, through its button.
+  const viaRoads = frame.evaluate(() => window.gisworkbench.commands.run('route.roads'));
+  const rd2 = frame.locator('[data-id="dialog:net-roads"]');
+  await expect(rd2).toBeVisible();
+  await rd2.getByLabel('Road layer').selectOption({ label: 'city-roads' });
+  await rd2.getByLabel('Road id field').selectOption('id');
+  const [tfc] = await Promise.all([page.waitForEvent('filechooser'), rd2.locator('button', { hasText: 'Turn bans (CSV)…' }).click()]);
+  await tfc.setFiles({ name: 'bans.csv', mimeType: 'text/csv', buffer: Buffer.from(['from,to', 'xw,st0', ''].join('\n')) });
+  await expect(rd2.getByText('1 ban from bans.csv')).toBeVisible();
+  await rd2.getByRole('button', { name: 'Build' }).click();
+  // The dialog's command settles before the test ends (a pending evaluate fails it).
+  expect((await viaRoads).banned).toBe(1);
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.routing.graph?.g.banned.length ?? 0)).toBe(1);
   expect(out.service.pieces).toBeGreaterThan(0);
   // Two clicks at one junction make no route, and no empty layer.
   const same = await frame.evaluate(async () => {

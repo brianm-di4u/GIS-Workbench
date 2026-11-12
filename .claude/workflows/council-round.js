@@ -77,6 +77,12 @@ const SPEC = plan.generatedGlobs?.length ? ` -- . ${plan.generatedGlobs.map((glo
 // A seat's turns scale with the diff it has to read. The agent files set a high ceiling, and this is the
 // budget it is told to work inside, so that it stops and answers before the ceiling cuts it off with nothing.
 const TURNS = Math.min(75, Math.max(24, 16 + Math.ceil((plan.diffLines ?? 0) / 50)))
+// A seat can still end without answering (issue 231): the session running the round may load agent
+// files older than the base, with a ceiling below TURNS, which cuts the seat off before it answers.
+// It is asked once more with a budget small enough for any ceiling, so the round can still count. A
+// 12-call look can't cover a change sized for more, so that answer is partial (decision 0015): its
+// findings count, and the round is never clean.
+const RETRY_TURNS = 12
 // The base marks fixtures/** binary, so a changed golden or oracle file (.json, .xml, .geojson, .txt, .csv)
 // reads as "Binary files differ". Seats read those one at a time with --text, never the whole diff with it.
 const TEXT_NOTE = `A changed text file that shows "Binary files differ", such as a fixtures/ truth or oracle file, must still be read: run the same command with --text and -- <path> for that file.`
@@ -94,7 +100,7 @@ const location = plan.cwd
 const visibility = `First confirm you can see this change, by running: git cat-file -e ${plan.head}
 Set headVisible to true only if that succeeds. If it fails, set headVisible to false, return nothing else, and don't go looking for the code elsewhere.`
 
-const brief = `You are one seat on a code review council. You can run things, but you don't edit this change. Don't switch branches, reset, or check anything out: to look at a commit, use git show or git diff.
+const briefFor = (turns) => `You are one seat on a code review council. You can run things, but you don't edit this change. Don't switch branches, reset, or check anything out: to look at a commit, use git show or git diff.
 
 ${location}${visibility}
 
@@ -104,7 +110,7 @@ Risk tier: T${plan.tier}. Base: ${plan.mergeBase}. Head: ${plan.head}.
 Review phase: ${plan.phase ?? 'loop'}, run on ${plan.model ?? 'the default model'}.
 ${scope}
 
-Turn budget: about ${TURNS} tool calls. Read the diff first, then use what is left on callers and code outside it. When you have about 5 left, stop exploring and answer. If you can't cover the whole change, set finished to false and say in the summary what you did not get to. Return the findings you have, whatever their number: a seat that runs out of turns without answering makes the whole round not count.
+Turn budget: about ${turns} tool calls. Read the diff first, then use what is left on callers and code outside it. When you have about 5 left, stop exploring and answer. If you can't cover the whole change, set finished to false and say in the summary what you did not get to. Return the findings you have, whatever their number: a seat that runs out of turns without answering makes the whole round not count.
 ${plan.generated?.length ? `These changed files are generated and left out of the diff: ${plan.generated.join(', ')}. verify checks them against their source, so don't review them.\n` : ''}
 Evidence from the author's verification is in: ${plan.evidenceDir}
 The review rules are in REVIEW.md on the base branch. Read them with: git show ${plan.mergeBase}:REVIEW.md
@@ -138,15 +144,18 @@ function seatCall(name, prompt, options = {}) {
 }
 
 phase('Find')
+const find = (seat, turns, label) =>
+  seatCall(seat.agent, briefFor(turns), { label, phase: 'Find', schema: FINDINGS, ...(seat.model ? { model: seat.model } : {}) })
 const seatResults = await parallel(
-  plan.seats.map((seat) => () =>
-    seatCall(seat.agent, brief, {
-      label: seat.agent.replace('council-', ''),
-      phase: 'Find',
-      schema: FINDINGS,
-      ...(seat.model ? { model: seat.model } : {}),
-    }).then((result) => ({ seat: seat.agent, result })),
-  ),
+  plan.seats.map((seat) => async () => {
+    const label = seat.agent.replace('council-', '')
+    let why = 'no answer'
+    const first = await find(seat, TURNS, label).catch((error) => ((why = error?.message ?? String(error)), null))
+    if (typeof first?.headVisible === 'boolean') return { seat: seat.agent, result: first }
+    log(`${label} ended without answering (${why}). Asking it once more, with a budget of ${RETRY_TURNS} tool calls. This usually means the session's .claude/agents are older than the base, with a lower turn ceiling: such a round can't be clean, so run the next one from a current checkout or with --inline-personas.`)
+    const retried = await find(seat, RETRY_TURNS, `${label} (retry)`).catch((error) => (log(`${label} retry failed (${error?.message ?? error}).`), null))
+    return { seat: seat.agent, result: retried && { ...retried, finished: false } }
+  }),
 )
 
 const seats = plan.seats.map((seat) => seat.agent)

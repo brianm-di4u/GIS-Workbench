@@ -62,6 +62,14 @@ export function decimalYear(s, calendar = 'standard') {
 }
 
 /** The CF calendar of a layer's band dates ('standard' when none is given). */
+/**
+ * A grid read every `step` pixels from `x0` (the cube reader's decimation, and gw_model_window's
+ * model of it): output pixel `o` is source pixel x0 + o·step, so its centre is at x0 + o·step + 0.5.
+ */
+export const gridCentre = (x0, step, o) => x0 + o * step + 0.5;
+/** The index, in a grid read every `step` pixels from `x0`, of the sample nearest image coordinate `x` (pixel i spans [i, i + 1)). */
+export const nearestSample = (x, x0, step) => Math.round((x - 0.5 - x0) / step);
+
 export const layerCalendar = (bandsMeta) => bandsMeta?.[0]?.calendar ?? 'standard';
 
 /**

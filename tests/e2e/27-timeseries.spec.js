@@ -103,6 +103,47 @@ test('SCN-76 REQ-GAP-83 a NetCDF NDVI stack: dates, slider, profile, trend and a
   });
   const expPoint = series(3 * W + 7);
   prof.point.forEach((v, k) => (Number.isNaN(expPoint[k]) ? expect(v).toBeNaN() : expect(v).toBeCloseTo(expPoint[k], 6)));
+  // The same profile through the panel: point at the pixel, pin it, and export it with the panel's button.
+  const at = await frame.evaluate(([x, y]) => ((x, y) => {
+    const p = window.gisworkbench.activePane();
+    const s = p.screenPoint(x, y);
+    const r = p.el.getBoundingClientRect();
+    return { x: r.left + s.x, y: r.top + s.y };
+  })(x, y), [7.4, 3.6]);
+  await page.mouse.move(at.x, at.y);
+  await expect(frame.locator('[data-id="ts-chart"]')).toBeVisible();
+  await frame.getByRole('button', { name: 'Pin the cursor' }).click();
+  await expect(frame.getByLabel('Profile of')).toHaveValue('pinned');
+  // The chart draws that profile: its first and last dates sit at the plot's left and right edges, at
+  // heights scaled between the profile's least and greatest values.
+  const ends = [0, expPoint.length - 1];
+  expect(ends.map((k) => Number.isFinite(expPoint[k]))).toEqual([true, true]);
+  const fin = expPoint.filter(Number.isFinite);
+  const [lo, hi] = [Math.min(...fin), Math.max(...fin)];
+  const drawn = await frame.evaluate(
+    ([pts]) => {
+      const cv = document.querySelector('[data-id="ts-chart"]');
+      const g = cv.getContext('2d');
+      // Some pixel within 2 of the point has the line's colour (#5fd0ff, blended at the edges).
+      return pts.map(([x, y]) => {
+        const d = g.getImageData(Math.round(x) - 2, Math.round(y) - 2, 5, 5).data;
+        for (let i = 0; i < d.length; i += 4) if (d[i + 2] > 180 && d[i + 1] > 120 && d[i] < 160) return true;
+        return false;
+      });
+    },
+    [ends.map((k, i) => [40 + i * (320 - 48), 8 + 130 - ((expPoint[k] - lo) / (hi - lo || 1)) * 130])],
+  );
+  expect(drawn).toEqual([true, true]);
+  const nSaved = await frame.evaluate(() => window.gisworkbench.__saved.length);
+  await frame.getByRole('button', { name: 'Export CSV…' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.__saved.length)).toBe(nSaved + 1);
+  const pinned = (await frame.evaluate(async () => window.gisworkbench.__saved.at(-1).blob.text())).split('\r\n').filter(Boolean);
+  expect(pinned[0]).toBe('date,value');
+  pinned.slice(1).forEach((row, k) => {
+    const v = Number(row.split(',')[1]);
+    if (Number.isNaN(expPoint[k])) expect(v).toBeNaN();
+    else expect(v).toBeCloseTo(expPoint[k], 6);
+  });
   for (let k = 0; k < NT; k++) {
     const vals = [0, 1, 2, 3, W, W + 1, W + 2, W + 3].map((p) => series(p)[k]).filter(Number.isFinite);
     expect(prof.region.n[k]).toBe(vals.length);
@@ -296,5 +337,67 @@ test('SCN-76 REQ-GAP-83 Time Stack of frames with no georeference: one grid by s
   // Pixel (0, 0) and (1, 0), both dates: 100x + y.
   expect(r.v).toEqual([0, 0, 100, 100]);
   expect(r.refused).toBe('E_NEED_DATES');
+  // The cursor reports pixels of the pane's georeferenced image; the stack has no georeference, so
+  // the panel takes no point from it, and takes one once the stack is the pane's own geometry.
+  await openFiles(frame, enviImage(dir, 'geo_20200401', { w: 40, h: 40, lon0: 10, lat0: 50, d: 0.01 }));
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.modelId && l.lutTex), null, { timeout: 60000 });
+  const move = (drop) =>
+    frame.evaluate(async (drop) => {
+      const app = window.gisworkbench;
+      const p = app.activePane();
+      const stack = [...app.layers.values()].find((l) => l.bands === 2);
+      const ids = p.rec.layers.filter((id) => !drop || !app.layers.get(id)?.modelId);
+      app.store.transact('test', (tx) => (tx.set(p.rec.id, 'layers', ids), tx.set(p.rec.id, 'activeLayer', stack.id)));
+      app.timeseries.openPanel();
+      await new Promise((r) => setTimeout(r, 200));
+      app.cursorMoved(p, 3, 2);
+      return p.geoLayer() === stack;
+    }, drop);
+  const pin = frame.getByRole('button', { name: 'Pin the cursor' });
+  expect(await move(false)).toBe(false);
+  await frame.waitForTimeout(500);
+  await expect(pin).toBeDisabled();
+  expect(await move(true)).toBe(true);
+  await expect(pin).toBeEnabled();
+  // A point pinned on this stack is not read from another series' grid.
+  await pin.click();
+  const other = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const frames = [...app.layers.values()].filter((l) => l.width === 12 && l.bands === 1).map((l) => l.id);
+    const s = await app.commands.run('ts.stack', { layers: frames });
+    const p = app.activePane();
+    app.store.transact('test', (tx) => tx.set(p.rec.id, 'activeLayer', s.id));
+    return app.__saved?.length ?? 0;
+  });
+  await frame.getByRole('button', { name: 'Export CSV…' }).click();
+  await expect(frame.getByText('Move the cursor over the image, pin a point, or draw an AOI.')).toBeVisible();
+  await frame.waitForTimeout(500);
+  expect(await frame.evaluate(() => window.gisworkbench.__saved?.length ?? 0)).toBe(other);
+  expect(logs).toEqual([]);
+});
+
+test('REQ-GAP-83 a stack reads a decimated grid at full resolution, not from an overview level', async ({ page }) => {
+  const { frame, logs } = await openApp(page, 'file');
+  const fx = (n) => resolve('fixtures/fx21/raster', n);
+  await openFiles(frame, [fx('hfa_ovr_rrd.img'), fx('hfa_ovr_rrd.rrd')]);
+  await frame.waitForFunction(() => window.gisworkbench.activeLayer()?.handle, null, { timeout: 60000 });
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const l = app.activeLayer();
+    const win = { x0: 5, y0: 3, w: 160, h: 120 };
+    const full = await app.msi.cube(l, { ...win, step: 1, bands: [0], raw: true });
+    const flat = await app.msi.cube(l, { ...win, step: 4, bands: [0], raw: true, levels: false });
+    const level = await app.msi.cube(l, { ...win, step: 4, bands: [0], raw: true });
+    const at = (o) => full.v[o.oy * 4 * full.w + o.ox * 4];
+    const pts = [{ ox: 0, oy: 0 }, { ox: 7, oy: 3 }, { ox: 20, oy: 11 }, { ox: 39, oy: 29 }];
+    let differs = 0;
+    for (let i = 0; i < flat.w * flat.h; i++) if (flat.v[i] !== level.v[i]) differs++;
+    return { flatLevel: flat.level ?? 0, level: level.level ?? 0, same: pts.map((o) => flat.v[o.oy * flat.w + o.ox] === at(o)), differs };
+  });
+  // The default takes an overview level for a step of 4; levels: false keeps every 4th source pixel.
+  expect(r.level).toBeGreaterThan(0);
+  expect(r.flatLevel).toBe(0);
+  expect(r.same).toEqual([true, true, true, true]);
+  expect(r.differs).toBeGreaterThan(0);
   expect(logs).toEqual([]);
 });

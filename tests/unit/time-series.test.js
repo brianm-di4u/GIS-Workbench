@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { baselineFlags, dateFromName, decimalYear, groupsOf, layerDates, profileRows, profileStats } from '../../app/src/analysis/time-series.js';
+import { baselineFlags, dateFromName, decimalYear, gridCentre, groupsOf, layerDates, nearestSample, profileRows, profileStats } from '../../app/src/analysis/time-series.js';
 import { cfTime } from '../../app/src/workers/decode/cf.js';
 
 describe('REQ-GAP-83 dates of a time series', () => {
@@ -70,5 +70,22 @@ describe('REQ-GAP-83 temporal profile', () => {
   it('writes CSV rows for a point and for a region', () => {
     expect(profileRows(['2020-01-01', '2020-02-01'], { mean: [0.1, 0.2] })).toEqual([['date', 'value'], ['2020-01-01', 0.1], ['2020-02-01', 0.2]]);
     expect(profileRows(['2020-01-01'], { mean: [0.1], std: [0.01], n: [9] })).toEqual([['date', 'mean', 'std', 'pixels'], ['2020-01-01', 0.1, 0.01, 9]]);
+  });
+});
+
+describe('REQ-GAP-83 a decimated stack grid', () => {
+  it('puts an output pixel where the cube reads it, and takes the nearest source sample', () => {
+    // Read every 3 pixels from 10: output pixel 2 is source pixel 16, centred at 16.5 (gw_model_window's
+    // to_base(o + 0.5) = 10 + 3·(o + 0.5) − (3 − 1)/2 = 16.5), not at the block centre 17.5.
+    expect(gridCentre(10, 3, 2)).toBe(16.5);
+    expect(gridCentre(0, 1, 0)).toBe(0.5);
+    // At step 1 the nearest sample is the pixel the coordinate falls in.
+    expect([3.01, 3.5, 3.99].map((x) => nearestSample(x, 0, 1))).toEqual([3, 3, 3]);
+    // At step 3 from 10, samples are source pixels 10, 13, 16: 16.5 is sample 2, and 14.4 is nearer 13 than 16.
+    expect(nearestSample(16.5, 10, 3)).toBe(2);
+    expect(nearestSample(14.4, 10, 3)).toBe(1);
+    expect(nearestSample(15.2, 10, 3)).toBe(2);
+    // A same-grid round trip: an output pixel's centre maps back to that output pixel.
+    for (const o of [0, 1, 7]) expect(nearestSample(gridCentre(10, 3, o), 10, 3)).toBe(o);
   });
 });

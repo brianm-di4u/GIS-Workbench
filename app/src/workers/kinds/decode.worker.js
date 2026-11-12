@@ -677,7 +677,7 @@ GW.register('complex', async ({ handle, x0, y0, w, h, maxSamples = 16e6 }, job) 
  * A BIP Float32 cube of a window (spectral algorithms, REQ-MSI-07..12): every `step`-th pixel of
  * the bands listed, with per-band gain/offset applied (radiometric state); no-data → NaN.
  */
-GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain = null, offset = null, maxSamples = 96e6, pyramid = false }, job) => {
+GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain = null, offset = null, maxSamples = 96e6, pyramid = false, levels = true }, job) => {
   const e = handles.get(handle);
   if (!e) throw new Error('unknown image handle');
   x0 = Math.max(0, Math.floor(x0));
@@ -720,8 +720,10 @@ GW.register('cube', async ({ handle, x0 = 0, y0 = 0, w, h, step = 1, bands, gain
   }
   // A decimated cube comes from the source's own coarser level where it has one, as windows do
   // (CX-063): spectral tools on a CORE3D 8-band MSI J2K strip read it all at full resolution and timed out.
+  // `levels: false` keeps to full resolution: a level's pixel is centred elsewhere than source pixel
+  // x0 + o·step, which a grid that other images are resampled onto (a time stack) relies on.
   let L = 0;
-  while (e.src.readLevel && 2 ** (L + 1) <= step && e.src.hasLevel?.(L + 1)) L++;
+  while (levels && e.src.readLevel && 2 ** (L + 1) <= step && e.src.hasLevel?.(L + 1)) L++;
   if (L > 0) {
     const f = 2 ** L;
     const lx0 = Math.floor(x0 / f);

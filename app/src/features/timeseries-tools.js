@@ -13,7 +13,7 @@ import { toCsv } from './panels.js';
 import { acqTime } from '../products/tokens.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { num, int, date as fmtDate } from '../i18n/format.js';
-import { dateFromName, decimalYear, layerDates, layerCalendar, groupsOf, baselineFlags, profileStats, profileRows, isoParts } from '../analysis/time-series.js';
+import { dateFromName, decimalYear, layerDates, layerCalendar, groupsOf, baselineFlags, profileStats, profileRows, isoParts, gridCentre, nearestSample } from '../analysis/time-series.js';
 
 /** Samples a time stack or a trend may read at once: the worker cube's own limit. */
 const MAX_SAMPLES = 96e6;
@@ -119,7 +119,8 @@ export function install(app) {
       for (let i = 0; i < nx; i++) {
         const ox = Math.min(i * NODE, ow);
         const oy = Math.min(j * NODE, oh);
-        const g = ref.groundAt(win.x0 + (ox + 0.5) * win.step, win.y0 + (oy + 0.5) * win.step, 0);
+        // Where the stack's pixel is: the same convention as a same-grid date read by the cube, and as its model.
+        const g = ref.groundAt(gridCentre(win.x0, win.step, ox), gridCentre(win.y0, win.step, oy), 0);
         const q = g && l.imageAt(g.lat, g.lon, 0);
         const k = j * nx + i;
         sx[k] = q ? q.x : NaN;
@@ -141,7 +142,7 @@ export function install(app) {
     if (!(rx1 > rx0 && ry1 > ry0)) return out;
     // Full resolution unless the part is far larger than the output (nearest neighbour wants the real pixel).
     const step = Math.max(1, Math.ceil(Math.sqrt(((rx1 - rx0) * (ry1 - ry0)) / Math.max(4 * ow * oh, 16e6))));
-    const c = await msi().cube(l, { x0: rx0, y0: ry0, w: rx1 - rx0, h: ry1 - ry0, step, bands: [band] });
+    const c = await msi().cube(l, { x0: rx0, y0: ry0, w: rx1 - rx0, h: ry1 - ry0, step, bands: [band], levels: false });
     // The last control point of a row or column sits on the edge, nearer than NODE.
     const at = (n, i, len) => Math.min(i * NODE, len);
     for (let oy = 0; oy < oh; oy++) {
@@ -152,8 +153,8 @@ export function install(app) {
         const u = (ox - at(nx, i, ow)) / (at(nx, i + 1, ow) - at(nx, i, ow) || 1);
         const k = j * nx + i;
         const bl = (a) => (1 - u) * (1 - v) * a[k] + u * (1 - v) * a[k + 1] + (1 - u) * v * a[k + nx] + u * v * a[k + nx + 1];
-        const cx = Math.floor((bl(sx) - rx0) / step);
-        const cy = Math.floor((bl(sy) - ry0) / step);
+        const cx = nearestSample(bl(sx), rx0, step);
+        const cy = nearestSample(bl(sy), ry0, step);
         if (cx >= 0 && cy >= 0 && cx < c.w && cy < c.h) out[oy * ow + ox] = c.v[cy * c.w + cx];
       }
     }
@@ -187,7 +188,7 @@ export function install(app) {
       job?.set?.(k / nt);
       const b = Math.min(band, x.l.bands - 1);
       if (sameGrid(R, x.l)) {
-        const c = await msi().cube(x.l, { x0: win.x0, y0: win.y0, w: win.w, h: win.h, step: win.step, bands: [b] });
+        const c = await msi().cube(x.l, { x0: win.x0, y0: win.y0, w: win.w, h: win.h, step: win.step, bands: [b], levels: false });
         planes.push(c.v);
       } else {
         // Resampling goes through the ground: an image with no georeference can't be put on another grid.
@@ -478,8 +479,9 @@ export function install(app) {
       const w = aoiWindow(l);
       return w ? { rect: w } : null;
     }
-    if (panel.mode === 'pinned') return panel.pinned;
-    return panel.cursor ?? null;
+    // A point belongs to the series it was taken on: another series' grid has those pixels elsewhere.
+    const pt = panel.mode === 'pinned' ? panel.pinned : panel.cursor;
+    return pt?.id === l.id ? pt : null;
   }
   async function refreshProfile(l) {
     const q = query(l);
@@ -522,12 +524,14 @@ export function install(app) {
     prevMoved?.(p, x, y);
     if (!panel.el?.isConnected || raf) return;
     const l = active();
-    if (!l || !(x >= 0 && y >= 0 && x < l.width && y < l.height)) return;
-    panel.cursor = { x, y };
+    // x, y are pixels of the pane's geo layer: a series that is not that layer takes no point from them.
+    if (!l || p !== pane() || p.geoLayer?.() !== l) return;
+    if (!(x >= 0 && y >= 0 && x < l.width && y < l.height)) return;
+    panel.cursor = { x, y, id: l.id };
     if (panel.mode !== 'cursor') return;
     raf = requestAnimationFrame(() => {
       raf = 0;
-      refreshProfile(l).catch(() => {});
+      refreshProfile(l).catch((e) => app.log?.('warn', `time series profile: ${e.message}`));
     });
   };
   // A recording or playback stops with the layer it shows.

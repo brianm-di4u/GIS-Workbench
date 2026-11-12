@@ -59,6 +59,18 @@ describe('REQ-GAP-83 CF time units decode to ISO dates', () => {
       }
     }
   });
+  it('counts months and years since as calendar months, so a monthly axis stays in its months', () => {
+    const iso = (u, cal, vs) => vs.map((v) => cfTime(u, cal)(v));
+    expect(iso('months since 2000-01-01', 'standard', [0, 1, 2, 11, 12, 13])).toEqual(['2000-01-01', '2000-02-01', '2000-03-01', '2000-12-01', '2001-01-01', '2001-02-01'].map((d) => `${d}T00:00:00Z`));
+    expect(iso('months since 2000-01-15 12:00', 'noleap', [1, 25])).toEqual(['2000-02-15T12:00:00Z', '2002-02-15T12:00:00Z']);
+    expect(iso('years since 2000-01-01', 'standard', [1, 0.5, -1])).toEqual(['2001-01-01T00:00:00Z', '2000-07-02T00:00:00Z', '1999-01-01T00:00:00Z']);
+    // A fraction of a year is of that year's own length: a day count over 365 in noleap lands on its day.
+    expect(iso('years since 2001-01-01', 'noleap', [59 / 365, 181 / 365, 334 / 365])).toEqual(['2001-03-01', '2001-07-01', '2001-12-01'].map((d) => `${d}T00:00:00Z`));
+    // A day past the end of a short month is its last day; a fraction is of the month it lands in.
+    expect(iso('months since 2000-01-31', 'standard', [1])).toEqual(['2000-02-29T00:00:00Z']);
+    expect(iso('months since 2000-02-01', 'standard', [0.5])).toEqual(['2000-02-15T12:00:00Z']);
+    expect(iso('months since 2000-01-01', '360_day', [1, 13.5])).toEqual(['2000-02-01T00:00:00Z', '2001-02-16T00:00:00Z']);
+  });
   it("takes CF's own example of a one-digit zone offset, which cftime ignores", () => {
     expect(cfTime('days since 1990-1-1 0:0:0 -6:00')(0)).toBe('1990-01-01T06:00:00Z');
   });
