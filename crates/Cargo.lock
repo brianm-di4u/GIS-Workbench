@@ -240,6 +240,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "gw-bundle-sargeo"
+version = "0.0.1"
+dependencies = [
+ "gw-abi",
+ "gw-sargeo",
+]
+
+[[package]]
 name = "gw-bundle-spectral"
 version = "0.0.1"
 dependencies = [
@@ -387,6 +395,14 @@ dependencies = [
  "gw-geodesy",
  "gw-parse",
  "gw-sensor",
+ "gw-terrain",
+]
+
+[[package]]
+name = "gw-sargeo"
+version = "0.0.1"
+dependencies = [
+ "gw-geodesy",
  "gw-terrain",
 ]
 

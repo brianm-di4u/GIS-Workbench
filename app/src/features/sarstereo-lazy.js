@@ -26,10 +26,11 @@ export function install(app) {
   const sicds = () => [...app.layers.values()].filter((l) => l.info?.sar?.kind === 'SICD' && Array.isArray(l.info.sar.record) && l.modelId && l.handle);
   const load = () => loadFor(app);
   app.sarStereo = { last: null };
-  lazyMethods(app.sarStereo, ['findPairs', 'extract', 'saveDsm', 'report', 'reportDialog', 'pairsDialog', 'dsmDialog'], load, () => app.sarStereo);
-  lazyCommands(app, ['sar.stereopairs', 'sar.stereodsm', 'sar.stereoreport'], load, {
+  lazyMethods(app.sarStereo, ['findPairs', 'extract', 'saveDsm', 'report', 'reportDialog', 'pairsDialog', 'dsmDialog', 'level', 'dsmFromTerrain'], load, () => app.sarStereo);
+  lazyCommands(app, ['sar.stereopairs', 'sar.stereodsm', 'sar.stereoreport', 'sar.stereolevel'], load, {
     'sar.stereopairs': { enabled: () => sicds().length >= 2 },
     'sar.stereodsm': { enabled: () => sicds().length >= 2 },
     'sar.stereoreport': { enabled: () => (app.terrain?.dems?.length ?? 0) >= 2 },
+    'sar.stereolevel': { enabled: () => (app.terrain?.dems?.length ?? 0) >= 2 },
   });
 }

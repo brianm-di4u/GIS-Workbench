@@ -155,14 +155,17 @@ fn fuzz_sar21_parsers() {
             }
         }
     }
+    // A Sentinel orbit file (POEORB/RESORB .EOF, REG-085), synthetic: key 5.
+    safe.push((5, br#"<?xml version="1.0"?><Earth_Explorer_File><Earth_Explorer_Header><Fixed_Header><Mission>Sentinel-1A</Mission><File_Type>AUX_POEORB</File_Type><Validity_Period><Validity_Start>UTC=2024-06-25T22:59:42</Validity_Start><Validity_Stop>UTC=2024-06-27T00:59:42</Validity_Stop></Validity_Period></Fixed_Header><Variable_Header><Ref_Frame>EARTH_FIXED</Ref_Frame></Variable_Header></Earth_Explorer_Header><Data_Block type="xml"><List_of_OSVs count="2"><OSV><UTC>UTC=2024-06-25T22:59:42.000000</UTC><X unit="m">-2101139.1</X><Y unit="m">6309912.9</Y><Z unit="m">2409496.6</Z><VX unit="m/s">735.5</VX><VY unit="m/s">2920.9</VY><VZ unit="m/s">-7000.1</VZ></OSV><OSV><UTC>UTC=2024-06-25T22:59:52.000000</UTC><X unit="m">-2093000.0</X><Y unit="m">6339000.0</Y><Z unit="m">2339000.0</Z><VX unit="m/s">890.0</VX><VY unit="m/s">2880.0</VY><VZ unit="m/s">-7020.0</VZ></OSV></List_of_OSVs></Data_Block></Earth_Explorer_File>"#.to_vec()));
     let seeds: Vec<Vec<u8>> = safe.iter().map(|(k, b)| [vec![*k as u8], b.clone()].concat()).collect();
     reports.push(run("safe", &seeds, n, hang(), &o, |b| {
         let Some((&k, rest)) = b.split_first() else { return };
-        let _ = match k % 4 {
+        let _ = match k % 5 {
             1 => gw_parse::safe::manifest(rest),
             2 => gw_parse::safe::annotation(rest),
             3 => gw_parse::safe::calibration(rest),
-            _ => gw_parse::safe::noise(rest),
+            4 => gw_parse::safe::noise(rest),
+            _ => gw_parse::safe::eof(rest),
         };
     }));
 
