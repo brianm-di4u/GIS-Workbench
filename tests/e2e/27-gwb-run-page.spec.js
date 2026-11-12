@@ -76,3 +76,9 @@ test('REG-150 the page script stops, naming it, when opening an input asks a que
   });
   expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Pick a band');
 });
+
+test('REG-150 the page script stops, naming it, when an --in file needs data the run was not given', async ({ page }) => {
+  // An RPF table opened alone asks for its folder; going on without the frames would run on nothing.
+  const r = await runPage(page, { recipe: STRETCH }, [resolve('fixtures', 'fx21', 'nitf', 'rpf-cib-z3', 'RPF', 'A.TOC')]);
+  expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Open RPF folder');
+});

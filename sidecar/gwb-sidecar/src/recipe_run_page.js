@@ -11,10 +11,11 @@
 // bytes as base64.
 async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const app = window.gisworkbench;
-  // Nobody is at the page: answer the open path's own questions the way automation does (an imagery
-  // ZIP opens its default pick, a project's imagery is left to relink, an ASCII point file takes the
-  // proposed columns, an RPF table gets no folder). Any other dialog fails the run, named, below.
-  Object.assign(app, { zipPick: 'default', relinkPick: 'skip', asciiPick: 'default', rpfFolderPick: async () => [] });
+  // Nobody is at the page: answer the open path's questions that have a right answer without a
+  // person (an imagery ZIP opens its default pick, an ASCII point file takes the proposed columns).
+  // A question whose only unattended answer is to go on without the data (a project's imagery to
+  // relink, an RPF table's folder) is left to its dialog, which fails the run, named, below.
+  Object.assign(app, { zipPick: 'default', asciiPick: 'default' });
   const el = document.getElementById('gwb-run-inputs');
   const files = el ? [...el.files] : [];
   el?.remove();
