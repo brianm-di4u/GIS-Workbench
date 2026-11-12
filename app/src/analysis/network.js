@@ -22,11 +22,14 @@ const flag = (v) =>
     .toLowerCase();
 /**
  * Which convention a one-way field follows, from its values: 'here' when it holds HERE or Esri
- * directions (FT, TF, B) and no Y, where N means closed; otherwise 'yn', where N means two-way.
+ * directions (FT, TF, B) and no Y, where N means closed; 'bool' when it holds only T and F (a DBF
+ * logical field: T is one-way along the line, F two-way); otherwise 'yn', where N means two-way.
  */
 export function onewayRule(values) {
   const s = new Set([...values].map(flag));
-  return !s.has('y') && ['ft', 'tf', 'f', 't', 'b'].some((x) => s.has(x)) ? 'here' : 'yn';
+  if (s.has('y')) return 'yn';
+  if (['ft', 'tf', 'b'].some((x) => s.has(x))) return 'here';
+  return s.has('t') || s.has('f') ? 'bool' : 'yn';
 }
 
 /**
@@ -36,6 +39,7 @@ export function onewayRule(values) {
  */
 export function onewayOf(v, rule = 'here') {
   const s = flag(v);
+  if (rule === 'bool' && (s === 't' || s === 'f')) return s === 't' ? 1 : 0;
   if (['yes', 'y', 'true', '1', 'ft', 'f', 'forward'].includes(s)) return 1;
   if (['-1', 'tf', 't', 'reverse', 'backward'].includes(s)) return -1;
   if (s === 'closed' || (s === 'n' && rule === 'here')) return null;

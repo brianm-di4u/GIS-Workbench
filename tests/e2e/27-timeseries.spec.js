@@ -243,6 +243,24 @@ test('SCN-76 REQ-GAP-83 Time Stack orders dated images and resamples one on anot
     expect(r.v[p * 2]).toBe(100 * x + y);
     expect(r.v[p * 2 + 1]).toBe(100 * Math.floor(2.5 * x + 1.25) + Math.floor(2.5 * y + 1.25));
   }
+  // Dates given with the layers go with the layer named in the same place, whatever the open order:
+  // the fine 2020 image dated first becomes the reference grid.
+  const given = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const ls = [...app.layers.values()].filter((l) => !l.rec?.memory);
+    const coarse = ls.find((l) => l.width === 20);
+    const fine = ls.find((l) => l.width === 50);
+    const run = (layers, dates) => app.commands.run('ts.stack', { layers, dates }).then((s) => [app.layers.get(s.id).width, app.layers.get(s.id).height]);
+    const a = await run([coarse.id, fine.id], ['2021-01-01T00:00:00Z', '2018-01-01T00:00:00Z']);
+    const b = await run([fine.id, coarse.id], ['2018-01-01T00:00:00Z', '2021-01-01T00:00:00Z']);
+    // One date for two images: the command warns and makes nothing.
+    const n = app.layers.size;
+    const short = await app.commands.run('ts.stack', { layers: [coarse.id, fine.id], dates: ['2021-01-01T00:00:00Z'] });
+    return { a, b, short: [short ?? null, app.layers.size - n] };
+  });
+  expect(given.a).toEqual([50, 25]);
+  expect(given.b).toEqual([50, 25]);
+  expect(given.short).toEqual([null, 0]);
   expect(logs).toEqual([]);
 });
 

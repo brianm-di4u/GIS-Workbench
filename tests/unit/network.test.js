@@ -36,6 +36,13 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     expect(onewayRule(['Y', 'N', 'N'])).toBe('yn');
     expect(onewayRule(['N', ''])).toBe('yn');
     expect(onewayRule(['FT', 'B', 'N'])).toBe('here');
+    // A DBF logical field holds T and F: T is one-way along the line, F two-way. Beside FT/TF/B they are HERE's.
+    expect(onewayRule(['T', 'F', 'F'])).toBe('bool');
+    expect(['T', 'F'].map((v) => onewayOf(v, 'bool'))).toEqual([1, 0]);
+    expect(onewayRule(['FT', 'T', 'F', 'B'])).toBe('here');
+    expect(['T', 'F'].map((v) => onewayOf(v, 'here'))).toEqual([-1, 1]);
+    const tf = buildGraph([{ id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'T' } }, { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'F' } }], { oneway: 'ow' });
+    expect(tf.edges.map((e) => [e.line, Number.isFinite(e.fwd), Number.isFinite(e.bwd)])).toEqual([['a', true, false], ['b', true, true]]);
     const lines = [
       { id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'Y' } },
       { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'N' } },

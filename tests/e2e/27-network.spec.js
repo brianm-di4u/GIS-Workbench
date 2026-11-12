@@ -169,5 +169,15 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   expect(REF.routes[3].seconds).toBeGreaterThan(REF.routes[2].seconds);
   expect(out.service.nodes).toBe(REF.service.within['60'].length);
   expect(out.service.pieces).toBeGreaterThan(0);
+  // Two clicks at one junction make no route, and no empty layer.
+  const same = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const n = app.layers.size;
+    const at = app.routing.graph.g.nodes[0];
+    let code = null;
+    await app.routing.route(at, at).catch((e) => (code = e.code));
+    return { code, added: app.layers.size - n };
+  });
+  expect(same).toEqual({ code: 'E_NEED_ROADS', added: 0 });
   expect(logs).toEqual([]);
 });

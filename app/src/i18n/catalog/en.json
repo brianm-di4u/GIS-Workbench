@@ -41320,6 +41320,13 @@
    ]
   },
   {
+   "key": "The start and the end are at the same junction",
+   "src": "The start and the end are at the same junction",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "The stream’s origin, and its key server for an AES-128 stream, must be in this file’s network allow-list (Add-Ins ▸ Network Allow-List). H.264 plays live or on demand; MPEG-2 plays on demand through the app’s decoder.",
    "src": "The stream’s origin, and its key server for an AES-128 stream, must be in this file’s network allow-list (Add-Ins ▸ Network Allow-List). H.264 plays live or on demand; MPEG-2 plays on demand through the app’s decoder.",
    "refs": [
@@ -64181,6 +64188,13 @@
    ]
   },
   {
+   "key": "{layer} is not an open image that can go in a time stack",
+   "src": "{layer} is not an open image that can go in a time stack",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
    "src": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
    "refs": [
@@ -66122,6 +66136,13 @@
   {
    "key": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
    "src": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{n} dates for {m} images: give one date for each",
+   "src": "{n} dates for {m} images: give one date for each",
    "refs": [
     "features/timeseries-tools.js"
    ]

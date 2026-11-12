@@ -261,6 +261,7 @@ export function install(app) {
     const { g } = graph();
     const r = await call([0, snap(from), snap(to)]);
     if (r.cost === null) return null;
+    if (!r.edges.length) throw gwError('The start and the end are at the same junction', {}, 'E_NEED_ROADS');
     const coords = routeLine(g, r.edges, r.forward.map(Boolean));
     const metres = r.edges.reduce((s, e) => s + g.edges[e].len, 0);
     const attrs = { length_m: Math.round(metres * 10) / 10, ...(g.cost === 'time' ? { time_s: Math.round(r.cost * 10) / 10 } : {}), edges: r.edges.length };

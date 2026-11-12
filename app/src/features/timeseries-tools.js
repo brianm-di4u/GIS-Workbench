@@ -545,7 +545,11 @@ export function install(app) {
       const cands = images().filter((l) => !(datesOf(l)?.length > 1));
       const items = cands.map((l) => ({ l, date: dateOfImage(l) }));
       if (args?.layers) {
-        const pick = items.filter((x) => args.layers.includes(x.l.id) || args.layers.includes(x.l.rec?.name));
+        // In the order args.layers names them, so args.dates[i] goes with the i-th layer named.
+        const pick = args.layers.map((k) => items.find((x) => x.l.id === k || x.l.rec?.name === k));
+        const gone = args.layers.find((k, i) => !pick[i]);
+        if (gone !== undefined) throw gwError('{layer} is not an open image that can go in a time stack', { layer: gone }, 'E_NEED_DATES');
+        if (args.dates && args.dates.length !== pick.length) throw gwError('{n} dates for {m} images: give one date for each', { n: args.dates.length, m: pick.length }, 'E_NEED_DATES');
         const l = await stack(pick.map((x) => x.l), { band: (args.band ?? 1) - 1, dates: args.dates ?? null });
         return { id: l.id, dates: datesOf(l), resampled: l.resampled };
       }
