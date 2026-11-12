@@ -53,7 +53,7 @@ export function install(app) {
   }
   const series = (l = app.activeLayer()) => {
     const d = datesOf(l);
-    if (!d || d.length < 2) throw gwError('{layer} is not a time series: it needs a date on every band (a NetCDF time axis, or Time Stack)', { layer: l?.rec?.name ?? '—' }, 'E_NEED_SERIES');
+    if (!d || d.length < 2) throw gwError('{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)', { layer: l?.rec?.name ?? '—' }, 'E_NEED_SERIES');
     return { l, dates: d };
   };
   const label = (iso) => {
@@ -421,7 +421,7 @@ export function install(app) {
     const l = active();
     if (!l) {
       panel.ui = null;
-      el.replaceChildren(h('p', { class: 'hint' }, t('Select a time series: a layer with a date on every band (a NetCDF time axis, or Analyze ▸ Time Stack).')));
+      el.replaceChildren(h('p', { class: 'hint' }, t('Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).')));
       return;
     }
     const dates = datesOf(l);
@@ -454,7 +454,7 @@ export function install(app) {
     const mode = h('select', { class: 'inp', 'aria-label': t('Profile of') }, h('option', { value: 'cursor' }, t('Cursor')), h('option', { value: 'pinned' }, t('Pinned point')), h('option', { value: 'aoi' }, t('AOI mean')));
     mode.addEventListener('change', () => {
       panel.mode = mode.value;
-      refreshProfile(l);
+      refreshProfile(l).catch((e) => toast(msgOf(e), { kind: 'error' }));
     });
     const pin = h('button', { class: 'btn', type: 'button' }, t('Pin the cursor'));
     pin.addEventListener('click', () => {

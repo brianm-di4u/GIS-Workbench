@@ -249,6 +249,7 @@ export function install(app) {
   };
   const call = (prm) => app.pool.run('network', { prm, data: graph().data }, { kind: 'analysis', label: t('road network'), timeout: 300000 });
   const snap = (at) => {
+    if (!Array.isArray(at) || !Number.isFinite(at[0]) || !Number.isFinite(at[1])) throw gwError('A route needs a start and an end, and a service area a place to start from', {}, 'E_NEED_ROADS');
     const { g } = graph();
     const s = nearestNode(g, at);
     if (s.node < 0 || s.metres > SNAP_M) throw gwError('That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions', { d: fmtLength(s.metres), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');

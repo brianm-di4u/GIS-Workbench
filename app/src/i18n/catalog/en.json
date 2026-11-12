@@ -966,6 +966,13 @@
    ]
   },
   {
+   "key": "A route needs a start and an end, and a service area a place to start from",
+   "src": "A route needs a start and an end, and a service area a place to start from",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "A route needs at least two waypoints",
    "src": "A route needs at least two waypoints",
    "refs": [
@@ -2983,8 +2990,8 @@
    ]
   },
   {
-   "key": "Analyze ▸ Time Series works on a layer with a date on every band: a NetCDF time axis, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
-   "src": "Analyze ▸ Time Series works on a layer with a date on every band: a NetCDF time axis, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
+   "key": "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
+   "src": "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
    "refs": [
     "features/dialogs.js"
    ]
@@ -35739,8 +35746,8 @@
    ]
   },
   {
-   "key": "Select a time series: a layer with a date on every band (a NetCDF time axis, or Analyze ▸ Time Stack).",
-   "src": "Select a time series: a layer with a date on every band (a NetCDF time axis, or Analyze ▸ Time Stack).",
+   "key": "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).",
+   "src": "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).",
    "refs": [
     "features/timeseries-tools.js"
    ]
@@ -64181,8 +64188,8 @@
    ]
   },
   {
-   "key": "{layer} is not a time series: it needs a date on every band (a NetCDF time axis, or Time Stack)",
-   "src": "{layer} is not a time series: it needs a date on every band (a NetCDF time axis, or Time Stack)",
+   "key": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
+   "src": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
    "refs": [
     "features/timeseries-tools.js"
    ]
