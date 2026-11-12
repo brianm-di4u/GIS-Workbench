@@ -22,6 +22,10 @@ When a revert isn't possible, open a PR that fixes the problem and include this 
 Fixes-main-red: #<issue>
 ```
 
+## When main goes red because of GitHub
+
+If a post-merge run fails only because GitHub did (a download returns a 504, or jobs never start), it is re-run once on its own, and no main-red issue opens for that first attempt unless the re-run doesn't happen. A failed build, lint or test step is never retried. See decision 0011. If the re-run is red too, the issue opens and the rest of this page applies.
+
 ## What a revert won't undo
 
 - **Published releases.** Their files and hashes are public and stay so. A revert on main does not change them.

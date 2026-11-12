@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { loadConfig } from './lib/config.mjs';
 import { changeSet, tryGit } from './lib/git.mjs';
 import { acquire } from './lib/machine-lock.mjs';
+import { installProblem } from './lib/node-modules.mjs';
 
 const LEVELS = ['fast', 'full', 'e2e'];
 
@@ -44,6 +45,13 @@ async function main() {
   const level = process.argv[2];
   if (!LEVELS.includes(level)) {
     console.error(`Usage: verify.mjs <${LEVELS.join('|')}>`);
+    return 2;
+  }
+  // A stale node_modules fails a long queued run for a reason that isn't the change, so say so first.
+  // The sidecar leg runs only cargo steps and installs no npm packages, so it has nothing to check.
+  const stale = process.env.GWB_LEG === 'sidecar' ? null : installProblem();
+  if (stale) {
+    console.error(stale);
     return 2;
   }
   const configured = loadConfig().verify[level];

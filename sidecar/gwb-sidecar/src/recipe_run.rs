@@ -51,7 +51,8 @@ const CHUNK: u64 = 4 << 20;
 struct Args {
     check: bool,
     recipe: Option<String>,
-    /// (name, file): "open", or the id of the step that gets the file.
+    /// (name, file): the id of the step that gets the file, or "" for a file to open in the app
+    /// (no step id is empty, so a step may be called anything, "open" included).
     inputs: Vec<(String, PathBuf)>,
     out: Option<PathBuf>,
     gates: String,
@@ -78,19 +79,25 @@ impl Default for Args {
 }
 
 /// `--in` takes `STEP=FILE` when what comes before the first `=` is a step id (letters, digits,
-/// `-` and `_`), else the whole value is a file to open.
+/// `-` and `_`), else the whole value is a file to open. A file whose own name looks like that
+/// (`site=2024.tif`) is taken whole when it exists and the part after `=` doesn't.
 fn input(v: &str) -> (String, PathBuf) {
+    input_with(v, |p| p.is_file())
+}
+
+fn input_with(v: &str, is_file: impl Fn(&Path) -> bool) -> (String, PathBuf) {
     if let Some((name, file)) = v.split_once('=') {
         if !name.is_empty()
             && !file.is_empty()
             && name
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
+            && !(is_file(Path::new(v)) && !is_file(Path::new(file)))
         {
             return (name.to_string(), PathBuf::from(file));
         }
     }
-    ("open".to_string(), PathBuf::from(v))
+    (String::new(), PathBuf::from(v))
 }
 
 fn parse(argv: &[String]) -> Result<Args, String> {
@@ -222,6 +229,31 @@ impl Drop for WorkDir {
     }
 }
 
+/// A run's folder is removed when the run ends; one that was killed (Task Scheduler's time limit,
+/// `systemctl stop`) leaves its folder behind. A later run removes those once they are this old,
+/// well past any run still going.
+const STALE_AFTER: Duration = Duration::from_secs(2 * 24 * 3600);
+
+/// Remove `gwb-run-<12 hex>` folders in `temp` last changed more than `age` ago.
+fn sweep_work_dirs(temp: &Path, age: Duration) {
+    let Ok(entries) = std::fs::read_dir(temp) else {
+        return;
+    };
+    for e in entries.flatten() {
+        let name = e.file_name().to_string_lossy().into_owned();
+        let ours = name
+            .strip_prefix("gwb-run-")
+            .is_some_and(|h| h.len() == 12 && h.bytes().all(|b| b.is_ascii_hexdigit()));
+        let old = e
+            .metadata()
+            .and_then(|m| m.modified())
+            .is_ok_and(|t| t.elapsed().is_ok_and(|d| d >= age));
+        if ours && old && e.path().is_dir() {
+            let _ = std::fs::remove_dir_all(e.path());
+        }
+    }
+}
+
 /// A started browser with the verified app open in its page. Fields drop in order: the browser
 /// goes (and lets go of its profile) before its folder is removed.
 struct Session {
@@ -236,6 +268,7 @@ fn start(args: &Args) -> Result<Session, String> {
     // The verified bytes, written into this run's own folder: the browser opens that copy, so the
     // file it runs is the one that was checked.
     let html = crate::appserve::load(&app_dir(args), "")?;
+    sweep_work_dirs(&std::env::temp_dir(), STALE_AFTER);
     let work =
         WorkDir(std::env::temp_dir().join(format!("gwb-run-{}", crate::util::random_hex(6))));
     let page_dir = work.0.join("page");
@@ -580,7 +613,7 @@ fn output_names(raw: Vec<&str>) -> Vec<String> {
             let clean: String = last
                 .chars()
                 .map(|c| {
-                    if c.is_control() || "<>:\"|?*".contains(c) {
+                    if c.is_control() || "<>:\"|?*\u{202e}\u{feff}".contains(c) {
                         '_'
                     } else {
                         c
@@ -588,7 +621,9 @@ fn output_names(raw: Vec<&str>) -> Vec<String> {
                 })
                 .collect();
             let clean = clean.trim_matches([' ', '.']).to_string();
+            // A Windows device name (nul.json, con.tif) would write to the device, not a file.
             let base = if clean.is_empty()
+                || crate::paths::is_reserved(&clean)
                 || clean.eq_ignore_ascii_case("gwb-run.log")
                 || clean.eq_ignore_ascii_case("gwb-run.json")
             {
@@ -638,7 +673,7 @@ fn provenance(args: &Args, job: &Job, status: &Value, build: &str, started: &str
                     .unwrap_or_default()
                     .to_string_lossy()
                     .into_owned();
-                if n == "open" {
+                if n.is_empty() {
                     f
                 } else {
                     format!("{n}={f}")
@@ -803,8 +838,8 @@ mod tests {
             a.inputs,
             vec![
                 ("s1".to_string(), PathBuf::from("C:\\in\\a=b.tif")),
-                ("open".to_string(), PathBuf::from("C:\\in\\x=1.tif")),
-                ("open".to_string(), PathBuf::from("/data/y.tif")),
+                (String::new(), PathBuf::from("C:\\in\\x=1.tif")),
+                (String::new(), PathBuf::from("/data/y.tif")),
             ]
         );
         assert_eq!(
@@ -857,6 +892,59 @@ mod tests {
     }
 
     #[test]
+    fn a_file_whose_name_looks_like_step_equals_file_is_taken_whole() {
+        // Only "site=2024.tif" exists, as a relative name in the working folder.
+        let exists = |p: &Path| p == Path::new("site=2024.tif");
+        assert_eq!(
+            (
+                input_with("site=2024.tif", exists),
+                input_with("s1=site=2024.tif", exists),
+                input_with("s1=other.tif", exists),
+            ),
+            (
+                (String::new(), PathBuf::from("site=2024.tif")),
+                ("s1".to_string(), PathBuf::from("site=2024.tif")),
+                ("s1".to_string(), PathBuf::from("other.tif")),
+            )
+        );
+    }
+
+    #[test]
+    fn a_later_run_removes_work_folders_left_by_killed_runs() {
+        let temp =
+            std::env::temp_dir().join(format!("gwb-run-sweep-{}", crate::util::random_hex(4)));
+        for d in [
+            "gwb-run-0123456789ab",
+            "gwb-run-t-0123",
+            "gwb-run-0123456789abX",
+            "other",
+        ] {
+            std::fs::create_dir_all(temp.join(d)).unwrap();
+        }
+        std::fs::write(temp.join("gwb-run-fedcba987654"), b"a file, not a folder").unwrap();
+        sweep_work_dirs(&temp, Duration::from_secs(3600));
+        let young = std::fs::read_dir(&temp).unwrap().count();
+        sweep_work_dirs(&temp, Duration::ZERO);
+        let mut left: Vec<String> = std::fs::read_dir(&temp)
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .collect();
+        left.sort();
+        let _ = std::fs::remove_dir_all(&temp);
+        assert_eq!(young, 5, "a young folder is kept");
+        assert_eq!(
+            left,
+            [
+                "gwb-run-0123456789abX",
+                "gwb-run-fedcba987654",
+                "gwb-run-t-0123",
+                "other"
+            ]
+        );
+    }
+
+    #[test]
     fn output_names_are_safe_and_distinct() {
         assert_eq!(
             output_names(vec![
@@ -868,6 +956,9 @@ mod tests {
                 "gwb-run.log",
                 "",
                 "..",
+                "nul.json",
+                "Con.tif",
+                "x\u{202e}y.txt",
             ]),
             vec![
                 "a.tif",
@@ -878,6 +969,9 @@ mod tests {
                 "output-gwb-run.log",
                 "output-",
                 "output- (2)",
+                "output-nul.json",
+                "output-Con.tif",
+                "x_y.txt",
             ]
         );
     }
@@ -890,7 +984,7 @@ mod tests {
             recipe: None,
             params: json!({}),
             inputs: vec![
-                ("open".into(), PathBuf::from("/d/a.tif")),
+                (String::new(), PathBuf::from("/d/a.tif")),
                 ("s1".into(), PathBuf::from("/d/b.geojson")),
             ],
             out: PathBuf::from("o"),
@@ -921,7 +1015,7 @@ mod tests {
             out: Some(out.clone()),
             ..Default::default()
         };
-        a.inputs = vec![("open".into(), dir.join("missing.tif"))];
+        a.inputs = vec![(String::new(), dir.join("missing.tif"))];
         assert!(Job::prepare(&a).err().unwrap().contains("no input file"));
         a.inputs.clear();
         a.recipe = Some(dir.join("missing.gwrecipe.json").display().to_string());

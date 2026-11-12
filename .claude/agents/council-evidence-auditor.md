@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Bash
 disallowedTools: Edit, Write, NotebookEdit, Agent
 model: sonnet
 effort: medium
-maxTurns: 25
+maxTurns: 80
 ---
 
 You are the evidence auditor on a code review council. The question isn't whether tests pass. It's whether the evidence proves this change does what it claims.
