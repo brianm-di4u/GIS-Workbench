@@ -71,6 +71,8 @@ export const MAIN_TABS = [
       { label: N_('Triangulation'), items: [S('tri.mip'), S('tri.tiepoints'), S('tri.adjust'), S('tri.frame'), S('tri.solutions'), S('tri.aero'), S('tri.resect'), S('tri.fiducials')] },
       { label: N_('Ortho'), items: [S('ortho.rectify'), S('ortho.true'), S('ortho.mosaic'), S('ortho.seam'), S('ortho.balance')] },
       { label: N_('Coordinates'), items: [L('geo.convert'), S('geo.grid', { kind: 'split' }), S('geo.datum'), S('geo.transform'), S('geo.locate')] },
+      // On the Geospatial tab, not Image Tools: these work on vector layers, with or without an image open.
+      { label: N_('Addresses and Routes'), items: [S('addr.index'), S('addr.find'), S('addr.batch'), S('addr.reverse'), S('route.roads'), S('route.shortest'), S('route.service')] },
       { label: N_('Online'), items: [S('online.add'), S('online.backgrounds'), S('svc.connect'), S('online.identify'), S('net.signin'), S('net.portal')] },
       { label: N_('Aviation'), items: [S('los.airports'), S('los.obstruction')] },
     ],
@@ -161,6 +163,7 @@ export const CONTEXT_SETS = [
           { label: N_('Profile'), items: [S('profile.spectral'), S('profile.elevation')] },
           { label: N_('Pixel Values'), items: [L('display.pixels')] },
           { label: N_('Spectral'), items: [L('search.find'), S('msi.bandmath'), S('msi.index.ndvi'), S('msi.radiometric'), S('msi.stack'), S('msi.thermal'), S('msi.cluster'), S('msi.detect'), S('msi.pca'), S('msi.endmembers'), S('msi.xport')] },
+          { label: N_('Time Series'), items: [S('ts.stack'), S('ts.panel'), S('ts.trend'), S('ts.anomaly')] },
           { label: N_('SAR'), items: [S('sar.view', { kind: 'combo' }), S('sar.anamorphic', { kind: 'toggle' }), S('sar.ccd', { kind: 'split' })] },
         ],
       },

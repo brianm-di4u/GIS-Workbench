@@ -86,6 +86,8 @@ import * as vendorModels from './vendor-models.js'; // lazy js-vendor block (REQ
 import { lidarreg } from './lidarreg-lazy.js'; // lazy js-lidarreg block (2.5, REQ-GAP-46)
 import * as sarStereo from './sarstereo-lazy.js'; // lazy js-sarstereo block
 import * as tin from './tin.js'; // lazy js-tin block (REQ-GAP-39)
+import * as timeseries from './timeseries.js'; // lazy js-timeseries block (REQ-GAP-83)
+import * as routing from './routing.js'; // lazy js-routing block (REQ-GAP-85)
 import * as models3d from './models3d-lazy.js'; // lazy js-models3d block (2.5, REQ-GAP-35, REQ-GAP-68)
 import * as aviation from './aviation.js'; // 2.5 aviation (GR-27): lazy js-aviation block
 import * as hydrology from './hydrology.js'; // 2.7.0 hydrology (REQ-GAP-80): lazy js-hydrology block
@@ -93,4 +95,4 @@ import * as geoprocessing from './geoprocessing.js'; // 2.7.0 vector geoprocessi
 import * as workflow from './workflow.js'; // 2.7.1 workflow builder (REQ-GAP-84): lazy js-workflow block
 import * as sarTerrain from './sar-terrain.js'; // 2.7.4 SAR terrain correction (REQ-GAP-90): lazy js-sargeo block
 
-export const FEATURES = [hud, basemaps, tilesets, globe, catalog, convert, navigation, readout, files, footprint, enhance, enhanceTools, analyze, panels, views, measure, dem, compare, dialogs, graphics, change, feedback, ai, online, products, productPages, extract, register, prefsUi, workspaceTools, aoi, fusion, measureExtras, aiExtras, triangulation, stereo, terrainExtract, demTools, ortho, terrainAnalysis, pointcloud, attribution, extractR2, scene3d, symbology, finishing, devices, release, frames, ootf, sar, sar21, spectral, spectralAnalysis, fmv, packs, datumGrids, aiLocal, aiSam, recipes, hubBridges, detections, observations, media, mie, remoteEdit, stereoOut, terrainFolder, automation, sidecar, gdalroutes, sfm, pansharpen, services, signin, geopdf, field, csm, ossim, vendorModels, lidarreg, aero, sarStereo, tin, models3d, streams, aviation, hydrology, geoprocessing, workflow, sarTerrain];
+export const FEATURES = [hud, basemaps, tilesets, globe, catalog, convert, navigation, readout, files, footprint, enhance, enhanceTools, analyze, panels, views, measure, dem, compare, dialogs, graphics, change, feedback, ai, online, products, productPages, extract, register, prefsUi, workspaceTools, aoi, fusion, measureExtras, aiExtras, triangulation, stereo, terrainExtract, demTools, ortho, terrainAnalysis, pointcloud, attribution, extractR2, scene3d, symbology, finishing, devices, release, frames, ootf, sar, sar21, spectral, spectralAnalysis, fmv, packs, datumGrids, aiLocal, aiSam, recipes, hubBridges, detections, observations, media, mie, remoteEdit, stereoOut, terrainFolder, automation, sidecar, gdalroutes, sfm, pansharpen, services, signin, geopdf, field, csm, ossim, vendorModels, lidarreg, aero, sarStereo, tin, timeseries, routing, models3d, streams, aviation, hydrology, geoprocessing, workflow, sarTerrain];

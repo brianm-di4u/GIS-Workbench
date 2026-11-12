@@ -5,7 +5,7 @@
 // raster; its leading dimensions (time, level, record) are bands, as GDAL presents them.
 // Georeferencing and packing use the CF logic shared with the NetCDF-4 reader (cf.js).
 
-import { att, num, nums, packing, axisOf, unitScale, geotransform, gridMapping, unrotate, gcpGrid } from './cf.js';
+import { att, num, nums, packing, axisOf, unitScale, geotransform, gridMapping, unrotate, gcpGrid, cfTime } from './cf.js';
 import { gwError } from '../../i18n/index.js';
 import { wasmError, nested } from '../errors.js';
 
@@ -234,7 +234,11 @@ export async function openNetcdf3(file, lx) {
     // Bands: names from the leading dimensions' coordinate values.
     const coords = await Promise.all(lead.map(async (d) => {
       const cv = byName.get(h.dims[d].name);
-      return cv && cv.dims.length === 1 ? { name: h.dims[d].name, vals: await readAll(cv), units: String(att(cv.attrs, 'units') ?? '') } : { name: h.dims[d].name, vals: null, units: '' };
+      if (!(cv && cv.dims.length === 1)) return { name: h.dims[d].name, vals: null, units: '' };
+      const units = String(att(cv.attrs, 'units') ?? '');
+      // A time axis keeps its dates (REQ-GAP-83): "days since …" in the coordinate's calendar.
+      const time = axisOf(cv.name, cv.attrs) === 't' ? cfTime(units, att(cv.attrs, 'calendar')) : null;
+      return { name: h.dims[d].name, vals: await readAll(cv), units, time, calendar: time ? String(att(cv.attrs, 'calendar') || 'standard').toLowerCase() : null };
     }));
     const bandsMeta = Array.from({ length: NB }, (_, b) => {
       let r = b;
@@ -243,10 +247,22 @@ export async function openNetcdf3(file, lx) {
         idx[k] = r % leadShape[k];
         r = Math.floor(r / leadShape[k]);
       }
-      const label = idx.map((i, k) => `${coords[k].name}=${coords[k].vals ? coords[k].vals[i] : i}`).join(' ');
+      let time;
+      let calendar;
+      const label = idx
+        .map((i, k) => {
+          const c = coords[k];
+          const iso = c.vals && c.time ? c.time(c.vals[i]) : null;
+          if (iso && !time) {
+            time = iso;
+            calendar = c.calendar;
+          }
+          return `${c.name}=${iso ?? (c.vals ? c.vals[i] : i)}`;
+        })
+        .join(' ');
       const c0 = coords[0];
       const wl = lead.length === 1 && c0.vals && /^(nm|nanomet|um|µm|micromet|microns?)/i.test(c0.units) ? (/^nm|nanomet/i.test(c0.units) ? c0.vals[idx[0]] / 1000 : c0.vals[idx[0]]) : NaN;
-      return { name: label || v.name, cw: wl, fwhm: NaN, bad: false };
+      return { name: label || v.name, cw: wl, fwhm: NaN, bad: false, ...(time ? { time, calendar } : {}) };
     });
     // A record variable of two dimensions has one row per record (its y is the unlimited dimension).
     const rowRec = v.record && lead.length === 0;

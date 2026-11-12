@@ -280,6 +280,28 @@ export function install(app) {
       return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
     } },
     ...TYPED,
+    // Time series (REQ-GAP-83) on the active layer, no dialog.
+    timeTrend: { title: N_('Temporal trend'), pythonHint: 'gw.time_trend()', run: async () => {
+      const l = await app.timeseries.trend();
+      return { summary: t('Trend of {n} pixels', { n: l.width * l.height }) };
+    } },
+    timeAnomaly: { title: N_('Temporal anomaly'), defaults: { from: '', to: '', by: 'month', z: false }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
+      const l = await app.timeseries.anomaly(undefined, { from, to, by, z });
+      return { summary: t('{n, plural, one {# date} other {# dates}}', { n: l.bands }) };
+    } },
+    // Geocoding and routing on the user's own data (REQ-GAP-85): the index and the network come first (addr.index, route.roads).
+    geocodeTable: { title: N_('Geocode a table'), defaults: { address: 'address', place: '' }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
+      const r = await app.routing.geocodeTable(text, { address, place });
+      return { summary: t('{ok} of {n} addresses found', { ok: r.matched, n: r.matched + r.unmatched }) };
+    } },
+    route: { title: N_('Shortest route'), defaults: { from: null, to: null }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
+      const r = await app.routing.route(from, to);
+      return { summary: r ? t('Route of {n} m', { n: Math.round(r.metres) }) : t('No route') };
+    } },
+    serviceArea: { title: N_('Service area'), defaults: { at: null, breaks: [300, 600] }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
+      const r = await app.routing.serviceArea(at, breaks);
+      return { summary: t('{n} nodes reached', { n: r.nodes }) };
+    } },
     // Most commands open a dialog, and nothing says which: a run with nobody at the page refuses them all.
     command: { title: N_('Run a command'), schema: { id: { type: 'text', label: N_('Command id'), default: '' } }, dialog: () => true, run: async ({ id, args }) => {
       await C.run(id, args);

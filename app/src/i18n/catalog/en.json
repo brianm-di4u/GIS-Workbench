@@ -171,6 +171,7 @@
    "src": "(none)",
    "refs": [
     "features/attribution.js",
+    "features/routing-tools.js",
     "features/scene3d.js",
     "features/workspace-tools.js",
     "sidecar/feature.js"
@@ -261,6 +262,13 @@
     "crates/gw-geodesy/src/grids.rs"
    ],
    "error": true
+  },
+  {
+   "key": "12 Main Street, Springfield",
+   "src": "12 Main Street, Springfield",
+   "refs": [
+    "features/routing-tools.js"
+   ]
   },
   {
    "key": "16-bit GeoTIFF",
@@ -972,6 +980,13 @@
    ]
   },
   {
+   "key": "A route needs a start and an end, and a service area a place to start from",
+   "src": "A route needs a start and an end, and a service area a place to start from",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "A route needs at least two waypoints",
    "src": "A route needs at least two waypoints",
    "refs": [
@@ -997,6 +1012,27 @@
    "src": "A single image cannot tell its own horizontal error from a horizontal shift of the cloud: their split follows the a priori σ. Surveyed points on the cloud fix the vertical shift.",
    "refs": [
     "features/lidarreg.js"
+   ]
+  },
+  {
+   "key": "A table with \"from\" and \"to\" road ids: no turn from the first road onto the second where they meet.",
+   "src": "A table with \"from\" and \"to\" road ids: no turn from the first road onto the second where they meet.",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "A time stack needs at least two dated images",
+   "src": "A time stack needs at least two dated images",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "A turn-ban table needs a \"from\" and a \"to\" column of road ids",
+   "src": "A turn-ban table needs a \"from\" and a \"to\" column of road ids",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -1458,6 +1494,13 @@
    "src": "AOI from {name}",
    "refs": [
     "features/aoi.js"
+   ]
+  },
+  {
+   "key": "AOI mean",
+   "src": "AOI mean",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -2236,7 +2279,72 @@
    "key": "Address",
    "src": "Address",
    "refs": [
-    "features/catalog.js"
+    "features/catalog.js",
+    "features/navigation.js",
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address Index",
+   "src": "Address Index",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address Index…",
+   "src": "Address Index…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Address column",
+   "src": "Address column",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address index",
+   "src": "Address index",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address index of {n} addresses on {s} streets",
+   "src": "Address index of {n} addresses on {s} streets",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address index of {n} addresses on {s} streets opened",
+   "src": "Address index of {n} addresses on {s} streets opened",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address index: {name}",
+   "src": "Address index: {name}",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address layer",
+   "src": "Address layer",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Address table",
+   "src": "Address table",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -2244,6 +2352,20 @@
    "src": "Address you were sent back to",
    "refs": [
     "features/signin-ui.js"
+   ]
+  },
+  {
+   "key": "Addresses and Routes",
+   "src": "Addresses and Routes",
+   "refs": [
+    "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Addresses and routes",
+   "src": "Addresses and routes",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {
@@ -2739,6 +2861,13 @@
    ]
   },
   {
+   "key": "Also save the index as a GeoPackage",
+   "src": "Also save the index as a GeoPackage",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Alternate rows for passive 3D monitors.",
    "src": "Alternate rows for passive 3D monitors.",
    "refs": [
@@ -2910,6 +3039,13 @@
    ]
   },
   {
+   "key": "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
+   "src": "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Anamorphic Correction",
    "src": "Anamorphic Correction",
    "refs": [
@@ -3047,6 +3183,20 @@
    "src": "Annotation geolocation grid ({lines} × {pixels} points)",
    "refs": [
     "formats/model-names.js"
+   ]
+  },
+  {
+   "key": "Anomaly z-score — {layer}",
+   "src": "Anomaly z-score — {layer}",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Anomaly — {layer}",
+   "src": "Anomaly — {layer}",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -3365,6 +3515,20 @@
    "src": "Arrows",
    "refs": [
     "features/dialogs.js"
+   ]
+  },
+  {
+   "key": "As a z-score",
+   "src": "As a z-score",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "As a z-score (divided by the baseline standard deviation)",
+   "src": "As a z-score (divided by the baseline standard deviation)",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -4125,7 +4289,8 @@
    "refs": [
     "features/analyze.js",
     "features/spectral-analysis.js",
-    "features/spectral.js"
+    "features/spectral.js",
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -4337,6 +4502,27 @@
    "src": "Base tool",
    "refs": [
     "features/attribution.js"
+   ]
+  },
+  {
+   "key": "Baseline from",
+   "src": "Baseline from",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Baseline to",
+   "src": "Baseline to",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Baseline {from} to {to}",
+   "src": "Baseline {from} to {to}",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -4755,6 +4941,20 @@
    ]
   },
   {
+   "key": "Breaks (metres)",
+   "src": "Breaks (metres)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Breaks (minutes)",
+   "src": "Breaks (minutes)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Bridge deck",
    "src": "Bridge deck",
    "refs": [
@@ -4928,6 +5128,7 @@
    "key": "Build",
    "src": "Build",
    "refs": [
+    "features/routing-tools.js",
     "feedback/review.js"
    ]
   },
@@ -4967,6 +5168,13 @@
    ]
   },
   {
+   "key": "Building a time stack…",
+   "src": "Building a time stack…",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Building extraction",
    "src": "Building extraction",
    "refs": [
@@ -4988,10 +5196,24 @@
    ]
   },
   {
+   "key": "Building the address index…",
+   "src": "Building the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Building the orthomosaic…",
    "src": "Building the orthomosaic…",
    "refs": [
     "features/ortho.js"
+   ]
+  },
+  {
+   "key": "Building the road network…",
+   "src": "Building the road network…",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -5045,6 +5267,13 @@
    ]
   },
   {
+   "key": "Builds a road network from your own line layer, with one-way streets and speeds from its fields.",
+   "src": "Builds a road network from your own line layer, with one-way streets and speeds from its fields.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Builds a simple model for an image from ground control points.",
    "src": "Builds a simple model for an image from ground control points.",
    "refs": [
@@ -5056,6 +5285,13 @@
    "src": "Builds a surface model from a stereo pair.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Builds an address index from your own address layer (points with a number and street, or streets with number ranges), and can save it as a GeoPackage.",
+   "src": "Builds an address index from your own address layer (points with a number and street, or streets with number ranges), and can save it as a GeoPackage.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -7243,6 +7479,20 @@
    ]
   },
   {
+   "key": "Click a place to find its address",
+   "src": "Click a place to find its address",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Click a place to get the nearest address in your address index.",
+   "src": "Click a place to get the nearest address in your address index.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Click a place: lists the vector-tile features there with their attributes.",
    "src": "Click a place: lists the vector-tile features there with their attributes.",
    "refs": [
@@ -7268,6 +7518,13 @@
    "src": "Click a polygon to set the area that analysis tools work on.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Click a start and an end: the fastest or shortest route on the road network.",
+   "src": "Click a start and an end: the fastest or shortest route on the road network.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -7313,6 +7570,13 @@
    ]
   },
   {
+   "key": "Click the end",
+   "src": "Click the end",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Click the object to outline (corners will be squared).",
    "src": "Click the object to outline (corners will be squared).",
    "refs": [
@@ -7352,6 +7616,13 @@
    "src": "Click the pour point (a gauge or outlet).",
    "refs": [
     "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Click the start",
+   "src": "Click the start",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -8172,6 +8443,13 @@
    ]
   },
   {
+   "key": "Compare with",
+   "src": "Compare with",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Compares a DSM with a reference DEM: bias, NMAD, RMSE, LE90, completeness and the masked share, by slope, and how well the stated σ predicts the error.",
    "src": "Compares a DSM with a reference DEM: bias, NMAD, RMSE, LE90, completeness and the masked share, by slope, and how well the stated σ predicts the error.",
    "refs": [
@@ -8913,6 +9191,13 @@
    ]
   },
   {
+   "key": "Cost",
+   "src": "Cost",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Could not do that here: {msg}",
    "src": "Could not do that here: {msg}",
    "refs": [
@@ -9128,6 +9413,7 @@
    "key": "Cursor",
    "src": "Cursor",
    "refs": [
+    "features/timeseries-tools.js",
     "shell/ribbon-data.js"
    ]
   },
@@ -9760,6 +10046,7 @@
    "key": "Date",
    "src": "Date",
    "refs": [
+    "features/timeseries-tools.js",
     "shell/workspace.js"
    ]
   },
@@ -9806,10 +10093,31 @@
    ]
   },
   {
+   "key": "Date {date}",
+   "src": "Date {date}",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Date/time",
    "src": "Date/time",
    "refs": [
     "shell/workspace.js"
+   ]
+  },
+  {
+   "key": "Dates per second",
+   "src": "Dates per second",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Dates used",
+   "src": "Dates used",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -10418,6 +10726,7 @@
    "src": "Distance",
    "refs": [
     "features/recipes.js",
+    "features/routing-tools.js",
     "shell/commands.js",
     "tools/menlog.js",
     "tools/tools.js"
@@ -11469,6 +11778,13 @@
    ]
   },
   {
+   "key": "Each date of a time series against a baseline period, as a difference or a z-score, compared with the same calendar month or the whole baseline.",
+   "src": "Each date of a time series against a baseline period, as a difference or a z-score, compared with the same calendar month or the whole baseline.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Each edit is kept in the project and undoes with Ctrl+Z. Esc ends the tool.",
    "src": "Each edit is kept in the project and undoes with Ctrl+Z. Esc ends the tool.",
    "refs": [
@@ -12403,6 +12719,13 @@
     "features/fmv.js",
     "features/measure.js",
     "features/panels.js"
+   ]
+  },
+  {
+   "key": "Export CSV…",
+   "src": "Export CSV…",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -13348,6 +13671,20 @@
    ]
   },
   {
+   "key": "Find Address",
+   "src": "Find Address",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Find Address…",
+   "src": "Find Address…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Find Objects (AI)…",
    "src": "Find Objects (AI)…",
    "refs": [
@@ -13522,6 +13859,20 @@
    "src": "Finding {query}…",
    "refs": [
     "features/ai-local.js"
+   ]
+  },
+  {
+   "key": "Finds an address in your address index, with spelling slips forgiven, and marks it. Nothing is sent anywhere.",
+   "src": "Finds an address in your address index, with spelling slips forgiven, and marks it. Nothing is sent anywhere.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Finds every address in a CSV table, as points with how they matched and a score.",
+   "src": "Finds every address in a CSV table, as points with how they matched and a score.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -13776,6 +14127,20 @@
    "src": "Fits a plane (offset and slope east and north) instead of an offset alone.",
    "refs": [
     "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "Fits a straight line through each pixel of a time series: the slope per year, its p-value and the number of dates used.",
+   "src": "Fits a straight line through each pixel of a time series: the slope per year, its p-value and the number of dates used.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Fits a straight line through each pixel over its {n} dates ({from} to {to}), skipping missing values. The result has three bands: the slope per year, its two-sided p-value, and the number of dates used.",
+   "src": "Fits a straight line through each pixel over its {n} dates ({from} to {to}), skipping missing values. The result has three bands: the slope per year, its two-sided p-value, and the number of dates used.",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -14174,6 +14539,13 @@
    ]
   },
   {
+   "key": "Found: {q}",
+   "src": "Found: {q}",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Frame",
    "src": "Frame",
    "refs": [
@@ -14329,6 +14701,13 @@
    "src": "From date",
    "refs": [
     "features/catalog.js"
+   ]
+  },
+  {
+   "key": "From images with more than one band, this band is stacked.",
+   "src": "From images with more than one band, this band is stacked.",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -15209,10 +15588,52 @@
    ]
   },
   {
+   "key": "Geocode",
+   "src": "Geocode",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Geocode a Table",
+   "src": "Geocode a Table",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Geocode a Table…",
+   "src": "Geocode a Table…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Geocode a table",
+   "src": "Geocode a table",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
+   "key": "Geocoded",
+   "src": "Geocoded",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.",
    "src": "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Geocoding a table…",
+   "src": "Geocoding a table…",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -15324,6 +15745,13 @@
    ]
   },
   {
+   "key": "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
+   "src": "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Geospatial ▸ Convert Coordinates converts between DD, DMS, DDM, MGRS (truncated), USNG, UTM/UPS, GARS and GEOREF. Jump to Point accepts any of them.",
    "src": "Geospatial ▸ Convert Coordinates converts between DD, DMS, DDM, MGRS (truncated), USNG, UTM/UPS, GARS and GEOREF. Jump to Point accepts any of them.",
    "refs": [
@@ -15343,6 +15771,13 @@
    "refs": [
     "features/dialogs.js",
     "features/panels.js"
+   ]
+  },
+  {
+   "key": "Give at least one break greater than zero",
+   "src": "Give at least one break greater than zero",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -16857,6 +17292,13 @@
    ]
   },
   {
+   "key": "House number",
+   "src": "House number",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "How will you mostly work?",
    "src": "How will you mostly work?",
    "refs": [
@@ -17454,6 +17896,13 @@
    ]
   },
   {
+   "key": "Images on another grid are resampled to the grid of the earliest one, inside the AOI when there is one.",
+   "src": "Images on another grid are resampled to the grid of the earliest one, inside the AOI when there is one.",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Images per second ÷ 2",
    "src": "Images per second ÷ 2",
    "refs": [
@@ -17879,6 +18328,13 @@
    "src": "Inside a hosting service the tool is a viewer with light editing. File pickers, downloads, fullscreen and storage depend on the host frame (Help ▸ About & Diagnostics lists what is available).",
    "refs": [
     "features/dialogs.js"
+   ]
+  },
+  {
+   "key": "Inside the AOI when there is one.",
+   "src": "Inside the AOI when there is one.",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -19915,6 +20371,13 @@
    ]
   },
   {
+   "key": "Layer style",
+   "src": "Layer style",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Layer visibility",
    "src": "Layer visibility",
    "refs": [
@@ -20095,6 +20558,20 @@
    "src": "Left image",
    "refs": [
     "sidecar/native-ui.js"
+   ]
+  },
+  {
+   "key": "Left side, first number",
+   "src": "Left side, first number",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Left side, last number",
+   "src": "Left side, last number",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -22382,6 +22859,13 @@
    ]
   },
   {
+   "key": "Matches",
+   "src": "Matches",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Matches an image with the point cloud’s intensity and hillshade, makes control from the cloud and solves the image correction with an optional datum shift of the cloud.",
    "src": "Matches an image with the point cloud’s intensity and hillshade, makes control from the cloud and solves the image correction with an optional datum shift of the cloud.",
    "refs": [
@@ -22541,6 +23025,13 @@
    "src": "Mean (boxcar)",
    "refs": [
     "features/sar.js"
+   ]
+  },
+  {
+   "key": "Mean of {n} pixels on the date shown: {v}",
+   "src": "Mean of {n} pixels on the date shown: {v}",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -23460,6 +23951,13 @@
    "src": "Move the cursor over an image.",
    "refs": [
     "features/analyze.js"
+   ]
+  },
+  {
+   "key": "Move the cursor over the image, pin a point, or draw an AOI.",
+   "src": "Move the cursor over the image, pin a point, or draw an AOI.",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -24482,7 +24980,8 @@
    "key": "Next",
    "src": "Next",
    "refs": [
-    "features/gdalroutes.js"
+    "features/gdalroutes.js",
+    "features/routing-tools.js"
    ]
   },
   {
@@ -24571,6 +25070,27 @@
    ]
   },
   {
+   "key": "No address index: use Address Index… on an address layer first",
+   "src": "No address index: use Address Index… on an address layer first",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "No address within {d}",
+   "src": "No address within {d}",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "No addresses in {layer}: map the street field (and the number, or the number ranges)",
+   "src": "No addresses in {layer}: map the street field (and the number, or the number ranges)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "No airports yet. Import them from the FAA NASR files, or add one by hand and draw its runways.",
    "src": "No airports yet. Import them from the FAA NASR files, or add one by hand and draw its runways.",
    "refs": [
@@ -24620,6 +25140,13 @@
    ]
   },
   {
+   "key": "No column {col} in the table",
+   "src": "No column {col} in the table",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "No connections yet.",
    "src": "No connections yet.",
    "refs": [
@@ -24645,6 +25172,20 @@
    "src": "No data yet. Open an image, or drop files on a panel.",
    "refs": [
     "shell/workspace.js"
+   ]
+  },
+  {
+   "key": "No date falls in the baseline {from} to {to}",
+   "src": "No date falls in the baseline {from} to {to}",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "No date for {layers}: name the files with their date (YYYYMMDD) or use files with an acquisition date",
+   "src": "No date for {layers}: name the files with their date (YYYYMMDD) or use files with an acquisition date",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -24803,6 +25344,13 @@
    ]
   },
   {
+   "key": "No match",
+   "src": "No match",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "No measurements yet. Use Draw ▸ Mensuration (Point Position, Range & Bearing, Length, Area).",
    "src": "No measurements yet. Use Draw ▸ Mensuration (Point Position, Range & Bearing, Length, Area).",
    "refs": [
@@ -24894,6 +25442,13 @@
    ]
   },
   {
+   "key": "No point or line layer is open.",
+   "src": "No point or line layer is open.",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "No points read: {msg}",
    "src": "No points read: {msg}",
    "refs": [
@@ -24929,10 +25484,31 @@
    ]
   },
   {
+   "key": "No road network: use Road Network… on a line layer first",
+   "src": "No road network: use Road Network… on a line layer first",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "No route",
+   "src": "No route",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "No route yet. Draw one (click the waypoints, double-click the last), or import a GPX or KML route.",
    "src": "No route yet. Draw one (click the waypoints, double-click the last), or import a GPX or KML route.",
    "refs": [
     "features/flight-plan.js"
+   ]
+  },
+  {
+   "key": "No route: the end cannot be reached from the start (one-way streets or a closed road)",
+   "src": "No route: the end cannot be reached from the start (one-way streets or a closed road)",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -26167,6 +26743,13 @@
    ]
   },
   {
+   "key": "One-way field",
+   "src": "One-way field",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Online",
    "src": "Online",
    "refs": [
@@ -26250,6 +26833,13 @@
    "src": "Online: basemaps and cloud catalogs can be used. Every request is listed in the Network Log.",
    "refs": [
     "features/basemaps.js"
+   ]
+  },
+  {
+   "key": "Only for turn bans, which name roads by it.",
+   "src": "Only for turn bans, which name roads by it.",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -26507,6 +27097,13 @@
    "src": "Open an ArcGIS REST feature service layer or a WFS-T feature type for editing.",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Open an address GeoPackage…",
+   "src": "Open an address GeoPackage…",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -26789,6 +27386,13 @@
    ]
   },
   {
+   "key": "Opening the address index…",
+   "src": "Opening the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Opening the stereo pair in the sidecar…",
    "src": "Opening the stereo pair in the sidecar…",
    "refs": [
@@ -26958,6 +27562,13 @@
    ]
   },
   {
+   "key": "Opens the Time Series panel: a date slider with playback and recording, and the values over time at the cursor, a pinned point or the AOI, with CSV export.",
+   "src": "Opens the Time Series panel: a date slider with playback and recording, and the values over time at the cursor, a pinned point or the AOI, with CSV export.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Opens the next stereo pair.",
    "src": "Opens the next stereo pair.",
    "refs": [
@@ -27008,6 +27619,13 @@
    "src": "Or one coordinate column",
    "refs": [
     "features/workspace-tools.js"
+   ]
+  },
+  {
+   "key": "Or open an index saved before (one per district keeps each small):",
+   "src": "Or open an index saved before (one per district keeps each small):",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -28764,6 +29382,13 @@
    ]
   },
   {
+   "key": "Pin the cursor",
+   "src": "Pin the cursor",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Pin {n}",
    "src": "Pin {n}",
    "refs": [
@@ -28789,6 +29414,13 @@
    "src": "Pin {n}: {note}",
    "refs": [
     "feedback/model.js"
+   ]
+  },
+  {
+   "key": "Pinned point",
+   "src": "Pinned point",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -28880,7 +29512,15 @@
    "key": "Place",
    "src": "Place",
    "refs": [
-    "features/field.js"
+    "features/field.js",
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Place column",
+   "src": "Place column",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -28986,6 +29626,13 @@
    "src": "Platform metadata for video without KLV.",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Play",
+   "src": "Play",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -29168,6 +29815,13 @@
    "refs": [
     "features/measure.js",
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Point at the image, pin a point or draw an AOI first",
+   "src": "Point at the image, pin a point or draw an AOI first",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -30088,6 +30742,13 @@
    "src": "Profile / Cross-Section",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Profile of",
+   "src": "Profile of",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -31792,6 +32453,7 @@
    "key": "Record",
    "src": "Record",
    "refs": [
+    "features/timeseries-tools.js",
     "shell/commands.js"
    ]
   },
@@ -32924,6 +33586,13 @@
    ]
   },
   {
+   "key": "Reverse Geocode",
+   "src": "Reverse Geocode",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Review",
    "src": "Review",
    "refs": [
@@ -33114,6 +33783,20 @@
    ]
   },
   {
+   "key": "Right side, first number",
+   "src": "Right side, first number",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Right side, last number",
+   "src": "Right side, last number",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Right-click: mini toolbar and menu",
    "src": "Right-click: mini toolbar and menu",
    "refs": [
@@ -33135,6 +33818,20 @@
    ]
   },
   {
+   "key": "Road Network",
+   "src": "Road Network",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Road Network…",
+   "src": "Road Network…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Road Trace",
    "src": "Road Trace",
    "refs": [
@@ -33149,10 +33846,38 @@
    ]
   },
   {
+   "key": "Road id field",
+   "src": "Road id field",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Road layer",
+   "src": "Road layer",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Road network of {n} nodes and {e} pieces",
+   "src": "Road network of {n} nodes and {e} pieces",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Road surface",
    "src": "Road surface",
    "refs": [
     "render/view3d.js"
+   ]
+  },
+  {
+   "key": "Roads join where lines share a vertex, so a bridge that only crosses a road stays apart from it.",
+   "src": "Roads join where lines share a vertex, so a bridge that only crosses a road stays apart from it.",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -33246,6 +33971,7 @@
    "src": "Route",
    "refs": [
     "features/flight-plan.js",
+    "features/routing-tools.js",
     "shell/commands.js"
    ]
   },
@@ -33254,6 +33980,20 @@
    "src": "Route name",
    "refs": [
     "features/flight-plan.js"
+   ]
+  },
+  {
+   "key": "Route of {len}, {cost}",
+   "src": "Route of {len}, {cost}",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Route of {n} m",
+   "src": "Route of {n} m",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -34955,6 +35695,13 @@
    ]
   },
   {
+   "key": "Saving the address index…",
+   "src": "Saving the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Scale",
    "src": "Scale",
    "refs": [
@@ -35233,6 +35980,13 @@
    ]
   },
   {
+   "key": "Searches {name} only: nothing is sent anywhere.",
+   "src": "Searches {name} only: nothing is sent anywhere.",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Searching for {query}…",
    "src": "Searching for {query}…",
    "refs": [
@@ -35396,6 +36150,13 @@
    "src": "Select a polygon (graphic or feature) first",
    "refs": [
     "features/measure-extras.js"
+   ]
+  },
+  {
+   "key": "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).",
+   "src": "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -35824,11 +36585,33 @@
    ]
   },
   {
+   "key": "Service Area",
+   "src": "Service Area",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Service Area…",
+   "src": "Service Area…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Service address",
    "src": "Service address",
    "refs": [
     "svc/publish.js",
     "svc/services.js"
+   ]
+  },
+  {
+   "key": "Service area",
+   "src": "Service area",
+   "refs": [
+    "features/recipes.js",
+    "features/routing-tools.js"
    ]
   },
   {
@@ -36300,6 +37083,20 @@
    "src": "Shift a priori σ, vertical (m)",
    "refs": [
     "features/lidarreg.js"
+   ]
+  },
+  {
+   "key": "Shortest Route",
+   "src": "Shortest Route",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Shortest route",
+   "src": "Shortest route",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -37464,10 +38261,24 @@
    ]
   },
   {
+   "key": "Slope (per year)",
+   "src": "Slope (per year)",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Slope (rise/run)",
    "src": "Slope (rise/run)",
    "refs": [
     "features/pointcloud.js"
+   ]
+  },
+  {
+   "key": "Slope ({unit} per year)",
+   "src": "Slope ({unit} per year)",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -38103,6 +38914,20 @@
    ]
   },
   {
+   "key": "Speed field (km/h)",
+   "src": "Speed field (km/h)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Speed where none is given (km/h)",
+   "src": "Speed where none is given (km/h)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Spike threshold (m)",
    "src": "Spike threshold (m)",
    "refs": [
@@ -38262,7 +39087,8 @@
    "key": "Stack",
    "src": "Stack",
    "refs": [
-    "features/spectral.js"
+    "features/spectral.js",
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -38284,6 +39110,13 @@
    "src": "Stacked {n} bands ({w}×{h})",
    "refs": [
     "features/spectral.js"
+   ]
+  },
+  {
+   "key": "Stacks dated images, each from its file name or metadata, in date order on one grid, resampling those on another grid, as a time series.",
+   "src": "Stacks dated images, each from its file name or metadata, in date order on one grid, resampling those on another grid, as a time series.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -38603,6 +39436,7 @@
     "features/aero-ui.js",
     "features/ai.js",
     "features/recipes.js",
+    "features/timeseries-tools.js",
     "features/workflow-editor.js"
    ]
   },
@@ -38746,6 +39580,13 @@
    "src": "Streams ≥ {area} ({dem})",
    "refs": [
     "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "Street",
+   "src": "Street",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -39926,6 +40767,55 @@
    ]
   },
   {
+   "key": "Temporal Anomaly",
+   "src": "Temporal Anomaly",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Temporal Anomaly…",
+   "src": "Temporal Anomaly…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Temporal Trend",
+   "src": "Temporal Trend",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Temporal Trend…",
+   "src": "Temporal Trend…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Temporal anomaly",
+   "src": "Temporal anomaly",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
+   "key": "Temporal profile",
+   "src": "Temporal profile",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Temporal trend",
+   "src": "Temporal trend",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Terrain",
    "src": "Terrain",
    "refs": [
@@ -40201,6 +41091,13 @@
    "src": "That file is the {title} pack, not the one asked for ({file}).",
    "refs": [
     "features/packs.js"
+   ]
+  },
+  {
+   "key": "That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions",
+   "src": "That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -40869,10 +41766,24 @@
    ]
   },
   {
+   "key": "The roads reachable from a place within each travel time or distance you give.",
+   "src": "The roads reachable from a place within each travel time or distance you give.",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "The route has {w} waypoints but {l} legs",
    "src": "The route has {w} waypoints but {l} legs",
    "refs": [
     "analysis/flight-plan.js"
+   ]
+  },
+  {
+   "key": "The same calendar month of the baseline",
+   "src": "The same calendar month of the baseline",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -40939,6 +41850,13 @@
    ]
   },
   {
+   "key": "The start and the end are at the same junction",
+   "src": "The start and the end are at the same junction",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "The stream’s origin, and its key server for an AES-128 stream, must be in this file’s network allow-list (Add-Ins ▸ Network Allow-List). H.264 plays live or on demand; MPEG-2 plays on demand through the app’s decoder.",
    "src": "The stream’s origin, and its key server for an AES-128 stream, must be in this file’s network allow-list (Add-Ins ▸ Network Allow-List). H.264 plays live or on demand; MPEG-2 plays on demand through the app’s decoder.",
    "refs": [
@@ -41002,6 +41920,13 @@
    ]
   },
   {
+   "key": "The whole baseline",
+   "src": "The whole baseline",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "The whole grid is stacked.",
    "src": "The whole grid is stacked.",
    "refs": [
@@ -41058,6 +41983,13 @@
    "src": "Theme: {now, select, light {light} dark {dark} grey {grey} print {print} system {follow system} other {{now}}}. Click for {next, select, dark {dark} system {follow system} other {light}}.",
    "refs": [
     "shell2/appshell.js"
+   ]
+  },
+  {
+   "key": "Then click the place to start from. The area starts at the nearest junction.",
+   "src": "Then click the place to start from. The area starts at the nearest junction.",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -41476,6 +42408,50 @@
    ]
   },
   {
+   "key": "Time Series",
+   "src": "Time Series",
+   "refs": [
+    "features/timeseries-tools.js",
+    "shell/commands.js",
+    "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Time Stack",
+   "src": "Time Stack",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Time Stack…",
+   "src": "Time Stack…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Time series",
+   "src": "Time series",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
+   "key": "Time stack ({n} dates)",
+   "src": "Time stack ({n} dates)",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Time stack of {n} dates ({w}×{h}); {r} resampled",
+   "src": "Time stack of {n} dates ({w}×{h}); {r} resampled",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "Time the AI Encoder",
    "src": "Time the AI Encoder",
    "refs": [
@@ -41811,10 +42787,32 @@
    ]
   },
   {
+   "key": "Travel time",
+   "src": "Travel time",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Trees from {dsm}",
    "src": "Trees from {dsm}",
    "refs": [
     "features/extract-r2.js"
+   ]
+  },
+  {
+   "key": "Trend of {n} pixels",
+   "src": "Trend of {n} pixels",
+   "refs": [
+    "features/recipes.js",
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "Trend — {layer}",
+   "src": "Trend — {layer}",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -41917,6 +42915,20 @@
    ]
   },
   {
+   "key": "Turn bans",
+   "src": "Turn bans",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "Turn bans (CSV)…",
+   "src": "Turn bans (CSV)…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Turns UAV photographs into a DSM, an orthomosaic and a dense cloud.",
    "src": "Turns UAV photographs into a DSM, an orthomosaic and a dense cloud.",
    "refs": [
@@ -42005,6 +43017,13 @@
    "src": "Twist {twist}°  Squint {squint}°",
    "refs": [
     "features/sar.js"
+   ]
+  },
+  {
+   "key": "Two images have the same date, {date}: stack one image per date",
+   "src": "Two images have the same date, {date}: stack one image per date",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -42897,6 +43916,13 @@
     "features/lidarreg.js",
     "features/online.js",
     "tools/menlog.js"
+   ]
+  },
+  {
+   "key": "Value on the date shown: {v}",
+   "src": "Value on the date shown: {v}",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -45581,6 +46607,27 @@
    ]
   },
   {
+   "key": "address",
+   "src": "address",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "address search",
+   "src": "address search",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "addresses",
+   "src": "addresses",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "adjusted standard GPS time",
    "src": "adjusted standard GPS time",
    "refs": [
@@ -46036,10 +47083,24 @@
    ]
   },
   {
+   "key": "animation",
+   "src": "animation",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "annotation {file}",
    "src": "annotation {file}",
    "refs": [
     "features/sar21.js"
+   ]
+  },
+  {
+   "key": "anomaly",
+   "src": "anomaly",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -46461,6 +47522,13 @@
    ]
   },
   {
+   "key": "baseline",
+   "src": "baseline",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "basemap tile {z}/{x}/{y}",
    "src": "basemap tile {z}/{x}/{y}",
    "refs": [
@@ -46470,6 +47538,13 @@
   {
    "key": "batch",
    "src": "batch",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "batch geocode",
+   "src": "batch geocode",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -46798,6 +47873,13 @@
    ]
   },
   {
+   "key": "browning",
+   "src": "browning",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "bucket name",
    "src": "bucket name",
    "refs": [
@@ -47084,6 +48166,13 @@
    ]
   },
   {
+   "key": "change over the years per pixel",
+   "src": "change over the years per pixel",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "change results",
    "src": "change results",
    "refs": [
@@ -47270,6 +48359,13 @@
   {
    "key": "click to polygon segment anything sam",
    "src": "click to polygon segment anything sam",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "climatology",
+   "src": "climatology",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -47768,6 +48864,13 @@
    ]
   },
   {
+   "key": "dates",
+   "src": "dates",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "datum shift",
    "src": "datum shift",
    "refs": [
@@ -47895,6 +48998,13 @@
    "error": true
   },
   {
+   "key": "departure from normal per date",
+   "src": "departure from normal per date",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "depressions",
    "src": "depressions",
    "refs": [
@@ -47950,6 +49060,13 @@
     "crates/gw-geodesy/src/datum/grid.rs"
    ],
    "error": true
+  },
+  {
+   "key": "directions",
+   "src": "directions",
+   "refs": [
+    "shell/command-meta.js"
+   ]
   },
   {
    "key": "directory length",
@@ -48083,6 +49200,20 @@
    "src": "draw an AOI first",
    "refs": [
     "features/spectral-analysis.js"
+   ]
+  },
+  {
+   "key": "drive time",
+   "src": "drive time",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "drive-time area",
+   "src": "drive-time area",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -48946,10 +50077,31 @@
    ]
   },
   {
+   "key": "gazetteer",
+   "src": "gazetteer",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "gcp",
    "src": "gcp",
    "refs": [
     "features/triangulation.js"
+   ]
+  },
+  {
+   "key": "geocode",
+   "src": "geocode",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "geocoder",
+   "src": "geocoder",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -49253,6 +50405,13 @@
    "src": "graphics[{i}].shape must be one of {shapes}",
    "refs": [
     "ai/prompt-helper.js"
+   ]
+  },
+  {
+   "key": "greening",
+   "src": "greening",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -49790,6 +50949,13 @@
    ]
   },
   {
+   "key": "in another place",
+   "src": "in another place",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "in progress",
    "src": "in progress",
    "refs": [
@@ -49963,6 +51129,13 @@
    "src": "is empty",
    "refs": [
     "features/extract.js"
+   ]
+  },
+  {
+   "key": "isochrone",
+   "src": "isochrone",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -51092,6 +52265,13 @@
    ]
   },
   {
+   "key": "multitemporal",
+   "src": "multitemporal",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "m²",
    "src": "m²",
    "refs": [
@@ -51143,6 +52323,13 @@
    ]
   },
   {
+   "key": "nearest number",
+   "src": "nearest number",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "need {n} bytes at {at}, have \"{v}\"",
    "src": "need {n} bytes at {at}, have \"{v}\"",
    "refs": [
@@ -51162,6 +52349,37 @@
    "src": "nested leaf directories are not verified",
    "refs": [
     "crates/gw-tiles/src/pmtiles.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "network",
+   "src": "network",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "network: malformed graph",
+   "src": "network: malformed graph",
+   "refs": [
+    "crates/bundles/vector/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "network: no such node",
+   "src": "network: no such node",
+   "refs": [
+    "crates/bundles/vector/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "network: unknown operation",
+   "src": "network: unknown operation",
+   "refs": [
+    "crates/bundles/vector/src/lib.rs"
    ],
    "error": true
   },
@@ -51491,6 +52709,13 @@
    "src": "no custom tool {name}",
    "refs": [
     "features/attribution.js"
+   ]
+  },
+  {
+   "key": "no date",
+   "src": "no date",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -52953,6 +54178,20 @@
    ]
   },
   {
+   "key": "number found",
+   "src": "number found",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "number interpolated",
+   "src": "number interpolated",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "objects",
    "src": "objects",
    "refs": [
@@ -53092,6 +54331,13 @@
    "src": "one segment",
    "refs": [
     "features/workspace-tools.js"
+   ]
+  },
+  {
+   "key": "one-way",
+   "src": "one-way",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -53534,6 +54780,13 @@
    ]
   },
   {
+   "key": "p-value",
+   "src": "p-value",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "pack loaded",
    "src": "pack loaded",
    "refs": [
@@ -53921,6 +55174,13 @@
    "src": "planned {rel}, {req}",
    "refs": [
     "shell/ribbon.js"
+   ]
+  },
+  {
+   "key": "playback",
+   "src": "playback",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -54612,6 +55872,13 @@
    ]
   },
   {
+   "key": "reachability",
+   "src": "reachability",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "read {file}",
    "src": "read {file}",
    "refs": [
@@ -54774,6 +56041,13 @@
     "crates/bundles/photo/src/lidar.rs"
    ],
    "error": true
+  },
+  {
+   "key": "regression",
+   "src": "regression",
+   "refs": [
+    "shell/command-meta.js"
+   ]
   },
   {
    "key": "regularize building orthogonal",
@@ -55017,6 +56291,13 @@
    "error": true
   },
   {
+   "key": "reverse geocode",
+   "src": "reverse geocode",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "reverse scan",
    "src": "reverse scan",
    "refs": [
@@ -55081,6 +56362,20 @@
    ]
   },
   {
+   "key": "road network",
+   "src": "road network",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
+   "key": "roads",
+   "src": "roads",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "rotation",
    "src": "rotation",
    "refs": [
@@ -55132,6 +56427,13 @@
   {
    "key": "route",
    "src": "route",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "routing",
+   "src": "routing",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -55465,6 +56767,13 @@
    ]
   },
   {
+   "key": "search",
+   "src": "search",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "search box\u0004Filter",
    "src": "Filter",
    "ctx": "search box",
@@ -55686,6 +56995,13 @@
    ]
   },
   {
+   "key": "shortest path",
+   "src": "shortest path",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "show the 3D view first",
    "src": "show the 3D view first",
    "refs": [
@@ -55882,6 +57198,13 @@
    ]
   },
   {
+   "key": "slope",
+   "src": "slope",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "slpk: the file length is missing",
    "src": "slpk: the file length is missing",
    "refs": [
@@ -55982,12 +57305,29 @@
    "key": "spectral {op}",
    "src": "spectral {op}",
    "refs": [
-    "features/spectral-analysis.js"
+    "features/spectral-analysis.js",
+    "features/timeseries-tools.js"
    ]
   },
   {
    "key": "spectral: PPI skewers must be 0 to 1,000,000",
    "src": "spectral: PPI skewers must be 0 to 1,000,000",
+   "refs": [
+    "crates/bundles/spectral/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "spectral: a trend needs one finite date per band",
+   "src": "spectral: a trend needs one finite date per band",
+   "refs": [
+    "crates/bundles/spectral/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "spectral: an anomaly needs a baseline flag and a group per band",
+   "src": "spectral: an anomaly needs a baseline flag and a group per band",
    "refs": [
     "crates/bundles/spectral/src/lib.rs"
    ],
@@ -56060,6 +57400,14 @@
   {
    "key": "spectral: template search too large",
    "src": "spectral: template search too large",
+   "refs": [
+    "crates/bundles/spectral/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "spectral: the baseline holds no dates",
+   "src": "spectral: the baseline holds no dates",
    "refs": [
     "crates/bundles/spectral/src/lib.rs"
    ],
@@ -56140,6 +57488,14 @@
   {
    "key": "spectral: unknown method",
    "src": "spectral: unknown method",
+   "refs": [
+    "crates/bundles/spectral/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "spectral: unknown temporal operation",
+   "src": "spectral: unknown temporal operation",
    "refs": [
     "crates/bundles/spectral/src/lib.rs"
    ],
@@ -56232,6 +57588,20 @@
    "src": "stream lines",
    "refs": [
     "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "street",
+   "src": "street",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "street only",
+   "src": "street only",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -56405,6 +57775,13 @@
    "src": "table lengths ({tables} bytes) run past the tile ({byteLength} bytes)",
    "refs": [
     "render/tiles3d-content.js"
+   ]
+  },
+  {
+   "key": "temporal profile",
+   "src": "temporal profile",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -57325,6 +58702,13 @@
    "src": "the adapter has no 16-bit float shaders (shader-f16)",
    "refs": [
     "ai/hw.js"
+   ]
+  },
+  {
+   "key": "the address index",
+   "src": "the address index",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -59901,6 +61285,20 @@
    "error": true
   },
   {
+   "key": "time series",
+   "src": "time series",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "time slider",
+   "src": "time slider",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "time unknown",
    "src": "time unknown",
    "refs": [
@@ -60277,6 +61675,13 @@
   {
    "key": "transparent black borders",
    "src": "transparent black borders",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "trend",
+   "src": "trend",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -61334,10 +62739,24 @@
    ]
   },
   {
+   "key": "yes, -1, no (OpenStreetMap), Y and N, or FT, TF, B, N (HERE, where N is closed).",
+   "src": "yes, -1, no (OpenStreetMap), Y and N, or FT, TF, B, N (HERE, where N is closed).",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "your site has locked this setting",
    "src": "your site has locked this setting",
    "refs": [
     "features/basemaps.js"
+   ]
+  },
+  {
+   "key": "z-score",
+   "src": "z-score",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -61415,6 +62834,13 @@
    "refs": [
     "features/ai-local.js",
     "features/ai-local24.js"
+   ]
+  },
+  {
+   "key": "{address}, {score}% ({match})",
+   "src": "{address}, {score}% ({match})",
+   "refs": [
+    "features/navigation.js"
    ]
   },
   {
@@ -63791,6 +65217,13 @@
    ]
   },
   {
+   "key": "{layer} has no lines to build a network from",
+   "src": "{layer} has no lines to build a network from",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "{layer} has no orbit state vectors, and no orbit file covers it",
    "src": "{layer} has no orbit state vectors, and no orbit file covers it",
    "refs": [
@@ -63805,10 +65238,31 @@
    ]
   },
   {
+   "key": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
+   "src": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{layer} is not an open image that can go in a time stack",
+   "src": "{layer} is not an open image that can go in a time stack",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "{layer} is not loaded as terrain: use it as terrain first",
    "src": "{layer} is not loaded as terrain: use it as terrain first",
    "refs": [
     "features/recipes.js"
+   ]
+  },
+  {
+   "key": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
+   "src": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -64143,6 +65597,13 @@
    ]
   },
   {
+   "key": "{min} min",
+   "src": "{min} min",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "{model} (triangulated: {solution})",
    "src": "{model} (triangulated: {solution})",
    "refs": [
@@ -64309,6 +65770,13 @@
    ]
   },
   {
+   "key": "{n, plural, one {# ban} other {# bans}} from {file}",
+   "src": "{n, plural, one {# ban} other {# bans}} from {file}",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "{n, plural, one {# change candidate} other {# change candidates}} in {ms} ms (gain {gain}, offset {offset})",
    "src": "{n, plural, one {# change candidate} other {# change candidates}} in {ms} ms (gain {gain}, offset {offset})",
    "refs": [
@@ -64376,6 +65844,13 @@
    "src": "{n, plural, one {# conversion} other {# conversions}} queued in the sidecar.",
    "refs": [
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# date} other {# dates}}",
+   "src": "{n, plural, one {# date} other {# dates}}",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -65272,6 +66747,13 @@
    ]
   },
   {
+   "key": "{name} is not an address index GeoPackage written by GIS Workbench",
+   "src": "{name} is not an address index GeoPackage written by GIS Workbench",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "{name} is not tagged as a DSM; obstructions are only found if it is one.",
    "src": "{name} is not tagged as a DSM; obstructions are only found if it is one.",
    "refs": [
@@ -65696,6 +67178,13 @@
    ]
   },
   {
+   "key": "{number} {street} ({d} away)",
+   "src": "{number} {street} ({d} away)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "{nv, plural, one {# vector} other {# vectors}} × {ns, plural, one {# sample} other {# samples}}",
    "src": "{nv, plural, one {# vector} other {# vectors}} × {ns, plural, one {# sample} other {# samples}}",
    "refs": [
@@ -65717,10 +67206,38 @@
    ]
   },
   {
+   "key": "{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage",
+   "src": "{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "{n} at ≥ {min}",
    "src": "{n} at ≥ {min}",
    "refs": [
     "features/detections.js"
+   ]
+  },
+  {
+   "key": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "src": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{n} dates for {m} images: give one date for each",
+   "src": "{n} dates for {m} images: give one date for each",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{n} dates, {from} to {to}",
+   "src": "{n} dates, {from} to {to}",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -65739,6 +67256,13 @@
    ]
   },
   {
+   "key": "{n} nodes reached",
+   "src": "{n} nodes reached",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "{n} of {total} spectra",
    "src": "{n} of {total} spectra",
    "refs": [
@@ -65750,6 +67274,13 @@
    "src": "{n} of {total} spectra (ranked, reflectance only)",
    "refs": [
     "features/spectral-analysis.js"
+   ]
+  },
+  {
+   "key": "{n} per second",
+   "src": "{n} per second",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
@@ -65778,6 +67309,13 @@
    "src": "{n} posts are more than SAR stereo takes (4 M): use a smaller area or larger posts",
    "refs": [
     "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "{n} road pieces are more than one network holds ({max}): clip the layer to the area you need",
+   "src": "{n} road pieces are more than one network holds ({max}): clip the layer to the area you need",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -65884,6 +67422,14 @@
    "src": "{obliquity}° (azimuth {azimuth}°)",
    "refs": [
     "products/tokens.js"
+   ]
+  },
+  {
+   "key": "{ok} of {n} addresses found",
+   "src": "{ok} of {n} addresses found",
+   "refs": [
+    "features/recipes.js",
+    "features/routing-tools.js"
    ]
   },
   {
@@ -66230,6 +67776,13 @@
    "src": "{running} running · {queued} queued · network {rate} MB/s",
    "refs": [
     "features/panels.js"
+   ]
+  },
+  {
+   "key": "{score}% ({match})",
+   "src": "{score}% ({match})",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -67031,6 +68584,13 @@
    "src": "{w}×{h} is more than an AOI chip takes ({max} M pixels)",
    "refs": [
     "workers/kinds/decode.worker.js"
+   ]
+  },
+  {
+   "key": "{w}×{h} pixels × {n} dates is more than one pass takes ({max} M values): draw an AOI",
+   "src": "{w}×{h} pixels × {n} dates is more than one pass takes ({max} M values): draw an AOI",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {
