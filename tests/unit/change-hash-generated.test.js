@@ -88,6 +88,13 @@ describe('generated files', () => {
     expect(set.hash).not.toBe(changeSet('main', 'pr~1', dir).hash);
   });
 
+  it('exempt nothing when a glob is not in folded form, since the pathspec would read it differently', () => {
+    start(JSON.stringify({ generatedPaths: ['gen/EN.json'] }));
+    write('gen/EN.json', '{"a":1}\n');
+    commit('pr');
+    expect(changeSet('main', 'pr', dir).generated).toEqual([]);
+  });
+
   it('exempt nothing when the list is malformed', () => {
     start('{ not json');
     write('gen/en.json', '{"a":1}\n');

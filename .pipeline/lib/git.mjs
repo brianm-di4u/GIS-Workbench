@@ -149,7 +149,9 @@ export function readBlob(ref, path, cwd) {
 export function generatedGlobs(base, cwd) {
   try {
     const list = JSON.parse(readBlob(base, 'pipeline.config.json', cwd) ?? 'null')?.generatedPaths;
-    return Array.isArray(list) && list.every((glob) => typeof glob === 'string' && glob.length > 0) ? list : [];
+    // A glob must already be in folded form (lower case, no trailing dots), so the hash exemption and the
+    // case-sensitive pathspec of excludeSpecs name the same files.
+    return Array.isArray(list) && list.every((glob) => typeof glob === 'string' && glob.length > 0 && normalizePath(glob) === glob) ? list : [];
   } catch {
     return [];
   }

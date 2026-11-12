@@ -90,13 +90,15 @@ function reviewedBase(last, mergeBase) {
 // Changed lines between two commits, as the seats see them: renames read as renames, and generated
 // files, which `verify` checks and the council doesn't read, are left out.
 // Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
-// A binary file, or a diff git can't produce, counts as infinitely many: it can't be called small.
+// A binary file, or a diff git can't produce, counts as UNBOUNDED lines: it can't be called small.
+// It is a number and not Infinity, because the plan and the ledger are JSON and Infinity becomes null there.
+const UNBOUNDED = 1e9;
 function countLines(from, to, mergeBase, globs) {
   const numstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '-M', '--numstat', from, to, ...excludeSpecs(globs)]);
-  if (numstat === null) return Infinity;
+  if (numstat === null) return UNBOUNDED;
   return numstat.split('\n').filter(Boolean).reduce((sum, line) => {
     const [added, deleted] = line.split('\t');
-    return sum + (added === '-' || deleted === '-' ? Infinity : Number(added) + Number(deleted));
+    return sum + (added === '-' || deleted === '-' ? UNBOUNDED : Number(added) + Number(deleted));
   }, 0);
 }
 
