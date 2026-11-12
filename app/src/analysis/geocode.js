@@ -178,7 +178,10 @@ export function buildIndex({ points = [], ranges = [] }) {
       for (const c of cells) put(c, { s, r });
     }
   }
-  return { streets, byTri, grid, count: points.length + ranges.length };
+  // The places the index holds: a query naming one of them wants that place only.
+  const places = new Set();
+  for (const st of streets.values()) for (const x of [...st.points, ...st.ranges]) if (x.place) places.add(x.place);
+  return { streets, byTri, grid, places, count: points.length + ranges.length };
 }
 
 const rangeHas = (side, n) => {
@@ -221,19 +224,24 @@ function searchAs(index, q, fuzzy) {
   }
   const out = [];
   const placeOk = (pl) => !q.rest || !pl || pl === q.rest || pl.includes(q.rest) || q.rest.includes(pl);
+  const known = !!q.rest && [...(index.places ?? [])].some((pl) => pl === q.rest || pl.includes(q.rest) || q.rest.includes(pl));
   for (const [s, sim] of cands) {
     // One candidate per place the street is in: Main St in two towns is two streets.
     const groups = new Map();
     const group = (pl) => groups.get(pl) ?? groups.set(pl, { points: [], ranges: [] }).get(pl);
     for (const p of s.points) group(p.place).points.push(p);
     for (const r of s.ranges) group(r.place).ranges.push(r);
-    // A place named after the comma ranks the addresses there first; it never hides the others,
-    // as a postcode or a spelling the index lacks (Saint Louis, St. Louis) would otherwise do.
+    // A place named after the comma that the index holds keeps the addresses there only. One it
+    // does not hold (a postcode, a spelling it lacks: St. Louis for Saint Louis) hides nothing: the
+    // addresses elsewhere stay, lower and marked 'other place'.
     const named = q.rest ? [...groups.keys()].filter(placeOk) : [];
     for (const [pl, g] of groups) {
+      const here = placeOk(pl);
+      if (!here && known) continue;
       // With no place to tell them apart, none of them is certain.
-      const k = !q.rest ? (groups.size > 1 ? 0.9 : 1) : placeOk(pl) ? (named.length > 1 ? 0.9 : 1) : 0.7;
+      const k = !q.rest ? (groups.size > 1 ? 0.9 : 1) : here ? (named.length > 1 ? 0.9 : 1) : 0.7;
       const c = candidate(s, g, q, 100 * sim * k);
+      if (c && !here) c.match = 'other place';
       if (c) out.push(c);
     }
   }
@@ -242,9 +250,9 @@ function searchAs(index, q, fuzzy) {
 
 /**
  * Candidates for a query, best first: {at, score (0–100), match ('exact' | 'interpolated' |
- * 'nearest number' | 'street'), street, number, id}. A misspelt street still matches when its
+ * 'nearest number' | 'street' | 'other place'), street, number, id}. A misspelt street still matches when its
  * similarity is at least `fuzzy` (0.7 takes "4th Stret" for "4th St" but not "Fifth Ave" for "F Ave"); the score falls with the similarity and with a number
- * that had to be approximated. Places named after a comma raise the score of addresses there.
+ * that had to be approximated. A place named after a comma that the index holds keeps the addresses there; one it does not hold ranks them first, and the rest, lower, as 'other place'.
  * A street name in several places gives one candidate for each. A number last is read as part of
  * the street's name ("Route 66") when a street has that whole name, or no street matches without it.
  */

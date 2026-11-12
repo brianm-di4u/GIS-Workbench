@@ -369,7 +369,7 @@ export function install(app) {
       return found;
     }),
   });
-  const matchLabel = (m) => ({ exact: t('number found'), interpolated: t('number interpolated'), 'nearest number': t('nearest number'), street: t('street only') })[m] ?? m;
+  const matchLabel = (m) => ({ exact: t('number found'), interpolated: t('number interpolated'), 'nearest number': t('nearest number'), street: t('street only'), 'other place': t('in another place') })[m] ?? m;
 
   C.implement('addr.batch', {
     enabled: () => !!net.geocoder,

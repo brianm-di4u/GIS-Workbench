@@ -159,12 +159,18 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     const from = [-104.9868, 40.0099];
     const to = [-104.9988, 40];
     const before = (await app.commands.run('route.shortest', { from, to })).cost;
+    // A service area of exactly that time reaches 1st St / B Ave; with the turn banned it must not.
+    const reaches = (id) => app.store.all('feature').filter((f) => f.vlayer === id).some((f) => { for (let i = 0; i < f.geom.xyz.length; i += 3) if (Math.hypot(f.geom.xyz[i] - to[0], f.geom.xyz[i + 1] - to[1]) < 2e-5) return true; return false; });
+    const areaBefore = reaches((await app.commands.run('route.service', { at: from, breaks: [Math.ceil(before)] })).layer);
     const built = await app.commands.run('route.roads', { layer: rl, oneway: 'oneway', speed: 'speed', cost: 'time', idField: 'id', bansCsv: ['from,to', 'xw,st0', ''].join('\n') });
     const after = (await app.commands.run('route.shortest', { from, to })).cost;
-    return { before, after, built };
+    const areaAfter = reaches((await app.commands.run('route.service', { at: from, breaks: [Math.ceil(before)] })).layer);
+    return { before, after, built, areaBefore, areaAfter };
   });
   expect(ban.built.banned).toBe(1);
   expect(ban.after).toBeGreaterThan(ban.before);
+  expect(ban.after).toBeGreaterThan(Math.ceil(ban.before));
+  expect([ban.areaBefore, ban.areaAfter]).toEqual([true, false]);
   // One-way 3rd St: west is a detour, east is not.
   expect(REF.routes[3].seconds).toBeGreaterThan(REF.routes[2].seconds);
   expect(out.service.nodes).toBe(REF.service.within['60'].length);
