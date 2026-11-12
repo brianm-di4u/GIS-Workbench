@@ -81,10 +81,11 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   // The misspelt street matches at a lower score than the exact ones.
   expect(batch.rows.find((r) => r.ref === 'q4').score).toBeLessThan(100);
   expect(batch.rows.find((r) => r.ref === 'q1').score).toBe(100);
-  // A list of addresses with no delimiter is one column: each line is searched whole, not by its first word.
+  // A list of addresses with no delimiter is one column, its header included (the dialog reads the same
+  // header): each line is searched whole, not by its first word.
   const one = await frame.evaluate(async () => {
     const app = window.gisworkbench;
-    const r = await app.commands.run('addr.batch', { text: ['address', '101 1st Street', '1101 12th St', ''].join('\n'), address: 'address' });
+    const r = await app.commands.run('addr.batch', { text: ['Full address', '101 1st Street', '1101 12th St', ''].join('\n'), address: 'Full address' });
     return { matched: r.matched, at: app.store.all('feature').filter((f) => f.vlayer === r.layer).map((f) => [f.geom.xyz[0], f.geom.xyz[1]]) };
   });
   expect(one.matched).toBe(2);

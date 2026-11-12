@@ -392,7 +392,7 @@ export function install(app) {
       const [f] = await pickFiles(app, { multiple: false, accept: ['.csv', '.txt', '.tsv'], description: t('Address table') });
       if (!f) return undefined;
       const text = await f.text();
-      const head = parseDelimited(text).rows[0] ?? [];
+      const head = tableRows(text)[0] ?? [];
       const a = fieldSel(head, guess(head, /addr|address|street/i), t('Address column'), false);
       const p = fieldSel(head, guess(head, /city|town|place/i), t('Place column'));
       if ((await modal({ title: t('Geocode a Table'), body: h('div', {}, field(t('Address column'), a), field(t('Place column'), p)), buttons: [{ label: t('Geocode'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-batch' })) !== 'go') return undefined;
