@@ -20,6 +20,13 @@ describe('sfm summary', () => {
     expect(rows['Orthomosaic pixel']).toBe('0.04 m');
   });
 
+  it('reports the checkpoints and control points of a run placed by ground control (REQ-GAP-94)', () => {
+    const control = { gcps: 5, checks: 2, rmse_check_m: { east: 0.0312, north: 0.0201, up: 0.0857 }, rmse_gcp_m: { east: 0.01, north: 0.012, up: 0.02 } };
+    const rows = Object.fromEntries(summaryRows({ georef: { ...report.georef, control } }));
+    expect(rows['Checkpoints (2, RMS east, north, up)']).toBe('0.031 m, 0.020 m, 0.086 m');
+    expect(rows['Ground control points (5, RMS east, north, up)']).toBe('0.010 m, 0.012 m, 0.020 m');
+  });
+
   it('shows no row for a number the run did not report', () => {
     expect(summaryRows({})).toEqual([]);
     expect(summaryRows(null)).toEqual([]);

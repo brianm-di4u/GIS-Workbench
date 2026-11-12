@@ -117,7 +117,7 @@ export const MAIN_TABS = [
       { label: N_('Feedback'), items: [L('wb.toggle'), S('wb.review'), S('wb.import')] },
       { label: N_('Automation'), items: [S('auto.console'), S('auto.mcpserver')] },
       { label: N_('Packs'), items: [S('pack.load'), S('pack.list')] },
-      { label: N_('Sidecar'), items: [L('sidecar.convertdialog'), S('sidecar.jobs'), S('sidecar.pick'), S('sidecar.view'), S('sidecar.batch'), S('sidecar.saveas'), S('sidecar.pansharpen'), S('sidecar.reproject'), S('sidecar.gdbcatalog'), S('sidecar.modelexport'), S('sidecar.sfm'), S('sidecar.relay'), S('sidecar.stereoviewer'), S('sidecar.prosync'), S('sidecar.status')] },
+      { label: N_('Sidecar'), items: [L('sidecar.convertdialog'), S('sidecar.jobs'), S('sidecar.pick'), S('sidecar.view'), S('sidecar.batch'), S('sidecar.saveas'), S('sidecar.pansharpen'), S('sidecar.reproject'), S('sidecar.gdbcatalog'), S('sidecar.modelexport'), S('sidecar.sfm'), S('sidecar.sfmcontrol'), S('sidecar.relay'), S('sidecar.stereoviewer'), S('sidecar.prosync'), S('sidecar.status')] },
     ],
   },
 ];
