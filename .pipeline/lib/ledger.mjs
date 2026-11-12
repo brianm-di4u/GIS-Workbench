@@ -187,11 +187,15 @@ export function linkMechanical(ledger, { to, reason, lines, maxLines = 40 }) {
 // Where a change stands: the loop phase is done once its latest rounds are two clean ones in a row on
 // the same content, whatever happens after. Close-out is done when its latest rounds are two clean ones
 // in a row on this exact content, with nothing open. The caps count every round in a phase, clean or not.
+// The admin can end one PR's loop phase as it stands: `ledger.waived.loopExit` holds their words, in
+// that PR's own ledger, like `extraRounds`. Close-out and its rule are unchanged, so a verdict still
+// needs two clean close-out rounds, and the verdict says the loop exit was waived.
+export const loopWaived = (ledger) => typeof ledger.waived?.loopExit === 'string' && ledger.waived.loopExit.trim() !== '';
 export function phaseState(ledger, hash) {
   const loop = roundsIn(ledger, 'loop');
   const close = roundsIn(ledger, 'close');
   const context = { findings: ledger.findings, links: mechanicalLinks(ledger) };
-  const loopDone = cleanTail(loop, context) >= CLEAN_ROUNDS;
+  const loopDone = loopWaived(ledger) || cleanTail(loop, context) >= CLEAN_ROUNDS;
   const closeDone = loopDone && cleanTail(close, context) >= CLEAN_ROUNDS && close.at(-1).hash === hash && blockingOpen(ledger).length === 0;
   return { loop, close, loopDone, closeDone };
 }
@@ -392,6 +396,7 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash }) {
     ...(tier > 0 ? { phases } : {}),
     open: { blocker: count('blocker'), should: count('should'), nit: ledger.findings.filter((f) => f.severity === 'nit').length },
     ...(ledger.raise ? { raise: ledger.raise } : {}),
+    ...(loopWaived(ledger) ? { waived: { loopExit: ledger.waived.loopExit.trim() } } : {}),
     // Self-reported by `council.mjs plan --worker <model>`, for the digest.
     ...(ledger.worker ? { worker: { model: ledger.worker } } : {}),
     seats: [...new Set(ledger.rounds.flatMap((r) => r.seats))],

@@ -28,6 +28,21 @@ function run(ledger, findings = [], over = {}) {
 const fixAll = (ledger) => ledger.findings.filter((f) => f.status === 'open').forEach((f) => resolveFinding(ledger, f.id, 'fixed'));
 
 describe('the loop phase', () => {
+  it('ends early only on the admin\'s waiver in this ledger, and close-out still needs its two clean rounds', () => {
+    const ledger = emptyLedger();
+    run(ledger, [finding('should')]);
+    fixAll(ledger);
+    expect(step(ledger)).toMatchObject({ phase: 'loop' });
+    // A waiver that is not the admin's words (missing, empty, not text) changes nothing.
+    for (const waived of [{}, { loopExit: '' }, { loopExit: true }]) expect(step({ ...ledger, waived })).toMatchObject({ phase: 'loop' });
+    ledger.waived = { loopExit: 'Move it to the Opus close-out now' };
+    expect(step(ledger)).toMatchObject({ status: 'review', phase: 'close', model: 'opus', mode: 'full' });
+    run(ledger);
+    expect(() => buildVerdict({ ledger, tier: 1, hash: HASH })).toThrow(/Close-out has not converged/);
+    run(ledger);
+    expect(buildVerdict({ ledger, tier: 1, hash: HASH })).toMatchObject({ waived: { loopExit: 'Move it to the Opus close-out now' }, phases: { loop: { rounds: 1 }, close: { rounds: 2 } } });
+  });
+
   it('starts with a full round on the loop model', () => {
     expect(step(emptyLedger())).toMatchObject({ status: 'review', mode: 'full', phase: 'loop', model: 'sonnet', round: 1 });
   });
