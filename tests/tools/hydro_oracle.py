@@ -16,9 +16,11 @@ strahler.u8, shreve.u32, watershed.u8; and truth.json.
 """
 
 import argparse
+import atexit
 import gzip
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 
@@ -64,6 +66,7 @@ def main():
     a = p.parse_args()
     os.makedirs(a.out, exist_ok=True)
     wd = tempfile.mkdtemp(prefix="hydro-oracle-")
+    atexit.register(shutil.rmtree, wd, True)  # the WhiteboxTools scratch; nothing outside this run reads it (#228)
     dem = os.path.join(a.out, "dem.tif")
     gdal.Warp(dem, a.dem, outputBounds=a.window, xRes=a.res, yRes=a.res, resampleAlg="average" if a.res > 1 else "near", outputType=gdal.GDT_Float32, creationOptions=["COMPRESS=DEFLATE", "PREDICTOR=3", "TILED=NO"])
     ds = gdal.Open(dem)

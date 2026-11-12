@@ -3,9 +3,9 @@
 // signal windows against a direct big-endian read, and subsets read back by sarpy and checked by
 // sarkit's cphdcheck (the gw-te environment). Skipped when the bundle, corpus or gw-te are absent.
 import { describe, it, expect } from 'vitest';
-import { existsSync, openAsBlob, readFileSync, openSync, readSync, writeFileSync, mkdtempSync, statSync } from 'node:fs';
+import { existsSync, openAsBlob, readFileSync, openSync, readSync, writeFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { execFileSync } from 'node:child_process';
 import { Bundle } from '../../app/src/wasm/abi.js';
 import { openCphd, pvpColumns, cphdSubset } from '../../app/src/workers/decode/cphd.js';
@@ -101,7 +101,7 @@ describe.skipIf(!haveWasm)('CPHD reader (legacy bundle)', () => {
     const c = meta.channels[0];
     const sub = { ch: 0, v0: 1000, v1: 1400, s0: 100, s1: 612 };
     const blob = await cphdSubset(ctx, [sub]);
-    const dir = mkdtempSync(join(tmpdir(), 'gw-cphd-'));
+    const dir = tempDir('gw-cphd');
     const out = join(dir, 'c13_subset.cphd');
     writeFileSync(out, Buffer.from(await blob.arrayBuffer()));
     // Our own reader first, then sarpy (an independent implementation) and sarkit's consistency checker.
@@ -148,7 +148,7 @@ print(d.NumVectors, d.NumSamples, sig[k].shape, abs(sig[k][0, 0]))`;
     expect(meta.geometry.SideOfTrack).toBe(truth.side);
     for (const [v0, v1, s0, s1] of [[10, 40, 5, 70], [0, 20, 0, 80], [0, 64, 8, 40]]) {
       const blob = await cphdSubset(ctx, [{ ch: 0, v0, v1, s0, s1 }]);
-      const out = join(mkdtempSync(join(tmpdir(), 'gw-cphd-')), 'fx.cphd');
+      const out = join(tempDir('gw-cphd'), 'fx.cphd');
       writeFileSync(out, Buffer.from(await blob.arrayBuffer()));
       const back = await openCphd(await file(out), B);
       expect(back.meta.version).toBe('1.0.1');

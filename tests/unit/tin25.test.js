@@ -13,8 +13,8 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { execFileSync } from 'node:child_process';
-import { tmpdir } from 'node:os';
 import { TinBundle, encodeTinEdits, KIND, FILE_KEY0 } from '../../app/src/wasm/tin.js';
 import { frameAt, toPlane, toGeo, gridSpec, rasterGrid, importForm, exportForm, fromFeatures, fromTable, writeLandXml, writeCsv } from '../../app/src/analysis/tin-io.js';
 import { fromParts } from '../../app/src/vector/geom.js';
@@ -39,11 +39,8 @@ const MEASURE = resolve('reports/tin25-measure.json');
 
 const bundle = () => new TinBundle(new WebAssembly.Module(readFileSync(wasmPath)));
 const env = { ...process.env, PYTHONIOENCODING: 'utf-8' };
-const scratch = () => {
-  const d = join(tmpdir(), `gw-tin25-${process.pid}`);
-  mkdirSync(d, { recursive: true });
-  return d;
-};
+let scratchDir = null;
+const scratch = () => (scratchDir ??= tempDir('gw-tin25'));
 function oracle(job) {
   const d = scratch();
   const p = join(d, `${job.mode}-${Math.random().toString(36).slice(2)}.json`);

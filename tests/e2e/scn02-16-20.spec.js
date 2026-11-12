@@ -2,10 +2,10 @@
 // SCN-20 (AI-assisted report, mock provider) on the FX fixtures: AC-02.2, AC-02.3, AC-02.5,
 // AT-16.1, AT-16.2, AT-16.4, and the SCN-20 flow with provenance labels.
 import { test, expect } from '@playwright/test';
-import { mkdtempSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { openApp, openFiles } from './helpers.js';
+import { tempDir } from '../tools/temp-dir.mjs';
 
 const FX01 = resolve('fixtures/fx01/fx01.ntf');
 const FX03 = resolve('fixtures/fx03/fx03.ntf');
@@ -90,7 +90,7 @@ test('SCN-02 AC-02.2 AC-02.3 AC-02.5 chips, autolabels moved between images, tab
     const src = app.store.all('graphic').filter((g) => g.anchor === 'ground');
     return { text: JSON.stringify(app.graphicsGeoJson(src)), src: src.map((g) => ({ coords: g.coords, style: g.style })) };
   });
-  const dir = mkdtempSync(join(tmpdir(), 'gw-scn02-'));
+  const dir = tempDir('gw-scn02');
   writeFileSync(join(dir, 'graphics.geojson'), gj.text);
   const back = await frame.evaluate(async (text) => {
     const app = window.gisworkbench;
