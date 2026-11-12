@@ -99,8 +99,10 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
       const app = window.gisworkbench;
       const saved = [];
       app.saveCapture = (blob, name) => saved.push(name);
+      const before = app.undo.history().length;
       const r = await app.workflows.run();
       app.saveCapture = null;
+      const undone = app.undo.history().slice(0, app.undo.history().length - before).map((x) => x.label);
       const ring = app.recipes.runner.outputs.get('s4').out;
       const geoms = (id) => app.store.all('feature').filter((f) => f.vlayer === id).map((f) => Array.from(f.geom.xyz).map((x) => Math.round(x * 1e9)));
       // By hand, in a line.
@@ -108,7 +110,7 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
       const a = await app.geoproc.buffer(id, { distance: 50 });
       const b = await app.geoproc.buffer(id, { distance: 200 });
       const c = await app.geoproc.overlay(b, a, 'erase');
-      return { r, saved, ring: geoms(ring), byHand: geoms(c), recipe: app.store.get(ring).recipe, states: app.recipes.runner.state.map((s) => s.status), nodes: [...document.querySelectorAll('.wf-node')].map((n) => n.getAttribute('class')) };
+      return { r, saved, undone, ring: geoms(ring), byHand: geoms(c), recipe: app.store.get(ring).recipe, states: app.recipes.runner.state.map((s) => s.status), nodes: [...document.querySelectorAll('.wf-node')].map((n) => n.getAttribute('class')) };
     }, roads);
   const first = await run(names[0]);
   expect(first.r).toEqual({ ok: true });
@@ -118,6 +120,9 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   expect(first.saved).toHaveLength(1);
   expect(first.saved[0]).toMatch(/\.geojson$/);
   expect(first.recipe).toMatchObject({ step: 's4', op: 'overlay', params: { op: 'erase' }, version: 1 });
+  // The stamps are not undo steps: each step's own change is, and Undo takes back a step, not its stamp.
+  expect(first.undone.length).toBeGreaterThan(0);
+  expect(first.undone.filter((l) => / step s\d/.test(l))).toEqual([]);
   expect(first.nodes.every((c) => /wf-done/.test(c))).toBe(true);
   await page.screenshot({ path: info.outputPath('workflow-graph.png') });
 
@@ -264,6 +269,26 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await expect(steps.nth(1)).toHaveAttribute('data-status', 'done');
   await expect(steps.nth(1)).toContainText('no accepted detections');
   expect(await frame.evaluate(() => window.gisworkbench.recipes.runner.toJSON().format)).toBe('gw-recipe/2');
+  // Save… in the dock writes that file, with the parameter changed in the drawer.
+  await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    app.__recipeFiles = [];
+    app.saveCapture = (blob, name) => app.__recipeFiles.push(blob.text().then((text) => ({ name, text })));
+  });
+  await frame.locator('[data-id="recipe:save"]').click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.__recipeFiles.length)).toBe(1);
+  const file = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    app.saveCapture = null;
+    const { name, text } = await app.__recipeFiles[0];
+    return { name, r: JSON.parse(text) };
+  });
+  expect(file.name).toBe('chain-test.gwrecipe.json');
+  expect(file.r).toMatchObject({ format: 'gw-recipe/2', id: 'chain-test', name: 'Chain test' });
+  expect(file.r.steps.map((s) => [s.op, s.title ?? null, s.params])).toEqual([
+    ['gate', 'Look first', { message: 'Look' }],
+    ['exportGeojson', expect.anything(), { what: 'accepted-detections' }],
+  ]);
 
   // The dock's form gives a list as text; the op's schema turns it into numbers.
   await frame.evaluate(() => window.gisworkbench.recipes.open({ format: 'gw-recipe/2', id: 'ws-test', name: 'Watershed test', steps: [{ id: 'w', op: 'watershed', params: { at: [-120, 35], snap: 50 } }] }));

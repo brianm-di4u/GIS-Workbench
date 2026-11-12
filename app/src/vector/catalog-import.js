@@ -65,10 +65,21 @@ export function attrType(t) {
   const g = s.match(/^gm_(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)$/) ?? s.match(/^(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)(?:property)?type$/);
   if (g) return { point: 'geometry:Point', curve: 'geometry:LineString', linestring: 'geometry:LineString', surface: 'geometry:Polygon', polygon: 'geometry:Polygon' }[g[1]];
   if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$/.test(s)) return 'geometry:';
+  if (/(?:geometry|geographicposition)\w*propertytype$/.test(s)) return 'geometry:';
   if (/^(boolean)$/.test(s)) return 'boolean';
-  if (/^(integer|int|long|short|byte|nonnegativeinteger|positiveinteger|unsignedint)$/.test(s)) return 'integer';
-  if (/^(real|double|float|decimal|number|measure(type)?|length(type)?|area(type)?|angle(type)?|distance|velocity)$/.test(s)) return 'real';
+  if (/^(integer|int|long|short|byte|(non)?(positive|negative)integer|unsigned(byte|short|int|long)|unlimitedinteger)$/.test(s)) return 'integer';
+  if (/^(real|double|float|decimal|number|(measure|length|area|angle|distance|velocity|speed|volume|scale|gridlength)(type)?)$/.test(s)) return 'real';
   return 'text';
+}
+
+/**
+ * A feature type's geometry kinds from its geometry-valued properties ([name, attrType]): the primary
+ * one's, the one named geometry or else the first. Another (a parcel's reference point) does not let
+ * the type hold a second kind; a primary one of no known kind restricts nothing.
+ */
+function primaryGeometry(props) {
+  const p = props.find(([n]) => /^geometry$/i.test(n)) ?? props[0];
+  return p && p[1].length > 9 ? [p[1].slice(9)] : [];
 }
 
 /** Attributes shared by types: one entry per name, or a type-qualified one when a definition differs. */
@@ -118,13 +129,13 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
     const typeName = deepText(first(ft, 'typeName'));
     const code = deepText(first(ft, 'code')) || typeName;
     if (!code) continue;
-    const geometry = new Set();
+    const geoms = [];
     const names = [];
     for (const fa of attributesOf(ft)) {
       const member = deepText(first(fa, 'memberName'));
       const t = attrType(deepText(first(fa, 'valueType')));
       if (t.startsWith('geometry:')) {
-        if (t.length > 9) geometry.add(t.slice(9));
+        geoms.push([member, t]);
         continue;
       }
       const listed = all(fa, 'FC_ListedValue').map((v) => [deepText(first(v, 'code')) || deepText(first(v, 'label')), deepText(first(v, 'label')) || deepText(first(v, 'code'))]).filter(([c]) => c);
@@ -138,7 +149,8 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
       if (key && !names.includes(key)) names.push(key);
     }
     const def = deepText(first(ft, 'definition'));
-    types.push({ code, name: typeName || code, ...(geometry.size ? { geometry: [...geometry] } : {}), attributes: names, ...(def ? { definition: def } : {}) });
+    const geometry = primaryGeometry(geoms);
+    types.push({ code, name: typeName || code, ...(geometry.length ? { geometry } : {}), attributes: names, ...(def ? { definition: def } : {}) });
   }
   if (!types.length) throw E('the ISO 19110 catalogue has no feature types');
   return { format: 'gw-catalog/1', id: safeId(id || title, 'iso19110'), name: title, version: deepText(first(root, 'versionNumber')) || '1', source: 'ISO 19110', nulls: EMPTY_NULLS, attributes: attrs, types };
@@ -241,7 +253,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const types = [];
   for (const entry of features) {
     const code = codeOf(entry);
-    const geometry = new Set();
+    const geoms = [];
     const names = [];
     for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
       const pname = p.attrs?.name;
@@ -251,7 +263,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       const ptype = String(p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? find(p, 'restriction')?.attrs?.base ?? '');
       const t = attrType(ptype);
       if (t.startsWith('geometry:')) {
-        if (t.length > 9) geometry.add(t.slice(9));
+        geoms.push([pname, t]);
         continue;
       }
       // A reference to a code list names it in its annotation (targetCodeList), else by the property's name;
@@ -266,7 +278,8 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       const key = add(pname, a, code);
       if (key && !names.includes(key)) names.push(key);
     }
-    types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.size ? { geometry: [...geometry] } : {}), attributes: names });
+    const geometry = primaryGeometry(geoms);
+    types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.length ? { geometry } : {}), attributes: names });
   }
   if (!types.length) throw E('the schema defines no feature types (no element in the gml:AbstractFeature group)');
   const title = name || target.replace(/\/+$/, '').split('/').slice(-2).join(' ') || 'INSPIRE application schema';

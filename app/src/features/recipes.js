@@ -293,7 +293,9 @@ export function install(app) {
     const ids = Object.values(outputs).filter((x) => typeof x === 'string' && (S.get(x)?.type === 'vlayer' || app.layers.get(x)));
     if (!ids.length) return;
     const rec = { id: recipe.id, version: recipe.version, step: step.id, op: step.op, params: JSON.parse(JSON.stringify(step.params)), at: new Date().toISOString() };
-    S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)));
+    // Bookkeeping, not an edit: kept out of the undo history (as a GeoPackage's schema is), so Undo
+    // after a run takes back the step itself, not its stamp.
+    S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)), { kind: 'load' });
   };
   const runner = new RecipeRunner(OPS, { app, provenance });
 

@@ -114,6 +114,28 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(two.types[0].geometry).toEqual(['LineString']);
     expect(two.types[0].attributes).toEqual(['inNetwork', 'validFrom', 'functionalRoadClass']);
   });
+  it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
+    const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
+    const type = (name, els) => `<element name="${name}" type="x:${name}Type" substitutionGroup="gml:AbstractFeature"/><complexType name="${name}Type"><sequence>${els}</sequence></complexType>`;
+    const c = fromInspire(
+      xsd(
+        // A parcel's outline, with a reference point beside it: the type holds polygons only.
+        type('CadastralParcel', '<element name="referencePoint" type="gml:PointPropertyType" minOccurs="0"/><element name="geometry" type="gml:MultiSurfacePropertyType"/><element name="label" type="string"/>') +
+          // A building's geometry wrapped in a data type: not a required text attribute.
+          type('Building', '<element name="geometry2D" type="x:BuildingGeometry2DPropertyType"/><element name="height" type="gml:LengthType" minOccurs="0"/>') +
+          // No property named geometry: the first one decides.
+          type('RoadLink', '<element name="centrelineGeometry" type="gml:CurvePropertyType"/><element name="startPoint" type="gml:PointPropertyType"/>'),
+      ),
+    );
+    const by = Object.fromEntries(c.types.map((t) => [t.code, t]));
+    expect(by.CadastralParcel.geometry).toEqual(['Polygon']);
+    expect(by.CadastralParcel.attributes).toEqual(['label']);
+    expect(by.Building.geometry).toBeUndefined();
+    expect(by.Building.attributes).toEqual(['height']);
+    expect(by.RoadLink.geometry).toEqual(['LineString']);
+    expect(by.RoadLink.attributes).toEqual([]);
+    expect(() => validateCatalog(c)).not.toThrow();
+  });
 });
 
 describe('REQ-GAP-87 OpenStreetMap presets', () => {
@@ -170,6 +192,12 @@ describe('REQ-GAP-87 which converter a file needs', () => {
     // A geometry of no single kind is still a geometry, never a text attribute.
     expect(['GM_Solid', 'gml:MultiGeometryPropertyType', 'gml:SolidPropertyType', 'gml:GeometryPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:', 'geometry:', 'geometry:']);
     expect(['Point', 'Surface'].map(attrType)).toEqual(['text', 'text']);
+    // Every XSD integer derivation, and the GML and ISO 19103 measure types (a speed limit is gml:VelocityType).
+    expect(['xs:unsignedShort', 'xs:unsignedLong', 'xs:negativeInteger', 'xs:nonPositiveInteger', 'UnlimitedInteger'].map(attrType)).toEqual(Array(5).fill('integer'));
+    expect(['gml:VelocityType', 'gml:SpeedType', 'gml:VolumeType', 'gml:ScaleType', 'Volume', 'gml:GridLengthType'].map(attrType)).toEqual(Array(6).fill('real'));
+    expect(['xs:time', 'xs:dateTime'].map(attrType)).toEqual(['text', 'text']);
+    // An INSPIRE data type that wraps a geometry is geometry, not text.
+    expect(['bu-core2d:BuildingGeometry2DPropertyType', 'ad:GeographicPositionPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:']);
   });
 });
 
