@@ -8,6 +8,11 @@ use std::io::{Read, Write};
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    // `gwb-sidecar run …` is gwb-run with no window: for a scheduler (REG-150, REG-151). It starts
+    // no service and no tray; its log in the output folder is its output.
+    if args.first().map(String::as_str) == Some("run") {
+        std::process::exit(gwb_sidecar::recipe_run::main(&args[1..]) as i32);
+    }
     if args.iter().any(|a| a == "--version") {
         println!("gwb-sidecar {} (API {})", env!("CARGO_PKG_VERSION"), gwb_sidecar_api::API_LEVEL);
         return;

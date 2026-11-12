@@ -13,6 +13,7 @@
     "test:rust": "node build/cargo-target.mjs cargo test --locked --manifest-path crates/Cargo.toml --workspace",
     "test:e2e": "node build/e2e.mjs",
     "test:android": "playwright test --config playwright.android.config.js",
+    "test:schedule-live": "node tests/tools/schedule-live.mjs",
     "test:webkit": "playwright test --config playwright.webkit.config.js",
     "trace": "node build/traceability.mjs",
     "ci:fast": "npm run test:rust && npm test && npm run build",

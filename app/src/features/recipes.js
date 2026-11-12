@@ -149,7 +149,8 @@ export function install(app) {
       await saveBlob(app, out.blob, { name: 'accepted-detections.geojson', types: out.types, description: 'GeoJSON' });
       return { summary: t('{n, plural, one {# feature} other {# features}}', { n: S.all('feature').filter((f) => f.vlayer === v.id).length }) };
     } },
-    convertFolder: { title: N_('Convert a folder'), defaults: { vectors: 'geoparquet' }, run: async ({ vectors, files: given }, ctx) => {
+    // dialog(params): the step opens a dialog when nobody gives it files (REG-150 refuses it).
+    convertFolder: { title: N_('Convert a folder'), defaults: { vectors: 'geoparquet' }, dialog: (p) => !p.files?.length, run: async ({ vectors, files: given }, ctx) => {
       let files = given;
       if (ctx?.headless && !files?.length) throw new Error('headless: give the files to convert (params.files, File objects)');
       if (files?.length) {
@@ -161,7 +162,8 @@ export function install(app) {
       await app.convertFiles(files, vectors);
       return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
     } },
-    command: { title: N_('Run a command'), defaults: { id: '' }, run: async ({ id, args }) => {
+    // Most commands open a dialog, and nothing says which: a run with nobody at the page refuses them all.
+    command: { title: N_('Run a command'), defaults: { id: '' }, dialog: () => true, run: async ({ id, args }) => {
       await C.run(id, args);
       return { summary: id };
     } },
@@ -359,6 +361,20 @@ export function install(app) {
       status,
     };
   }
+  /**
+   * Why a recipe cannot run with nobody at the page (the command-line runner, REG-150), or null:
+   * a review gate set to stop, or a step that opens a dialog. Checked before the run starts.
+   * params: the run's overrides, with any files the command line gives a step.
+   */
+  function unattended(src, { gates = 'continue', params = {} } = {}) {
+    const r = validateRecipe(src, OPS);
+    for (const s of r.steps) {
+      const o = OPS[s.op];
+      if (o.gate && gates === 'stop') return { step: s.id, title: s.title, reason: 'is a review gate, and gates are set to stop' };
+      if (o.dialog?.({ ...s.params, ...(params[s.id] ?? {}) })) return { step: s.id, title: s.title, reason: s.op === 'command' ? 'runs a command, which may open a dialog' : 'opens a dialog unless the command line gives it files' };
+    }
+    return null;
+  }
   /** One operation headless → {summary, files}. */
   async function runOp(op, params = {}) {
     const o = OPS[op];
@@ -374,5 +390,5 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended };
 }

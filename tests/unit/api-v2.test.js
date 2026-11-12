@@ -1,5 +1,5 @@
 // REQ-GAP-01 automation API v2: the contract (semantic versioning; the frozen 2.0.0 surface stays
-// compatible), the typed reference (docs/api/gisworkbench-api-v2.d.ts is generated from the spec
+// compatible), the typed reference (docs/api/gisworkbench-api-3.d.ts is generated from the spec
 // and parses as TypeScript), the run-time binding (every method implemented, arguments checked,
 // events delivered and kept), the MCP tools generated from it, and v1 unchanged.
 import { describe, it, expect } from 'vitest';
@@ -13,7 +13,7 @@ import { Registry, Proposals } from '../../app/src/ai/registry.js';
 import { createMcpServer } from '../../app/src/ai/mcp-server.js';
 import { Store } from '../../app/src/core/store.js';
 import { Emitter } from '../../app/src/core/util.js';
-import { generate, DTS_PATH } from '../../build/api-dts.mjs';
+import { generate, DTS_PATH, ALIAS_PATH, aliasText } from '../../build/api-dts.mjs';
 
 const FROZEN = JSON.parse(readFileSync(resolve('tests/unit/fixtures/api-v2-2.0.0.json'), 'utf8'));
 
@@ -85,6 +85,13 @@ describe('REQ-GAP-01 API v2 contract', () => {
     expect(text).toContain('find(params: AiFindParams): Promise<FindResult>;');
     expect(text).toContain('add(params: AiModelsAddParams): Promise<ModelInfo>;');
     expect(text).toMatch(/files: File\[\];/);
+  });
+
+  it('the reference is named for the major version, and the old name only points to it (REG-179)', () => {
+    expect(DTS_PATH).toMatch(new RegExp(`gisworkbench-api-${parseSemver(API_VERSION).major}\\.d\\.ts$`));
+    expect(readFileSync(ALIAS_PATH, 'utf8').replace(/\r\n/g, '\n')).toBe(aliasText());
+    expect(aliasText()).toContain('/// <reference path="./gisworkbench-api-3.d.ts" />');
+    expect(aliasText()).toContain("export * from './gisworkbench-api-3';");
   });
 });
 

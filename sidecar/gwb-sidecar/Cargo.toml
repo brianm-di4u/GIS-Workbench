@@ -11,6 +11,10 @@ name = "gwb-sidecar"
 path = "src/main.rs"
 
 [[bin]]
+name = "gwb-run"
+path = "src/bin/run.rs"
+
+[[bin]]
 name = "gwb-sidecar-setup"
 path = "src/bin/setup.rs"
 
