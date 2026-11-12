@@ -46,7 +46,7 @@ The sidecar never registers a task or a service. A schedule is one that you crea
 
 ### Windows Task Scheduler
 
-Change the paths, then run this in PowerShell. It creates a task that runs every night at 02:00:
+Change the paths, then run this in PowerShell. It creates a task that runs every night at 02:00, runs later if the computer was off at 02:00, runs on a laptop's battery too (Task Scheduler's default is AC power only), and is stopped after two hours:
 
 <!-- example: windows-task -->
 ```powershell
@@ -54,11 +54,11 @@ $sidecar = 'C:\Tools\GIS Workbench Sidecar\gwb-sidecar.exe'
 $arguments = 'run folder-to-cog --in "s1=C:\GIS\in\site.tif" --out "C:\GIS\nightly"'
 $action = New-ScheduledTaskAction -Execute $sidecar -Argument $arguments
 $trigger = New-ScheduledTaskTrigger -Daily -At 2am
-$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 2)
+$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Hours 2)
 Register-ScheduledTask -TaskName 'GIS Workbench nightly' -Action $action -Trigger $trigger -Settings $settings
 ```
 
-The same task with `schtasks`, from a Command Prompt:
+The same command and schedule with `schtasks`, from a Command Prompt. `schtasks` can't set the other three settings, so this task doesn't run on battery or after a missed 02:00, and has Task Scheduler's default time limit. On a laptop, use the PowerShell form:
 
 <!-- example: windows-schtasks -->
 ```

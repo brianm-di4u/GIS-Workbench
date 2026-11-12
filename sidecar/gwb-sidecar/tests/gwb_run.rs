@@ -410,7 +410,7 @@ fn the_windows_task_example_builds_and_its_command_runs() {
     );
     // The dry run: the same definition, built and never registered.
     let dry = ps.replace("Register-ScheduledTask -TaskName 'GIS Workbench nightly' ", "$task = New-ScheduledTask ")
-        + "\n[pscustomobject]@{ execute = $task.Actions[0].Execute; arguments = $task.Actions[0].Arguments; trigger = $task.Triggers[0].CimClass.CimClassName; at = ([datetime]$task.Triggers[0].StartBoundary).ToString('HH:mm'); days = $task.Triggers[0].DaysInterval; limit = $task.Settings.ExecutionTimeLimit } | ConvertTo-Json -Compress\n";
+        + "\n[pscustomobject]@{ execute = $task.Actions[0].Execute; arguments = $task.Actions[0].Arguments; trigger = $task.Triggers[0].CimClass.CimClassName; at = ([datetime]$task.Triggers[0].StartBoundary).ToString('HH:mm'); days = $task.Triggers[0].DaysInterval; limit = $task.Settings.ExecutionTimeLimit; late = $task.Settings.StartWhenAvailable; battery = -not $task.Settings.DisallowStartIfOnBatteries -and -not $task.Settings.StopIfGoingOnBatteries } | ConvertTo-Json -Compress\n";
     assert!(!dry.contains("Register-ScheduledTask"));
     let o = Command::new("powershell")
         .args(["-NoProfile", "-NonInteractive", "-Command", &dry])
@@ -425,6 +425,12 @@ fn the_windows_task_example_builds_and_its_command_runs() {
     assert_eq!(
         (task["days"].as_u64(), task["limit"].as_str()),
         (Some(1), Some("PT2H"))
+    );
+    // Runs after a missed 02:00, and on a laptop's battery (Task Scheduler's default is AC only).
+    assert_eq!(
+        (task["late"].as_bool(), task["battery"].as_bool()),
+        (Some(true), Some(true)),
+        "{text}"
     );
     // The command, run as Task Scheduler runs it: the program, and the arguments as one string.
     let o = Command::new(task["execute"].as_str().unwrap())
