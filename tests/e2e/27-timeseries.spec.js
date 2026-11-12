@@ -114,6 +114,26 @@ test('SCN-76 REQ-GAP-83 a NetCDF NDVI stack: dates, slider, profile, trend and a
   await expect(frame.locator('[data-id="ts-chart"]')).toBeVisible();
   await frame.getByRole('button', { name: 'Pin the cursor' }).click();
   await expect(frame.getByLabel('Profile of')).toHaveValue('pinned');
+  // The chart draws that profile: its first and last dates sit at the plot's left and right edges, at
+  // heights scaled between the profile's least and greatest values.
+  const ends = [0, expPoint.length - 1];
+  expect(ends.map((k) => Number.isFinite(expPoint[k]))).toEqual([true, true]);
+  const fin = expPoint.filter(Number.isFinite);
+  const [lo, hi] = [Math.min(...fin), Math.max(...fin)];
+  const drawn = await frame.evaluate(
+    ([pts]) => {
+      const cv = document.querySelector('[data-id="ts-chart"]');
+      const g = cv.getContext('2d');
+      // Some pixel within 2 of the point has the line's colour (#5fd0ff, blended at the edges).
+      return pts.map(([x, y]) => {
+        const d = g.getImageData(Math.round(x) - 2, Math.round(y) - 2, 5, 5).data;
+        for (let i = 0; i < d.length; i += 4) if (d[i + 2] > 180 && d[i + 1] > 120 && d[i] < 160) return true;
+        return false;
+      });
+    },
+    [ends.map((k, i) => [40 + i * (320 - 48), 8 + 130 - ((expPoint[k] - lo) / (hi - lo || 1)) * 130])],
+  );
+  expect(drawn).toEqual([true, true]);
   const nSaved = await frame.evaluate(() => window.gisworkbench.__saved.length);
   await frame.getByRole('button', { name: 'Export CSV…' }).click();
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.__saved.length)).toBe(nSaved + 1);
@@ -339,6 +359,20 @@ test('SCN-76 REQ-GAP-83 Time Stack of frames with no georeference: one grid by s
   await expect(pin).toBeDisabled();
   expect(await move(true)).toBe(true);
   await expect(pin).toBeEnabled();
+  // A point pinned on this stack is not read from another series' grid.
+  await pin.click();
+  const other = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const frames = [...app.layers.values()].filter((l) => l.width === 12 && l.bands === 1).map((l) => l.id);
+    const s = await app.commands.run('ts.stack', { layers: frames });
+    const p = app.activePane();
+    app.store.transact('test', (tx) => tx.set(p.rec.id, 'activeLayer', s.id));
+    return app.__saved?.length ?? 0;
+  });
+  await frame.getByRole('button', { name: 'Export CSV…' }).click();
+  await expect(frame.getByText('Move the cursor over the image, pin a point, or draw an AOI.')).toBeVisible();
+  await frame.waitForTimeout(500);
+  expect(await frame.evaluate(() => window.gisworkbench.__saved?.length ?? 0)).toBe(other);
   expect(logs).toEqual([]);
 });
 

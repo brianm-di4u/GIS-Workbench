@@ -479,8 +479,9 @@ export function install(app) {
       const w = aoiWindow(l);
       return w ? { rect: w } : null;
     }
-    if (panel.mode === 'pinned') return panel.pinned;
-    return panel.cursor ?? null;
+    // A point belongs to the series it was taken on: another series' grid has those pixels elsewhere.
+    const pt = panel.mode === 'pinned' ? panel.pinned : panel.cursor;
+    return pt?.id === l.id ? pt : null;
   }
   async function refreshProfile(l) {
     const q = query(l);
@@ -523,17 +524,10 @@ export function install(app) {
     prevMoved?.(p, x, y);
     if (!panel.el?.isConnected || raf) return;
     const l = active();
-    if (!l || p !== pane()) return;
-    // x, y are pixels of the pane's geo layer, which need not be the series: go through the ground.
-    const g = p?.geoLayer?.();
-    if (g && g !== l) {
-      const gr = g.groundAt(x, y);
-      const q = gr && l.imageAt(gr.lat, gr.lon, gr.h);
-      if (!q) return;
-      ({ x, y } = q);
-    }
+    // x, y are pixels of the pane's geo layer: a series that is not that layer takes no point from them.
+    if (!l || p !== pane() || p.geoLayer?.() !== l) return;
     if (!(x >= 0 && y >= 0 && x < l.width && y < l.height)) return;
-    panel.cursor = { x, y };
+    panel.cursor = { x, y, id: l.id };
     if (panel.mode !== 'cursor') return;
     raf = requestAnimationFrame(() => {
       raf = 0;

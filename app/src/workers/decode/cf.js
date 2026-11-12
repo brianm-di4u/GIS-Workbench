@@ -305,9 +305,10 @@ export function cfTime(units, calendar = 'standard') {
   if (!cal) return null;
   const unit = u[1].toLowerCase();
   // Months and years count calendar months from the reference (a monthly axis keeps each value in its
-  // month, which UDUNITS' fixed 30.44-day month does not); a fraction is of the month it falls in.
-  const months = /^(years?|yr)$/.test(unit) ? 12 : /^months?$/.test(unit) ? 1 : 0;
-  const per = SECS[unit] ?? (months ? 0 : undefined);
+  // month, which UDUNITS' fixed 30.44-day month does not); a fraction is of the month, or the year, it
+  // falls in.
+  const step = /^(years?|yr)$/.test(unit) ? 12 : /^months?$/.test(unit) ? 1 : 0;
+  const per = SECS[unit] ?? (step ? 0 : undefined);
   if (per === undefined) return null;
   let tz = 0;
   if (u[8] && /^[+-]/.test(u[8])) {
@@ -318,18 +319,17 @@ export function cfTime(units, calendar = 'standard') {
   const tod = Number(u[5] ?? 0) * 3600 + Number(u[6] ?? 0) * 60 + Number(u[7] ?? 0) - tz * 60;
   const ref = cal.day(y0, m0, d0) * 86400 + tod;
   const monthStart = (k) => cal.day(fdiv(k, 12), (k % 12 + 12) % 12 + 1, 1);
-  const calendarMonths = (x) => {
+  const calendarSteps = (x) => {
     const n = Math.floor(x);
-    const k = y0 * 12 + m0 - 1 + n;
+    const k = y0 * 12 + m0 - 1 + n * step;
     const first = monthStart(k);
-    const len = monthStart(k + 1) - first;
-    return (first + Math.min(d0, len) - 1 + (x - n) * len) * 86400 + tod;
+    return (first + Math.min(d0, monthStart(k + 1) - first) - 1 + (x - n) * (monthStart(k + step) - first)) * 86400 + tod;
   };
   const p = (n, w = 2) => String(n).padStart(w, '0');
   return (v) => {
     const x = Number(v);
     if (!Number.isFinite(x)) return null;
-    const t = Math.round((months ? calendarMonths(x * months) : ref + x * per) * 1000) / 1000;
+    const t = Math.round((step ? calendarSteps(x) : ref + x * per) * 1000) / 1000;
     const day = Math.floor(t / 86400);
     const s = t - day * 86400;
     const [y, m, d] = cal.date(day);

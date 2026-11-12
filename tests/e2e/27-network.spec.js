@@ -237,6 +237,38 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     .poll(() => frame.evaluate(() => window.gisworkbench.store.all('feature').filter((f) => window.gisworkbench.store.get(f.vlayer)?.name === 'Found: 101 1st Street').map((f) => [f.geom.xyz[0], f.geom.xyz[1]])))
     .toEqual([REF.queries[0].at]);
   await fd.getByRole('button', { name: 'Close' }).last().click();
+  // Reverse Geocode by a click beside 101 1st St.
+  const viaReverse = frame.evaluate(() => window.gisworkbench.commands.run('addr.reverse'));
+  await frame.waitForTimeout(200);
+  await clickOn([-104.99934, 40.00011]);
+  expect(await viaReverse).toMatchObject({ number: '101', street: '1st St' });
+  // Geocode a Table from a file: a one-column list whose header has a space is offered as one column.
+  // (The file input, which Playwright answers; the File System Access picker it cannot.)
+  const nLayers = await frame.evaluate(() => ((window.gisworkbench.runMode.caps.fsaPicker = false), window.gisworkbench.store.all('vlayer').length));
+  const [bfc] = await Promise.all([page.waitForEvent('filechooser'), frame.evaluate(() => void window.gisworkbench.commands.run('addr.batch'))]);
+  await bfc.setFiles({ name: 'list.txt', mimeType: 'text/plain', buffer: Buffer.from(['Street Address', '101 1st Street', '1101 12th St', ''].join('\n')) });
+  const bd = frame.locator('[data-id="dialog:net-batch"]');
+  await expect(bd).toBeVisible();
+  await expect(bd.getByLabel('Address column')).toHaveValue('Street Address');
+  await bd.getByRole('button', { name: 'Geocode' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.store.all('vlayer').length)).toBe(nLayers + 1);
+  const listed = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const v = app.store.all('vlayer').at(-1);
+    return app.store.all('feature').filter((f) => f.vlayer === v.id).map((f) => [f.geom.xyz[0], f.geom.xyz[1]]);
+  });
+  expect(listed).toEqual([REF.queries[0].at, REF.queries[2].at]);
+  // Road Network with turn bans from a file, through its button.
+  void frame.evaluate(() => window.gisworkbench.commands.run('route.roads'));
+  const rd2 = frame.locator('[data-id="dialog:net-roads"]');
+  await expect(rd2).toBeVisible();
+  await rd2.getByLabel('Road layer').selectOption({ label: 'city-roads' });
+  await rd2.getByLabel('Road id field').selectOption('id');
+  const [tfc] = await Promise.all([page.waitForEvent('filechooser'), rd2.locator('button', { hasText: 'Turn bans (CSV)…' }).click()]);
+  await tfc.setFiles({ name: 'bans.csv', mimeType: 'text/csv', buffer: Buffer.from(['from,to', 'xw,st0', ''].join('\n')) });
+  await expect(rd2.getByText('1 ban from bans.csv')).toBeVisible();
+  await rd2.getByRole('button', { name: 'Build' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.routing.graph?.g.banned.length ?? 0)).toBe(1);
   expect(out.service.pieces).toBeGreaterThan(0);
   // Two clicks at one junction make no route, and no empty layer.
   const same = await frame.evaluate(async () => {
