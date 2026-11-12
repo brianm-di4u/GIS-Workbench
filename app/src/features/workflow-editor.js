@@ -104,34 +104,39 @@ export function install(app) {
   // ---- keeping workflows ----
   /** A built-in recipe edited here is kept under an id of its own, so the built-in never hides it. */
   const own = (r) => (R.builtin.some((b) => b.id === r.id) ? { ...r, id: `${r.id}-${Date.now().toString(36)}` } : r);
-  async function saveToProject(wf = ed.wf) {
-    const r = own(validateRecipe(wf, ops));
+  // One save at a time: a second Save (a double-click) waits for the first, and so sees its record.
+  let saving = Promise.resolve();
+  const saveToProject = () => (saving = saving.catch(() => {}).then(save));
+  async function save() {
+    const r = own(validateRecipe(ed.wf, ops));
+    const lib = (await R.library(true).catch(() => [])).find((x) => x.id === r.id);
     let rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
     // The project and the library are kept apart (the admin's option B): Save may replace a stored
     // copy of this id only if it is the copy that was opened. A different one (a shared project's,
     // or another project's in the library) stays, and this is saved as a new workflow.
-    // (A workflow passed in, not the one open here, may replace only a stored copy identical to it.)
-    const opened = wf === ed.wf ? ed.base : body(r);
-    const stored = [rec?.recipe, (await R.library(true).catch(() => [])).find((x) => x.id === r.id)].filter(Boolean);
-    if (stored.some((x) => same(x) !== opened)) {
+    const stored = [rec?.recipe, lib].filter(Boolean);
+    if (stored.some((x) => same(x) !== ed.base)) {
       r.id = `${r.id}-${Date.now().toString(36)}`;
       r.version = 1;
       rec = null;
       toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
-    } else if (rec?.recipe) r.version = (rec.recipe.version ?? 1) + (body(rec.recipe) === body(r) ? 0 : 1);
-    // The version counts this project's saves of it: the stored copy's, plus one if this differs.
-    if (wf === ed.wf) {
-      ed.wf.id = r.id;
-      ed.wf.version = r.version;
-      ed.base = body(r);
+    } else if (stored.length) {
+      // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
+      r.version = Math.max(...stored.map((x) => x.version ?? 1)) + (ed.base === body(r) ? 0 : 1);
     }
+    ed.wf.id = r.id;
+    ed.wf.version = r.version;
+    ed.base = body(r);
     S.transact(t('Save workflow'), (tx) => (rec ? tx.set(rec.id, 'recipe', toFile(r)) : tx.create('workflow', { recipe: toFile(r) })));
     if (!(await R.keep(toFile(r)))) toast(t('Saved in the project; this browser has no storage for your library.'), { kind: 'warn' });
     return r.id;
   }
   const toFile = (r) => JSON.parse(JSON.stringify({ ...r, format: FORMAT2 }));
-  /** A workflow's content, its version aside: what tells two stored copies of one id apart. */
-  const body = (x) => JSON.stringify({ ...toFile(x), source: undefined, clash: undefined, version: 0 });
+  /** A workflow's content, its version and where its steps sit in the graph aside: what tells two stored copies of one id apart. */
+  const body = (x) => {
+    const f = toFile(x);
+    return JSON.stringify({ ...f, source: undefined, clash: undefined, version: 0, steps: f.steps?.map(({ at, ...s }) => s) });
+  };
   /** A stored copy's content in the form open() gives it (an old gw-recipe/1 row is normalised the same way). */
   const same = (x) => {
     try {

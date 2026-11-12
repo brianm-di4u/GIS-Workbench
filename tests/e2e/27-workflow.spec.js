@@ -383,6 +383,16 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
     return { a, b, v1, v2: lib.find((r) => r.id === 'old-1')?.version, rows: lib.length, desc: lib[0]?.description, proj, forked: c !== 'old-1', other };
   });
   expect(saves).toEqual({ a: 'old-1', b: 'old-1', v1: 1, v2: 2, rows: 1, desc: 'edited here', proj: ['old-1 v2'], forked: true, other: 'other tab' });
+  // A library copy changed before its first save here takes the next version; two saves at once make one record.
+  const first = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    app.workflows.open((await app.recipes.library()).find((r) => r.id === 'old-2'));
+    app.workflows.current().description = 'changed before the first save';
+    const ids = await Promise.all([app.workflows.saveToProject(), app.workflows.saveToProject()]);
+    const lib = (await app.recipes.library(true)).find((r) => r.id === 'old-2');
+    return { ids, lib: lib.version, proj: app.store.all('workflow').filter((w) => w.recipe.id === 'old-2').map((w) => w.recipe.version) };
+  });
+  expect(first).toEqual({ ids: ['old-2', 'old-2'], lib: 2, proj: [2] });
 });
 test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
   await page.addInitScript(() => {
