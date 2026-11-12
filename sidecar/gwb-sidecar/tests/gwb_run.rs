@@ -161,6 +161,27 @@ fn a_run_writes_its_files_provenance_and_log() {
 }
 
 #[test]
+fn a_run_that_cannot_start_says_why_in_its_log() {
+    // A scheduled run has no console, so a missing input must be in the output folder's log.
+    let d = scratch("early");
+    let out = d.join("out");
+    let (code, text) = run(&[
+        "echo",
+        "--out",
+        out.to_str().unwrap(),
+        "--in",
+        "no-such-file.tif",
+    ]);
+    assert_eq!(code, 2, "{text}");
+    let log = std::fs::read_to_string(out.join("gwb-run.log")).unwrap_or_default();
+    assert!(
+        log.contains("there is no input file no-such-file.tif") && log.contains("exit 2"),
+        "{log}"
+    );
+    let _ = std::fs::remove_dir_all(&d);
+}
+
+#[test]
 fn refusals_and_a_tampered_app_have_their_own_exit_codes() {
     if !browser() {
         return;

@@ -51,4 +51,4 @@ There is no telemetry. The project collects no user data.
 | Prompt injection | Restricted token, admin gate, review | none |
 | Tampered release | Published hashes, no replaced files | [0005](decisions/0005-dist-not-tracked.md) |
 | The sidecar is a larger surface than the file | Accepted. It is optional and gets its own review | none |
-| The command-line runner drives a browser | DevTools over a pipe, not a port; a throwaway profile; only the hash-checked app copy is opened | [0013](decisions/0013-runner-drives-the-browser-over-a-pipe.md) |
+| The command-line runner drives a browser | DevTools over a pipe, not a port; a throwaway profile; only the hash-checked app copy is opened | [0017](decisions/0017-runner-drives-the-browser-over-a-pipe.md) |

@@ -11,7 +11,7 @@
 //! A run starts the installed Chrome or Edge headless with a fresh profile, opens the sidecar's own
 //! copy of the app (only when it matches app/SHA256SUMS) as a file, and runs the recipe there with
 //! the automation API's `recipes.run`: the same code as a run in the page. The DevTools protocol runs
-//! over a pipe, so nothing listens on any port (decision 0013).
+//! over a pipe, so nothing listens on any port (decision 0017).
 //!
 //! `<recipe>` is a .gwrecipe.json file or a built-in recipe id. `--in FILE` opens FILE in the app
 //! before the run; `--in STEP=FILE` gives FILE to that step's `files` parameter. A recipe with a
@@ -172,6 +172,16 @@ pub fn main(argv: &[String]) -> u8 {
         Err(e) => {
             eprintln!("gwb-run: {e}");
             eprintln!("{USAGE}");
+            // A scheduled run has no console, so the reason (a missing input, say) goes in the log too.
+            if let Some(mut log) = args
+                .out
+                .as_deref()
+                .filter(|o| std::fs::create_dir_all(o).is_ok())
+                .and_then(|o| Log::open(o).ok())
+            {
+                log.line(&format!("gwb-run: {e}"));
+                log.line("exit 2");
+            }
             return 2;
         }
     };
