@@ -17,6 +17,8 @@ import { dateFromName, decimalYear, layerDates, layerCalendar, groupsOf, baselin
 
 /** Samples a time stack or a trend may read at once: the worker cube's own limit. */
 const MAX_SAMPLES = 96e6;
+// The spectral bundle takes a cube of at most 1,024 bands (crates/bundles/spectral cube()).
+const MAX_DATES = 1024;
 /** Spacing of the control points that map the reference grid onto another image. */
 const NODE = 16;
 
@@ -51,7 +53,7 @@ export function install(app) {
   }
   const series = (l = app.activeLayer()) => {
     const d = datesOf(l);
-    if (!d || d.length < 2) throw gwError('{layer} is not a time series: it needs a date on every band (a NetCDF time axis, or Time Stack)', { layer: l?.rec?.name ?? '—' }, 'E_NEED_SERIES');
+    if (!d || d.length < 2) throw gwError('{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)', { layer: l?.rec?.name ?? '—' }, 'E_NEED_SERIES');
     return { l, dates: d };
   };
   const label = (iso) => {
@@ -65,14 +67,20 @@ export function install(app) {
     return d.getUTCDate() === p.d ? (p.hh || p.mm ? `${fmtDate(d)} ${String(p.hh).padStart(2, '0')}:${String(p.mm).padStart(2, '0')}` : fmtDate(d)) : iso.slice(0, 10);
   };
 
+  /** The AOI's bounding box in a layer's pixels, clipped to the layer, or null with no AOI. */
+  function aoiWindow(l) {
+    const b = app.aoiBox?.(pane(), l);
+    if (!b) return null;
+    const x0 = Math.min(l.width - 1, Math.max(0, Math.floor(b.x0)));
+    const y0 = Math.min(l.height - 1, Math.max(0, Math.floor(b.y0)));
+    return { x0, y0, w: Math.max(1, Math.min(l.width, Math.ceil(b.x1)) - x0), h: Math.max(1, Math.min(l.height, Math.ceil(b.y1)) - y0) };
+  }
+
   // ---- time stack ----
 
   /** Window of the reference: the AOI when there is one, else the whole image; a step keeps it under the cube limit. */
   function stackWindow(ref, nt) {
-    const b = app.aoiBox?.(pane(), ref);
-    const w = b ? { x0: Math.max(0, Math.floor(b.x0)), y0: Math.max(0, Math.floor(b.y0)), w: Math.max(1, Math.ceil(b.w)), h: Math.max(1, Math.ceil(b.h)) } : { x0: 0, y0: 0, w: ref.width, h: ref.height };
-    w.w = Math.min(w.w, ref.width - w.x0);
-    w.h = Math.min(w.h, ref.height - w.y0);
+    const w = aoiWindow(ref) ?? { x0: 0, y0: 0, w: ref.width, h: ref.height };
     w.step = Math.max(1, Math.ceil(Math.sqrt((w.w * w.h * nt) / MAX_SAMPLES)));
     return w;
   }
@@ -81,6 +89,9 @@ export function install(app) {
   function sameGrid(a, b) {
     if (a === b) return true;
     if (a.width !== b.width || a.height !== b.height) return false;
+    // Images with no georeference (time-lapse frames) of one size are taken as one grid: there is
+    // nothing to resample them by.
+    if (!a.modelId && !b.modelId) return true;
     const tol = 0.1;
     for (const [x, y] of [[0, 0], [a.width, 0], [0, a.height], [a.width, a.height]]) {
       const g = a.groundAt(x, y, 0);
@@ -179,6 +190,8 @@ export function install(app) {
         const c = await msi().cube(x.l, { x0: win.x0, y0: win.y0, w: win.w, h: win.h, step: win.step, bands: [b] });
         planes.push(c.v);
       } else {
+        // Resampling goes through the ground: an image with no georeference can't be put on another grid.
+        if (!R.modelId || !x.l.modelId) throw gwError('{layer} is not on the grid of {ref}, and one of them has no georeference to resample by', { layer: x.l.rec?.name ?? x.l.id, ref: R.rec?.name ?? R.id }, 'E_NEED_DATES');
         planes.push(await resampleBand(R, x.l, b, win, ow, oh));
         resampled++;
       }
@@ -272,10 +285,8 @@ export function install(app) {
 
   function seriesCube(l) {
     const { dates } = series(l);
-    const b = app.aoiBox?.(pane(), l);
-    const w = b ? { x0: Math.max(0, Math.floor(b.x0)), y0: Math.max(0, Math.floor(b.y0)), w: Math.max(1, Math.ceil(b.w)), h: Math.max(1, Math.ceil(b.h)) } : { x0: 0, y0: 0, w: l.width, h: l.height };
-    w.w = Math.min(w.w, l.width - w.x0);
-    w.h = Math.min(w.h, l.height - w.y0);
+    const w = aoiWindow(l) ?? { x0: 0, y0: 0, w: l.width, h: l.height };
+    if (dates.length > MAX_DATES) throw gwError('{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month', { n: int(dates.length), max: int(MAX_DATES) }, 'E_NEED_SERIES');
     if (w.w * w.h * dates.length > MAX_SAMPLES) throw gwError('{w}×{h} pixels × {n} dates is more than one pass takes ({max} M values): draw an AOI', { w: int(w.w), h: int(w.h), n: dates.length, max: int(MAX_SAMPLES / 1e6) }, 'E_NEED_SERIES');
     return { dates, w };
   }
@@ -334,7 +345,8 @@ export function install(app) {
       height: c.h,
       chain: { bands: [0], stretch: 'linear2', colour: { palette: 'diverging' } },
       info: {
-        bandsMeta: dates.map((d) => ({ name: d.slice(0, 10), cw: NaN, fwhm: NaN, bad: false, time: d })),
+        // The calendar goes with the dates, or a model-calendar series stops reading as one.
+        bandsMeta: dates.map((d) => ({ name: d.slice(0, 10), cw: NaN, fwhm: NaN, bad: false, time: d, calendar: calOf(l) })),
         radiometry: { state: z ? 'anomaly z-score' : 'anomaly', gain: null, offset: null, unit: z ? 'σ' : (l.radiometry?.unit ?? ''), source: t('Baseline {from} to {to}', { from: from || label(dates[0]), to: to || label(dates.at(-1)) }) },
         timeSeries: { dates: dates.slice(), baseline: [from, to], by, z },
       },
@@ -409,13 +421,14 @@ export function install(app) {
     const l = active();
     if (!l) {
       panel.ui = null;
-      el.replaceChildren(h('p', { class: 'hint' }, t('Select a time series: a layer with a date on every band (a NetCDF time axis, or Analyze ▸ Time Stack).')));
+      el.replaceChildren(h('p', { class: 'hint' }, t('Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).')));
       return;
     }
     const dates = datesOf(l);
     if (panel.ui?.l !== l || panel.ui.n !== dates.length || !el.contains(panel.ui.slider)) build(el, l, dates);
     const ui = panel.ui;
-    const k = Math.min(panel.k, dates.length - 1);
+    // The date on show is the band the layer displays: another layer, or an undo, may have changed it.
+    const k = (panel.k = Math.max(0, Math.min(dates.length - 1, l.chain?.bands?.[0] ?? panel.k)));
     if (+ui.slider.value !== k) ui.slider.value = String(k);
     ui.slider.setAttribute('aria-valuetext', label(dates[k]));
     ui.date.textContent = label(dates[k]);
@@ -441,7 +454,7 @@ export function install(app) {
     const mode = h('select', { class: 'inp', 'aria-label': t('Profile of') }, h('option', { value: 'cursor' }, t('Cursor')), h('option', { value: 'pinned' }, t('Pinned point')), h('option', { value: 'aoi' }, t('AOI mean')));
     mode.addEventListener('change', () => {
       panel.mode = mode.value;
-      refreshProfile(l);
+      refreshProfile(l).catch((e) => toast(msgOf(e), { kind: 'error' }));
     });
     const pin = h('button', { class: 'btn', type: 'button' }, t('Pin the cursor'));
     pin.addEventListener('click', () => {
@@ -462,8 +475,8 @@ export function install(app) {
   }
   function query(l) {
     if (panel.mode === 'aoi') {
-      const b = app.aoiBox?.(pane(), l);
-      return b ? { rect: { x0: Math.max(0, Math.floor(b.x0)), y0: Math.max(0, Math.floor(b.y0)), w: Math.max(1, Math.ceil(b.w)), h: Math.max(1, Math.ceil(b.h)) } } : null;
+      const w = aoiWindow(l);
+      return w ? { rect: w } : null;
     }
     if (panel.mode === 'pinned') return panel.pinned;
     return panel.cursor ?? null;
@@ -532,7 +545,11 @@ export function install(app) {
       const cands = images().filter((l) => !(datesOf(l)?.length > 1));
       const items = cands.map((l) => ({ l, date: dateOfImage(l) }));
       if (args?.layers) {
-        const pick = items.filter((x) => args.layers.includes(x.l.id) || args.layers.includes(x.l.rec?.name));
+        // In the order args.layers names them, so args.dates[i] goes with the i-th layer named.
+        const pick = args.layers.map((k) => items.find((x) => x.l.id === k || x.l.rec?.name === k));
+        const gone = args.layers.find((k, i) => !pick[i]);
+        if (gone !== undefined) throw gwError('{layer} is not an open image that can go in a time stack', { layer: gone }, 'E_NEED_DATES');
+        if (args.dates && args.dates.length !== pick.length) throw gwError('{n} dates for {m} images: give one date for each', { n: args.dates.length, m: pick.length }, 'E_NEED_DATES');
         const l = await stack(pick.map((x) => x.l), { band: (args.band ?? 1) - 1, dates: args.dates ?? null });
         return { id: l.id, dates: datesOf(l), resampled: l.resampled };
       }

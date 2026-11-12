@@ -1,8 +1,8 @@
 //! REQ-GAP-22 on real data: the OpenDroneMap blocks of the T&E corpus (frames-odm-aukerman,
 //! -bellus-gcp, -copr-gcp, -seneca). Tie points come from tests/tools/aero_ties.py (OpenCV SIFT,
-//! independent of this solver) in D:/gwb25/data-aero/ties; each test skips when its file or the
+//! independent of this solver) in E:/gwb25/data-aero/ties; each test skips when its file or the
 //! corpus is absent. Results (σ₀, the camera, GNSS residuals, check-point errors against the
-//! surveyed GCPs) are printed and written to D:/gwb25/data-aero/results for the validation note
+//! surveyed GCPs) are printed and written to E:/gwb25/data-aero/results for the validation note
 //! and the OpenCV oracle (tests/tools/aero_oracle.py).
 //!
 //! Debug builds use a tenth of the tracks (the solver's arithmetic is the same; debug is for
@@ -14,9 +14,9 @@ use gw_sensor::Ground;
 use serde_json::Value;
 use std::path::Path;
 
-const TIES: &str = "D:/gwb25/data-aero/ties";
-const CORPUS: &str = "D:/TE-corpus";
-const OUT: &str = "D:/gwb25/data-aero/results";
+const TIES: &str = "E:/gwb25/data-aero/ties";
+const CORPUS: &str = "E:/TE-corpus";
+const OUT: &str = "E:/gwb25/data-aero/results";
 
 struct Img {
     file: String,

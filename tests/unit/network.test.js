@@ -36,6 +36,13 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     expect(onewayRule(['Y', 'N', 'N'])).toBe('yn');
     expect(onewayRule(['N', ''])).toBe('yn');
     expect(onewayRule(['FT', 'B', 'N'])).toBe('here');
+    // A DBF logical field holds T and F: T is one-way along the line, F two-way. Beside FT/TF/B they are HERE's.
+    expect(onewayRule(['T', 'F', 'F'])).toBe('bool');
+    expect(['T', 'F'].map((v) => onewayOf(v, 'bool'))).toEqual([1, 0]);
+    expect(onewayRule(['FT', 'T', 'F', 'B'])).toBe('here');
+    expect(['T', 'F'].map((v) => onewayOf(v, 'here'))).toEqual([-1, 1]);
+    const tf = buildGraph([{ id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'T' } }, { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'F' } }], { oneway: 'ow' });
+    expect(tf.edges.map((e) => [e.line, Number.isFinite(e.fwd), Number.isFinite(e.bwd)])).toEqual([['a', true, false], ['b', true, true]]);
     const lines = [
       { id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'Y' } },
       { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'N' } },
@@ -51,8 +58,9 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
       { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'F' } },
     ];
     const ways = (o) => buildGraph(lines, { oneway: 'ow', ...o }).edges.map((e) => [Number.isFinite(e.fwd), Number.isFinite(e.bwd)]);
-    // HERE directions, as before: T against the line, F along it.
-    expect(ways({})).toEqual([[false, true], [true, false]]);
+    // By default a field of only T and F is a DBF logical field (onewayRule); the dialog asks.
+    expect(ways({})).toEqual([[true, false], [true, true]]);
+    // HERE directions: T against the line, F along it.
     expect(ways({ onewayAs: 'here' })).toEqual([[false, true], [true, false]]);
     // True and false: T one-way along the line, F two-way.
     expect(ways({ onewayAs: 'bool' })).toEqual([[true, false], [true, true]]);
@@ -145,6 +153,22 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     expect(t.node).toBe(s.node + 1);
     expect(t.g.edges.map((e) => e.len).reduce((x, y) => x + y)).toBeCloseTo(a.len + g.edges[1].len, 9);
   });
+  it('snaps to a road that can be travelled, never to the end of a closed one', () => {
+    // HERE flags: N is closed. The closed road ends beside the click; the open one is 1 km away.
+    const lines = [
+      { id: 'shut', coords: [[0, 0], [0.001, 0]], attrs: { dir: 'N' } },
+      { id: 'open', coords: [[0, 0.01], [0.001, 0.01]], attrs: { dir: 'B' } },
+    ];
+    const g = buildGraph(lines, { oneway: 'dir' });
+    expect(g.nodes).toHaveLength(2);
+    expect(g.edges.map((e) => e.line)).toEqual(['open']);
+    const s = snapToEdge(g, [0.001, 0.0001]);
+    expect(s.g.nodes[s.node]).toEqual([0.001, 0.01]);
+    expect(s.metres).toBeGreaterThan(1000);
+    // With every road closed there is no node to snap to. (N alone reads as Y/N, so closed is spelt out.)
+    const shut = buildGraph([{ id: 'x', coords: [[0, 0], [0.001, 0]], attrs: { dir: 'closed' } }], { oneway: 'dir' });
+    expect(shut?.nodes ?? []).toHaveLength(0);
+  });
 });
 
 describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) against scipy', () => {
@@ -161,6 +185,24 @@ describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) 
       expect(at(line[0])).toBe(at(r.from));
       expect(at(line.at(-1))).toBe(at(r.to));
     }
+  });
+  it('draws no road beyond a banned turn in a service area', () => {
+    // a then b straight on, with the turn a → b banned; c turns off at the same junction.
+    const lines = [
+      { id: 'a', coords: [[0, 0], [0.001, 0]] },
+      { id: 'b', coords: [[0.001, 0], [0.002, 0]] },
+      { id: 'c', coords: [[0.001, 0], [0.001, 0.0002]] },
+    ];
+    const t = buildGraph(lines, { bans: [{ from: 'a', to: 'b' }] });
+    const r = B.network([1, 150, snapToEdge(t, [0, 0]).node], graphData(t));
+    // Only b has points east of x = 0.001.
+    const onB = (entry) => serviceLines(t, r.cost, [150], entry).some((p) => p.coords.some(([x]) => x > 0.001 + 1e-9));
+    expect(r.entry).toHaveLength(2 * t.edges.length);
+    expect(r.entry[2 * t.edges.findIndex((e) => e.line === 'b') + 1]).toBeNull();
+    // From the entry costs b is not drawn; from the node costs alone it would be.
+    expect(onB(r.entry)).toBe(false);
+    expect(onB(null)).toBe(true);
+    expect(serviceLines(t, r.cost, [150], r.entry).some((p) => p.coords.some(([, y]) => y > 0))).toBe(true);
   });
   it('reaches the reference nodes within each break', () => {
     const s = REF.service;

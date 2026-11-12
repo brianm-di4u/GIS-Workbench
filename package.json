@@ -1,6 +1,6 @@
 {
   "name": "gis-workbench",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "private": true,
   "description": "GIS Workbench: single-file, offline, browser-based GIS, imagery analysis and photogrammetry workbench for civilian use",
   "license": "Apache-2.0",
@@ -19,7 +19,7 @@
     "ci:full": "npm run ci:fast && npm run test:e2e && npm run trace"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "1.3.0",
+    "@anthropic-ai/sdk": "1.4.0",
     "@mapbox/vector-tile": "3.0.0",
     "ag-psd": "34.1.0",
     "fflate": "0.8.3",
@@ -53,7 +53,7 @@
     "mgrs": "2.2.0",
     "onnxruntime-web": "1.31.1",
     "proj-wasm": "0.1.0",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   },
   "engines": {
     "node": ">=22"

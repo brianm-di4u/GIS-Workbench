@@ -1,4 +1,4 @@
-// 2.5 vendor group (REQ-GAP-20) in the app, on T&E corpus products (D:, skipped when absent):
+// 2.5 vendor group (REQ-GAP-20) in the app, on T&E corpus products (E:, skipped when absent):
 //  - A WorldView-2 Level-1B GeoTIFF opened with its .IMD/.EPH/.ATT/.GEO/.RPB/.TIL gets the
 //    rigorous DigitalGlobe line scanner beside the .RPB model, which stays active; the rigorous
 //    model agrees with the RPB, is selectable in the model menu, states its sensor parameters and a
@@ -14,7 +14,7 @@ import { createRequire } from 'node:module';
 import { openApp, openFiles } from './helpers.js';
 
 const CORPUS = process.env.TE_CORPUS ?? resolve('..', 'TE-corpus');
-const TE = existsSync(CORPUS) ? CORPUS : 'D:/TE-corpus';
+const TE = existsSync(CORPUS) ? CORPUS : 'E:/TE-corpus';
 const WV2 = join(TE, 'eo-spacenet-atlanta-wv2-l1b-rpc', 'nadir52_BDDC00_MUL');
 const L8 = join(TE, 'landsat8-c2-l1tp-044034-20240820-tierb');
 const S2 = join(TE, 's2-l1c-jp2-safe-10seh-20240816');
@@ -117,7 +117,7 @@ test('REQ-GAP-20 Landsat 8 ANG and Sentinel-2 MTD_TL: map + line-of-sight models
   expect(ls.active).not.toMatch(/line of sight/);
   expect(s2.active).not.toMatch(/line of sight/);
   // The oracle row nearest the Landsat scene centre: the USGS view zenith (0.01°) and azimuth.
-  const csv = 'D:/gwb25/data-vendor/oracle/landsat8-c2-044034-20240820-vza-vaa.csv';
+  const csv = 'E:/gwb25/data-vendor/oracle/landsat8-c2-044034-20240820-vza-vaa.csv';
   const oracle = existsSync(csv)
     ? readFileSync(csv, 'utf8')
         .trim()

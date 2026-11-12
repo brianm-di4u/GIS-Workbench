@@ -2313,6 +2313,13 @@
    ]
   },
   {
+   "key": "Addresses and routes",
+   "src": "Addresses and routes",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Adds a basemap or online tile source.",
    "src": "Adds a basemap or online tile source.",
    "refs": [
@@ -2973,6 +2980,13 @@
    "refs": [
     "shell/command-meta.js",
     "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
+   "src": "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {
@@ -5029,8 +5043,7 @@
    "key": "Buffer",
    "src": "Buffer",
    "refs": [
-    "features/geoproc-ui.js",
-    "features/terrain-analysis.js"
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -5119,10 +5132,24 @@
    ]
   },
   {
+   "key": "Building the address index…",
+   "src": "Building the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Building the orthomosaic…",
    "src": "Building the orthomosaic…",
    "refs": [
     "features/ortho.js"
+   ]
+  },
+  {
+   "key": "Building the road network…",
+   "src": "Building the road network…",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -12302,7 +12329,6 @@
    "key": "Erase",
    "src": "Erase",
    "refs": [
-    "features/geoproc-ui.js",
     "feedback/whiteboard.js"
    ]
   },
@@ -15559,6 +15585,13 @@
    "src": "Geospatial",
    "refs": [
     "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
+   "src": "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {
@@ -27079,6 +27112,13 @@
    ]
   },
   {
+   "key": "Opening the address index…",
+   "src": "Opening the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Opening the stereo pair in the sidecar…",
    "src": "Opening the stereo pair in the sidecar…",
    "refs": [
@@ -32433,7 +32473,6 @@
    "key": "Region",
    "src": "Region",
    "refs": [
-    "features/catalog.js",
     "features/spectral-analysis.js"
    ]
   },
@@ -35278,6 +35317,13 @@
    ]
   },
   {
+   "key": "Saving the address index…",
+   "src": "Saving the address index…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Scale",
    "src": "Scale",
    "refs": [
@@ -35728,8 +35774,8 @@
    ]
   },
   {
-   "key": "Select a time series: a layer with a date on every band (a NetCDF time axis, or Analyze ▸ Time Stack).",
-   "src": "Select a time series: a layer with a date on every band (a NetCDF time axis, or Analyze ▸ Time Stack).",
+   "key": "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).",
+   "src": "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).",
    "refs": [
     "features/timeseries-tools.js"
    ]
@@ -38564,7 +38610,6 @@
    "src": "Square",
    "refs": [
     "features/extract.js",
-    "features/geoproc-ui.js",
     "shell/commands.js"
    ]
   },
@@ -41453,8 +41498,8 @@
    ]
   },
   {
-   "key": "Then click the place to start from.",
-   "src": "Then click the place to start from.",
+   "key": "Then click the place to start from. The area starts at the nearest junction.",
+   "src": "Then click the place to start from. The area starts at the nearest junction.",
    "refs": [
     "features/routing-tools.js"
    ]
@@ -41901,6 +41946,13 @@
    "src": "Time Stack…",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Time series",
+   "src": "Time series",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {
@@ -47769,6 +47821,14 @@
    "error": true
   },
   {
+   "key": "cloud storage\u0004Region",
+   "src": "Region",
+   "ctx": "cloud storage",
+   "refs": [
+    "features/catalog.js"
+   ]
+  },
+  {
    "key": "clustering or binning",
    "src": "clustering or binning",
    "refs": [
@@ -50287,6 +50347,13 @@
    ]
   },
   {
+   "key": "in another place",
+   "src": "in another place",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "in progress",
    "src": "in progress",
    "refs": [
@@ -50726,6 +50793,14 @@
    ]
   },
   {
+   "key": "landing zone\u0004Buffer",
+   "src": "Buffer",
+   "ctx": "landing zone",
+   "refs": [
+    "features/terrain-analysis.js"
+   ]
+  },
+  {
    "key": "landscape",
    "src": "landscape",
    "refs": [
@@ -50943,6 +51018,14 @@
    "refs": [
     "features/aoi.js",
     "features/spectral.js"
+   ]
+  },
+  {
+   "key": "line end\u0004Square",
+   "src": "Square",
+   "ctx": "line end",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -53921,6 +54004,14 @@
    "src": "overlap",
    "refs": [
     "features/extract-r2.js"
+   ]
+  },
+  {
+   "key": "overlay\u0004Erase",
+   "src": "Erase",
+   "ctx": "overlay",
+   "refs": [
+    "features/geoproc-ui.js"
    ]
   },
   {
@@ -64154,8 +64245,22 @@
    ]
   },
   {
-   "key": "{layer} is not a time series: it needs a date on every band (a NetCDF time axis, or Time Stack)",
-   "src": "{layer} is not a time series: it needs a date on every band (a NetCDF time axis, or Time Stack)",
+   "key": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
+   "src": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{layer} is not an open image that can go in a time stack",
+   "src": "{layer} is not an open image that can go in a time stack",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
+   "src": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
    "refs": [
     "features/timeseries-tools.js"
    ]
@@ -66090,6 +66195,20 @@
    "src": "{n} at ≥ {min}",
    "refs": [
     "features/detections.js"
+   ]
+  },
+  {
+   "key": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "src": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{n} dates for {m} images: give one date for each",
+   "src": "{n} dates for {m} images: give one date for each",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {

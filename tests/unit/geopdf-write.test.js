@@ -28,7 +28,7 @@ import { fontkitBundle } from '../../build/packs.mjs';
 const FX12 = JSON.parse(readFileSync('fixtures/fx12/fx12.geojson', 'utf8'));
 const FONTS = join('.cache', 'packs-src', 'fonts');
 const haveFonts = Object.values(FONT_FILES).every((f) => existsSync(join(FONTS, f)));
-const GDAL = process.env.GW_GDAL_BIN ?? 'D:/gwb-sidecar-deps/osgeo4w/root/bin';
+const GDAL = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const haveGdal = existsSync(join(GDAL, 'ogr2ogr.exe')) || existsSync(join(GDAL, 'ogr2ogr'));
 const gdalEnv = { ...process.env, PATH: `${GDAL}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}`, GDAL_DATA: resolve(GDAL, '../apps/gdal/share/gdal'), PROJ_DATA: resolve(GDAL, '../share/proj'), PROJ_LIB: resolve(GDAL, '../share/proj') };
 const gdal = (cmd, args) => execFileSync(join(GDAL, cmd), args, { env: gdalEnv, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
@@ -170,7 +170,8 @@ describe.skipIf(!haveWasm)('REQ-GAP-66 GeoPDF writer → the app reader', () => 
   }
 });
 
-describe.skipIf(!haveGdal)('REQ-GAP-66 GeoPDF writer → GDAL PDF driver (oracle)', { timeout: 60000 }, () => {
+// GDAL loads from E:, a USB disk that can stay busy for hours: a cold start there has taken 114 s.
+describe.skipIf(!haveGdal)('REQ-GAP-66 GeoPDF writer → GDAL PDF driver (oracle)', { timeout: 240_000 }, () => {
   for (const epsg of [32611, 2229, 5070, 3857, 4326]) {
     test(`EPSG:${epsg}`, async () => {
       mkdirSync(TMP, { recursive: true });

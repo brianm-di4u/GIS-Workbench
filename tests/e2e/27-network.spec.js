@@ -81,6 +81,15 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   // The misspelt street matches at a lower score than the exact ones.
   expect(batch.rows.find((r) => r.ref === 'q4').score).toBeLessThan(100);
   expect(batch.rows.find((r) => r.ref === 'q1').score).toBe(100);
+  // A list of addresses with no delimiter is one column, its header included (the dialog reads the same
+  // header): each line is searched whole, not by its first word.
+  const one = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const r = await app.commands.run('addr.batch', { text: ['Full address', '101 1st Street', '1101 12th St', ''].join('\n'), address: 'Full address' });
+    return { matched: r.matched, at: app.store.all('feature').filter((f) => f.vlayer === r.layer).map((f) => [f.geom.xyz[0], f.geom.xyz[1]]) };
+  });
+  expect(one.matched).toBe(2);
+  expect(one.at).toEqual([REF.queries[0].at, REF.queries[2].at]);
 
   // The index as a GeoPackage, opened again.
   const gp = await frame.evaluate(async () => {
@@ -99,6 +108,31 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   expect(gp.name).toMatch(/\.addresses\.gpkg$/);
   expect(gp.opened.addresses).toBe(528);
   expect(gp.again.at).toEqual(REF.queries[2].at);
+
+  // The same index padded past the limit is refused by its row count, with the error that says to split it.
+  const big = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const f = app.__saved.at(-1);
+    const lib = await app.gw.runScript('js-sqlite');
+    const module = await app.gw.wasm('wasm-sqlite');
+    const SQL = await lib.initSqlJs({ instantiateWasm: (imports, ok) => (WebAssembly.instantiate(module, imports).then(ok), {}) });
+    const db = new SQL.Database(new Uint8Array(await f.blob.arrayBuffer()));
+    const table = db.exec("SELECT table_name FROM gpkg_contents WHERE data_type = 'features' LIMIT 1")[0].values[0][0];
+    // The R*Tree triggers call ST_ functions this bare SQLite lacks; the rows need no geometry.
+    for (const [name] of db.exec("SELECT name FROM sqlite_master WHERE type = 'trigger'")[0]?.values ?? []) db.run(`DROP TRIGGER "${name}"`);
+    db.run(`WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 1000000) INSERT INTO "${table}" (geom) SELECT NULL FROM n`);
+    const bytes = db.export();
+    db.close();
+    try {
+      await app.routing.openIndex(bytes, 'big.addresses.gpkg');
+      return { code: null };
+    } catch (e) {
+      return { code: e.code, still: app.routing.geocode('1101 12th St', { limit: 1 }).length };
+    }
+  });
+  expect(big.code).toBe('E_NEED_SPLIT');
+  // The index opened before is still the one in use.
+  expect(big.still).toBe(1);
 
   // Road Network through its dialog: one-way and speed fields guessed, travel time.
   await frame.evaluate(() => {
@@ -137,15 +171,31 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     const from = [-104.9868, 40.0099];
     const to = [-104.9988, 40];
     const before = (await app.commands.run('route.shortest', { from, to })).cost;
+    // A service area of exactly that time reaches 1st St / B Ave; with the turn banned it must not.
+    const reaches = (id) => app.store.all('feature').filter((f) => f.vlayer === id).some((f) => { for (let i = 0; i < f.geom.xyz.length; i += 3) if (Math.hypot(f.geom.xyz[i] - to[0], f.geom.xyz[i + 1] - to[1]) < 2e-5) return true; return false; });
+    const areaBefore = reaches((await app.commands.run('route.service', { at: from, breaks: [Math.ceil(before)] })).layer);
     const built = await app.commands.run('route.roads', { layer: rl, oneway: 'oneway', speed: 'speed', cost: 'time', idField: 'id', bansCsv: ['from,to', 'xw,st0', ''].join('\n') });
     const after = (await app.commands.run('route.shortest', { from, to })).cost;
-    return { before, after, built };
+    const areaAfter = reaches((await app.commands.run('route.service', { at: from, breaks: [Math.ceil(before)] })).layer);
+    return { before, after, built, areaBefore, areaAfter };
   });
   expect(ban.built.banned).toBe(1);
   expect(ban.after).toBeGreaterThan(ban.before);
+  expect(ban.after).toBeGreaterThan(Math.ceil(ban.before));
+  expect([ban.areaBefore, ban.areaAfter]).toEqual([true, false]);
   // One-way 3rd St: west is a detour, east is not.
   expect(REF.routes[3].seconds).toBeGreaterThan(REF.routes[2].seconds);
   expect(out.service.nodes).toBe(REF.service.within['60'].length);
   expect(out.service.pieces).toBeGreaterThan(0);
+  // Two clicks at one junction make no route, and no empty layer.
+  const same = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const n = app.layers.size;
+    const at = app.routing.graph.g.nodes[0];
+    let code = null;
+    await app.routing.route(at, at).catch((e) => (code = e.code));
+    return { code, added: app.layers.size - n };
+  });
+  expect(same).toEqual({ code: 'E_NEED_ROADS', added: 0 });
   expect(logs).toEqual([]);
 });

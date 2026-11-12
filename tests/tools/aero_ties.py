@@ -5,7 +5,7 @@ holds two features of one image is dropped). The aerial triangulation solver is 
 this only produces its input.
 
 Run with the gw-te environment, isolated (-I), from outside the data folder:
-  python -I tests/tools/aero_ties.py D:/TE-corpus/frames-odm-bellus-gcp D:/gwb25/data-aero/ties/bellus.json
+  python -I tests/tools/aero_ties.py E:/TE-corpus/frames-odm-bellus-gcp E:/gwb25/data-aero/ties/bellus.json
 
 Output JSON: {block, images: [{file, width, height, exif}], tracks: [[[image, x, y], ...], ...]}.
 Pixel coordinates are corner-origin (the app's convention): OpenCV keypoint + 0.5, divided by the

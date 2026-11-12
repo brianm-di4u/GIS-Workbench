@@ -3,7 +3,7 @@
 // against the one it replaces, with the arguments the sidecar really uses.
 //
 //   node tests/tools/ffmpeg-diff.mjs --old <prefix> --new <prefix> --out <report.json>
-//        [--corpus D:/TE-corpus] [--fixtures fixtures] [--scratch <dir>] [--jobs 4] [--no-encode]
+//        [--corpus E:/TE-corpus] [--fixtures fixtures] [--scratch <dir>] [--jobs 4] [--no-encode]
 //
 // A prefix holds bin/ffmpeg and bin/ffprobe (and lib/ on Linux). For every media file under the
 // corpus and the fixtures:
@@ -32,7 +32,7 @@ const LINUX = process.platform === 'linux';
 const OLD = resolve(arg('--old'));
 const NEW = resolve(arg('--new'));
 const OUT = resolve(arg('--out'));
-const CORPUS = arg('--corpus', LINUX ? '/mnt/d/TE-corpus' : 'D:/TE-corpus');
+const CORPUS = arg('--corpus', LINUX ? '/mnt/e/TE-corpus' : 'E:/TE-corpus');
 const FIXTURES = arg('--fixtures', 'fixtures');
 const SCRATCH = resolve(arg('--scratch', join(OUT, '..', 'ffmpeg-diff-scratch')));
 const JOBS = Number(arg('--jobs', '4'));

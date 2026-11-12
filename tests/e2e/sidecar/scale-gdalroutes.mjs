@@ -14,13 +14,13 @@ const arg = (k, d) => {
   const i = process.argv.indexOf(k);
   return i > 0 ? process.argv[i + 1] : d;
 };
-const OUT = arg('--out', 'D:/gwb26/data-gdalroutes/scale');
+const OUT = arg('--out', 'E:/gwb26/data-gdalroutes/scale');
 const EXE = arg('--exe');
-const MODULES = arg('--modules', 'D:/gwb26/data-gdalroutes/bundle/modules');
+const MODULES = arg('--modules', 'E:/gwb26/data-gdalroutes/bundle/modules');
 const SIZE = Number(arg('--size', '40000'));
 const ONLY = arg('--only', 'pansharpen,reproject').split(',');
 const PORT = Number(arg('--port', '47829'));
-const GDAL = arg('--gdal-bin', 'D:/gwb-sidecar-deps/conda-gdal/Library/bin');
+const GDAL = arg('--gdal-bin', 'E:/gwb-sidecar-deps/conda-gdal/Library/bin');
 const PY = arg('--python', 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/python.exe');
 mkdirSync(OUT, { recursive: true });
 const tool = (t, a) => execFileSync(join(GDAL, t), a, { stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, PATH: `${GDAL};${process.env.PATH}`, GDAL_DATA: join(GDAL, '..', 'share', 'gdal'), PROJ_DATA: join(GDAL, '..', 'share', 'proj') } });

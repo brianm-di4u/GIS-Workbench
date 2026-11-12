@@ -4,7 +4,7 @@
 // is checked against the product's own RPB, and the map + line-of-sight models against the map grid
 // and the relief displacement. The geometry itself is validated by the cargo corpus tests
 // (crates/gw-sensor/tests/vendor_*.rs); here the JS ↔ WASM plumbing is. Skips cleanly without the
-// built WASM or without D:.
+// built WASM or without E:.
 import { describe, it, expect } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -25,7 +25,7 @@ const wasm = (n) => (target ? join(target, `gw_bundle_${n}.wasm`) : '');
 const have = !!target && existsSync(wasm('core')) && existsSync(wasm('vendor'));
 const core = have ? new Core(new WebAssembly.Module(readFileSync(wasm('core')))) : null;
 const vendor = have ? new VendorBundle(new WebAssembly.Module(readFileSync(wasm('vendor')))) : null;
-const TE = process.env.TE_CORPUS ?? 'D:/TE-corpus';
+const TE = process.env.TE_CORPUS ?? 'E:/TE-corpus';
 const WV2 = join(TE, 'eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29/nadir29_315300_PAN/09DEC22163522-P1BS-058332847010_01_P003');
 const L8 = join(TE, 'landsat8-c2-l1tp-044034-20240820-tierb/LC08_L1TP_044034_20240820_20240830_02_T1_ANG.txt');
 

@@ -245,7 +245,15 @@ describe('real input', () => {
     const v0 = await view();
     await s.swipe(c.cx, c.cy - 80, c.cx, c.cy + 80);
     await sleep(500);
-    const v1 = await view();
+    let v1 = await view();
+    if (v1.cx === v0.cx && v1.cy === v0.cy) {
+      // The first touch of a test is sometimes lost on the runner (#185), as in openSheet.
+      retries += 1;
+      note('tap-retries', retries);
+      await s.swipe(c.cx, c.cy - 80, c.cx, c.cy + 80);
+      await sleep(500);
+      v1 = await view();
+    }
     assert.ok(Math.hypot(v1.cx - v0.cx, v1.cy - v0.cy) > 0, 'the view panned');
     await s.hold(c.cx, c.cy);
     await s.until(visible('m:point'), { timeout: 8000, what: 'the point sheet' });
@@ -358,10 +366,18 @@ describe('device features', () => {
     const toast = await s.js(`() => [...document.querySelectorAll('.toast, [role=status], [role=alert]')].map((e) => e.textContent)`);
     note('share-sheet', { sheet: /ActivityListView|ActivityContentView|Copy/.test(tree), toast });
     assert.match(tree, /ActivityListView|ActivityContentView/, `the iOS share sheet; the app said ${JSON.stringify(toast)}`);
-    const closed = await s.tapNative(['Close', 'Cancel', 'Done'], { timeout: 2500 });
-    if (!closed) await s.tap(220, 60); // no button on it in iOS 26: a tap outside closes it
-    await sleep(1500);
-    assert.doesNotMatch(await s.nativeSource(), /ActivityListView|ActivityContentView/, 'the share sheet closed');
+    // No button on it in iOS 26: a tap outside closes it. On the runner the tap sometimes did not,
+    // and the open sheet then failed the next test too (#185). Nor did a swipe, so the later tries
+    // use the sheet's Copy action, which closes it.
+    const sheet = /ActivityListView|ActivityContentView/;
+    let tries = 0;
+    for (; tries < 3 && sheet.test(await s.nativeSource()); tries++) {
+      const closed = await s.tapNative(['Close', 'Cancel', 'Done'], { timeout: 2500 });
+      if (!closed) await (tries === 0 ? s.tap(220, 60) : s.tapNative(['Copy'], { timeout: 2500, anyType: true }));
+      await sleep(1500);
+    }
+    note('share-close-tries', tries);
+    assert.doesNotMatch(await s.nativeSource(), sheet, 'the share sheet closed');
   });
 
   test('REQ-HOST-05 a real Save lands in the Downloads folder', async () => {
@@ -376,7 +392,10 @@ describe('device features', () => {
     await sleep(3000);
     await shot('save-2');
     const root = join(homedir(), 'Library', 'Developer', 'CoreSimulator', 'Devices', UDID, 'data');
-    const files = execFileSync('find', [root, '-name', 'observations-*.geojson'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+    const find = () => execFileSync('find', [root, '-name', 'observations-*.geojson'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+    // The download can land some seconds after it is accepted on the runner (#185).
+    let files = find();
+    for (const end = Date.now() + 15_000; !files.length && Date.now() < end; files = find()) await sleep(1000);
     note('save', { label, files });
     assert.ok(files.length > 0, 'a saved file');
     assert.equal(JSON.parse(readFileSync(files.at(-1), 'utf8')).features.length, 1);
@@ -396,20 +415,25 @@ describe('a file from the phone', () => {
         return add.call(this);
       };
     }`);
-    await s.tapOn(m('m:cmd:file.openimage'));
-    await sleep(2500);
-    await shot('picker-1');
-    const accept = await s.js('() => window.__accept');
-    const chose = await s.tapNative(['Choose Files', 'Choose File', 'Browse Files'], { timeout: 4000 });
-    await sleep(2500);
-    await shot('picker-2');
-    const tab = await s.tapNative(['Browse'], { timeout: 4000, anyType: true });
-    await sleep(2500);
-    await shot('picker-3');
-    note('picker', { accept, chose, tab });
-    assert.deepEqual(accept, ['']);
-    assert.ok(chose && tab, 'the document picker opened');
-    await restart();
+    try {
+      await s.tapOn(m('m:cmd:file.openimage'));
+      await sleep(2500);
+      await shot('picker-1');
+      const accept = await s.js('() => window.__accept');
+      const chose = await s.tapNative(['Choose Files', 'Choose File', 'Browse Files'], { timeout: 4000 });
+      await sleep(2500);
+      await shot('picker-2');
+      // The picker can take seconds to draw on the runner (#185): it was still blank when a 4 s wait ran out.
+      const tab = await s.tapNative(['Browse'], { timeout: 15_000, anyType: true });
+      await sleep(2500);
+      await shot('picker-3');
+      note('picker', { accept, chose, tab });
+      assert.deepEqual(accept, ['']);
+      assert.ok(chose && tab, 'the document picker opened');
+    } finally {
+      // The picker stays over Safari until it closes; leave it open and every later test taps under it.
+      await restart();
+    }
   });
 });
 

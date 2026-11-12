@@ -3,7 +3,7 @@
 // checked against a reader that is not GDAL (tests/tools/plugindata_oracle.py: pyhdf, astropy, h5py,
 // tiledb-py, tifffile). The data is not in the repository: without it each test skips.
 //
-// Env: GWB_PLUGINDATA (default D:/gwb26/data-plugindata, with SOURCES.json), GWB_PLUGINDATA_PY (Python of
+// Env: GWB_PLUGINDATA (default E:/gwb26/data-plugindata, with SOURCES.json), GWB_PLUGINDATA_PY (Python of
 // the oracle), GWB_PLUGINDATA_QUICK (three subdatasets a file, no 10 GB image), GWB_PLUGINDATA_SRC (a large
 // GeoTIFF for KEA and TileDB), GWB_PLUGINDATA_NO_LARGE (leave out the 10 GB files, whose job folders need
 // 20 GB on the native disk). Results: reports/sidecar/plugindata-<platform>.json.
@@ -22,7 +22,7 @@ const PORT = Number(process.env.GWB_PLUGINDATA_PORT ?? 47825);
 const WORK = process.env.GWB_PLUGINDATA_WORK ?? (LINUX ? join(DATA_ROOT, 'plugindata-spec') : join(DATA, 'run', 'spec-windows'));
 // Files the oracle opens with HDF5 or TileDB stay where a Windows Python reaches them as a plain path.
 const SHARED = join(DATA, 'run', LINUX ? 'spec-linux-shared' : 'spec-windows-shared');
-const SRC = process.env.GWB_PLUGINDATA_SRC ?? `${LINUX ? '/mnt/d' : 'D:'}/TE-corpus/naip-co-roumelis-2023/m_4010520_sw_13_030_20230821_20240104.tif`;
+const SRC = process.env.GWB_PLUGINDATA_SRC ?? `${LINUX ? '/mnt/e' : 'E:'}/TE-corpus/naip-co-roumelis-2023/m_4010520_sw_13_030_20230821_20240104.tif`;
 const REPORT = resolve('reports', 'sidecar', `plugindata-${LINUX ? 'linux' : 'windows'}.json`);
 const results = {};
 const record = (k, v) => {

@@ -62,7 +62,7 @@ await withSidecar('s49', async ({ upload, run, outPath, s }) => {
       if (a.length) {
         const dir = join(s.dataDir, 'klv');
         mkdirSync(dir, { recursive: true });
-        const ex = (f, o) => execFileSync('D:/gwb-sidecar-deps/ffmpeg-26/bin/ffmpeg.exe', ['-v', 'error', '-y', '-i', f, '-map', '0:d:0', '-c', 'copy', '-f', 'data', o]);
+        const ex = (f, o) => execFileSync('E:/gwb-sidecar-deps/ffmpeg-26/bin/ffmpeg.exe', ['-v', 'error', '-y', '-i', f, '-map', '0:d:0', '-c', 'copy', '-f', 'data', o]);
         ex(src, join(dir, 'in.klv'));
         ex(out, join(dir, 'out.klv'));
         row.klvdata_in = tePy(KLV_PY, [join(dir, 'in.klv')]).trim();

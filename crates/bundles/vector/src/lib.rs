@@ -78,7 +78,8 @@ pub unsafe extern "C" fn gw_validate(prm: *const f64, plen: usize, data: *const 
 /// along, cost against (infinite or negative = closed), length (m); then x, y of every node (m,
 /// local); then the bans as pairs (edge in, edge out)]. `prm`: [0, source node, target node] for a
 /// route — JSON {cost, edges, forward} (cost null when unreachable); or [1, max cost, sources…] for
-/// a service area — JSON {cost} per node (null beyond the maximum).
+/// a service area — JSON {cost} per node and {entry} per edge direction (2e + 1 along, 2e against: the
+/// least cost at which the edge can be entered, after turn bans), null beyond the maximum.
 /// # Safety
 /// The pointers must hold the stated lengths.
 #[no_mangle]
@@ -123,15 +124,18 @@ pub unsafe extern "C" fn gw_network(prm: *const f64, plen: usize, data: *const f
             1 if a.len() >= 3 => {
                 let src = a[2..].iter().map(|&x| node(x)).collect::<gw_abi::Result<Vec<_>>>()?;
                 let max = if a[1] > 0.0 { a[1] } else { f64::INFINITY };
-                j.key("cost").arr();
-                for c in g.reach(&src, max) {
-                    if c.is_finite() {
-                        j.num(c);
-                    } else {
-                        j.null();
+                let r = g.reach(&src, max);
+                for (k, v) in [("cost", &r.node), ("entry", &r.entry)] {
+                    j.key(k).arr();
+                    for &c in v.iter() {
+                        if c.is_finite() {
+                            j.num(c);
+                        } else {
+                            j.null();
+                        }
                     }
+                    j.end_arr();
                 }
-                j.end_arr();
             }
             _ => return Err(Error::invalid("network: unknown operation")),
         }

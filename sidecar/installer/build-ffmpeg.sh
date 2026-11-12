@@ -7,8 +7,8 @@
 #
 #   sidecar/installer/build-ffmpeg.sh <ffmpeg-8.1.3.tar.xz>
 #
-# Windows: run in Git Bash; compilers from conda-forge in D:/gwb-sidecar-deps/ffbuild-env-26, output
-# in D:/gwb-sidecar-deps/ffmpeg-26. Linux: run in WSL under the `wsl` lock; compilers from conda-forge
+# Windows: run in Git Bash; compilers from conda-forge in E:/gwb-sidecar-deps/ffbuild-env-26, output
+# in E:/gwb-sidecar-deps/ffmpeg-26. Linux: run in WSL under the `wsl` lock; compilers from conda-forge
 # in ~/gwb/deps/ffbuild-env-26, output in ~/gwb/deps/ffmpeg-26. Old glibc baseline, as the other
 # Linux trees. Each output holds bin/ (and lib/ on Linux) as compose.mjs expects, and licenses/ with
 # the LGPL text and BUILD.txt, which go into the module.
@@ -45,7 +45,7 @@ case "$(uname -s)" in
     ;;
   MINGW*|MSYS*)
     PLATFORM=windows
-    DEPS=${GWB_SIDECAR_DEPS:-/d/gwb-sidecar-deps}
+    DEPS=${GWB_SIDECAR_DEPS:-/e/gwb-sidecar-deps}
     WORK=${GWB_FFMPEG_WORK:-$DEPS/ffmpeg-26-work}
     ENVDIR=$DEPS/ffbuild-env-26
     export PATH=$ENVDIR/Library/bin:$PATH
@@ -85,7 +85,7 @@ rm -rf "$WORK/src" "$WORK/prefix" "$WORK/zlib"
 mkdir -p "$WORK/src" "$WORK/prefix"
 tar -xJf "$TARBALL" -C "$WORK/src" --strip-components=1
 cd "$WORK/src"
-# Windows compilers read D:/ paths, not Git Bash's /d/.
+# Windows compilers read E:/ paths, not Git Bash's /e/.
 PREFIX=$WORK/prefix
 [ "$PLATFORM" = linux ] || PREFIX=$(cygpath -m "$PREFIX")
 

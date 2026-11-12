@@ -2,7 +2,7 @@
 //! product's `.IMD`, `.EPH`, `.ATT` and `.GEO` against the product's own `.RPB` (the vendor RPC).
 //! The products are the 21 Level-1B deliveries of the T&E corpus that carry all five files
 //! (WorldView-2 Atlanta: `eo-spacenet-atlanta-wv2-l1b-rpc`, `…-nadir10-nadir29`; WorldView-3:
-//! the DG tars of `nitf-mvs-wv3-buenos-aires` and `nitf-core3d-jacksonville-wv3`). They stay on D:
+//! the DG tars of `nitf-mvs-wv3-buenos-aires` and `nitf-core3d-jacksonville-wv3`). They stay on E:
 //! and the test skips cleanly when they are absent.
 //!
 //! For each product: an 11 × 11 grid over the image at three heights (the RPC height offset and ±
@@ -14,7 +14,7 @@ use gw_sensor::vendor::dg::{dg_model, rpb_record, DgFiles};
 use gw_sensor::SensorModel;
 use std::path::{Path, PathBuf};
 
-const ROOTS: [&str; 4] = ["D:/TE-corpus/eo-spacenet-atlanta-wv2-l1b-rpc", "D:/TE-corpus/eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29", "D:/TE-corpus/nitf-mvs-wv3-buenos-aires", "D:/TE-corpus/nitf-core3d-jacksonville-wv3"];
+const ROOTS: [&str; 4] = ["E:/TE-corpus/eo-spacenet-atlanta-wv2-l1b-rpc", "E:/TE-corpus/eo-spacenet-atlanta-wv2-l1b-nadir10-nadir29", "E:/TE-corpus/nitf-mvs-wv3-buenos-aires", "E:/TE-corpus/nitf-core3d-jacksonville-wv3"];
 
 fn walk(d: &Path, out: &mut Vec<PathBuf>) {
     if let Ok(rd) = std::fs::read_dir(d) {
@@ -62,7 +62,7 @@ pub fn stats(d: &[(f64, f64)]) -> Stats {
 fn dg_rigorous_model_agrees_with_the_rpb_on_the_corpus() {
     let ps = products();
     if ps.is_empty() {
-        eprintln!("skipped: the T&E corpus DigitalGlobe products are not on D:");
+        eprintln!("skipped: the T&E corpus DigitalGlobe products are not on E:");
         return;
     }
     println!("| product | sat | lines × samples | scan | off-nadir | mean dx | mean dy | sd dx | sd dy | RMS | max | no refraction RMS | µs/pt |");

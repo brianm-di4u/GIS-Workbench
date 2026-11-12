@@ -8,7 +8,7 @@ import { stripMeasurements, parseCount, vlmPrompt, f32ToF16, f16ToF32 } from '..
 import { changeMask, maskScores } from '../../app/src/workers/ai/change.js';
 import { f16bits, convertModel, decodeModel } from '../../build/onnx-fp16.mjs';
 
-const MD = 'D:/gwb24/data-extai/moondream2';
+const MD = 'E:/gwb24/data-extai/moondream2';
 
 describe('REQ-LAI-04 Moondream2 tokenizer', () => {
   it('round-trips text through a small byte-level vocabulary', () => {

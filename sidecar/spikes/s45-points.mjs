@@ -12,8 +12,8 @@ import { withSidecar, tePy, te, report, CORPUS } from './common.mjs';
 
 const BPF = join(CORPUS, 'lidar-bpf-pdal-v3');
 const E57 = join(CORPUS, 'points-e57-pdal-test');
-const M = 'D:/gwb-sidecar-deps/bundle/modules';
-const tmp = 'D:/gwb-sidecar-deps/s45';
+const M = 'E:/gwb-sidecar-deps/bundle/modules';
+const tmp = 'E:/gwb-sidecar-deps/s45';
 mkdirSync(tmp, { recursive: true });
 
 const stats = (pdal, file, env) => {

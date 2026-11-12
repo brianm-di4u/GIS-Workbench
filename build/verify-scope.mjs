@@ -60,6 +60,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
     step('Civilian-use check', 'node', ['build/check-policy.mjs']);
+    step('D: drive paths', 'node', ['build/check-d-drive.mjs']);
     if (fragments) step('Changelog fragments', 'node', ['build/release/changelog.mjs', 'check']);
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');

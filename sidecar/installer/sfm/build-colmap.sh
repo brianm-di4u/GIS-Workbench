@@ -1,7 +1,7 @@
 #!/bin/bash
 # COLMAP for the sidecar's sfm module (REQ-GAP-29). Run in Git Bash on Windows, or in Linux or WSL.
 #
-#   SFM_DEPS=D:/gwb-sidecar-deps/colmap-26 VCPKG=D:/gwb-sidecar-deps/vcpkg-26 ./build-colmap.sh [deps|configure|build|all]
+#   SFM_DEPS=E:/gwb-sidecar-deps/colmap-26 VCPKG=E:/gwb-sidecar-deps/vcpkg-26 ./build-colmap.sh [deps|configure|build|all]
 #
 # On Windows, configure and build need the MSVC environment: start Git Bash from a shell that has run
 # vcvars64.bat. SFM_DEPS/src holds COLMAP 4.2.1 with colmap-gwb.patch applied. The binary goes to

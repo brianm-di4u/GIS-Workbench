@@ -7,10 +7,10 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { MEDIA_NEEDS, MEDIA_REFUSED, OPENH264_CODE, OPENH264_WRAPPER, mediaLibraryPathProblems, mediaOpenH264Problems, parseListing } from '../../sidecar/installer/gates.mjs';
 
-const DEPS = process.env.GWB_SIDECAR_DEPS ?? 'D:/gwb-sidecar-deps';
+const DEPS = process.env.GWB_SIDECAR_DEPS ?? 'E:/gwb-sidecar-deps';
 const OLD_WIN = `${DEPS}/ffmpeg/bin`;
 const NEW_WIN = `${DEPS}/ffmpeg-26`;
-const CISCO = process.env.GWB_CISCO_SO ?? 'D:/gwb26/data-ffmpeg/markers/libopenh264.so.8';
+const CISCO = process.env.GWB_CISCO_SO ?? 'E:/gwb26/data-ffmpeg/markers/libopenh264.so.8';
 
 describe('the Media module holds no OpenH264 outside Cisco\'s binary', () => {
   let dir;

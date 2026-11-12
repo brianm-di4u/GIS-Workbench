@@ -14,7 +14,7 @@ The assets are built on the admin's Windows PC, with WSL for the Linux packages,
 | 6 | `node build/release/upload.mjs --tag <tag> --dir <staged folder> --check` | Checks the HTML against `CI-SHA256SUMS` and every digest again, just before the admin publishes. |
 | 7 | `wsl.exe -e bash "<repo in WSL>/build/release/wsl-e2e.sh" "<repo in WSL>"` | Runs the sidecar browser tests on Linux. |
 
-Defaults: the sidecar output folder is `D:/gwb-sidecar-deps/release`, and the WSL tools live in `~/gwb` (set `GWB_WSL_HOME` to move them). Keep the staged folder on D:. A release is over 4 GB.
+Defaults: the sidecar output folder is `E:/gwb-sidecar-deps/release`, and the WSL tools live in `~/gwb` (set `GWB_WSL_HOME` to move them). Keep the staged folder on E:, since D: is failing. A release is over 4 GB.
 
 `upload.mjs` uses `gh`, so it uploads with whatever login `gh` has. It never handles a token itself.
 

@@ -28,11 +28,14 @@ const flag = (v) =>
     .toLowerCase();
 /**
  * Which convention a one-way field follows, from its values: 'here' when it holds HERE or Esri
- * directions (FT, TF, B) and no Y, where N means closed; otherwise 'yn', where N means two-way.
+ * directions (FT, TF, B) and no Y, where N means closed; 'bool' when it holds only T and F (a DBF
+ * logical field: T is one-way along the line, F two-way); otherwise 'yn', where N means two-way.
  */
 export function onewayRule(values) {
   const s = new Set([...values].map(flag));
-  return !s.has('y') && ['ft', 'tf', 'f', 't', 'b'].some((x) => s.has(x)) ? 'here' : 'yn';
+  if (s.has('y')) return 'yn';
+  if (['ft', 'tf', 'b'].some((x) => s.has(x))) return 'here';
+  return s.has('t') || s.has('f') ? 'bool' : 'yn';
 }
 
 /**
@@ -269,15 +272,17 @@ function cutAt(coords, f) {
 /**
  * The network within each cost break of a service area, as lines: every edge reached within the
  * break in full, and the reachable part of an edge whose far end is beyond it (from either end in
- * reach, in the directions allowed). `costs` is the bundle's cost per node (null = not reached).
- * Returns [{brk, coords}] for every break, so a larger break repeats what a smaller one holds.
+ * reach, in the directions allowed). `costs` is the bundle's cost per node (null = not reached);
+ * `entry`, when given, its cost to enter each edge (2i + 1 along, 2i against), which a turn ban can
+ * make higher than the cost at the node. Returns [{brk, coords}] for every break, so a larger
+ * break repeats what a smaller one holds.
  */
-export function serviceLines(g, costs, breaks) {
+export function serviceLines(g, costs, breaks, entry = null) {
   const out = [];
-  const cost = (v) => (costs[v] === null || costs[v] === undefined ? Infinity : costs[v]);
-  for (const e of g.edges) {
-    const ca = cost(e.from);
-    const cb = cost(e.to);
+  const at = (arr, k) => (arr[k] === null || arr[k] === undefined ? Infinity : arr[k]);
+  for (const [i, e] of g.edges.entries()) {
+    const ca = entry ? at(entry, 2 * i + 1) : at(costs, e.from);
+    const cb = entry ? at(entry, 2 * i) : at(costs, e.to);
     // The whole edge is reached when it can be driven end to end from a reached end.
     const full = Math.min(Number.isFinite(e.fwd) ? ca + e.fwd : Infinity, Number.isFinite(e.bwd) ? cb + e.bwd : Infinity);
     for (const B of breaks) {
