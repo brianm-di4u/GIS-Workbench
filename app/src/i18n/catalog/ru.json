@@ -6599,7 +6599,7 @@
   "epipolar {eye}": "эпиполярное {eye}",
   "epoch": "epoch эпоха",
   "equiangular lat/lon grid, {dx}″ × {dy}″": "сетка широт/долгот с равным угловым шагом, {dx}″ × {dy}″",
-  "erase": "стереть",
+  "erase": "разность",
   "error not available": "погрешность недоступна",
   "error not available (the sensor model states no error)": "ошибка недоступна (модель сенсора не указывает ошибку)",
   "esri arcgis pro add-in cursor view link follow": "esri arcgis pro надстройка курсор вид связь следовать",
