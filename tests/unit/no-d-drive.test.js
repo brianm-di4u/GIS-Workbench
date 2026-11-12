@@ -1,42 +1,7 @@
-// The D: drive on the build machine is failing (#161, #162): it dropped off the bus and wrote a
-// zero-filled file. A tracked default, path or instruction that names a D: path would send output
-// there or read suspect input from it, so none may come back. Its copy is on E: at the same paths.
+// build/check-d-drive.mjs keeps D: paths out of the tree, and verify runs it on every change.
+// These cases pin what it counts as a D: path.
 import { describe, it, expect } from 'vitest';
-import { execFileSync } from 'node:child_process';
-
-// Each form a D: path takes in the tree. Not \d:\d in a regex, "2-D:", a key named D, or a PDF date.
-const D_PATH = new RegExp([
-  /(?<![A-Za-z0-9_\\-])[Dd]:[\\/]/, // D:/x, D:\x, --out=D:/x
-  /\/mnt\/d(?![A-Za-z0-9_])/, // its WSL mount, /mnt/d/x
-  /['"`][Dd]:['"`]/, // the drive alone as a string, 'D:'
-  /\\{2,}[?.]\\+[Dd]:/, // a long or device path, \\?\D:\x, \\.\D:
-  /(?:^|[\s'"`=])-[A-Za-z][Dd]:[\\/]/, // a flag glued to its value, -oD:/x
-  /`D:\$\{(?![^`]*Z`)/, // a template that starts with the drive, `D:${sep}x`, but not a PDF date `D:${…}Z`
-  /(?:^|[\s(]|(?:=|:-)['"]?)\/[Dd]\/(?=[\w.-])/, // Git Bash, cd /d/x, X="/d/x" and ${VAR:-/d/x}
-].map((r) => r.source).join('|'));
-
-// A wider pattern git grep can run, so only the lines that might match reach D_PATH.
-const MAYBE = String.raw`[Dd]:[\\/]|/mnt/d|['"${'`'}][Dd]:|\\[?.]\\|[Dd]:[$][{]|/[Dd]/`;
-
-// Tracked lines matching `pattern`, as [file, line, text]. -I skips binaries without reading them.
-// .gitattributes marks fixtures/** binary, text files included, so the attributes come from the
-// empty tree instead: a file counts as binary only by its content.
-const EMPTY_TREE = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
-function grep(pattern, ...paths) {
-  let out;
-  try {
-    out = execFileSync('git', [`--attr-source=${EMPTY_TREE}`, 'grep', '-nI', '--null', '-E', '-e', pattern, '--', ...paths], { encoding: 'utf8', maxBuffer: 64 << 20 });
-  } catch (e) {
-    if (e.status === 1) return []; // git grep found no line
-    throw e;
-  }
-  return out.split('\n').filter(Boolean).map((l) => l.split('\0'));
-}
-
-/** Tracked lines that name a D: path, as `file:line: text`, outside the files `skip` matches. */
-function dDrivePaths(skip) {
-  return grep(MAYBE).filter(([f, , text]) => !skip.test(f) && D_PATH.test(text)).map(([f, n, text]) => `${f}:${n}: ${text.trim().slice(0, 120)}`);
-}
+import { D_PATH, MAYBE, grep } from '../../build/check-d-drive.mjs';
 
 describe('no tracked path on the failing D: drive', () => {
   it('finds D: paths and leaves look-alikes alone', () => {
@@ -58,11 +23,5 @@ describe('no tracked path on the failing D: drive', () => {
 
   it('reads the text files .gitattributes marks binary', () => {
     expect(grep('E:/gwb25/data-aero', 'fixtures/fx25/aero/SOURCE.txt')).toHaveLength(1);
-  });
-
-  it('has none in the repository', () => {
-    // GitHub's Windows runners have a D: of their own.
-    const SKIP = /^\.github\/|^tests\/unit\/no-d-drive\.test\.js$/;
-    expect(dDrivePaths(SKIP)).toEqual([]);
   });
 });
