@@ -118,6 +118,10 @@ export function install(app) {
     try {
       const meta = db.exec("SELECT value FROM gw_geocode_meta WHERE key = 'format'")[0]?.values?.[0]?.[0];
       if (meta !== 'gis-workbench-address-index/1') throw gwError('{name} is not an address index GeoPackage written by GIS Workbench', { name }, 'E_NEED_ADDRESSES');
+      // Count before reading: the file may come from anywhere, and reading it whole is the cost.
+      const table = db.exec("SELECT table_name FROM gpkg_contents WHERE data_type = 'features' LIMIT 1")[0]?.values?.[0]?.[0];
+      const n = table ? Number(db.exec('SELECT COUNT(*) FROM "' + String(table).replace(/"/g, '""') + '"')[0]?.values?.[0]?.[0] ?? 0) : 0;
+      if (n > MAX_ADDRESSES) throw gwError('{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage', { n: int(n), max: int(MAX_ADDRESSES) }, 'E_NEED_SPLIT');
       const { layers } = readGpkg(SQL, bytes, { name });
       const points = [];
       const ranges = [];
@@ -222,7 +226,10 @@ export function install(app) {
    * defaultSpeed, idField, bans: [{from, to}] road ids (the idField values, else feature ids)}.
    */
   function buildRoads(layer, o = {}) {
-    const g = buildGraph(roadLines(layer, o.idField ?? null), o);
+    const lines = roadLines(layer, o.idField ?? null);
+    // Every line is at least one piece, so this refuses an oversize layer before the graph copies it.
+    if (lines.length > MAX_EDGES) throw gwError('{n} road pieces are more than one network holds ({max}): clip the layer to the area you need', { n: int(lines.length), max: int(MAX_EDGES) }, 'E_NEED_SPLIT');
+    const g = buildGraph(lines, o);
     if (!g || !g.edges.length) throw gwError('{layer} has no lines to build a network from', { layer: S.get(layer)?.name ?? '' }, 'E_NEED_ROADS');
     if (g.edges.length > MAX_EDGES) throw gwError('{n} road pieces are more than one network holds ({max}): clip the layer to the area you need', { n: int(g.edges.length), max: int(MAX_EDGES) }, 'E_NEED_SPLIT');
     net.graph = { g, data: graphData(g), name: S.get(layer)?.name ?? '', layer, opts: o };
@@ -236,7 +243,7 @@ export function install(app) {
   const snap = (at) => {
     const { g } = graph();
     const s = nearestNode(g, at);
-    if (s.node < 0 || s.metres > SNAP_M) throw gwError('That point is {d} from the road network (more than {max})', { d: fmtLength(s.metres), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
+    if (s.node < 0 || s.metres > SNAP_M) throw gwError('That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions', { d: fmtLength(s.metres), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
     return s.node;
   };
   const costLabel = (c) => (graph().g.cost === 'time' ? t('{min} min', { min: (c / 60).toFixed(1) }) : fmtLength(c));
@@ -451,7 +458,7 @@ export function install(app) {
       let at = args?.at;
       if (!breaks) {
         const b = h('input', { class: 'inp', value: time ? '5, 10, 15' : '500, 1000, 2000', 'aria-label': time ? t('Breaks (minutes)') : t('Breaks (metres)') });
-        if ((await modal({ title: t('Service Area'), body: h('div', {}, field(time ? t('Breaks (minutes)') : t('Breaks (metres)'), b), h('p', { class: 'hint' }, t('Then click the place to start from.'))), buttons: [{ label: t('Next'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-service' })) !== 'go') return undefined;
+        if ((await modal({ title: t('Service Area'), body: h('div', {}, field(time ? t('Breaks (minutes)') : t('Breaks (metres)'), b), h('p', { class: 'hint' }, t('Then click the place to start from. The area starts at the nearest junction.'))), buttons: [{ label: t('Next'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-service' })) !== 'go') return undefined;
         breaks = b.value
           .split(/[,;\s]+/)
           .map(Number)

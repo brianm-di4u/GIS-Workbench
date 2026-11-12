@@ -166,6 +166,24 @@ test('SCN-76 REQ-GAP-83 a NetCDF NDVI stack: dates, slider, profile, trend and a
   });
   expect(op.added).toBe(1);
   expect(op.summary).toMatch(/768/);
+
+  // Inside an AOI: the trend and the anomaly cover its pixel window, and the anomaly keeps the calendar.
+  const aoi = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const ser = [...app.layers.values()].find((l) => l.bands === 120 && !l.rec?.memory);
+    app.store.transact('select', (tx) => tx.set(app.activePane().id, 'activeLayer', ser.id));
+    app.setAoi([[2.3, 3.7], [10.2, 3.7], [10.2, 8.1], [2.3, 8.1]], 'image');
+    const tr = app.layers.get((await app.commands.run('ts.trend', { headless: true })).id);
+    const c = await app.msi.cube(tr);
+    app.store.transact('select', (tx) => tx.set(app.activePane().id, 'activeLayer', ser.id));
+    const an = app.layers.get((await app.commands.run('ts.anomaly', { headless: true, from: '2010-01-01', to: '2014-12-31' })).id);
+    return { w: c.w, h: c.h, slope: Array.from({ length: c.w * c.h }, (_, i) => c.v[i * 3]), an: [an.width, an.height, app.timeseries.datesOf(an)?.length], cal: [app.msi.bandsOf(an)[0].calendar, app.msi.bandsOf(ser)[0].calendar] };
+  });
+  // floor(2.3)..ceil(10.2) by floor(3.7)..ceil(8.1): 9 by 6 pixels from (2, 3).
+  expect([aoi.w, aoi.h]).toEqual([9, 6]);
+  aoi.slope.forEach((s, i) => expect(Math.abs(s - REF.trend.slope[(3 + Math.floor(i / 9)) * W + 2 + (i % 9)])).toBeLessThan(2e-6));
+  expect(aoi.an).toEqual([9, 6, NT]);
+  expect(aoi.cal[0]).toBe(aoi.cal[1] ?? 'standard');
   expect(logs).toEqual([]);
 });
 

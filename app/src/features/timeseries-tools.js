@@ -65,14 +65,20 @@ export function install(app) {
     return d.getUTCDate() === p.d ? (p.hh || p.mm ? `${fmtDate(d)} ${String(p.hh).padStart(2, '0')}:${String(p.mm).padStart(2, '0')}` : fmtDate(d)) : iso.slice(0, 10);
   };
 
+  /** The AOI's bounding box in a layer's pixels, clipped to the layer, or null with no AOI. */
+  function aoiWindow(l) {
+    const b = app.aoiBox?.(pane(), l);
+    if (!b) return null;
+    const x0 = Math.min(l.width - 1, Math.max(0, Math.floor(b.x0)));
+    const y0 = Math.min(l.height - 1, Math.max(0, Math.floor(b.y0)));
+    return { x0, y0, w: Math.max(1, Math.min(l.width, Math.ceil(b.x1)) - x0), h: Math.max(1, Math.min(l.height, Math.ceil(b.y1)) - y0) };
+  }
+
   // ---- time stack ----
 
   /** Window of the reference: the AOI when there is one, else the whole image; a step keeps it under the cube limit. */
   function stackWindow(ref, nt) {
-    const b = app.aoiBox?.(pane(), ref);
-    const w = b ? { x0: Math.max(0, Math.floor(b.x0)), y0: Math.max(0, Math.floor(b.y0)), w: Math.max(1, Math.ceil(b.w)), h: Math.max(1, Math.ceil(b.h)) } : { x0: 0, y0: 0, w: ref.width, h: ref.height };
-    w.w = Math.min(w.w, ref.width - w.x0);
-    w.h = Math.min(w.h, ref.height - w.y0);
+    const w = aoiWindow(ref) ?? { x0: 0, y0: 0, w: ref.width, h: ref.height };
     w.step = Math.max(1, Math.ceil(Math.sqrt((w.w * w.h * nt) / MAX_SAMPLES)));
     return w;
   }
@@ -272,10 +278,7 @@ export function install(app) {
 
   function seriesCube(l) {
     const { dates } = series(l);
-    const b = app.aoiBox?.(pane(), l);
-    const w = b ? { x0: Math.max(0, Math.floor(b.x0)), y0: Math.max(0, Math.floor(b.y0)), w: Math.max(1, Math.ceil(b.w)), h: Math.max(1, Math.ceil(b.h)) } : { x0: 0, y0: 0, w: l.width, h: l.height };
-    w.w = Math.min(w.w, l.width - w.x0);
-    w.h = Math.min(w.h, l.height - w.y0);
+    const w = aoiWindow(l) ?? { x0: 0, y0: 0, w: l.width, h: l.height };
     if (w.w * w.h * dates.length > MAX_SAMPLES) throw gwError('{w}×{h} pixels × {n} dates is more than one pass takes ({max} M values): draw an AOI', { w: int(w.w), h: int(w.h), n: dates.length, max: int(MAX_SAMPLES / 1e6) }, 'E_NEED_SERIES');
     return { dates, w };
   }
@@ -334,7 +337,8 @@ export function install(app) {
       height: c.h,
       chain: { bands: [0], stretch: 'linear2', colour: { palette: 'diverging' } },
       info: {
-        bandsMeta: dates.map((d) => ({ name: d.slice(0, 10), cw: NaN, fwhm: NaN, bad: false, time: d })),
+        // The calendar goes with the dates, or a model-calendar series stops reading as one.
+        bandsMeta: dates.map((d) => ({ name: d.slice(0, 10), cw: NaN, fwhm: NaN, bad: false, time: d, calendar: calOf(l) })),
         radiometry: { state: z ? 'anomaly z-score' : 'anomaly', gain: null, offset: null, unit: z ? 'σ' : (l.radiometry?.unit ?? ''), source: t('Baseline {from} to {to}', { from: from || label(dates[0]), to: to || label(dates.at(-1)) }) },
         timeSeries: { dates: dates.slice(), baseline: [from, to], by, z },
       },
@@ -462,8 +466,8 @@ export function install(app) {
   }
   function query(l) {
     if (panel.mode === 'aoi') {
-      const b = app.aoiBox?.(pane(), l);
-      return b ? { rect: { x0: Math.max(0, Math.floor(b.x0)), y0: Math.max(0, Math.floor(b.y0)), w: Math.max(1, Math.ceil(b.w)), h: Math.max(1, Math.ceil(b.h)) } } : null;
+      const w = aoiWindow(l);
+      return w ? { rect: w } : null;
     }
     if (panel.mode === 'pinned') return panel.pinned;
     return panel.cursor ?? null;

@@ -169,14 +169,23 @@ export function graphData(g) {
   return d;
 }
 
-/** The node nearest a lon/lat that some edge can leave or reach, and how far away it is (m). */
+/**
+ * The junction or line end nearest a lon/lat that some edge can leave or reach, and how far away it
+ * is (m). Routes start and end at nodes: a point along a long edge snaps to one of its ends, and the
+ * stub to it is not in the route's length or time.
+ */
 export function nearestNode(g, at) {
   const { lon0, lat0, kx, ky } = g.frame;
   const x = (at[0] - lon0) * kx;
   const y = (at[1] - lat0) * ky;
+  if (!g.usable) {
+    g.usable = new Uint8Array(g.nodes.length);
+    for (const e of g.edges) if (Number.isFinite(e.fwd) || Number.isFinite(e.bwd)) g.usable[e.from] = g.usable[e.to] = 1;
+  }
   let best = -1;
   let bd = Infinity;
   for (let i = 0; i < g.nodes.length; i++) {
+    if (!g.usable[i]) continue;
     const d = Math.hypot(g.xy[2 * i] - x, g.xy[2 * i + 1] - y);
     if (d < bd) {
       bd = d;
