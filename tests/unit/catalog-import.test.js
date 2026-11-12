@@ -27,6 +27,15 @@ describe('REQ-GAP-87 ISO 19110', () => {
   it('refuses what is not a feature catalogue', () => {
     expect(() => fromIso19110('<a/>')).toThrow(/FC_FeatureCatalogue/);
   });
+  it('skips an abstract feature type and gives a type its supertype\'s attributes first', () => {
+    const attr = (n) => `<gfc:carrierOfCharacteristics><gfc:FC_FeatureAttribute><gfc:memberName>${n}</gfc:memberName><gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType></gfc:FC_FeatureAttribute></gfc:carrierOfCharacteristics>`;
+    const c = fromIso19110(`<gfc:FC_FeatureCatalogue xmlns:gfc="g" xmlns:gco="c" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <gfc:featureType><gfc:FC_FeatureType id="ft-way"><gfc:typeName>Way</gfc:typeName><gfc:isAbstract><gco:Boolean>true</gco:Boolean></gfc:isAbstract>${attr('owner')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-road"><gfc:typeName>Road</gfc:typeName><gfc:inheritsFrom><gfc:FC_InheritanceRelation><gfc:supertype xlink:href="#ft-way"/></gfc:FC_InheritanceRelation></gfc:inheritsFrom>${attr('surface')}</gfc:FC_FeatureType></gfc:featureType>
+    </gfc:FC_FeatureCatalogue>`);
+    expect(c.types.map((t) => t.code)).toEqual(['Road']);
+    expect(c.types[0].attributes).toEqual(['owner', 'surface']);
+  });
 });
 
 describe('REQ-GAP-87 INSPIRE application schema', () => {
@@ -45,6 +54,15 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(c.attributes.numberOfLanes).toMatchObject({ type: 'integer', required: true });
     expect(c.attributes.localRoadCode.required).toBeUndefined();
     expect(c.types[1].geometry).toEqual(['Point']);
+  });
+  it('finds a feature type that substitutes through an abstract base in another schema, and skips the base', () => {
+    const base = '<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:tn"><element name="TransportLink" abstract="true" type="tn:TransportLinkType" substitutionGroup="gml:AbstractFeature"/><complexType name="TransportLinkType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="centrelineGeometry" type="gml:CurvePropertyType"/></sequence></extension></complexContent></complexType></schema>';
+    const roads = '<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:tn-ro"><element name="RoadLink" type="tn-ro:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><complexContent><extension base="tn:TransportLinkType"><sequence><element name="functionalRoadClass" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    const c = fromInspire([roads, base]);
+    expect(c.types.map((t) => t.code)).toEqual(['RoadLink']);
+    expect(c.types[0]).toMatchObject({ geometry: ['LineString'], attributes: ['functionalRoadClass'] });
+    // Alone, the concrete schema names no feature type: its base is not there to follow.
+    expect(() => fromInspire([roads])).toThrow(/no feature types/);
   });
   it('takes the properties of the types a feature type extends, its bases first', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;

@@ -77,6 +77,13 @@ export function install(app) {
     delete stepById(to)?.inputs[input];
     draw();
   }
+  /** Give input `input` of step `to` a layer of the project, by name (a name travels with the workflow; an id does not). */
+  function give(to, input, layer) {
+    const b = stepById(to);
+    if (!b) throw gwError('no such step', {}, 'E_RECIPE_STEP');
+    b.inputs[input] = { value: layer };
+    draw();
+  }
   function removeStep(id) {
     ed.wf.steps = ed.wf.steps.filter((x) => x.id !== id);
     for (const x of ed.wf.steps) for (const [k, w] of Object.entries(x.inputs)) if (w.from === id) delete x.inputs[k];
@@ -290,10 +297,15 @@ export function install(app) {
       for (const p of op.inputs ?? []) {
         const choices = wf.steps.filter((y) => y.id !== x.id).flatMap((y) => (ops[y.op].outputs ?? []).filter((o) => fits(o.type, p.type)).map((o) => ({ value: `${y.id}.${o.name}`, label: `${y.id} · ${tr(y.title)} → ${o.name}` })));
         const cur = x.inputs[p.name];
-        const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)));
+        // Or a layer of the project, of the kind the input takes.
+        const names = p.type === 'layer:vector' ? S.all('vlayer').map((v) => v.name) : p.type === 'layer:raster' ? [...(app.layers?.values() ?? [])].map((l) => l.rec?.name) : [];
+        const layers = [...new Set(names.filter(Boolean))].map((n) => h('option', { value: '', 'data-layer': n, selected: cur && 'value' in cur && cur.value === n }, t('Layer: {name}', { name: n })));
+        const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)), ...layers);
         sel.addEventListener('change', () => {
           try {
-            if (!sel.value) unwire(x.id, p.name);
+            const layer = sel.selectedOptions[0]?.dataset.layer;
+            if (layer) give(x.id, p.name, layer);
+            else if (!sel.value) unwire(x.id, p.name);
             else {
               const [from, output] = splitPort(sel.value);
               wire(from, output, x.id, p.name);
@@ -389,5 +401,5 @@ export function install(app) {
     },
   });
 
-  Object.assign(app.workflows, { show, open, addStep, wire, unwire, removeStep, setParam, run, saveToProject, library, removeFromLibrary: (id) => R.forget(id), projectWorkflows, current: () => ed.wf, setView: (v) => ((ed.view = v), draw()) });
+  Object.assign(app.workflows, { show, open, addStep, wire, unwire, give, removeStep, setParam, run, saveToProject, library, removeFromLibrary: (id) => R.forget(id), projectWorkflows, current: () => ed.wf, setView: (v) => ((ed.view = v), draw()) });
 }

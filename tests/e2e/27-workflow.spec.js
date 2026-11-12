@@ -79,6 +79,12 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await wideItem.getByLabel('Segments per quarter circle').press('Tab');
   await expect(wideItem.getByLabel('Segments per quarter circle')).toHaveAttribute('aria-invalid', 'true');
   expect(await axe(frame, '.wf-panel')).toEqual([]);
+  // An input can take a layer of the project instead of a wire, so the workflow runs from the Builder.
+  const narrowIn = panel.locator('[data-item="s2"] select[aria-label="Input layer"]');
+  await narrowIn.selectOption({ label: `Layer: ${names[0]}` });
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer)).toEqual({ value: names[0] });
+  await panel.locator('[data-item="s2"] select[aria-label="Input layer"]').selectOption('s1.out');
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer)).toEqual({ from: 's1', output: 'out' });
   await page.screenshot({ path: info.outputPath('workflow-list.png') });
   await frame.evaluate(() => window.gisworkbench.workflows.setView('graph'));
 

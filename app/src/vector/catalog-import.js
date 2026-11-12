@@ -5,7 +5,7 @@
 // validateCatalog accepts. Pure: no DOM, so they run in Node too (the i18n module only names the errors). Files are data: nothing in them
 // is run, and no URL in them is fetched.
 
-import { parseXml, all, kids } from '../connectors/xml.js';
+import { parseXml, all, kids, attr } from '../connectors/xml.js';
 import { gwError } from '../i18n/index.js';
 
 const E = (msg, params = null) => gwError(msg, params, 'E_CATALOG_CONVERT');
@@ -102,14 +102,26 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
   const title = deepText(first(root, 'name')) || name || 'ISO 19110 catalogue';
   const { attrs, add } = attrTable();
   const types = [];
-  for (const ft of all(root, 'FC_FeatureType')) {
+  const fts = all(root, 'FC_FeatureType');
+  const byId = new Map(fts.filter((ft) => attr(ft, 'id')).map((ft) => [attr(ft, 'id'), ft]));
+  /** A type's attributes: its supertypes' first (inheritsFrom, by xlink:href to their id), then its own. */
+  const attributesOf = (ft, seen = new Set()) => {
+    if (seen.has(ft)) return [];
+    seen.add(ft);
+    const sups = all(ft, 'inheritsFrom').flatMap((r) => all(r, 'supertype')).map((x) => byId.get(String(attr(x, 'href') ?? '').replace(/^#/, ''))).filter(Boolean);
+    // A supertype's own attributes, not those of a type nested inside an inheritance relation.
+    const own = all(ft, 'FC_FeatureAttribute').filter((fa) => !all(ft, 'inheritsFrom').some((r) => all(r, 'FC_FeatureAttribute').includes(fa)));
+    return [...sups.flatMap((x) => attributesOf(x, seen)), ...own];
+  };
+  for (const ft of fts) {
+    if (/^(true|1)$/i.test(deepText(first(ft, 'isAbstract')))) continue;
     capTypes(types);
     const typeName = deepText(first(ft, 'typeName'));
     const code = deepText(first(ft, 'code')) || typeName;
     if (!code) continue;
     const geometry = new Set();
     const names = [];
-    for (const fa of all(ft, 'FC_FeatureAttribute')) {
+    for (const fa of attributesOf(ft)) {
       const member = deepText(first(fa, 'memberName'));
       const t = attrType(deepText(first(fa, 'valueType')));
       if (t.startsWith('geometry:')) {
@@ -154,7 +166,8 @@ export function parseCodeList(xml) {
 
 /**
  * An INSPIRE application schema (one or more XSD texts) with code lists → gw-catalog/1. Feature
- * types are the elements in the gml:AbstractFeature substitution group; their properties come from
+ * types are the concrete elements that substitute for gml:AbstractFeature, directly or through abstract
+ * elements of these schemas; their properties come from
  * their complex type's sequence, after those of the types it extends (INSPIRE keeps the geometry
  * and the identifier in abstract base types). A property typed gml:ReferenceType takes the code list whose name,
  * without "Value", is the property's name (INSPIRE's own naming: surfaceComposition →
@@ -163,7 +176,7 @@ export function parseCodeList(xml) {
 export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const lists = new Map(codeLists.map((c) => [c.id.replace(/Value$/, '').toLowerCase(), c]));
   const complex = new Map();
-  const features = [];
+  const elements = new Map();
   let target = '';
   for (const x of [].concat(xsds)) {
     const doc = xmlOf(x);
@@ -171,12 +184,24 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     if (!schema) throw E('not an XML Schema (no schema element)');
     target ||= schema.attrs?.targetNamespace ?? '';
     for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) complex.set(ct.attrs.name, ct);
-    for (const el of kids(schema, 'element'))
-      if (/AbstractFeature$/.test(el.attrs?.substitutionGroup ?? '') && el.attrs?.name) {
-        capTypes(features);
-        features.push(el);
-      }
+    for (const el of kids(schema, 'element')) if (el.attrs?.name) elements.set(el.attrs.name, el);
   }
+  const bare = (qname) => String(qname ?? '').replace(/^.*:/, '');
+  /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
+  const isFeature = (el, seen = new Set()) => {
+    const group = el.attrs?.substitutionGroup;
+    if (!group || seen.has(el)) return false;
+    seen.add(el);
+    if (/AbstractFeature$/.test(group)) return true;
+    const up = elements.get(bare(group));
+    return !!up && isFeature(up, seen);
+  };
+  const features = [];
+  for (const el of elements.values())
+    if (el.attrs?.abstract !== 'true' && isFeature(el)) {
+      capTypes(features);
+      features.push(el);
+    }
   const local = (qname) => complex.get(String(qname ?? '').replace(/^.*:/, ''));
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
   const props = (ct, seen = new Set()) => {
