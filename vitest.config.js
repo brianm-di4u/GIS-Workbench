@@ -8,6 +8,7 @@ export default defineConfig({
   test: {
     include: ['tests/unit/**/*.test.js', 'tests/golden/**/*.test.js'],
     environment: 'node',
+    setupFiles: ['tests/tools/temp-dir-vitest.mjs'], // removes tempDir() folders after each file (#228)
     // Some tests start GDAL or a large decoder, and a cold first start takes well over the default.
     testTimeout: 120_000,
     reporters: ['default', 'json'],

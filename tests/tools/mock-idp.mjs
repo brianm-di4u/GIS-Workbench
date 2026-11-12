@@ -17,9 +17,9 @@ import { createServer } from 'node:http';
 import { createServer as createHttps } from 'node:https';
 import { createHash, randomBytes } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, existsSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { tempDir } from './temp-dir.mjs';
 
 const b64url = (buf) => Buffer.from(buf).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 const rnd = (p) => `${p}${b64url(randomBytes(24))}`;
@@ -280,7 +280,7 @@ export async function startResource(idp, { cors = 'star', size = 4096, files = {
 
 /** A self-signed certificate for 127.0.0.1 and localhost made with openssl; null when openssl is missing. */
 export function selfSignedCert() {
-  const dir = mkdtempSync(join(tmpdir(), 'gw-auth-cert-'));
+  const dir = tempDir('gw-auth-cert');
   const key = join(dir, 'key.pem');
   const cert = join(dir, 'cert.pem');
   try {
