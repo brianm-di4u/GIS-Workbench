@@ -3,15 +3,15 @@
 // REQ-IMG-08 (CLAHE), REQ-IMG-10 (pan-sharpening), REQ-IMG-20 (merged image segments), REQ-IMG-17 and
 // REQ-MEN-08 (linked cursors, medial axis), the AI and whiteboard Shoulds and REQ-FMT-17 (HTJ2K).
 import { test, expect } from '@playwright/test';
-import { mkdtempSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { openApp, openFiles, restart } from './helpers.js';
 import { writeGeoTiff } from '../../app/src/formats/geotiff-writer.js';
 import { writeNitf, writeNitfSegments } from '../../app/src/formats/nitf-writer.js';
+import { tempDir } from '../tools/temp-dir.mjs';
 
 const FX01 = resolve('fixtures/fx01/fx01.ntf');
-const dir = mkdtempSync(join(tmpdir(), 'gw-shoulds-'));
+const dir = tempDir('gw-shoulds');
 
 async function withFx01(page) {
   const { frame, logs } = await openApp(page, 'file');

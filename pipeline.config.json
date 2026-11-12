@@ -100,7 +100,7 @@
     "maxSeats": 6,
     "maxDiffGrowth": 1.5,
     "maxMechanicalLines": 40,
-    "loopModel": "sonnet",
+    "loopModel": "opus",
     "closeModel": "opus",
     "maxLoopRounds": 16,
     "maxCloseRounds": 8,
