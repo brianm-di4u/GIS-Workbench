@@ -91,7 +91,7 @@ export function install(app) {
     if (a.width !== b.width || a.height !== b.height) return false;
     // Images with no georeference (time-lapse frames) of one size are taken as one grid: there is
     // nothing to resample them by.
-    if (!a.groundAt(0, 0, 0) && !b.groundAt(0, 0, 0)) return true;
+    if (!a.modelId && !b.modelId) return true;
     const tol = 0.1;
     for (const [x, y] of [[0, 0], [a.width, 0], [0, a.height], [a.width, a.height]]) {
       const g = a.groundAt(x, y, 0);
@@ -191,7 +191,7 @@ export function install(app) {
         planes.push(c.v);
       } else {
         // Resampling goes through the ground: an image with no georeference can't be put on another grid.
-        if (!R.groundAt(0, 0, 0) || !x.l.groundAt(0, 0, 0)) throw gwError('{layer} is not on the grid of {ref}, and one of them has no georeference to resample by', { layer: x.l.rec?.name ?? x.l.id, ref: R.rec?.name ?? R.id }, 'E_NEED_DATES');
+        if (!R.modelId || !x.l.modelId) throw gwError('{layer} is not on the grid of {ref}, and one of them has no georeference to resample by', { layer: x.l.rec?.name ?? x.l.id, ref: R.rec?.name ?? R.id }, 'E_NEED_DATES');
         planes.push(await resampleBand(R, x.l, b, win, ow, oh));
         resampled++;
       }

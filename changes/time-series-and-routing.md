@@ -4,3 +4,4 @@
 
 ### Known limits
 - **Routes start and end at junctions.** Shortest Route and Service Area snap each click to the nearest junction or line end within 500 m. The stretch from the click to that junction is not in the route's length or time.
+- **Trend and anomaly take at most 1,024 dates.** A longer series is refused with a message; make a Time Stack of fewer dates.
