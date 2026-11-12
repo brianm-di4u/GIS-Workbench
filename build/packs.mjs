@@ -28,7 +28,7 @@ const sha256 = (b) => createHash('sha256').update(b).digest('hex');
 const nm = (...p) => join(root, 'node_modules', ...p);
 const pkgVersion = (name) => JSON.parse(readFileSync(nm(name, 'package.json'), 'utf8')).version;
 // Further folders that hold pinned inputs at the same relative paths (2.4: the large model inputs
-// stay on a data drive), separated by ';': GW_PACKS_SRC=D:/gwb24/data-extai
+// stay on a data drive), separated by ';': GW_PACKS_SRC=E:/gwb24/data-extai
 const EXTRA = (process.env.GW_PACKS_SRC ?? '').split(';').filter(Boolean);
 const cached = (id) => {
   const s = SOURCES.downloads.find((d) => d.id === id);

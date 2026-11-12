@@ -2,9 +2,9 @@
 
 All notable changes to GIS Workbench. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [2.7.0] - 2026-11-10
+## [2.7.0] - 2026-11-12
 
-GIS Workbench 2.7.0 is a civilian-use application: it is designed and intended for civilian use only, and should not be used for any military purpose. This release brings core GIS work into the file: vector geoprocessing, hydrology, point-cloud cleaning in the profile view, automatic endmembers, the EGM2008 1′ geoid and Annex 14 Amendment 18. Lite can now save and open projects, and the Full file starts faster. It carries Sidecar 0.3.1, with updated dependencies.
+GIS Workbench 2.7.0 is a civilian-use application: it is designed and intended for civilian use only, and should not be used for any military purpose. This release brings core GIS work into the file: vector geoprocessing, hydrology, point-cloud cleaning in the profile view, automatic endmembers, the EGM2008 1′ geoid and Annex 14 Amendment 18. Lite can now save and open projects, and the Full file starts faster. It carries Sidecar 0.3.1, with updated dependencies and a fix to the native stereo viewer.
 
 ### Added
 - **Vector geoprocessing:** Buffer, Overlay (intersect, union, erase and symmetric difference), Dissolve and Spatial join (intersects, within, contains and nearest), in a new Geoprocessing group on the Feature tab. Results match GEOS. Buffers can be planar or geodesic. (REQ-GAP-79, SCN-67)
@@ -23,7 +23,7 @@ GIS Workbench 2.7.0 is a civilian-use application: it is designed and intended f
 - **Terrain from projected DEMs** keeps all its posts, instead of being thinned to 2,048 a side. Tools that walk the grid take longer on large DEMs.
 - **LandXML import** keeps the file's own triangles, so a round trip changes nothing. A breakline that crosses faces away from their vertices still splits them, and the import says how many faces changed.
 - **No freeze** when a large vector or GeoPackage layer is imported, or a large project is saved or opened. (REQ-ING-04)
-- **Sidecar 0.3.1:** updated dependencies. Behaviour is unchanged.
+- **Sidecar 0.3.1:** updated dependencies, and the native stereo viewer now fetches each tile once, where it could fetch a tile twice while drawing fell behind (#68).
 
 ### Fixed
 - **LAS warnings** name the geoid in use. They always said EGM96.
@@ -49,6 +49,7 @@ GIS Workbench 2.7.0 is a civilian-use application: it is designed and intended f
 - **Translations** of the messages new in 2.7.0 are AI draft and AI review, with no native-speaker review. Right-to-left and complex-script locales are still to come.
 - **LandXML:** no real Civil 3D or OpenRoads file has been tested.
 - **Sidecar packages** are unsigned previews, and Windows may warn about them.
+- **Lite on iPhone and iPad:** in automated tests on the iOS Simulator, Lite occasionally failed to finish starting (2 of 7 runs, one of them a test-harness fault). It hasn't been reproduced elsewhere, and the cause is being investigated (#195). If Lite doesn't finish loading, reload the page.
 
 ## [2.6.0] - 2026-11-06
 

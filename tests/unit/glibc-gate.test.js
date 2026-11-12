@@ -10,7 +10,7 @@ import { dirname, join } from 'node:path';
 import { GLIBC_FLOOR, compareVersions, elfGlibcNeeds, glibcFloorProblems, runtimeProblems, stageGlibc, stagePathProblems } from '../../sidecar/installer/gates.mjs';
 import { elfNeeded, elfVersions } from '../../sidecar/installer/elf.mjs';
 
-const SAMPLES = process.env.GWB_GLIBC_SAMPLES ?? 'D:/gwb26/data-glibc/samples';
+const SAMPLES = process.env.GWB_GLIBC_SAMPLES ?? 'E:/gwb26/data-glibc/samples';
 
 /**
  * An ELF64 file with a dynamic section: `needs` is { 'libc.so.6': ['GLIBC_2.17'] }, `defines` a list

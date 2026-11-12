@@ -141,7 +141,7 @@ describe('REQ-GAP-57 user model file checks', () => {
     await expect(checkUserModel(desc(ms), ms)).rejects.toMatchObject({ code: 'E_MODEL_FILE' });
   });
 
-  const LC = 'D:/gwb24/data-extai/sparsemask/onnx/model.onnx';
+  const LC = 'E:/gwb24/data-extai/sparsemask/onnx/model.onnx';
   it.skipIf(!existsSync(LC))('inspects the real land-cover model (12 MB) without a protobuf library', () => {
     const b = readFileSync(LC);
     const info = inspectOnnx(b);

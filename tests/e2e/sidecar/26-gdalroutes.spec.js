@@ -20,10 +20,10 @@ const FX = resolve('fixtures', 'fx26', 'gdalroutes');
 const fx = (n) => join(FX, n);
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const PY = process.env.GWB_ORACLE_PY ?? (LINUX ? `${process.env.HOME}/gwb/oracle/bin/python` : 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/python.exe');
-const ORACLE_BIN = process.env.GWB_ORACLE_BIN ?? (LINUX ? `${process.env.HOME}/gwb/oracle/bin` : 'D:/gwb-sidecar-deps/osgeo4w/root/bin');
+const ORACLE_BIN = process.env.GWB_ORACLE_BIN ?? (LINUX ? `${process.env.HOME}/gwb/oracle/bin` : 'E:/gwb-sidecar-deps/osgeo4w/root/bin');
 const PROJ_BIN = process.env.GWB_ORACLE_PROJ ?? (LINUX ? `${process.env.HOME}/gwb/oracle/bin` : 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/Library/bin');
-const GRIDS = process.env.GWB_PROJ_GRIDS ?? (LINUX ? `${process.env.HOME}/gwb/deps/proj-data-26/share/proj` : 'D:/gwb-sidecar-deps/proj-data-26/Library/share/proj');
-const IFC_FULL = process.env.GWB_IFC_FULL ?? (LINUX ? `${process.env.HOME}/gwb/oracle/ifc` : 'D:/gwb26/data-gdalroutes/ifcos-win/x-win');
+const GRIDS = process.env.GWB_PROJ_GRIDS ?? (LINUX ? `${process.env.HOME}/gwb/deps/proj-data-26/share/proj` : 'E:/gwb-sidecar-deps/proj-data-26/Library/share/proj');
+const IFC_FULL = process.env.GWB_IFC_FULL ?? (LINUX ? `${process.env.HOME}/gwb/oracle/ifc` : 'E:/gwb26/data-gdalroutes/ifcos-win/x-win');
 const REPORT = resolve('reports', 'sidecar', 'scn60.json');
 const results = {};
 const record = (k, v) => {
@@ -32,7 +32,7 @@ const record = (k, v) => {
   writeFileSync(REPORT, JSON.stringify({ at: new Date().toISOString(), platform: process.platform, results }, null, 2));
 };
 
-const IFC_PY = process.env.GWB_IFC_PY ?? (LINUX ? `${process.env.HOME}/gwb/oracle/ifc-env/bin/python` : 'D:/gwb26/envs/ifc-oracle/python.exe');
+const IFC_PY = process.env.GWB_IFC_PY ?? (LINUX ? `${process.env.HOME}/gwb/oracle/ifc-env/bin/python` : 'E:/gwb26/envs/ifc-oracle/python.exe');
 const oracle = (...a) => JSON.parse(execFileSync(PY, [resolve('tests', 'tools', 'gdalroutes_oracle.py'), ...a], { encoding: 'utf8', env: oracleEnv(), maxBuffer: 1 << 26 }).trim().split('\n').pop());
 function oracleEnv() {
   // No .aux.xml beside the fixtures.

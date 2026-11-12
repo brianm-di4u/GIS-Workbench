@@ -6,18 +6,18 @@
 //
 //   node build/fixtures/fx24-geopdf.mjs        (GW_GDAL_BIN: GDAL's bin folder; test-time only)
 //
-// GDAL never ships (OSGeo4W, D:\gwb-sidecar-deps); the fixtures it writes are small and checked in.
+// GDAL never ships (OSGeo4W, E:\gwb-sidecar-deps); the fixtures it writes are small and checked in.
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, resolve } from 'node:path';
 
-const BIN = process.env.GW_GDAL_BIN ?? 'D:/gwb-sidecar-deps/osgeo4w/root/bin';
+const BIN = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const ROOT = resolve(BIN, '..');
 const env = { ...process.env, PATH: `${BIN};${process.env.PATH}`, GDAL_DATA: join(ROOT, 'apps/gdal/share/gdal'), PROJ_DATA: join(ROOT, 'share/proj'), PROJ_LIB: join(ROOT, 'share/proj') };
 const run = (cmd, args) => execFileSync(join(BIN, `${cmd}.exe`), args, { env, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
 const OUT = resolve('fixtures/fx24/geopdf');
-const TMP = process.env.GW_GEOPDF_TMP ?? 'D:/gwb24/geopdf/tmp';
+const TMP = process.env.GW_GEOPDF_TMP ?? 'E:/gwb24/geopdf/tmp';
 mkdirSync(OUT, { recursive: true });
 mkdirSync(TMP, { recursive: true });
 const FX12 = resolve('fixtures/fx12/fx12.geojson');

@@ -1,7 +1,7 @@
 //! 2.5 fuzz targets (vendor group, REQ-GAP-20): the DigitalGlobe IMD/EPH/ATT/GEO reader and the
 //! line scanner it builds, the Landsat ANG reader and its line-of-sight grid, and the Sentinel-2
 //! MTD_TL reader and its grid, each through the map + line-of-sight model. Seeds are small
-//! synthetic files with the corpus layouts (and the corpus files themselves when D: is there);
+//! synthetic files with the corpus layouts (and the corpus files themselves when E: is there);
 //! mutations must fail cleanly or run to the end, never panic or hang. Iterations: GW_FUZZ_ITERS
 //! (default 1500 per target); --release.
 
@@ -73,7 +73,7 @@ fn fuzz_vendor25() {
     let n = iters();
     let o = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../reports/fuzz-crashes");
     let mut dg_seeds = vec![dg_seed()];
-    let wv = Path::new("D:/TE-corpus/eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005");
+    let wv = Path::new("E:/TE-corpus/eo-spacenet-atlanta-wv2-l1b-rpc/nadir52_BDDC00_MUL/09DEC22163912-M1BS-058332896010_01_P005");
     if let (Ok(a), Ok(b), Ok(c), Ok(d)) = (std::fs::read_to_string(wv.with_extension("IMD")), std::fs::read_to_string(wv.with_extension("EPH")), std::fs::read_to_string(wv.with_extension("ATT")), std::fs::read_to_string(wv.with_extension("GEO"))) {
         // Trimmed: the first 60 ephemeris and attitude records keep the seed small.
         let cut = |s: &str, key: &str| -> String {
@@ -101,7 +101,7 @@ fn fuzz_vendor25() {
         let _ = dg::til_offset(p[1], "x.tif");
     }));
     let mut ang_seeds = vec![ang_seed()];
-    if let Ok(a) = std::fs::read("D:/TE-corpus/landsat8-c2-l1tp-044034-20240820-tierb/LC08_L1TP_044034_20240820_20240830_02_T1_ANG.txt") {
+    if let Ok(a) = std::fs::read("E:/TE-corpus/landsat8-c2-l1tp-044034-20240820-tierb/LC08_L1TP_044034_20240820_20240830_02_T1_ANG.txt") {
         ang_seeds.push(a);
     }
     reports.push(run("vendor_ang", &ang_seeds, n, hang(), &o, |b| {
