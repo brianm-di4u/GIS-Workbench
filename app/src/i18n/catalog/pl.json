@@ -6599,7 +6599,7 @@
   "epipolar {eye}": "epipolarny {eye}",
   "epoch": "epoka",
   "equiangular lat/lon grid, {dx}″ × {dy}″": "siatka równokątowa szer./dł., {dx}″ × {dy}″",
-  "erase": "wymaż",
+  "erase": "różnica",
   "error not available": "błąd niedostępny",
   "error not available (the sensor model states no error)": "błąd niedostępny (model sensora nie podaje błędu)",
   "esri arcgis pro add-in cursor view link follow": "esri arcgis pro dodatek kursor widok połączenie podążanie",

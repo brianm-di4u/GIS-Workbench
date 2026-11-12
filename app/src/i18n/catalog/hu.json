@@ -6599,7 +6599,7 @@
   "epipolar {eye}": "epipoláris: {eye}",
   "epoch": "epocha",
   "equiangular lat/lon grid, {dx}″ × {dy}″": "egyenlő szögközű szél./hossz. rács, {dx}″ × {dy}″",
-  "erase": "radírozás",
+  "erase": "különbség",
   "error not available": "a hiba nem érhető el",
   "error not available (the sensor model states no error)": "a hiba nem érhető el (az érzékelőmodell nem ad meg hibát)",
   "esri arcgis pro add-in cursor view link follow": "esri arcgis pro bővítmény kurzor nézet kapcsolat követés",

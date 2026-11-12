@@ -36540,7 +36540,8 @@
   },
   "erase": {
    "h": "5cf46cd89515",
-   "state": "passed"
+   "state": "passed",
+   "note": "#201: the overlay result layer uses the Operation list word for Erase (set difference)"
   },
   "fill": {
    "h": "dcd32479a72e",

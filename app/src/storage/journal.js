@@ -3,6 +3,8 @@
 // blocked or partitioned storage with a visible warning and no crash. This is recovery,
 // not storage: the project file on disk is the system of record.
 
+import { txDone } from './idb.js';
+
 const DB = 'gisworkbench';
 const STORES = ['journal', 'kv', 'feedback'];
 
@@ -85,17 +87,13 @@ export class Journal {
 
   _tx(store, mode, fn) {
     if (!this.db) return Promise.resolve(null);
-    return new Promise((res, rej) => {
-      try {
-        const t = this.db.transaction(store, mode);
-        const s = t.objectStore(store);
-        const out = fn(s);
-        t.oncomplete = () => res(out?.result ?? null);
-        t.onerror = () => rej(t.error);
-      } catch (e) {
-        rej(e);
-      }
-    });
+    try {
+      const t = this.db.transaction(store, mode);
+      const out = fn(t.objectStore(store));
+      return txDone(t, () => out?.result ?? null);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   async get(store, key) {

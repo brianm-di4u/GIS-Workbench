@@ -29,10 +29,10 @@ const arg = (k, d) => {
 };
 const win = process.platform === 'win32';
 const fwd = (p) => resolve(p).replaceAll('\\', '/');
-const SRC = fwd(arg('--src', 'D:/gwb26/data-csmhost/src/x'));
-const ENVDIR = fwd(arg('--env', win ? 'D:/gwb-sidecar-deps/ossim-env-26' : `${process.env.HOME}/gwb/deps/ossim-env-g217`));
-const OUT = fwd(arg('--out', win ? 'D:/gwb-sidecar-deps/ossim-26' : `${process.env.HOME}/gwb/deps/ossim-g217`));
-const WORK = fwd(arg('--work', win ? 'D:/gwb26/data-csmhost/build' : `${process.env.HOME}/gwb/e2e/ossim-build`));
+const SRC = fwd(arg('--src', 'E:/gwb26/data-csmhost/src/x'));
+const ENVDIR = fwd(arg('--env', win ? 'E:/gwb-sidecar-deps/ossim-env-26' : `${process.env.HOME}/gwb/deps/ossim-env-g217`));
+const OUT = fwd(arg('--out', win ? 'E:/gwb-sidecar-deps/ossim-26' : `${process.env.HOME}/gwb/deps/ossim-g217`));
+const WORK = fwd(arg('--work', win ? 'E:/gwb26/data-csmhost/build' : `${process.env.HOME}/gwb/e2e/ossim-build`));
 const PREFIX = win ? `${ENVDIR}/Library` : ENVDIR;
 const LINUX_ENV = ['gxx_linux-64=16.2', 'sysroot_linux-64=2.17', 'cmake', 'ninja', 'patchelf', 'libtiff=4.7.2', 'geotiff=1.7.4', 'libjpeg-turbo=3.2.1', 'geos=3.15.0', 'zlib=1.3.2', 'libuuid=2.42.4'];
 

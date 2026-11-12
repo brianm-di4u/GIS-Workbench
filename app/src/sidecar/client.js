@@ -4,6 +4,7 @@
 // Nothing here runs at start-up unless a token from an earlier pairing exists.
 
 import { N_, en } from '../i18n/index.js';
+import { txDone } from '../storage/idb.js';
 export const PORTS = [47821, 47822, 47823];
 /** The API level this app needs (REQ-SDC-13: warn when the sidecar is older). */
 export const API_NEEDED = 1;
@@ -47,12 +48,9 @@ export class TokenStore {
   async _op(mode, fn) {
     const db = await this._db();
     try {
-      return await new Promise((res, rej) => {
-        const t = db.transaction('kv', mode);
-        const q = fn(t.objectStore('kv'));
-        t.oncomplete = () => res(q?.result);
-        t.onerror = () => rej(t.error);
-      });
+      const t = db.transaction('kv', mode);
+      const q = fn(t.objectStore('kv'));
+      return await txDone(t, () => q?.result);
     } finally {
       db.close();
     }

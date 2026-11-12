@@ -6599,7 +6599,7 @@
   "epipolar {eye}": "epipolare {eye}",
   "epoch": "epoca",
   "equiangular lat/lon grid, {dx}″ × {dy}″": "griglia lat/lon equiangolare, {dx}″ × {dy}″",
-  "erase": "cancella",
+  "erase": "differenza",
   "error not available": "errore non disponibile",
   "error not available (the sensor model states no error)": "errore non disponibile (il modello del sensore non indica alcun errore)",
   "esri arcgis pro add-in cursor view link follow": "esri arcgis pro componente aggiuntivo cursore vista collegamento seguire add-in cursor view link follow",

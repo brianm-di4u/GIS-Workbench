@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Builds the sidecar's release packages: Windows here, Linux in WSL.
 //
-//   node build/release/sidecar.mjs --version 0.3.0 [--dist dist] [--out D:/gwb-sidecar-deps/release]
+//   node build/release/sidecar.mjs --version 0.3.0 [--dist dist] [--out E:/gwb-sidecar-deps/release]
 //        [--skip-windows] [--skip-linux]
 //
 // Windows runs sidecar/installer/package.mjs into <out>/<version>. Linux runs wsl-package.sh in the
@@ -23,7 +23,7 @@ if (!version) {
   process.exit(2);
 }
 const dist = arg('--dist', 'dist');
-const out = resolve(arg('--out', 'D:/gwb-sidecar-deps/release'));
+const out = resolve(arg('--out', 'E:/gwb-sidecar-deps/release'));
 const windows = !process.argv.includes('--skip-windows');
 const linux = !process.argv.includes('--skip-linux');
 const stamp = new Date().toISOString().replace(/[-:]/g, '').replace('T', '-').slice(0, 15);

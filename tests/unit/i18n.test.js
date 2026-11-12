@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { parse, format, signature } from '../../app/src/i18n/icu.js';
 import { t, tc, tr, N_, setLocale, negotiate, gwError, msgOf, keyOf, dirOf, locale } from '../../app/src/i18n/index.js';
 import { num, int, length, area, setUnits, words, list } from '../../app/src/i18n/format.js';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
@@ -186,6 +186,20 @@ describe('one source text, two meanings', () => {
   it("gives overlay's Erase operation its own key, apart from the whiteboard eraser", () => {
     expect(keys('features/geoproc-ui.js', 'Erase')).toEqual([keyOf('Erase', 'overlay')]);
     expect(keys('feedback/whiteboard.js', 'Erase')).toEqual([keyOf('Erase')]);
+  });
+
+  // #201: the overlay result layer is named "{a} {op} {b}" with op from the lowercase "erase", and
+  // the locales kept the eraser sense there (de "A Radieren B" next to the Operation "Differenz").
+  it("names the Erase overlay's layer with the same word as its Operation, in every locale", () => {
+    const dir = join('app', 'src', 'i18n', 'catalog');
+    const wrong = [];
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.json') && x !== 'en.json')) {
+      const tag = f.slice(0, -5);
+      const m = JSON.parse(readFileSync(join(dir, f), 'utf8')).messages;
+      const op = m[keyOf('Erase', 'overlay')];
+      if (op && m.erase?.toLocaleLowerCase(tag) !== op.toLocaleLowerCase(tag)) wrong.push(`${tag}: ${m.erase} / ${op}`);
+    }
+    expect(wrong).toEqual([]);
   });
 
   // A storage bucket's Region is the provider's data centre region; spectral classification's
