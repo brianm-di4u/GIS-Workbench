@@ -6,9 +6,9 @@
 //   * the CRS mappings both ways (reader ↔ writer) and WKT1 through proj4js.
 // Skipped when the bundle or the fixtures are absent.
 import { describe, it, expect } from 'vitest';
-import { existsSync, readFileSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { execFileSync } from 'node:child_process';
 import proj4 from 'proj4';
 import { Bundle } from '../../app/src/wasm/abi.js';
@@ -31,7 +31,7 @@ const wasm = (() => {
 const haveWasm = !!wasm && existsSync(wasm);
 const lx = haveWasm ? new Bundle(new WebAssembly.Module(readFileSync(wasm)), 'legacy') : null;
 const file = (p) => new File([readFileSync(p)], p.split(/[\\/]/).pop());
-const TMP = mkdtempSync(join(tmpdir(), 'gw-raster21-'));
+const TMP = tempDir('gw-raster21');
 
 const sideOf = (dir, img) => ['.ige', '.rrd'].map((e) => join(dir, img.replace(/\.img$/i, e))).filter(existsSync).map(file);
 

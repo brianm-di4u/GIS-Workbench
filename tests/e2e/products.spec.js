@@ -3,10 +3,10 @@
 // back on the ground; GeoTIFF and NITF chips of source samples that reopen and geolocate like
 // the parent (RPC kept, ICHIPB / shifted offsets); autolabels that follow their image.
 import { test, expect } from '@playwright/test';
-import { mkdtempSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { openApp, openFiles, sample } from './helpers.js';
+import { tempDir } from '../tools/temp-dir.mjs';
 
 const WV3 = sample('nitf-wv3-mvs-stereo-chips', 'wv3_a_chip.ntf');
 
@@ -108,7 +108,7 @@ test('REQ-PRD-10 a chip of a source with FSCLAS=C comes out with FSCLAS=C, in bo
     for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode(...u8.subarray(i, i + 0x8000));
     return btoa(s);
   });
-  const dir = mkdtempSync(join(tmpdir(), 'gw-sec-'));
+  const dir = tempDir('gw-sec');
   const src = join(dir, 'source_c.ntf');
   writeFileSync(src, Buffer.from(b64, 'base64'));
   await openFiles(frame, [src]);
@@ -133,7 +133,7 @@ for (const fmt of ['nitf-source', 'tif-source']) {
     const { frame, logs } = await ready(page);
     await frame.evaluate(() => window.gisworkbench.activePane().setView({ cx: 700, cy: 820, zoom: 1, rot: 0, mode: 'native' }));
     const out = await product(frame, fmt, { width: 400, height: 300 });
-    const dir = mkdtempSync(join(tmpdir(), 'gw-prd-'));
+    const dir = tempDir('gw-prd');
     const file = join(dir, out.name);
     writeFileSync(file, Buffer.from(out.b64, 'base64'));
     const src = out.record.source;
