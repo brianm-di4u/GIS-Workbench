@@ -5,6 +5,7 @@
 
 import { test, expect } from '@playwright/test';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { zipSync } from 'fflate';
 import { resolve } from 'node:path';
 import { openApp } from './helpers.js';
 
@@ -13,8 +14,9 @@ const RASTER = resolve('fixtures', 'fx25', 'aviation', 'nodata-utm15n-f32.tif');
 const STRETCH = { format: 'gw-recipe/1', name: 'Stretch', steps: [{ op: 'contrast' }] };
 
 /** As recipe_run.rs does: the files on a hidden #gwb-run-inputs, then (FN)(ARGS) as an expression. */
-async function runPage(page, args, files = []) {
+async function runPage(page, args, files = [], before = null) {
   const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  if (before) await frame.evaluate(before);
   const input = await frame.evaluateHandle(() => {
     const i = document.createElement('input');
     i.type = 'file';
@@ -50,4 +52,27 @@ test('REG-150 the page script stops, naming the file, when an --in file does not
   writeFileSync(junk, 'not a tiff');
   const r = await runPage(page, { recipe: STRETCH }, [junk]);
   expect(r.threw).toMatch(/an input did not open: junk\.tif: /);
+});
+
+test('REG-150 the page script opens an imagery ZIP without asking which file', async ({ page }, info) => {
+  const zip = info.outputPath('two.zip');
+  const tif = (n) => new Uint8Array(readFileSync(resolve('fixtures', 'fx25', 'aviation', n)));
+  writeFileSync(zip, zipSync({ 'a.tif': tif('nodata-utm15n-f32.tif'), 'b.tif': tif('nodata-wgs84-f32.tif') }));
+  const r = await runPage(page, { recipe: STRETCH }, [zip]);
+  expect(r.threw).toBeUndefined();
+  expect(r.status?.ok).toBe(true);
+});
+
+test('REG-150 the page script stops, naming it, when opening an input asks a question', async ({ page }) => {
+  // An open path with a dialog the runner has no answer for: it fails the run instead of waiting it out.
+  const r = await runPage(page, { recipe: STRETCH }, [RASTER], () => {
+    window.gisworkbench.openFiles = () => {
+      const d = Object.assign(document.createElement('div'), { className: 'dlg' });
+      d.setAttribute('aria-modal', 'true');
+      d.setAttribute('aria-label', 'Pick a band');
+      document.body.appendChild(d);
+      return new Promise(() => {});
+    };
+  });
+  expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Pick a band');
 });

@@ -11,6 +11,10 @@
 // bytes as base64.
 async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const app = window.gisworkbench;
+  // Nobody is at the page: answer the open path's own questions the way automation does (an imagery
+  // ZIP opens its default pick, a project's imagery is left to relink, an ASCII point file takes the
+  // proposed columns, an RPF table gets no folder). Any other dialog fails the run, named, below.
+  Object.assign(app, { zipPick: 'default', relinkPick: 'skip', asciiPick: 'default', rpfFolderPick: async () => [] });
   const el = document.getElementById('gwb-run-inputs');
   const files = el ? [...el.files] : [];
   el?.remove();
@@ -40,10 +44,24 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
     const log0 = app.importLog.length;
     const failed = () =>
       app.importLog.slice(log0).flatMap((e) => (e.errors ?? []).map((m) => (m.startsWith(e.file) ? m : `${e.file}: ${m}`)));
-    const packs = open.filter((f) => /\.gwpack$/i.test(f.name));
-    if (packs.length) await app.openPackFiles(packs);
-    const rest = open.filter((f) => !/\.gwpack$/i.test(f.name));
-    if (rest.length) await app.openFiles(rest);
+    const opening = (async () => {
+      const packs = open.filter((f) => /\.gwpack$/i.test(f.name));
+      if (packs.length) await app.openPackFiles(packs);
+      const rest = open.filter((f) => !/\.gwpack$/i.test(f.name));
+      if (rest.length) await app.openFiles(rest);
+    })();
+    let watch;
+    const asked = new Promise((_, no) => {
+      watch = setInterval(() => {
+        const d = document.querySelector('.dlg[aria-modal="true"]');
+        if (d) no(new Error(`opening the inputs asked a question nobody is here to answer: ${d.getAttribute('aria-label')}`));
+      }, 200);
+    });
+    try {
+      await Promise.race([opening, asked]);
+    } finally {
+      clearInterval(watch);
+    }
     // Rasters read their statistics after they open; the first step may need them.
     const t0 = Date.now();
     while (!failed().length && ![...app.layers.values()].every((l) => l.stats || l.error || !l.chain)) {
