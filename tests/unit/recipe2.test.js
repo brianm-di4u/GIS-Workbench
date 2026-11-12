@@ -111,6 +111,10 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     expect(ids(at('twice'))).toEqual(['look', 'show', 'sum', 'twice']);
     expect(ids(at('show'))).toEqual(['look', 'show']);
     expect(ids(at('look'))).toEqual(['look']);
+    // And it runs after them, though a wire runs from a later step to an earlier one.
+    const back = [{ id: 's1', op: 'mul', inputs: { a: { from: 's3', output: 'out' } } }, { id: 's2', op: 'gate' }, { id: 's3', op: 'num' }];
+    expect(order(back, OPS).map((k) => back[k].id)).toEqual(['s3', 's1', 's2']);
+    expect([...downstream(back, 0, OPS)].map((k) => back[k].id)).toEqual(['s1', 's2']);
     // Without the ops nothing is known of the ports: wires alone.
     expect([...downstream(r.steps, at('show'))].map((k) => r.steps[k].id)).toEqual(['show']);
   });

@@ -86,12 +86,20 @@ export function checkParam(spec, v, where) {
   }
 }
 
-/** Steps in run order (Kahn), or an Error naming a step in a cycle. Ties keep the file's order. */
-export function order(steps) {
+/**
+ * Steps in run order (Kahn), or an Error naming a step in a cycle. Ties keep the file's order. A step
+ * whose op has no ports runs after every step before it in the file, as downstream() has it follow them.
+ */
+export function order(steps, ops = null) {
   const idx = new Map(steps.map((s, i) => [s.id, i]));
   const indeg = steps.map(() => 0);
   const out = steps.map(() => []);
   steps.forEach((s, i) => {
+    if (portless(s, ops))
+      for (let k = 0; k < i; k++) {
+        indeg[i]++;
+        out[k].push(i);
+      }
     for (const w of Object.values(s.inputs ?? {})) {
       if (w && typeof w === 'object' && 'from' in w) {
         indeg[i]++;
@@ -114,16 +122,21 @@ export function order(steps) {
   return res;
 }
 
+/** A step whose op has no ports: a chain op, which acts on what the app shows, in file order. */
+const portless = (s, ops) => !!ops && !ops[s.op]?.inputs?.length && !ops[s.op]?.outputs?.length;
+
 /**
  * A workflow's content, as one string: what tells two stored copies of one id apart. Its version,
  * where its steps sit in the graph and where it was listed from are not content, and an older or
  * hand-written form counts as the form validateRecipe gives it (one that no longer validates, as itself).
  */
 export function contentOf(r, ops) {
-  let v = r;
+  let v;
   try {
     v = validateRecipe(r, ops);
-  } catch {}
+  } catch {
+    return JSON.stringify(r ?? null);
+  }
   const f = JSON.parse(JSON.stringify({ ...v, format: FORMAT2 }));
   return JSON.stringify({ ...f, source: undefined, clash: undefined, version: 0, steps: f.steps?.map(({ at, ...s }) => s) });
 }
@@ -137,8 +150,7 @@ export function downstream(steps, i, ops = null) {
   const wired = steps.some((s) => Object.values(s.inputs ?? {}).some((w) => w && typeof w === 'object' && 'from' in w));
   if (!wired) return new Set(steps.map((_, k) => k).filter((k) => k >= i));
   const ids = new Set([steps[i].id]);
-  const portless = (s) => !!ops && !ops[s.op]?.inputs?.length && !ops[s.op]?.outputs?.length;
-  steps.forEach((s, k) => k > i && portless(s) && ids.add(s.id));
+  steps.forEach((s, k) => k > i && portless(s, ops) && ids.add(s.id));
   let grew = true;
   while (grew) {
     grew = false;
@@ -230,7 +242,7 @@ export class RecipeRunner extends Emitter {
   load(recipe) {
     if (this.running) throw new Error('a recipe is running: stop it first');
     this.recipe = validateRecipe(recipe, this.ops);
-    this.order = order(this.recipe.steps);
+    this.order = order(this.recipe.steps, this.ops);
     this.state = this.recipe.steps.map(() => ({ status: 'pending', ms: null, summary: '', error: null }));
     this.outputs = new Map();
     this.current = -1;
