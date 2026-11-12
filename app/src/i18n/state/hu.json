@@ -36847,6 +36847,19 @@
    "h": "c11092bc0861",
    "state": "passed",
    "note": "Szögletes means angular; négyzetes is the GIS cap term"
+  },
+  "landing zone\u0004Buffer": {
+   "h": "e44193fd2d21",
+   "state": "passed",
+   "note": "\"sáv\" means lane/strip; távolság fits a metre value"
+  },
+  "overlay\u0004Erase": {
+   "h": "511a2da097fa",
+   "state": "passed"
+  },
+  "cloud storage\u0004Region": {
+   "h": "d3a008ef1335",
+   "state": "passed"
   }
  }
 }
