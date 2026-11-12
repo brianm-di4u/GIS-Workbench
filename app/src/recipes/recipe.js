@@ -118,11 +118,31 @@ export function order(steps) {
   return res;
 }
 
-/** The steps downstream of step i (by wires), and i itself. A chain (no wires) has every later step downstream. */
-export function downstream(steps, i) {
+/**
+ * A workflow's content, as one string: what tells two stored copies of one id apart. Its version,
+ * where its steps sit in the graph and where it was listed from are not content, and an older or
+ * hand-written form counts as the form validateRecipe gives it (one that no longer validates, as itself).
+ */
+export function contentOf(r, ops) {
+  let v = r;
+  try {
+    v = validateRecipe(r, ops);
+  } catch {}
+  const f = JSON.parse(JSON.stringify({ ...v, format: FORMAT2 }));
+  return JSON.stringify({ ...f, source: undefined, clash: undefined, version: 0, steps: f.steps?.map(({ at, ...s }) => s) });
+}
+
+/**
+ * The steps downstream of step i (by wires), and i itself. A chain (no wires) has every later step
+ * downstream. A step whose op has no ports (a chain op, which acts on what the app shows) follows
+ * every step before it, as in a chain, wires or not.
+ */
+export function downstream(steps, i, ops = null) {
   const wired = steps.some((s) => Object.values(s.inputs ?? {}).some((w) => w && typeof w === 'object' && 'from' in w));
   if (!wired) return new Set(steps.map((_, k) => k).filter((k) => k >= i));
   const ids = new Set([steps[i].id]);
+  const portless = (s) => !!ops && !ops[s.op]?.inputs?.length && !ops[s.op]?.outputs?.length;
+  steps.forEach((s, k) => k > i && portless(s) && ids.add(s.id));
   let grew = true;
   while (grew) {
     grew = false;
@@ -182,7 +202,7 @@ export function validateRecipe(r, ops) {
     }
   }
   order(steps);
-  return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Number(r.version ?? 1), steps };
+  return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Math.max(1, Math.trunc(Number(r.version)) || 1), steps };
 }
 
 /** An op's defaults: its `defaults`, and its schema's defaults where `defaults` gives none. */
@@ -227,7 +247,7 @@ export class RecipeRunner extends Emitter {
     const s = this.recipe?.steps[i];
     if (!s) throw gwError('no step {n}', { n: String(i + 1) }, 'E_RECIPE_NO_STEP');
     s.params = { ...s.params, [key]: checkParam(this.ops[s.op].schema?.[key], value, { where: `step ${i + 1} (${s.id})`, param: key }, defaults(this.ops[s.op])[key]) };
-    for (const k of downstream(this.recipe.steps, i)) if (this.state[k].status !== 'pending') this.state[k].status = 'stale';
+    for (const k of downstream(this.recipe.steps, i, this.ops)) if (this.state[k].status !== 'pending') this.state[k].status = 'stale';
     this.emit('change');
   }
 
@@ -258,7 +278,7 @@ export class RecipeRunner extends Emitter {
     if (this.running) throw new Error('the recipe is already running');
     this.running = true;
     this._stop = false;
-    const keep = from === 0 ? null : downstream(this.recipe.steps, from);
+    const keep = from === 0 ? null : downstream(this.recipe.steps, from, this.ops);
     const seq = this.order.filter((i) => !keep || keep.has(i));
     for (const k of seq) this.state[k] = { status: 'pending', ms: null, summary: '', error: null };
     this.emit('change');

@@ -13,6 +13,6 @@ export function install(app) {
     return lib;
   });
   app.workflows = {};
-  lazyMethods(app.workflows, ['show', 'open', 'addStep', 'wire', 'unwire', 'removeStep', 'setParam', 'run', 'saveToProject', 'library', 'removeFromLibrary', 'projectWorkflows', 'current', 'setView'], load, () => app.workflows);
+  lazyMethods(app.workflows, ['show', 'open', 'addStep', 'wire', 'unwire', 'give', 'removeStep', 'setParam', 'run', 'saveToProject', 'removeFromLibrary', 'current', 'setView'], load, () => app.workflows);
   lazyCommands(app, ['pip.builder'], load);
 }

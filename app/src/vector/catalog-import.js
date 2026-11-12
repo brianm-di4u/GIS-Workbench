@@ -5,7 +5,7 @@
 // validateCatalog accepts. Pure: no DOM, so they run in Node too (the i18n module only names the errors). Files are data: nothing in them
 // is run, and no URL in them is fetched.
 
-import { parseXml, all, kids } from '../connectors/xml.js';
+import { parseXml, all, kids, attr } from '../connectors/xml.js';
 import { gwError } from '../i18n/index.js';
 
 const E = (msg, params = null) => gwError(msg, params, 'E_CATALOG_CONVERT');
@@ -62,10 +62,9 @@ export function attrType(t) {
   const s = String(t ?? '')
     .replace(/^.*:/, '')
     .toLowerCase();
-  if (/^gm_point|^point(property)?type$|^multipoint/.test(s)) return 'geometry:Point';
-  if (/^gm_(curve|linestring)|^(curve|linestring|multicurve)(property)?type$/.test(s)) return 'geometry:LineString';
-  if (/^gm_(surface|polygon)|^(surface|polygon|multisurface)(property)?type$/.test(s)) return 'geometry:Polygon';
-  if (/^gm_|^geometry(property)?type$/.test(s)) return 'geometry:';
+  const g = s.match(/^gm_(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)$/) ?? s.match(/^(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)(?:property)?type$/);
+  if (g) return { point: 'geometry:Point', curve: 'geometry:LineString', linestring: 'geometry:LineString', surface: 'geometry:Polygon', polygon: 'geometry:Polygon' }[g[1]];
+  if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$/.test(s)) return 'geometry:';
   if (/^(boolean)$/.test(s)) return 'boolean';
   if (/^(integer|int|long|short|byte|nonnegativeinteger|positiveinteger|unsignedint)$/.test(s)) return 'integer';
   if (/^(real|double|float|decimal|number|measure(type)?|length(type)?|area(type)?|angle(type)?|distance|velocity)$/.test(s)) return 'real';
@@ -102,14 +101,26 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
   const title = deepText(first(root, 'name')) || name || 'ISO 19110 catalogue';
   const { attrs, add } = attrTable();
   const types = [];
-  for (const ft of all(root, 'FC_FeatureType')) {
+  const fts = all(root, 'FC_FeatureType');
+  const byId = new Map(fts.filter((ft) => attr(ft, 'id')).map((ft) => [attr(ft, 'id'), ft]));
+  /** A type's attributes: its supertypes' first (inheritsFrom, by xlink:href to their id), then its own. */
+  const attributesOf = (ft, seen = new Set()) => {
+    if (seen.has(ft)) return [];
+    seen.add(ft);
+    const sups = all(ft, 'inheritsFrom').flatMap((r) => all(r, 'supertype')).map((x) => byId.get(String(attr(x, 'href') ?? '').replace(/^#/, ''))).filter(Boolean);
+    // A supertype's own attributes, not those of a type nested inside an inheritance relation.
+    const own = all(ft, 'FC_FeatureAttribute').filter((fa) => !all(ft, 'inheritsFrom').some((r) => all(r, 'FC_FeatureAttribute').includes(fa)));
+    return [...sups.flatMap((x) => attributesOf(x, seen)), ...own];
+  };
+  for (const ft of fts) {
+    if (/^(true|1)$/i.test(deepText(first(ft, 'isAbstract')))) continue;
     capTypes(types);
     const typeName = deepText(first(ft, 'typeName'));
     const code = deepText(first(ft, 'code')) || typeName;
     if (!code) continue;
     const geometry = new Set();
     const names = [];
-    for (const fa of all(ft, 'FC_FeatureAttribute')) {
+    for (const fa of attributesOf(ft)) {
       const member = deepText(first(fa, 'memberName'));
       const t = attrType(deepText(first(fa, 'valueType')));
       if (t.startsWith('geometry:')) {
@@ -154,47 +165,103 @@ export function parseCodeList(xml) {
 
 /**
  * An INSPIRE application schema (one or more XSD texts) with code lists → gw-catalog/1. Feature
- * types are the elements in the gml:AbstractFeature substitution group; their properties come from
- * their complex type's sequence. A property typed gml:ReferenceType takes the code list whose name,
+ * types are the concrete elements that substitute for gml:AbstractFeature, directly or through abstract
+ * elements of these schemas; their properties come from
+ * their complex type's sequence, after those of the types it extends (INSPIRE keeps the geometry
+ * and the identifier in abstract base types). A property typed gml:ReferenceType takes the code list whose name,
  * without "Value", is the property's name (INSPIRE's own naming: surfaceComposition →
- * SurfaceCompositionValue), else it is text. Voidable and optional properties are not required.
+ * SurfaceCompositionValue), or the one its annotation names (targetCodeList); one that names a list
+ * not imported stays as text. Voidable and optional properties are not required.
  */
 export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const lists = new Map(codeLists.map((c) => [c.id.replace(/Value$/, '').toLowerCase(), c]));
+  // Named components by namespace and local name: an extension schema may reuse a name (bu-ext2d:Building
+  // substitutes for bu-core2d:Building). Each keeps its schema's prefixes, to resolve the QNames it uses.
   const complex = new Map();
-  const features = [];
+  const elements = new Map();
+  const byLocal = { complex: new Map(), elements: new Map() };
   let target = '';
   for (const x of [].concat(xsds)) {
     const doc = xmlOf(x);
     const schema = find(doc, 'schema');
     if (!schema) throw E('not an XML Schema (no schema element)');
-    target ||= schema.attrs?.targetNamespace ?? '';
-    for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) complex.set(ct.attrs.name, ct);
-    for (const el of kids(schema, 'element'))
-      if (/AbstractFeature$/.test(el.attrs?.substitutionGroup ?? '') && el.attrs?.name) {
-        capTypes(features);
-        features.push(el);
-      }
+    const ns = schema.attrs?.targetNamespace ?? '';
+    target ||= ns;
+    const keep = (kind, map, node) => {
+      const entry = { node, ns, scope: schema.attrs ?? {} };
+      map.set(`${ns}|${node.attrs.name}`, entry);
+      const list = byLocal[kind].get(node.attrs.name) ?? [];
+      byLocal[kind].set(node.attrs.name, [...list, entry]);
+    };
+    for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) keep('complex', complex, ct);
+    for (const el of kids(schema, 'element')) if (el.attrs?.name) keep('elements', elements, el);
   }
+  /** The component a QName names, read with the prefixes of the schema it appears in (`from`). A prefix
+   * the schema does not declare falls back to the local name, never to the component itself; a declared
+   * one whose namespace is not among these schemas names nothing (as gml does). */
+  const resolve = (kind, qname, from) => {
+    if (!qname) return null;
+    const q = String(qname);
+    const at = q.indexOf(':');
+    const pfx = at < 0 ? '' : q.slice(0, at);
+    const name = at < 0 ? q : q.slice(at + 1);
+    const ns = pfx ? from.scope[`xmlns:${pfx}`] : from.scope.xmlns;
+    if (ns !== undefined) {
+      const hit = (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
+      return hit && hit.node !== from.node ? hit : null;
+    }
+    return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
+  };
+  /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
+  const isFeature = (entry, seen = new Set()) => {
+    const group = entry.node.attrs?.substitutionGroup;
+    if (!group || seen.has(entry)) return false;
+    seen.add(entry);
+    if (/AbstractFeature$/.test(group)) return true;
+    const up = resolve('elements', group, entry);
+    return !!up && isFeature(up, seen);
+  };
+  let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
+  // An extension that re-declares a type under the same name (ext2d's Building for core2d's) replaces
+  // it; a differently named subtype (Motorway for Road) does not.
+  const replaced = new Set(features.map((e) => [e, resolve('elements', e.node.attrs.substitutionGroup, e)]).filter(([e, up]) => up && up.node.attrs.name === e.node.attrs.name).map(([, up]) => up));
+  features = features.filter((e) => !replaced.has(e));
+  if (features.length > MAX_TYPES) throw E('the catalogue has more than {n} feature types', { n: String(MAX_TYPES) });
+  // A name two schemas both define (core2d's and core3d's Building) is qualified by its schema's prefix.
+  const prefixOf = (e) => Object.entries(e.scope).find(([k, v]) => k.startsWith('xmlns:') && v === e.ns)?.[0].slice(6) || e.ns.replace(/\/+$/, '').split(/[/:]/).pop() || 'ns';
+  const shared = new Set(features.map((e) => e.node.attrs.name).filter((n, i, all) => all.indexOf(n) !== i));
+  const codeOf = (e) => (shared.has(e.node.attrs.name) ? `${prefixOf(e)}:${e.node.attrs.name}` : e.node.attrs.name);
+  /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
+  const props = (entry, seen = new Set()) => {
+    if (!entry || seen.has(entry)) return [];
+    seen.add(entry);
+    return [...props(resolve('complex', find(entry.node, 'extension')?.attrs?.base, entry), seen), ...all(entry.node, 'element')];
+  };
   const { attrs, add } = attrTable();
   const types = [];
-  for (const el of features) {
-    const code = el.attrs.name;
-    const ct = complex.get(String(el.attrs.type ?? '').replace(/^.*:/, ''));
+  for (const entry of features) {
+    const code = codeOf(entry);
     const geometry = new Set();
     const names = [];
-    for (const p of ct ? all(ct, 'element') : []) {
+    for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
       const pname = p.attrs?.name;
       if (!pname) continue;
-      const ptype = String(p.attrs?.type ?? '');
+      // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
+      // with a nilReason attribute), not in @type.
+      const ptype = String(p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? find(p, 'restriction')?.attrs?.base ?? '');
       const t = attrType(ptype);
       if (t.startsWith('geometry:')) {
         if (t.length > 9) geometry.add(t.slice(9));
         continue;
       }
-      const list = /ReferenceType$/.test(ptype) ? lists.get(pname.toLowerCase()) : null;
-      if (/ReferenceType$/.test(ptype) && !list) continue; // a link to another feature or an unknown list
-      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : { label: pname, type: t };
+      // A reference to a code list names it in its annotation (targetCodeList), else by the property's name;
+      // a reference with neither is a link to another feature.
+      const ref = /ReferenceType$/.test(ptype);
+      const target = ref ? deepText(find(p, 'targetCodeList')).replace(/^.*[:/#]/, '') : '';
+      const list = ref ? lists.get((target || pname).replace(/Value$/, '').toLowerCase()) : null;
+      if (ref && !list && !target) continue;
+      // A code list the import was not given keeps the property, as text, and says which list it needs.
+      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
       if (Number(p.attrs?.minOccurs ?? 1) >= 1 && p.attrs?.nillable !== 'true') a.required = true;
       const key = add(pname, a, code);
       if (key && !names.includes(key)) names.push(key);

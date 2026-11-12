@@ -5,7 +5,6 @@
 //
 //   node build/size-report.mjs             report dist/build-report.json against the baseline
 //   node build/size-report.mjs --update    make this build the baseline (the release PR does this)
-import { execFileSync } from 'node:child_process';
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -25,13 +24,13 @@ const FILES = [
 /** A limit as gates.mjs states it: whole decimal megabytes, or else mebibytes. */
 export const limitText = (n) => (n % 1_000_000 === 0 ? `${n / 1_000_000} MB` : `${Number((n / 1048576).toFixed(2))} MiB`);
 
-/** The numbers a baseline keeps: the files above, and each embedded block's stored size. */
-export function snapshot(report, commit = null) {
+/** The numbers a baseline keeps: the files above, and each embedded block's stored size. No commit:
+ *  the release PR is squash-merged, so its branch head never reaches main (#212). */
+export function snapshot(report) {
   const s = report.sizes;
   return {
     version: report.build.version,
     build: report.build.id,
-    ...(commit ? { commit } : {}),
     files: Object.fromEntries(FILES.map((f) => [f.key, s[f.key]])),
     blocks: Object.fromEntries(Object.entries(s.blocks ?? {}).map(([name, b]) => [name, b.stored]).sort(([a], [b]) => (a < b ? -1 : 1))),
   };
@@ -55,7 +54,7 @@ export function sizeDelta(baseline, now, { blocks = 8 } = {}) {
     .filter((b) => b.was !== b.is)
     .sort((a, b) => Math.abs(b.is - b.was) - Math.abs(a.is - a.was) || (a.name < b.name ? -1 : 1));
   const out = [
-    `### Size since ${baseline.version} at ${baseline.commit ?? `build ${baseline.build}`}`,
+    `### Size since ${baseline.version} at build ${baseline.build}`,
     '',
     'Changes count everything merged since then, not only this change.',
     '',
@@ -81,14 +80,14 @@ function main() {
   }
   const report = JSON.parse(readFileSync(reportFile, 'utf8'));
   if (process.argv.includes('--update')) {
-    const now = snapshot(report, execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim());
+    const now = snapshot(report);
     const missing = FILES.filter((f) => now.files[f.key] == null).map((f) => f.label);
     if (missing.length || report.gates?.errors?.length) {
       console.error(`Not updating the baseline from a build that failed its gates or is missing: ${missing.join(', ') || 'none missing'}.`);
       return 1;
     }
     writeFileSync(BASELINE, `${JSON.stringify(now, null, 1)}\n`);
-    console.log(`build/size-baseline.json is now ${now.version} at ${now.commit}.`);
+    console.log(`build/size-baseline.json is now ${now.version} at build ${now.build}.`);
     return 0;
   }
   if (report.gates?.errors?.length) console.log('The build failed its gates, so some sizes may be missing.\n');

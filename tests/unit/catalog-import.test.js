@@ -27,6 +27,15 @@ describe('REQ-GAP-87 ISO 19110', () => {
   it('refuses what is not a feature catalogue', () => {
     expect(() => fromIso19110('<a/>')).toThrow(/FC_FeatureCatalogue/);
   });
+  it('skips an abstract feature type and gives a type its supertype\'s attributes first', () => {
+    const attr = (n) => `<gfc:carrierOfCharacteristics><gfc:FC_FeatureAttribute><gfc:memberName>${n}</gfc:memberName><gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType></gfc:FC_FeatureAttribute></gfc:carrierOfCharacteristics>`;
+    const c = fromIso19110(`<gfc:FC_FeatureCatalogue xmlns:gfc="g" xmlns:gco="c" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <gfc:featureType><gfc:FC_FeatureType id="ft-way"><gfc:typeName>Way</gfc:typeName><gfc:isAbstract><gco:Boolean>true</gco:Boolean></gfc:isAbstract>${attr('owner')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-road"><gfc:typeName>Road</gfc:typeName><gfc:inheritsFrom><gfc:FC_InheritanceRelation><gfc:supertype xlink:href="#ft-way"/></gfc:FC_InheritanceRelation></gfc:inheritsFrom>${attr('surface')}</gfc:FC_FeatureType></gfc:featureType>
+    </gfc:FC_FeatureCatalogue>`);
+    expect(c.types.map((t) => t.code)).toEqual(['Road']);
+    expect(c.types[0].attributes).toEqual(['owner', 'surface']);
+  });
 });
 
 describe('REQ-GAP-87 INSPIRE application schema', () => {
@@ -45,6 +54,65 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(c.attributes.numberOfLanes).toMatchObject({ type: 'integer', required: true });
     expect(c.attributes.localRoadCode.required).toBeUndefined();
     expect(c.types[1].geometry).toEqual(['Point']);
+  });
+  it('finds a feature type that substitutes through an abstract base in another schema, and skips the base', () => {
+    const base = '<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:tn"><element name="TransportLink" abstract="true" type="tn:TransportLinkType" substitutionGroup="gml:AbstractFeature"/><complexType name="TransportLinkType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="centrelineGeometry" type="gml:CurvePropertyType"/></sequence></extension></complexContent></complexType></schema>';
+    const roads = '<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:tn-ro"><element name="RoadLink" type="tn-ro:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><complexContent><extension base="tn:TransportLinkType"><sequence><element name="functionalRoadClass" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    const c = fromInspire([roads, base]);
+    expect(c.types.map((t) => t.code)).toEqual(['RoadLink']);
+    expect(c.types[0]).toMatchObject({ geometry: ['LineString'], attributes: ['functionalRoadClass'] });
+    // Alone, the concrete schema names no feature type: its base is not there to follow.
+    expect(() => fromInspire([roads])).toThrow(/no feature types/);
+  });
+  it('reads names by namespace: an extension schema may reuse a name, and its type is the one offered', () => {
+    const xsd = (ns, decl, body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" ${decl} targetNamespace="${ns}">${body}</schema>`;
+    const type = (name, base, els) => `<complexType name="${name}"><complexContent><extension base="${base}"><sequence>${els}</sequence></extension></complexContent></complexType>`;
+    const base = xsd('urn:bu-base', 'xmlns:bu-base="urn:bu-base"', '<element name="AbstractBuilding" abstract="true" type="bu-base:AbstractBuildingType" substitutionGroup="gml:AbstractFeature"/>' + type('AbstractBuildingType', 'gml:AbstractFeatureType', '<element name="geometry" type="gml:SurfacePropertyType"/>'));
+    const core = xsd('urn:bu-core2d', 'xmlns:bu-base="urn:bu-base" xmlns:bu-core2d="urn:bu-core2d"', '<element name="Building" type="bu-core2d:BuildingType" substitutionGroup="bu-base:AbstractBuilding"/>' + type('BuildingType', 'bu-base:AbstractBuildingType', '<element name="heightAboveGround" type="double"/>'));
+    const ext = xsd('urn:bu-ext2d', 'xmlns:bu-core2d="urn:bu-core2d" xmlns:bu-ext2d="urn:bu-ext2d"', '<element name="Building" type="bu-ext2d:BuildingType" substitutionGroup="bu-core2d:Building"/>' + type('BuildingType', 'bu-core2d:BuildingType', '<element name="officialArea" type="double" minOccurs="0"/>'));
+    expect(fromInspire([base, core]).types).toMatchObject([{ code: 'Building', geometry: ['Polygon'], attributes: ['heightAboveGround'] }]);
+    // With the extension, its Building replaces the core one and carries both levels' properties.
+    expect(fromInspire([base, core, ext]).types).toMatchObject([{ code: 'Building', geometry: ['Polygon'], attributes: ['heightAboveGround', 'officialArea'] }]);
+    // Two sibling schemas that both define Building keep both, each code qualified by its schema's prefix.
+    const core3d = xsd('urn:bu-core3d', 'xmlns:bu-base="urn:bu-base" xmlns:bu-core3d="urn:bu-core3d"', '<element name="Building" type="bu-core3d:BuildingType" substitutionGroup="bu-base:AbstractBuilding"/>' + type('BuildingType', 'bu-base:AbstractBuildingType', '<element name="lod" type="integer"/>'));
+    const both = validateCatalog(fromInspire([base, core, core3d]));
+    expect(both.types.map((t) => [t.code, t.attributes])).toEqual([['bu-core2d:Building', ['heightAboveGround']], ['bu-core3d:Building', ['lod']]]);
+    // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building.
+    expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['Building', ['lod']]]);
+  });
+  it('reads a voidable property\'s type from its simpleContent, and binds code lists by targetCodeList', () => {
+    const voidable = (name, base) => `<element name="${name}" nillable="true"><complexType><simpleContent><extension base="${base}"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element>`;
+    const ref = (name, list) => `<element name="${name}" type="gml:ReferenceType" nillable="true">${list ? `<annotation><appinfo><targetCodeList>${list}</targetCodeList></appinfo></annotation>` : ''}</element>`;
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:bu="urn:bu" targetNamespace="urn:bu"><element name="Building" type="bu:BuildingType" substitutionGroup="gml:AbstractFeature"/><complexType name="BuildingType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="geometry" type="gml:SurfacePropertyType"/>${voidable('numberOfFloorsAboveGround', 'integer')}${voidable('heightValue', 'gml:LengthType')}${ref('currentUse', 'CurrentUseValue')}${ref('condition', 'ConditionOfConstructionValue')}${ref('parent')}</sequence></extension></complexContent></complexType></schema>`;
+    const uses = { id: 'CurrentUseValue', name: 'Current use', values: { residential: 'Residential' } };
+    const c = validateCatalog(fromInspire(xsd, [uses]));
+    expect(c.types[0].attributes).toEqual(['numberOfFloorsAboveGround', 'heightValue', 'currentUse', 'condition']);
+    expect(c.attributes.numberOfFloorsAboveGround.type).toBe('integer');
+    expect(c.attributes.heightValue.type).toBe('real');
+    // targetCodeList names the list, though the property is not named after it.
+    expect(c.attributes.currentUse).toMatchObject({ type: 'enum', domain: { residential: 'Residential' } });
+    // A list the import was not given keeps the property, as text that says which list it needs.
+    expect(c.attributes.condition).toMatchObject({ type: 'text' });
+    expect(c.attributes.condition.definition).toMatch(/ConditionOfConstructionValue/);
+  });
+  it('keeps a concrete type that a differently named subtype substitutes for', () => {
+    const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
+    expect(fromInspire(one).types.map((t) => t.code)).toEqual(['Road', 'Motorway']);
+  });
+  it('takes the properties of the types a feature type extends, its bases first', () => {
+    const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
+    const ext = (name, base, els) => `<complexType name="${name}"><complexContent><extension base="${base}"><sequence>${els}</sequence></extension></complexContent></complexType>`;
+    const two = fromInspire(
+      xsd(
+        '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="gml:AbstractFeature"/>' +
+          ext('RoadLinkType', 'x:TransportLinkType', '<element name="functionalRoadClass" type="string"/>') +
+          ext('TransportLinkType', 'x:NetworkElementType', '<element name="centrelineGeometry" type="gml:CurvePropertyType"/><element name="validFrom" type="dateTime" nillable="true"/>') +
+          // A cycle in a broken schema ends instead of looping.
+          ext('NetworkElementType', 'x:RoadLinkType', '<element name="inNetwork" type="string" minOccurs="0"/>'),
+      ),
+    );
+    expect(two.types[0].geometry).toEqual(['LineString']);
+    expect(two.types[0].attributes).toEqual(['inNetwork', 'validFrom', 'functionalRoadClass']);
   });
 });
 
@@ -96,6 +164,12 @@ describe('REQ-GAP-87 which converter a file needs', () => {
   it('types ISO and XSD values', () => {
     expect(['gco:Integer', 'xs:double', 'Boolean', 'gml:LengthType', 'CharacterString'].map(attrType)).toEqual(['integer', 'real', 'boolean', 'real', 'text']);
     expect(['GM_Curve', 'gml:PointPropertyType', 'gml:MultiSurfacePropertyType'].map(attrType)).toEqual(['geometry:LineString', 'geometry:Point', 'geometry:Polygon']);
+    // ISO 19107 multi, composite and orientable types, and their GML property types, keep their kind.
+    expect(['GM_MultiSurface', 'GM_MultiCurve', 'GM_MultiPoint', 'GM_CompositeCurve', 'GM_OrientableSurface'].map(attrType)).toEqual(['geometry:Polygon', 'geometry:LineString', 'geometry:Point', 'geometry:LineString', 'geometry:Polygon']);
+    expect(['gml:MultiPointPropertyType', 'gml:CompositeCurvePropertyType', 'gml:CompositeSurfacePropertyType'].map(attrType)).toEqual(['geometry:Point', 'geometry:LineString', 'geometry:Polygon']);
+    // A geometry of no single kind is still a geometry, never a text attribute.
+    expect(['GM_Solid', 'gml:MultiGeometryPropertyType', 'gml:SolidPropertyType', 'gml:GeometryPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:', 'geometry:', 'geometry:']);
+    expect(['Point', 'Surface'].map(attrType)).toEqual(['text', 'text']);
   });
 });
 

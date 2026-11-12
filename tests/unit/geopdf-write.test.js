@@ -5,9 +5,9 @@
 // GDAL's PDF driver (the oracle; skipped when GDAL is not installed): CRS, layers, attribute
 // values and vertices against the source geometry.
 import { describe, test, expect } from 'vitest';
-import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { execFileSync, spawnSync } from 'node:child_process';
 import vm from 'node:vm';
 import * as esbuild from 'esbuild';
@@ -32,7 +32,8 @@ const GDAL = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const haveGdal = existsSync(join(GDAL, 'ogr2ogr.exe')) || existsSync(join(GDAL, 'ogr2ogr'));
 const gdalEnv = { ...process.env, PATH: `${GDAL}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}`, GDAL_DATA: resolve(GDAL, '../apps/gdal/share/gdal'), PROJ_DATA: resolve(GDAL, '../share/proj'), PROJ_LIB: resolve(GDAL, '../share/proj') };
 const gdal = (cmd, args) => execFileSync(join(GDAL, cmd), args, { env: gdalEnv, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-const TMP = join(process.env.GW_GEOPDF_TMP ?? tmpdir(), `gw-geopdf-write-${process.pid}`); // one per worker: two runs must not share files
+let tmp = null; // one per test file, removed when it ends: two runs must not share files
+const TMP = () => (tmp ??= tempDir('gw-geopdf-write', process.env.GW_GEOPDF_TMP));
 
 const wasmDir = (() => {
   try {
@@ -174,12 +175,10 @@ describe.skipIf(!haveWasm)('REQ-GAP-66 GeoPDF writer → the app reader', () => 
 describe.skipIf(!haveGdal)('REQ-GAP-66 GeoPDF writer → GDAL PDF driver (oracle)', { timeout: 240_000 }, () => {
   for (const epsg of [32611, 2229, 5070, 3857, 4326]) {
     test(`EPSG:${epsg}`, async () => {
-      mkdirSync(TMP, { recursive: true });
       const { bytes, F } = await writeFx12(epsg, { fonts: epsg === 32611 });
-      const pdf = join(TMP, `fx12_${epsg}.pdf`);
-      const gj = join(TMP, `fx12_${epsg}.geojson`);
+      const pdf = join(TMP(), `fx12_${epsg}.pdf`);
+      const gj = join(TMP(), `fx12_${epsg}.geojson`);
       writeFileSync(pdf, bytes);
-      if (existsSync(gj)) rmSync(gj);
       const info = JSON.parse(gdal('gdalinfo', ['-json', pdf]));
       const wkt = info.coordinateSystem.wkt;
       // GDAL identifies the CRS: the EPSG code is the projection's authority.

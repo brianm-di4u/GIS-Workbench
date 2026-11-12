@@ -43,6 +43,8 @@
     ],
     "t2Paths": [
       ".github/**",
+      ".gitleaks.toml",
+      ".gitleaksignore",
       ".pipeline/**",
       "pipeline.config.json",
       "pipeline.lock.json",
@@ -50,8 +52,7 @@
       ".claude/hooks/**",
       ".claude/agents/**",
       ".claude/workflows/**",
-      ".claude/skills/council/**",
-      ".claude/skills/reviewer-eval/**",
+      ".claude/skills/**",
       "REVIEW.md",
       "**/CLAUDE.md",
       "**/AGENTS.md",
@@ -72,8 +73,6 @@
       "crates/vendor/**/LICENSE*",
       "crates/vendor/**/COPYING*",
       "crates/vendor/**/NOTICE*",
-      ".claude/skills/release/**",
-      ".claude/skills/decision/**",
       "docs/decisions/**",
       "sidecar/**",
       "**/build.rs",
@@ -92,12 +91,16 @@
     "t1": "auto",
     "t2": "human"
   },
+  "generatedPaths": [
+    "app/src/i18n/catalog/en.json"
+  ],
   "privateAutoMerge": false,
   "council": {
     "maxNits": 5,
     "maxSeats": 6,
     "maxDiffGrowth": 1.5,
-    "loopModel": "sonnet",
+    "maxMechanicalLines": 40,
+    "loopModel": "opus",
     "closeModel": "opus",
     "maxLoopRounds": 16,
     "maxCloseRounds": 8,

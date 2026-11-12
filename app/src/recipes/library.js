@@ -3,6 +3,8 @@
 // the operations before they run, and never run on their own. Without IndexedDB (a locked-down
 // sandbox) the library is empty and saving says so.
 
+import { txDone } from '../storage/idb.js';
+
 const DB = 'gw-workflows';
 const STORE = 'workflows';
 
@@ -19,14 +21,9 @@ function idb() {
 async function idbDo(mode, fn) {
   const db = await idb();
   try {
-    return await new Promise((res, rej) => {
-      const tx = db.transaction(STORE, mode);
-      const out = fn(tx.objectStore(STORE));
-      tx.oncomplete = () => res(out?.result ?? out);
-      tx.onerror = () => rej(tx.error);
-      // A commit can fail with no request error (a full disk): the transaction aborts.
-      tx.onabort = () => rej(tx.error ?? new Error('the library transaction was aborted'));
-    });
+    const tx = db.transaction(STORE, mode);
+    const out = fn(tx.objectStore(STORE));
+    return await txDone(tx, () => out?.result ?? out);
   } finally {
     db.close();
   }

@@ -15,6 +15,11 @@ export function parseConfig(text, { warn = (message) => console.warn(message) } 
   if ('models' in config) config.models = cleanModels(config.models, warn);
   // A malformed one fails closed, to "every branch up to date": see lib/freshness.mjs.
   if ('freshness' in config) config.freshness = cleanFreshness(config.freshness, warn);
+  // Globs of generated files, left out of the council's diff and the change hash (see lib/git.mjs).
+  if ('generatedPaths' in config && !(Array.isArray(config.generatedPaths) && config.generatedPaths.every((glob) => typeof glob === 'string' && glob.length > 0))) {
+    warn('pipeline.config.json: "generatedPaths" is not a list of globs, so it was ignored.');
+    delete config.generatedPaths;
+  }
   return config;
 }
 

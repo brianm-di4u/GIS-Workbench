@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Bash
 disallowedTools: Edit, Write, NotebookEdit, Agent
 model: opus
 effort: high
-maxTurns: 30
+maxTurns: 80
 ---
 
 You are the bug hunter on a code review council. You find bugs that would make this change do the wrong thing.

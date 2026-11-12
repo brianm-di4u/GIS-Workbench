@@ -553,6 +553,8 @@ const KW = {
   'hydro.flow': [N_('hydrology'), N_('flow direction'), N_('flow accumulation'), 'd8', 'dinf', N_('drainage')],
   'hydro.streams': [N_('hydrology'), N_('rivers'), N_('channels'), N_('drainage network'), 'strahler', 'shreve'],
   'hydro.watershed': [N_('hydrology'), N_('catchment'), N_('drainage basin'), N_('pour point'), N_('gauge')],
+  'sar.stereolevel': [N_('levelling'), N_('vertical bias'), N_('DSM offset'), N_('reference DEM'), N_('radargrammetry')],
+  'sar.terrain': [N_('terrain correction'), N_('geocoding'), N_('orthorectification'), N_('range-Doppler'), N_('gamma nought'), N_('radiometric terrain flattening'), N_('orbit file'), 'RTC', 'POEORB'],
   'vec.buffer': [N_('buffer'), N_('offset'), N_('distance zone'), N_('geodesic')],
   'pip.builder': [N_('workflow'), N_('model builder'), N_('node editor'), N_('graph'), N_('pipeline'), N_('batch')],
   'ext.importcatalog': ['iso 19110', 'inspire', 'openstreetmap', N_('presets'), N_('feature catalogue'), N_('code list'), N_('schema')],
@@ -626,6 +628,8 @@ export function needOf(app, id) {
   const pane = app.activePane?.();
   const open = (app.layers?.size ?? 0) > 0 || !!pane?.video || !!pane?.view3d;
   if (id === 'stereo.open') return t('open two images with 3-D sensor models in this panel first');
+  if (id === 'sar.terrain') return t('open a Sentinel-1 SAFE product with its annotation and calibration first');
+  if (id === 'sar.stereolevel') return t('open a DSM and a reference DEM as terrain first');
   if (cat === 'stereo') return t('open the Stereo Panel first');
   if (cat === 'scene3d') return open ? t('show the 3D view first') : t('open a georeferenced image or a point cloud first');
   if (NEED[cat]) return tr(NEED[cat]);

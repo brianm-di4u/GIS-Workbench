@@ -103,6 +103,17 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     expect(await again).toEqual({ ok: false });
     expect(run.state.map((s) => s.status)).toEqual(['done', 'skipped', 'skipped']);
   });
+  it('keeps a step with no ports after every step before it, though other steps are wired', () => {
+    const steps = [...DIAMOND.steps, { id: 'look', op: 'gate' }];
+    const r = validateRecipe({ ...DIAMOND, steps }, OPS);
+    const at = (id) => r.steps.findIndex((s) => s.id === id);
+    const ids = (i) => [...downstream(r.steps, i, OPS)].map((k) => r.steps[k].id).sort();
+    expect(ids(at('twice'))).toEqual(['look', 'show', 'sum', 'twice']);
+    expect(ids(at('show'))).toEqual(['look', 'show']);
+    expect(ids(at('look'))).toEqual(['look']);
+    // Without the ops nothing is known of the ports: wires alone.
+    expect([...downstream(r.steps, at('show'))].map((k) => r.steps[k].id)).toEqual(['show']);
+  });
   it('loads a gw-recipe/1 chain and writes gw-recipe/2', () => {
     const run = new RecipeRunner(OPS);
     run.load({ format: 'gw-recipe/1', name: 'old', steps: [{ op: 'num', params: { value: 1 } }, { op: 'log' }] });

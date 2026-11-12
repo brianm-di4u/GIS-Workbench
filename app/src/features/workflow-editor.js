@@ -10,8 +10,7 @@ import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles, saveBlob, textBlob } from '../storage/files.js';
 import { t, tr, msgOf, gwError } from '../i18n/index.js';
-import { validateRecipe, checkParam, fits, splitPort, FORMAT2 } from '../recipes/recipe.js';
-import { listLibrary } from '../recipes/library.js';
+import { validateRecipe, checkParam, fits, splitPort, contentOf, FORMAT2 } from '../recipes/recipe.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const s = (tag, attrs = {}, ...kids) => {
@@ -33,7 +32,7 @@ export function install(app) {
   const toast = (m, o) => app.toast(m, o);
 
   // ---- the workflow being edited: a plain gw-recipe/2 object ----
-  const ed = { wf: null, sel: null, view: 'graph', el: null, wiring: null };
+  const ed = { wf: null, base: null, sel: null, view: 'graph', el: null, wiring: null };
   const blank = () => ({ format: FORMAT2, id: `wf-${Date.now().toString(36)}`, name: t('New workflow'), description: '', version: 1, steps: [] });
   const stepById = (id) => ed.wf?.steps.find((x) => x.id === id) ?? null;
   const nextId = () => {
@@ -48,7 +47,7 @@ export function install(app) {
     ed.wf ??= blank();
     const id = nextId();
     const k = ed.wf.steps.length;
-    ed.wf.steps.push({ id, op, title: tr(ops[op].title), params: {}, inputs: {}, note: '', at: at ?? { x: 20 + (k % 4) * (NODE_W + 40), y: 20 + Math.floor(k / 4) * 120 } });
+    ed.wf.steps.push({ id, op, title: ops[op].title, params: {}, inputs: {}, note: '', at: at ?? { x: 20 + (k % 4) * (NODE_W + 40), y: 20 + Math.floor(k / 4) * 120 } });
     ed.sel = id;
     draw();
     return id;
@@ -77,6 +76,13 @@ export function install(app) {
     delete stepById(to)?.inputs[input];
     draw();
   }
+  /** Give input `input` of step `to` a layer of the project, by name (a name travels with the workflow; an id does not). */
+  function give(to, input, layer) {
+    const b = stepById(to);
+    if (!b) throw gwError('no such step', {}, 'E_RECIPE_STEP');
+    b.inputs[input] = { value: layer };
+    draw();
+  }
   function removeStep(id) {
     ed.wf.steps = ed.wf.steps.filter((x) => x.id !== id);
     for (const x of ed.wf.steps) for (const [k, w] of Object.entries(x.inputs)) if (w.from === id) delete x.inputs[k];
@@ -98,17 +104,35 @@ export function install(app) {
   // ---- keeping workflows ----
   /** A built-in recipe edited here is kept under an id of its own, so the built-in never hides it. */
   const own = (r) => (R.builtin.some((b) => b.id === r.id) ? { ...r, id: `${r.id}-${Date.now().toString(36)}` } : r);
-  async function saveToProject(wf = ed.wf) {
-    const r = own(validateRecipe(wf, ops));
-    if (wf === ed.wf) ed.wf.id = r.id;
-    const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
+  // One save at a time: a second Save (a double-click) waits for the first, and so sees its record.
+  let saving = Promise.resolve();
+  const saveToProject = () => (saving = saving.catch(() => {}).then(save));
+  async function save() {
+    const r = own(validateRecipe(ed.wf, ops));
+    const lib = (await R.library(true).catch(() => [])).find((x) => x.id === r.id);
+    let rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
+    // The project and the library are kept apart (the admin's option B): Save may replace a stored
+    // copy of this id only if it is the copy that was opened. A different one (a shared project's,
+    // or another project's in the library) stays, and this is saved as a new workflow.
+    const stored = [rec?.recipe, lib].filter(Boolean);
+    if (stored.some((x) => body(x) !== ed.base)) {
+      r.id = `${r.id}-${Date.now().toString(36)}`;
+      r.version = 1;
+      rec = null;
+      toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
+    } else if (stored.length) {
+      // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
+      r.version = Math.max(...stored.map((x) => x.version ?? 1)) + (ed.base === body(r) ? 0 : 1);
+    }
+    ed.wf.id = r.id;
+    ed.wf.version = r.version;
+    ed.base = body(r);
     S.transact(t('Save workflow'), (tx) => (rec ? tx.set(rec.id, 'recipe', toFile(r)) : tx.create('workflow', { recipe: toFile(r) })));
     if (!(await R.keep(toFile(r)))) toast(t('Saved in the project; this browser has no storage for your library.'), { kind: 'warn' });
     return r.id;
   }
-  const library = () => listLibrary();
   const toFile = (r) => JSON.parse(JSON.stringify({ ...r, format: FORMAT2 }));
-  const projectWorkflows = () => S.all('workflow').map((x) => x.recipe);
+  const body = (x) => contentOf(x, ops);
 
   /** Positions for steps a file gave none (a gw-recipe/1 chain, or a hand-written file): a column per depth of wiring. */
   function layout(steps) {
@@ -136,6 +160,8 @@ export function install(app) {
 
   function open(wf) {
     ed.wf = toFile(own(validateRecipe(wf, ops)));
+    // The copy opened: Save may replace it, and nothing else stored under its id.
+    ed.base = body(ed.wf);
     layout(ed.wf.steps);
     ed.sel = null;
     draw();
@@ -184,8 +210,8 @@ export function install(app) {
     for (const [i, x] of wf.steps.entries()) {
       const op = ops[x.op];
       const st = status(x.id);
-      const g = s('g', { class: `wf-node wf-${st}${ed.sel === x.id ? ' wf-sel' : ''}`, transform: `translate(${x.at.x},${x.at.y})`, tabindex: 0, role: 'button', 'aria-label': t('{title}, step {id}: {status}', { title: x.title, id: x.id, status: label(st) }), 'data-step': x.id });
-      g.append(s('rect', { width: NODE_W, height: nodeH(op), rx: 6 }), s('text', { x: 8, y: 16, class: 'wf-title' }, document.createTextNode(x.title)), s('text', { x: 8, y: 28, class: 'wf-status' }, document.createTextNode(`${x.id} · ${label(st)}`)));
+      const g = s('g', { class: `wf-node wf-${st}${ed.sel === x.id ? ' wf-sel' : ''}`, transform: `translate(${x.at.x},${x.at.y})`, tabindex: 0, role: 'button', 'aria-label': t('{title}, step {id}: {status}', { title: tr(x.title), id: x.id, status: label(st) }), 'data-step': x.id });
+      g.append(s('rect', { width: NODE_W, height: nodeH(op), rx: 6 }), s('text', { x: 8, y: 16, class: 'wf-title' }, document.createTextNode(tr(x.title))), s('text', { x: 8, y: 28, class: 'wf-status' }, document.createTextNode(`${x.id} · ${label(st)}`)));
       (op.inputs ?? []).forEach((p, k) => {
         g.append(s('circle', { cx: 0, cy: 34 + k * PORT, r: 5, class: 'wf-port wf-in', 'data-port': `${x.id}.${p.name}` }), s('text', { x: 9, y: 38 + k * PORT, class: 'wf-port-label' }, document.createTextNode(p.name)));
       });
@@ -280,18 +306,29 @@ export function install(app) {
     for (const [i, x] of wf.steps.entries()) {
       const op = ops[x.op];
       const st = status(x.id);
-      const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${x.title}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
+      const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${tr(x.title)}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
       const form = h('div', { class: 'wf-form' });
       const params = { ...Object.fromEntries(Object.entries(op.schema ?? {}).map(([k, sp]) => [k, sp.default])), ...(op.defaults ?? {}), ...x.params };
       for (const [k, v] of Object.entries(params)) form.append(control(x, k, op.schema?.[k], v));
       // Inputs: a choice of the outputs upstream that fit, or none.
       for (const p of op.inputs ?? []) {
-        const choices = wf.steps.filter((y) => y.id !== x.id).flatMap((y) => (ops[y.op].outputs ?? []).filter((o) => fits(o.type, p.type)).map((o) => ({ value: `${y.id}.${o.name}`, label: `${y.id} · ${y.title} → ${o.name}` })));
+        const choices = wf.steps.filter((y) => y.id !== x.id).flatMap((y) => (ops[y.op].outputs ?? []).filter((o) => fits(o.type, p.type)).map((o) => ({ value: `${y.id}.${o.name}`, label: `${y.id} · ${tr(y.title)} → ${o.name}` })));
         const cur = x.inputs[p.name];
-        const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)));
+        // Or a layer of the project, of the kind the input takes.
+        const names = p.type === 'layer:vector' ? S.all('vlayer').map((v) => v.name) : p.type === 'layer:raster' ? [...(app.layers?.values() ?? [])].map((l) => l.rec?.name) : [];
+        const listed = [...new Set(names.filter(Boolean))];
+        // A layer the workflow names but this project lacks (opened from elsewhere, renamed) still shows, so it can be changed or cleared.
+        const given = cur && 'value' in cur ? String(cur.value) : null;
+        const layers = [
+          ...listed.map((n) => h('option', { value: '', 'data-layer': n, selected: given === n }, t('Layer: {name}', { name: n }))),
+          ...(given !== null && !listed.includes(given) ? [h('option', { value: '', 'data-layer': given, selected: true }, t('Layer: {name} (not in this project)', { name: given }))] : []),
+        ];
+        const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)), ...layers);
         sel.addEventListener('change', () => {
           try {
-            if (!sel.value) unwire(x.id, p.name);
+            const layer = sel.selectedOptions[0]?.dataset.layer;
+            if (layer) give(x.id, p.name, layer);
+            else if (!sel.value) unwire(x.id, p.name);
             else {
               const [from, output] = splitPort(sel.value);
               wire(from, output, x.id, p.name);
@@ -339,8 +376,9 @@ export function install(app) {
   runner.on('change', () => draw());
 
   async function openDialog() {
-    const lib = await library().catch(() => []);
-    const all = [...projectWorkflows().map((r) => ({ r, where: t('project') })), ...lib.filter((r) => !projectWorkflows().some((p) => p.id === r.id)).map((r) => ({ r, where: t('library') })), ...R.builtin.map((r) => ({ r, where: t('built in') }))];
+    await R.library(true).catch(() => []);
+    const where = { builtin: t('built in'), project: t('project'), library: t('library') };
+    const all = R.known().map((r) => ({ r, where: where[r.source] }));
     const sel = h('select', { class: 'inp', 'aria-label': t('Workflow'), size: 8 }, ...all.map((x, i) => h('option', { value: String(i) }, `${tr(x.r.name)} (${x.where})`)));
     const file = h('button', { class: 'btn', type: 'button' }, t('From a file…'));
     let chosen = null;
@@ -387,5 +425,5 @@ export function install(app) {
     },
   });
 
-  Object.assign(app.workflows, { show, open, addStep, wire, unwire, removeStep, setParam, run, saveToProject, library, removeFromLibrary: (id) => R.forget(id), projectWorkflows, current: () => ed.wf, setView: (v) => ((ed.view = v), draw()) });
+  Object.assign(app.workflows, { show, open, addStep, wire, unwire, give, removeStep, setParam, run, saveToProject, removeFromLibrary: (id) => R.forget(id), current: () => ed.wf, setView: (v) => ((ed.view = v), draw()) });
 }

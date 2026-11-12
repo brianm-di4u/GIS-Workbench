@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
-import { openApp, openFiles } from './helpers.js';
+import { openApp, openFiles, LEGACY_PREFS } from './helpers.js';
 
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -79,6 +79,17 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await wideItem.getByLabel('Segments per quarter circle').press('Tab');
   await expect(wideItem.getByLabel('Segments per quarter circle')).toHaveAttribute('aria-invalid', 'true');
   expect(await axe(frame, '.wf-panel')).toEqual([]);
+  // An input can take a layer of the project instead of a wire, so the workflow runs from the Builder.
+  const narrowIn = panel.locator('[data-item="s2"] select[aria-label="Input layer"]');
+  await narrowIn.selectOption({ label: `Layer: ${names[0]}` });
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer)).toEqual({ value: names[0] });
+  // A layer the workflow names but the project lacks still shows, and can be cleared.
+  await frame.evaluate(() => window.gisworkbench.workflows.give('s2', 'layer', 'roads from elsewhere'));
+  await expect(panel.locator('[data-item="s2"] select[aria-label="Input layer"] option:checked')).toHaveText('Layer: roads from elsewhere (not in this project)');
+  await panel.locator('[data-item="s2"] select[aria-label="Input layer"]').selectOption({ label: '(given when run)' });
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer ?? null)).toBeNull();
+  await panel.locator('[data-item="s2"] select[aria-label="Input layer"]').selectOption('s1.out');
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer)).toEqual({ from: 's1', output: 'out' });
   await page.screenshot({ path: info.outputPath('workflow-list.png') });
   await frame.evaluate(() => window.gisworkbench.workflows.setView('graph'));
 
@@ -126,6 +137,50 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   expect(kept.back).toEqual([kept.id]);
   expect(kept.inPicker).toBe(1);
   expect(kept.api).toMatchObject([{ id: kept.id, builtin: false }]);
+  // Saving again unchanged keeps the version; a change takes the next.
+  const versions = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const wf = app.workflows;
+    await wf.saveToProject();
+    const same = wf.current().version;
+    wf.current().description = 'changed';
+    await wf.saveToProject();
+    const next = wf.current().version;
+    const known = () => app.recipes.known().filter((r) => r.id === wf.current().id).map((r) => `${r.source} v${r.version}${r.clash ? ' clash' : ''}`);
+    const tie = known();
+    // The library gets a different copy under the same id (another project's workflow of that name):
+    // both are listed, labelled, and the API refuses the id until a source picks one.
+    await app.recipes.keep({ ...JSON.parse(JSON.stringify(wf.current())), version: next + 1, description: 'newer elsewhere' });
+    const id = wf.current().id;
+    let refused = null;
+    await app.api.v2.recipes.run({ id }).catch((e) => (refused = e.code));
+    const listed = (await app.api.v2.recipes.list()).filter((r) => r.id === id).map((r) => `${r.source}${r.clash ? ' clash' : ''}`);
+    return { same, next, tie, newer: known(), refused, listed, title: wf.current().steps[0].title };
+  });
+  expect(versions).toEqual({ same: 1, next: 2, tie: ['project v2'], newer: ['project v2 clash', 'library v3 clash'], refused: 'E_RECIPE_AMBIGUOUS', listed: ['project clash', 'library clash'], title: 'Vector layer' });
+  // Saving the project's copy now would replace the library's different one: it is saved as a new workflow.
+  const saved = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const id = app.workflows.current().id;
+    const newId = await app.workflows.saveToProject();
+    const lib = (await app.recipes.library()).find((r) => r.id === id);
+    return { kept: newId !== id, libraryKept: lib?.description };
+  });
+  expect(saved).toEqual({ kept: true, libraryKept: 'newer elsewhere' });
+  // The Recipes dock labels both copies by where they come from.
+  await frame.evaluate(() => window.gisworkbench.commands.run('rcp.open'));
+  const labels = await frame.locator('[data-id="recipe:pick"] option').allTextContents();
+  expect(labels.filter((x) => /\((project|library)\)$/.test(x))).toHaveLength(2);
+  // The Builder's Open lists the same copies as the dock: both, by source.
+  await frame.evaluate(() => window.gisworkbench.workflows.show());
+  await panel.getByRole('button', { name: 'Open…' }).click();
+  const openDlg = frame.locator('[data-id="dialog:wf-open"]');
+  await expect(openDlg).toBeVisible();
+  const opts = await openDlg.locator('option').allTextContents();
+  const clashName = await frame.evaluate(() => window.gisworkbench.recipes.known().find((r) => r.clash)?.name);
+  // (The copy just saved as a new workflow has the same name, under its own id.)
+  expect(opts).toEqual(expect.arrayContaining([`${clashName} (library)`, `${clashName} (project)`]));
+  await openDlg.getByRole('button', { name: 'Cancel' }).click();
 
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);
@@ -283,4 +338,80 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   expect(own.id).not.toBe(own.builtin);
   expect(own).toMatchObject({ unique: true, listed: true, inLib: true, after: false });
   expect(logs).toEqual([]);
+});
+
+// The recipes the settings kept (before the library) move into the library on the first start, and
+// the settings list is emptied only once they are there. Without IndexedDB they stay, and are listed.
+const OLD = [1, 2].map((n) => ({ format: 'gw-recipe/1', id: `old-${n}`, name: `Old recipe ${n}`, steps: [{ op: 'gate', title: 'Look', params: { message: 'Look' } }] }));
+test('REQ-GAP-84 recipes kept in the settings move into the library on the first start', async ({ page }) => {
+  const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD } });
+  const out = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = (await app.recipes.library()).map((r) => r.id);
+    const listed = (await app.api.v2.recipes.list()).map((r) => r.id);
+    return { lib, known: app.recipes.known().map((r) => r.id), listed, left: app.prefs.get('recipes') };
+  });
+  expect(out.lib).toEqual(expect.arrayContaining(['old-1', 'old-2']));
+  expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
+  expect(out.listed).toEqual(expect.arrayContaining(['old-1', 'old-2']));
+  expect(out.left).toEqual([]);
+  // Opening a library copy and saving it replaces it in place: unchanged keeps its version, a change takes the next.
+  const saves = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const old = (await app.recipes.library()).find((r) => r.id === 'old-1');
+    app.workflows.open(old);
+    const a = await app.workflows.saveToProject();
+    const v1 = app.workflows.current().version;
+    app.workflows.current().description = 'edited here';
+    const b = await app.workflows.saveToProject();
+    const lib = (await app.recipes.library()).filter((r) => r.id.startsWith('old-1'));
+    const proj = app.store.all('workflow').map((w) => `${w.recipe.id} v${w.recipe.version}`);
+    // Another tab saves a different copy of old-1 to the library; this tab has not read it.
+    await new Promise((res, rej) => {
+      const q = indexedDB.open('gw-workflows', 1);
+      q.onsuccess = () => {
+        const tx = q.result.transaction('workflows', 'readwrite');
+        tx.objectStore('workflows').put({ id: 'old-1', recipe: { ...JSON.parse(JSON.stringify(app.workflows.current())), description: 'other tab' }, saved: new Date().toISOString() });
+        tx.oncomplete = () => (q.result.close(), res());
+        tx.onerror = () => rej(tx.error);
+      };
+      q.onerror = () => rej(q.error);
+    });
+    app.workflows.current().description = 'edited again here';
+    const c = await app.workflows.saveToProject();
+    const other = (await app.recipes.library(true)).find((r) => r.id === 'old-1')?.description;
+    return { a, b, v1, v2: lib.find((r) => r.id === 'old-1')?.version, rows: lib.length, desc: lib[0]?.description, proj, forked: c !== 'old-1', other };
+  });
+  expect(saves).toEqual({ a: 'old-1', b: 'old-1', v1: 1, v2: 2, rows: 1, desc: 'edited here', proj: ['old-1 v2'], forked: true, other: 'other tab' });
+  // A library copy changed before its first save here takes the next version; two saves at once make one record.
+  const first = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    app.workflows.open((await app.recipes.library()).find((r) => r.id === 'old-2'));
+    app.workflows.current().description = 'changed before the first save';
+    const ids = await Promise.all([app.workflows.saveToProject(), app.workflows.saveToProject()]);
+    const lib = (await app.recipes.library(true)).find((r) => r.id === 'old-2');
+    return { ids, lib: lib.version, proj: app.store.all('workflow').filter((w) => w.recipe.id === 'old-2').map((w) => w.recipe.version) };
+  });
+  expect(first).toEqual({ ids: ['old-2', 'old-2'], lib: 2, proj: [2] });
+  // A library copy that differs only in where its steps sit is the same workflow: no clash.
+  const layoutOnly = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = (await app.recipes.library(true)).find((r) => r.id === 'old-2');
+    await app.recipes.keep({ ...lib, steps: lib.steps.map((s, k) => ({ ...s, at: { x: 500 + k, y: 7 } })) });
+    return app.recipes.known().filter((r) => r.id === 'old-2').map((r) => `${r.source}${r.clash ? ' clash' : ''}`);
+  });
+  expect(layoutOnly).toEqual(['project']);
+});
+test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
+  await page.addInitScript(() => {
+    delete window.indexedDB;
+  });
+  const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD } });
+  const out = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    await app.recipes.library();
+    return { known: app.recipes.known().map((r) => r.id), left: app.prefs.get('recipes').map((r) => r.id) };
+  });
+  expect(out.left).toEqual(['old-1', 'old-2']);
+  expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
 });

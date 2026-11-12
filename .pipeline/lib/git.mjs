@@ -5,6 +5,7 @@
 // file. Keep `patchLines` and `splitPatch` when merging by hand. See docs/RUNBOOK.md.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { matchesAny, normalizePath } from './paths.mjs';
 
 export function git(args, cwd = process.cwd()) {
   return execFileSync('git', args, {
@@ -136,14 +137,56 @@ export function splitPatch(text) {
   return sections;
 }
 
+export function readBlob(ref, path, cwd) {
+  return tryGit(['show', `${ref}:${path}`], cwd);
+}
+
+// Generated files (issue 174): the globs the base's own pipeline.config.json lists as `generatedPaths`.
+// They are derived from other files and `verify` checks that they match, so a change to one is
+// neither reviewed nor bound by the change hash. They are read from the merge base, never from the
+// change, so a PR can't exempt its own files, and a missing, unreadable or malformed list means
+// nothing is exempt. The tier floors still see the paths.
+export function generatedGlobs(base, cwd) {
+  try {
+    const list = JSON.parse(readBlob(base, 'pipeline.config.json', cwd) ?? 'null')?.generatedPaths;
+    // A glob must already be in folded form (lower case, no trailing dots), so the hash exemption and the
+    // case-sensitive pathspec of excludeSpecs name the same files.
+    return Array.isArray(list) && list.every((glob) => typeof glob === 'string' && glob.length > 0 && normalizePath(glob) === glob) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
+// The same globs as git pathspecs, for a command that reads or counts the change's diff.
+export const excludeSpecs = (globs) => (globs.length > 0 ? ['--', '.', ...globs.map((glob) => `:(exclude,glob)${glob}`)] : []);
+
+// Changed lines between two commits, as the seats see them: renames read as renames, and generated
+// files, which `verify` checks and the council doesn't read, are left out.
+// Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
+// A binary file has no lines to count and reads as 0, so the size the seats, the growth guard and the
+// verdict use is the text diff. `strict` is for the one caller that has to bound a change, `mechanical`:
+// there a binary file, or a diff git can't produce, can't be called small, so it counts as UNBOUNDED.
+// UNBOUNDED never reaches the plan or the ledger, which are JSON, where Infinity would become null.
+export const UNBOUNDED = 1e9;
+export function countLines(from, to, mergeBase, globs, { strict = false, cwd } = {}) {
+  const numstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '-M', '--numstat', from, to, ...excludeSpecs(globs)], cwd);
+  if (numstat === null) return strict ? UNBOUNDED : 0;
+  return numstat.split('\n').filter(Boolean).reduce((sum, line) => {
+    const [added, deleted] = line.split('\t');
+    if (added === '-' || deleted === '-') return sum + (strict ? UNBOUNDED : 0);
+    return sum + Number(added) + Number(deleted);
+  }, 0);
+}
+
 export function changeSet(baseRef, headRef, cwd) {
   const base = mergeBase(baseRef, headRef, cwd);
   const changes = rawChanges(base, headRef, cwd);
-  return { mergeBase: base, changes, hash: hashChanges(changes, patchLines(base, headRef, changes, cwd)) };
-}
-
-export function readBlob(ref, path, cwd) {
-  return tryGit(['show', `${ref}:${path}`], cwd);
+  const globs = generatedGlobs(base, cwd);
+  // Matching folds case and NTFS dots and spaces, which is right for a floor and wrong for an exemption,
+  // so only a path already in its folded form (as the git pathspec above reads it) can be exempt.
+  const generated = changes.filter((c) => matchesAny(c.path, globs) && normalizePath(c.path) === c.path).map((c) => c.path);
+  const hashed = changes.filter((c) => !generated.includes(c.path));
+  return { mergeBase: base, changes, generated, generatedGlobs: globs, hash: hashChanges(hashed, patchLines(base, headRef, changes, cwd)) };
 }
 
 export function commitMessage(ref, cwd) {

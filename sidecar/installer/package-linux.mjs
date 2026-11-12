@@ -97,11 +97,11 @@ async function main() {
   rmSync(work, { recursive: true, force: true });
   mkdirSync(stage, { recursive: true });
   const problems = [];
-  for (const exe of ['gwb-sidecar', 'gwb-sidecar-setup']) {
+  for (const exe of ['gwb-sidecar', 'gwb-sidecar-setup', 'gwb-run']) {
     copyFileSync(join(BIN, exe), join(stage, exe));
     chmodSync(join(stage, exe), 0o755);
   }
-  problems.push(...relayGate(['gwb-sidecar', 'gwb-sidecar-setup'].map((e) => join(stage, e))));
+  problems.push(...relayGate(['gwb-sidecar', 'gwb-sidecar-setup', 'gwb-run'].map((e) => join(stage, e))));
   // Modules (licence gate inside; the stand-ins come from the gnu target's release folder).
   process.env.GWB_SIDECAR_STUBS ??= join(TARGET, 'release');
   const comp = await compose({ out: join(stage, 'modules'), platform: 'linux' });
@@ -238,7 +238,7 @@ async function main() {
   mkdirSync(dirname(opt), { recursive: true });
   cpSync(stage, opt, { recursive: true });
   mkdirSync(join(deb, 'usr', 'bin'), { recursive: true });
-  for (const exe of ['gwb-sidecar', 'gwb-sidecar-setup']) symlinkSync(`/opt/${PKG}/${exe}`, join(deb, 'usr', 'bin', exe));
+  for (const exe of ['gwb-sidecar', 'gwb-sidecar-setup', 'gwb-run']) symlinkSync(`/opt/${PKG}/${exe}`, join(deb, 'usr', 'bin', exe));
   mkdirSync(join(deb, 'usr', 'share', 'applications'), { recursive: true });
   copyFileSync(join(HERE, 'linux', 'gwb-sidecar.desktop'), join(deb, 'usr', 'share', 'applications', 'gwb-sidecar.desktop'));
   mkdirSync(join(deb, 'usr', 'share', 'icons', 'hicolor', 'scalable', 'apps'), { recursive: true });

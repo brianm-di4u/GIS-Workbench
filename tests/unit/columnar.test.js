@@ -1,7 +1,8 @@
 // FlatGeobuf and GeoParquet readers (vector/columnar.js): what Convert writes reads back (features,
 // geometry types, attributes, CRS), and files the reader cannot use are refused by name.
 import { describe, it, expect } from 'vitest';
-import { serialize, deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
+import { serialize } from 'flatgeobuf/lib/mjs/geojson.js';
+import { readAll } from '../../app/src/lazy/fgb.lazy.js';
 import { parquetWriteBuffer, geojsonToWkb } from 'hyparquet-writer';
 import { parquetMetadata, parquetReadObjects } from 'hyparquet';
 import { wkbToGeojson } from 'hyparquet/src/wkb.js';
@@ -20,18 +21,18 @@ const pq = { parquetMetadata, parquetReadObjects, wkbToGeojson };
 
 describe('readFgb', () => {
   it('reads features, attributes and the EPSG code from the header', async () => {
-    const r = await readFgb({ deserialize }, serialize(fc, 4326));
+    const r = await readFgb({ readAll }, serialize(fc, 4326));
     expect(r.fc.features.map((f) => f.geometry.type)).toEqual(['Point', 'LineString', 'Polygon']);
     expect(r.fc.features[2].properties).toEqual({ name: 'c', n: 3 });
     expect(r.epsg).toBe(4326);
     expect(r.fc.crs).toBeUndefined();
   });
   it('names a projected CRS so the layer is reprojected', async () => {
-    const r = await readFgb({ deserialize }, serialize(fc, 32613));
+    const r = await readFgb({ readAll }, serialize(fc, 32613));
     expect(r.fc.crs.properties.name).toBe('EPSG:32613');
   });
   it('refuses a file that is not FlatGeobuf', async () => {
-    await expect(readFgb({ deserialize }, new Uint8Array(32))).rejects.toThrow(/not a FlatGeobuf file/);
+    await expect(readFgb({ readAll }, new Uint8Array(32))).rejects.toThrow(/not a FlatGeobuf file/);
   });
 });
 
@@ -63,6 +64,6 @@ describe('FlatGeobuf cut short (TE 2.0.4 damaged-file pass)', () => {
   it('is refused by name before the library sees it', async () => {
     const magic = [0x66, 0x67, 0x62, 0x03, 0x66, 0x67, 0x62, 0x01];
     const bytes = new Uint8Array([...magic, 200, 0, 0, 0, ...new Array(30).fill(0)]); // header says 200 bytes; 42 in all
-    await expect(readFgb({ deserialize: () => { throw new Error('must not be called'); } }, bytes)).rejects.toThrow(/cut short/);
+    await expect(readFgb({ readAll: () => { throw new Error('must not be called'); } }, bytes)).rejects.toThrow(/cut short/);
   });
 });

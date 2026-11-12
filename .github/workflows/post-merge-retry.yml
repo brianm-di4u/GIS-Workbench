@@ -1,0 +1,131 @@
+# Retry a red post-merge run once when GitHub, not the code, was at fault (decision 0011).
+#
+# A run can't be re-run while it is still going, so this is its own workflow, started when a
+# post-merge run completes. It runs from the default branch and checks out the default branch, never
+# the triggering head. post-merge runs only on a push to main, so no PR code ever gets here, and the
+# `if:` on each job says so again. It retries attempt 1 only: a second failure is left for a person.
+# .pipeline/lib/classify-failure.mjs decides, in the `classify` job, which holds no write permission:
+# a leg that never started or failed in a setup step is infrastructure, and any failed build, lint or
+# test step is real and is never retried. The `retry` job holds `actions: write`, checks out nothing
+# and runs no repository script. It only reads the answer.
+#
+# The post-merge run withholds its main-red issue when it expects this workflow to re-run it. So the
+# `report` job opens that issue whenever the re-run did not happen, for whatever reason.
+name: post-merge-retry
+
+on:
+  workflow_run:
+    workflows: [post-merge]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: post-merge-retry-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  classify:
+    if: >-
+      ${{ !github.event.repository.private
+      && github.event.workflow_run.conclusion == 'failure'
+      && github.event.workflow_run.event == 'push'
+      && github.event.workflow_run.head_branch == 'main'
+      && github.event.workflow_run.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      result: ${{ steps.classify.outputs.result }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+      - name: Classify the failure
+        id: classify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: echo "result=$(node .pipeline/lib/classify-failure.mjs --run "$RUN_ID" || echo real)" >> "$GITHUB_OUTPUT"
+
+  retry:
+    needs: classify
+    if: >-
+      ${{ !github.event.repository.private
+      && github.event.workflow_run.conclusion == 'failure'
+      && github.event.workflow_run.event == 'push'
+      && github.event.workflow_run.head_branch == 'main'
+      && github.event.workflow_run.run_attempt == 1
+      && needs.classify.outputs.result == 'infra' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+    outputs:
+      retried: ${{ steps.rerun.outputs.retried }}
+    steps:
+      - name: Re-run the failed jobs, once
+        id: rerun
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        # Only the newest commit is re-run. A re-run of an older one queues behind the newer push in the
+        # same concurrency group and could finish green after that push reported red, closing its issue.
+        # If main has moved on, `report` opens the issue for this run and the newer run closes it on green.
+        run: |
+          head=$(gh api "repos/$GH_REPO/commits/main" --jq .sha) || head=
+          if [ "$head" = "$HEAD_SHA" ]; then
+            gh run rerun "$RUN_ID" --failed && echo "retried=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "main is at ${head:-an unknown commit}, not the failed run's commit: not re-running"
+          fi
+
+  # Reports the red main when no re-run followed: the failure was real, the classifier changed its
+  # mind, the re-run was refused, or the classify or retry job failed. Opening an issue is idempotent, so
+  # it does nothing if the post-merge run already opened one.
+  report:
+    needs: [classify, retry]
+    if: >-
+      ${{ always() && !github.event.repository.private
+      && github.event.workflow_run.conclusion == 'failure'
+      && github.event.workflow_run.event == 'push'
+      && github.event.workflow_run.head_branch == 'main'
+      && github.event.workflow_run.run_attempt == 1
+      && needs.retry.outputs.retried != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+      # The run can be red because `record` or `delegates` failed while both legs passed. That is not a
+      # red main, so only a `verify` job that did not succeed is reported. If the jobs can't be read,
+      # report: a wrong report costs a person one click, and a missed one hides a red main.
+      - name: Was verify itself red?
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: echo "result=$(gh api "repos/$GH_REPO/actions/runs/$RUN_ID/jobs?per_page=100" --jq '[.jobs[] | select(.name == "verify") | .conclusion][0] // "unknown"' || echo unknown)" >> "$GITHUB_OUTPUT"
+      - if: ${{ steps.verify.outputs.result != 'success' }}
+        run: node .pipeline/monitor.mjs post-merge --result failure --run "$RUN_ID" --sha "$HEAD_SHA"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}

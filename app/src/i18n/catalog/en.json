@@ -951,6 +951,13 @@
    ]
   },
   {
+   "key": "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.",
+   "src": "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "A public client registered for GIS Workbench; no client secret is used.",
    "src": "A public client registered for GIS Workbench; no client secret is used.",
    "refs": [
@@ -2212,6 +2219,13 @@
    ]
   },
   {
+   "key": "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.",
+   "src": "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Added: {coord} ({format})",
    "src": "Added: {coord} ({format})",
    "refs": [
@@ -2715,6 +2729,13 @@
    "src": "Also draw it under georeferenced images",
    "refs": [
     "svc/services.js"
+   ]
+  },
+  {
+   "key": "Also remove a tilt",
+   "src": "Also remove a tilt",
+   "refs": [
+    "features/sarstereo.js"
    ]
   },
   {
@@ -9498,6 +9519,13 @@
    ]
   },
   {
+   "key": "DSM offset",
+   "src": "DSM offset",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "DSM tile: inconsistent sizes",
    "src": "DSM tile: inconsistent sizes",
    "refs": [
@@ -11796,6 +11824,13 @@
    ]
   },
   {
+   "key": "Elevation model",
+   "src": "Elevation model",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "Elevation of end {end} (m)",
    "src": "Elevation of end {end} (m)",
    "refs": [
@@ -12821,6 +12856,13 @@
    ]
   },
   {
+   "key": "Feature Tools ▸ Attributes ▸ Import Feature Catalogue reads an ISO 19110 feature catalogue (XML), an INSPIRE application schema (.xsd) with its code lists, OpenStreetMap presets (the iD editor’s presets.json with fields.json) or a gw-catalog/1 file. Its feature types are then offered by New Layer from Schema, with coded values as drop-down lists.",
+   "src": "Feature Tools ▸ Attributes ▸ Import Feature Catalogue reads an ISO 19110 feature catalogue (XML), an INSPIRE application schema (.xsd) with its code lists, OpenStreetMap presets (the iD editor’s presets.json with fields.json) or a gw-catalog/1 file. Its feature types are then offered by New Layer from Schema, with coded values as drop-down lists.",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Feature Tools: capture with snapping and persistent attribution against the schema, the magic wand and edge, road and DSM assists, and Validate for dangles, overlaps, slivers, duplicates and gaps. Buildings go out as glTF, OBJ or CityJSON; Texture Buildings drapes them with an image through its sensor model.",
    "src": "Feature Tools: capture with snapping and persistent attribution against the schema, the magic wand and edge, road and DSM assists, and Validate for dangles, overlaps, slivers, duplicates and gaps. Buildings go out as glTF, OBJ or CityJSON; Texture Buildings drapes them with an image through its sensor model.",
    "refs": [
@@ -12867,7 +12909,8 @@
    "key": "Feature catalogues",
    "src": "Feature catalogues",
    "refs": [
-    "features/catalogs.js"
+    "features/catalogs.js",
+    "features/dialogs.js"
    ]
   },
   {
@@ -13726,6 +13769,13 @@
    "src": "Fit to the GPS (RMS east, north, up)",
    "refs": [
     "features/sfm.js"
+   ]
+  },
+  {
+   "key": "Fits a plane (offset and slope east and north) instead of an offset alone.",
+   "src": "Fits a plane (offset and slope east and north) instead of an offset alone.",
+   "refs": [
+    "features/sarstereo.js"
    ]
   },
   {
@@ -15156,6 +15206,13 @@
    "src": "GeoTIFF, source samples (all bands)",
    "refs": [
     "features/products.js"
+   ]
+  },
+  {
+   "key": "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.",
+   "src": "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -17163,8 +17220,8 @@
     "features/lidarreg.js",
     "features/ortho.js",
     "features/pointcloud.js",
-    "features/spectral-analysis.js",
-    "features/triangulation.js"
+    "features/sar-terrain-ui.js",
+    "features/spectral-analysis.js"
    ]
   },
   {
@@ -19876,7 +19933,15 @@
    "key": "Layer: {name}",
    "src": "Layer: {name}",
    "refs": [
+    "features/workflow-editor.js",
     "feedback/whiteboard.js"
+   ]
+  },
+  {
+   "key": "Layer: {name} (not in this project)",
+   "src": "Layer: {name} (not in this project)",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -19945,6 +20010,13 @@
    "src": "Layover / azimuth (°)",
    "refs": [
     "features/sar.js"
+   ]
+  },
+  {
+   "key": "Layover and shadow mask",
+   "src": "Layover and shadow mask",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -20170,8 +20242,36 @@
    ]
   },
   {
+   "key": "Level DSM on Reference",
+   "src": "Level DSM on Reference",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "Level DSM on Reference…",
+   "src": "Level DSM on Reference…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Level DSM: {msg}",
+   "src": "Level DSM: {msg}",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
    "key": "Level the DSM on the prior",
    "src": "Level the DSM on the prior",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "Levelled by {d} m on {ref}; residual {s} m (NMAD) over {n} stable posts.",
+   "src": "Levelled by {d} m on {ref}; residual {s} m (NMAD) over {n} stable posts.",
    "refs": [
     "features/sarstereo.js"
    ]
@@ -26914,7 +27014,22 @@
    "key": "Orbit",
    "src": "Orbit",
    "refs": [
+    "features/sar-terrain-ui.js",
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Orbit File…",
+   "src": "Orbit File…",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Orbit file {file}",
+   "src": "Orbit file {file}",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -27264,6 +27379,7 @@
    "key": "Output",
    "src": "Output",
    "refs": [
+    "features/sar-terrain-ui.js",
     "features/terrain-extract.js"
    ]
   },
@@ -31508,6 +31624,13 @@
    ]
   },
   {
+   "key": "Reading {layer}",
+   "src": "Reading {layer}",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
    "key": "Reading {name}",
    "src": "Reading {name}",
    "refs": [
@@ -32348,6 +32471,13 @@
    "src": "Removed {n, plural, one {# cached sequence} other {# cached sequences}} ({mb} MB)",
    "refs": [
     "features/mie.js"
+   ]
+  },
+  {
+   "key": "Removes a SAR stereo DSM’s vertical offset, and optionally a tilt, against a reference DEM over stable terrain, and states the residual.",
+   "src": "Removes a SAR stereo DSM’s vertical offset, and optionally a tilt, against a reference DEM over stable terrain, and states the residual.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -34525,6 +34655,13 @@
    "src": "Save: {kind} metadata",
    "refs": [
     "formats/raster-writers.js"
+   ]
+  },
+  {
+   "key": "Saved as a new workflow: the project or your library already holds a different one under its id.",
+   "src": "Saved as a new workflow: the project or your library already holds a different one under its id.",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -38268,6 +38405,13 @@
    ]
   },
   {
+   "key": "Steepest slope used (°)",
+   "src": "Steepest slope used (°)",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
    "key": "Step Back",
    "src": "Step Back",
    "refs": [
@@ -39793,6 +39937,34 @@
    ]
   },
   {
+   "key": "Terrain Correction",
+   "src": "Terrain Correction",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Terrain Correction needs an elevation model: open one and choose Use as Terrain.",
+   "src": "Terrain Correction needs an elevation model: open one and choose Use as Terrain.",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}",
+   "src": "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Terrain Correction…",
+   "src": "Terrain Correction…",
+   "refs": [
+    "shell/commands.js"
+   ]
+  },
+  {
    "key": "Terrain Extraction",
    "src": "Terrain Extraction",
    "refs": [
@@ -39826,6 +39998,27 @@
    "src": "Terrain Tracking",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Terrain correction of {layer}",
+   "src": "Terrain correction of {layer}",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (orbit file, {orbit}).",
+   "src": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (orbit file, {orbit}).",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).",
+   "src": "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -40193,6 +40386,13 @@
    ]
   },
   {
+   "key": "The annotation’s own orbit",
+   "src": "The annotation’s own orbit",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "The assistant is off until a connection exists. Requests go only to the connection's origin, and only after the origin is in this file's network allow-list.",
    "src": "The assistant is off until a connection exists. Requests go only to the connection's origin, and only after the origin is in this file's network allow-list.",
    "refs": [
@@ -40498,6 +40698,13 @@
    "src": "The native viewer is not available here: it is built for Windows, and comes with the sidecar.",
    "refs": [
     "sidecar/native-ui.js"
+   ]
+  },
+  {
+   "key": "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.",
+   "src": "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.",
+   "refs": [
+    "features/sarstereo.js"
    ]
   },
   {
@@ -42384,6 +42591,13 @@
    ]
   },
   {
+   "key": "Use the Annotation’s Orbit",
+   "src": "Use the Annotation’s Orbit",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "Use the Sidecar",
    "src": "Use the Sidecar",
    "refs": [
@@ -43880,6 +44094,7 @@
    "key": "Workflow Builder",
    "src": "Workflow Builder",
    "refs": [
+    "features/dialogs.js",
     "features/recipes.js",
     "features/workflow-editor.js",
     "shell/commands.js"
@@ -46750,6 +46965,7 @@
    "src": "cancelled",
    "refs": [
     "features/aviation-obstruction.js",
+    "features/sar-terrain-ui.js",
     "sidecar/feature.js",
     "workers/pool.js"
    ]
@@ -48702,6 +48918,13 @@
    ]
   },
   {
+   "key": "gamma nought",
+   "src": "gamma nought",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "gap",
    "src": "gap",
    "refs": [
@@ -48727,6 +48950,13 @@
    "src": "gcp",
    "refs": [
     "features/triangulation.js"
+   ]
+  },
+  {
+   "key": "geocoding",
+   "src": "geocoding",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -50191,6 +50421,27 @@
    ]
   },
   {
+   "key": "levelling",
+   "src": "levelling",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "levelling needs a DSM and a reference DEM loaded as terrain",
+   "src": "levelling needs a DSM and a reference DEM loaded as terrain",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "levelling needs at least 50 stable posts (unflagged, under {slope}° of slope) with a reference height",
+   "src": "levelling needs at least 50 stable posts (unflagged, under {slope}° of slope) with a reference height",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
    "key": "lever arm",
    "src": "lever arm",
    "refs": [
@@ -50222,6 +50473,7 @@
    "key": "library",
    "src": "library",
    "refs": [
+    "features/recipes.js",
     "features/workflow-editor.js"
    ]
   },
@@ -52232,6 +52484,14 @@
    "error": true
   },
   {
+   "key": "not a Sentinel orbit file (no <Earth_Explorer_File>/<List_of_OSVs>)",
+   "src": "not a Sentinel orbit file (no <Earth_Explorer_File>/<List_of_OSVs>)",
+   "refs": [
+    "crates/gw-parse/src/safe.rs"
+   ],
+   "error": true
+  },
+  {
    "key": "not a Sentinel-1 calibration annotation (root <{root}>)",
    "src": "not a Sentinel-1 calibration annotation (root <{root}>)",
    "refs": [
@@ -52901,8 +53161,22 @@
    "error": true
   },
   {
+   "key": "open a DSM and a reference DEM as terrain first",
+   "src": "open a DSM and a reference DEM as terrain first",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "open a SAR image (SICD) first",
    "src": "open a SAR image (SICD) first",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "open a Sentinel-1 SAFE product with its annotation and calibration first",
+   "src": "open a Sentinel-1 SAFE product with its annotation and calibration first",
    "refs": [
     "shell/command-meta.js"
    ]
@@ -53105,6 +53379,13 @@
    ]
   },
   {
+   "key": "orbit file",
+   "src": "orbit file",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "order keys too long",
    "src": "order keys too long",
    "refs": [
@@ -53177,6 +53458,13 @@
    "src": "orthometric (NAVD88)",
    "refs": [
     "features/tin-editor.js"
+   ]
+  },
+  {
+   "key": "orthorectification",
+   "src": "orthorectification",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -53867,6 +54155,7 @@
    "src": "project",
    "refs": [
     "features/catalogs.js",
+    "features/recipes.js",
     "features/workflow-editor.js"
    ]
   },
@@ -54100,6 +54389,13 @@
    ]
   },
   {
+   "key": "radargrammetry",
+   "src": "radargrammetry",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "radargrammetry: bad {what} grid",
    "src": "radargrammetry: bad {what} grid",
    "refs": [
@@ -54252,6 +54548,20 @@
    ]
   },
   {
+   "key": "radiometric terrain flattening",
+   "src": "radiometric terrain flattening",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "range-Doppler",
+   "src": "range-Doppler",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "raster",
    "src": "raster",
    "refs": [
@@ -54356,6 +54666,13 @@
    "src": "rectangle",
    "refs": [
     "features/aoi.js"
+   ]
+  },
+  {
+   "key": "reference DEM",
+   "src": "reference DEM",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -54980,6 +55297,86 @@
    "src": "sar: unknown polarimetric input",
    "refs": [
     "crates/bundles/sar/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: a count in the parameter list is out of range",
+   "src": "sargeo: a count in the parameter list is out of range",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: no such job",
+   "src": "sargeo: no such job",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: the DEM is larger than 48 million posts, or its heights are the wrong length",
+   "src": "sargeo: the DEM is larger than 48 million posts, or its heights are the wrong length",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: the look side must be 1, -1 or 0",
+   "src": "sargeo: the look side must be 1, -1 or 0",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: the mask step must be positive",
+   "src": "sargeo: the mask step must be positive",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: the orbit needs at least 4 state vectors in time order, under 10 minutes apart",
+   "src": "sargeo: the orbit needs at least 4 state vectors in time order, under 10 minutes apart",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: the parameter list is short",
+   "src": "sargeo: the parameter list is short",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: the radar window is larger than 48 million pixels, or its values are the wrong length",
+   "src": "sargeo: the radar window is larger than 48 million pixels, or its values are the wrong length",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeo: unknown output",
+   "src": "sargeo: unknown output",
+   "refs": [
+    "crates/bundles/sargeo/src/lib.rs"
+   ],
+   "error": true
+  },
+  {
+   "key": "sargeoParams: opts.look must be 1 (right), -1 (left) or 0 (either)",
+   "src": "sargeoParams: opts.look must be 1 (right), -1 (left) or 0 (either)",
+   "refs": [
+    "analysis/sargeo-job.js"
    ],
    "error": true
   },
@@ -56023,6 +56420,48 @@
    "src": "terrain clearance",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "terrain correction",
+   "src": "terrain correction",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "terrain correction needs a Sentinel-1 SAFE layer opened with its annotation",
+   "src": "terrain correction needs a Sentinel-1 SAFE layer opened with its annotation",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "terrain correction needs an elevation model loaded as terrain",
+   "src": "terrain correction needs an elevation model loaded as terrain",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "terrain correction: the radar window over {dem} is smaller than one look",
+   "src": "terrain correction: the radar window over {dem} is smaller than one look",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model",
+   "src": "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first",
+   "src": "terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -57959,6 +58398,21 @@
    "src": "the observer is outside the terrain",
    "refs": [
     "features/terrain-analysis.js"
+   ],
+   "error": true
+  },
+  {
+   "key": "the orbit file is for {orbit}, the image is {image}",
+   "src": "the orbit file is for {orbit}, the image is {image}",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "the orbit file is in the {frame} frame; an earth-fixed one is needed",
+   "src": "the orbit file is in the {frame} frame; an earth-fixed one is needed",
+   "refs": [
+    "crates/gw-parse/src/safe.rs"
    ],
    "error": true
   },
@@ -60542,6 +60996,13 @@
    ]
   },
   {
+   "key": "vertical bias",
+   "src": "vertical bias",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "video events",
    "src": "video events",
    "refs": [
@@ -61478,6 +61939,13 @@
    ]
   },
   {
+   "key": "{dem} does not overlap {layer}",
+   "src": "{dem} does not overlap {layer}",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "{dem} does not reach the surfaces of {ident}",
    "src": "{dem} does not reach the surfaces of {ident}",
    "refs": [
@@ -61552,6 +62020,20 @@
    "src": "{done} of {all}",
    "refs": [
     "features/sfm.js"
+   ]
+  },
+  {
+   "key": "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled",
+   "src": "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled",
+   "refs": [
+    "features/sarstereo.js"
+   ]
+  },
+  {
+   "key": "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts",
+   "src": "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts",
+   "refs": [
+    "features/sarstereo.js"
    ]
   },
   {
@@ -61748,6 +62230,13 @@
    "src": "{file} holds no route with two or more points",
    "refs": [
     "features/flight-plan.js"
+   ]
+  },
+  {
+   "key": "{file} holds no usable orbit state vectors",
+   "src": "{file} holds no usable orbit state vectors",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -63302,6 +63791,13 @@
    ]
   },
   {
+   "key": "{layer} has no orbit state vectors, and no orbit file covers it",
+   "src": "{layer} has no orbit state vectors, and no orbit file covers it",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
    "key": "{layer} has no triangulation solution",
    "src": "{layer} has no triangulation solution",
    "refs": [
@@ -63488,6 +63984,13 @@
    "src": "{layer}: the WMTS service gives neither a ResourceURL template nor a KVP GetTile address",
    "refs": [
     "connectors/ogc-clients.js"
+   ]
+  },
+  {
+   "key": "{layer}: the annotation lacks the timing or range sampling geocoding needs",
+   "src": "{layer}: the annotation lacks the timing or range sampling geocoding needs",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {
@@ -66577,6 +67080,20 @@
    "src": "Δh {dz} · horizontal {horizontal} · 3D {slant}",
    "refs": [
     "features/pointcloud.js"
+   ]
+  },
+  {
+   "key": "β⁰, geocoded only",
+   "src": "β⁰, geocoded only",
+   "refs": [
+    "features/sar-terrain-ui.js"
+   ]
+  },
+  {
+   "key": "γ⁰, terrain-flattened",
+   "src": "γ⁰, terrain-flattened",
+   "refs": [
+    "features/sar-terrain-ui.js"
    ]
   },
   {

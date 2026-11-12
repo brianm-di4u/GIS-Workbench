@@ -11,7 +11,7 @@
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, defaults, checkParam, FORMAT } from '../recipes/recipe.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, FORMAT } from '../recipes/recipe.js';
 import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
 import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
@@ -265,7 +265,9 @@ export function install(app) {
       await saveBlob(app, out.blob, { name: 'accepted-detections.geojson', types: out.types, description: 'GeoJSON', preferPicker: false });
       return { summary: t('{n, plural, one {# feature} other {# features}}', { n: S.all('feature').filter((f) => f.vlayer === v.id).length }) };
     } },
-    convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, run: async ({ vectors, files: given }, ctx) => {
+    // dialog(params): the step opens a dialog when nobody gives it files (REG-150 refuses it).
+    // files: the step reads params.files (only such a step may be given files on the command line).
+    convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, files: true, dialog: (p) => !p.files?.length, run: async ({ vectors, files: given }, ctx) => {
       let files = given;
       if (ctx?.headless && !files?.length) throw new Error('headless: give the files to convert (params.files, File objects)');
       if (files?.length) {
@@ -278,7 +280,8 @@ export function install(app) {
       return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
     } },
     ...TYPED,
-    command: { title: N_('Run a command'), schema: { id: { type: 'text', label: N_('Command id'), default: '' } }, run: async ({ id, args }) => {
+    // Most commands open a dialog, and nothing says which: a run with nobody at the page refuses them all.
+    command: { title: N_('Run a command'), schema: { id: { type: 'text', label: N_('Command id'), default: '' } }, dialog: () => true, run: async ({ id, args }) => {
       await C.run(id, args);
       return { summary: id };
     } },
@@ -302,18 +305,31 @@ export function install(app) {
         library = rs;
         render();
       })
-      .catch(() => {});
+      .catch(() => {})
+      .then(() => library);
   const ready = migrateFromPrefs(app.prefs)
     .catch((e) => app.log('warn', `recipes: the settings' recipes stay there (${e.message})`))
     .then(refreshLibrary);
-  /** Every recipe the picker offers: built in, saved in the project, then the library. */
+  /**
+   * Every recipe the picker offers, each with its `source`: built in, saved in the project, then the
+   * library. A project (which may come from someone else) and the library are kept apart: when both
+   * hold an id with different content, both are listed, and that id runs only once one is picked
+   * (`clash` marks them). A library the settings could not move (no IndexedDB) still shows the
+   * settings' list as the library.
+   */
   const known = () => {
-    const ids = new Set(BUILTIN.map((r) => r.id));
-    // Each id once: built in, then the project, then the library (the builder saves a built-in's copy under a new id).
-    const proj = S.all('workflow').map((x) => x.recipe).filter((r) => r && !ids.has(r.id) && ids.add(r.id));
-    const seen = new Set([...BUILTIN, ...proj].map((r) => r.id));
-    // A library the settings could not move (no IndexedDB) still shows the settings' list.
-    return [...BUILTIN, ...proj, ...library.filter((r) => !seen.has(r.id)), ...(app.prefs.get('recipes') ?? []).filter((r) => !seen.has(r.id) && !library.some((x) => x.id === r.id))];
+    const builtin = new Set(BUILTIN.map((r) => r.id));
+    const body = (r) => contentOf(r, OPS);
+    const project = new Map();
+    for (const r of S.all('workflow').map((x) => x.recipe)) if (r && !builtin.has(r.id) && !project.has(r.id)) project.set(r.id, r);
+    const lib = new Map();
+    for (const r of [...library, ...(app.prefs.get('recipes') ?? [])]) if (r && !builtin.has(r.id) && !lib.has(r.id)) lib.set(r.id, r);
+    const clash = new Set([...project.keys()].filter((id) => lib.has(id) && body(lib.get(id)) !== body(project.get(id))));
+    return [
+      ...BUILTIN.map((r) => ({ ...r, source: 'builtin' })),
+      ...[...project.values()].map((r) => ({ ...r, source: 'project', ...(clash.has(r.id) ? { clash: true } : {}) })),
+      ...[...lib.values()].filter((r) => !project.has(r.id) || clash.has(r.id)).map((r) => ({ ...r, source: 'library', ...(clash.has(r.id) ? { clash: true } : {}) })),
+    ];
   };
   /** Keep a recipe in the library; false when there is no IndexedDB. */
   async function keep(r) {
@@ -361,13 +377,19 @@ export function install(app) {
     return h('div', { class: 'rcp-drawer', 'data-id': 'recipe:drawer' }, h('strong', {}, `${i + 1}. ${tr(step.title)}`), step.note ? h('p', { class: 'hint' }, tr(step.note)) : null, rows.length ? h('div', { class: 'rcp-params' }, rows) : h('p', { class: 'hint' }, t('This step has no parameters.')), runner.state[i].error ? h('p', { class: 'err' }, msgOf(runner.state[i].error)) : null, h('div', { class: 'btn-row' }, rerun));
   }
 
+  let picked = null; // the source of the copy last picked, for an id the project and the library both hold
   function render() {
     if (!panelEl) return;
     clear(panelEl);
-    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: r.id, selected: runner.recipe?.id === r.id }, tr(r.name))));
+    // An id the project and the library both hold is listed twice, each labelled, and picked by source.
+    const key = (r) => `${r.source}:${r.id}`;
+    const where = { project: t('project'), library: t('library') };
+    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: key(r), selected: runner.recipe?.id === r.id && (!r.clash || picked === r.source) }, r.clash ? `${tr(r.name)} (${where[r.source]})` : tr(r.name))));
     pick.addEventListener('change', () => {
-      const r = known().find((x) => x.id === pick.value);
-      if (r) open(r);
+      const r = known().find((x) => key(x) === pick.value);
+      if (!r) return;
+      picked = r.source;
+      open(r);
     });
     const btn = (label, id, fn, dis = false) => {
       const b = h('button', { class: 'btn btn-small', 'data-id': `recipe:${id}`, disabled: dis }, label);
@@ -534,6 +556,22 @@ export function install(app) {
       status,
     };
   }
+  /**
+   * Why a recipe cannot run with nobody at the page (the command-line runner, REG-150), or null:
+   * a review gate set to stop, a step that opens a dialog, or files given to a step that reads none
+   * (they would be ignored). Checked before the run starts.
+   * params: the run's overrides, with any files the command line gives a step.
+   */
+  function unattended(src, { gates = 'continue', params = {} } = {}) {
+    const r = validateRecipe(src, OPS);
+    for (const s of r.steps) {
+      const o = OPS[s.op];
+      if (o.gate && gates === 'stop') return { step: s.id, title: s.title, reason: 'is a review gate, and gates are set to stop' };
+      if (params[s.id]?.files?.length && !o.files) return { step: s.id, title: s.title, reason: 'takes no files, so the files given to it would be ignored' };
+      if (o.dialog?.({ ...s.params, ...(params[s.id] ?? {}) })) return { step: s.id, title: s.title, reason: s.op === 'command' ? 'runs a command, which may open a dialog' : 'opens a dialog unless the command line gives it files' };
+    }
+    return null;
+  }
   /** One operation headless → {summary, files}. */
   async function runOp(op, params = {}, inputs = {}) {
     const o = OPS[op];
@@ -550,5 +588,5 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, keep, forget, known, library: () => ready.then(() => library), refreshLibrary };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }
