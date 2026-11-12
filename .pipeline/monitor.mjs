@@ -156,8 +156,10 @@ async function offerDelegateRearm(client, repo, config, created, previous, resul
 
 export async function postMerge(client, repo, config, args) {
   const result = args[args.indexOf('--result') + 1];
-  const sha = process.env.GITHUB_SHA;
-  const runUrl = `${process.env.GITHUB_SERVER_URL}/${repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+  // post-merge-retry.yml reports for a run that is not its own, so it names that run and its commit.
+  const option = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
+  const sha = option('--sha', process.env.GITHUB_SHA);
+  const runUrl = `${process.env.GITHUB_SERVER_URL}/${repo}/actions/runs/${option('--run', process.env.GITHUB_RUN_ID)}`;
   const delegated = delegatesOf(config);
   const open = await stateIssues(client, repo, config, 'pipeline:main-red');
 

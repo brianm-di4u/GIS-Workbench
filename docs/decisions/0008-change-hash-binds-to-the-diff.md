@@ -3,7 +3,7 @@
 - **Date:** 2026-11-08
 - **Class:** design
 - **Issue:** none; the admin approved it in chat on 2026-11-08
-- **Status:** accepted; the merged-result line is narrowed by [0013](0013-branch-freshness-by-overlap.md)
+- **Status:** accepted; the merged-result line is narrowed by [0013](0013-branch-freshness-by-overlap.md), and generated files are left out of the hash by [0015](0015-council-large-batches-and-clean-streaks.md)
 
 ## Context
 

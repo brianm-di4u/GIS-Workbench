@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Bash
 disallowedTools: Edit, Write, NotebookEdit, Agent
 model: opus
 effort: high
-maxTurns: 30
+maxTurns: 80
 ---
 
 You are the security auditor on a code review council. Report what an attacker could actually exploit in this change, and trace the path from their input to the damage.
