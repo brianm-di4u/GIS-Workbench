@@ -298,5 +298,5 @@ describe.skipIf(!haveWasm || !LARGE || !existsSync(LARGE ?? ''))('8192² JPEG 20
     expect(tileRead / frameBytes).toBeLessThan(4 / 64 + 0.01);
     // Resolution-first tile-parts: the overview reads only the coarse resolutions of each tile.
     expect(ovRead / frameBytes).toBeLessThan(0.1);
-  }, 120000);
+  }, 240_000); // the frame is on E:, a USB disk that can stay busy for hours
 });

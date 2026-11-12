@@ -170,7 +170,8 @@ describe.skipIf(!haveWasm)('REQ-GAP-66 GeoPDF writer → the app reader', () => 
   }
 });
 
-describe.skipIf(!haveGdal)('REQ-GAP-66 GeoPDF writer → GDAL PDF driver (oracle)', { timeout: 60000 }, () => {
+// GDAL loads from E:, a USB disk that can stay busy for hours: a cold start there has taken 114 s.
+describe.skipIf(!haveGdal)('REQ-GAP-66 GeoPDF writer → GDAL PDF driver (oracle)', { timeout: 240_000 }, () => {
   for (const epsg of [32611, 2229, 5070, 3857, 4326]) {
     test(`EPSG:${epsg}`, async () => {
       mkdirSync(TMP, { recursive: true });
