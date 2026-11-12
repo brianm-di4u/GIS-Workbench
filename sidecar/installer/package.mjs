@@ -3,7 +3,7 @@
 //
 //   node sidecar/installer/package.mjs [--version 0.1.0] [--dist dist-21-sidecar] [--out E:/gwb-sidecar-deps/release] [--no-msi]
 //
-// 1. Stage `GIS Workbench Sidecar/`: gwb-sidecar.exe, gwb-sidecar-setup.exe, the composed modules
+// 1. Stage `GIS Workbench Sidecar/`: gwb-sidecar.exe, gwb-sidecar-setup.exe, gwb-run.exe, the composed modules
 //    (Core GDAL, Point cloud, Media, Python runtime; compose.mjs licence gate), the released HTML files with
 //    their SHA256SUMS for /app/, NOTICES, SOURCE-OFFER, LICENSE, the CycloneDX SBOM.
 // 2. Gates: no vendor SDK file is in the stage (they are fetched at install time after the
@@ -72,8 +72,8 @@ async function main() {
   mkdirSync(stage, { recursive: true });
   const problems = [];
   // Binaries.
-  for (const exe of ['gwb-sidecar.exe', 'gwb-sidecar-setup.exe', 'gwb-stereo-viewer.exe']) copyFileSync(join(TARGET, 'release', exe), join(stage, exe));
-  problems.push(...relayGate(['gwb-sidecar.exe', 'gwb-sidecar-setup.exe', 'gwb-stereo-viewer.exe'].map((e) => join(stage, e))));
+  for (const exe of ['gwb-sidecar.exe', 'gwb-sidecar-setup.exe', 'gwb-run.exe', 'gwb-stereo-viewer.exe']) copyFileSync(join(TARGET, 'release', exe), join(stage, exe));
+  problems.push(...relayGate(['gwb-sidecar.exe', 'gwb-sidecar-setup.exe', 'gwb-run.exe', 'gwb-stereo-viewer.exe'].map((e) => join(stage, e))));
   // Modules (licence gate inside; the library stand-ins of stubs/ come from the same target folder).
   process.env.GWB_SIDECAR_STUBS ??= join(TARGET, 'release');
   const comp = await compose({ out: join(stage, 'modules'), platform: 'windows' });
@@ -147,7 +147,7 @@ async function main() {
   copyFileSync(join(ROOT, 'LICENSE'), join(stage, 'LICENSE.txt'));
   writeFileSync(
     join(stage, 'README.txt'),
-    [`GIS Workbench Sidecar ${VERSION} (preview, unsigned)`, '', 'An optional local helper for GIS Workbench: it converts MrSID, ECW, FileGDB, E57, MPEG-2 and every', 'other GDAL, OGR, PDAL or FFmpeg format into formats the app reads. It listens on 127.0.0.1 only.', '', 'Start gwb-sidecar.exe; its tray icon opens the sidecar window (pairing, modules, jobs, log).', 'MrSID/ECW plug-ins: gwb-sidecar-setup.exe vendor-prompt (shows each vendor licence first).', 'Offline: gwb-sidecar-setup.exe vendor mrsid --from <folder with the OSGeo4W package and licence files>.', 'Portable: unzip anywhere and run; no administrator rights. Data: %LOCALAPPDATA%\\GIS Workbench Sidecar.', ''].join('\r\n'),
+    [`GIS Workbench Sidecar ${VERSION} (preview, unsigned)`, '', 'An optional local helper for GIS Workbench: it converts MrSID, ECW, FileGDB, E57, MPEG-2 and every', 'other GDAL, OGR, PDAL or FFmpeg format into formats the app reads. It listens on 127.0.0.1 only.', '', 'Start gwb-sidecar.exe; its tray icon opens the sidecar window (pairing, modules, jobs, log).', 'MrSID/ECW plug-ins: gwb-sidecar-setup.exe vendor-prompt (shows each vendor licence first).', 'Offline: gwb-sidecar-setup.exe vendor mrsid --from <folder with the OSGeo4W package and licence files>.', 'Command line: gwb-run.exe runs a recipe headless in your installed Chrome or Edge (gwb-run.exe --check to try it);', 'gwb-sidecar.exe run takes the same arguments with no window, for Task Scheduler. See docs/runner.md in the source.', 'Portable: unzip anywhere and run; no administrator rights. Data: %LOCALAPPDATA%\\GIS Workbench Sidecar.', ''].join('\r\n'),
   );
   if (problems.length) {
     console.error(`packaging gate failed:\n  ${problems.join('\n  ')}`);

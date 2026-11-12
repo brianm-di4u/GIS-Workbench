@@ -4,7 +4,7 @@
 // appeared in and its result type. Everything else is derived from this table:
 //   - the run-time API (`gisworkbench.api.v2`, automation/api-v2.js) checks every call against it;
 //   - the MCP tools (`gw2_*`, ai/tools-auto.js) are generated from it;
-//   - the typed reference `docs/api/gisworkbench-api-v2.d.ts` is generated from it
+//   - the typed reference `docs/api/gisworkbench-api-3.d.ts` is generated from it
 //     (build/api-dts.mjs) and a unit test fails when the committed file differs;
 //   - tests/unit/api-v2-contract.test.js holds the frozen 2.0.0 surface: a later 2.x may add
 //     methods and optional parameters, never remove or rename them or add a required one.
