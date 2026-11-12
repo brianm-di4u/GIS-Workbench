@@ -65,5 +65,21 @@ test('SCN-79 REQ-GAP-87 an INSPIRE schema imported, a layer captured against it,
   expect(out.backSchema?.code).toBeTruthy();
   expect(Object.keys(out.domain ?? {})).toEqual(expect.arrayContaining(['asphalt', 'gravel', 'concrete']));
   expect(out.attrs).toMatchObject({ surfaceComposition: 'gravel', numberOfLanes: 2 });
+  // The form offers an empty choice for a coded value whose null is empty, so a code can be taken back.
+  const fid = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const f = app.store.all('feature').find((x) => x.attrs?.surfaceComposition === 'gravel');
+    void app.attribution.openForm(f.id);
+    return f.id;
+  });
+  const form = frame.locator('[data-id="dialog:attr-form"]');
+  await expect(form).toBeVisible();
+  const coded = form.locator('select[aria-label="surfaceComposition"]');
+  expect(await coded.locator('option').evaluateAll((o) => o[0].value)).toBe('');
+  await expect(coded).toHaveValue('gravel');
+  await coded.selectOption('');
+  await form.getByRole('button', { name: 'OK' }).click();
+  await expect(form).toBeHidden();
+  expect(await frame.evaluate((id) => window.gisworkbench.store.get(id).attrs.surfaceComposition ?? '', fid)).toBe('');
   expect(logs.filter((x) => !/Failed to load resource/.test(x))).toEqual([]);
 });
