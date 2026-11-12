@@ -76,7 +76,9 @@ const GIT_DIFF = `git --attr-source=${plan.mergeBase} diff -M --no-ext-diff --no
 const SPEC = plan.generatedGlobs?.length ? ` -- . ${plan.generatedGlobs.map((glob) => `':(exclude,glob)${glob}'`).join(' ')}` : ''
 // A seat's turns scale with the diff it has to read. The agent files set a high ceiling, and this is the
 // budget it is told to work inside, so that it stops and answers before the ceiling cuts it off with nothing.
-const TURNS = Math.min(75, Math.max(24, 16 + Math.ceil((plan.diffLines ?? 0) / 50)))
+// The budget stays 20 under the ceiling (80): a seat on a large diff overruns its budget by a few turns, and
+// at 75 that left 5, so Opus seats on 2,500-line diffs were cut off mid-review and the round did not count.
+const TURNS = Math.min(60, Math.max(24, 16 + Math.ceil((plan.diffLines ?? 0) / 50)))
 // The base marks fixtures/** binary, so a changed golden or oracle file (.json, .xml, .geojson, .txt, .csv)
 // reads as "Binary files differ". Seats read those one at a time with --text, never the whole diff with it.
 const TEXT_NOTE = `A changed text file that shows "Binary files differ", such as a fixtures/ truth or oracle file, must still be read: run the same command with --text and -- <path> for that file.`
