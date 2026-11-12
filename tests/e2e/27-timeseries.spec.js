@@ -319,3 +319,29 @@ test('SCN-76 REQ-GAP-83 Time Stack of frames with no georeference: one grid by s
   expect(r.refused).toBe('E_NEED_DATES');
   expect(logs).toEqual([]);
 });
+
+test('REQ-GAP-83 a stack reads a decimated grid at full resolution, not from an overview level', async ({ page }) => {
+  const { frame, logs } = await openApp(page, 'file');
+  const fx = (n) => resolve('fixtures/fx21/raster', n);
+  await openFiles(frame, [fx('hfa_ovr_rrd.img'), fx('hfa_ovr_rrd.rrd')]);
+  await frame.waitForFunction(() => window.gisworkbench.activeLayer()?.handle, null, { timeout: 60000 });
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const l = app.activeLayer();
+    const win = { x0: 5, y0: 3, w: 160, h: 120 };
+    const full = await app.msi.cube(l, { ...win, step: 1, bands: [0], raw: true });
+    const flat = await app.msi.cube(l, { ...win, step: 4, bands: [0], raw: true, levels: false });
+    const level = await app.msi.cube(l, { ...win, step: 4, bands: [0], raw: true });
+    const at = (o) => full.v[o.oy * 4 * full.w + o.ox * 4];
+    const pts = [{ ox: 0, oy: 0 }, { ox: 7, oy: 3 }, { ox: 20, oy: 11 }, { ox: 39, oy: 29 }];
+    let differs = 0;
+    for (let i = 0; i < flat.w * flat.h; i++) if (flat.v[i] !== level.v[i]) differs++;
+    return { flatLevel: flat.level ?? 0, level: level.level ?? 0, same: pts.map((o) => flat.v[o.oy * flat.w + o.ox] === at(o)), differs };
+  });
+  // The default takes an overview level for a step of 4; levels: false keeps every 4th source pixel.
+  expect(r.level).toBeGreaterThan(0);
+  expect(r.flatLevel).toBe(0);
+  expect(r.same).toEqual([true, true, true, true]);
+  expect(r.differs).toBeGreaterThan(0);
+  expect(logs).toEqual([]);
+});

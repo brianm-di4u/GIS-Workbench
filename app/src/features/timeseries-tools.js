@@ -142,7 +142,7 @@ export function install(app) {
     if (!(rx1 > rx0 && ry1 > ry0)) return out;
     // Full resolution unless the part is far larger than the output (nearest neighbour wants the real pixel).
     const step = Math.max(1, Math.ceil(Math.sqrt(((rx1 - rx0) * (ry1 - ry0)) / Math.max(4 * ow * oh, 16e6))));
-    const c = await msi().cube(l, { x0: rx0, y0: ry0, w: rx1 - rx0, h: ry1 - ry0, step, bands: [band] });
+    const c = await msi().cube(l, { x0: rx0, y0: ry0, w: rx1 - rx0, h: ry1 - ry0, step, bands: [band], levels: false });
     // The last control point of a row or column sits on the edge, nearer than NODE.
     const at = (n, i, len) => Math.min(i * NODE, len);
     for (let oy = 0; oy < oh; oy++) {
@@ -188,7 +188,7 @@ export function install(app) {
       job?.set?.(k / nt);
       const b = Math.min(band, x.l.bands - 1);
       if (sameGrid(R, x.l)) {
-        const c = await msi().cube(x.l, { x0: win.x0, y0: win.y0, w: win.w, h: win.h, step: win.step, bands: [b] });
+        const c = await msi().cube(x.l, { x0: win.x0, y0: win.y0, w: win.w, h: win.h, step: win.step, bands: [b], levels: false });
         planes.push(c.v);
       } else {
         // Resampling goes through the ground: an image with no georeference can't be put on another grid.
