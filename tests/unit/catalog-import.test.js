@@ -73,6 +73,16 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(fromInspire([base, core]).types).toMatchObject([{ code: 'Building', geometry: ['Polygon'], attributes: ['heightAboveGround'] }]);
     // With the extension, its Building replaces the core one and carries both levels' properties.
     expect(fromInspire([base, core, ext]).types).toMatchObject([{ code: 'Building', geometry: ['Polygon'], attributes: ['heightAboveGround', 'officialArea'] }]);
+    // Two sibling schemas that both define Building keep both, each code qualified by its schema's prefix.
+    const core3d = xsd('urn:bu-core3d', 'xmlns:bu-base="urn:bu-base" xmlns:bu-core3d="urn:bu-core3d"', '<element name="Building" type="bu-core3d:BuildingType" substitutionGroup="bu-base:AbstractBuilding"/>' + type('BuildingType', 'bu-base:AbstractBuildingType', '<element name="lod" type="integer"/>'));
+    const both = validateCatalog(fromInspire([base, core, core3d]));
+    expect(both.types.map((t) => [t.code, t.attributes])).toEqual([['bu-core2d:Building', ['heightAboveGround']], ['bu-core3d:Building', ['lod']]]);
+    // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building.
+    expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['Building', ['lod']]]);
+  });
+  it('keeps a concrete type that a differently named subtype substitutes for', () => {
+    const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
+    expect(fromInspire(one).types.map((t) => t.code)).toEqual(['Road', 'Motorway']);
   });
   it('takes the properties of the types a feature type extends, its bases first', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;

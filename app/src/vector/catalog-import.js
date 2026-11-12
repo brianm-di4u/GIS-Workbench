@@ -188,7 +188,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const ns = schema.attrs?.targetNamespace ?? '';
     target ||= ns;
     const keep = (kind, map, node) => {
-      const entry = { node, scope: schema.attrs ?? {} };
+      const entry = { node, ns, scope: schema.attrs ?? {} };
       map.set(`${ns}|${node.attrs.name}`, entry);
       const list = byLocal[kind].get(node.attrs.name) ?? [];
       byLocal[kind].set(node.attrs.name, [...list, entry]);
@@ -196,8 +196,9 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) keep('complex', complex, ct);
     for (const el of kids(schema, 'element')) if (el.attrs?.name) keep('elements', elements, el);
   }
-  /** The component a QName names, read with the prefixes of the schema it appears in (`from`); a prefix
-   * the schema does not declare falls back to the local name, never to the component itself. */
+  /** The component a QName names, read with the prefixes of the schema it appears in (`from`). A prefix
+   * the schema does not declare falls back to the local name, never to the component itself; a declared
+   * one whose namespace is not among these schemas names nothing (as gml does). */
   const resolve = (kind, qname, from) => {
     if (!qname) return null;
     const q = String(qname);
@@ -205,8 +206,10 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const pfx = at < 0 ? '' : q.slice(0, at);
     const name = at < 0 ? q : q.slice(at + 1);
     const ns = pfx ? from.scope[`xmlns:${pfx}`] : from.scope.xmlns;
-    const hit = ns === undefined ? null : (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
-    if (hit && hit.node !== from.node) return hit;
+    if (ns !== undefined) {
+      const hit = (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
+      return hit && hit.node !== from.node ? hit : null;
+    }
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
@@ -219,10 +222,15 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     return !!up && isFeature(up, seen);
   };
   let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
-  // A concrete type another one substitutes for (core2d's Building, extended by ext2d's) is the extension's.
-  const heads = new Set(features.map((e) => resolve('elements', e.node.attrs.substitutionGroup, e)).filter(Boolean));
-  features = features.filter((e) => !heads.has(e));
-  capTypes(features.slice(1)); // more than MAX_TYPES
+  // An extension that re-declares a type under the same name (ext2d's Building for core2d's) replaces
+  // it; a differently named subtype (Motorway for Road) does not.
+  const replaced = new Set(features.map((e) => [e, resolve('elements', e.node.attrs.substitutionGroup, e)]).filter(([e, up]) => up && up.node.attrs.name === e.node.attrs.name).map(([, up]) => up));
+  features = features.filter((e) => !replaced.has(e));
+  if (features.length > MAX_TYPES) throw E('the catalogue has more than {n} feature types', { n: String(MAX_TYPES) });
+  // A name two schemas both define (core2d's and core3d's Building) is qualified by its schema's prefix.
+  const prefixOf = (e) => Object.entries(e.scope).find(([k, v]) => k.startsWith('xmlns:') && v === e.ns)?.[0].slice(6) || e.ns.replace(/\/+$/, '').split(/[/:]/).pop() || 'ns';
+  const shared = new Set(features.map((e) => e.node.attrs.name).filter((n, i, all) => all.indexOf(n) !== i));
+  const codeOf = (e) => (shared.has(e.node.attrs.name) ? `${prefixOf(e)}:${e.node.attrs.name}` : e.node.attrs.name);
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
   const props = (entry, seen = new Set()) => {
     if (!entry || seen.has(entry)) return [];
@@ -232,7 +240,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const { attrs, add } = attrTable();
   const types = [];
   for (const entry of features) {
-    const code = entry.node.attrs.name;
+    const code = codeOf(entry);
     const geometry = new Set();
     const names = [];
     for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
