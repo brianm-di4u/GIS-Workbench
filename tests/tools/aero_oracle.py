@@ -4,14 +4,14 @@ Part 1, synthetic (independent of the GIS Workbench solver): a 3-D target field 
 board seen in several views, projected with cv2.projectPoints (Brown) and cv2.fisheye.projectPoints
 (equidistant), with Gaussian noise; then cv2.calibrateCamera, cv2.fisheye.calibrate and
 cv2.solvePnP on the same measurements. The scenes and OpenCV's solutions go to
-D:/gwb25/data-aero/oracle/*.json, which crates/gw-aero/tests/aero_oracle.rs reads and solves
+E:/gwb25/data-aero/oracle/*.json, which crates/gw-aero/tests/aero_oracle.rs reads and solves
 with the solver, comparing the two.
 
 Part 2, real data: for each <block>-selfcal-solution.json the corpus test wrote (our camera, EO
 and adjusted points per image, the measurements Huber left at full weight), OpenCV re-solves the camera with the points held
 (calibrateCamera with the intrinsic guess, CALIB_FIX_ASPECT_RATIO, no k3 → k1 k2 k3 p1 p2 as ours)
 and every image's pose (solvePnP, our camera held); the differences go to
-D:/gwb25/data-aero/oracle/<block>-real.json.
+E:/gwb25/data-aero/oracle/<block>-real.json.
 
 Conventions: OpenCV pixel centres are integers (ours are corner-origin, + 0.5); OpenCV's camera
 looks along +z with y down, ours along −z with y up: R_ours = diag(1, −1, −1)·R_cv, C = −R_cvᵀ t.
@@ -28,8 +28,8 @@ import sys
 import cv2
 import numpy as np
 
-OUT = "D:/gwb25/data-aero/oracle"
-RES = "D:/gwb25/data-aero/results"
+OUT = "E:/gwb25/data-aero/oracle"
+RES = "E:/gwb25/data-aero/results"
 
 
 def rodrigues(r):

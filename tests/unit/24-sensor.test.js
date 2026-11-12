@@ -272,7 +272,7 @@ describe('drone EXIF/XMP (REQ-GAP-23)', () => {
       const f = readdirSync(d).find((n) => /\.jpe?g$/i.test(n));
       return readJpegMeta(new Uint8Array(readFileSync(`${d}/${f}`).subarray(0, 256 << 10)));
     };
-    const B = 'D:/TE-corpus/frames-odm-bellus-gcp/images';
+    const B = 'E:/TE-corpus/frames-odm-bellus-gcp/images';
     if (existsSync(B)) {
       const m = first(B);
       expect(m.model).toBe('Canon PowerShot S110');
@@ -283,10 +283,10 @@ describe('drone EXIF/XMP (REQ-GAP-23)', () => {
       expect(fr.cov[0]).toBeCloseTo(Number(m.xmp['Camera:GPSXYAccuracy']) ** 2, 6);
     }
     // The Sony of Aukerman has no focal-plane resolution or 35 mm focal length: no camera.
-    const A = 'D:/TE-corpus/frames-odm-aukerman/images';
+    const A = 'E:/TE-corpus/frames-odm-aukerman/images';
     if (existsSync(A)) expect(() => droneFrame(first(A))).toThrow(/no focal length/);
     // Seneca: senseFly platform angles and the ellipsoidal altitude.
-    const S = 'D:/TE-corpus/frames-odm-seneca/images';
+    const S = 'E:/TE-corpus/frames-odm-seneca/images';
     if (existsSync(S)) {
       const fr = droneFrame(first(S));
       expect(fr.source).toBe('senseFly platform angles');
@@ -347,7 +347,7 @@ Decentering: P1 = 1.5e-7  P2 = -2.0e-7
     const c = parseCameraFile('101 153.124 -0.004 0.006\n10 2.0\n20 3.5\n30 3.0\n40 -1.0\n50 -6.0\n-99\n', 'camera.patb', { width: 11500, height: 7500, pixelMm: 0.009 });
     expect(c.source).toBe('PAT-B');
     expect(c.cx).toBeCloseTo(5750 - 0.004 / 0.009, 9);
-    const j = 'D:/TE-corpus/fmv-bambi-flights/flight_258/W_calib.json';
+    const j = 'E:/TE-corpus/fmv-bambi-flights/flight_258/W_calib.json';
     const text = existsSync(j) ? readFileSync(j, 'utf8') : '{"mtx": [[2985.57, 0.0, 1933.89], [0.0, 2916.53, 1082.46], [0.0, 0.0, 1.0]], "dist": [0.139, -0.266, -0.00085, -0.00125, 0.0]}';
     const o = parseCameraFile(text, 'W_calib.json', { width: 3840, height: 2160 });
     expect(o.source).toBe('OpenCV JSON');

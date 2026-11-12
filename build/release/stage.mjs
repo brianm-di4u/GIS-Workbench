@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Gathers a release's assets into one new folder and writes their SHA256SUMS.
 //
-//   node build/release/stage.mjs --sidecar-version 0.3.0 --out D:/gwb-release/2.7.0
-//        [--dist dist] [--sidecar D:/gwb-sidecar-deps/release] [--like v2.6.0 [--allow-missing]]
+//   node build/release/stage.mjs --sidecar-version 0.3.0 --out E:/gwb-release/2.7.0
+//        [--dist dist] [--sidecar E:/gwb-sidecar-deps/release] [--like v2.6.0 [--allow-missing]]
 //
 // From --dist: the three HTML files and packs/*.gwpack, each checked against dist/SHA256SUMS, and
 // gis-workbench-<v>-sbom.cdx.json, the web app's SBOM, written from dist/build-report.json.
@@ -110,7 +110,7 @@ async function main() {
     console.error('Usage: node build/release/stage.mjs --sidecar-version <v> --out <new folder> [--dist dist] [--sidecar <dir>] [--like <tag>] [--allow-missing]');
     process.exit(2);
   }
-  const { picks, problems } = plan({ dist: resolve(arg('--dist', 'dist')), sidecar: resolve(arg('--sidecar', 'D:/gwb-sidecar-deps/release')), version });
+  const { picks, problems } = plan({ dist: resolve(arg('--dist', 'dist')), sidecar: resolve(arg('--sidecar', 'E:/gwb-sidecar-deps/release')), version });
   const like = arg('--like');
   if (like) {
     const listed = execFileSync('gh', ['release', 'view', like, '--json', 'assets', '--jq', '.assets[].name'], { encoding: 'utf8' }).split(/\r?\n/);

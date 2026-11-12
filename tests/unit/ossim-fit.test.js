@@ -14,9 +14,9 @@ const { sampleJob } = await import('../../app/src/features/ossim.js');
 const { Photo } = await import('../../app/src/wasm/photo.js');
 
 const LINUX = process.platform === 'linux';
-const MOD = join(process.env.GWB_SIDECAR_MODULES ?? 'D:/gwb-sidecar-deps/bundle/modules', 'ossim');
+const MOD = join(process.env.GWB_SIDECAR_MODULES ?? 'E:/gwb-sidecar-deps/bundle/modules', 'ossim');
 const TOOL = join(MOD, 'bin', LINUX ? 'gwb-ossim-model' : 'gwb-ossim-model.exe');
-const RS2 = join(process.env.TE_CORPUS ?? 'D:/TE-corpus', 'sar-radarsat2-quadpol-slc-samples');
+const RS2 = join(process.env.TE_CORPUS ?? 'E:/TE-corpus', 'sar-radarsat2-quadpol-slc-samples');
 const WASM = join(process.env.CARGO_TARGET_DIR ?? 'crates/target', 'wasm32-unknown-unknown', 'release', 'gw_bundle_photo.wasm');
 const SCENES = { SQ1: 'RS2_OK153952_PK1408403_DK1372522_SQ1_20231119_053723_HH_VV_HV_VH_SLC', FQ17: 'RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC' };
 const ready = existsSync(TOOL) && existsSync(WASM) && existsSync(RS2);

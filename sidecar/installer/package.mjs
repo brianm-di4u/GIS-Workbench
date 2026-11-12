@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Sidecar release packaging (REQ-SDC-11, REQ-SDC-12; SDP-2.1 §3.7).
 //
-//   node sidecar/installer/package.mjs [--version 0.1.0] [--dist dist-21-sidecar] [--out D:/gwb-sidecar-deps/release] [--no-msi]
+//   node sidecar/installer/package.mjs [--version 0.1.0] [--dist dist-21-sidecar] [--out E:/gwb-sidecar-deps/release] [--no-msi]
 //
 // 1. Stage `GIS Workbench Sidecar/`: gwb-sidecar.exe, gwb-sidecar-setup.exe, the composed modules
 //    (Core GDAL, Point cloud, Media, Python runtime; compose.mjs licence gate), the released HTML files with
@@ -29,7 +29,7 @@ const arg = (k, d) => {
 };
 const VERSION = arg('--version', JSON.parse(execFileSync('cargo', ['metadata', '--no-deps', '--format-version', '1', '--manifest-path', join(ROOT, 'sidecar', 'Cargo.toml')], { encoding: 'utf8' })).packages.find((p) => p.name === 'gwb-sidecar').version);
 const DIST = resolve(ROOT, arg('--dist', 'dist-21-sidecar'));
-const OUT = resolve(arg('--out', 'D:/gwb-sidecar-deps/release'), VERSION);
+const OUT = resolve(arg('--out', 'E:/gwb-sidecar-deps/release'), VERSION);
 const TARGET = arg('--target', process.env.GWB_SIDECAR_TARGET ?? join(homedir(), 'AppData', 'Local', 'qlab', 'ct21-sidecar'));
 const WIX = arg('--wix', join(process.env.USERPROFILE ?? '', '.dotnet', 'tools', 'wix.exe'));
 const TAR = join(process.env.SystemRoot ?? 'C:/Windows', 'System32', 'tar.exe');

@@ -11,6 +11,7 @@
 import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles } from '../storage/files.js';
+import { txDone } from '../storage/idb.js';
 import { validateCatalog, registerCatalog, getCatalog, listCatalogs, unregisterCatalog, DEFAULT_CATALOG } from '../vector/schema.js';
 import { catalogFromFiles } from '../vector/catalog-import.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
@@ -31,12 +32,9 @@ function idb() {
 async function idbDo(mode, fn) {
   const db = await idb();
   try {
-    return await new Promise((res, rej) => {
-      const tx = db.transaction(STORE, mode);
-      const out = fn(tx.objectStore(STORE));
-      tx.oncomplete = () => res(out?.result ?? out);
-      tx.onerror = () => rej(tx.error);
-    });
+    const tx = db.transaction(STORE, mode);
+    const out = fn(tx.objectStore(STORE));
+    return await txDone(tx, () => out?.result ?? out);
   } finally {
     db.close();
   }

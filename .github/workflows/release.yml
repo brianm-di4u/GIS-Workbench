@@ -59,7 +59,7 @@ jobs:
   app:
     needs: check
     if: ${{ (github.event.repository.owner.type == 'Organization' || (github.actor == github.repository_owner && github.triggering_actor == github.repository_owner)) }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
       GWB_LEG: linux

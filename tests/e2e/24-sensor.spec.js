@@ -5,7 +5,7 @@
 //    RSM's covariance gives measurements a CE90; a block adjustment recovers a known error through
 //    the RSM's adjustable parameters.
 //  - The rigorous pushbroom from CSEPHA/CSATTA/CSSFAA opens beside the RPC00B of a corpus
-//    WorldView-3 NITF (D:, skipped when absent) and agrees with it.
+//    WorldView-3 NITF (E:, skipped when absent) and agrees with it.
 //  - Frame cameras from SENSRB, from drone EXIF/XMP (DJI gimbal angles), from calibration files
 //    (Agisoft, OpenCV), checked against independent projections; the real senseFly images of
 //    Bellus against their surveyed GCPs; the Frame Import Wizard passes axe.

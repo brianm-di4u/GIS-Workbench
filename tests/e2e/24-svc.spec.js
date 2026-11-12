@@ -5,7 +5,7 @@
 // REQ-GAP-07 services as image layers · REQ-GAP-59 publish · REQ-GAP-63 typed FeatureServer
 // editing · REQ-SEC-12 / REQ-ARC-16 nothing leaves before the origin is allowed.
 import { test, expect } from '@playwright/test';
-import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, existsSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
@@ -16,18 +16,23 @@ test.describe.configure({ timeout: 180000 });
 
 let mock;
 let origin;
+// Each app copy is about 8 MB. They go in one directory per run, removed after the suite.
+let dir;
 test.beforeAll(async () => {
+  dir = mkdtempSync(join(tmpdir(), 'gw-24-svc-'));
   mock = mockServices();
   origin = await mock.start();
 });
-test.afterAll(async () => mock?.close());
+test.afterAll(async () => {
+  await mock?.close();
+  rmSync(dir, { recursive: true, force: true });
+  expect(existsSync(dir), `${dir} is left behind`).toBe(false);
+});
 
 /** A copy of the app with the mock's origin in the allow-list (the add → save → reload path). */
 async function allowed(page) {
   const { frame } = await openApp(page, 'file');
   const html = await frame.evaluate((o) => window.gisworkbench.__test.htmlWithOrigins([o]), origin);
-  const dir = join(tmpdir(), 'gw-24-svc');
-  mkdirSync(dir, { recursive: true });
   const copy = join(dir, `gw-svc-${Date.now()}-${Math.random().toString(16).slice(2)}.html`);
   writeFileSync(copy, html);
   const page2 = await page.context().newPage();

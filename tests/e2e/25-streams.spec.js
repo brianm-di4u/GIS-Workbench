@@ -25,8 +25,8 @@ const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.mi
 const FX10 = resolve('fixtures', 'fx10', 'fx10.ts');
 const TRUTH = JSON.parse(readFileSync(resolve('fixtures', 'fx10', 'fx10_truth.json'), 'utf8'));
 const FXS = resolve('fixtures', 'fx25', 'streams');
-const DATA = process.env.GW_STREAMS_DATA ?? 'D:/gwb25/data-streams';
-const TRUCK_TS = 'D:/TE-corpus/fmv-esri-truck-tutorial/FMV tutorial data/Truck.ts';
+const DATA = process.env.GW_STREAMS_DATA ?? 'E:/gwb25/data-streams';
+const TRUCK_TS = 'E:/TE-corpus/fmv-esri-truck-tutorial/FMV tutorial data/Truck.ts';
 
 let hls;
 let portal;
@@ -242,7 +242,7 @@ test('REQ-GAP-49 live sliding window with AES-128 and a discontinuity at each lo
 });
 
 test('REQ-GAP-49 SCN-30 corpus: H.264 master playlist (variant choice) and MPEG-2 through the app’s own decoder', async ({ page }) => {
-  test.skip(!existsSync(join(DATA, 'truck-h264-hls', 'master.m3u8')) || !existsSync(join(DATA, 'truck-mpeg2-hls', 'index.m3u8')), 'run build/fixtures/fx25-streams.mjs (needs the T&E corpus on D:)');
+  test.skip(!existsSync(join(DATA, 'truck-h264-hls', 'master.m3u8')) || !existsSync(join(DATA, 'truck-mpeg2-hls', 'index.m3u8')), 'run build/fixtures/fx25-streams.mjs (needs the T&E corpus on E:)');
   hls.vod('truck', join(DATA, 'truck-h264-hls'));
   hls.vod('truck/hi', join(DATA, 'truck-h264-hls', 'hi'));
   hls.vod('truck/lo', join(DATA, 'truck-h264-hls', 'lo'));
@@ -286,7 +286,7 @@ test('REQ-GAP-49 SCN-30 corpus: H.264 master playlist (variant choice) and MPEG-
 });
 
 test('REQ-GAP-49 Truck.ts (synchronous KLV, 1080p) as a live stream cut by the test segmenter', async ({ page }) => {
-  test.skip(!existsSync(TRUCK_TS), 'the T&E corpus is not on D:');
+  test.skip(!existsSync(TRUCK_TS), 'the T&E corpus is not on E:');
   const segs = segmentTs(readFileSync(TRUCK_TS).subarray(0, 188 * 100000), 2).slice(0, -1);
   const live = hls.live('trucklive', segs, { window: 5, loops: 1, startAhead: 4 });
   const { page2, frame, logs } = await allowed(page, [hls.origin]);

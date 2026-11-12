@@ -5,7 +5,7 @@
 //   REQ-GAP-14 the pan-sharpened COG of the SpaceNet Las Vegas WorldView-3 pair: weighted Brovey
 //              against GDAL's gdal_pansharpen over a 2048² window, Gram–Schmidt with its Wald figures,
 //              GDAL's COG validator; the display-only fusion still turns on.
-// Data from the T&E corpus (skipped when absent); temporary files on D: (GW_TMP).
+// Data from the T&E corpus (skipped when absent); temporary files on E: (GW_TMP).
 import { test, expect } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -24,7 +24,7 @@ const genv = { ...process.env, PATH: `${LIB}/bin;${process.env.PATH}`, GDAL_DATA
 const gdal = (tool, args) => execFileSync(join(LIB, 'bin', `${tool}.exe`), args, { env: genv, maxBuffer: 1 << 30 }).toString();
 const py = (args) => execFileSync(join(ENV, 'python.exe'), ['-I', ...args], { env: genv, maxBuffer: 1 << 30 }).toString();
 const HAVE_GDAL = existsSync(join(ENV, 'python.exe'));
-const TMP = process.env.GW_TMP ?? (existsSync('D:/') ? 'D:/gwb24/data-imaging/tmp' : resolve('test-results'));
+const TMP = process.env.GW_TMP ?? (existsSync('E:/') ? 'E:/gwb24/data-imaging/tmp' : resolve('test-results'));
 const tmp = (name) => {
   const d = join(TMP, `e2e24-${name}-${process.pid}`);
   rmSync(d, { recursive: true, force: true });

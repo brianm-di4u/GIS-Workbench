@@ -11,8 +11,8 @@ import { openApp, openFiles } from './helpers.js';
 
 const FX = resolve('fixtures/fx25/aviation');
 const NASR = { base: readFileSync(join(FX, 'APT_BASE.csv'), 'latin1'), rwy: readFileSync(join(FX, 'APT_RWY.csv'), 'latin1'), end: readFileSync(join(FX, 'APT_RWY_END.csv'), 'latin1') };
-const LAS_DSM = 'D:/TE-corpus/dem-under-vegas/Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif';
-const HOU_DSM = 'D:/TE-corpus/ieee-dfc2018-houston/DSM_C12/UH17c_GEF051.tif';
+const LAS_DSM = 'E:/TE-corpus/dem-under-vegas/Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif';
+const HOU_DSM = 'E:/TE-corpus/ieee-dfc2018-houston/DSM_C12/UH17c_GEF051.tif';
 const OUT = resolve('reports', 'filework26');
 const EDITION = 'ICAO Annex 14 Volume I as amended by Amendment 18, Chapter 4 as applicable until 20 November 2030';
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');

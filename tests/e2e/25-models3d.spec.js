@@ -2,8 +2,8 @@
 // its node tree and LOD, SLPK and OpenFlight writing; REQ-GAP-68 the 3D PDF (PRC).
 // Oracles at test time (never shipped): Esri's i3s_converter (-v) on the packages the app writes,
 // the independent Python readers (tests/tools/slpk_ref.py, openflight_ref.py, prc_ref.py) and
-// OpenSceneGraph's OpenFlight plug-in (osgconv) when installed on D:. Esri's sample SLPKs are read
-// from D:\gwb25\data-models3d (Esri Master License Agreement: never committed); without them the
+// OpenSceneGraph's OpenFlight plug-in (osgconv) when installed on E:. Esri's sample SLPKs are read
+// from E:\gwb25\data-models3d (Esri Master License Agreement: never committed); without them the
 // tests use the app's own package (fixtures/fx25/models3d/b1.slpk).
 import { test, expect } from '@playwright/test';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
@@ -16,7 +16,7 @@ import { mockServices } from './svc-mock.js';
 
 test.describe.configure({ timeout: 600000 });
 
-const DATA = 'D:/gwb25/data-models3d';
+const DATA = 'E:/gwb25/data-models3d';
 const S = (f) => `${DATA}/slpk/${f}`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
 const PYENV = resolve('..', '..', 'GIS Workbench', 'TE-tools', 'mamba', 'envs', 'gw-te');
@@ -24,11 +24,11 @@ const PY = existsSync('C:/GIS Workbench/TE-tools/mamba/envs/gw-te/python.exe') ?
 const pyEnv = { ...process.env, PATH: `${PY};${PY}/Library/bin;${process.env.PATH}` };
 const py = (script, args) => JSON.parse(execFileSync(`${PY}/python.exe`, ['-I', resolve('tests/tools', script), ...args], { env: pyEnv, maxBuffer: 1 << 30, encoding: 'utf8' }));
 const havePy = existsSync(`${PY}/python.exe`);
-const OSG = 'D:/gwb25/envs/osg/Library/bin';
+const OSG = 'E:/gwb25/envs/osg/Library/bin';
 const WD = `${DATA}/work/prc-wd.txt`;
 // One folder per worker: Chrome and Edge run the same test at once, and it writes fixed names
 // (vegas_buildings.slpk, its converter log) that the other browser's run would delete.
-const TMP = join(existsSync('D:/') ? `${DATA}/work/e2e` : resolve('test-results', 'e2e25'), `w${process.env.TEST_WORKER_INDEX ?? 0}`);
+const TMP = join(existsSync('E:/') ? `${DATA}/work/e2e` : resolve('test-results', 'e2e25'), `w${process.env.TEST_WORKER_INDEX ?? 0}`);
 mkdirSync(TMP, { recursive: true });
 const VEGAS = join(SAMPLES, 'msi-spacenet2-wv3', 'SN2_buildings_train_AOI_2_Vegas_PS-RGB_img10.tif');
 const FX = resolve('fixtures/fx25/models3d');
@@ -89,7 +89,7 @@ test('REQ-GAP-35 an SLPK written by the app opens in the 3D view: node tree, geo
 });
 
 test('REQ-GAP-35 Esri sample IntegratedMesh (textured, LOD refines as the camera comes closer); PCSL refused by name', async ({ page }) => {
-  test.skip(!existsSync(S('Rancho_Mesh_v18.slpk')), 'the Esri sample SLPKs are not on D:');
+  test.skip(!existsSync(S('Rancho_Mesh_v18.slpk')), 'the Esri sample SLPKs are not on E:');
   const { frame, logs } = await app(page);
   const t0 = Date.now();
   const log = await openFiles(frame, [S('Rancho_Mesh_v18.slpk')]);
@@ -128,7 +128,7 @@ test('REQ-GAP-35 Esri sample IntegratedMesh (textured, LOD refines as the camera
 });
 
 test('REQ-GAP-35 Esri samples in New York: the 3DObject layer (5,883 nodes, 1 GB; only what is in view is read) and the Point layer (Draco points with feature ids)', async ({ page }) => {
-  test.skip(!existsSync(S('Buildings_NewYork_v18.slpk')), 'the Esri New York SLPK is not on D:');
+  test.skip(!existsSync(S('Buildings_NewYork_v18.slpk')), 'the Esri New York SLPK is not on E:');
   const { frame, logs } = await app(page);
   // New York 3DObject (5,883 nodes, 1 GB): only the node pages and nodes in view are read.
   if (existsSync(S('Buildings_NewYork_v18.slpk'))) {
@@ -155,7 +155,7 @@ test('REQ-GAP-35 Esri samples in New York: the 3DObject layer (5,883 nodes, 1 GB
 });
 
 test('REQ-GAP-35 Esri sample Building scene layer: its visible 3D object sublayers stream together', async ({ page }) => {
-  test.skip(!existsSync(S('Admin_Building_v18.slpk')), 'the Esri Building SLPK is not on D:');
+  test.skip(!existsSync(S('Admin_Building_v18.slpk')), 'the Esri Building SLPK is not on E:');
   const { frame, logs } = await app(page);
   const r = await openFiles(frame, [S('Admin_Building_v18.slpk')]);
   expect(r.flatMap((x) => x.errors)).toEqual([]);

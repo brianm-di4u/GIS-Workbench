@@ -3,7 +3,7 @@
 // machine, never user data, and nothing here ships in the app.
 //
 //   node build/i18n-translate.mjs status
-//   node build/i18n-translate.mjs work  <tag> [--batch 150] [--out D:/gwb23/i18n-work]
+//   node build/i18n-translate.mjs work  <tag> [--batch 150] [--out E:/gwb23/i18n-work]
 //        → batch-NNN.json files of pending messages (missing, or source changed) with context
 //   node build/i18n-translate.mjs merge <tag> <result.json> [...]
 //        → accepted translations into app/src/i18n/catalog/<tag>.json, states into state/<tag>.json
@@ -77,7 +77,7 @@ function contextOf(m, g, dnt) {
   };
 }
 
-export function work(tag, { batch = 150, out = 'D:/gwb23/i18n-work' } = {}) {
+export function work(tag, { batch = 150, out = 'E:/gwb23/i18n-work' } = {}) {
   const l = registry().find((x) => x.tag === tag);
   if (!l) throw new Error(`unknown locale ${tag}`);
   const g = glossaryFor(tag);
@@ -226,7 +226,7 @@ export async function api(tag, { batch = 80, limit = Infinity } = {}) {
  * each batch, and a different reviewer writes review-NNN.json ({changes: [{key, text, note}],
  * flagged: [{key, note}]}). combine() takes the draft, applies the review and merges the result.
  */
-export function combine(tag, dir = join('D:/gwb23/i18n-work', tag)) {
+export function combine(tag, dir = join('E:/gwb23/i18n-work', tag)) {
   const results = [];
   const missing = [];
   for (const f of readdirSync(dir).filter((x) => /^batch-\d+\.json$/.test(x)).sort()) {
@@ -268,14 +268,14 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const [cmd, tag, ...rest] = process.argv.slice(2);
   if (cmd === 'status') for (const s of status()) console.log(`${s.tag.padEnd(8)} wave ${s.wave}  passed ${s.passed}/${s.total}  flagged ${s.flagged}  pending ${s.pending}`);
   else if (cmd === 'work') {
-    const r = work(tag, { batch: Number(arg('--batch', 150)), out: arg('--out', 'D:/gwb23/i18n-work') });
+    const r = work(tag, { batch: Number(arg('--batch', 150)), out: arg('--out', 'E:/gwb23/i18n-work') });
     console.log(`${tag}: ${r.pending} pending in ${r.files.length} batches\n${r.files.join('\n')}`);
   } else if (cmd === 'merge') {
     const r = merge(tag, rest.filter((f) => !f.startsWith('--')).map((f) => JSON.parse(readFileSync(f, 'utf8'))));
     console.log(`${tag}: ${r.accepted} accepted, ${r.flagged} flagged, ${r.rejected.length} rejected`);
     for (const x of r.rejected.slice(0, 30)) console.log(`  ${x.key.slice(0, 70)}: ${x.errors.join('; ')}`);
   } else if (cmd === 'combine') {
-    const r = combine(tag, arg('--dir', join('D:/gwb23/i18n-work', tag)));
+    const r = combine(tag, arg('--dir', join('E:/gwb23/i18n-work', tag)));
     console.log(`${tag}: ${r.accepted} accepted, ${r.flagged} flagged, ${r.rejected.length} rejected${r.missing.length ? `; batches without draft or review: ${r.missing.join(', ')}` : ''}`);
     for (const x of r.rejected.slice(0, 30)) console.log(`  ${x.key.slice(0, 70)}: ${x.errors.join('; ')}`);
   } else if (cmd === 'api') await api(tag, { batch: Number(arg('--batch', 80)), limit: Number(arg('--limit', Infinity)) });

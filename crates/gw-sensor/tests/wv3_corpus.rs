@@ -1,7 +1,7 @@
 //! REQ-GAP-19 differential test: the rigorous pushbroom model built from each corpus NITF's
 //! CSEPHA, CSATTA, CSSFAA, CSEXRA and USE00A against the RPC00B of the same file (the 16
 //! WorldView-3 NITFs of the T&E corpus that carry CSEPHA; `build/campaign/corpus.json` items
-//! nitf-mvs-wv3-buenos-aires and nitf-core3d-jacksonville-wv3). The files stay on D: (the
+//! nitf-mvs-wv3-buenos-aires and nitf-core3d-jacksonville-wv3). The files stay on E: (the
 //! TE-corpus junction); the test skips cleanly when they are absent. Only the headers and the DES
 //! at the end of each file are read.
 //!
@@ -16,7 +16,7 @@ use std::fs::File;
 use std::io::{Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 
-const DIRS: [&str; 3] = ["D:/TE-corpus/nitf-mvs-wv3-buenos-aires/PAN", "D:/TE-corpus/nitf-core3d-jacksonville-wv3/PAN", "D:/TE-corpus/nitf-core3d-jacksonville-wv3/MSI"];
+const DIRS: [&str; 3] = ["E:/TE-corpus/nitf-mvs-wv3-buenos-aires/PAN", "E:/TE-corpus/nitf-core3d-jacksonville-wv3/PAN", "E:/TE-corpus/nitf-core3d-jacksonville-wv3/MSI"];
 
 fn read_at(f: &mut File, off: u64, n: usize) -> Vec<u8> {
     let mut b = vec![0u8; n];
@@ -150,7 +150,7 @@ fn files() -> Vec<PathBuf> {
 fn rigorous_pushbroom_agrees_with_the_rpc_on_the_corpus() {
     let fs = files();
     if fs.is_empty() {
-        eprintln!("skipped: the T&E corpus WorldView-3 NITFs are not on D:");
+        eprintln!("skipped: the T&E corpus WorldView-3 NITFs are not on E:");
         return;
     }
     let mut all = Vec::new();

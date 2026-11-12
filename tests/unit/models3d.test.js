@@ -1,6 +1,6 @@
 // 2.5 models3d (REQ-GAP-35): I3S scene layer packages read and written, OpenFlight written.
 // Oracles:
-// - Esri's sample SLPKs (D:\gwb25\data-models3d\slpk: 3DObject New York, IntegratedMesh Rancho
+// - Esri's sample SLPKs (E:\gwb25\data-models3d\slpk: 3DObject New York, IntegratedMesh Rancho
 //   Cucamonga 1.7 and 1.8, Point NYC trees, Building Admin_Building), read by Python's zipfile and
 //   an independent decoder (tests/tools/slpk_ref.py), and by the 2.4 JS decoder of
 //   connectors/i3s.js;
@@ -8,8 +8,8 @@
 //   app's reader on the converted (Draco) packages;
 // - for OpenFlight, an independent parser written from OGC 19-065 (tests/tools/openflight_ref.py),
 //   checked first on osgEarth's tank.FLT, and OpenSceneGraph's OpenFlight plug-in (osgconv,
-//   D:\gwb25\envs\osg) reading the app's files.
-// The large data stays on D:; tests skip cleanly without it, the wasm or the tools.
+//   E:\gwb25\envs\osg) reading the app's files.
+// The large data stays on E:; tests skip cleanly without it, the wasm or the tools.
 import { describe, it, expect, beforeAll } from 'vitest';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, openAsBlob, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -27,14 +27,14 @@ import { writeOpenFlight } from '../../app/src/formats/openflight-write.js';
 import { buildingModel, faceTriangles } from '../../app/src/vector/mesh.js';
 import { geoToEcef } from '../../app/src/formats/tiles3d-write.js';
 
-const DATA = 'D:/gwb25/data-models3d';
+const DATA = 'E:/gwb25/data-models3d';
 const SLPK = `${DATA}/slpk`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
-// The writer tests need somewhere to write even when the D: data drive is absent.
+// The writer tests need somewhere to write even when the E: data drive is absent.
 const WORK = existsSync(DATA) ? `${DATA}/work/vitest` : join(tmpdir(), 'gw-models3d-vitest').replaceAll('\\', '/');
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const PY = `${PYENV}/python.exe`;
-const OSG = 'D:/gwb25/envs/osg/Library/bin';
+const OSG = 'E:/gwb25/envs/osg/Library/bin';
 const haveData = existsSync(`${SLPK}/Rancho_Mesh_v18.slpk`);
 const havePy = existsSync(PY);
 const haveConverter = existsSync(CONVERTER) && process.platform === 'win32';

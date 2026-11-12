@@ -19,7 +19,7 @@ const FILES = [
   'geopdf-ustopo-vinehill-honkerbay-current/CA_Honker_Bay_20220107_TM_geo.pdf',
 ].map((f) => join(CORPUS, f));
 // The corpus sits on a USB disk: read from a local copy so the timing is the app's, not the disk's.
-const LOCAL = process.env.GW_GEOPDF_PERF_DIR ?? 'D:/gwb24/geopdf/perf';
+const LOCAL = process.env.GW_GEOPDF_PERF_DIR ?? 'E:/gwb24/geopdf/perf';
 const RUNS = Number(process.env.GW_GEOPDF_PERF_RUNS ?? 3);
 const results = [];
 

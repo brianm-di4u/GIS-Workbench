@@ -36531,7 +36531,8 @@
   },
   "erase": {
    "h": "5cf46cd89515",
-   "state": "passed"
+   "state": "passed",
+   "note": "#201: the overlay result layer uses the Operation list word for Erase (set difference)"
   },
   "fill": {
    "h": "dcd32479a72e",
@@ -36954,6 +36955,18 @@
    "h": "c11092bc0861",
    "state": "passed",
    "note": "Masculine singular agreement; katrorë was plural"
+  },
+  "landing zone\u0004Buffer": {
+   "h": "e44193fd2d21",
+   "state": "passed"
+  },
+  "overlay\u0004Erase": {
+   "h": "511a2da097fa",
+   "state": "passed"
+  },
+  "cloud storage\u0004Region": {
+   "h": "d3a008ef1335",
+   "state": "passed"
   }
  }
 }
