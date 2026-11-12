@@ -14,9 +14,9 @@ export default defineConfig({
   outputDir: 'test-results/ios',
   reporter: [['list'], ['json', { outputFile: 'reports/ios/e2e-webkit.json' }]],
   use: { browserName: 'webkit' },
-  // Not here: CPU throttling, which needs Chrome's CDP, and the Full file and saved snapshots, which
-  // open from file:// and WebKit cannot read files there.
-  grepInvert: /start-up time on the emulated phone|the Full Ribbon|Export Snapshot/,
+  // Not here: the Full file and saved snapshots, which open from file:// and WebKit cannot read
+  // files there. CPU throttling needs Chrome's CDP, and its test skips itself outside Chromium.
+  grepInvert: /the Full Ribbon|Export Snapshot/,
   webServer: {
     command: `node tests/tools/serve.mjs --root ${process.env.GW_DIST ?? 'dist'} --port 8765`,
     url: 'http://127.0.0.1:8765/gis-workbench-lite.html',
