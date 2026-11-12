@@ -200,24 +200,39 @@ export function project(header, image, x) {
 }
 
 /**
- * The photographs a control point should show in, nearest the image centre first. `toModel` turns
- * the control's map coordinates into the model's CRS (the identity when they are the same).
+ * The height the model has at a place: the median of its 8 nearest ground points (`header.ground`,
+ * map frame less the offset), or null when the header carries none.
+ */
+export function groundHeight(header, x, y) {
+  const g = header.ground;
+  if (!g?.length) return null;
+  const near = g
+    .map((p) => [(p[0] - x) ** 2 + (p[1] - y) ** 2, p[2]])
+    .sort((a, b) => a[0] - b[0])
+    .slice(0, 8)
+    .map((p) => p[1])
+    .sort((a, b) => a - b);
+  return near[near.length >> 1];
+}
+
+/**
+ * The photographs a control point should show in, nearest the image centre first. The point is
+ * projected at the height the model has there, not at its surveyed height: the first stage is placed
+ * by the photographs' GPS, whose heights can be tens of metres from the survey's, and that would
+ * push every prediction away from the image centre. `toModel` turns the control's map coordinates
+ * into the model's CRS (the identity when they are the same).
  */
 export function candidates(header, point, { toModel = (x) => x, max = 8 } = {}) {
   const off = header.georef?.offset ?? [0, 0, 0];
   const m = toModel(point.xyz);
   const x = [m[0] - off[0], m[1] - off[1], m[2] - (off[2] ?? 0)];
+  x[2] = groundHeight(header, x[0], x[1]) ?? x[2];
   const out = [];
   for (const im of header.images) {
     const at = project(header, im, x);
     if (!at) continue;
     const cam = header.cameras.find((c) => c.id === im.camera);
-    out.push({
-      image: im.name,
-      px: at[0],
-      py: at[1],
-      centre: Math.hypot(at[0] - cam.width / 2, at[1] - cam.height / 2),
-    });
+    out.push({ image: im.name, px: at[0], py: at[1], centre: Math.hypot(at[0] - cam.width / 2, at[1] - cam.height / 2) });
   }
   return out.sort((a, b) => a.centre - b.centre).slice(0, max);
 }

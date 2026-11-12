@@ -2,7 +2,7 @@
 // reads it, written back as the CSV it reads, and each point is projected into the photographs of
 // the first stage's model file.
 import { describe, it, expect } from 'vitest';
-import { parseControl, controlCsv, readModelHeader, project, candidates, distort, readiness, parseCrs } from '../../app/src/features/sfm-gcp.js';
+import { parseControl, controlCsv, readModelHeader, project, candidates, groundHeight, distort, readiness, parseCrs } from '../../app/src/features/sfm-gcp.js';
 
 const CSV = `id,x,y,z,crs,sigma,role,image,px,py
 G1,500010,900020,120.5,EPSG:32630,0.02,gcp,A.JPG,10,20
@@ -97,6 +97,18 @@ describe('projection', () => {
   it('applies the lens as COLMAP does', () => {
     const [px] = distort({ model: 4, params: [1000, 1000, 500, 400, 0.1, 0, 0, 0] }, 0.2, 0);
     expect(px).toBeCloseTo(1000 * 0.2 * (1 + 0.1 * 0.04) + 500, 9);
+  });
+
+  it("projects a point at the model's own ground height, not its surveyed height", () => {
+    // The survey says 27 m: the GPS-placed model has the ground at 0 there, 100 m below the camera.
+    const h = { ...header([down('A.JPG', [0, 0, 100])]), ground: [[9, 19, 0.2], [11, 21, -0.2], [10, 20, 0], [10, 21, 0], [300, 300, 50]] };
+    expect(groundHeight(h, 10, 20)).toBe(0);
+    const [c] = candidates(h, { xyz: [500010, 900020, 27] });
+    expect(c.px).toBeCloseTo(600, 9);
+    expect(c.py).toBeCloseTo(200, 9);
+    // With no ground in the header, the surveyed height is all there is.
+    const [d] = candidates(header([down('A.JPG', [0, 0, 100])]), { xyz: [500010, 900020, 27] });
+    expect(d.px).toBeCloseTo(500 + (1000 * 10) / 73, 9);
   });
 
   it('lists the photographs a point falls in, nearest the centre first', () => {

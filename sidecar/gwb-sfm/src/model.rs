@@ -13,6 +13,8 @@ use std::path::{Path, PathBuf};
 pub const MAGIC: &str = "GWB-SFM-MODEL";
 pub const VERSION: u64 = 1;
 const FILES: [&str; 3] = ["cameras.bin", "images.bin", "points3D.bin"];
+/// About how many sparse points the header carries as the model's ground.
+const GROUND_POINTS: usize = 4000;
 
 /// Read `sim3.txt` as georef writes it.
 pub fn read_sim3(path: &Path) -> Res<Sim3> {
@@ -44,6 +46,13 @@ pub fn export(model: &Path, georef_json: &Path, sim3_path: &Path, gps_path: &Pat
             json!({ "id": im.id, "name": im.name, "camera": im.camera, "r": r, "c": sim3.apply(centre(im)) })
         })
         .collect();
+    // A thinned set of the sparse points, in the same frame: the model's own ground. The GPS that
+    // placed this model can be tens of metres off in height against a survey, so the app projects a
+    // control point at the height the model has near it, not at its surveyed height.
+    let mut ids: Vec<&u64> = m.points.keys().collect();
+    ids.sort();
+    let step = ids.len().div_ceil(GROUND_POINTS).max(1);
+    let ground: Vec<[f64; 3]> = ids.iter().step_by(step).map(|id| sim3.apply(m.points[id].xyz).map(|v| (v * 1000.0).round() / 1000.0)).collect();
     let mut blobs = Vec::new();
     let mut files = Vec::new();
     for f in FILES {
@@ -59,6 +68,7 @@ pub fn export(model: &Path, georef_json: &Path, sim3_path: &Path, gps_path: &Pat
         "sim3": { "s": sim3.s, "q": sim3.q, "t": sim3.t },
         "cameras": cameras,
         "images": images,
+        "ground": ground,
         "gps": gps,
         "files": files,
     });
@@ -179,7 +189,17 @@ mod tests {
         im.extend(0u64.to_le_bytes());
         fs::write(model.join("cameras.bin"), &cam).unwrap();
         fs::write(model.join("images.bin"), &im).unwrap();
-        fs::write(model.join("points3D.bin"), 0u64.to_le_bytes()).unwrap();
+        // One sparse point at (1, 2, 0.5) with an empty track.
+        let mut pts = Vec::new();
+        pts.extend(1u64.to_le_bytes());
+        pts.extend(9u64.to_le_bytes());
+        for v in [1.0f64, 2.0, 0.5] {
+            pts.extend(v.to_le_bytes());
+        }
+        pts.extend([0u8; 3]);
+        pts.extend(0.5f64.to_le_bytes());
+        pts.extend(0u64.to_le_bytes());
+        fs::write(model.join("points3D.bin"), &pts).unwrap();
         fs::write(dir.join("georef.json"), r#"{"epsg":32630,"offset":[500000.0,900000.0,0.0],"focal":{"refined":false}}"#).unwrap();
         fs::write(dir.join("sim3.txt"), "2 1 0 0 0 10 20 30\n").unwrap();
         fs::write(dir.join("gps.json"), r#"{"images":1,"with_gps":1,"gps":{"DJI_0001.JPG":[8.1,-2.4,180.0]}}"#).unwrap();
@@ -191,6 +211,7 @@ mod tests {
         // The centre is (1, 2, 3) in the model, so 2 x that + t in the map frame.
         assert_eq!(h["images"][0]["c"], json!([12.0, 24.0, 36.0]));
         assert_eq!(h["georef"]["epsg"], 32630);
+        assert_eq!(h["ground"], json!([[12.0, 24.0, 31.0]]), "the sparse point, placed");
         let ctl = dir.join("gcp.csv");
         fs::write(&ctl, "id,x,y,z,crs,sigma,role,image,px,py\nG1,500010,900020,120,EPSG:32630,0.02,gcp,DJI_0001.JPG,10,20\n").unwrap();
         let run = |inputs: &[PathBuf]| import(&photos, inputs, &dir.join("sparse"), &dir.join("gps2.json"), &dir.join("control.txt"));
