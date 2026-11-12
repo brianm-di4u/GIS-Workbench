@@ -193,7 +193,7 @@ impl Browser {
             if self.exceptions.len() < 50 {
                 let text = m["params"]["message"].as_str().unwrap_or("");
                 self.exceptions.push(format!(
-                    "the page opened a {} dialog, dismissed: {}",
+                    "the page opened a dialog ({}), dismissed: {}",
                     m["params"]["type"].as_str().unwrap_or("JavaScript"),
                     text.lines().next().unwrap_or(text)
                 ));

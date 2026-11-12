@@ -421,6 +421,10 @@ fn run(args: &Args, job: &Job, log: &mut Log) -> u8 {
             return if late { 5 } else { 1 };
         }
     };
+    // A run that finishes can still have had a dialog dismissed (decision 0017): say so.
+    for x in &s.b.exceptions {
+        log.line(&format!("  the page reported: {x}"));
+    }
     if let Some(why) = answer["refused"].as_str() {
         log.line(&format!("refused, nothing was run: {why}"));
         return 4;

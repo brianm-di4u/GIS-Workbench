@@ -158,6 +158,13 @@ fn a_run_writes_its_files_provenance_and_log() {
         log.contains("wrote big.bin") && log.contains("exit 0"),
         "{log}"
     );
+    // The stand-in page's alert was dismissed, and a run that succeeds still says so.
+    assert!(
+        log.contains(
+            "the page reported: the page opened a dialog (alert), dismissed: nobody is here"
+        ),
+        "{log}"
+    );
     // No part files, and the work folder went with the browser.
     assert!(std::fs::read_dir(&out)
         .unwrap()
