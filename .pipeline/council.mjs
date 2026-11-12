@@ -90,15 +90,18 @@ function reviewedBase(last, mergeBase) {
 // Changed lines between two commits, as the seats see them: renames read as renames, and generated
 // files, which `verify` checks and the council doesn't read, are left out.
 // Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
-// A binary file, or a diff git can't produce, counts as UNBOUNDED lines: it can't be called small.
-// It is a number and not Infinity, because the plan and the ledger are JSON and Infinity becomes null there.
+// A binary file has no lines to count and reads as 0, so the size the seats, the growth guard and the
+// verdict use is the text diff. `strict` is for the one caller that has to bound a change, `mechanical`:
+// there a binary file, or a diff git can't produce, can't be called small, so it counts as UNBOUNDED.
+// UNBOUNDED never reaches the plan or the ledger, which are JSON, where Infinity would become null.
 const UNBOUNDED = 1e9;
-function countLines(from, to, mergeBase, globs) {
+function countLines(from, to, mergeBase, globs, { strict = false } = {}) {
   const numstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '-M', '--numstat', from, to, ...excludeSpecs(globs)]);
-  if (numstat === null) return UNBOUNDED;
+  if (numstat === null) return strict ? UNBOUNDED : 0;
   return numstat.split('\n').filter(Boolean).reduce((sum, line) => {
     const [added, deleted] = line.split('\t');
-    return sum + (added === '-' || deleted === '-' ? UNBOUNDED : Number(added) + Number(deleted));
+    if (added === '-' || deleted === '-') return sum + (strict ? UNBOUNDED : 0);
+    return sum + Number(added) + Number(deleted);
   }, 0);
 }
 
@@ -274,7 +277,7 @@ function mechanical([reason]) {
   if (!last?.sha || tryGit(['merge-base', '--is-ancestor', last.sha, 'HEAD']) === null) {
     throw new Error('The last reviewed commit is not on this branch (a rebase that resolved a conflict rewrites it), so the change cannot be bounded. Run a normal round.');
   }
-  const lines = countLines(last.sha, 'HEAD', ctx.mergeBase, ctx.generatedGlobs);
+  const lines = countLines(last.sha, 'HEAD', ctx.mergeBase, ctx.generatedGlobs, { strict: true });
   const link = linkMechanical(ledger, { to: ctx.hash, reason, lines, maxLines: ctx.config.council.maxMechanicalLines ?? 40 });
   saveLedger(ledger);
   console.log(`Carried the ${last.phase ?? 'loop'} rounds on ${link.from.slice(0, 12)} over to ${link.to.slice(0, 12)} (${lines} lines). The next round reads only that diff.`);
