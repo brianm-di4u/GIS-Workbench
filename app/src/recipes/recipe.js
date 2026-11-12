@@ -87,26 +87,25 @@ export function checkParam(spec, v, where) {
 }
 
 /**
- * Steps in run order (Kahn), or an Error naming a step in a cycle. Ties keep the file's order. A step
- * whose op has no ports runs after every step before it in the file, as downstream() has it follow them.
+ * What each step must run after, as edges from a step to the steps that follow it: a wire runs from
+ * the step it reads to the step it feeds, and a step whose op has no ports (a chain op, which acts on
+ * what the app shows) follows every step before it in the file. order() and downstream() both read it.
  */
-export function order(steps, ops = null) {
+function edges(steps, ops) {
   const idx = new Map(steps.map((s, i) => [s.id, i]));
-  const indeg = steps.map(() => 0);
   const out = steps.map(() => []);
   steps.forEach((s, i) => {
-    if (portless(s, ops))
-      for (let k = 0; k < i; k++) {
-        indeg[i]++;
-        out[k].push(i);
-      }
-    for (const w of Object.values(s.inputs ?? {})) {
-      if (w && typeof w === 'object' && 'from' in w) {
-        indeg[i]++;
-        out[idx.get(w.from)].push(i);
-      }
-    }
+    for (const w of Object.values(s.inputs ?? {})) if (w && typeof w === 'object' && 'from' in w) out[idx.get(w.from)].push(i);
+    if (portless(s, ops)) for (let k = 0; k < i; k++) out[k].push(i);
   });
+  return out;
+}
+
+/** Steps in run order (Kahn over edges()), or an Error naming a step in a cycle. Ties keep the file's order. */
+export function order(steps, ops = null) {
+  const out = edges(steps, ops);
+  const indeg = steps.map(() => 0);
+  for (const js of out) for (const j of js) indeg[j]++;
   const ready = indeg.map((d, i) => (d === 0 ? i : -1)).filter((i) => i >= 0);
   const res = [];
   while (ready.length) {
@@ -142,27 +141,16 @@ export function contentOf(r, ops) {
 }
 
 /**
- * The steps downstream of step i (by wires), and i itself. A chain (no wires) has every later step
- * downstream. A step whose op has no ports (a chain op, which acts on what the app shows) follows
- * every step before it, as in a chain, wires or not.
+ * The steps downstream of step i, and i itself: those that follow it by edges(), so that what runs
+ * after a step is what goes stale when it changes. A chain (no wires) has every later step downstream.
  */
 export function downstream(steps, i, ops = null) {
   const wired = steps.some((s) => Object.values(s.inputs ?? {}).some((w) => w && typeof w === 'object' && 'from' in w));
   if (!wired) return new Set(steps.map((_, k) => k).filter((k) => k >= i));
-  const ids = new Set([steps[i].id]);
-  steps.forEach((s, k) => k > i && portless(s, ops) && ids.add(s.id));
-  let grew = true;
-  while (grew) {
-    grew = false;
-    for (const s of steps) {
-      if (ids.has(s.id)) continue;
-      if (Object.values(s.inputs ?? {}).some((w) => w && typeof w === 'object' && ids.has(w.from))) {
-        ids.add(s.id);
-        grew = true;
-      }
-    }
-  }
-  return new Set(steps.map((s, k) => (ids.has(s.id) ? k : -1)).filter((k) => k >= 0));
+  const out = edges(steps, ops);
+  const seen = new Set([i]);
+  for (const todo = [i]; todo.length; ) for (const j of out[todo.pop()]) if (!seen.has(j)) (seen.add(j), todo.push(j));
+  return new Set([...seen].sort((a, b) => a - b));
 }
 
 /** A checked copy of a recipe (gw-recipe/1 or /2; always returned as /2), or an Error naming what is wrong. */

@@ -115,6 +115,12 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     const back = [{ id: 's1', op: 'mul', inputs: { a: { from: 's3', output: 'out' } } }, { id: 's2', op: 'gate' }, { id: 's3', op: 'num' }];
     expect(order(back, OPS).map((k) => back[k].id)).toEqual(['s3', 's1', 's2']);
     expect([...downstream(back, 0, OPS)].map((k) => back[k].id)).toEqual(['s1', 's2']);
+    // A change to s3, which s1 reads, makes s1 and the step that runs after it stale too, and a run from s3 runs all three.
+    expect([...downstream(back, 2, OPS)].map((k) => back[k].id).sort()).toEqual(['s1', 's2', 's3']);
+    // Whatever runs after a downstream step is itself downstream: the run order and the stale set agree.
+    const ord = order(back, OPS);
+    const down = downstream(back, 2, OPS);
+    expect(ord.slice(ord.findIndex((k) => down.has(k))).every((k) => down.has(k))).toBe(true);
     // Without the ops nothing is known of the ports: wires alone.
     expect([...downstream(r.steps, at('show'))].map((k) => r.steps[k].id)).toEqual(['show']);
   });
