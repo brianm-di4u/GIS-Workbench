@@ -89,8 +89,8 @@ async function spectralBundle() {
   }
   return spectral;
 }
-// Spectral (REQ-MSI-05..14, 16, REQ-EXT-28): one entry point, `op` names the wrapper method.
-const SPEC_OPS = new Set(['stats', 'train', 'classify', 'kmeans', 'isodata', 'post', 'accuracy', 'detect', 'transform', 'endmembers', 'correct', 'elm', 'bt', 'resample', 'template']);
+// Spectral (REQ-MSI-05..14, 16, REQ-EXT-28, REQ-GAP-83): one entry point, `op` names the wrapper method.
+const SPEC_OPS = new Set(['stats', 'train', 'classify', 'kmeans', 'isodata', 'post', 'accuracy', 'detect', 'transform', 'endmembers', 'trend', 'anomaly', 'correct', 'elm', 'bt', 'resample', 'template']);
 GW.register('spectral', async ({ op, args }) => {
   if (!SPEC_OPS.has(op)) throw gwError('unknown spectral operation {op}', { op: String(op) });
   const b = await spectralBundle();
@@ -174,6 +174,8 @@ GW.register('sar.stereoDsm', async ({ prm, recA, recB, prior, chipA, chipB, post
   }
 });
 GW.register('validate', async ({ prm, data }) => (await vectorBundle()).validate(prm, data));
+// Road networks (REQ-GAP-85): a route, or the cost to every node of a service area.
+GW.register('network', async ({ prm, data }) => (await vectorBundle()).network(prm, data));
 GW.register('rtin', async ({ z, size, maxError }) => {
   const r = (await terrainBundle()).rtin(z, size, maxError);
   return GW.transfer(r, [r.xy.buffer, r.tris.buffer]);

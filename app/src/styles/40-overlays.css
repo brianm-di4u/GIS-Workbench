@@ -80,7 +80,12 @@
 .pm-table td { text-align: end; padding: 1px 4px; font-family: var(--f-monoLog); }
 .pm-table td.pm-centre { outline: 2px solid var(--c-focus-ring); }
 /* The spectral and eigenvalue plots are fixed dark instrument panels: an outline keeps them apart from a dark dock (GUI-078). */
-canvas[data-id="spectral-plot"], [data-id="eigen-plot"] svg { border: 1px solid var(--c-control-border); display: block; }
+canvas[data-id="spectral-plot"], [data-id="eigen-plot"] svg, canvas[data-id="ts-chart"] { border: 1px solid var(--c-control-border); display: block; }
+canvas[data-id="ts-chart"] { width: 100%; height: auto; margin: 6px 0; }
+.ts-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+.ts-bar .inp { width: auto; flex: 1 1 auto; }
+.ts-slider { width: 100%; }
+.ts-date { font-weight: 600; }
 .profile-canvas { border: 1px solid var(--c-control-border); max-width: 100%; cursor: crosshair; }
 .legend { display: flex; flex-direction: column; gap: 4px; }
 .legend-row { display: flex; align-items: center; gap: 8px; }

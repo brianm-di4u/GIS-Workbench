@@ -1,6 +1,8 @@
-//! `vector` bundle (lazy; analysis worker): feature validation (REQ-EXT-13).
+//! `vector` bundle (lazy; analysis worker): feature validation (REQ-EXT-13), and shortest routes
+//! and service areas on road networks (REQ-GAP-85).
 
 use gw_abi::{set_out_json, slice, status, Error, Json};
+use gw_vector::network::Graph;
 use gw_vector::{validate, Feature, Fix, Kind, Opts};
 
 gw_abi::export_abi!();
@@ -67,6 +69,77 @@ pub unsafe extern "C" fn gw_validate(prm: *const f64, plen: usize, data: *const 
             j.end_obj();
         }
         j.end_arr();
+        set_out_json(j.finish());
+        Ok(())
+    })())
+}
+
+/// Road network (REQ-GAP-85). `data` = [nodes, edges, turn bans, then per edge from, to, cost
+/// along, cost against (infinite or negative = closed), length (m); then x, y of every node (m,
+/// local); then the bans as pairs (edge in, edge out)]. `prm`: [0, source node, target node] for a
+/// route — JSON {cost, edges, forward} (cost null when unreachable); or [1, max cost, sources…] for
+/// a service area — JSON {cost} per node and {entry} per edge direction (2e + 1 along, 2e against: the
+/// least cost at which the edge can be entered, after turn bans), null beyond the maximum.
+/// # Safety
+/// The pointers must hold the stated lengths.
+#[no_mangle]
+pub unsafe extern "C" fn gw_network(prm: *const f64, plen: usize, data: *const f64, dlen: usize) -> i32 {
+    let (a, d) = (slice(prm, plen), slice(data, dlen));
+    status((|| {
+        let bad = || Error::invalid("network: malformed graph");
+        if d.len() < 3 || a.is_empty() {
+            return Err(bad());
+        }
+        let (n, ne, nb) = (d[0] as usize, d[1] as usize, d[2] as usize);
+        if n > 1 << 26 || ne > 1 << 26 || nb > 1 << 24 || d.len() != 3 + 5 * ne + 2 * n + 2 * nb {
+            return Err(bad());
+        }
+        let col = |k: usize| &d[3 + k * ne..3 + (k + 1) * ne];
+        let ids = |v: &[f64]| -> gw_abi::Result<Vec<u32>> { v.iter().map(|&x| if x >= 0.0 && (x as usize) < n && x.fract() == 0.0 { Ok(x as u32) } else { Err(bad()) }).collect() };
+        let (from, to) = (ids(col(0))?, ids(col(1))?);
+        let xy = &d[3 + 5 * ne..3 + 5 * ne + 2 * n];
+        let bans = &d[3 + 5 * ne + 2 * n..];
+        let banned = bans.chunks(2).filter(|p| p[0] >= 0.0 && p[1] >= 0.0 && (p[0] as usize) < ne && (p[1] as usize) < ne).map(|p| (p[0] as u32, p[1] as u32)).collect();
+        let g = Graph { n, from: &from, to: &to, fwd: col(2), bwd: col(3), len: col(4), xy, banned };
+        let node = |x: f64| if x >= 0.0 && (x as usize) < n { Ok(x as usize) } else { Err(Error::invalid("network: no such node")) };
+        let mut j = Json::new();
+        j.obj();
+        match a[0] as i32 {
+            0 if a.len() == 3 => match g.route(node(a[1])?, node(a[2])?) {
+                Some(r) => {
+                    j.kv_num("cost", r.cost).key("edges").arr();
+                    r.edges.iter().for_each(|(e, _)| {
+                        j.int(i64::from(*e));
+                    });
+                    j.end_arr().key("forward").arr();
+                    r.edges.iter().for_each(|(_, f)| {
+                        j.int(i64::from(*f));
+                    });
+                    j.end_arr();
+                }
+                None => {
+                    j.key("cost").null();
+                }
+            },
+            1 if a.len() >= 3 => {
+                let src = a[2..].iter().map(|&x| node(x)).collect::<gw_abi::Result<Vec<_>>>()?;
+                let max = if a[1] > 0.0 { a[1] } else { f64::INFINITY };
+                let r = g.reach(&src, max);
+                for (k, v) in [("cost", &r.node), ("entry", &r.entry)] {
+                    j.key(k).arr();
+                    for &c in v.iter() {
+                        if c.is_finite() {
+                            j.num(c);
+                        } else {
+                            j.null();
+                        }
+                    }
+                    j.end_arr();
+                }
+            }
+            _ => return Err(Error::invalid("network: unknown operation")),
+        }
+        j.end_obj();
         set_out_json(j.finish());
         Ok(())
     })())
