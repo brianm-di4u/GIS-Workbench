@@ -158,10 +158,29 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
     return { same, next, tie, newer: known(), refused, listed, title: wf.current().steps[0].title };
   });
   expect(versions).toEqual({ same: 1, next: 2, tie: ['project v2'], newer: ['project v2 clash', 'library v3 clash'], refused: 'E_RECIPE_AMBIGUOUS', listed: ['project clash', 'library clash'], title: 'Vector layer' });
+  // Saving the project's copy now would replace the library's different one: it is saved as a new workflow.
+  const saved = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const id = app.workflows.current().id;
+    const newId = await app.workflows.saveToProject();
+    const lib = (await app.recipes.library()).find((r) => r.id === id);
+    return { kept: newId !== id, libraryKept: lib?.description };
+  });
+  expect(saved).toEqual({ kept: true, libraryKept: 'newer elsewhere' });
   // The Recipes dock labels both copies by where they come from.
   await frame.evaluate(() => window.gisworkbench.commands.run('rcp.open'));
   const labels = await frame.locator('[data-id="recipe:pick"] option').allTextContents();
   expect(labels.filter((x) => /\((project|library)\)$/.test(x))).toHaveLength(2);
+  // The Builder's Open lists the same copies as the dock: both, by source.
+  await frame.evaluate(() => window.gisworkbench.workflows.show());
+  await panel.getByRole('button', { name: 'Open…' }).click();
+  const openDlg = frame.locator('[data-id="dialog:wf-open"]');
+  await expect(openDlg).toBeVisible();
+  const opts = await openDlg.locator('option').allTextContents();
+  const clashName = await frame.evaluate(() => window.gisworkbench.recipes.known().find((r) => r.clash)?.name);
+  // (The copy just saved as a new workflow has the same name, under its own id.)
+  expect(opts).toEqual(expect.arrayContaining([`${clashName} (library)`, `${clashName} (project)`]));
+  await openDlg.getByRole('button', { name: 'Cancel' }).click();
 
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);

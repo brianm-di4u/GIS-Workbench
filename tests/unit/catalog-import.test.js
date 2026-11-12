@@ -80,6 +80,21 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building.
     expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['Building', ['lod']]]);
   });
+  it('reads a voidable property\'s type from its simpleContent, and binds code lists by targetCodeList', () => {
+    const voidable = (name, base) => `<element name="${name}" nillable="true"><complexType><simpleContent><extension base="${base}"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element>`;
+    const ref = (name, list) => `<element name="${name}" type="gml:ReferenceType" nillable="true">${list ? `<annotation><appinfo><targetCodeList>${list}</targetCodeList></appinfo></annotation>` : ''}</element>`;
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:bu="urn:bu" targetNamespace="urn:bu"><element name="Building" type="bu:BuildingType" substitutionGroup="gml:AbstractFeature"/><complexType name="BuildingType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="geometry" type="gml:SurfacePropertyType"/>${voidable('numberOfFloorsAboveGround', 'integer')}${voidable('heightValue', 'gml:LengthType')}${ref('currentUse', 'CurrentUseValue')}${ref('condition', 'ConditionOfConstructionValue')}${ref('parent')}</sequence></extension></complexContent></complexType></schema>`;
+    const uses = { id: 'CurrentUseValue', name: 'Current use', values: { residential: 'Residential' } };
+    const c = validateCatalog(fromInspire(xsd, [uses]));
+    expect(c.types[0].attributes).toEqual(['numberOfFloorsAboveGround', 'heightValue', 'currentUse', 'condition']);
+    expect(c.attributes.numberOfFloorsAboveGround.type).toBe('integer');
+    expect(c.attributes.heightValue.type).toBe('real');
+    // targetCodeList names the list, though the property is not named after it.
+    expect(c.attributes.currentUse).toMatchObject({ type: 'enum', domain: { residential: 'Residential' } });
+    // A list the import was not given keeps the property, as text that says which list it needs.
+    expect(c.attributes.condition).toMatchObject({ type: 'text' });
+    expect(c.attributes.condition.definition).toMatch(/ConditionOfConstructionValue/);
+  });
   it('keeps a concrete type that a differently named subtype substitutes for', () => {
     const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
     expect(fromInspire(one).types.map((t) => t.code)).toEqual(['Road', 'Motorway']);

@@ -11,7 +11,6 @@ import { modal, field } from '../shell/dialogs.js';
 import { pickFiles, saveBlob, textBlob } from '../storage/files.js';
 import { t, tr, msgOf, gwError } from '../i18n/index.js';
 import { validateRecipe, checkParam, fits, splitPort, FORMAT2 } from '../recipes/recipe.js';
-import { listLibrary } from '../recipes/library.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const s = (tag, attrs = {}, ...kids) => {
@@ -33,7 +32,7 @@ export function install(app) {
   const toast = (m, o) => app.toast(m, o);
 
   // ---- the workflow being edited: a plain gw-recipe/2 object ----
-  const ed = { wf: null, sel: null, view: 'graph', el: null, wiring: null };
+  const ed = { wf: null, base: null, sel: null, view: 'graph', el: null, wiring: null };
   const blank = () => ({ format: FORMAT2, id: `wf-${Date.now().toString(36)}`, name: t('New workflow'), description: '', version: 1, steps: [] });
   const stepById = (id) => ed.wf?.steps.find((x) => x.id === id) ?? null;
   const nextId = () => {
@@ -107,19 +106,31 @@ export function install(app) {
   const own = (r) => (R.builtin.some((b) => b.id === r.id) ? { ...r, id: `${r.id}-${Date.now().toString(36)}` } : r);
   async function saveToProject(wf = ed.wf) {
     const r = own(validateRecipe(wf, ops));
-    if (wf === ed.wf) ed.wf.id = r.id;
-    const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
+    let rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
+    // The project and the library are kept apart (the admin's option B): Save may replace a stored
+    // copy of this id only if it is the copy that was opened. A different one (a shared project's,
+    // or another project's in the library) stays, and this is saved as a new workflow.
+    const opened = wf === ed.wf ? ed.base : null;
+    const stored = [rec?.recipe, (await R.library().catch(() => [])).find((x) => x.id === r.id)].filter(Boolean);
+    if (stored.some((x) => body(x) !== opened)) {
+      r.id = `${r.id}-${Date.now().toString(36)}`;
+      r.version = 1;
+      rec = null;
+      toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
+    } else if (rec?.recipe) r.version = (rec.recipe.version ?? 1) + (body(rec.recipe) === body(r) ? 0 : 1);
     // The version counts this project's saves of it: the stored copy's, plus one if this differs.
-    const body = (x) => JSON.stringify({ ...toFile(x), version: 0 });
-    if (rec?.recipe) r.version = (rec.recipe.version ?? 1) + (body(rec.recipe) === body(r) ? 0 : 1);
-    if (wf === ed.wf) ed.wf.version = r.version;
+    if (wf === ed.wf) {
+      ed.wf.id = r.id;
+      ed.wf.version = r.version;
+      ed.base = body(r);
+    }
     S.transact(t('Save workflow'), (tx) => (rec ? tx.set(rec.id, 'recipe', toFile(r)) : tx.create('workflow', { recipe: toFile(r) })));
     if (!(await R.keep(toFile(r)))) toast(t('Saved in the project; this browser has no storage for your library.'), { kind: 'warn' });
     return r.id;
   }
-  const library = () => listLibrary();
   const toFile = (r) => JSON.parse(JSON.stringify({ ...r, format: FORMAT2 }));
-  const projectWorkflows = () => S.all('workflow').map((x) => x.recipe);
+  /** A workflow's content, its version aside: what tells two stored copies of one id apart. */
+  const body = (x) => JSON.stringify({ ...toFile(x), source: undefined, clash: undefined, version: 0 });
 
   /** Positions for steps a file gave none (a gw-recipe/1 chain, or a hand-written file): a column per depth of wiring. */
   function layout(steps) {
@@ -145,6 +156,8 @@ export function install(app) {
 
   function open(wf) {
     ed.wf = toFile(own(validateRecipe(wf, ops)));
+    // The copy opened: Save may replace it, and nothing else stored under its id.
+    ed.base = body(ed.wf);
     layout(ed.wf.steps);
     ed.sel = null;
     draw();
@@ -359,8 +372,9 @@ export function install(app) {
   runner.on('change', () => draw());
 
   async function openDialog() {
-    const lib = await library().catch(() => []);
-    const all = [...projectWorkflows().map((r) => ({ r, where: t('project') })), ...lib.filter((r) => !projectWorkflows().some((p) => p.id === r.id && (p.version ?? 1) === (r.version ?? 1))).map((r) => ({ r, where: t('library') })), ...R.builtin.map((r) => ({ r, where: t('built in') }))];
+    await R.library().catch(() => []);
+    const where = { builtin: t('built in'), project: t('project'), library: t('library') };
+    const all = R.known().map((r) => ({ r, where: where[r.source] }));
     const sel = h('select', { class: 'inp', 'aria-label': t('Workflow'), size: 8 }, ...all.map((x, i) => h('option', { value: String(i) }, `${tr(x.r.name)} (${x.where})`)));
     const file = h('button', { class: 'btn', type: 'button' }, t('From a file…'));
     let chosen = null;
@@ -407,5 +421,5 @@ export function install(app) {
     },
   });
 
-  Object.assign(app.workflows, { show, open, addStep, wire, unwire, give, removeStep, setParam, run, saveToProject, library, removeFromLibrary: (id) => R.forget(id), projectWorkflows, current: () => ed.wf, setView: (v) => ((ed.view = v), draw()) });
+  Object.assign(app.workflows, { show, open, addStep, wire, unwire, give, removeStep, setParam, run, saveToProject, removeFromLibrary: (id) => R.forget(id), current: () => ed.wf, setView: (v) => ((ed.view = v), draw()) });
 }

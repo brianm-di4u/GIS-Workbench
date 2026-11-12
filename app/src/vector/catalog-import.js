@@ -170,7 +170,8 @@ export function parseCodeList(xml) {
  * their complex type's sequence, after those of the types it extends (INSPIRE keeps the geometry
  * and the identifier in abstract base types). A property typed gml:ReferenceType takes the code list whose name,
  * without "Value", is the property's name (INSPIRE's own naming: surfaceComposition →
- * SurfaceCompositionValue), else it is text. Voidable and optional properties are not required.
+ * SurfaceCompositionValue), or the one its annotation names (targetCodeList); one that names a list
+ * not imported stays as text. Voidable and optional properties are not required.
  */
 export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const lists = new Map(codeLists.map((c) => [c.id.replace(/Value$/, '').toLowerCase(), c]));
@@ -245,15 +246,22 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
       const pname = p.attrs?.name;
       if (!pname) continue;
-      const ptype = String(p.attrs?.type ?? '');
+      // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
+      // with a nilReason attribute), not in @type.
+      const ptype = String(p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? find(p, 'restriction')?.attrs?.base ?? '');
       const t = attrType(ptype);
       if (t.startsWith('geometry:')) {
         if (t.length > 9) geometry.add(t.slice(9));
         continue;
       }
-      const list = /ReferenceType$/.test(ptype) ? lists.get(pname.toLowerCase()) : null;
-      if (/ReferenceType$/.test(ptype) && !list) continue; // a link to another feature or an unknown list
-      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : { label: pname, type: t };
+      // A reference to a code list names it in its annotation (targetCodeList), else by the property's name;
+      // a reference with neither is a link to another feature.
+      const ref = /ReferenceType$/.test(ptype);
+      const target = ref ? deepText(find(p, 'targetCodeList')).replace(/^.*[:/#]/, '') : '';
+      const list = ref ? lists.get((target || pname).replace(/Value$/, '').toLowerCase()) : null;
+      if (ref && !list && !target) continue;
+      // A code list the import was not given keeps the property, as text, and says which list it needs.
+      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
       if (Number(p.attrs?.minOccurs ?? 1) >= 1 && p.attrs?.nillable !== 'true') a.required = true;
       const key = add(pname, a, code);
       if (key && !names.includes(key)) names.push(key);
