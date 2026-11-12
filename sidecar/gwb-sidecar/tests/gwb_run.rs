@@ -24,8 +24,14 @@ window.gisworkbench = {
   _ready: true,
   layers: new Map(),
   opened: [],
+  importLog: [],
   prefs: { get: () => [] },
-  openFiles: async (fs) => { window.gisworkbench.opened.push(...fs.map((f) => f.name)); },
+  openFiles: async (fs) => {
+    for (const f of fs) {
+      if (f.name.endsWith('.bad')) window.gisworkbench.importLog.push({ file: f.name, errors: [`${f.name}: not a format the app reads`], warnings: [] });
+      else window.gisworkbench.opened.push(f.name);
+    }
+  },
   openPackFiles: async () => {},
   recipes: {
     builtin: [ECHO, { ...ECHO, id: 'folder-to-cog', steps: [ECHO.steps[0]] }],
@@ -228,6 +234,27 @@ fn refusals_and_a_tampered_app_have_their_own_exit_codes() {
         "no-such-file.tif",
     ]);
     assert_eq!(code, 2, "{text}");
+    // A file the app can't open stops the run, named, instead of the recipe running without it.
+    let bad = d.join("broken.bad");
+    std::fs::write(&bad, "?").unwrap();
+    let (code, text) = run(&[
+        "echo",
+        "--app-dir",
+        a.to_str().unwrap(),
+        "--out",
+        o,
+        "--in",
+        bad.to_str().unwrap(),
+    ]);
+    assert_eq!(code, 1, "{text}");
+    assert!(
+        text.contains("an input did not open: broken.bad: not a format the app reads"),
+        "{text}"
+    );
+    assert!(
+        !out.join("big.bin").exists(),
+        "the recipe ran without its input"
+    );
     // The page is not the one SHA256SUMS lists: no browser opens it.
     std::fs::write(
         a.join("gis-workbench.html"),

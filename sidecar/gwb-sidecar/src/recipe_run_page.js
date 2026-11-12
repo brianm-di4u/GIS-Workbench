@@ -35,16 +35,22 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const why = R.unattended(checked, { gates, params: run });
   if (why) return { refused: `step "${why.title}" (${why.step}) ${why.reason}` };
   if (open.length) {
+    // A file that fails to open, or whose statistics fail, says so in the import log, not by
+    // throwing: the run stops there and names it, instead of running without it.
+    const log0 = app.importLog.length;
+    const failed = () =>
+      app.importLog.slice(log0).flatMap((e) => (e.errors ?? []).map((m) => (m.startsWith(e.file) ? m : `${e.file}: ${m}`)));
     const packs = open.filter((f) => /\.gwpack$/i.test(f.name));
     if (packs.length) await app.openPackFiles(packs);
     const rest = open.filter((f) => !/\.gwpack$/i.test(f.name));
     if (rest.length) await app.openFiles(rest);
     // Rasters read their statistics after they open; the first step may need them.
     const t0 = Date.now();
-    while (![...app.layers.values()].every((l) => l.stats)) {
+    while (!failed().length && ![...app.layers.values()].every((l) => l.stats || l.error || !l.chain)) {
       if (Date.now() - t0 > timeoutMs) throw new Error('the inputs did not finish opening');
       await new Promise((r) => setTimeout(r, 100));
     }
+    if (failed().length) throw new Error(`an input did not open: ${failed().join('; ')}`);
   }
   const status = await app.api.v2.recipes.run({ ...(recipe ? { recipe } : { id }), gates, params: run });
   const blobs = status.files.map((f) => f.blob ?? new Blob([f.text], { type: f.type }));
