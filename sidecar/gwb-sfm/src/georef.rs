@@ -41,6 +41,9 @@ fn is_colmap_guess(focal: f64, width: u64, height: u64) -> bool {
 /// both excellent. On the synthetic block it went 55 % long from a prior 4 % off, and every height
 /// was 56 m wrong (docs/validation/2.6/sfm.md). Held, the height error is the prior's error.
 pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path, json_path: &Path, refine: bool, control_path: Option<&Path>) -> Res<Value> {
+    let gps: Value = serde_json::from_slice(&fs::read(gps_path).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
+    // In the second stage of a controlled run the model and its focal setting come from the first.
+    let refine = refine || gps["stage_one"]["focal_refined"].as_bool().unwrap_or(false);
     let (best, registered, models) = largest_model(sparse)?;
     let model = read_model(&best)?;
     let camera = model.cameras.values().next().ok_or("the model has no camera")?;
@@ -52,7 +55,6 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
         Some(p) => Some(crate::gcp::parse(&fs::read_to_string(p).map_err(|e| format!("could not read the control file: {e}"))?)?),
         None => None,
     };
-    let gps: Value = serde_json::from_slice(&fs::read(gps_path).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
     let total = gps["images"].as_u64().unwrap_or(0) as usize;
     // With ground control, the GPS fit is only reported: the block is placed by the control points,
     // and a block with no GPS at all can be placed by them alone.
@@ -146,6 +148,9 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
         "median_tilt_deg": tilts.get(tilts.len() / 2).copied().unwrap_or(0.0),
         "focal": { "px": focal, "refined": refine, "width": camera.width, "height": camera.height },
     });
+    if gps["stage_one"].is_object() {
+        out["stage_one"] = gps["stage_one"].clone();
+    }
     if let Some(c) = control_json {
         out["control"] = c;
     }

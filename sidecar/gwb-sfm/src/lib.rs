@@ -13,6 +13,7 @@ pub mod gcp;
 pub mod geo;
 pub mod georef;
 pub mod las;
+pub mod model;
 pub mod mvs;
 pub mod products;
 pub mod tiff;

@@ -1,0 +1,112 @@
+# The second stage of a UAV block placed by ground control (REG-075, decision 0018): the first
+# stage's model file and a ground control file with the points marked in the photographs. gwb-sfm
+# places the block on the control points and adjusts it with them, weighted by each point's sigma,
+# then the dense cloud, DSM and orthomosaic are made as in sfm-block. The inputs are, in order: the
+# folder of photographs the first stage ran on, then the model file and the control file in either
+# order; gwb-sfm import tells them apart and refuses anything else.
+id = "sfm-control"
+title = "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)"
+module = "sfm"
+requires = ["core-gdal", "points"]
+input = "any"
+min_inputs = 3
+max_inputs = 3
+allow_dir_inputs = true
+output_ext = "ortho.tif"
+memory_mb = 32768
+time_limit_s = 172800
+cpu_limit_s = 4000000
+
+[[options]]
+name = "image_size"
+title = "Longest side of the undistorted photographs, pixels (sets the orthomosaic detail)"
+type = "int"
+min = 640
+max = 16384
+default = 3000
+
+[[options]]
+name = "depth_size"
+title = "Longest side of the depth maps, pixels (sets the DSM detail and the run time)"
+type = "int"
+min = 320
+max = 8192
+default = 1600
+
+[[options]]
+name = "views"
+title = "Source photographs for each depth map"
+type = "int"
+min = 2
+max = 12
+default = 6
+
+[[options]]
+name = "dsm_resolution"
+title = "DSM cell, metres (0: from the photographs)"
+type = "float"
+min = 0.0
+max = 100.0
+default = 0.0
+
+[[options]]
+name = "ortho_resolution"
+title = "Orthomosaic pixel, metres (0: from the photographs)"
+type = "float"
+min = 0.0
+max = 100.0
+default = 0.0
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 0.5
+args = ["import", "--images", "{input}", "--sparse", "{tmp:sparse}", "--gps", "{tmp:gps.json}", "--control", "{tmp:control.txt}", { each_input = 1, args = ["--in", "{item}"] }]
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 1.0
+args = ["georef", "--sparse", "{tmp:sparse}", "--gps", "{tmp:gps.json}", "--model", "{tmp:model}", "--sim3", "{tmp:sim3.txt}", "--json", "{tmp:georef.json}", "--gcp", "{tmp:control.txt}"]
+
+[[steps]]
+tool = "colmap"
+weight = 0.5
+args = ["model_transformer", "--input_path", "{tmp:model}", "--output_path", "{tmp:geo}", "--transform_path", "{tmp:sim3.txt}"]
+
+[[steps]]
+tool = "colmap"
+weight = 3.0
+args = ["image_undistorter", "--image_path", "{input}", "--input_path", "{tmp:geo}", "--output_path", "{tmp:dense}", "--max_image_size", "{image_size}"]
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 45.0
+progress = "lines"
+args = ["dense", "--workspace", "{tmp:dense}", "--max-size", "{depth_size}", "--views", "{views}"]
+
+[[steps]]
+tool = "colmap"
+weight = 5.0
+args = ["stereo_fusion", "--workspace_path", "{tmp:dense}", "--input_type", "geometric", "--output_path", "{tmp:fused.ply}", "--StereoFusion.min_num_pixels", "3"]
+
+[[steps]]
+tool = "gwb-sfm"
+weight = 6.0
+progress = "lines"
+args = ["products", "--workspace", "{tmp:dense}", "--georef", "{tmp:georef.json}", "--ply", "{tmp:fused.ply}", "--dsm", "{tmp:dsm.tif}", "--ortho", "{tmp:ortho.tif}", "--frames", "{outdir}/{stem}.frames.geojson", "--las", "{tmp:cloud.las}", "--report", "{outdir}/{stem}.sfm-report.json", "--dsm-res", "{dsm_resolution}", "--ortho-res", "{ortho_resolution}"]
+
+[[steps]]
+tool = "gdal_translate"
+weight = 1.0
+progress = "gdal"
+args = ["-of", "COG", "-co", "COMPRESS=DEFLATE", "-co", "PREDICTOR=YES", "-co", "BIGTIFF=IF_SAFER", "{tmp:ortho.tif}", "{output}"]
+
+[[steps]]
+tool = "gdal_translate"
+weight = 1.0
+progress = "gdal"
+args = ["-of", "COG", "-co", "COMPRESS=DEFLATE", "-co", "PREDICTOR=YES", "-co", "BIGTIFF=IF_SAFER", "{tmp:dsm.tif}", "{outdir}/{stem}.dsm.tif"]
+
+[[steps]]
+tool = "pdal"
+weight = 2.0
+args = ["translate", "{tmp:cloud.las}", "{outdir}/{stem}.copc.laz", "--writer", "writers.copc"]
