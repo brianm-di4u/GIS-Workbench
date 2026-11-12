@@ -110,9 +110,10 @@ export function install(app) {
     // The project and the library are kept apart (the admin's option B): Save may replace a stored
     // copy of this id only if it is the copy that was opened. A different one (a shared project's,
     // or another project's in the library) stays, and this is saved as a new workflow.
-    const opened = wf === ed.wf ? ed.base : null;
-    const stored = [rec?.recipe, (await R.library().catch(() => [])).find((x) => x.id === r.id)].filter(Boolean);
-    if (stored.some((x) => body(x) !== opened)) {
+    // (A workflow passed in, not the one open here, may replace only a stored copy identical to it.)
+    const opened = wf === ed.wf ? ed.base : body(r);
+    const stored = [rec?.recipe, (await R.library(true).catch(() => [])).find((x) => x.id === r.id)].filter(Boolean);
+    if (stored.some((x) => same(x) !== opened)) {
       r.id = `${r.id}-${Date.now().toString(36)}`;
       r.version = 1;
       rec = null;
@@ -131,6 +132,14 @@ export function install(app) {
   const toFile = (r) => JSON.parse(JSON.stringify({ ...r, format: FORMAT2 }));
   /** A workflow's content, its version aside: what tells two stored copies of one id apart. */
   const body = (x) => JSON.stringify({ ...toFile(x), source: undefined, clash: undefined, version: 0 });
+  /** A stored copy's content in the form open() gives it (an old gw-recipe/1 row is normalised the same way). */
+  const same = (x) => {
+    try {
+      return body(validateRecipe(x, ops));
+    } catch {
+      return null;
+    }
+  };
 
   /** Positions for steps a file gave none (a gw-recipe/1 chain, or a hand-written file): a column per depth of wiring. */
   function layout(steps) {
@@ -372,7 +381,7 @@ export function install(app) {
   runner.on('change', () => draw());
 
   async function openDialog() {
-    await R.library().catch(() => []);
+    await R.library(true).catch(() => []);
     const where = { builtin: t('built in'), project: t('project'), library: t('library') };
     const all = R.known().map((r) => ({ r, where: where[r.source] }));
     const sel = h('select', { class: 'inp', 'aria-label': t('Workflow'), size: 8 }, ...all.map((x, i) => h('option', { value: String(i) }, `${tr(x.r.name)} (${x.where})`)));

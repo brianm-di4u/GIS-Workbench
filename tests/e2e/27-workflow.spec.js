@@ -355,6 +355,34 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
   expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   expect(out.listed).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   expect(out.left).toEqual([]);
+  // Opening a library copy and saving it replaces it in place: unchanged keeps its version, a change takes the next.
+  const saves = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const old = (await app.recipes.library()).find((r) => r.id === 'old-1');
+    app.workflows.open(old);
+    const a = await app.workflows.saveToProject();
+    const v1 = app.workflows.current().version;
+    app.workflows.current().description = 'edited here';
+    const b = await app.workflows.saveToProject();
+    const lib = (await app.recipes.library()).filter((r) => r.id.startsWith('old-1'));
+    const proj = app.store.all('workflow').map((w) => `${w.recipe.id} v${w.recipe.version}`);
+    // Another tab saves a different copy of old-1 to the library; this tab has not read it.
+    await new Promise((res, rej) => {
+      const q = indexedDB.open('gw-workflows', 1);
+      q.onsuccess = () => {
+        const tx = q.result.transaction('workflows', 'readwrite');
+        tx.objectStore('workflows').put({ id: 'old-1', recipe: { ...JSON.parse(JSON.stringify(app.workflows.current())), description: 'other tab' }, saved: new Date().toISOString() });
+        tx.oncomplete = () => (q.result.close(), res());
+        tx.onerror = () => rej(tx.error);
+      };
+      q.onerror = () => rej(q.error);
+    });
+    app.workflows.current().description = 'edited again here';
+    const c = await app.workflows.saveToProject();
+    const other = (await app.recipes.library(true)).find((r) => r.id === 'old-1')?.description;
+    return { a, b, v1, v2: lib.find((r) => r.id === 'old-1')?.version, rows: lib.length, desc: lib[0]?.description, proj, forked: c !== 'old-1', other };
+  });
+  expect(saves).toEqual({ a: 'old-1', b: 'old-1', v1: 1, v2: 2, rows: 1, desc: 'edited here', proj: ['old-1 v2'], forked: true, other: 'other tab' });
 });
 test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
   await page.addInitScript(() => {

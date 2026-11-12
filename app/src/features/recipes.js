@@ -305,7 +305,8 @@ export function install(app) {
         library = rs;
         render();
       })
-      .catch(() => {});
+      .catch(() => {})
+      .then(() => library);
   const ready = migrateFromPrefs(app.prefs)
     .catch((e) => app.log('warn', `recipes: the settings' recipes stay there (${e.message})`))
     .then(refreshLibrary);
@@ -587,5 +588,5 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, forget, known, library: () => ready.then(() => library), refreshLibrary };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }
