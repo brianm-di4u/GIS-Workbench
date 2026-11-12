@@ -226,7 +226,7 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   const clicked = await viaClicks;
   expect(Math.abs(clicked.cost - REF.routes[0].seconds) / REF.routes[0].seconds).toBeLessThan(5e-5);
   // Find Address as you type: the matches are listed, and picking one adds its point.
-  void frame.evaluate(() => window.gisworkbench.commands.run('addr.find'));
+  const viaFind = frame.evaluate(() => window.gisworkbench.commands.run('addr.find'));
   const fd = frame.locator('[data-id="dialog:net-find"]');
   await expect(fd).toBeVisible();
   await fd.getByLabel('Address').fill('101 1st Street');
@@ -237,6 +237,7 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     .poll(() => frame.evaluate(() => window.gisworkbench.store.all('feature').filter((f) => window.gisworkbench.store.get(f.vlayer)?.name === 'Found: 101 1st Street').map((f) => [f.geom.xyz[0], f.geom.xyz[1]])))
     .toEqual([REF.queries[0].at]);
   await fd.getByRole('button', { name: 'Close' }).last().click();
+  await viaFind;
   // Reverse Geocode by a click beside 101 1st St.
   const viaReverse = frame.evaluate(() => window.gisworkbench.commands.run('addr.reverse'));
   await frame.waitForTimeout(200);
@@ -259,7 +260,7 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   });
   expect(listed).toEqual([REF.queries[0].at, REF.queries[2].at]);
   // Road Network with turn bans from a file, through its button.
-  void frame.evaluate(() => window.gisworkbench.commands.run('route.roads'));
+  const viaRoads = frame.evaluate(() => window.gisworkbench.commands.run('route.roads'));
   const rd2 = frame.locator('[data-id="dialog:net-roads"]');
   await expect(rd2).toBeVisible();
   await rd2.getByLabel('Road layer').selectOption({ label: 'city-roads' });
@@ -268,6 +269,8 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   await tfc.setFiles({ name: 'bans.csv', mimeType: 'text/csv', buffer: Buffer.from(['from,to', 'xw,st0', ''].join('\n')) });
   await expect(rd2.getByText('1 ban from bans.csv')).toBeVisible();
   await rd2.getByRole('button', { name: 'Build' }).click();
+  // The dialog's command settles before the test ends (a pending evaluate fails it).
+  expect((await viaRoads).banned).toBe(1);
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.routing.graph?.g.banned.length ?? 0)).toBe(1);
   expect(out.service.pieces).toBeGreaterThan(0);
   // Two clicks at one junction make no route, and no empty layer.
