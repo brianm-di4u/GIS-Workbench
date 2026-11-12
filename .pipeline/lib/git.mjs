@@ -5,7 +5,7 @@
 // file. Keep `patchLines` and `splitPatch` when merging by hand. See docs/RUNBOOK.md.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { matchesAny } from './paths.mjs';
+import { matchesAny, normalizePath } from './paths.mjs';
 
 export function git(args, cwd = process.cwd()) {
   return execFileSync('git', args, {
@@ -162,7 +162,9 @@ export function changeSet(baseRef, headRef, cwd) {
   const base = mergeBase(baseRef, headRef, cwd);
   const changes = rawChanges(base, headRef, cwd);
   const globs = generatedGlobs(base, cwd);
-  const generated = changes.filter((c) => matchesAny(c.path, globs)).map((c) => c.path);
+  // Matching folds case and NTFS dots and spaces, which is right for a floor and wrong for an exemption,
+  // so only a path already in its folded form (as the git pathspec above reads it) can be exempt.
+  const generated = changes.filter((c) => matchesAny(c.path, globs) && normalizePath(c.path) === c.path).map((c) => c.path);
   const hashed = changes.filter((c) => !generated.includes(c.path));
   return { mergeBase: base, changes, generated, generatedGlobs: globs, hash: hashChanges(hashed, patchLines(base, headRef, changes, cwd)) };
 }

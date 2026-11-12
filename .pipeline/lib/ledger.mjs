@@ -141,7 +141,7 @@ export const mechanicalLinks = (ledger) => Object.fromEntries((ledger.mechanical
 // A blocker never gets this, and neither does a should the author fixed, because the fix changes the content.
 const isAnswered = (round, findings) => {
   if (!round.complete || round.raised == null || round.raised.blocker > 0 || round.raised.should === 0 || (round.partial ?? []).length > 0) return false;
-  const own = findings.filter((f) => f.round === round.number && (f.severity === 'should' || f.severity === 'blocker'));
+  const own = findings.filter((f) => f.round === round.number && f.status !== 'pre-existing' && (f.severity === 'should' || f.severity === 'blocker'));
   return own.length > 0 && own.every((f) => f.severity === 'should' && f.status === 'declined');
 };
 

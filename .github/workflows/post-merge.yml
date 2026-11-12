@@ -75,11 +75,12 @@ jobs:
           node-version-file: .node-version
       # post-merge-retry.yml re-runs a first attempt that failed only because GitHub did (decision
       # 0011), and the re-run reports again. So that attempt doesn't open a main-red issue. The
-      # classifier answers `real` on any doubt or error, so only a clear infra failure skips it. If
+      # classifier answers `real` on any doubt or error, so only a clear infra failure skips it. Only a
+      # `failure` is classified, as post-merge-retry.yml acts on nothing else: a cancelled run reports. If
       # the re-run then doesn't happen, post-merge-retry.yml's `report` job opens the issue instead.
       - name: Will this failure be retried?
         id: retry
-        if: ${{ needs.verify.result != 'success' && needs.verify.result != 'skipped' && github.run_attempt == 1 && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        if: ${{ needs.verify.result == 'failure' && github.run_attempt == 1 && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.run_id }}

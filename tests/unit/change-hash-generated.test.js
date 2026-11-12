@@ -77,6 +77,17 @@ describe('generated files', () => {
     expect(hash()).not.toBe(before);
   });
 
+  it('exempt only a path as the glob names it, not a differently cased twin that a floor would fold', () => {
+    start();
+    write('f.txt', BASE.replace('two', 'TWO'));
+    commit('pr');
+    write('gen/EN.json', '{"a":1}\n');
+    commit('twin');
+    const set = changeSet('main', 'pr', dir);
+    expect(set.generated).toEqual([]);
+    expect(set.hash).not.toBe(changeSet('main', 'pr~1', dir).hash);
+  });
+
   it('exempt nothing when the list is malformed', () => {
     start('{ not json');
     write('gen/en.json', '{"a":1}\n');

@@ -4,7 +4,8 @@
 - **Class:** design
 - **Issue:** [#174](https://github.com/brianm-di4u/GIS-Workbench/issues/174), [#184](https://github.com/brianm-di4u/GIS-Workbench/issues/184), and [#169](https://github.com/brianm-di4u/GIS-Workbench/issues/169) for `verify`
 - **Status:** accepted on the admin's approval of the PR that carries it
-- **Builds on:** [0014](0014-no-delegate-approver.md), [0008](0008-change-hash-binds-to-the-diff.md)
+- **Builds on:** [0014](0014-no-delegate-approver.md)
+- **Narrows:** [0008](0008-change-hash-binds-to-the-diff.md), for generated files only
 
 ## Context
 
@@ -13,7 +14,7 @@ Decision 0014 asked for bigger PRs and a two-phase council. Two things went wron
 ## Decision
 
 - **Seat turns scale with the diff.** Each seat's brief gives it a budget of `16 + diff lines / 50` tool calls, at least 24 and at most 75, and tells it to stop exploring about five calls before the end and answer. The agent files' `maxTurns` is now a high ceiling (80, and 40 for the verifier), not the working limit. A seat that couldn't cover the change returns `finished: false` with the findings it has. Those findings are kept, and the round is recorded with that seat as `partial` and is never clean, since silence from a seat that didn't finish proves nothing.
-- **Generated files are out of the reviewed diff, the diff size and the change hash.** `pipeline.config.json` lists them as `generatedPaths` (now `app/src/i18n/catalog/en.json`, which `verify` checks with `i18n.mjs extract --check`). The list is read from the merge base, so a change can't exempt its own files, and a missing or malformed list exempts nothing. The tier floors still see the paths. This narrows 0008 for those files only: an edit to one doesn't void a verdict or an approval, and `verify` on the merged result, not the hash, is what holds it to its source.
+- **Generated files are out of the reviewed diff, the diff size and the change hash.** `pipeline.config.json` lists them as `generatedPaths` (now `app/src/i18n/catalog/en.json`, which `verify` checks with `i18n.mjs extract --check`). The list is read from the merge base, so a change can't exempt its own files, and a missing or malformed list exempts nothing, and so does a path that only matches after case or trailing-dot folding. The tier floors still see the paths. This narrows 0008 for those files only: an edit to one doesn't void a verdict or an approval, and `verify` on the merged result, not the hash, is what holds it to its source.
 - **Renames are reviewed as renames.** The seats' diff and the size count use `-M`. The change hash still reads a move as a delete plus an add (0008).
 - **A should answered without a change doesn't reset the streak.** A round that raised only shoulds, all since declined with a written reason and none fixed, neither counts as a clean round nor ends a run of them, provided a clean round comes after it. A blocker never gets this, and a should that was fixed still ends the run, because the fix changes the content.
 - **A mechanical change gets a diff-only confirmation.** `council.mjs mechanical "reason"` links the last reviewed content to the current one when no more than `council.maxMechanicalLines` (40) lines changed since the reviewed commit, which has to be on the branch. So it covers a small commit stacked on the reviewed one, not a rebase that resolved a conflict, which rewrites that commit and gets a normal round. A clean rebase keeps the change hash and needs nothing. The clean rounds so far carry over, and one clean round that reads only that diff is enough. A round that finds anything makes it a normal change again.

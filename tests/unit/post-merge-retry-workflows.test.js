@@ -29,8 +29,7 @@ describe('post-merge-retry.yml', () => {
     for (const guard of ["conclusion == 'failure'", "event == 'push'", "head_branch == 'main'", 'run_attempt == 1']) {
       expect(count(retry, guard), guard).toBe(3); // classify, retry and report
     }
-    expect(record).toContain("needs.verify.result != 'success' && needs.verify.result != 'skipped'");
-    expect(record).toContain("github.run_attempt == 1 && github.event_name == 'push' && github.ref == 'refs/heads/main'");
+    expect(record).toContain("needs.verify.result == 'failure' && github.run_attempt == 1 && github.event_name == 'push' && github.ref == 'refs/heads/main'");
     expect(jobBlock(retry, 'retry')).toContain("needs.classify.outputs.result == 'infra'");
     expect(jobBlock(retry, 'report')).toContain("needs.retry.outputs.retried != 'true'");
   });

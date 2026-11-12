@@ -57,6 +57,15 @@ describe('a should answered without a change', () => {
     expect(tail(ledger)).toBe(1);
   });
 
+  it('is not undone by a pre-existing finding raised in the same round, which never blocks', () => {
+    const ledger = emptyLedger();
+    run(ledger);
+    run(ledger, [finding('should'), { ...finding('blocker'), preExisting: true }]);
+    declineAll(ledger);
+    run(ledger);
+    expect(tail(ledger)).toBe(2);
+  });
+
   it('is applied in close-out, where PR 178 needed it', () => {
     const ledger = emptyLedger();
     run(ledger);
