@@ -62,10 +62,9 @@ export function attrType(t) {
   const s = String(t ?? '')
     .replace(/^.*:/, '')
     .toLowerCase();
-  if (/^gm_point|^point(property)?type$|^multipoint/.test(s)) return 'geometry:Point';
-  if (/^gm_(curve|linestring)|^(curve|linestring|multicurve)(property)?type$/.test(s)) return 'geometry:LineString';
-  if (/^gm_(surface|polygon)|^(surface|polygon|multisurface)(property)?type$/.test(s)) return 'geometry:Polygon';
-  if (/^gm_|^geometry(property)?type$/.test(s)) return 'geometry:';
+  const g = s.match(/^gm_(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)$/) ?? s.match(/^(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)(?:property)?type$/);
+  if (g) return { point: 'geometry:Point', curve: 'geometry:LineString', linestring: 'geometry:LineString', surface: 'geometry:Polygon', polygon: 'geometry:Polygon' }[g[1]];
+  if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$/.test(s)) return 'geometry:';
   if (/^(boolean)$/.test(s)) return 'boolean';
   if (/^(integer|int|long|short|byte|nonnegativeinteger|positiveinteger|unsignedint)$/.test(s)) return 'integer';
   if (/^(real|double|float|decimal|number|measure(type)?|length(type)?|area(type)?|angle(type)?|distance|velocity)$/.test(s)) return 'real';

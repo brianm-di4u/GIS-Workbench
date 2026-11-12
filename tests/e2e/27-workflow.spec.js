@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
-import { openApp, openFiles } from './helpers.js';
+import { openApp, openFiles, LEGACY_PREFS } from './helpers.js';
 
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -310,4 +310,34 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   expect(own.id).not.toBe(own.builtin);
   expect(own).toMatchObject({ unique: true, listed: true, inLib: true, after: false });
   expect(logs).toEqual([]);
+});
+
+// The recipes the settings kept (before the library) move into the library on the first start, and
+// the settings list is emptied only once they are there. Without IndexedDB they stay, and are listed.
+const OLD = [1, 2].map((n) => ({ format: 'gw-recipe/1', id: `old-${n}`, name: `Old recipe ${n}`, steps: [{ op: 'gate', title: 'Look', params: { message: 'Look' } }] }));
+test('REQ-GAP-84 recipes kept in the settings move into the library on the first start', async ({ page }) => {
+  const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD } });
+  const out = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = (await app.recipes.library()).map((r) => r.id);
+    const listed = (await app.api.v2.recipes.list()).map((r) => r.id);
+    return { lib, known: app.recipes.known().map((r) => r.id), listed, left: app.prefs.get('recipes') };
+  });
+  expect(out.lib).toEqual(expect.arrayContaining(['old-1', 'old-2']));
+  expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
+  expect(out.listed).toEqual(expect.arrayContaining(['old-1', 'old-2']));
+  expect(out.left).toEqual([]);
+});
+test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
+  await page.addInitScript(() => {
+    delete window.indexedDB;
+  });
+  const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD } });
+  const out = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    await app.recipes.library();
+    return { known: app.recipes.known().map((r) => r.id), left: app.prefs.get('recipes').map((r) => r.id) };
+  });
+  expect(out.left).toEqual(['old-1', 'old-2']);
+  expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
 });

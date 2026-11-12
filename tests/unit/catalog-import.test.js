@@ -149,6 +149,12 @@ describe('REQ-GAP-87 which converter a file needs', () => {
   it('types ISO and XSD values', () => {
     expect(['gco:Integer', 'xs:double', 'Boolean', 'gml:LengthType', 'CharacterString'].map(attrType)).toEqual(['integer', 'real', 'boolean', 'real', 'text']);
     expect(['GM_Curve', 'gml:PointPropertyType', 'gml:MultiSurfacePropertyType'].map(attrType)).toEqual(['geometry:LineString', 'geometry:Point', 'geometry:Polygon']);
+    // ISO 19107 multi, composite and orientable types, and their GML property types, keep their kind.
+    expect(['GM_MultiSurface', 'GM_MultiCurve', 'GM_MultiPoint', 'GM_CompositeCurve', 'GM_OrientableSurface'].map(attrType)).toEqual(['geometry:Polygon', 'geometry:LineString', 'geometry:Point', 'geometry:LineString', 'geometry:Polygon']);
+    expect(['gml:MultiPointPropertyType', 'gml:CompositeCurvePropertyType', 'gml:CompositeSurfacePropertyType'].map(attrType)).toEqual(['geometry:Point', 'geometry:LineString', 'geometry:Polygon']);
+    // A geometry of no single kind is still a geometry, never a text attribute.
+    expect(['GM_Solid', 'gml:MultiGeometryPropertyType', 'gml:SolidPropertyType', 'gml:GeometryPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:', 'geometry:', 'geometry:']);
+    expect(['Point', 'Surface'].map(attrType)).toEqual(['text', 'text']);
   });
 });
 
