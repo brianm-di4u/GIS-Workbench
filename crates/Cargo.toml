@@ -22,6 +22,7 @@ members = [
   "gw-aviation",
   "gw-hydro",
   "gw-geoproc",
+  "gw-sargeo",
   "bundles/core",
   "bundles/parse",
   "bundles/j2k",
@@ -42,6 +43,7 @@ members = [
   "bundles/aviation",
   "bundles/hydro",
   "bundles/geoproc",
+  "bundles/sargeo",
 ]
 # Vendored third-party crates (path dependencies, not members).
 exclude = ["vendor"]
@@ -73,6 +75,7 @@ gw-tin = { path = "gw-tin" }
 gw-aviation = { path = "gw-aviation" }
 gw-hydro = { path = "gw-hydro" }
 gw-geoproc = { path = "gw-geoproc" }
+gw-sargeo = { path = "gw-sargeo" }
 geographiclib-rs = { version = "0.2.7", default-features = false }
 # Inflate only (PDF object/content streams, TE-001). MIT OR Zlib OR Apache-2.0, pure Rust.
 # Boolean operations, offsets and strokes for vector geoprocessing (REQ-GAP-79). MIT OR Apache-2.0,

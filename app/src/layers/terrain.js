@@ -91,6 +91,42 @@ export class Terrain {
     return pts.map(([lon, lat], k) => (Number.isFinite(s?.[k]) ? s[k] : this.app.core.undulation(lat, lon)));
   }
 
+  /**
+   * A terrain entry's heights on the ellipsoid (h = H + N) as a new Float32Array, N from a coarse
+   * lattice of separations (the geoid is smooth), converted as the terrain itself converts them.
+   */
+  haeHeights(d) {
+    const g = d.grid;
+    const H = d.current ?? g.heights;
+    if (d.vertical === 'hae') return Float32Array.from(H);
+    const step = Math.max(1, Math.ceil(Math.max(g.width, g.height) / 64));
+    const nx = Math.ceil((g.width - 1) / step) + 1;
+    const ny = Math.ceil((g.height - 1) / step) + 1;
+    const pts = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) pts.push([g.lon0 + Math.min(i * step, g.width - 1) * g.dlon, g.lat0 - Math.min(j * step, g.height - 1) * g.dlat]);
+    const N = this.separations(d.vertical, pts, !!d.gridV);
+    const out = new Float32Array(g.width * g.height);
+    const n = (a, b) => N[Math.min(b, ny - 1) * nx + Math.min(a, nx - 1)];
+    // The lattice node before post p and the weight of the one after, by the nodes' own posts: the
+    // last node sits on the last post, which can be nearer than a step to the one before it.
+    const at = (p, m, len) => {
+      if (m < 2) return [0, 0];
+      const k = Math.min(Math.floor(p / step), m - 2);
+      const a = k * step;
+      const b = Math.min((k + 1) * step, len - 1);
+      return [k, b > a ? Math.min(1, (p - a) / (b - a)) : 0];
+    };
+    for (let j = 0; j < g.height; j++) {
+      const [j0, wy] = at(j, ny, g.height);
+      for (let i = 0; i < g.width; i++) {
+        const [i0, wx] = at(i, nx, g.width);
+        const sep = (n(i0, j0) * (1 - wx) + n(i0 + 1, j0) * wx) * (1 - wy) + (n(i0, j0 + 1) * (1 - wx) + n(i0 + 1, j0 + 1) * wx) * wy;
+        out[j * g.width + i] = H[j * g.width + i] + sep;
+      }
+    }
+    return out;
+  }
+
   verticalName(vertical, gridV = null) {
     if (gridV) return gridV.label;
     const g = this.app.core.demGeoid ?? 'EGM96';

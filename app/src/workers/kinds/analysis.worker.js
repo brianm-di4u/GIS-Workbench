@@ -13,6 +13,7 @@ import { TinBundle } from '../../wasm/tin.js';
 import { AviationBundle } from '../../wasm/aviation.js';
 import { HydroBundle, HYDRO_MAX_POSTS } from '../../wasm/hydro.js';
 import { GeoprocBundle } from '../../wasm/geoproc.js';
+import { SargeoBundle } from '../../wasm/sargeo.js';
 import { bufferGeoms, dissolveFeatures, overlay, spatialJoin } from '../../analysis/geoproc.js';
 import { gpuDsmTile } from '../../analysis/gpu-sgm.js';
 import { gwError } from '../../i18n/index.js';
@@ -405,6 +406,26 @@ GW.register('geo.buffer', async ({ geoms, distance, cap = 'round', quadSegs = 8,
 GW.register('geo.dissolve', async ({ features, field = null }) => {
   const b = await geoprocBundle();
   return dissolveFeatures(features, { field, run: (flat, groups) => b.dissolve(flat, groups) });
+});
+// SAR geocoding and terrain correction (REQ-GAP-90, REG-085): the lazy `sargeo` bundle, a few DEM
+// rows per step with progress and a cancel between steps. prm is analysis/sargeo-job.js's list.
+let sargeo = null;
+GW.register('sargeo.run', async ({ prm, z, beta, coords = false }, job) => {
+  if (grown(sargeo)) sargeo = null;
+  if (!sargeo) {
+    await GW.ensure('sargeo');
+    sargeo = new SargeoBundle(GW.ctx.modules.sargeo);
+  }
+  const r = await sargeo.run(prm, z, beta, {
+    coords,
+    onStep: async (p) => {
+      job.checkCancel();
+      job.progress(p);
+      await new Promise((ok) => setTimeout(ok, 0)); // let a cancel message in
+      job.checkCancel();
+    },
+  });
+  return GW.transfer(r, [r.value.buffer, r.mask.buffer, ...(r.coords ? [r.coords.buffer] : [])]);
 });
 GW.register('geo.overlay', async ({ a, b, op, aFields, bFields }, job) => overlay(a, b, op, { aFields, bFields, job }));
 GW.register('geo.join', async ({ targets, joins, predicate, field = null, maxDistance = Infinity }, job) => spatialJoin(targets, joins, { predicate, field, maxDistance: maxDistance ?? Infinity, job }));
