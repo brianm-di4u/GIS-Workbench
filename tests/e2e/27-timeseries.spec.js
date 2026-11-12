@@ -25,11 +25,11 @@ function fileSeries() {
 }
 
 /** A one-band float ENVI image on a lat/lon grid: value = 100 × column + row. */
-function enviImage(dir, name, { w, h, lon0, lat0, d }) {
+function enviImage(dir, name, { w, h, lon0, lat0, d, geo = true }) {
   const v = new Float32Array(w * h);
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) v[y * w + x] = 100 * x + y;
   writeFileSync(join(dir, `${name}.img`), Buffer.from(v.buffer));
-  writeFileSync(join(dir, `${name}.hdr`), `ENVI\nsamples = ${w}\nlines = ${h}\nbands = 1\nheader offset = 0\nfile type = ENVI Standard\ndata type = 4\ninterleave = bsq\nbyte order = 0\nmap info = {Geographic Lat/Lon, 1, 1, ${lon0}, ${lat0}, ${d}, ${d}, WGS-84, units=Degrees}\n`);
+  writeFileSync(join(dir, `${name}.hdr`), `ENVI\nsamples = ${w}\nlines = ${h}\nbands = 1\nheader offset = 0\nfile type = ENVI Standard\ndata type = 4\ninterleave = bsq\nbyte order = 0\n${geo ? `map info = {Geographic Lat/Lon, 1, 1, ${lon0}, ${lat0}, ${d}, ${d}, WGS-84, units=Degrees}\n` : ''}`);
   return [join(dir, `${name}.img`), join(dir, `${name}.hdr`)];
 }
 
@@ -176,14 +176,39 @@ test('SCN-76 REQ-GAP-83 a NetCDF NDVI stack: dates, slider, profile, trend and a
     const tr = app.layers.get((await app.commands.run('ts.trend', { headless: true })).id);
     const c = await app.msi.cube(tr);
     app.store.transact('select', (tx) => tx.set(app.activePane().id, 'activeLayer', ser.id));
+    // The series on its eighth date; the anomaly opens on its first, and the panel must say so.
+    app.timeseries.show(ser, 7);
     const an = app.layers.get((await app.commands.run('ts.anomaly', { headless: true, from: '2010-01-01', to: '2014-12-31' })).id);
-    return { w: c.w, h: c.h, slope: Array.from({ length: c.w * c.h }, (_, i) => c.v[i * 3]), an: [an.width, an.height, app.timeseries.datesOf(an)?.length], cal: [app.msi.bandsOf(an)[0].calendar, app.msi.bandsOf(ser)[0].calendar] };
+    await new Promise((res) => setTimeout(res, 200));
+    const shown = { text: document.querySelector('.ts-date')?.textContent, want: app.timeseries.label(app.timeseries.datesOf(an)[an.chain.bands[0]]), band: an.chain.bands[0] };
+    return { w: c.w, h: c.h, slope: Array.from({ length: c.w * c.h }, (_, i) => c.v[i * 3]), an: [an.width, an.height, app.timeseries.datesOf(an)?.length], cal: [app.msi.bandsOf(an)[0].calendar, app.msi.bandsOf(ser)[0].calendar], shown };
   });
+  expect(aoi.shown.band).toBe(0);
+  expect(aoi.shown.text).toBe(aoi.shown.want);
   // floor(2.3)..ceil(10.2) by floor(3.7)..ceil(8.1): 9 by 6 pixels from (2, 3).
   expect([aoi.w, aoi.h]).toEqual([9, 6]);
   aoi.slope.forEach((s, i) => expect(Math.abs(s - REF.trend.slope[(3 + Math.floor(i / 9)) * W + 2 + (i % 9)])).toBeLessThan(2e-6));
   expect(aoi.an).toEqual([9, 6, NT]);
   expect(aoi.cal[0]).toBe(aoi.cal[1] ?? 'standard');
+
+  // A series longer than the bundle takes is refused with a message that says so.
+  const long = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const ser = [...app.layers.values()].find((l) => l.bands === 120 && !l.rec?.memory);
+    const n = 1025;
+    const day = (i) => new Date(Date.UTC(2000, 0, 1 + i)).toISOString().replace('.000', '');
+    const l = await app.openMemoryLayer(ser, { name: 'daily', bands: n, sampleType: 'f32', planes: Array.from({ length: n }, () => new Float32Array([1])), nodata: NaN, width: 1, height: 1, info: { bandsMeta: Array.from({ length: n }, (_, i) => ({ name: String(i), cw: NaN, fwhm: NaN, bad: false, time: day(i) })) } });
+    app.store.transact('select', (tx) => tx.set(app.activePane().id, 'activeLayer', l.id));
+    await app.commands.run('aoi.clear');
+    try {
+      await app.timeseries.trend(l);
+      return null;
+    } catch (e) {
+      return { code: e.code, msg: e.message };
+    }
+  });
+  expect(long?.code).toBe('E_NEED_SERIES');
+  expect(long?.msg).toMatch(/1[,.\s]?025 dates/);
   expect(logs).toEqual([]);
 });
 
@@ -218,5 +243,40 @@ test('SCN-76 REQ-GAP-83 Time Stack orders dated images and resamples one on anot
     expect(r.v[p * 2]).toBe(100 * x + y);
     expect(r.v[p * 2 + 1]).toBe(100 * Math.floor(2.5 * x + 1.25) + Math.floor(2.5 * y + 1.25));
   }
+  expect(logs).toEqual([]);
+});
+
+test('SCN-76 REQ-GAP-83 Time Stack of frames with no georeference: one grid by size, refused when sizes differ', async ({ page }, info) => {
+  test.setTimeout(180000);
+  const dir = info.outputPath('frames');
+  mkdirSync(dir, { recursive: true });
+  const files = [
+    ...enviImage(dir, 'frame_20200101', { w: 12, h: 8, geo: false }),
+    ...enviImage(dir, 'frame_20200201', { w: 12, h: 8, geo: false }),
+    ...enviImage(dir, 'frame_20200301', { w: 6, h: 4, geo: false }),
+  ];
+  const { frame, logs } = await openApp(page, 'file');
+  await openFiles(frame, files);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].filter((l) => l.lutTex).length >= 3, null, { timeout: 90000 });
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const ls = [...app.layers.values()];
+    const same = ls.filter((l) => l.width === 12);
+    const s = await app.commands.run('ts.stack', { layers: same.map((l) => l.id) });
+    const c = await app.msi.cube(app.layers.get(s.id));
+    let refused = null;
+    try {
+      await app.timeseries.stack(ls);
+    } catch (e) {
+      refused = e.code;
+    }
+    return { resampled: s.resampled, dates: s.dates, v: Array.from(c.v.slice(0, 4)), nan: Array.from(c.v).some(Number.isNaN), refused };
+  });
+  expect(r.dates).toEqual(['2020-01-01T00:00:00Z', '2020-02-01T00:00:00Z']);
+  expect(r.resampled).toBe(0);
+  expect(r.nan).toBe(false);
+  // Pixel (0, 0) and (1, 0), both dates: 100x + y.
+  expect(r.v).toEqual([0, 0, 100, 100]);
+  expect(r.refused).toBe('E_NEED_DATES');
   expect(logs).toEqual([]);
 });

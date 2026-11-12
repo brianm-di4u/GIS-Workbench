@@ -183,7 +183,10 @@ export function install(app) {
   // ---- batch ----
 
   /** Geocode every row of a CSV (text): a point layer with the row's fields, the match, its score and what it matched. */
-  function geocodeTable(text, { address, place = '', name = t('Geocoded') }) {
+  function geocodeTable(text, opts) {
+    return app.activity.track(t('Geocoding a table…'), (job) => geocodeRows(text, opts, job));
+  }
+  async function geocodeRows(text, { address, place = '', name = t('Geocoded') }, job) {
     const { rows } = parseDelimited(text);
     const [head, ...body] = rows;
     const ai = head.indexOf(address);
@@ -191,7 +194,12 @@ export function install(app) {
     if (ai < 0) throw gwError('No column {col} in the table', { col: address }, 'E_NEED_ADDRESSES');
     const ok = [];
     const failed = [];
-    for (const r of body) {
+    for (const [k, r] of body.entries()) {
+      // A misspelt search takes about 2 ms on a large index: give the page a turn every few hundred rows.
+      if (k % 250 === 249) {
+        job?.set?.(k / body.length);
+        await new Promise((res) => setTimeout(res, 0));
+      }
       const q = pi >= 0 && r[pi] ? `${r[ai]}, ${r[pi]}` : r[ai];
       const [best] = geocode(q, { limit: 1 });
       const attrs = Object.fromEntries(head.map((k, i) => [k, r[i] ?? '']));
@@ -373,7 +381,7 @@ export function install(app) {
       const a = fieldSel(head, guess(head, /addr|address|street/i), t('Address column'), false);
       const p = fieldSel(head, guess(head, /city|town|place/i), t('Place column'));
       if ((await modal({ title: t('Geocode a Table'), body: h('div', {}, field(t('Address column'), a), field(t('Place column'), p)), buttons: [{ label: t('Geocode'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-batch' })) !== 'go') return undefined;
-      const r = geocodeTable(text, { address: a.value, place: p.value, name: f.name.replace(/\.\w+$/, '') });
+      const r = await geocodeTable(text, { address: a.value, place: p.value, name: f.name.replace(/\.\w+$/, '') });
       toast(t('{ok} of {n} addresses found', { ok: int(r.matched), n: int(r.matched + r.unmatched) }), { kind: r.unmatched ? 'warn' : 'info' });
       return r;
     }),

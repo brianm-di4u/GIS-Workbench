@@ -2983,13 +2983,6 @@
    ]
   },
   {
-   "key": "Analyze ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
-   "src": "Analyze ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
-   "refs": [
-    "features/dialogs.js"
-   ]
-  },
-  {
    "key": "Analyze ▸ Time Series works on a layer with a date on every band: a NetCDF time axis, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
    "src": "Analyze ▸ Time Series works on a layer with a date on every band: a NetCDF time axis, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.",
    "refs": [
@@ -15460,6 +15453,13 @@
    ]
   },
   {
+   "key": "Geocoding a table…",
+   "src": "Geocoding a table…",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Geodesic (WGS 84)",
    "src": "Geodesic (WGS 84)",
    "refs": [
@@ -15564,6 +15564,13 @@
    "src": "Geospatial",
    "refs": [
     "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
+   "src": "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {
@@ -64174,6 +64181,13 @@
    ]
   },
   {
+   "key": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
+   "src": "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by",
+   "refs": [
+    "features/timeseries-tools.js"
+   ]
+  },
+  {
    "key": "{layer} is now terrain ({datum, select, hae {heights above the ellipsoid} other {{DATUM} heights converted to HAE with {geoid}}})",
    "src": "{layer} is now terrain ({datum, select, hae {heights above the ellipsoid} other {{DATUM} heights converted to HAE with {geoid}}})",
    "refs": [
@@ -66103,6 +66117,13 @@
    "src": "{n} at ≥ {min}",
    "refs": [
     "features/detections.js"
+   ]
+  },
+  {
+   "key": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "src": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
+   "refs": [
+    "features/timeseries-tools.js"
    ]
   },
   {

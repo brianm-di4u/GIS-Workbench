@@ -17,6 +17,8 @@ import { dateFromName, decimalYear, layerDates, layerCalendar, groupsOf, baselin
 
 /** Samples a time stack or a trend may read at once: the worker cube's own limit. */
 const MAX_SAMPLES = 96e6;
+// The spectral bundle takes a cube of at most 1,024 bands (crates/bundles/spectral cube()).
+const MAX_DATES = 1024;
 /** Spacing of the control points that map the reference grid onto another image. */
 const NODE = 16;
 
@@ -87,6 +89,9 @@ export function install(app) {
   function sameGrid(a, b) {
     if (a === b) return true;
     if (a.width !== b.width || a.height !== b.height) return false;
+    // Images with no georeference (time-lapse frames) of one size are taken as one grid: there is
+    // nothing to resample them by.
+    if (!a.groundAt(0, 0, 0) && !b.groundAt(0, 0, 0)) return true;
     const tol = 0.1;
     for (const [x, y] of [[0, 0], [a.width, 0], [0, a.height], [a.width, a.height]]) {
       const g = a.groundAt(x, y, 0);
@@ -185,6 +190,8 @@ export function install(app) {
         const c = await msi().cube(x.l, { x0: win.x0, y0: win.y0, w: win.w, h: win.h, step: win.step, bands: [b] });
         planes.push(c.v);
       } else {
+        // Resampling goes through the ground: an image with no georeference can't be put on another grid.
+        if (!R.groundAt(0, 0, 0) || !x.l.groundAt(0, 0, 0)) throw gwError('{layer} is not on the grid of {ref}, and one of them has no georeference to resample by', { layer: x.l.rec?.name ?? x.l.id, ref: R.rec?.name ?? R.id }, 'E_NEED_DATES');
         planes.push(await resampleBand(R, x.l, b, win, ow, oh));
         resampled++;
       }
@@ -279,6 +286,7 @@ export function install(app) {
   function seriesCube(l) {
     const { dates } = series(l);
     const w = aoiWindow(l) ?? { x0: 0, y0: 0, w: l.width, h: l.height };
+    if (dates.length > MAX_DATES) throw gwError('{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month', { n: int(dates.length), max: int(MAX_DATES) }, 'E_NEED_SERIES');
     if (w.w * w.h * dates.length > MAX_SAMPLES) throw gwError('{w}×{h} pixels × {n} dates is more than one pass takes ({max} M values): draw an AOI', { w: int(w.w), h: int(w.h), n: dates.length, max: int(MAX_SAMPLES / 1e6) }, 'E_NEED_SERIES');
     return { dates, w };
   }
@@ -419,7 +427,8 @@ export function install(app) {
     const dates = datesOf(l);
     if (panel.ui?.l !== l || panel.ui.n !== dates.length || !el.contains(panel.ui.slider)) build(el, l, dates);
     const ui = panel.ui;
-    const k = Math.min(panel.k, dates.length - 1);
+    // The date on show is the band the layer displays: another layer, or an undo, may have changed it.
+    const k = (panel.k = Math.max(0, Math.min(dates.length - 1, l.chain?.bands?.[0] ?? panel.k)));
     if (+ui.slider.value !== k) ui.slider.value = String(k);
     ui.slider.setAttribute('aria-valuetext', label(dates[k]));
     ui.date.textContent = label(dates[k]);
