@@ -17,6 +17,7 @@
 import { h } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles } from '../storage/files.js';
+import { txDone } from '../storage/idb.js';
 import { applyAffine, invertAffine } from '../render/renderer.js';
 import { nms } from '../workers/ai/image.js';
 import { fromParts } from '../vector/geom.js';
@@ -42,12 +43,9 @@ function idb() {
 async function idbDo(mode, fn) {
   const db = await idb();
   try {
-    return await new Promise((res, rej) => {
-      const tx = db.transaction(STORE, mode);
-      const out = fn(tx.objectStore(STORE));
-      tx.oncomplete = () => res(out?.result ?? out);
-      tx.onerror = () => rej(tx.error);
-    });
+    const tx = db.transaction(STORE, mode);
+    const out = fn(tx.objectStore(STORE));
+    return await txDone(tx, () => out?.result ?? out);
   } finally {
     db.close();
   }

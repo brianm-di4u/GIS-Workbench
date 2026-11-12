@@ -1,9 +1,21 @@
-# For gitleaks: the same allowlist as .github/secret_scanning.yml.
+# For gitleaks: the same certificate allowlist as .github/secret_scanning.yml, plus two values only
+# gitleaks's generic-key rule reports (GitHub's scanner has no generic-key pattern, so it needs neither).
+# Each is matched by value, so the rest of the file it sits in is still scanned.
 title = "GIS Workbench"
 
 [extend]
 useDefault = true
 
-[allowlist]
+[[allowlists]]
 description = "Throwaway test certificate key (see fixtures/fx26/native/SOURCE.txt)"
 paths = ['''fixtures/fx26/native/certs/''']
+
+[[allowlists]]
+description = "The relay wire contract's fixed test token (sidecar/python/contract/relay-contract.json), which both test runners send and no relay accepts outside the tests. By value only: gitleaks 8.30 skips a whole file a global allowlist names by path, whatever its condition"
+regexTarget = "secret"
+regexes = ['''^(fedcba9876543210){4}$''']
+
+[[allowlists]]
+description = "Browser key chords (Mod+KeyN, Mod+Shift+KeyW) that generic-api-key reads as a value after the word Key, in app/src/input/keys.js and the built HTML once tracked"
+regexTarget = "secret"
+regexes = ['''^Mod\+(Shift\+)?Key[A-Z]$''']

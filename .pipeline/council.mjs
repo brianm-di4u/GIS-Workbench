@@ -7,7 +7,6 @@
 //   council.mjs record <result.json>                         Record a round's result
 //   council.mjs resolve <id> <fixed|wrong|intentional|wont-matter|deferred> ["reason"]
 //   council.mjs accept-growth "reason"                       Accept justified diff growth
-//   council.mjs step-back                                    Record a re-approach
 //   council.mjs verdict                                      Print the verdict block for the PR body
 //
 // The ledger lives in .pipeline/runs/, which is gitignored.
@@ -22,6 +21,7 @@ import {
   buildVerdict,
   emptyLedger,
   nextStep,
+  lastCompleteRound,
   recordRound,
   resolveFinding,
   selectSeats,
@@ -95,7 +95,8 @@ function context() {
     scriptsChangedIn: scriptsChanged(changes, mergeBase, 'HEAD'),
     adrCited: decided(loadLedger().decisions ?? [], config),
   });
-  const shortstat = tryGit(['diff', '--shortstat', mergeBase, 'HEAD']) ?? '';
+  // Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
+  const shortstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '--shortstat', mergeBase, 'HEAD']) ?? '';
   const diffLines = [...shortstat.matchAll(/(\d+) (?:insertion|deletion)/g)].reduce((sum, m) => sum + Number(m[1]), 0);
   return { config, mergeBase, changes, hash, tier, reasons, diffLines };
 }
@@ -134,16 +135,18 @@ function plan(args) {
   });
   const output = { ...step, reasons: ctx.reasons };
   if (step.status === 'review') {
-    const last = ledger.rounds.at(-1);
+    // An incomplete round is rerun on the same head, so a diff from it would be empty: the base is the
+    // last round that finished.
+    const last = lastCompleteRound(ledger);
     const selection = selectSeats({
       tier,
       paths: ctx.changes.map((c) => c.path),
       council: ctx.config.council,
       diffLines: ctx.diffLines,
+      model: step.model,
     });
     Object.assign(output, {
       ...selection,
-      seats: step.mode === 'confirm' ? [] : selection.seats,
       head: git(['rev-parse', 'HEAD']).trim(),
       mergeBase: ctx.mergeBase,
       lastReviewedSha: reviewedBase(last, ctx.mergeBase),
@@ -203,6 +206,8 @@ function record([file]) {
   const outcome = recordRound(ledger, {
     mode: step.mode,
     round: step.round,
+    phase: step.phase,
+    model: step.model,
     hash: ctx.hash,
     sha: git(['rev-parse', 'HEAD']).trim(),
     diffLines: ctx.diffLines,
@@ -214,6 +219,8 @@ function record([file]) {
       {
         round: step.round,
         mode: step.mode,
+        phase: step.phase,
+        model: step.model,
         complete: outcome.complete,
         missing: result.missing ?? [],
         answerThese: outcome.added.map(({ id, severity, class: bugClass, file: f, line, claim, fix }) => ({
@@ -256,12 +263,6 @@ const commands = {
     if (!args[0]) throw new Error('Give a reason.');
     const ledger = loadLedger();
     ledger.growthAccepted = args[0];
-    saveLedger(ledger);
-    return 0;
-  },
-  'step-back': () => {
-    const ledger = loadLedger();
-    ledger.steppedBack = true;
     saveLedger(ledger);
     return 0;
   },

@@ -323,7 +323,7 @@ version = "0.2.0"
 
 [[package]]
 name = "gwb-sfm"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "image",
  "kamadak-exif",
@@ -333,7 +333,7 @@ dependencies = [
 
 [[package]]
 name = "gwb-sidecar"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "axum",
  "bytes",
@@ -360,7 +360,7 @@ dependencies = [
 
 [[package]]
 name = "gwb-sidecar-api"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "schemars",
  "serde",
@@ -369,7 +369,7 @@ dependencies = [
 
 [[package]]
 name = "gwb-stereo"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "gwb-sidecar-api",
  "hex",

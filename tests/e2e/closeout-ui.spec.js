@@ -194,6 +194,12 @@ test('REQ-ARC-06 REQ-ARC-15 REQ-ARC-17 REQ-ARC-19 job queue, Lite profile, autom
   await f2.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.lutTex), null, { timeout: 60000 });
   const back = await f2.evaluate(() => ({ layers: [...window.gisworkbench.layers.values()].map((l) => l.info.fileName), marker: window.gisworkbench.store.all('graphic').some((g) => g.text === 'API marker'), info: window.gisworkbench.snapshotInfo?.files }));
   expect(back).toEqual({ layers: ['fx02_a.ntf'], marker: true, info: 1 });
+  // A tool copy saved from the snapshot file (Allow-List ▸ Save New Copy) carries neither the
+  // snapshot's data nor the loader's blob script (#62).
+  const copy = await f2.evaluate(() => window.gisworkbench.__test.htmlWithOrigins(['https://example.org']));
+  expect(copy.includes('id="gw-snapshot"')).toBe(false);
+  expect(/<script[^>]*src="blob:/.test(copy)).toBe(false);
+  expect(copy.length).toBeLessThan(snap.html.length);
   expect(logs2).toEqual([]);
   await page2.close();
   // ARC-15: the Lite file leaves out the lazy 3D, LiDAR, video and SAR modules, and says so.

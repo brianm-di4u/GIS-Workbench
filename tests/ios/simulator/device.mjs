@@ -292,8 +292,11 @@ export class Safari {
   }
 
   /** Tap the first native button with one of these labels. Returns its label, or null. */
-  async tapNative(labels, { timeout = 10_000 } = {}) {
-    const q = `type == 'XCUIElementTypeButton' AND (${labels.map((l) => `label == "${l}"`).join(' OR ')})`;
+  // anyType: match the label on any element. The Files picker's tab bar on iOS 26.5 is not made of
+  // buttons, so a button-only search never finds its Browse tab.
+  async tapNative(labels, { timeout = 10_000, anyType = false } = {}) {
+    const byLabel = `(${labels.map((l) => `label == "${l}"`).join(' OR ')})`;
+    const q = anyType ? byLabel : `type == 'XCUIElementTypeButton' AND ${byLabel}`;
     await this.inNative();
     try {
       const end = Date.now() + timeout;

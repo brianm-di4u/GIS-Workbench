@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // OSGeo4W v2 package resolver and fetcher for the sidecar bundle (SDP-2.1 §3.7, S-43, S-44).
 //
-//   node sidecar/installer/osgeo4w.mjs --root D:/gwb-sidecar-deps/osgeo4w gdal pdal gdal-mrsid gdal-ecw
+//   node sidecar/installer/osgeo4w.mjs --root E:/gwb-sidecar-deps/osgeo4w gdal pdal gdal-mrsid gdal-ecw
 //
 // Reads setup.ini, resolves `requires:` transitively, downloads each package tarball once into
 // <root>/pkgs (checked against the md5 that setup.ini gives), and unpacks it into <root>/<tree>
@@ -130,7 +130,7 @@ if (import.meta.url === `file:///${process.argv[1]?.replace(/\\/g, '/')}` || pro
     args.splice(i, 2);
     return v;
   };
-  const root = opt('--root', 'D:/gwb-sidecar-deps/osgeo4w');
+  const root = opt('--root', 'E:/gwb-sidecar-deps/osgeo4w');
   const tree = opt('--tree', 'root');
   const skip = (opt('--skip', '') || '').split(',').filter(Boolean);
   const accept = args.includes('--accept-vendor-licence');

@@ -403,7 +403,7 @@ describe('a file from the phone', () => {
     const chose = await s.tapNative(['Choose Files', 'Choose File', 'Browse Files'], { timeout: 4000 });
     await sleep(2500);
     await shot('picker-2');
-    const tab = await s.tapNative(['Browse'], { timeout: 4000 });
+    const tab = await s.tapNative(['Browse'], { timeout: 4000, anyType: true });
     await sleep(2500);
     await shot('picker-3');
     note('picker', { accept, chose, tab });

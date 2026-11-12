@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { parse, format, signature } from '../../app/src/i18n/icu.js';
 import { t, tc, tr, N_, setLocale, negotiate, gwError, msgOf, keyOf, dirOf, locale } from '../../app/src/i18n/index.js';
 import { num, int, length, area, setUnits, words, list } from '../../app/src/i18n/format.js';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
@@ -156,5 +156,56 @@ describe('build tooling', () => {
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
+  });
+});
+
+describe('one source text, two meanings', () => {
+  // #187: Buffer's line-end option "Square" shared its key with the Square command (make corners
+  // square), so other locales showed the command's verb in the Line ends list.
+  it("gives Buffer's Square line end its own key, apart from the Square command", () => {
+    const read = (f) => messagesInJs(readFileSync(join('app', 'src', f), 'utf8')).filter((m) => m.src === 'Square');
+    const option = read(join('features', 'geoproc-ui.js'));
+    const command = read(join('shell', 'commands.js'));
+    expect(option.map((m) => m.key)).toEqual([keyOf('Square', 'line end')]);
+    expect(command.map((m) => m.key)).toEqual([keyOf('Square')]);
+    expect(option[0].key).not.toBe(command[0].key);
+  });
+
+  // The keys of every message with this source text in one file under app/src.
+  const keys = (file, src) => messagesInJs(readFileSync(join('app', 'src', ...file.split('/')), 'utf8')).filter((m) => m.src === src).map((m) => m.key);
+
+  // #193: the vector Buffer dialog shared "Buffer" with the landing-zone clearance margin, so
+  // Spanish titled the dialog "Margen libre".
+  it('gives the landing-zone Buffer margin its own key, apart from the vector Buffer dialog', () => {
+    expect(keys('features/terrain-analysis.js', 'Buffer')).toEqual([keyOf('Buffer', 'landing zone')]);
+    expect(keys('features/geoproc-ui.js', 'Buffer')).toEqual([keyOf('Buffer')]);
+  });
+
+  // Overlay's Erase removes the overlap; the whiteboard's Erase is the eraser, and the locales
+  // translated it as that (de "Radieren", fr "Gommer", it "Gomma").
+  it("gives overlay's Erase operation its own key, apart from the whiteboard eraser", () => {
+    expect(keys('features/geoproc-ui.js', 'Erase')).toEqual([keyOf('Erase', 'overlay')]);
+    expect(keys('feedback/whiteboard.js', 'Erase')).toEqual([keyOf('Erase')]);
+  });
+
+  // #201: the overlay result layer is named "{a} {op} {b}" with op from the lowercase "erase", and
+  // the locales kept the eraser sense there (de "A Radieren B" next to the Operation "Differenz").
+  it("names the Erase overlay's layer with the same word as its Operation, in every locale", () => {
+    const dir = join('app', 'src', 'i18n', 'catalog');
+    const wrong = [];
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.json') && x !== 'en.json')) {
+      const tag = f.slice(0, -5);
+      const m = JSON.parse(readFileSync(join(dir, f), 'utf8')).messages;
+      const op = m[keyOf('Erase', 'overlay')];
+      if (op && m.erase?.toLocaleLowerCase(tag) !== op.toLocaleLowerCase(tag)) wrong.push(`${tag}: ${m.erase} / ${op}`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  // A storage bucket's Region is the provider's data centre region; spectral classification's
+  // Region is a part of the image, and ja translated it as that ("領域").
+  it("gives a bucket's Region its own key, apart from a region of the image", () => {
+    expect(keys('features/catalog.js', 'Region')).toEqual([keyOf('Region', 'cloud storage')]);
+    expect(keys('features/spectral-analysis.js', 'Region')).toEqual([keyOf('Region')]);
   });
 });

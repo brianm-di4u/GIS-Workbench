@@ -10,6 +10,7 @@
 
 import { unzipSync, strFromU8 } from 'fflate';
 import { gwError, t, tr } from '../i18n/index.js';
+import { txDone } from './idb.js';
 
 const DB = 'gw-packs';
 const STORE = 'packs';
@@ -34,15 +35,9 @@ function idb() {
 async function tx(mode, fn) {
   const db = await idb();
   try {
-    return await new Promise((res, rej) => {
-      const t = db.transaction(STORE, mode);
-      const out = fn(t.objectStore(STORE));
-      t.oncomplete = () => res(out?.result ?? out);
-      // WebKit can fail a transaction with no error on it (a Blob in a private tab).
-      const fail = () => rej(t.error ?? new Error('the browser refused to store this'));
-      t.onerror = fail;
-      t.onabort = fail;
-    });
+    const t = db.transaction(STORE, mode);
+    const out = fn(t.objectStore(STORE));
+    return await txDone(t, () => out?.result ?? out);
   } finally {
     db.close();
   }

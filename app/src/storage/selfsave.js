@@ -4,14 +4,18 @@
 // touches the DOM; every hashed script stays byte-identical, so its CSP hash stays valid.
 
 let template = null;
-let snapshotEl = null;
 
 export function captureTemplate() {
   if (template) return;
-  // outerHTML keeps script text verbatim; nothing has been added to <body> yet.
-  template = `<!DOCTYPE html>\n${document.documentElement.outerHTML}`;
-  // A snapshot's data element, removed later by its exact markup (the app's code mentions the tag).
-  snapshotEl = document.getElementById('gw-snapshot')?.outerHTML ?? null;
+  // outerHTML keeps script text verbatim; the app has not touched <body> yet. Since the app runs
+  // from the js-app block (REG-166), capture happens after the whole file is parsed, so two things
+  // a copy must not carry are in the tree: a snapshot's data (a tool copy saved from a snapshot
+  // file would hold the whole project), and any <script src="blob:…"> still there (another
+  // document's blob, refused when a copy loads it). Both come out of the template, for every user.
+  const root = document.documentElement.cloneNode(true);
+  root.querySelector('#gw-snapshot')?.remove();
+  for (const s of root.querySelectorAll('script[src^="blob:"]')) s.remove();
+  template = `<!DOCTYPE html>\n${root.outerHTML}`;
 }
 
 export function hasTemplate() {
@@ -21,12 +25,7 @@ export function hasTemplate() {
 /** The tool file as captured at start-up, without an embedded snapshot (REQ-ARC-19). */
 export function templateHtml() {
   if (!template) throw new Error('the file template was not captured at start-up');
-  let t = template;
-  if (snapshotEl) {
-    const i = t.lastIndexOf(snapshotEl);
-    if (i >= 0) t = t.slice(0, i) + t.slice(i + snapshotEl.length);
-  }
-  return t.replace(/<html([^>]*?) data-runmode="[^"]*"/, '<html$1');
+  return template.replace(/<html([^>]*?) data-runmode="[^"]*"/, '<html$1');
 }
 
 /** The HTML with connect-src = "blob:" plus `origins` (each a validated origin). */
