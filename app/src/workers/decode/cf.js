@@ -232,7 +232,6 @@ export function gcpGrid(at, lw, lh, W, H, n = 12) {
 // ---- CF time (REQ-GAP-83): "<unit> since <reference>" with the CF calendars → ISO 8601 UTC. ----
 
 const SECS = { s: 1, sec: 1, second: 1, seconds: 1, secs: 1, ms: 1e-3, millisecond: 1e-3, milliseconds: 1e-3, msec: 1e-3, us: 1e-6, microsecond: 1e-6, microseconds: 1e-6, min: 60, mins: 60, minute: 60, minutes: 60, h: 3600, hr: 3600, hrs: 3600, hour: 3600, hours: 3600, d: 86400, day: 86400, days: 86400 };
-const UDYEAR = 365.242198781 * 86400; // UDUNITS' year, which CF uses for "years since"
 const CUM = (feb) => [0, 31, 31 + feb, 62 + feb, 92 + feb, 123 + feb, 153 + feb, 184 + feb, 215 + feb, 245 + feb, 276 + feb, 306 + feb, 337 + feb];
 const fdiv = (a, b) => Math.floor(a / b);
 // Day numbers (Julian Day Number for the real calendars; any fixed origin for the model ones).
@@ -305,19 +304,32 @@ export function cfTime(units, calendar = 'standard') {
   const cal = name && CALENDARS[name];
   if (!cal) return null;
   const unit = u[1].toLowerCase();
-  const per = SECS[unit] ?? (/^(years?|yr)$/.test(unit) ? (name === '360_day' ? 360 * 86400 : UDYEAR) : /^months?$/.test(unit) ? (name === '360_day' ? 30 * 86400 : UDYEAR / 12) : undefined);
+  // Months and years count calendar months from the reference (a monthly axis keeps each value in its
+  // month, which UDUNITS' fixed 30.44-day month does not); a fraction is of the month it falls in.
+  const months = /^(years?|yr)$/.test(unit) ? 12 : /^months?$/.test(unit) ? 1 : 0;
+  const per = SECS[unit] ?? (months ? 0 : undefined);
   if (per === undefined) return null;
   let tz = 0;
   if (u[8] && /^[+-]/.test(u[8])) {
     const [, sg, hh, mm] = /^([+-])(\d{1,2}):?(\d{2})?$/.exec(u[8]);
     tz = (sg === '-' ? -1 : 1) * (Number(hh) * 60 + Number(mm ?? 0));
   }
-  const ref = cal.day(Number(u[2]), Number(u[3]), Number(u[4])) * 86400 + Number(u[5] ?? 0) * 3600 + Number(u[6] ?? 0) * 60 + Number(u[7] ?? 0) - tz * 60;
+  const [y0, m0, d0] = [Number(u[2]), Number(u[3]), Number(u[4])];
+  const tod = Number(u[5] ?? 0) * 3600 + Number(u[6] ?? 0) * 60 + Number(u[7] ?? 0) - tz * 60;
+  const ref = cal.day(y0, m0, d0) * 86400 + tod;
+  const monthStart = (k) => cal.day(fdiv(k, 12), (k % 12 + 12) % 12 + 1, 1);
+  const calendarMonths = (x) => {
+    const n = Math.floor(x);
+    const k = y0 * 12 + m0 - 1 + n;
+    const first = monthStart(k);
+    const len = monthStart(k + 1) - first;
+    return (first + Math.min(d0, len) - 1 + (x - n) * len) * 86400 + tod;
+  };
   const p = (n, w = 2) => String(n).padStart(w, '0');
   return (v) => {
     const x = Number(v);
     if (!Number.isFinite(x)) return null;
-    const t = Math.round((ref + x * per) * 1000) / 1000;
+    const t = Math.round((months ? calendarMonths(x * months) : ref + x * per) * 1000) / 1000;
     const day = Math.floor(t / 86400);
     const s = t - day * 86400;
     const [y, m, d] = cal.date(day);

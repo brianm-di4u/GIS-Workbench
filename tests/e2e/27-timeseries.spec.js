@@ -317,6 +317,28 @@ test('SCN-76 REQ-GAP-83 Time Stack of frames with no georeference: one grid by s
   // Pixel (0, 0) and (1, 0), both dates: 100x + y.
   expect(r.v).toEqual([0, 0, 100, 100]);
   expect(r.refused).toBe('E_NEED_DATES');
+  // The cursor reports pixels of the pane's georeferenced image; the stack has no georeference, so
+  // the panel takes no point from it, and takes one once the stack is the pane's own geometry.
+  await openFiles(frame, enviImage(dir, 'geo_20200401', { w: 40, h: 40, lon0: 10, lat0: 50, d: 0.01 }));
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.modelId && l.lutTex), null, { timeout: 60000 });
+  const move = (drop) =>
+    frame.evaluate(async (drop) => {
+      const app = window.gisworkbench;
+      const p = app.activePane();
+      const stack = [...app.layers.values()].find((l) => l.bands === 2);
+      const ids = p.rec.layers.filter((id) => !drop || !app.layers.get(id)?.modelId);
+      app.store.transact('test', (tx) => (tx.set(p.rec.id, 'layers', ids), tx.set(p.rec.id, 'activeLayer', stack.id)));
+      app.timeseries.openPanel();
+      await new Promise((r) => setTimeout(r, 200));
+      app.cursorMoved(p, 3, 2);
+      return p.geoLayer() === stack;
+    }, drop);
+  const pin = frame.getByRole('button', { name: 'Pin the cursor' });
+  expect(await move(false)).toBe(false);
+  await frame.waitForTimeout(500);
+  await expect(pin).toBeDisabled();
+  expect(await move(true)).toBe(true);
+  await expect(pin).toBeEnabled();
   expect(logs).toEqual([]);
 });
 

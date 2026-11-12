@@ -523,7 +523,16 @@ export function install(app) {
     prevMoved?.(p, x, y);
     if (!panel.el?.isConnected || raf) return;
     const l = active();
-    if (!l || !(x >= 0 && y >= 0 && x < l.width && y < l.height)) return;
+    if (!l || p !== pane()) return;
+    // x, y are pixels of the pane's geo layer, which need not be the series: go through the ground.
+    const g = p?.geoLayer?.();
+    if (g && g !== l) {
+      const gr = g.groundAt(x, y);
+      const q = gr && l.imageAt(gr.lat, gr.lon, gr.h);
+      if (!q) return;
+      ({ x, y } = q);
+    }
+    if (!(x >= 0 && y >= 0 && x < l.width && y < l.height)) return;
     panel.cursor = { x, y };
     if (panel.mode !== 'cursor') return;
     raf = requestAnimationFrame(() => {

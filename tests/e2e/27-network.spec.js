@@ -207,6 +207,36 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   await page.mouse.click(start.x, start.y);
   const picked = await viaDialog;
   expect(picked.nodes).toBe(REF.service.within['60'].length);
+  // Shortest Route by two clicks on the map gives the route the coordinates give.
+  const clickOn = async ([lon, lat]) => {
+    const s = await frame.evaluate(([lon, lat]) => {
+      const p = window.gisworkbench.activePane();
+      const q = p.geoLayer().imageAt(lat, lon, 0);
+      p.setView({ cx: q.x, cy: q.y, zoom: 4, rot: 0, mode: 'native' });
+      const s = p.screenPoint(q.x, q.y);
+      const r = p.el.getBoundingClientRect();
+      return { x: r.left + s.x, y: r.top + s.y };
+    }, [lon, lat]);
+    await page.mouse.click(s.x, s.y);
+  };
+  const viaClicks = frame.evaluate(() => window.gisworkbench.commands.run('route.shortest'));
+  await clickOn(REF.routes[0].from);
+  await frame.waitForTimeout(300);
+  await clickOn(REF.routes[0].to);
+  const clicked = await viaClicks;
+  expect(Math.abs(clicked.cost - REF.routes[0].seconds) / REF.routes[0].seconds).toBeLessThan(5e-5);
+  // Find Address as you type: the matches are listed, and picking one adds its point.
+  void frame.evaluate(() => window.gisworkbench.commands.run('addr.find'));
+  const fd = frame.locator('[data-id="dialog:net-find"]');
+  await expect(fd).toBeVisible();
+  await fd.getByLabel('Address').fill('101 1st Street');
+  const first = fd.getByRole('option').first();
+  await expect(first).toHaveText(/^101 1st St · 100% /);
+  await first.click();
+  await expect
+    .poll(() => frame.evaluate(() => window.gisworkbench.store.all('feature').filter((f) => window.gisworkbench.store.get(f.vlayer)?.name === 'Found: 101 1st Street').map((f) => [f.geom.xyz[0], f.geom.xyz[1]])))
+    .toEqual([REF.queries[0].at]);
+  await fd.getByRole('button', { name: 'Close' }).last().click();
   expect(out.service.pieces).toBeGreaterThan(0);
   // Two clicks at one junction make no route, and no empty layer.
   const same = await frame.evaluate(async () => {
