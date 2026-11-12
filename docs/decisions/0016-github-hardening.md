@@ -25,11 +25,13 @@ A release is the one irreversible thing this repository does, and the workflow t
 3. Turn on immutable releases.
 4. Turn on the "Dependabot security updates" switch.
 5. Add non-provider patterns to secret scanning.
+6. Decide whether `dependency-review / review` is a required status check in the branch ruleset. Until it is, a red run is a signal and not a block: the gate reads only the checks in `verify.checkNames`, which is `verify`. Making the gate read it would be a gate change, and is not part of this PR.
 
 ## Consequences
 
 - A cut or promote can't finish without the admin clicking approve, even if the owner check in `release.yml` is somehow satisfied by another run.
 - If the environment isn't protected, the `environment:` lines do nothing but add a name to the run.
 - The dependency review needs the repository's dependency graph on, which is the default for a public repository.
-- A PR that adds a vulnerable development-only dependency now fails until the dependency is changed. The fix is to bump it or drop it; an exception means adding the advisory to the action's `allow-ghsas`, which is a reviewed change.
+- The dependency review blocks a merge only once item 6 is done. Before that it fails the check and nothing stops a merge, so an agent that merges through `full-send` should read it.
+- A PR that adds a vulnerable development-only dependency now fails the check until the dependency is changed. The fix is to bump it or drop it; an exception means adding the advisory to the action's `allow-ghsas`, which is a reviewed change.
 - To go back, revert the commits. The settings in the second list are separate and stay as the admin set them.
