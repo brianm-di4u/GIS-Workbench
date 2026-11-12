@@ -183,6 +183,30 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   // One-way 3rd St: west is a detour, east is not.
   expect(REF.routes[3].seconds).toBeGreaterThan(REF.routes[2].seconds);
   expect(out.service.nodes).toBe(REF.service.within['60'].length);
+  // The dialog: 1 minute is 60 s, and the start is a click on the map at the same place.
+  await frame.evaluate(([lon, lat]) => {
+    const p = window.gisworkbench.activePane();
+    const q = p.geoLayer().imageAt(lat, lon, 0);
+    p.setView({ cx: q.x, cy: q.y, zoom: 4, rot: 0, mode: 'native' });
+  }, REF.service.from);
+  const viaDialog = frame.evaluate(() => window.gisworkbench.commands.run('route.service'));
+  const sd = frame.locator('[data-id="dialog:net-service"]');
+  await expect(sd).toBeVisible();
+  await sd.getByLabel('Breaks (minutes)').fill('1');
+  await sd.getByRole('button', { name: 'Next' }).click();
+  const start = await frame.evaluate(([lon, lat]) => {
+    const p = window.gisworkbench.activePane();
+    const q = p.geoLayer().imageAt(lat, lon, 0);
+    return ((x, y) => {
+    const p = window.gisworkbench.activePane();
+    const s = p.screenPoint(x, y);
+    const r = p.el.getBoundingClientRect();
+    return { x: r.left + s.x, y: r.top + s.y };
+  })(q.x, q.y);
+  }, REF.service.from);
+  await page.mouse.click(start.x, start.y);
+  const picked = await viaDialog;
+  expect(picked.nodes).toBe(REF.service.within['60'].length);
   expect(out.service.pieces).toBeGreaterThan(0);
   // Two clicks at one junction make no route, and no empty layer.
   const same = await frame.evaluate(async () => {

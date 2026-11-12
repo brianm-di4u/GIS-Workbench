@@ -103,6 +103,27 @@ test('SCN-76 REQ-GAP-83 a NetCDF NDVI stack: dates, slider, profile, trend and a
   });
   const expPoint = series(3 * W + 7);
   prof.point.forEach((v, k) => (Number.isNaN(expPoint[k]) ? expect(v).toBeNaN() : expect(v).toBeCloseTo(expPoint[k], 6)));
+  // The same profile through the panel: point at the pixel, pin it, and export it with the panel's button.
+  const at = await frame.evaluate(([x, y]) => ((x, y) => {
+    const p = window.gisworkbench.activePane();
+    const s = p.screenPoint(x, y);
+    const r = p.el.getBoundingClientRect();
+    return { x: r.left + s.x, y: r.top + s.y };
+  })(x, y), [7.4, 3.6]);
+  await page.mouse.move(at.x, at.y);
+  await expect(frame.locator('[data-id="ts-chart"]')).toBeVisible();
+  await frame.getByRole('button', { name: 'Pin the cursor' }).click();
+  await expect(frame.getByLabel('Profile of')).toHaveValue('pinned');
+  const nSaved = await frame.evaluate(() => window.gisworkbench.__saved.length);
+  await frame.getByRole('button', { name: 'Export CSV…' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.__saved.length)).toBe(nSaved + 1);
+  const pinned = (await frame.evaluate(async () => window.gisworkbench.__saved.at(-1).blob.text())).split('\r\n').filter(Boolean);
+  expect(pinned[0]).toBe('date,value');
+  pinned.slice(1).forEach((row, k) => {
+    const v = Number(row.split(',')[1]);
+    if (Number.isNaN(expPoint[k])) expect(v).toBeNaN();
+    else expect(v).toBeCloseTo(expPoint[k], 6);
+  });
   for (let k = 0; k < NT; k++) {
     const vals = [0, 1, 2, 3, W, W + 1, W + 2, W + 3].map((p) => series(p)[k]).filter(Number.isFinite);
     expect(prof.region.n[k]).toBe(vals.length);
