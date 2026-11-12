@@ -23,7 +23,7 @@ GIS Workbench 2.7.0 is a civilian-use application: it is designed and intended f
 - **Terrain from projected DEMs** keeps all its posts, instead of being thinned to 2,048 a side. Tools that walk the grid take longer on large DEMs.
 - **LandXML import** keeps the file's own triangles, so a round trip changes nothing. A breakline that crosses faces away from their vertices still splits them, and the import says how many faces changed.
 - **No freeze** when a large vector or GeoPackage layer is imported, or a large project is saved or opened. (REQ-ING-04)
-- **Sidecar 0.3.1:** updated dependencies, and the native stereo viewer now fetches each tile once, so a failed tile no longer makes it fetch the same tile again (#68).
+- **Sidecar 0.3.1:** updated dependencies, and the native stereo viewer now fetches each tile once, where it could fetch a tile twice while drawing fell behind (#68).
 
 ### Fixed
 - **LAS warnings** name the geoid in use. They always said EGM96.
