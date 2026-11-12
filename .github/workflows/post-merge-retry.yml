@@ -92,6 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
+      actions: read
       contents: read
       issues: write
       pull-requests: read
@@ -102,7 +103,18 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .node-version
-      - run: node .pipeline/monitor.mjs post-merge --result failure --run "$RUN_ID" --sha "$HEAD_SHA"
+      # The run can be red because `record` or `delegates` failed while both legs passed. That is not a
+      # red main, so only a `verify` job that did not succeed is reported. If the jobs can't be read,
+      # report: a wrong report costs a person one click, and a missed one hides a red main.
+      - name: Was verify itself red?
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: echo "result=$(gh api "repos/$GH_REPO/actions/runs/$RUN_ID/jobs?per_page=100" --jq '[.jobs[] | select(.name == "verify") | .conclusion][0] // "unknown"' || echo unknown)" >> "$GITHUB_OUTPUT"
+      - if: ${{ steps.verify.outputs.result != 'success' }}
+        run: node .pipeline/monitor.mjs post-merge --result failure --run "$RUN_ID" --sha "$HEAD_SHA"
         env:
           GITHUB_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.event.workflow_run.id }}

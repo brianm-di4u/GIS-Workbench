@@ -160,6 +160,24 @@ export function generatedGlobs(base, cwd) {
 // The same globs as git pathspecs, for a command that reads or counts the change's diff.
 export const excludeSpecs = (globs) => (globs.length > 0 ? ['--', '.', ...globs.map((glob) => `:(exclude,glob)${glob}`)] : []);
 
+// Changed lines between two commits, as the seats see them: renames read as renames, and generated
+// files, which `verify` checks and the council doesn't read, are left out.
+// Attributes come from the merge base, so a .gitattributes line in the change can't hide its lines.
+// A binary file has no lines to count and reads as 0, so the size the seats, the growth guard and the
+// verdict use is the text diff. `strict` is for the one caller that has to bound a change, `mechanical`:
+// there a binary file, or a diff git can't produce, can't be called small, so it counts as UNBOUNDED.
+// UNBOUNDED never reaches the plan or the ledger, which are JSON, where Infinity would become null.
+export const UNBOUNDED = 1e9;
+export function countLines(from, to, mergeBase, globs, { strict = false, cwd } = {}) {
+  const numstat = tryGit([`--attr-source=${mergeBase}`, 'diff', '--no-ext-diff', '--no-textconv', '-M', '--numstat', from, to, ...excludeSpecs(globs)], cwd);
+  if (numstat === null) return strict ? UNBOUNDED : 0;
+  return numstat.split('\n').filter(Boolean).reduce((sum, line) => {
+    const [added, deleted] = line.split('\t');
+    if (added === '-' || deleted === '-') return sum + (strict ? UNBOUNDED : 0);
+    return sum + Number(added) + Number(deleted);
+  }, 0);
+}
+
 export function changeSet(baseRef, headRef, cwd) {
   const base = mergeBase(baseRef, headRef, cwd);
   const changes = rawChanges(base, headRef, cwd);

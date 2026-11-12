@@ -38,7 +38,15 @@ describe('post-merge-retry.yml', () => {
     expect(retry).toMatch(/\npermissions: \{\}\n/);
     expect(permissionsOf(jobBlock(retry, 'classify'))).toEqual(['actions: read', 'contents: read']);
     expect(permissionsOf(jobBlock(retry, 'retry'))).toEqual(['actions: write']);
-    expect(permissionsOf(jobBlock(retry, 'report'))).toEqual(['contents: read', 'issues: write', 'pull-requests: read']);
+    expect(permissionsOf(jobBlock(retry, 'report'))).toEqual(['actions: read', 'contents: read', 'issues: write', 'pull-requests: read']);
+  });
+
+  it('reports a red main only when the verify job itself did not succeed, not when record or delegates failed', () => {
+    const block = jobBlock(retry, 'report');
+    expect(block).toContain('select(.name == "verify")');
+    expect(block).toContain('// "unknown"'); // an unreadable job list reports
+    expect(block).toContain("steps.verify.outputs.result != 'success'");
+    expect(block).toContain('--result failure');
   });
 
   it('keeps repository code out of the job that holds actions: write', () => {

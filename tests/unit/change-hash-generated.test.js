@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { loadConfig, parseConfig } from '../../.pipeline/lib/config.mjs';
-import { changeSet, excludeSpecs } from '../../.pipeline/lib/git.mjs';
+import { UNBOUNDED, changeSet, countLines, excludeSpecs } from '../../.pipeline/lib/git.mjs';
 
 let dir;
 const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8', env: { ...process.env, GIT_EDITOR: 'true' } });
@@ -124,6 +124,49 @@ describe('this repository\'s list', () => {
     const config = parseConfig(JSON.stringify({ admins: ['a'], tiers: {}, merge: {}, verify: {}, generatedPaths: 'en.json' }), { warn: (message) => warnings.push(message) });
     expect(config.generatedPaths).toBeUndefined();
     expect(warnings).toHaveLength(1);
+  });
+});
+
+describe('countLines', () => {
+  const lines = (options, globs = []) => countLines('main', 'pr', git('rev-parse', 'main').trim(), globs, { cwd: dir, ...options });
+
+  it('counts the changed lines of text, and leaves a listed generated file out', () => {
+    start();
+    write('f.txt', BASE.replace('two', 'TWO'));
+    write('gen/en.json', '{"a":1}\n{"b":2}\n');
+    commit('pr');
+    expect(lines({}, [])).toBe(2 + 2);
+    expect(lines({}, ['gen/*.json'])).toBe(2);
+  });
+
+  it('reads a binary file as 0 by default, so the size and the growth guard stay the text diff', () => {
+    start();
+    write('f.txt', BASE.replace('two', 'TWO'));
+    write('blob.bin', Buffer.from([0, 1, 2, 0, 3]));
+    commit('pr');
+    expect(lines({})).toBe(2);
+    expect(lines({ strict: false })).toBe(2);
+  });
+
+  it('counts a binary file as unbounded when strict, which is what refuses a mechanical change', () => {
+    start();
+    write('blob.bin', Buffer.from([0, 1, 2, 0, 3]));
+    commit('pr');
+    expect(lines({ strict: true })).toBe(UNBOUNDED);
+    expect(lines({ strict: true })).toBeGreaterThan(40);
+  });
+
+  it('treats a diff git cannot produce as 0, or as unbounded when strict', () => {
+    start();
+    write('f.txt', BASE.replace('two', 'TWO'));
+    commit('pr');
+    const missing = (options) => countLines('main', 'no-such-ref', git('rev-parse', 'main').trim(), [], { cwd: dir, ...options });
+    expect(missing({})).toBe(0);
+    expect(missing({ strict: true })).toBe(UNBOUNDED);
+  });
+
+  it('stays a JSON number, so it survives the plan and the ledger', () => {
+    expect(JSON.parse(JSON.stringify({ n: UNBOUNDED })).n).toBe(UNBOUNDED);
   });
 });
 
