@@ -31,7 +31,7 @@ export function summaryRows(r) {
   const lens = c?.adjustment?.lens;
   if (lens) rows.push([t('Focal length after the adjustment with the control'), t('{px} px (was {was} px)', { px: lens.after[0].toFixed(1), was: lens.before[0].toFixed(1) })]);
   const worst = (c?.points ?? []).filter((p) => p.marks_px).sort((a, b) => b.marks_px.max_px - a.marks_px.max_px)[0];
-  if (worst) rows.push([t('Mark farthest from where its survey puts it'), t('{px} px, on {id}', { px: worst.marks_px.max_px.toFixed(1), id: worst.id })]);
+  if (worst) rows.push([t('Mark farthest from where its survey puts it'), t('{px} px, on {id} in {photo}', { px: worst.marks_px.max_px.toFixed(1), id: worst.id, photo: worst.marks_px.max_image })]);
   if (g.focal) rows.push([t('Focal length'), g.focal.refined ? t('{px} px, refined from the photographs', { px: g.focal.px.toFixed(1) }) : t('{px} px, held at the EXIF value', { px: g.focal.px.toFixed(1) })]);
   if (r?.cloud_points != null) rows.push([t('Dense cloud'), t('{n, plural, one {# point} other {# points}}', { n: r.cloud_points })]);
   if (r?.dsm) rows.push([t('DSM cell'), t('{m} m', { m: r.dsm.resolution_m })]);

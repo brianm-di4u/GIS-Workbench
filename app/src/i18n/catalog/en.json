@@ -14323,6 +14323,13 @@
    ]
   },
   {
+   "key": "Focal length after the adjustment with the control",
+   "src": "Focal length after the adjustment with the control",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Focal length {f} mm, principal point {x}, {y} mm, {n, plural, one {# fiducial} other {# fiducials}}",
    "src": "Focal length {f} mm, principal point {x}, {y} mm, {n, plural, one {# fiducial} other {# fiducials}}",
    "refs": [
@@ -22605,6 +22612,13 @@
    "src": "Mark Reviewed",
    "refs": [
     "features/dem-tools.js"
+   ]
+  },
+  {
+   "key": "Mark farthest from where its survey puts it",
+   "src": "Mark farthest from where its survey puts it",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -41563,8 +41577,8 @@
    ]
   },
   {
-   "key": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used.",
-   "src": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used.",
+   "key": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used here: Structure from Motion with Ground Control uses them.",
+   "src": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used here: Structure from Motion with Ground Control uses them.",
    "refs": [
     "features/sfm.js"
    ]
@@ -67445,8 +67459,22 @@
    ]
   },
   {
+   "key": "{px} px (was {was} px)",
+   "src": "{px} px (was {was} px)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{px} px, held at the EXIF value",
    "src": "{px} px, held at the EXIF value",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "{px} px, on {id} in {photo}",
+   "src": "{px} px, on {id} in {photo}",
    "refs": [
     "features/sfm.js"
    ]

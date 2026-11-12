@@ -101,7 +101,7 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
             let cams = fs::read(out_model.join("cameras.bin")).map_err(|e| e.to_string())?;
             fs::write(out_model.join("cameras.bin"), crate::colmap::patch_cameras(&cams, &a.cameras)?).map_err(|e| e.to_string())?;
             let lens = a.cameras.values().next().map(|after| json!({ "model": camera.model, "before": camera.params, "after": after }));
-            let mark = |id: &str| a.marks.iter().find(|m| m.id == id).map(|m| json!({ "marks": m.marks, "rms_px": m.rms_px, "max_px": m.max_px, "own_rms_px": m.own_rms_px }));
+            let mark = |id: &str| a.marks.iter().find(|m| m.id == id).map(|m| json!({ "marks": m.marks, "rms_px": m.rms_px, "max_px": m.max_px, "max_image": m.max_image, "own_rms_px": m.own_rms_px }));
             let axes = |v: Option<V3>| v.map(|v| json!({ "east": v[0], "north": v[1], "up": v[2] }));
             let point = |r: &crate::gcp::Residual| json!({ "id": r.id, "role": if r.check { "check" } else { "gcp" }, "residual_m": { "east": r.d[0], "north": r.d[1], "up": r.d[2] }, "marks_px": mark(&r.id) });
             Some(json!({
@@ -116,7 +116,7 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
                     "rmse_gcp_m": axes(crate::gcp::rmse(&cf.residuals, false)),
                     "rmse_check_m": axes(crate::gcp::rmse(&cf.residuals, true)),
                 },
-                "adjustment": { "iterations": a.stats.iterations, "reprojection_px_before": a.stats.rms_px_before, "reprojection_px_after": a.stats.rms_px_after, "lens": lens },
+                "adjustment": { "iterations": a.stats.iterations, "control_weight": a.gain, "reprojection_px_before": a.stats.rms_px_before, "reprojection_px_after": a.stats.rms_px_after, "lens": lens },
             }))
         }
     };
@@ -496,6 +496,9 @@ mod tests {
             "the written model puts a checkpoint {worst} m off: {c}"
         );
         assert_eq!(carried, [false, false], "rigs.bin and frames.bin would override the adjusted poses");
+        // The report says how the control was weighted, and which photograph has each point's worst mark.
+        assert!(c["adjustment"]["control_weight"].as_f64().unwrap() >= 1.0, "{c}");
+        assert!(c["points"][0]["marks_px"]["max_image"].as_str().unwrap().ends_with(".JPG"), "{c}");
     }
 
     #[test]

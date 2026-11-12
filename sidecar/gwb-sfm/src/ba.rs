@@ -490,7 +490,7 @@ pub fn adjust(pr: &mut Problem, max_iter: usize) -> Stats {
                 current = c;
                 lambda = (lambda / 3.0).max(1e-9);
                 accepted = true;
-                if gain < 1e-9 {
+                if gain < 1e-6 {
                     return finish(pr, iterations, cost0, rms0);
                 }
                 break;
