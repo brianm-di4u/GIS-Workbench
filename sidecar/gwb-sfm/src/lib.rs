@@ -8,6 +8,7 @@
 
 pub mod colmap;
 pub mod exifgps;
+pub mod gcp;
 pub mod geo;
 pub mod georef;
 pub mod las;
