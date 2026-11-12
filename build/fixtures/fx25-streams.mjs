@@ -3,12 +3,12 @@
 //   fixtures/fx25/streams/fx10-ffmpeg/   fx10.ts (H.264, ST 0601) as ffmpeg's own HLS VOD (2 s);
 //                                         ffmpeg writes the KLV as asynchronous (0x06 KLVA)
 //   fixtures/fx25/streams/fx10-aes/       the same, AES-128 encrypted by ffmpeg (hls_key_info_file)
-//   D:\gwb25\data-streams\truck-mpeg2-hls\  SCN-30 truck_mpeg2_klv.ts as MPEG-2 HLS VOD (stream copy)
-//   D:\gwb25\data-streams\truck-h264-hls\   the same video re-encoded with libx264 at two sizes,
+//   E:\gwb25\data-streams\truck-mpeg2-hls\  SCN-30 truck_mpeg2_klv.ts as MPEG-2 HLS VOD (stream copy)
+//   E:\gwb25\data-streams\truck-h264-hls\   the same video re-encoded with libx264 at two sizes,
 //                                         KLV copied, under a master playlist (two variants)
 // Synchronous KLV (stream type 0x15) is kept only by the test server's own segmenter
 // (tests/tools/hls-server.mjs segmentTs), which the tests run on fx10.ts and Truck.ts directly.
-// SHA-256 of every output goes to D:\gwb25\data-streams\SOURCES.json and the fixture SOURCE.txt.
+// SHA-256 of every output goes to E:\gwb25\data-streams\SOURCES.json and the fixture SOURCE.txt.
 //
 //   node build/fixtures/fx25-streams.mjs
 
@@ -20,9 +20,9 @@ import { createHash } from 'node:crypto';
 const ROOT = resolve('.');
 const FF = process.env.GW_FFMPEG ?? 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/Library/bin/ffmpeg.exe';
 const FIX = join(ROOT, 'fixtures', 'fx25', 'streams');
-const DATA = process.env.GW_STREAMS_DATA ?? 'D:/gwb25/data-streams';
+const DATA = process.env.GW_STREAMS_DATA ?? 'E:/gwb25/data-streams';
 const FX10 = join(ROOT, 'fixtures', 'fx10', 'fx10.ts');
-const TRUCK2 = 'D:/TE-corpus/derived-fmv-variants/truck_mpeg2_klv.ts';
+const TRUCK2 = 'E:/TE-corpus/derived-fmv-variants/truck_mpeg2_klv.ts';
 const sha = (p) => createHash('sha256').update(readFileSync(p)).digest('hex');
 const ff = (args) => execFileSync(FF, ['-hide_banner', '-loglevel', 'error', '-y', ...args], { stdio: 'inherit' });
 const fresh = (d) => {
@@ -56,7 +56,7 @@ rmSync(info);
 record(b, 'ffmpeg … -hls_key_info_file (key 000102…0f, IV 0x…0abc)');
 writeFileSync(join(FIX, 'SOURCE.txt'), ['REQ-GAP-49 HLS fixtures, generated (not downloaded) by build/fixtures/fx25-streams.mjs from fixtures/fx10/fx10.ts (own synthetic stream).', 'Tool: FFmpeg 9.0.2 (gw-te conda environment), test time only.', 'fx10-aes/key.bin is a fixed test key.', '', ...files.filter((f) => f.file.includes('/fixtures/')).map((f) => `${f.file.slice(f.file.indexOf('fixtures/'))}  ${f.bytes}  sha256 ${f.sha256}`), ''].join('\n'));
 
-// Corpus SCN-30 (large: D: only).
+// Corpus SCN-30 (large: E: only).
 if (existsSync(TRUCK2)) {
   const c = join(DATA, 'truck-mpeg2-hls');
   fresh(c);
@@ -76,7 +76,7 @@ if (existsSync(TRUCK2)) {
     JSON.stringify(
       {
         group: 'streams (2.5)',
-        note: 'Nothing here was downloaded: every file is derived with FFmpeg 9.0.2 (gw-te environment) from the T&E corpus file D:/TE-corpus/derived-fmv-variants/truck_mpeg2_klv.ts (SCN-30; Esri FMV tutorial data, test-only per OD-09) or from the repository fixture fixtures/fx10/fx10.ts.',
+        note: 'Nothing here was downloaded: every file is derived with FFmpeg 9.0.2 (gw-te environment) from the T&E corpus file E:/TE-corpus/derived-fmv-variants/truck_mpeg2_klv.ts (SCN-30; Esri FMV tutorial data, test-only per OD-09) or from the repository fixture fixtures/fx10/fx10.ts.',
         sources: [{ file: TRUCK2, sha256: '51c429f497acd006f225414c66faf396c8bd8d760dd77c2b06b7b8e82b5c1e5f', licence: 'Esri tutorial data, no explicit licence: test-only (OD-09)' }, { file: 'fixtures/fx10/fx10.ts', licence: 'own synthetic (Apache-2.0)' }],
         files,
       },

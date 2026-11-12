@@ -14,7 +14,7 @@
 //   mie_long40.ntf    40 one-frame 128² segments at 25 frames/s (a "long" sequence for the OPFS store).
 //   mie_j2k.ntf       four 1024 × 1024 frames, each a lossless JPEG 2000 codestream (IC C8) of 256²
 //                     tiles (opj_compress from the gw-te environment), for the tile-wise region decode.
-//   D:\gwb24\data-motion\mie_wami_8k_j2k.ntf (with --large): six 8192 × 8192 frames, 1024² tiles, a
+//   E:\gwb24\data-motion\mie_wami_8k_j2k.ntf (with --large): six 8192 × 8192 frames, 1024² tiles, a
 //                     resolution-first (RLCP) with one tile-part per resolution, a ramp with 4 bits of noise (about 4.6 bits a pixel losslessly, like imagery): the
 //                     region-decode measurements (too large for the repository).
 //
@@ -31,7 +31,7 @@ import { encodeMTIMSA, encodeCAMSDA, encodeMIMCSA, encodeMTIMFA, encodeTMINTA, p
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const OUT = join(ROOT, 'fixtures', 'fx24', 'motion');
-const LARGE = 'D:/gwb24/data-motion';
+const LARGE = 'E:/gwb24/data-motion';
 const OPJ = join(ROOT, '..', 'TE-tools', 'mamba', 'envs', 'gw-te', 'Library', 'bin', 'opj_compress.exe');
 mkdirSync(OUT, { recursive: true });
 

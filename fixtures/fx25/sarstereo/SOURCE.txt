@@ -4,10 +4,10 @@ SICD XML metadata (the XML of the SICD DES, copied byte for byte from the files)
   umbra_2023-09-28-05-16-39_UMBRA-04.sicd.xml, umbra_2023-07-27-05-21-14_UMBRA-05.sicd.xml,
   umbra_2023-08-25-05-12-40_UMBRA-05.sicd.xml
     Umbra Open Data Program, Hetch Hetchy Reservoir collects, CC BY 4.0 (https://umbra.space/open-license).
-    Files: D:/gwb24/data-terrsar/umbra-hetchhetchy (URLs and SHA-256 in D:/gwb24/data-terrsar/SOURCES.json).
+    Files: E:/gwb24/data-terrsar/umbra-hetchhetchy (URLs and SHA-256 in E:/gwb24/data-terrsar/SOURCES.json).
   CAPELLA_*.sicd.xml (C03, C05 x2, C06 x2 spotlight 2022, Hatay; C10, C14 stripmap 2024, Denver)
     (c) Capella Space Corp., Capella Open Data, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
-    Files: D:/gwb25/data-sarstereo (URLs and SHA-256 in D:/gwb25/data-sarstereo/SOURCES.json).
+    Files: E:/gwb25/data-sarstereo (URLs and SHA-256 in E:/gwb25/data-sarstereo/SOURCES.json).
 
 Synthetic pair (build/fixtures/fx25-sarstereo.py, SARkit 1.12 writer and projections, gw-te Python):
   fx25_sarstereo_a.nitf, fx25_sarstereo_b.nitf  RE16I_IM16I chips with the geometry of the two Umbra

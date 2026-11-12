@@ -1,7 +1,7 @@
 // Playwright `sidecar` project (SDP-2.1 §7.5): a test sidecar started by the setup project with a
 // test pairing token, its state shared through a JSON file. Every other project runs with no
 // sidecar (PT-13). Env: GWB_SIDECAR_EXE (default: the release build in the cargo target dir),
-// GWB_SIDECAR_MODULES (default: the dev bundle on D:), TE_DIST / GWB_DIST (the build to test).
+// GWB_SIDECAR_MODULES (default: the dev bundle on E:), TE_DIST / GWB_DIST (the build to test).
 // Linux (P16, run in WSL or on Linux): the musl build and the Linux bundle under ~/gwb, the corpus
 // through /mnt/c (GWB_CORPUS), Playwright's own Chromium (no channel, see playwright.config.js).
 
@@ -18,7 +18,7 @@ export const STATE = resolve('test-results', 'sidecar-state.json');
 const HOME = process.env.HOME ?? '';
 const TARGET = process.env.GWB_SIDECAR_TARGET ?? (LINUX ? join(HOME, 'gwb/target/x86_64-unknown-linux-musl') : join(homedir(), 'AppData', 'Local', 'qlab', 'ct21-sidecar'));
 export const EXE = process.env.GWB_SIDECAR_EXE ?? join(TARGET, 'release', LINUX ? 'gwb-sidecar' : 'gwb-sidecar.exe');
-export const MODULES = process.env.GWB_SIDECAR_MODULES ?? (LINUX ? join(HOME, 'gwb/bundle/modules') : 'D:/gwb-sidecar-deps/bundle/modules');
+export const MODULES = process.env.GWB_SIDECAR_MODULES ?? (LINUX ? join(HOME, 'gwb/bundle/modules') : 'E:/gwb-sidecar-deps/bundle/modules');
 /** Where the test sidecar keeps its data (Linux: the native disk, not /mnt/c (slow) or /tmp (RAM)). */
 export const DATA_ROOT = process.env.GWB_SIDECAR_DATA ?? (LINUX ? join(HOME, 'gwb/e2e') : resolve('test-results'));
 export const DIST_DIR = process.env.GWB_DIST_DIR ? resolve(process.env.GWB_DIST_DIR) : BUILD_DIR; // else GW_DIST (helpers.js)

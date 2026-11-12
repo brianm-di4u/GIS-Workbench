@@ -20,7 +20,7 @@ test.describe.configure({ timeout: 300000 });
 const FX = resolve('fixtures/fx24/geopdf');
 const FX12 = JSON.parse(readFileSync('fixtures/fx12/fx12.geojson', 'utf8'));
 const PACK = existsSync(join(DIST_DIR, 'packs')) ? readdirSync(join(DIST_DIR, 'packs')).find((f) => /^fonts-noto-.*\.gwpack$/.test(f)) : null;
-const GDAL = process.env.GW_GDAL_BIN ?? 'D:/gwb-sidecar-deps/osgeo4w/root/bin';
+const GDAL = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const haveGdal = existsSync(join(GDAL, 'ogr2ogr.exe')) || existsSync(join(GDAL, 'ogr2ogr'));
 const gdal = (cmd, args) => execFileSync(join(GDAL, cmd), args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, PATH: `${GDAL}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}`, GDAL_DATA: resolve(GDAL, '../apps/gdal/share/gdal'), PROJ_DATA: resolve(GDAL, '../share/proj'), PROJ_LIB: resolve(GDAL, '../share/proj') } });
 const TOPO = resolve('..', 'TE-corpus', 'geopdf-ustopo-vinehill-2012', 'CA_Vine_Hill_20120213_TM_geo.pdf');

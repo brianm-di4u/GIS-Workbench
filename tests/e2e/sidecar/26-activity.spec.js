@@ -15,7 +15,7 @@ const DIST = join(DIST_DIR, 'gis-workbench.html');
 const PREFS = { welcomeDone: true };
 const FX = resolve('fixtures', 'fx26', 'gdalroutes');
 const fx = (n) => join(FX, n);
-const SCALE = process.env.GWB_SCALE ?? 'D:/gwb26/data-gdalroutes/scale';
+const SCALE = process.env.GWB_SCALE ?? 'E:/gwb26/data-gdalroutes/scale';
 const HAMILTON = process.env.GWB_HAMILTON ?? 'C:/GIS Workbench/Research/Additional Data Samples/Hamilton_2018_rgb_20x-002/Hamilton_2018_rgb_20x.sid';
 const REPORT = resolve('reports', 'sidecar', 'activity.json');
 const results = {};

@@ -16,7 +16,7 @@ const arg = (k, d, n = 1) => {
   const i = process.argv.indexOf(k);
   return i < 0 ? d : n === 1 ? process.argv[i + 1] : process.argv.slice(i + 1, i + 1 + n);
 };
-const IMG = arg('--envi', 'D:/TE-corpus/hsi-avirisng-cuprite-20200712-rfl/ang20200712t200729_rfl_v2y1/ang20200712t200729_corr_v2y1_img');
+const IMG = arg('--envi', 'E:/TE-corpus/hsi-avirisng-cuprite-20200712-rfl/ang20200712t200729_rfl_v2y1/ang20200712t200729_corr_v2y1_img');
 const [L0, NL] = arg('--lines', ['1200', '1357'], 2).map(Number);
 const STEP = Number(arg('--step', 4));
 const M = Number(arg('--m', 12));

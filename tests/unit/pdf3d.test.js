@@ -11,10 +11,10 @@ import { resolve } from 'node:path';
 import { BitWriter, writePrc, vertexNormals } from '../../app/src/formats/prc-write.js';
 import { write3dPdf, cameraToWorld } from '../../app/src/formats/pdf3d-write.js';
 
-const WD = 'D:/gwb25/data-models3d/work/prc-wd.txt';
+const WD = 'E:/gwb25/data-models3d/work/prc-wd.txt';
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const PY = `${PYENV}/python.exe`;
-const WORK = 'D:/gwb25/data-models3d/work/vitest-pdf3d';
+const WORK = 'E:/gwb25/data-models3d/work/vitest-pdf3d';
 const ok = existsSync(WD) && existsSync(PY);
 const env = { ...process.env, PATH: `${PYENV};${PYENV}/Library/bin;${process.env.PATH}` };
 const ref = (...a) => JSON.parse(execFileSync(PY, ['-I', resolve('tests/tools/prc_ref.py'), ...a], { env, maxBuffer: 1 << 30, encoding: 'utf8' }));

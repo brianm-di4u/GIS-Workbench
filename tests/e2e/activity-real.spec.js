@@ -2,14 +2,14 @@
 // cloud, each through the activity indicator, then cancelled
 // Numbers go to reports/activity/real.json. Needs the corpus; skips what is absent.
 //
-//   GW_DIST=dist-sizeux TE_CORPUS=D:/TE-corpus npx playwright test activity-real.spec.js --project=chrome
+//   GW_DIST=dist-sizeux TE_CORPUS=E:/TE-corpus npx playwright test activity-real.spec.js --project=chrome
 import { test, expect } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { openApp, openFiles, packPath } from './helpers.js';
 import { cancelWhenShown, stopActivity, watchActivity } from './activity-lib.js';
 
-const CORPUS = process.env.TE_CORPUS ?? 'D:/TE-corpus';
+const CORPUS = process.env.TE_CORPUS ?? 'E:/TE-corpus';
 const FX = resolve('fixtures/fx25/aviation');
 const NASR = { base: readFileSync(join(FX, 'APT_BASE.csv'), 'latin1'), rwy: readFileSync(join(FX, 'APT_RWY.csv'), 'latin1'), end: readFileSync(join(FX, 'APT_RWY_END.csv'), 'latin1') };
 const DFC = join(CORPUS, 'ieee-dfc2018-houston');
