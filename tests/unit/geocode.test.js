@@ -71,6 +71,10 @@ describe('REQ-GAP-85 forward geocoding', () => {
     expect(search(IX, '3 Main Street, 62701')[0]).toMatchObject({ id: 'm3', match: 'other place' });
     // A place it has (Lyon) keeps the addresses there only: Main Street is in Springfield.
     expect(search(IX, '3 Main Street, Lyon')).toEqual([]);
+    // Places are compared by whole words: IL is not in Shelbyville, and Springfield IL is Springfield.
+    const il = buildIndex({ points: [...POINTS, { id: 'o1', number: '1', street: 'Oak St', place: 'Shelbyville', at: [-90, 35] }] });
+    expect(search(il, '3 Main Street, IL')[0]).toMatchObject({ id: 'm3', match: 'other place' });
+    expect(search(il, '3 Main Street, Springfield IL')[0]).toMatchObject({ id: 'm3', match: 'exact' });
   });
   it('gives one candidate per town for a street name in two, and none of them certain', () => {
     const two = buildIndex({ points: [...POINTS, { id: 's3', number: '3', street: 'Main St', place: 'Shelbyville', at: [-90, 35] }] });

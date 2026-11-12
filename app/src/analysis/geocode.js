@@ -223,8 +223,8 @@ function searchAs(index, q, fuzzy) {
     cands = [...seen.keys()].map((s) => [s, similarity(q.street, s.key)]).filter(([, v]) => v >= fuzzy);
   }
   const out = [];
-  const placeOk = (pl) => !q.rest || !pl || pl === q.rest || pl.includes(q.rest) || q.rest.includes(pl);
-  const known = !!q.rest && [...(index.places ?? [])].some((pl) => pl === q.rest || pl.includes(q.rest) || q.rest.includes(pl));
+  const placeOk = (pl) => !q.rest || !pl || samePlace(pl, q.rest);
+  const known = !!q.rest && [...(index.places ?? [])].some((pl) => samePlace(pl, q.rest));
   for (const [s, sim] of cands) {
     // One candidate per place the street is in: Main St in two towns is two streets.
     const groups = new Map();
@@ -246,6 +246,12 @@ function searchAs(index, q, fuzzy) {
     }
   }
   return out;
+}
+
+/** Whether two normalised places name the same one: every word of the shorter is a word of the longer ("springfield il" and "springfield"; not "il" and "shelbyville"). */
+function samePlace(a, b) {
+  const [x, y] = [a.split(' '), b.split(' ')].sort((p, q) => p.length - q.length);
+  return x.every((w) => y.includes(w));
 }
 
 /**
