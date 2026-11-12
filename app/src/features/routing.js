@@ -19,6 +19,10 @@ export function install(app) {
   });
   // The block keeps the index (geocoder) and the graph here (app.network is the online state).
   app.routing = { geocoder: null, graph: null };
+  app.store.on('reset', () => {
+    app.routing.geocoder = null;
+    app.routing.graph = null;
+  });
   lazyMethods(app.routing, NET_METHODS, load);
   const vector = (re) => app.store.all('feature').some((f) => re.test(f.geom?.type ?? ''));
   lazyCommands(app, NET_COMMANDS, load, {

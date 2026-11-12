@@ -3,7 +3,7 @@
 // names (points with a number and street, or street lines with number ranges), and a road graph
 // from a line layer with its one-way and speed fields. On them: Find Address (also from the
 // coordinate box), batch geocoding of a CSV with match scores, reverse geocoding, shortest routes
-// and service areas. The index can be saved as a GeoPackage with an FTS4 table and opened again,
+// and service areas. The index can be saved as a GeoPackage of its addresses and opened again,
 // so a large area can be split into one GeoPackage per district. The search runs in the `vector`
 // WASM bundle in the analysis worker.
 
@@ -17,7 +17,7 @@ import { inferFields } from '../vector/io.js';
 import { loadSqlite, writeGpkg, readGpkg } from '../vector/gpkg.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int, length as fmtLength } from '../i18n/format.js';
-import { buildIndex, search, reverse, normalise } from '../analysis/geocode.js';
+import { buildIndex, search, reverse } from '../analysis/geocode.js';
 import { buildGraph, graphData, nearestNode, routeLine, serviceLines } from '../analysis/network.js';
 
 /**
@@ -87,7 +87,7 @@ export function install(app) {
     return { streets: ix.streets.size, addresses: ix.count };
   }
 
-  /** The index as a GeoPackage: the addresses as a point or line layer, an FTS4 table of their normalised streets, and the mapping. */
+  /** The index as a GeoPackage: the addresses as a point or line layer, and a table naming the format. */
   async function saveIndex() {
     const g = need();
     const SQL = await loadSqlite(app.gw);
@@ -98,10 +98,7 @@ export function install(app) {
     const { bytes } = writeGpkg(SQL, [{ name: 'addresses', fields: inferFields(features), features }], { title: t('Address index: {name}', { name: g.name }) });
     const db = new SQL.Database(bytes);
     try {
-      db.exec('CREATE VIRTUAL TABLE gw_geocode USING fts4(street, place, fid); CREATE TABLE gw_geocode_meta (key TEXT PRIMARY KEY, value TEXT);');
-      const ins = db.prepare('INSERT INTO gw_geocode (street, place, fid) VALUES (?, ?, ?)');
-      features.forEach((f, i) => ins.run([normalise(f.attrs.street), normalise(f.attrs.place), i + 1]));
-      ins.free();
+      db.exec('CREATE TABLE gw_geocode_meta (key TEXT PRIMARY KEY, value TEXT);');
       db.run('INSERT INTO gw_geocode_meta VALUES (?, ?)', ['format', 'gis-workbench-address-index/1']);
       const out = db.export();
       await saveBlob(app, new Blob([out], { type: 'application/geopackage+sqlite3' }), { name: `${g.name.replace(/[^\w.-]+/g, '_') || 'addresses'}.addresses.gpkg`, types: ['.gpkg'], description: 'GeoPackage' });

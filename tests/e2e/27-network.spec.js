@@ -2,7 +2,7 @@
 // fixture city (fixtures/network, tests/tools/network_ref.py): an address index built from the
 // address layer through its dialog; Find Address, the coordinate box and reverse geocoding; a CSV
 // geocoded in a batch with a misspelling, a number written last and a street that does not exist;
-// the index saved as a GeoPackage with its FTS4 table and opened again; a road network from the
+// the index saved as a GeoPackage and opened again; a road network from the
 // road layer through its dialog; routes whose travel times match scipy's Dijkstra on an
 // independent graph, one-way detours included; and a service area reaching the reference nodes.
 import { test, expect } from '@playwright/test';
@@ -194,5 +194,12 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     return { code, added: app.layers.size - n };
   });
   expect(same).toEqual({ code: 'E_NEED_ROADS', added: 0 });
+  // The index and the network belong to the project they were built from: opening another drops them.
+  const after = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    app.store.load(app.store.snapshot());
+    return { geocoder: app.routing.geocoder, graph: app.routing.graph };
+  });
+  expect(after).toEqual({ geocoder: null, graph: null });
   expect(logs).toEqual([]);
 });
