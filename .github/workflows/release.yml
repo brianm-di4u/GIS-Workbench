@@ -152,7 +152,8 @@ jobs:
   # Signs the rebuild's hashes. It runs no repository or third-party code, so only it can sign.
   # It is the one job of a cut that waits for the admin's approval (the release environment), and
   # draft needs it, so a cut takes one approval. promote is a separate run and is the moment a
-  # release goes public, so it waits for its own.
+  # release becomes the stable one, so it waits for its own. Publishing the draft, which creates the
+  # tag and makes it public, is done by hand outside this workflow, and the environment doesn't hold it.
   attest:
     needs: rebuild
     if: ${{ (github.event.repository.owner.type == 'Organization' || (github.actor == github.repository_owner && github.triggering_actor == github.repository_owner)) }}

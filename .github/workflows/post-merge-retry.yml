@@ -75,7 +75,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           RUN_ID: ${{ github.event.workflow_run.id }}
-        run: gh run rerun "$RUN_ID" --failed && echo "retried=true" >> "$GITHUB_OUTPUT"
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        # Only the newest commit is re-run. A re-run of an older one queues behind the newer push in the
+        # same concurrency group and could finish green after that push reported red, closing its issue.
+        # If main has moved on, `report` opens the issue for this run and the newer run closes it on green.
+        run: |
+          head=$(gh api "repos/$GH_REPO/commits/main" --jq .sha) || head=
+          if [ "$head" = "$HEAD_SHA" ]; then
+            gh run rerun "$RUN_ID" --failed && echo "retried=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "main is at ${head:-an unknown commit}, not the failed run's commit: not re-running"
+          fi
 
   # Reports the red main when no re-run followed: the failure was real, the classifier changed its
   # mind, the re-run was refused, or the classify or retry job failed. Opening an issue is idempotent, so

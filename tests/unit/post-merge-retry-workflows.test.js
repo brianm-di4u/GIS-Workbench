@@ -54,6 +54,8 @@ describe('post-merge-retry.yml', () => {
     expect(block).not.toContain('uses:');
     expect(block).not.toMatch(/\.pipeline|node |npm |build\//);
     expect(block).toContain('gh run rerun');
+    expect(block).toContain('commits/main'); // only the newest commit is re-run
+    expect(block).toContain('[ "$head" = "$HEAD_SHA" ]');
     expect(jobBlock(retry, 'classify')).toContain('.pipeline/lib/classify-failure.mjs');
   });
 

@@ -14,13 +14,13 @@ A release is the one irreversible thing this repository does, and the workflow t
 
 **In the repository (this PR):**
 
-- `release.yml`: the `attest` and `promote` jobs run in the `release` environment, so GitHub holds each for the admin's approval. Nothing else in the file changed. `attest` is the first job of a cut that signs, and `draft`, which creates the release, needs it, so a cut takes one approval and the draft can't be made without it. `promote` is a separate run and the moment a release goes public, so it takes its own. The build jobs need no approval.
+- `release.yml`: the `attest` and `promote` jobs run in the `release` environment, so GitHub holds each for the admin's approval. Nothing else in the file changed. `attest` is the first job of a cut that signs, and `draft`, which creates the release, needs it, so a cut takes one approval and the draft can't be made without it. `promote` is a separate run and the moment a release becomes the stable one, so it takes its own. The build jobs need no approval. Publishing the draft, which creates the tag and makes the release public, is step 7 of the release skill, done by hand with the admin's go. The environment doesn't hold it, and moving it into the workflow behind the environment is a choice for the admin.
 - `dependency-review.yml`: on every pull request, `actions/dependency-review-action`, pinned by commit SHA, with read-only `contents`, fails on a high or critical vulnerability in a dependency the PR adds or changes, in runtime or development scope. Licences are warn-only: no allow or deny list is set, so a licence finding can't fail the run. `THIRD_PARTY.md` stays the authority on licences and sources.
 - `.github/dependabot.yml`: each npm and cargo ecosystem gets a second group with `applies-to: security-updates`, so security fixes arrive batched like the routine ones.
 
 **Left to the admin, in GitHub settings:**
 
-1. Create the `release` environment with the admin as required reviewer, and limit its deployment branches to `main`. Do it before this merges: a job that names a missing environment makes GitHub create it with no protection. Without the branch limit, a dispatch from another branch runs that branch's copy of `release.yml`, which can leave the `environment:` line out.
+1. Create the `release` environment with the admin as required reviewer, and limit its deployment branches to `main`, so a branch copy of `release.yml` that names the environment can't use it. Do it before this merges: a job that names a missing environment makes GitHub create it with no protection. A branch copy that leaves the `environment:` line out isn't held by it at all. The owner check in `release.yml` and the tag ruleset (item 2) cover that, not this.
 2. A tag ruleset on `v*`: no deletion, no force-update, creation only by the admin or the release workflow.
 3. Turn on immutable releases.
 4. Turn on the "Dependabot security updates" switch.
