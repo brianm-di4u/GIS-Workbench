@@ -2,9 +2,9 @@
 // this function over the DevTools pipe as (FN)(ARGS). The files the command line gives are already
 // on the hidden file input #gwb-run-inputs, in the order of ARGS.inputs.
 //
-// ARGS: { id | recipe, gates, params, inputs: [name, …], timeoutMs }. An input named "open" is
-// opened in the app before the run; any other name is a step id, and the step gets the file in its
-// `files` parameter.
+// ARGS: { id | recipe, gates, params, inputs: [name, …], timeoutMs }. An input with an empty name
+// is opened in the app before the run; any other name is a step id, and the step gets the file in
+// its `files` parameter.
 //
 // Returns { refused } when the recipe cannot run unattended (nothing has run), else { status } with
 // the run's status from recipes.run and window.__gwbRun.chunk(i, offset, length) to read file i's
@@ -33,7 +33,7 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const run = { ...params };
   for (let i = 0; i < inputs.length; i++) {
     const name = inputs[i];
-    if (name === 'open') open.push(files[i]);
+    if (name === '') open.push(files[i]);
     else if (steps.has(name)) run[name] = { ...run[name], files: [...(run[name]?.files ?? []), files[i]] };
     else return { refused: `--in ${name}=…: the recipe has no step "${name}" (its steps: ${[...steps].join(', ')})` };
   }

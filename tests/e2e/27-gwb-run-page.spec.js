@@ -27,7 +27,7 @@ async function runPage(page, args, files = [], before = null) {
     return i;
   });
   if (files.length) await input.asElement().setInputFiles(files);
-  const call = { gates: 'continue', params: {}, inputs: files.map(() => 'open'), timeoutMs: 120_000, ...args };
+  const call = { gates: 'continue', params: {}, inputs: files.map(() => ''), timeoutMs: 120_000, ...args };
   return frame.evaluate(`(${FN})(${JSON.stringify(call)}).then((r) => r, (e) => ({ threw: String(e?.message ?? e) }))`);
 }
 
@@ -81,4 +81,11 @@ test('REG-150 the page script stops, naming it, when an --in file needs data the
   // An RPF table opened alone asks for its folder; going on without the frames would run on nothing.
   const r = await runPage(page, { recipe: STRETCH }, [resolve('fixtures', 'fx21', 'nitf', 'rpf-cib-z3', 'RPF', 'A.TOC')]);
   expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Open RPF folder');
+});
+
+test('REG-150 a step called "open" gets the file the command line names for it', async ({ page }) => {
+  const recipe = { format: 'gw-recipe/1', name: 'Convert', steps: [{ id: 'open', op: 'convertFolder' }] };
+  const r = await runPage(page, { recipe, inputs: ['open'] }, [RASTER]);
+  expect(r.threw).toBeUndefined();
+  expect([r.status?.ok, r.status?.steps?.map((s) => s.status)]).toEqual([true, ['done']]);
 });

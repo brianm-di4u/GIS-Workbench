@@ -51,7 +51,8 @@ const CHUNK: u64 = 4 << 20;
 struct Args {
     check: bool,
     recipe: Option<String>,
-    /// (name, file): "open", or the id of the step that gets the file.
+    /// (name, file): the id of the step that gets the file, or "" for a file to open in the app
+    /// (no step id is empty, so a step may be called anything, "open" included).
     inputs: Vec<(String, PathBuf)>,
     out: Option<PathBuf>,
     gates: String,
@@ -78,19 +79,25 @@ impl Default for Args {
 }
 
 /// `--in` takes `STEP=FILE` when what comes before the first `=` is a step id (letters, digits,
-/// `-` and `_`), else the whole value is a file to open.
+/// `-` and `_`), else the whole value is a file to open. A file whose own name looks like that
+/// (`site=2024.tif`) is taken whole when it exists and the part after `=` doesn't.
 fn input(v: &str) -> (String, PathBuf) {
+    input_with(v, |p| p.is_file())
+}
+
+fn input_with(v: &str, is_file: impl Fn(&Path) -> bool) -> (String, PathBuf) {
     if let Some((name, file)) = v.split_once('=') {
         if !name.is_empty()
             && !file.is_empty()
             && name
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
+            && !(is_file(Path::new(v)) && !is_file(Path::new(file)))
         {
             return (name.to_string(), PathBuf::from(file));
         }
     }
-    ("open".to_string(), PathBuf::from(v))
+    (String::new(), PathBuf::from(v))
 }
 
 fn parse(argv: &[String]) -> Result<Args, String> {
@@ -640,7 +647,7 @@ fn provenance(args: &Args, job: &Job, status: &Value, build: &str, started: &str
                     .unwrap_or_default()
                     .to_string_lossy()
                     .into_owned();
-                if n == "open" {
+                if n.is_empty() {
                     f
                 } else {
                     format!("{n}={f}")
@@ -805,8 +812,8 @@ mod tests {
             a.inputs,
             vec![
                 ("s1".to_string(), PathBuf::from("C:\\in\\a=b.tif")),
-                ("open".to_string(), PathBuf::from("C:\\in\\x=1.tif")),
-                ("open".to_string(), PathBuf::from("/data/y.tif")),
+                (String::new(), PathBuf::from("C:\\in\\x=1.tif")),
+                (String::new(), PathBuf::from("/data/y.tif")),
             ]
         );
         assert_eq!(
@@ -859,6 +866,24 @@ mod tests {
     }
 
     #[test]
+    fn a_file_whose_name_looks_like_step_equals_file_is_taken_whole() {
+        // Only "site=2024.tif" exists, as a relative name in the working folder.
+        let exists = |p: &Path| p == Path::new("site=2024.tif");
+        assert_eq!(
+            (
+                input_with("site=2024.tif", exists),
+                input_with("s1=site=2024.tif", exists),
+                input_with("s1=other.tif", exists),
+            ),
+            (
+                (String::new(), PathBuf::from("site=2024.tif")),
+                ("s1".to_string(), PathBuf::from("site=2024.tif")),
+                ("s1".to_string(), PathBuf::from("other.tif")),
+            )
+        );
+    }
+
+    #[test]
     fn output_names_are_safe_and_distinct() {
         assert_eq!(
             output_names(vec![
@@ -898,7 +923,7 @@ mod tests {
             recipe: None,
             params: json!({}),
             inputs: vec![
-                ("open".into(), PathBuf::from("/d/a.tif")),
+                (String::new(), PathBuf::from("/d/a.tif")),
                 ("s1".into(), PathBuf::from("/d/b.geojson")),
             ],
             out: PathBuf::from("o"),
@@ -929,7 +954,7 @@ mod tests {
             out: Some(out.clone()),
             ..Default::default()
         };
-        a.inputs = vec![("open".into(), dir.join("missing.tif"))];
+        a.inputs = vec![(String::new(), dir.join("missing.tif"))];
         assert!(Job::prepare(&a).err().unwrap().contains("no input file"));
         a.inputs.clear();
         a.recipe = Some(dir.join("missing.gwrecipe.json").display().to_string());
