@@ -309,16 +309,26 @@ export function install(app) {
   const ready = migrateFromPrefs(app.prefs)
     .catch((e) => app.log('warn', `recipes: the settings' recipes stay there (${e.message})`))
     .then(refreshLibrary);
-  /** Every recipe the picker offers: built in, saved in the project, then the library. */
+  /**
+   * Every recipe the picker offers, each with its `source`: built in, saved in the project, then the
+   * library. A project (which may come from someone else) and the library are kept apart: when both
+   * hold an id with different content, both are listed, and that id runs only once one is picked
+   * (`clash` marks them). A library the settings could not move (no IndexedDB) still shows the
+   * settings' list as the library.
+   */
   const known = () => {
     const builtin = new Set(BUILTIN.map((r) => r.id));
-    // Each id once (the builder saves a built-in's copy under a new id). The library is shared by
-    // every project and keyed by id alone, so the project's own copy wins and the library adds the
-    // ids the project lacks. The Workflow Builder's Open lists a differing library copy beside it. A
-    // library the settings could not move (no IndexedDB) still shows the settings' list.
-    const mine = new Map();
-    for (const r of [...S.all('workflow').map((x) => x.recipe), ...library, ...(app.prefs.get('recipes') ?? [])]) if (r && !builtin.has(r.id) && !mine.has(r.id)) mine.set(r.id, r);
-    return [...BUILTIN, ...mine.values()];
+    const body = (r) => JSON.stringify({ ...r, version: 0 });
+    const project = new Map();
+    for (const r of S.all('workflow').map((x) => x.recipe)) if (r && !builtin.has(r.id) && !project.has(r.id)) project.set(r.id, r);
+    const lib = new Map();
+    for (const r of [...library, ...(app.prefs.get('recipes') ?? [])]) if (r && !builtin.has(r.id) && !lib.has(r.id)) lib.set(r.id, r);
+    const clash = new Set([...project.keys()].filter((id) => lib.has(id) && body(lib.get(id)) !== body(project.get(id))));
+    return [
+      ...BUILTIN.map((r) => ({ ...r, source: 'builtin' })),
+      ...[...project.values()].map((r) => ({ ...r, source: 'project', ...(clash.has(r.id) ? { clash: true } : {}) })),
+      ...[...lib.values()].filter((r) => !project.has(r.id) || clash.has(r.id)).map((r) => ({ ...r, source: 'library', ...(clash.has(r.id) ? { clash: true } : {}) })),
+    ];
   };
   /** Keep a recipe in the library; false when there is no IndexedDB. */
   async function keep(r) {
@@ -366,13 +376,19 @@ export function install(app) {
     return h('div', { class: 'rcp-drawer', 'data-id': 'recipe:drawer' }, h('strong', {}, `${i + 1}. ${tr(step.title)}`), step.note ? h('p', { class: 'hint' }, tr(step.note)) : null, rows.length ? h('div', { class: 'rcp-params' }, rows) : h('p', { class: 'hint' }, t('This step has no parameters.')), runner.state[i].error ? h('p', { class: 'err' }, msgOf(runner.state[i].error)) : null, h('div', { class: 'btn-row' }, rerun));
   }
 
+  let picked = null; // the source of the copy last picked, for an id the project and the library both hold
   function render() {
     if (!panelEl) return;
     clear(panelEl);
-    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: r.id, selected: runner.recipe?.id === r.id }, tr(r.name))));
+    // An id the project and the library both hold is listed twice, each labelled, and picked by source.
+    const key = (r) => `${r.source}:${r.id}`;
+    const where = { project: t('project'), library: t('library') };
+    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: key(r), selected: runner.recipe?.id === r.id && (!r.clash || picked === r.source) }, r.clash ? `${tr(r.name)} (${where[r.source]})` : tr(r.name))));
     pick.addEventListener('change', () => {
-      const r = known().find((x) => x.id === pick.value);
-      if (r) open(r);
+      const r = known().find((x) => key(x) === pick.value);
+      if (!r) return;
+      picked = r.source;
+      open(r);
     });
     const btn = (label, id, fn, dis = false) => {
       const b = h('button', { class: 'btn btn-small', 'data-id': `recipe:${id}`, disabled: dis }, label);

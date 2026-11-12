@@ -963,6 +963,10 @@ export interface RecipesRunParams {
    */
   id?: string;
   /**
+   * Which copy, when the project and the library both hold the id and they differ (recipes.list marks it clash)
+   */
+  source?: "project" | "library";
+  /**
    * A recipe JSON instead of an id
    */
   recipe?: Record<string, unknown>;
@@ -1122,7 +1126,7 @@ export interface Methods {
   "products.report": { params: ProductsReportParams; result: FileResult };
   "products.cog": { params: ProductsCogParams; result: FileResult };
   "products.deck": { params: ProductsDeckParams; result: FileResult };
-  "recipes.list": { params: RecipesListParams; result: { id: string; name: string; steps: number; builtin: boolean }[] };
+  "recipes.list": { params: RecipesListParams; result: { id: string; name: string; steps: number; builtin: boolean; source: "builtin" | "project" | "library"; clash?: true }[] };
   "recipes.ops": { params: RecipesOpsParams; result: { op: string; title: string; defaults: Record<string, unknown>; gate: boolean; schema: Record<string, { type: string; min?: number; max?: number; unit?: string; values?: unknown[]; default?: unknown; label?: string }>; inputs: { name: string; type: string }[]; outputs: { name: string; type: string }[] }[] };
   "recipes.validate": { params: RecipesValidateParams; result: Record<string, unknown> };
   "recipes.run": { params: RecipesRunParams; result: RecipeRun };
@@ -1700,7 +1704,7 @@ export interface GisWorkbenchApiV2 {
      * Read-only.
      * MCP tool: gw2_recipes_list
      */
-    list(params?: RecipesListParams): Promise<{ id: string; name: string; steps: number; builtin: boolean }[]>;
+    list(params?: RecipesListParams): Promise<{ id: string; name: string; steps: number; builtin: boolean; source: "builtin" | "project" | "library"; clash?: true }[]>;
     /**
      * The operations a recipe step can run, with their default parameters, parameter schema and typed inputs and outputs (gw-recipe/2).
      * 

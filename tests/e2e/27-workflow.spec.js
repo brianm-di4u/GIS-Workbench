@@ -137,8 +137,7 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   expect(kept.back).toEqual([kept.id]);
   expect(kept.inPicker).toBe(1);
   expect(kept.api).toMatchObject([{ id: kept.id, builtin: false }]);
-  // Saving again unchanged keeps the version; a change takes the next. A library copy of the same id
-  // (another project's workflow of that name) never hides the project's own.
+  // Saving again unchanged keeps the version; a change takes the next.
   const versions = await frame.evaluate(async () => {
     const app = window.gisworkbench;
     const wf = app.workflows;
@@ -147,12 +146,22 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
     wf.current().description = 'changed';
     await wf.saveToProject();
     const next = wf.current().version;
-    const known = () => app.recipes.known().filter((r) => r.id === wf.current().id).map((r) => r.version);
+    const known = () => app.recipes.known().filter((r) => r.id === wf.current().id).map((r) => `${r.source} v${r.version}${r.clash ? ' clash' : ''}`);
     const tie = known();
+    // The library gets a different copy under the same id (another project's workflow of that name):
+    // both are listed, labelled, and the API refuses the id until a source picks one.
     await app.recipes.keep({ ...JSON.parse(JSON.stringify(wf.current())), version: next + 1, description: 'newer elsewhere' });
-    return { same, next, tie, newer: known(), title: wf.current().steps[0].title };
+    const id = wf.current().id;
+    let refused = null;
+    await app.api.v2.recipes.run({ id }).catch((e) => (refused = e.code));
+    const listed = (await app.api.v2.recipes.list()).filter((r) => r.id === id).map((r) => `${r.source}${r.clash ? ' clash' : ''}`);
+    return { same, next, tie, newer: known(), refused, listed, title: wf.current().steps[0].title };
   });
-  expect(versions).toEqual({ same: 1, next: 2, tie: [2], newer: [2], title: 'Vector layer' });
+  expect(versions).toEqual({ same: 1, next: 2, tie: ['project v2'], newer: ['project v2 clash', 'library v3 clash'], refused: 'E_RECIPE_AMBIGUOUS', listed: ['project clash', 'library clash'], title: 'Vector layer' });
+  // The Recipes dock labels both copies by where they come from.
+  await frame.evaluate(() => window.gisworkbench.commands.run('rcp.open'));
+  const labels = await frame.locator('[data-id="recipe:pick"] option').allTextContents();
+  expect(labels.filter((x) => /\((project|library)\)$/.test(x))).toHaveLength(2);
 
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);

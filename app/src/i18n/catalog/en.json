@@ -50466,6 +50466,7 @@
    "key": "library",
    "src": "library",
    "refs": [
+    "features/recipes.js",
     "features/workflow-editor.js"
    ]
   },
@@ -54147,6 +54148,7 @@
    "src": "project",
    "refs": [
     "features/catalogs.js",
+    "features/recipes.js",
     "features/workflow-editor.js"
    ]
   },
