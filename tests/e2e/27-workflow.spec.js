@@ -83,6 +83,11 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   const narrowIn = panel.locator('[data-item="s2"] select[aria-label="Input layer"]');
   await narrowIn.selectOption({ label: `Layer: ${names[0]}` });
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer)).toEqual({ value: names[0] });
+  // A layer the workflow names but the project lacks still shows, and can be cleared.
+  await frame.evaluate(() => window.gisworkbench.workflows.give('s2', 'layer', 'roads from elsewhere'));
+  await expect(panel.locator('[data-item="s2"] select[aria-label="Input layer"] option:checked')).toHaveText('Layer: roads from elsewhere (not in this project)');
+  await panel.locator('[data-item="s2"] select[aria-label="Input layer"]').selectOption({ label: '(given when run)' });
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer ?? null)).toBeNull();
   await panel.locator('[data-item="s2"] select[aria-label="Input layer"]').selectOption('s1.out');
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's2').inputs.layer)).toEqual({ from: 's1', output: 'out' });
   await page.screenshot({ path: info.outputPath('workflow-list.png') });

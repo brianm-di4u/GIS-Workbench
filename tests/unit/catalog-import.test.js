@@ -64,6 +64,16 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     // Alone, the concrete schema names no feature type: its base is not there to follow.
     expect(() => fromInspire([roads])).toThrow(/no feature types/);
   });
+  it('reads names by namespace: an extension schema may reuse a name, and its type is the one offered', () => {
+    const xsd = (ns, decl, body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" ${decl} targetNamespace="${ns}">${body}</schema>`;
+    const type = (name, base, els) => `<complexType name="${name}"><complexContent><extension base="${base}"><sequence>${els}</sequence></extension></complexContent></complexType>`;
+    const base = xsd('urn:bu-base', 'xmlns:bu-base="urn:bu-base"', '<element name="AbstractBuilding" abstract="true" type="bu-base:AbstractBuildingType" substitutionGroup="gml:AbstractFeature"/>' + type('AbstractBuildingType', 'gml:AbstractFeatureType', '<element name="geometry" type="gml:SurfacePropertyType"/>'));
+    const core = xsd('urn:bu-core2d', 'xmlns:bu-base="urn:bu-base" xmlns:bu-core2d="urn:bu-core2d"', '<element name="Building" type="bu-core2d:BuildingType" substitutionGroup="bu-base:AbstractBuilding"/>' + type('BuildingType', 'bu-base:AbstractBuildingType', '<element name="heightAboveGround" type="double"/>'));
+    const ext = xsd('urn:bu-ext2d', 'xmlns:bu-core2d="urn:bu-core2d" xmlns:bu-ext2d="urn:bu-ext2d"', '<element name="Building" type="bu-ext2d:BuildingType" substitutionGroup="bu-core2d:Building"/>' + type('BuildingType', 'bu-core2d:BuildingType', '<element name="officialArea" type="double" minOccurs="0"/>'));
+    expect(fromInspire([base, core]).types).toMatchObject([{ code: 'Building', geometry: ['Polygon'], attributes: ['heightAboveGround'] }]);
+    // With the extension, its Building replaces the core one and carries both levels' properties.
+    expect(fromInspire([base, core, ext]).types).toMatchObject([{ code: 'Building', geometry: ['Polygon'], attributes: ['heightAboveGround', 'officialArea'] }]);
+  });
   it('takes the properties of the types a feature type extends, its bases first', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
     const ext = (name, base, els) => `<complexType name="${name}"><complexContent><extension base="${base}"><sequence>${els}</sequence></extension></complexContent></complexType>`;

@@ -299,7 +299,13 @@ export function install(app) {
         const cur = x.inputs[p.name];
         // Or a layer of the project, of the kind the input takes.
         const names = p.type === 'layer:vector' ? S.all('vlayer').map((v) => v.name) : p.type === 'layer:raster' ? [...(app.layers?.values() ?? [])].map((l) => l.rec?.name) : [];
-        const layers = [...new Set(names.filter(Boolean))].map((n) => h('option', { value: '', 'data-layer': n, selected: cur && 'value' in cur && cur.value === n }, t('Layer: {name}', { name: n })));
+        const listed = [...new Set(names.filter(Boolean))];
+        // A layer the workflow names but this project lacks (opened from elsewhere, renamed) still shows, so it can be changed or cleared.
+        const given = cur && 'value' in cur ? String(cur.value) : null;
+        const layers = [
+          ...listed.map((n) => h('option', { value: '', 'data-layer': n, selected: given === n }, t('Layer: {name}', { name: n }))),
+          ...(given !== null && !listed.includes(given) ? [h('option', { value: '', 'data-layer': given, selected: true }, t('Layer: {name} (not in this project)', { name: given }))] : []),
+        ];
         const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)), ...layers);
         sel.addEventListener('change', () => {
           try {

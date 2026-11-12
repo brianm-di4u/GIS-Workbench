@@ -175,47 +175,67 @@ export function parseCodeList(xml) {
  */
 export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const lists = new Map(codeLists.map((c) => [c.id.replace(/Value$/, '').toLowerCase(), c]));
+  // Named components by namespace and local name: an extension schema may reuse a name (bu-ext2d:Building
+  // substitutes for bu-core2d:Building). Each keeps its schema's prefixes, to resolve the QNames it uses.
   const complex = new Map();
   const elements = new Map();
+  const byLocal = { complex: new Map(), elements: new Map() };
   let target = '';
   for (const x of [].concat(xsds)) {
     const doc = xmlOf(x);
     const schema = find(doc, 'schema');
     if (!schema) throw E('not an XML Schema (no schema element)');
-    target ||= schema.attrs?.targetNamespace ?? '';
-    for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) complex.set(ct.attrs.name, ct);
-    for (const el of kids(schema, 'element')) if (el.attrs?.name) elements.set(el.attrs.name, el);
+    const ns = schema.attrs?.targetNamespace ?? '';
+    target ||= ns;
+    const keep = (kind, map, node) => {
+      const entry = { node, scope: schema.attrs ?? {} };
+      map.set(`${ns}|${node.attrs.name}`, entry);
+      const list = byLocal[kind].get(node.attrs.name) ?? [];
+      byLocal[kind].set(node.attrs.name, [...list, entry]);
+    };
+    for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) keep('complex', complex, ct);
+    for (const el of kids(schema, 'element')) if (el.attrs?.name) keep('elements', elements, el);
   }
-  const bare = (qname) => String(qname ?? '').replace(/^.*:/, '');
+  /** The component a QName names, read with the prefixes of the schema it appears in (`from`); a prefix
+   * the schema does not declare falls back to the local name, never to the component itself. */
+  const resolve = (kind, qname, from) => {
+    if (!qname) return null;
+    const q = String(qname);
+    const at = q.indexOf(':');
+    const pfx = at < 0 ? '' : q.slice(0, at);
+    const name = at < 0 ? q : q.slice(at + 1);
+    const ns = pfx ? from.scope[`xmlns:${pfx}`] : from.scope.xmlns;
+    const hit = ns === undefined ? null : (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
+    if (hit && hit.node !== from.node) return hit;
+    return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
+  };
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
-  const isFeature = (el, seen = new Set()) => {
-    const group = el.attrs?.substitutionGroup;
-    if (!group || seen.has(el)) return false;
-    seen.add(el);
+  const isFeature = (entry, seen = new Set()) => {
+    const group = entry.node.attrs?.substitutionGroup;
+    if (!group || seen.has(entry)) return false;
+    seen.add(entry);
     if (/AbstractFeature$/.test(group)) return true;
-    const up = elements.get(bare(group));
+    const up = resolve('elements', group, entry);
     return !!up && isFeature(up, seen);
   };
-  const features = [];
-  for (const el of elements.values())
-    if (el.attrs?.abstract !== 'true' && isFeature(el)) {
-      capTypes(features);
-      features.push(el);
-    }
-  const local = (qname) => complex.get(String(qname ?? '').replace(/^.*:/, ''));
+  let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
+  // A concrete type another one substitutes for (core2d's Building, extended by ext2d's) is the extension's.
+  const heads = new Set(features.map((e) => resolve('elements', e.node.attrs.substitutionGroup, e)).filter(Boolean));
+  features = features.filter((e) => !heads.has(e));
+  capTypes(features.slice(1)); // more than MAX_TYPES
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
-  const props = (ct, seen = new Set()) => {
-    if (!ct || seen.has(ct)) return [];
-    seen.add(ct);
-    return [...props(local(find(ct, 'extension')?.attrs?.base), seen), ...all(ct, 'element')];
+  const props = (entry, seen = new Set()) => {
+    if (!entry || seen.has(entry)) return [];
+    seen.add(entry);
+    return [...props(resolve('complex', find(entry.node, 'extension')?.attrs?.base, entry), seen), ...all(entry.node, 'element')];
   };
   const { attrs, add } = attrTable();
   const types = [];
-  for (const el of features) {
-    const code = el.attrs.name;
+  for (const entry of features) {
+    const code = entry.node.attrs.name;
     const geometry = new Set();
     const names = [];
-    for (const p of props(local(el.attrs.type))) {
+    for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       const ptype = String(p.attrs?.type ?? '');
