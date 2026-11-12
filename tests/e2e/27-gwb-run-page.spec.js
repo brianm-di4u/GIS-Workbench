@@ -27,7 +27,7 @@ async function runPage(page, args, files = [], before = null) {
     return i;
   });
   if (files.length) await input.asElement().setInputFiles(files);
-  const call = { gates: 'continue', params: {}, inputs: files.map(() => 'open'), timeoutMs: 120_000, ...args };
+  const call = { gates: 'continue', params: {}, inputs: files.map(() => ''), timeoutMs: 120_000, ...args };
   return frame.evaluate(`(${FN})(${JSON.stringify(call)}).then((r) => r, (e) => ({ threw: String(e?.message ?? e) }))`);
 }
 
@@ -75,4 +75,48 @@ test('REG-150 the page script stops, naming it, when opening an input asks a que
     };
   });
   expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Pick a band');
+});
+
+test('REG-150 the page script stops, naming it, when an --in file needs data the run was not given', async ({ page }) => {
+  // An RPF table opened alone asks for its folder; going on without the frames would run on nothing.
+  const r = await runPage(page, { recipe: STRETCH }, [resolve('fixtures', 'fx21', 'nitf', 'rpf-cib-z3', 'RPF', 'A.TOC')]);
+  expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Open RPF folder');
+});
+
+test('REG-150 a step called "open" gets the file the command line names for it', async ({ page }) => {
+  const recipe = { format: 'gw-recipe/1', name: 'Convert', steps: [{ id: 'open', op: 'convertFolder' }] };
+  const r = await runPage(page, { recipe, inputs: ['open'] }, [RASTER]);
+  expect(r.threw).toBeUndefined();
+  expect([r.status?.ok, r.status?.steps?.map((s) => s.status)]).toEqual([true, ['done']]);
+});
+
+test('REG-150 the page script refuses files given to a step that reads none', async ({ page }) => {
+  const r = await runPage(page, { recipe: STRETCH, inputs: ['s1'] }, [RASTER]);
+  expect(r.refused).toMatch(/\(s1\) takes no files, so the files given to it would be ignored/);
+});
+
+test('REG-150 the page script stops, naming it, when an --in project needs its imagery relinked', async ({ browser }, info) => {
+  // A project that references a raster, saved in one page, then given alone: going on without its
+  // imagery would run on nothing, so the relink question stops the run.
+  const maker = await browser.newPage();
+  const { frame } = await openApp(maker, 'file', { prefs: { welcomeDone: true } });
+  const input = await frame.evaluateHandle(() => Object.assign(document.body.appendChild(document.createElement('input')), { type: 'file' }));
+  await input.asElement().setInputFiles(RASTER);
+  const b64 = await frame.evaluate(async (i) => {
+    const app = window.gisworkbench;
+    await app.openFiles([...i.files]);
+    let blob = null;
+    app.saveCapture = (b) => (blob = b);
+    await app.commands.run('file.save');
+    const u8 = new Uint8Array(await blob.arrayBuffer());
+    let s = '';
+    for (let k = 0; k < u8.length; k += 0x8000) s += String.fromCharCode(...u8.subarray(k, k + 0x8000));
+    return btoa(s);
+  }, input);
+  await maker.close();
+  const project = info.outputPath('survey.gwb');
+  writeFileSync(project, Buffer.from(b64, 'base64'));
+  const page = await browser.newPage();
+  const r = await runPage(page, { recipe: STRETCH }, [project]);
+  expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Relink Imagery');
 });

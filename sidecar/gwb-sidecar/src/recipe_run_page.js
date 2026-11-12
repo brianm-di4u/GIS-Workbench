@@ -2,19 +2,20 @@
 // this function over the DevTools pipe as (FN)(ARGS). The files the command line gives are already
 // on the hidden file input #gwb-run-inputs, in the order of ARGS.inputs.
 //
-// ARGS: { id | recipe, gates, params, inputs: [name, …], timeoutMs }. An input named "open" is
-// opened in the app before the run; any other name is a step id, and the step gets the file in its
-// `files` parameter.
+// ARGS: { id | recipe, gates, params, inputs: [name, …], timeoutMs }. An input with an empty name
+// is opened in the app before the run; any other name is a step id, and the step gets the file in
+// its `files` parameter.
 //
 // Returns { refused } when the recipe cannot run unattended (nothing has run), else { status } with
 // the run's status from recipes.run and window.__gwbRun.chunk(i, offset, length) to read file i's
 // bytes as base64.
 async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const app = window.gisworkbench;
-  // Nobody is at the page: answer the open path's own questions the way automation does (an imagery
-  // ZIP opens its default pick, a project's imagery is left to relink, an ASCII point file takes the
-  // proposed columns, an RPF table gets no folder). Any other dialog fails the run, named, below.
-  Object.assign(app, { zipPick: 'default', relinkPick: 'skip', asciiPick: 'default', rpfFolderPick: async () => [] });
+  // Nobody is at the page: answer the open path's questions that have a right answer without a
+  // person (an imagery ZIP opens its default pick, an ASCII point file takes the proposed columns).
+  // A question whose only unattended answer is to go on without the data (a project's imagery to
+  // relink, an RPF table's folder) is left to its dialog, which fails the run, named, below.
+  Object.assign(app, { zipPick: 'default', asciiPick: 'default' });
   const el = document.getElementById('gwb-run-inputs');
   const files = el ? [...el.files] : [];
   el?.remove();
@@ -32,7 +33,7 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const run = { ...params };
   for (let i = 0; i < inputs.length; i++) {
     const name = inputs[i];
-    if (name === 'open') open.push(files[i]);
+    if (name === '') open.push(files[i]);
     else if (steps.has(name)) run[name] = { ...run[name], files: [...(run[name]?.files ?? []), files[i]] };
     else return { refused: `--in ${name}=…: the recipe has no step "${name}" (its steps: ${[...steps].join(', ')})` };
   }

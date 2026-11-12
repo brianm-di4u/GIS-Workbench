@@ -3,7 +3,7 @@
 The sidecar can run a recipe with no page open: from a shell, from a script, or on a schedule. The run uses the same code as a run in the page, because it *is* the app. The runner starts your installed Chrome or Edge headless, opens the sidecar's own copy of the app, runs the recipe, and writes its files to a folder.
 
 - **What you need:** the sidecar, unpacked or installed, with its `app` folder, and Chrome or Edge installed. If neither browser is found, the run stops and says so.
-- **What it doesn't do:** nothing listens on a network port, and no window opens. The browser talks to the runner over a pipe ([decision 0017](decisions/0017-runner-drives-the-browser-over-a-pipe.md)). The browser profile is new for each run and is deleted afterwards. The runner checks the app against `app/SHA256SUMS` before opening it, and won't run a copy that doesn't match.
+- **What it doesn't do:** nothing listens on a network port, and no window opens. The browser talks to the runner over a pipe ([decision 0017](decisions/0017-runner-drives-the-browser-over-a-pipe.md)). The browser profile is new for each run and is deleted afterwards. A run that is stopped from outside, by Task Scheduler's time limit for example, leaves its temporary folder, and a later run removes it two days on. The runner checks the app against `app/SHA256SUMS` before opening it, and won't run a copy that doesn't match.
 
 ## Running a recipe
 
@@ -13,7 +13,7 @@ gwb-run --check
 ```
 
 - **`<recipe>`** is a `.gwrecipe.json` file (save one from the Recipe dock with **Save…**), or the id of a built-in recipe such as `folder-to-cog`.
-- **`--in FILE`** opens a file in the app before the run, as if you had dropped it on the map. **`--in STEP=FILE`** gives the file to one step instead. For example, `--in s1=site.tif` gives it to the first step of `folder-to-cog`. Repeat `--in` for more files.
+- **`--in FILE`** opens a file in the app before the run, as if you had dropped it on the map. **`--in STEP=FILE`** gives the file to one step instead. For example, `--in s1=site.tif` gives it to the first step of `folder-to-cog`. Repeat `--in` for more files. A file whose own name has an `=` in it, such as `site=2024.tif`, is opened whole when it exists and the part after the `=` doesn't; to be sure, give it a folder, as in `./site=2024.tif`.
 - **`--out DIR`** is where the run's files go. Each file gets a `.gwb-provenance.json` beside it, naming the recipe, the inputs, each step and the app build. The run also appends to `DIR/gwb-run.log` and, when it gets to the end, writes its status to `DIR/gwb-run.json`. A run that stops before then (refused, timed out, or unable to start) removes the last run's `gwb-run.json`, so a missing one means the last run didn't finish, and `gwb-run.log` says why. Files from an earlier run stay until a run writes over them.
 - **`--gates`** decides what happens at a review gate:
   - `continue` (the default) goes on without a review;

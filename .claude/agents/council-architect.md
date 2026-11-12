@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Bash
 disallowedTools: Edit, Write, NotebookEdit, Agent
 model: opus
 effort: high
-maxTurns: 25
+maxTurns: 80
 ---
 
 You are the architect on a code review council. Other changes will copy the patterns this one sets, so review them as if they will spread.

@@ -629,7 +629,8 @@ test.describe('Lite: location, command list, sidecar, languages, size', () => {
   // with the CPU slowed 4× as a rough stand-in for a mid-range phone: not a real-phone number.
   // `total` counts from navigation, so it holds the loader stub's unpacking; bootMs starts after it.
   // REG-166 (SCN-74) gates the 4× figure at 1.5 s, best of three.
-  test('REQ-PRF-01 interactive within 1.5 s at 4× CPU: Lite on the emulated phone', async ({ context }) => {
+  test('REQ-PRF-01 interactive within 1.5 s at 4× CPU: Lite on the emulated phone', async ({ context, browserName }) => {
+    test.skip(browserName !== 'chromium', 'CPU throttling needs a CDP session, which only Chromium has (#213)');
     const rows = [];
     for (const rate of [1, 1, 1, 4, 4, 4]) {
       const p = await context.newPage();
