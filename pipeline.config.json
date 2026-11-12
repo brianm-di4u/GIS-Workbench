@@ -44,6 +44,7 @@
     "t2Paths": [
       ".github/**",
       ".gitleaks.toml",
+      ".gitleaksignore",
       ".pipeline/**",
       "pipeline.config.json",
       "pipeline.lock.json",

@@ -14,7 +14,7 @@ const tierOf = (...paths) => classify({ changes: paths.map(change), config, auth
 // files, and four things kept for security: the sidecar, build-time code, vendored crates and the
 // release tools.
 const KEPT = [
-  '.github/**', '.gitleaks.toml', '.pipeline/**', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings*.json', '.claude/hooks/**',
+  '.github/**', '.gitleaks.toml', '.gitleaksignore', '.pipeline/**', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings*.json', '.claude/hooks/**',
   '.claude/agents/**', '.claude/workflows/**', '.claude/skills/**', 'REVIEW.md', '**/CLAUDE.md', '**/AGENTS.md',
   'docs/POLICY.md', 'docs/PRD.md', 'LICENSE*', 'THIRD_PARTY*', 'TRADEMARKS.md', 'SECURITY.md',
   'build/check-policy*', 'crates/deny.toml', 'build/origins.json', 'build/airgap.mjs',
@@ -37,7 +37,7 @@ describe('tiers.t2Paths', () => {
 
   it('needs the admin for a real file name under each kept glob', () => {
     for (const path of [
-      '.github/workflows/gate.yml', '.github/secret_scanning.yml', '.gitleaks.toml', '.pipeline/gate.mjs', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings.json', '.claude/hooks/guard.mjs',
+      '.github/workflows/gate.yml', '.github/secret_scanning.yml', '.gitleaks.toml', '.gitleaksignore', '.pipeline/gate.mjs', 'pipeline.config.json', 'pipeline.lock.json', '.claude/settings.json', '.claude/hooks/guard.mjs',
       '.claude/agents/council-architect.md', '.claude/workflows/council-round.js', '.claude/skills/council/SKILL.md', '.claude/skills/reviewer-eval/SKILL.md',
       '.claude/skills/full-send/SKILL.md', '.claude/skills/autopilot/SKILL.md', '.claude/skills/babysit-pr/scripts/pr-wait',
       'REVIEW.md', 'CLAUDE.md', 'sidecar/CLAUDE.md', 'AGENTS.md',
