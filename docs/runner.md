@@ -3,7 +3,7 @@
 The sidecar can run a recipe with no page open: from a shell, from a script, or on a schedule. The run uses the same code as a run in the page, because it *is* the app. The runner starts your installed Chrome or Edge headless, opens the sidecar's own copy of the app, runs the recipe, and writes its files to a folder.
 
 - **What you need:** the sidecar, unpacked or installed, with its `app` folder, and Chrome or Edge installed. If neither browser is found, the run stops and says so.
-- **What it doesn't do:** nothing listens on a network port, and no window opens. The browser talks to the runner over a pipe ([decision 0017](decisions/0017-runner-drives-the-browser-over-a-pipe.md)). The browser profile is new for each run and is deleted afterwards. The runner checks the app against `app/SHA256SUMS` before opening it, and won't run a copy that doesn't match.
+- **What it doesn't do:** nothing listens on a network port, and no window opens. The browser talks to the runner over a pipe ([decision 0017](decisions/0017-runner-drives-the-browser-over-a-pipe.md)). The browser profile is new for each run and is deleted afterwards. A run that is stopped from outside, by Task Scheduler's time limit for example, leaves its temporary folder, and a later run removes it two days on. The runner checks the app against `app/SHA256SUMS` before opening it, and won't run a copy that doesn't match.
 
 ## Running a recipe
 

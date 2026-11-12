@@ -229,6 +229,31 @@ impl Drop for WorkDir {
     }
 }
 
+/// A run's folder is removed when the run ends; one that was killed (Task Scheduler's time limit,
+/// `systemctl stop`) leaves its folder behind. A later run removes those once they are this old,
+/// well past any run still going.
+const STALE_AFTER: Duration = Duration::from_secs(2 * 24 * 3600);
+
+/// Remove `gwb-run-<12 hex>` folders in `temp` last changed more than `age` ago.
+fn sweep_work_dirs(temp: &Path, age: Duration) {
+    let Ok(entries) = std::fs::read_dir(temp) else {
+        return;
+    };
+    for e in entries.flatten() {
+        let name = e.file_name().to_string_lossy().into_owned();
+        let ours = name
+            .strip_prefix("gwb-run-")
+            .is_some_and(|h| h.len() == 12 && h.bytes().all(|b| b.is_ascii_hexdigit()));
+        let old = e
+            .metadata()
+            .and_then(|m| m.modified())
+            .is_ok_and(|t| t.elapsed().is_ok_and(|d| d >= age));
+        if ours && old && e.path().is_dir() {
+            let _ = std::fs::remove_dir_all(e.path());
+        }
+    }
+}
+
 /// A started browser with the verified app open in its page. Fields drop in order: the browser
 /// goes (and lets go of its profile) before its folder is removed.
 struct Session {
@@ -243,6 +268,7 @@ fn start(args: &Args) -> Result<Session, String> {
     // The verified bytes, written into this run's own folder: the browser opens that copy, so the
     // file it runs is the one that was checked.
     let html = crate::appserve::load(&app_dir(args), "")?;
+    sweep_work_dirs(&std::env::temp_dir(), STALE_AFTER);
     let work =
         WorkDir(std::env::temp_dir().join(format!("gwb-run-{}", crate::util::random_hex(6))));
     let page_dir = work.0.join("page");
@@ -880,6 +906,41 @@ mod tests {
                 ("s1".to_string(), PathBuf::from("site=2024.tif")),
                 ("s1".to_string(), PathBuf::from("other.tif")),
             )
+        );
+    }
+
+    #[test]
+    fn a_later_run_removes_work_folders_left_by_killed_runs() {
+        let temp =
+            std::env::temp_dir().join(format!("gwb-run-sweep-{}", crate::util::random_hex(4)));
+        for d in [
+            "gwb-run-0123456789ab",
+            "gwb-run-t-0123",
+            "gwb-run-0123456789abX",
+            "other",
+        ] {
+            std::fs::create_dir_all(temp.join(d)).unwrap();
+        }
+        std::fs::write(temp.join("gwb-run-fedcba987654"), b"a file, not a folder").unwrap();
+        sweep_work_dirs(&temp, Duration::from_secs(3600));
+        let young = std::fs::read_dir(&temp).unwrap().count();
+        sweep_work_dirs(&temp, Duration::ZERO);
+        let mut left: Vec<String> = std::fs::read_dir(&temp)
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .collect();
+        left.sort();
+        let _ = std::fs::remove_dir_all(&temp);
+        assert_eq!(young, 5, "a young folder is kept");
+        assert_eq!(
+            left,
+            [
+                "gwb-run-0123456789abX",
+                "gwb-run-fedcba987654",
+                "gwb-run-t-0123",
+                "other"
+            ]
         );
     }
 
