@@ -178,7 +178,7 @@ export function validateRecipe(r, ops) {
     }
   }
   order(steps);
-  return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Number(r.version ?? 1), steps };
+  return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Math.max(1, Math.trunc(Number(r.version)) || 1), steps };
 }
 
 /** An op's defaults: its `defaults`, and its schema's defaults where `defaults` gives none. */

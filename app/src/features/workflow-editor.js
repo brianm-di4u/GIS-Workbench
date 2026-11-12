@@ -48,7 +48,7 @@ export function install(app) {
     ed.wf ??= blank();
     const id = nextId();
     const k = ed.wf.steps.length;
-    ed.wf.steps.push({ id, op, title: tr(ops[op].title), params: {}, inputs: {}, note: '', at: at ?? { x: 20 + (k % 4) * (NODE_W + 40), y: 20 + Math.floor(k / 4) * 120 } });
+    ed.wf.steps.push({ id, op, title: ops[op].title, params: {}, inputs: {}, note: '', at: at ?? { x: 20 + (k % 4) * (NODE_W + 40), y: 20 + Math.floor(k / 4) * 120 } });
     ed.sel = id;
     draw();
     return id;
@@ -102,6 +102,12 @@ export function install(app) {
     const r = own(validateRecipe(wf, ops));
     if (wf === ed.wf) ed.wf.id = r.id;
     const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
+    // The version counts saved changes: the newest copy here or in the library, plus one if this differs.
+    const copies = [rec?.recipe, ...(await listLibrary().catch(() => [])).filter((x) => x.id === r.id)].filter(Boolean);
+    const body = (x) => JSON.stringify({ ...toFile(x), version: 0 });
+    const last = copies.reduce((a, x) => (!a || (x.version ?? 1) > (a.version ?? 1) ? x : a), null);
+    if (last) r.version = (last.version ?? 1) + (body(last) === body(r) ? 0 : 1);
+    if (wf === ed.wf) ed.wf.version = r.version;
     S.transact(t('Save workflow'), (tx) => (rec ? tx.set(rec.id, 'recipe', toFile(r)) : tx.create('workflow', { recipe: toFile(r) })));
     if (!(await R.keep(toFile(r)))) toast(t('Saved in the project; this browser has no storage for your library.'), { kind: 'warn' });
     return r.id;
@@ -182,8 +188,8 @@ export function install(app) {
     for (const [i, x] of wf.steps.entries()) {
       const op = ops[x.op];
       const st = status(x.id);
-      const g = s('g', { class: `wf-node wf-${st}${ed.sel === x.id ? ' wf-sel' : ''}`, transform: `translate(${x.at.x},${x.at.y})`, tabindex: 0, role: 'button', 'aria-label': t('{title}, step {id}: {status}', { title: x.title, id: x.id, status: label(st) }), 'data-step': x.id });
-      g.append(s('rect', { width: NODE_W, height: nodeH(op), rx: 6 }), s('text', { x: 8, y: 16, class: 'wf-title' }, document.createTextNode(x.title)), s('text', { x: 8, y: 28, class: 'wf-status' }, document.createTextNode(`${x.id} · ${label(st)}`)));
+      const g = s('g', { class: `wf-node wf-${st}${ed.sel === x.id ? ' wf-sel' : ''}`, transform: `translate(${x.at.x},${x.at.y})`, tabindex: 0, role: 'button', 'aria-label': t('{title}, step {id}: {status}', { title: tr(x.title), id: x.id, status: label(st) }), 'data-step': x.id });
+      g.append(s('rect', { width: NODE_W, height: nodeH(op), rx: 6 }), s('text', { x: 8, y: 16, class: 'wf-title' }, document.createTextNode(tr(x.title))), s('text', { x: 8, y: 28, class: 'wf-status' }, document.createTextNode(`${x.id} · ${label(st)}`)));
       (op.inputs ?? []).forEach((p, k) => {
         g.append(s('circle', { cx: 0, cy: 34 + k * PORT, r: 5, class: 'wf-port wf-in', 'data-port': `${x.id}.${p.name}` }), s('text', { x: 9, y: 38 + k * PORT, class: 'wf-port-label' }, document.createTextNode(p.name)));
       });
@@ -278,7 +284,7 @@ export function install(app) {
     for (const [i, x] of wf.steps.entries()) {
       const op = ops[x.op];
       const st = status(x.id);
-      const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${x.title}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
+      const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${tr(x.title)}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
       const form = h('div', { class: 'wf-form' });
       const params = { ...Object.fromEntries(Object.entries(op.schema ?? {}).map(([k, sp]) => [k, sp.default])), ...(op.defaults ?? {}), ...x.params };
       for (const [k, v] of Object.entries(params)) form.append(control(x, k, op.schema?.[k], v));
@@ -338,7 +344,7 @@ export function install(app) {
 
   async function openDialog() {
     const lib = await library().catch(() => []);
-    const all = [...projectWorkflows().map((r) => ({ r, where: t('project') })), ...lib.filter((r) => !projectWorkflows().some((p) => p.id === r.id)).map((r) => ({ r, where: t('library') })), ...R.builtin.map((r) => ({ r, where: t('built in') }))];
+    const all = [...projectWorkflows().map((r) => ({ r, where: t('project') })), ...lib.filter((r) => !projectWorkflows().some((p) => p.id === r.id && (p.version ?? 1) === (r.version ?? 1))).map((r) => ({ r, where: t('library') })), ...R.builtin.map((r) => ({ r, where: t('built in') }))];
     const sel = h('select', { class: 'inp', 'aria-label': t('Workflow'), size: 8 }, ...all.map((x, i) => h('option', { value: String(i) }, `${tr(x.r.name)} (${x.where})`)));
     const file = h('button', { class: 'btn', type: 'button' }, t('From a file…'));
     let chosen = null;

@@ -46,6 +46,21 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(c.attributes.localRoadCode.required).toBeUndefined();
     expect(c.types[1].geometry).toEqual(['Point']);
   });
+  it('takes the properties of the types a feature type extends, its bases first', () => {
+    const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
+    const ext = (name, base, els) => `<complexType name="${name}"><complexContent><extension base="${base}"><sequence>${els}</sequence></extension></complexContent></complexType>`;
+    const two = fromInspire(
+      xsd(
+        '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="gml:AbstractFeature"/>' +
+          ext('RoadLinkType', 'x:TransportLinkType', '<element name="functionalRoadClass" type="string"/>') +
+          ext('TransportLinkType', 'x:NetworkElementType', '<element name="centrelineGeometry" type="gml:CurvePropertyType"/><element name="validFrom" type="dateTime" nillable="true"/>') +
+          // A cycle in a broken schema ends instead of looping.
+          ext('NetworkElementType', 'x:RoadLinkType', '<element name="inNetwork" type="string" minOccurs="0"/>'),
+      ),
+    );
+    expect(two.types[0].geometry).toEqual(['LineString']);
+    expect(two.types[0].attributes).toEqual(['inNetwork', 'validFrom', 'functionalRoadClass']);
+  });
 });
 
 describe('REQ-GAP-87 OpenStreetMap presets', () => {

@@ -126,6 +126,22 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   expect(kept.back).toEqual([kept.id]);
   expect(kept.inPicker).toBe(1);
   expect(kept.api).toMatchObject([{ id: kept.id, builtin: false }]);
+  // Saving again unchanged keeps the version; a change takes the next. Where the library holds a newer
+  // copy than the project (saved from another project), that is the one the picker offers.
+  const versions = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const wf = app.workflows;
+    await wf.saveToProject();
+    const same = wf.current().version;
+    wf.current().description = 'changed';
+    await wf.saveToProject();
+    const next = wf.current().version;
+    const known = () => app.recipes.known().filter((r) => r.id === wf.current().id).map((r) => r.version);
+    const tie = known();
+    await app.recipes.keep({ ...JSON.parse(JSON.stringify(wf.current())), version: next + 1, description: 'newer elsewhere' });
+    return { same, next, tie, newer: known(), title: wf.current().steps[0].title };
+  });
+  expect(versions).toEqual({ same: 1, next: 2, tie: [2], newer: [3], title: 'Vector layer' });
 
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);

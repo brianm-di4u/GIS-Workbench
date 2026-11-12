@@ -155,7 +155,8 @@ export function parseCodeList(xml) {
 /**
  * An INSPIRE application schema (one or more XSD texts) with code lists → gw-catalog/1. Feature
  * types are the elements in the gml:AbstractFeature substitution group; their properties come from
- * their complex type's sequence. A property typed gml:ReferenceType takes the code list whose name,
+ * their complex type's sequence, after those of the types it extends (INSPIRE keeps the geometry
+ * and the identifier in abstract base types). A property typed gml:ReferenceType takes the code list whose name,
  * without "Value", is the property's name (INSPIRE's own naming: surfaceComposition →
  * SurfaceCompositionValue), else it is text. Voidable and optional properties are not required.
  */
@@ -176,14 +177,20 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
         features.push(el);
       }
   }
+  const local = (qname) => complex.get(String(qname ?? '').replace(/^.*:/, ''));
+  /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
+  const props = (ct, seen = new Set()) => {
+    if (!ct || seen.has(ct)) return [];
+    seen.add(ct);
+    return [...props(local(find(ct, 'extension')?.attrs?.base), seen), ...all(ct, 'element')];
+  };
   const { attrs, add } = attrTable();
   const types = [];
   for (const el of features) {
     const code = el.attrs.name;
-    const ct = complex.get(String(el.attrs.type ?? '').replace(/^.*:/, ''));
     const geometry = new Set();
     const names = [];
-    for (const p of ct ? all(ct, 'element') : []) {
+    for (const p of props(local(el.attrs.type))) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       const ptype = String(p.attrs?.type ?? '');

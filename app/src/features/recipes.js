@@ -308,12 +308,17 @@ export function install(app) {
     .then(refreshLibrary);
   /** Every recipe the picker offers: built in, saved in the project, then the library. */
   const known = () => {
-    const ids = new Set(BUILTIN.map((r) => r.id));
-    // Each id once: built in, then the project, then the library (the builder saves a built-in's copy under a new id).
-    const proj = S.all('workflow').map((x) => x.recipe).filter((r) => r && !ids.has(r.id) && ids.add(r.id));
-    const seen = new Set([...BUILTIN, ...proj].map((r) => r.id));
-    // A library the settings could not move (no IndexedDB) still shows the settings' list.
-    return [...BUILTIN, ...proj, ...library.filter((r) => !seen.has(r.id)), ...(app.prefs.get('recipes') ?? []).filter((r) => !seen.has(r.id) && !library.some((x) => x.id === r.id))];
+    const builtin = new Set(BUILTIN.map((r) => r.id));
+    // Each id once (the builder saves a built-in's copy under a new id). The project and the library
+    // can both hold a workflow: the newer version is the one offered, the project's when they tie. A
+    // library the settings could not move (no IndexedDB) still shows the settings' list.
+    const mine = new Map();
+    for (const r of [...S.all('workflow').map((x) => x.recipe), ...library, ...(app.prefs.get('recipes') ?? [])]) {
+      if (!r || builtin.has(r.id)) continue;
+      const had = mine.get(r.id);
+      if (!had || (r.version ?? 1) > (had.version ?? 1)) mine.set(r.id, r);
+    }
+    return [...BUILTIN, ...mine.values()];
   };
   /** Keep a recipe in the library; false when there is no IndexedDB. */
   async function keep(r) {
