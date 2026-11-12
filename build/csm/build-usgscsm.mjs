@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // GIS Workbench: build the usgscsm WebAssembly module (REQ-GAP-24, spike S-60) and pin it.
 //
-//   node build/csm/build-usgscsm.mjs --src D:/gwb25/data-csm/src/usgscsm --emsdk D:/gwb25/emsdk
+//   node build/csm/build-usgscsm.mjs --src E:/gwb25/data-csm/src/usgscsm --emsdk E:/gwb25/emsdk
 //
 // Writes build/csm/usgscsm.wasm (checked in) and build/csm/usgscsm.json: the Emscripten version,
 // the flags, the upstream commits and the SHA-256 of every source file compiled, and the output's
@@ -29,8 +29,8 @@ const arg = (k, d) => {
   const i = process.argv.indexOf(k);
   return i > 0 ? process.argv[i + 1] : d;
 };
-const SRC = resolve(arg('--src', 'D:/gwb25/data-csm/src/usgscsm'));
-const EMSDK = resolve(arg('--emsdk', 'D:/gwb25/emsdk'));
+const SRC = resolve(arg('--src', 'E:/gwb25/data-csm/src/usgscsm'));
+const EMSDK = resolve(arg('--emsdk', 'E:/gwb25/emsdk'));
 const OUT = resolve(arg('--out', join(here, 'usgscsm.wasm')));
 const OBJ = resolve(arg('--obj', join(dirname(SRC), 'obj-wasm')));
 const VERIFY = process.argv.includes('--verify');

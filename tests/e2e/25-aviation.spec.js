@@ -23,7 +23,7 @@ import { openApp, openFiles } from './helpers.js';
 
 const FX = resolve('fixtures/fx25/aviation');
 const NASR = { base: readFileSync(join(FX, 'APT_BASE.csv'), 'latin1'), rwy: readFileSync(join(FX, 'APT_RWY.csv'), 'latin1'), end: readFileSync(join(FX, 'APT_RWY_END.csv'), 'latin1') };
-const DSM = 'D:/TE-corpus/dem-under-vegas/Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif';
+const DSM = 'E:/TE-corpus/dem-under-vegas/Copernicus_DSM_COG_10_N36_00_W116_00_DEM.tif';
 const haveDsm = existsSync(DSM);
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -232,7 +232,7 @@ test('REQ-GAP-73 LAS from NASR against the Copernicus DSM: Part 77 and Annex 14,
   expect(logs).toEqual([]);
 });
 
-const DFC = 'D:/TE-corpus/ieee-dfc2018-houston';
+const DFC = 'E:/TE-corpus/ieee-dfc2018-houston';
 const haveDfc = existsSync(join(DFC, 'DSM_C12', 'UH17c_GEF051.tif')) && existsSync(join(DFC, 'C1', '272652_3289689.las'));
 
 test('REQ-GAP-73 HOU runway 13R approach over the DFC2018 Houston lidar: DSM and point cloud', async ({ page }, info) => {

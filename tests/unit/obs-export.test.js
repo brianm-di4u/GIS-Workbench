@@ -10,8 +10,10 @@ import { unzipSync, strFromU8 } from 'fflate';
 import { observationsGeoJSON, observationsKml, observationsKmz, dataUrlBytes, photoPath, placed } from '../../app/src/vector/obs-export.js';
 import { fitSize, PHOTO_MAX } from '../../app/src/features/field.js';
 
-const GDAL = process.env.GW_GDAL_BIN ?? 'D:/gwb-sidecar-deps/osgeo4w/root/bin';
+const GDAL = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const haveGdal = existsSync(join(GDAL, 'ogrinfo.exe')) || existsSync(join(GDAL, 'ogrinfo'));
+// GDAL loads from E:, a USB disk that can stay busy for hours: a cold start there has taken 106 s.
+const GDAL_TIMEOUT = 240_000;
 const gdalEnv = { ...process.env, PATH: `${GDAL}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}`, GDAL_DATA: resolve(GDAL, '../apps/gdal/share/gdal'), PROJ_DATA: resolve(GDAL, '../share/proj'), PROJ_LIB: resolve(GDAL, '../share/proj') };
 const ogrJson = (file) => JSON.parse(execFileSync(join(GDAL, 'ogrinfo'), ['-json', '-features', '-ro', file], { env: gdalEnv, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 << 20 }));
 const TMP = join(tmpdir(), 'gw-obs-export');
@@ -51,7 +53,7 @@ describe('observations as GeoJSON', () => {
     expect(fs[0].geometry.coordinates[1]).toBeCloseTo(36.123456789, 9);
     expect(fs[0].properties.text).toBe(OBS[0].text);
     expect(fs[1].properties.text).toBe(OBS[1].text);
-  }, 60000);
+  }, GDAL_TIMEOUT);
 });
 
 describe('observations as KML and KMZ', () => {
@@ -97,7 +99,7 @@ describe('observations as KML and KMZ', () => {
       expect(pts[1][0]).toBeCloseTo(151.2, 9);
       expect(pts[1][1]).toBeCloseTo(-33.8, 9);
     }
-  }, 60000);
+  }, GDAL_TIMEOUT);
 });
 
 describe('the AOI, GRG cells and annotations in the export', () => {
@@ -124,7 +126,7 @@ describe('the AOI, GRG cells and annotations in the export', () => {
     expect(k).toContain('<coordinates>-115.000000000,36.000000000 -114.990000000,36.000000000 -114.990000000,36.010000000 -115.000000000,36.010000000 -115.000000000,36.000000000</coordinates>');
     expect(k).toContain('<LineString><coordinates>-115.000000000,36.000000000 -114.990000000,36.010000000</coordinates></LineString>');
   });
-  it.skipIf(!haveGdal)('GDAL reads the same geometries back', () => {
+  it.skipIf(!haveGdal)('GDAL reads the same geometries back', { timeout: GDAL_TIMEOUT }, () => {
     mkdirSync(TMP, { recursive: true });
     const f = join(TMP, 'scene.kml');
     writeFileSync(f, observationsKml([], { scene: SCENE }));

@@ -256,10 +256,10 @@ test('REQ-GAP-47 hosted copy: a long sequence keeps its tiles in OPFS and the se
   }
 });
 
-// The 8192² tiled JPEG 2000 sequence on D: (build/fixtures/fx24-motion.mjs --large).
+// The 8192² tiled JPEG 2000 sequence on E: (build/fixtures/fx24-motion.mjs --large).
 const LARGE = truth.large?.path;
 test('REQ-GAP-47 8192² JPEG 2000 WAMI frames: the first view and a frame change decode only the tiles in view', async ({ page }) => {
-  test.skip(!LARGE || !existsSync(LARGE), 'the large WAMI fixture is not on D:');
+  test.skip(!LARGE || !existsSync(LARGE), 'the large WAMI fixture is not on E:');
   const { frame, logs } = await openApp(page, 'file');
   const t0 = Date.now();
   await openFiles(frame, [LARGE]);
@@ -301,7 +301,7 @@ test('REQ-GAP-47 8192² JPEG 2000 WAMI frames: the first view and a frame change
 
 const M2 = JSON.parse(readFileSync(F('mpeg2_truth.json'), 'utf8'));
 const SCN30 = resolve(process.env.TE_CORPUS ?? '../TE-corpus', 'derived-fmv-variants', 'truck_mpeg2_klv.ts');
-const DATA = process.env.GW24_DATA ?? 'D:/gwb24/data-motion';
+const DATA = process.env.GW24_DATA ?? 'E:/gwb24/data-motion';
 const I1080 = join(DATA, 'mpeg2', 'truck_i1080_klv.ts');
 
 async function clipReady(frame, name) {
@@ -523,7 +523,7 @@ test('REQ-GAP-48 S-58 SCN-30 corpus MPEG-2 KLV transport stream (1080p, 15.7 Mb/
 });
 
 test('REQ-GAP-48 S-58 1080i MPEG-2 (field DCT/MC, 20 Mb/s, KLV) decodes in real time on this machine', async ({ page }) => {
-  test.skip(!existsSync(I1080), 'D:/gwb24/data-motion/mpeg2/truck_i1080_klv.ts not generated (docs/validation/2.4/motion.md)');
+  test.skip(!existsSync(I1080), 'E:/gwb24/data-motion/mpeg2/truck_i1080_klv.ts not generated (docs/validation/2.4/motion.md)');
   const { frame, logs } = await openApp(page, 'file');
   await openFiles(frame, [I1080]);
   await clipReady(frame, 'truck_i1080_klv.ts');

@@ -2,7 +2,7 @@
 //! makes a synthetic calibration (a 3-D field in 12 convergent views, Brown lens; a planar board
 //! in 14 views, equidistant fisheye lens), solves it with cv2.calibrateCamera,
 //! cv2.fisheye.calibrate and cv2.solvePnP, and writes the measurements and OpenCV's solution to
-//! D:/gwb25/data-aero/oracle. Here the same measurements go through the bundle adjustment (every
+//! E:/gwb25/data-aero/oracle. Here the same measurements go through the bundle adjustment (every
 //! target point a GCP held at 1 µm, the views without an approximation: resected from the
 //! target, then adjusted with self-calibration), and the two solutions are compared. Skips when
 //! the files are absent.
@@ -14,7 +14,7 @@ use gw_geodesy::wgs84::{enu_rotation, enu_to_geodetic, geodetic_to_enu};
 use gw_sensor::Ground;
 use serde_json::Value;
 
-const DIR: &str = "D:/gwb25/data-aero/oracle";
+const DIR: &str = "E:/gwb25/data-aero/oracle";
 const LAT0: f64 = 41.0;
 const LON0: f64 = -83.0;
 const H0: f64 = 100.0;

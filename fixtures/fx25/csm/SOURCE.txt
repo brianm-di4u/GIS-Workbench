@@ -5,7 +5,7 @@ isd/*.json (except earthFramer.json)
   https://github.com/DOI-USGS/usgscsm (tag 2.1.0, commit cd09cb602c2b3ea79ac976d47c4b517884e50e53).
   Licence: public domain in the United States (USGS) and CC0-1.0 (usgscsm LICENSE.md).
   Bodies: a 10 m test sphere, a 1000 km test sphere, Mars (CTX), the Moon (LRO NAC, LRO WAC,
-  Mini-RF), Vesta (Dawn FC). SHA-256 of each file: D:\gwb25\data-csm\SOURCES.json.
+  Mini-RF), Vesta (Dawn FC). SHA-256 of each file: E:\gwb25\data-csm\SOURCES.json.
 
 isd/earthFramer.json
   Made by GIS Workbench: node build/csm/oracle/make-earth-isd.mjs (deterministic), a frame ISD on

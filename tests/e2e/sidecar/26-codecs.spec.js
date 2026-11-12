@@ -28,7 +28,7 @@ const SAMPLES = [join(MRSID, 'lossless-mg3', 'utm11-27.sid'), join(MRSID, 'lossy
 const HAMILTON = process.env.GWB_HAMILTON ?? 'C:/GIS Workbench/Research/Additional Data Samples/Hamilton_2018_rgb_20x-002/Hamilton_2018_rgb_20x.sid';
 const MPEG2 = join(CORPUS, 'derived-fmv-variants', 'truck_mpeg2_klv.ts');
 /** GDAL 3.13 with every driver, test time only: the oracle reads the source files itself. */
-const OSGEO = process.env.GWB_OSGEO ?? 'D:/gwb-sidecar-deps/osgeo4w/root';
+const OSGEO = process.env.GWB_OSGEO ?? 'E:/gwb-sidecar-deps/osgeo4w/root';
 const SCRATCH = resolve(DATA_ROOT, 'codecs-scratch');
 
 function oracleEnv() {
@@ -393,7 +393,7 @@ test.describe('Linux: OpenH264 and the vendor path on mocks', () => {
   });
 });
 
-const H264_TS = process.env.GWB_H264_TS ?? 'D:/gwb26/data-codecs/linux-out/truck_mpeg2_klv.h264.ts';
+const H264_TS = process.env.GWB_H264_TS ?? 'E:/gwb26/data-codecs/linux-out/truck_mpeg2_klv.h264.ts';
 test.describe('Windows: what the Linux sidecar wrote', () => {
   test.skip(LINUX || !existsSync(H264_TS), 'plays in Chrome and Edge on Windows; needs the file the Linux run made');
   test('Linux output: H.264 made with OpenH264 plays in the FMV player with every KLV packet', async ({ page }) => {

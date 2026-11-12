@@ -26,8 +26,8 @@ const TRUTH = JSON.parse(readFileSync(resolve('fixtures', 'fx10', 'fx10_truth.js
 const FFMPEG = process.env.GW_FFMPEG ?? 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/Library/bin/ffmpeg.exe';
 const FFPROBE = FFMPEG.replace(/ffmpeg(\.exe)?$/, 'ffprobe$1');
 const haveFf = existsSync(FFMPEG) && existsSync(FFPROBE);
-const DATA = process.env.GW_STREAMS_DATA ?? 'D:/gwb25/data-streams';
-const TRUCK_TS = 'D:/TE-corpus/fmv-esri-truck-tutorial/FMV tutorial data/Truck.ts';
+const DATA = process.env.GW_STREAMS_DATA ?? 'E:/gwb25/data-streams';
+const TRUCK_TS = 'E:/TE-corpus/fmv-esri-truck-tutorial/FMV tutorial data/Truck.ts';
 const target = (() => {
   try {
     return JSON.parse(execFileSync('cargo', ['metadata', '--format-version', '1', '--no-deps'], { cwd: resolve('crates'), encoding: 'utf8' })).target_directory;

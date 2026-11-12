@@ -28,7 +28,7 @@ const wasmDir = (() => {
   }
 })();
 const haveWasm = wasmDir && existsSync(join(wasmDir, 'gw_bundle_parse.wasm'));
-const GDAL = process.env.GW_GDAL_BIN ?? 'D:/gwb-sidecar-deps/osgeo4w/root/bin';
+const GDAL = process.env.GW_GDAL_BIN ?? 'E:/gwb-sidecar-deps/osgeo4w/root/bin';
 const haveGdal = existsSync(join(GDAL, 'ogr2ogr.exe')) || existsSync(join(GDAL, 'ogr2ogr'));
 const gdal = (cmd, args) => execFileSync(join(GDAL, cmd), args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, PATH: `${GDAL}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}`, GDAL_DATA: resolve(GDAL, '../apps/gdal/share/gdal'), PROJ_DATA: resolve(GDAL, '../share/proj'), PROJ_LIB: resolve(GDAL, '../share/proj') } });
 const FX = resolve('fixtures/fx24/geopdf');
@@ -197,6 +197,6 @@ describe.skipIf(!haveWasm)('REQ-GAP-66 US Topo optional-content layers against G
         expect(k / n, layer).toBeGreaterThan(0.9);
         expect(dmax, layer).toBeLessThan(0.01);
       }
-    }, 180000);
+    }, 240_000); // GDAL and the corpus are on E:, a USB disk that can stay busy for hours
   }
 });

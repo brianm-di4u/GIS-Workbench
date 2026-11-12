@@ -1,14 +1,14 @@
 // Scale (SDP-2.1 §7.3, S-42 "10 GB output read by range", REQ-SDC-07): the COG that
 // scale-hamilton.mjs made from the 10.7 GB Hamilton County MrSID is opened in the app in place from
 // the sidecar that made it — by HTTP Range, never downloaded — and the first view is drawn.
-// Skipped until D:/gwb-sidecar-deps/scale/scale.json reports a finished job.
+// Skipped until E:/gwb-sidecar-deps/scale/scale.json reports a finished job.
 import { test, expect } from '@playwright/test';
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { openApp } from '../helpers.js';
 import { DIST_DIR, startSidecar, stopSidecar } from './harness.js';
 
-const SCALE = 'D:/gwb-sidecar-deps/scale/scale.json';
+const SCALE = 'E:/gwb-sidecar-deps/scale/scale.json';
 const rep = existsSync(SCALE) ? JSON.parse(readFileSync(SCALE, 'utf8')) : null;
 
 test('Scale: the Hamilton 10.7 GB MrSID → COG opens in place by range from the sidecar', async ({ page }) => {

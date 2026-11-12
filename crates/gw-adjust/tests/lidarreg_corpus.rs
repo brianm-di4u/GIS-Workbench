@@ -1,7 +1,7 @@
 //! REQ-GAP-46 corpus validation (2.5 group lidarreg): image-to-LiDAR registration on the T&E corpus.
 //!
 //! Inputs come from `build/campaign/oracles/lidarreg.py prep` (image chips, DEM crops, surveyed
-//! points) in D:/gwb25/data-lidarreg/work (override with GW_LIDARREG_WORK), and the LAZ tiles in
+//! points) in E:/gwb25/data-lidarreg/work (override with GW_LIDARREG_WORK), and the LAZ tiles in
 //! the corpus. Results and the dumps the oracles read go to <work>/harness.
 //!
 //! Heavy (147 M LAZ points): ignored by default; run in release:
@@ -25,7 +25,7 @@ use std::rc::Rc;
 use std::time::Instant;
 
 fn work() -> PathBuf {
-    std::env::var("GW_LIDARREG_WORK").map(PathBuf::from).unwrap_or_else(|_| PathBuf::from("D:/gwb25/data-lidarreg/work"))
+    std::env::var("GW_LIDARREG_WORK").map(PathBuf::from).unwrap_or_else(|_| PathBuf::from("E:/gwb25/data-lidarreg/work"))
 }
 
 fn out_dir() -> PathBuf {

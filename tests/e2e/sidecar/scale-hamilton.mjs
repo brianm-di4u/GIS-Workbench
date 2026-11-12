@@ -3,7 +3,7 @@
 // County 0.5 ft MrSID (tier U field data, 340 000 × 220 000 RGB) → COG through a sidecar, the
 // input picked in the sidecar (zero copy). Writes progress and the result to <out>/scale.json.
 //
-//   node tests/e2e/sidecar/scale-hamilton.mjs [--compress JPEG] [--out D:/gwb-sidecar-deps/scale]
+//   node tests/e2e/sidecar/scale-hamilton.mjs [--compress JPEG] [--out E:/gwb-sidecar-deps/scale]
 import { spawn } from 'node:child_process';
 import { writeFileSync, mkdirSync, existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -13,7 +13,7 @@ const arg = (k, d) => {
   const i = process.argv.indexOf(k);
   return i > 0 ? process.argv[i + 1] : d;
 };
-const OUT = arg('--out', 'D:/gwb-sidecar-deps/scale');
+const OUT = arg('--out', 'E:/gwb-sidecar-deps/scale');
 const EXE = arg('--exe', join(OUT, 'gwb-sidecar.exe'));
 const SID = arg('--sid', 'C:/GIS Workbench/Research/Additional Data Samples/Hamilton_2018_rgb_20x-002/Hamilton_2018_rgb_20x.sid');
 const COMPRESS = arg('--compress', 'JPEG');
@@ -24,7 +24,7 @@ mkdirSync(data, { recursive: true });
 const rep = { started: new Date().toISOString(), input: SID, input_bytes: statSync(SID).size, compress: COMPRESS, progress: [] };
 const save = () => writeFileSync(join(OUT, 'scale.json'), JSON.stringify(rep, null, 2));
 
-const child = spawn(EXE, ['--headless', '--data-dir', data, '--modules-dir', 'D:/gwb-sidecar-deps/bundle/modules', '--port', String(PORT), '--port-file', join(data, 'port.txt'), '--test-pair', `null=${token}`, '--test-pick', SID], { env: { ...process.env, GWB_SIDECAR_TEST: '1' }, stdio: 'ignore', detached: true });
+const child = spawn(EXE, ['--headless', '--data-dir', data, '--modules-dir', 'E:/gwb-sidecar-deps/bundle/modules', '--port', String(PORT), '--port-file', join(data, 'port.txt'), '--test-pair', `null=${token}`, '--test-pick', SID], { env: { ...process.env, GWB_SIDECAR_TEST: '1' }, stdio: 'ignore', detached: true });
 child.unref();
 rep.sidecar_pid = child.pid;
 const B = `http://127.0.0.1:${PORT}`;

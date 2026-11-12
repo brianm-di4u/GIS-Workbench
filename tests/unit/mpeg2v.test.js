@@ -2,7 +2,7 @@
 // through the decode-worker module (app/src/workers/decode/mpv.js) exactly as the player drives it,
 // against ffmpeg's decode of the same frames (`-idct simple`, I420; MD5 per frame in
 // fixtures/fx24/motion/mpeg2_truth.json): every frame bit-exact, in display order, after seeks.
-// The corpus files (SCN-30 data, D:\TE-corpus) are checked by the Rust differential test
+// The corpus files (SCN-30 data, E:\TE-corpus) are checked by the Rust differential test
 // crates/gw-codec/tests/mpeg2v_ref.rs.
 //
 //   node build/fixtures/fx24-motion-mpeg2.mjs   (writes the fixtures and the truth)
@@ -202,7 +202,7 @@ describe.skipIf(!have || !mpeg2)('MPEG-2 video decoder in WebAssembly (REQ-GAP-4
   });
 });
 
-// The corpus MPEG-2 KLV transport streams (SCN-30 data, D:\TE-corpus\derived-fmv-variants; test
+// The corpus MPEG-2 KLV transport streams (SCN-30 data, E:\TE-corpus\derived-fmv-variants; test
 // only, never bundled): every frame of each 60 s file through the TS demuxer and the decoder,
 // against `ffmpeg -idct simple -f framemd5` (gw-te environment). Skipped when either is missing.
 const CORPUS = resolve(process.env.TE_CORPUS ?? '../TE-corpus', 'derived-fmv-variants');

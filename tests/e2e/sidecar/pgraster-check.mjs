@@ -18,8 +18,8 @@ const arg = (k, d) => {
   return i > 0 ? process.argv[i + 1] : d;
 };
 const EXE = arg('--exe');
-const MODULES = arg('--modules', 'D:/gwb26/data-gdalroutes/bundle/modules');
-const WORK = arg('--work', 'D:/gwb26/data-gdalroutes/pgcheck');
+const MODULES = arg('--modules', 'E:/gwb26/data-gdalroutes/bundle/modules');
+const WORK = arg('--work', 'E:/gwb26/data-gdalroutes/pgcheck');
 const PY = arg('--python', 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te/python.exe');
 const PORT = 55432;
 const SC = 47828;
