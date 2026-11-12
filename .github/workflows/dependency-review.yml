@@ -1,0 +1,31 @@
+# Fails a PR that adds or changes a dependency with a known high or critical vulnerability.
+#
+# Licences are in warn mode only. No allow or deny list is set, so the licence check can report
+# an unknown or missing licence but can't fail the run. (The action's own warn-only switch would
+# also silence the vulnerability check, so it isn't used.) THIRD_PARTY.md stays the authority on
+# which licences and sources are allowed, and nothing here replaces it. Turning licence checks
+# into a gate is a decision for the admin.
+#
+# The action reads the dependency graph through the API and runs no repository code, so it needs
+# only read access.
+name: dependency-review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+          fail-on-scopes: runtime, development

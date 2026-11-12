@@ -121,17 +121,67 @@ const blockingOpen = (ledger) => unanswered(ledger).filter((f) => BLOCKING.has(f
 export const lastCompleteRound = (ledger) => ledger.rounds.filter((r) => r.complete).at(-1);
 
 // A round is clean when it finished and raised nothing above a nit. A round from before phases
-// were recorded has no `raised`, so it is never clean and doesn't count toward either phase.
-const isClean = (round) => round.complete && round.raised != null && round.raised.blocker + round.raised.should === 0;
+// were recorded has no `raised`, so it is never clean and doesn't count toward either phase. A round
+// where a seat ran out of turns and returned only part of its review (`partial`) is never clean either:
+// its findings are kept, but silence from a seat that didn't finish proves nothing.
+const isClean = (round) => round.complete && round.raised != null && round.raised.blocker + round.raised.should === 0 && (round.partial ?? []).length === 0;
 const roundsIn = (ledger, phase) => ledger.rounds.filter((r) => r.phase === phase && r.complete);
 
+// A mechanical change (see linkMechanical) joins the content before it to the content after it, so the
+// clean rounds on the old hash carry over once a diff-only round on the new one comes back clean.
+const contentOf = (hash, links = {}) => {
+  let current = hash;
+  for (let i = 0; i < 20 && links[current]; i += 1) current = links[current];
+  return current;
+};
+export const mechanicalLinks = (ledger) => Object.fromEntries((ledger.mechanical ?? []).map((link) => [link.from, link.to]));
+
+// A round that raised only shoulds, every one of them since declined with a written reason and none
+// fixed, so the content is the same: the author answered it without changing anything (issue 184).
+// A blocker never gets this, and neither does a should the author fixed, because the fix changes the content.
+const isAnswered = (round, findings) => {
+  if (!round.complete || round.raised == null || round.raised.blocker > 0 || round.raised.should === 0 || (round.partial ?? []).length > 0) return false;
+  const own = findings.filter((f) => f.round === round.number && f.status !== 'pre-existing' && (f.severity === 'should' || f.severity === 'blocker'));
+  return own.length > 0 && own.every((f) => f.severity === 'should' && f.status === 'declined');
+};
+
 // How many of the latest rounds in a row were clean on the same content. A round after the content
-// changed starts the count again, so two clean rounds are two looks at the same change.
-export function cleanTail(rounds) {
-  const hash = rounds.at(-1)?.hash;
+// changed starts the count again, so two clean rounds are two looks at the same change. A round that
+// was answered without a change in the middle of the run doesn't end it, as long as a clean round
+// comes after it: the answered round is not a clean look, so it doesn't count either.
+// That bridge never crosses a mechanical link: an answered round is passed only on the newest round's own
+// hash, and once one has been passed, the count stops at the link. So a should answered before or after
+// a mechanical change gets a fresh clean round of its own (SKILL.md: a round that finds anything makes
+// it a normal change again).
+export function cleanTail(rounds, { findings = [], links = {} } = {}) {
+  if (rounds.length === 0) return 0;
+  const newest = rounds.at(-1).hash;
+  const content = contentOf(newest, links);
   let count = 0;
-  for (let i = rounds.length - 1; i >= 0 && isClean(rounds[i]) && rounds[i].hash === hash; i -= 1) count += 1;
+  let bridged = false;
+  for (let i = rounds.length - 1; i >= 0; i -= 1) {
+    const round = rounds[i];
+    if (contentOf(round.hash, links) !== content) break;
+    if (isClean(round)) {
+      if (bridged && round.hash !== newest) break;
+      count += 1;
+    } else if (count > 0 && round.hash === newest && isAnswered(round, findings)) bridged = true;
+    else break;
+  }
   return count;
+}
+
+// The author says what changed since the last round is mechanical: a conflict resolved, or a line main
+// forced. Then the clean rounds before it still count, once a round that reads only that diff comes
+// back clean. It is refused for more than `maxLines` changed lines.
+export function linkMechanical(ledger, { to, reason, lines, maxLines = 40 }) {
+  const last = lastCompleteRound(ledger);
+  if (!last) throw new Error('No round has finished, so there is nothing to carry over.');
+  if (!reason) throw new Error('Say why the change is mechanical.');
+  if (last.hash === to) throw new Error('The content has not changed since the last round.');
+  if (!Number.isInteger(lines) || lines > maxLines) throw new Error(`A mechanical change is at most ${maxLines} changed lines. This one is ${lines}. Run a normal round.`);
+  ledger.mechanical = [...(ledger.mechanical ?? []), { from: last.hash, to, reason, lines }];
+  return ledger.mechanical.at(-1);
 }
 
 // Where a change stands: the loop phase is done once its latest rounds are two clean ones in a row on
@@ -140,8 +190,9 @@ export function cleanTail(rounds) {
 export function phaseState(ledger, hash) {
   const loop = roundsIn(ledger, 'loop');
   const close = roundsIn(ledger, 'close');
-  const loopDone = cleanTail(loop) >= CLEAN_ROUNDS;
-  const closeDone = loopDone && cleanTail(close) >= CLEAN_ROUNDS && close.at(-1).hash === hash && blockingOpen(ledger).length === 0;
+  const context = { findings: ledger.findings, links: mechanicalLinks(ledger) };
+  const loopDone = cleanTail(loop, context) >= CLEAN_ROUNDS;
+  const closeDone = loopDone && cleanTail(close, context) >= CLEAN_ROUNDS && close.at(-1).hash === hash && blockingOpen(ledger).length === 0;
   return { loop, close, loopDone, closeDone };
 }
 
@@ -292,6 +343,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     sha,
     diffLines,
     complete,
+    partial: result.partial ?? [],
     seats: result.seats ?? [],
     missing: result.missing ?? [],
     refuted: result.refuted ?? 0,
