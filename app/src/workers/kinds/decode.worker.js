@@ -222,6 +222,14 @@ GW.register('open', async ({ file, name, merge = false, hdr = null, frames = nul
         meta.bandsMeta = g.bands;
         meta.gdalScale = g.scale;
         meta.gdalOffset = g.offset;
+        // Dataset-level items (no sample attribute), by name: products read their own keys here.
+        const items = {};
+        const walk = (n) => {
+          if (n.n === 'Item' && n.a?.name && n.a.sample == null) items[n.a.name] = n.t ?? '';
+          for (const c of n.c ?? []) walk(c);
+        };
+        walk(t);
+        meta.gdalItems = items;
       }
     }
     const h = nextHandle++;

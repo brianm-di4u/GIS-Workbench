@@ -98,6 +98,21 @@ export function geoKeys({ epsg, vertical = null }) {
   return [1, 1, 1, keys.length, ...keys.flat()]; // GeoTIFF 1.1 (KeyDirectoryVersion 1, revision 1.1)
 }
 
+const XML_ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
+const xmlEsc = (s) => String(s).replace(/[&<>"]/g, (c) => XML_ESC[c]);
+
+/**
+ * GDAL_METADATA text (tag 42112) from dataset items {name: value} and band descriptions [name, …].
+ * The decoder returns dataset items as meta.gdalItems and band names as meta.bandsMeta.
+ */
+export function gdalMetadataXml({ dataset = {}, bands = [] } = {}) {
+  const items = [
+    ...Object.entries(dataset).map(([k, v]) => `<Item name="${xmlEsc(k)}">${xmlEsc(v)}</Item>`),
+    ...bands.map((b, i) => `<Item name="DESCRIPTION" sample="${i}" role="description">${xmlEsc(b)}</Item>`),
+  ];
+  return items.length ? `<GDALMetadata>${items.join('')}</GDALMetadata>` : undefined;
+}
+
 /**
  * Encode a GeoTIFF. img = {width, height, bands, type: 'u8'|'u16'|'i16'|'f32', data (chunky)}.
  * opts: tile (256), compress ('deflate'|'none'), predictor (auto), overviews (true),

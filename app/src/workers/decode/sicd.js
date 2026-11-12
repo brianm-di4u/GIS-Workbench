@@ -10,6 +10,15 @@
 
 import { gwError } from '../../i18n/index.js';
 
+/**
+ * A calibrated band in dB from power |z|², the noise power and the LUT factor. A sample of exactly
+ * 0 is no data (the zero fill outside a burst's valid lines and at a swath's edge), so NaN; power
+ * at or under the noise is a real, dark sample, floored at 1e-30 rather than left out.
+ */
+export function calibratedDb(p, noise, f) {
+  return p === 0 ? NaN : 10 * Math.log10(Math.max(p - noise, 1e-30) * f);
+}
+
 export const SAR_BANDS = ['amplitude', 'phase', 'I', 'Q', 'power', 'beta0', 'sigma0', 'gamma0'];
 
 const LO = 1 - 2 ** -48;
@@ -171,7 +180,7 @@ export function sicdSource(base, meta) {
       else if (lut && band >= 5 && band <= 7) {
         const f = lut[['beta0', 'sigma0', 'gamma0'][band - 5]](x0, y0, w, h, sc, half);
         const nz = lut.noise?.(x0, y0, w, h, sc, half);
-        for (let i = 0; i < n; i++) o[i] = 10 * Math.log10(Math.max(re[i] * re[i] + im[i] * im[i] - (nz ? nz[i] : 0), 1e-30) * f[i]);
+        for (let i = 0; i < n; i++) o[i] = calibratedDb(re[i] * re[i] + im[i] * im[i], nz ? nz[i] : 0, f[i]);
       } else {
         const sf = polys[band];
         if (!sf) {

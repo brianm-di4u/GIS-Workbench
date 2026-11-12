@@ -58,6 +58,86 @@ fn arr(j: &mut Json, k: &str, v: &[f64]) {
     j.end_arr();
 }
 
+/// Seconds since 2000-01-01T00:00:00 of an ISO date and time in UTC (`2024-06-26T13:44:05.435629`,
+/// with an optional `UTC=` prefix or `Z` suffix). As an f64 this keeps about 0.1 µs (S-72).
+pub fn utc_secs(s: &str) -> Option<f64> {
+    let s = s.trim().trim_start_matches("UTC=").trim_end_matches('Z');
+    let (date, time) = s.split_once('T')?;
+    let mut d = date.split('-');
+    let (y, mo, da): (i64, i64, i64) = (d.next()?.parse().ok()?, d.next()?.parse().ok()?, d.next()?.parse().ok()?);
+    let mut t = time.split(':');
+    let (hh, mm): (i64, i64) = (t.next()?.parse().ok()?, t.next()?.parse().ok()?);
+    let ss: f64 = t.next()?.parse().ok()?;
+    if d.next().is_some() || t.next().is_some() || !(1..=12).contains(&mo) || !(1..=31).contains(&da) || !(1000..=9999).contains(&y) || !(0..24).contains(&hh) || !(0..60).contains(&mm) || !(0.0..61.0).contains(&ss) {
+        return None;
+    }
+    // Days from the civil date (H. Hinnant's algorithm), counted from 2000-01-01.
+    let yy = if mo <= 2 { y - 1 } else { y };
+    let era = yy.div_euclid(400);
+    let yoe = yy - era * 400;
+    let doy = (153 * ((mo + 9) % 12) + 2) / 5 + da - 1;
+    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+    let days = era * 146_097 + doe - 719_468 - 10_957;
+    Some(days as f64 * 86_400.0 + (hh * 3600 + mm * 60) as f64 + ss)
+}
+
+/// The text at a slash-separated path of first children (`position/x`).
+fn at<'a>(n: &'a Node, path: &str) -> &'a str {
+    let mut cur = n;
+    for seg in path.split('/') {
+        match first(cur, seg) {
+            Some(c) => cur = c,
+            None => return "",
+        }
+    }
+    cur.text.trim()
+}
+
+fn utc(j: &mut Json, k: &str, s: &str) {
+    match utc_secs(s) {
+        Some(v) => j.kv_num(k, v),
+        None => j.key(k).null(),
+    };
+}
+
+/// State vectors as { t: [s since 2000], p: [x, y, z, …], v: [vx, vy, vz, …] } (ECEF, m and m/s),
+/// skipping any vector with a missing or non-numeric field.
+fn state_vectors(j: &mut Json, k: &str, nodes: &[&Node], time: &str, pos: [&str; 3], vel: [&str; 3]) {
+    let mut out: Vec<[f64; 7]> = Vec::new();
+    for o in nodes.iter().take(100_000) {
+        let f = |p: &str| at(o, p).parse::<f64>().ok().filter(|v| v.is_finite());
+        let (Some(t), Some(x), Some(y), Some(z), Some(vx), Some(vy), Some(vz)) = (utc_secs(at(o, time)), f(pos[0]), f(pos[1]), f(pos[2]), f(vel[0]), f(vel[1]), f(vel[2])) else { continue };
+        out.push([t, x, y, z, vx, vy, vz]);
+    }
+    j.key(k).obj();
+    arr(j, "t", &out.iter().map(|v| v[0]).collect::<Vec<_>>());
+    arr(j, "p", &out.iter().flat_map(|v| [v[1], v[2], v[3]]).collect::<Vec<_>>());
+    arr(j, "v", &out.iter().flat_map(|v| [v[4], v[5], v[6]]).collect::<Vec<_>>());
+    j.end_obj();
+}
+
+/// A POEORB or RESORB orbit file (`.EOF`, Earth Explorer XML) → { mission, type, start, stop,
+/// orbit: { t, p, v } } with times in seconds since 2000 (UTC) and earth-fixed vectors (REG-085).
+pub fn eof(b: &[u8]) -> Result<String> {
+    let root = xml::parse(b)?;
+    if root.name != "Earth_Explorer_File" || first(&root, "List_of_OSVs").is_none() {
+        return Err(Error::invalid("not a Sentinel orbit file (no <Earth_Explorer_File>/<List_of_OSVs>)"));
+    }
+    let frame = text(&root, "Ref_Frame");
+    if !frame.is_empty() && frame != "EARTH_FIXED" {
+        return Err(gw_abi::err!(INVALID, "the orbit file is in the {frame} frame; an earth-fixed one is needed", frame = crate::bytes::printable(frame.as_bytes(), 24)));
+    }
+    let mut j = Json::new();
+    j.obj();
+    j.kv_str("mission", text(&root, "Mission")).kv_str("type", text(&root, "File_Type"));
+    utc(&mut j, "start", text(&root, "Validity_Start"));
+    utc(&mut j, "stop", text(&root, "Validity_Stop"));
+    let osv = all_named(&root, "OSV");
+    state_vectors(&mut j, "orbit", &osv, "UTC", ["X", "Y", "Z"], ["VX", "VY", "VZ"]);
+    j.end_obj();
+    Ok(j.finish())
+}
+
 /// `manifest.safe` → product summary and data objects.
 pub fn manifest(b: &[u8]) -> Result<String> {
     let root = xml::parse(b)?;
@@ -139,6 +219,16 @@ pub fn annotation(b: &[u8]) -> Result<String> {
         Some(v) => j.kv_num("radarFrequency", v),
         None => j.key("radarFrequency").null(),
     };
+    // For range-Doppler geocoding (REG-085): sampling, line times and the orbit. Times are seconds
+    // since 2000 (UTC).
+    match first(&root, "productInformation").and_then(|p| num(p, "rangeSamplingRate")) {
+        Some(v) => j.kv_num("rangeSamplingRate", v),
+        None => j.key("rangeSamplingRate").null(),
+    };
+    utc(&mut j, "t0", info.map(|i| text(i, "productFirstLineUtcTime")).unwrap_or(""));
+    utc(&mut j, "t1", info.map(|i| text(i, "productLastLineUtcTime")).unwrap_or(""));
+    let orbit = first(&root, "orbitList").map(|o| all_named(o, "orbit")).unwrap_or_default();
+    state_vectors(&mut j, "orbit", &orbit, "time", ["position/x", "position/y", "position/z"], ["velocity/x", "velocity/y", "velocity/z"]);
     // TOPS bursts: each burst's lines, and its valid line and sample ranges.
     let st = first(&root, "swathTiming");
     let lpb = st.and_then(|s| num(s, "linesPerBurst")).unwrap_or(0.0);
@@ -151,6 +241,7 @@ pub fn annotation(b: &[u8]) -> Result<String> {
             let valid: Vec<usize> = fv.iter().enumerate().filter(|(_, v)| **v >= 0.0).map(|(i, _)| i).collect();
             let first_line = k as f64 * lpb;
             j.obj().kv_str("azimuthTime", text(bu, "azimuthTime")).kv_num("firstLine", first_line).kv_num("lines", lpb);
+            utc(&mut j, "t", text(bu, "azimuthTime"));
             match (valid.first(), valid.last()) {
                 (Some(&a), Some(&z)) => {
                     let s0 = valid.iter().map(|&i| fv[i]).fold(f64::INFINITY, f64::min);
@@ -168,10 +259,13 @@ pub fn annotation(b: &[u8]) -> Result<String> {
     }
     j.end_arr();
     // The geolocation grid: (line, pixel) points, as a regular grid when they form one.
-    let pts: Vec<[f64; 6]> = all_named(&root, "geolocationGridPoint")
+    let pts: Vec<[f64; 8]> = all_named(&root, "geolocationGridPoint")
         .into_iter()
         .take(100_000)
-        .filter_map(|p| Some([num(p, "line")?, num(p, "pixel")?, num(p, "latitude")?, num(p, "longitude")?, num(p, "height").unwrap_or(0.0), num(p, "incidenceAngle").unwrap_or(f64::NAN)]))
+        .filter_map(|p| {
+            let t = utc_secs(text(p, "azimuthTime")).unwrap_or(f64::NAN);
+            Some([num(p, "line")?, num(p, "pixel")?, num(p, "latitude")?, num(p, "longitude")?, num(p, "height").unwrap_or(0.0), num(p, "incidenceAngle").unwrap_or(f64::NAN), t, num(p, "slantRangeTime").unwrap_or(f64::NAN)])
+        })
         .collect();
     let mut lines: Vec<f64> = pts.iter().map(|p| p[0]).collect();
     let mut pixels: Vec<f64> = pts.iter().map(|p| p[1]).collect();
@@ -182,15 +276,15 @@ pub fn annotation(b: &[u8]) -> Result<String> {
     j.key("grid").obj();
     j.kv_num("count", pts.len() as f64);
     if !pts.is_empty() && lines.len() * pixels.len() == pts.len() {
-        let mut g = vec![[f64::NAN; 4]; pts.len()];
+        let mut g = vec![[f64::NAN; 6]; pts.len()];
         for p in &pts {
             let (Ok(r), Ok(c)) = (lines.binary_search_by(|x| x.total_cmp(&p[0])), pixels.binary_search_by(|x| x.total_cmp(&p[1]))) else { continue };
-            g[r * pixels.len() + c] = [p[2], p[3], p[4], p[5]];
+            g[r * pixels.len() + c] = [p[2], p[3], p[4], p[5], p[6], p[7]];
         }
         j.kv_bool("regular", true);
         arr(&mut j, "lines", &lines);
         arr(&mut j, "pixels", &pixels);
-        for (k, name) in ["lat", "lon", "height", "incidence"].iter().enumerate() {
+        for (k, name) in ["lat", "lon", "height", "incidence", "t", "tau"].iter().enumerate() {
             arr(&mut j, name, &g.iter().map(|v| v[k]).collect::<Vec<_>>());
         }
     } else {
@@ -321,5 +415,32 @@ mod tests {
         let m = br#"<XFDU><metadataSection><metadataObject><metadataWrap><xmlData><safe:platform xmlns:safe="x"><safe:familyName>SENTINEL-1</safe:familyName><safe:number>A</safe:number></safe:platform><gml:coordinates xmlns:gml="g">34.6,-114.1 35.0,-116.9</gml:coordinates></xmlData></metadataWrap></metadataObject></metadataSection><dataObjectSection><dataObject ID="s1aiw1" repID="s1Level1MeasurementSchema"><byteStream><fileLocation href="./measurement/a.tiff"/></byteStream></dataObject></dataObjectSection></XFDU>"#;
         let s = manifest(m).unwrap();
         assert!(s.contains("\"kind\":\"measurement\"") && s.contains("[34.6,-114.1]"), "{s}");
+    }
+
+    #[test]
+    fn utc_seconds_since_2000() {
+        assert_eq!(utc_secs("2000-01-01T00:00:00"), Some(0.0));
+        assert_eq!(utc_secs("UTC=2000-03-01T00:00:00"), Some(60.0 * 86_400.0)); // 2000 is a leap year
+        // 2024-06-26 is day 8943: 24 years with six leap days, then 177 days into 2024.
+        let t = utc_secs("2024-06-26T13:44:05.435629").unwrap();
+        assert!((t - (8943.0 * 86_400.0 + 49_445.435_629)).abs() < 1e-6, "{t}");
+        assert!(utc_secs("1999-12-31T23:59:59Z").unwrap() == -1.0);
+        for bad in ["", "2024-06-26", "2024-13-01T00:00:00", "2024-06-26T24:00:00", "2024-06-26T13:44", "x-06-26T13:44:05", "2024-06-26T13:44:05:01"] {
+            assert!(utc_secs(bad).is_none(), "{bad}");
+        }
+    }
+
+    #[test]
+    fn orbit_file_and_annotation_orbit() {
+        let e = br#"<?xml version="1.0"?><Earth_Explorer_File><Earth_Explorer_Header><Fixed_Header><Mission>Sentinel-1A</Mission><File_Type>AUX_POEORB</File_Type><Validity_Period><Validity_Start>UTC=2024-06-25T22:59:42</Validity_Start><Validity_Stop>UTC=2024-06-27T00:59:42</Validity_Stop></Validity_Period></Fixed_Header><Variable_Header><Ref_Frame>EARTH_FIXED</Ref_Frame></Variable_Header></Earth_Explorer_Header><Data_Block type="xml"><List_of_OSVs count="2"><OSV><UTC>UTC=2024-06-25T22:59:42.000000</UTC><X unit="m">1</X><Y unit="m">2</Y><Z unit="m">3</Z><VX unit="m/s">4</VX><VY unit="m/s">5</VY><VZ unit="m/s">6</VZ></OSV><OSV><UTC>UTC=2024-06-25T22:59:52.000000</UTC><X unit="m">7</X><Y unit="m">8</Y><Z unit="m">9</Z><VX unit="m/s">10</VX><VY unit="m/s">11</VY><VZ unit="m/s">x</VZ></OSV></List_of_OSVs></Data_Block></Earth_Explorer_File>"#;
+        let s = eof(e).unwrap();
+        // The second vector has a non-numeric VZ and is skipped.
+        assert!(s.contains("\"p\":[1,2,3]") && s.contains("\"v\":[4,5,6]") && s.contains("\"type\":\"AUX_POEORB\""), "{s}");
+        assert!(eof(String::from_utf8_lossy(e).replace("EARTH_FIXED", "INERTIAL").as_bytes()).is_err());
+        assert!(eof(b"<product/>").is_err());
+        let a = br#"<product><adsHeader><missionId>S1A</missionId></adsHeader><generalAnnotation><productInformation><rangeSamplingRate>6.4e7</rangeSamplingRate><radarFrequency>5.405e9</radarFrequency></productInformation><orbitList count="1"><orbit><time>2024-06-26T13:43:55.000000</time><frame>Earth Fixed</frame><position><x>1</x><y>2</y><z>3</z></position><velocity><x>4</x><y>5</y><z>6</z></velocity></orbit></orbitList></generalAnnotation><imageAnnotation><imageInformation><productFirstLineUtcTime>2024-06-26T13:44:05.5</productFirstLineUtcTime></imageInformation></imageAnnotation></product>"#;
+        let s = annotation(a).unwrap();
+        assert!(s.contains("\"orbit\":{\"t\":[772724635],\"p\":[1,2,3],\"v\":[4,5,6]}"), "{s}");
+        assert!(s.contains("\"rangeSamplingRate\":64000000") && s.contains("\"t0\":772724645.5"), "{s}");
     }
 }
