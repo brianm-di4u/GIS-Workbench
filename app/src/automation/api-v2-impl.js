@@ -15,6 +15,7 @@ import { readGeoJSON } from '../vector/io.js';
 import { toGeoJSON, bbox } from '../vector/geom.js';
 import { chainSummary } from '../render/chain.js';
 import { t } from '../i18n/index.js';
+import { defaults as recipeDefaults } from '../recipes/recipe.js';
 
 const TEXT_TYPES = /^(text\/|application\/(json|geo\+json|vnd\.google-earth\.kml\+xml|xml))/;
 
@@ -417,14 +418,24 @@ export function makeV2Impl(app, api, override = {}) {
       return files[0] ?? { name: '', type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation', size: 0, saved: 'dialog' };
     },
 
-    'recipes.list': () => [...recipeOps().builtin.map((r) => ({ ...r, builtin: true })), ...(app.prefs.get('recipes') ?? []).map((r) => ({ ...r, builtin: false }))].map((r) => ({ id: r.id, name: String(r.name), steps: r.steps.length, builtin: r.builtin })),
-    'recipes.ops': () => Object.entries(recipeOps().ops).map(([op, o]) => ({ op, title: String(o.title), defaults: o.defaults ?? {}, gate: !!o.gate })),
-    'recipes.validate': ({ recipe }) => recipeOps().validate(recipe),
-    'recipes.run': async ({ id, recipe, params = {}, gates = 'continue', from = 0 } = {}) => {
+    // The same list as the Recipes dock: built in, the project's workflows, then the library.
+    'recipes.list': async () => {
       const R = recipeOps();
-      const src = recipe ?? [...R.builtin, ...(app.prefs.get('recipes') ?? [])].find((r) => r.id === id);
-      if (!src) throw apiError(id ? `no recipe ${id}; call recipes.list` : 'give a recipe id or a recipe', 'E_NO_RECIPE');
-      const run = R.headless(src, { gates, params });
+      await R.library();
+      const builtin = new Set(R.builtin.map((r) => r.id));
+      return R.known().map((r) => ({ id: r.id, name: String(r.name), steps: r.steps.length, builtin: builtin.has(r.id), source: r.source, ...(r.clash ? { clash: true } : {}) }));
+    },
+    'recipes.ops': () => Object.entries(recipeOps().ops).map(([op, o]) => ({ op, title: String(o.title), defaults: recipeDefaults(o), gate: !!o.gate, schema: JSON.parse(JSON.stringify(o.schema ?? {})), inputs: o.inputs ?? [], outputs: o.outputs ?? [] })),
+    'recipes.validate': ({ recipe }) => recipeOps().validate(recipe),
+    'recipes.run': async ({ id, source, recipe, params = {}, inputs = {}, gates = 'continue', from = 0 } = {}) => {
+      const R = recipeOps();
+      if (!recipe) await R.library();
+      // An id the project and the library both hold, with different content, runs only once `source` picks one.
+      const all = recipe ? [] : R.known().filter((r) => r.id === id && (!source || r.source === source));
+      if (all.length > 1) throw apiError(`recipe ${id} is in both the project and the library, and they differ: give source 'project' or 'library'`, 'E_RECIPE_AMBIGUOUS');
+      const src = recipe ?? all[0];
+      if (!src) throw apiError(id ? `no recipe ${id}${source ? ` in the ${source}` : ''}; call recipes.list` : 'give a recipe id or a recipe', 'E_NO_RECIPE');
+      const run = R.headless(src, { gates, params, inputs });
       runs.set(run.id, run);
       while (runs.size > 20) runs.delete(runs.keys().next().value);
       await run.start(from);
@@ -441,9 +452,9 @@ export function makeV2Impl(app, api, override = {}) {
       if (!r) throw apiError(`no run ${run}`, 'E_NO_RUN');
       return r.status();
     },
-    'recipes.op': async ({ op, params = {} }) => {
+    'recipes.op': async ({ op, params = {}, inputs = {} }) => {
       const R = recipeOps();
-      return R.runOp(op, params);
+      return R.runOp(op, params, inputs);
     },
 
     'commands.list': ({ filter = '' } = {}) => {
