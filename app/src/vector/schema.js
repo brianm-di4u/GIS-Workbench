@@ -77,11 +77,11 @@ export function attributeKey(attributes, column, a, typeCode) {
 /** The layer column an attribute key writes: its `field`, else the key (decision #243). */
 export const columnOf = (cat, key) => cat?.attributes?.[key]?.field ?? key;
 
-/** A rule's key → the column it means for one type: its `field` only when the type (or subtype) has the key. */
+/** A rule's key → the column it means for one type, or null for a key the type (and subtype) does not have. */
 function columnsOf(cat, schema) {
   const t = typeOf(cat, schema?.code);
   const own = new Set([...(t?.attributes ?? []), ...(subtypeOf(cat, schema?.code, schema?.subtype)?.attributes ?? [])]);
-  return (key) => (own.has(key) ? columnOf(cat, key) : key);
+  return (key) => (own.has(key) ? columnOf(cat, key) : null);
 }
 
 function checkCond(c, where, attrs) {
@@ -305,9 +305,9 @@ export function contingentDomain(cat, schema, fields, name, attrs) {
   const fieldOf = (n) => fields.find((x) => x.name === n) ?? null;
   const colOf = columnsOf(cat, schema);
   for (const r of rulesFor(cat, schema?.code)) {
-    const ds = Object.entries(r.then?.domain ?? {}).filter(([k]) => colOf(k) === name);
-    if (!ds.length || !condHolds(cat, r.when, attrs, fieldOf, colOf)) continue;
-    for (const [, d] of ds) {
+    // A type writes each column once, so one key at most is this column's.
+    const d = Object.entries(r.then?.domain ?? {}).find(([k]) => colOf(k) === name)?.[1];
+    if (d && condHolds(cat, r.when, attrs, fieldOf, colOf)) {
       const keep = new Set(d.map(String));
       allowed = allowed.filter((k) => keep.has(k) || k === String(nullOf(cat, f)));
     }

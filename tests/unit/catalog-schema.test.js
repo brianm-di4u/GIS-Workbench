@@ -138,7 +138,9 @@ describe('#249 a rule on one type\'s own key leaves another type\'s column of th
       { code: 'Bridge', name: 'Bridge', geometry: ['LineString'], attributes: ['kind', 'status_Bridge', 'note', 'span_Bridge'] },
     ],
     // Catalogue rules, for every type: each names Bridge's own keys.
-    rules: [{ id: 'g1', when: { field: 'kind', value: 'x' }, then: { domain: { status_Bridge: ['raised'] }, forbid: ['note'], range: { span_Bridge: [0, 100] } } }, { id: 'g2', when: { field: 'status_Bridge', value: 'closed' }, then: { require: ['note'] } }],
+    rules: [{ id: 'g1', when: { field: 'kind', value: 'x' }, then: { domain: { status_Bridge: ['raised'] }, forbid: ['note'], range: { span_Bridge: [0, 100] } } }, { id: 'g2', when: { field: 'status_Bridge', value: 'closed' }, then: { require: ['note'] } },
+      // And one naming Road's own status, which Bridge's status column is not.
+      { id: 'g3', when: { field: 'kind', value: 'x' }, then: { domain: { status: ['open'] } } }],
   });
   it('applies them to Bridge, by column', () => {
     const fs = fieldsFor(cat, 'Bridge');
@@ -150,6 +152,11 @@ describe('#249 a rule on one type\'s own key leaves another type\'s column of th
     const fs = fieldsFor(cat, 'Road');
     expect(ruleIssues(cat, { code: 'Road' }, fs, { kind: 'x', status: 'open', note: '' })).toEqual([]);
     expect(ruleIssues(cat, { code: 'Road' }, fs, { status: 'closed', note: '' })).toEqual([]);
-    expect(Object.keys(contingentDomain(cat, { code: 'Road' }, fs, 'status', { kind: 'x' }))).toEqual(['open', 'closed']);
+    expect(Object.keys(contingentDomain(cat, { code: 'Road' }, fs, 'status', { kind: 'x' }))).toEqual(['open']);
+  });
+  it('and a rule on Road\'s own status leaves Bridge\'s status column alone', () => {
+    const fs = fieldsFor(cat, 'Bridge');
+    expect(ruleIssues(cat, { code: 'Bridge' }, fs, { kind: 'x', status: 'raised', note: '' }).map((o) => `${o.field}:${o.code}`)).toEqual([]);
+    expect(Object.keys(contingentDomain(cat, { code: 'Bridge' }, fs, 'status', { kind: 'x' }))).toEqual(['raised']);
   });
 });
