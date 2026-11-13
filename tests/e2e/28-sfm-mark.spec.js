@@ -5,6 +5,7 @@
 // Two nadir photographs 400 x 300 px, 100 m above 3 control points; no sidecar job ever starts.
 
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 import { openApp } from './helpers.js';
 import { MAGIC, VERSION, controlCsv } from '../../app/src/features/sfm-gcp.js';
 
@@ -50,6 +51,7 @@ async function mockSidecar(page) {
     if (u.pathname === '/v1/hello') return json({ service: 'gwb-sidecar', api: 1, paired: true, version: 'test' });
     if (u.pathname === '/v1/caps') return json(CAPS);
     if (u.pathname === '/v1/pick') return json({ files: [{ id: 'model', name: 'block.sfm-model' }] });
+    if (u.pathname === '/v1/files') return json([{ id: 'other', name: 'other.tif', size: 10, origin: 'output' }, { id: 'model', name: 'block.sfm-model', size: 2e6, origin: 'output' }]);
     if (u.pathname === '/v1/files/ctl') return route.fulfill({ status: 200, headers: { ...cors, 'content-type': 'text/csv' }, body: CONTROL });
     if (u.pathname === '/v1/files/model') return route.fulfill({ status: 200, headers: { ...cors, 'content-type': 'application/octet-stream' }, body: MODEL });
     return route.fulfill({ status: 404, headers: { ...cors, 'content-type': 'application/json' }, body: '{"error":"not in this mock"}' });
@@ -107,7 +109,12 @@ test('the marking dialog: a click, the arrow keys and Enter mark a point without
   await expect(frame.locator('.toast').filter({ hasText: 'at least 3 are needed' }).first()).toBeVisible();
   await expect(dlg).toBeVisible();
   await expect(caption).toContainText(moved);
+  // Cancelled after marking: the marks are saved as a control file, beside the note that the model is kept.
+  const saved = page.waitForEvent('download');
   await dlg.getByRole('button', { name: 'Cancel' }).click();
+  const csv = await saved;
+  expect(csv.suggestedFilename()).toBe('block.gcp.csv');
+  expect(readFileSync(await csv.path(), 'utf8')).toContain('G1,500000,900000,0,EPSG:32630,0.02,gcp,A.JPG,');
   expect(await frame.evaluate(() => window.__sfm)).toBeNull();
   await expect(frame.locator('.toast').filter({ hasText: 'block.sfm-model' }).first()).toBeVisible();
 });
@@ -117,6 +124,10 @@ test('a model from an earlier first stage starts the run again at the marking', 
   const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
   await start(frame, false);
   await frame.locator('[data-id="dialog:sidecar-sfm-gcp"]').getByRole('button', { name: 'Use a model from an earlier run' }).click();
+  // The models the sidecar kept are offered by name, not through a file picker.
+  const models = frame.locator('[data-id="dialog:sidecar-sfm-models"]');
+  await expect(models.locator('[data-id="sfm:models"] option')).toHaveText(['block.sfm-model (2 MB)']);
+  await models.getByRole('button', { name: 'Use this model' }).click();
   const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
   await expect(dlg.locator('[data-id="sfm:photo"]')).toContainText('G1 in A.JPG', { timeout: 30_000 });
   await dlg.getByRole('button', { name: 'Cancel' }).click();

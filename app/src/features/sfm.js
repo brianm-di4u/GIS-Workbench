@@ -7,7 +7,7 @@
 import { h } from '../shell/dom.js';
 import { modal } from '../shell/dialogs.js';
 import { t, gwError } from '../i18n/index.js';
-import { pickFiles } from '../storage/files.js';
+import { pickFiles, download } from '../storage/files.js';
 import { parseControl, controlCsv, readModelHeader, candidates, readiness } from './sfm-gcp.js';
 
 const PROFILE = 'sfm-block';
@@ -282,42 +282,66 @@ export function install(app) {
     if (r !== 'run' && r !== 'reuse') return null;
     let model = args.model;
     // The first stage takes hours: a model it published before (a cancelled marking, a failed second
-    // stage) starts the run again from the marking.
+    // stage) starts the run again from the marking. The sidecar keeps its outputs, so they are offered
+    // first; a model saved elsewhere is picked as a file.
     if (!model && r === 'reuse') {
-      model = (await client.pick('file', t('Choose the model file an earlier first stage published (.sfm-model)'))).files[0];
+      const kept = ((await client.request('GET', '/v1/files')) ?? []).filter((f) => f.origin === 'output' && /\.sfm-model$/i.test(f.name)).reverse();
+      const pickFile = async () => (await client.pick('file', t('Choose the model file an earlier first stage published (.sfm-model)'))).files[0];
+      if (!kept.length) model = await pickFile();
+      else {
+        const sel = h('select', { class: 'inp', 'data-id': 'sfm:models' }, ...kept.map((f) => h('option', { value: f.id }, t('{file} ({mb} MB)', { file: f.name, mb: Math.round(f.size / 1e6) }))));
+        const how = await modal({ title: t('Use a model from an earlier run'), body: h('label', { class: 'field' }, t('Models the first stage published on this sidecar, newest first (it keeps them for 14 days)'), sel), buttons: [{ label: t('Use this model'), value: 'use', primary: true }, { label: t('Choose a file…'), value: 'file' }, { label: t('Cancel'), value: 'cancel' }], width: 560, id: 'sidecar-sfm-models' });
+        model = how === 'use' ? kept.find((f) => f.id === sel.value) : how === 'file' ? await pickFile() : null;
+      }
       if (!model) return null;
-      if (!/\.sfm-model$/i.test(model.name)) throw gwError('{file} is not a model file from the first stage (.sfm-model)', { file: model.name }, 'E_SFM_CONTROL_MODEL');
     }
     if (!model) {
       const fin = await app.sidecar.convert({ files: [folder.id], profile: STAGE_ONE, options: { ...form1.read(), ...(args.options ?? {}) }, open: false, reason: t('Structure from Motion with Ground Control'), outputName: folder.name, label: folder.name });
       model = fin.outputs?.find((o) => /\.sfm-model$/i.test(o.name));
       if (!model) throw gwError('the first stage published no model file', {}, 'E_SIDECAR_JOB');
     }
-    const res = await client.request('GET', `/v1/files/${model.id}`, { raw: true });
-    if (!res.ok) throw gwError('the sidecar could not read {file}', { file: model.name }, 'E_SIDECAR_JOB');
-    const header = await readModelHeader(res);
-    const epsg = header.georef?.epsg;
-    if (epsg !== control.epsg) throw gwError('the control file is in EPSG:{a} and the photographs were placed in EPSG:{b}; give the control points in EPSG:{b}', { a: control.epsg, b: epsg }, 'E_SFM_CONTROL_CRS');
+    // Whatever stops the run from here on, the model stays for the next try, and so do the marks.
     let marked = control;
-    if (!args.yes) {
-      const kept = () => app.toast(t('The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.', { file: model.name }), { ms: 12000 });
-      const photos = args.photos ?? (await pickFiles(app, { dir: true, description: t('UAV photographs') }));
-      if (!photos.length) return kept(), null;
-      // Back to the marks until enough points are marked, with what was marked kept.
-      for (;;) {
-        const m = await markControl(header, marked, photos);
-        if (!m) return kept(), null;
-        marked = m;
-        const now = readiness(marked);
-        if (now.ready) break;
-        app.toast(t('{n} control points are marked in two or more photographs; at least 3 are needed', { n: now.marked }), { kind: 'error', ms: 9000 });
+    let markedByHand = false;
+    const kept = () => {
+      app.toast(t('The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.', { file: model.name }), { ms: 12000 });
+      if (markedByHand) {
+        try {
+          download(app, new Blob([controlCsv(marked)], { type: 'text/csv' }), `${folder.name}.gcp.csv`);
+        } catch {
+          /* a name the CSV cannot carry: nothing to save */
+        }
       }
+    };
+    try {
+      const res = await client.request('GET', `/v1/files/${model.id}`, { raw: true });
+      if (!res.ok) throw gwError('the sidecar could not read {file}', { file: model.name }, 'E_SIDECAR_JOB');
+      const header = await readModelHeader(res);
+      const epsg = header.georef?.epsg;
+      if (epsg !== control.epsg) throw gwError('the control file is in EPSG:{a} and the photographs were placed in EPSG:{b}; give the control points in EPSG:{b}', { a: control.epsg, b: epsg }, 'E_SFM_CONTROL_CRS');
+      if (!args.yes) {
+        const photos = args.photos ?? (await pickFiles(app, { dir: true, description: t('UAV photographs') }));
+        if (!photos.length) return kept(), null;
+        // Back to the marks until enough points are marked, with what was marked kept.
+        for (;;) {
+          const m = await markControl(header, marked, photos);
+          if (!m) return kept(), null;
+          marked = m;
+          markedByHand = true;
+          const now = readiness(marked);
+          if (now.ready) break;
+          app.toast(t('{n} control points are marked in two or more photographs; at least 3 are needed', { n: now.marked }), { kind: 'error', ms: 9000 });
+        }
+      }
+      const ready = readiness(marked);
+      if (!ready.ready) throw gwError('{n} control points are marked in two or more photographs; at least 3 are needed', { n: ready.marked }, 'E_SFM_CONTROL_MARKS');
+      const csv = await client.upload(new File([controlCsv(marked)], `${folder.name}.gcp.csv`, { type: 'text/csv' }));
+      const fin = await app.sidecar.convert({ files: [folder.id, model.id, csv.id], profile: STAGE_TWO, options: { ...form2.read(), ...(args.options2 ?? {}) }, open: false, reason: t('Structure from Motion with Ground Control'), outputName: folder.name, label: folder.name });
+      return { ...(await finish(fin, args)), model, control: marked };
+    } catch (e) {
+      kept();
+      throw e;
     }
-    const ready = readiness(marked);
-    if (!ready.ready) throw gwError('{n} control points are marked in two or more photographs; at least 3 are needed', { n: ready.marked }, 'E_SFM_CONTROL_MARKS');
-    const csv = await client.upload(new File([controlCsv(marked)], `${folder.name}.gcp.csv`, { type: 'text/csv' }));
-    const fin = await app.sidecar.convert({ files: [folder.id, model.id, csv.id], profile: STAGE_TWO, options: { ...form2.read(), ...(args.options2 ?? {}) }, open: false, reason: t('Structure from Motion with Ground Control'), outputName: folder.name, label: folder.name });
-    return { ...(await finish(fin, args)), model, control: marked };
   }
 
   app.commands.implement('sidecar.sfm', { run: app.sidecar.guard((a) => sfm(a)) });

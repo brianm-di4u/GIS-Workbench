@@ -6933,6 +6933,13 @@
    ]
   },
   {
+   "key": "Choose a file…",
+   "src": "Choose a file…",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Choose a measurement, then tap points on the image. Results appear here.",
    "src": "Choose a measurement, then tap points on the image. Results appear here.",
    "refs": [
@@ -23601,6 +23608,13 @@
    "src": "Models",
    "refs": [
     "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Models the first stage published on this sidecar, newest first (it keeps them for 14 days)",
+   "src": "Models the first stage published on this sidecar, newest first (it keeps them for 14 days)",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -43519,6 +43533,13 @@
    ]
   },
   {
+   "key": "Use this model",
+   "src": "Use this model",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Use your location?",
    "src": "Use your location?",
    "refs": [
@@ -63319,6 +63340,13 @@
    ]
   },
   {
+   "key": "{file} ({mb} MB)",
+   "src": "{file} ({mb} MB)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{file} ({size}) is ready.",
    "src": "{file} ({size}) is ready.",
    "refs": [
@@ -63463,13 +63491,6 @@
    "src": "{file} is not a camera calibration this build reads (USGS report, Agisoft or Pix4D XML, PAT-B, OpenCV JSON)",
    "refs": [
     "sensor/camera.js"
-   ]
-  },
-  {
-   "key": "{file} is not a model file from the first stage (.sfm-model)",
-   "src": "{file} is not a model file from the first stage (.sfm-model)",
-   "refs": [
-    "features/sfm.js"
    ]
   },
   {
