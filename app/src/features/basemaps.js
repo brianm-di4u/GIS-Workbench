@@ -112,6 +112,12 @@ export function install(app) {
   const cache = new Map(); // key → {tex, bytes, used}
   const pending = new Set();
   const failed = new Map();
+  // The textures belong to the lost context: drop them, so the tiles are fetched and uploaded again
+  // (#238). A tile that failed while the context was lost may have failed for that reason, so retry it.
+  app.on('gl-restored', () => {
+    cache.clear();
+    failed.clear();
+  });
   // Local PMTiles basemaps (REQ-NET-05): read by range from a file; they work offline.
   const locals = [];
   // The user's own Web Mercator online sources (REQ-GAP-07): drawn under images through each

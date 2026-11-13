@@ -446,6 +446,65 @@ test.describe('Lite: location, command list, sidecar, languages, size', () => {
     await longPress(page, b.x + b.width / 2, b.y + b.height / 2);
   });
 
+  test('REQ-HOST-05 Lite starts when the WebGL context is lost as its renderer is made, and draws once it is restored', async ({ page }) => {
+    // The cold-start case of #195: the context is lost before the renderer's first set-up.
+    await page.addInitScript(() => {
+      const get = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (type, ...a) {
+        const gl = get.call(this, type, ...a);
+        if (type === 'webgl2' && this.id === 'gl' && gl && !window.__lostAtStart) {
+          window.__lostAtStart = gl.getExtension('WEBGL_lose_context');
+          window.__lostAtStart.loseContext();
+        }
+        return gl;
+      };
+    });
+    const { frame } = await lite(page);
+    const r = await frame.evaluate(async () => {
+      const R = window.gisworkbench.renderer;
+      const atStart = { ready: document.body.dataset.ready, lost: R.lost };
+      await new Promise((res) => setTimeout(res, 100)); // the browser allows a restore once the lost event has been handled
+      const f0 = R.frame;
+      const restored = new Promise((res) => R.canvas.addEventListener('webglcontextrestored', res, { once: true }));
+      window.__lostAtStart.restoreContext();
+      await restored;
+      for (let i = 0; i < 40 && R.frame === f0; i++) await new Promise((res) => setTimeout(res, 50));
+      return { ...atStart, after: R.lost, linked: R.gl.getProgramParameter(R.prog.u.p, R.gl.LINK_STATUS), drew: R.frame > f0 };
+    });
+    expect(r).toEqual({ ready: '1', lost: true, after: false, linked: true, drew: true });
+    await openFiles(frame, [IMAGE]);
+    await expect(page.locator('[data-id="m:readout"]')).toBeVisible();
+  });
+
+  test('REQ-HOST-05 a WebGL context lost while the renderer sets up is not a failed start, and it draws once restored', async ({ page }) => {
+    // Safari on a cold iPhone simulator lost the context during boot, and Lite failed with "link: null" (#195).
+    const { frame } = await lite(page);
+    await openFiles(frame, [IMAGE]);
+    const r = await frame.evaluate(async () => {
+      const R = window.gisworkbench.renderer;
+      const ext = R.gl.getExtension('WEBGL_lose_context');
+      const lostEvent = new Promise((res) => R.canvas.addEventListener('webglcontextlost', res, { once: true }));
+      ext.loseContext();
+      let threw = null;
+      try {
+        R.init(); // as boot does, on a context that is already lost
+      } catch (e) {
+        threw = e.message;
+      }
+      const lost = R.lost;
+      await lostEvent;
+      await new Promise((res) => setTimeout(res, 100)); // the browser allows a restore once the event has been handled
+      const f0 = R.frame;
+      const restored = new Promise((res) => R.canvas.addEventListener('webglcontextrestored', res, { once: true }));
+      ext.restoreContext();
+      await restored;
+      for (let i = 0; i < 40 && R.frame === f0; i++) await new Promise((res) => setTimeout(res, 50));
+      return { threw, lost, after: R.lost, linked: R.gl.getProgramParameter(R.prog.u.p, R.gl.LINK_STATUS), drew: R.frame > f0 };
+    });
+    expect(r).toEqual({ threw: null, lost: true, after: false, linked: true, drew: true });
+    await expect(page.locator('[data-id="m:readout"]')).toBeVisible();
+  });
+
   test('REQ-HOST-05 Back closes a sheet, the drawer and a dialog in turn, and stays in the app', async ({ page }) => {
     const { frame } = await lite(page);
     await openFiles(frame, [IMAGE]);

@@ -234,6 +234,10 @@ export async function install(app) {
   }
 
   async function openFiles(files, pane) {
+    // A project in the set opens alone, before anything else in the set opens (#237). Every route in
+    // calls here: a drop, the catalog, panels, automation and API v2.
+    const named = [...files].find((f) => /\.gwb$/i.test(f.name));
+    if (named) return openProjectAlone(named, [...files]);
     // Files whose name says nothing are identified by their first bytes (REQ-ING-03).
     // A GML's schema (.xsd) and GDAL's .gfs describe it; they are not data. Sniffed as XML with a GML
     // namespace, the .xsd opened as an empty layer of its own (TE 2.0.4 cross).
@@ -259,9 +263,6 @@ export async function install(app) {
     }
     // A Sentinel-1 manifest.safe keeps its name (it is XML, but a product manifest, REQ-FMT-55).
     files = await Promise.all([...files].map((f) => (/\.(xsd|gfs|safe)$/i.test(f.name) ? f : sniffName(f).catch(() => f))));
-    // A project in the set opens as the project, as a drop does (catalog, panels and automation call here too).
-    const proj = files.find((f) => /\.gwb$/i.test(f.name));
-    if (proj) return openProjectFile(proj);
     files = await openSpecialFiles(files, pane);
     if (!files.length) return;
     // Imagery packages delivered as ZIPs open from inside the archive (IMP-21); what comes out goes
@@ -463,6 +464,20 @@ export async function install(app) {
     await importDetections();
   }
   app.openFiles = openFiles;
+
+  /**
+   * A project opens on its own, in place of what is open. The files given with it are not opened:
+   * each is named in the import log, and one message names the first and the count, so nothing is dropped
+   * without a word (#237). Logged after the project is read, so a project that fails says so first;
+   * the words claim nothing about whether the project opened.
+   */
+  async function openProjectAlone(proj, files) {
+    const others = files.filter((f) => f !== proj);
+    const r = await openProjectFile(proj);
+    for (const f of others) app.importLog.push({ file: f.name, errors: [t('not opened: it was given with the project {project}, which opens alone', { project: proj.name })], warnings: [] });
+    if (others.length) app.toast(t('A project opens alone, so {n, plural, one {# file given with {project} was not opened ({file})} other {# files given with {project} were not opened ({file}, …)}}; the import log lists them', { project: proj.name, n: others.length, file: others[0].name }), { kind: 'warn', ms: 10000 });
+    return r;
+  }
   // Test and automation hooks (E2E PT-07); not a public API yet (REQ-ARC-17 is R1/R2).
   app.__test = { ...(app.__test ?? {}), serialiseProject, readProject, relink };
 
@@ -485,9 +500,7 @@ export async function install(app) {
       files.push(f);
     }
     if (!files.length && dt.files) files.push(...dt.files);
-    const proj = files.find((f) => /\.gwb$/i.test(f.name));
-    if (proj) return openProjectFile(proj);
-    return openFiles(files, pane);
+    return openFiles(files, pane); // a project in the set opens alone there (#237)
   };
   // Drops anywhere on the window open into the active pane.
   window.addEventListener('dragover', (e) => e.preventDefault());
