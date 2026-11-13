@@ -11,7 +11,7 @@
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, FORMAT } from '../recipes/recipe.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, unattended as unattendedOf, FORMAT } from '../recipes/recipe.js';
 import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
 import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
@@ -644,22 +644,6 @@ export function install(app) {
       status,
     };
   }
-  /**
-   * Why a recipe cannot run with nobody at the page (the command-line runner, REG-150), or null:
-   * a review gate set to stop, a step that opens a dialog, or files given to a step that reads none
-   * (they would be ignored). Checked before the run starts.
-   * params: the run's overrides, with any files the command line gives a step.
-   */
-  function unattended(src, { gates = 'continue', params = {} } = {}) {
-    const r = validateRecipe(src, OPS);
-    for (const s of r.steps) {
-      const o = OPS[s.op];
-      if (o.gate && gates === 'stop') return { step: s.id, title: s.title, reason: 'is a review gate, and gates are set to stop' };
-      if (params[s.id]?.files?.length && !o.files) return { step: s.id, title: s.title, reason: 'takes no files, so the files given to it would be ignored' };
-      if (o.dialog?.({ ...s.params, ...(params[s.id] ?? {}) })) return { step: s.id, title: s.title, reason: s.op === 'command' ? 'runs a command, which may open a dialog' : 'opens a dialog unless the command line gives it files' };
-    }
-    return null;
-  }
   /** One operation headless → {summary, files}. */
   async function runOp(op, params = {}, inputs = {}) {
     const o = OPS[op];
@@ -676,5 +660,5 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended: (src, opts) => unattendedOf(src, OPS, opts), keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }

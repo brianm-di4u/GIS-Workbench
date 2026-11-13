@@ -93,6 +93,29 @@ test('REQ-SHL-10 radial menu: Space tap and backquote open it, a number runs a t
   expect(await frame.evaluate(() => window.gisworkbench.activePane().view.cx)).not.toBeCloseTo(before, 0);
 });
 
+// #245: a tap is timed by its events' own times, so a slow frame (software WebGL) between its
+// keydown and its keyup doesn't turn it into a hold.
+test('REQ-SHL-10 a Space tap opens the radial menu when the page is busy before its keyup', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium', 'gives the key events their times over CDP');
+  const frame = await withImages(page);
+  const c = await center(frame);
+  await page.mouse.move(c.x, c.y);
+  // Busy for 400 ms just after the keydown, as a long frame would be.
+  await frame.evaluate(() =>
+    document.addEventListener('keydown', () => setTimeout(() => {
+      const t = performance.now();
+      while (performance.now() - t < 400);
+    }), { once: true }),
+  );
+  const cdp = await page.context().newCDPSession(page);
+  const key = (type, timestamp) => cdp.send('Input.dispatchKeyEvent', { type, key: ' ', code: 'Space', windowsVirtualKeyCode: 32, timestamp });
+  const t0 = Date.now() / 1000;
+  await key('keyDown', t0);
+  await page.waitForTimeout(50);
+  await key('keyUp', t0 + 0.08); // an 80 ms tap
+  await expect(frame.locator('[data-id="radial"]')).toBeVisible();
+});
+
 test('REQ-SHL-11 hold F flickers, S swipes, Alt+wheel sets opacity', async ({ page }) => {
   const frame = await withImages(page, FX06);
   const c = await center(frame);
