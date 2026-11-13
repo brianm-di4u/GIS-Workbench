@@ -128,6 +128,51 @@ test('REQ-NET-05 a PMTiles file is a basemap that works offline', async ({ page 
   expect(await frame.evaluate(() => window.gisworkbench.netlog.entries.length)).toBe(0);
 });
 
+test('REQ-NET-05 basemap tiles are uploaded again after the WebGL context is lost and restored', async ({ page }) => {
+  // #238: the tile cache kept textures of the lost context, so the basemap drew blank after a restore.
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await openFiles(frame, [FX01]);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.modelId && l.lutTex));
+  // Every texture upload is recorded from before the basemap opens, so its first tiles are seen.
+  await frame.evaluate(() => {
+    const R = window.gisworkbench.renderer;
+    const upload = R.bitmapTexture.bind(R);
+    window.__made = [];
+    R.bitmapTexture = (bmp) => {
+      const tex = upload(bmp);
+      window.__made.push(tex);
+      return tex;
+    };
+  });
+  await openFiles(frame, [PMT]);
+  await frame.evaluate(() => window.gisworkbench.activePane().setView({ zoom: window.gisworkbench.activePane().view.zoom / 400 }));
+  await frame.waitForFunction(() => /^local:/.test(window.gisworkbench.activePane()._basemapShown?.id ?? '') && window.__made.length > 0, null, { timeout: 15000 });
+  const r = await frame.evaluate(async () => {
+    const R = window.gisworkbench.renderer;
+    const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+    // An online tile held from before the loss (online.js keeps its own cache, as basemaps do).
+    const bmp = await createImageBitmap(new ImageData(4, 4));
+    window.gisworkbench.onlineTiles.cache.set('test', { tex: R.bitmapTexture(bmp), bytes: 64, used: performance.now() });
+    const ext = R.gl.getExtension('WEBGL_lose_context');
+    const lost = new Promise((res) => R.canvas.addEventListener('webglcontextlost', res, { once: true }));
+    ext.loseContext();
+    await lost;
+    await wait(100); // the browser allows a restore once the event has been handled
+    const restored = new Promise((res) => R.canvas.addEventListener('webglcontextrestored', res, { once: true }));
+    ext.restoreContext();
+    await restored;
+    const made = window.__made;
+    made.length = 0;
+    for (let i = 0; i < 100 && !made.length; i++) await wait(50);
+    return { again: made.length, live: made.every((tex) => R.gl.isTexture(tex)), online: window.gisworkbench.onlineTiles.cache.size, gpuBytes: R.gpuBytes, glError: R.gl.getError() };
+  });
+  expect(r.again).toBeGreaterThan(0);
+  expect(r.live).toBe(true);
+  // The online tile is forgotten, not freed in the new context: no GL error, no negative byte count.
+  expect(r).toMatchObject({ online: 0, glError: 0 });
+  expect(r.gpuBytes).toBeGreaterThanOrEqual(0);
+});
+
 test('REQ-GLB-01 REQ-GLB-02 the 3D button drapes the image on terrain with the basemap around it, and goes back', async ({ page }) => {
   const seen = [];
   await routeTiles(page, seen);
