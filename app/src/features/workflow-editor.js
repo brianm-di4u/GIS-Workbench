@@ -102,7 +102,8 @@ export function install(app) {
   }
 
   // ---- keeping workflows ----
-  /** A built-in recipe edited here is kept under an id of its own, so the built-in never hides it. */
+  /** A built-in opened here is edited under an id of its own (so the editor shows the id it will be kept
+   * under); recipes.placeFor is the rule Save keeps to. */
   const own = (r) => (R.builtin.some((b) => b.id === r.id) ? { ...r, id: `${r.id}-${Date.now().toString(36)}` } : r);
   // One save at a time: a second Save (a double-click) waits for the first, and so sees its record.
   let saving = Promise.resolve();
@@ -116,6 +117,7 @@ export function install(app) {
     // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
     else if (place.version !== null) r.version = place.version + (ed.base === body(r) ? 0 : 1);
     if (place.fresh) toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
+    else if (place.moved) toast(t('Saved as {id}, which holds the same workflow.', { id: r.id }), { kind: 'info' });
     const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
     ed.wf.id = r.id;
     ed.wf.version = r.version;

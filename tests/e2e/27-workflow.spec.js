@@ -365,6 +365,19 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   // A file under a built-in's id is kept under an id of its own, and listed.
   await importText(JSON.stringify({ format: 'gw-recipe/1', id: 'damage-triage', name: 'My triage', steps: [{ op: 'gate', params: { message: 'Mine' } }] }));
   expect(await frame.evaluate(() => window.gisworkbench.recipes.known().filter((r) => r.id.startsWith('damage-triage')).map((r) => [r.id === 'damage-triage', r.source]).sort())).toEqual([[false, 'library'], [true, 'builtin']]);
+  // A built-in's own content opens the built-in and keeps nothing; the same workflow at an older version
+  // does not take the kept one back.
+  const after = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const b = app.recipes.builtin.find((r) => r.id === 'airfield-triage');
+    await app.recipes.importFile(new File([JSON.stringify(b)], 'b.gwrecipe.json'));
+    const builtinCopies = app.recipes.known().filter((r) => r.id.startsWith('airfield-triage')).map((r) => r.source);
+    const kept = (await app.recipes.library(true)).find((r) => r.id === 'chain-test');
+    await app.recipes.keep({ ...kept, version: 5 });
+    await app.recipes.importFile(new File([JSON.stringify({ ...kept, version: 1 })], 'c.gwrecipe.json'));
+    return { builtinCopies, version: (await app.recipes.library(true)).find((r) => r.id === 'chain-test').version };
+  });
+  expect(after).toEqual({ builtinCopies: ['builtin'], version: 5 });
   const [chooser3] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
   await chooser3.setFiles(chain);
   await expect(steps).toHaveCount(2);

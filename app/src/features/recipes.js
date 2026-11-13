@@ -378,21 +378,26 @@ export function install(app) {
       ...[...lib.values()].filter((r) => !project.has(r.id) || clash.has(r.id)).map((r) => ({ ...r, source: 'library', ...(clash.has(r.id) ? { clash: true } : {}) })),
     ];
   };
-  /** Keep a recipe in the library; false when there is no IndexedDB. */
   /**
-   * Where workflow `r` is kept (the admin's option B; one rule for the Builder's Save and for Open): under
+   * Where workflow `r` is kept (the admin's option B; the one rule for the Builder's Save and for Open): under
    * its own id when no kept copy of that id differs from `base`, the copy it was opened from (a file is its
-   * own base); otherwise under the id of a kept copy with the same content, or a new id at version 1. A
-   * built-in's id is never taken. → {id, version, moved, fresh}; version is null when nothing is kept yet.
+   * own base); otherwise under the id of a kept workflow with the same content (and no different copy under
+   * that id), or a new id at version 1. A built-in's id is never taken; a built-in's own content is the
+   * built-in (`builtin`, nothing to keep). → {id, version, moved, fresh, builtin}; version is null when nothing
+   * is kept yet.
    */
   async function placeFor(r, base = contentOf(r, OPS)) {
-    const kept = [...S.all('workflow').map((w) => w.recipe).filter(Boolean), ...(await refreshLibrary())];
-    const here = kept.filter((x) => x.id === r.id);
-    if (!BUILTIN.some((b) => b.id === r.id) && here.every((x) => contentOf(x, OPS) === base)) return { id: r.id, version: here.length ? Math.max(...here.map((x) => x.version ?? 1)) : null, moved: false, fresh: false };
     const anon = (x) => contentOf({ ...x, id: '' }, OPS);
-    const twin = kept.find((x) => x.id !== r.id && anon(x) === anon(r));
-    return twin ? { id: twin.id, version: twin.version ?? 1, moved: true, fresh: false } : { id: `${r.id}-${Date.now().toString(36)}`, version: 1, moved: true, fresh: true };
+    const b = BUILTIN.find((x) => x.id === r.id);
+    if (b && anon(b) === anon(r)) return { id: r.id, version: null, moved: false, fresh: false, builtin: true };
+    const kept = [...S.all('workflow').map((w) => w.recipe).filter(Boolean), ...(await refreshLibrary())];
+    const copies = (id) => kept.filter((x) => x.id === id);
+    const here = copies(r.id);
+    if (!b && here.every((x) => contentOf(x, OPS) === base)) return { id: r.id, version: here.length ? Math.max(...here.map((x) => x.version ?? 1)) : null, moved: false, fresh: false };
+    const twin = kept.find((x) => x.id !== r.id && anon(x) === anon(r) && copies(x.id).every((y) => anon(y) === anon(x)));
+    return twin ? { id: twin.id, version: Math.max(...copies(twin.id).map((x) => x.version ?? 1)), moved: true, fresh: false } : { id: `${r.id}-${Date.now().toString(36)}`, version: 1, moved: true, fresh: true };
   }
+  /** Keep a recipe in the library; false when there is no IndexedDB. */
   async function keep(r) {
     try {
       await putLibrary(r);
@@ -502,8 +507,13 @@ export function install(app) {
     let r = validateRecipe(JSON.parse(await f.text()), OPS);
     // A file never replaces a different workflow kept under its id, nor takes a built-in's.
     const place = await placeFor(r);
+    // A built-in's own content opens the built-in; nothing is kept.
+    if (place.builtin) return open(BUILTIN.find((x) => x.id === r.id));
     if (place.moved) r = { ...r, id: place.id, version: place.version };
+    // The same workflow already kept keeps its version: a file never takes it back.
+    else if (place.version !== null) r = { ...r, version: Math.max(r.version ?? 1, place.version) };
     if (place.fresh) app.toast(t('Opened as a new recipe: your library or the project already holds a different one under its id.'), { kind: 'info' });
+    else if (place.moved) app.toast(t('Opened as {id}, which holds the same workflow.', { id: r.id }), { kind: 'info' });
     if (!(await keep(r))) app.toast(t('The recipe is open, but this browser has no storage to keep it in your library.'), { kind: 'warn' });
     open(r);
   }

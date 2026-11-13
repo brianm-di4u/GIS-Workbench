@@ -27354,6 +27354,13 @@
    ]
   },
   {
+   "key": "Opened as {id}, which holds the same workflow.",
+   "src": "Opened as {id}, which holds the same workflow.",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Opened project {name}",
    "src": "Opened project {name}",
    "refs": [
@@ -35432,6 +35439,13 @@
   {
    "key": "Saved as a new workflow: the project or your library already holds a different one under its id.",
    "src": "Saved as a new workflow: the project or your library already holds a different one under its id.",
+   "refs": [
+    "features/workflow-editor.js"
+   ]
+  },
+  {
+   "key": "Saved as {id}, which holds the same workflow.",
+   "src": "Saved as {id}, which holds the same workflow.",
    "refs": [
     "features/workflow-editor.js"
    ]
