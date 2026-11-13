@@ -724,3 +724,23 @@ test('REQ-PIP-02 #191 workflow export steps download their files and never open 
   expect(deckFile.suggestedFilename()).toBe('session-deck.pptx');
   expect(logs).toEqual([]);
 });
+
+test('REQ-PIP-02 #191 a workflow opened without positions lays a step two branches share out after both', async ({ page }) => {
+  const { frame, logs } = await openApp(page, 'file');
+  // a feeds b and c, which both feed d; d is listed first, so its branches are followed before a is placed.
+  const at = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    await app.workflows.open({ format: 'gw-recipe/2', name: 'Diamond', steps: [
+      { id: 'd', op: 'overlay', inputs: { a: { from: 'b', output: 'out' }, b: { from: 'c', output: 'out' } } },
+      { id: 'b', op: 'buffer', inputs: { layer: { from: 'a', output: 'out' } } },
+      { id: 'c', op: 'buffer', inputs: { layer: { from: 'a', output: 'out' } } },
+      { id: 'a', op: 'buffer' },
+    ] });
+    return Object.fromEntries(app.workflows.current().steps.map((s) => [s.id, s.at.x]));
+  });
+  const step = at.b - at.a;
+  expect(step).toBeGreaterThan(0);
+  expect(at.c).toBe(at.b);
+  expect(at.d).toBe(at.b + step);
+  expect(logs).toEqual([]);
+});
