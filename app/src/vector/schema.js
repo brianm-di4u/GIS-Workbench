@@ -421,13 +421,26 @@ export function crosswalkMGCP(cat, layer, code) {
 export function catalogFromLayers(name, layers) {
   const attributes = {};
   const codes = [];
+  const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
   const types = layers.map((l) => {
-    for (const f of l.fields) {
-      attributes[f.name] ??= { label: f.title ?? f.name, type: f.domain ? 'enum' : f.type === 'number' ? 'real' : f.type === 'integer' ? 'integer' : 'text', ...(f.domain ? { domain: f.domain } : {}), ...(f.range ? { range: f.range } : {}), ...(f.description ? { definition: f.description } : {}) };
-    }
     const fcode = l.features.find((x) => x.attrs?.F_CODE)?.attrs.F_CODE;
-    codes.push(fcode ?? l.table ?? l.name);
-    return { code: fcode ?? l.table ?? l.name, name: l.name, geometry: [...new Set(l.features.map((x) => x.geom.type))], attributes: l.fields.map((f) => f.name) };
+    const code = fcode ?? l.table ?? l.name;
+    codes.push(code);
+    // A column two layers define differently keeps each layer's definition, under a key of its own that
+    // names the column (decision #243), as the converters write it.
+    const names = l.fields.map((f) => {
+      const a = { label: f.title ?? f.name, type: f.domain ? 'enum' : f.type === 'number' ? 'real' : f.type === 'integer' ? 'integer' : 'text', ...(f.domain ? { domain: f.domain } : {}), ...(f.range ? { range: f.range } : {}), ...(f.description ? { definition: f.description } : {}) };
+      let key = f.name;
+      let entry = a;
+      if (attributes[key] && !same(attributes[key], a)) {
+        entry = { ...a, field: f.name };
+        key = `${f.name}_${code}`;
+        for (let i = 2; attributes[key] && !same(attributes[key], entry); i++) key = `${f.name}_${code}_${i}`;
+      }
+      attributes[key] ??= entry;
+      return key;
+    });
+    return { code, name: l.name, geometry: [...new Set(l.features.map((x) => x.geom.type))], attributes: names };
   });
   // TDS's "no information" codes for TDS layers: a TDS feature code, or coded fields that carry the code
   // (every TDS domain does); a converted catalogue's layer (ISO 19110, INSPIRE, OSM) starts a new feature
