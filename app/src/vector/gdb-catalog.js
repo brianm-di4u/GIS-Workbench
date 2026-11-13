@@ -133,25 +133,16 @@ export function catalogFromGdb(name, result) {
       continue;
     }
     const fields = (l.fields ?? []).filter((f) => !SYSTEM_FIELD.test(f.name) && !/^FILEGEODATABASE_/.test(f.defaultValue ?? ''));
-    // A field another class defines differently keeps this class's definition, under a key of its
-    // own that names the column (decision #243). keyOf: this class's column → its key.
-    const keyOf = new Map();
-    for (const f of fields) {
-      const { key, entry } = attributeKey(attributes, f.name, attributeFrom(f, domains, warn, `${l.name}.${f.name}`), l.name);
-      attributes[key] ??= entry;
-      keyOf.set(f.name, key);
-    }
-    const names = [...keyOf.values()];
-    const t = { code: l.name, name: l.alias || l.name, geometry: geometryOf(geom), attributes: names };
+    // This class's definitions by column, its subtypes applied, before any is shared with another class.
+    const own = new Map(fields.map((f) => [f.name, attributeFrom(f, domains, warn, `${l.name}.${f.name}`)]));
     const st = subtypesFromXml(defs.get(String(l.name).toLowerCase()));
-    const sf = st && keyOf.get(st.field);
-    if (sf) {
-      t.subtypeField = sf;
-      t.subtypes = st.subtypes.map((s) => {
+    let subtypes = null;
+    if (st && own.has(st.field)) {
+      subtypes = st.subtypes.map((s) => {
         const narrowed = {};
         for (const f of s.fields) {
           const d = f.domain ? domains[f.domain] : null;
-          const at = attributes[keyOf.get(f.name)];
+          const at = own.get(f.name);
           if (!at || !d) continue;
           if (d.type === 'coded' && d.codedValues) {
             // A subtype may name another domain than the field's: the field offers the union,
@@ -162,18 +153,33 @@ export function catalogFromGdb(name, result) {
               at.type = 'enum';
               delete at.range;
             }
-            narrowed[keyOf.get(f.name)] = Object.keys(d.codedValues).map(String);
+            narrowed[f.name] = Object.keys(d.codedValues).map(String);
           } else warn(`${l.name}, subtype ${s.name}: the range domain ${f.domain} on ${f.name} is not kept per subtype`);
         }
         subtypeCount++;
-        return { code: String(s.code), name: s.name || String(s.code), attributes: [], fixed: { [sf]: /^-?\d+$/.test(s.code) ? Number(s.code) : s.code }, domains: narrowed };
+        return { code: String(s.code), name: s.name || String(s.code), attributes: [], fixed: { [st.field]: /^-?\d+$/.test(s.code) ? Number(s.code) : s.code }, domains: narrowed };
       });
       // The subtype field's own values are the subtypes.
-      if (!attributes[sf].domain) {
-        attributes[sf].type = 'enum';
-        attributes[sf].domain = Object.fromEntries(st.subtypes.map((s) => [String(s.code), s.name || String(s.code)]));
-        delete attributes[sf].range;
+      const sfa = own.get(st.field);
+      if (!sfa.domain) {
+        sfa.type = 'enum';
+        sfa.domain = Object.fromEntries(st.subtypes.map((s) => [String(s.code), s.name || String(s.code)]));
+        delete sfa.range;
       }
+    }
+    // A field another class defines differently keeps this class's definition, under a key of its
+    // own that names the column (decision #243). keyOf: this class's column → its key.
+    const keyOf = new Map();
+    for (const [column, a] of own) {
+      const { key, entry } = attributeKey(attributes, column, a, l.name);
+      attributes[key] ??= entry;
+      keyOf.set(column, key);
+    }
+    const byKey = (o) => Object.fromEntries(Object.entries(o).map(([c, v]) => [keyOf.get(c), v]));
+    const t = { code: l.name, name: l.alias || l.name, geometry: geometryOf(geom), attributes: [...keyOf.values()] };
+    if (subtypes) {
+      t.subtypeField = keyOf.get(st.field);
+      t.subtypes = subtypes.map((s) => ({ ...s, fixed: byKey(s.fixed), domains: byKey(s.domains) }));
     } else if (st) warn(`${l.name}: the subtype field ${st.field} is not among its fields`);
     types.push(t);
   }
