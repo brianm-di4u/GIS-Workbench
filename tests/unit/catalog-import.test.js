@@ -142,6 +142,13 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
       '<element name="GeophObject" type="x:GeophObjectType" substitutionGroup="sams:SF_SpatialSamplingFeature"/><complexType name="GeophObjectType"><complexContent><extension base="sams:SF_SpatialSamplingFeatureType"><sequence><element name="citation" type="string"/></sequence></extension></complexContent></complexType></schema>';
     const std = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sams="${sams}" targetNamespace="${sams}"><element name="SF_SpatialSamplingFeature" type="sams:SF_SpatialSamplingFeatureType" substitutionGroup="gml:AbstractFeature"/><complexType name="SF_SpatialSamplingFeatureType"><sequence><element name="shape" type="gml:GeometryPropertyType"/></sequence></complexType></schema>`;
     for (const files of [[sampled], [sampled, std]]) expect(fromInspire(files).types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['GeophObject', undefined, ['citation']]]);
+    // An OGC application schema is a user's schema: its features import, and a base there is asked for.
+    const gwml = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gw="http://www.opengis.net/gwml-well/2.2" targetNamespace="http://www.opengis.net/gwml-well/2.2">' +
+      '<element name="GW_Well" type="gw:GW_WellType" substitutionGroup="gml:AbstractFeature"/><complexType name="GW_WellType"><sequence><element name="gwWellLocation" type="gml:PointPropertyType"/><element name="gwWellStatus" type="string"/></sequence></complexType></schema>';
+    expect(fromInspire(gwml).types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['GW_Well', ['Point'], ['gwWellStatus']]]);
+    const mapped = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gsmlb="http://www.opengis.net/gsml/4.1/GeoSciML-Basic" xmlns:x="urn:x" targetNamespace="urn:x">' +
+      '<element name="MyUnit" type="x:MyUnitType" substitutionGroup="gsmlb:MappedFeature"/><complexType name="MyUnitType"><complexContent><extension base="gsmlb:MappedFeatureType"><sequence><element name="note" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    expect(() => fromInspire(mapped)).toThrow(/add http:\/\/www\.opengis\.net\/gsml\/4\.1\/GeoSciML-Basic$/);
   });
   it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;

@@ -230,11 +230,10 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
   const isGml = (ns) => /opengis\.net\/gml/.test(ns ?? '');
-  // The standards' own namespaces (GML and the other OGC schemas, ISO, XSD): their elements are not a
-  // user's feature types, and a base there is not a schema to add. The one standard base that holds a
-  // user type's geometry is a sampling feature's (its shape), and that property is taken as known.
-  const isStd = (ns) => /^https?:\/\/(www\.opengis\.net|www\.isotc211\.org|www\.w3\.org)\//.test(ns ?? '');
-  const STD_GEOMETRY = { SF_SpatialSamplingFeatureType: 'shape' };
+  // The base standards' own namespaces (GML, O&M, sampling features, SWE, ISO, XSD): their elements are
+  // not a user's feature types, and a base there is not a schema to add (a sampling feature's shape is
+  // geometry of any kind). An OGC application schema (GroundWaterML, GeoSciML) is not one of them.
+  const isStd = (ns) => /^https?:\/\/(www\.opengis\.net\/(gml|om|sampling|samplingSpatial|samplingSpecimen|swe)(\/|$)|www\.isotc211\.org\/|www\.w3\.org\/)/.test(ns ?? '');
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
   const isFeature = (entry, seen = new Set()) => {
     const group = entry.node.attrs?.substitutionGroup;
@@ -272,8 +271,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const base = first(first(entry.node, 'complexContent'), 'extension')?.attrs?.base;
     const up = resolve('complex', base, entry);
     if (base && !up) lacking(base, entry);
-    const known = base && !up && isStd(nsOf(base, entry)) ? STD_GEOMETRY[String(base).slice(String(base).indexOf(':') + 1)] : null;
-    return [...(known ? [{ attrs: { name: known, type: 'gml:GeometryPropertyType' } }] : []), ...props(up, seen), ...all(entry.node, 'element')];
+    return [...props(up, seen), ...all(entry.node, 'element')];
   };
   const { attrs, add } = attrTable();
   const types = [];
