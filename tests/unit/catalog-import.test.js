@@ -119,6 +119,14 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     </gfc:FC_FeatureCatalogue>`));
     const of = (c, code) => c.types.find((t) => t.code === code).attributes.map((k) => [c.attributes[k].field ?? k, !!c.attributes[k].required]);
     expect([of(iso, 'Road'), of(iso, 'Motorway')]).toEqual([[['status', false]], [['status', true]]]);
+    // The same when another type holds the plain name first, and when a source attribute is named
+    // like a qualified key: each keeps its own definition and column.
+    const iso2 = validateCatalog(fromIso19110(`<gfc:FC_FeatureCatalogue xmlns:gfc="g" xmlns:gco="c" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <gfc:featureType><gfc:FC_FeatureType id="ft-br"><gfc:typeName>Bridge</gfc:typeName>${attr('status', '1..*')}${attr('status_Road', '0..1')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-road"><gfc:typeName>Road</gfc:typeName>${attr('status', '0..1')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-mw"><gfc:typeName>Motorway</gfc:typeName><gfc:inheritsFrom><gfc:FC_InheritanceRelation><gfc:supertype xlink:href="#ft-road"/></gfc:FC_InheritanceRelation></gfc:inheritsFrom>${attr('status', '1')}</gfc:FC_FeatureType></gfc:featureType>
+    </gfc:FC_FeatureCatalogue>`));
+    expect([of(iso2, 'Bridge'), of(iso2, 'Road'), of(iso2, 'Motorway')]).toEqual([[['status', true], ['status_Road', false]], [['status', false]], [['status', true]]]);
     // An INSPIRE extension that redeclares its base's element.
     const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><complexType name="BaseType"><sequence><element name="status" type="string"/></sequence></complexType><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><complexContent><extension base="x:BaseType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string" minOccurs="0"/></sequence></extension></complexContent></complexType></schema>`;
     const insp = validateCatalog(fromInspire(xsd));

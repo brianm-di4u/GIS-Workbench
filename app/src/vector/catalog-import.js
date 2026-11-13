@@ -94,12 +94,19 @@ function attrTable() {
     let key = clean(name);
     if (!key || BAD_NAMES.has(key)) return null;
     if (FEATURE_COLUMNS.has(key.toLowerCase())) key = `${key}_attr`;
-    const prev = attrs[key];
     const column = key;
-    if (prev && JSON.stringify({ ...prev, label: '' }) !== JSON.stringify({ ...a, label: '' })) key = `${key}_${typeCode}`;
+    const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
+    // A definition that differs takes a key of its own, naming its column; a key already holding
+    // another definition (or a source attribute of that name) is passed over for the next free one.
+    let entry = a;
+    if (attrs[key] && !same(attrs[key], a)) {
+      entry = { ...a, field: column };
+      key = `${column}_${typeCode}`;
+      for (let i = 2; attrs[key] && !same(attrs[key], entry); i++) key = `${column}_${typeCode}_${i}`;
+    }
     if (BAD_NAMES.has(key)) return null;
     if (!attrs[key] && ++n > MAX_ATTRS) throw E('the catalogue has more than {n} attributes', { n: String(MAX_ATTRS) });
-    attrs[key] ??= key === column ? a : { ...a, field: column };
+    attrs[key] ??= entry;
     return key;
   };
   /** Add a key to a type's list: one that writes a column the type already has (an inherited
