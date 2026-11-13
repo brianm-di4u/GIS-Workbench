@@ -133,8 +133,8 @@
 .wf-node:focus { outline: none; }
 .wf-node text { fill: currentColor; font-size: 11px; }
 .wf-title { font-weight: 600; font-size: 12px; }
-.wf-done rect { stroke: #2e7d32; }
-.wf-failed rect { stroke: #c62828; stroke-width: 2; }
+.wf-done rect { stroke: var(--c-content-successText); }
+.wf-failed rect { stroke: var(--c-content-errorText); stroke-width: 2; }
 .wf-running rect, .wf-waiting rect { stroke: var(--c-m3-primary, #2f5fb3); stroke-dasharray: 4 3; }
 .wf-stale rect { stroke-dasharray: 2 2; }
 .wf-port { fill: var(--c-m3-primary, #2f5fb3); cursor: crosshair; }
@@ -144,7 +144,7 @@
 .wf-item.wf-sel, .wf-item:focus-visible { outline: 2px solid var(--c-m3-primary, #2f5fb3); }
 .wf-item-head { display: flex; justify-content: space-between; gap: 8px; }
 .wf-badge { font-size: 11px; opacity: 0.8; }
-.wf-error { color: #c62828; }
+.wf-error { color: var(--c-content-errorText); }
 .rcp-waiting { border-color: #f9a825; box-shadow: 0 0 0 2px color-mix(in srgb, #f9a825 35%, transparent); }
 .rcp-waiting .rcp-n { background: #f9a825; color: #000; }
 .rcp-stale, .rcp-skipped { opacity: .65; }

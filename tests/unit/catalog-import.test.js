@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fromIso19110, fromInspire, parseCodeList, fromIdPresets, sniffCatalog, attrType, catalogFromFiles } from '../../app/src/vector/catalog-import.js';
-import { validateCatalog } from '../../app/src/vector/schema.js';
+import { validateCatalog, catalogFromLayers } from '../../app/src/vector/schema.js';
 
 const F = (n) => readFileSync(`fixtures/catalogs/${n}`, 'utf8');
 
@@ -77,16 +77,18 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     const core3d = xsd('urn:bu-core3d', 'xmlns:bu-base="urn:bu-base" xmlns:bu-core3d="urn:bu-core3d"', '<element name="Building" type="bu-core3d:BuildingType" substitutionGroup="bu-base:AbstractBuilding"/>' + type('BuildingType', 'bu-base:AbstractBuildingType', '<element name="lod" type="integer"/>'));
     const both = validateCatalog(fromInspire([base, core, core3d]));
     expect(both.types.map((t) => [t.code, t.attributes])).toEqual([['bu-core2d:Building', ['heightAboveGround']], ['bu-core3d:Building', ['lod']]]);
-    // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building.
-    expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['Building', ['lod']]]);
+    // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building,
+    // and the import names the schema it builds on instead of making a Building without core2d's properties.
+    expect(() => fromInspire([base, core3d, ext])).toThrow(/add urn:bu-core2d$/);
   });
   it('reads a voidable property\'s type from its simpleContent, and binds code lists by targetCodeList', () => {
     const voidable = (name, base) => `<element name="${name}" nillable="true"><complexType><simpleContent><extension base="${base}"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element>`;
-    const ref = (name, list) => `<element name="${name}" type="gml:ReferenceType" nillable="true">${list ? `<annotation><appinfo><targetCodeList>${list}</targetCodeList></appinfo></annotation>` : ''}</element>`;
-    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:bu="urn:bu" targetNamespace="urn:bu"><element name="Building" type="bu:BuildingType" substitutionGroup="gml:AbstractFeature"/><complexType name="BuildingType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="geometry" type="gml:SurfacePropertyType"/>${voidable('numberOfFloorsAboveGround', 'integer')}${voidable('heightValue', 'gml:LengthType')}${ref('currentUse', 'CurrentUseValue')}${ref('condition', 'ConditionOfConstructionValue')}${ref('parent')}</sequence></extension></complexContent></complexType></schema>`;
+    const ref = (name, list, link) => `<element name="${name}" type="gml:ReferenceType" nillable="true">${list ? `<annotation><appinfo><targetCodeList>${list}</targetCodeList></appinfo></annotation>` : link ? `<annotation><appinfo><targetElement>${link}</targetElement></appinfo></annotation>` : ''}</element>`;
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:bu="urn:bu" targetNamespace="urn:bu"><element name="Building" type="bu:BuildingType" substitutionGroup="gml:AbstractFeature"/><complexType name="BuildingType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="geometry" type="gml:SurfacePropertyType"/>${voidable('numberOfFloorsAboveGround', 'integer')}${voidable('heightValue', 'gml:LengthType')}${ref('currentUse', 'CurrentUseValue')}${ref('condition', 'ConditionOfConstructionValue')}${ref('parent', '', 'bu:Building')}${ref('roofType')}</sequence></extension></complexContent></complexType></schema>`;
     const uses = { id: 'CurrentUseValue', name: 'Current use', values: { residential: 'Residential' } };
     const c = validateCatalog(fromInspire(xsd, [uses]));
-    expect(c.types[0].attributes).toEqual(['numberOfFloorsAboveGround', 'heightValue', 'currentUse', 'condition']);
+    // A link to another feature (targetElement) is not an attribute.
+    expect(c.types[0].attributes).toEqual(['numberOfFloorsAboveGround', 'heightValue', 'currentUse', 'condition', 'roofType']);
     expect(c.attributes.numberOfFloorsAboveGround.type).toBe('integer');
     expect(c.attributes.heightValue.type).toBe('real');
     // targetCodeList names the list, though the property is not named after it.
@@ -94,6 +96,96 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     // A list the import was not given keeps the property, as text that says which list it needs.
     expect(c.attributes.condition).toMatchObject({ type: 'text' });
     expect(c.attributes.condition.definition).toMatch(/ConditionOfConstructionValue/);
+    // So does one with no annotation whose list, by its name, was not given.
+    expect(c.attributes.roofType).toMatchObject({ type: 'text', definition: 'RoofTypeValue (code list not imported)' });
+  });
+  it('keeps a property whose code list was left out, as text that names the list', () => {
+    const bare = validateCatalog(fromInspire([F('inspire-roads.xsd')]));
+    expect(bare.types[0].attributes).toEqual(['surfaceComposition', 'numberOfLanes', 'localRoadCode']);
+    expect(bare.attributes.surfaceComposition).toMatchObject({ type: 'text', definition: 'SurfaceCompositionValue (code list not imported)' });
+  });
+  it('reads a schema\'s own simple types: an enumeration is a coded domain, a restricted number its base', () => {
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Pole" type="x:PoleType" substitutionGroup="gml:AbstractFeature"/><complexType name="PoleType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="vp" type="x:VerticalPositionValue"/><element name="lanes" type="x:LaneCount"/><element name="kind"><simpleType><restriction base="string"><enumeration value="wood"/><enumeration value="steel"/></restriction></simpleType></element></sequence></complexType>` +
+      '<simpleType name="VerticalPositionValue"><restriction base="string"><enumeration value="onGround"/><enumeration value="suspended"/></restriction></simpleType><simpleType name="LaneCount"><restriction base="integer"><minInclusive value="1"/></restriction></simpleType></schema>';
+    const c = validateCatalog(fromInspire(xsd));
+    expect(c.attributes.vp).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
+    expect(c.attributes.lanes.type).toBe('integer');
+    expect(c.attributes.kind).toMatchObject({ type: 'enum', domain: { wood: 'wood', steel: 'steel' } });
+    // A voidable property names its type as its simpleContent extension's base; a base schema's own
+    // property names it with that schema's prefixes (here its default namespace).
+    const base = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:x="urn:b" targetNamespace="urn:b"><complexType name="BaseType"><sequence><element name="level" type="x:VP"/></sequence></complexType><simpleType name="VP"><restriction base="string"><enumeration value="onGround"/><enumeration value="suspended"/></restriction></simpleType></schema>'.replace('xmlns:x="urn:b"', 'xmlns:x="urn:b" xmlns="urn:b"').replace('<schema xmlns="http://www.w3.org/2001/XMLSchema"', '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"').replace(/<(\/?)(complexType|sequence|element|simpleType|restriction|enumeration)/g, '<$1xs:$2').replace('</schema>', '</xs:schema>').replace('type="x:VP"', 'type="VP"').replace('base="string"', 'base="xs:string"');
+    const theme = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:b="urn:b" xmlns:t="urn:t" targetNamespace="urn:t"><element name="Mast" type="t:MastType" substitutionGroup="gml:AbstractFeature"/><complexType name="MastType"><complexContent><extension base="b:BaseType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="vertical" nillable="true"><complexType><simpleContent><extension base="b:VP"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element></sequence></extension></complexContent></complexType></schema>`;
+    const m = validateCatalog(fromInspire([theme, base]));
+    expect(m.attributes.level).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
+    expect(m.attributes.vertical).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
+  });
+  it('lets a type\'s own definition replace one it inherits for the same column', () => {
+    const attr = (n, card) => `<gfc:carrierOfCharacteristics><gfc:FC_FeatureAttribute><gfc:memberName>${n}</gfc:memberName><gfc:cardinality>${card}</gfc:cardinality><gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType></gfc:FC_FeatureAttribute></gfc:carrierOfCharacteristics>`;
+    const iso = validateCatalog(fromIso19110(`<gfc:FC_FeatureCatalogue xmlns:gfc="g" xmlns:gco="c" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <gfc:featureType><gfc:FC_FeatureType id="ft-road"><gfc:typeName>Road</gfc:typeName>${attr('status', '0..1')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-mw"><gfc:typeName>Motorway</gfc:typeName><gfc:inheritsFrom><gfc:FC_InheritanceRelation><gfc:supertype xlink:href="#ft-road"/></gfc:FC_InheritanceRelation></gfc:inheritsFrom>${attr('status', '1')}</gfc:FC_FeatureType></gfc:featureType>
+    </gfc:FC_FeatureCatalogue>`));
+    const of = (c, code) => c.types.find((t) => t.code === code).attributes.map((k) => [c.attributes[k].field ?? k, !!c.attributes[k].required]);
+    expect([of(iso, 'Road'), of(iso, 'Motorway')]).toEqual([[['status', false]], [['status', true]]]);
+    // The same when another type holds the plain name first, and when a source attribute is named
+    // like a qualified key: each keeps its own definition and column.
+    const iso2 = validateCatalog(fromIso19110(`<gfc:FC_FeatureCatalogue xmlns:gfc="g" xmlns:gco="c" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <gfc:featureType><gfc:FC_FeatureType id="ft-br"><gfc:typeName>Bridge</gfc:typeName>${attr('status', '1..*')}${attr('status_Road', '0..1')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-road"><gfc:typeName>Road</gfc:typeName>${attr('status', '0..1')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-mw"><gfc:typeName>Motorway</gfc:typeName><gfc:inheritsFrom><gfc:FC_InheritanceRelation><gfc:supertype xlink:href="#ft-road"/></gfc:FC_InheritanceRelation></gfc:inheritsFrom>${attr('status', '1')}</gfc:FC_FeatureType></gfc:featureType>
+    </gfc:FC_FeatureCatalogue>`));
+    expect([of(iso2, 'Bridge'), of(iso2, 'Road'), of(iso2, 'Motorway')]).toEqual([[['status', true], ['status_Road', false]], [['status', false]], [['status', true]]]);
+    // An INSPIRE extension that redeclares its base's element.
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><complexType name="BaseType"><sequence><element name="status" type="string"/></sequence></complexType><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><complexContent><extension base="x:BaseType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string" minOccurs="0"/></sequence></extension></complexContent></complexType></schema>`;
+    const insp = validateCatalog(fromInspire(xsd));
+    expect(of(insp, 'Road')).toEqual([['status', false]]);
+  });
+  it('keeps a property two types define differently under its source column in each (decision #243)', async () => {
+    const { fieldsFor, valueIssue } = await import('../../app/src/vector/schema.js');
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      '<element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string"/></sequence></complexType>' +
+      '<element name="Bridge" type="x:BridgeType" substitutionGroup="gml:AbstractFeature"/><complexType name="BridgeType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string" minOccurs="0"/></sequence></complexType></schema>';
+    const converted = fromInspire(xsd);
+    const c = validateCatalog(converted);
+    const road = fieldsFor(c, 'Road').find((f) => f.title === 'status');
+    const bridge = fieldsFor(c, 'Bridge').find((f) => f.title === 'status');
+    // Each type keeps its own definition; both layers write the source's column, status.
+    expect([road.name, bridge.name]).toEqual(['status', 'status']);
+    expect(valueIssue(c, road, '')?.code).toBe('E_ATTR_REQUIRED');
+    expect(valueIssue(c, bridge, '')).toBeNull();
+    expect(valueIssue(c, road, 'open')).toBeNull();
+    // A build from before `field` copies only the attribute keys it knows: the catalogue still loads,
+    // with the type-qualified column it wrote before.
+    const older = { ...converted, attributes: Object.fromEntries(Object.entries(converted.attributes).map(([k, { field, ...a }]) => [k, a])) };
+    expect(fieldsFor(validateCatalog(older), 'Bridge').find((f) => f.title === 'status').name).toBe('status_Bridge');
+    // One type may not write a column twice.
+    expect(() => validateCatalog({ ...converted, types: [{ code: 'Both', name: 'Both', attributes: ['status', 'status_Bridge'] }] })).toThrow(/writes the column status twice/);
+  });
+  it('keeps each type\'s definition of a shared column through a GeoPackage write and read (decision #243)', async () => {
+    const { fieldsFor, valueIssue } = await import('../../app/src/vector/schema.js');
+    const { writeGpkg, readGpkg } = await import('../../app/src/vector/gpkg.js');
+    const { createRequire } = await import('node:module');
+    const require = createRequire(import.meta.url);
+    const initSqlJs = require('rtree-sql.js/dist/sql-wasm.js');
+    const SQL = await initSqlJs({ wasmBinary: readFileSync(require.resolve('rtree-sql.js/dist/sql-wasm.wasm')) });
+    const status = (vals) => `<element name="status"><simpleType><restriction base="string">${vals.map((v) => `<enumeration value="${v}"/>`).join('')}</restriction></simpleType></element>`;
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      `<element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><sequence><element name="geometry" type="gml:CurvePropertyType"/>${status(['open', 'closed'])}</sequence></complexType>` +
+      `<element name="Bridge" type="x:BridgeType" substitutionGroup="gml:AbstractFeature"/><complexType name="BridgeType"><sequence><element name="geometry" type="gml:CurvePropertyType"/>${status(['raised', 'lowered'])}</sequence></complexType></schema>`;
+    const c = validateCatalog(fromInspire(xsd));
+    const line = { type: 'LineString', xyz: [0, 0, 0, 1, 1, 0], parts: [0], polys: [] };
+    const layer = (code, value) => ({ name: code, fields: fieldsFor(c, code), features: [{ geom: line, attrs: { status: value } }] });
+    const { bytes } = writeGpkg(SQL, [layer('Road', 'open'), layer('Bridge', 'raised')]);
+    const { layers: back } = readGpkg(SQL, bytes);
+    const reopened = validateCatalog(catalogFromLayers('roads', back));
+    // The writer's table names are the reopened types' codes.
+    expect(back.map((l) => l.table)).toEqual(['road', 'bridge']);
+    const field = (code) => fieldsFor(reopened, code).find((f) => f.name === 'status');
+    // Both layers still write the column status, each with its own domain.
+    expect(valueIssue(reopened, field('bridge'), 'raised')).toBeNull();
+    expect(valueIssue(reopened, field('bridge'), 'open')?.code).toBe('E_ATTR_DOMAIN');
+    expect(valueIssue(reopened, field('road'), 'open')).toBeNull();
+    expect(valueIssue(reopened, field('road'), 'raised')?.code).toBe('E_ATTR_DOMAIN');
   });
   it('keeps a concrete type that a differently named subtype substitutes for', () => {
     const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
@@ -114,6 +206,63 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(two.types[0].geometry).toEqual(['LineString']);
     expect(two.types[0].attributes).toEqual(['inNetwork', 'validFrom', 'functionalRoadClass']);
   });
+  it('takes a feature type whose head is in a schema not given, and not one of GML\'s object heads', () => {
+    const c = fromInspire(
+      `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:tn="urn:tn" xmlns:x="urn:x" targetNamespace="urn:x">` +
+        '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="roadName" type="string"/></sequence></complexType>' +
+        '<element name="Width" type="x:WidthType" substitutionGroup="gml:AbstractObject"/><complexType name="WidthType"><sequence><element name="value" type="double"/></sequence></complexType>' +
+        '</schema>',
+    );
+    expect(c.types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['RoadLink', ['LineString'], ['roadName']]]);
+    // A type that extends a base in that schema (where INSPIRE keeps the geometry) is refused, naming the schema.
+    const theme = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:tn="urn:tn" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><complexContent><extension base="tn:TransportLinkType"><sequence><element name="roadName" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    expect(() => fromInspire(theme)).toThrow(/build on schemas not given: add urn:tn$/);
+    // A plain-sequence type with a voidable property, and one built on an OGC standard (O&M), import.
+    const plain = fromInspire(
+      `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:om="http://www.opengis.net/om/2.0" xmlns:x="urn:x" targetNamespace="urn:x">` +
+        '<element name="Site" type="x:SiteType" substitutionGroup="gml:AbstractFeature"/><complexType name="SiteType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="floors" nillable="true"><complexType><simpleContent><extension base="integer"><attribute name="nilReason" type="string"/></extension></simpleContent></complexType></element></sequence></complexType>' +
+        '<element name="Obs" type="x:ObsType" substitutionGroup="om:OM_Observation"/><complexType name="ObsType"><complexContent><extension base="om:OM_ObservationType"><sequence><element name="note" type="string"/></sequence></extension></complexContent></complexType></schema>',
+    );
+    // An O&M observation holds no geometry: it imports with none, and no schema is asked for.
+    expect(plain.types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['Site', ['Point'], ['floors']], ['Obs', undefined, ['note']]]);
+    // A type built on a sampling feature takes its shape as its geometry (any kind), with no schema to add;
+    // and a standard's own schema, if given, adds none of its own elements as types.
+    const sams = 'http://www.opengis.net/samplingSpatial/2.0';
+    const sampled = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sams="${sams}" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      '<element name="GeophObject" type="x:GeophObjectType" substitutionGroup="sams:SF_SpatialSamplingFeature"/><complexType name="GeophObjectType"><complexContent><extension base="sams:SF_SpatialSamplingFeatureType"><sequence><element name="citation" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    const std = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sams="${sams}" targetNamespace="${sams}"><element name="SF_SpatialSamplingFeature" type="sams:SF_SpatialSamplingFeatureType" substitutionGroup="gml:AbstractFeature"/><complexType name="SF_SpatialSamplingFeatureType"><sequence><element name="shape" type="gml:GeometryPropertyType"/></sequence></complexType></schema>`;
+    for (const files of [[sampled], [sampled, std]]) expect(fromInspire(files).types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['GeophObject', undefined, ['citation']]]);
+    // An OGC application schema is a user's schema: its features import, and a base there is asked for.
+    const gwml = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gw="http://www.opengis.net/gwml-well/2.2" targetNamespace="http://www.opengis.net/gwml-well/2.2">' +
+      '<element name="GW_Well" type="gw:GW_WellType" substitutionGroup="gml:AbstractFeature"/><complexType name="GW_WellType"><sequence><element name="gwWellLocation" type="gml:PointPropertyType"/><element name="gwWellStatus" type="string"/></sequence></complexType></schema>';
+    expect(fromInspire(gwml).types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['GW_Well', ['Point'], ['gwWellStatus']]]);
+    const mapped = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gsmlb="http://www.opengis.net/gsml/4.1/GeoSciML-Basic" xmlns:x="urn:x" targetNamespace="urn:x">' +
+      '<element name="MyUnit" type="x:MyUnitType" substitutionGroup="gsmlb:MappedFeature"/><complexType name="MyUnitType"><complexContent><extension base="gsmlb:MappedFeatureType"><sequence><element name="note" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    expect(() => fromInspire(mapped)).toThrow(/add http:\/\/www\.opengis\.net\/gsml\/4\.1\/GeoSciML-Basic$/);
+  });
+  it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
+    const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
+    const type = (name, els) => `<element name="${name}" type="x:${name}Type" substitutionGroup="gml:AbstractFeature"/><complexType name="${name}Type"><sequence>${els}</sequence></complexType>`;
+    const c = fromInspire(
+      xsd(
+        // A parcel's outline, with a reference point beside it: the type holds polygons only.
+        type('CadastralParcel', '<element name="referencePoint" type="gml:PointPropertyType" minOccurs="0"/><element name="geometry" type="gml:MultiSurfacePropertyType"/><element name="label" type="string"/>') +
+          // A building's geometry wrapped in a data type: not a required text attribute.
+          type('Building', '<element name="geometry2D" type="x:BuildingGeometry2DPropertyType"/><element name="height" type="gml:LengthType" minOccurs="0"/>') +
+          // No property named geometry: the first one decides.
+          type('RoadLink', '<element name="centrelineGeometry" type="gml:CurvePropertyType"/><element name="startPoint" type="gml:PointPropertyType"/>'),
+      ),
+    );
+    const by = Object.fromEntries(c.types.map((t) => [t.code, t]));
+    expect(by.CadastralParcel.geometry).toEqual(['Polygon']);
+    expect(by.CadastralParcel.attributes).toEqual(['label']);
+    expect(by.Building.geometry).toBeUndefined();
+    expect(by.Building.attributes).toEqual(['height']);
+    expect(by.RoadLink.geometry).toEqual(['LineString']);
+    expect(by.RoadLink.attributes).toEqual([]);
+    expect(() => validateCatalog(c)).not.toThrow();
+  });
 });
 
 describe('REQ-GAP-87 OpenStreetMap presets', () => {
@@ -124,9 +273,21 @@ describe('REQ-GAP-87 OpenStreetMap presets', () => {
     expect(cafe.geometry).toEqual(['Point', 'Polygon']);
     expect(cafe.subtypes[0].fixed).toEqual({ amenity: 'cafe' });
     expect(cafe.attributes).toEqual(['amenity', 'name_attr', 'cuisine', 'outdoor_seating']);
-    expect(c.attributes.outdoor_seating.domain).toEqual({ yes: 'yes', no: 'no' });
-    expect(c.attributes.cuisine.domain).toMatchObject({ coffee_shop: 'Coffee Shop' });
+    // A combo's options and a check's yes/no are suggestions: OSM takes any value there.
+    expect([c.attributes.outdoor_seating.type, c.attributes.cuisine.type]).toEqual(['text', 'text']);
     expect(c.attributes.lanes.type).toBe('real');
+  });
+  it('closes a domain only for a radio field or a combo with customValues: false', () => {
+    const presets = { 'highway/track': { name: 'Track', geometry: ['line'], tags: { highway: 'track' }, fields: ['surface', 'tracktype', 'smoothness'] } };
+    const fields = {
+      surface: { key: 'surface', type: 'combo', options: ['asphalt', 'gravel'] },
+      tracktype: { key: 'tracktype', type: 'combo', customValues: false, options: ['grade1', 'grade2'] },
+      smoothness: { key: 'smoothness', type: 'radio', options: ['good', 'bad'] },
+    };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    expect(c.attributes.surface.type).toBe('text');
+    expect(c.attributes.tracktype).toMatchObject({ type: 'enum', domain: { grade1: 'grade1', grade2: 'grade2' } });
+    expect(c.attributes.smoothness).toMatchObject({ type: 'enum', domain: { good: 'good', bad: 'bad' } });
   });
 });
 
@@ -144,6 +305,45 @@ describe('REQ-GAP-87 the files a user picks', () => {
     expect(() => catalogFromFiles([{ name: 'surface.xml', text: F('inspire-surfacecomposition.xml') }])).toThrow(/needs the application schema/);
     expect(() => catalogFromFiles([file('iso19110-roads.xml'), file('iso19110-roads.xml')])).toThrow(/one ISO 19110 file/);
     expect(() => catalogFromFiles([{ name: 'notes.txt', text: 'hello' }])).toThrow(/notes.txt is not a feature catalogue/);
+  });
+  it('takes the fields of a preset named as {preset}, and stops at a loop', () => {
+    const presets = {
+      'amenity/restaurant': { name: 'Restaurant', geometry: ['point'], tags: { amenity: 'restaurant' }, fields: ['cuisine', '{amenity/fast_food}'] },
+      'amenity/fast_food': { name: 'Fast Food', geometry: ['point'], tags: { amenity: 'fast_food' }, fields: ['{amenity/restaurant}', 'drive_through'] },
+    };
+    const fields = { cuisine: { key: 'cuisine', type: 'combo', options: ['pizza', 'burger'] }, drive_through: { key: 'drive_through', type: 'check' } };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    const of = (code) => c.types.find((t) => t.code === code).attributes;
+    // The loop ends: the preset resolved first takes both lists; the one met inside the loop its own.
+    expect(of('amenity/restaurant')).toEqual(['amenity', 'cuisine', 'drive_through']);
+    expect(of('amenity/fast_food')).toEqual(['amenity', 'drive_through']);
+  });
+  it('gives a preset with no fields of its own its parent\'s', () => {
+    const presets = {
+      'amenity/fast_food': { name: 'Fast Food', geometry: ['point'], tags: { amenity: 'fast_food' }, fields: ['drive_through'] },
+      'amenity/fast_food/burger': { name: 'Burger', geometry: ['point'], tags: { amenity: 'fast_food', cuisine: 'burger' } },
+    };
+    const c = validateCatalog(fromIdPresets(presets, { drive_through: { key: 'drive_through', type: 'check' } }));
+    expect(c.types.find((t) => t.code === 'amenity/fast_food/burger').attributes).toEqual(['amenity', 'cuisine', 'drive_through']);
+    // fields and moreFields fall back each on its own, and a list of only unknown ids is a list of none.
+    const more = validateCatalog(
+      fromIdPresets(
+        {
+          'amenity/fast_food': { name: 'Fast Food', geometry: ['point'], tags: { amenity: 'fast_food' }, fields: ['drive_through'], moreFields: ['opening_hours'] },
+          'amenity/fast_food/burger': { name: 'Burger', geometry: ['point'], tags: { amenity: 'fast_food', cuisine: 'burger' }, moreFields: ['takeaway'] },
+          'amenity/fast_food/pizza': { name: 'Pizza', geometry: ['point'], tags: { amenity: 'fast_food', cuisine: 'pizza' }, fields: ['no_such_field'] },
+        },
+        { drive_through: { key: 'drive_through', type: 'check' }, opening_hours: { key: 'opening_hours', type: 'text' }, takeaway: { key: 'takeaway', type: 'check' } },
+      ),
+    );
+    const of = (code) => more.types.find((t) => t.code === code).attributes;
+    expect(of('amenity/fast_food/burger')).toEqual(['amenity', 'cuisine', 'drive_through', 'takeaway']);
+    expect(of('amenity/fast_food/pizza')).toEqual(['amenity', 'cuisine', 'drive_through', 'opening_hours']);
+    // References that converge (each preset naming the next twice), with a loop back to the first, are
+    // walked once each: 2^40 walks would never end.
+    const chain = Object.fromEntries(Array.from({ length: 40 }, (_, i) => [`p${i}`, { name: `P${i}`, geometry: ['point'], tags: { k: `v${i}` }, fields: i < 39 ? [`{p${i + 1}}`, `{p${i + 1}}`] : ['{p0}', 'drive_through'] }]));
+    const deep = fromIdPresets(chain, { drive_through: { key: 'drive_through', type: 'check' } });
+    expect(deep.types[0].attributes).toEqual(['k', 'drive_through']);
   });
   it('names a preset from its id when presets.json leaves names to translations', () => {
     const c = fromIdPresets({ 'leisure/picnic_table': { geometry: ['point'], tags: { leisure: 'picnic_table' } } });
@@ -170,6 +370,15 @@ describe('REQ-GAP-87 which converter a file needs', () => {
     // A geometry of no single kind is still a geometry, never a text attribute.
     expect(['GM_Solid', 'gml:MultiGeometryPropertyType', 'gml:SolidPropertyType', 'gml:GeometryPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:', 'geometry:', 'geometry:']);
     expect(['Point', 'Surface'].map(attrType)).toEqual(['text', 'text']);
+    // Every XSD integer derivation, and the GML and ISO 19103 measure types (a speed limit is gml:VelocityType).
+    expect(['xs:unsignedShort', 'xs:unsignedLong', 'xs:negativeInteger', 'xs:nonPositiveInteger', 'UnlimitedInteger'].map(attrType)).toEqual(Array(5).fill('integer'));
+    expect(['gml:VelocityType', 'gml:SpeedType', 'gml:VolumeType', 'gml:ScaleType', 'Volume', 'gml:GridLengthType'].map(attrType)).toEqual(Array(6).fill('real'));
+    expect(['xs:time', 'xs:dateTime'].map(attrType)).toEqual(['text', 'text']);
+    // An INSPIRE data type that wraps a geometry is geometry, not text.
+    expect(['bu-core2d:BuildingGeometry2DPropertyType', 'ad:GeographicPositionPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:']);
+    // The rest of GML 3.2's geometry property types (GM_Primitive is gml:GeometricPrimitivePropertyType).
+    expect(['gml:GeometricPrimitivePropertyType', 'gml:GeometricComplexPropertyType', 'gml:GeometricAggregatePropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:', 'geometry:']);
+    expect(['gml:PolyhedralSurfacePropertyType', 'gml:TriangulatedSurfacePropertyType', 'gml:TinPropertyType'].map(attrType)).toEqual(Array(3).fill('geometry:Polygon'));
   });
 });
 
@@ -183,6 +392,14 @@ describe('REQ-GAP-87 coded attributes keep their codes', () => {
     // Codes a number would not give back ('01' → 1) stay text.
     const padded = validateCatalog({ format: 'gw-catalog/1', id: 'pad', name: 'Padded', attributes: { cls: { type: 'enum', domain: { '01': 'One', '02': 'Two' } } }, types: [{ code: 'T', name: 'T', geometry: ['POINT'], attributes: ['cls'] }] });
     expect(fieldsFor(padded, 'T').find((f) => f.name === 'cls').type).toBe('string');
+  });
+  it('keeps a new feature empty after a GeoPackage round trip, and TDS layers keep their codes', () => {
+    const layer = (domain) => ({ name: 'roads', table: 'roads', fields: [{ name: 'surface', type: 'text', domain }], features: [{ attrs: {}, geom: { type: 'LineString' } }] });
+    expect(catalogFromLayers('a', [layer({ paved: 'Paved', gravel: 'Gravel' })]).nulls).toEqual({ text: '', enum: '', number: null });
+    expect(catalogFromLayers('b', [layer({ '-999999': 'No Information', 1: 'Paved' })]).nulls.enum).toBe('-999999');
+    // A TDS layer with no coded field (contours: a ranged height) keeps TDS's codes by its feature code.
+    const contours = { name: 'contours', table: 'CA010', fields: [{ name: 'ZVH', type: 'number', range: [-500, 9000] }], features: [{ attrs: { F_CODE: 'CA010', ZVH: -999999 }, geom: { type: 'LineString' } }] };
+    expect(catalogFromLayers('c', [contours]).nulls.number).toBe(-999999);
   });
   it('starts a new feature empty, not with the TDS "no information" codes', async () => {
     const { fieldsFor, nullOf, getCatalog } = await import('../../app/src/vector/schema.js');

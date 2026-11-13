@@ -64,14 +64,29 @@ export function attrType(t) {
     .toLowerCase();
   const g = s.match(/^gm_(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)$/) ?? s.match(/^(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)(?:property)?type$/);
   if (g) return { point: 'geometry:Point', curve: 'geometry:LineString', linestring: 'geometry:LineString', surface: 'geometry:Polygon', polygon: 'geometry:Polygon' }[g[1]];
-  if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$/.test(s)) return 'geometry:';
+  if (/^(?:polyhedral|triangulated)surface(?:property)?type$|^tin(?:property)?type$/.test(s)) return 'geometry:Polygon';
+  if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$|^geometric(?:primitive|complex|aggregate)(?:property)?type$/.test(s)) return 'geometry:';
+  if (/(?:geometry|geographicposition)\w*propertytype$/.test(s)) return 'geometry:';
   if (/^(boolean)$/.test(s)) return 'boolean';
-  if (/^(integer|int|long|short|byte|nonnegativeinteger|positiveinteger|unsignedint)$/.test(s)) return 'integer';
-  if (/^(real|double|float|decimal|number|measure(type)?|length(type)?|area(type)?|angle(type)?|distance|velocity)$/.test(s)) return 'real';
+  if (/^(integer|int|long|short|byte|(non)?(positive|negative)integer|unsigned(byte|short|int|long)|unlimitedinteger)$/.test(s)) return 'integer';
+  if (/^(real|double|float|decimal|number|(measure|length|area|angle|distance|velocity|speed|volume|scale|gridlength)(type)?)$/.test(s)) return 'real';
   return 'text';
 }
 
-/** Attributes shared by types: one entry per name, or a type-qualified one when a definition differs. */
+/**
+ * A feature type's geometry kinds from its geometry-valued properties ([name, attrType]): the primary
+ * one's, the one named geometry or else the first. Another (a parcel's reference point) does not let
+ * the type hold a second kind; a primary one of no known kind restricts nothing.
+ */
+function primaryGeometry(props) {
+  const p = props.find(([n]) => /^geometry$/i.test(n)) ?? props[0];
+  return p && p[1].length > 9 ? [p[1].slice(9)] : [];
+}
+
+/**
+ * Attributes shared by types: one entry per name, or a type-qualified one when a definition differs,
+ * which keeps the source's column name in `field` (decision #243): its layers write that name.
+ */
 function attrTable() {
   const attrs = Object.create(null);
   let n = 0;
@@ -79,14 +94,31 @@ function attrTable() {
     let key = clean(name);
     if (!key || BAD_NAMES.has(key)) return null;
     if (FEATURE_COLUMNS.has(key.toLowerCase())) key = `${key}_attr`;
-    const prev = attrs[key];
-    if (prev && JSON.stringify({ ...prev, label: '' }) !== JSON.stringify({ ...a, label: '' })) key = `${key}_${typeCode}`;
+    const column = key;
+    const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
+    // A definition that differs takes a key of its own, naming its column; a key already holding
+    // another definition (or a source attribute of that name) is passed over for the next free one.
+    let entry = a;
+    if (attrs[key] && !same(attrs[key], a)) {
+      entry = { ...a, field: column };
+      key = `${column}_${typeCode}`;
+      for (let i = 2; attrs[key] && !same(attrs[key], entry); i++) key = `${column}_${typeCode}_${i}`;
+    }
     if (BAD_NAMES.has(key)) return null;
     if (!attrs[key] && ++n > MAX_ATTRS) throw E('the catalogue has more than {n} attributes', { n: String(MAX_ATTRS) });
-    attrs[key] ??= a;
+    attrs[key] ??= entry;
     return key;
   };
-  return { attrs, add };
+  /** Add a key to a type's list: one that writes a column the type already has (an inherited
+   * definition its own redefines) takes that one's place. */
+  const columnOf = (k) => attrs[k]?.field ?? k;
+  const place = (names, key) => {
+    if (!key) return;
+    const at = names.findIndex((k) => columnOf(k) === columnOf(key));
+    if (at < 0) names.push(key);
+    else names[at] = key;
+  };
+  return { attrs, add, place };
 }
 
 /**
@@ -99,7 +131,7 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
   const root = find(doc, 'FC_FeatureCatalogue');
   if (!root) throw E('not an ISO 19110 feature catalogue (no FC_FeatureCatalogue)');
   const title = deepText(first(root, 'name')) || name || 'ISO 19110 catalogue';
-  const { attrs, add } = attrTable();
+  const { attrs, add, place } = attrTable();
   const types = [];
   const fts = all(root, 'FC_FeatureType');
   const byId = new Map(fts.filter((ft) => attr(ft, 'id')).map((ft) => [attr(ft, 'id'), ft]));
@@ -118,13 +150,13 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
     const typeName = deepText(first(ft, 'typeName'));
     const code = deepText(first(ft, 'code')) || typeName;
     if (!code) continue;
-    const geometry = new Set();
+    const geoms = [];
     const names = [];
     for (const fa of attributesOf(ft)) {
       const member = deepText(first(fa, 'memberName'));
       const t = attrType(deepText(first(fa, 'valueType')));
       if (t.startsWith('geometry:')) {
-        if (t.length > 9) geometry.add(t.slice(9));
+        geoms.push([member, t]);
         continue;
       }
       const listed = all(fa, 'FC_ListedValue').map((v) => [deepText(first(v, 'code')) || deepText(first(v, 'label')), deepText(first(v, 'label')) || deepText(first(v, 'code'))]).filter(([c]) => c);
@@ -134,11 +166,11 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
       if (def) a.definition = def;
       const card = deepText(first(fa, 'cardinality'));
       if (/^1(\.\.|$)/.test(card)) a.required = true;
-      const key = add(member, a, code);
-      if (key && !names.includes(key)) names.push(key);
+      place(names, add(member, a, code));
     }
     const def = deepText(first(ft, 'definition'));
-    types.push({ code, name: typeName || code, ...(geometry.size ? { geometry: [...geometry] } : {}), attributes: names, ...(def ? { definition: def } : {}) });
+    const geometry = primaryGeometry(geoms);
+    types.push({ code, name: typeName || code, ...(geometry.length ? { geometry } : {}), attributes: names, ...(def ? { definition: def } : {}) });
   }
   if (!types.length) throw E('the ISO 19110 catalogue has no feature types');
   return { format: 'gw-catalog/1', id: safeId(id || title, 'iso19110'), name: title, version: deepText(first(root, 'versionNumber')) || '1', source: 'ISO 19110', nulls: EMPTY_NULLS, attributes: attrs, types };
@@ -170,8 +202,9 @@ export function parseCodeList(xml) {
  * their complex type's sequence, after those of the types it extends (INSPIRE keeps the geometry
  * and the identifier in abstract base types). A property typed gml:ReferenceType takes the code list whose name,
  * without "Value", is the property's name (INSPIRE's own naming: surfaceComposition →
- * SurfaceCompositionValue), or the one its annotation names (targetCodeList); one that names a list
- * not imported stays as text. Voidable and optional properties are not required.
+ * SurfaceCompositionValue), or the one its annotation names (targetCodeList); one whose list was
+ * not imported stays as text, and a link to another feature (targetElement) is left out. Voidable and
+ * optional properties are not required.
  */
 export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const lists = new Map(codeLists.map((c) => [c.id.replace(/Value$/, '').toLowerCase(), c]));
@@ -179,7 +212,8 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   // substitutes for bu-core2d:Building). Each keeps its schema's prefixes, to resolve the QNames it uses.
   const complex = new Map();
   const elements = new Map();
-  const byLocal = { complex: new Map(), elements: new Map() };
+  const simple = new Map();
+  const byLocal = { complex: new Map(), elements: new Map(), simple: new Map() };
   let target = '';
   for (const x of [].concat(xsds)) {
     const doc = xmlOf(x);
@@ -195,23 +229,33 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     };
     for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) keep('complex', complex, ct);
     for (const el of kids(schema, 'element')) if (el.attrs?.name) keep('elements', elements, el);
+    for (const st of kids(schema, 'simpleType')) if (st.attrs?.name) keep('simple', simple, st);
   }
   /** The component a QName names, read with the prefixes of the schema it appears in (`from`). A prefix
    * the schema does not declare falls back to the local name, never to the component itself; a declared
    * one whose namespace is not among these schemas names nothing (as gml does). */
+  /** The namespace a QName's prefix names in the schema it appears in. */
+  const nsOf = (qname, from) => {
+    const q = String(qname);
+    const at = q.indexOf(':');
+    return at < 0 ? from.scope.xmlns : from.scope[`xmlns:${q.slice(0, at)}`];
+  };
   const resolve = (kind, qname, from) => {
     if (!qname) return null;
     const q = String(qname);
-    const at = q.indexOf(':');
-    const pfx = at < 0 ? '' : q.slice(0, at);
-    const name = at < 0 ? q : q.slice(at + 1);
-    const ns = pfx ? from.scope[`xmlns:${pfx}`] : from.scope.xmlns;
+    const name = q.slice(q.indexOf(':') + 1);
+    const ns = nsOf(q, from);
     if (ns !== undefined) {
-      const hit = (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
+      const hit = { complex, elements, simple }[kind].get(`${ns}|${name}`);
       return hit && hit.node !== from.node ? hit : null;
     }
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
+  const isGml = (ns) => /opengis\.net\/gml/.test(ns ?? '');
+  // The base standards' own namespaces (GML, O&M, sampling features, SWE, ISO, XSD): their elements are
+  // not a user's feature types, and a base there is not a schema to add (a sampling feature's shape is
+  // geometry of any kind). An OGC application schema (GroundWaterML, GeoSciML) is not one of them.
+  const isStd = (ns) => /^https?:\/\/(www\.opengis\.net\/(gml|om|sampling|samplingSpatial|samplingSpecimen|swe)(\/|$)|www\.isotc211\.org\/|www\.w3\.org\/)/.test(ns ?? '');
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
   const isFeature = (entry, seen = new Set()) => {
     const group = entry.node.attrs?.substitutionGroup;
@@ -219,9 +263,13 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     seen.add(entry);
     if (/AbstractFeature$/.test(group)) return true;
     const up = resolve('elements', group, entry);
-    return !!up && isFeature(up, seen);
+    if (up) return isFeature(up, seen);
+    // A head in a schema not given here (tn:TransportLink for a RoadLink, with TransportNetworks.xsd
+    // left out) is taken to be a feature's; only GML's own heads (AbstractObject) are not.
+    const ns = nsOf(group, entry);
+    return !!ns && !isGml(ns);
   };
-  let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
+  let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && !isStd(e.ns) && isFeature(e));
   // An extension that re-declares a type under the same name (ext2d's Building for core2d's) replaces
   // it; a differently named subtype (Motorway for Road) does not.
   const replaced = new Set(features.map((e) => [e, resolve('elements', e.node.attrs.substitutionGroup, e)]).filter(([e, up]) => up && up.node.attrs.name === e.node.attrs.name).map(([, up]) => up));
@@ -232,42 +280,62 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const shared = new Set(features.map((e) => e.node.attrs.name).filter((n, i, all) => all.indexOf(n) !== i));
   const codeOf = (e) => (shared.has(e.node.attrs.name) ? `${prefixOf(e)}:${e.node.attrs.name}` : e.node.attrs.name);
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
+  // A type or base in a schema not given (tn:TransportLinkType for a RoadLink) holds properties, often the
+  // geometry: the import names the schemas to add rather than make types without them.
+  const missing = new Set();
+  const lacking = (qname, from) => {
+    const ns = nsOf(qname, from);
+    if (ns && !isStd(ns)) missing.add(ns);
+  };
   const props = (entry, seen = new Set()) => {
     if (!entry || seen.has(entry)) return [];
     seen.add(entry);
-    return [...props(resolve('complex', find(entry.node, 'extension')?.attrs?.base, entry), seen), ...all(entry.node, 'element')];
+    const base = first(first(entry.node, 'complexContent'), 'extension')?.attrs?.base;
+    const up = resolve('complex', base, entry);
+    if (base && !up) lacking(base, entry);
+    return [...props(up, seen), ...all(entry.node, 'element').map((node) => ({ node, from: entry }))];
   };
-  const { attrs, add } = attrTable();
+  const { attrs, add, place } = attrTable();
   const types = [];
   for (const entry of features) {
     const code = codeOf(entry);
-    const geometry = new Set();
+    const geoms = [];
     const names = [];
-    for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
+    const own = resolve('complex', entry.node.attrs.type, entry);
+    if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry);
+    for (const { node: p, from } of props(own)) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
       // with a nilReason attribute), not in @type.
-      const ptype = String(p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? find(p, 'restriction')?.attrs?.base ?? '');
+      // A schema's own simple type (an enumeration such as VerticalPositionValue, or a restricted number)
+      // is read through its restriction: its values become a coded domain, its base the type.
+      const typeName = p.attrs?.type ?? find(p, 'extension')?.attrs?.base;
+      const named = typeName ? resolve('simple', typeName, from) : null;
+      const rst = named ? find(named.node, 'restriction') : p.attrs?.type ? null : find(p, 'restriction');
+      const enums = rst ? all(rst, 'enumeration').map((e) => String(e.attrs?.value ?? '')).filter((v) => v && !BAD_NAMES.has(v)) : [];
+      capValues(enums.length, pname);
+      const ptype = String((named && rst?.attrs?.base) || (p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? rst?.attrs?.base ?? ''));
       const t = attrType(ptype);
       if (t.startsWith('geometry:')) {
-        if (t.length > 9) geometry.add(t.slice(9));
+        geoms.push([pname, t]);
         continue;
       }
       // A reference to a code list names it in its annotation (targetCodeList), else by the property's name;
-      // a reference with neither is a link to another feature.
+      // a link to another feature names the feature (targetElement) and is not an attribute.
       const ref = /ReferenceType$/.test(ptype);
       const target = ref ? deepText(find(p, 'targetCodeList')).replace(/^.*[:/#]/, '') : '';
+      if (ref && !target && find(p, 'targetElement')) continue;
       const list = ref ? lists.get((target || pname).replace(/Value$/, '').toLowerCase()) : null;
-      if (ref && !list && !target) continue;
       // A code list the import was not given keeps the property, as text, and says which list it needs.
-      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
+      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : enums.length ? { label: pname, type: 'enum', domain: Object.fromEntries(enums.map((v) => [v, v])) } : ref ? { label: pname, type: 'text', definition: `${target || `${pname[0].toUpperCase()}${pname.slice(1)}Value`} (code list not imported)` } : { label: pname, type: t };
       if (Number(p.attrs?.minOccurs ?? 1) >= 1 && p.attrs?.nillable !== 'true') a.required = true;
-      const key = add(pname, a, code);
-      if (key && !names.includes(key)) names.push(key);
+      place(names, add(pname, a, code));
     }
-    types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.size ? { geometry: [...geometry] } : {}), attributes: names });
+    const geometry = primaryGeometry(geoms);
+    types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.length ? { geometry } : {}), attributes: names });
   }
+  if (missing.size) throw E('the feature types build on schemas not given: add {schemas}', { schemas: [...missing].sort().join(', ') });
   if (!types.length) throw E('the schema defines no feature types (no element in the gml:AbstractFeature group)');
   const title = name || target.replace(/\/+$/, '').split('/').slice(-2).join(' ') || 'INSPIRE application schema';
   return { format: 'gw-catalog/1', id: safeId(id || `inspire-${title}`, 'inspire'), name: title, version: '1', source: 'INSPIRE application schema', nulls: EMPTY_NULLS, attributes: attrs, types };
@@ -279,9 +347,9 @@ const ID_GEOMETRY = { point: 'Point', vertex: 'Point', line: 'LineString', area:
  * OpenStreetMap presets as the iD editor keeps them (presets.json, fields.json: objects keyed by
  * id) → gw-catalog/1. OSM's tags are open key=value pairs: each preset becomes a type whose
  * attributes are its fields' keys and its own tag keys, with one subtype that fixes its tags
- * (amenity=cafe). A combo field with options becomes a coded domain, a check field yes/no, a number
- * field real; anything else is text. Other tags stay free: a feature may carry keys the catalogue
- * does not name.
+ * (amenity=cafe). A radio field, or a combo whose values are closed (customValues: false), becomes a
+ * coded domain, a number field real; anything else is text, as OSM takes any value there. Other tags
+ * stay free: a feature may carry keys the catalogue does not name.
  */
 export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name = 'OpenStreetMap presets' } = {}) {
   const attrs = Object.create(null);
@@ -294,19 +362,46 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     const label = clean(f?.label ?? key);
     const opts = f?.options ?? (f?.strings?.options ? Object.keys(f.strings.options) : null);
     if (Array.isArray(opts)) capValues(opts.length, key);
-    if ((f?.type === 'check' || f?.type === 'onewayCheck') && !opts) attrs[key] = { label, type: 'enum', domain: { yes: 'yes', no: 'no' } };
-    else if (Array.isArray(opts) && opts.length && /combo|radio/.test(f?.type ?? '')) attrs[key] = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
+    // A combo's options are suggestions (OSM takes any value) unless it sets customValues: false; a
+    // radio's are the values. A check field's yes/no are suggestions too.
+    const closed = f?.type === 'radio' || (/combo/.test(f?.type ?? '') && f?.customValues === false);
+    if (Array.isArray(opts) && opts.length && closed) attrs[key] = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
     else if (f?.type === 'number') attrs[key] = { label, type: 'real' };
     else attrs[key] = { label, type: 'text' };
     return key;
   };
   const types = [];
+  const arr = (x) => (Array.isArray(x) ? x : []);
+  // As iD resolves them: fields and moreFields each on its own; a '{preset}' entry takes that preset's
+  // list of the same name; a list that resolves to nothing takes its parent's (the id up to the last '/').
+  // Each preset's list is resolved once and kept (a picked file's references may converge); a reference
+  // back into a list still being resolved, in a loop, adds nothing.
+  const resolved = new Map();
+  const listIds = (qid, key) => {
+    const k = `${key}\u0000${qid}`;
+    if (resolved.has(k)) return resolved.get(k);
+    resolved.set(k, []);
+    let ids = arr(presets[qid]?.[key]).flatMap((fid) => {
+      const m = /^\{(.+)\}$/.exec(String(fid));
+      if (!m) return Object.hasOwn(fields, fid) ? [fid] : [];
+      return Object.hasOwn(presets, m[1]) ? listIds(m[1], key) : [];
+    });
+    for (let up = qid; !ids.length && up.includes('/'); ) {
+      up = up.slice(0, up.lastIndexOf('/'));
+      if (Object.hasOwn(presets, up)) {
+        ids = listIds(up, key);
+        break;
+      }
+    }
+    ids = [...new Set(ids)];
+    resolved.set(k, ids);
+    return ids;
+  };
   for (const [pid, p] of Object.entries(presets ?? {})) {
     if (!p || typeof p !== 'object' || !p.tags || typeof p.tags !== 'object' || p.searchable === false) continue;
     capTypes(types);
     // A built presets.json may leave names to its translation files: the id's last part then names it.
     const nm = clean(p.name) || pid.split('/').pop().replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-    const arr = (x) => (Array.isArray(x) ? x : []);
     const geometry = [...new Set(arr(p.geometry).map((g) => ID_GEOMETRY[g]).filter(Boolean))];
     if (!geometry.length) continue;
     const names = [];
@@ -317,7 +412,7 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
       names.push(key);
       if (v !== '*' && typeof v === 'string') fixed[key] = v;
     }
-    for (const fid of [...arr(p.fields), ...arr(p.moreFields)]) {
+    for (const fid of [...listIds(pid, 'fields'), ...listIds(pid, 'moreFields')]) {
       const f = fields[fid];
       const key = typeof f?.key === 'string' ? attrFor(f.key, f) : null;
       if (key && !names.includes(key)) names.push(key);

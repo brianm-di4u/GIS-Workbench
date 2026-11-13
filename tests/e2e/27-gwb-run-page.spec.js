@@ -90,6 +90,23 @@ test('REG-150 a step called "open" gets the file the command line names for it',
   expect([r.status?.ok, r.status?.steps?.map((s) => s.status)]).toEqual([true, ['done']]);
 });
 
+test('REG-150 the page script refuses a project given with other files to open, which it would drop', async ({ page }, info) => {
+  const project = info.outputPath('site.gwb');
+  writeFileSync(project, '{}'); // never opened: the refusal comes first
+  const r = await runPage(page, { recipe: STRETCH }, [project, RASTER]);
+  expect(r.refused).toMatch(/a project \(\.gwb\) opens on its own, so the other --in files would be dropped/);
+  // A data pack opens first, on its own path, so a project given with one is not refused for it.
+  const pack = info.outputPath('codes.gwpack');
+  writeFileSync(pack, 'not a pack');
+  const p = await runPage(page, { recipe: STRETCH }, [project, pack]);
+  expect(p.refused).toBeUndefined();
+});
+
+test('REG-150 a value that names no step says how to give a file whose name has an =', async ({ page }) => {
+  const r = await runPage(page, { recipe: STRETCH, inputs: ['site'] }, [RASTER]);
+  expect(r.refused).toMatch(/no step "site" .*give it with a folder, as in \.\/site=…/);
+});
+
 test('REG-150 the page script refuses files given to a step that reads none', async ({ page }) => {
   const r = await runPage(page, { recipe: STRETCH, inputs: ['s1'] }, [RASTER]);
   expect(r.refused).toMatch(/\(s1\) takes no files, so the files given to it would be ignored/);

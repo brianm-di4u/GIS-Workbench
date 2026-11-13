@@ -11,7 +11,7 @@
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, FORMAT } from '../recipes/recipe.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, FORMAT } from '../recipes/recipe.js';
 import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
 import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
@@ -74,8 +74,16 @@ export function install(app) {
   const pending = () => S.all('detection').filter((d) => d.status === 'pending');
 
   // ---- typed operations (REQ-GAP-84): a layer passes from step to step by its id ----
-  const vlayerBy = (x) => S.all('vlayer').find((v) => v.id === x || v.name === x) ?? null;
-  const rasterBy = (x) => [...app.layers.values()].find((l) => l.id === x || l.rec?.name === x) ?? null;
+  /** A layer by its id, or by its name when one layer has it: a name two layers share picks neither. */
+  const pick = (list, nameOf, x) => {
+    const byId = list.find((l) => l.id === x);
+    if (byId) return byId;
+    const named = list.filter((l) => nameOf(l) === x);
+    if (named.length > 1) throw gwError('{n} layers are named {layer}: rename one, or choose it again', { n: String(named.length), layer: String(x) }, 'E_RECIPE_INPUT');
+    return named[0] ?? null;
+  };
+  const vlayerBy = (x) => pick(S.all('vlayer'), (v) => v.name, x);
+  const rasterBy = (x) => pick([...app.layers.values()], (l) => l.rec?.name, x);
   /** The layer wired or given to input `k`, of the kind it needs. */
   const inputLayer = (ctx, k, kind) => {
     const x = ctx.inputs?.[k];
@@ -280,6 +288,43 @@ export function install(app) {
       return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
     } },
     ...TYPED,
+    // Time series (REQ-GAP-83) on the active layer, no dialog.
+    timeTrend: { title: N_('Temporal trend'), pythonHint: 'gw.time_trend()', run: async () => {
+      const l = await app.timeseries.trend();
+      return { summary: t('Trend of {n} pixels', { n: l.width * l.height }) };
+    } },
+    timeAnomaly: { title: N_('Temporal anomaly'), schema: {
+      from: { type: 'date', label: N_('Baseline from'), default: '' },
+      to: { type: 'date', label: N_('Baseline to'), default: '' },
+      by: { type: 'enum', label: N_('Compare with'), values: [{ value: 'month', label: N_('The same calendar month of the baseline') }, { value: 'none', label: N_('The whole baseline') }], default: 'month' },
+      z: { type: 'boolean', label: N_('As z-scores'), default: false },
+    }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
+      const l = await app.timeseries.anomaly(undefined, { from, to, by, z });
+      return { summary: t('{n, plural, one {# date} other {# dates}}', { n: l.bands }) };
+    } },
+    // Geocoding and routing on the user's own data (REQ-GAP-85): the index and the network come first (addr.index, route.roads).
+    geocodeTable: { title: N_('Geocode a table'), schema: {
+      text: { type: 'text', multiline: true, label: N_('Table (CSV text)'), default: '' },
+      address: { type: 'text', label: N_('Address column'), default: 'address' },
+      place: { type: 'text', label: N_('Place column'), default: '' },
+    }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
+      const r = await app.routing.geocodeTable(text, { address, place });
+      return { summary: t('{ok} of {n} addresses found', { ok: r.matched, n: r.matched + r.unmatched }) };
+    } },
+    route: { title: N_('Shortest route'), schema: {
+      from: { type: 'lonlat', label: N_('Start (longitude, latitude)'), default: null },
+      to: { type: 'lonlat', label: N_('End (longitude, latitude)'), default: null },
+    }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
+      const r = await app.routing.route(from, to);
+      return { summary: r ? t('Route of {n} m', { n: Math.round(r.metres) }) : t('No route') };
+    } },
+    serviceArea: { title: N_('Service area'), schema: {
+      at: { type: 'lonlat', label: N_('From (longitude, latitude)'), default: null },
+      breaks: { type: 'numbers', label: N_('Breaks (metres, or seconds on a time network)'), default: [300, 600] },
+    }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
+      const r = await app.routing.serviceArea(at, breaks);
+      return { summary: t('{n} nodes reached', { n: r.nodes }) };
+    } },
     // Most commands open a dialog, and nothing says which: a run with nobody at the page refuses them all.
     command: { title: N_('Run a command'), schema: { id: { type: 'text', label: N_('Command id'), default: '' } }, dialog: () => true, run: async ({ id, args }) => {
       await C.run(id, args);
@@ -292,8 +337,14 @@ export function install(app) {
     if (OPS[step.op]?.source) return;
     const ids = Object.values(outputs).filter((x) => typeof x === 'string' && (S.get(x)?.type === 'vlayer' || app.layers.get(x)));
     if (!ids.length) return;
-    const rec = { id: recipe.id, version: recipe.version, step: step.id, op: step.op, params: JSON.parse(JSON.stringify(step.params)), at: new Date().toISOString() };
-    S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)));
+    // The version names what ran only when a kept copy (built in, in the project or the library) holds
+    // exactly that workflow; an unsaved or edited run says so, and its step's settings are what it used.
+    const ran = contentOf(recipe, OPS);
+    const kept = [...BUILTIN, ...S.all('workflow').map((w) => w.recipe), ...library].some((x) => x?.id === recipe.id && contentOf(x, OPS) === ran);
+    const rec = { id: recipe.id, version: kept ? recipe.version : null, ...(kept ? {} : { unsaved: true }), step: step.id, op: step.op, params: JSON.parse(JSON.stringify(step.params)), at: new Date().toISOString() };
+    // Bookkeeping, not an edit: kept out of the undo history (as a GeoPackage's schema is), so Undo
+    // after a run takes back the step itself, not its stamp.
+    S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)), { kind: 'load' });
   };
   const runner = new RecipeRunner(OPS, { app, provenance });
 
@@ -331,6 +382,25 @@ export function install(app) {
       ...[...lib.values()].filter((r) => !project.has(r.id) || clash.has(r.id)).map((r) => ({ ...r, source: 'library', ...(clash.has(r.id) ? { clash: true } : {}) })),
     ];
   };
+  /**
+   * Where workflow `r` is kept (the admin's option B; the one rule for the Builder's Save and for Open): under
+   * its own id when no kept copy of that id differs from `base`, the copy it was opened from (a file is its
+   * own base); otherwise under the id of a kept workflow with the same content (and no different copy under
+   * that id), or a new id at version 1. A built-in's id is never taken; a built-in's own content is the
+   * built-in (`builtin`, nothing to keep). → {id, version, moved, fresh, builtin}; version is null when nothing
+   * is kept yet.
+   */
+  async function placeFor(r, base = contentOf(r, OPS)) {
+    const anon = (x) => contentOf({ ...x, id: '' }, OPS);
+    const b = BUILTIN.find((x) => x.id === r.id);
+    if (b && anon(b) === anon(r)) return { id: r.id, version: null, moved: false, fresh: false, builtin: true };
+    const kept = [...S.all('workflow').map((w) => w.recipe).filter(Boolean), ...(await refreshLibrary())];
+    const copies = (id) => kept.filter((x) => x.id === id);
+    const here = copies(r.id);
+    if (!b && here.every((x) => contentOf(x, OPS) === base)) return { id: r.id, version: here.length ? Math.max(...here.map((x) => x.version ?? 1)) : null, moved: false, fresh: false };
+    const twin = kept.find((x) => x.id !== r.id && anon(x) === anon(r) && copies(x.id).every((y) => anon(y) === anon(x)));
+    return twin ? { id: twin.id, version: Math.max(...copies(twin.id).map((x) => x.version ?? 1)), moved: true, fresh: false } : { id: `${r.id}-${Date.now().toString(36)}`, version: 1, moved: true, fresh: true };
+  }
   /** Keep a recipe in the library; false when there is no IndexedDB. */
   async function keep(r) {
     try {
@@ -345,6 +415,8 @@ export function install(app) {
   /** Remove a recipe from the library, and from the list the dock and API v2 read. */
   async function forget(id) {
     await removeFromLibrary(id);
+    const old = app.prefs.get('recipes');
+    if (Array.isArray(old) && old.some((r) => r?.id === id)) app.prefs.set('recipes', old.filter((r) => r?.id !== id));
     await refreshLibrary();
   }
   let panelEl = null;
@@ -356,11 +428,11 @@ export function install(app) {
 
   function drawer(i) {
     const step = runner.recipe.steps[i];
-    const rows = Object.entries(step.params).map(([k, v]) => {
-      const inp = h('input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v), 'aria-label': k, 'data-id': `recipe:param:${k}` });
+    const rows = Object.entries({ ...Object.fromEntries(Object.keys(OPS[step.op]?.schema ?? {}).map((k) => [k, undefined])), ...step.params }).map(([k, v]) => {
+      const inp = h(OPS[step.op]?.schema?.[k]?.multiline ? 'textarea' : 'input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
       inp.addEventListener('change', () => {
         const raw = inp.value.trim();
-        const val = Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;
+        const val = raw === '' ? '' : Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;
         // The op's schema checks and coerces it ('-120' → -120); a refused value is marked, not kept.
         try {
           runner.setParam(i, k, val);
@@ -438,7 +510,16 @@ export function install(app) {
   }
   /** A .gwrecipe.json file (Open… or a drop): validated, kept with the user's recipes and opened. */
   async function importRecipeFile(f) {
-    const r = validateRecipe(JSON.parse(await f.text()), OPS);
+    let r = validateRecipe(JSON.parse(await f.text()), OPS);
+    // A file never replaces a different workflow kept under its id, nor takes a built-in's.
+    const place = await placeFor(r);
+    // A built-in's own content opens the built-in; nothing is kept.
+    if (place.builtin) return open(BUILTIN.find((x) => x.id === r.id));
+    if (place.moved) r = { ...r, id: place.id, version: place.version };
+    // The same workflow already kept keeps its version: a file never takes it back.
+    else if (place.version !== null) r = { ...r, version: Math.max(r.version ?? 1, place.version) };
+    if (place.fresh) app.toast(t('Opened as a new recipe: your library or the project already holds a different one under its id.'), { kind: 'info' });
+    else if (place.moved) app.toast(t('Opened as {id}, which holds the same workflow.', { id: r.id }), { kind: 'info' });
     if (!(await keep(r))) app.toast(t('The recipe is open, but this browser has no storage to keep it in your library.'), { kind: 'warn' });
     open(r);
   }
@@ -489,6 +570,13 @@ export function install(app) {
   function headless(src, { gates = 'continue', params = {}, inputs = {} } = {}) {
     const r = validateRecipe(src, OPS);
     for (const s of r.steps) if (params[s.id]) for (const [k, v] of Object.entries(params[s.id])) s.params[k] = checkParam(OPS[s.op].schema?.[k], v, { where: s.id, param: k });
+    // A value given for an input the file already gives one replaces it in the workflow that runs, as
+    // params do, so a layer's stamp says the run was not the kept copy.
+    for (const [k, v] of Object.entries(inputs)) {
+      const [sid, name] = splitPort(k);
+      const w = r.steps.find((s) => s.id === sid)?.inputs?.[name];
+      if (w && 'value' in w) w.value = v;
+    }
     const id = `run-${++runN}`;
     const R = new RecipeRunner(OPS, { app, headless: true, provenance });
     R.load(r);
@@ -588,5 +676,5 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }

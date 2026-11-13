@@ -78,21 +78,28 @@ impl Default for Args {
     }
 }
 
-/// `--in` takes `STEP=FILE` when what comes before the first `=` is a step id (letters, digits,
-/// `-` and `_`), else the whole value is a file to open. A file whose own name looks like that
-/// (`site=2024.tif`) is taken whole when it exists and the part after `=` doesn't.
-fn input(v: &str) -> (String, PathBuf) {
-    input_with(v, |p| p.is_file())
+/// For a missing STEP=FILE input whose whole text is a file (`--in site=2024.tif`, meaning the file
+/// site=2024.tif), how to give it: with a folder, as `./site=2024.tif`.
+fn missing_input_hint(name: &str, f: &Path, is_file: impl Fn(&Path) -> bool) -> String {
+    let whole = PathBuf::from(format!("{name}={}", f.display()));
+    if !name.is_empty() && is_file(&whole) {
+        format!(" (to open the file {0}, give it with a folder, as in ./{0})", whole.display())
+    } else {
+        String::new()
+    }
 }
 
-fn input_with(v: &str, is_file: impl Fn(&Path) -> bool) -> (String, PathBuf) {
+/// `--in STEP=FILE` when the part before the first `=` is a step name (ASCII letters, digits, `-`, `_`),
+/// else `--in FILE`. Decided by the text alone, never by what is on disk, so a command line means
+/// the same on every machine: a file whose own name has an `=` in it is given with a folder, as in
+/// `./site=2024.tif`.
+fn input(v: &str) -> (String, PathBuf) {
     if let Some((name, file)) = v.split_once('=') {
         if !name.is_empty()
             && !file.is_empty()
             && name
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
-            && !(is_file(Path::new(v)) && !is_file(Path::new(file)))
         {
             return (name.to_string(), PathBuf::from(file));
         }
@@ -126,6 +133,12 @@ fn parse(argv: &[String]) -> Result<Args, String> {
             "--timeout" => {
                 let v = value("--timeout")?;
                 match v.parse::<u64>() {
+                    Ok(s) if s > MAX_TIMEOUT.as_secs() => {
+                        return Err(format!(
+                            "--timeout is at most {} seconds (one day), not {v}",
+                            MAX_TIMEOUT.as_secs()
+                        ))
+                    }
                     Ok(s) if s > 0 => a.timeout = Duration::from_secs(s),
                     _ => return Err(format!("--timeout is a number of seconds, not {v}")),
                 }
@@ -233,6 +246,9 @@ impl Drop for WorkDir {
 /// `systemctl stop`) leaves its folder behind. A later run removes those once they are this old,
 /// well past any run still going.
 const STALE_AFTER: Duration = Duration::from_secs(2 * 24 * 3600);
+/// The longest `--timeout`: half of STALE_AFTER, so a later run never sweeps the folder of one still
+/// going.
+const MAX_TIMEOUT: Duration = Duration::from_secs(STALE_AFTER.as_secs() / 2);
 
 /// Remove `gwb-run-<12 hex>` folders in `temp` last changed more than `age` ago.
 fn sweep_work_dirs(temp: &Path, age: Duration) {
@@ -354,7 +370,8 @@ impl Job {
         let mut inputs = Vec::new();
         for (name, f) in &args.inputs {
             if !f.is_file() {
-                return Err(format!("there is no input file {}", f.display()));
+                let hint = missing_input_hint(name, f, |p| p.is_file());
+                return Err(format!("there is no input file {}{hint}", f.display()));
             }
             let abs = std::path::absolute(f)
                 .map_err(|e| format!("could not resolve {}: {e}", f.display()))?;
@@ -613,7 +630,7 @@ fn output_names(raw: Vec<&str>) -> Vec<String> {
             let clean: String = last
                 .chars()
                 .map(|c| {
-                    if c.is_control() || "<>:\"|?*\u{202e}\u{feff}".contains(c) {
+                    if crate::paths::is_bad_name_char(c) {
                         '_'
                     } else {
                         c
@@ -846,6 +863,7 @@ mod tests {
             (a.gates.as_str(), a.timeout),
             ("fail", Duration::from_secs(60))
         );
+        assert_eq!(parse(&v(&["r", "--out", "o", "--timeout", "86400"])).unwrap().timeout, MAX_TIMEOUT);
         assert_eq!(parse(&v(&["r", "--out", "o"])).unwrap().gates, "continue");
         for (bad, why) in [
             (&[][..], "nothing to do"),
@@ -861,6 +879,10 @@ mod tests {
             (
                 &["r", "--out", "o", "--timeout", "0"][..],
                 "number of seconds",
+            ),
+            (
+                &["r", "--out", "o", "--timeout", "86401"][..],
+                "at most 86400 seconds",
             ),
         ] {
             assert!(parse(&v(bad)).unwrap_err().contains(why), "{bad:?}");
@@ -892,17 +914,29 @@ mod tests {
     }
 
     #[test]
-    fn a_file_whose_name_looks_like_step_equals_file_is_taken_whole() {
-        // Only "site=2024.tif" exists, as a relative name in the working folder.
+    fn a_missing_step_file_that_is_a_whole_file_name_says_how_to_give_it() {
         let exists = |p: &Path| p == Path::new("site=2024.tif");
         assert_eq!(
+            missing_input_hint("site", Path::new("2024.tif"), exists),
+            " (to open the file site=2024.tif, give it with a folder, as in ./site=2024.tif)"
+        );
+        assert_eq!(missing_input_hint("s1", Path::new("other.tif"), exists), "");
+        assert_eq!(missing_input_hint("", Path::new("2024.tif"), exists), "");
+    }
+
+    #[test]
+    fn step_equals_file_is_decided_by_the_text_alone() {
+        // Whatever is on disk: a plain name before the first `=` is a step, and a folder makes it a file.
+        assert_eq!(
             (
-                input_with("site=2024.tif", exists),
-                input_with("s1=site=2024.tif", exists),
-                input_with("s1=other.tif", exists),
+                input("site=2024.tif"),
+                input("./site=2024.tif"),
+                input("s1=site=2024.tif"),
+                input("s1=other.tif"),
             ),
             (
-                (String::new(), PathBuf::from("site=2024.tif")),
+                ("site".to_string(), PathBuf::from("2024.tif")),
+                (String::new(), PathBuf::from("./site=2024.tif")),
                 ("s1".to_string(), PathBuf::from("site=2024.tif")),
                 ("s1".to_string(), PathBuf::from("other.tif")),
             )
@@ -959,6 +993,7 @@ mod tests {
                 "nul.json",
                 "Con.tif",
                 "x\u{202e}y.txt",
+                "r\u{200b}e\u{2066}p\u{202a}.tif",
             ]),
             vec![
                 "a.tif",
@@ -972,6 +1007,7 @@ mod tests {
                 "output-nul.json",
                 "output-Con.tif",
                 "x_y.txt",
+                "r_e_p_.tif",
             ]
         );
     }

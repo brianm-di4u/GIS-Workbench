@@ -27,6 +27,24 @@ const DIAMOND = {
 };
 
 describe('REQ-GAP-84 gw-recipe/2', () => {
+  it('reads an empty value as not given: the default for numbers, lists and choices, empty for text', () => {
+    const ops = { o: { title: 'O', schema: { n: { type: 'number', default: 5, min: 1 }, cap: { type: 'number', min: 0 }, e: { type: 'enum', values: ['a', 'b'], default: 'b' }, s: { type: 'text', default: 'x' } }, run: () => ({}) } };
+    const r = validateRecipe({ format: FORMAT2, name: 'e', steps: [{ id: 'a', op: 'o', params: { n: '', cap: '', e: '', s: '' } }] }, ops);
+    expect(r.steps[0].params).toEqual({ n: 5, cap: null, e: 'b', s: '' });
+    const run = new RecipeRunner(ops);
+    run.load({ format: FORMAT2, name: 'e', steps: [{ id: 'a', op: 'o', params: { n: 7 } }] });
+    run.setParam(0, 'n', '');
+    expect(run.recipe.steps[0].params.n).toBe(5);
+  });
+  it('writes the wires, positions and given inputs it read, and reads them back the same', () => {
+    const run = new RecipeRunner(OPS);
+    run.load({ ...DIAMOND, steps: DIAMOND.steps.map((s, k) => ({ ...s, at: { x: 10 * k, y: 5 } })).concat([{ id: 'given', op: 'add', inputs: { a: { value: 2 }, b: { value: null } } }]) });
+    const file = JSON.parse(JSON.stringify(run.toJSON()));
+    expect(file.steps.find((s) => s.id === 'sum').inputs).toEqual({ a: { from: 'twice', output: 'out' }, b: { from: 'three', output: 'out' } });
+    expect(file.steps.find((s) => s.id === 'given').inputs).toEqual({ a: { value: 2 }, b: { value: null } });
+    expect(file.steps.map((s) => s.at)).toEqual([0, 1, 2, 3].map((k) => ({ x: 10 * k, y: 5 })).concat([undefined]));
+    expect(validateRecipe(file, OPS).steps).toEqual(run.recipe.steps);
+  });
   it('orders the steps by their wires, whatever the file order', () => {
     const r = validateRecipe(DIAMOND, OPS);
     expect(order(r.steps).map((i) => r.steps[i].id)).toEqual(['three', 'twice', 'sum', 'show']);
@@ -58,6 +76,12 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     run.load({ format: FORMAT2, name: 'dotted', steps: [{ id: 'm.1', op: 'mul', params: { by: 5 } }] });
     await run.run(0, { inputs: { 'm.1.a': 3 } });
     expect(run.outputs.get('m.1').out).toBe(15);
+    // A value given at run time replaces one the file gives; a wired input keeps its wire.
+    run.load({ format: FORMAT2, name: 'given', steps: [{ id: 'n', op: 'num', params: { value: 4 } }, { id: 'm', op: 'mul', params: { by: 5 }, inputs: { a: { value: 2 } } }, { id: 'w', op: 'mul', params: { by: 1 }, inputs: { a: { from: 'n', output: 'out' } } }] });
+    await run.run(0);
+    expect(run.outputs.get('m').out).toBe(10);
+    await run.run(0, { inputs: { 'm.a': 7, 'w.a': 9 } });
+    expect([run.outputs.get('m').out, run.outputs.get('w').out]).toEqual([35, 4]);
   });
   it('marks a changed step and those downstream of it stale, not the others', async () => {
     const run = new RecipeRunner(OPS);
@@ -111,6 +135,16 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     expect(ids(at('twice'))).toEqual(['look', 'show', 'sum', 'twice']);
     expect(ids(at('show'))).toEqual(['look', 'show']);
     expect(ids(at('look'))).toEqual(['look']);
+    // And it runs after them, though a wire runs from a later step to an earlier one.
+    const back = [{ id: 's1', op: 'mul', inputs: { a: { from: 's3', output: 'out' } } }, { id: 's2', op: 'gate' }, { id: 's3', op: 'num' }];
+    expect(order(back, OPS).map((k) => back[k].id)).toEqual(['s3', 's1', 's2']);
+    expect([...downstream(back, 0, OPS)].map((k) => back[k].id)).toEqual(['s1', 's2']);
+    // A change to s3, which s1 reads, makes s1 and the step that runs after it stale too, and a run from s3 runs all three.
+    expect([...downstream(back, 2, OPS)].map((k) => back[k].id).sort()).toEqual(['s1', 's2', 's3']);
+    // Whatever runs after a downstream step is itself downstream: the run order and the stale set agree.
+    const ord = order(back, OPS);
+    const down = downstream(back, 2, OPS);
+    expect(ord.slice(ord.findIndex((k) => down.has(k))).every((k) => down.has(k))).toBe(true);
     // Without the ops nothing is known of the ports: wires alone.
     expect([...downstream(r.steps, at('show'))].map((k) => r.steps[k].id)).toEqual(['show']);
   });

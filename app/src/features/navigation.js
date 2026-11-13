@@ -32,11 +32,21 @@ export function install(app) {
   C.implement('nav.recenter', { run: () => app.tools.select('recenter'), enabled: hasImage, checked: () => app.tools.current?.id === 'recenter' });
   C.implement('nav.zoombox', { run: () => app.tools.select('zoombox'), enabled: hasImage, checked: () => app.tools.current?.id === 'zoombox' });
 
-  // Jump to Point (REQ-IMG-13, REQ-GEO-07): parse any format, echo, then move.
+  // Jump to Point (REQ-IMG-13, REQ-GEO-07): parse any format, echo, then move. Text that is not a
+  // coordinate is looked up in the address index when one is open (REQ-GAP-85; nothing is sent).
+  const parse = (text) => {
+    try {
+      return app.core.parse(String(text));
+    } catch (e) {
+      const [c] = app.routing?.geocoder ? app.routing.geocode(String(text), { limit: 1 }) : [];
+      if (!c) throw e;
+      return { lat: c.at[1], lon: c.at[0], format: t('Address'), notice: t('{address}, {score}% ({match})', { address: `${c.number ? `${c.number} ` : ''}${c.street}`, score: Math.round(c.score), match: c.match }), precisionM: NaN };
+    }
+  };
   const jump = async (text) => {
     const p = pane();
     if (!p) return;
-    const r = app.core.parse(String(text));
+    const r = parse(text);
     const fmt = r.format;
     const notice = r.notice;
     const prec = Number.isFinite(r.precisionM) ? length(r.precisionM, r.precisionM < 1 ? 2 : 0) : null;
@@ -63,7 +73,7 @@ export function install(app) {
       const echo = h('div', { class: 'hint', 'aria-live': 'polite' }, t('Type a coordinate in any format (DD, DMS, DDM, MGRS, USNG, UTM, UPS, GARS, GEOREF).'));
       inp.addEventListener('input', () => {
         try {
-          const r = app.core.parse(inp.value);
+          const r = parse(inp.value);
           echo.textContent = `→ ${app.core.format(r.lat, r.lon, 0, 6)} · ${r.format}${r.notice ? ` · ${r.notice}` : ''}`;
         } catch (e) {
           echo.textContent = inp.value ? `✗ ${msgOf(e)}` : '';

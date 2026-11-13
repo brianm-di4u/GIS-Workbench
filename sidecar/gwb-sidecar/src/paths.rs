@@ -57,6 +57,25 @@ pub fn is_reserved(name: &str) -> bool {
     false
 }
 
+/// A character no file name the sidecar writes may hold: a control character, one Windows refuses,
+/// a path separator, or an invisible format character that can make a name read as something else
+/// (bidi overrides and isolates, the zero-width space, word joiner and byte-order mark). Ordinary
+/// text needs the rest, so they stay allowed: the zero-width non-joiner and joiner (U+200C, U+200D)
+/// in Persian, Indic scripts and emoji, the direction marks (U+061C, U+200E, U+200F) in names
+/// copied from Arabic or Hebrew text, and the Mongolian vowel separator (U+180E).
+pub fn is_bad_name_char(c: char) -> bool {
+    c.is_control()
+        || matches!(c, '<' | '>' | ':' | '"' | '/' | '\\' | '|' | '?' | '*')
+        || matches!(
+            c,
+            '\u{200b}'
+                | '\u{202a}'..='\u{202e}'
+                | '\u{2060}'..='\u{2064}'
+                | '\u{2066}'..='\u{2069}'
+                | '\u{feff}'
+        )
+}
+
 /// A single file-name component that is safe to create inside a folder the sidecar owns.
 pub fn safe_name(name: &str) -> Result<String, PathError> {
     let n = name.trim_start();
@@ -70,7 +89,7 @@ pub fn safe_name(name: &str) -> Result<String, PathError> {
         return Err(PathError::Traversal);
     }
     for c in n.chars() {
-        if c.is_control() || matches!(c, '<' | '>' | ':' | '"' | '/' | '\\' | '|' | '?' | '*' | '\u{202e}' | '\u{feff}') {
+        if is_bad_name_char(c) {
             return Err(PathError::BadChar(c));
         }
     }
@@ -183,10 +202,23 @@ mod tests {
     fn names() {
         assert_eq!(safe_name("Hamilton 2023.sid").unwrap(), "Hamilton 2023.sid");
         assert_eq!(safe_name("a.b.c.tif").unwrap(), "a.b.c.tif");
-        for bad in ["", "..", ".", "../x", "..\\x", "a/b", "a\\b", "C:x", "x:stream", "a|b", "a?b", "a*b", "a\"b", "a<b", "a>b", "a\u{0}b", "a\nb", "x.", "x ", "CON", "con.txt", "Nul.tif", "COM1", "lpt9.log", "COM¹", "CONIN$", "x..", "..x", "evil\u{202e}fdp.exe"] {
+        for bad in ["", "..", ".", "../x", "..\\x", "a/b", "a\\b", "C:x", "x:stream", "a|b", "a?b", "a*b", "a\"b", "a<b", "a>b", "a\u{0}b", "a\nb", "x.", "x ", "CON", "con.txt", "Nul.tif", "COM1", "lpt9.log", "COM¹", "CONIN$", "x..", "..x", "evil\u{202e}fdp.exe", "evil\u{2067}fdp.exe", "zero\u{200b}width.tif", "bom\u{feff}.tif", "lre\u{202a}x.tif"] {
             assert!(safe_name(bad).is_err(), "{bad:?} should be refused");
         }
         assert!(!is_reserved("console.txt") && !is_reserved("COM10") && !is_reserved("auxiliary.tif"));
+        // Persian with a zero-width non-joiner, and an emoji joined by a zero-width joiner: real names.
+        assert!(safe_name("\u{0646}\u{0645}\u{200c}\u{0647}.tif").is_ok());
+        assert!(safe_name("team \u{1f469}\u{200d}\u{1f4bb}.tif").is_ok());
+        // A Hebrew name with a right-to-left mark, as copied from Hebrew text.
+        assert!(safe_name("\u{05d0}\u{05d1}\u{200f} 2024.tif").is_ok());
+    }
+
+    #[test]
+    fn bad_name_characters_end_where_the_ranges_end() {
+        let bad = ['\u{200b}', '\u{202a}', '\u{202e}', '\u{2060}', '\u{2064}', '\u{2066}', '\u{2069}', '\u{feff}'];
+        let good = ['\u{061c}', '\u{180e}', '\u{200a}', '\u{200c}', '\u{200e}', '\u{200f}', '\u{2010}', '\u{2029}', '\u{202f}', '\u{205f}', '\u{2065}', '\u{206a}', '\u{fefe}'];
+        assert_eq!(bad.iter().filter(|c| !is_bad_name_char(**c)).collect::<Vec<_>>(), Vec::<&char>::new());
+        assert_eq!(good.iter().filter(|c| is_bad_name_char(**c)).collect::<Vec<_>>(), Vec::<&char>::new());
     }
 
     #[test]

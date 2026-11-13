@@ -10,7 +10,9 @@
           <element name="surfaceComposition" type="gml:ReferenceType" nillable="true"/>
           <element name="numberOfLanes" type="integer"/>
           <element name="localRoadCode" type="string" minOccurs="0"/>
-          <element name="startNode" type="gml:ReferenceType"/>
+          <element name="startNode" type="gml:ReferenceType">
+            <annotation><appinfo><targetElement xmlns="http://www.opengis.net/gml/3.2">tn-s:RoadNode</targetElement></appinfo></annotation>
+          </element>
         </sequence>
       </extension>
     </complexContent>

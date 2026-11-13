@@ -10,7 +10,7 @@ import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles, saveBlob, textBlob } from '../storage/files.js';
 import { t, tr, msgOf, gwError } from '../i18n/index.js';
-import { validateRecipe, checkParam, fits, splitPort, contentOf, FORMAT2 } from '../recipes/recipe.js';
+import { validateRecipe, checkParam, fits, splitPort, contentOf, defaults, FORMAT2 } from '../recipes/recipe.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const s = (tag, attrs = {}, ...kids) => {
@@ -102,28 +102,23 @@ export function install(app) {
   }
 
   // ---- keeping workflows ----
-  /** A built-in recipe edited here is kept under an id of its own, so the built-in never hides it. */
+  /** A built-in opened here is edited under an id of its own (so the editor shows the id it will be kept
+   * under); recipes.placeFor is the rule Save keeps to. */
   const own = (r) => (R.builtin.some((b) => b.id === r.id) ? { ...r, id: `${r.id}-${Date.now().toString(36)}` } : r);
   // One save at a time: a second Save (a double-click) waits for the first, and so sees its record.
   let saving = Promise.resolve();
   const saveToProject = () => (saving = saving.catch(() => {}).then(save));
   async function save() {
-    const r = own(validateRecipe(ed.wf, ops));
-    const lib = (await R.library(true).catch(() => [])).find((x) => x.id === r.id);
-    let rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
-    // The project and the library are kept apart (the admin's option B): Save may replace a stored
-    // copy of this id only if it is the copy that was opened. A different one (a shared project's,
-    // or another project's in the library) stays, and this is saved as a new workflow.
-    const stored = [rec?.recipe, lib].filter(Boolean);
-    if (stored.some((x) => body(x) !== ed.base)) {
-      r.id = `${r.id}-${Date.now().toString(36)}`;
-      r.version = 1;
-      rec = null;
-      toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
-    } else if (stored.length) {
-      // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
-      r.version = Math.max(...stored.map((x) => x.version ?? 1)) + (ed.base === body(r) ? 0 : 1);
-    }
+    const r = validateRecipe(ed.wf, ops);
+    // Save may replace a kept copy of this id only if it is the copy that was opened (recipes.placeFor);
+    // a built-in, or a different copy, stays, and this is kept beside it.
+    const place = await R.placeFor(r, ed.base);
+    if (place.moved) Object.assign(r, { id: place.id, version: place.version });
+    // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
+    else if (place.version !== null) r.version = place.version + (ed.base === body(r) ? 0 : 1);
+    if (place.fresh) toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
+    else if (place.moved) toast(t('Saved as {id}, which holds the same workflow.', { id: r.id }), { kind: 'info' });
+    const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
     ed.wf.id = r.id;
     ed.wf.version = r.version;
     ed.base = body(r);
@@ -203,7 +198,12 @@ export function install(app) {
         if (!src) continue;
         const [x0, y0] = port(src, 'out', w.output);
         const [x1, y1] = port(x, 'in', k);
-        const d = `M${x0},${y0} C${x0 + 60},${y0} ${x1 - 60},${y1} ${x1},${y1}`;
+        // A step between the two ends would hide a straight wire: go round under it.
+        const lo = Math.min(y0, y1) - 12;
+        const hi = Math.max(y0, y1) + 12;
+        const between = wf.steps.filter((o) => o !== src && o !== x && o.at && o.at.x < Math.max(x0, x1) && o.at.x + NODE_W > Math.min(x0, x1) && o.at.y < hi && o.at.y + nodeH(ops[o.op]) > lo);
+        const dip = between.length ? Math.max(...between.map((o) => o.at.y + nodeH(ops[o.op]))) + 20 : null;
+        const d = dip === null ? `M${x0},${y0} C${x0 + 60},${y0} ${x1 - 60},${y1} ${x1},${y1}` : `M${x0},${y0} C${x0 + 40},${y0} ${x0 + 20},${dip} ${(x0 + x1) / 2},${dip} S${x1 - 40},${y1} ${x1},${y1}`;
         svg.append(s('path', { d, class: 'wf-wire', 'data-wire': `${w.from}.${w.output}>${x.id}.${k}` }));
       }
     }
@@ -285,12 +285,15 @@ export function install(app) {
     let el;
     if (spec?.type === 'boolean') el = h('input', { type: 'checkbox', id, checked: !!value, 'aria-label': lbl });
     else if (spec?.type === 'enum') el = h('select', { class: 'inp', id, 'aria-label': lbl }, ...(spec.values ?? []).map((v) => (typeof v === 'object' ? v : { value: v, label: String(v) })).map((v) => h('option', { value: v.value, selected: v.value === value }, tr(v.label))));
+    else if (spec?.multiline) el = h('textarea', { class: 'inp', id, rows: 4, value: value ?? '', 'aria-label': lbl });
     else el = h('input', { class: spec?.type === 'number' || spec?.type === 'integer' ? 'inp inp-num' : 'inp', id, type: spec?.type === 'number' || spec?.type === 'integer' ? 'number' : spec?.type === 'date' ? 'date' : 'text', value: Array.isArray(value) ? value.join(', ') : (value ?? ''), ...(spec?.min !== undefined ? { min: spec.min } : {}), ...(spec?.max !== undefined ? { max: spec.max } : {}), 'aria-label': lbl });
     el.addEventListener('change', () => {
       let v = spec?.type === 'boolean' ? el.checked : el.value;
-      if (spec?.type === 'numbers' || spec?.type === 'lonlat') v = String(v).split(/[,;\s]+/).filter(Boolean).map(Number);
+      if (spec?.type === 'numbers' || spec?.type === 'lonlat') v = String(v).trim() ? String(v).split(/[,;\s]+/).filter(Boolean).map(Number) : (spec.default ?? null);
       try {
         setParam(x.id, key, v);
+        const held = stepById(x.id)?.params[key];
+        if (!String(el.value).trim() && held !== null && held !== undefined && el.type !== 'checkbox') el.value = Array.isArray(held) ? held.join(', ') : String(held);
         el.removeAttribute('aria-invalid');
       } catch (e) {
         el.setAttribute('aria-invalid', 'true');
@@ -308,19 +311,22 @@ export function install(app) {
       const st = status(x.id);
       const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${tr(x.title)}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
       const form = h('div', { class: 'wf-form' });
-      const params = { ...Object.fromEntries(Object.entries(op.schema ?? {}).map(([k, sp]) => [k, sp.default])), ...(op.defaults ?? {}), ...x.params };
+      const params = { ...Object.fromEntries(Object.keys(op.schema ?? {}).map((k) => [k, undefined])), ...defaults(op), ...x.params };
       for (const [k, v] of Object.entries(params)) form.append(control(x, k, op.schema?.[k], v));
       // Inputs: a choice of the outputs upstream that fit, or none.
       for (const p of op.inputs ?? []) {
         const choices = wf.steps.filter((y) => y.id !== x.id).flatMap((y) => (ops[y.op].outputs ?? []).filter((o) => fits(o.type, p.type)).map((o) => ({ value: `${y.id}.${o.name}`, label: `${y.id} · ${tr(y.title)} → ${o.name}` })));
         const cur = x.inputs[p.name];
         // Or a layer of the project, of the kind the input takes.
-        const names = p.type === 'layer:vector' ? S.all('vlayer').map((v) => v.name) : p.type === 'layer:raster' ? [...(app.layers?.values() ?? [])].map((l) => l.rec?.name) : [];
-        const listed = [...new Set(names.filter(Boolean))];
+        const named = (p.type === 'layer:vector' ? S.all('vlayer').map((v) => [v.id, v.name]) : p.type === 'layer:raster' ? [...(app.layers?.values() ?? [])].map((l) => [l.id, l.rec?.name]) : []).filter(([, n]) => n);
+        // A name two layers share is listed once per layer, kept by id: the name alone would pick neither.
+        const shared = (n) => named.filter(([, m]) => m === n).length > 1;
+        const options = [...new Map(named.map(([id, n]) => (shared(n) ? [id, { key: id, label: `${n} (${id})` }] : [n, { key: n, label: n }]))).values()];
+        const listed = options.map((o) => o.key);
         // A layer the workflow names but this project lacks (opened from elsewhere, renamed) still shows, so it can be changed or cleared.
         const given = cur && 'value' in cur ? String(cur.value) : null;
         const layers = [
-          ...listed.map((n) => h('option', { value: '', 'data-layer': n, selected: given === n }, t('Layer: {name}', { name: n }))),
+          ...options.map((o) => h('option', { value: '', 'data-layer': o.key, selected: given === o.key }, t('Layer: {name}', { name: o.label }))),
           ...(given !== null && !listed.includes(given) ? [h('option', { value: '', 'data-layer': given, selected: true }, t('Layer: {name} (not in this project)', { name: given }))] : []),
         ];
         const sel = h('select', { class: 'inp', 'aria-label': t('Input {name}', { name: p.name }) }, h('option', { value: '' }, t('(given when run)')), ...choices.map((c) => h('option', { value: c.value, selected: cur && `${cur.from}.${cur.output}` === c.value }, c.label)), ...layers);

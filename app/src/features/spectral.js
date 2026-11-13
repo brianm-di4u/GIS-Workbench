@@ -215,10 +215,10 @@ export function install(app) {
 
   // ---- the cube every algorithm reads (BIP f32 with the radiometric state applied) ----
 
-  async function cube(l, { x0 = 0, y0 = 0, w = l.width, h: hh = l.height, step = 1, bands = null, raw = false, maxSamples } = {}) {
+  async function cube(l, { x0 = 0, y0 = 0, w = l.width, h: hh = l.height, step = 1, bands = null, raw = false, maxSamples, levels = true } = {}) {
     const bs = bands ?? Array.from({ length: l.bands }, (_, i) => i);
     const r = raw ? { gain: null, offset: null } : l.radiometryFor(bs);
-    return app.pool.run('cube', { handle: l.handle, x0, y0, w, h: hh, step, bands: bs, gain: r.gain, offset: r.offset, maxSamples }, { affinity: l.affinity, label: t('cube {layer}', { layer: l.rec?.name }), timeout: 300000 });
+    return app.pool.run('cube', { handle: l.handle, x0, y0, w, h: hh, step, bands: bs, gain: r.gain, offset: r.offset, maxSamples, levels }, { affinity: l.affinity, label: t('cube {layer}', { layer: l.rec?.name }), timeout: 300000 });
   }
 
   // ---- radiometric state (REQ-MSI-05/06) ----

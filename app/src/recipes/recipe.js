@@ -45,11 +45,13 @@ export function fits(out, want) {
  */
 export function checkParam(spec, v, where, fallback = spec?.default) {
   if (!spec) return v;
-  // A cleared number field takes the default; whitespace, true and [] are no number.
-  const blank = v === undefined || v === null || (typeof v === 'string' && v.trim() === '');
-  if (blank && (spec.type === 'number' || spec.type === 'integer')) return fallback;
-  if (v === undefined || v === null || v === '') return v;
-  const num = (x) => (typeof x === 'number' ? x : typeof x === 'string' && x.trim() !== '' ? Number(x) : NaN);
+  const numeric = spec.type === 'number' || spec.type === 'integer';
+  // A cleared field gives no value: text keeps it empty; anything else takes its default (or none),
+  // so an empty number never reaches an operation unchecked. Whitespace is no number either.
+  if (v === undefined) return numeric ? (fallback ?? null) : v;
+  if (v === null || v === '' || (numeric && typeof v === 'string' && v.trim() === '')) return spec.type === 'text' || spec.type === 'date' ? v : (fallback ?? null);
+  // true, [] and {} are no number.
+  const num = (x) => (typeof x === 'number' ? x : typeof x === 'string' ? Number(x) : NaN);
   switch (spec.type) {
     case 'number':
     case 'integer': {
@@ -90,19 +92,26 @@ export function checkParam(spec, v, where, fallback = spec?.default) {
   }
 }
 
-/** Steps in run order (Kahn), or an Error naming a step in a cycle. Ties keep the file's order. */
-export function order(steps) {
+/**
+ * What each step must run after, as edges from a step to the steps that follow it: a wire runs from
+ * the step it reads to the step it feeds, and a step whose op has no ports (a chain op, which acts on
+ * what the app shows) follows every step before it in the file. order() and downstream() both read it.
+ */
+function edges(steps, ops) {
   const idx = new Map(steps.map((s, i) => [s.id, i]));
-  const indeg = steps.map(() => 0);
   const out = steps.map(() => []);
   steps.forEach((s, i) => {
-    for (const w of Object.values(s.inputs ?? {})) {
-      if (w && typeof w === 'object' && 'from' in w) {
-        indeg[i]++;
-        out[idx.get(w.from)].push(i);
-      }
-    }
+    for (const w of Object.values(s.inputs ?? {})) if (w && typeof w === 'object' && 'from' in w) out[idx.get(w.from)].push(i);
+    if (portless(s, ops)) for (let k = 0; k < i; k++) out[k].push(i);
   });
+  return out;
+}
+
+/** Steps in run order (Kahn over edges()), or an Error naming a step in a cycle. Ties keep the file's order. */
+export function order(steps, ops = null) {
+  const out = edges(steps, ops);
+  const indeg = steps.map(() => 0);
+  for (const js of out) for (const j of js) indeg[j]++;
   const ready = indeg.map((d, i) => (d === 0 ? i : -1)).filter((i) => i >= 0);
   const res = [];
   while (ready.length) {
@@ -118,43 +127,36 @@ export function order(steps) {
   return res;
 }
 
+/** A step whose op has no ports: a chain op, which acts on what the app shows, in file order. */
+const portless = (s, ops) => !!ops && !ops[s.op]?.inputs?.length && !ops[s.op]?.outputs?.length;
+
 /**
  * A workflow's content, as one string: what tells two stored copies of one id apart. Its version,
  * where its steps sit in the graph and where it was listed from are not content, and an older or
  * hand-written form counts as the form validateRecipe gives it (one that no longer validates, as itself).
  */
 export function contentOf(r, ops) {
-  let v = r;
+  let v;
   try {
     v = validateRecipe(r, ops);
-  } catch {}
+  } catch {
+    return JSON.stringify(r ?? null);
+  }
   const f = JSON.parse(JSON.stringify({ ...v, format: FORMAT2 }));
   return JSON.stringify({ ...f, source: undefined, clash: undefined, version: 0, steps: f.steps?.map(({ at, ...s }) => s) });
 }
 
 /**
- * The steps downstream of step i (by wires), and i itself. A chain (no wires) has every later step
- * downstream. A step whose op has no ports (a chain op, which acts on what the app shows) follows
- * every step before it, as in a chain, wires or not.
+ * The steps downstream of step i, and i itself: those that follow it by edges(), so that what runs
+ * after a step is what goes stale when it changes. A chain (no wires) has every later step downstream.
  */
 export function downstream(steps, i, ops = null) {
   const wired = steps.some((s) => Object.values(s.inputs ?? {}).some((w) => w && typeof w === 'object' && 'from' in w));
   if (!wired) return new Set(steps.map((_, k) => k).filter((k) => k >= i));
-  const ids = new Set([steps[i].id]);
-  const portless = (s) => !!ops && !ops[s.op]?.inputs?.length && !ops[s.op]?.outputs?.length;
-  steps.forEach((s, k) => k > i && portless(s) && ids.add(s.id));
-  let grew = true;
-  while (grew) {
-    grew = false;
-    for (const s of steps) {
-      if (ids.has(s.id)) continue;
-      if (Object.values(s.inputs ?? {}).some((w) => w && typeof w === 'object' && ids.has(w.from))) {
-        ids.add(s.id);
-        grew = true;
-      }
-    }
-  }
-  return new Set(steps.map((s, k) => (ids.has(s.id) ? k : -1)).filter((k) => k >= 0));
+  const out = edges(steps, ops);
+  const seen = new Set([i]);
+  for (const todo = [i]; todo.length; ) for (const j of out[todo.pop()]) if (!seen.has(j)) (seen.add(j), todo.push(j));
+  return new Set([...seen].sort((a, b) => a - b));
 }
 
 /** A checked copy of a recipe (gw-recipe/1 or /2; always returned as /2), or an Error naming what is wrong. */
@@ -183,7 +185,7 @@ export function validateRecipe(r, ops) {
     for (const [k, w] of Object.entries(s.inputs ?? {})) {
       if (op.inputs && !op.inputs.some((x) => x.name === k)) throw stepErr('step {n}: operation {op} has no input {input}', { n: String(i + 1), op: s.op, input: k });
       if (w && typeof w === 'object' && 'from' in w) inputs[k] = { from: String(w.from), output: String(w.output ?? 'out') };
-      else inputs[k] = { value: w?.value ?? w };
+      else inputs[k] = { value: w && typeof w === 'object' && 'value' in w ? w.value : w };
     }
     const at = s.at && Number.isFinite(s.at.x) && Number.isFinite(s.at.y) ? { x: s.at.x, y: s.at.y } : null;
     return { id, op: s.op, title: String(s.title ?? op.title), params, inputs, note: String(s.note ?? ''), pythonHint: s.pythonHint ?? op.pythonHint ?? null, ...(at ? { at } : {}) };
@@ -234,7 +236,7 @@ export class RecipeRunner extends Emitter {
   load(recipe) {
     if (this.running) throw new Error('a recipe is running: stop it first');
     this.recipe = validateRecipe(recipe, this.ops);
-    this.order = order(this.recipe.steps);
+    this.order = order(this.recipe.steps, this.ops);
     this.state = this.recipe.steps.map(() => ({ status: 'pending', ms: null, summary: '', error: null }));
     this.outputs = new Map();
     this.current = -1;
@@ -251,7 +253,10 @@ export class RecipeRunner extends Emitter {
     this.emit('change');
   }
 
-  /** The values of step `s`'s inputs: wired ones from upstream outputs, given ones as given. */
+  /**
+   * The values of step `s`'s inputs: wired ones from upstream outputs, the others as given at run time,
+   * else as the file gives them.
+   */
   inputsOf(s, given = {}) {
     const out = {};
     for (const [k, w] of Object.entries(s.inputs ?? {})) {
@@ -263,7 +268,7 @@ export class RecipeRunner extends Emitter {
     }
     for (const [k, v] of Object.entries(given)) {
       const [sid, name] = splitPort(k);
-      if (sid === s.id && name && out[name] === undefined) out[name] = v;
+      if (sid === s.id && name && !('from' in (s.inputs?.[name] ?? {}))) out[name] = v;
     }
     return out;
   }

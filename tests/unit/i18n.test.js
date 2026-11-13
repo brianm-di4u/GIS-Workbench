@@ -208,4 +208,11 @@ describe('one source text, two meanings', () => {
     expect(keys('features/catalog.js', 'Region')).toEqual([keyOf('Region', 'cloud storage')]);
     expect(keys('features/spectral-analysis.js', 'Region')).toEqual([keyOf('Region')]);
   });
+
+  // #194: a control point's Ground is its ground coordinate; Extract from DSM's Ground is the
+  // bare-earth surface (a DTM), the sense the locales translated (de "Boden", fr "Sol").
+  it("gives a control point's Ground coordinate its own key, apart from the ground surface", () => {
+    expect(keys('features/register.js', 'Ground')).toEqual([keyOf('Ground', 'control point')]);
+    expect(keys('features/extract-r2.js', 'Ground')).toEqual([keyOf('Ground')]);
+  });
 });

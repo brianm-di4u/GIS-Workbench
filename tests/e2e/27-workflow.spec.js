@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
-import { openApp, openFiles, LEGACY_PREFS } from './helpers.js';
+import { openApp, openFiles, restart, LEGACY_PREFS } from './helpers.js';
 
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -34,6 +34,63 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await frame.evaluate(() => void window.gisworkbench.commands.run('pip.builder'));
   const panel = frame.locator('.wf-panel');
   await expect(panel).toBeVisible({ timeout: 30000 });
+  // A table is several lines: the Builder gives it a multi-line box, and an empty one says so.
+  const table = await frame.evaluate(async () => {
+    const W = window.gisworkbench.workflows;
+    const s = await W.addStep('geocodeTable');
+    W.setView('list');
+    const tag = document.getElementById(`wf-${s}-text`)?.tagName;
+    const r = await window.gisworkbench.recipes.runOp('geocodeTable', { text: '' }).then(() => 'ran', (e) => e.code);
+    W.removeStep(s);
+    W.setView('graph');
+    return { tag, r };
+  });
+  expect(table).toEqual({ tag: 'TEXTAREA', r: 'E_NEED_ADDRESSES' });
+  // Every op's parameters are in its schema, and the list view draws a control for each, with a default or not.
+  const controls = await frame.evaluate(async () => {
+    const W = window.gisworkbench.workflows;
+    const ops = window.gisworkbench.recipes.ops;
+    const byDefaults = Object.entries(ops).filter(([, o]) => o.defaults).map(([k]) => k);
+    W.setView('list');
+    const missing = [];
+    for (const op of ['watershed', 'join', 'route']) {
+      const s = await W.addStep(op);
+      missing.push(...Object.keys(ops[op].schema).filter((k) => !document.getElementById(`wf-${s}-${k}`)).map((k) => `${op}.${k}`));
+      W.removeStep(s);
+    }
+    W.setView('graph');
+    return { byDefaults, missing };
+  });
+  expect(controls).toEqual({ byDefaults: [], missing: [] });
+  // A point and a list typed into the list view's fields become a point and a list; a cleared list shows the default it goes back to.
+  const [ws, sa] = await frame.evaluate(async () => {
+    const W = window.gisworkbench.workflows;
+    W.setView('list');
+    return [await W.addStep('watershed'), await W.addStep('serviceArea')];
+  });
+  const at = frame.locator(`[id="wf-${ws}-at"]`);
+  const breaks = frame.locator(`[id="wf-${sa}-breaks"]`);
+  await at.fill('-121.5, 36.25');
+  await at.press('Tab');
+  await expect(at).not.toHaveAttribute('aria-invalid', 'true');
+  await breaks.fill('120, 240');
+  await breaks.press('Tab');
+  const typedIn = () =>
+    frame.evaluate(([a, b]) => {
+      const st = window.gisworkbench.workflows.current().steps;
+      return { at: st.find((s) => s.id === a).params.at, breaks: st.find((s) => s.id === b).params.breaks };
+    }, [ws, sa]);
+  expect(await typedIn()).toEqual({ at: [-121.5, 36.25], breaks: [120, 240] });
+  await breaks.fill('');
+  await breaks.press('Tab');
+  await expect(breaks).toHaveValue('300, 600');
+  expect(await typedIn()).toEqual({ at: [-121.5, 36.25], breaks: [300, 600] });
+  await frame.evaluate(([a, b]) => {
+    const W = window.gisworkbench.workflows;
+    W.removeStep(b);
+    W.removeStep(a);
+    W.setView('graph');
+  }, [ws, sa]);
   await expect(panel).toContainText('Add a step to begin');
 
   // Build: roads → buffer 50 and buffer 200 → erase → export.
@@ -58,6 +115,22 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   // The graph: five nodes and five wires.
   await expect(panel.locator('.wf-node')).toHaveCount(5);
   await expect(panel.locator('.wf-wire')).toHaveCount(5);
+  // No wire passes behind a step it does not join: every wire's points stay out of the other steps' boxes.
+  const hidden = await frame.evaluate(() => {
+    const boxes = [...document.querySelectorAll('.wf-node')].map((g) => ({ id: g.dataset.step, r: g.querySelector('rect').getBoundingClientRect() }));
+    return [...document.querySelectorAll('.wf-wire')].flatMap((p) => {
+      const [from, to] = p.dataset.wire.split('>').map((e) => e.slice(0, e.lastIndexOf('.')));
+      const m = p.getScreenCTM();
+      const len = p.getTotalLength();
+      const hits = new Set();
+      for (let i = 1; i < 40; i++) {
+        const q = p.getPointAtLength((len * i) / 40).matrixTransform(m);
+        for (const b of boxes) if (b.id !== from && b.id !== to && q.x > b.r.left + 2 && q.x < b.r.right - 2 && q.y > b.r.top + 2 && q.y < b.r.bottom - 2) hits.add(`${p.dataset.wire} behind ${b.id}`);
+      }
+      return [...hits];
+    });
+  });
+  expect(hidden).toEqual([]);
   // A wire that would make a loop is refused, and the workflow is unchanged.
   const loop = await frame.evaluate(async () => {
     try {
@@ -74,11 +147,38 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await wideItem.getByLabel('Distance (m)').fill('200');
   await wideItem.getByLabel('Distance (m)').press('Tab');
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's3').params.distance)).toBe(200);
+  // A cleared field goes back to its default, and shows it.
+  await wideItem.getByLabel('Distance (m)').fill('');
+  await wideItem.getByLabel('Distance (m)').press('Tab');
+  await expect(wideItem.getByLabel('Distance (m)')).toHaveValue('100');
+  expect(await frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's3').params.distance)).toBe(100);
+  await wideItem.getByLabel('Distance (m)').fill('200');
+  await wideItem.getByLabel('Distance (m)').press('Tab');
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's3').params.distance)).toBe(200);
   // A value out of range is named where it was typed and not kept.
   await wideItem.getByLabel('Segments per quarter circle').fill('500');
   await wideItem.getByLabel('Segments per quarter circle').press('Tab');
   await expect(wideItem.getByLabel('Segments per quarter circle')).toHaveAttribute('aria-invalid', 'true');
   expect(await axe(frame, '.wf-panel')).toEqual([]);
+  // Export… writes the workflow as a file that reads back with the same wires, positions and settings.
+  await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    app.__wfFiles = [];
+    app.saveCapture = (blob, name) => app.__wfFiles.push(blob.text().then((text) => ({ name, text })));
+  });
+  await panel.getByRole('button', { name: 'Export…' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.__wfFiles.length)).toBe(1);
+  const exported = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    app.saveCapture = null;
+    const { name, text } = await app.__wfFiles[0];
+    const file = JSON.parse(text);
+    const shape = (r) => JSON.stringify(r.steps.map((s) => [s.id, s.op, s.inputs, s.params, s.at ?? null]));
+    return { name, format: file.format, same: shape(app.recipes.validate(file)) === shape(app.recipes.validate(app.workflows.current())), wired: file.steps.filter((s) => Object.values(s.inputs ?? {}).some((w) => 'from' in w)).length };
+  });
+  expect(exported).toMatchObject({ format: 'gw-recipe/2', same: true });
+  expect(exported.name).toMatch(/\.gwrecipe\.json$/);
+  expect(exported.wired).toBeGreaterThanOrEqual(2);
   // An input can take a layer of the project instead of a wire, so the workflow runs from the Builder.
   const narrowIn = panel.locator('[data-item="s2"] select[aria-label="Input layer"]');
   await narrowIn.selectOption({ label: `Layer: ${names[0]}` });
@@ -99,8 +199,10 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
       const app = window.gisworkbench;
       const saved = [];
       app.saveCapture = (blob, name) => saved.push(name);
+      const before = app.undo.history().length;
       const r = await app.workflows.run();
       app.saveCapture = null;
+      const undone = app.undo.history().slice(0, app.undo.history().length - before).map((x) => x.label);
       const ring = app.recipes.runner.outputs.get('s4').out;
       const geoms = (id) => app.store.all('feature').filter((f) => f.vlayer === id).map((f) => Array.from(f.geom.xyz).map((x) => Math.round(x * 1e9)));
       // By hand, in a line.
@@ -108,7 +210,7 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
       const a = await app.geoproc.buffer(id, { distance: 50 });
       const b = await app.geoproc.buffer(id, { distance: 200 });
       const c = await app.geoproc.overlay(b, a, 'erase');
-      return { r, saved, ring: geoms(ring), byHand: geoms(c), recipe: app.store.get(ring).recipe, states: app.recipes.runner.state.map((s) => s.status), nodes: [...document.querySelectorAll('.wf-node')].map((n) => n.getAttribute('class')) };
+      return { r, saved, undone, ring: geoms(ring), byHand: geoms(c), recipe: app.store.get(ring).recipe, states: app.recipes.runner.state.map((s) => s.status), nodes: [...document.querySelectorAll('.wf-node')].map((n) => n.getAttribute('class')) };
     }, roads);
   const first = await run(names[0]);
   expect(first.r).toEqual({ ok: true });
@@ -117,7 +219,11 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   expect(first.ring).toEqual(first.byHand);
   expect(first.saved).toHaveLength(1);
   expect(first.saved[0]).toMatch(/\.geojson$/);
-  expect(first.recipe).toMatchObject({ step: 's4', op: 'overlay', params: { op: 'erase' }, version: 1 });
+  // Run before any Save: the stamp names no version, and says so.
+  expect(first.recipe).toMatchObject({ step: 's4', op: 'overlay', params: { op: 'erase' }, version: null, unsaved: true });
+  // The stamps are not undo steps: each step's own change is, and Undo takes back a step, not its stamp.
+  expect(first.undone.length).toBeGreaterThan(0);
+  expect(first.undone.filter((l) => / step s\d/.test(l))).toEqual([]);
   expect(first.nodes.every((c) => /wf-done/.test(c))).toBe(true);
   await page.screenshot({ path: info.outputPath('workflow-graph.png') });
 
@@ -184,8 +290,17 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
 
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);
+  // Saved first, the run's stamp names the version kept.
+  const stamped = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const id = await app.workflows.saveToProject();
+    const rec = app.store.all('workflow').find((w) => w.recipe.id === id).recipe;
+    return { id: rec.id, version: rec.version };
+  });
   const second = await run(names[1]);
   expect(second.r).toEqual({ ok: true });
+  expect(second.recipe).toMatchObject(stamped);
+  expect(second.recipe.unsaved).toBeUndefined();
   expect(second.ring).toEqual(second.byHand);
   expect(second.ring).not.toEqual(first.ring);
   expect(logs).toEqual([]);
@@ -241,6 +356,18 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await openFiles(frame, [join(dir, 'roads.geojson')]);
   await frame.waitForFunction(() => window.gisworkbench.store.all('vlayer').length >= 1, null, { timeout: 60000 });
   const roads = await frame.evaluate(() => window.gisworkbench.store.all('vlayer')[0].id);
+  // Two layers of one name: a workflow input naming it is refused, not run on the first; by id it runs.
+  const twin = await frame.evaluate(async (id) => {
+    const app = window.gisworkbench;
+    const name = app.store.get(id).name;
+    const b = await app.geoproc.buffer(id, { distance: 10 });
+    app.store.transact('test', (tx) => tx.set(b, 'name', name));
+    const run = (layer) => app.recipes.runOp('dissolve', {}, { layer }).then(() => 'ran', (e) => e.code);
+    const r = { byName: await run(name), byId: await run(id) };
+    app.store.transact('test', (tx) => tx.set(b, 'name', `${name} buffered`));
+    return r;
+  }, roads);
+  expect(twin).toEqual({ byName: 'E_RECIPE_INPUT', byId: 'ran' });
 
   // A gw-recipe/1 file opened in the Recipes dock runs as a chain: it waits at its gate, Enter
   // continues, a changed parameter makes its step stale, and Re-run from here runs it again.
@@ -248,6 +375,37 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   const [chooser] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
   await chooser.setFiles(chain);
   const steps = frame.locator('[data-id="recipe:steps"] li');
+  await expect(steps).toHaveCount(2);
+  // The same id in another file with other content does not replace the one kept: it opens beside it.
+  const other = join(dir, 'chain-other.gwrecipe.json');
+  writeFileSync(other, JSON.stringify({ format: 'gw-recipe/1', id: 'chain-test', name: 'Chain test', steps: [{ op: 'gate', params: { message: 'Look again' } }] }));
+  const [chooser2] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
+  await chooser2.setFiles(other);
+  await expect(steps).toHaveCount(1);
+  const kept = () => frame.evaluate(async () => (await window.gisworkbench.recipes.library(true)).filter((r) => r.id.startsWith('chain-test')).map((r) => [r.id === 'chain-test', r.steps.length]).sort());
+  expect(await kept()).toEqual([[false, 1], [true, 2]]);
+  // Opened again (by the same call the dock makes, awaited), it is the copy already kept, not one more.
+  const importText = (text) => frame.evaluate((t) => window.gisworkbench.recipes.importFile(new File([t], 'f.gwrecipe.json')), text);
+  await importText(readFileSync(other, 'utf8'));
+  expect(await kept()).toEqual([[false, 1], [true, 2]]);
+  // A file under a built-in's id is kept under an id of its own, and listed.
+  await importText(JSON.stringify({ format: 'gw-recipe/1', id: 'damage-triage', name: 'My triage', steps: [{ op: 'gate', params: { message: 'Mine' } }] }));
+  expect(await frame.evaluate(() => window.gisworkbench.recipes.known().filter((r) => r.id.startsWith('damage-triage')).map((r) => [r.id === 'damage-triage', r.source]).sort())).toEqual([[false, 'library'], [true, 'builtin']]);
+  // A built-in's own content opens the built-in and keeps nothing; the same workflow at an older version
+  // does not take the kept one back.
+  const after = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const b = app.recipes.builtin.find((r) => r.id === 'airfield-triage');
+    await app.recipes.importFile(new File([JSON.stringify(b)], 'b.gwrecipe.json'));
+    const builtinCopies = app.recipes.known().filter((r) => r.id.startsWith('airfield-triage')).map((r) => r.source);
+    const kept = (await app.recipes.library(true)).find((r) => r.id === 'chain-test');
+    await app.recipes.keep({ ...kept, version: 5 });
+    await app.recipes.importFile(new File([JSON.stringify({ ...kept, version: 1 })], 'c.gwrecipe.json'));
+    return { builtinCopies, version: (await app.recipes.library(true)).find((r) => r.id === 'chain-test').version };
+  });
+  expect(after).toEqual({ builtinCopies: ['builtin'], version: 5 });
+  const [chooser3] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
+  await chooser3.setFiles(chain);
   await expect(steps).toHaveCount(2);
   await frame.locator('[data-id="recipe:run"]').click();
   await expect(steps.nth(0)).toHaveAttribute('data-status', 'waiting', { timeout: 30000 });
@@ -264,6 +422,42 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await expect(steps.nth(1)).toHaveAttribute('data-status', 'done');
   await expect(steps.nth(1)).toContainText('no accepted detections');
   expect(await frame.evaluate(() => window.gisworkbench.recipes.runner.toJSON().format)).toBe('gw-recipe/2');
+  // Every parameter an op offers has a schema entry, so the Builder's form and the dock coerce it alike:
+  // the time series and routing ops' form text becomes points, lists and booleans.
+  const typed = await frame.evaluate(
+    () =>
+      window.gisworkbench.recipes.validate({
+        format: 'gw-recipe/2',
+        id: 'net',
+        name: 'Net',
+        steps: [
+          { id: 'a', op: 'serviceArea', params: { at: '-120, 35', breaks: '300, 600, 900' } },
+          { id: 'b', op: 'timeAnomaly', params: { z: 'false', by: 'none' } },
+          { id: 'c', op: 'route', params: { from: '-120, 35', to: [-119.9, 35.1] } },
+        ],
+      }).steps.map((s) => s.params),
+  );
+  expect(typed).toEqual([{ at: [-120, 35], breaks: [300, 600, 900] }, { from: '', to: '', by: 'none', z: false }, { from: [-120, 35], to: [-119.9, 35.1] }]);
+  // Save… in the dock writes that file, with the parameter changed in the drawer.
+  await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    app.__recipeFiles = [];
+    app.saveCapture = (blob, name) => app.__recipeFiles.push(blob.text().then((text) => ({ name, text })));
+  });
+  await frame.locator('[data-id="recipe:save"]').click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.__recipeFiles.length)).toBe(1);
+  const file = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    app.saveCapture = null;
+    const { name, text } = await app.__recipeFiles[0];
+    return { name, r: JSON.parse(text) };
+  });
+  expect(file.name).toBe('chain-test.gwrecipe.json');
+  expect(file.r).toMatchObject({ format: 'gw-recipe/2', id: 'chain-test', name: 'Chain test' });
+  expect(file.r.steps.map((s) => [s.op, s.title ?? null, s.params])).toEqual([
+    ['gate', 'Look first', { message: 'Look' }],
+    ['exportGeojson', expect.anything(), { what: 'accepted-detections' }],
+  ]);
 
   // The dock's form gives a list as text; the op's schema turns it into numbers.
   await frame.evaluate(() => window.gisworkbench.recipes.open({ format: 'gw-recipe/2', id: 'ws-test', name: 'Watershed test', steps: [{ id: 'w', op: 'watershed', params: { at: [-120, 35], snap: 50 } }] }));
@@ -277,6 +471,37 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await at.press('Tab');
   await expect(at).toHaveAttribute('aria-invalid', 'true');
   expect(await frame.evaluate(() => window.gisworkbench.recipes.runner.recipe.steps[0].params.at)).toEqual([-121.5, 36.25]);
+
+  // Every built-in recipe opens in the dock, and the AI steps' settings go through their schemas from
+  // the drawer: typed text becomes numbers, lists and true/false; a value out of range is refused.
+  const opened = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    return app.recipes.builtin.map((b) => {
+      app.recipes.open(b);
+      return [b.id, app.recipes.runner.recipe.steps.length === b.steps.length];
+    });
+  });
+  expect(opened.every(([, ok]) => ok), JSON.stringify(opened)).toBe(true);
+  const params = (i) => frame.evaluate((k) => window.gisworkbench.recipes.runner.recipe.steps[k].params, i);
+  const edit = async (i, key, text) => {
+    const inp = frame.locator(`[data-id="recipe:param:${key}"]`);
+    // A step's drawer opens on a click and closes on the next one.
+    if (!(await inp.isVisible())) await steps.nth(i).click();
+    await inp.fill(text);
+    await inp.press('Tab');
+    return inp;
+  };
+  await frame.evaluate(() => window.gisworkbench.recipes.open(window.gisworkbench.recipes.builtin.find((b) => b.id === 'building-extraction')));
+  await edit(0, 'threshold', '0.4');
+  await edit(0, 'objects', 'house, shed');
+  await expect.poll(() => params(0)).toMatchObject({ threshold: 0.4, objects: ['house', 'shed'] });
+  await expect(await edit(0, 'threshold', '2')).toHaveAttribute('aria-invalid', 'true');
+  expect((await params(0)).threshold).toBe(0.4);
+  await edit(1, 'max', '25');
+  await edit(1, 'square', 'false');
+  await expect.poll(() => params(1)).toEqual({ square: false, max: 25 });
+  await expect(await edit(1, 'max', '5000')).toHaveAttribute('aria-invalid', 'true');
+  expect((await params(1)).max).toBe(25);
 
   // In the builder, a step's run state stays with that step when an earlier step is removed.
   await frame.evaluate(() => void window.gisworkbench.commands.run('pip.builder'));
@@ -297,6 +522,27 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await frame.evaluate(() => window.gisworkbench.workflows.setView('list'));
   await expect(panel.locator('[data-item="s3"] .wf-badge')).toHaveText('failed');
   await expect(panel.locator('[data-item="s3"] .wf-error')).toBeVisible();
+  // A step's error reads in every theme: its text against the panel at least 4.5:1 (WCAG AA).
+  const contrast = () =>
+    frame.evaluate(() => {
+      const rgb = (c) => (c.match(/[\d.]+/g) ?? []).map(Number);
+      const lum = ([r, g, b]) => [r, g, b].map((v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+      const el = document.querySelector('.wf-panel [data-item="s3"] .wf-error');
+      let bg = el;
+      while (bg && (rgb(getComputedStyle(bg).backgroundColor)[3] === 0 || getComputedStyle(bg).backgroundColor === 'transparent')) bg = bg.parentElement;
+      const [a, b] = [lum(rgb(getComputedStyle(el).color)), lum(rgb(getComputedStyle(bg ?? document.body).backgroundColor))];
+      return Math.round(((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)) * 100) / 100;
+    });
+  const themes = {};
+  for (const [layout, scheme] of [['classic', 'light'], ['classic', 'dark'], ['modern', 'dark'], ['modern', 'light']]) {
+    await page.emulateMedia({ colorScheme: scheme });
+    await frame.evaluate((l) => window.gisworkbench.setLayout(l), layout);
+    await page.waitForTimeout(100);
+    themes[await page.evaluate(() => document.documentElement.dataset.theme)] = await contrast();
+  }
+  expect(Object.values(themes).every((r) => r >= 4.5), JSON.stringify(themes)).toBe(true);
+  await frame.evaluate(() => window.gisworkbench.setLayout('classic'));
+  await page.emulateMedia({ colorScheme: 'light' });
   await frame.evaluate(() => window.gisworkbench.workflows.removeStep('s2'));
   await expect(panel.locator('[data-item="s1"] .wf-badge')).toHaveText('done');
   await expect(panel.locator('[data-item="s3"] .wf-badge')).toHaveText('failed');
@@ -315,12 +561,18 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
     }
     // One typed op alone, its input given by name.
     const op = await v2.recipes.op({ op: 'buffer', params: { distance: 30 }, inputs: { layer: id } });
-    return { ok: ok.ok, files: ok.files.map((f) => f.name), later, op: op.summary };
+    // A kept workflow run with a value replacing one its file gives is not that kept copy: its stamp says so.
+    const app = window.gisworkbench;
+    await app.recipes.keep({ format: 'gw-recipe/2', id: 'given-input', name: 'Given input', steps: [{ id: 'b', op: 'buffer', params: { distance: 30 }, inputs: { layer: { value: 'another-layer' } } }] });
+    const over = await v2.recipes.run({ id: 'given-input', inputs: { 'b.layer': id } });
+    const stamp = app.store.all('vlayer').map((v) => v.recipe).find((r) => r?.id === 'given-input');
+    return { ok: ok.ok, files: ok.files.map((f) => f.name), later, op: op.summary, over: over.ok, stamp: stamp && { version: stamp.version, unsaved: stamp.unsaved } };
   }, roads);
   expect(api.ok).toBe(true);
   expect(api.files).toHaveLength(1);
   expect(api.later).toMatch(/from its first step/);
   expect(api.op).not.toBe('');
+  expect(api).toMatchObject({ over: true, stamp: { version: null, unsaved: true } });
 
   // A built-in opened in the builder is saved under an id of its own, so the built-in never hides
   // it; the dock lists each id once, and removing it from the library removes it from the list.
@@ -340,8 +592,8 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   expect(logs).toEqual([]);
 });
 
-// The recipes the settings kept (before the library) move into the library on the first start, and
-// the settings list is emptied only once they are there. Without IndexedDB they stay, and are listed.
+// The recipes the settings kept (before the library) are copied into the library on the first start
+// only; the settings keep their list for older builds. Without IndexedDB they stay, and are listed.
 const OLD = [1, 2].map((n) => ({ format: 'gw-recipe/1', id: `old-${n}`, name: `Old recipe ${n}`, steps: [{ op: 'gate', title: 'Look', params: { message: 'Look' } }] }));
 test('REQ-GAP-84 recipes kept in the settings move into the library on the first start', async ({ page }) => {
   const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD } });
@@ -354,7 +606,8 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
   expect(out.lib).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   expect(out.listed).toEqual(expect.arrayContaining(['old-1', 'old-2']));
-  expect(out.left).toEqual([]);
+  // The settings keep their list (an older build still finds it); the library's copies are what is shown.
+  expect(out.left.map((r) => r.id)).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   // Opening a library copy and saving it replaces it in place: unchanged keeps its version, a change takes the next.
   const saves = await frame.evaluate(async () => {
     const app = window.gisworkbench;
@@ -401,6 +654,17 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
     return app.recipes.known().filter((r) => r.id === 'old-2').map((r) => `${r.source}${r.clash ? ' clash' : ''}`);
   });
   expect(layoutOnly).toEqual(['project']);
+  // A later start copies nothing again: the library's newer copies stay. Removing a recipe removes it
+  // from the settings' list too, so it does not come back from there.
+  const again = await restart(page);
+  const later = await again.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = await app.recipes.library();
+    const v = Object.fromEntries(lib.filter((r) => r.id === 'old-1' || r.id === 'old-2').map((r) => [r.id, [r.version, r.description]]));
+    await app.workflows.removeFromLibrary('old-2');
+    return { v, listed: app.recipes.known().some((r) => r.id === 'old-2'), left: app.prefs.get('recipes').map((r) => r.id) };
+  });
+  expect(later).toEqual({ v: { 'old-1': [2, 'other tab'], 'old-2': [2, 'changed before the first save'] }, listed: false, left: ['old-1'] });
 });
 test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
   await page.addInitScript(() => {
