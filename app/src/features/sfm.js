@@ -47,7 +47,9 @@ const VIEW = { w: 640, h: 440 };
 /**
  * The marking dialog (REG-075): for each control point, the photographs it should appear in, each
  * shown at full resolution around where the model puts the point; a click (or the arrow keys and
- * Enter) marks where it really is. Returns the control with its marks, or null when cancelled.
+ * Enter) marks where it really is. Returns `{ run, control, changed }`: whether "Run with these marks"
+ * was chosen, the control with its marks as they were left (cancelled or not), and whether any mark
+ * differs from the control it was given.
  */
 export async function markControl(header, control, photos) {
   const byName = new Map(photos.map((f) => [f.webkitRelativePath ? f.webkitRelativePath.split('/').slice(1).join('/') : f.name, f]));
@@ -189,8 +191,8 @@ export async function markControl(header, control, photos) {
   setTimeout(load, 0);
   const r = await modal({ title: t('Mark the ground control points'), body, buttons: [{ label: t('Run with these marks'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 980, id: 'sidecar-sfm-mark' });
   bitmap?.close?.();
-  if (r !== 'run') return null;
-  return { ...control, points: pts.map(({ cands, ...p }) => p) };
+  const out = { ...control, points: pts.map(({ cands, ...p }) => p) };
+  return { run: r === 'run', control: out, changed: JSON.stringify(out.points.map((p) => p.marks)) !== JSON.stringify(control.points.map((p) => p.marks)) };
 }
 
 export function install(app) {
@@ -303,6 +305,7 @@ export function install(app) {
     // Whatever stops the run from here on, the model stays for the next try, and so do the marks.
     let marked = control;
     let markedByHand = false;
+    let header = null;
     const kept = () => {
       app.toast(t('The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.', { file: model.name }), { ms: 12000 });
       if (markedByHand) {
@@ -316,7 +319,7 @@ export function install(app) {
     try {
       const res = await client.request('GET', `/v1/files/${model.id}`, { raw: true });
       if (!res.ok) throw gwError('the sidecar could not read {file}', { file: model.name }, 'E_SIDECAR_JOB');
-      const header = await readModelHeader(res);
+      header = await readModelHeader(res);
       const epsg = header.georef?.epsg;
       if (epsg !== control.epsg) throw gwError('the control file is in EPSG:{a} and the photographs were placed in EPSG:{b}; give the control points in EPSG:{b}', { a: control.epsg, b: epsg }, 'E_SFM_CONTROL_CRS');
       if (!args.yes) {
@@ -325,9 +328,11 @@ export function install(app) {
         // Back to the marks until enough points are marked, with what was marked kept.
         for (;;) {
           const m = await markControl(header, marked, photos);
-          if (!m) return kept(), null;
-          marked = m;
-          markedByHand = true;
+          if (m.changed) {
+            marked = m.control;
+            markedByHand = true;
+          }
+          if (!m.run) return kept(), null;
           const now = readiness(marked);
           if (now.ready) break;
           app.toast(t('{n} control points are marked in two or more photographs; at least 3 are needed', { n: now.marked }), { kind: 'error', ms: 9000 });
@@ -339,7 +344,8 @@ export function install(app) {
       const fin = await app.sidecar.convert({ files: [folder.id, model.id, csv.id], profile: STAGE_TWO, options: { ...form2.read(), ...(args.options2 ?? {}) }, open: false, reason: t('Structure from Motion with Ground Control'), outputName: folder.name, label: folder.name });
       return { ...(await finish(fin, args)), model, control: marked };
     } catch (e) {
-      kept();
+      // A file that is not a readable model is not worth keeping: say only what went wrong.
+      if (header) kept();
       throw e;
     }
   }

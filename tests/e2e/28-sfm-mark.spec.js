@@ -130,6 +130,13 @@ test('a model from an earlier first stage starts the run again at the marking', 
   await models.getByRole('button', { name: 'Use this model' }).click();
   const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
   await expect(dlg.locator('[data-id="sfm:photo"]')).toContainText('G1 in A.JPG', { timeout: 30_000 });
+  // One click, then Cancel straight away: the mark is saved all the same.
+  const canvas = dlg.locator('[data-id="sfm:canvas"]');
+  const box = await canvas.boundingBox();
+  await canvas.click({ position: { x: box.width / 2, y: box.height / 2 } });
+  await expect(dlg.locator('[data-id="sfm:photo"]')).toContainText('marked at');
+  const saved = page.waitForEvent('download');
   await dlg.getByRole('button', { name: 'Cancel' }).click();
+  expect(readFileSync(await (await saved).path(), 'utf8')).toMatch(/^G1,.*,gcp,A\.JPG,/m);
   expect(await frame.evaluate(() => window.__sfm)).toBeNull();
 });
