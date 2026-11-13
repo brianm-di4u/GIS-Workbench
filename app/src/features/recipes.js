@@ -407,7 +407,7 @@ export function install(app) {
       const inp = h(OPS[step.op]?.schema?.[k]?.multiline ? 'textarea' : 'input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
       inp.addEventListener('change', () => {
         const raw = inp.value.trim();
-        const val = Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;
+        const val = raw === '' ? '' : Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;
         // The op's schema checks and coerces it ('-120' → -120); a refused value is marked, not kept.
         try {
           runner.setParam(i, k, val);
@@ -485,7 +485,14 @@ export function install(app) {
   }
   /** A .gwrecipe.json file (Open… or a drop): validated, kept with the user's recipes and opened. */
   async function importRecipeFile(f) {
-    const r = validateRecipe(JSON.parse(await f.text()), OPS);
+    let r = validateRecipe(JSON.parse(await f.text()), OPS);
+    // As Save in the Workflow Builder: a file never replaces a different workflow kept under its id (in
+    // the library or the project); it is kept beside it under an id of its own.
+    const stored = [...(await refreshLibrary()), ...S.all('workflow').map((w) => w.recipe)].filter((x) => x?.id === r.id);
+    if (stored.some((x) => contentOf(x, OPS) !== contentOf(r, OPS))) {
+      r = { ...r, id: `${r.id}-${Date.now().toString(36)}` };
+      app.toast(t('Opened as a new recipe: your library or the project already holds a different one under its id.'), { kind: 'info' });
+    }
     if (!(await keep(r))) app.toast(t('The recipe is open, but this browser has no storage to keep it in your library.'), { kind: 'warn' });
     open(r);
   }

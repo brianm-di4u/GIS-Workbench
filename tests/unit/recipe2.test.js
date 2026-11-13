@@ -27,6 +27,24 @@ const DIAMOND = {
 };
 
 describe('REQ-GAP-84 gw-recipe/2', () => {
+  it('reads an empty value as not given: the default for numbers, lists and choices, empty for text', () => {
+    const ops = { o: { title: 'O', schema: { n: { type: 'number', default: 5, min: 1 }, cap: { type: 'number', min: 0 }, e: { type: 'enum', values: ['a', 'b'], default: 'b' }, s: { type: 'text', default: 'x' } }, run: () => ({}) } };
+    const r = validateRecipe({ format: FORMAT2, name: 'e', steps: [{ id: 'a', op: 'o', params: { n: '', cap: '', e: '', s: '' } }] }, ops);
+    expect(r.steps[0].params).toEqual({ n: 5, cap: null, e: 'b', s: '' });
+    const run = new RecipeRunner(ops);
+    run.load({ format: FORMAT2, name: 'e', steps: [{ id: 'a', op: 'o', params: { n: 7 } }] });
+    run.setParam(0, 'n', '');
+    expect(run.recipe.steps[0].params.n).toBe(5);
+  });
+  it('writes the wires, positions and given inputs it read, and reads them back the same', () => {
+    const run = new RecipeRunner(OPS);
+    run.load({ ...DIAMOND, steps: DIAMOND.steps.map((s, k) => ({ ...s, at: { x: 10 * k, y: 5 } })).concat([{ id: 'given', op: 'add', inputs: { a: { value: 2 }, b: { value: null } } }]) });
+    const file = JSON.parse(JSON.stringify(run.toJSON()));
+    expect(file.steps.find((s) => s.id === 'sum').inputs).toEqual({ a: { from: 'twice', output: 'out' }, b: { from: 'three', output: 'out' } });
+    expect(file.steps.find((s) => s.id === 'given').inputs).toEqual({ a: { value: 2 }, b: { value: null } });
+    expect(file.steps.map((s) => s.at)).toEqual([0, 1, 2, 3].map((k) => ({ x: 10 * k, y: 5 })).concat([undefined]));
+    expect(validateRecipe(file, OPS).steps).toEqual(run.recipe.steps);
+  });
   it('orders the steps by their wires, whatever the file order', () => {
     const r = validateRecipe(DIAMOND, OPS);
     expect(order(r.steps).map((i) => r.steps[i].id)).toEqual(['three', 'twice', 'sum', 'show']);

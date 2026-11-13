@@ -136,6 +136,25 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await wideItem.getByLabel('Segments per quarter circle').press('Tab');
   await expect(wideItem.getByLabel('Segments per quarter circle')).toHaveAttribute('aria-invalid', 'true');
   expect(await axe(frame, '.wf-panel')).toEqual([]);
+  // Export… writes the workflow as a file that reads back with the same wires, positions and settings.
+  await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    app.__wfFiles = [];
+    app.saveCapture = (blob, name) => app.__wfFiles.push(blob.text().then((text) => ({ name, text })));
+  });
+  await panel.getByRole('button', { name: 'Export…' }).click();
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.__wfFiles.length)).toBe(1);
+  const exported = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    app.saveCapture = null;
+    const { name, text } = await app.__wfFiles[0];
+    const file = JSON.parse(text);
+    const shape = (r) => JSON.stringify(r.steps.map((s) => [s.id, s.op, s.inputs, s.params, s.at ?? null]));
+    return { name, format: file.format, same: shape(app.recipes.validate(file)) === shape(app.recipes.validate(app.workflows.current())), wired: file.steps.filter((s) => Object.values(s.inputs ?? {}).some((w) => 'from' in w)).length };
+  });
+  expect(exported).toMatchObject({ format: 'gw-recipe/2', same: true });
+  expect(exported.name).toMatch(/\.gwrecipe\.json$/);
+  expect(exported.wired).toBeGreaterThanOrEqual(2);
   // An input can take a layer of the project instead of a wire, so the workflow runs from the Builder.
   const narrowIn = panel.locator('[data-item="s2"] select[aria-label="Input layer"]');
   await narrowIn.selectOption({ label: `Layer: ${names[0]}` });
@@ -322,6 +341,17 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   const [chooser] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
   await chooser.setFiles(chain);
   const steps = frame.locator('[data-id="recipe:steps"] li');
+  await expect(steps).toHaveCount(2);
+  // The same id in another file with other content does not replace the one kept: it opens beside it.
+  const other = join(dir, 'chain-other.gwrecipe.json');
+  writeFileSync(other, JSON.stringify({ format: 'gw-recipe/1', id: 'chain-test', name: 'Chain test', steps: [{ op: 'gate', params: { message: 'Look again' } }] }));
+  const [chooser2] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
+  await chooser2.setFiles(other);
+  await expect(steps).toHaveCount(1);
+  const kept = await frame.evaluate(async () => (await window.gisworkbench.recipes.library(true)).filter((r) => r.id.startsWith('chain-test')).map((r) => [r.id === 'chain-test', r.steps.length]).sort());
+  expect(kept).toEqual([[false, 1], [true, 2]]);
+  const [chooser3] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
+  await chooser3.setFiles(chain);
   await expect(steps).toHaveCount(2);
   await frame.locator('[data-id="recipe:run"]').click();
   await expect(steps.nth(0)).toHaveAttribute('data-status', 'waiting', { timeout: 30000 });

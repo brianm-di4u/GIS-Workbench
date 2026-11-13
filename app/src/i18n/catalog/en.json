@@ -27347,6 +27347,13 @@
    ]
   },
   {
+   "key": "Opened as a new recipe: your library or the project already holds a different one under its id.",
+   "src": "Opened as a new recipe: your library or the project already holds a different one under its id.",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Opened project {name}",
    "src": "Opened project {name}",
    "refs": [

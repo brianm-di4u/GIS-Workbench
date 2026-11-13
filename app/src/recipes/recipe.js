@@ -44,7 +44,10 @@ export function fits(out, want) {
  * an Error naming the step and parameter. Unknown parameters pass (an op may take free ones).
  */
 export function checkParam(spec, v, where) {
-  if (!spec || v === undefined || v === null || v === '') return v;
+  if (!spec || v === undefined) return v;
+  // A cleared field gives no value: text keeps it empty; anything else takes its default (or none),
+  // so an empty number never reaches an operation unchecked.
+  if (v === null || v === '') return spec.type === 'text' || spec.type === 'date' ? v : (spec.default ?? null);
   const num = (x) => (typeof x === 'number' ? x : Number(x));
   switch (spec.type) {
     case 'number':
@@ -179,7 +182,7 @@ export function validateRecipe(r, ops) {
     for (const [k, w] of Object.entries(s.inputs ?? {})) {
       if (op.inputs && !op.inputs.some((x) => x.name === k)) throw stepErr('step {n}: operation {op} has no input {input}', { n: String(i + 1), op: s.op, input: k });
       if (w && typeof w === 'object' && 'from' in w) inputs[k] = { from: String(w.from), output: String(w.output ?? 'out') };
-      else inputs[k] = { value: w?.value ?? w };
+      else inputs[k] = { value: w && typeof w === 'object' && 'value' in w ? w.value : w };
     }
     const at = s.at && Number.isFinite(s.at.x) && Number.isFinite(s.at.y) ? { x: s.at.x, y: s.at.y } : null;
     return { id, op: s.op, title: String(s.title ?? op.title), params, inputs, note: String(s.note ?? ''), pythonHint: s.pythonHint ?? op.pythonHint ?? null, ...(at ? { at } : {}) };
