@@ -127,6 +127,13 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     const theme = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:tn="urn:tn" xmlns:x="urn:x" targetNamespace="urn:x">` +
       '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><complexContent><extension base="tn:TransportLinkType"><sequence><element name="roadName" type="string"/></sequence></extension></complexContent></complexType></schema>';
     expect(() => fromInspire(theme)).toThrow(/build on schemas not given: add urn:tn$/);
+    // A plain-sequence type with a voidable property, and one built on an OGC standard (O&M), import.
+    const plain = fromInspire(
+      `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:om="http://www.opengis.net/om/2.0" xmlns:x="urn:x" targetNamespace="urn:x">` +
+        '<element name="Site" type="x:SiteType" substitutionGroup="gml:AbstractFeature"/><complexType name="SiteType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="floors" nillable="true"><complexType><simpleContent><extension base="integer"><attribute name="nilReason" type="string"/></extension></simpleContent></complexType></element></sequence></complexType>' +
+        '<element name="Obs" type="x:ObsType" substitutionGroup="om:OM_Observation"/><complexType name="ObsType"><complexContent><extension base="om:OM_ObservationType"><sequence><element name="note" type="string"/></sequence></extension></complexContent></complexType></schema>',
+    );
+    expect(plain.types.map((t) => [t.code, t.attributes])).toEqual([['Site', ['floors']], ['Obs', ['note']]]);
   });
   it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
@@ -199,6 +206,20 @@ describe('REQ-GAP-87 the files a user picks', () => {
     };
     const c = validateCatalog(fromIdPresets(presets, { drive_through: { key: 'drive_through', type: 'check' } }));
     expect(c.types.find((t) => t.code === 'amenity/fast_food/burger').attributes).toEqual(['amenity', 'cuisine', 'drive_through']);
+    // fields and moreFields fall back each on its own, and a list of only unknown ids is a list of none.
+    const more = validateCatalog(
+      fromIdPresets(
+        {
+          'amenity/fast_food': { name: 'Fast Food', geometry: ['point'], tags: { amenity: 'fast_food' }, fields: ['drive_through'], moreFields: ['opening_hours'] },
+          'amenity/fast_food/burger': { name: 'Burger', geometry: ['point'], tags: { amenity: 'fast_food', cuisine: 'burger' }, moreFields: ['takeaway'] },
+          'amenity/fast_food/pizza': { name: 'Pizza', geometry: ['point'], tags: { amenity: 'fast_food', cuisine: 'pizza' }, fields: ['no_such_field'] },
+        },
+        { drive_through: { key: 'drive_through', type: 'check' }, opening_hours: { key: 'opening_hours', type: 'text' }, takeaway: { key: 'takeaway', type: 'check' } },
+      ),
+    );
+    const of = (code) => more.types.find((t) => t.code === code).attributes;
+    expect(of('amenity/fast_food/burger')).toEqual(['amenity', 'cuisine', 'drive_through', 'takeaway']);
+    expect(of('amenity/fast_food/pizza')).toEqual(['amenity', 'cuisine', 'drive_through', 'opening_hours']);
   });
   it('names a preset from its id when presets.json leaves names to translations', () => {
     const c = fromIdPresets({ 'leisure/picnic_table': { geometry: ['point'], tags: { leisure: 'picnic_table' } } });

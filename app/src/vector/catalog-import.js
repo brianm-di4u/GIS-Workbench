@@ -212,26 +212,27 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   /** The component a QName names, read with the prefixes of the schema it appears in (`from`). A prefix
    * the schema does not declare falls back to the local name, never to the component itself; a declared
    * one whose namespace is not among these schemas names nothing (as gml does). */
+  /** The namespace a QName's prefix names in the schema it appears in. */
+  const nsOf = (qname, from) => {
+    const q = String(qname);
+    const at = q.indexOf(':');
+    return at < 0 ? from.scope.xmlns : from.scope[`xmlns:${q.slice(0, at)}`];
+  };
   const resolve = (kind, qname, from) => {
     if (!qname) return null;
     const q = String(qname);
-    const at = q.indexOf(':');
-    const pfx = at < 0 ? '' : q.slice(0, at);
-    const name = at < 0 ? q : q.slice(at + 1);
-    const ns = pfx ? from.scope[`xmlns:${pfx}`] : from.scope.xmlns;
+    const name = q.slice(q.indexOf(':') + 1);
+    const ns = nsOf(q, from);
     if (ns !== undefined) {
       const hit = (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
       return hit && hit.node !== from.node ? hit : null;
     }
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
-  /** The namespace a QName's prefix names in the schema it appears in; whether that is GML's. */
-  const nsOf = (qname, from) => {
-    const q = String(qname);
-    const at = q.indexOf(':');
-    return at < 0 ? from.scope.xmlns : from.scope[`xmlns:${q.slice(0, at)}`];
-  };
   const isGml = (ns) => /opengis\.net\/gml/.test(ns ?? '');
+  // The standards' own namespaces (GML, the other OGC schemas such as O&M and sampling, ISO, XSD) hold
+  // no properties a user catalogue needs; a base there is not a schema to add.
+  const isStd = (ns) => /^https?:\/\/(www\.opengis\.net|www\.isotc211\.org|www\.w3\.org)\//.test(ns ?? '');
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
   const isFeature = (entry, seen = new Set()) => {
     const group = entry.node.attrs?.substitutionGroup;
@@ -261,12 +262,12 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const missing = new Set();
   const lacking = (qname, from) => {
     const ns = nsOf(qname, from);
-    if (ns && !isGml(ns)) missing.add(ns);
+    if (ns && !isStd(ns)) missing.add(ns);
   };
   const props = (entry, seen = new Set()) => {
     if (!entry || seen.has(entry)) return [];
     seen.add(entry);
-    const base = find(entry.node, 'extension')?.attrs?.base;
+    const base = kids(kids(entry.node, 'complexContent')[0], 'extension')[0]?.attrs?.base;
     const up = resolve('complex', base, entry);
     if (base && !up) lacking(base, entry);
     return [...props(up, seen), ...all(entry.node, 'element')];
@@ -355,26 +356,22 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
       names.push(key);
       if (v !== '*' && typeof v === 'string') fixed[key] = v;
     }
-    // A '{preset}' entry takes that preset's fields, and a preset with none of its own takes its parent's
-    // (its id up to the last '/'), as iD does.
-    const fieldIds = (q, qid, seen) => {
-      const ownIds = [...arr(q.fields), ...arr(q.moreFields)];
-      if (!ownIds.length) {
-        for (let up = qid; up.includes('/'); ) {
-          up = up.slice(0, up.lastIndexOf('/'));
-          if (Object.hasOwn(presets, up)) return seen.has(up) ? [] : (seen.add(up), fieldIds(presets[up] ?? {}, up, seen));
-        }
-        return [];
-      }
-      return ownIds.flatMap((fid) => {
+    // As iD resolves them: fields and moreFields each on its own; a '{preset}' entry takes that preset's
+    // list of the same name; a list that resolves to nothing takes its parent's (the id up to the last '/').
+    const listIds = (q, qid, key, seen) => {
+      const ids = arr(q[key]).flatMap((fid) => {
         const m = /^\{(.+)\}$/.exec(String(fid));
-        if (!m) return [fid];
-        if (seen.has(m[1]) || !Object.hasOwn(presets, m[1])) return [];
-        seen.add(m[1]);
-        return fieldIds(presets[m[1]] ?? {}, m[1], seen);
+        if (!m) return Object.hasOwn(fields, fid) ? [fid] : [];
+        return seen.has(m[1]) || !Object.hasOwn(presets, m[1]) ? [] : listIds(presets[m[1]] ?? {}, m[1], key, new Set([...seen, m[1]]));
       });
+      if (ids.length) return ids;
+      for (let up = qid; up.includes('/'); ) {
+        up = up.slice(0, up.lastIndexOf('/'));
+        if (Object.hasOwn(presets, up)) return seen.has(up) ? [] : listIds(presets[up] ?? {}, up, key, new Set([...seen, up]));
+      }
+      return [];
     };
-    for (const fid of fieldIds(p, pid, new Set([pid]))) {
+    for (const fid of [...listIds(p, pid, 'fields', new Set([pid])), ...listIds(p, pid, 'moreFields', new Set([pid]))]) {
       const f = Object.hasOwn(fields, fid) ? fields[fid] : null;
       const key = typeof f?.key === 'string' ? attrFor(f.key, f) : null;
       if (key && !names.includes(key)) names.push(key);
