@@ -11,7 +11,6 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { LIMITS, WASM_TOTAL_BUDGET } from './gates.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const BASELINE = join(ROOT, 'build', 'size-baseline.json');
 
 const FILES = [
   { key: 'total', label: 'Full HTML', limit: LIMITS.totalFail },
@@ -72,8 +71,10 @@ export function sizeDelta(baseline, now, { blocks = 8 } = {}) {
   return out.join('\n');
 }
 
-function main() {
-  const reportFile = join(ROOT, 'dist', 'build-report.json');
+/** Exit status. `root` is the checkout (tests pass a scratch one). */
+export function main({ root = ROOT } = {}) {
+  const reportFile = join(root, 'dist', 'build-report.json');
+  const baselineFile = join(root, 'build', 'size-baseline.json');
   if (!existsSync(reportFile)) {
     console.log('No dist/build-report.json, so no size report: build first.');
     return 0;
@@ -86,12 +87,21 @@ function main() {
       console.error(`Not updating the baseline from a build that failed its gates or is missing: ${missing.join(', ') || 'none missing'}.`);
       return 1;
     }
-    writeFileSync(BASELINE, `${JSON.stringify(now, null, 1)}\n`);
+    writeFileSync(baselineFile,`${JSON.stringify(now, null, 1)}\n`);
     console.log(`build/size-baseline.json is now ${now.version} at build ${now.build}.`);
     return 0;
   }
   if (report.gates?.errors?.length) console.log('The build failed its gates, so some sizes may be missing.\n');
-  const text = sizeDelta(JSON.parse(readFileSync(BASELINE, 'utf8')), snapshot(report));
+  let baseline;
+  try {
+    baseline = JSON.parse(readFileSync(baselineFile, 'utf8'));
+    if (!baseline?.files || !baseline.blocks) throw new Error('build/size-baseline.json has no files or blocks');
+  } catch (e) {
+    // It only reports, so a missing or broken baseline never fails verify (#182).
+    console.log(`No size report: ${e.message.split('\n')[0]}. The release PR writes build/size-baseline.json with --update.`);
+    return 0;
+  }
+  const text = sizeDelta(baseline, snapshot(report));
   console.log(text);
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`);
   return 0;
