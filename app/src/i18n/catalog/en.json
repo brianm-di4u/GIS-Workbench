@@ -16033,7 +16033,6 @@
    "src": "Ground",
    "refs": [
     "features/extract-r2.js",
-    "features/register.js",
     "render/view3d.js"
    ]
   },
@@ -48210,6 +48209,14 @@
    "src": "contrast",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "control point\u0004Ground",
+   "src": "Ground",
+   "ctx": "control point",
+   "refs": [
+    "features/register.js"
    ]
   },
   {
