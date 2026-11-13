@@ -68,7 +68,9 @@ const record = (k, v) => {
 };
 // Regression floors, set with room above what the full block measured (reports/sidecar/scn82.json, quoted in the pull request):
 // they say the run has not got worse, not how accurate the method is. A subset run misses them.
-const FLOORS = { check_h: 0.2, check_v: 0.25, loo_h: 0.15, loo_v: 0.16, loo_gain: 0.85, dsm_cover: 0.5, dsm_median: 0.3, dsm_nmad: 0.3 };
+// The DSM's whole-block spread is the river and the trees, made differently by two dense methods;
+// at the surveyed points both DSMs sit on the ground.
+const FLOORS = { check_h: 0.2, check_v: 0.25, loo_h: 0.15, loo_v: 0.16, loo_gain: 0.85, dsm_cover: 0.9, dsm_median: 0.5, dsm_nmad: 1.2, dsm_points: 0.3 };
 // Floors are checked in the last test: these tests run in series, and one that fails stops the ones
 // after it, which would lose their measurements.
 const floors = [];
@@ -243,13 +245,23 @@ test("the DSM against the authors' DSM made with the same points", async () => {
   const med = d[d.length >> 1];
   const dev = d.map((x) => Math.abs(x - med)).sort((x, y) => x - y);
   const abs = d.map(Math.abs).sort((x, y) => x - y);
-  const out = { cell_m: Math.abs(gt[1]), cells_ours: valid, cells_compared: d.length, covered_share: d.length / Math.max(1, valid), median_m: med, nmad_m: 1.4826 * dev[dev.length >> 1], rmse_m: rms(d), p95_abs_m: abs[Math.floor(abs.length * 0.95)], mean_m: d.reduce((s, x) => s + x, 0) / d.length };
+  // Our DSM at each surveyed point, less its surveyed height.
+  const at = authors.points.map((p) => {
+    const i = Math.floor((p.xyz[0] - gt[0]) / gt[1]);
+    const j = Math.floor((p.xyz[1] - gt[3]) / gt[5]);
+    const v = i >= 0 && j >= 0 && i < w && j < h ? z[j * w + i] : NaN;
+    return { id: p.id, dsm_less_survey_m: Number.isFinite(v) && v !== nd ? v - p.xyz[2] : null };
+  });
+  const atPoints = at.map((p) => p.dsm_less_survey_m).filter((v) => v != null);
+  const out = { at_points: at, at_points_rmse_m: rms(atPoints), cell_m: Math.abs(gt[1]), cells_ours: valid, cells_compared: d.length, covered_share: d.length / Math.max(1, valid), median_m: med, nmad_m: 1.4826 * dev[dev.length >> 1], rmse_m: rms(d), p95_abs_m: abs[Math.floor(abs.length * 0.95)], mean_m: d.reduce((s, x) => s + x, 0) / d.length };
   record('dsm_vs_authors', out);
   rmSync(a, { force: true });
   rmSync(b, { force: true });
   floor('DSM, share of our cells the authors cover', out.covered_share, FLOORS.dsm_cover, true);
   floor('DSM less the authors, median m', Math.abs(out.median_m), FLOORS.dsm_median);
   floor('DSM less the authors, NMAD m', out.nmad_m, FLOORS.dsm_nmad);
+  expect(atPoints).toHaveLength(authors.points.length);
+  floor('DSM less the survey at the 7 points, RMSE m', out.at_points_rmse_m, FLOORS.dsm_points);
 });
 
 test('the marking dialog: where it predicts each mark, axe, a click and the arrow keys', async () => {

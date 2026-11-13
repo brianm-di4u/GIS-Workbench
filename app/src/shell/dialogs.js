@@ -70,7 +70,7 @@ export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, on
         e.preventDefault();
         e.stopPropagation();
         finish(null);
-      } else if (e.key === 'Enter' && !e.target.matches('textarea, button, [contenteditable]')) {
+      } else if (e.key === 'Enter' && !e.target.matches('textarea, button, canvas, [contenteditable]')) {
         e.preventDefault();
         finish(specs[0]?.value ?? null);
       }
