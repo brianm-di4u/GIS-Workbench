@@ -411,7 +411,7 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, coun
     ledger.findings.filter((f) => f.severity === severity && f.status === 'open').length;
   const phases = Object.fromEntries(PHASES.map((phase) => [phase, { rounds: roundsIn(ledger, phase).length, model: roundsIn(ledger, phase).at(-1)?.model ?? null }]));
   return {
-    schema: 1,
+    schema: 2,
     changeHash: hash,
     tier,
     rounds: counted.length,
@@ -427,6 +427,56 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, coun
       severity: f.severity,
       class: f.class ?? null,
       disposition: f.disposition ?? f.status,
+      status: f.status,
+      round: f.round ?? null,
     })),
+    // Every round as the ledger holds it, so the gate can count and judge convergence itself with
+    // the same rules (decision 0021).
+    log: ledger.rounds.map((r) => ({ n: r.number, phase: r.phase, hash: r.hash, complete: r.complete, raised: r.raised ?? null, partial: r.partial ?? [], seats: r.seats ?? [], missing: r.missing ?? [] })),
+    ...(ledger.mechanical?.length ? { mechanical: ledger.mechanical.map(({ from, to }) => ({ from, to })) } : {}),
   };
+}
+
+// Why a verdict doesn't stand up against its own round log, as a list (empty when it does). The gate
+// calls this: it rebuilds the ledger from the log and applies the council's own rules, so a verdict
+// whose numbers were edited, or whose rounds had no reviewers, or that never converged on this
+// content, is refused (decision 0021, #79).
+export function verdictProblems(verdict, hash) {
+  const log = verdict?.log;
+  if (verdict?.schema !== 2 || !Array.isArray(log) || log.length === 0 || !Array.isArray(verdict.findings)) {
+    return ['it has no round log. Render it again with council.mjs verdict'];
+  }
+  const problems = [];
+  const rounds = log.map((r) => ({
+    number: r?.n,
+    phase: r?.phase,
+    hash: r?.hash,
+    complete: r?.complete === true,
+    raised: r?.raised ?? null,
+    partial: Array.isArray(r?.partial) ? r.partial : [],
+    seats: Array.isArray(r?.seats) ? r.seats : [],
+    missing: Array.isArray(r?.missing) ? r.missing : [],
+  }));
+  if (rounds.some((r) => (r.complete ? r.seats.length === 0 || r.missing.length > 0 : r.missing.length === 0))) {
+    problems.push('a round names no seats, or calls itself complete with seats missing');
+  }
+  const findings = verdict.findings.map((f) => ({ id: f?.id, severity: f?.severity, status: f?.status, round: f?.round }));
+  // A round can't claim to have raised fewer blocking findings than the log attributes to it.
+  for (const r of rounds.filter((x) => x.complete && x.raised)) {
+    for (const severity of ['blocker', 'should']) {
+      const own = findings.filter((f) => f.round === r.number && f.severity === severity && f.status !== 'pre-existing').length;
+      if (own > (r.raised[severity] ?? 0)) problems.push(`round ${r.number} says it raised ${r.raised[severity] ?? 0} ${severity} but ${own} are recorded against it`);
+    }
+  }
+  const counted = rounds.filter((r) => r.complete).length;
+  if (verdict.rounds !== counted) problems.push(`it counts ${verdict.rounds} rounds but its log has ${counted}`);
+  for (const severity of ['blocker', 'should']) {
+    const open = findings.filter((f) => f.severity === severity && f.status === 'open').length;
+    if (verdict.open?.[severity] !== open) problems.push(`it counts ${verdict.open?.[severity]} open ${severity} but its findings have ${open}`);
+  }
+  const last = rounds.at(-1);
+  if (!last.complete || last.hash !== hash) problems.push('its last round is not a complete review of this content');
+  const ledger = { rounds, findings, mechanical: Array.isArray(verdict.mechanical) ? verdict.mechanical : [] };
+  if (verdict.tier > 0 && !phaseState(ledger, hash).closeDone) problems.push('its rounds never converged on this content: close-out needs two clean rounds in a row');
+  return problems;
 }

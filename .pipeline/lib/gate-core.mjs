@@ -3,6 +3,7 @@
 import { authority } from './authority.mjs';
 import { checkContract, delegateBarriers, delegateRefusals, findApproval, parseVerdict, touchMarkers } from './contract.mjs';
 import { STALE_TITLE, staleLines } from './freshness.mjs';
+import { verdictProblems } from './ledger.mjs';
 import { classify } from './tier.mjs';
 
 export function evaluateGate({
@@ -69,6 +70,8 @@ export function evaluateGate({
       if (verdict.tier < tier) {
         blockers.push(`Council reviewed at T${verdict.tier}, but this change is T${tier}.`);
       }
+      const problems = verdictProblems(verdict, hash);
+      if (problems.length > 0) blockers.push(`Council verdict doesn't stand up against its own rounds: ${problems.join('; ')}.`);
     }
   }
 
