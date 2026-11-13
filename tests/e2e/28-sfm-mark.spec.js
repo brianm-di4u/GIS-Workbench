@@ -101,8 +101,11 @@ test('the marking dialog: a click, the arrow keys and Enter mark a point without
   // Within a pixel: the canvas is scaled to the dialog.
   expect(Math.abs(got[0] - 200)).toBeLessThan(1.5);
   expect(Math.abs(got[1] - 155)).toBeLessThan(1.5);
-  // Enter places the mark from the keyboard and leaves the dialog open (it once pressed the run button).
+  // Enter after a click confirms the click, and does not move it back to the predicted cross.
   await canvas.focus();
+  await canvas.press('Enter');
+  await expect(caption).toContainText(`marked at ${got[0].toFixed(1)}, ${got[1].toFixed(1)}.`);
+  // Enter places the mark from the keyboard and leaves the dialog open (it once pressed the run button).
   for (let i = 0; i < 3; i++) await canvas.press('ArrowRight');
   await canvas.press('Enter');
   const moved = `marked at ${(got[0] + 3).toFixed(1)}, ${got[1].toFixed(1)}.`;

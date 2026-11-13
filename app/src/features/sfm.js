@@ -149,6 +149,7 @@ export async function markControl(header, control, photos) {
     const c = cand();
     if (!c || !bitmap) return;
     const p = pts[pi];
+    cursor = null;
     p.marks = p.marks.filter((m) => m.image !== c.image).concat([{ image: c.image, px: x, py: y }]);
     refreshList();
     draw();
@@ -173,8 +174,9 @@ export async function markControl(header, control, photos) {
     } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       e.stopPropagation();
-      const at = cursor ?? [c.px, c.py];
-      cursor = null;
+      // Confirm the cursor, else the mark already made, else the prediction: never move a mark back.
+      const m = markOf();
+      const at = cursor ?? (m ? [m.px, m.py] : [c.px, c.py]);
       setMark(at[0], at[1]);
     }
   });
