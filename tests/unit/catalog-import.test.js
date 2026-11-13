@@ -96,6 +96,14 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(c.attributes.condition).toMatchObject({ type: 'text' });
     expect(c.attributes.condition.definition).toMatch(/ConditionOfConstructionValue/);
   });
+  it('reads a schema\'s own simple types: an enumeration is a coded domain, a restricted number its base', () => {
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Pole" type="x:PoleType" substitutionGroup="gml:AbstractFeature"/><complexType name="PoleType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="vp" type="x:VerticalPositionValue"/><element name="lanes" type="x:LaneCount"/><element name="kind"><simpleType><restriction base="string"><enumeration value="wood"/><enumeration value="steel"/></restriction></simpleType></element></sequence></complexType>` +
+      '<simpleType name="VerticalPositionValue"><restriction base="string"><enumeration value="onGround"/><enumeration value="suspended"/></restriction></simpleType><simpleType name="LaneCount"><restriction base="integer"><minInclusive value="1"/></restriction></simpleType></schema>';
+    const c = validateCatalog(fromInspire(xsd));
+    expect(c.attributes.vp).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
+    expect(c.attributes.lanes.type).toBe('integer');
+    expect(c.attributes.kind).toMatchObject({ type: 'enum', domain: { wood: 'wood', steel: 'steel' } });
+  });
   it('keeps a concrete type that a differently named subtype substitutes for', () => {
     const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
     expect(fromInspire(one).types.map((t) => t.code)).toEqual(['Road', 'Motorway']);

@@ -192,7 +192,8 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   // substitutes for bu-core2d:Building). Each keeps its schema's prefixes, to resolve the QNames it uses.
   const complex = new Map();
   const elements = new Map();
-  const byLocal = { complex: new Map(), elements: new Map() };
+  const simple = new Map();
+  const byLocal = { complex: new Map(), elements: new Map(), simple: new Map() };
   let target = '';
   for (const x of [].concat(xsds)) {
     const doc = xmlOf(x);
@@ -208,6 +209,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     };
     for (const ct of kids(schema, 'complexType')) if (ct.attrs?.name) keep('complex', complex, ct);
     for (const el of kids(schema, 'element')) if (el.attrs?.name) keep('elements', elements, el);
+    for (const st of kids(schema, 'simpleType')) if (st.attrs?.name) keep('simple', simple, st);
   }
   /** The component a QName names, read with the prefixes of the schema it appears in (`from`). A prefix
    * the schema does not declare falls back to the local name, never to the component itself; a declared
@@ -224,7 +226,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const name = q.slice(q.indexOf(':') + 1);
     const ns = nsOf(q, from);
     if (ns !== undefined) {
-      const hit = (kind === 'complex' ? complex : elements).get(`${ns}|${name}`);
+      const hit = { complex, elements, simple }[kind].get(`${ns}|${name}`);
       return hit && hit.node !== from.node ? hit : null;
     }
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
@@ -286,7 +288,13 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       if (!pname) continue;
       // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
       // with a nilReason attribute), not in @type.
-      const ptype = String(p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? find(p, 'restriction')?.attrs?.base ?? '');
+      // A schema's own simple type (an enumeration such as VerticalPositionValue, or a restricted number)
+      // is read through its restriction: its values become a coded domain, its base the type.
+      const named = p.attrs?.type ? resolve('simple', p.attrs.type, entry) : null;
+      const rst = named ? find(named.node, 'restriction') : p.attrs?.type ? null : find(p, 'restriction');
+      const enums = rst ? all(rst, 'enumeration').map((e) => String(e.attrs?.value ?? '')).filter((v) => v && !BAD_NAMES.has(v)) : [];
+      capValues(enums.length, pname);
+      const ptype = String((named && rst?.attrs?.base) || (p.attrs?.type ?? find(p, 'extension')?.attrs?.base ?? rst?.attrs?.base ?? ''));
       const t = attrType(ptype);
       if (t.startsWith('geometry:')) {
         geoms.push([pname, t]);
@@ -299,7 +307,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       const list = ref ? lists.get((target || pname).replace(/Value$/, '').toLowerCase()) : null;
       if (ref && !list && !target) continue;
       // A code list the import was not given keeps the property, as text, and says which list it needs.
-      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
+      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : enums.length ? { label: pname, type: 'enum', domain: Object.fromEntries(enums.map((v) => [v, v])) } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
       if (Number(p.attrs?.minOccurs ?? 1) >= 1 && p.attrs?.nillable !== 'true') a.required = true;
       const key = add(pname, a, code);
       if (key && !names.includes(key)) names.push(key);
