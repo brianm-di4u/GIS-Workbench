@@ -34202,6 +34202,13 @@
    ]
   },
   {
+   "key": "Running a recipe unattended",
+   "src": "Running a recipe unattended",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Runs in a worker on the AOI chip (or the view), up to 1024 × 1024 pixels. Each product opens as a layer above the source with its geometry.",
    "src": "Runs in a worker on the AOI chip (or the view), up to 1024 × 1024 pixels. Each product opens as a layer above the source with its geometry.",
    "refs": [
@@ -45197,6 +45204,13 @@
    "src": "With nothing chosen, the pair of the Stereo Panel is used, with its epipolar alignment.",
    "refs": [
     "sidecar/native-ui.js"
+   ]
+  },
+  {
+   "key": "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.",
+   "src": "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {
