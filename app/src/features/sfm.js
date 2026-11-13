@@ -110,7 +110,11 @@ export async function markControl(header, control, photos) {
     if (cursor) cross(cursor[0] - ox, cursor[1] - oy, '#ffffff', 6);
     caption.textContent = t('{id} in {photo} (photograph {i} of {n}). The dashed cross is where the model puts it; {state}', { id: pts[pi].id, photo: c.image, i: ci + 1, n: pts[pi].cands.length, state: m ? t('marked at {x}, {y}.', { x: m.px.toFixed(1), y: m.py.toFixed(1) }) : t('not marked in this photograph.') });
   }
+  // Each load is numbered: a decode that finishes after the analyst has moved on is dropped, so the
+  // photograph shown is always the one the caption and the predicted cross are for.
+  let loading = 0;
   async function load() {
+    const n = ++loading;
     bitmap?.close?.();
     bitmap = null;
     cursor = null;
@@ -122,8 +126,11 @@ export async function markControl(header, control, photos) {
       } else {
         const [ox, oy] = origin();
         try {
-          bitmap = await createImageBitmap(f, ox, oy, VIEW.w, VIEW.h, { imageOrientation: 'none' });
+          const b = await createImageBitmap(f, ox, oy, VIEW.w, VIEW.h, { imageOrientation: 'none' });
+          if (n !== loading) return b.close?.();
+          bitmap = b;
         } catch (e) {
+          if (n !== loading) return;
           caption.textContent = t('{photo} could not be read: {msg}', { photo: c.image, msg: e?.message ?? String(e) });
         }
       }

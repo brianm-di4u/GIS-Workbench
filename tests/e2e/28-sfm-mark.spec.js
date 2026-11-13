@@ -39,8 +39,8 @@ const CONTROL = controlCsv({
 const profile = (id) => ({ id, title: id, module: 'sfm', available: true, options: [], inputs: [] });
 const CAPS = { api: 1, version: 'test', profiles: [profile('sfm-model'), profile('sfm-control')], modules: [], raster_drivers: [], vector_drivers: [] };
 
-/** A sidecar that knows this page, with the two profiles, the control file and the model file. */
-async function mockSidecar(page) {
+/** A sidecar that knows this page, with the two profiles, the control file and the model file; uploads are kept in `uploads`. */
+async function mockSidecar(page, uploads = []) {
   await page.route(/^http:\/\/127\.0\.0\.1:4782[123]\//, async (route) => {
     const req = route.request();
     const u = new URL(req.url());
@@ -51,6 +51,10 @@ async function mockSidecar(page) {
     if (u.pathname === '/v1/hello') return json({ service: 'gwb-sidecar', api: 1, paired: true, version: 'test' });
     if (u.pathname === '/v1/caps') return json(CAPS);
     if (u.pathname === '/v1/pick') return json({ files: [{ id: 'model', name: 'block.sfm-model' }] });
+    if (u.pathname === '/v1/files' && req.method() === 'PUT') {
+      uploads.push({ name: u.searchParams.get('name'), body: req.postData() });
+      return json({ id: 'csv', name: u.searchParams.get('name'), size: 1, origin: 'upload' });
+    }
     if (u.pathname === '/v1/files') return json([{ id: 'other', name: 'other.tif', size: 10, origin: 'output' }, { id: 'model', name: 'block.sfm-model', size: 2e6, origin: 'output' }]);
     if (u.pathname === '/v1/files/ctl') return route.fulfill({ status: 200, headers: { ...cors, 'content-type': 'text/csv' }, body: CONTROL });
     if (u.pathname === '/v1/files/model') return route.fulfill({ status: 200, headers: { ...cors, 'content-type': 'application/octet-stream' }, body: MODEL });
@@ -139,4 +143,45 @@ test('a model from an earlier first stage starts the run again at the marking', 
   await dlg.getByRole('button', { name: 'Cancel' }).click();
   expect(readFileSync(await (await saved).path(), 'utf8')).toMatch(/^G1,.*,gcp,A\.JPG,/m);
   expect(await frame.evaluate(() => window.__sfm)).toBeNull();
+});
+
+test('marked in the dialog, the points go to the second stage, and are saved when it fails', async ({ page }) => {
+  const uploads = [];
+  await mockSidecar(page, uploads);
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await start(frame, true);
+  // The second stage is the sidecar's job: here it is caught as it starts, and fails.
+  await frame.evaluate(() => {
+    window.gisworkbench.sidecar.convert = async (o) => {
+      window.__stage2 = { profile: o.profile, files: o.files };
+      throw new Error('the second stage failed');
+    };
+  });
+  await frame.locator('[data-id="dialog:sidecar-sfm-gcp"]').getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  const caption = dlg.locator('[data-id="sfm:photo"]');
+  const canvas = dlg.locator('[data-id="sfm:canvas"]');
+  // Each of the 3 points in both photographs, with Enter at the predicted cross.
+  for (const [i, id] of ['G1', 'G2', 'G3'].entries()) {
+    await dlg.locator('[data-id="sfm:points"]').selectOption(String(i));
+    for (const photo of ['A.JPG', 'B.JPG']) {
+      if (photo === 'B.JPG') await dlg.locator('[data-id="sfm:next"]').click();
+      await expect(caption).toContainText(`${id} in `);
+      await canvas.focus();
+      await canvas.press('Enter');
+      await expect(caption).toContainText('marked at');
+    }
+  }
+  const saved = page.waitForEvent('download');
+  await dlg.getByRole('button', { name: 'Run with these marks' }).click();
+  const csv = await saved;
+  // What went to the second stage: the marks made in the dialog, with the folder and the model.
+  expect(uploads.map((u) => u.name)).toEqual(['block.gcp.csv']);
+  const rows = uploads[0].body.trim().split('\n').slice(1);
+  expect(rows).toHaveLength(6);
+  for (const id of ['G1', 'G2', 'G3']) for (const photo of ['A.JPG', 'B.JPG']) expect(rows.some((r) => r.startsWith(`${id},`) && r.includes(`,gcp,${photo},`))).toBe(true);
+  expect(await frame.evaluate(() => window.__stage2)).toEqual({ profile: 'sfm-control', files: ['dir', 'model', 'csv'] });
+  // It failed: the marks are saved, and the note says the model is kept.
+  expect(readFileSync(await csv.path(), 'utf8').trim().split('\n').slice(1)).toEqual(rows);
+  await expect(frame.locator('.toast').filter({ hasText: 'block.sfm-model' }).first()).toBeVisible();
 });

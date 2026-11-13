@@ -313,8 +313,53 @@ mod tests {
     /// puts the checkpoints on their survey.
     #[test]
     fn the_adjustment_takes_out_a_bend_a_similarity_cannot() {
+        let (out, worst, carried) = bent_block("bend", &|_| 0.02, &|_| [0.0; 3]);
+        let c = &out["control"];
+        let up = |j: &Value| j["rmse_check_m"]["up"].as_f64().unwrap();
+        assert!(
+            up(&c["before_adjustment"]) > 0.2,
+            "the bend should show before the adjustment: {c}"
+        );
+        for axis in ["east", "north", "up"] {
+            assert!(c["rmse_check_m"][axis].as_f64().unwrap() < 0.05, "{c}");
+        }
+        assert!(
+            worst < 0.05,
+            "the written model puts a checkpoint {worst} m off: {c}"
+        );
+        assert_eq!(carried, [false, false], "rigs.bin and frames.bin would override the adjusted poses");
+        // The report names the photograph of each point's worst mark.
+        assert!(c["points"][0]["marks_px"]["max_image"].as_str().unwrap().ends_with(".JPG"), "{c}");
+    }
+
+    /// The control is weighted by each point's stated sigma: a survey 0.3 m off, given a loose
+    /// sigma, is left off and the block stays on the others; given the same sigma as the others, it
+    /// pulls the block towards it.
+    #[test]
+    fn each_control_point_counts_by_its_stated_sigma() {
+        let off = |k: usize| if k == 0 { [0.0, 0.0, 0.3] } else { [0.0; 3] };
+        let (loose, ..) = bent_block("loose", &|k| if k == 0 { 1.0 } else { 0.02 }, &off);
+        let (tight, ..) = bent_block("tight", &|_| 0.02, &off);
+        let up = |out: &Value, id: &str| {
+            let p = out["control"]["points"].as_array().unwrap().iter().find(|p| p["id"] == id).unwrap();
+            p["residual_m"]["up"].as_f64().unwrap()
+        };
+        let others = |out: &Value| ["P1", "P2", "P3", "P4", "P5"].iter().map(|id| up(out, id).abs()).fold(0.0f64, f64::max);
+        // Loose: P0 keeps nearly all of its 0.3 m, and the others stay on their survey.
+        assert!(up(&loose, "P0") < -0.25, "{}", loose["control"]);
+        assert!(others(&loose) < 0.03, "{}", loose["control"]);
+        // Tight: P0 pulls the block, so it keeps less of its error and the others take some.
+        assert!(up(&tight, "P0") > up(&loose, "P0") + 0.03, "{} / {}", tight["control"], loose["control"]);
+        assert!(others(&tight) > others(&loose), "{} / {}", tight["control"], loose["control"]);
+    }
+
+    /// The bent block below, its control points' sigmas from `sigma` and their surveys moved by
+    /// `shift` (both by index: 0 to 5 are control points, 6 and 7 checkpoints), placed and adjusted
+    /// by georef. Returns the report, the worst checkpoint off in the written model, and whether
+    /// rigs.bin and frames.bin were carried into it.
+    fn bent_block(tag: &str, sigma: &dyn Fn(usize) -> f64, shift: &dyn Fn(usize) -> V3) -> (Value, f64, [bool; 2]) {
         use crate::geo::{add, mat_vec, quat_to_mat, scale, sub};
-        let dir = std::env::temp_dir().join(format!("gwb-sfm-ba-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("gwb-sfm-ba-{tag}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         let (_, truth) = write_block(&dir);
@@ -429,15 +474,16 @@ mod tests {
             .chain(checks.iter().map(|x| (x, "check")))
             .enumerate()
         {
-            let g = add(truth.apply(*x), offset);
+            let g = add(add(truth.apply(*x), offset), shift(k));
             for im in &m.images {
                 let (px, py) = project(&m, im, *x);
                 if px > 0.0 && px < 4000.0 && py > 0.0 && py < 3000.0 {
                     csv += &format!(
-                        "P{k},{:.4},{:.4},{:.4},EPSG:32617,0.02,{role},{},{:.2},{:.2}\n",
+                        "P{k},{:.4},{:.4},{:.4},EPSG:32617,{},{role},{},{:.2},{:.2}\n",
                         g[0],
                         g[1],
                         g[2],
+                        sigma(k),
                         im.name,
                         px + rnd(),
                         py + rnd()
@@ -482,22 +528,7 @@ mod tests {
             let d = sub(sim3.apply(x), sub(p.xyz, offset));
             worst = worst.max(d.iter().fold(0.0f64, |a, v| a.max(v.abs())));
         }
-        let c = &out["control"];
-        let up = |j: &Value| j["rmse_check_m"]["up"].as_f64().unwrap();
-        assert!(
-            up(&c["before_adjustment"]) > 0.2,
-            "the bend should show before the adjustment: {c}"
-        );
-        for axis in ["east", "north", "up"] {
-            assert!(c["rmse_check_m"][axis].as_f64().unwrap() < 0.05, "{c}");
-        }
-        assert!(
-            worst < 0.05,
-            "the written model puts a checkpoint {worst} m off: {c}"
-        );
-        assert_eq!(carried, [false, false], "rigs.bin and frames.bin would override the adjusted poses");
-        // The report names the photograph of each point's worst mark.
-        assert!(c["points"][0]["marks_px"]["max_image"].as_str().unwrap().ends_with(".JPG"), "{c}");
+        (out, worst, carried)
     }
 
     #[test]
