@@ -225,6 +225,13 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     }
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
+  /** The namespace a QName's prefix names in the schema it appears in; whether that is GML's. */
+  const nsOf = (qname, from) => {
+    const q = String(qname);
+    const at = q.indexOf(':');
+    return at < 0 ? from.scope.xmlns : from.scope[`xmlns:${q.slice(0, at)}`];
+  };
+  const isGml = (ns) => /opengis\.net\/gml/.test(ns ?? '');
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
   const isFeature = (entry, seen = new Set()) => {
     const group = entry.node.attrs?.substitutionGroup;
@@ -235,9 +242,8 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     if (up) return isFeature(up, seen);
     // A head in a schema not given here (tn:TransportLink for a RoadLink, with TransportNetworks.xsd
     // left out) is taken to be a feature's; only GML's own heads (AbstractObject) are not.
-    const at = String(group).indexOf(':');
-    const ns = at < 0 ? entry.scope.xmlns : entry.scope[`xmlns:${String(group).slice(0, at)}`];
-    return !!ns && !/opengis\.net\/gml/.test(ns);
+    const ns = nsOf(group, entry);
+    return !!ns && !isGml(ns);
   };
   let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
   // An extension that re-declares a type under the same name (ext2d's Building for core2d's) replaces
@@ -250,10 +256,20 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const shared = new Set(features.map((e) => e.node.attrs.name).filter((n, i, all) => all.indexOf(n) !== i));
   const codeOf = (e) => (shared.has(e.node.attrs.name) ? `${prefixOf(e)}:${e.node.attrs.name}` : e.node.attrs.name);
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
+  // A type or base in a schema not given (tn:TransportLinkType for a RoadLink) holds properties, often the
+  // geometry: the import names the schemas to add rather than make types without them.
+  const missing = new Set();
+  const lacking = (qname, from) => {
+    const ns = nsOf(qname, from);
+    if (ns && !isGml(ns)) missing.add(ns);
+  };
   const props = (entry, seen = new Set()) => {
     if (!entry || seen.has(entry)) return [];
     seen.add(entry);
-    return [...props(resolve('complex', find(entry.node, 'extension')?.attrs?.base, entry), seen), ...all(entry.node, 'element')];
+    const base = find(entry.node, 'extension')?.attrs?.base;
+    const up = resolve('complex', base, entry);
+    if (base && !up) lacking(base, entry);
+    return [...props(up, seen), ...all(entry.node, 'element')];
   };
   const { attrs, add } = attrTable();
   const types = [];
@@ -261,7 +277,9 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const code = codeOf(entry);
     const geoms = [];
     const names = [];
-    for (const p of props(resolve('complex', entry.node.attrs.type, entry))) {
+    const own = resolve('complex', entry.node.attrs.type, entry);
+    if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry);
+    for (const p of props(own)) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
@@ -287,6 +305,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const geometry = primaryGeometry(geoms);
     types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.length ? { geometry } : {}), attributes: names });
   }
+  if (missing.size) throw E('the feature types build on schemas not given: add {schemas}', { schemas: [...missing].sort().join(', ') });
   if (!types.length) throw E('the schema defines no feature types (no element in the gml:AbstractFeature group)');
   const title = name || target.replace(/\/+$/, '').split('/').slice(-2).join(' ') || 'INSPIRE application schema';
   return { format: 'gw-catalog/1', id: safeId(id || `inspire-${title}`, 'inspire'), name: title, version: '1', source: 'INSPIRE application schema', nulls: EMPTY_NULLS, attributes: attrs, types };
@@ -336,16 +355,26 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
       names.push(key);
       if (v !== '*' && typeof v === 'string') fixed[key] = v;
     }
-    // A '{preset}' entry takes that preset's fields, as iD does.
-    const fieldIds = (q, seen) =>
-      [...arr(q.fields), ...arr(q.moreFields)].flatMap((fid) => {
+    // A '{preset}' entry takes that preset's fields, and a preset with none of its own takes its parent's
+    // (its id up to the last '/'), as iD does.
+    const fieldIds = (q, qid, seen) => {
+      const ownIds = [...arr(q.fields), ...arr(q.moreFields)];
+      if (!ownIds.length) {
+        for (let up = qid; up.includes('/'); ) {
+          up = up.slice(0, up.lastIndexOf('/'));
+          if (Object.hasOwn(presets, up)) return seen.has(up) ? [] : (seen.add(up), fieldIds(presets[up] ?? {}, up, seen));
+        }
+        return [];
+      }
+      return ownIds.flatMap((fid) => {
         const m = /^\{(.+)\}$/.exec(String(fid));
         if (!m) return [fid];
         if (seen.has(m[1]) || !Object.hasOwn(presets, m[1])) return [];
         seen.add(m[1]);
-        return fieldIds(presets[m[1]] ?? {}, seen);
+        return fieldIds(presets[m[1]] ?? {}, m[1], seen);
       });
-    for (const fid of fieldIds(p, new Set([pid]))) {
+    };
+    for (const fid of fieldIds(p, pid, new Set([pid]))) {
       const f = Object.hasOwn(fields, fid) ? fields[fid] : null;
       const key = typeof f?.key === 'string' ? attrFor(f.key, f) : null;
       if (key && !names.includes(key)) names.push(key);

@@ -77,9 +77,9 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     const core3d = xsd('urn:bu-core3d', 'xmlns:bu-base="urn:bu-base" xmlns:bu-core3d="urn:bu-core3d"', '<element name="Building" type="bu-core3d:BuildingType" substitutionGroup="bu-base:AbstractBuilding"/>' + type('BuildingType', 'bu-base:AbstractBuildingType', '<element name="lod" type="integer"/>'));
     const both = validateCatalog(fromInspire([base, core, core3d]));
     expect(both.types.map((t) => [t.code, t.attributes])).toEqual([['bu-core2d:Building', ['heightAboveGround']], ['bu-core3d:Building', ['lod']]]);
-    // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building.
-    // Its own Building stays a type of its own (its head's schema was not given), with only its own properties.
-    expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['bu-core3d:Building', ['lod']], ['bu-ext2d:Building', ['officialArea']]]);
+    // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building,
+    // and the import names the schema it builds on instead of making a Building without core2d's properties.
+    expect(() => fromInspire([base, core3d, ext])).toThrow(/add urn:bu-core2d$/);
   });
   it('reads a voidable property\'s type from its simpleContent, and binds code lists by targetCodeList', () => {
     const voidable = (name, base) => `<element name="${name}" nillable="true"><complexType><simpleContent><extension base="${base}"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element>`;
@@ -123,6 +123,10 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
         '</schema>',
     );
     expect(c.types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['RoadLink', ['LineString'], ['roadName']]]);
+    // A type that extends a base in that schema (where INSPIRE keeps the geometry) is refused, naming the schema.
+    const theme = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:tn="urn:tn" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><complexContent><extension base="tn:TransportLinkType"><sequence><element name="roadName" type="string"/></sequence></extension></complexContent></complexType></schema>';
+    expect(() => fromInspire(theme)).toThrow(/build on schemas not given: add urn:tn$/);
   });
   it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
@@ -187,6 +191,14 @@ describe('REQ-GAP-87 the files a user picks', () => {
     const of = (code) => c.types.find((t) => t.code === code).attributes;
     expect(of('amenity/fast_food')).toEqual(['amenity', 'cuisine', 'drive_through']);
     expect(of('amenity/restaurant')).toEqual(['amenity', 'cuisine', 'drive_through']);
+  });
+  it('gives a preset with no fields of its own its parent\'s', () => {
+    const presets = {
+      'amenity/fast_food': { name: 'Fast Food', geometry: ['point'], tags: { amenity: 'fast_food' }, fields: ['drive_through'] },
+      'amenity/fast_food/burger': { name: 'Burger', geometry: ['point'], tags: { amenity: 'fast_food', cuisine: 'burger' } },
+    };
+    const c = validateCatalog(fromIdPresets(presets, { drive_through: { key: 'drive_through', type: 'check' } }));
+    expect(c.types.find((t) => t.code === 'amenity/fast_food/burger').attributes).toEqual(['amenity', 'cuisine', 'drive_through']);
   });
   it('names a preset from its id when presets.json leaves names to translations', () => {
     const c = fromIdPresets({ 'leisure/picnic_table': { geometry: ['point'], tags: { leisure: 'picnic_table' } } });
