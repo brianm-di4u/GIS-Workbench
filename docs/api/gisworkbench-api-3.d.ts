@@ -963,6 +963,10 @@ export interface RecipesRunParams {
    */
   id?: string;
   /**
+   * Which copy, when the project and the library both hold the id and they differ (recipes.list marks it clash)
+   */
+  source?: "project" | "library";
+  /**
    * A recipe JSON instead of an id
    */
   recipe?: Record<string, unknown>;
@@ -971,11 +975,15 @@ export interface RecipesRunParams {
    */
   params?: Record<string, unknown>;
   /**
+   * Values for inputs left unwired: {"stepId.input": value}, such as a layer id
+   */
+  inputs?: Record<string, unknown>;
+  /**
    * At a gate
    */
   gates?: "continue" | "stop" | "fail";
   /**
-   * First step (0-based)
+   * First step (0-based); a workflow with wires runs from 0
    */
   from?: number;
 }
@@ -1009,6 +1017,10 @@ export interface RecipesOpParams {
    * Its parameters
    */
   params?: Record<string, unknown>;
+  /**
+   * Its inputs by name, such as {layer: id} (recipes.ops lists them)
+   */
+  inputs?: Record<string, unknown>;
 }
 /**
  * Parameters of `commands.list`.
@@ -1114,8 +1126,8 @@ export interface Methods {
   "products.report": { params: ProductsReportParams; result: FileResult };
   "products.cog": { params: ProductsCogParams; result: FileResult };
   "products.deck": { params: ProductsDeckParams; result: FileResult };
-  "recipes.list": { params: RecipesListParams; result: { id: string; name: string; steps: number; builtin: boolean }[] };
-  "recipes.ops": { params: RecipesOpsParams; result: { op: string; title: string; defaults: Record<string, unknown>; gate: boolean }[] };
+  "recipes.list": { params: RecipesListParams; result: { id: string; name: string; steps: number; builtin: boolean; source: "builtin" | "project" | "library"; clash?: true }[] };
+  "recipes.ops": { params: RecipesOpsParams; result: { op: string; title: string; defaults: Record<string, unknown>; gate: boolean; schema: Record<string, { type: string; min?: number; max?: number; unit?: string; values?: unknown[]; default?: unknown; label?: string }>; inputs: { name: string; type: string }[]; outputs: { name: string; type: string }[] }[] };
   "recipes.validate": { params: RecipesValidateParams; result: Record<string, unknown> };
   "recipes.run": { params: RecipesRunParams; result: RecipeRun };
   "recipes.resume": { params: RecipesResumeParams; result: RecipeRun };
@@ -1686,23 +1698,23 @@ export interface GisWorkbenchApiV2 {
   };
   readonly recipes: {
     /**
-     * Built-in and saved recipes.
+     * Built-in recipes, workflows saved in the project, and the library.
      * 
      * @since 2.0.0
      * Read-only.
      * MCP tool: gw2_recipes_list
      */
-    list(params?: RecipesListParams): Promise<{ id: string; name: string; steps: number; builtin: boolean }[]>;
+    list(params?: RecipesListParams): Promise<{ id: string; name: string; steps: number; builtin: boolean; source: "builtin" | "project" | "library"; clash?: true }[]>;
     /**
-     * The operations a recipe step can run, with their default parameters.
+     * The operations a recipe step can run, with their default parameters, parameter schema and typed inputs and outputs (gw-recipe/2).
      * 
      * @since 2.0.0
      * Read-only.
      * MCP tool: gw2_recipes_ops
      */
-    ops(params?: RecipesOpsParams): Promise<{ op: string; title: string; defaults: Record<string, unknown>; gate: boolean }[]>;
+    ops(params?: RecipesOpsParams): Promise<{ op: string; title: string; defaults: Record<string, unknown>; gate: boolean; schema: Record<string, { type: string; min?: number; max?: number; unit?: string; values?: unknown[]; default?: unknown; label?: string }>; inputs: { name: string; type: string }[]; outputs: { name: string; type: string }[] }[]>;
     /**
-     * Check a gw-recipe/1 JSON recipe; returns the normalised recipe or throws naming the problem.
+     * Check a gw-recipe/1 or gw-recipe/2 JSON recipe; returns it normalised as gw-recipe/2 or throws naming the problem.
      * 
      * @since 2.0.0
      * Read-only.

@@ -112,7 +112,7 @@ export const MAIN_TABS = [
     groups: [
       { label: N_('AI Assistant'), items: [L('ai.assistant'), S('ai.askselection'), S('ai.describe'), S('ai.proposals'), S('ai.smartselect', { kind: 'toggle' }), S('lai.square', { kind: 'toggle' })] },
       { label: N_('Local AI'), items: [L('lai.find'), S('lai.search'), S('lai.contrast'), S('lai.device'), S('lai.findscene'), S('lai.describe'), S('lai.changemask'), S('lai.landcover'), S('lai.models')] },
-      { label: N_('Recipes'), items: [L('rcp.open'), S('rcp.airfield-triage'), S('rcp.building-extraction'), S('rcp.import')] },
+      { label: N_('Recipes'), items: [L('rcp.open'), S('pip.builder'), S('rcp.airfield-triage'), S('rcp.building-extraction'), S('rcp.import')] },
       { label: N_('AI Setup'), items: [S('ai.connections'), S('ai.allowlist'), S('ai.prompthelper'), S('ai.mcp')] },
       { label: N_('Feedback'), items: [L('wb.toggle'), S('wb.review'), S('wb.import')] },
       { label: N_('Automation'), items: [S('auto.console'), S('auto.mcpserver')] },
