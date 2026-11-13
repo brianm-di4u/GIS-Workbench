@@ -18,7 +18,7 @@ import { loadSqlite, writeGpkg, readGpkg } from '../vector/gpkg.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int, length as fmtLength } from '../i18n/format.js';
 import { buildIndex, search, reverse } from '../analysis/geocode.js';
-import { buildGraph, graphData, nearestNode, routeLine, serviceLines } from '../analysis/network.js';
+import { buildGraph, graphData, snapToEdge, routeLine, serviceLines, onewayRule } from '../analysis/network.js';
 
 /**
  * Limits (S-67, measured on 2026-11-10): an address costs about 390 bytes of memory with its layer
@@ -29,8 +29,10 @@ import { buildGraph, graphData, nearestNode, routeLine, serviceLines } from '../
  */
 export const MAX_ADDRESSES = 1_000_000;
 export const MAX_EDGES = 1_000_000;
-/** How far a picked point may be from the nearest network node. */
+/** How far a picked point may be from the road network. */
 const SNAP_M = 500;
+/** How long batch geocoding runs before it lets the page draw (ms). */
+const SLICE_MS = 100;
 // A number field: blank, null and text are no number (NaN), not 0.
 const numberOf = (v) => (v === null || v === undefined || String(v).trim() === '' ? NaN : Number(v));
 
@@ -44,7 +46,8 @@ export function install(app) {
     try {
       return await fn(args);
     } catch (e) {
-      toast(msgOf(e), { kind: /^E_NEED_/.test(e.code ?? '') ? 'warn' : 'error' });
+      // Cancel in the activity indicator: the user knows.
+      if (!e.cancelled) toast(msgOf(e), { kind: /^E_NEED_/.test(e.code ?? '') ? 'warn' : 'error' });
       return undefined;
     }
   };
@@ -113,7 +116,12 @@ export function install(app) {
     const SQL = await loadSqlite(app.gw);
     const db = new SQL.Database(bytes);
     try {
-      const meta = db.exec("SELECT value FROM gw_geocode_meta WHERE key = 'format'")[0]?.values?.[0]?.[0];
+      let meta = null;
+      try {
+        meta = db.exec("SELECT value FROM gw_geocode_meta WHERE key = 'format'")[0]?.values?.[0]?.[0];
+      } catch {
+        // No gw_geocode_meta table: another GeoPackage, refused below.
+      }
       if (meta !== 'gis-workbench-address-index/1') throw gwError('{name} is not an address index GeoPackage written by GIS Workbench', { name }, 'E_NEED_ADDRESSES');
       // Count before reading: the file may come from anywhere, and the reader takes every feature table whole.
       const tables = (db.exec("SELECT table_name FROM gpkg_contents WHERE data_type = 'features'")[0]?.values ?? []).map((r) => String(r[0]));
@@ -185,11 +193,12 @@ export function install(app) {
     if (lines.length && !/[\t,;|]/.test(lines[0])) return lines.map((l) => [l.trim().replace(/^"(.*)"$/, '$1').replace(/""/g, '"')]);
     return parseDelimited(text).rows;
   }
-  /** Geocode every row of a CSV (text): a point layer with the row's fields, the match, its score and what it matched. */
-  function geocodeTable(text, opts) {
-    return app.activity.track(t('Geocoding a table…'), (job) => geocodeRows(text, opts, job));
-  }
-  async function geocodeRows(text, { address, place = '', name = t('Geocoded') }, job) {
+  /**
+   * Geocode every row of a CSV (text): a point layer with the row's fields, the match, its score and
+   * what it matched. A long table runs in slices with the activity indicator up, so the page keeps
+   * answering; Cancel stops it and adds no layer.
+   */
+  async function geocodeTable(text, { address, place = '', name = t('Geocoded') }) {
     const rows = tableRows(text);
     const [head, ...body] = rows;
     const ai = head.indexOf(address);
@@ -197,18 +206,24 @@ export function install(app) {
     if (ai < 0) throw gwError('No column {col} in the table', { col: address }, 'E_NEED_ADDRESSES');
     const ok = [];
     const failed = [];
-    for (const [k, r] of body.entries()) {
-      // A misspelt search takes about 2 ms on a large index: give the page a turn every few hundred rows.
-      if (k % 250 === 249) {
-        job?.set?.(k / body.length);
-        await new Promise((res) => setTimeout(res, 0));
+    const work = async (job) => {
+      let slice = performance.now();
+      for (let i = 0; i < body.length; i++) {
+        if (performance.now() - slice > SLICE_MS) {
+          await job.step(i / body.length);
+          if (job.cancelled) throw Object.assign(gwError('cancelled'), { cancelled: true });
+          slice = performance.now();
+        }
+        const r = body[i];
+        const q = pi >= 0 && r[pi] ? `${r[ai]}, ${r[pi]}` : r[ai];
+        const [best] = geocode(q, { limit: 1 });
+        const attrs = Object.fromEntries(head.map((k, j) => [k, r[j] ?? '']));
+        if (best) ok.push({ at: best.at, attrs: { ...attrs, match: best.match, score: Math.round(best.score), matched: `${best.number ? `${best.number} ` : ''}${best.street}` } });
+        else failed.push(attrs);
       }
-      const q = pi >= 0 && r[pi] ? `${r[ai]}, ${r[pi]}` : r[ai];
-      const [best] = geocode(q, { limit: 1 });
-      const attrs = Object.fromEntries(head.map((k, i) => [k, r[i] ?? '']));
-      if (best) ok.push({ at: best.at, attrs: { ...attrs, match: best.match, score: Math.round(best.score), matched: `${best.number ? `${best.number} ` : ''}${best.street}` } });
-      else failed.push(attrs);
-    }
+    };
+    const label = t('Geocoding {n, plural, one {# address} other {# addresses}}…', { n: body.length });
+    await app.activity.track(label, work, { cancel: true });
     const id = ok.length ? addLayer(name, 'Point', ok, { stroke: '#e0a020', fill: '#e0a02099' }) : null;
     return { layer: id, matched: ok.length, unmatched: failed.length, failed };
   }
@@ -250,22 +265,25 @@ export function install(app) {
     if (!net.graph) throw gwError('No road network: use Road Network… on a line layer first', {}, 'E_NEED_ROADS');
     return net.graph;
   };
-  const call = (prm) => app.pool.run('network', { prm, data: graph().data }, { kind: 'analysis', label: t('road network'), timeout: 300000 });
-  const snap = (at) => {
+  /** Run the bundle on `g`: the built graph, or one with a picked point split into an edge. */
+  const call = (prm, g) => app.pool.run('network', { prm, data: g === graph().g ? graph().data : graphData(g) }, { kind: 'analysis', label: t('road network'), timeout: 300000 });
+  /** `g` with a node where `at` meets the network: {g, node}. */
+  const snap = (g, at) => {
     if (!Array.isArray(at) || !Number.isFinite(at[0]) || !Number.isFinite(at[1])) throw gwError('A route needs a start and an end, and a service area a place to start from', {}, 'E_NEED_ROADS');
-    const { g } = graph();
-    const s = nearestNode(g, at);
-    if (s.node < 0 || s.metres > SNAP_M) throw gwError('That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions', { d: fmtLength(s.metres), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
-    return s.node;
+    const s = snapToEdge(g, at);
+    if (!s || !(s.metres <= SNAP_M)) throw gwError('That point is {d} from the road network (more than {max})', { d: fmtLength(s?.metres ?? Infinity), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
+    return s;
   };
   const costLabel = (c) => (graph().g.cost === 'time' ? t('{min} min', { min: (c / 60).toFixed(1) }) : fmtLength(c));
 
   /** The least-cost route between two lon/lat points as a line layer; null when there is none. */
   async function route(from, to) {
-    const { g } = graph();
-    const r = await call([0, snap(from), snap(to)]);
+    const a = snap(graph().g, from);
+    const b = snap(a.g, to);
+    if (a.node === b.node) throw gwError('The start and the end are the same place on the road network', {}, 'E_NEED_ROADS');
+    const { g } = b;
+    const r = await call([0, a.node, b.node], g);
     if (r.cost === null) return null;
-    if (!r.edges.length) throw gwError('The start and the end are at the same junction', {}, 'E_NEED_ROADS');
     const coords = routeLine(g, r.edges, r.forward.map(Boolean));
     const metres = r.edges.reduce((s, e) => s + g.edges[e].len, 0);
     const attrs = { length_m: Math.round(metres * 10) / 10, ...(g.cost === 'time' ? { time_s: Math.round(r.cost * 10) / 10 } : {}), edges: r.edges.length };
@@ -275,13 +293,15 @@ export function install(app) {
 
   /** The network within each break (cost units: seconds or metres) of a lon/lat point, as lines with their break. */
   async function serviceArea(at, breaks) {
-    const { g } = graph();
     const bs = [...new Set(breaks.filter((b) => b > 0))].sort((a, b) => a - b);
     if (!bs.length) throw gwError('Give at least one break greater than zero', {}, 'E_NEED_ROADS');
-    const r = await call([1, bs.at(-1), snap(at)]);
+    const built = graph().g.nodes.length;
+    const { g, node } = snap(graph().g, at);
+    const r = await call([1, bs.at(-1), node], g);
     const pieces = serviceLines(g, r.cost, bs, r.entry).reverse();
     const id = addLayer(t('Service area'), 'LineString', pieces.map((p) => ({ coords: p.coords, attrs: { break: p.brk } })), { stroke: '#1a9850', width: 3 });
-    return { layer: id, nodes: r.cost.filter((c) => c !== null && c <= bs.at(-1)).length, pieces: pieces.length };
+    // The network's own nodes reached: not the one the pick added.
+    return { layer: id, nodes: r.cost.slice(0, built).filter((c) => c !== null && c <= bs.at(-1)).length, pieces: pieces.length };
   }
 
   /** `fn` with the activity indicator up, painted first: indexing and building a network hold the page. */
@@ -420,13 +440,23 @@ export function install(app) {
       const sels = {};
       const costSel = h('select', { class: 'inp', 'aria-label': t('Cost') }, h('option', { value: 'time' }, t('Travel time')), h('option', { value: 'length' }, t('Distance')));
       const dflt = h('input', { class: 'inp inp-num', type: 'number', value: '50', min: '1', max: '300', 'aria-label': t('Speed where none is given (km/h)') });
+      // A one-way field of only T and F can mean either; ask which.
+      const tfSel = h('select', { class: 'inp', 'aria-label': t('T and F mean') }, h('option', { value: 'bool' }, t('True and false: T one-way along the line, F two-way')), h('option', { value: 'here' }, t('Directions: T against the line, F along it (HERE)')));
+      const tfBox = h('div');
+      const tfCheck = () => {
+        clear(tfBox);
+        const k = sels.oneway.value;
+        if (k && onewayRule(S.all('feature').filter((f) => f.vlayer === L.value).map((f) => valueOf(f, k))) === 'bool') tfBox.append(field(t('T and F mean'), tfSel, t('This field uses T and F, which can mean either.')));
+      };
       const fill = () => {
         clear(box);
         const fs = fieldsOf(L.value);
         sels.oneway = fieldSel(fs, guess(fs, /one.?way|dir/i), t('One-way field'));
+        sels.oneway.addEventListener('change', tfCheck);
         sels.speed = fieldSel(fs, guess(fs, /speed|maxspeed|kmh|limit/i), t('Speed field (km/h)'));
         sels.id = fieldSel(fs, guess(fs, /^(id|osm_?id|link_?id|road_?id|fid)$/i), t('Road id field'));
-        box.append(field(t('One-way field'), sels.oneway, t('yes, -1, no (OpenStreetMap), Y and N, or FT, TF, B, N (HERE, where N is closed).')), field(t('Speed field (km/h)'), sels.speed), field(t('Road id field'), sels.id, t('Only for turn bans, which name roads by it.')));
+        box.append(field(t('One-way field'), sels.oneway, t('yes, -1, no (OpenStreetMap), Y and N, or FT, TF, B, N (HERE, where N is closed).')), tfBox, field(t('Speed field (km/h)'), sels.speed), field(t('Road id field'), sels.id, t('Only for turn bans, which name roads by it.')));
+        tfCheck();
       };
       L.addEventListener('change', fill);
       fill();
@@ -445,7 +475,7 @@ export function install(app) {
       });
       const body = h('div', {}, field(t('Road layer'), L), box, field(t('Cost'), costSel), field(t('Speed where none is given (km/h)'), dflt), field(t('Turn bans'), h('div', { class: 'ts-bar' }, bansBtn, bansNote), t('A table with "from" and "to" road ids: no turn from the first road onto the second where they meet.')), h('p', { class: 'hint' }, t('Roads join where lines share a vertex, so a bridge that only crosses a road stays apart from it.')));
       if ((await modal({ title: t('Road Network'), body, buttons: [{ label: t('Build'), value: 'build', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 520, id: 'net-roads' })) !== 'build') return undefined;
-      const r = await building(L.value, { oneway: sels.oneway.value || null, speed: sels.speed.value || null, cost: costSel.value, defaultSpeed: +dflt.value || 50, idField: sels.id.value || null, bans });
+      const r = await building(L.value, { oneway: sels.oneway.value || null, onewayAs: tfBox.firstChild ? tfSel.value : null, speed: sels.speed.value || null, cost: costSel.value, defaultSpeed: +dflt.value || 50, idField: sels.id.value || null, bans });
       toast(t('Road network of {n} nodes and {e} pieces', { n: int(r.nodes), e: int(r.edges) }), { kind: 'info' });
       return r;
     }),
@@ -478,7 +508,7 @@ export function install(app) {
       let at = args?.at;
       if (!breaks) {
         const b = h('input', { class: 'inp', value: time ? '5, 10, 15' : '500, 1000, 2000', 'aria-label': time ? t('Breaks (minutes)') : t('Breaks (metres)') });
-        if ((await modal({ title: t('Service Area'), body: h('div', {}, field(time ? t('Breaks (minutes)') : t('Breaks (metres)'), b), h('p', { class: 'hint' }, t('Then click the place to start from. The area starts at the nearest junction.'))), buttons: [{ label: t('Next'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-service' })) !== 'go') return undefined;
+        if ((await modal({ title: t('Service Area'), body: h('div', {}, field(time ? t('Breaks (minutes)') : t('Breaks (metres)'), b), h('p', { class: 'hint' }, t('Then click the place to start from, on or near a road.'))), buttons: [{ label: t('Next'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-service' })) !== 'go') return undefined;
         breaks = b.value
           .split(/[,;\s]+/)
           .map(Number)

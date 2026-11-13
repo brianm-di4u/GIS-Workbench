@@ -98,10 +98,13 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     const f = app.__saved.at(-1);
     const bytes = new Uint8Array(await f.blob.arrayBuffer());
     app.routing.geocoder = null;
+    // A GeoPackage with no gw_geocode_meta table is refused by name, not with SQLite's error.
+    const other = await app.routing.openIndex(new Uint8Array(0), 'other.gpkg').then(() => 'opened', (e) => e.message);
     const o = await app.routing.openIndex(bytes, f.name);
     const again = app.routing.geocode('1101 12th St', { limit: 1 })[0];
-    return { name: f.name, saved: s.addresses, opened: o, again };
+    return { name: f.name, saved: s.addresses, opened: o, again, other };
   });
+  expect(gp.other).toBe('other.gpkg is not an address index GeoPackage written by GIS Workbench');
   expect(gp.name).toMatch(/\.addresses\.gpkg$/);
   expect(gp.opened.addresses).toBe(528);
   expect(gp.again.at).toEqual(REF.queries[2].at);
@@ -259,6 +262,28 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     return app.store.all('feature').filter((f) => f.vlayer === v.id).map((f) => [f.geom.xyz[0], f.geom.xyz[1]]);
   });
   expect(listed).toEqual([REF.queries[0].at, REF.queries[2].at]);
+  // Geocode a Table runs in slices with Cancel in the activity indicator: pressed after the first
+  // slice, it stops the run, and no layer or message follows.
+  const cancelled = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const n = app.store.all('vlayer').length;
+    const toasts = app.toastLog.length;
+    const begin = app.activity.begin.bind(app.activity);
+    let steps = 0;
+    app.activity.begin = (label, o) => {
+      const job = begin(label, o);
+      const step = job.step;
+      job.step = async (...a) => {
+        await step(...a);
+        if (++steps === 1) document.querySelector('[data-id="activity:cancel"]').click();
+      };
+      return job;
+    };
+    const text = ['address', ...Array.from({ length: 100000 }, (_, i) => `${i + 1} ${i % 2 ? 'Main' : '1st'} St`)].join('\n');
+    const r = await app.commands.run('addr.batch', { text, address: 'address' }).finally(() => (app.activity.begin = begin));
+    return { r: r ?? null, steps, layers: app.store.all('vlayer').length - n, toasts: app.toastLog.slice(toasts).map((e) => e.message), running: app.activity.tracked.size };
+  });
+  expect(cancelled).toMatchObject({ r: null, steps: 1, layers: 0, toasts: [], running: 0 });
   // Road Network with turn bans from a file, through its button.
   const viaRoads = frame.evaluate(() => window.gisworkbench.commands.run('route.roads'));
   const rd2 = frame.locator('[data-id="dialog:net-roads"]');
@@ -273,16 +298,35 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   expect((await viaRoads).banned).toBe(1);
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.routing.graph?.g.banned.length ?? 0)).toBe(1);
   expect(out.service.pieces).toBeGreaterThan(0);
-  // Two clicks at one junction make no route, and no empty layer.
+  // A route from part way along a road starts where it was picked, and covers only the rest of that road.
+  const mid = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const { g } = app.routing.graph;
+    const e = g.edges.reduce((a, b) => (b.coords.length === 2 && Number.isFinite(b.fwd) && b.len > (a?.len ?? 0) ? b : a), null);
+    const [p, q] = e.coords;
+    const at = [p[0] + 0.25 * (q[0] - p[0]), p[1] + 0.25 * (q[1] - p[1])];
+    const end = g.nodes[e.to];
+    const r = await app.routing.route(at, end);
+    const f = app.store.all('feature').find((y) => y.vlayer === r.layer);
+    return { at, first: [f.geom.xyz[0], f.geom.xyz[1]], metres: r.metres, len: e.len, edges: r.edges };
+  });
+  expect(mid.first[0]).toBeCloseTo(mid.at[0], 9);
+  expect(mid.first[1]).toBeCloseTo(mid.at[1], 9);
+  expect(mid.edges).toBe(1);
+  expect(mid.metres).toBeCloseTo(0.75 * mid.len, 3);
+  // Two clicks at one place, at a junction or part way along a road, make no route and no empty layer.
   const same = await frame.evaluate(async () => {
     const app = window.gisworkbench;
     const n = app.layers.size;
-    const at = app.routing.graph.g.nodes[0];
-    let code = null;
-    await app.routing.route(at, at).catch((e) => (code = e.code));
-    return { code, added: app.layers.size - n };
+    const [p, q] = app.routing.graph.g.edges[0].coords;
+    const said = [];
+    for (const at of [app.routing.graph.g.nodes[0], [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2]]) await app.routing.route(at, at).catch((e) => said.push([e.code, e.message]));
+    let bad = null;
+    await app.routing.route(null, [NaN, 0]).catch((e) => (bad = [e.code, e.message]));
+    return { said, bad, added: app.layers.size - n };
   });
-  expect(same).toEqual({ code: 'E_NEED_ROADS', added: 0 });
+  const sameMsg = ['E_NEED_ROADS', 'The start and the end are the same place on the road network'];
+  expect(same).toEqual({ said: [sameMsg, sameMsg], bad: ['E_NEED_ROADS', 'A route needs a start and an end, and a service area a place to start from'], added: 0 });
   // The index and the network belong to the project they were built from: opening another drops them.
   const after = await frame.evaluate(() => {
     const app = window.gisworkbench;
