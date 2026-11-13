@@ -204,6 +204,23 @@ export function validateRecipe(r, ops) {
   return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Math.max(1, Math.trunc(Number(r.version)) || 1), steps };
 }
 
+/**
+ * Why a recipe cannot run with nobody at the page (the command-line runner, REG-150), or null:
+ * a review gate set to stop, a step that opens a dialog, or files given to a step that reads none
+ * (they would be ignored). Checked before the run starts.
+ * params: the run's overrides, with any files the command line gives a step.
+ */
+export function unattended(src, ops, { gates = 'continue', params = {} } = {}) {
+  const r = validateRecipe(src, ops);
+  for (const s of r.steps) {
+    const o = ops[s.op];
+    if (o.gate && gates === 'stop') return { step: s.id, title: s.title, reason: 'is a review gate, and gates are set to stop' };
+    if (params[s.id]?.files?.length && !o.files) return { step: s.id, title: s.title, reason: 'takes no files, so the files given to it would be ignored' };
+    if (o.dialog?.({ ...s.params, ...(params[s.id] ?? {}) })) return { step: s.id, title: s.title, reason: s.op === 'command' ? 'runs a command, which may open a dialog' : 'opens a dialog unless the command line gives it files' };
+  }
+  return null;
+}
+
 /** An op's defaults: its `defaults`, and its schema's defaults where `defaults` gives none. */
 export function defaults(op) {
   const fromSchema = Object.fromEntries(Object.entries(op.schema ?? {}).filter(([, s]) => s.default !== undefined).map(([k, s]) => [k, s.default]));

@@ -1,7 +1,7 @@
 // REQ-PIP-01 REQ-PIP-02 REQ-PIP-03: recipe validation and the step runner (order, gates, failures,
 // stale steps, re-run from a step, round trip as a file).
 import { describe, it, expect } from 'vitest';
-import { validateRecipe, RecipeRunner, FORMAT } from '../../app/src/recipes/recipe.js';
+import { validateRecipe, RecipeRunner, FORMAT, unattended } from '../../app/src/recipes/recipe.js';
 
 const log = [];
 const OPS = {
@@ -57,5 +57,29 @@ describe('recipe runner', () => {
     expect(log).toEqual(['add5']);
     expect(run.toJSON().steps[0].params).toEqual({ n: 7 });
     expect(validateRecipe(JSON.parse(JSON.stringify(run.toJSON())), OPS).steps).toHaveLength(3);
+  });
+});
+
+// #177: why a recipe can't run with nobody at the page (gwb-run), checked before anything runs.
+describe('unattended runs', () => {
+  const ops = {
+    add: OPS.add,
+    gate: OPS.gate,
+    read: { title: 'Read', files: true, dialog: (p) => !p.files?.length, run: () => ({}) },
+    command: { title: 'Command', dialog: () => true, run: () => ({}) },
+  };
+  const why = (steps, opts) => unattended(R(steps), ops, opts);
+  it('passes a recipe that needs nobody', () => {
+    expect(why([{ op: 'add' }, { op: 'gate' }])).toBe(null);
+    expect(why([{ op: 'read', id: 'in' }], { params: { in: { files: ['a.tif'] } } })).toBe(null);
+  });
+  it('names the first step that would wait for someone, and why', () => {
+    expect(why([{ op: 'add' }, { op: 'gate', id: 'g', title: 'Check' }], { gates: 'stop' })).toEqual({ step: 'g', title: 'Check', reason: 'is a review gate, and gates are set to stop' });
+    expect(why([{ op: 'add', id: 'a' }], { params: { a: { files: ['x.tif'] } } })).toMatchObject({ step: 'a', reason: 'takes no files, so the files given to it would be ignored' });
+    expect(why([{ op: 'read', id: 'in' }])).toMatchObject({ step: 'in', reason: 'opens a dialog unless the command line gives it files' });
+    expect(why([{ op: 'command', id: 'c' }, { op: 'gate' }], { gates: 'stop' })).toMatchObject({ step: 'c', reason: 'runs a command, which may open a dialog' });
+  });
+  it('refuses a recipe that is not valid, as validation does', () => {
+    expect(() => why([{ op: 'rm' }])).toThrow(/unknown operation "rm"/);
   });
 });
