@@ -230,9 +230,10 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
   const isGml = (ns) => /opengis\.net\/gml/.test(ns ?? '');
-  // The standards' own namespaces (GML, the other OGC schemas such as O&M and sampling, ISO, XSD) hold
-  // no properties a user catalogue needs; a base there is not a schema to add.
-  const isStd = (ns) => /^https?:\/\/(www\.opengis\.net|www\.isotc211\.org|www\.w3\.org)\//.test(ns ?? '');
+  // GML's, ISO's and XSD's own types hold no property a user catalogue needs: a base there is not a schema
+  // to add. Another OGC standard's (O&M, sampling) may hold the geometry (a sampling feature's shape).
+  const isBare = (ns) => isGml(ns) || /^https?:\/\/(www\.isotc211\.org|www\.w3\.org)\//.test(ns ?? '');
+  const isOgc = (ns) => /^https?:\/\/www\.opengis\.net\//.test(ns ?? '');
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
   const isFeature = (entry, seen = new Set()) => {
     const group = entry.node.attrs?.substitutionGroup;
@@ -259,18 +260,20 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
   // A type or base in a schema not given (tn:TransportLinkType for a RoadLink) holds properties, often the
   // geometry: the import names the schemas to add rather than make types without them.
+  // An OGC standard's base (O&M, sampling) is named only when the type then has no geometry of its own.
   const missing = new Set();
-  const lacking = (qname, from) => {
+  const lacking = (qname, from, ogc) => {
     const ns = nsOf(qname, from);
-    if (ns && !isStd(ns)) missing.add(ns);
+    if (!ns || isBare(ns)) return;
+    (isOgc(ns) ? ogc : missing).add(ns);
   };
-  const props = (entry, seen = new Set()) => {
+  const props = (entry, ogc, seen = new Set()) => {
     if (!entry || seen.has(entry)) return [];
     seen.add(entry);
-    const base = kids(kids(entry.node, 'complexContent')[0], 'extension')[0]?.attrs?.base;
+    const base = first(first(entry.node, 'complexContent'), 'extension')?.attrs?.base;
     const up = resolve('complex', base, entry);
-    if (base && !up) lacking(base, entry);
-    return [...props(up, seen), ...all(entry.node, 'element')];
+    if (base && !up) lacking(base, entry, ogc);
+    return [...props(up, ogc, seen), ...all(entry.node, 'element')];
   };
   const { attrs, add } = attrTable();
   const types = [];
@@ -278,9 +281,10 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const code = codeOf(entry);
     const geoms = [];
     const names = [];
+    const ogc = new Set();
     const own = resolve('complex', entry.node.attrs.type, entry);
-    if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry);
-    for (const p of props(own)) {
+    if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry, ogc);
+    for (const p of props(own, ogc)) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
@@ -303,6 +307,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       const key = add(pname, a, code);
       if (key && !names.includes(key)) names.push(key);
     }
+    if (!geoms.length) for (const ns of ogc) missing.add(ns);
     const geometry = primaryGeometry(geoms);
     types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.length ? { geometry } : {}), attributes: names });
   }
@@ -340,12 +345,43 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     return key;
   };
   const types = [];
+  const arr = (x) => (Array.isArray(x) ? x : []);
+  // As iD resolves them: fields and moreFields each on its own; a '{preset}' entry takes that preset's
+  // list of the same name; a list that resolves to nothing takes its parent's (the id up to the last '/').
+  // Each preset's list is resolved once (a picked file's references may converge). A reference back into a
+  // list still being resolved adds nothing, and a list that met one is not kept, so each member of a loop
+  // still gets the others' fields.
+  const resolved = new Map();
+  const busy = new Set();
+  let cuts = 0;
+  const listIds = (qid, key) => {
+    const k = `${key}\u0000${qid}`;
+    if (resolved.has(k)) return resolved.get(k);
+    if (busy.has(k)) return (cuts++, []);
+    busy.add(k);
+    const before = cuts;
+    let ids = arr(presets[qid]?.[key]).flatMap((fid) => {
+      const m = /^\{(.+)\}$/.exec(String(fid));
+      if (!m) return Object.hasOwn(fields, fid) ? [fid] : [];
+      return Object.hasOwn(presets, m[1]) ? listIds(m[1], key) : [];
+    });
+    for (let up = qid; !ids.length && up.includes('/'); ) {
+      up = up.slice(0, up.lastIndexOf('/'));
+      if (Object.hasOwn(presets, up)) {
+        ids = listIds(up, key);
+        break;
+      }
+    }
+    ids = [...new Set(ids)];
+    busy.delete(k);
+    if (cuts === before) resolved.set(k, ids);
+    return ids;
+  };
   for (const [pid, p] of Object.entries(presets ?? {})) {
     if (!p || typeof p !== 'object' || !p.tags || typeof p.tags !== 'object' || p.searchable === false) continue;
     capTypes(types);
     // A built presets.json may leave names to its translation files: the id's last part then names it.
     const nm = clean(p.name) || pid.split('/').pop().replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-    const arr = (x) => (Array.isArray(x) ? x : []);
     const geometry = [...new Set(arr(p.geometry).map((g) => ID_GEOMETRY[g]).filter(Boolean))];
     if (!geometry.length) continue;
     const names = [];
@@ -356,23 +392,8 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
       names.push(key);
       if (v !== '*' && typeof v === 'string') fixed[key] = v;
     }
-    // As iD resolves them: fields and moreFields each on its own; a '{preset}' entry takes that preset's
-    // list of the same name; a list that resolves to nothing takes its parent's (the id up to the last '/').
-    const listIds = (q, qid, key, seen) => {
-      const ids = arr(q[key]).flatMap((fid) => {
-        const m = /^\{(.+)\}$/.exec(String(fid));
-        if (!m) return Object.hasOwn(fields, fid) ? [fid] : [];
-        return seen.has(m[1]) || !Object.hasOwn(presets, m[1]) ? [] : listIds(presets[m[1]] ?? {}, m[1], key, new Set([...seen, m[1]]));
-      });
-      if (ids.length) return ids;
-      for (let up = qid; up.includes('/'); ) {
-        up = up.slice(0, up.lastIndexOf('/'));
-        if (Object.hasOwn(presets, up)) return seen.has(up) ? [] : listIds(presets[up] ?? {}, up, key, new Set([...seen, up]));
-      }
-      return [];
-    };
-    for (const fid of [...listIds(p, pid, 'fields', new Set([pid])), ...listIds(p, pid, 'moreFields', new Set([pid]))]) {
-      const f = Object.hasOwn(fields, fid) ? fields[fid] : null;
+    for (const fid of [...listIds(pid, 'fields'), ...listIds(pid, 'moreFields')]) {
+      const f = fields[fid];
       const key = typeof f?.key === 'string' ? attrFor(f.key, f) : null;
       if (key && !names.includes(key)) names.push(key);
     }
