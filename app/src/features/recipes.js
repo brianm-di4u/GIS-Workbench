@@ -379,6 +379,20 @@ export function install(app) {
     ];
   };
   /** Keep a recipe in the library; false when there is no IndexedDB. */
+  /**
+   * Where workflow `r` is kept (the admin's option B; one rule for the Builder's Save and for Open): under
+   * its own id when no kept copy of that id differs from `base`, the copy it was opened from (a file is its
+   * own base); otherwise under the id of a kept copy with the same content, or a new id at version 1. A
+   * built-in's id is never taken. → {id, version, moved, fresh}; version is null when nothing is kept yet.
+   */
+  async function placeFor(r, base = contentOf(r, OPS)) {
+    const kept = [...S.all('workflow').map((w) => w.recipe).filter(Boolean), ...(await refreshLibrary())];
+    const here = kept.filter((x) => x.id === r.id);
+    if (!BUILTIN.some((b) => b.id === r.id) && here.every((x) => contentOf(x, OPS) === base)) return { id: r.id, version: here.length ? Math.max(...here.map((x) => x.version ?? 1)) : null, moved: false, fresh: false };
+    const anon = (x) => contentOf({ ...x, id: '' }, OPS);
+    const twin = kept.find((x) => x.id !== r.id && anon(x) === anon(r));
+    return twin ? { id: twin.id, version: twin.version ?? 1, moved: true, fresh: false } : { id: `${r.id}-${Date.now().toString(36)}`, version: 1, moved: true, fresh: true };
+  }
   async function keep(r) {
     try {
       await putLibrary(r);
@@ -486,13 +500,10 @@ export function install(app) {
   /** A .gwrecipe.json file (Open… or a drop): validated, kept with the user's recipes and opened. */
   async function importRecipeFile(f) {
     let r = validateRecipe(JSON.parse(await f.text()), OPS);
-    // As Save in the Workflow Builder: a file never replaces a different workflow kept under its id (in
-    // the library or the project); it is kept beside it under an id of its own.
-    const stored = [...(await refreshLibrary()), ...S.all('workflow').map((w) => w.recipe)].filter((x) => x?.id === r.id);
-    if (stored.some((x) => contentOf(x, OPS) !== contentOf(r, OPS))) {
-      r = { ...r, id: `${r.id}-${Date.now().toString(36)}` };
-      app.toast(t('Opened as a new recipe: your library or the project already holds a different one under its id.'), { kind: 'info' });
-    }
+    // A file never replaces a different workflow kept under its id, nor takes a built-in's.
+    const place = await placeFor(r);
+    if (place.moved) r = { ...r, id: place.id, version: place.version };
+    if (place.fresh) app.toast(t('Opened as a new recipe: your library or the project already holds a different one under its id.'), { kind: 'info' });
     if (!(await keep(r))) app.toast(t('The recipe is open, but this browser has no storage to keep it in your library.'), { kind: 'warn' });
     open(r);
   }
@@ -642,5 +653,5 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }

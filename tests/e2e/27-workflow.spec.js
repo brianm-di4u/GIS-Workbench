@@ -131,6 +131,14 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await wideItem.getByLabel('Distance (m)').fill('200');
   await wideItem.getByLabel('Distance (m)').press('Tab');
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's3').params.distance)).toBe(200);
+  // A cleared field goes back to its default, and shows it.
+  await wideItem.getByLabel('Distance (m)').fill('');
+  await wideItem.getByLabel('Distance (m)').press('Tab');
+  await expect(wideItem.getByLabel('Distance (m)')).toHaveValue('100');
+  expect(await frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's3').params.distance)).toBe(100);
+  await wideItem.getByLabel('Distance (m)').fill('200');
+  await wideItem.getByLabel('Distance (m)').press('Tab');
+  await expect.poll(() => frame.evaluate(() => window.gisworkbench.workflows.current().steps.find((s) => s.id === 's3').params.distance)).toBe(200);
   // A value out of range is named where it was typed and not kept.
   await wideItem.getByLabel('Segments per quarter circle').fill('500');
   await wideItem.getByLabel('Segments per quarter circle').press('Tab');
@@ -348,8 +356,20 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   const [chooser2] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
   await chooser2.setFiles(other);
   await expect(steps).toHaveCount(1);
-  const kept = await frame.evaluate(async () => (await window.gisworkbench.recipes.library(true)).filter((r) => r.id.startsWith('chain-test')).map((r) => [r.id === 'chain-test', r.steps.length]).sort());
-  expect(kept).toEqual([[false, 1], [true, 2]]);
+  const kept = () => frame.evaluate(async () => (await window.gisworkbench.recipes.library(true)).filter((r) => r.id.startsWith('chain-test')).map((r) => [r.id === 'chain-test', r.steps.length]).sort());
+  expect(await kept()).toEqual([[false, 1], [true, 2]]);
+  // Opened again, it is the copy already kept, not one more.
+  const [chooserAgain] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
+  await chooserAgain.setFiles(other);
+  await expect(steps).toHaveCount(1);
+  expect(await kept()).toEqual([[false, 1], [true, 2]]);
+  // A file under a built-in's id is kept under an id of its own, and listed.
+  const mine = join(dir, 'mine.gwrecipe.json');
+  writeFileSync(mine, JSON.stringify({ format: 'gw-recipe/1', id: 'damage-triage', name: 'My triage', steps: [{ op: 'gate', params: { message: 'Mine' } }] }));
+  const [chooserMine] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
+  await chooserMine.setFiles(mine);
+  await expect(steps).toHaveCount(1);
+  expect(await frame.evaluate(() => window.gisworkbench.recipes.known().filter((r) => r.id.startsWith('damage-triage')).map((r) => [r.id === 'damage-triage', r.source]).sort())).toEqual([[false, 'library'], [true, 'builtin']]);
   const [chooser3] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
   await chooser3.setFiles(chain);
   await expect(steps).toHaveCount(2);

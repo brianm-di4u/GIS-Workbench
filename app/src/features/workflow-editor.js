@@ -108,22 +108,15 @@ export function install(app) {
   let saving = Promise.resolve();
   const saveToProject = () => (saving = saving.catch(() => {}).then(save));
   async function save() {
-    const r = own(validateRecipe(ed.wf, ops));
-    const lib = (await R.library(true).catch(() => [])).find((x) => x.id === r.id);
-    let rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
-    // The project and the library are kept apart (the admin's option B): Save may replace a stored
-    // copy of this id only if it is the copy that was opened. A different one (a shared project's,
-    // or another project's in the library) stays, and this is saved as a new workflow.
-    const stored = [rec?.recipe, lib].filter(Boolean);
-    if (stored.some((x) => body(x) !== ed.base)) {
-      r.id = `${r.id}-${Date.now().toString(36)}`;
-      r.version = 1;
-      rec = null;
-      toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
-    } else if (stored.length) {
-      // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
-      r.version = Math.max(...stored.map((x) => x.version ?? 1)) + (ed.base === body(r) ? 0 : 1);
-    }
+    const r = validateRecipe(ed.wf, ops);
+    // Save may replace a kept copy of this id only if it is the copy that was opened (recipes.placeFor);
+    // a built-in, or a different copy, stays, and this is kept beside it.
+    const place = await R.placeFor(r, ed.base);
+    if (place.moved) Object.assign(r, { id: place.id, version: place.version });
+    // The version counts saves of the copy opened, wherever it is kept: its version, plus one if this differs.
+    else if (place.version !== null) r.version = place.version + (ed.base === body(r) ? 0 : 1);
+    if (place.fresh) toast(t('Saved as a new workflow: the project or your library already holds a different one under its id.'), { kind: 'info' });
+    const rec = S.all('workflow').find((x) => x.recipe?.id === r.id);
     ed.wf.id = r.id;
     ed.wf.version = r.version;
     ed.base = body(r);
@@ -290,7 +283,8 @@ export function install(app) {
       if (spec?.type === 'numbers' || spec?.type === 'lonlat') v = String(v).trim() ? String(v).split(/[,;\s]+/).filter(Boolean).map(Number) : (spec.default ?? null);
       try {
         setParam(x.id, key, v);
-        if (Array.isArray(v) && !String(el.value).trim()) el.value = v.join(', ');
+        const held = stepById(x.id)?.params[key];
+        if (!String(el.value).trim() && held !== null && held !== undefined && el.type !== 'checkbox') el.value = Array.isArray(held) ? held.join(', ') : String(held);
         el.removeAttribute('aria-invalid');
       } catch (e) {
         el.setAttribute('aria-invalid', 'true');
