@@ -11,7 +11,7 @@
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, FORMAT } from '../recipes/recipe.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, FORMAT } from '../recipes/recipe.js';
 import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
 import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
@@ -570,6 +570,13 @@ export function install(app) {
   function headless(src, { gates = 'continue', params = {}, inputs = {} } = {}) {
     const r = validateRecipe(src, OPS);
     for (const s of r.steps) if (params[s.id]) for (const [k, v] of Object.entries(params[s.id])) s.params[k] = checkParam(OPS[s.op].schema?.[k], v, { where: s.id, param: k });
+    // A value given for an input the file already gives one replaces it in the workflow that runs, as
+    // params do, so a layer's stamp says the run was not the kept copy.
+    for (const [k, v] of Object.entries(inputs)) {
+      const [sid, name] = splitPort(k);
+      const w = r.steps.find((s) => s.id === sid)?.inputs?.[name];
+      if (w && 'value' in w) w.value = v;
+    }
     const id = `run-${++runN}`;
     const R = new RecipeRunner(OPS, { app, headless: true, provenance });
     R.load(r);

@@ -509,12 +509,18 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
     }
     // One typed op alone, its input given by name.
     const op = await v2.recipes.op({ op: 'buffer', params: { distance: 30 }, inputs: { layer: id } });
-    return { ok: ok.ok, files: ok.files.map((f) => f.name), later, op: op.summary };
+    // A kept workflow run with a value replacing one its file gives is not that kept copy: its stamp says so.
+    const app = window.gisworkbench;
+    await app.recipes.keep({ format: 'gw-recipe/2', id: 'given-input', name: 'Given input', steps: [{ id: 'b', op: 'buffer', params: { distance: 30 }, inputs: { layer: { value: 'another-layer' } } }] });
+    const over = await v2.recipes.run({ id: 'given-input', inputs: { 'b.layer': id } });
+    const stamp = app.store.all('vlayer').map((v) => v.recipe).find((r) => r?.id === 'given-input');
+    return { ok: ok.ok, files: ok.files.map((f) => f.name), later, op: op.summary, over: over.ok, stamp: stamp && { version: stamp.version, unsaved: stamp.unsaved } };
   }, roads);
   expect(api.ok).toBe(true);
   expect(api.files).toHaveLength(1);
   expect(api.later).toMatch(/from its first step/);
   expect(api.op).not.toBe('');
+  expect(api).toMatchObject({ over: true, stamp: { version: null, unsaved: true } });
 
   // A built-in opened in the builder is saved under an id of its own, so the built-in never hides
   // it; the dock lists each id once, and removing it from the library removes it from the list.
