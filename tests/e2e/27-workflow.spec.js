@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
-import { openApp, openFiles, LEGACY_PREFS } from './helpers.js';
+import { openApp, openFiles, restart, LEGACY_PREFS } from './helpers.js';
 
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -291,10 +291,15 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);
   // Saved first, the run's stamp names the version kept.
-  await frame.evaluate(() => window.gisworkbench.workflows.saveToProject());
+  const stamped = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const id = await app.workflows.saveToProject();
+    const rec = app.store.all('workflow').find((w) => w.recipe.id === id).recipe;
+    return { id: rec.id, version: rec.version };
+  });
   const second = await run(names[1]);
   expect(second.r).toEqual({ ok: true });
-  expect(second.recipe.version).toBeGreaterThanOrEqual(1);
+  expect(second.recipe).toMatchObject(stamped);
   expect(second.recipe.unsaved).toBeUndefined();
   expect(second.ring).toEqual(second.byHand);
   expect(second.ring).not.toEqual(first.ring);
@@ -529,8 +534,8 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   expect(logs).toEqual([]);
 });
 
-// The recipes the settings kept (before the library) move into the library on the first start, and
-// the settings list is emptied only once they are there. Without IndexedDB they stay, and are listed.
+// The recipes the settings kept (before the library) are copied into the library on the first start
+// only; the settings keep their list for older builds. Without IndexedDB they stay, and are listed.
 const OLD = [1, 2].map((n) => ({ format: 'gw-recipe/1', id: `old-${n}`, name: `Old recipe ${n}`, steps: [{ op: 'gate', title: 'Look', params: { message: 'Look' } }] }));
 test('REQ-GAP-84 recipes kept in the settings move into the library on the first start', async ({ page }) => {
   const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD } });
@@ -591,6 +596,17 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
     return app.recipes.known().filter((r) => r.id === 'old-2').map((r) => `${r.source}${r.clash ? ' clash' : ''}`);
   });
   expect(layoutOnly).toEqual(['project']);
+  // A later start copies nothing again: the library's newer copies stay. Removing a recipe removes it
+  // from the settings' list too, so it does not come back from there.
+  const again = await restart(page);
+  const later = await again.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = await app.recipes.library();
+    const v = Object.fromEntries(lib.filter((r) => r.id === 'old-1' || r.id === 'old-2').map((r) => [r.id, [r.version, r.description]]));
+    await app.workflows.removeFromLibrary('old-2');
+    return { v, listed: app.recipes.known().some((r) => r.id === 'old-2'), left: app.prefs.get('recipes').map((r) => r.id) };
+  });
+  expect(later).toEqual({ v: { 'old-1': [2, 'other tab'], 'old-2': [2, 'changed before the first save'] }, listed: false, left: ['old-1'] });
 });
 test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the picker still lists them', async ({ page }) => {
   await page.addInitScript(() => {
