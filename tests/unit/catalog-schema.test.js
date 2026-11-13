@@ -128,3 +128,28 @@ describe('#249 rules and subtypes on an attribute that names its column (decisio
     expect(ruleIssues(cat, { code: 'Bridge', subtype: 'lowered' }, fieldsFor(cat, 'Bridge', 'lowered'), { status: 'raised' }).map((o) => `${o.field}:${o.code}`)).toEqual(['status:E_SUBTYPE_FIXED']);
   });
 });
+
+describe('#249 a rule on one type\'s own key leaves another type\'s column of the same name alone', () => {
+  const cat = validateCatalog({
+    format: 'gw-catalog/1', id: 't249b', name: 'T249b', nulls: { text: '', enum: '', number: null },
+    attributes: { status: { type: 'enum', domain: { open: 'Open', closed: 'Closed' } }, status_Bridge: { type: 'enum', field: 'status', domain: { raised: 'Raised', closed: 'Closed' } }, kind: { type: 'enum', domain: { x: 'X' } }, note: { type: 'text' }, span_Bridge: { type: 'real', field: 'span' } },
+    types: [
+      { code: 'Road', name: 'Road', geometry: ['LineString'], attributes: ['kind', 'status', 'note'] },
+      { code: 'Bridge', name: 'Bridge', geometry: ['LineString'], attributes: ['kind', 'status_Bridge', 'note', 'span_Bridge'] },
+    ],
+    // Catalogue rules, for every type: each names Bridge's own keys.
+    rules: [{ id: 'g1', when: { field: 'kind', value: 'x' }, then: { domain: { status_Bridge: ['raised'] }, forbid: ['note'], range: { span_Bridge: [0, 100] } } }, { id: 'g2', when: { field: 'status_Bridge', value: 'closed' }, then: { require: ['note'] } }],
+  });
+  it('applies them to Bridge, by column', () => {
+    const fs = fieldsFor(cat, 'Bridge');
+    const got = ruleIssues(cat, { code: 'Bridge' }, fs, { kind: 'x', status: 'closed', note: 'n', span: 250 }).map((o) => `${o.field}:${o.code}`).sort();
+    expect(got).toEqual(['note:E_RULE_FORBIDDEN', 'span:E_RULE_RANGE', 'status:E_RULE_DOMAIN']);
+    expect(Object.keys(contingentDomain(cat, { code: 'Bridge' }, fs, 'status', { kind: 'x' }))).toEqual(['raised']);
+  });
+  it('not to Road, whose status is its own attribute', () => {
+    const fs = fieldsFor(cat, 'Road');
+    expect(ruleIssues(cat, { code: 'Road' }, fs, { kind: 'x', status: 'open', note: '' })).toEqual([]);
+    expect(ruleIssues(cat, { code: 'Road' }, fs, { status: 'closed', note: '' })).toEqual([]);
+    expect(Object.keys(contingentDomain(cat, { code: 'Road' }, fs, 'status', { kind: 'x' }))).toEqual(['open', 'closed']);
+  });
+});

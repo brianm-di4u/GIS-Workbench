@@ -77,6 +77,13 @@ export function attributeKey(attributes, column, a, typeCode) {
 /** The layer column an attribute key writes: its `field`, else the key (decision #243). */
 export const columnOf = (cat, key) => cat?.attributes?.[key]?.field ?? key;
 
+/** A rule's key → the column it means for one type: its `field` only when the type (or subtype) has the key. */
+function columnsOf(cat, schema) {
+  const t = typeOf(cat, schema?.code);
+  const own = new Set([...(t?.attributes ?? []), ...(subtypeOf(cat, schema?.code, schema?.subtype)?.attributes ?? [])]);
+  return (key) => (own.has(key) ? columnOf(cat, key) : key);
+}
+
 function checkCond(c, where, attrs) {
   if (!c || typeof c !== 'object' || Array.isArray(c)) throw bad('{where}: a rule condition must be an object', { where });
   if (c.all || c.any) {
@@ -244,12 +251,12 @@ export function fieldsFor(cat, code, subtype = null) {
 
 const isNullAttr = (cat, f, v) => v === null || v === undefined || v === '' || (f && String(v) === String(nullOf(cat, f)));
 
-function condHolds(cat, c, attrs, fieldOf) {
-  if (c.all) return c.all.every((x) => condHolds(cat, x, attrs, fieldOf));
-  if (c.any) return c.any.some((x) => condHolds(cat, x, attrs, fieldOf));
-  if (c.not) return !condHolds(cat, c.not, attrs, fieldOf);
+function condHolds(cat, c, attrs, fieldOf, colOf) {
+  if (c.all) return c.all.every((x) => condHolds(cat, x, attrs, fieldOf, colOf));
+  if (c.any) return c.any.some((x) => condHolds(cat, x, attrs, fieldOf, colOf));
+  if (c.not) return !condHolds(cat, c.not, attrs, fieldOf, colOf);
   // A rule names attributes by catalogue key; the feature's attributes are by column.
-  const col = columnOf(cat, c.field);
+  const col = colOf(c.field);
   const v = attrs?.[col];
   const f = fieldOf(col);
   const op = c.op ?? '=';
@@ -296,9 +303,11 @@ export function contingentDomain(cat, schema, fields, name, attrs) {
   if (!f?.domain) return null;
   let allowed = Object.keys(f.domain);
   const fieldOf = (n) => fields.find((x) => x.name === n) ?? null;
+  const colOf = columnsOf(cat, schema);
   for (const r of rulesFor(cat, schema?.code)) {
-    const d = Object.entries(r.then?.domain ?? {}).find(([k]) => columnOf(cat, k) === name)?.[1];
-    if (d && condHolds(cat, r.when, attrs, fieldOf)) {
+    const ds = Object.entries(r.then?.domain ?? {}).filter(([k]) => colOf(k) === name);
+    if (!ds.length || !condHolds(cat, r.when, attrs, fieldOf, colOf)) continue;
+    for (const [, d] of ds) {
       const keep = new Set(d.map(String));
       allowed = allowed.filter((k) => keep.has(k) || k === String(nullOf(cat, f)));
     }
@@ -314,6 +323,7 @@ export function ruleIssues(cat, schema, fields, attrs) {
   const out = [];
   if (!cat || !schema?.code) return out;
   const fieldOf = (n) => fields.find((x) => x.name === n) ?? null;
+  const colOf = columnsOf(cat, schema);
   const label = (n) => {
     const f = fieldOf(n);
     return f?.title && f.title !== n ? `${n} (${f.title})` : n;
@@ -325,20 +335,20 @@ export function ruleIssues(cat, schema, fields, attrs) {
     if (!isNullAttr(cat, f, v) && String(v) !== String(f.fixed)) push(gwError('{label} must be {value} for this subtype', { label: label(f.name), value: String(f.fixed) }, 'E_SUBTYPE_FIXED'), f.name, `subtype:${schema.subtype}`);
   }
   for (const r of rulesFor(cat, schema.code)) {
-    if (!condHolds(cat, r.when, attrs, fieldOf)) continue;
+    if (!condHolds(cat, r.when, attrs, fieldOf, colOf)) continue;
     const why = r.message ? String(r.message) : r.id;
     for (const k of r.then.require ?? []) {
-      const n = columnOf(cat, k);
+      const n = colOf(k);
       if (!fieldOf(n)) continue;
       if (isNullAttr(cat, fieldOf(n), attrs?.[n])) push(gwError('{label} is required here ({rule})', { label: label(n), rule: why }, 'E_RULE_REQUIRED'), n, r.id);
     }
     for (const k of r.then.forbid ?? []) {
-      const n = columnOf(cat, k);
+      const n = colOf(k);
       if (!fieldOf(n)) continue;
       if (!isNullAttr(cat, fieldOf(n), attrs?.[n])) push(gwError('{label} must be empty here ({rule})', { label: label(n), rule: why }, 'E_RULE_FORBIDDEN'), n, r.id);
     }
     for (const [k, codes] of Object.entries(r.then.domain ?? {})) {
-      const n = columnOf(cat, k);
+      const n = colOf(k);
       const f = fieldOf(n);
       const v = attrs?.[n];
       if (!f || isNullAttr(cat, f, v)) continue;
@@ -348,7 +358,7 @@ export function ruleIssues(cat, schema, fields, attrs) {
       }
     }
     for (const [k, [lo, hi]] of Object.entries(r.then.range ?? {})) {
-      const n = columnOf(cat, k);
+      const n = colOf(k);
       const f = fieldOf(n);
       const v = attrs?.[n];
       if (!f || isNullAttr(cat, f, v)) continue;
