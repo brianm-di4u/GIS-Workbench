@@ -12,7 +12,8 @@ const fixture = (n) => JSON.parse(readFileSync(`fixtures/catalogs/${n}`, 'utf8')
 describe('REG-097 catalogue-osm pack', () => {
   // The built presets.json leaves names to the translation files, as the real one does.
   const presets = Object.fromEntries(Object.entries(fixture('id-presets.json')).map(([id, { name, ...p }]) => [id, p]));
-  const fields = fixture('id-fields.json');
+  // Closed, so its options are a coded domain whose titles en.json gives (an open combo is text).
+  const fields = { ...fixture('id-fields.json'), cuisine: { ...fixture('id-fields.json').cuisine, customValues: false } };
   const en = {
     en: {
       presets: {

@@ -349,6 +349,69 @@ describe('REQ-GAP-87 the files a user picks', () => {
     const c = fromIdPresets({ 'leisure/picnic_table': { geometry: ['point'], tags: { leisure: 'picnic_table' } } });
     expect(c.types[0].name).toBe('Picnic table');
   });
+  // Decision 0019 on iD's own data: a key's definitions, its field found by key, and names that
+  // don't depend on the order of the presets.
+  it("defines a preset's own tag by the field that writes it, even one named with '/' for ':'", () => {
+    const presets = { 'amenity/toilets/disposal/flush': { geometry: ['point'], tags: { amenity: 'toilets', 'toilets:disposal': 'flush' }, fields: ['toilets/disposal'] } };
+    const fields = { 'toilets/disposal': { key: 'toilets:disposal', type: 'radio', label: 'Disposal', options: ['flush', 'pitlatrine'] } };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    expect(c.types[0].attributes).toEqual(['amenity', 'toilets:disposal']);
+    expect(c.attributes['toilets:disposal']).toMatchObject({ type: 'enum', domain: { flush: 'flush', pitlatrine: 'pitlatrine' } });
+    expect(c.types[0].subtypes[0].fixed).toEqual({ amenity: 'toilets', 'toilets:disposal': 'flush' });
+    expect(Object.values(c.attributes).some((a) => a.field)).toBe(false);
+    // A preset that fixes the tag without listing the field still takes the key's own field.
+    const pit = validateCatalog(fromIdPresets({ ...presets, pit: { geometry: ['point'], tags: { 'toilets:disposal': 'pitlatrine' } } }, fields));
+    expect(pit.types.find((t) => t.code === 'pit').attributes).toEqual(['toilets:disposal']);
+    expect(Object.keys(pit.attributes).sort()).toEqual(['amenity', 'toilets:disposal']);
+  });
+  it("gives a key's own field the plain name whatever the order, and adds only definitions in use", () => {
+    const fields = {
+      direction: { key: 'direction', type: 'number', label: 'Direction' },
+      direction_clock: { key: 'direction', type: 'radio', label: 'Direction', options: ['clockwise', 'anticlockwise'] },
+      name_alt: { key: 'name', type: 'radio', label: 'Name', options: ['a'] },
+    };
+    const a = { geometry: ['vertex'], tags: { highway: 'mini_roundabout' }, fields: ['direction_clock'] };
+    const b = { geometry: ['point'], tags: { man_made: 'surveillance' }, fields: ['direction'] };
+    for (const presets of [{ a, b }, { b, a }]) {
+      const c = validateCatalog(fromIdPresets(presets, fields));
+      expect(Object.keys(c.attributes).sort()).toEqual(['direction', 'direction_clock', 'highway', 'man_made']);
+      expect(c.attributes.direction).toMatchObject({ type: 'real' });
+      expect(c.attributes.direction_clock).toMatchObject({ type: 'enum', field: 'direction' });
+    }
+  });
+  it('names definitions by field id when no field is the key’s own, and gives a tag with no field the key’s definition', () => {
+    const fields = {
+      dir_a: { key: 'direction', type: 'radio', label: 'Direction', options: ['cw'] },
+      dir_b: { key: 'direction', type: 'number', label: 'Direction' },
+      junction_line: { key: 'junction', type: 'radio', label: 'Junction', options: ['roundabout'] },
+    };
+    const A = { geometry: ['point'], tags: { a: 'a' }, fields: ['dir_a'] };
+    const B = { geometry: ['point'], tags: { b: 'b' }, fields: ['dir_b'] };
+    const R = { geometry: ['line'], tags: { highway: 'r' }, fields: ['junction_line'] };
+    const J = { geometry: ['point'], tags: { junction: 'yes' } };
+    for (const presets of [{ A, B, R, J }, { J, B, R, A }]) {
+      const c = validateCatalog(fromIdPresets(presets, fields));
+      expect(Object.keys(c.attributes).sort()).toEqual(['a', 'b', 'direction', 'direction_dir_b', 'highway', 'junction']);
+      expect(c.attributes.direction).toMatchObject({ type: 'enum' });
+      expect(c.attributes.direction_dir_b).toMatchObject({ type: 'real', field: 'direction' });
+      expect(c.attributes.junction.domain).toEqual({ roundabout: 'roundabout', yes: 'yes' });
+      expect(c.types.find((t) => t.code === 'J').subtypes[0].fixed).toEqual({ junction: 'yes' });
+    }
+  });
+  it('makes no column of a key that names many tags: a wildcard, a multiCombo prefix, the address field', () => {
+    const fields = { address: { key: 'addr', type: 'address', label: 'Address' }, payment_multi: { key: 'payment:', type: 'multiCombo', label: 'Payment', options: ['cash'] } };
+    const c = fromIdPresets({ shop: { geometry: ['point'], tags: { shop: 'yes', 'addr:*': '*' }, fields: ['address'], moreFields: ['payment_multi'] } }, fields);
+    expect(c.types[0].attributes).toEqual(['shop']);
+    expect(Object.keys(c.attributes)).toEqual(['shop']);
+  });
+  it('adds a fixed value outside a coded domain once, to the one definition its presets share', () => {
+    const fields = { surface: { key: 'surface', type: 'radio', label: 'Surface', options: ['a', 'b'] } };
+    const presets = { x: { geometry: ['line'], tags: { surface: 'x' }, fields: ['surface'] }, y: { geometry: ['line'], tags: { highway: 'y' }, fields: ['surface'] } };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    expect(Object.keys(c.attributes).sort()).toEqual(['highway', 'surface']);
+    expect(c.attributes.surface.domain).toEqual({ a: 'a', b: 'b', x: 'x' });
+    expect(c.types.map((t) => t.attributes)).toEqual([['surface'], ['highway', 'surface']]);
+  });
 });
 
 describe('REQ-GAP-87 which converter a file needs', () => {
