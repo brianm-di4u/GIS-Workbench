@@ -41759,8 +41759,8 @@
    ]
   },
   {
-   "key": "This field holds only T and F, which can mean either.",
-   "src": "This field holds only T and F, which can mean either.",
+   "key": "This field uses T and F, which can mean either.",
+   "src": "This field uses T and F, which can mean either.",
    "refs": [
     "features/routing-tools.js"
    ]

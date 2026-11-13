@@ -446,7 +446,7 @@ export function install(app) {
       const tfCheck = () => {
         clear(tfBox);
         const k = sels.oneway.value;
-        if (k && onewayRule(S.all('feature').filter((f) => f.vlayer === L.value).map((f) => valueOf(f, k))) === 'bool') tfBox.append(field(t('T and F mean'), tfSel, t('This field holds only T and F, which can mean either.')));
+        if (k && onewayRule(S.all('feature').filter((f) => f.vlayer === L.value).map((f) => valueOf(f, k))) === 'bool') tfBox.append(field(t('T and F mean'), tfSel, t('This field uses T and F, which can mean either.')));
       };
       const fill = () => {
         clear(box);

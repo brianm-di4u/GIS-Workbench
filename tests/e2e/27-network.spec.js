@@ -280,7 +280,7 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   const mid = await frame.evaluate(async () => {
     const app = window.gisworkbench;
     const { g } = app.routing.graph;
-    const e = g.edges.reduce((a, b) => (b.coords.length === 2 && b.len > (a?.len ?? 0) ? b : a), null);
+    const e = g.edges.reduce((a, b) => (b.coords.length === 2 && Number.isFinite(b.fwd) && b.len > (a?.len ?? 0) ? b : a), null);
     const [p, q] = e.coords;
     const at = [p[0] + 0.25 * (q[0] - p[0]), p[1] + 0.25 * (q[1] - p[1])];
     const end = g.nodes[e.to];
@@ -290,7 +290,8 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   });
   expect(mid.first[0]).toBeCloseTo(mid.at[0], 9);
   expect(mid.first[1]).toBeCloseTo(mid.at[1], 9);
-  if (mid.edges === 1) expect(mid.metres).toBeCloseTo(0.75 * mid.len, 3);
+  expect(mid.edges).toBe(1);
+  expect(mid.metres).toBeCloseTo(0.75 * mid.len, 3);
   // Two clicks at one place, at a junction or part way along a road, make no route and no empty layer.
   const same = await frame.evaluate(async () => {
     const app = window.gisworkbench;
