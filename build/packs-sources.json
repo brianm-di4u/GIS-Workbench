@@ -474,6 +474,38 @@
       "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
       "licence": "OFL-1.1 (SIL Open Font License; allowed in packs by OD-2.16, never in the HTML, REQ-SEC-08)",
       "source": "notofonts/noto-cjk Sans/LICENSE"
+    },
+    {
+      "id": "osm-id-presets",
+      "url": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@7.3.0/dist/presets.min.json",
+      "file": "osm/presets.min.json",
+      "sha256": "ca3044c67d1c818c5eea01b66357ee7448c07c55b17e174af3207eaf9abf73fa",
+      "licence": "ISC (Copyright (c) iD Contributors). Preset data only: no OpenStreetMap map data, so ODbL does not apply.",
+      "source": "@openstreetmap/id-tagging-schema 7.3.0 (npm; github.com/openstreetmap/id-tagging-schema), as served unchanged by jsDelivr from the npm package, dist/presets.min.json"
+    },
+    {
+      "id": "osm-id-fields",
+      "url": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@7.3.0/dist/fields.min.json",
+      "file": "osm/fields.min.json",
+      "sha256": "860d40047801d3877c87fbd88fdf3530c0d0cc296af0b09724162a9481e9e851",
+      "licence": "ISC (Copyright (c) iD Contributors). Preset data only: no OpenStreetMap map data, so ODbL does not apply.",
+      "source": "@openstreetmap/id-tagging-schema 7.3.0 (npm; github.com/openstreetmap/id-tagging-schema), as served unchanged by jsDelivr from the npm package, dist/fields.min.json"
+    },
+    {
+      "id": "osm-id-en",
+      "url": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@7.3.0/dist/translations/en.min.json",
+      "file": "osm/en.min.json",
+      "sha256": "752658239ae38120eec857466c1a79f11922c8e2d70c7e4286f656967c270910",
+      "licence": "ISC (Copyright (c) iD Contributors). Preset data only: no OpenStreetMap map data, so ODbL does not apply.",
+      "source": "@openstreetmap/id-tagging-schema 7.3.0 (npm; github.com/openstreetmap/id-tagging-schema), as served unchanged by jsDelivr from the npm package, dist/translations/en.min.json"
+    },
+    {
+      "id": "osm-id-licence",
+      "url": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@7.3.0/LICENSE.md",
+      "file": "osm/LICENSE.md",
+      "sha256": "529e9838cff9f38b288ad2bd4123858c279975045b09d099319fd6ed1efb17c7",
+      "licence": "ISC (Copyright (c) iD Contributors). Preset data only: no OpenStreetMap map data, so ODbL does not apply.",
+      "source": "@openstreetmap/id-tagging-schema 7.3.0 (npm; github.com/openstreetmap/id-tagging-schema), as served unchanged by jsDelivr from the npm package, LICENSE.md"
     }
   ]
 }

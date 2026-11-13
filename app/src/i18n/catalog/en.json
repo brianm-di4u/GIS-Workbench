@@ -27452,6 +27452,27 @@
    ]
   },
   {
+   "key": "OpenStreetMap catalogue pack",
+   "src": "OpenStreetMap catalogue pack",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
+   "key": "OpenStreetMap feature catalogue (iD presets)",
+   "src": "OpenStreetMap feature catalogue (iD presets)",
+   "refs": [
+    "build/packs.mjs"
+   ]
+  },
+  {
+   "key": "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).",
+   "src": "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).",
+   "refs": [
+    "build/packs.mjs"
+   ]
+  },
+  {
    "key": "OpenStreetMap's tile servers are run by volunteers. Their usage policy allows light, interactive use only: no bulk or offline downloads, and every request is shown in the Network Log. Use them?",
    "src": "OpenStreetMap's tile servers are run by volunteers. Their usage policy allows light, interactive use only: no bulk or offline downloads, and every request is shown in the Network Log. Use them?",
    "refs": [
@@ -41595,6 +41616,13 @@
    "src": "The box is the view; draw an AOI to draft about a smaller box.",
    "refs": [
     "features/ai-local24.js"
+   ]
+  },
+  {
+   "key": "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.",
+   "src": "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.",
+   "refs": [
+    "features/dialogs.js"
    ]
   },
   {

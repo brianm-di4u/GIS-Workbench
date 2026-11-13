@@ -9,7 +9,8 @@
 // WASM and WebGPU runtimes + SlimSAM int8) and the 2.0 model packs (2.0 plan P5, DN-56), which need
 // the ai pack's runtime: ai-sam2 (SAM 2.1 tiny), ai-detect (OWLv2), ai-search (CLIP ViT-B/32) and
 // ai-match (DISK + LightGlue), and the 2.4 grid packs (REQ-GAP-16): grids-na, grids-eu,
-// grids-oceania and geoid-egm2008-25. A pack whose inputs are missing is skipped with a warning.
+// grids-oceania and geoid-egm2008-25, and the 2.7.1 catalogue-osm (REG-097). A pack whose inputs
+// are missing is skipped with a warning.
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -20,6 +21,7 @@ import { execFileSync } from 'node:child_process';
 import { zipSync, strToU8 } from 'fflate';
 import { embindNoEval } from './d3-decoders.mjs';
 import { convertModel } from './onnx-fp16.mjs';
+import { fromIdPresets } from '../app/src/vector/catalog-import.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = process.env.GW_PACKS_CACHE ?? join(root, '.cache', 'packs-src'); // GW_PACKS_CACHE: a clean folder for the downloaded inputs (tests the fetch route)
@@ -102,6 +104,27 @@ export function noEvalGlue(text) {
   const isVoid = name(/(d\.[\w$]+)\|\|\(k\.toReturnWire=b,/g, 'the void-return flag');
   const to = `c=((K,F,B,V)=>function(handle,methodName,destructorsRef,args){var v=F.map((l,p)=>l(args+8*p)),r;switch(K){case 0:r=${toValue}(handle)(...v);break;case 2:r=new(${toValue}(handle))(...v);break;case 3:r=v[v.length-1];break;case 1:r=${toValue}(handle)[${symbol}(methodName)](...v)}if(!V)return ${returnValue}(B,destructorsRef,r)})(c,f,b,${isVoid});`;
   return Buffer.from(text.replace(from, to));
+}
+
+/** The OSM iD tagging schema version the catalogue-osm pack is built from (build/packs-sources.json). */
+export const OSM_SCHEMA_VERSION = '7.3.0';
+
+/**
+ * The catalogue-osm pack's catalogue: the iD tagging schema's built presets.json and fields.json,
+ * with the English names, field labels and option titles of its en.json put back in place (the
+ * built files leave them to the translation files), through the same converter as a user's import.
+ */
+export function osmCatalogue(presets, fields, en) {
+  const tr = en?.en?.presets ?? {};
+  const p = Object.fromEntries(Object.entries(presets).map(([id, v]) => [id, tr.presets?.[id]?.name ? { ...v, name: tr.presets[id].name } : v]));
+  const f = Object.fromEntries(
+    Object.entries(fields).map(([id, v]) => {
+      const t = tr.fields?.[id];
+      return [id, t ? { ...v, ...(t.label ? { label: t.label } : {}), ...(t.options ? { strings: { ...v.strings, options: t.options } } : {}) } : v];
+    }),
+  );
+  const cat = fromIdPresets(p, f, { id: 'osm-id-presets', name: 'OpenStreetMap presets (iD tagging schema)' });
+  return { ...cat, version: OSM_SCHEMA_VERSION, source: `iD tagging schema ${OSM_SCHEMA_VERSION} (github.com/openstreetmap/id-tagging-schema), ISC` };
 }
 
 /** The fonts pack's font files (entry paths; inputs in .cache/packs-src/fonts). */
@@ -339,6 +362,20 @@ async function definitions(esbuild) {
       entries: [{ path: 'fontkit.js', kind: 'js', bytes: Buffer.from(fk) }, ...FONT_FILES.map((f, i) => ({ path: f, kind: 'data', bytes: fonts[i] }))],
     });
   }
+  // ---- 2.7.1 catalogue-osm (REG-097, REQ-GAP-87): OpenStreetMap presets from the iD tagging schema
+  // (ISC), as one gw-catalog/1 catalogue for New Layer from Schema. Presets only, no map data.
+  const osm = ['osm-id-presets', 'osm-id-fields', 'osm-id-en', 'osm-id-licence'].map(cached);
+  if (osm.every(Boolean)) {
+    const [presets, fields, en] = osm.slice(0, 3).map((b) => JSON.parse(b.toString('utf8')));
+    const json = Buffer.from(JSON.stringify(osmCatalogue(presets, fields, en)));
+    const licence = [
+      `OpenStreetMap presets from the iD tagging schema ${OSM_SCHEMA_VERSION} (https://github.com/openstreetmap/id-tagging-schema), ISC License, Copyright (c) iD Contributors.`,
+      'Converted to the gw-catalog/1 format by GIS Workbench: each preset is a feature type, its tags and fields are attributes, and the English names, labels and option titles come from its en translation file. The preset data is otherwise unchanged. The pack holds no OpenStreetMap map data.',
+      '',
+      osm[3].toString('utf8'),
+    ].join('\n');
+    out.push({ name: 'catalogue-osm', title: 'OpenStreetMap feature catalogue (iD presets)', version: OSM_SCHEMA_VERSION, description: 'OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).', licence, spdx: ['ISC'], entries: [{ path: 'osm.gwcatalog.json', kind: 'data', bytes: json }] });
+  }
   // ---- 2.4 grid packs (REQ-GAP-16): PROJ-data grids by region, and EGM2008 at 2.5′. The
   // GeoTIFFs are already DEFLATE-compressed, so they are stored (level 0, see `kind: 'grid'`).
   // grids.json lists each grid's operation, CRSs, EPSG transformation and accuracy.
@@ -436,7 +473,7 @@ export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new
   const models = []; // REQ-LAI-08: {pack, spdx, licence} of every pack that carries a model
   const warnings = [];
   const defs = [...(await definitions(esbuild)), ...extra];
-  for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'geoid-egm2008-1', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
+  for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'geoid-egm2008-1', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover', 'catalogue-osm']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
   for (const p of defs) {
     const entries = p.entries.map((e) => ({ path: e.path, kind: e.kind, size: e.bytes.length, sha256: sha256(e.bytes) }));
     const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: buildDate.slice(0, 10), entries };
