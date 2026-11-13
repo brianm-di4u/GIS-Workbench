@@ -235,24 +235,14 @@ const SECS = { s: 1, sec: 1, second: 1, seconds: 1, secs: 1, ms: 1e-3, milliseco
 const CUM = (feb) => [0, 31, 31 + feb, 62 + feb, 92 + feb, 123 + feb, 153 + feb, 184 + feb, 215 + feb, 245 + feb, 276 + feb, 306 + feb, 337 + feb];
 const fdiv = (a, b) => Math.floor(a / b);
 // Day numbers (Julian Day Number for the real calendars; any fixed origin for the model ones).
-const gregJdn = (y, m, d) => {
+// The Gregorian calendar differs from the Julian only in its century years.
+function toJdn(y, m, d, gregorian) {
   const a = fdiv(14 - m, 12), yy = y + 4800 - a, mm = m + 12 * a - 3;
-  return d + fdiv(153 * mm + 2, 5) + 365 * yy + fdiv(yy, 4) - fdiv(yy, 100) + fdiv(yy, 400) - 32045;
-};
-const julJdn = (y, m, d) => {
-  const a = fdiv(14 - m, 12), yy = y + 4800 - a, mm = m + 12 * a - 3;
-  return d + fdiv(153 * mm + 2, 5) + 365 * yy + fdiv(yy, 4) - 32083;
-};
+  return d + fdiv(153 * mm + 2, 5) + 365 * yy + fdiv(yy, 4) + (gregorian ? fdiv(yy, 400) - fdiv(yy, 100) - 32045 : -32083);
+}
 function fromJdn(J, gregorian) {
-  let c, b;
-  if (gregorian) {
-    const a = J + 32044;
-    b = fdiv(4 * a + 3, 146097);
-    c = a - fdiv(146097 * b, 4);
-  } else {
-    b = 0;
-    c = J + 32082;
-  }
+  const b = gregorian ? fdiv(4 * (J + 32044) + 3, 146097) : 0;
+  const c = gregorian ? J + 32044 - fdiv(146097 * b, 4) : J + 32082;
   const d = fdiv(4 * c + 3, 1461);
   const e = c - fdiv(1461 * d, 4);
   const m = fdiv(5 * e + 2, 153);
@@ -270,11 +260,11 @@ const fixedYear = (len, feb) => ({
   },
 });
 const CALENDARS = {
-  proleptic_gregorian: { day: gregJdn, date: (n) => fromJdn(n, true) },
-  julian: { day: julJdn, date: (n) => fromJdn(n, false) },
+  proleptic_gregorian: { day: (y, m, d) => toJdn(y, m, d, true), date: (n) => fromJdn(n, true) },
+  julian: { day: (y, m, d) => toJdn(y, m, d, false), date: (n) => fromJdn(n, false) },
   // The default: Julian before 1582-10-15, Gregorian from then on.
   standard: {
-    day: (y, m, d) => (y > 1582 || (y === 1582 && (m > 10 || (m === 10 && d >= 15))) ? gregJdn(y, m, d) : julJdn(y, m, d)),
+    day: (y, m, d) => toJdn(y, m, d, y > 1582 || (y === 1582 && (m > 10 || (m === 10 && d >= 15)))),
     date: (n) => fromJdn(n, n >= 2299161),
   },
   noleap: fixedYear(365, 28),
