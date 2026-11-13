@@ -69,6 +69,8 @@ describe('the control file', () => {
     expect(() => parseControl('')).toThrow(/empty/);
     expect(() => parseCrs('EPSG:4326x')).toThrow(/not an EPSG code/);
     expect(parseCrs('WGS84 UTM 17S')).toBe(32717);
+    for (const c of ['EPSG:4326', 'EPSG:2272', 'EPSG:32600', 'EPSG:32761']) expect(() => parseCrs(c), c).toThrow(/not supported/);
+    expect(parseCrs('EPSG:32760')).toBe(32760);
   });
 
   it('is written back as the CSV it was read from', () => {

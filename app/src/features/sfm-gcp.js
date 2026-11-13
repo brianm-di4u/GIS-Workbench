@@ -20,7 +20,8 @@ export function parseCrs(s) {
   if (up.startsWith('EPSG:')) {
     const n = Number(up.slice(5).trim());
     if (!Number.isInteger(n)) throw new Error(`the CRS ${t} is not an EPSG code`);
-    return n;
+    // gwb-sfm reads the zone and hemisphere from the code, so any other CRS would be mislabelled.
+    if ((n >= 32601 && n <= 32660) || (n >= 32701 && n <= 32760)) return n;
   }
   const m = /^(?:WGS84 UTM |WGS 84 \/ UTM ZONE )\s*(\d+)\s*([NS])$/.exec(up);
   if (m) return utmEpsg(Number(m[1]), m[2] === 'S');

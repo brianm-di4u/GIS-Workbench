@@ -42,11 +42,19 @@ const ODM_SIGMA: f64 = 0.02;
 pub fn parse_crs(s: &str) -> Res<u32> {
     let t = s.trim();
     let up = t.to_ascii_uppercase();
+    let unsupported = || {
+        format!("the CRS {t} is not supported: give EPSG:326xx or EPSG:327xx (WGS 84 / UTM)")
+    };
     if let Some(n) = up.strip_prefix("EPSG:") {
-        return n
+        let n: u32 = n
             .trim()
             .parse()
-            .map_err(|_| format!("the CRS {t} is not an EPSG code"));
+            .map_err(|_| format!("the CRS {t} is not an EPSG code"))?;
+        // georef reads the zone and hemisphere from the code, so any other CRS would be mislabelled.
+        return match n {
+            32601..=32660 | 32701..=32760 => Ok(n),
+            _ => Err(unsupported()),
+        };
     }
     let wgs84 = up.contains("WGS84") || up.contains("WGS 84");
     if let Some(rest) = up
@@ -69,9 +77,7 @@ pub fn parse_crs(s: &str) -> Res<u32> {
             .ok_or_else(|| format!("the CRS {t} names no UTM zone"))?;
         return utm_epsg(zone, up.contains("+SOUTH"));
     }
-    Err(format!(
-        "the CRS {t} is not supported: give EPSG:326xx or EPSG:327xx (WGS 84 / UTM)"
-    ))
+    Err(unsupported())
 }
 
 fn utm_epsg(zone: u32, south: bool) -> Res<u32> {
@@ -785,6 +791,9 @@ mod tests {
             "id,x,y,z,crs,sigma,role,image,px,py\nA,1,2,3,EPSG:32617,0.1,gcp,,,\nA,1,2,4,EPSG:32617,0.1,gcp,,,\n",
             "id,x,y,z,crs,sigma,role,image,px,py\nA,1,2,3,EPSG:4326,0.1,gcp,,,\nB,1,2,3,EPSG:32617,0.1,gcp,,,\n",
             "NAD27 / Texas\n1 2 3 4 5 a.jpg\n",
+            "EPSG:4326\n1 2 3 4 5 a.jpg\n",
+            "EPSG:2272\n1 2 3 4 5 a.jpg\n",
+            "EPSG:32600\n1 2 3 4 5 a.jpg\n",
         ] {
             assert!(parse(bad).is_err(), "{bad}");
         }
