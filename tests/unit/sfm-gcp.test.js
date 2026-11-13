@@ -2,7 +2,7 @@
 // reads it, written back as the CSV it reads, and each point is projected into the photographs of
 // the first stage's model file.
 import { describe, it, expect } from 'vitest';
-import { parseControl, controlCsv, readModelHeader, project, candidates, groundHeight, distort, readiness, parseCrs } from '../../app/src/features/sfm-gcp.js';
+import { parseControl, controlCsv, readModelHeader, project, candidates, groundHeight, distort, readiness, parseCrs, exifOrientation } from '../../app/src/features/sfm-gcp.js';
 
 const CSV = `id,x,y,z,crs,sigma,role,image,px,py
 G1,500010,900020,120.5,EPSG:32630,0.02,gcp,A.JPG,10,20
@@ -84,6 +84,31 @@ describe('the control file', () => {
   it('is ready with three control points each in two photographs', () => {
     const c = parseControl(CSV);
     expect(readiness(c)).toEqual({ marked: 1, checks: 0, ready: false });
+  });
+});
+
+describe('the EXIF orientation of a photograph', () => {
+  // SOI, a JFIF APP0, then an Exif APP1 whose IFD0 holds an ImageWidth and the Orientation.
+  const jpeg = (le, orientation) => {
+    const u16 = (n) => (le ? [n & 255, n >> 8] : [n >> 8, n & 255]);
+    const u32 = (n) => (le ? [n & 255, (n >> 8) & 255, (n >> 16) & 255, n >>> 24] : [n >>> 24, (n >> 16) & 255, (n >> 8) & 255, n & 255]);
+    const entry = (tag, value) => [...u16(tag), ...u16(3), ...u32(1), ...u16(value), 0, 0];
+    const tiff = [...(le ? [0x49, 0x49] : [0x4d, 0x4d]), ...u16(42), ...u32(8), ...u16(2), ...entry(0x0100, 400), ...entry(0x0112, orientation), ...u32(0)];
+    const app1 = [0xff, 0xe1, ...[0, 8 + tiff.length].flatMap((n, i) => (i ? [n >> 8, n & 255] : [])), 0x45, 0x78, 0x69, 0x66, 0, 0, ...tiff];
+    return new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0, 4, 0, 0, ...app1, 0xff, 0xda, 0, 2]).buffer;
+  };
+  it('finds the tag in either byte order, where a write of 1 turns it off', () => {
+    for (const le of [true, false]) {
+      const buf = jpeg(le, 6);
+      const o = exifOrientation(buf);
+      expect(o).toMatchObject({ le, value: 6 });
+      new DataView(buf).setUint16(o.at, 1, o.le);
+      expect(exifOrientation(buf).value).toBe(1);
+    }
+  });
+  it('is null for a JPEG with no EXIF, and for a file that is not a JPEG', () => {
+    expect(exifOrientation(new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0, 4, 0, 0, 0xff, 0xda, 0, 2]).buffer)).toBeNull();
+    expect(exifOrientation(new Uint8Array([0x89, 0x50, 0x4e, 0x47]).buffer)).toBeNull();
   });
 });
 

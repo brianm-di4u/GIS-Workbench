@@ -62,9 +62,13 @@ async function mockSidecar(page, uploads = []) {
   });
 }
 
-/** Start the command with photographs drawn in the page (both by default); `model` false starts from the first dialog's reuse button. */
-async function start(frame, model, names = ['A.JPG', 'B.JPG']) {
-  await frame.evaluate(async ({ model, names }) => {
+/**
+ * Start the command with photographs drawn in the page (both by default); `model` false starts from
+ * the first dialog's reuse button. `turned` draws the top-left quarter red and gives each photograph
+ * an EXIF Orientation of 6, which a browser decode would turn by 90 degrees.
+ */
+async function start(frame, model, names = ['A.JPG', 'B.JPG'], turned = false) {
+  await frame.evaluate(async ({ model, names, turned }) => {
     const g = window.gisworkbench;
     const S = g.sidecar;
     Object.assign(S.client, { base: 'http://127.0.0.1:47821', token: 'test', ports: [47821] });
@@ -74,13 +78,19 @@ async function start(frame, model, names = ['A.JPG', 'B.JPG']) {
       const x = c.getContext('2d');
       x.fillStyle = '#7a8a5a';
       x.fillRect(0, 0, 400, 300);
-      return new File([await c.convertToBlob({ type: 'image/jpeg' })], name, { type: 'image/jpeg' });
+      if (!turned) return new File([await c.convertToBlob({ type: 'image/jpeg' })], name, { type: 'image/jpeg' });
+      x.fillStyle = '#ff0000';
+      x.fillRect(0, 0, 200, 150);
+      const jpg = new Uint8Array(await (await c.convertToBlob({ type: 'image/jpeg', quality: 1 })).arrayBuffer());
+      // An Exif APP1 after the SOI: big-endian TIFF, one IFD0 entry, Orientation (0x0112) = 6.
+      const app1 = [0xff, 0xe1, 0, 34, 0x45, 0x78, 0x69, 0x66, 0, 0, 0x4d, 0x4d, 0, 42, 0, 0, 0, 8, 0, 1, 0x01, 0x12, 0, 3, 0, 0, 0, 1, 0, 6, 0, 0, 0, 0, 0, 0];
+      return new File([jpg.slice(0, 2), new Uint8Array(app1), jpg.slice(2)], name, { type: 'image/jpeg' });
     };
     const photos = await Promise.all(names.map(photo));
     const args = { folder: { id: 'dir', name: 'block', entries: ['A.JPG', 'B.JPG'] }, control: { id: 'ctl', name: 'gcp.csv' }, photos };
     if (model) args.model = { id: 'model', name: 'block.sfm-model' };
     window.__sfm = g.commands.run('sidecar.sfmcontrol', args);
-  }, { model, names });
+  }, { model, names, turned });
 }
 
 test('the marking dialog: a click, the arrow keys and Enter mark a point without running the second stage', async ({ page }) => {
@@ -203,18 +213,71 @@ test('marked in the dialog, the points go to the second stage, and are saved whe
       await expect(caption).toContainText('marked at');
     }
   }
+  const downloads = [];
+  page.on('download', (d) => downloads.push(d.suggestedFilename()));
   const saved = page.waitForEvent('download');
   await dlg.getByRole('button', { name: 'Run with these marks' }).click();
   const csv = await saved;
   // What went to the second stage: the marks made in the dialog, with the folder and the model.
-  expect(uploads.map((u) => u.name)).toEqual(['block.gcp.csv']);
+  await expect.poll(() => uploads.map((u) => u.name)).toEqual(['block.gcp.csv']);
   const rows = uploads[0].body.trim().split('\n').slice(1);
   expect(rows).toHaveLength(6);
   for (const id of ['G1', 'G2', 'G3']) for (const photo of ['A.JPG', 'B.JPG']) expect(rows.some((r) => r.startsWith(`${id},`) && r.includes(`,gcp,${photo},`))).toBe(true);
-  expect(await frame.evaluate(() => window.__stage2)).toEqual({ profile: 'sfm-control', files: ['dir', 'model', 'csv'] });
+  await expect.poll(() => frame.evaluate(() => window.__stage2)).toEqual({ profile: 'sfm-control', files: ['dir', 'model', 'csv'] });
   // It failed: the marks are saved, and the note says the model is kept.
   expect(readFileSync(await csv.path(), 'utf8').trim().split('\n').slice(1)).toEqual(rows);
   await expect(frame.locator('.toast').filter({ hasText: 'block.sfm-model' }).first()).toBeVisible();
+  // Saved once, though the run both left the dialog and then failed.
+  expect(downloads).toEqual(['block.gcp.csv']);
+});
+
+test('a photograph with an EXIF orientation is shown as stored, as COLMAP reads it', async ({ page }) => {
+  await mockSidecar(page);
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await start(frame, true, ['A.JPG'], true);
+  await frame.locator('[data-id="dialog:sidecar-sfm-gcp"]').getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  await expect(dlg.locator('[data-id="sfm:photo"]')).toContainText('G1 in A.JPG', { timeout: 30_000 });
+  // The view's centre (320, 220) is the photograph's (200, 150), so the view at (300, 200) is stored
+  // pixel (180, 130), in the red quarter, and (300, 240) is (180, 170), below it. Turned by the tag,
+  // both would be red.
+  const at = (x, y) => dlg.locator('[data-id="sfm:canvas"]').evaluate((c, [x, y]) => [...c.getContext('2d').getImageData(x, y, 1, 1).data], [x, y]);
+  await expect.poll(async () => (await at(300, 200))[0], { timeout: 10_000 }).toBeGreaterThan(200);
+  const below = await at(300, 240);
+  expect(below[0]).toBeLessThan(160);
+  expect(below[1]).toBeGreaterThan(110);
+});
+
+test('the marks go with the second stage as it starts, saved once, whether it ends or not', async ({ page }) => {
+  const uploads = [];
+  await mockSidecar(page, uploads);
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await start(frame, true);
+  // A second stage that is still running: nothing has failed, and the marks are already saved.
+  await frame.evaluate(() => {
+    window.gisworkbench.sidecar.convert = () => new Promise(() => {});
+  });
+  const downloads = [];
+  page.on('download', (d) => downloads.push(d.suggestedFilename()));
+  await frame.locator('[data-id="dialog:sidecar-sfm-gcp"]').getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  const caption = dlg.locator('[data-id="sfm:photo"]');
+  const canvas = dlg.locator('[data-id="sfm:canvas"]');
+  for (const [i, id] of ['G1', 'G2', 'G3'].entries()) {
+    await dlg.locator('[data-id="sfm:points"]').selectOption(String(i));
+    for (const photo of ['A.JPG', 'B.JPG']) {
+      if (photo === 'B.JPG') await dlg.locator('[data-id="sfm:next"]').click();
+      await expect(caption).toContainText(`${id} in `);
+      await canvas.focus();
+      await canvas.press('Enter');
+      await expect(caption).toContainText('marked at');
+    }
+  }
+  const saved = page.waitForEvent('download');
+  await dlg.getByRole('button', { name: 'Run with these marks' }).click();
+  expect((await saved).suggestedFilename()).toBe('block.gcp.csv');
+  await expect.poll(() => uploads.length).toBe(1);
+  expect(downloads).toEqual(['block.gcp.csv']);
 });
 
 test('with no model given, the first stage runs and its model opens the marking', async ({ page }) => {

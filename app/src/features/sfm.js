@@ -8,7 +8,7 @@ import { h } from '../shell/dom.js';
 import { modal } from '../shell/dialogs.js';
 import { t, gwError } from '../i18n/index.js';
 import { pickFiles, download } from '../storage/files.js';
-import { parseControl, controlCsv, readModelHeader, candidates, readiness } from './sfm-gcp.js';
+import { parseControl, controlCsv, readModelHeader, candidates, readiness, exifOrientation } from './sfm-gcp.js';
 
 const PROFILE = 'sfm-block';
 const STAGE_ONE = 'sfm-model';
@@ -115,6 +115,15 @@ export async function markControl(header, control, photos) {
     if (cursor) cross(cursor[0] - ox, cursor[1] - oy, '#ffffff', 6);
     caption.textContent = t('{id} in {photo} (photograph {i} of {n}). The dashed cross is where the model puts it; {state}', { id: pts[pi].id, photo: c.image, i: ci + 1, n: pts[pi].cands.length, state: m ? t('marked at {x}, {y}.', { x: m.px.toFixed(1), y: m.py.toFixed(1) }) : t('not marked in this photograph.') });
   }
+  // The pixels as stored, as COLMAP reads them: a browser turns a photograph by its EXIF Orientation
+  // (even with imageOrientation 'none'), so a copy with that tag set to 1 is decoded instead.
+  async function asStored(f) {
+    const o = exifOrientation(await f.slice(0, 1 << 17).arrayBuffer());
+    if (!o || o.value === 1) return f;
+    const buf = await f.arrayBuffer();
+    new DataView(buf).setUint16(o.at, 1, o.le);
+    return new Blob([buf], { type: f.type });
+  }
   // Each load is numbered: a decode that finishes after the analyst has moved on is dropped, so the
   // photograph shown is always the one the caption and the predicted cross are for.
   let loading = 0;
@@ -134,7 +143,7 @@ export async function markControl(header, control, photos) {
       } else {
         const [ox, oy] = origin();
         try {
-          const b = await createImageBitmap(f, ox, oy, VIEW.w, VIEW.h, { imageOrientation: 'none' });
+          const b = await createImageBitmap(await asStored(f), ox, oy, VIEW.w, VIEW.h, { imageOrientation: 'none' });
           if (n !== loading) return b.close?.();
           bitmap = b;
         } catch (e) {
@@ -324,15 +333,20 @@ export function install(app) {
     let marked = control;
     let markedByHand = false;
     let header = null;
+    // Marks made by hand are saved once: when the run leaves the dialog, or when it stops before that.
+    let saved = false;
+    const saveMarks = () => {
+      if (!markedByHand || saved) return;
+      saved = true;
+      try {
+        download(app, new Blob([controlCsv(marked)], { type: 'text/csv' }), `${folder.name}.gcp.csv`);
+      } catch {
+        /* a name the CSV cannot carry: nothing to save */
+      }
+    };
     const kept = () => {
       app.toast(t('The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.', { file: model.name }), { ms: 12000 });
-      if (markedByHand) {
-        try {
-          download(app, new Blob([controlCsv(marked)], { type: 'text/csv' }), `${folder.name}.gcp.csv`);
-        } catch {
-          /* a name the CSV cannot carry: nothing to save */
-        }
-      }
+      saveMarks();
     };
     try {
       const res = await client.request('GET', `/v1/files/${model.id}`, { raw: true });
@@ -356,6 +370,7 @@ export function install(app) {
           app.toast(t('{n} control points are marked in two or more photographs; at least 3 are needed', { n: now.marked }), { kind: 'error', ms: 9000 });
         }
       }
+      saveMarks();
       const ready = readiness(marked);
       if (!ready.ready) throw gwError('{n} control points are marked in two or more photographs; at least 3 are needed', { n: ready.marked }, 'E_SFM_CONTROL_MARKS');
       const csv = await client.upload(new File([controlCsv(marked)], `${folder.name}.gcp.csv`, { type: 'text/csv' }));

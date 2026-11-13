@@ -246,3 +246,31 @@ export function readiness(control) {
   const checks = control.points.filter((p) => p.check && new Set(p.marks.map((m) => m.image)).size >= 2).length;
   return { marked, checks, ready: marked >= 3 };
 }
+
+/**
+ * Where a JPEG's EXIF Orientation value is (`at`, a byte offset, and its byte order), and the value;
+ * null when there is none. COLMAP reads photographs as stored, so the model's pixels are not rotated,
+ * while a browser decode turns the image by this tag: the marking dialog sets it to 1 to match.
+ */
+export function exifOrientation(buf) {
+  const v = new DataView(buf);
+  if (v.byteLength < 4 || v.getUint16(0) !== 0xffd8) return null;
+  for (let p = 2; p + 4 <= v.byteLength; ) {
+    const marker = v.getUint16(p);
+    if ((marker & 0xff00) !== 0xff00 || marker === 0xffda) return null;
+    if (marker === 0xffe1 && p + 18 <= v.byteLength && v.getUint32(p + 4) === 0x45786966 && v.getUint16(p + 8) === 0) {
+      const tiff = p + 10;
+      const le = v.getUint16(tiff) === 0x4949;
+      const ifd = tiff + v.getUint32(tiff + 4, le);
+      if (ifd + 2 > v.byteLength) return null;
+      for (let i = 0, n = v.getUint16(ifd, le); i < n; i++) {
+        const e = ifd + 2 + i * 12;
+        if (e + 12 > v.byteLength) return null;
+        if (v.getUint16(e, le) === 0x0112) return { at: e + 8, le, value: v.getUint16(e + 8, le) };
+      }
+      return null;
+    }
+    p += 2 + v.getUint16(p + 2);
+  }
+  return null;
+}
