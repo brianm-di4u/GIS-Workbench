@@ -966,6 +966,13 @@
    ]
   },
   {
+   "key": "A project opens alone, so {n, plural, one {# file given with {project} was not opened ({file})} other {# files given with {project} were not opened ({file}, …)}}; the import log lists them",
+   "src": "A project opens alone, so {n, plural, one {# file given with {project} was not opened ({file})} other {# files given with {project} were not opened ({file}, …)}}; the import log lists them",
+   "refs": [
+    "features/files.js"
+   ]
+  },
+  {
    "key": "A public client registered for GIS Workbench; no client secret is used.",
    "src": "A public client registered for GIS Workbench; no client secret is used.",
    "refs": [
@@ -10636,6 +10643,13 @@
    ]
   },
   {
+   "key": "Directions: T against the line, F along it (HERE)",
+   "src": "Directions: T against the line, F along it (HERE)",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "Discard",
    "src": "Discard",
    "refs": [
@@ -15654,8 +15668,8 @@
    ]
   },
   {
-   "key": "Geocoding a table…",
-   "src": "Geocoding a table…",
+   "key": "Geocoding {n, plural, one {# address} other {# addresses}}…",
+   "src": "Geocoding {n, plural, one {# address} other {# addresses}}…",
    "refs": [
     "features/routing-tools.js"
    ]
@@ -40166,6 +40180,13 @@
    ]
   },
   {
+   "key": "T and F mean",
+   "src": "T and F mean",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "T.4 bi-level images with several blocks need a block mask (IC=M1)",
    "src": "T.4 bi-level images with several blocks need a block mask (IC=M1)",
    "refs": [
@@ -41154,8 +41175,8 @@
    ]
   },
   {
-   "key": "That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions",
-   "src": "That point is {d} from the nearest junction of the road network (more than {max}): routes start and end at junctions",
+   "key": "That point is {d} from the road network (more than {max})",
+   "src": "That point is {d} from the road network (more than {max})",
    "refs": [
     "features/routing-tools.js"
    ]
@@ -41911,8 +41932,8 @@
    ]
   },
   {
-   "key": "The start and the end are at the same junction",
-   "src": "The start and the end are at the same junction",
+   "key": "The start and the end are the same place on the road network",
+   "src": "The start and the end are the same place on the road network",
    "refs": [
     "features/routing-tools.js"
    ]
@@ -42055,8 +42076,8 @@
    ]
   },
   {
-   "key": "Then click the place to start from. The area starts at the nearest junction.",
-   "src": "Then click the place to start from. The area starts at the nearest junction.",
+   "key": "Then click the place to start from, on or near a road.",
+   "src": "Then click the place to start from, on or near a road.",
    "refs": [
     "features/routing-tools.js"
    ]
@@ -42122,6 +42143,13 @@
    "src": "This data set was tested to meet ASPRS Positional Accuracy Standards for Digital Geospatial Data, Edition 2 (2023), for a {rmse} cm RMSEz vertical accuracy class. Actual NVA accuracy was found to be RMSEz = {rmse} cm; VVA RMSEz = {vva} cm, from {n, plural, one {# checkpoint} other {# checkpoints}}.",
    "refs": [
     "features/dem-tools.js"
+   ]
+  },
+  {
+   "key": "This field uses T and F, which can mean either.",
+   "src": "This field uses T and F, which can mean either.",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -42953,6 +42981,13 @@
    "src": "True Ortho",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "True and false: T one-way along the line, F two-way",
+   "src": "True and false: T one-way along the line, F two-way",
+   "refs": [
+    "features/routing-tools.js"
    ]
   },
   {
@@ -48116,6 +48151,7 @@
    "src": "cancelled",
    "refs": [
     "features/aviation-obstruction.js",
+    "features/routing-tools.js",
     "features/sar-terrain-ui.js",
     "sidecar/feature.js",
     "workers/pool.js"
@@ -54078,6 +54114,13 @@
    "src": "not loaded",
    "refs": [
     "features/packs.js"
+   ]
+  },
+  {
+   "key": "not opened: it was given with the project {project}, which opens alone",
+   "src": "not opened: it was given with the project {project}, which opens alone",
+   "refs": [
+    "features/files.js"
    ]
   },
   {
