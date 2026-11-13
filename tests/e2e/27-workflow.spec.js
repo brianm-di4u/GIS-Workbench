@@ -358,17 +358,12 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await expect(steps).toHaveCount(1);
   const kept = () => frame.evaluate(async () => (await window.gisworkbench.recipes.library(true)).filter((r) => r.id.startsWith('chain-test')).map((r) => [r.id === 'chain-test', r.steps.length]).sort());
   expect(await kept()).toEqual([[false, 1], [true, 2]]);
-  // Opened again, it is the copy already kept, not one more.
-  const [chooserAgain] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
-  await chooserAgain.setFiles(other);
-  await expect(steps).toHaveCount(1);
+  // Opened again (by the same call the dock makes, awaited), it is the copy already kept, not one more.
+  const importText = (text) => frame.evaluate((t) => window.gisworkbench.recipes.importFile(new File([t], 'f.gwrecipe.json')), text);
+  await importText(readFileSync(other, 'utf8'));
   expect(await kept()).toEqual([[false, 1], [true, 2]]);
   // A file under a built-in's id is kept under an id of its own, and listed.
-  const mine = join(dir, 'mine.gwrecipe.json');
-  writeFileSync(mine, JSON.stringify({ format: 'gw-recipe/1', id: 'damage-triage', name: 'My triage', steps: [{ op: 'gate', params: { message: 'Mine' } }] }));
-  const [chooserMine] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
-  await chooserMine.setFiles(mine);
-  await expect(steps).toHaveCount(1);
+  await importText(JSON.stringify({ format: 'gw-recipe/1', id: 'damage-triage', name: 'My triage', steps: [{ op: 'gate', params: { message: 'Mine' } }] }));
   expect(await frame.evaluate(() => window.gisworkbench.recipes.known().filter((r) => r.id.startsWith('damage-triage')).map((r) => [r.id === 'damage-triage', r.source]).sort())).toEqual([[false, 'library'], [true, 'builtin']]);
   const [chooser3] = await Promise.all([page.waitForEvent('filechooser'), frame.locator('[data-id="recipe:open"]').click()]);
   await chooser3.setFiles(chain);
