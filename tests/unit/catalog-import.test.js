@@ -103,6 +103,26 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(c.attributes.vp).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
     expect(c.attributes.lanes.type).toBe('integer');
     expect(c.attributes.kind).toMatchObject({ type: 'enum', domain: { wood: 'wood', steel: 'steel' } });
+    // A voidable property names its type as its simpleContent extension's base; a base schema's own
+    // property names it with that schema's prefixes (here its default namespace).
+    const base = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:x="urn:b" targetNamespace="urn:b"><complexType name="BaseType"><sequence><element name="level" type="x:VP"/></sequence></complexType><simpleType name="VP"><restriction base="string"><enumeration value="onGround"/><enumeration value="suspended"/></restriction></simpleType></schema>'.replace('xmlns:x="urn:b"', 'xmlns:x="urn:b" xmlns="urn:b"').replace('<schema xmlns="http://www.w3.org/2001/XMLSchema"', '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"').replace(/<(\/?)(complexType|sequence|element|simpleType|restriction|enumeration)/g, '<$1xs:$2').replace('</schema>', '</xs:schema>').replace('type="x:VP"', 'type="VP"').replace('base="string"', 'base="xs:string"');
+    const theme = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:b="urn:b" xmlns:t="urn:t" targetNamespace="urn:t"><element name="Mast" type="t:MastType" substitutionGroup="gml:AbstractFeature"/><complexType name="MastType"><complexContent><extension base="b:BaseType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="vertical" nillable="true"><complexType><simpleContent><extension base="b:VP"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element></sequence></extension></complexContent></complexType></schema>`;
+    const m = validateCatalog(fromInspire([theme, base]));
+    expect(m.attributes.level).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
+    expect(m.attributes.vertical).toMatchObject({ type: 'enum', domain: { onGround: 'onGround', suspended: 'suspended' } });
+  });
+  it('lets a type\'s own definition replace one it inherits for the same column', () => {
+    const attr = (n, card) => `<gfc:carrierOfCharacteristics><gfc:FC_FeatureAttribute><gfc:memberName>${n}</gfc:memberName><gfc:cardinality>${card}</gfc:cardinality><gfc:valueType><gco:TypeName><gco:aName><gco:CharacterString>CharacterString</gco:CharacterString></gco:aName></gco:TypeName></gfc:valueType></gfc:FC_FeatureAttribute></gfc:carrierOfCharacteristics>`;
+    const iso = validateCatalog(fromIso19110(`<gfc:FC_FeatureCatalogue xmlns:gfc="g" xmlns:gco="c" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <gfc:featureType><gfc:FC_FeatureType id="ft-road"><gfc:typeName>Road</gfc:typeName>${attr('status', '0..1')}</gfc:FC_FeatureType></gfc:featureType>
+      <gfc:featureType><gfc:FC_FeatureType id="ft-mw"><gfc:typeName>Motorway</gfc:typeName><gfc:inheritsFrom><gfc:FC_InheritanceRelation><gfc:supertype xlink:href="#ft-road"/></gfc:FC_InheritanceRelation></gfc:inheritsFrom>${attr('status', '1')}</gfc:FC_FeatureType></gfc:featureType>
+    </gfc:FC_FeatureCatalogue>`));
+    const of = (c, code) => c.types.find((t) => t.code === code).attributes.map((k) => [c.attributes[k].field ?? k, !!c.attributes[k].required]);
+    expect([of(iso, 'Road'), of(iso, 'Motorway')]).toEqual([[['status', false]], [['status', true]]]);
+    // An INSPIRE extension that redeclares its base's element.
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><complexType name="BaseType"><sequence><element name="status" type="string"/></sequence></complexType><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><complexContent><extension base="x:BaseType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string" minOccurs="0"/></sequence></extension></complexContent></complexType></schema>`;
+    const insp = validateCatalog(fromInspire(xsd));
+    expect(of(insp, 'Road')).toEqual([['status', false]]);
   });
   it('keeps a property two types define differently under its source column in each (decision #243)', async () => {
     const { fieldsFor, valueIssue } = await import('../../app/src/vector/schema.js');

@@ -102,7 +102,16 @@ function attrTable() {
     attrs[key] ??= key === column ? a : { ...a, field: column };
     return key;
   };
-  return { attrs, add };
+  /** Add a key to a type's list: one that writes a column the type already has (an inherited
+   * definition its own redefines) takes that one's place. */
+  const columnOf = (k) => attrs[k]?.field ?? k;
+  const place = (names, key) => {
+    if (!key) return;
+    const at = names.findIndex((k) => columnOf(k) === columnOf(key));
+    if (at < 0) names.push(key);
+    else names[at] = key;
+  };
+  return { attrs, add, place };
 }
 
 /**
@@ -115,7 +124,7 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
   const root = find(doc, 'FC_FeatureCatalogue');
   if (!root) throw E('not an ISO 19110 feature catalogue (no FC_FeatureCatalogue)');
   const title = deepText(first(root, 'name')) || name || 'ISO 19110 catalogue';
-  const { attrs, add } = attrTable();
+  const { attrs, add, place } = attrTable();
   const types = [];
   const fts = all(root, 'FC_FeatureType');
   const byId = new Map(fts.filter((ft) => attr(ft, 'id')).map((ft) => [attr(ft, 'id'), ft]));
@@ -150,8 +159,7 @@ export function fromIso19110(xml, { id = '', name = '' } = {}) {
       if (def) a.definition = def;
       const card = deepText(first(fa, 'cardinality'));
       if (/^1(\.\.|$)/.test(card)) a.required = true;
-      const key = add(member, a, code);
-      if (key && !names.includes(key)) names.push(key);
+      place(names, add(member, a, code));
     }
     const def = deepText(first(ft, 'definition'));
     const geometry = primaryGeometry(geoms);
@@ -277,9 +285,9 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const base = first(first(entry.node, 'complexContent'), 'extension')?.attrs?.base;
     const up = resolve('complex', base, entry);
     if (base && !up) lacking(base, entry);
-    return [...props(up, seen), ...all(entry.node, 'element')];
+    return [...props(up, seen), ...all(entry.node, 'element').map((node) => ({ node, from: entry }))];
   };
-  const { attrs, add } = attrTable();
+  const { attrs, add, place } = attrTable();
   const types = [];
   for (const entry of features) {
     const code = codeOf(entry);
@@ -287,14 +295,15 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const names = [];
     const own = resolve('complex', entry.node.attrs.type, entry);
     if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry);
-    for (const p of props(own)) {
+    for (const { node: p, from } of props(own)) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
       // with a nilReason attribute), not in @type.
       // A schema's own simple type (an enumeration such as VerticalPositionValue, or a restricted number)
       // is read through its restriction: its values become a coded domain, its base the type.
-      const named = p.attrs?.type ? resolve('simple', p.attrs.type, entry) : null;
+      const typeName = p.attrs?.type ?? find(p, 'extension')?.attrs?.base;
+      const named = typeName ? resolve('simple', typeName, from) : null;
       const rst = named ? find(named.node, 'restriction') : p.attrs?.type ? null : find(p, 'restriction');
       const enums = rst ? all(rst, 'enumeration').map((e) => String(e.attrs?.value ?? '')).filter((v) => v && !BAD_NAMES.has(v)) : [];
       capValues(enums.length, pname);
@@ -313,8 +322,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       // A code list the import was not given keeps the property, as text, and says which list it needs.
       const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : enums.length ? { label: pname, type: 'enum', domain: Object.fromEntries(enums.map((v) => [v, v])) } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
       if (Number(p.attrs?.minOccurs ?? 1) >= 1 && p.attrs?.nillable !== 'true') a.required = true;
-      const key = add(pname, a, code);
-      if (key && !names.includes(key)) names.push(key);
+      place(names, add(pname, a, code));
     }
     const geometry = primaryGeometry(geoms);
     types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.length ? { geometry } : {}), attributes: names });
