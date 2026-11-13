@@ -256,7 +256,7 @@ export function install(app) {
     } },
     exportDeck: { title: N_('Export the deck'), run: async () => {
       if (!app.sessionDeck?.length) return { summary: t('nothing to export') };
-      await C.run('deck.export');
+      await C.run('deck.export', { preferPicker: false });
       return { summary: t('{n, plural, one {# slide} other {# slides}}', { n: app.sessionDeck.length }) };
     } },
     exportGeojson: { title: N_('Export GeoJSON'), schema: { what: { type: 'enum', label: N_('What'), values: ['accepted-detections', 'outlines'], default: 'accepted-detections' } }, run: async ({ what }) => {
