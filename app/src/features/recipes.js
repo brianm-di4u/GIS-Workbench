@@ -296,7 +296,7 @@ export function install(app) {
     } },
     // Geocoding and routing on the user's own data (REQ-GAP-85): the index and the network come first (addr.index, route.roads).
     geocodeTable: { title: N_('Geocode a table'), schema: {
-      text: { type: 'text', label: N_('Table (CSV text)'), default: '' },
+      text: { type: 'text', multiline: true, label: N_('Table (CSV text)'), default: '' },
       address: { type: 'text', label: N_('Address column'), default: 'address' },
       place: { type: 'text', label: N_('Place column'), default: '' },
     }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
@@ -312,7 +312,7 @@ export function install(app) {
     } },
     serviceArea: { title: N_('Service area'), schema: {
       at: { type: 'lonlat', label: N_('From (longitude, latitude)'), default: null },
-      breaks: { type: 'numbers', label: N_('Breaks'), unit: 's', default: [300, 600] },
+      breaks: { type: 'numbers', label: N_('Breaks (metres, or seconds on a time network)'), default: [300, 600] },
     }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
       const r = await app.routing.serviceArea(at, breaks);
       return { summary: t('{n} nodes reached', { n: r.nodes }) };
@@ -396,7 +396,7 @@ export function install(app) {
   function drawer(i) {
     const step = runner.recipe.steps[i];
     const rows = Object.entries(step.params).map(([k, v]) => {
-      const inp = h('input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
+      const inp = h(OPS[step.op]?.schema?.[k]?.multiline ? 'textarea' : 'input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
       inp.addEventListener('change', () => {
         const raw = inp.value.trim();
         const val = Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;

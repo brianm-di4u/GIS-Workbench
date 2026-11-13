@@ -192,6 +192,7 @@ export function install(app) {
   async function geocodeRows(text, { address, place = '', name = t('Geocoded') }, job) {
     const rows = tableRows(text);
     const [head, ...body] = rows;
+    if (!head) throw gwError('The table is empty: give a header row and one address per row', {}, 'E_NEED_ADDRESSES');
     const ai = head.indexOf(address);
     const pi = place ? head.indexOf(place) : -1;
     if (ai < 0) throw gwError('No column {col} in the table', { col: address }, 'E_NEED_ADDRESSES');

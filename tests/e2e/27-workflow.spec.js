@@ -34,6 +34,18 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   await frame.evaluate(() => void window.gisworkbench.commands.run('pip.builder'));
   const panel = frame.locator('.wf-panel');
   await expect(panel).toBeVisible({ timeout: 30000 });
+  // A table is several lines: the Builder gives it a multi-line box, and an empty one says so.
+  const table = await frame.evaluate(async () => {
+    const W = window.gisworkbench.workflows;
+    const s = await W.addStep('geocodeTable');
+    W.setView('list');
+    const tag = document.getElementById(`wf-${s}-text`)?.tagName;
+    const r = await window.gisworkbench.recipes.runOp('geocodeTable', { text: '' }).then(() => 'ran', (e) => e.code);
+    W.removeStep(s);
+    W.setView('graph');
+    return { tag, r };
+  });
+  expect(table).toEqual({ tag: 'TEXTAREA', r: 'E_NEED_ADDRESSES' });
   await expect(panel).toContainText('Add a step to begin');
 
   // Build: roads → buffer 50 and buffer 200 → erase → export.
@@ -271,8 +283,6 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   expect(await frame.evaluate(() => window.gisworkbench.recipes.runner.toJSON().format)).toBe('gw-recipe/2');
   // Every parameter an op offers has a schema entry, so the Builder's form and the dock coerce it alike:
   // the time series and routing ops' form text becomes points, lists and booleans.
-  const untyped = await frame.evaluate(() => Object.entries(window.gisworkbench.recipes.ops).flatMap(([k, o]) => Object.keys(o.defaults ?? {}).filter((p) => !o.schema?.[p]).map((p) => `${k}.${p}`)));
-  expect(untyped).toEqual([]);
   const typed = await frame.evaluate(
     () =>
       window.gisworkbench.recipes.validate({

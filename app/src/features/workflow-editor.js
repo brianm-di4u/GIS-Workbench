@@ -10,7 +10,7 @@ import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles, saveBlob, textBlob } from '../storage/files.js';
 import { t, tr, msgOf, gwError } from '../i18n/index.js';
-import { validateRecipe, checkParam, fits, splitPort, contentOf, FORMAT2 } from '../recipes/recipe.js';
+import { validateRecipe, checkParam, fits, splitPort, contentOf, defaults, FORMAT2 } from '../recipes/recipe.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const s = (tag, attrs = {}, ...kids) => {
@@ -283,10 +283,11 @@ export function install(app) {
     let el;
     if (spec?.type === 'boolean') el = h('input', { type: 'checkbox', id, checked: !!value, 'aria-label': lbl });
     else if (spec?.type === 'enum') el = h('select', { class: 'inp', id, 'aria-label': lbl }, ...(spec.values ?? []).map((v) => (typeof v === 'object' ? v : { value: v, label: String(v) })).map((v) => h('option', { value: v.value, selected: v.value === value }, tr(v.label))));
+    else if (spec?.multiline) el = h('textarea', { class: 'inp', id, rows: 4, value: value ?? '', 'aria-label': lbl });
     else el = h('input', { class: spec?.type === 'number' || spec?.type === 'integer' ? 'inp inp-num' : 'inp', id, type: spec?.type === 'number' || spec?.type === 'integer' ? 'number' : spec?.type === 'date' ? 'date' : 'text', value: Array.isArray(value) ? value.join(', ') : (value ?? ''), ...(spec?.min !== undefined ? { min: spec.min } : {}), ...(spec?.max !== undefined ? { max: spec.max } : {}), 'aria-label': lbl });
     el.addEventListener('change', () => {
       let v = spec?.type === 'boolean' ? el.checked : el.value;
-      if (spec?.type === 'numbers' || spec?.type === 'lonlat') v = String(v).split(/[,;\s]+/).filter(Boolean).map(Number);
+      if (spec?.type === 'numbers' || spec?.type === 'lonlat') v = String(v).trim() ? String(v).split(/[,;\s]+/).filter(Boolean).map(Number) : (spec.default ?? null);
       try {
         setParam(x.id, key, v);
         el.removeAttribute('aria-invalid');
@@ -306,7 +307,7 @@ export function install(app) {
       const st = status(x.id);
       const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${tr(x.title)}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
       const form = h('div', { class: 'wf-form' });
-      const params = { ...Object.fromEntries(Object.entries(op.schema ?? {}).map(([k, sp]) => [k, sp.default])), ...(op.defaults ?? {}), ...x.params };
+      const params = { ...defaults(op), ...x.params };
       for (const [k, v] of Object.entries(params)) form.append(control(x, k, op.schema?.[k], v));
       // Inputs: a choice of the outputs upstream that fit, or none.
       for (const p of op.inputs ?? []) {
