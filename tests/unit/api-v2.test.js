@@ -207,6 +207,17 @@ describe('REQ-GAP-01 API v2 run time', () => {
     await expect(v2.recipes.status({ run: 'run-9' })).rejects.toMatchObject({ code: 'E_NO_RUN' });
     expect(await v2.recipes.op({ op: 'contrast', params: {} })).toEqual({ summary: 'contrast {}', files: [] });
     await expect(v2.recipes.run({ id: 'missing' })).rejects.toMatchObject({ code: 'E_NO_RECIPE' });
+    // An id the project and the library hold with different content runs only with `source`, and that copy runs.
+    const copies = [{ id: 'w', source: 'project', steps: [] }, { id: 'w', source: 'library', steps: [] }];
+    app.recipes.known = () => copies;
+    const ran = [];
+    app.recipes.headless = (src) => (ran.push(src), { id: `run-${ran.length + 1}`, start: async () => {}, status: () => ({ run: `run-${ran.length + 1}`, recipe: src.id }) });
+    await expect(v2.recipes.run({ id: 'w' })).rejects.toMatchObject({ code: 'E_RECIPE_AMBIGUOUS' });
+    await v2.recipes.run({ id: 'w', source: 'library' });
+    await v2.recipes.run({ id: 'w', source: 'project' });
+    expect(ran).toEqual([copies[1], copies[0]]);
+    copies.pop();
+    await expect(v2.recipes.run({ id: 'w', source: 'library' })).rejects.toMatchObject({ code: 'E_NO_RECIPE' });
   });
 });
 

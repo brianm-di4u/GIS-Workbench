@@ -250,7 +250,10 @@ export class RecipeRunner extends Emitter {
     this.emit('change');
   }
 
-  /** The values of step `s`'s inputs: wired ones from upstream outputs, given ones as given. */
+  /**
+   * The values of step `s`'s inputs: wired ones from upstream outputs, the others as given at run time,
+   * else as the file gives them.
+   */
   inputsOf(s, given = {}) {
     const out = {};
     for (const [k, w] of Object.entries(s.inputs ?? {})) {
@@ -262,7 +265,7 @@ export class RecipeRunner extends Emitter {
     }
     for (const [k, v] of Object.entries(given)) {
       const [sid, name] = splitPort(k);
-      if (sid === s.id && name && out[name] === undefined) out[name] = v;
+      if (sid === s.id && name && !('from' in (s.inputs?.[name] ?? {}))) out[name] = v;
     }
     return out;
   }

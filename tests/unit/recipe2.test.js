@@ -76,6 +76,12 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     run.load({ format: FORMAT2, name: 'dotted', steps: [{ id: 'm.1', op: 'mul', params: { by: 5 } }] });
     await run.run(0, { inputs: { 'm.1.a': 3 } });
     expect(run.outputs.get('m.1').out).toBe(15);
+    // A value given at run time replaces one the file gives; a wired input keeps its wire.
+    run.load({ format: FORMAT2, name: 'given', steps: [{ id: 'n', op: 'num', params: { value: 4 } }, { id: 'm', op: 'mul', params: { by: 5 }, inputs: { a: { value: 2 } } }, { id: 'w', op: 'mul', params: { by: 1 }, inputs: { a: { from: 'n', output: 'out' } } }] });
+    await run.run(0);
+    expect(run.outputs.get('m').out).toBe(10);
+    await run.run(0, { inputs: { 'm.a': 7, 'w.a': 9 } });
+    expect([run.outputs.get('m').out, run.outputs.get('w').out]).toEqual([35, 4]);
   });
   it('marks a changed step and those downstream of it stale, not the others', async () => {
     const run = new RecipeRunner(OPS);
