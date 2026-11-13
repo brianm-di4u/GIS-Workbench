@@ -959,6 +959,13 @@
    ]
   },
   {
+   "key": "A project opens alone, so {n, plural, one {# file given with {project} was not opened ({file})} other {# files given with {project} were not opened ({file}, …)}}; the import log lists them",
+   "src": "A project opens alone, so {n, plural, one {# file given with {project} was not opened ({file})} other {# files given with {project} were not opened ({file}, …)}}; the import log lists them",
+   "refs": [
+    "features/files.js"
+   ]
+  },
+  {
    "key": "A public client registered for GIS Workbench; no client secret is used.",
    "src": "A public client registered for GIS Workbench; no client secret is used.",
    "refs": [
@@ -53520,6 +53527,13 @@
    "src": "not loaded",
    "refs": [
     "features/packs.js"
+   ]
+  },
+  {
+   "key": "not opened: it was given with the project {project}, which opens alone",
+   "src": "not opened: it was given with the project {project}, which opens alone",
+   "refs": [
+    "features/files.js"
    ]
   },
   {
