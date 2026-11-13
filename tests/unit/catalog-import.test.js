@@ -131,13 +131,17 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     const plain = fromInspire(
       `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:om="http://www.opengis.net/om/2.0" xmlns:x="urn:x" targetNamespace="urn:x">` +
         '<element name="Site" type="x:SiteType" substitutionGroup="gml:AbstractFeature"/><complexType name="SiteType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="floors" nillable="true"><complexType><simpleContent><extension base="integer"><attribute name="nilReason" type="string"/></extension></simpleContent></complexType></element></sequence></complexType>' +
-        '<element name="Obs" type="x:ObsType" substitutionGroup="om:OM_Observation"/><complexType name="ObsType"><complexContent><extension base="om:OM_ObservationType"><sequence><element name="where" type="gml:PointPropertyType"/><element name="note" type="string"/></sequence></extension></complexContent></complexType></schema>',
+        '<element name="Obs" type="x:ObsType" substitutionGroup="om:OM_Observation"/><complexType name="ObsType"><complexContent><extension base="om:OM_ObservationType"><sequence><element name="note" type="string"/></sequence></extension></complexContent></complexType></schema>',
     );
-    expect(plain.types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['Site', ['Point'], ['floors']], ['Obs', ['Point'], ['note']]]);
-    // A type built on a sampling feature with no geometry of its own needs the schema that holds the shape.
-    const sampled = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sams="http://www.opengis.net/samplingSpatial/2.0" xmlns:x="urn:x" targetNamespace="urn:x">` +
+    // An O&M observation holds no geometry: it imports with none, and no schema is asked for.
+    expect(plain.types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['Site', ['Point'], ['floors']], ['Obs', undefined, ['note']]]);
+    // A type built on a sampling feature takes its shape as its geometry (any kind), with no schema to add;
+    // and a standard's own schema, if given, adds none of its own elements as types.
+    const sams = 'http://www.opengis.net/samplingSpatial/2.0';
+    const sampled = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sams="${sams}" xmlns:x="urn:x" targetNamespace="urn:x">` +
       '<element name="GeophObject" type="x:GeophObjectType" substitutionGroup="sams:SF_SpatialSamplingFeature"/><complexType name="GeophObjectType"><complexContent><extension base="sams:SF_SpatialSamplingFeatureType"><sequence><element name="citation" type="string"/></sequence></extension></complexContent></complexType></schema>';
-    expect(() => fromInspire(sampled)).toThrow(/add http:\/\/www\.opengis\.net\/samplingSpatial\/2\.0$/);
+    const std = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sams="${sams}" targetNamespace="${sams}"><element name="SF_SpatialSamplingFeature" type="sams:SF_SpatialSamplingFeatureType" substitutionGroup="gml:AbstractFeature"/><complexType name="SF_SpatialSamplingFeatureType"><sequence><element name="shape" type="gml:GeometryPropertyType"/></sequence></complexType></schema>`;
+    for (const files of [[sampled], [sampled, std]]) expect(fromInspire(files).types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['GeophObject', undefined, ['citation']]]);
   });
   it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
@@ -200,8 +204,9 @@ describe('REQ-GAP-87 the files a user picks', () => {
     const fields = { cuisine: { key: 'cuisine', type: 'combo', options: ['pizza', 'burger'] }, drive_through: { key: 'drive_through', type: 'check' } };
     const c = validateCatalog(fromIdPresets(presets, fields));
     const of = (code) => c.types.find((t) => t.code === code).attributes;
-    expect(of('amenity/fast_food')).toEqual(['amenity', 'cuisine', 'drive_through']);
+    // The loop ends: the preset resolved first takes both lists; the one met inside the loop its own.
     expect(of('amenity/restaurant')).toEqual(['amenity', 'cuisine', 'drive_through']);
+    expect(of('amenity/fast_food')).toEqual(['amenity', 'drive_through']);
   });
   it('gives a preset with no fields of its own its parent\'s', () => {
     const presets = {
@@ -224,11 +229,10 @@ describe('REQ-GAP-87 the files a user picks', () => {
     const of = (code) => more.types.find((t) => t.code === code).attributes;
     expect(of('amenity/fast_food/burger')).toEqual(['amenity', 'cuisine', 'drive_through', 'takeaway']);
     expect(of('amenity/fast_food/pizza')).toEqual(['amenity', 'cuisine', 'drive_through', 'opening_hours']);
-    // References that converge (each preset naming the next twice) resolve once each, at once.
-    const chain = Object.fromEntries(Array.from({ length: 40 }, (_, i) => [`p${i}`, { name: `P${i}`, geometry: ['point'], tags: { k: `v${i}` }, fields: i < 39 ? [`{p${i + 1}}`, `{p${i + 1}}`] : ['drive_through'] }]));
-    const t0 = performance.now();
+    // References that converge (each preset naming the next twice), with a loop back to the first, are
+    // walked once each: 2^40 walks would never end.
+    const chain = Object.fromEntries(Array.from({ length: 40 }, (_, i) => [`p${i}`, { name: `P${i}`, geometry: ['point'], tags: { k: `v${i}` }, fields: i < 39 ? [`{p${i + 1}}`, `{p${i + 1}}`] : ['{p0}', 'drive_through'] }]));
     const deep = fromIdPresets(chain, { drive_through: { key: 'drive_through', type: 'check' } });
-    expect(performance.now() - t0).toBeLessThan(500);
     expect(deep.types[0].attributes).toEqual(['k', 'drive_through']);
   });
   it('names a preset from its id when presets.json leaves names to translations', () => {

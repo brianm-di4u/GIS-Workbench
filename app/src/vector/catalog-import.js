@@ -230,10 +230,11 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     return (byLocal[kind].get(name) ?? []).find((e) => e.node !== from.node) ?? null;
   };
   const isGml = (ns) => /opengis\.net\/gml/.test(ns ?? '');
-  // GML's, ISO's and XSD's own types hold no property a user catalogue needs: a base there is not a schema
-  // to add. Another OGC standard's (O&M, sampling) may hold the geometry (a sampling feature's shape).
-  const isBare = (ns) => isGml(ns) || /^https?:\/\/(www\.isotc211\.org|www\.w3\.org)\//.test(ns ?? '');
-  const isOgc = (ns) => /^https?:\/\/www\.opengis\.net\//.test(ns ?? '');
+  // The standards' own namespaces (GML and the other OGC schemas, ISO, XSD): their elements are not a
+  // user's feature types, and a base there is not a schema to add. The one standard base that holds a
+  // user type's geometry is a sampling feature's (its shape), and that property is taken as known.
+  const isStd = (ns) => /^https?:\/\/(www\.opengis\.net|www\.isotc211\.org|www\.w3\.org)\//.test(ns ?? '');
+  const STD_GEOMETRY = { SF_SpatialSamplingFeatureType: 'shape' };
   /** Whether an element substitutes for gml:AbstractFeature, directly or through other elements of these schemas. */
   const isFeature = (entry, seen = new Set()) => {
     const group = entry.node.attrs?.substitutionGroup;
@@ -247,7 +248,7 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const ns = nsOf(group, entry);
     return !!ns && !isGml(ns);
   };
-  let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
+  let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && !isStd(e.ns) && isFeature(e));
   // An extension that re-declares a type under the same name (ext2d's Building for core2d's) replaces
   // it; a differently named subtype (Motorway for Road) does not.
   const replaced = new Set(features.map((e) => [e, resolve('elements', e.node.attrs.substitutionGroup, e)]).filter(([e, up]) => up && up.node.attrs.name === e.node.attrs.name).map(([, up]) => up));
@@ -260,20 +261,19 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   /** A type's properties: its bases' first, then its own; a base outside these schemas (gml) adds none. */
   // A type or base in a schema not given (tn:TransportLinkType for a RoadLink) holds properties, often the
   // geometry: the import names the schemas to add rather than make types without them.
-  // An OGC standard's base (O&M, sampling) is named only when the type then has no geometry of its own.
   const missing = new Set();
-  const lacking = (qname, from, ogc) => {
+  const lacking = (qname, from) => {
     const ns = nsOf(qname, from);
-    if (!ns || isBare(ns)) return;
-    (isOgc(ns) ? ogc : missing).add(ns);
+    if (ns && !isStd(ns)) missing.add(ns);
   };
-  const props = (entry, ogc, seen = new Set()) => {
+  const props = (entry, seen = new Set()) => {
     if (!entry || seen.has(entry)) return [];
     seen.add(entry);
     const base = first(first(entry.node, 'complexContent'), 'extension')?.attrs?.base;
     const up = resolve('complex', base, entry);
-    if (base && !up) lacking(base, entry, ogc);
-    return [...props(up, ogc, seen), ...all(entry.node, 'element')];
+    if (base && !up) lacking(base, entry);
+    const known = base && !up && isStd(nsOf(base, entry)) ? STD_GEOMETRY[String(base).slice(String(base).indexOf(':') + 1)] : null;
+    return [...(known ? [{ attrs: { name: known, type: 'gml:GeometryPropertyType' } }] : []), ...props(up, seen), ...all(entry.node, 'element')];
   };
   const { attrs, add } = attrTable();
   const types = [];
@@ -281,10 +281,9 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     const code = codeOf(entry);
     const geoms = [];
     const names = [];
-    const ogc = new Set();
     const own = resolve('complex', entry.node.attrs.type, entry);
-    if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry, ogc);
-    for (const p of props(own, ogc)) {
+    if (entry.node.attrs.type && !own) lacking(entry.node.attrs.type, entry);
+    for (const p of props(own)) {
       const pname = p.attrs?.name;
       if (!pname) continue;
       // A voidable property carries its type in an anonymous simpleContent extension (base="integer"
@@ -307,7 +306,6 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
       const key = add(pname, a, code);
       if (key && !names.includes(key)) names.push(key);
     }
-    if (!geoms.length) for (const ns of ogc) missing.add(ns);
     const geometry = primaryGeometry(geoms);
     types.push({ code, name: code.replace(/([a-z])([A-Z])/g, '$1 $2'), ...(geometry.length ? { geometry } : {}), attributes: names });
   }
@@ -348,18 +346,13 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
   const arr = (x) => (Array.isArray(x) ? x : []);
   // As iD resolves them: fields and moreFields each on its own; a '{preset}' entry takes that preset's
   // list of the same name; a list that resolves to nothing takes its parent's (the id up to the last '/').
-  // Each preset's list is resolved once (a picked file's references may converge). A reference back into a
-  // list still being resolved adds nothing, and a list that met one is not kept, so each member of a loop
-  // still gets the others' fields.
+  // Each preset's list is resolved once and kept (a picked file's references may converge); a reference
+  // back into a list still being resolved, in a loop, adds nothing.
   const resolved = new Map();
-  const busy = new Set();
-  let cuts = 0;
   const listIds = (qid, key) => {
     const k = `${key}\u0000${qid}`;
     if (resolved.has(k)) return resolved.get(k);
-    if (busy.has(k)) return (cuts++, []);
-    busy.add(k);
-    const before = cuts;
+    resolved.set(k, []);
     let ids = arr(presets[qid]?.[key]).flatMap((fid) => {
       const m = /^\{(.+)\}$/.exec(String(fid));
       if (!m) return Object.hasOwn(fields, fid) ? [fid] : [];
@@ -373,8 +366,7 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
       }
     }
     ids = [...new Set(ids)];
-    busy.delete(k);
-    if (cuts === before) resolved.set(k, ids);
+    resolved.set(k, ids);
     return ids;
   };
   for (const [pid, p] of Object.entries(presets ?? {})) {
