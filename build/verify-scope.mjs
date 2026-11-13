@@ -38,6 +38,11 @@ export function affectedCrates(packages, paths) {
   return [...touched].sort();
 }
 
+// Fixtures that tests in both Rust workspaces read, and the crates in crates/ whose tests read them
+// (decision 0020). A change to one runs those crates and the sidecar.
+const SHARED_FIXTURES = { 'tests/fixtures/ba-cross-check/': ['gw-aero'] };
+export const fixtureCrates = (paths) => [...new Set((paths ?? []).flatMap((path) => Object.entries(SHARED_FIXTURES).filter(([dir]) => path.startsWith(dir)).flatMap(([, owners]) => owners)))];
+
 /**
  * What to run. `paths` is null when the change set is unknown or this is main: then everything.
  * `crates` is the crate list from affectedCrates, or null to test the whole workspace.
@@ -45,8 +50,8 @@ export function affectedCrates(packages, paths) {
 export function planSteps({ paths, leg = 'all', crates = null }) {
   const everything = paths === null || paths.some((path) => SCOPE_EVERYTHING.test(path));
   const code = everything || paths.some((path) => !isProse(path));
-  // The bundle adjuster cross-check's block is solved by both workspaces (decision 0020).
-  const shared = paths?.some((path) => path.startsWith('tests/fixtures/ba-cross-check/'));
+  const owners = fixtureCrates(paths);
+  const shared = owners.length > 0;
   const rust = everything || shared || paths.some((path) => path.startsWith('crates/') && !isProse(path));
   const rustAll = everything || crates === null || paths.some((path) => RUST_EVERYTHING.test(path));
   // The checker's own changes count too, so a stricter rule is tried on the fragments already there.
@@ -66,7 +71,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     if (fragments) step('Changelog fragments', 'node', ['build/release/changelog.mjs', 'check']);
     if (rust) {
       step('Crate licences and sources', 'cargo', cargoDeny, 'crates');
-      const targets = rustAll ? ['--workspace'] : crates.flatMap((name) => ['-p', name]);
+      const targets = rustAll ? ['--workspace'] : [...new Set([...crates, ...owners])].flatMap((name) => ['-p', name]);
       if (targets.length > 0) {
         step('Clippy', 'cargo', clippy(targets), 'crates');
         step('Rust tests', 'cargo', ['test', '--locked', '--no-fail-fast', ...targets], 'crates');
@@ -124,7 +129,8 @@ function main() {
   scopeCargoTarget(); // this checkout's target, not a machine-wide one shared with other worktrees (#42)
   const paths = changedPaths();
   const packages = paths?.some((path) => path.startsWith('crates/')) ? workspaceCrates() : null;
-  const crates = packages ? affectedCrates(packages, paths) : null;
+  // A fixture-only change tests just the crates that read it, not the whole workspace.
+  const crates = packages ? affectedCrates(packages, paths) : fixtureCrates(paths).length > 0 ? [] : null;
   const steps = planSteps({ paths, leg: process.env.GWB_LEG ?? 'all', crates });
 
   console.log(paths === null ? 'Scope: everything.' : `Scope: ${paths.length} changed paths.`);
