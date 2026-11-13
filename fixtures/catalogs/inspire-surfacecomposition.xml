@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A sample code list in the INSPIRE registry's XML form, written for GIS Workbench's tests (REQ-GAP-87). -->
+<codelist id="http://example.org/codelist/SurfaceCompositionValue">
+  <label xml:lang="en">Surface composition</label>
+  <containeditems>
+    <value id="http://example.org/codelist/SurfaceCompositionValue/asphalt"><label xml:lang="en">asphalt</label></value>
+    <value id="http://example.org/codelist/SurfaceCompositionValue/gravel"><label xml:lang="en">gravel</label></value>
+    <value id="http://example.org/codelist/SurfaceCompositionValue/concrete"><label xml:lang="en">concrete</label></value>
+  </containeditems>
+</codelist>

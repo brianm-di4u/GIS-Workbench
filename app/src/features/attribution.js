@@ -216,12 +216,18 @@ export function install(app) {
     const cat = catOf(v);
     const fs = fieldsOf(v);
     const inputs = {};
+    /** A coded field's choices: its domain, after an empty one when the field's null is empty and no code means it. */
+    const choices = (fd, dom) => {
+      const blank = nullOf(cat, fd);
+      const keys = (blank === '' || blank === null) && !('' in dom) ? ['', ...Object.keys(dom)] : Object.keys(dom);
+      return keys.map((k) => h('option', { value: k }, k === '' ? '' : `${k} — ${dom[k]}`));
+    };
     const rows = fs.map((fd) => {
       const cur = f.attrs?.[fd.name];
       let el;
       if (fd.domain) {
-        el = h('select', { class: 'inp', 'aria-label': fd.title ?? fd.name }, Object.entries(fd.domain).map(([k, l]) => h('option', { value: k }, `${k} — ${l}`)));
-        el.value = cur === null || cur === undefined ? String(nullOf(cat, fd)) : String(cur);
+        el = h('select', { class: 'inp', 'aria-label': fd.title ?? fd.name }, choices(fd, fd.domain));
+        el.value = cur === null || cur === undefined ? String(nullOf(cat, fd) ?? '') : String(cur);
       } else {
         el = h('input', { class: 'inp', type: fd.type === 'string' ? 'text' : 'number', spellcheck: fd.type === 'string' ? 'true' : 'false', step: 'any', value: cur === null || cur === undefined ? '' : String(cur), 'aria-label': fd.title ?? fd.name, ...(fd.range ? { min: String(fd.range[0]), max: String(fd.range[1]) } : {}), ...(fd.length ? { maxlength: String(fd.length) } : {}) });
       }
@@ -241,12 +247,13 @@ export function install(app) {
         if (!fd.domain) continue;
         const el = inputs[fd.name];
         const dom = contingentDomain(cat, v.schema, fs, fd.name, at) ?? fd.domain;
-        const keys = Object.keys(dom);
+        const opts = choices(fd, dom);
+        const keys = opts.map((o) => o.value);
         const have = [...el.options].map((o) => o.value);
         if (have.length === keys.length && have.every((k, i) => k === keys[i])) continue;
         const was = el.value;
-        el.replaceChildren(...Object.entries(dom).map(([k, l]) => h('option', { value: k }, `${k} — ${l}`)));
-        el.value = keys.includes(was) ? was : String(nullOf(cat, fd));
+        el.replaceChildren(...opts);
+        el.value = keys.includes(was) ? was : String(nullOf(cat, fd) ?? '');
       }
     };
     for (const fd of fs) inputs[fd.name].addEventListener('change', refreshDomains);

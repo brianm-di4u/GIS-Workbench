@@ -571,6 +571,7 @@ const KW = {
   'sar.stereolevel': [N_('levelling'), N_('vertical bias'), N_('DSM offset'), N_('reference DEM'), N_('radargrammetry')],
   'sar.terrain': [N_('terrain correction'), N_('geocoding'), N_('orthorectification'), N_('range-Doppler'), N_('gamma nought'), N_('radiometric terrain flattening'), N_('orbit file'), 'RTC', 'POEORB'],
   'vec.buffer': [N_('buffer'), N_('offset'), N_('distance zone'), N_('geodesic')],
+  'ext.importcatalog': ['iso 19110', 'inspire', 'openstreetmap', N_('presets'), N_('feature catalogue'), N_('code list'), N_('schema')],
   'vec.overlay': [N_('intersect'), N_('union'), N_('erase'), N_('clip'), N_('difference'), N_('symmetric difference')],
   'vec.dissolve': [N_('merge'), N_('aggregate'), N_('union by attribute')],
   'vec.join': [N_('spatial join'), N_('point in polygon'), N_('nearest'), N_('count'), N_('summarise')],

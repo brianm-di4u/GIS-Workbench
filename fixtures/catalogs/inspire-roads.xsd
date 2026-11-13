@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A sample application schema in the INSPIRE pattern, written for GIS Workbench's tests (REQ-GAP-87). -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:tn-s="http://example.org/sample/tn-ro" targetNamespace="http://example.org/sample/tn-ro" elementFormDefault="qualified">
+  <element name="RoadLink" type="tn-s:RoadLinkType" substitutionGroup="gml:AbstractFeature"/>
+  <complexType name="RoadLinkType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="centrelineGeometry" type="gml:CurvePropertyType"/>
+          <element name="surfaceComposition" type="gml:ReferenceType" nillable="true"/>
+          <element name="numberOfLanes" type="integer"/>
+          <element name="localRoadCode" type="string" minOccurs="0"/>
+          <element name="startNode" type="gml:ReferenceType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="RoadNode" type="tn-s:RoadNodeType" substitutionGroup="gml:AbstractFeature"/>
+  <complexType name="RoadNodeType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="geometry" type="gml:PointPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</schema>

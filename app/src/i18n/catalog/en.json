@@ -13102,6 +13102,13 @@
    ]
   },
   {
+   "key": "Feature Tools ▸ Attributes ▸ Import Feature Catalogue reads an ISO 19110 feature catalogue (XML), an INSPIRE application schema (.xsd) with its code lists, OpenStreetMap presets (the iD editor’s presets.json with fields.json) or a gw-catalog/1 file. Its feature types are then offered by New Layer from Schema, with coded values as drop-down lists.",
+   "src": "Feature Tools ▸ Attributes ▸ Import Feature Catalogue reads an ISO 19110 feature catalogue (XML), an INSPIRE application schema (.xsd) with its code lists, OpenStreetMap presets (the iD editor’s presets.json with fields.json) or a gw-catalog/1 file. Its feature types are then offered by New Layer from Schema, with coded values as drop-down lists.",
+   "refs": [
+    "features/dialogs.js"
+   ]
+  },
+  {
    "key": "Feature Tools: capture with snapping and persistent attribution against the schema, the magic wand and edge, road and DSM assists, and Validate for dangles, overlaps, slivers, duplicates and gaps. Buildings go out as glTF, OBJ or CityJSON; Texture Buildings drapes them with an image through its sensor model.",
    "src": "Feature Tools: capture with snapping and persistent attribution against the schema, the magic wand and edge, road and DSM assists, and Validate for dangles, overlaps, slivers, duplicates and gaps. Buildings go out as glTF, OBJ or CityJSON; Texture Buildings drapes them with an image through its sensor model.",
    "refs": [
@@ -13123,8 +13130,8 @@
    ]
   },
   {
-   "key": "Feature catalogue (JSON)",
-   "src": "Feature catalogue (JSON)",
+   "key": "Feature catalogue (gw-catalog/1, ISO 19110, INSPIRE schema and code lists, or OpenStreetMap presets)",
+   "src": "Feature catalogue (gw-catalog/1, ISO 19110, INSPIRE schema and code lists, or OpenStreetMap presets)",
    "refs": [
     "features/catalogs.js"
    ]
@@ -13141,7 +13148,8 @@
    "key": "Feature catalogues",
    "src": "Feature catalogues",
    "refs": [
-    "features/catalogs.js"
+    "features/catalogs.js",
+    "features/dialogs.js"
    ]
   },
   {
@@ -17981,8 +17989,8 @@
    ]
   },
   {
-   "key": "Import… reads a gw-catalog/1 JSON file.",
-   "src": "Import… reads a gw-catalog/1 JSON file.",
+   "key": "Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.",
+   "src": "Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.",
    "refs": [
     "features/catalogs.js"
    ]
@@ -32106,8 +32114,8 @@
    ]
   },
   {
-   "key": "Reads your own feature catalogue (gw-catalog/1 JSON) and keeps it in the project and in your settings; New Layer from Schema then offers it.",
-   "src": "Reads your own feature catalogue (gw-catalog/1 JSON) and keeps it in the project and in your settings; New Layer from Schema then offers it.",
+   "key": "Reads your feature catalogue (ISO 19110, an INSPIRE schema with code lists, OpenStreetMap presets or gw-catalog/1) for New Layer from Schema.",
+   "src": "Reads your feature catalogue (ISO 19110, an INSPIRE schema with code lists, OpenStreetMap presets or gw-catalog/1) for New Layer from Schema.",
    "refs": [
     "shell/commands.js"
    ]
@@ -48013,6 +48021,13 @@
    ]
   },
   {
+   "key": "code list",
+   "src": "code list",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "code page \"{encoding}\" not known; read as UTF-8",
    "src": "code page \"{encoding}\" not known; read as UTF-8",
    "refs": [
@@ -49186,6 +49201,13 @@
    "src": "feature",
    "refs": [
     "vector/index.js"
+   ]
+  },
+  {
+   "key": "feature catalogue",
+   "src": "feature catalogue",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
@@ -54843,6 +54865,13 @@
    ]
   },
   {
+   "key": "presets",
+   "src": "presets",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "principal components",
    "src": "principal components",
    "refs": [
@@ -56208,6 +56237,13 @@
    "src": "scene layer package",
    "refs": [
     "features/models3d.js"
+   ]
+  },
+  {
+   "key": "schema",
+   "src": "schema",
+   "refs": [
+    "shell/command-meta.js"
    ]
   },
   {
