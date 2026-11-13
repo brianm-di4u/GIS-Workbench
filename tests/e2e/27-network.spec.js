@@ -262,6 +262,28 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
     return app.store.all('feature').filter((f) => f.vlayer === v.id).map((f) => [f.geom.xyz[0], f.geom.xyz[1]]);
   });
   expect(listed).toEqual([REF.queries[0].at, REF.queries[2].at]);
+  // Geocode a Table runs in slices with Cancel in the activity indicator: pressed after the first
+  // slice, it stops the run, and no layer or message follows.
+  const cancelled = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const n = app.store.all('vlayer').length;
+    const toasts = app.toastLog.length;
+    const begin = app.activity.begin.bind(app.activity);
+    let steps = 0;
+    app.activity.begin = (label, o) => {
+      const job = begin(label, o);
+      const step = job.step;
+      job.step = async (...a) => {
+        await step(...a);
+        if (++steps === 1) document.querySelector('[data-id="activity:cancel"]').click();
+      };
+      return job;
+    };
+    const text = ['address', ...Array.from({ length: 100000 }, (_, i) => `${i + 1} ${i % 2 ? 'Main' : '1st'} St`)].join('\n');
+    const r = await app.commands.run('addr.batch', { text, address: 'address' }).finally(() => (app.activity.begin = begin));
+    return { r: r ?? null, steps, layers: app.store.all('vlayer').length - n, toasts: app.toastLog.slice(toasts).map((e) => e.message), running: app.activity.tracked.size };
+  });
+  expect(cancelled).toMatchObject({ r: null, steps: 1, layers: 0, toasts: [], running: 0 });
   // Road Network with turn bans from a file, through its button.
   const viaRoads = frame.evaluate(() => window.gisworkbench.commands.run('route.roads'));
   const rd2 = frame.locator('[data-id="dialog:net-roads"]');

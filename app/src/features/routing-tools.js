@@ -221,6 +221,8 @@ export function install(app) {
         if (best) ok.push({ at: best.at, attrs: { ...attrs, match: best.match, score: Math.round(best.score), matched: `${best.number ? `${best.number} ` : ''}${best.street}` } });
         else failed.push(attrs);
       }
+      // A Cancel pressed during the last slice still adds no layer.
+      if (job.cancelled) throw Object.assign(gwError('cancelled'), { cancelled: true });
     };
     const label = t('Geocoding {n, plural, one {# address} other {# addresses}}…', { n: body.length });
     await app.activity.track(label, work, { cancel: true });

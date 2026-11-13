@@ -209,6 +209,24 @@ describe.skipIf(!haveWasm)('REQ-GAP-85 routes and service areas (vector bundle) 
     expect(onB(null)).toBe(true);
     expect(serviceLines(t, r.cost, [150], r.entry).some((p) => p.coords.some(([, y]) => y > 0))).toBe(true);
   });
+  it('draws a service area from part way along an edge, from the pick, and counts only nodes of the built network', () => {
+    // One two-way road 0.002° long; the pick is a quarter of the way along, about 56 m from its west end.
+    const t = buildGraph([{ id: 'a', coords: [[0, 0], [0.002, 0]] }]);
+    const s = snapToEdge(t, [0.0005, 0]);
+    expect(s.node).toBe(t.nodes.length);
+    const area = (brk) => {
+      const r = B.network([1, brk, s.node], graphData(s.g));
+      return { pieces: serviceLines(s.g, r.cost, [brk], r.entry), nodes: r.cost.slice(0, t.nodes.length).filter((c) => c !== null && c <= brk).length };
+    };
+    // 30 m: both ways from the pick, and no end of the road reached.
+    const near = area(30);
+    expect(near.nodes).toBe(0);
+    expect(near.pieces).toHaveLength(2);
+    for (const p of near.pieces) expect(p.coords[0]).toEqual([0.0005, 0]);
+    expect(near.pieces.map((p) => Math.sign(p.coords.at(-1)[0] - 0.0005)).sort()).toEqual([-1, 1]);
+    // 100 m: the west end (56 m) is reached, the east end (167 m) is not.
+    expect(area(100).nodes).toBe(1);
+  });
   it('reaches the reference nodes within each break', () => {
     const s = REF.service;
     const c = B.network([1, Math.max(...s.breaks), at(s.from)], data).cost;
