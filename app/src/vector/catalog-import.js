@@ -64,7 +64,8 @@ export function attrType(t) {
     .toLowerCase();
   const g = s.match(/^gm_(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)$/) ?? s.match(/^(?:multi|composite|orientable)?(point|curve|linestring|surface|polygon)(?:property)?type$/);
   if (g) return { point: 'geometry:Point', curve: 'geometry:LineString', linestring: 'geometry:LineString', surface: 'geometry:Polygon', polygon: 'geometry:Polygon' }[g[1]];
-  if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$/.test(s)) return 'geometry:';
+  if (/^(?:polyhedral|triangulated)surface(?:property)?type$|^tin(?:property)?type$/.test(s)) return 'geometry:Polygon';
+  if (/^gm_|^(?:multi|composite)?(?:geometry|solid|primitive)(?:property)?type$|^geometric(?:primitive|complex|aggregate)(?:property)?type$/.test(s)) return 'geometry:';
   if (/(?:geometry|geographicposition)\w*propertytype$/.test(s)) return 'geometry:';
   if (/^(boolean)$/.test(s)) return 'boolean';
   if (/^(integer|int|long|short|byte|(non)?(positive|negative)integer|unsigned(byte|short|int|long)|unlimitedinteger)$/.test(s)) return 'integer';

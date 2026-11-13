@@ -285,20 +285,35 @@ export function install(app) {
       const l = await app.timeseries.trend();
       return { summary: t('Trend of {n} pixels', { n: l.width * l.height }) };
     } },
-    timeAnomaly: { title: N_('Temporal anomaly'), defaults: { from: '', to: '', by: 'month', z: false }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
+    timeAnomaly: { title: N_('Temporal anomaly'), schema: {
+      from: { type: 'date', label: N_('Baseline from'), default: '' },
+      to: { type: 'date', label: N_('Baseline to'), default: '' },
+      by: { type: 'enum', label: N_('Compare with'), values: [{ value: 'month', label: N_('The same calendar month of the baseline') }, { value: 'none', label: N_('The whole baseline') }], default: 'month' },
+      z: { type: 'boolean', label: N_('As z-scores'), default: false },
+    }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
       const l = await app.timeseries.anomaly(undefined, { from, to, by, z });
       return { summary: t('{n, plural, one {# date} other {# dates}}', { n: l.bands }) };
     } },
     // Geocoding and routing on the user's own data (REQ-GAP-85): the index and the network come first (addr.index, route.roads).
-    geocodeTable: { title: N_('Geocode a table'), defaults: { address: 'address', place: '' }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
+    geocodeTable: { title: N_('Geocode a table'), schema: {
+      text: { type: 'text', label: N_('Table (CSV text)'), default: '' },
+      address: { type: 'text', label: N_('Address column'), default: 'address' },
+      place: { type: 'text', label: N_('Place column'), default: '' },
+    }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
       const r = await app.routing.geocodeTable(text, { address, place });
       return { summary: t('{ok} of {n} addresses found', { ok: r.matched, n: r.matched + r.unmatched }) };
     } },
-    route: { title: N_('Shortest route'), defaults: { from: null, to: null }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
+    route: { title: N_('Shortest route'), schema: {
+      from: { type: 'lonlat', label: N_('Start (longitude, latitude)'), default: null },
+      to: { type: 'lonlat', label: N_('End (longitude, latitude)'), default: null },
+    }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
       const r = await app.routing.route(from, to);
       return { summary: r ? t('Route of {n} m', { n: Math.round(r.metres) }) : t('No route') };
     } },
-    serviceArea: { title: N_('Service area'), defaults: { at: null, breaks: [300, 600] }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
+    serviceArea: { title: N_('Service area'), schema: {
+      at: { type: 'lonlat', label: N_('From (longitude, latitude)'), default: null },
+      breaks: { type: 'numbers', label: N_('Breaks'), unit: 's', default: [300, 600] },
+    }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
       const r = await app.routing.serviceArea(at, breaks);
       return { summary: t('{n} nodes reached', { n: r.nodes }) };
     } },
@@ -381,7 +396,7 @@ export function install(app) {
   function drawer(i) {
     const step = runner.recipe.steps[i];
     const rows = Object.entries(step.params).map(([k, v]) => {
-      const inp = h('input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v), 'aria-label': k, 'data-id': `recipe:param:${k}` });
+      const inp = h('input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
       inp.addEventListener('change', () => {
         const raw = inp.value.trim();
         const val = Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;

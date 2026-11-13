@@ -269,6 +269,24 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await expect(steps.nth(1)).toHaveAttribute('data-status', 'done');
   await expect(steps.nth(1)).toContainText('no accepted detections');
   expect(await frame.evaluate(() => window.gisworkbench.recipes.runner.toJSON().format)).toBe('gw-recipe/2');
+  // Every parameter an op offers has a schema entry, so the Builder's form and the dock coerce it alike:
+  // the time series and routing ops' form text becomes points, lists and booleans.
+  const untyped = await frame.evaluate(() => Object.entries(window.gisworkbench.recipes.ops).flatMap(([k, o]) => Object.keys(o.defaults ?? {}).filter((p) => !o.schema?.[p]).map((p) => `${k}.${p}`)));
+  expect(untyped).toEqual([]);
+  const typed = await frame.evaluate(
+    () =>
+      window.gisworkbench.recipes.validate({
+        format: 'gw-recipe/2',
+        id: 'net',
+        name: 'Net',
+        steps: [
+          { id: 'a', op: 'serviceArea', params: { at: '-120, 35', breaks: '300, 600, 900' } },
+          { id: 'b', op: 'timeAnomaly', params: { z: 'false', by: 'none' } },
+          { id: 'c', op: 'route', params: { from: '-120, 35', to: [-119.9, 35.1] } },
+        ],
+      }).steps.map((s) => s.params),
+  );
+  expect(typed).toEqual([{ at: [-120, 35], breaks: [300, 600, 900] }, { from: '', to: '', by: 'none', z: false }, { from: [-120, 35], to: [-119.9, 35.1] }]);
   // Save… in the dock writes that file, with the parameter changed in the drawer.
   await frame.evaluate(() => {
     const app = window.gisworkbench;

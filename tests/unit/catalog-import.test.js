@@ -198,6 +198,9 @@ describe('REQ-GAP-87 which converter a file needs', () => {
     expect(['xs:time', 'xs:dateTime'].map(attrType)).toEqual(['text', 'text']);
     // An INSPIRE data type that wraps a geometry is geometry, not text.
     expect(['bu-core2d:BuildingGeometry2DPropertyType', 'ad:GeographicPositionPropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:']);
+    // The rest of GML 3.2's geometry property types (GM_Primitive is gml:GeometricPrimitivePropertyType).
+    expect(['gml:GeometricPrimitivePropertyType', 'gml:GeometricComplexPropertyType', 'gml:GeometricAggregatePropertyType'].map(attrType)).toEqual(['geometry:', 'geometry:', 'geometry:']);
+    expect(['gml:PolyhedralSurfacePropertyType', 'gml:TriangulatedSurfacePropertyType', 'gml:TinPropertyType'].map(attrType)).toEqual(Array(3).fill('geometry:Polygon'));
   });
 });
 

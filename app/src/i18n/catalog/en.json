@@ -2302,6 +2302,7 @@
    "key": "Address column",
    "src": "Address column",
    "refs": [
+    "features/recipes.js",
     "features/routing-tools.js"
    ]
   },
@@ -3539,6 +3540,13 @@
    ]
   },
   {
+   "key": "As z-scores",
+   "src": "As z-scores",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Ask AI About Here",
    "src": "Ask AI About Here",
    "refs": [
@@ -4508,6 +4516,7 @@
    "key": "Baseline from",
    "src": "Baseline from",
    "refs": [
+    "features/recipes.js",
     "features/timeseries-tools.js"
    ]
   },
@@ -4515,6 +4524,7 @@
    "key": "Baseline to",
    "src": "Baseline to",
    "refs": [
+    "features/recipes.js",
     "features/timeseries-tools.js"
    ]
   },
@@ -4938,6 +4948,13 @@
    "src": "Breakline: click the vertices (they snap to points and lines); double-click finishes.",
    "refs": [
     "features/tin-editor.js"
+   ]
+  },
+  {
+   "key": "Breaks",
+   "src": "Breaks",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -8446,6 +8463,7 @@
    "key": "Compare with",
    "src": "Compare with",
    "refs": [
+    "features/recipes.js",
     "features/timeseries-tools.js"
    ]
   },
@@ -12344,6 +12362,13 @@
    ]
   },
   {
+   "key": "End (longitude, latitude)",
+   "src": "End (longitude, latitude)",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "End the tool; stop full roam",
    "src": "End the tool; stop full roam",
    "refs": [
@@ -14672,6 +14697,13 @@
    "refs": [
     "features/catalog.js",
     "mobile/shell.js"
+   ]
+  },
+  {
+   "key": "From (longitude, latitude)",
+   "src": "From (longitude, latitude)",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -29520,6 +29552,7 @@
    "key": "Place column",
    "src": "Place column",
    "refs": [
+    "features/recipes.js",
     "features/routing-tools.js"
    ]
   },
@@ -39141,6 +39174,13 @@
    ]
   },
   {
+   "key": "Start (longitude, latitude)",
+   "src": "Start (longitude, latitude)",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Start typing.",
    "src": "Start typing.",
    "refs": [
@@ -40539,6 +40579,13 @@
    ]
   },
   {
+   "key": "Table (CSV text)",
+   "src": "Table (CSV text)",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "Table 4-11: the shorter side is 7 410 m in all (3 705 m each side of the centre line) and the longer sides reach 5 350 m before and after the thresholds; the upper section is 60 m high.",
    "src": "Table 4-11: the shorter side is 7 410 m in all (3 705 m each side of the centre line) and the longer sides reach 5 350 m before and after the thresholds; the upper section is 60 m high.",
    "refs": [
@@ -41783,6 +41830,7 @@
    "key": "The same calendar month of the baseline",
    "src": "The same calendar month of the baseline",
    "refs": [
+    "features/recipes.js",
     "features/timeseries-tools.js"
    ]
   },
@@ -41923,6 +41971,7 @@
    "key": "The whole baseline",
    "src": "The whole baseline",
    "refs": [
+    "features/recipes.js",
     "features/timeseries-tools.js"
    ]
   },
