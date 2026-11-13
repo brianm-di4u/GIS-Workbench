@@ -35,11 +35,14 @@ export const listLibrary = () => idbDo('readonly', (st) => st.getAll()).then((ro
 export const putLibrary = (recipe) => idbDo('readwrite', (st) => st.put({ id: recipe.id, recipe: JSON.parse(JSON.stringify(recipe)), saved: new Date().toISOString() }));
 export const removeFromLibrary = (id) => idbDo('readwrite', (st) => st.delete(id));
 
-/** Move the recipes the settings kept (the old cap of 20) into the library, once. */
+/**
+ * Copy the recipes the settings kept (the old cap of 20) into the library, once. The settings keep them,
+ * so a build from before the library still lists them; the library's copy is the one this build shows.
+ */
 export async function migrateFromPrefs(prefs) {
   const old = prefs.get('recipes');
-  if (!Array.isArray(old) || !old.length) return 0;
+  if (prefs.get('recipesInLibrary') || !Array.isArray(old) || !old.length) return 0;
   for (const r of old) if (r?.id) await putLibrary(r);
-  prefs.set('recipes', []);
+  prefs.set('recipesInLibrary', true);
   return old.length;
 }

@@ -115,6 +115,22 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   // The graph: five nodes and five wires.
   await expect(panel.locator('.wf-node')).toHaveCount(5);
   await expect(panel.locator('.wf-wire')).toHaveCount(5);
+  // No wire passes behind a step it does not join: every wire's points stay out of the other steps' boxes.
+  const hidden = await frame.evaluate(() => {
+    const boxes = [...document.querySelectorAll('.wf-node')].map((g) => ({ id: g.dataset.step, r: g.querySelector('rect').getBoundingClientRect() }));
+    return [...document.querySelectorAll('.wf-wire')].flatMap((p) => {
+      const [from, to] = p.dataset.wire.split('>').map((e) => e.slice(0, e.lastIndexOf('.')));
+      const m = p.getScreenCTM();
+      const len = p.getTotalLength();
+      const hits = new Set();
+      for (let i = 1; i < 40; i++) {
+        const q = p.getPointAtLength((len * i) / 40).matrixTransform(m);
+        for (const b of boxes) if (b.id !== from && b.id !== to && q.x > b.r.left + 2 && q.x < b.r.right - 2 && q.y > b.r.top + 2 && q.y < b.r.bottom - 2) hits.add(`${p.dataset.wire} behind ${b.id}`);
+      }
+      return [...hits];
+    });
+  });
+  expect(hidden).toEqual([]);
   // A wire that would make a loop is refused, and the workflow is unchanged.
   const loop = await frame.evaluate(async () => {
     try {
@@ -203,7 +219,8 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
   expect(first.ring).toEqual(first.byHand);
   expect(first.saved).toHaveLength(1);
   expect(first.saved[0]).toMatch(/\.geojson$/);
-  expect(first.recipe).toMatchObject({ step: 's4', op: 'overlay', params: { op: 'erase' }, version: 1 });
+  // Run before any Save: the stamp names no version, and says so.
+  expect(first.recipe).toMatchObject({ step: 's4', op: 'overlay', params: { op: 'erase' }, version: null, unsaved: true });
   // The stamps are not undo steps: each step's own change is, and Undo takes back a step, not its stamp.
   expect(first.undone.length).toBeGreaterThan(0);
   expect(first.undone.filter((l) => / step s\d/.test(l))).toEqual([]);
@@ -273,8 +290,12 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
 
   // Rerun on new inputs: the other road layer.
   await frame.evaluate((roads) => window.gisworkbench.workflows.setParam('s1', 'layer', roads), names[1]);
+  // Saved first, the run's stamp names the version kept.
+  await frame.evaluate(() => window.gisworkbench.workflows.saveToProject());
   const second = await run(names[1]);
   expect(second.r).toEqual({ ok: true });
+  expect(second.recipe.version).toBeGreaterThanOrEqual(1);
+  expect(second.recipe.unsaved).toBeUndefined();
   expect(second.ring).toEqual(second.byHand);
   expect(second.ring).not.toEqual(first.ring);
   expect(logs).toEqual([]);
@@ -522,7 +543,8 @@ test('REQ-GAP-84 recipes kept in the settings move into the library on the first
   expect(out.lib).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   expect(out.listed).toEqual(expect.arrayContaining(['old-1', 'old-2']));
-  expect(out.left).toEqual([]);
+  // The settings keep their list (an older build still finds it); the library's copies are what is shown.
+  expect(out.left.map((r) => r.id)).toEqual(expect.arrayContaining(['old-1', 'old-2']));
   // Opening a library copy and saving it replaces it in place: unchanged keeps its version, a change takes the next.
   const saves = await frame.evaluate(async () => {
     const app = window.gisworkbench;

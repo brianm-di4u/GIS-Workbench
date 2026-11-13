@@ -337,7 +337,11 @@ export function install(app) {
     if (OPS[step.op]?.source) return;
     const ids = Object.values(outputs).filter((x) => typeof x === 'string' && (S.get(x)?.type === 'vlayer' || app.layers.get(x)));
     if (!ids.length) return;
-    const rec = { id: recipe.id, version: recipe.version, step: step.id, op: step.op, params: JSON.parse(JSON.stringify(step.params)), at: new Date().toISOString() };
+    // The version names what ran only when a kept copy (built in, in the project or the library) holds
+    // exactly that workflow; an unsaved or edited run says so, and its step's settings are what it used.
+    const ran = contentOf(recipe, OPS);
+    const kept = [...BUILTIN, ...S.all('workflow').map((w) => w.recipe), ...library].some((x) => x?.id === recipe.id && contentOf(x, OPS) === ran);
+    const rec = { id: recipe.id, version: kept ? recipe.version : null, ...(kept ? {} : { unsaved: true }), step: step.id, op: step.op, params: JSON.parse(JSON.stringify(step.params)), at: new Date().toISOString() };
     // Bookkeeping, not an edit: kept out of the undo history (as a GeoPackage's schema is), so Undo
     // after a run takes back the step itself, not its stamp.
     S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)), { kind: 'load' });
@@ -411,6 +415,8 @@ export function install(app) {
   /** Remove a recipe from the library, and from the list the dock and API v2 read. */
   async function forget(id) {
     await removeFromLibrary(id);
+    const old = app.prefs.get('recipes');
+    if (Array.isArray(old) && old.some((r) => r?.id === id)) app.prefs.set('recipes', old.filter((r) => r?.id !== id));
     await refreshLibrary();
   }
   let panelEl = null;

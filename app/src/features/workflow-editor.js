@@ -196,7 +196,12 @@ export function install(app) {
         if (!src) continue;
         const [x0, y0] = port(src, 'out', w.output);
         const [x1, y1] = port(x, 'in', k);
-        const d = `M${x0},${y0} C${x0 + 60},${y0} ${x1 - 60},${y1} ${x1},${y1}`;
+        // A step between the two ends would hide a straight wire: go round under it.
+        const lo = Math.min(y0, y1) - 12;
+        const hi = Math.max(y0, y1) + 12;
+        const between = wf.steps.filter((o) => o !== src && o !== x && o.at && o.at.x < Math.max(x0, x1) && o.at.x + NODE_W > Math.min(x0, x1) && o.at.y < hi && o.at.y + nodeH(ops[o.op]) > lo);
+        const dip = between.length ? Math.max(...between.map((o) => o.at.y + nodeH(ops[o.op]))) + 20 : null;
+        const d = dip === null ? `M${x0},${y0} C${x0 + 60},${y0} ${x1 - 60},${y1} ${x1},${y1}` : `M${x0},${y0} C${x0 + 40},${y0} ${x0 + 20},${dip} ${(x0 + x1) / 2},${dip} S${x1 - 40},${y1} ${x1},${y1}`;
         svg.append(s('path', { d, class: 'wf-wire', 'data-wire': `${w.from}.${w.output}>${x.id}.${k}` }));
       }
     }
