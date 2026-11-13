@@ -604,6 +604,7 @@ const CATALOG = [
   ['sidecar.reproject', N_('Reproject with Sidecar…'), 'globe', 'REQ-GAP-17', 'R8', '', N_('Reprojects a raster of any size with GDAL and every PROJ grid, and refuses rather than fall back when a grid is missing.')],
   ['sidecar.gdbcatalog', N_('Catalogue from FileGDB…'), 'list', 'REQ-GAP-54', 'R8', '', N_("Reads a File Geodatabase's domains and subtypes and imports them as a feature catalogue.")],
   ['sidecar.sfm', N_('Structure from Motion with Sidecar…'), 'globe', 'REQ-GAP-29', 'R8', '', N_('Orients a folder of UAV photographs and makes a dense cloud, a DSM and an orthomosaic on this computer.')],
+  ['sidecar.sfmcontrol', N_('Structure from Motion with Ground Control…'), 'globe', 'REQ-GAP-94', 'R8', '', N_('Places a UAV block on surveyed ground control points marked in its photographs, then makes a dense cloud, a DSM and an orthomosaic.')],
   ['sidecar.modelexport', N_('Export 3D Model with Sidecar…'), 'save', 'REQ-GAP-36', 'R8', '', N_('Writes a 3D model as Esri multipatch, FBX or IFC through the sidecar.')],
   // ---- 2.4 imaging (REQ-GAP-14, REQ-GAP-34) ----
   ['enh.pansharpenproduct', N_('Pan-Sharpened Product…'), 'sharpen', 'REQ-GAP-14', 'R8', '', N_('Fuses the pan and multispectral images at the pan resolution and bit depth into a Cloud-Optimized GeoTIFF, with ERGAS, SAM and Q4.')],

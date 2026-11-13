@@ -41,6 +41,8 @@ pub const EMBEDDED: &[(&str, &str)] = &[
     ("model-multipatch-shp", include_str!("../../profiles/model-multipatch-shp.toml")),
     ("ossim-rpc", include_str!("../../profiles/ossim-rpc.toml")),
     ("sfm-block", include_str!("../../profiles/sfm-block.toml")),
+    ("sfm-model", include_str!("../../profiles/sfm-model.toml")),
+    ("sfm-control", include_str!("../../profiles/sfm-control.toml")),
 ];
 
 #[derive(Debug, Clone, Deserialize)]
@@ -713,6 +715,53 @@ mod tests {
         let mut bad = BTreeMap::new();
         bad.insert("views".to_string(), Value::from(99));
         assert!(p.check_options(&bad, &NoDrivers).unwrap_err().contains("views"));
+    }
+
+    /// REG-075, decision 0018: the first stage publishes the model file as its output; the second
+    /// takes the photographs first and hands both later inputs to gwb-sfm import, which tells them
+    /// apart. Neither stage asks for a GPU or leaves a placeholder unfilled.
+    #[test]
+    fn the_two_sfm_stages_chain_through_the_model_file() {
+        struct NoDrivers;
+        impl DriverInfo for NoDrivers {
+            fn raster_writer(&self, _: &str) -> bool {
+                false
+            }
+            fn vector_writer(&self, _: &str) -> bool {
+                false
+            }
+            fn creation_options(&self, _: &str, _: &str) -> Option<Vec<gwb_sidecar_api::CreationOption>> {
+                None
+            }
+        }
+        let expand = |id: &str, inputs: &[&str]| -> Vec<Vec<String>> {
+            let p = profile(id);
+            assert!(p.allow_dir_inputs && p.module == "sfm", "{id}");
+            let opts = p.check_options(&BTreeMap::new(), &NoDrivers).unwrap();
+            let args: Vec<Vec<String>> = p.steps.iter().map(|s| p.expand(s, &ctx(inputs), &opts).unwrap()).collect();
+            for a in args.iter().flatten() {
+                assert!(!a.contains('{'), "{id}: an unfilled placeholder in {a}");
+            }
+            for w in args.iter().flat_map(|a| a.windows(2)) {
+                if w[0].ends_with("use_gpu") {
+                    assert_eq!(w[1], "0");
+                }
+            }
+            // Joined paths use the platform's separator; compare with forward slashes.
+            args.into_iter().map(|a| a.into_iter().map(|s| s.replace('\\', "/")).collect()).collect()
+        };
+        let one = expand("sfm-model", &["/in/photos"]);
+        let last = one.last().unwrap();
+        assert_eq!(&last[..1], ["export"]);
+        assert!(last.windows(2).any(|w| w[0] == "--out" && w[1] == "/o/out"), "{last:?}");
+        assert!(last.windows(2).any(|w| w[0] == "--provenance" && w[1] == "p"), "{last:?}");
+        let p = profile("sfm-control");
+        assert_eq!((p.min_inputs, p.max_inputs), (3, 3));
+        let two = expand("sfm-control", &["/in/photos", "/in/block.sfm-model", "/in/gcp.csv"]);
+        assert_eq!(two[0], ["import", "--images", "/in/photos", "--sparse", "/w/sparse", "--gps", "/w/gps.json", "--control", "/w/control.txt", "--in", "/in/block.sfm-model", "--in", "/in/gcp.csv"]);
+        assert!(two[1].windows(2).any(|w| w[0] == "--gcp" && w[1] == "/w/control.txt"), "{:?}", two[1]);
+        let flat: Vec<&String> = two.iter().flatten().collect();
+        assert!(flat.iter().any(|a| *a == "/o/s.dsm.tif") && flat.iter().any(|a| *a == "/o/s.sfm-report.json"));
     }
 
     fn ctx(inputs: &[&str]) -> ExpandCtx {
