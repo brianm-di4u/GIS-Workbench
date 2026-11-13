@@ -120,11 +120,15 @@ export class Safari {
     await this.cmd('DELETE', '').catch(() => {});
   }
 
-  /** Run a function, given as source text, in the page. It gets `args` and may return a promise. */
+  /**
+   * Run a function, given as source text, in the page. It gets `args` and may return a promise.
+   * Safari's `stack` leaves out the message (an anonymous frame is just "@"), so an error is
+   * reported as its name and message, then its stack (#195).
+   */
   async js(fn, ...args) {
     const r = await this.cmd('POST', '/execute/async', {
       script: `const done = arguments[arguments.length - 1]; const args = [...arguments].slice(0, -1);
-        Promise.resolve().then(() => (${fn}).apply(null, args)).then((v) => done({ ok: v === undefined ? null : v }), (e) => done({ err: String((e && e.stack) || e) }));`,
+        Promise.resolve().then(() => (${fn}).apply(null, args)).then((v) => done({ ok: v === undefined ? null : v }), (e) => done({ err: e && typeof e === 'object' ? [String(e.name || 'Error') + ': ' + String(e.message || ''), e.stack].filter(Boolean).join(' at ') : String(e) }));`,
       args,
     });
     if (r?.err) throw new Error(`in page: ${r.err}`);
@@ -174,8 +178,18 @@ export class Safari {
     const r = await this.ready();
     if (String(r) !== '1') {
       // Lite says why on the page: missing WebGL2 or WebAssembly, or the error boot threw (#185).
-      const why = await this.js('() => document.getElementById("app")?.innerText.slice(0, 400)').catch(() => null);
-      throw new Error(`the app did not start: ready=${r}; the page says: ${JSON.stringify(why)}`);
+      // What the page can do now, and its console, tell a cold-start condition from a Lite fault (#195).
+      const why = await this.js(`() => ({
+        page: document.getElementById('app')?.innerText.slice(0, 400),
+        runmode: document.documentElement.dataset.runmode ?? null,
+        webgl2: !!document.createElement('canvas').getContext('webgl2'),
+        wasm: typeof WebAssembly === 'object',
+        sinceLoad: Math.round(performance.now()),
+      })`).catch((e) => ({ error: e.message }));
+      const logs = await this.consoleErrors();
+      note('startFailure', { ready: r, ...why, console: logs });
+      await shot('start-failure');
+      throw new Error(`the app did not start: ready=${r}; the page says: ${JSON.stringify(why)}; console: ${JSON.stringify(logs.slice(-5))}`);
     }
   }
 

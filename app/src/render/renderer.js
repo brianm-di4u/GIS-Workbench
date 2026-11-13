@@ -240,6 +240,7 @@ export class Renderer {
     canvas.addEventListener('webglcontextrestored', () => {
       this.lost = false;
       this.init();
+      if (this.lost) return; // lost again while setting up: the next restored event does the rest
       for (const p of this.panes) p.onContextRestored?.();
       this.app.emit('gl-restored');
       this.invalidate();
@@ -254,6 +255,22 @@ export class Renderer {
     const gl = this.canvas.getContext('webgl2', { alpha: true, antialias: false, premultipliedAlpha: true, stencil: true, preserveDrawingBuffer: false, powerPreference: 'high-performance' });
     if (!gl) throw new Error('WebGL2 is not available');
     this.gl = gl;
+    this.gpuBytes = 0;
+    this.textures = new Set();
+    this.progF = {}; // filtered variants, recompiled lazily after a context loss
+    this.progBM = new Map(); // Band Math programs, likewise
+    try {
+      this._setup(gl);
+    } catch (e) {
+      // The context can be lost while it is set up (Safari on a cold iPhone simulator, #195): its
+      // shaders then fail to link with no log. That is not a failed start: nothing draws until the
+      // restored event sets it up again.
+      if (!gl.isContextLost()) throw e;
+      this.lost = true;
+    }
+  }
+
+  _setup(gl) {
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
     this.prog = { u: compile(gl, IMAGE_VS, imageFS('u')), i: compile(gl, IMAGE_VS, imageFS('i')), f: compile(gl, IMAGE_VS, imageFS('f')), flat: compile(gl, FLAT_VS, FLAT_FS), tex: compile(gl, TEX_VS, TEX_FS) };
     this.texBuf = gl.createBuffer();
@@ -285,9 +302,6 @@ export class Renderer {
       i: this._tex(1, 1, 'i16', new Int16Array(1)),
       f: this._tex(1, 1, 'f32', new Float32Array(1)),
     };
-    this.gpuBytes = 0;
-    this.textures = new Set();
-    this.progF = {}; // filtered variants, recompiled lazily after a context loss
   }
 
   _tex(w, h, type, data) {
