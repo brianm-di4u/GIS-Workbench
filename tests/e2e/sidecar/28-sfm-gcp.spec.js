@@ -178,71 +178,6 @@ function modelPath() {
   throw new Error(`${run.model.name} is not under ${root}`);
 }
 
-test('the marking dialog: where it predicts each mark, axe, a click and the arrow keys', async () => {
-  test.setTimeout(600_000);
-  expect(run?.model, 'the run published no model').toBeTruthy();
-  const header = await readModelHeader({ body: Readable.toWeb(createReadStream(modelPath())) });
-  // How far stage 1 (placed by GPS) predicts each of the authors' marks.
-  const off = [];
-  let missed = 0;
-  for (const p of authors.points) {
-    const cand = candidates(header, p, { max: 1000 });
-    for (const m of p.marks) {
-      const at = cand.find((c) => c.image === m.image);
-      if (at) off.push(Math.hypot(at.px - m.px, at.py - m.py));
-      else missed += 1;
-    }
-  }
-  off.sort((a, b) => a - b);
-  const prediction = { marks: off.length + missed, predicted: off.length, median_px: off[off.length >> 1], max_px: off[off.length - 1], within_view: off.filter((d) => d < 220).length };
-  record('prediction', prediction);
-  expect(prediction.predicted / prediction.marks).toBeGreaterThan(0.8);
-  // The dialog on the first point, with the photographs it lists opened in the page.
-  const first = authors.points[0];
-  const cand = candidates(header, first);
-  await page.route('https://photos.invalid/**', (route) => route.fulfill({ body: readFileSync(join(PHOTOS, decodeURIComponent(new URL(route.request().url()).pathname.slice(1)))), contentType: 'image/jpeg' }));
-  await frame.evaluate(
-    async ({ names, model }) => {
-      const g = window.gisworkbench;
-      const [folder, control] = (await g.sidecar.client.pick('folder')).files;
-      const photos = await Promise.all(names.map(async (n) => new File([await (await fetch(`https://photos.invalid/${encodeURIComponent(n)}`)).blob()], n, { type: 'image/jpeg' })));
-      window.__scn82 = g.commands.run('sidecar.sfmcontrol', { folder, control, model, photos });
-    },
-    { names: cand.map((c) => c.image), model: run.model },
-  );
-  // With a model given, the first stage does not run again, but its dialog still opens.
-  const opts = frame.locator('[data-id="dialog:sidecar-sfm-gcp"]');
-  await expect(opts).toBeVisible({ timeout: 60_000 });
-  expect(await axe(frame, '[data-id="dialog:sidecar-sfm-gcp"]')).toEqual([]);
-  await opts.getByRole('button', { name: 'Run the first stage' }).click();
-  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
-  await expect(dlg).toBeVisible({ timeout: 60_000 });
-  const caption = dlg.locator('[data-id="sfm:photo"]');
-  await expect(caption).toContainText(`${first.id} in ${cand[0].image}`, { timeout: 30_000 });
-  await page.screenshot({ path: join(OUT, 'scn82-marking.png') });
-  expect(await axe(frame, '[data-id="dialog:sidecar-sfm-mark"]')).toEqual([]);
-  // A click lands where the photograph's pixel is: at the authors' mark when it is in view.
-  const ox = Math.round(cand[0].px - 320);
-  const oy = Math.round(cand[0].py - 220);
-  const theirs = first.marks.find((m) => m.image === cand[0].image);
-  const target = theirs && theirs.px - ox > 0 && theirs.px - ox < 640 && theirs.py - oy > 0 && theirs.py - oy < 440 ? [theirs.px, theirs.py] : [cand[0].px + 10, cand[0].py + 10];
-  const canvas = dlg.locator('[data-id="sfm:canvas"]');
-  const box = await canvas.boundingBox();
-  await canvas.click({ position: { x: ((target[0] - ox) * box.width) / 640, y: ((target[1] - oy) * box.height) / 440 } });
-  const got = /marked at (-?[\d.]+), (-?[\d.]+)\./.exec(await caption.textContent());
-  expect(got, await caption.textContent()).toBeTruthy();
-  expect(Math.abs(Number(got[1]) - target[0])).toBeLessThan(1.5);
-  expect(Math.abs(Number(got[2]) - target[1])).toBeLessThan(1.5);
-  // The keyboard: three to the right from the mark, then Enter.
-  await canvas.focus();
-  for (let i = 0; i < 3; i++) await canvas.press('ArrowRight');
-  await canvas.press('Enter');
-  await expect(caption).toContainText(`marked at ${(Number(got[1]) + 3).toFixed(1)}, ${Number(got[2]).toFixed(1)}.`);
-  await expect(dlg.locator('[data-id="sfm:markstatus"]')).toContainText('control points marked');
-  record('dialog', { point: first.id, photo: cand[0].image, clicked: target, marked: [Number(got[1]), Number(got[2])] });
-  await dlg.getByRole('button', { name: 'Cancel' }).click();
-  expect(await frame.evaluate(() => window.__scn82)).toBeNull();
-});
 
 test('leave-one-out: each of the 7 points a checkpoint in turn', async () => {
   test.setTimeout(3600_000);
@@ -315,6 +250,81 @@ test("the DSM against the authors' DSM made with the same points", async () => {
   floor('DSM, share of our cells the authors cover', out.covered_share, FLOORS.dsm_cover, true);
   floor('DSM less the authors, median m', Math.abs(out.median_m), FLOORS.dsm_median);
   floor('DSM less the authors, NMAD m', out.nmad_m, FLOORS.dsm_nmad);
+});
+
+test('the marking dialog: where it predicts each mark, axe, a click and the arrow keys', async () => {
+  test.setTimeout(600_000);
+  expect(run?.model, 'the run published no model').toBeTruthy();
+  const header = await readModelHeader({ body: Readable.toWeb(createReadStream(modelPath())) });
+  // How far stage 1 (placed by GPS) predicts each of the authors' marks.
+  const off = [];
+  let missed = 0;
+  for (const p of authors.points) {
+    const cand = candidates(header, p, { max: 1000 });
+    for (const m of p.marks) {
+      const at = cand.find((c) => c.image === m.image);
+      if (at) off.push(Math.hypot(at.px - m.px, at.py - m.py));
+      else missed += 1;
+    }
+  }
+  off.sort((a, b) => a - b);
+  const prediction = { marks: off.length + missed, predicted: off.length, median_px: off[off.length >> 1], max_px: off[off.length - 1], within_view: off.filter((d) => d < 220).length };
+  record('prediction', prediction);
+  expect(prediction.predicted / prediction.marks).toBeGreaterThan(0.8);
+  // The dialog on the first point, with the photographs it lists opened in the page.
+  const first = authors.points[0];
+  const cand = candidates(header, first);
+  const input = await frame.evaluateHandle(() => {
+    const i = document.createElement('input');
+    i.type = 'file';
+    i.multiple = true;
+    i.style.display = 'none';
+    document.body.appendChild(i);
+    return i;
+  });
+  await input.asElement().setInputFiles(cand.map((c) => join(PHOTOS, c.image)));
+  await frame.evaluate(
+    async ({ i, model }) => {
+      const g = window.gisworkbench;
+      const [folder, control] = (await g.sidecar.client.pick('folder')).files;
+      const photos = [...i.files];
+      i.remove();
+      window.__scn82 = g.commands.run('sidecar.sfmcontrol', { folder, control, model, photos });
+    },
+    { i: input, model: run.model },
+  );
+  // With a model given, the first stage does not run again, but its dialog still opens.
+  const opts = frame.locator('[data-id="dialog:sidecar-sfm-gcp"]');
+  await expect(opts).toBeVisible({ timeout: 60_000 });
+  expect(await axe(frame, '[data-id="dialog:sidecar-sfm-gcp"]')).toEqual([]);
+  await opts.getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  await expect(dlg).toBeVisible({ timeout: 60_000 });
+  const caption = dlg.locator('[data-id="sfm:photo"]');
+  await expect(caption).toContainText(`${first.id} in ${cand[0].image}`, { timeout: 30_000 });
+  await page.screenshot({ path: join(OUT, 'scn82-marking.png') });
+  expect(await axe(frame, '[data-id="dialog:sidecar-sfm-mark"]')).toEqual([]);
+  // A click lands where the photograph's pixel is: at the authors' mark when it is in view.
+  const ox = Math.round(cand[0].px - 320);
+  const oy = Math.round(cand[0].py - 220);
+  const theirs = first.marks.find((m) => m.image === cand[0].image);
+  const target = theirs && theirs.px - ox > 0 && theirs.px - ox < 640 && theirs.py - oy > 0 && theirs.py - oy < 440 ? [theirs.px, theirs.py] : [cand[0].px + 10, cand[0].py + 10];
+  const canvas = dlg.locator('[data-id="sfm:canvas"]');
+  const box = await canvas.boundingBox();
+  await canvas.click({ position: { x: ((target[0] - ox) * box.width) / 640, y: ((target[1] - oy) * box.height) / 440 } });
+  const got = /marked at (-?[\d.]+), (-?[\d.]+)\./.exec(await caption.textContent());
+  expect(got, await caption.textContent()).toBeTruthy();
+  expect(Math.abs(Number(got[1]) - target[0])).toBeLessThan(1.5);
+  expect(Math.abs(Number(got[2]) - target[1])).toBeLessThan(1.5);
+  // The keyboard: three to the right from the mark, then Enter.
+  await canvas.focus();
+  for (let i = 0; i < 3; i++) await canvas.press('ArrowRight');
+  await canvas.press('Enter');
+  await expect(caption).toContainText(`marked at ${(Number(got[1]) + 3).toFixed(1)}, ${Number(got[2]).toFixed(1)}.`);
+  await expect(dlg.locator('[data-id="sfm:markstatus"]')).toContainText('control points marked');
+  record('dialog', { point: first.id, photo: cand[0].image, clicked: target, marked: [Number(got[1]), Number(got[2])] });
+  await dlg.getByRole('button', { name: 'Cancel' }).click();
+  expect(await frame.evaluate(() => window.__scn82)).toBeNull();
 });
 
 test('the floors hold', () => {
