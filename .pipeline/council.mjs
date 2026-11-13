@@ -205,16 +205,22 @@ function record([file]) {
     console.error(`Nothing to record: ${step.status}. ${step.message ?? ''}`);
     return 1;
   }
-  const outcome = recordRound(ledger, {
-    mode: step.mode,
-    round: step.round,
-    phase: step.phase,
-    model: step.model,
-    hash: ctx.hash,
-    sha: git(['rev-parse', 'HEAD']).trim(),
-    diffLines: ctx.diffLines,
-    result: { ...result, maxNits: ctx.config.council.maxNits },
-  });
+  let outcome;
+  try {
+    outcome = recordRound(ledger, {
+      mode: step.mode,
+      round: step.round,
+      phase: step.phase,
+      model: step.model,
+      hash: ctx.hash,
+      sha: git(['rev-parse', 'HEAD']).trim(),
+      diffLines: ctx.diffLines,
+      result: { ...result, maxNits: ctx.config.council.maxNits },
+    });
+  } catch (e) {
+    console.error(`${file}: ${e.message}`);
+    return 1;
+  }
   saveLedger(ledger);
   console.log(
     JSON.stringify(
