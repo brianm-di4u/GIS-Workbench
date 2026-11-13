@@ -114,6 +114,12 @@ pub fn parse_cameras(b: &[u8]) -> Res<HashMap<u32, Camera>> {
     Ok(out)
 }
 
+/// A photograph's name as the model keeps it: a path inside the photographs folder made of plain
+/// parts, never absolute, on another drive or share, or climbing out of the folder.
+pub fn plain_name(name: &str) -> bool {
+    !name.is_empty() && !name.contains(['\\', ':', '\0']) && name.split('/').all(|c| !c.is_empty() && c != "." && c != "..")
+}
+
 pub fn parse_images(b: &[u8]) -> Res<Vec<Image>> {
     let mut r = Rd { b, p: 0, what: "images.bin" };
     let n = r.count(64)?;
@@ -131,7 +137,7 @@ pub fn parse_images(b: &[u8]) -> Res<Vec<Image>> {
             }
         }
         let name = String::from_utf8(name).map_err(|_| "images.bin: a name is not UTF-8".to_string())?;
-        if name.is_empty() || name.contains("..") {
+        if !plain_name(&name) {
             return Err(format!("images.bin: bad image name {name:?}"));
         }
         let np = r.count(24)?;

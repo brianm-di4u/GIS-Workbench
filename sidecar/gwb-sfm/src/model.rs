@@ -127,7 +127,12 @@ pub fn import(images: &Path, inputs: &[PathBuf], sparse: &Path, gps: &Path, cont
     }
     let (h, b, mut at) = model.ok_or("no model file from the first stage was given")?;
     let (c, text) = ctl.ok_or("no ground control file was given")?;
-    let missing: Vec<&str> = h["images"].as_array().into_iter().flatten().filter_map(|i| i["name"].as_str()).filter(|n| !images.join(n).is_file()).collect();
+    // The names come from a file the user was given: each must stay inside the photographs folder.
+    let names: std::collections::BTreeSet<&str> = h["images"].as_array().into_iter().flatten().filter_map(|i| i["name"].as_str()).collect();
+    if let Some(bad) = names.iter().find(|n| !crate::colmap::plain_name(n)) {
+        return Err(format!("the model file names a photograph {bad:?}, which is not a name inside the photographs folder"));
+    }
+    let missing: Vec<&str> = names.iter().copied().filter(|n| !images.join(n).is_file()).collect();
     if !missing.is_empty() {
         return Err(format!("{} of the model's photographs are not in {} (first: {}); give the folder the first stage ran on", missing.len(), images.display(), missing[0]));
     }
@@ -137,6 +142,13 @@ pub fn import(images: &Path, inputs: &[PathBuf], sparse: &Path, gps: &Path, cont
         let name = f["name"].as_str().filter(|n| FILES.contains(n)).ok_or("the model file lists an unknown binary")?;
         let n = f["bytes"].as_u64().ok_or("the model file gives no size for a binary")? as usize;
         let part = b.get(at..at + n).ok_or("the model file is cut short")?;
+        // COLMAP reads the photographs by the names in images.bin: they must be the header's.
+        if name == "images.bin" {
+            let inside: std::collections::BTreeSet<String> = crate::colmap::parse_images(part)?.into_iter().map(|i| i.name).collect();
+            if !inside.iter().map(String::as_str).eq(names.iter().copied()) {
+                return Err("the model file's images.bin names other photographs than its header".into());
+            }
+        }
         fs::write(dir.join(name), part).map_err(|e| e.to_string())?;
         at += n;
     }
@@ -232,6 +244,23 @@ mod tests {
         let g: Value = serde_json::from_slice(&fs::read(dir.join("gps2.json")).unwrap()).unwrap();
         assert_eq!(g["stage_one"]["focal_refined"], false);
         assert!(g["gps"]["DJI_0001.JPG"].is_array());
+        // A name that leaves the photographs folder is refused, and so is a header that names other
+        // photographs than images.bin.
+        let (h0, start) = header(&b).unwrap().unwrap();
+        let with = |name: &str| {
+            let mut h = h0.clone();
+            h["images"][0]["name"] = json!(name);
+            let mut out = format!("{MAGIC} {VERSION}\n{h}\n").into_bytes();
+            out.extend(&b[start..]);
+            fs::write(&file, out).unwrap();
+            run(&[file.clone(), ctl.clone()]).unwrap_err()
+        };
+        for bad in ["C:/DJI_0001.JPG", "//host/share/DJI_0001.JPG", "/DJI_0001.JPG", "../DJI_0001.JPG", "a\\DJI_0001.JPG"] {
+            assert!(with(bad).contains("not a name inside"), "{bad}");
+        }
+        fs::write(photos.join("DJI_0002.JPG"), b"jpeg").unwrap();
+        assert!(with("DJI_0002.JPG").contains("other photographs"));
+        assert!(crate::colmap::plain_name("sub/DJI_0001.JPG"));
         let mut newer = b.clone();
         newer[MAGIC.len() + 1] = b'2';
         fs::write(&file, newer).unwrap();

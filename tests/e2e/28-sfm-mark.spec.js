@@ -62,9 +62,9 @@ async function mockSidecar(page, uploads = []) {
   });
 }
 
-/** Start the command with two photographs drawn in the page; `model` false starts from the first dialog's reuse button. */
-async function start(frame, model) {
-  await frame.evaluate(async (model) => {
+/** Start the command with photographs drawn in the page (both by default); `model` false starts from the first dialog's reuse button. */
+async function start(frame, model, names = ['A.JPG', 'B.JPG']) {
+  await frame.evaluate(async ({ model, names }) => {
     const g = window.gisworkbench;
     const S = g.sidecar;
     Object.assign(S.client, { base: 'http://127.0.0.1:47821', token: 'test', ports: [47821] });
@@ -76,11 +76,11 @@ async function start(frame, model) {
       x.fillRect(0, 0, 400, 300);
       return new File([await c.convertToBlob({ type: 'image/jpeg' })], name, { type: 'image/jpeg' });
     };
-    const photos = [await photo('A.JPG'), await photo('B.JPG')];
+    const photos = await Promise.all(names.map(photo));
     const args = { folder: { id: 'dir', name: 'block', entries: ['A.JPG', 'B.JPG'] }, control: { id: 'ctl', name: 'gcp.csv' }, photos };
     if (model) args.model = { id: 'model', name: 'block.sfm-model' };
     window.__sfm = g.commands.run('sidecar.sfmcontrol', args);
-  }, model);
+  }, { model, names });
 }
 
 test('the marking dialog: a click, the arrow keys and Enter mark a point without running the second stage', async ({ page }) => {
@@ -142,6 +142,26 @@ test('a model from an earlier first stage starts the run again at the marking', 
   const saved = page.waitForEvent('download');
   await dlg.getByRole('button', { name: 'Cancel' }).click();
   expect(readFileSync(await (await saved).path(), 'utf8')).toMatch(/^G1,.*,gcp,A\.JPG,/m);
+  expect(await frame.evaluate(() => window.__sfm)).toBeNull();
+});
+
+test('a photograph missing from the opened folder is named, and takes no mark', async ({ page }) => {
+  await mockSidecar(page);
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await start(frame, true, ['A.JPG']);
+  await frame.locator('[data-id="dialog:sidecar-sfm-gcp"]').getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  const caption = dlg.locator('[data-id="sfm:photo"]');
+  await expect(caption).toContainText('G1 in A.JPG', { timeout: 30_000 });
+  await dlg.locator('[data-id="sfm:next"]').click();
+  await expect(caption).toHaveText('B.JPG is not in the folder opened in the browser.');
+  const canvas = dlg.locator('[data-id="sfm:canvas"]');
+  await canvas.click({ position: { x: 20, y: 20 } });
+  await canvas.focus();
+  await canvas.press('Enter');
+  await expect(caption).toHaveText('B.JPG is not in the folder opened in the browser.');
+  await expect(dlg.locator('[data-id="sfm:points"] option').first()).toContainText('not marked');
+  await dlg.getByRole('button', { name: 'Cancel' }).click();
   expect(await frame.evaluate(() => window.__sfm)).toBeNull();
 });
 

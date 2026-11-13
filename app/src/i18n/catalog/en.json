@@ -21219,6 +21219,13 @@
    ]
   },
   {
+   "key": "Loading {photo}…",
+   "src": "Loading {photo}…",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Loads a GPX track, route or waypoints.",
    "src": "Loads a GPX track, route or waypoints.",
    "refs": [

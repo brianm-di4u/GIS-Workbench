@@ -90,8 +90,13 @@ export async function markControl(header, control, photos) {
       caption.textContent = t('{id} falls in none of the photographs the model holds.', { id: pts[pi].id });
       return;
     }
+    // No photograph shown (still loading, not in the folder, unreadable): say so, and take no marks.
+    if (!bitmap) {
+      caption.textContent = failed ?? t('Loading {photo}…', { photo: c.image });
+      return;
+    }
     const [ox, oy] = origin();
-    if (bitmap) g.drawImage(bitmap, 0, 0);
+    g.drawImage(bitmap, 0, 0);
     const cross = (x, y, colour, r) => {
       g.strokeStyle = colour;
       g.lineWidth = 2;
@@ -113,16 +118,19 @@ export async function markControl(header, control, photos) {
   // Each load is numbered: a decode that finishes after the analyst has moved on is dropped, so the
   // photograph shown is always the one the caption and the predicted cross are for.
   let loading = 0;
+  let failed = null;
   async function load() {
     const n = ++loading;
     bitmap?.close?.();
     bitmap = null;
     cursor = null;
+    failed = null;
+    draw();
     const c = cand();
     if (c) {
       const f = byName.get(c.image);
       if (!f) {
-        caption.textContent = t('{photo} is not in the folder opened in the browser.', { photo: c.image });
+        failed = t('{photo} is not in the folder opened in the browser.', { photo: c.image });
       } else {
         const [ox, oy] = origin();
         try {
@@ -131,7 +139,7 @@ export async function markControl(header, control, photos) {
           bitmap = b;
         } catch (e) {
           if (n !== loading) return;
-          caption.textContent = t('{photo} could not be read: {msg}', { photo: c.image, msg: e?.message ?? String(e) });
+          failed = t('{photo} could not be read: {msg}', { photo: c.image, msg: e?.message ?? String(e) });
         }
       }
     }
@@ -139,20 +147,21 @@ export async function markControl(header, control, photos) {
   }
   function setMark(x, y) {
     const c = cand();
-    if (!c) return;
+    if (!c || !bitmap) return;
     const p = pts[pi];
     p.marks = p.marks.filter((m) => m.image !== c.image).concat([{ image: c.image, px: x, py: y }]);
     refreshList();
     draw();
   }
   canvas.addEventListener('click', (e) => {
+    if (!cand() || !bitmap) return;
     const r = canvas.getBoundingClientRect();
     const [ox, oy] = origin();
     setMark(ox + ((e.clientX - r.left) * VIEW.w) / r.width, oy + ((e.clientY - r.top) * VIEW.h) / r.height);
   });
   canvas.addEventListener('keydown', (e) => {
     const c = cand();
-    if (!c) return;
+    if (!c || !bitmap) return;
     const step = e.shiftKey ? 10 : 1;
     const d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
     if (d) {
