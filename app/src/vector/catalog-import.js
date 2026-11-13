@@ -202,8 +202,9 @@ export function parseCodeList(xml) {
  * their complex type's sequence, after those of the types it extends (INSPIRE keeps the geometry
  * and the identifier in abstract base types). A property typed gml:ReferenceType takes the code list whose name,
  * without "Value", is the property's name (INSPIRE's own naming: surfaceComposition →
- * SurfaceCompositionValue), or the one its annotation names (targetCodeList); one that names a list
- * not imported stays as text. Voidable and optional properties are not required.
+ * SurfaceCompositionValue), or the one its annotation names (targetCodeList); one whose list was
+ * not imported stays as text, and a link to another feature (targetElement) is left out. Voidable and
+ * optional properties are not required.
  */
 export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
   const lists = new Map(codeLists.map((c) => [c.id.replace(/Value$/, '').toLowerCase(), c]));
@@ -321,13 +322,13 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
         continue;
       }
       // A reference to a code list names it in its annotation (targetCodeList), else by the property's name;
-      // a reference with neither is a link to another feature.
+      // a link to another feature names the feature (targetElement) and is not an attribute.
       const ref = /ReferenceType$/.test(ptype);
       const target = ref ? deepText(find(p, 'targetCodeList')).replace(/^.*[:/#]/, '') : '';
+      if (ref && !target && find(p, 'targetElement')) continue;
       const list = ref ? lists.get((target || pname).replace(/Value$/, '').toLowerCase()) : null;
-      if (ref && !list && !target) continue;
       // A code list the import was not given keeps the property, as text, and says which list it needs.
-      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : enums.length ? { label: pname, type: 'enum', domain: Object.fromEntries(enums.map((v) => [v, v])) } : ref ? { label: pname, type: 'text', definition: `${target} (code list not imported)` } : { label: pname, type: t };
+      const a = list ? { label: pname, type: 'enum', domain: list.values, definition: list.name } : enums.length ? { label: pname, type: 'enum', domain: Object.fromEntries(enums.map((v) => [v, v])) } : ref ? { label: pname, type: 'text', definition: `${target || `${pname[0].toUpperCase()}${pname.slice(1)}Value`} (code list not imported)` } : { label: pname, type: t };
       if (Number(p.attrs?.minOccurs ?? 1) >= 1 && p.attrs?.nillable !== 'true') a.required = true;
       place(names, add(pname, a, code));
     }

@@ -83,11 +83,12 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
   });
   it('reads a voidable property\'s type from its simpleContent, and binds code lists by targetCodeList', () => {
     const voidable = (name, base) => `<element name="${name}" nillable="true"><complexType><simpleContent><extension base="${base}"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element>`;
-    const ref = (name, list) => `<element name="${name}" type="gml:ReferenceType" nillable="true">${list ? `<annotation><appinfo><targetCodeList>${list}</targetCodeList></appinfo></annotation>` : ''}</element>`;
-    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:bu="urn:bu" targetNamespace="urn:bu"><element name="Building" type="bu:BuildingType" substitutionGroup="gml:AbstractFeature"/><complexType name="BuildingType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="geometry" type="gml:SurfacePropertyType"/>${voidable('numberOfFloorsAboveGround', 'integer')}${voidable('heightValue', 'gml:LengthType')}${ref('currentUse', 'CurrentUseValue')}${ref('condition', 'ConditionOfConstructionValue')}${ref('parent')}</sequence></extension></complexContent></complexType></schema>`;
+    const ref = (name, list, link) => `<element name="${name}" type="gml:ReferenceType" nillable="true">${list ? `<annotation><appinfo><targetCodeList>${list}</targetCodeList></appinfo></annotation>` : link ? `<annotation><appinfo><targetElement>${link}</targetElement></appinfo></annotation>` : ''}</element>`;
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:bu="urn:bu" targetNamespace="urn:bu"><element name="Building" type="bu:BuildingType" substitutionGroup="gml:AbstractFeature"/><complexType name="BuildingType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="geometry" type="gml:SurfacePropertyType"/>${voidable('numberOfFloorsAboveGround', 'integer')}${voidable('heightValue', 'gml:LengthType')}${ref('currentUse', 'CurrentUseValue')}${ref('condition', 'ConditionOfConstructionValue')}${ref('parent', '', 'bu:Building')}${ref('roofType')}</sequence></extension></complexContent></complexType></schema>`;
     const uses = { id: 'CurrentUseValue', name: 'Current use', values: { residential: 'Residential' } };
     const c = validateCatalog(fromInspire(xsd, [uses]));
-    expect(c.types[0].attributes).toEqual(['numberOfFloorsAboveGround', 'heightValue', 'currentUse', 'condition']);
+    // A link to another feature (targetElement) is not an attribute.
+    expect(c.types[0].attributes).toEqual(['numberOfFloorsAboveGround', 'heightValue', 'currentUse', 'condition', 'roofType']);
     expect(c.attributes.numberOfFloorsAboveGround.type).toBe('integer');
     expect(c.attributes.heightValue.type).toBe('real');
     // targetCodeList names the list, though the property is not named after it.
@@ -95,6 +96,13 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     // A list the import was not given keeps the property, as text that says which list it needs.
     expect(c.attributes.condition).toMatchObject({ type: 'text' });
     expect(c.attributes.condition.definition).toMatch(/ConditionOfConstructionValue/);
+    // So does one with no annotation whose list, by its name, was not given.
+    expect(c.attributes.roofType).toMatchObject({ type: 'text', definition: 'RoofTypeValue (code list not imported)' });
+  });
+  it('keeps a property whose code list was left out, as text that names the list', () => {
+    const bare = validateCatalog(fromInspire([F('inspire-roads.xsd')]));
+    expect(bare.types[0].attributes).toEqual(['surfaceComposition', 'numberOfLanes', 'localRoadCode']);
+    expect(bare.attributes.surfaceComposition).toMatchObject({ type: 'text', definition: 'SurfaceCompositionValue (code list not imported)' });
   });
   it('reads a schema\'s own simple types: an enumeration is a coded domain, a restricted number its base', () => {
     const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Pole" type="x:PoleType" substitutionGroup="gml:AbstractFeature"/><complexType name="PoleType"><sequence><element name="geometry" type="gml:PointPropertyType"/><element name="vp" type="x:VerticalPositionValue"/><element name="lanes" type="x:LaneCount"/><element name="kind"><simpleType><restriction base="string"><enumeration value="wood"/><enumeration value="steel"/></restriction></simpleType></element></sequence></complexType>` +
@@ -152,6 +160,32 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(fieldsFor(validateCatalog(older), 'Bridge').find((f) => f.title === 'status').name).toBe('status_Bridge');
     // One type may not write a column twice.
     expect(() => validateCatalog({ ...converted, types: [{ code: 'Both', name: 'Both', attributes: ['status', 'status_Bridge'] }] })).toThrow(/writes the column status twice/);
+  });
+  it('keeps each type\'s definition of a shared column through a GeoPackage write and read (decision #243)', async () => {
+    const { fieldsFor, valueIssue } = await import('../../app/src/vector/schema.js');
+    const { writeGpkg, readGpkg } = await import('../../app/src/vector/gpkg.js');
+    const { createRequire } = await import('node:module');
+    const require = createRequire(import.meta.url);
+    const initSqlJs = require('rtree-sql.js/dist/sql-wasm.js');
+    const SQL = await initSqlJs({ wasmBinary: readFileSync(require.resolve('rtree-sql.js/dist/sql-wasm.wasm')) });
+    const status = (vals) => `<element name="status"><simpleType><restriction base="string">${vals.map((v) => `<enumeration value="${v}"/>`).join('')}</restriction></simpleType></element>`;
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      `<element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><sequence><element name="geometry" type="gml:CurvePropertyType"/>${status(['open', 'closed'])}</sequence></complexType>` +
+      `<element name="Bridge" type="x:BridgeType" substitutionGroup="gml:AbstractFeature"/><complexType name="BridgeType"><sequence><element name="geometry" type="gml:CurvePropertyType"/>${status(['raised', 'lowered'])}</sequence></complexType></schema>`;
+    const c = validateCatalog(fromInspire(xsd));
+    const line = { type: 'LineString', xyz: [0, 0, 0, 1, 1, 0], parts: [0], polys: [] };
+    const layer = (code, value) => ({ name: code, fields: fieldsFor(c, code), features: [{ geom: line, attrs: { status: value } }] });
+    const { bytes } = writeGpkg(SQL, [layer('Road', 'open'), layer('Bridge', 'raised')]);
+    const { layers: back } = readGpkg(SQL, bytes);
+    const reopened = validateCatalog(catalogFromLayers('roads', back));
+    // The writer's table names are the reopened types' codes.
+    expect(back.map((l) => l.table)).toEqual(['road', 'bridge']);
+    const field = (code) => fieldsFor(reopened, code).find((f) => f.name === 'status');
+    // Both layers still write the column status, each with its own domain.
+    expect(valueIssue(reopened, field('bridge'), 'raised')).toBeNull();
+    expect(valueIssue(reopened, field('bridge'), 'open')?.code).toBe('E_ATTR_DOMAIN');
+    expect(valueIssue(reopened, field('road'), 'open')).toBeNull();
+    expect(valueIssue(reopened, field('road'), 'raised')?.code).toBe('E_ATTR_DOMAIN');
   });
   it('keeps a concrete type that a differently named subtype substitutes for', () => {
     const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
