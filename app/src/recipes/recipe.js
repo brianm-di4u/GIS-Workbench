@@ -43,12 +43,15 @@ export function fits(out, want) {
  * A parameter against its schema entry: the value, coerced where a form gives text ('3' → 3), or
  * an Error naming the step and parameter. Unknown parameters pass (an op may take free ones).
  */
-export function checkParam(spec, v, where) {
-  if (!spec || v === undefined) return v;
+export function checkParam(spec, v, where, fallback = spec?.default) {
+  if (!spec) return v;
+  const numeric = spec.type === 'number' || spec.type === 'integer';
   // A cleared field gives no value: text keeps it empty; anything else takes its default (or none),
-  // so an empty number never reaches an operation unchecked.
-  if (v === null || v === '') return spec.type === 'text' || spec.type === 'date' ? v : (spec.default ?? null);
-  const num = (x) => (typeof x === 'number' ? x : Number(x));
+  // so an empty number never reaches an operation unchecked. Whitespace is no number either.
+  if (v === undefined) return numeric ? (fallback ?? null) : v;
+  if (v === null || v === '' || (numeric && typeof v === 'string' && v.trim() === '')) return spec.type === 'text' || spec.type === 'date' ? v : (fallback ?? null);
+  // true, [] and {} are no number.
+  const num = (x) => (typeof x === 'number' ? x : typeof x === 'string' ? Number(x) : NaN);
   switch (spec.type) {
     case 'number':
     case 'integer': {
@@ -66,7 +69,7 @@ export function checkParam(spec, v, where) {
       return v;
     case 'lonlat': {
       const xs = typeof v === 'string' ? v.split(/[,;\s]+/).filter(Boolean).map(Number) : Array.isArray(v) ? v.map(num) : v;
-      if (!Array.isArray(xs) || xs.length !== 2 || !xs.every(Number.isFinite) || Math.abs(xs[1]) > 90 || Math.abs(xs[0]) > 360) throw stepErr('{where}: {param} must be [longitude, latitude]', where);
+      if (!Array.isArray(xs) || xs.length !== 2 || !xs.every(Number.isFinite) || Math.abs(xs[1]) > 90 || Math.abs(xs[0]) > 180) throw stepErr('{where}: {param} must be [longitude, latitude]', where);
       return xs;
     }
     case 'numbers': {
@@ -176,7 +179,7 @@ export function validateRecipe(r, ops) {
     const params = { ...defaults(op), ...(s.params ?? {}) };
     for (const [k, v] of Object.entries(params)) {
       if (typeof v === 'function') throw stepErr('step {n}: parameter {param} is not data', { n: String(i + 1), param: k });
-      params[k] = checkParam(op.schema?.[k], v, { where: `step ${i + 1} (${id})`, param: k });
+      params[k] = checkParam(op.schema?.[k], v, { where: `step ${i + 1} (${id})`, param: k }, defaults(op)[k]);
     }
     const inputs = {};
     for (const [k, w] of Object.entries(s.inputs ?? {})) {
@@ -262,7 +265,7 @@ export class RecipeRunner extends Emitter {
   setParam(i, key, value) {
     const s = this.recipe?.steps[i];
     if (!s) throw gwError('no step {n}', { n: String(i + 1) }, 'E_RECIPE_NO_STEP');
-    s.params = { ...s.params, [key]: checkParam(this.ops[s.op].schema?.[key], value, { where: `step ${i + 1} (${s.id})`, param: key }) };
+    s.params = { ...s.params, [key]: checkParam(this.ops[s.op].schema?.[key], value, { where: `step ${i + 1} (${s.id})`, param: key }, defaults(this.ops[s.op])[key]) };
     for (const k of downstream(this.recipe.steps, i, this.ops)) if (this.state[k].status !== 'pending') this.state[k].status = 'stale';
     this.emit('change');
   }
@@ -331,7 +334,12 @@ export class RecipeRunner extends Emitter {
             st.summary = (await op.after?.(step.params, ctx))?.summary ?? st.summary;
           }
           st.status = 'done';
-          this.ctx.provenance?.(step, r.outputs ?? {}, this.recipe);
+          // The step's work is done: a record that fails to write is a warning, not a failed step.
+          try {
+            this.ctx.provenance?.(step, r.outputs ?? {}, this.recipe);
+          } catch (e) {
+            this.ctx.app?.log?.('warn', `workflow provenance for step ${step.id}: ${e.message}`);
+          }
         } catch (e) {
           st.status = 'failed';
           st.error = e.message; // English; i18n is its message key (show with msgOf({ message: error, i18n }))

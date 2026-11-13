@@ -343,7 +343,8 @@ export function nullOf(cat, field) {
   const of = (k, d) => (nulls[k] !== undefined ? nulls[k] : d);
   if (field.domain) {
     const e = of('enum', -999999);
-    return e === null || e === '' ? '' : field.type === 'integer' ? Number(e) : String(e);
+    if (e === null || e === '') return field.type === 'integer' ? null : '';
+    return field.type === 'integer' ? Number(e) : String(e);
   }
   if (field.type === 'string') return of('text', 'noInformation');
   return of('number', -999999);

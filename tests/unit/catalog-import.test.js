@@ -409,7 +409,8 @@ describe('REQ-GAP-87 coded attributes keep their codes', () => {
     for (const [c, type] of [[insp, 'RoadLink'], [iso, 'RD'], [osm, osm.types[0].code]]) {
       // No field takes a column every feature already has (GeoPackage export writes those itself).
       for (const f of fieldsFor(c, type)) expect(['fid', 'geom', 'name', 'description', 'ufi']).not.toContain(f.name.toLowerCase());
-      for (const f of fieldsFor(c, type)) expect([f.name, nullOf(c, f)]).toEqual([f.name, f.domain || f.type === 'string' ? '' : null]);
+      // A coded integer field's null is null, as a number field's is (#191); a coded text field's is empty.
+      for (const f of fieldsFor(c, type)) expect([f.name, nullOf(c, f)]).toEqual([f.name, (f.domain && f.type !== 'integer') || f.type === 'string' ? '' : null]);
     }
     // TDS keeps its own.
     const tds = getCatalog();
