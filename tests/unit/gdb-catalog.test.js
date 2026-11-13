@@ -4,7 +4,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { catalogFromGdb, subtypesFromXml } from '../../app/src/vector/gdb-catalog.js';
-import { validateCatalog, fieldsFor } from '../../app/src/vector/schema.js';
+import { validateCatalog, fieldsFor, checkAttrs } from '../../app/src/vector/schema.js';
 
 const domains = {
   MedianType: { description: 'Road median types.', type: 'coded', fieldType: 'Integer', fieldSubType: 'Int16', codedValues: { 0: 'None', 1: 'Cement' } },
@@ -112,6 +112,34 @@ describe('catalogFromGdb', () => {
     const track = fieldsFor(c, 'Roads', '2');
     expect(Object.keys(track.find((f) => f.name === 'SurfaceType').domain).length).toBe(4);
   });
+  it('a class with the same fields and no subtypes keeps its own definitions, in either order (#249)', () => {
+    const lanes = { ...roads, name: 'Lanes' };
+    for (const layers of [[lanes, roads], [roads, lanes]]) {
+      const base = answer();
+      const c = validateCatalog(catalogFromGdb('Domains.gdb', { ...base, info: { ...base.info, layers } }).catalog);
+      const roadsType = c.types.find((t) => t.code === 'Roads');
+      // Roads's Class takes the subtypes as its values; Lanes's stays a free integer, under its own key.
+      expect(c.attributes[roadsType.subtypeField]).toMatchObject({ type: 'enum', domain: { 1: 'Main & Trunk', 2: 'Track' } });
+      expect(fieldsFor(c, 'Lanes').find((f) => f.name === 'Class').domain).toBeUndefined();
+      expect(checkAttrs(c, fieldsFor(c, 'Lanes'), { Class: 7 })).toEqual([]);
+      // The subtype still fixes and narrows by column.
+      const main = fieldsFor(c, 'Roads', '1');
+      expect(main.find((f) => f.name === 'Class').fixed).toBe(1);
+      expect(main.find((f) => f.name === 'SurfaceType').domain).toEqual({ 1: 'Asphalt' });
+    }
+  });
+  it('a subtype on a field another class defines differently keys its values by that class (#249)', () => {
+    const other = { name: 'A', geometryFields: [{ type: 'Point' }], fields: [{ name: 'SurfaceType', type: 'String' }, { name: 'Class', type: 'String' }] };
+    const base = answer();
+    const c = validateCatalog(catalogFromGdb('Domains.gdb', { ...base, info: { ...base.info, layers: [other, roads] } }).catalog);
+    const t = c.types.find((x) => x.code === 'Roads');
+    expect(t.subtypeField).toBe('Class_Roads');
+    expect(t.subtypes[0].fixed).toEqual({ Class_Roads: 1 });
+    expect(Object.keys(t.subtypes[0].domains)).toEqual(['SurfaceType_Roads']);
+    const main = fieldsFor(c, 'Roads', '1');
+    expect(main.find((f) => f.name === 'Class').fixed).toBe(1);
+    expect(main.find((f) => f.name === 'SurfaceType').domain).toEqual({ 1: 'Asphalt' });
+  });
   it('a field with no domain gets the subtypes as its values', () => {
     const c = validateCatalog(catalogFromGdb('Domains.gdb', answer()).catalog);
     expect(c.attributes.Class.domain).toEqual({ 1: 'Main & Trunk', 2: 'Track' });
@@ -119,7 +147,10 @@ describe('catalogFromGdb', () => {
   it('says what it could not keep, and does not guess', () => {
     const l = { name: 'B', geometryFields: [{ type: 'Point' }], fields: [{ name: 'SurfaceType', type: 'Integer' }, { name: 'G', type: 'String', domainName: 'Glob' }, { name: 'Lost', type: 'String', domainName: 'Nope' }] };
     const { warnings, catalog } = catalogFromGdb('x.gdb.zip', { info: { domains, layers: [roads, l] } });
-    expect(warnings.join('\n')).toMatch(/B\.SurfaceType differs/);
+    // B's SurfaceType differs from Roads': B keeps its own, writing the same column (decision #243).
+    expect(warnings.join('\n')).not.toMatch(/SurfaceType/);
+    expect(catalog.attributes.SurfaceType_B).toMatchObject({ type: 'integer', field: 'SurfaceType' });
+    expect(fieldsFor(validateCatalog(catalog), 'B').find((f) => f.name === 'SurfaceType').domain).toBeUndefined();
     expect(warnings.join('\n')).toMatch(/glob domain, kept as free text/);
     expect(warnings.join('\n')).toMatch(/Nope is not in the geodatabase/);
     expect(catalog.attributes.G.type).toBe('text');

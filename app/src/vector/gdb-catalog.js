@@ -5,6 +5,7 @@
 // unit tests run it on recorded answers (tests/unit/gdb-catalog.test.js).
 
 import { gwError } from '../i18n/index.js';
+import { attributeKey } from './schema.js';
 
 /** Fields a geodatabase maintains itself: not attributes anyone fills in. */
 const SYSTEM_FIELD = /^(objectid|fid|oid|shape|shape_length|shape_area|st_length\(shape\)|st_area\(shape\)|globalid)$/i;
@@ -103,12 +104,11 @@ function attributeFrom(f, domains, warn, where) {
   return a;
 }
 
-const sameAttribute = (a, b) => JSON.stringify([a.type, a.domain ?? null, a.range ?? null]) === JSON.stringify([b.type, b.domain ?? null, b.range ?? null]);
-
 /**
  * The catalogue of one geodatabase. `result` is the job's result. Returns {catalog, warnings,
  * counts}; the catalogue still goes through validateCatalog when it is imported. A class's field
- * shared with another class under a different domain keeps the first definition, and says so.
+ * shared with another class under a different definition keeps its own, under a key that names
+ * the column (decision #243).
  */
 export function catalogFromGdb(name, result) {
   const info = result?.info;
@@ -133,22 +133,16 @@ export function catalogFromGdb(name, result) {
       continue;
     }
     const fields = (l.fields ?? []).filter((f) => !SYSTEM_FIELD.test(f.name) && !/^FILEGEODATABASE_/.test(f.defaultValue ?? ''));
-    const names = [];
-    for (const f of fields) {
-      const a = attributeFrom(f, domains, warn, `${l.name}.${f.name}`);
-      if (!attributes[f.name]) attributes[f.name] = a;
-      else if (!sameAttribute(attributes[f.name], a)) warn(`${l.name}.${f.name} differs from the same field in another class; the first definition is used`);
-      names.push(f.name);
-    }
-    const t = { code: l.name, name: l.alias || l.name, geometry: geometryOf(geom), attributes: names };
+    // This class's definitions by column, its subtypes applied, before any is shared with another class.
+    const own = new Map(fields.map((f) => [f.name, attributeFrom(f, domains, warn, `${l.name}.${f.name}`)]));
     const st = subtypesFromXml(defs.get(String(l.name).toLowerCase()));
-    if (st && attributes[st.field]) {
-      t.subtypeField = st.field;
-      t.subtypes = st.subtypes.map((s) => {
+    let subtypes = null;
+    if (st && own.has(st.field)) {
+      subtypes = st.subtypes.map((s) => {
         const narrowed = {};
         for (const f of s.fields) {
           const d = f.domain ? domains[f.domain] : null;
-          const at = attributes[f.name];
+          const at = own.get(f.name);
           if (!at || !d) continue;
           if (d.type === 'coded' && d.codedValues) {
             // A subtype may name another domain than the field's: the field offers the union,
@@ -166,11 +160,26 @@ export function catalogFromGdb(name, result) {
         return { code: String(s.code), name: s.name || String(s.code), attributes: [], fixed: { [st.field]: /^-?\d+$/.test(s.code) ? Number(s.code) : s.code }, domains: narrowed };
       });
       // The subtype field's own values are the subtypes.
-      if (!attributes[st.field].domain) {
-        attributes[st.field].type = 'enum';
-        attributes[st.field].domain = Object.fromEntries(st.subtypes.map((s) => [String(s.code), s.name || String(s.code)]));
-        delete attributes[st.field].range;
+      const sfa = own.get(st.field);
+      if (!sfa.domain) {
+        sfa.type = 'enum';
+        sfa.domain = Object.fromEntries(st.subtypes.map((s) => [String(s.code), s.name || String(s.code)]));
+        delete sfa.range;
       }
+    }
+    // A field another class defines differently keeps this class's definition, under a key of its
+    // own that names the column (decision #243). keyOf: this class's column → its key.
+    const keyOf = new Map();
+    for (const [column, a] of own) {
+      const { key, entry } = attributeKey(attributes, column, a, l.name);
+      attributes[key] ??= entry;
+      keyOf.set(column, key);
+    }
+    const byKey = (o) => Object.fromEntries(Object.entries(o).map(([c, v]) => [keyOf.get(c), v]));
+    const t = { code: l.name, name: l.alias || l.name, geometry: geometryOf(geom), attributes: [...keyOf.values()] };
+    if (subtypes) {
+      t.subtypeField = keyOf.get(st.field);
+      t.subtypes = subtypes.map((s) => ({ ...s, fixed: byKey(s.fixed), domains: byKey(s.domains) }));
     } else if (st) warn(`${l.name}: the subtype field ${st.field} is not among its fields`);
     types.push(t);
   }
