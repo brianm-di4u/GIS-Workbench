@@ -207,7 +207,7 @@ export async function markControl(header, control, photos) {
   );
   refreshList();
   setTimeout(load, 0);
-  const r = await modal({ title: t('Mark the ground control points'), body, buttons: [{ label: t('Run with these marks'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 980, id: 'sidecar-sfm-mark' });
+  const r = await modal({ title: t('Mark the ground control points'), body, buttons: [{ label: t('Run with these marks'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 980, id: 'sidecar-sfm-mark', enter: false });
   bitmap?.close?.();
   const out = { ...control, points: pts.map(({ cands, ...p }) => p) };
   return { run: r === 'run', control: out, changed: JSON.stringify(out.points.map((p) => p.marks)) !== JSON.stringify(control.points.map((p) => p.marks)) };
