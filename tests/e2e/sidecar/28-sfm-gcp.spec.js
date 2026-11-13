@@ -286,6 +286,10 @@ test('the marking dialog: where it predicts each mark, axe, a click and the arro
   const prediction = { marks: off.length + missed, predicted: off.length, median_px: off[off.length >> 1], max_px: off[off.length - 1], within_view: off.filter((d) => d < 220).length };
   record('prediction', prediction);
   expect(prediction.predicted / prediction.marks).toBeGreaterThan(0.8);
+  // Each prediction lands near enough that the dialog's view shows the target: all within view, and
+  // a median off by about half the 30.5 px of the f480e33 run's real lens, doubled.
+  expect(prediction.within_view).toBe(prediction.predicted);
+  expect(prediction.median_px).toBeLessThan(60);
   // The dialog on the first point, with the photographs it lists opened in the page.
   const first = authors.points[0];
   const cand = candidates(header, first);

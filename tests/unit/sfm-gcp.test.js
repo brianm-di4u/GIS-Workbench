@@ -132,9 +132,17 @@ describe('projection', () => {
     expect(project(h, h.images[0], [80, 0, 0])).toBeNull(); // outside the frame
   });
 
-  it('applies the lens as COLMAP does', () => {
-    const [px] = distort({ model: 4, params: [1000, 1000, 500, 400, 0.1, 0, 0, 0] }, 0.2, 0);
-    expect(px).toBeCloseTo(1000 * 0.2 * (1 + 0.1 * 0.04) + 500, 9);
+  it('applies the lens as COLMAP does, off both axes', () => {
+    // Worked by hand from COLMAP's camera model equations for (u, v) = (0.2, -0.1), r² = 0.05.
+    const at = (cam) => distort(cam, 0.2, -0.1);
+    const near = ([x, y], [ex, ey]) => {
+      expect(x).toBeCloseTo(ex, 9);
+      expect(y).toBeCloseTo(ey, 9);
+    };
+    near(at({ model: 2, params: [1000, 500, 400, 0.1] }), [701, 299.5]); // SIMPLE_RADIAL
+    near(at({ model: 3, params: [1000, 500, 400, 0.1, -0.05] }), [700.975, 299.5125]); // RADIAL
+    // OPENCV: fx, fy differ and both tangential terms are on, so a swap of any pair shows.
+    near(at({ model: 4, params: [1000, 1010, 500, 400, 0.1, -0.05, 0.001, -0.002] }), [700.675, 298.659125]);
   });
 
   it("projects a point at the model's own ground height, not its surveyed height", () => {
