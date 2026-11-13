@@ -310,8 +310,9 @@ class TileLayer {
     return true;
   }
 
-  reset() {
-    for (const t of this.cache.values()) this.app.renderer.freeTexture(t.tex, t.bytes);
+  /** Drop every tile. After a context restore the textures belong to the lost context: forget them, do not free them (#238). */
+  reset({ restored = false } = {}) {
+    if (!restored) for (const t of this.cache.values()) this.app.renderer.freeTexture(t.tex, t.bytes);
     this.cache.clear();
     this.failed.clear();
   }
@@ -370,7 +371,7 @@ export function install(app) {
   };
   app.onlineTiles = new TileLayer(app);
   app.onlineIsMercator = isMercatorSource;
-  app.on('gl-restored', () => app.onlineTiles.reset());
+  app.on('gl-restored', () => app.onlineTiles.reset({ restored: true }));
 
   async function dialog() {
     const o = app.online;
