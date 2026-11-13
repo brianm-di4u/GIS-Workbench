@@ -58,7 +58,9 @@ export function install(app) {
     if (!cat) throw gwError('no feature catalogue {id}', { id: String(catalog) }, 'E_NO_CATALOG');
     const ft = typeOf(cat, code);
     if (!ft) throw gwError('feature class {code} is not in the catalogue', { code }, 'E_UNKNOWN_FEATURE_CLASS');
-    const st = subtypeOf(cat, code, subtype);
+    // A type whose one subtype is itself (an OSM preset, its tags fixed there) takes it unless told otherwise.
+    const own = subtype == null && ft.subtypes?.length === 1 && ft.subtypes[0].code === code;
+    const st = subtypeOf(cat, code, own ? code : subtype);
     if (subtype && !st) throw gwError('{code} has no subtype {subtype}', { code: String(code), subtype: String(subtype) }, 'E_FEATURE_SUBTYPE');
     let id;
     const label = st ? `${ft.name} / ${st.name}` : ft.name; // catalogue data
@@ -495,7 +497,7 @@ export function install(app) {
       const subRow = field(t('Subtype'), sub);
       const fillSub = () => {
         const ft = typeOf(cat, sel.value);
-        sub.replaceChildren(h('option', { value: '' }, t('(none)')), ...(ft?.subtypes ?? []).map((s) => h('option', { value: s.code }, `${s.code} ${s.name}`)));
+        sub.replaceChildren(h('option', { value: '' }, t('(none)')), ...(ft?.subtypes ?? []).map((s) => h('option', { value: s.code, selected: ft.subtypes.length === 1 && s.code === ft.code }, `${s.code} ${s.name}`)));
         subRow.hidden = !ft?.subtypes?.length;
       };
       const fill = () => {
@@ -510,7 +512,7 @@ export function install(app) {
       fill();
       if ((await modal({ title: t('New Layer from Schema'), body: h('div', {}, field(t('Feature catalogue'), catSel), field(t('Feature class'), sel), subRow), buttons: OK_CANCEL(), id: 'ext-newschema' })) !== 'ok') return;
       app.prefs.set('catalogLast', cat.id);
-      newSchemaLayer(sel.value, { catalog: cat.id, subtype: sub.value || null });
+      newSchemaLayer(sel.value, { catalog: cat.id, subtype: sub.value });
     }),
   });
   C.implement('ext.attributes', {

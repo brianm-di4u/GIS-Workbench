@@ -182,9 +182,21 @@ describe('REQ-GAP-87 OpenStreetMap presets', () => {
     expect(cafe.geometry).toEqual(['Point', 'Polygon']);
     expect(cafe.subtypes[0].fixed).toEqual({ amenity: 'cafe' });
     expect(cafe.attributes).toEqual(['amenity', 'name_attr', 'cuisine', 'outdoor_seating']);
-    expect(c.attributes.outdoor_seating.domain).toEqual({ yes: 'yes', no: 'no' });
-    expect(c.attributes.cuisine.domain).toMatchObject({ coffee_shop: 'Coffee Shop' });
+    // A combo's options and a check's yes/no are suggestions: OSM takes any value there.
+    expect([c.attributes.outdoor_seating.type, c.attributes.cuisine.type]).toEqual(['text', 'text']);
     expect(c.attributes.lanes.type).toBe('real');
+  });
+  it('closes a domain only for a radio field or a combo with customValues: false', () => {
+    const presets = { 'highway/track': { name: 'Track', geometry: ['line'], tags: { highway: 'track' }, fields: ['surface', 'tracktype', 'smoothness'] } };
+    const fields = {
+      surface: { key: 'surface', type: 'combo', options: ['asphalt', 'gravel'] },
+      tracktype: { key: 'tracktype', type: 'combo', customValues: false, options: ['grade1', 'grade2'] },
+      smoothness: { key: 'smoothness', type: 'radio', options: ['good', 'bad'] },
+    };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    expect(c.attributes.surface.type).toBe('text');
+    expect(c.attributes.tracktype).toMatchObject({ type: 'enum', domain: { grade1: 'grade1', grade2: 'grade2' } });
+    expect(c.attributes.smoothness).toMatchObject({ type: 'enum', domain: { good: 'good', bad: 'bad' } });
   });
 });
 

@@ -81,5 +81,19 @@ test('SCN-79 REQ-GAP-87 an INSPIRE schema imported, a layer captured against it,
   await form.getByRole('button', { name: 'OK' }).click();
   await expect(form).toBeHidden();
   expect(await frame.evaluate((id) => window.gisworkbench.store.get(id).attrs.surfaceComposition ?? '', fid)).toBe('');
+
+  // OpenStreetMap presets: a layer of a preset's type takes its tags (amenity=cafe) with no subtype picked.
+  const osmId = await frame.evaluate(async (files) => (await window.gisworkbench.catalogs.importFiles(files)).id ?? window.gisworkbench.catalogs.list().find((c) => /OpenStreetMap/.test(c.name)).id, ['id-presets.json', 'id-fields.json'].map((n) => ({ name: n, text: readFileSync(resolve('fixtures/catalogs', n), 'utf8') })));
+  await frame.evaluate(() => void window.gisworkbench.commands.run('ext.newschema'));
+  await frame.locator('[data-id="ext-newschema:catalog"]').selectOption(osmId);
+  await frame.locator('[data-id="ext-newschema:class"]').selectOption('amenity/cafe');
+  await expect(frame.locator('[data-id="ext-newschema:subtype"]')).toHaveValue('amenity/cafe');
+  await frame.locator('[data-id="dialog:ext-newschema"]').getByRole('button', { name: 'OK' }).click();
+  const cafe = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    const f = app.commitFeature(app.activePane(), 'Point', [{ lon: -104.99, lat: 39.74, h: 0 }]);
+    return app.store.get(f).attrs.amenity;
+  });
+  expect(cafe).toBe('cafe');
   expect(logs.filter((x) => !/Failed to load resource/.test(x))).toEqual([]);
 });

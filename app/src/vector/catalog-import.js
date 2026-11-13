@@ -319,9 +319,9 @@ const ID_GEOMETRY = { point: 'Point', vertex: 'Point', line: 'LineString', area:
  * OpenStreetMap presets as the iD editor keeps them (presets.json, fields.json: objects keyed by
  * id) → gw-catalog/1. OSM's tags are open key=value pairs: each preset becomes a type whose
  * attributes are its fields' keys and its own tag keys, with one subtype that fixes its tags
- * (amenity=cafe). A combo field with options becomes a coded domain, a check field yes/no, a number
- * field real; anything else is text. Other tags stay free: a feature may carry keys the catalogue
- * does not name.
+ * (amenity=cafe). A radio field, or a combo whose values are closed (customValues: false), becomes a
+ * coded domain, a number field real; anything else is text, as OSM takes any value there. Other tags
+ * stay free: a feature may carry keys the catalogue does not name.
  */
 export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name = 'OpenStreetMap presets' } = {}) {
   const attrs = {};
@@ -334,8 +334,10 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     const label = clean(f?.label ?? key);
     const opts = f?.options ?? (f?.strings?.options ? Object.keys(f.strings.options) : null);
     if (Array.isArray(opts)) capValues(opts.length, key);
-    if ((f?.type === 'check' || f?.type === 'onewayCheck') && !opts) attrs[key] = { label, type: 'enum', domain: { yes: 'yes', no: 'no' } };
-    else if (Array.isArray(opts) && opts.length && /combo|radio/.test(f?.type ?? '')) attrs[key] = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
+    // A combo's options are suggestions (OSM takes any value) unless it sets customValues: false; a
+    // radio's are the values. A check field's yes/no are suggestions too.
+    const closed = f?.type === 'radio' || (/combo/.test(f?.type ?? '') && f?.customValues === false);
+    if (Array.isArray(opts) && opts.length && closed) attrs[key] = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
     else if (f?.type === 'number') attrs[key] = { label, type: 'real' };
     else attrs[key] = { label, type: 'text' };
     return key;
