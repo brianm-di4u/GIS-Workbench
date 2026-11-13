@@ -491,6 +491,27 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await frame.evaluate(() => window.gisworkbench.workflows.setView('list'));
   await expect(panel.locator('[data-item="s3"] .wf-badge')).toHaveText('failed');
   await expect(panel.locator('[data-item="s3"] .wf-error')).toBeVisible();
+  // A step's error reads in every theme: its text against the panel at least 4.5:1 (WCAG AA).
+  const contrast = () =>
+    frame.evaluate(() => {
+      const rgb = (c) => (c.match(/[\d.]+/g) ?? []).map(Number);
+      const lum = ([r, g, b]) => [r, g, b].map((v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+      const el = document.querySelector('.wf-panel [data-item="s3"] .wf-error');
+      let bg = el;
+      while (bg && (rgb(getComputedStyle(bg).backgroundColor)[3] === 0 || getComputedStyle(bg).backgroundColor === 'transparent')) bg = bg.parentElement;
+      const [a, b] = [lum(rgb(getComputedStyle(el).color)), lum(rgb(getComputedStyle(bg ?? document.body).backgroundColor))];
+      return Math.round(((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)) * 100) / 100;
+    });
+  const themes = {};
+  for (const [layout, scheme] of [['classic', 'light'], ['classic', 'dark'], ['modern', 'dark'], ['modern', 'light']]) {
+    await page.emulateMedia({ colorScheme: scheme });
+    await frame.evaluate((l) => window.gisworkbench.setLayout(l), layout);
+    await page.waitForTimeout(100);
+    themes[await page.evaluate(() => document.documentElement.dataset.theme)] = await contrast();
+  }
+  expect(Object.values(themes).every((r) => r >= 4.5), JSON.stringify(themes)).toBe(true);
+  await frame.evaluate(() => window.gisworkbench.setLayout('classic'));
+  await page.emulateMedia({ colorScheme: 'light' });
   await frame.evaluate(() => window.gisworkbench.workflows.removeStep('s2'));
   await expect(panel.locator('[data-item="s1"] .wf-badge')).toHaveText('done');
   await expect(panel.locator('[data-item="s3"] .wf-badge')).toHaveText('failed');
