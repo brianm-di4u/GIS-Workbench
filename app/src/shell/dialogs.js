@@ -25,7 +25,7 @@ export function setToolHost(fn) {
   toolHost = fn;
 }
 
-export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, onHelp, onReset, onApply, modeless = false, id } = {}) {
+export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, onHelp, onReset, onApply, modeless = false, id, enter = true } = {}) {
   if (modeless && toolHost) {
     const hosted = toolHost({ title, body, buttons, id, onApply, onHelp, onReset, width });
     if (hosted) return hosted;
@@ -70,7 +70,7 @@ export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, on
         e.preventDefault();
         e.stopPropagation();
         finish(null);
-      } else if (e.key === 'Enter' && !e.target.matches('textarea, button, [contenteditable]')) {
+      } else if (enter && e.key === 'Enter' && !e.target.matches('textarea, button, [contenteditable]')) {
         e.preventDefault();
         finish(specs[0]?.value ?? null);
       }

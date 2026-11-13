@@ -44,23 +44,25 @@ test('SCN-79 REQ-GAP-87 an INSPIRE schema imported, a layer captured against it,
     app.attribution.setAttr(f, 'surfaceComposition', 'gravel');
     app.attribution.setAttr(f, 'numberOfLanes', 2);
     // A value outside the code list is refused.
-    let refused = false;
+    let refused = null;
     try {
       app.attribution.setAttr(f, 'surfaceComposition', 'cobbles');
-    } catch {
-      refused = true;
+    } catch (e) {
+      refused = e.code ?? e.message;
     }
-    const issues = app.attribution.attributeIssues?.(v.id) ?? null;
+    const issues = app.attribution.attributeIssues(v.id).filter((m) => m.featureId === f);
     const { bytes } = await app.attribution.gpkgBytes([v.id]);
     const ids = await app.attribution.openGpkgBytes(bytes, 'roads.gpkg');
     const back = app.store.get(ids[0]?.id ?? ids[0]);
     const cat = app.attribution.catalog(back.schema?.catalog);
     const feat = app.store.all('feature').find((x) => x.vlayer === back.id);
-    return { schema: v.schema, fields: v.fields.map((x) => x.name), refused, issues: issues?.length ?? null, backFields: back.fields.map((x) => x.name), backSchema: back.schema, domain: cat?.attributes?.surfaceComposition?.domain ?? null, attrs: feat?.attrs };
+    return { schema: v.schema, fields: v.fields.map((x) => x.name), refused, issues, backFields: back.fields.map((x) => x.name), backSchema: back.schema, domain: cat?.attributes?.surfaceComposition?.domain ?? null, attrs: feat?.attrs };
   });
   expect(out.schema).toMatchObject({ catalog: catId, code: 'RoadLink' });
   expect(out.fields).toEqual(expect.arrayContaining(['surfaceComposition', 'numberOfLanes', 'localRoadCode']));
-  expect(out.refused).toBe(true);
+  expect(out.refused).toBe('E_ATTR_DOMAIN');
+  // The two values set are allowed: no issue names either.
+  expect(out.issues.filter((m) => /surfaceComposition|numberOfLanes/.test(JSON.stringify(m)))).toEqual([]);
   expect(out.backFields).toEqual(expect.arrayContaining(['surfaceComposition', 'numberOfLanes', 'localRoadCode']));
   expect(out.backSchema?.code).toBeTruthy();
   expect(Object.keys(out.domain ?? {})).toEqual(expect.arrayContaining(['asphalt', 'gravel', 'concrete']));

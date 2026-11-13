@@ -679,3 +679,68 @@ test('REQ-GAP-84 without IndexedDB the settings keep their recipes, and the pick
   expect(out.left).toEqual(['old-1', 'old-2']);
   expect(out.known).toEqual(expect.arrayContaining(['old-1', 'old-2']));
 });
+
+test('REQ-PIP-02 #191 workflow export steps download their files and never open the Save picker', async ({ page }, info) => {
+  test.setTimeout(120000);
+  const dir = info.outputPath('layers');
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'roads.geojson'), JSON.stringify(ROADS));
+  const { frame, logs } = await openApp(page, 'file');
+  await openFiles(frame, [join(dir, 'roads.geojson')]);
+  await frame.waitForFunction(() => window.gisworkbench.store.all('vlayer').length >= 1, null, { timeout: 60000 });
+  // A browser that offers the picker: a run that reached it would count it here.
+  const [download, out] = await Promise.all([
+    page.waitForEvent('download'),
+    frame.evaluate(async () => {
+      const app = window.gisworkbench;
+      app.runMode.caps.fsaSave = true;
+      let picks = 0;
+      window.showSaveFilePicker = async () => {
+        picks++;
+        throw new Error('the Save picker opened');
+      };
+      const id = app.store.all('vlayer')[0].id;
+      app.recipes.runner.load({ format: 'gw-recipe/2', name: 'Export', steps: [{ id: 'e', op: 'exportVector', params: { format: 'geojson' }, inputs: { layer: { value: id } } }] });
+      const r = await app.recipes.runner.run();
+      window.__picks = () => picks;
+      return { r, picks, status: app.recipes.runner.state[0].status };
+    }),
+  ]);
+  expect(out).toEqual({ r: { ok: true }, picks: 0, status: 'done' });
+  expect(download.suggestedFilename()).toMatch(/\.geojson$/);
+  // The session deck's export step (a command) downloads too.
+  const [deckFile, deck] = await Promise.all([
+    page.waitForEvent('download'),
+    frame.evaluate(async () => {
+      const app = window.gisworkbench;
+      const canvas = Object.assign(document.createElement('canvas'), { width: 64, height: 48 });
+      app.sessionDeck.push({ canvas, record: { number: 1, caption: 'Test chip', created: '2026-11-13T00:00:00Z' } });
+      app.recipes.runner.load({ format: 'gw-recipe/2', name: 'Deck', steps: [{ id: 'd', op: 'exportDeck' }] });
+      const r = await app.recipes.runner.run();
+      return { r, picks: window.__picks(), status: app.recipes.runner.state[0].status };
+    }),
+  ]);
+  expect(deck).toEqual({ r: { ok: true }, picks: 0, status: 'done' });
+  expect(deckFile.suggestedFilename()).toBe('session-deck.pptx');
+  expect(logs).toEqual([]);
+});
+
+test('REQ-PIP-02 #191 a workflow opened without positions lays a step two branches share out after both', async ({ page }) => {
+  const { frame, logs } = await openApp(page, 'file');
+  // a feeds b and c, which both feed d; d is listed first, so its branches are followed before a is placed.
+  const at = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    await app.workflows.open({ format: 'gw-recipe/2', name: 'Diamond', steps: [
+      { id: 'd', op: 'overlay', inputs: { a: { from: 'b', output: 'out' }, b: { from: 'c', output: 'out' } } },
+      { id: 'b', op: 'buffer', inputs: { layer: { from: 'a', output: 'out' } } },
+      { id: 'c', op: 'buffer', inputs: { layer: { from: 'a', output: 'out' } } },
+      { id: 'a', op: 'buffer' },
+    ] });
+    return Object.fromEntries(app.workflows.current().steps.map((s) => [s.id, s.at.x]));
+  });
+  const step = at.b - at.a;
+  expect(step).toBeGreaterThan(0);
+  expect(at.c).toBe(at.b);
+  expect(at.d).toBe(at.b + step);
+  expect(logs).toEqual([]);
+});

@@ -83,6 +83,9 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     // The default members, as `cargo test` there: the no_std stubs can't build as test targets.
     step('Sidecar clippy', 'cargo', clippy([]), 'sidecar');
     step('Sidecar tests', 'cargo', ['test', '--locked', '--no-fail-fast'], 'sidecar');
+    // gwb-sfm is not a default member (the sfm module builds it on its own), so name it.
+    step('Sidecar sfm clippy', 'cargo', clippy(['-p', 'gwb-sfm']), 'sidecar');
+    step('Sidecar sfm tests', 'cargo', ['test', '--locked', '--no-fail-fast', '-p', 'gwb-sfm'], 'sidecar');
   }
   return steps;
 }

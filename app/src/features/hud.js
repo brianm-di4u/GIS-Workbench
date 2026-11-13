@@ -434,11 +434,12 @@ export function install(app) {
   });
   C.implement('deck.export', {
     enabled: () => deck.length > 0,
-    run: async () => {
+    // A workflow step passes {preferPicker: false}: no Save picker mid-run, the file downloads.
+    run: async (args) => {
       if (!app.writePptx) throw new Error('PowerPoint export is not available in this file');
       const slides = deck.map((d) => ({ image: d.canvas, wIn: 13.333, hIn: 7.5, title: d.record.caption ?? `Chip ${d.record.number}`, notes: `${d.record.centreMgrs ?? ''} · ${d.record.created}` }));
       const bytes = await app.writePptx(slides, { title: 'GIS Workbench session deck' }); // i18n-ignore: PPTX file metadata (export)
-      await saveBlob(app, new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' }), { name: 'session-deck.pptx', types: ['.pptx'], description: 'PowerPoint' });
+      await saveBlob(app, new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' }), { name: 'session-deck.pptx', types: ['.pptx'], description: 'PowerPoint', preferPicker: args?.preferPicker !== false });
     },
   });
   C.implement('deck.clear', {

@@ -6773,6 +6773,13 @@
    ]
   },
   {
+   "key": "Checkpoints ({n}, RMS east, north, up)",
+   "src": "Checkpoints ({n}, RMS east, north, up)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Checkpoints after: {stats}",
    "src": "Checkpoints after: {stats}",
    "refs": [
@@ -6993,10 +7000,24 @@
    ]
   },
   {
+   "key": "Choose a file…",
+   "src": "Choose a file…",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Choose a measurement, then tap points on the image. Results appear here.",
    "src": "Choose a measurement, then tap points on the image. Results appear here.",
    "refs": [
     "mobile/shell.js"
+   ]
+  },
+  {
+   "key": "Choose a point, then mark it in each photograph: the more photographs, the better, and at least two. Checkpoints are marked the same way and kept out of the adjustment, to measure it.",
+   "src": "Choose a point, then mark it in each photograph: the more photographs, the better, and at least two. Checkpoints are marked the same way and kept out of the adjustment, to measure it.",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -7081,6 +7102,20 @@
    "src": "Choose the folder to convert",
    "refs": [
     "sidecar/feature.js"
+   ]
+  },
+  {
+   "key": "Choose the ground control file (CSV or gcp_list.txt)",
+   "src": "Choose the ground control file (CSV or gcp_list.txt)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "Choose the model file an earlier first stage published (.sfm-model)",
+   "src": "Choose the model file an earlier first stage published (.sfm-model)",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -8876,6 +8911,7 @@
    "key": "Control points",
    "src": "Control points",
    "refs": [
+    "features/sfm.js",
     "features/triangulation.js"
    ]
   },
@@ -9812,7 +9848,8 @@
    "key": "DSM cell, metres (0: from the photographs)",
    "src": "DSM cell, metres (0: from the photographs)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-control.toml"
    ]
   },
   {
@@ -14440,7 +14477,8 @@
    "key": "Focal length (PRIOR holds the EXIF value; REFINE only with strong relief or oblique photographs)",
    "src": "Focal length (PRIOR holds the EXIF value; REFINE only with strong relief or oblique photographs)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-model.toml"
    ]
   },
   {
@@ -14448,6 +14486,13 @@
    "src": "Focal length (mm)",
    "refs": [
     "features/frames.js"
+   ]
+  },
+  {
+   "key": "Focal length after the adjustment with the control",
+   "src": "Focal length after the adjustment with the control",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -16224,6 +16269,13 @@
    "src": "Ground Plane",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Ground control points ({n}, RMS east, north, up)",
+   "src": "Ground control points ({n}, RMS east, north, up)",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -20704,7 +20756,8 @@
    "src": "Lens model",
    "refs": [
     "features/aero-ui.js",
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-model.toml"
    ]
   },
   {
@@ -21371,6 +21424,13 @@
    ]
   },
   {
+   "key": "Loading {photo}…",
+   "src": "Loading {photo}…",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Loads a GPX track, route or waypoints.",
    "src": "Loads a GPX track, route or waypoints.",
    "refs": [
@@ -21634,21 +21694,24 @@
    "key": "Longest side for feature detection, pixels",
    "src": "Longest side for feature detection, pixels",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-model.toml"
    ]
   },
   {
    "key": "Longest side of the depth maps, pixels (sets the DSM detail and the run time)",
    "src": "Longest side of the depth maps, pixels (sets the DSM detail and the run time)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-control.toml"
    ]
   },
   {
    "key": "Longest side of the undistorted photographs, pixels (sets the orthomosaic detail)",
    "src": "Longest side of the undistorted photographs, pixels (sets the orthomosaic detail)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-control.toml"
    ]
   },
   {
@@ -22778,10 +22841,24 @@
    ]
   },
   {
+   "key": "Mark farthest from where its survey puts it",
+   "src": "Mark farthest from where its survey puts it",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Mark saved",
    "src": "Mark saved",
    "refs": [
     "features/files.js"
+   ]
+  },
+  {
+   "key": "Mark the ground control points",
+   "src": "Mark the ground control points",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -23751,6 +23828,13 @@
    "src": "Models",
    "refs": [
     "shell/ribbon-data.js"
+   ]
+  },
+  {
+   "key": "Models the first stage published on this sidecar, newest first (it keeps them for 14 days)",
+   "src": "Models the first stage published on this sidecar, newest first (it keeps them for 14 days)",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -25062,6 +25146,13 @@
    "src": "Next image",
    "refs": [
     "features/views.js"
+   ]
+  },
+  {
+   "key": "Next photograph",
+   "src": "Next photograph",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -27937,7 +28028,8 @@
    "key": "Orthomosaic pixel, metres (0: from the photographs)",
    "src": "Orthomosaic pixel, metres (0: from the photographs)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-control.toml"
    ]
   },
   {
@@ -29335,10 +29427,18 @@
    ]
   },
   {
+   "key": "Photograph: click where the point is, or move the cross with the arrow keys and press Enter",
+   "src": "Photograph: click where the point is, or move the cross with the arrow keys and press Enter",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Photographs matched with each photograph (by GPS distance)",
    "src": "Photographs matched with each photograph (by GPS distance)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-model.toml"
    ]
   },
   {
@@ -29605,10 +29705,24 @@
    ]
   },
   {
+   "key": "Places UAV photographs on marked ground control points, then makes a DSM and an orthomosaic.",
+   "src": "Places UAV photographs on marked ground control points, then makes a DSM and an orthomosaic.",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "Places a GPS waypoint.",
    "src": "Places a GPS waypoint.",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "Places a UAV block on surveyed ground control points marked in its photographs, then makes a dense cloud, a DSM and an orthomosaic.",
+   "src": "Places a UAV block on surveyed ground control points marked in its photographs, then makes a dense cloud, a DSM and an orthomosaic.",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -30589,6 +30703,13 @@
    "src": "Previous image",
    "refs": [
     "features/views.js"
+   ]
+  },
+  {
+   "key": "Previous photograph",
+   "src": "Previous photograph",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -33160,6 +33281,13 @@
    ]
   },
   {
+   "key": "Remove this mark",
+   "src": "Remove this mark",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Remove triangulation",
    "src": "Remove triangulation",
    "refs": [
@@ -33435,6 +33563,13 @@
    "src": "Reproject with Sidecar…",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Reprojection error after the adjustment with the control (RMS)",
+   "src": "Reprojection error after the adjustment with the control (RMS)",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -34188,10 +34323,24 @@
    ]
   },
   {
+   "key": "Run the first stage",
+   "src": "Run the first stage",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Run the models on the CPU only",
    "src": "Run the models on the CPU only",
    "refs": [
     "features/ai-local.js"
+   ]
+  },
+  {
+   "key": "Run with these marks",
+   "src": "Run with these marks",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -34213,6 +34362,13 @@
    "src": "Runs in a worker on the AOI chip (or the view), up to 1024 × 1024 pixels. Each product opens as a layer above the source with its geometry.",
    "refs": [
     "features/sar.js"
+   ]
+  },
+  {
+   "key": "Runs in two stages. The first orients the photographs and places them by their GPS; then you mark each ground control point in the photographs; then the second places the block on the points, adjusts it with them, and makes a dense cloud, a DSM and an orthomosaic.",
+   "src": "Runs in two stages. The first orients the photographs and places them by their GPS; then you mark each ground control point in the photographs; then the second places the block on the points, adjusts it with them, and makes a dense cloud, a DSM and an orthomosaic.",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -38772,7 +38928,8 @@
    "key": "Source photographs for each depth map",
    "src": "Source photographs for each depth map",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-control.toml"
    ]
   },
   {
@@ -39705,6 +39862,20 @@
    "src": "Strip inside the obstacle-free zone {end}",
    "refs": [
     "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "Structure from Motion with Ground Control",
+   "src": "Structure from Motion with Ground Control",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "Structure from Motion with Ground Control…",
+   "src": "Structure from Motion with Ground Control…",
+   "refs": [
+    "shell/commands.js"
    ]
   },
   {
@@ -41532,6 +41703,13 @@
    ]
   },
   {
+   "key": "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.",
+   "src": "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "The full PROJ grid set is installed.",
    "src": "The full PROJ grid set is installed.",
    "refs": [
@@ -41854,8 +42032,8 @@
    ]
   },
   {
-   "key": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used.",
-   "src": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used.",
+   "key": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used here: Structure from Motion with Ground Control uses them.",
+   "src": "The result is placed by the GPS in the photographs, so it is only as accurate as that GPS, and heights are as the GPS recorded them. A height above the ground is only as good as the focal length in EXIF: 1 % wrong is 1 % of the flying height. Ground control points are not used here: Structure from Motion with Ground Control uses them.",
    "refs": [
     "features/sfm.js"
    ]
@@ -42310,7 +42488,8 @@
    "key": "Threads for feature detection (each takes about 2 GB at 3200 pixels)",
    "src": "Threads for feature detection (each takes about 2 GB at 3200 pixels)",
    "refs": [
-    "sidecar/profiles/sfm-block.toml"
+    "sidecar/profiles/sfm-block.toml",
+    "sidecar/profiles/sfm-model.toml"
    ]
   },
   {
@@ -43243,10 +43422,31 @@
    ]
   },
   {
+   "key": "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)",
+   "src": "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)",
+   "refs": [
+    "sidecar/profiles/sfm-control.toml"
+   ]
+  },
+  {
    "key": "UAV block to DSM and orthomosaic (structure from motion)",
    "src": "UAV block to DSM and orthomosaic (structure from motion)",
    "refs": [
     "sidecar/profiles/sfm-block.toml"
+   ]
+  },
+  {
+   "key": "UAV block to a sparse model for ground control marking (structure from motion, stage 1)",
+   "src": "UAV block to a sparse model for ground control marking (structure from motion, stage 1)",
+   "refs": [
+    "sidecar/profiles/sfm-model.toml"
+   ]
+  },
+  {
+   "key": "UAV photographs",
+   "src": "UAV photographs",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -43642,6 +43842,13 @@
    ]
   },
   {
+   "key": "Use a model from an earlier run",
+   "src": "Use a model from an earlier run",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Use as Basemap",
    "src": "Use as Basemap",
    "refs": [
@@ -43767,6 +43974,13 @@
    "src": "Use these values as the layer defaults",
    "refs": [
     "features/attribution.js"
+   ]
+  },
+  {
+   "key": "Use this model",
+   "src": "Use this model",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -44930,6 +45144,13 @@
   {
    "key": "What this run measured. Heights are as the GPS recorded them.",
    "src": "What this run measured. Heights are as the GPS recorded them.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "What this run measured. Heights are those of the ground control points.",
+   "src": "What this run measured. Heights are those of the ground control points.",
    "refs": [
     "features/sfm.js"
    ]
@@ -48334,6 +48555,13 @@
    ]
   },
   {
+   "key": "checkpoint",
+   "src": "checkpoint",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "checksum FAILED (not used)",
    "src": "checksum FAILED (not used)",
    "refs": [
@@ -48709,6 +48937,13 @@
    "src": "contrast",
    "refs": [
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "control point",
+   "src": "control point",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -52098,6 +52333,13 @@
    ]
   },
   {
+   "key": "marked at {x}, {y}.",
+   "src": "marked at {x}, {y}.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "marker",
    "src": "marker",
    "refs": [
@@ -54157,6 +54399,13 @@
    "src": "not loaded",
    "refs": [
     "features/packs.js"
+   ]
+  },
+  {
+   "key": "not marked in this photograph.",
+   "src": "not marked in this photograph.",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -57108,6 +57357,13 @@
    ]
   },
   {
+   "key": "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic",
+   "src": "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic",
+   "refs": [
+    "shell/command-meta.js"
+   ]
+  },
+  {
    "key": "shadow",
    "src": "shadow",
    "refs": [
@@ -59114,12 +59370,35 @@
    ]
   },
   {
+   "key": "the control file has no points",
+   "src": "the control file has no points",
+   "refs": [
+    "features/sfm-gcp.js"
+   ],
+   "error": true
+  },
+  {
    "key": "the control file has no rows",
    "src": "the control file has no rows",
    "refs": [
     "features/triangulation.js"
    ],
    "error": true
+  },
+  {
+   "key": "the control file is empty",
+   "src": "the control file is empty",
+   "refs": [
+    "features/sfm-gcp.js"
+   ],
+   "error": true
+  },
+  {
+   "key": "the control file is in EPSG:{a} and the photographs were placed in EPSG:{b}; give the control points in EPSG:{b}",
+   "src": "the control file is in EPSG:{a} and the photographs were placed in EPSG:{b}; give the control points in EPSG:{b}",
+   "refs": [
+    "features/sfm.js"
+   ]
   },
   {
    "key": "the control file needs lat, lon and hae (or h) columns",
@@ -59336,6 +59615,13 @@
     "tiles/pmtiles-set.js"
    ],
    "error": true
+  },
+  {
+   "key": "the first stage published no model file",
+   "src": "the first stage published no model file",
+   "refs": [
+    "features/sfm.js"
+   ]
   },
   {
    "key": "the first time stamp falls on a whole minute when read as UTC/POSIX: the encoder may write legacy UTC",
@@ -59850,6 +60136,22 @@
    "refs": [
     "connectors/auth.js"
    ]
+  },
+  {
+   "key": "the model file header is too large",
+   "src": "the model file header is too large",
+   "refs": [
+    "features/sfm-gcp.js"
+   ],
+   "error": true
+  },
+  {
+   "key": "the model file is cut short in its header",
+   "src": "the model file is cut short in its header",
+   "refs": [
+    "features/sfm-gcp.js"
+   ],
+   "error": true
   },
   {
    "key": "the model has no outputs named as the descriptor says",
@@ -60428,6 +60730,13 @@
    "src": "the session for {origin} has ended; sign in again",
    "refs": [
     "connectors/auth.js"
+   ]
+  },
+  {
+   "key": "the sidecar could not read {file}",
+   "src": "the sidecar could not read {file}",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -61112,6 +61421,14 @@
    "refs": [
     "features/sarstereo.js"
    ]
+  },
+  {
+   "key": "this is not a model file from the first stage",
+   "src": "this is not a model file from the first stage",
+   "refs": [
+    "features/sfm-gcp.js"
+   ],
+   "error": true
   },
   {
    "key": "this is not an HLS playlist (no #EXTM3U on the first line)",
@@ -63716,6 +64033,13 @@
    ]
   },
   {
+   "key": "{file} ({mb} MB)",
+   "src": "{file} ({mb} MB)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{file} ({size}) is ready.",
    "src": "{file} ({size}) is ready.",
    "refs": [
@@ -64703,6 +65027,13 @@
    ]
   },
   {
+   "key": "{folder}: {n, plural, one {# JPEG photograph} other {# JPEG photographs}}, and {c, plural, one {# point} other {# points}} in {file}.",
+   "src": "{folder}: {n, plural, one {# JPEG photograph} other {# JPEG photographs}}, and {c, plural, one {# point} other {# points}} in {file}.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{folder}: {n, plural, one {# JPEG photograph} other {# JPEG photographs}}. One camera, with GPS in EXIF.",
    "src": "{folder}: {n, plural, one {# JPEG photograph} other {# JPEG photographs}}. One camera, with GPS in EXIF.",
    "refs": [
@@ -64910,6 +65241,27 @@
    "src": "{ident} ({regime}) against {src}: {covered} of {evaluated} {unit} lie under a surface; {pen} penetrate it in {n, plural, one {# obstacle} other {# obstacles}} ({ms} ms).",
    "refs": [
     "features/aviation-obstruction.js"
+   ]
+  },
+  {
+   "key": "{id} ({role}): {n, plural, =0 {not marked} one {# mark} other {# marks}}",
+   "src": "{id} ({role}): {n, plural, =0 {not marked} one {# mark} other {# marks}}",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "{id} falls in none of the photographs the model holds.",
+   "src": "{id} falls in none of the photographs the model holds.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "{id} in {photo} (photograph {i} of {n}). The dashed cross is where the model puts it; {state}",
+   "src": "{id} in {photo} (photograph {i} of {n}). The dashed cross is where the model puts it; {state}",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -67361,6 +67713,13 @@
    ]
   },
   {
+   "key": "{n} control points are marked in two or more photographs; at least 3 are needed",
+   "src": "{n} control points are marked in two or more photographs; at least 3 are needed",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
    "src": "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month",
    "refs": [
@@ -67408,6 +67767,13 @@
    "src": "{n} nodes reached",
    "refs": [
     "features/recipes.js"
+   ]
+  },
+  {
+   "key": "{n} of {all} control points marked in two or more photographs, and {c} checkpoints. At least 3 control points are needed.",
+   "src": "{n} of {all} control points marked in two or more photographs, and {c} checkpoints. At least 3 control points are needed.",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -67724,6 +68090,20 @@
    ]
   },
   {
+   "key": "{photo} could not be read: {msg}",
+   "src": "{photo} could not be read: {msg}",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "{photo} is not in the folder opened in the browser.",
+   "src": "{photo} is not in the folder opened in the browser.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{points, plural, one {# tie point} other {# tie points}} over {pairs, plural, one {# pair} other {# pairs}}",
    "src": "{points, plural, one {# tie point} other {# tie points}} over {pairs, plural, one {# pair} other {# pairs}}",
    "refs": [
@@ -67864,8 +68244,22 @@
    ]
   },
   {
+   "key": "{px} px (was {was} px)",
+   "src": "{px} px (was {was} px)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "{px} px, held at the EXIF value",
    "src": "{px} px, held at the EXIF value",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
+   "key": "{px} px, on {id} in {photo}",
+   "src": "{px} px, on {id} in {photo}",
    "refs": [
     "features/sfm.js"
    ]
