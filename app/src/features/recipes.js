@@ -3,13 +3,17 @@
 // the drawer below, where a change re-runs from that step. Gate steps pause with the candidates
 // on the map until the analyst has reviewed them (accept / reject in the queue, or 1 / 2 / 3)
 // and presses Enter or Resume. Recipes are saved and opened as .gwrecipe.json files; four are
-// built in.
+// built in. Since 2.7.1 (REQ-GAP-84) operations declare a parameter schema and typed inputs and
+// outputs, so a workflow (gw-recipe/2) can wire one step's layer into the next; the node editor is
+// the lazy js-workflow block (features/workflow.js). The user's recipes are kept in a library in
+// IndexedDB with no cap, and workflows saved in the project travel in the .gwb.
 
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, FORMAT } from '../recipes/recipe.js';
-import { t, N_, tr, msgOf } from '../i18n/index.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, FORMAT } from '../recipes/recipe.js';
+import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
+import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
 
 export const name = 'recipes';
@@ -69,17 +73,137 @@ export function install(app) {
   const pane = () => app.activePane();
   const pending = () => S.all('detection').filter((d) => d.status === 'pending');
 
+  // ---- typed operations (REQ-GAP-84): a layer passes from step to step by its id ----
+  /** A layer by its id, or by its name when one layer has it: a name two layers share picks neither. */
+  const pick = (list, nameOf, x) => {
+    const byId = list.find((l) => l.id === x);
+    if (byId) return byId;
+    const named = list.filter((l) => nameOf(l) === x);
+    if (named.length > 1) throw gwError('{n} layers are named {layer}: rename one, or choose it again', { n: String(named.length), layer: String(x) }, 'E_RECIPE_INPUT');
+    return named[0] ?? null;
+  };
+  const vlayerBy = (x) => pick(S.all('vlayer'), (v) => v.name, x);
+  const rasterBy = (x) => pick([...app.layers.values()], (l) => l.rec?.name, x);
+  /** The layer wired or given to input `k`, of the kind it needs. */
+  const inputLayer = (ctx, k, kind) => {
+    const x = ctx.inputs?.[k];
+    if (x === undefined || x === null || x === '') throw gwError('input {input} has no layer: wire it to a step, or give it when the workflow runs', { input: k }, 'E_RECIPE_INPUT');
+    const ok = kind === 'vector' ? vlayerBy(x) : rasterBy(x);
+    if (!ok) throw gwError('input {input}: no {kind} layer {layer}', { input: k, kind: kind === 'vector' ? t('vector') : t('raster'), layer: String(x) }, 'E_RECIPE_INPUT');
+    return ok.id;
+  };
+  const demOf = (ctx) => {
+    const id = inputLayer(ctx, 'dem', 'raster');
+    const d = app.terrain?.entry(id);
+    if (!d) throw gwError('{layer} is not loaded as terrain: use it as terrain first', { layer: app.layers.get(id)?.rec?.name ?? id }, 'E_HYDRO_NO_DEM');
+    return d;
+  };
+  const featureCount = (id) => S.all('feature').filter((f) => f.vlayer === id).length;
+  const vSummary = (id) => t('{layer}: {n, plural, one {# feature} other {# features}}', { layer: S.get(id)?.name ?? id, n: featureCount(id) });
+  const V_IN = [{ name: 'layer', type: 'layer:vector' }];
+  const V_OUT = [{ name: 'out', type: 'layer:vector' }];
+  const R_OUT = [{ name: 'out', type: 'layer:raster' }];
+  const DEM_IN = [{ name: 'dem', type: 'layer:raster' }];
+  const vector = (fn) => async (p, ctx) => {
+    const id = await fn(p, ctx);
+    return { summary: vSummary(id), outputs: { out: id } };
+  };
+
+  const TYPED = {
+    // Source steps name a layer the user already has: they pass it on and make nothing (source: true).
+    vectorLayer: { title: N_('Vector layer'), source: true, schema: { layer: { type: 'text', label: N_('Layer (name or id)'), default: '' } }, outputs: V_OUT, pythonHint: 'gw.layer(name)', run: ({ layer }) => {
+      const v = vlayerBy(layer);
+      if (!v) throw gwError('no vector layer {layer}', { layer: String(layer) }, 'E_RECIPE_INPUT');
+      return { summary: vSummary(v.id), outputs: { out: v.id } };
+    } },
+    rasterLayer: { title: N_('Raster layer'), source: true, schema: { layer: { type: 'text', label: N_('Layer (name or id)'), default: '' } }, outputs: R_OUT, pythonHint: 'gw.layer(name)', run: ({ layer }) => {
+      const l = rasterBy(layer);
+      if (!l) throw gwError('no raster layer {layer}', { layer: String(layer) }, 'E_RECIPE_INPUT');
+      return { summary: l.rec?.name ?? l.id, outputs: { out: l.id } };
+    } },
+    buffer: { title: N_('Buffer'), inputs: V_IN, outputs: V_OUT, pythonHint: 'gw.buffer(layer, distance)', schema: {
+      distance: { type: 'number', label: N_('Distance'), unit: 'm', default: 100 },
+      geodesic: { type: 'boolean', label: N_('Geodesic (WGS 84)'), default: true },
+      cap: { type: 'enum', label: N_('Line ends'), values: ['round', 'flat', 'square'], default: 'round' },
+      quadSegs: { type: 'integer', label: N_('Segments per quarter circle'), min: 1, max: 90, default: 8 },
+      dissolve: { type: 'boolean', label: N_('Dissolve the result'), default: false },
+    }, run: vector((p, ctx) => app.geoproc.buffer(inputLayer(ctx, 'layer', 'vector'), p)) },
+    overlay: { title: N_('Overlay'), inputs: [{ name: 'a', type: 'layer:vector' }, { name: 'b', type: 'layer:vector' }], outputs: V_OUT, pythonHint: 'gw.overlay(a, b, op)', schema: {
+      op: { type: 'enum', label: N_('Operation'), values: ['intersect', 'union', 'erase', 'symdiff'], default: 'intersect' },
+    }, run: vector(({ op }, ctx) => app.geoproc.overlay(inputLayer(ctx, 'a', 'vector'), inputLayer(ctx, 'b', 'vector'), op)) },
+    dissolve: { title: N_('Dissolve'), inputs: V_IN, outputs: V_OUT, pythonHint: 'gw.dissolve(layer, field)', schema: {
+      field: { type: 'text', label: N_('Dissolve field'), default: '' },
+    }, run: vector(({ field }, ctx) => app.geoproc.dissolve(inputLayer(ctx, 'layer', 'vector'), field || null)) },
+    join: { title: N_('Spatial join'), inputs: [{ name: 'target', type: 'layer:vector' }, { name: 'join', type: 'layer:vector' }], outputs: V_OUT, pythonHint: 'gw.spatial_join(target, join, predicate)', schema: {
+      predicate: { type: 'enum', label: N_('Relationship'), values: ['intersects', 'within', 'contains', 'nearest'], default: 'intersects' },
+      field: { type: 'text', label: N_('Summarise field'), default: '' },
+      maxDistance: { type: 'number', label: N_('Maximum distance'), unit: 'm', min: 0 },
+    }, run: vector(({ predicate, field, maxDistance }, ctx) => app.geoproc.join(inputLayer(ctx, 'target', 'vector'), inputLayer(ctx, 'join', 'vector'), { predicate, field: field || null, maxDistance: Number.isFinite(maxDistance) ? maxDistance : null })) },
+    fillSinks: { title: N_('Fill sinks'), inputs: DEM_IN, outputs: R_OUT, pythonHint: 'gw.fill_sinks(dem)', schema: {
+      eps: { type: 'boolean', label: N_('Epsilon (a small slope across flats)'), default: true },
+    }, run: async ({ eps }, ctx) => {
+      const r = await app.hydrology.fill({ eps }, demOf(ctx));
+      return { summary: t('{n, plural, one {# post raised} other {# posts raised}}', { n: r.raised }), outputs: { out: r.layer.id } };
+    } },
+    flowAccumulation: { title: N_('Flow accumulation'), inputs: DEM_IN, outputs: R_OUT, pythonHint: 'gw.flow_accumulation(dem, method)', schema: {
+      method: { type: 'enum', label: N_('Method'), values: ['d8', 'dinf'], default: 'd8' },
+    }, run: async ({ method }, ctx) => {
+      const r = await app.hydrology.accumulation({ method }, demOf(ctx));
+      return { summary: t('largest {n}', { n: int(r.max) }), outputs: { out: r.layer.id } };
+    } },
+    streams: { title: N_('Stream network'), inputs: DEM_IN, outputs: V_OUT, pythonHint: 'gw.streams(dem, min_area)', schema: {
+      minArea: { type: 'number', label: N_('Smallest contributing area'), unit: 'm²', min: 1, default: 100000 },
+    }, run: vector(async ({ minArea }, ctx) => (await app.hydrology.streams({ minArea }, demOf(ctx))).layer) },
+    watershed: { title: N_('Watershed'), inputs: DEM_IN, outputs: V_OUT, pythonHint: 'gw.watershed(dem, lonlat, snap)', schema: {
+      at: { type: 'lonlat', label: N_('Pour point (longitude, latitude)') },
+      snap: { type: 'number', label: N_('Snap within'), unit: 'm', min: 0, default: 50 },
+    }, run: vector(async ({ at, snap }, ctx) => {
+      if (!at) throw gwError('give the pour point as longitude, latitude', null, 'E_HYDRO_POUR');
+      return (await app.hydrology.watershed({ lon: at[0], lat: at[1], snap }, demOf(ctx))).layer;
+    }) },
+    // REG-016: endmembers of a multispectral or hyperspectral image (VCA), pinned for unmixing, with the pixel purity layer.
+    endmembers: { title: N_('Endmembers'), inputs: [{ name: 'image', type: 'layer:raster' }], outputs: [{ name: 'ppi', type: 'layer:raster' }], pythonHint: 'gw.endmembers(image, m)', schema: {
+      m: { type: 'integer', label: N_('Endmembers'), min: 2, max: 64, default: 5 },
+      skewers: { type: 'integer', label: N_('Pixel purity skewers (0: none)'), min: 0, max: 100000, default: 1000 },
+      seed: { type: 'integer', label: N_('Random seed'), min: 0, default: 1 },
+    }, run: async ({ m, skewers, seed }, ctx) => {
+      const r = await app.msi.endmembers(app.layers.get(inputLayer(ctx, 'image', 'raster')), { m, skewers, seed });
+      return { summary: t('{n, plural, one {# endmember} other {# endmembers}}', { n: r.endmembers.length }), outputs: r.ppi ? { ppi: r.ppi.id } : {} };
+    } },
+    // REQ-GAP-87: a new layer of a catalogue's feature type (ISO 19110, INSPIRE, OSM presets or gw-catalog/1).
+    newSchemaLayer: { title: N_('New layer from schema'), outputs: V_OUT, pythonHint: 'gw.new_schema_layer(catalog, type)', schema: {
+      catalog: { type: 'text', label: N_('Feature catalogue (id)'), default: '' },
+      type: { type: 'text', label: N_('Feature type (code)'), default: '' },
+      subtype: { type: 'text', label: N_('Subtype (code)'), default: '' },
+      name: { type: 'text', label: N_('Layer name'), default: '' },
+    }, run: vector(({ catalog, type, subtype, name: nm }) => app.attribution.newSchemaLayer(type, { catalog: catalog || undefined, subtype: subtype || null, name: nm || null, activate: false })) },
+    exportVector: { title: N_('Export a vector layer'), inputs: V_IN, pythonHint: 'gw.export(layer, format)', schema: {
+      format: { type: 'enum', label: N_('Format'), values: ['geojson', 'gpkg', 'kml', 'csv', 'shp'], default: 'geojson' },
+    }, run: async ({ format }, ctx) => {
+      const id = inputLayer(ctx, 'layer', 'vector');
+      if (format === 'gpkg') {
+        const { bytes } = await app.attribution.gpkgBytes([id]);
+        const stem = (S.get(id).name || 'layer').replace(/[^\w.-]+/g, '_');
+        await saveBlob(app, new Blob([bytes], { type: 'application/geopackage+sqlite3' }), { name: `${stem}.gpkg`, types: ['.gpkg'], description: 'GeoPackage' });
+      } else {
+        const out = app.encodeLayer(id, format);
+        await saveBlob(app, out.blob, { name: out.name, types: out.types, description: format.toUpperCase() });
+      }
+      return { summary: vSummary(id) };
+    } },
+  };
+
   /** The operations a step can run (REQ-PIP-02): params → {summary}. */
   const OPS = {
     contrast: { title: N_('Auto contrast'), pythonHint: 'gw.auto_contrast()', run: () => {
       const p = app.aiLocal.autoContrast();
       return { summary: t('CLAHE clip {clip}, gamma {gamma}', { clip: p.clip, gamma: p.gamma }) };
     } },
-    find: { title: N_('Find objects'), defaults: { objects: ['vehicle'], threshold: 0.15 }, pythonHint: 'gw.find(objects, threshold)', run: async ({ objects, threshold }) => {
+    find: { title: N_('Find objects'), schema: { objects: { type: 'texts', label: N_('Objects'), default: ['vehicle'] }, threshold: { type: 'number', label: N_('Threshold'), min: 0, max: 1, default: 0.15 } }, pythonHint: 'gw.find(objects, threshold)', run: async ({ objects, threshold }) => {
       const r = await app.aiLocal.find(objects, { threshold });
       return { summary: Object.entries(r.counts).map(([k, n]) => t('{n} {object}', { n, object: k })).join(', ') };
     } },
-    search: { title: N_('Search imagery'), defaults: { text: '', k: 8 }, run: async ({ text, k }) => {
+    search: { title: N_('Search imagery'), schema: { text: { type: 'text', label: N_('Text'), default: '' }, k: { type: 'integer', label: N_('Places'), min: 1, max: 100, default: 8 } }, run: async ({ text, k }) => {
       const r = await app.aiLocal.search(text, { k });
       return { summary: t('{n, plural, one {# place} other {# places}}, best {best}', { n: r.hits.length, best: Number.isFinite(r.hits[0]?.score) ? num(r.hits[0].score, 2) : '–' }) };
     } },
@@ -87,7 +211,7 @@ export function install(app) {
       const r = await app.autoAlignAI();
       return { summary: t('{n, plural, one {# tie point} other {# tie points}}, RMS {rms} px', { n: r.used, rms: num(r.rms, 2) }) };
     } },
-    outline: { title: N_('Outline detections'), defaults: { square: true, max: 60 }, run: async ({ square, max }, ctx) => {
+    outline: { title: N_('Outline detections'), schema: { square: { type: 'boolean', label: N_('Square the corners'), default: true }, max: { type: 'integer', label: N_('At most'), min: 1, max: 1000, default: 60 } }, run: async ({ square, max }, ctx) => {
       const l = pane()?.geoLayer?.() ?? pane()?.activeLayer?.();
       if (!l) throw new Error('open an image first');
       const list = pending().filter((d) => d.anchor === 'image' && d.ring).slice(0, max);
@@ -106,7 +230,7 @@ export function install(app) {
       }
       return { summary: t('{n, plural, one {# outline} other {# outlines}}', { n }) };
     } },
-    gate: { title: N_('Review'), gate: true, defaults: { message: N_('Review, then press Enter.') }, run: ({ message }, ctx) => {
+    gate: { title: N_('Review'), gate: true, schema: { message: { type: 'text', label: N_('Message'), default: N_('Review, then press Enter.') } }, run: ({ message }, ctx) => {
       const n = pending().length;
       if (ctx?.headless) return { summary: n ? t('{n} to review', { n }) : t('waiting for you') };
       if (n) {
@@ -116,7 +240,7 @@ export function install(app) {
       app.toast(t('Recipe paused: {message}', { message: tr(message) }), { kind: 'info', ms: 8000 });
       return { summary: n ? t('{n} to review', { n }) : t('waiting for you') };
     }, after: () => ({ summary: t('{a} accepted, {r} rejected', { a: S.all('detection').filter((d) => d.status === 'accepted').length, r: S.all('detection').filter((d) => d.status === 'rejected').length }) }) },
-    chips: { title: N_('Chip detections'), defaults: { status: 'accepted', max: 20 }, run: async ({ status, max }) => {
+    chips: { title: N_('Chip detections'), schema: { status: { type: 'enum', label: N_('Detections'), values: ['accepted', 'pending', 'rejected'], default: 'accepted' }, max: { type: 'integer', label: N_('At most'), min: 1, max: 500, default: 20 } }, run: async ({ status, max }) => {
       const p = pane();
       const list = S.all('detection').filter((d) => d.status === status && d.anchor === 'image' && d.ring).slice(0, max);
       for (const d of list) {
@@ -135,7 +259,7 @@ export function install(app) {
       await C.run('deck.export');
       return { summary: t('{n, plural, one {# slide} other {# slides}}', { n: app.sessionDeck.length }) };
     } },
-    exportGeojson: { title: N_('Export GeoJSON'), defaults: { what: 'accepted-detections' }, run: async ({ what }) => {
+    exportGeojson: { title: N_('Export GeoJSON'), schema: { what: { type: 'enum', label: N_('What'), values: ['accepted-detections', 'outlines'], default: 'accepted-detections' } }, run: async ({ what }) => {
       if (what === 'outlines') {
         const gs = S.all('graphic').filter((g) => g.tag === 'recipe-outline' && g.anchor === 'ground');
         if (!gs.length) return { summary: t('no outlines') };
@@ -151,7 +275,7 @@ export function install(app) {
     } },
     // dialog(params): the step opens a dialog when nobody gives it files (REG-150 refuses it).
     // files: the step reads params.files (only such a step may be given files on the command line).
-    convertFolder: { title: N_('Convert a folder'), defaults: { vectors: 'geoparquet' }, files: true, dialog: (p) => !p.files?.length, run: async ({ vectors, files: given }, ctx) => {
+    convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, files: true, dialog: (p) => !p.files?.length, run: async ({ vectors, files: given }, ctx) => {
       let files = given;
       if (ctx?.headless && !files?.length) throw new Error('headless: give the files to convert (params.files, File objects)');
       if (files?.length) {
@@ -163,36 +287,138 @@ export function install(app) {
       await app.convertFiles(files, vectors);
       return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
     } },
+    ...TYPED,
     // Time series (REQ-GAP-83) on the active layer, no dialog.
     timeTrend: { title: N_('Temporal trend'), pythonHint: 'gw.time_trend()', run: async () => {
       const l = await app.timeseries.trend();
       return { summary: t('Trend of {n} pixels', { n: l.width * l.height }) };
     } },
-    timeAnomaly: { title: N_('Temporal anomaly'), defaults: { from: '', to: '', by: 'month', z: false }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
+    timeAnomaly: { title: N_('Temporal anomaly'), schema: {
+      from: { type: 'date', label: N_('Baseline from'), default: '' },
+      to: { type: 'date', label: N_('Baseline to'), default: '' },
+      by: { type: 'enum', label: N_('Compare with'), values: [{ value: 'month', label: N_('The same calendar month of the baseline') }, { value: 'none', label: N_('The whole baseline') }], default: 'month' },
+      z: { type: 'boolean', label: N_('As z-scores'), default: false },
+    }, pythonHint: 'gw.time_anomaly(from_, to, by, z)', run: async ({ from, to, by, z }) => {
       const l = await app.timeseries.anomaly(undefined, { from, to, by, z });
       return { summary: t('{n, plural, one {# date} other {# dates}}', { n: l.bands }) };
     } },
     // Geocoding and routing on the user's own data (REQ-GAP-85): the index and the network come first (addr.index, route.roads).
-    geocodeTable: { title: N_('Geocode a table'), defaults: { address: 'address', place: '' }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
+    geocodeTable: { title: N_('Geocode a table'), schema: {
+      text: { type: 'text', multiline: true, label: N_('Table (CSV text)'), default: '' },
+      address: { type: 'text', label: N_('Address column'), default: 'address' },
+      place: { type: 'text', label: N_('Place column'), default: '' },
+    }, pythonHint: 'gw.geocode_table(text, address, place)', run: async ({ text, address, place }) => {
       const r = await app.routing.geocodeTable(text, { address, place });
       return { summary: t('{ok} of {n} addresses found', { ok: r.matched, n: r.matched + r.unmatched }) };
     } },
-    route: { title: N_('Shortest route'), defaults: { from: null, to: null }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
+    route: { title: N_('Shortest route'), schema: {
+      from: { type: 'lonlat', label: N_('Start (longitude, latitude)'), default: null },
+      to: { type: 'lonlat', label: N_('End (longitude, latitude)'), default: null },
+    }, pythonHint: 'gw.route(from_lonlat, to_lonlat)', run: async ({ from, to }) => {
       const r = await app.routing.route(from, to);
       return { summary: r ? t('Route of {n} m', { n: Math.round(r.metres) }) : t('No route') };
     } },
-    serviceArea: { title: N_('Service area'), defaults: { at: null, breaks: [300, 600] }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
+    serviceArea: { title: N_('Service area'), schema: {
+      at: { type: 'lonlat', label: N_('From (longitude, latitude)'), default: null },
+      breaks: { type: 'numbers', label: N_('Breaks (metres, or seconds on a time network)'), default: [300, 600] },
+    }, pythonHint: 'gw.service_area(lonlat, breaks)', run: async ({ at, breaks }) => {
       const r = await app.routing.serviceArea(at, breaks);
       return { summary: t('{n} nodes reached', { n: r.nodes }) };
     } },
     // Most commands open a dialog, and nothing says which: a run with nobody at the page refuses them all.
-    command: { title: N_('Run a command'), defaults: { id: '' }, dialog: () => true, run: async ({ id, args }) => {
+    command: { title: N_('Run a command'), schema: { id: { type: 'text', label: N_('Command id'), default: '' } }, dialog: () => true, run: async ({ id, args }) => {
       await C.run(id, args);
       return { summary: id };
     } },
   };
 
-  const runner = new RecipeRunner(OPS, { app });
+  /** Each layer a step makes records the workflow, its version, the step and its parameters (REQ-GAP-84). */
+  const provenance = (step, outputs, recipe) => {
+    if (OPS[step.op]?.source) return;
+    const ids = Object.values(outputs).filter((x) => typeof x === 'string' && (S.get(x)?.type === 'vlayer' || app.layers.get(x)));
+    if (!ids.length) return;
+    // The version names what ran only when a kept copy (built in, in the project or the library) holds
+    // exactly that workflow; an unsaved or edited run says so, and its step's settings are what it used.
+    const ran = contentOf(recipe, OPS);
+    const kept = [...BUILTIN, ...S.all('workflow').map((w) => w.recipe), ...library].some((x) => x?.id === recipe.id && contentOf(x, OPS) === ran);
+    const rec = { id: recipe.id, version: kept ? recipe.version : null, ...(kept ? {} : { unsaved: true }), step: step.id, op: step.op, params: JSON.parse(JSON.stringify(step.params)), at: new Date().toISOString() };
+    // Bookkeeping, not an edit: kept out of the undo history (as a GeoPackage's schema is), so Undo
+    // after a run takes back the step itself, not its stamp.
+    S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)), { kind: 'load' });
+  };
+  const runner = new RecipeRunner(OPS, { app, provenance });
+
+  // The user's recipes: the library in IndexedDB (no cap), read once and kept here for the picker.
+  let library = [];
+  const refreshLibrary = () =>
+    listLibrary()
+      .then((rs) => {
+        library = rs;
+        render();
+      })
+      .catch(() => {})
+      .then(() => library);
+  const ready = migrateFromPrefs(app.prefs)
+    .catch((e) => app.log('warn', `recipes: the settings' recipes stay there (${e.message})`))
+    .then(refreshLibrary);
+  /**
+   * Every recipe the picker offers, each with its `source`: built in, saved in the project, then the
+   * library. A project (which may come from someone else) and the library are kept apart: when both
+   * hold an id with different content, both are listed, and that id runs only once one is picked
+   * (`clash` marks them). A library the settings could not move (no IndexedDB) still shows the
+   * settings' list as the library.
+   */
+  const known = () => {
+    const builtin = new Set(BUILTIN.map((r) => r.id));
+    const body = (r) => contentOf(r, OPS);
+    const project = new Map();
+    for (const r of S.all('workflow').map((x) => x.recipe)) if (r && !builtin.has(r.id) && !project.has(r.id)) project.set(r.id, r);
+    const lib = new Map();
+    for (const r of [...library, ...(app.prefs.get('recipes') ?? [])]) if (r && !builtin.has(r.id) && !lib.has(r.id)) lib.set(r.id, r);
+    const clash = new Set([...project.keys()].filter((id) => lib.has(id) && body(lib.get(id)) !== body(project.get(id))));
+    return [
+      ...BUILTIN.map((r) => ({ ...r, source: 'builtin' })),
+      ...[...project.values()].map((r) => ({ ...r, source: 'project', ...(clash.has(r.id) ? { clash: true } : {}) })),
+      ...[...lib.values()].filter((r) => !project.has(r.id) || clash.has(r.id)).map((r) => ({ ...r, source: 'library', ...(clash.has(r.id) ? { clash: true } : {}) })),
+    ];
+  };
+  /**
+   * Where workflow `r` is kept (the admin's option B; the one rule for the Builder's Save and for Open): under
+   * its own id when no kept copy of that id differs from `base`, the copy it was opened from (a file is its
+   * own base); otherwise under the id of a kept workflow with the same content (and no different copy under
+   * that id), or a new id at version 1. A built-in's id is never taken; a built-in's own content is the
+   * built-in (`builtin`, nothing to keep). → {id, version, moved, fresh, builtin}; version is null when nothing
+   * is kept yet.
+   */
+  async function placeFor(r, base = contentOf(r, OPS)) {
+    const anon = (x) => contentOf({ ...x, id: '' }, OPS);
+    const b = BUILTIN.find((x) => x.id === r.id);
+    if (b && anon(b) === anon(r)) return { id: r.id, version: null, moved: false, fresh: false, builtin: true };
+    const kept = [...S.all('workflow').map((w) => w.recipe).filter(Boolean), ...(await refreshLibrary())];
+    const copies = (id) => kept.filter((x) => x.id === id);
+    const here = copies(r.id);
+    if (!b && here.every((x) => contentOf(x, OPS) === base)) return { id: r.id, version: here.length ? Math.max(...here.map((x) => x.version ?? 1)) : null, moved: false, fresh: false };
+    const twin = kept.find((x) => x.id !== r.id && anon(x) === anon(r) && copies(x.id).every((y) => anon(y) === anon(x)));
+    return twin ? { id: twin.id, version: Math.max(...copies(twin.id).map((x) => x.version ?? 1)), moved: true, fresh: false } : { id: `${r.id}-${Date.now().toString(36)}`, version: 1, moved: true, fresh: true };
+  }
+  /** Keep a recipe in the library; false when there is no IndexedDB. */
+  async function keep(r) {
+    try {
+      await putLibrary(r);
+      await refreshLibrary();
+      return true;
+    } catch (e) {
+      app.log('warn', `recipes: not kept in the library (${e.message})`);
+      return false;
+    }
+  }
+  /** Remove a recipe from the library, and from the list the dock and API v2 read. */
+  async function forget(id) {
+    await removeFromLibrary(id);
+    const old = app.prefs.get('recipes');
+    if (Array.isArray(old) && old.some((r) => r?.id === id)) app.prefs.set('recipes', old.filter((r) => r?.id !== id));
+    await refreshLibrary();
+  }
   let panelEl = null;
   let selected = -1;
 
@@ -202,12 +428,19 @@ export function install(app) {
 
   function drawer(i) {
     const step = runner.recipe.steps[i];
-    const rows = Object.entries(step.params).map(([k, v]) => {
-      const inp = h('input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v), 'aria-label': k, 'data-id': `recipe:param:${k}` });
+    const rows = Object.entries({ ...Object.fromEntries(Object.keys(OPS[step.op]?.schema ?? {}).map((k) => [k, undefined])), ...step.params }).map(([k, v]) => {
+      const inp = h(OPS[step.op]?.schema?.[k]?.multiline ? 'textarea' : 'input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
       inp.addEventListener('change', () => {
         const raw = inp.value.trim();
-        const val = Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;
-        runner.setParam(i, k, val);
+        const val = raw === '' ? '' : Array.isArray(v) ? raw.split(',').map((s) => s.trim()).filter(Boolean) : typeof v === 'number' ? Number(raw) : typeof v === 'boolean' ? raw === 'true' : raw;
+        // The op's schema checks and coerces it ('-120' → -120); a refused value is marked, not kept.
+        try {
+          runner.setParam(i, k, val);
+          inp.removeAttribute('aria-invalid');
+        } catch (e) {
+          inp.setAttribute('aria-invalid', 'true');
+          app.toast(msgOf(e), { kind: 'warn' });
+        }
       });
       return h('label', { class: 'rcp-param' }, h('span', {}, k), inp);
     });
@@ -216,21 +449,29 @@ export function install(app) {
     return h('div', { class: 'rcp-drawer', 'data-id': 'recipe:drawer' }, h('strong', {}, `${i + 1}. ${tr(step.title)}`), step.note ? h('p', { class: 'hint' }, tr(step.note)) : null, rows.length ? h('div', { class: 'rcp-params' }, rows) : h('p', { class: 'hint' }, t('This step has no parameters.')), runner.state[i].error ? h('p', { class: 'err' }, msgOf(runner.state[i].error)) : null, h('div', { class: 'btn-row' }, rerun));
   }
 
+  let picked = null; // the source of the copy last picked, for an id the project and the library both hold
   function render() {
     if (!panelEl) return;
     clear(panelEl);
-    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...[...BUILTIN, ...(app.prefs.get('recipes') ?? [])].map((r) => h('option', { value: r.id, selected: runner.recipe?.id === r.id }, tr(r.name))));
+    // An id the project and the library both hold is listed twice, each labelled, and picked by source.
+    const key = (r) => `${r.source}:${r.id}`;
+    const where = { project: t('project'), library: t('library') };
+    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: key(r), selected: runner.recipe?.id === r.id && (!r.clash || picked === r.source) }, r.clash ? `${tr(r.name)} (${where[r.source]})` : tr(r.name))));
     pick.addEventListener('change', () => {
-      const r = [...BUILTIN, ...(app.prefs.get('recipes') ?? [])].find((x) => x.id === pick.value);
-      if (r) open(r);
+      const r = known().find((x) => key(x) === pick.value);
+      if (!r) return;
+      picked = r.source;
+      open(r);
     });
     const btn = (label, id, fn, dis = false) => {
       const b = h('button', { class: 'btn btn-small', 'data-id': `recipe:${id}`, disabled: dis }, label);
       b.addEventListener('click', fn);
       return b;
     };
-    const bar = h('div', { class: 'btn-row rcp-bar' }, pick, btn(t('Run'), 'run', () => go(0), !runner.recipe || runner.running), btn(t('Resume'), 'resume', () => runner.resume(), !runner.waiting), btn(t('Stop'), 'stop', () => runner.stop(), !runner.running), btn(t('Open…'), 'open', importRecipe), btn(t('Save…'), 'save', exportRecipe, !runner.recipe));
+    const bar = h('div', { class: 'btn-row rcp-bar' }, pick, btn(t('Run'), 'run', () => go(0), !runner.recipe || runner.running), btn(t('Resume'), 'resume', () => runner.resume(), !runner.waiting), btn(t('Stop'), 'stop', () => runner.stop(), !runner.running), btn(t('Open…'), 'open', importRecipe), btn(t('Save…'), 'save', exportRecipe, !runner.recipe), btn(t('Workflow Builder'), 'builder', () => C.run('pip.builder')));
     const r = runner.recipe;
+    // The runner is shared with the Workflow Builder, which may have loaded a shorter workflow.
+    if (!r || selected >= r.steps.length) selected = -1;
     const steps = r
       ? h(
           'ol',
@@ -251,8 +492,9 @@ export function install(app) {
   runner.on('change', render);
 
   function open(r) {
-    runner.load(r);
+    // Before load: load redraws, and the old selection may be past the new recipe's steps.
     selected = -1;
+    runner.load(r);
     app.panels?.show?.('recipes', 'bottom') ?? app.activeMp()?.docks.show('recipes');
     return runner.recipe;
   }
@@ -268,9 +510,17 @@ export function install(app) {
   }
   /** A .gwrecipe.json file (Open… or a drop): validated, kept with the user's recipes and opened. */
   async function importRecipeFile(f) {
-    const r = validateRecipe(JSON.parse(await f.text()), OPS);
-    const mine = (app.prefs.get('recipes') ?? []).filter((x) => x.id !== r.id);
-    app.prefs.set('recipes', [...mine, r].slice(-20));
+    let r = validateRecipe(JSON.parse(await f.text()), OPS);
+    // A file never replaces a different workflow kept under its id, nor takes a built-in's.
+    const place = await placeFor(r);
+    // A built-in's own content opens the built-in; nothing is kept.
+    if (place.builtin) return open(BUILTIN.find((x) => x.id === r.id));
+    if (place.moved) r = { ...r, id: place.id, version: place.version };
+    // The same workflow already kept keeps its version: a file never takes it back.
+    else if (place.version !== null) r = { ...r, version: Math.max(r.version ?? 1, place.version) };
+    if (place.fresh) app.toast(t('Opened as a new recipe: your library or the project already holds a different one under its id.'), { kind: 'info' });
+    else if (place.moved) app.toast(t('Opened as {id}, which holds the same workflow.', { id: r.id }), { kind: 'info' });
+    if (!(await keep(r))) app.toast(t('The recipe is open, but this browser has no storage to keep it in your library.'), { kind: 'warn' });
     open(r);
   }
   async function exportRecipe() {
@@ -314,13 +564,21 @@ export function install(app) {
   /**
    * A headless run of a recipe: {id, start(from), resume(), status()}. gates: 'continue' passes
    * every gate, 'stop' waits at a gate until resume(), 'fail' ends the run at the first gate.
-   * params: overrides {stepId: {param: value}} applied before the run.
+   * params: overrides {stepId: {param: value}} applied before the run. inputs: values for inputs
+   * left unwired, {"stepId.input": value}.
    */
-  function headless(src, { gates = 'continue', params = {} } = {}) {
+  function headless(src, { gates = 'continue', params = {}, inputs = {} } = {}) {
     const r = validateRecipe(src, OPS);
-    for (const s of r.steps) if (params[s.id]) s.params = { ...s.params, ...params[s.id] };
+    for (const s of r.steps) if (params[s.id]) for (const [k, v] of Object.entries(params[s.id])) s.params[k] = checkParam(OPS[s.op].schema?.[k], v, { where: s.id, param: k });
+    // A value given for an input the file already gives one replaces it in the workflow that runs, as
+    // params do, so a layer's stamp says the run was not the kept copy.
+    for (const [k, v] of Object.entries(inputs)) {
+      const [sid, name] = splitPort(k);
+      const w = r.steps.find((s) => s.id === sid)?.inputs?.[name];
+      if (w && 'value' in w) w.value = v;
+    }
     const id = `run-${++runN}`;
-    const R = new RecipeRunner(OPS, { app, headless: true });
+    const R = new RecipeRunner(OPS, { app, headless: true, provenance });
     R.load(r);
     const files = [];
     let state = 'idle';
@@ -366,9 +624,11 @@ export function install(app) {
     return {
       id,
       async start(from = 0) {
+        // A fresh runner has no earlier outputs, so a wired step can only run after its upstream steps.
+        if (from > 0 && r.steps.some((s) => Object.values(s.inputs ?? {}).some((w) => 'from' in w))) throw gwError('a workflow with wires runs headless from its first step (from 0)', {}, 'E_RECIPE_FROM');
         state = 'running';
         await drive(() => {
-          done = R.run(from).then((res) => {
+          done = R.run(from, { inputs }).then((res) => {
             result = res;
             state = gateFailed >= 0 ? 'stopped' : res.ok ? 'done' : res.error ? 'failed' : 'stopped';
           });
@@ -401,19 +661,20 @@ export function install(app) {
     return null;
   }
   /** One operation headless → {summary, files}. */
-  async function runOp(op, params = {}) {
+  async function runOp(op, params = {}, inputs = {}) {
     const o = OPS[op];
     if (!o) throw new Error(`no recipe operation ${op}; call recipes.ops`);
     const files = [];
-    const p = { ...(o.defaults ?? {}), ...params };
+    const p = { ...defaults(o), ...params };
+    for (const [k, v] of Object.entries(p)) p[k] = checkParam(o.schema?.[k], v, { where: op, param: k });
     const fake = { state: [{ summary: '' }], emit() {} };
     const r = await capturing(files, async () => {
-      const x = (await o.run(p, { app, headless: true, step: { op, params: p }, index: 0, runner: fake })) ?? {};
+      const x = (await o.run(p, { app, headless: true, step: { op, params: p }, index: 0, runner: fake, inputs })) ?? {};
       if (o.gate && o.after) return (await o.after(p, { app, headless: true })) ?? x;
       return x;
     });
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended };
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended, keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }
