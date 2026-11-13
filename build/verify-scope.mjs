@@ -45,11 +45,13 @@ export function affectedCrates(packages, paths) {
 export function planSteps({ paths, leg = 'all', crates = null }) {
   const everything = paths === null || paths.some((path) => SCOPE_EVERYTHING.test(path));
   const code = everything || paths.some((path) => !isProse(path));
-  const rust = everything || paths.some((path) => path.startsWith('crates/') && !isProse(path));
+  // The bundle adjuster cross-check's block is solved by both workspaces (decision 0020).
+  const shared = paths?.some((path) => path.startsWith('tests/fixtures/ba-cross-check/'));
+  const rust = everything || shared || paths.some((path) => path.startsWith('crates/') && !isProse(path));
   const rustAll = everything || crates === null || paths.some((path) => RUST_EVERYTHING.test(path));
   // The checker's own changes count too, so a stricter rule is tried on the fragments already there.
   const fragments = everything || paths.some((path) => path.startsWith('changes/') || path === 'build/release/changelog.mjs');
-  const sidecar = everything || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
+  const sidecar = everything || shared || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
 
   const steps = [];
   const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });

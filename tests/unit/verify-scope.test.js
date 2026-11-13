@@ -31,6 +31,12 @@ describe('verify scope', () => {
     expect(names({ paths: ['docs/a.md'] })).not.toContain('Source catalogue');
   });
 
+  it('runs both Rust workspaces when the bundle adjuster cross-check block changes (decision 0020)', () => {
+    const steps = names({ paths: ['tests/fixtures/ba-cross-check/expected.json'] });
+    expect(steps).toContain('Rust tests');
+    expect(steps).toContain('Sidecar sfm tests');
+  });
+
   it('treats CHANGELOG.md as code, since the build embeds it', () => {
     expect(names({ paths: ['CHANGELOG.md'] })).toContain('Strict build');
   });
