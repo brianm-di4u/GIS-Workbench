@@ -35,7 +35,16 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
     const name = inputs[i];
     if (name === '') open.push(files[i]);
     else if (steps.has(name)) run[name] = { ...run[name], files: [...(run[name]?.files ?? []), files[i]] };
-    else return { refused: `--in ${name}=…: the recipe has no step "${name}" (its steps: ${[...steps].join(', ')})` };
+    else return { refused: `--in ${name}=…: the recipe has no step "${name}" (its steps: ${[...steps].join(', ')}); to open a file whose name has an = in it, give it with a folder, as in ./${name}=…` };
+  }
+  // Data packs open first, on their own path; the rest go to openFiles together.
+  const isPack = (f) => /\.gwpack$/i.test(f.name);
+  const packs = open.filter(isPack);
+  const rest = open.filter((f) => !isPack(f));
+  // A project opens on its own and openFiles drops the files given with it, so its imagery can't
+  // come from another --in (issue 224). It has to be the only one of the rest.
+  if (rest.length > 1 && rest.some((f) => /\.gwb$/i.test(f.name))) {
+    return { refused: 'a project (.gwb) opens on its own, so the other --in files would be dropped: give it as the only file to open' };
   }
   const why = R.unattended(checked, { gates, params: run });
   if (why) return { refused: `step "${why.title}" (${why.step}) ${why.reason}` };
@@ -46,9 +55,7 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
     const failed = () =>
       app.importLog.slice(log0).flatMap((e) => (e.errors ?? []).map((m) => (m.startsWith(e.file) ? m : `${e.file}: ${m}`)));
     const opening = (async () => {
-      const packs = open.filter((f) => /\.gwpack$/i.test(f.name));
       if (packs.length) await app.openPackFiles(packs);
-      const rest = open.filter((f) => !/\.gwpack$/i.test(f.name));
       if (rest.length) await app.openFiles(rest);
     })();
     let watch;
