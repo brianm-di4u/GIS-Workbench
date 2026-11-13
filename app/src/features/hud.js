@@ -145,7 +145,8 @@ export function install(app) {
   app.radial = { open: openRadial, close: closeRadial, get isOpen() { return !!radial.el; } };
   C.implement('hud.radial', { run: () => openRadial(pointer.x, pointer.y) });
 
-  // Space tap (< 200 ms, < 4 px, nothing else pressed) opens it; holding Space still pans.
+  // Space tap (< 200 ms, < 4 px, nothing else pressed) opens it; holding Space still pans. The time
+  // is the events' own: a slow frame between keydown and keyup (software WebGL) is not a hold (#245).
   let space = null;
   document.addEventListener('keydown', (e) => {
     if (e.code !== 'Space' || e.repeat || inText(e) || wbOn() || !modern()) {
@@ -154,14 +155,14 @@ export function install(app) {
     }
     const p = paneOf(e) ?? (document.activeElement?.classList.contains('pane') ? pane() : null);
     if (!p) return;
-    space = { t: performance.now(), x: pointer.x, y: pointer.y, view: { ...p.view }, pane: p, other: false };
+    space = { t: e.timeStamp, x: pointer.x, y: pointer.y, view: { ...p.view }, pane: p, other: false };
   });
   document.addEventListener('pointerdown', () => space && (space.other = true), true);
   document.addEventListener('keyup', (e) => {
     if (e.code !== 'Space' || !space) return;
     const s = space;
     space = null;
-    const tap = performance.now() - s.t < 200 && Math.hypot(pointer.x - s.x, pointer.y - s.y) < 4 && !s.other;
+    const tap = e.timeStamp - s.t < 200 && Math.hypot(pointer.x - s.x, pointer.y - s.y) < 4 && !s.other;
     if (!tap) return;
     s.pane.setView({ cx: s.view.cx, cy: s.view.cy }); // undo any pan the tap caused
     openRadial(pointer.x, pointer.y);

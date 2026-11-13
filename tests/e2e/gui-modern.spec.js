@@ -21,6 +21,12 @@ test.use({ actionTimeout: 5_000 });
 
 const OUT = reportDir('gui2');
 const MODERN = { layout: 'modern', welcomeDone: true, persona: 'explorer' };
+/**
+ * The key that opens the radial menu over the image. Space opens it on a tap under 200 ms, and
+ * Playwright sends the keyup only once the page has handled the keydown: on software WebGL a frame
+ * in between makes its tap a hold (#245). ` opens it on the keydown alone.
+ */
+const radialKey = (app) => (app.softwareGl ? 'Backquote' : 'Space');
 const settle = (page) => settleAny(page, { layout: 'modern' });
 
 /** Dialog buttons the sweep does not press: they end the state the rest of the sweep needs. */
@@ -189,7 +195,7 @@ for (const build of builds) {
           const at = await paneCentre(page);
           await page.mouse.move(at.x, at.y);
           await page.locator('section.multiport .pane').first().focus();
-          await page.keyboard.press('Space');
+          await page.keyboard.press(radialKey(app));
           await page.waitForTimeout(250);
           const slices = await page.locator('[data-id="radial"] [data-id^="radial:"]').evaluateAll((bs) => bs.map((b) => ({ id: b.dataset.id, off: b.classList.contains('off') })));
           await page.keyboard.press('Escape');
@@ -199,7 +205,7 @@ for (const build of builds) {
             const mark = await markNow(page, app);
             await page.mouse.move(at.x, at.y);
             await page.locator('section.multiport .pane').first().focus();
-            await page.keyboard.press('Space');
+            await page.keyboard.press(radialKey(app));
             await page.waitForTimeout(200);
             const b = page.locator(`[data-id="radial"] [data-id="${sl.id}"]`);
             let outcome = 'gone';
@@ -485,7 +491,7 @@ for (const build of builds) {
         const open = async () => {
           await page.mouse.move(at.x, at.y);
           await page.locator('section.multiport .pane').first().focus();
-          await page.keyboard.press('Space');
+          await page.keyboard.press(radialKey(app));
           await page.waitForTimeout(200);
         };
         await open();

@@ -52,7 +52,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   const sidecar = everything || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
 
   const steps = [];
-  const step = (name, command, args, cwd, after) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}), ...(after ? { after } : {}) });
+  const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
   const cargoDeny = ['deny', '--locked', '--all-features', 'check', 'licenses', 'bans', 'sources'];
   // Bug-class lints only: correctness and suspicious. Style lints stay off.
   const clippy = (targets) => ['clippy', '--locked', '--all-targets', '--keep-going', ...targets, '--', '-A', 'clippy::all', '-D', 'clippy::correctness', '-D', 'clippy::suspicious'];
@@ -73,7 +73,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     if (code) {
       step('Source catalogue', 'node', ['build/i18n.mjs', 'extract', '--check']);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
-      step('Size report', 'node', ['build/size-report.mjs'], undefined, 'Strict build');
+      step('Size report', 'node', ['build/size-report.mjs']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
       step('Browser subset', 'npx', ['playwright', 'test', '--project=ci']);
     }
@@ -83,6 +83,9 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     // The default members, as `cargo test` there: the no_std stubs can't build as test targets.
     step('Sidecar clippy', 'cargo', clippy([]), 'sidecar');
     step('Sidecar tests', 'cargo', ['test', '--locked', '--no-fail-fast'], 'sidecar');
+    // gwb-sfm is not a default member (the sfm module builds it on its own), so name it.
+    step('Sidecar sfm clippy', 'cargo', clippy(['-p', 'gwb-sfm']), 'sidecar');
+    step('Sidecar sfm tests', 'cargo', ['test', '--locked', '--no-fail-fast', '-p', 'gwb-sfm'], 'sidecar');
   }
   return steps;
 }
@@ -130,13 +133,7 @@ function main() {
   // Every step runs even after a failure: a CI run is too slow to find problems one at a time.
   const failed = [];
   const env = { ...process.env, GWB_PARTIAL_DATA: '1' };
-  for (const { name, command, args, cwd, after } of steps) {
-    // A step that reads another's output says so, and skips when that step failed, rather than
-    // reporting on a stale or half-written file.
-    if (after && failed.includes(after)) {
-      console.log(`\n=== ${name}: skipped, because ${after} failed`);
-      continue;
-    }
+  for (const { name, command, args, cwd } of steps) {
     console.log(`\n=== ${name}`);
     const started = Date.now();
     const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, env, shell: process.platform === 'win32' });

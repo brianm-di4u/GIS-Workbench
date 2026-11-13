@@ -20,5 +20,5 @@ const loadFor = (app) => {
 };
 
 export function install(app) {
-  lazyCommands(app, ['sidecar.sfm'], () => loadFor(app));
+  lazyCommands(app, ['sidecar.sfm', 'sidecar.sfmcontrol'], () => loadFor(app));
 }

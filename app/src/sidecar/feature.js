@@ -460,7 +460,7 @@ export function install(app) {
     const kinds = { raster: 'raster', vector: 'vector', points: 'points', video: 'video' };
     // One file, one result: the profiles with their own commands (two inputs, or a JSON answer) stay out.
     const fits = (p) => (p.id !== 'pdf-cog' || m?.format === 'PDF') && (p.id !== 'raster-sds-cog' || m?.subdatasets > 0);
-    const offered = caps.profiles.filter((p) => p.available && p.min_inputs === 1 && p.output_ext !== '' && p.input !== 'model' && p.id !== 'sfm-block' && fits(p) && (!m || p.input === kinds[m.kind] || p.input === 'any'));
+    const offered = caps.profiles.filter((p) => p.available && p.min_inputs === 1 && p.output_ext !== '' && p.input !== 'model' && !p.id.startsWith('sfm-') && fits(p) && (!m || p.input === kinds[m.kind] || p.input === 'any'));
     if (!offered.length) return app.toast(t('{file}: {msg}', { file: main.name, msg: status.textContent }), { kind: 'warn', ms: 9000 });
     const preferred = m?.profile === 'video-h264-klv' && offered.some((p) => p.id === 'video-h264-openh264') ? 'video-h264-openh264' : m?.profile;
     const sel = h('select', { class: 'inp', 'data-id': 'sidecar:profile' }, ...offered.map((p) => h('option', { value: p.id, selected: p.id === preferred }, p.title)));
@@ -520,7 +520,7 @@ export function install(app) {
     const exts = [...new Set(folder.entries.map((n) => n.split('.').pop().toLowerCase()).filter((e) => e && e.length <= 10))].sort();
     const ext = h('select', { class: 'inp' }, ...exts.map((e) => h('option', { value: e, selected: e === 'sid' }, `.${e} (${folder.entries.filter((n) => n.toLowerCase().endsWith(`.${e}`)).length})`)));
     const how = h('select', { class: 'inp' }, h('option', { value: 'each' }, t('One COG per file')), h('option', { value: 'mosaic' }, t('One mosaic COG of all files (VRT)')));
-    const prof = h('select', { class: 'inp' }, ...caps.profiles.filter((p) => p.available && p.min_inputs === 1 && p.output_ext !== '' && p.input !== 'model' && p.id !== 'raster-vrt-cog' && p.id !== 'sfm-block').map((p) => h('option', { value: p.id }, p.title)));
+    const prof = h('select', { class: 'inp' }, ...caps.profiles.filter((p) => p.available && p.min_inputs === 1 && p.output_ext !== '' && p.input !== 'model' && p.id !== 'raster-vrt-cog' && !p.id.startsWith('sfm-')).map((p) => h('option', { value: p.id }, p.title)));
     const body = h('div', {}, h('p', {}, t('{folder}: {n, plural, one {# file} other {# files}}.', { folder: folder.name, n: folder.entries.length })), field(t('Files'), ext), field(t('Result'), how), field(t('Conversion (one per file)'), prof));
     const b = await modal({ title: t('Convert a Folder with Sidecar'), body, buttons: [{ label: t('Convert'), value: 'convert', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 560, id: 'sidecar-batch' });
     if (b !== 'convert') return;

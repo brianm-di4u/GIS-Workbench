@@ -117,6 +117,38 @@ pub fn quat_to_mat(q: [f64; 4]) -> M3 {
     ]
 }
 
+/// Quaternion (w, x, y, z, w >= 0) of a rotation matrix (Shepperd's method).
+pub fn mat_to_quat(m: &M3) -> [f64; 4] {
+    let tr = m[0][0] + m[1][1] + m[2][2];
+    let q = if tr > 0.0 {
+        let s = (tr + 1.0).sqrt() * 2.0;
+        [0.25 * s, (m[2][1] - m[1][2]) / s, (m[0][2] - m[2][0]) / s, (m[1][0] - m[0][1]) / s]
+    } else if m[0][0] > m[1][1] && m[0][0] > m[2][2] {
+        let s = (1.0 + m[0][0] - m[1][1] - m[2][2]).sqrt() * 2.0;
+        [(m[2][1] - m[1][2]) / s, 0.25 * s, (m[0][1] + m[1][0]) / s, (m[0][2] + m[2][0]) / s]
+    } else if m[1][1] > m[2][2] {
+        let s = (1.0 + m[1][1] - m[0][0] - m[2][2]).sqrt() * 2.0;
+        [(m[0][2] - m[2][0]) / s, (m[0][1] + m[1][0]) / s, 0.25 * s, (m[1][2] + m[2][1]) / s]
+    } else {
+        let s = (1.0 + m[2][2] - m[0][0] - m[1][1]).sqrt() * 2.0;
+        [(m[1][0] - m[0][1]) / s, (m[0][2] + m[2][0]) / s, (m[1][2] + m[2][1]) / s, 0.25 * s]
+    };
+    let n = q.iter().map(|v| v * v).sum::<f64>().sqrt();
+    let q = q.map(|v| v / n);
+    if q[0] < 0.0 { q.map(|v| -v) } else { q }
+}
+
+/// Rotation matrix of a rotation vector (axis times angle, radians).
+pub fn rodrigues(w: V3) -> M3 {
+    let a = norm(w);
+    if a < 1e-12 {
+        return [[1.0, -w[2], w[1]], [w[2], 1.0, -w[0]], [-w[1], w[0], 1.0]];
+    }
+    let h = a / 2.0;
+    let s = h.sin() / a;
+    quat_to_mat([h.cos(), w[0] * s, w[1] * s, w[2] * s])
+}
+
 /// Eigenvalues and eigenvectors (columns) of a symmetric matrix by cyclic Jacobi.
 pub fn jacobi<const N: usize>(mut a: [[f64; N]; N]) -> ([f64; N], [[f64; N]; N]) {
     let mut v = [[0.0; N]; N];

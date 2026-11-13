@@ -159,13 +159,15 @@ export async function settle(page, { layout = 'classic' } = {}) {
   await page.waitForTimeout(350);
   // With software WebGL an action's pixel reads and jobs can outlast the wait above, and the dialog
   // it opens then lands on the next action (#48). Wait for a quiet half second: no long task and no
-  // running job.
+  // running job. While a pane animates (Full Roam, Flicker) every frame there is a long task, so
+  // only jobs count, or each action would wait out the full minute (#245).
   if (await page.evaluate(() => !!window.__softwareGl))
     await page
       .waitForFunction(
         () => {
-          const busy = window.gisworkbench.activity?.items().length ?? 0;
-          const n = window.__longtasks.length;
+          const a = window.gisworkbench;
+          const busy = a.activity?.items().length ?? 0;
+          const n = [...(a.renderer?.panes ?? [])].some((p) => p.animating?.()) ? -1 : window.__longtasks.length;
           const now = performance.now();
           if (busy || window.__quiet?.n !== n) return (window.__quiet = { n, t: now }), false;
           return now - window.__quiet.t > 500;

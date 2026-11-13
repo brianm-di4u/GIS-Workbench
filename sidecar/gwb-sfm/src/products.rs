@@ -482,7 +482,7 @@ pub fn run(p: &Paths, dsm_res: f64, ortho_res: f64) -> Res<Value> {
     let mut report = json!({
         "route": "COLMAP 4.2.1 (sidecar build, CPU) and gwb-sfm CPU PatchMatch",
         "crs": format!("EPSG:{epsg}"),
-        "vertical": "heights are as the GPS recorded them; no geoid or datum is applied",
+        "vertical": if geo["control"].is_object() { "heights are the ground control's; no geoid or datum is applied" } else { "heights are as the GPS recorded them; no geoid or datum is applied" },
         "georef": geo,
         "dense_points": pts.len(),
         "cloud_points": kept.len(),
@@ -492,7 +492,7 @@ pub fn run(p: &Paths, dsm_res: f64, ortho_res: f64) -> Res<Value> {
         "ortho": { "resolution_m": res_o, "width": og.w, "height": og.h, "covered_share": covered, "on_filled_surface_share": on_fill },
         "coarsened_for_size": coarsened,
     });
-    if !report["georef"]["gps_rms_m"].is_object() {
+    if !report["georef"]["gps_rms_m"].is_object() && !report["georef"]["control"].is_object() {
         report["georef"] = Value::Null;
     }
     fs::write(p.report, serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
