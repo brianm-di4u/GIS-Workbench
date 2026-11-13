@@ -119,7 +119,10 @@ describe('catalogFromGdb', () => {
   it('says what it could not keep, and does not guess', () => {
     const l = { name: 'B', geometryFields: [{ type: 'Point' }], fields: [{ name: 'SurfaceType', type: 'Integer' }, { name: 'G', type: 'String', domainName: 'Glob' }, { name: 'Lost', type: 'String', domainName: 'Nope' }] };
     const { warnings, catalog } = catalogFromGdb('x.gdb.zip', { info: { domains, layers: [roads, l] } });
-    expect(warnings.join('\n')).toMatch(/B\.SurfaceType differs/);
+    // B's SurfaceType differs from Roads': B keeps its own, writing the same column (decision #243).
+    expect(warnings.join('\n')).not.toMatch(/SurfaceType/);
+    expect(catalog.attributes.SurfaceType_B).toMatchObject({ type: 'integer', field: 'SurfaceType' });
+    expect(fieldsFor(validateCatalog(catalog), 'B').find((f) => f.name === 'SurfaceType').domain).toBeUndefined();
     expect(warnings.join('\n')).toMatch(/glob domain, kept as free text/);
     expect(warnings.join('\n')).toMatch(/Nope is not in the geodatabase/);
     expect(catalog.attributes.G.type).toBe('text');

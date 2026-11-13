@@ -49,6 +49,7 @@ export function typeOf(cat, code) {
 // (a rule may name `classes: [codes]`). Subtypes add attributes, fix values and narrow domains.
 // "field": the column a layer writes for the attribute, where it differs from NAME (a property two
 // types define differently keeps one NAME each, decision #243); a type writes each column once.
+// Rules, subtypes and subtypeField name attributes by NAME; they apply to the column NAME writes.
 
 export const CATALOG_FORMAT = 'gw-catalog/1';
 const ATTR_TYPES = new Set(['text', 'real', 'integer', 'enum', 'boolean']);
@@ -57,6 +58,24 @@ const MAX_TYPES = 5000;
 const MAX_ATTRS = 50000;
 
 const bad = (msg, params) => gwError(msg, params, 'E_CATALOG_INVALID');
+
+/**
+ * Where an attribute definition goes in a catalogue's attribute table (decision #243): under its
+ * column name, or, when another type already defines that column differently, under a key of the
+ * type's own that names the column in `field`. Returns {key, entry}; the caller stores the entry.
+ * A key already holding another definition (or a source attribute of that name) is passed over.
+ */
+export function attributeKey(attributes, column, a, typeCode) {
+  const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
+  if (!attributes[column] || same(attributes[column], a)) return { key: column, entry: a };
+  const entry = { ...a, field: column };
+  let key = `${column}_${typeCode}`;
+  for (let i = 2; attributes[key] && !same(attributes[key], entry); i++) key = `${column}_${typeCode}_${i}`;
+  return { key, entry };
+}
+
+/** The layer column an attribute key writes: its `field`, else the key (decision #243). */
+export const columnOf = (cat, key) => cat?.attributes?.[key]?.field ?? key;
 
 function checkCond(c, where, attrs) {
   if (!c || typeof c !== 'object' || Array.isArray(c)) throw bad('{where}: a rule condition must be an object', { where });
@@ -229,8 +248,10 @@ function condHolds(cat, c, attrs, fieldOf) {
   if (c.all) return c.all.every((x) => condHolds(cat, x, attrs, fieldOf));
   if (c.any) return c.any.some((x) => condHolds(cat, x, attrs, fieldOf));
   if (c.not) return !condHolds(cat, c.not, attrs, fieldOf);
-  const v = attrs?.[c.field];
-  const f = fieldOf(c.field);
+  // A rule names attributes by catalogue key; the feature's attributes are by column.
+  const col = columnOf(cat, c.field);
+  const v = attrs?.[col];
+  const f = fieldOf(col);
   const op = c.op ?? '=';
   if (op === 'isNull') return isNullAttr(cat, f, v);
   if (op === 'notNull') return !isNullAttr(cat, f, v);
@@ -276,7 +297,7 @@ export function contingentDomain(cat, schema, fields, name, attrs) {
   let allowed = Object.keys(f.domain);
   const fieldOf = (n) => fields.find((x) => x.name === n) ?? null;
   for (const r of rulesFor(cat, schema?.code)) {
-    const d = r.then?.domain?.[name];
+    const d = Object.entries(r.then?.domain ?? {}).find(([k]) => columnOf(cat, k) === name)?.[1];
     if (d && condHolds(cat, r.when, attrs, fieldOf)) {
       const keep = new Set(d.map(String));
       allowed = allowed.filter((k) => keep.has(k) || k === String(nullOf(cat, f)));
@@ -306,15 +327,18 @@ export function ruleIssues(cat, schema, fields, attrs) {
   for (const r of rulesFor(cat, schema.code)) {
     if (!condHolds(cat, r.when, attrs, fieldOf)) continue;
     const why = r.message ? String(r.message) : r.id;
-    for (const n of r.then.require ?? []) {
+    for (const k of r.then.require ?? []) {
+      const n = columnOf(cat, k);
       if (!fieldOf(n)) continue;
       if (isNullAttr(cat, fieldOf(n), attrs?.[n])) push(gwError('{label} is required here ({rule})', { label: label(n), rule: why }, 'E_RULE_REQUIRED'), n, r.id);
     }
-    for (const n of r.then.forbid ?? []) {
+    for (const k of r.then.forbid ?? []) {
+      const n = columnOf(cat, k);
       if (!fieldOf(n)) continue;
       if (!isNullAttr(cat, fieldOf(n), attrs?.[n])) push(gwError('{label} must be empty here ({rule})', { label: label(n), rule: why }, 'E_RULE_FORBIDDEN'), n, r.id);
     }
-    for (const [n, codes] of Object.entries(r.then.domain ?? {})) {
+    for (const [k, codes] of Object.entries(r.then.domain ?? {})) {
+      const n = columnOf(cat, k);
       const f = fieldOf(n);
       const v = attrs?.[n];
       if (!f || isNullAttr(cat, f, v)) continue;
@@ -323,7 +347,8 @@ export function ruleIssues(cat, schema, fields, attrs) {
         push(gwError('{label}: {value} is not allowed here ({rule}). Allowed: {allowed}', { label: label(n), value: String(v), rule: why, allowed: allowed.join('; ') }, 'E_RULE_DOMAIN'), n, r.id);
       }
     }
-    for (const [n, [lo, hi]] of Object.entries(r.then.range ?? {})) {
+    for (const [k, [lo, hi]] of Object.entries(r.then.range ?? {})) {
+      const n = columnOf(cat, k);
       const f = fieldOf(n);
       const v = attrs?.[n];
       if (!f || isNullAttr(cat, f, v)) continue;
@@ -421,7 +446,6 @@ export function crosswalkMGCP(cat, layer, code) {
 export function catalogFromLayers(name, layers) {
   const attributes = {};
   const codes = [];
-  const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
   const types = layers.map((l) => {
     const fcode = l.features.find((x) => x.attrs?.F_CODE)?.attrs.F_CODE;
     const code = fcode ?? l.table ?? l.name;
@@ -430,13 +454,7 @@ export function catalogFromLayers(name, layers) {
     // names the column (decision #243), as the converters write it.
     const names = l.fields.map((f) => {
       const a = { label: f.title ?? f.name, type: f.domain ? 'enum' : f.type === 'number' ? 'real' : f.type === 'integer' ? 'integer' : 'text', ...(f.domain ? { domain: f.domain } : {}), ...(f.range ? { range: f.range } : {}), ...(f.description ? { definition: f.description } : {}) };
-      let key = f.name;
-      let entry = a;
-      if (attributes[key] && !same(attributes[key], a)) {
-        entry = { ...a, field: f.name };
-        key = `${f.name}_${code}`;
-        for (let i = 2; attributes[key] && !same(attributes[key], entry); i++) key = `${f.name}_${code}_${i}`;
-      }
+      const { key, entry } = attributeKey(attributes, f.name, a, code);
       attributes[key] ??= entry;
       return key;
     });

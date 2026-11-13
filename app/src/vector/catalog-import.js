@@ -7,6 +7,7 @@
 
 import { parseXml, all, kids, attr } from '../connectors/xml.js';
 import { gwError } from '../i18n/index.js';
+import { attributeKey } from './schema.js';
 
 const E = (msg, params = null) => gwError(msg, params, 'E_CATALOG_CONVERT');
 
@@ -94,16 +95,9 @@ function attrTable() {
     let key = clean(name);
     if (!key || BAD_NAMES.has(key)) return null;
     if (FEATURE_COLUMNS.has(key.toLowerCase())) key = `${key}_attr`;
-    const column = key;
-    const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
-    // A definition that differs takes a key of its own, naming its column; a key already holding
-    // another definition (or a source attribute of that name) is passed over for the next free one.
-    let entry = a;
-    if (attrs[key] && !same(attrs[key], a)) {
-      entry = { ...a, field: column };
-      key = `${column}_${typeCode}`;
-      for (let i = 2; attrs[key] && !same(attrs[key], entry); i++) key = `${column}_${typeCode}_${i}`;
-    }
+    // A definition that differs takes a key of its own, naming its column.
+    const { key: k, entry } = attributeKey(attrs, key, a, typeCode);
+    key = k;
     if (BAD_NAMES.has(key)) return null;
     if (!attrs[key] && ++n > MAX_ATTRS) throw E('the catalogue has more than {n} attributes', { n: String(MAX_ATTRS) });
     attrs[key] ??= entry;

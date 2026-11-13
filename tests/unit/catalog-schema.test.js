@@ -98,3 +98,33 @@ describe('REQ-GAP-53 subtypes, conditional rules and contingent domains', () => 
     expect(checkAttrs(cat, fs, { FFN: 850, BUI: 5 }).map((o) => o.code)).toEqual([]);
   });
 });
+
+describe('#249 rules and subtypes on an attribute that names its column (decision #243)', () => {
+  // Road and Bridge both write the column status, each with its own definition.
+  const cat = validateCatalog({
+    format: 'gw-catalog/1', id: 't249', name: 'T249', nulls: { text: '', enum: '', number: null },
+    attributes: { status: { type: 'enum', domain: { open: 'Open', closed: 'Closed' } }, status_Bridge: { type: 'enum', field: 'status', domain: { raised: 'Raised', lowered: 'Lowered', closed: 'Closed' } }, kind: { type: 'enum', domain: { x: 'X', y: 'Y' } }, note: { type: 'text' } },
+    types: [
+      { code: 'Road', name: 'Road', geometry: ['LineString'], attributes: ['status'] },
+      { code: 'Bridge', name: 'Bridge', geometry: ['LineString'], attributes: ['kind', 'status_Bridge', 'note'],
+        subtypeField: 'status_Bridge', subtypes: [{ code: 'lowered', name: 'Lowered', fixed: { status_Bridge: 'lowered' } }],
+        rules: [{ id: 'closed-note', when: { field: 'status_Bridge', value: 'closed' }, then: { require: ['note'] } }, { id: 'x-raised', when: { field: 'kind', value: 'x' }, then: { domain: { status_Bridge: ['raised'] } } }] },
+    ],
+  });
+  const fs = fieldsFor(cat, 'Bridge');
+  const schema = { code: 'Bridge' };
+  it('applies a rule on the attribute to its column', () => {
+    expect(fs.map((f) => f.name)).toEqual(['kind', 'status', 'note']);
+    // The condition reads the status column; the requirement and the contingent domain name it.
+    expect(ruleIssues(cat, schema, fs, { status: 'closed', note: '' }).map((o) => `${o.field}:${o.code}`)).toEqual(['note:E_RULE_REQUIRED']);
+    expect(ruleIssues(cat, schema, fs, { status: 'closed', note: 'shut for works' })).toEqual([]);
+    expect(ruleIssues(cat, schema, fs, { kind: 'x', status: 'lowered' }).map((o) => `${o.field}:${o.code}`)).toEqual(['status:E_RULE_DOMAIN']);
+    expect(Object.keys(contingentDomain(cat, schema, fs, 'status', { kind: 'x' }))).toEqual(['raised']);
+    expect(Object.keys(contingentDomain(cat, schema, fs, 'status', { kind: 'y' }))).toEqual(['raised', 'lowered', 'closed']);
+  });
+  it('fixes a subtype value on the column', () => {
+    const f = fieldsFor(cat, 'Bridge', 'lowered').find((x) => x.name === 'status');
+    expect(f.fixed).toBe('lowered');
+    expect(ruleIssues(cat, { code: 'Bridge', subtype: 'lowered' }, fieldsFor(cat, 'Bridge', 'lowered'), { status: 'raised' }).map((o) => `${o.field}:${o.code}`)).toEqual(['status:E_SUBTYPE_FIXED']);
+  });
+});

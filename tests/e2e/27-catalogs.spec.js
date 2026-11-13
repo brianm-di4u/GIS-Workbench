@@ -95,5 +95,15 @@ test('SCN-79 REQ-GAP-87 an INSPIRE schema imported, a layer captured against it,
     return app.store.get(f).attrs.amenity;
   });
   expect(cafe).toBe('cafe');
+
+  // #249: a subtype that fixes an attribute naming its column (decision #243) presets that column.
+  const bridge = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const cat = await app.catalogs.import({ format: 'gw-catalog/1', id: 't249', name: 'T249', nulls: { text: '', enum: '', number: null }, attributes: { status: { type: 'enum', domain: { open: 'Open' } }, status_Bridge: { type: 'enum', field: 'status', domain: { raised: 'Raised', lowered: 'Lowered' } } }, types: [{ code: 'Road', name: 'Road', geometry: ['LineString'], attributes: ['status'] }, { code: 'Bridge', name: 'Bridge', geometry: ['Point'], attributes: ['status_Bridge'], subtypeField: 'status_Bridge', subtypes: [{ code: 'lowered', name: 'Lowered', fixed: { status_Bridge: 'lowered' } }] }] }, { keep: 'project' });
+    const id = app.attribution.newSchemaLayer('Bridge', { catalog: cat.id, subtype: 'lowered' });
+    const f = app.commitFeature(app.activePane(), 'Point', [{ lon: -104.98, lat: 39.75, h: 0 }]);
+    return { defaults: app.store.get(id).defaults, subtypeField: app.store.get(id).schema.subtypeField, status: app.store.get(f).attrs.status };
+  });
+  expect(bridge).toEqual({ defaults: { status: 'lowered' }, subtypeField: 'status', status: 'lowered' });
   expect(logs.filter((x) => !/Failed to load resource/.test(x))).toEqual([]);
 });
