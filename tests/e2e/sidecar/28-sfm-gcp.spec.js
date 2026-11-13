@@ -70,7 +70,7 @@ const record = (k, v) => {
 // they say the run has not got worse, not how accurate the method is. A subset run misses them.
 // The DSM's whole-block spread is the river and the trees, made differently by two dense methods;
 // at the surveyed points both DSMs sit on the ground.
-const FLOORS = { check_h: 0.25, check_v: 0.2, loo_h: 0.25, loo_v: 0.22, dsm_cover: 0.9, dsm_median: 0.5, dsm_nmad: 1.2, dsm_points: 0.3 };
+const FLOORS = { check_h: 0.25, check_v: 0.2, loo_h: 0.25, loo_v: 0.22, loo_ratio: 1.2, dsm_cover: 0.9, dsm_median: 0.5, dsm_nmad: 1.2, dsm_points: 0.3 };
 // Floors are checked in the last test: these tests run in series, and one that fails stops the ones
 // after it, which would lose their measurements.
 const floors = [];
@@ -210,9 +210,12 @@ test('leave-one-out: each of the 7 points a checkpoint in turn', async () => {
   const d3 = (v) => Math.hypot(v.east, v.north, v.up);
   floor('leave-one-out, horizontal RMSE m', Math.hypot(summary.rmse_m.east, summary.rmse_m.north), FLOORS.loo_h);
   floor('leave-one-out, vertical RMSE m', summary.rmse_m.up, FLOORS.loo_v);
-  // Recorded, not a floor: on this block the adjustment predicts a point it was not given about as
-  // well as the similarity alone (the block bends between its two clusters of points).
-  record('leave_one_out', { ...summary, adjusted_over_similarity_3d: d3(summary.rmse_m) / d3(summary.rmse_before_adjustment_m) });
+  // On this block the adjustment predicts a point it was not given about as well as the similarity
+  // alone (1.13 times its error: the block bends between its two clusters of points). The floor
+  // catches an adjustment that makes it clearly worse.
+  const ratio = d3(summary.rmse_m) / d3(summary.rmse_before_adjustment_m);
+  record('leave_one_out', { ...summary, adjusted_over_similarity_3d: ratio });
+  floor('leave-one-out, 3D RMSE after the adjustment over the similarity alone', ratio, FLOORS.loo_ratio);
 });
 
 test("the DSM against the authors' DSM made with the same points", async () => {

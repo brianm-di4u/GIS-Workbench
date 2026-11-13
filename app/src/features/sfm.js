@@ -21,18 +21,20 @@ export const OPEN_ORDER = [/\.dsm\.tif$/i, /\.ortho\.tif$/i, /\.copc\.laz$/i, /\
 /** The rows of the summary, from `<stem>.sfm-report.json`. Exported for the unit test. */
 export function summaryRows(r) {
   const g = r?.georef ?? {};
+  const c = g.control;
+  const adj = c?.adjustment;
   const rows = [];
   if (g.images != null) rows.push([t('Photographs oriented'), t('{done} of {all}', { done: g.registered, all: g.images })]);
-  if (g.reprojection_px?.mean != null) rows.push([t('Mean reprojection error'), t('{px} px', { px: g.reprojection_px.mean.toFixed(2) })]);
+  if (adj?.reprojection_px_after != null) rows.push([t('Reprojection error after the adjustment with the control (RMS)'), t('{px} px', { px: adj.reprojection_px_after.toFixed(2) })]);
+  else if (g.reprojection_px?.mean != null) rows.push([t('Mean reprojection error'), t('{px} px', { px: g.reprojection_px.mean.toFixed(2) })]);
   if (g.gps_rms_m) rows.push([t('Fit to the GPS (RMS east, north, up)'), t('{e} m, {n} m, {u} m', { e: g.gps_rms_m.east.toFixed(2), n: g.gps_rms_m.north.toFixed(2), u: g.gps_rms_m.up.toFixed(2) })]);
-  const c = g.control;
   if (c?.rmse_check_m) rows.push([t('Checkpoints ({n}, RMS east, north, up)', { n: c.checks }), t('{e} m, {n} m, {u} m', { e: c.rmse_check_m.east.toFixed(3), n: c.rmse_check_m.north.toFixed(3), u: c.rmse_check_m.up.toFixed(3) })]);
   if (c?.rmse_gcp_m) rows.push([t('Ground control points ({n}, RMS east, north, up)', { n: c.gcps }), t('{e} m, {n} m, {u} m', { e: c.rmse_gcp_m.east.toFixed(3), n: c.rmse_gcp_m.north.toFixed(3), u: c.rmse_gcp_m.up.toFixed(3) })]);
-  const lens = c?.adjustment?.lens;
+  const lens = adj?.lens;
   if (lens) rows.push([t('Focal length after the adjustment with the control'), t('{px} px (was {was} px)', { px: lens.after[0].toFixed(1), was: lens.before[0].toFixed(1) })]);
   const worst = (c?.points ?? []).filter((p) => p.marks_px).sort((a, b) => b.marks_px.max_px - a.marks_px.max_px)[0];
   if (worst) rows.push([t('Mark farthest from where its survey puts it'), t('{px} px, on {id} in {photo}', { px: worst.marks_px.max_px.toFixed(1), id: worst.id, photo: worst.marks_px.max_image })]);
-  if (g.focal) rows.push([t('Focal length'), g.focal.refined ? t('{px} px, refined from the photographs', { px: g.focal.px.toFixed(1) }) : t('{px} px, held at the EXIF value', { px: g.focal.px.toFixed(1) })]);
+  if (g.focal && !lens) rows.push([t('Focal length'), g.focal.refined ? t('{px} px, refined from the photographs', { px: g.focal.px.toFixed(1) }) : t('{px} px, held at the EXIF value', { px: g.focal.px.toFixed(1) })]);
   if (r?.cloud_points != null) rows.push([t('Dense cloud'), t('{n, plural, one {# point} other {# points}}', { n: r.cloud_points })]);
   if (r?.dsm) rows.push([t('DSM cell'), t('{m} m', { m: r.dsm.resolution_m })]);
   if (r?.ortho) rows.push([t('Orthomosaic pixel'), t('{m} m', { m: r.ortho.resolution_m })]);
@@ -276,9 +278,16 @@ export function install(app) {
       form1.el,
       form2.el,
     );
-    const r = args.yes ? 'run' : await modal({ title: t('Structure from Motion with Ground Control'), body, buttons: [{ label: t('Run the first stage'), value: 'run', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 640, id: 'sidecar-sfm-gcp' });
-    if (r !== 'run') return null;
+    const r = args.yes ? 'run' : await modal({ title: t('Structure from Motion with Ground Control'), body, buttons: [{ label: t('Run the first stage'), value: 'run', primary: true }, { label: t('Use a model from an earlier run'), value: 'reuse' }, { label: t('Cancel'), value: 'cancel' }], width: 640, id: 'sidecar-sfm-gcp' });
+    if (r !== 'run' && r !== 'reuse') return null;
     let model = args.model;
+    // The first stage takes hours: a model it published before (a cancelled marking, a failed second
+    // stage) starts the run again from the marking.
+    if (!model && r === 'reuse') {
+      model = (await client.pick('file', t('Choose the model file an earlier first stage published (.sfm-model)'))).files[0];
+      if (!model) return null;
+      if (!/\.sfm-model$/i.test(model.name)) throw gwError('{file} is not a model file from the first stage (.sfm-model)', { file: model.name }, 'E_SFM_CONTROL_MODEL');
+    }
     if (!model) {
       const fin = await app.sidecar.convert({ files: [folder.id], profile: STAGE_ONE, options: { ...form1.read(), ...(args.options ?? {}) }, open: false, reason: t('Structure from Motion with Ground Control'), outputName: folder.name, label: folder.name });
       model = fin.outputs?.find((o) => /\.sfm-model$/i.test(o.name));
@@ -291,10 +300,18 @@ export function install(app) {
     if (epsg !== control.epsg) throw gwError('the control file is in EPSG:{a} and the photographs were placed in EPSG:{b}; give the control points in EPSG:{b}', { a: control.epsg, b: epsg }, 'E_SFM_CONTROL_CRS');
     let marked = control;
     if (!args.yes) {
+      const kept = () => app.toast(t('The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.', { file: model.name }), { ms: 12000 });
       const photos = args.photos ?? (await pickFiles(app, { dir: true, description: t('UAV photographs') }));
-      if (!photos.length) return null;
-      marked = await markControl(header, control, photos);
-      if (!marked) return null;
+      if (!photos.length) return kept(), null;
+      // Back to the marks until enough points are marked, with what was marked kept.
+      for (;;) {
+        const m = await markControl(header, marked, photos);
+        if (!m) return kept(), null;
+        marked = m;
+        const now = readiness(marked);
+        if (now.ready) break;
+        app.toast(t('{n} control points are marked in two or more photographs; at least 3 are needed', { n: now.marked }), { kind: 'error', ms: 9000 });
+      }
     }
     const ready = readiness(marked);
     if (!ready.ready) throw gwError('{n} control points are marked in two or more photographs; at least 3 are needed', { n: ready.marked }, 'E_SFM_CONTROL_MARKS');

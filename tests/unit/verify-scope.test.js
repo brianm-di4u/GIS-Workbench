@@ -3,7 +3,7 @@ import { affectedCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Source catalogue', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Source catalogue', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests', 'Sidecar sfm clippy', 'Sidecar sfm tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
@@ -73,7 +73,7 @@ describe('verify scope', () => {
   });
 
   it('keeps the legs apart', () => {
-    expect(names({ paths: ['sidecar/gwb-sidecar/src/main.rs'], leg: 'sidecar' })).toEqual(['Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests']);
+    expect(names({ paths: ['sidecar/gwb-sidecar/src/main.rs'], leg: 'sidecar' })).toEqual(['Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests', 'Sidecar sfm clippy', 'Sidecar sfm tests']);
     expect(names({ paths: ['app/src/a.js'], leg: 'sidecar' })).toEqual([]);
     expect(names({ paths: ['sidecar/gwb-sidecar/src/main.rs'], leg: 'linux' })).not.toContain('Sidecar tests');
   });

@@ -7038,6 +7038,13 @@
    ]
   },
   {
+   "key": "Choose the model file an earlier first stage published (.sfm-model)",
+   "src": "Choose the model file an earlier first stage published (.sfm-model)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Choose the two images of the pair.",
    "src": "Choose the two images of the pair.",
    "refs": [
@@ -33235,6 +33242,13 @@
    ]
   },
   {
+   "key": "Reprojection error after the adjustment with the control (RMS)",
+   "src": "Reprojection error after the adjustment with the control (RMS)",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "Reprojects a raster of any size with GDAL and every PROJ grid, and refuses rather than fall back when a grid is missing.",
    "src": "Reprojects a raster of any size with GDAL and every PROJ grid, and refuses rather than fall back when a grid is missing.",
    "refs": [
@@ -41262,6 +41276,13 @@
    ]
   },
   {
+   "key": "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.",
+   "src": "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.",
+   "refs": [
+    "features/sfm.js"
+   ]
+  },
+  {
    "key": "The full PROJ grid set is installed.",
    "src": "The full PROJ grid set is installed.",
    "refs": [
@@ -43360,6 +43381,13 @@
    "src": "Use Your Portal Sign-In?",
    "refs": [
     "features/portal-ui.js"
+   ]
+  },
+  {
+   "key": "Use a model from an earlier run",
+   "src": "Use a model from an earlier run",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {
@@ -63435,6 +63463,13 @@
    "src": "{file} is not a camera calibration this build reads (USGS report, Agisoft or Pix4D XML, PAT-B, OpenCV JSON)",
    "refs": [
     "sensor/camera.js"
+   ]
+  },
+  {
+   "key": "{file} is not a model file from the first stage (.sfm-model)",
+   "src": "{file} is not a model file from the first stage (.sfm-model)",
+   "refs": [
+    "features/sfm.js"
    ]
   },
   {

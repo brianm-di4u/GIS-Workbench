@@ -51,6 +51,17 @@ describe('the control file', () => {
     expect(c.points[0].marks).toHaveLength(2);
   });
 
+  it('writes back what it reads, an ODM list with no names included', () => {
+    const odm = parseControl('WGS84 UTM 17N\n441024.15 4564001.87 345.16 2648 2147 IMG_1.jpg\n441024.15 4564001.87 345.16 100 200 IMG_2.jpg\n');
+    expect(odm.points[0].id).toBe('441024.150_4564001.870_345.160');
+    for (const c of [odm, parseControl(CSV)]) {
+      const again = parseControl(controlCsv(c));
+      expect(again.points.map((p) => [p.id, p.check, p.marks.length])).toEqual(c.points.map((p) => [p.id, p.check, p.marks.length]));
+    }
+    const comma = { ...odm, points: [{ ...odm.points[0], marks: [{ image: 'a,b.jpg', px: 1, py: 2 }] }] };
+    expect(() => controlCsv(comma)).toThrow(/holds a comma/);
+  });
+
   it('refuses what gwb-sfm would refuse', () => {
     expect(() => parseControl(CSV.replace('EPSG:32630,0.05', 'EPSG:32631,0.05'))).toThrow(/same CRS/);
     expect(() => parseControl(CSV.replace('check', 'tie'))).toThrow(/neither gcp nor check/);

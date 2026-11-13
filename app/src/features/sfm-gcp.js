@@ -103,7 +103,8 @@ export function parseControl(text) {
       const f = l.split(/\s+/);
       if (f.length < 6) throw new Error(`line ${n}: a gcp_list row needs x y z px py image`);
       const xyz = [num(f[0], 'x', n), num(f[1], 'y', n), num(f[2], 'z', n)];
-      const id = f[6] ?? xyz.map((v) => v.toFixed(3)).join(',');
+      // Without an id column, a point is its coordinates (joined by '_', as gwb-sfm does: the CSV can carry it).
+      const id = f[6] ?? xyz.map((v) => v.toFixed(3)).join('_');
       addPoint(
         points,
         {
@@ -132,6 +133,7 @@ export function controlCsv(control) {
   const f = (v) => (Number.isInteger(v) ? String(v) : String(Math.round(v * 1e6) / 1e6));
   for (const p of control.points) {
     if (/[,\n]/.test(p.id)) throw new Error(`point id ${JSON.stringify(p.id)} holds a comma`);
+    for (const m of p.marks) if (/[,\n]/.test(m.image)) throw new Error(`photograph name ${JSON.stringify(m.image)} holds a comma`);
     const head = [p.id, f(p.xyz[0]), f(p.xyz[1]), f(p.xyz[2]), crs, f(p.sigma), p.check ? 'check' : 'gcp'].join(',');
     if (!p.marks.length) rows.push(`${head},,,`);
     for (const m of p.marks) rows.push(`${head},${m.image},${m.px.toFixed(2)},${m.py.toFixed(2)}`);

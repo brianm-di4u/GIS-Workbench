@@ -27,13 +27,17 @@ describe('sfm summary', () => {
       rmse_check_m: { east: 0.0312, north: 0.0201, up: 0.0857 },
       rmse_gcp_m: { east: 0.01, north: 0.012, up: 0.02 },
       points: [{ id: 'G1', marks_px: { max_px: 2.31 } }, { id: 'G2', marks_px: { max_px: 9.87, max_image: 'DJI_0004.JPG' } }, { id: 'G3', marks_px: null }],
-      adjustment: { lens: { before: [2311.07, 2000, 1500], after: [2299.36, 2000, 1500] } },
+      adjustment: { reprojection_px_after: 1.518, lens: { before: [2311.07, 2000, 1500], after: [2299.36, 2000, 1500] } },
     };
     const rows = Object.fromEntries(summaryRows({ georef: { ...report.georef, control } }));
     expect(rows['Checkpoints (2, RMS east, north, up)']).toBe('0.031 m, 0.020 m, 0.086 m');
     expect(rows['Ground control points (5, RMS east, north, up)']).toBe('0.010 m, 0.012 m, 0.020 m');
     expect(rows['Focal length after the adjustment with the control']).toBe('2299.4 px (was 2311.1 px)');
     expect(rows['Mark farthest from where its survey puts it']).toBe('9.9 px, on G2 in DJI_0004.JPG');
+    // The first stage's numbers no longer describe the adjusted block, so they are not shown beside it.
+    expect(rows['Reprojection error after the adjustment with the control (RMS)']).toBe('1.52 px');
+    expect(rows['Mean reprojection error']).toBeUndefined();
+    expect(rows['Focal length']).toBeUndefined();
   });
 
   it('shows no row for a number the run did not report', () => {

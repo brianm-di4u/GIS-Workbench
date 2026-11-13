@@ -216,11 +216,11 @@ fn parse_odm<'a>(crs: &str, lines: impl Iterator<Item = (usize, &'a str)>) -> Re
             return Err(format!("line {n}: a gcp_list row needs x y z px py image"));
         }
         let xyz = [num(f[0], "x", n)?, num(f[1], "y", n)?, num(f[2], "z", n)?];
-        // Without an id column, a point is its coordinates.
+        // Without an id column, a point is its coordinates (joined by '_', which the CSV can carry).
         let id = f
             .get(6)
             .map(|s| s.to_string())
-            .unwrap_or_else(|| format!("{:.3},{:.3},{:.3}", xyz[0], xyz[1], xyz[2]));
+            .unwrap_or_else(|| format!("{:.3}_{:.3}_{:.3}", xyz[0], xyz[1], xyz[2]));
         let mark = Mark {
             image: f[5].to_string(),
             px: num(f[3], "px", n)?,
@@ -767,6 +767,7 @@ mod tests {
             (o.epsg, o.points.len(), o.points[0].marks.len()),
             (32617, 1, 2)
         );
+        assert_eq!(o.points[0].id, "441024.150_4564001.870_345.160");
         let proj = "+proj=utm +zone=11 +ellps=WGS84 +datum=WGS84 +units=m +no_defs\n235269.88\t3811198.11\t0.0\t3609.37\t2293.79\tIMG_0037.jpg\tgcp02\n";
         let p = parse(proj).unwrap();
         assert_eq!((p.epsg, p.points[0].id.as_str()), (32611, "gcp02"));
