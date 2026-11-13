@@ -395,8 +395,12 @@ pub fn fit_control(model: &Model, control: &Control, offset: V3) -> Res<ControlF
     }
     let src: Vec<V3> = gcps.iter().map(|(_, x)| *x).collect();
     let dst: Vec<V3> = gcps.iter().map(|(p, _)| sub(p.xyz, offset)).collect();
-    let sim3 = fit_sim3(&src, &dst)
-        .ok_or("the ground control points could not be fitted (they may lie on a line)")?;
+    // Points on a line leave the roll about it free: the fit would succeed and tilt the block.
+    let spread = crate::geo::linearity(&dst);
+    if spread < crate::georef::MIN_SPREAD {
+        return Err(format!("the ground control points lie on a line (spread ratio {spread:.4}): mark at least one point off that line"));
+    }
+    let sim3 = fit_sim3(&src, &dst).ok_or("the ground control points could not be fitted")?;
     let residuals = seen
         .iter()
         .map(|(p, x)| Residual {
@@ -688,7 +692,7 @@ mod tests {
             [-15.0, 18.0, 4.0],
             [10.0, 0.0, -1.0],
         ];
-        let points: Vec<ControlPoint> = model_pts
+        let control = |model_pts: &[V3]| -> Vec<ControlPoint> { model_pts
             .iter()
             .enumerate()
             .map(|(k, x)| {
@@ -712,12 +716,12 @@ mod tests {
                     marks,
                 }
             })
-            .collect();
+            .collect() };
         let fit = fit_control(
             &m,
             &Control {
                 epsg: 32617,
-                points,
+                points: control(&model_pts),
             },
             offset,
         )
@@ -726,6 +730,10 @@ mod tests {
         let check = rmse(&fit.residuals, true).unwrap();
         assert!(check.iter().all(|d| *d < 1e-5), "{check:?}");
         assert_eq!(fit.residuals.iter().filter(|r| r.check).count(), 2);
+        // Ground control on one line is refused: the roll about it would be a guess.
+        let line = [[-20.0, -15.0, 0.0], [0.0, 0.0, 0.0], [20.0, 15.0, 0.0], [-15.0, 18.0, 4.0], [10.0, 0.0, -1.0]];
+        let err = fit_control(&m, &Control { epsg: 32617, points: control(&line) }, offset).unwrap_err();
+        assert!(err.contains("lie on a line"), "{err}");
     }
 
     #[test]

@@ -10,7 +10,7 @@ use std::fs;
 use std::path::Path;
 
 /// A straight strip leaves the roll about the line unresolved.
-const MIN_SPREAD: f64 = 0.02;
+pub(crate) const MIN_SPREAD: f64 = 0.02;
 
 fn largest_model(sparse: &Path) -> Res<(std::path::PathBuf, usize, usize)> {
     let mut best: Option<(std::path::PathBuf, usize)> = None;
