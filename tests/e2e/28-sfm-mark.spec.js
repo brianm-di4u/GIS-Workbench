@@ -91,6 +91,11 @@ test('the marking dialog: a click, the arrow keys and Enter mark a point without
   const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
   const caption = dlg.locator('[data-id="sfm:photo"]');
   await expect(caption).toContainText('G1 in A.JPG', { timeout: 30_000 });
+  // Enter on the points list picks a point; it does not press 'Run with these marks'.
+  // The same dialog must stay open: a run with too few marks would close it and open a new one.
+  const opened = await dlg.elementHandle();
+  await dlg.locator('[data-id="sfm:points"]').press('Enter');
+  expect(await opened.evaluate((e) => e.isConnected)).toBe(true);
   // The model puts G1 at the centre of A.JPG (200, 150), drawn at the centre of the 640 x 440 view:
   // the view starts at (200 - 320, 150 - 220) in the photograph. Click at (200, 155).
   const canvas = dlg.locator('[data-id="sfm:canvas"]');

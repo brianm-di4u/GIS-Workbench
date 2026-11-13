@@ -70,7 +70,8 @@ export function modal({ title, body, buttons = ['OK', 'Cancel'], width = 460, on
         e.preventDefault();
         e.stopPropagation();
         finish(null);
-      } else if (e.key === 'Enter' && !e.target.matches('textarea, button, canvas, [contenteditable]')) {
+      } else if (e.key === 'Enter' && !e.target.matches('textarea, button, canvas, [contenteditable], select[size], select[multiple]')) {
+        // A list box takes Enter as picking an item, not as the dialog's primary button.
         e.preventDefault();
         finish(specs[0]?.value ?? null);
       }
