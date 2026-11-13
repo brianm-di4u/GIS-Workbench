@@ -205,3 +205,24 @@ test('marked in the dialog, the points go to the second stage, and are saved whe
   expect(readFileSync(await csv.path(), 'utf8').trim().split('\n').slice(1)).toEqual(rows);
   await expect(frame.locator('.toast').filter({ hasText: 'block.sfm-model' }).first()).toBeVisible();
 });
+
+test('with no model given, the first stage runs and its model opens the marking', async ({ page }) => {
+  await mockSidecar(page);
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await start(frame, false);
+  // The sidecar's jobs, caught as they start: the first stage publishes the model file.
+  await frame.evaluate(() => {
+    window.__jobs = [];
+    window.gisworkbench.sidecar.convert = async (o) => {
+      window.__jobs.push({ profile: o.profile, files: o.files });
+      return { state: 'succeeded', outputs: [{ id: 'model', name: 'images.sfm-model' }, { id: 'prov', name: 'images.sfm-model.gwb-provenance.json' }] };
+    };
+  });
+  await frame.locator('[data-id="dialog:sidecar-sfm-gcp"]').getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  await expect(dlg.locator('[data-id="sfm:photo"]')).toContainText('G1 in A.JPG', { timeout: 30_000 });
+  expect(await frame.evaluate(() => window.__jobs)).toEqual([{ profile: 'sfm-model', files: ['dir'] }]);
+  await dlg.getByRole('button', { name: 'Cancel' }).click();
+  expect(await frame.evaluate(() => window.__sfm)).toBeNull();
+  await expect(frame.locator('.toast').filter({ hasText: 'images.sfm-model' }).first()).toBeVisible();
+});
