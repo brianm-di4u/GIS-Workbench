@@ -23,6 +23,16 @@ describe('recording a round', () => {
     }
   });
 
+  it('refuses a finding whose severity the ledger does not know, which would count as neither blocking nor raised (issue 258)', () => {
+    const finding = { file: 'a.js', line: 1, class: 'c', claim: 'x', preExisting: false };
+    for (const severity of ['high', 'Should', undefined]) {
+      const ledger = emptyLedger();
+      expect(() => record(ledger, { ...real, findings: [{ ...finding, severity }] }), String(severity)).toThrow(/severity/);
+      expect(ledger).toEqual(emptyLedger());
+    }
+    expect(record(emptyLedger(), { ...real, findings: [{ ...finding, severity: 'should' }] }).added).toHaveLength(1);
+  });
+
   it('records a clean round, and a round whose every seat was missing as incomplete', () => {
     const ledger = emptyLedger();
     expect(record(ledger, real).complete).toBe(true);

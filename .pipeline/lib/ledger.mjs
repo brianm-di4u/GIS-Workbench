@@ -286,13 +286,23 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
   };
 }
 
-export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
-  // Only a council's own result is a round. Anything else, such as the Workflow tool's wrapper
-  // around it, has no findings or seats here and would read as a clean round (issue 210).
+// What a council round's result must be before anything counts it: a findings list, the seats that
+// answered or were missing, and findings whose severity is one the ledger knows. Anything else, such
+// as the Workflow tool's wrapper around a result, would read as a clean round (issues 210, 258). The
+// council record and the reviewer evals both use this. Null when the result is one.
+export function roundResultError(result) {
   const { findings, seats, missing = [] } = result ?? {};
   if (!Array.isArray(findings) || !Array.isArray(seats) || !Array.isArray(missing) || seats.length + missing.length === 0) {
-    throw new Error("not a council round's result: it needs a findings list and the seats that answered or were missing. Given the Workflow tool's output, record its `result`.");
+    return "not a council round's result: it needs a findings list and the seats that answered or were missing. Given the Workflow tool's output, record its `result`.";
   }
+  const odd = findings.find((f) => !SEVERITIES.includes(f?.severity));
+  if (odd) return `not a council round's result: a finding's severity is ${JSON.stringify(odd?.severity)}, not one of ${SEVERITIES.join(', ')}.`;
+  return null;
+}
+
+export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
+  const error = roundResultError(result);
+  if (error) throw new Error(error);
   // What this round raised. A bug this change didn't introduce never blocks. An incomplete round
   // raised nothing we can count.
   // A repeat of a finding already on the ledger doesn't count: that is a reviewer asking again. Two
