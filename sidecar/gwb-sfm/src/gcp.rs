@@ -419,24 +419,6 @@ const TIE_SIGMA_PX: f64 = 1.0;
 /// How far the focal length may move from where the first stage left it: 1 sigma, as a share of it.
 const FOCAL_SIGMA: f64 = 0.03;
 
-/// How much the control's weights are multiplied by, so that the marks in a photograph count as
-/// much as that photograph's tie points.
-///
-/// At the weights their sigmas give, a few dozen marks stand against hundreds of thousands of tie
-/// observations and cannot move a camera. That would be right if the tie points' errors were
-/// independent, and they are not: what the camera model leaves out (a rolling shutter, the rest of
-/// the lens) moves the tie points of a photograph together, and bends the block by more than their
-/// count admits. Only the control can tell. Among themselves the control points keep the weights
-/// their sigmas give, and so do a mark and a surveyed position.
-pub fn control_gain(tie_obs: usize, tied_photos: usize, mark_obs: usize, marked_photos: usize) -> f64 {
-    if tie_obs == 0 || tied_photos == 0 || mark_obs == 0 || marked_photos == 0 {
-        return 1.0;
-    }
-    let ties = tie_obs as f64 / tied_photos as f64 / (TIE_SIGMA_PX * TIE_SIGMA_PX);
-    let marks = mark_obs as f64 / marked_photos as f64 / (MARK_SIGMA_PX * MARK_SIGMA_PX);
-    (ties / marks).max(1.0)
-}
-
 /// How a point's marks sit against its surveyed position through the adjusted cameras, in pixels.
 /// A mark placed on the wrong object shows here.
 #[derive(Debug, Clone)]
@@ -463,8 +445,6 @@ pub struct Adjusted {
     /// Each point triangulated from its marks through the adjusted cameras, less its survey.
     pub residuals: Vec<Residual>,
     pub marks: Vec<MarkFit>,
-    /// What the control's weights were multiplied by (`control_gain`).
-    pub gain: f64,
     pub stats: crate::ba::Stats,
 }
 
@@ -505,18 +485,14 @@ pub fn adjust_block(model: &Model, obs: &std::collections::HashMap<u32, Vec<([f6
     let index: std::collections::HashMap<u64, usize> = ids.iter().enumerate().map(|(k, id)| (*id, k)).collect();
     let mut pts: Vec<V3> = ids.iter().map(|id| sim3.apply(model.points[id].xyz)).collect();
     let mut ba_obs = Vec::new();
-    let mut tied = std::collections::HashSet::new();
     for (img, list) in obs {
         let Some(&cam) = cam_of.get(img) else { continue };
         for (xy, pid) in list {
             if let Some(&pt) = index.get(pid) {
                 ba_obs.push(Obs { cam, pt, xy: *xy, sigma: TIE_SIGMA_PX, robust: true });
-                tied.insert(cam);
             }
         }
     }
-    let ties = ba_obs.len();
-    let mut marked = std::collections::HashSet::new();
     let mut priors = Vec::new();
     for p in control.points.iter().filter(|p| !p.check) {
         let Some((x, _)) = triangulate(model, &p.marks)? else { continue };
@@ -525,20 +501,12 @@ pub fn adjust_block(model: &Model, obs: &std::collections::HashMap<u32, Vec<([f6
         for m in &p.marks {
             if let Some(&cam) = by_name.get(m.image.as_str()) {
                 ba_obs.push(Obs { cam, pt, xy: [m.px, m.py], sigma: MARK_SIGMA_PX, robust: false });
-                marked.insert(cam);
             }
         }
         priors.push(Prior { pt, at: sub(p.xyz, offset), sigma: p.sigma });
     }
     if priors.len() < 3 {
         return Err(format!("{} ground control points are marked in two or more registered photographs; at least 3 are needed", priors.len()));
-    }
-    let gain = control_gain(ties, tied.len(), ba_obs.len() - ties, marked.len());
-    for o in &mut ba_obs[ties..] {
-        o.sigma /= gain.sqrt();
-    }
-    for p in &mut priors {
-        p.sigma /= gain.sqrt();
     }
     // One camera for the whole block (prepare refuses a mixed folder): its lens is adjusted too.
     let one = model.cameras.len() == 1;
@@ -595,7 +563,7 @@ pub fn adjust_block(model: &Model, obs: &std::collections::HashMap<u32, Vec<([f6
         poses.insert(im.id, (mat_to_quat(&r_m), scale(mat_vec(&r_m, c_m), -1.0)));
     }
     let points = ids.iter().enumerate().map(|(k, id)| (*id, back(pr.pts[k]))).collect();
-    Ok(Adjusted { poses, points, cameras, residuals, marks, gain, stats })
+    Ok(Adjusted { poses, points, cameras, residuals, marks, stats })
 }
 
 #[cfg(test)]
@@ -780,16 +748,6 @@ mod tests {
         )
         .unwrap_err();
         assert!(err.contains("0 ground control points"), "{err}");
-    }
-
-    #[test]
-    fn the_marks_in_a_photograph_count_as_much_as_its_tie_points() {
-        // 1,500 tie points a photograph at 1 px against 4 marks a photograph at 2 px.
-        assert_eq!(control_gain(300 * 1500, 300, 32, 8), 1500.0);
-        // Never weighted down, and nothing to weigh leaves the weights alone.
-        assert_eq!(control_gain(8, 4, 40, 4), 1.0);
-        assert_eq!(control_gain(0, 0, 12, 4), 1.0);
-        assert_eq!(control_gain(1000, 10, 0, 0), 1.0);
     }
 
     #[test]

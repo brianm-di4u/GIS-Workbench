@@ -116,7 +116,7 @@ pub fn georef(sparse: &Path, gps_path: &Path, out_model: &Path, sim3_path: &Path
                     "rmse_gcp_m": axes(crate::gcp::rmse(&cf.residuals, false)),
                     "rmse_check_m": axes(crate::gcp::rmse(&cf.residuals, true)),
                 },
-                "adjustment": { "iterations": a.stats.iterations, "control_weight": a.gain, "reprojection_px_before": a.stats.rms_px_before, "reprojection_px_after": a.stats.rms_px_after, "lens": lens },
+                "adjustment": { "iterations": a.stats.iterations, "reprojection_px_before": a.stats.rms_px_before, "reprojection_px_after": a.stats.rms_px_after, "lens": lens },
             }))
         }
     };
@@ -496,8 +496,7 @@ mod tests {
             "the written model puts a checkpoint {worst} m off: {c}"
         );
         assert_eq!(carried, [false, false], "rigs.bin and frames.bin would override the adjusted poses");
-        // The report says how the control was weighted, and which photograph has each point's worst mark.
-        assert!(c["adjustment"]["control_weight"].as_f64().unwrap() >= 1.0, "{c}");
+        // The report names the photograph of each point's worst mark.
         assert!(c["points"][0]["marks_px"]["max_image"].as_str().unwrap().ends_with(".JPG"), "{c}");
     }
 
