@@ -472,6 +472,37 @@ test('REQ-PIP-02 REQ-PIP-03 REQ-GAP-84 the Recipes dock runs a gw-recipe/1 chain
   await expect(at).toHaveAttribute('aria-invalid', 'true');
   expect(await frame.evaluate(() => window.gisworkbench.recipes.runner.recipe.steps[0].params.at)).toEqual([-121.5, 36.25]);
 
+  // Every built-in recipe opens in the dock, and the AI steps' settings go through their schemas from
+  // the drawer: typed text becomes numbers, lists and true/false; a value out of range is refused.
+  const opened = await frame.evaluate(() => {
+    const app = window.gisworkbench;
+    return app.recipes.builtin.map((b) => {
+      app.recipes.open(b);
+      return [b.id, app.recipes.runner.recipe.steps.length === b.steps.length];
+    });
+  });
+  expect(opened.every(([, ok]) => ok), JSON.stringify(opened)).toBe(true);
+  const params = (i) => frame.evaluate((k) => window.gisworkbench.recipes.runner.recipe.steps[k].params, i);
+  const edit = async (i, key, text) => {
+    const inp = frame.locator(`[data-id="recipe:param:${key}"]`);
+    // A step's drawer opens on a click and closes on the next one.
+    if (!(await inp.isVisible())) await steps.nth(i).click();
+    await inp.fill(text);
+    await inp.press('Tab');
+    return inp;
+  };
+  await frame.evaluate(() => window.gisworkbench.recipes.open(window.gisworkbench.recipes.builtin.find((b) => b.id === 'building-extraction')));
+  await edit(0, 'threshold', '0.4');
+  await edit(0, 'objects', 'house, shed');
+  await expect.poll(() => params(0)).toMatchObject({ threshold: 0.4, objects: ['house', 'shed'] });
+  await expect(await edit(0, 'threshold', '2')).toHaveAttribute('aria-invalid', 'true');
+  expect((await params(0)).threshold).toBe(0.4);
+  await edit(1, 'max', '25');
+  await edit(1, 'square', 'false');
+  await expect.poll(() => params(1)).toEqual({ square: false, max: 25 });
+  await expect(await edit(1, 'max', '5000')).toHaveAttribute('aria-invalid', 'true');
+  expect((await params(1)).max).toBe(25);
+
   // In the builder, a step's run state stays with that step when an earlier step is removed.
   await frame.evaluate(() => void window.gisworkbench.commands.run('pip.builder'));
   const panel = frame.locator('.wf-panel');
