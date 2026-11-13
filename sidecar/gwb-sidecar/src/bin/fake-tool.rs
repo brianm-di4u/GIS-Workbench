@@ -72,7 +72,9 @@ fn main() {
         eprintln!("gwb-stereo-viewer: no OpenGL pixel format");
         std::process::exit(7);
     }
-    if args.first().map(|s| s.as_str()) == Some("--child") || args.first().map(|s| s.as_str()) == Some("--sidecar") {
+    // Stands in for a browser that never answers on its DevTools pipe, in the gwb-run tests.
+    let browser = args.iter().any(|a| a == "--remote-debugging-pipe");
+    if browser || args.first().map(|s| s.as_str()) == Some("--child") || args.first().map(|s| s.as_str()) == Some("--sidecar") {
         std::thread::sleep(Duration::from_secs(300));
         return;
     }

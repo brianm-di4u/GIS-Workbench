@@ -212,14 +212,10 @@ impl Browser {
         }
     }
 
-    /// Attach to the browser's first page and return its session id.
-    pub fn attach_page(&mut self) -> Result<String, String> {
-        let t = self.call(
-            "Target.getTargets",
-            json!({}),
-            None,
-            Duration::from_secs(30),
-        )?;
+    /// Attach to the browser's first page and return its session id. The first command is answered
+    /// only once the browser has started, so it gets `start` to reply.
+    pub fn attach_page(&mut self, start: Duration) -> Result<String, String> {
+        let t = self.call("Target.getTargets", json!({}), None, start)?;
         let id = t["targetInfos"]
             .as_array()
             .and_then(|a| a.iter().find(|x| x["type"] == "page"))

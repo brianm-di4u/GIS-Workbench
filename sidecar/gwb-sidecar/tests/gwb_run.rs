@@ -16,6 +16,10 @@ use std::process::Command;
 
 const RUN: &str = env!("CARGO_BIN_EXE_gwb-run");
 
+/// Every run here may start its browser alongside the other tests' browsers, which on a loaded CI
+/// runner can take over gwb-run's own 30 s (#251).
+const START: (&str, &str) = ("GWB_RUN_START_TIMEOUT", "120");
+
 /// The stand-in app. Its one recipe, "echo", returns a file of 9 MB plus the first input's size
 /// (more than two of the runner's 4 MB chunks) and a text file, after an alert nobody answers.
 const PAGE: &str = r#"<!doctype html><meta charset="utf-8"><title>stand-in</title><script>
@@ -81,7 +85,11 @@ fn app(dir: &Path, html: &str) -> PathBuf {
 }
 
 fn run(args: &[&str]) -> (i32, String) {
-    let o = Command::new(RUN).args(args).output().unwrap();
+    let o = Command::new(RUN)
+        .args(args)
+        .env(START.0, START.1)
+        .output()
+        .unwrap();
     (
         o.status.code().unwrap_or(-1),
         format!(
@@ -307,6 +315,28 @@ fn check_reports_the_browser_and_the_app() {
     let _ = std::fs::remove_dir_all(&d);
 }
 
+#[test]
+fn a_browser_that_never_answers_gets_the_start_wait_it_was_given() {
+    // A stand-in browser that starts and never replies: no installed browser needed.
+    let d = scratch("mute");
+    let a = app(&d, PAGE);
+    let t0 = std::time::Instant::now();
+    let o = Command::new(RUN)
+        .args(["--check", "--browser", env!("CARGO_BIN_EXE_gwb-fake-tool")])
+        .args(["--app-dir", a.to_str().unwrap()])
+        .env(START.0, "2")
+        .output()
+        .unwrap();
+    let text = String::from_utf8_lossy(&o.stdout) + String::from_utf8_lossy(&o.stderr);
+    assert_eq!(o.status.code(), Some(3), "{text}");
+    assert!(
+        text.contains("Target.getTargets had no reply within 2 s"),
+        "{text}"
+    );
+    assert!(t0.elapsed() < std::time::Duration::from_secs(20));
+    let _ = std::fs::remove_dir_all(&d);
+}
+
 // ---- the scheduling examples of docs/runner.md (REG-151) ----
 
 /// The fenced block after `<!-- example: NAME -->` in docs/runner.md.
@@ -435,6 +465,7 @@ fn the_windows_task_example_builds_and_its_command_runs() {
     // The command, run as Task Scheduler runs it: the program, and the arguments as one string.
     let o = Command::new(task["execute"].as_str().unwrap())
         .raw_arg(task["arguments"].as_str().unwrap())
+        .env(START.0, START.1)
         .output()
         .unwrap();
     assert_eq!(
@@ -477,7 +508,11 @@ fn the_linux_examples_run_and_the_units_check() {
     assert_eq!(&fields[..5], ["0", "2", "*", "*", "*"]);
     let line = swap(cron.trim());
     let command = line.splitn(6, ' ').nth(5).unwrap();
-    let o = Command::new("sh").args(["-c", command]).output().unwrap();
+    let o = Command::new("sh")
+        .args(["-c", command])
+        .env(START.0, START.1)
+        .output()
+        .unwrap();
     assert_eq!(o.status.code(), Some(0));
     check_outputs(&out, &String::from_utf8_lossy(&o.stderr));
     std::fs::remove_dir_all(&out).unwrap();
@@ -521,6 +556,7 @@ fn the_linux_examples_run_and_the_units_check() {
         .collect();
     let started = Command::new("systemd-run")
         .args(&pass)
+        .arg(format!("--setenv={}={}", START.0, START.1))
         .args([
             "--user",
             "--quiet",

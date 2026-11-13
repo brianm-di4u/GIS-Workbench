@@ -89,7 +89,7 @@ function primaryGeometry(props) {
  * which keeps the source's column name in `field` (decision #243): its layers write that name.
  */
 function attrTable() {
-  const attrs = {};
+  const attrs = Object.create(null);
   let n = 0;
   const add = (name, a, typeCode) => {
     let key = clean(name);
@@ -177,7 +177,7 @@ export function parseCodeList(xml) {
   if (!cl) throw E('not an INSPIRE code list (no codelist element)');
   const uri = cl.attrs?.id ?? '';
   const id = uri.replace(/\/+$/, '').split('/').pop() || deepText(first(cl, 'label'));
-  const values = {};
+  const values = Object.create(null);
   for (const v of all(cl, 'value')) {
     const code = String(v.attrs?.id ?? '')
       .replace(/\/+$/, '')
@@ -346,7 +346,7 @@ const ID_GEOMETRY = { point: 'Point', vertex: 'Point', line: 'LineString', area:
  * stay free: a feature may carry keys the catalogue does not name.
  */
 export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name = 'OpenStreetMap presets' } = {}) {
-  const attrs = {};
+  const attrs = Object.create(null);
   let n = 0;
   const attrFor = (key, f) => {
     if (!key || BAD_NAMES.has(key) || /[{}]/.test(key)) return null;
@@ -399,7 +399,7 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     const geometry = [...new Set(arr(p.geometry).map((g) => ID_GEOMETRY[g]).filter(Boolean))];
     if (!geometry.length) continue;
     const names = [];
-    const fixed = {};
+    const fixed = Object.create(null);
     for (const [k, v] of Object.entries(p.tags)) {
       const key = attrFor(k, fields[k] ?? null);
       if (!key) continue;

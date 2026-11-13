@@ -114,6 +114,12 @@ pub fn parse_cameras(b: &[u8]) -> Res<HashMap<u32, Camera>> {
     Ok(out)
 }
 
+/// A photograph's name as the model keeps it: a path inside the photographs folder made of plain
+/// parts, never absolute, on another drive or share, or climbing out of the folder.
+pub fn plain_name(name: &str) -> bool {
+    !name.is_empty() && !name.contains(['\\', ':', '\0']) && name.split('/').all(|c| !c.is_empty() && c != "." && c != "..")
+}
+
 pub fn parse_images(b: &[u8]) -> Res<Vec<Image>> {
     let mut r = Rd { b, p: 0, what: "images.bin" };
     let n = r.count(64)?;
@@ -131,7 +137,7 @@ pub fn parse_images(b: &[u8]) -> Res<Vec<Image>> {
             }
         }
         let name = String::from_utf8(name).map_err(|_| "images.bin: a name is not UTF-8".to_string())?;
-        if name.is_empty() || name.contains("..") {
+        if !plain_name(&name) {
             return Err(format!("images.bin: bad image name {name:?}"));
         }
         let np = r.count(24)?;
@@ -164,6 +170,95 @@ pub fn parse_points(b: &[u8]) -> Res<HashMap<u64, Point>> {
             r.take(4)?;
         }
         out.insert(id, Point { xyz, error, track });
+    }
+    Ok(out)
+}
+
+/// Each image's observations of 3D points: image id to (pixel, point id), unmatched ones left out.
+pub fn parse_observations(b: &[u8]) -> Res<HashMap<u32, Vec<([f64; 2], u64)>>> {
+    let mut r = Rd { b, p: 0, what: "images.bin" };
+    let n = r.count(64)?;
+    let mut out = HashMap::with_capacity(n);
+    for _ in 0..n {
+        let id = r.u32()?;
+        r.take(7 * 8 + 4)?;
+        while r.u8()? != 0 {}
+        let np = r.count(24)?;
+        let mut obs = Vec::new();
+        for _ in 0..np {
+            let xy = [r.f64()?, r.f64()?];
+            let pid = r.u64()?;
+            if pid != u64::MAX {
+                obs.push((xy, pid));
+            }
+        }
+        out.insert(id, obs);
+    }
+    Ok(out)
+}
+
+/// images.bin with the poses of the images in `poses` (id to quaternion w x y z, translation)
+/// replaced, every other byte kept.
+pub fn patch_poses(b: &[u8], poses: &HashMap<u32, ([f64; 4], V3)>) -> Res<Vec<u8>> {
+    let mut out = b.to_vec();
+    let mut r = Rd { b, p: 0, what: "images.bin" };
+    let n = r.count(64)?;
+    for _ in 0..n {
+        let id = r.u32()?;
+        let at = r.p;
+        r.take(7 * 8 + 4)?;
+        if let Some((q, t)) = poses.get(&id) {
+            for (k, v) in q.iter().chain(t.iter()).enumerate() {
+                out[at + 8 * k..at + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+        while r.u8()? != 0 {}
+        let np = r.count(24)?;
+        r.take(np * 24)?;
+    }
+    Ok(out)
+}
+
+/// cameras.bin with the parameters of the cameras in `params` replaced, every other byte kept.
+pub fn patch_cameras(b: &[u8], params: &HashMap<u32, Vec<f64>>) -> Res<Vec<u8>> {
+    let mut out = b.to_vec();
+    let mut r = Rd { b, p: 0, what: "cameras.bin" };
+    let n = r.count(24)?;
+    for _ in 0..n {
+        let id = r.u32()?;
+        let model = r.u32()? as i32;
+        r.take(16)?;
+        let np = params_of(model).ok_or_else(|| format!("cameras.bin: camera model {model} is not known"))?;
+        let at = r.p;
+        r.take(np * 8)?;
+        if let Some(p) = params.get(&id) {
+            if p.len() != np {
+                return Err(format!("cameras.bin: camera {id} has {np} parameters, not {}", p.len()));
+            }
+            for (k, v) in p.iter().enumerate() {
+                out[at + 8 * k..at + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+    }
+    Ok(out)
+}
+
+/// points3D.bin with the positions of the points in `xyz` replaced, every other byte kept.
+pub fn patch_points(b: &[u8], xyz: &HashMap<u64, V3>) -> Res<Vec<u8>> {
+    let mut out = b.to_vec();
+    let mut r = Rd { b, p: 0, what: "points3D.bin" };
+    let n = r.count(43)?;
+    for _ in 0..n {
+        let id = r.u64()?;
+        let at = r.p;
+        r.take(3 * 8 + 3 + 8)?;
+        if let Some(x) = xyz.get(&id) {
+            for (k, v) in x.iter().enumerate() {
+                out[at + 8 * k..at + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+        let nt = r.count(8)?;
+        r.take(nt * 8)?;
     }
     Ok(out)
 }

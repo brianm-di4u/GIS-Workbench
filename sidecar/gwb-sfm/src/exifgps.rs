@@ -91,7 +91,7 @@ pub fn prepare(images: &Path, work: &Path) -> Res<Json> {
     }
     if gps.len() < 3 {
         let more = if no_alt > 0 { format!(" ({no_alt} have a position but no altitude)") } else { String::new() };
-        return Err(format!("only {} of {} photographs carry GPS latitude, longitude and altitude in EXIF{more}; a block is georeferenced from them, and ground control points are not supported", gps.len(), names.len()));
+        return Err(format!("only {} of {} photographs carry GPS latitude, longitude and altitude in EXIF{more}; a block is georeferenced from them", gps.len(), names.len()));
     }
     for d in ["sparse", "geo"] {
         fs::create_dir_all(work.join(d)).map_err(|e| e.to_string())?;

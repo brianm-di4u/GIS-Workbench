@@ -1,22 +1,32 @@
 //! `gwb-sfm`: the stages of the `sfm-block` profile that are not COLMAP (sidecar/profiles/sfm-block.toml).
 //! Errors print as `ERROR: ...` on stderr, which the job log shows, and exit 1.
 
-use gwb_sfm::{exifgps, georef, mvs, products};
+use gwb_sfm::{exifgps, georef, model, mvs, products};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
 const USAGE: &str = "gwb-sfm prepare --images DIR --work DIR
-gwb-sfm georef --sparse DIR --gps FILE --model DIR --sim3 FILE --json FILE [--focal PRIOR|REFINE]
+gwb-sfm georef --sparse DIR --gps FILE --model DIR --sim3 FILE --json FILE [--focal PRIOR|REFINE] [--gcp FILE]
+gwb-sfm export --model DIR --georef FILE --sim3 FILE --gps FILE --provenance TEXT --out FILE
+gwb-sfm import --images DIR --sparse DIR --gps FILE --control FILE --in FILE --in FILE
 gwb-sfm dense --workspace DIR [--max-size N] [--views N] [--iterations N]
 gwb-sfm products --workspace DIR --georef FILE --ply FILE --dsm FILE --ortho FILE --frames FILE --las FILE --report FILE [--dsm-res M] [--ortho-res M]";
 
+/// The command and its `--key value` pairs; `--in`, which repeats, is gathered under "in" one per line.
 fn args() -> Result<(String, HashMap<String, String>), String> {
     let mut it = std::env::args().skip(1);
     let cmd = it.next().ok_or(USAGE)?;
-    let mut map = HashMap::new();
+    let mut map: HashMap<String, String> = HashMap::new();
     while let Some(k) = it.next() {
         let k = k.strip_prefix("--").ok_or_else(|| format!("unexpected argument {k}"))?.to_string();
         let v = it.next().ok_or_else(|| format!("--{k} needs a value"))?;
+        if k == "in" {
+            if let Some(prev) = map.get_mut("in") {
+                prev.push('\n');
+                prev.push_str(&v);
+                continue;
+            }
+        }
         map.insert(k, v);
     }
     Ok((cmd, map))
@@ -37,7 +47,12 @@ fn run() -> Result<(), String> {
     let (cmd, m) = args()?;
     let mut out = match cmd.as_str() {
         "prepare" => exifgps::prepare(&path(&m, "images")?, &path(&m, "work")?)?,
-        "georef" => georef::georef(&path(&m, "sparse")?, &path(&m, "gps")?, &path(&m, "model")?, &path(&m, "sim3")?, &path(&m, "json")?, m.get("focal").is_some_and(|f| f == "REFINE"))?,
+        "georef" => georef::georef(&path(&m, "sparse")?, &path(&m, "gps")?, &path(&m, "model")?, &path(&m, "sim3")?, &path(&m, "json")?, m.get("focal").is_some_and(|f| f == "REFINE"), m.get("gcp").map(std::path::Path::new))?,
+        "export" => model::export(&path(&m, "model")?, &path(&m, "georef")?, &path(&m, "sim3")?, &path(&m, "gps")?, m.get("provenance").map_or("", |s| s.as_str()), &path(&m, "out")?)?,
+        "import" => {
+            let inputs: Vec<PathBuf> = m.get("in").map(|s| s.lines().map(PathBuf::from).collect()).unwrap_or_default();
+            model::import(&path(&m, "images")?, &inputs, &path(&m, "sparse")?, &path(&m, "gps")?, &path(&m, "control")?)?
+        }
         "dense" => {
             let d = mvs::Options::default();
             let o = mvs::Options { max_size: num(&m, "max-size", d.max_size)?, views: num(&m, "views", d.views)?, iterations: num(&m, "iterations", d.iterations)?, ..d };

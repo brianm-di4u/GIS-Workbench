@@ -25,7 +25,8 @@
 //! automation API version.
 //!
 //! GWB_RUN_BROWSER_LOG=<file> writes the browser's own error output to that file, to see why a
-//! browser did not start.
+//! browser did not start. GWB_RUN_START_TIMEOUT=<seconds> gives a slow browser longer than 30 s to
+//! start.
 //!
 //! Exit codes: 0 the run finished and every step succeeded; 1 the run failed or stopped at a gate;
 //! 2 the command line is wrong; 3 no browser, no verified app, or the browser or app did not
@@ -279,6 +280,15 @@ struct Session {
     _work: WorkDir,
 }
 
+/// How long a starting browser has to answer: 30 s, or GWB_RUN_START_TIMEOUT whole seconds. The
+/// tests give it longer, since a loaded runner starting several browsers at once can take over 30 s
+/// (#251).
+fn start_wait(var: Option<&str>) -> Duration {
+    var.and_then(|s| s.trim().parse::<u64>().ok())
+        .filter(|&n| n > 0)
+        .map_or(Duration::from_secs(30), Duration::from_secs)
+}
+
 fn start(args: &Args) -> Result<Session, String> {
     let exe = find_browser(args.browser.as_deref())?;
     // The verified bytes, written into this run's own folder: the browser opens that copy, so the
@@ -292,7 +302,9 @@ fn start(args: &Args) -> Result<Session, String> {
     let file = page_dir.join("gis-workbench.html");
     std::fs::write(&file, &html).map_err(|e| format!("could not stage the app: {e}"))?;
     let mut b = Browser::launch(&exe, &work.0.join("profile"))?;
-    let page = b.attach_page()?;
+    let page = b.attach_page(start_wait(
+        std::env::var("GWB_RUN_START_TIMEOUT").ok().as_deref(),
+    ))?;
     open_app(&mut b, &page, &file)?;
     Ok(Session {
         b,
@@ -817,6 +829,16 @@ mod tests {
 
     fn v(a: &[&str]) -> Vec<String> {
         a.iter().map(|s| s.to_string()).collect()
+    }
+
+    #[test]
+    fn the_start_wait_is_30_s_unless_set() {
+        let s = Duration::from_secs;
+        assert_eq!(start_wait(None), s(30));
+        assert_eq!(start_wait(Some(" 120 ")), s(120));
+        for bad in ["", "0", "-5", "1.5", "soon"] {
+            assert_eq!(start_wait(Some(bad)), s(30), "{bad}");
+        }
     }
 
     #[test]
