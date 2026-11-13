@@ -32,7 +32,7 @@ export function typeOf(cat, code) {
 //
 //   {format: 'gw-catalog/1', id, name, version, source, licence?, nulls?,
 //    attributes: {NAME: {label, type: text|real|integer|enum|boolean, domain?: {code: label},
-//                        range?: [min, max], unit?, length?, required?, definition?, auto?}},
+//                        range?: [min, max], unit?, length?, required?, definition?, auto?, field?}},
 //    types: [{code, name, geometry: [..], attributes: [NAME..], definition?,
 //             subtypeField?, subtypes?: [{code, name, attributes?: [NAME..], fixed?: {NAME: v},
 //                                         domains?: {NAME: [codes]}, definition?}],
@@ -47,6 +47,8 @@ export function typeOf(cat, code) {
 // "forbid": it must be the null; "domain": a contingent domain (only these codes are allowed);
 // "range": a contingent range. A type's rules apply to its features; catalogue rules to all
 // (a rule may name `classes: [codes]`). Subtypes add attributes, fix values and narrow domains.
+// "field": the column a layer writes for the attribute, where it differs from NAME (a property two
+// types define differently keeps one NAME each, decision #243); a type writes each column once.
 
 export const CATALOG_FORMAT = 'gw-catalog/1';
 const ATTR_TYPES = new Set(['text', 'real', 'integer', 'enum', 'boolean']);
@@ -116,8 +118,9 @@ export function validateCatalog(json) {
     if (type === 'enum' && (!a.domain || typeof a.domain !== 'object' || !Object.keys(a.domain).length)) throw bad('attribute {field} is an enumeration without a domain', { field: n });
     if (a.range !== undefined && (!Array.isArray(a.range) || a.range.length !== 2 || !a.range.every(Number.isFinite) || a.range[0] > a.range[1])) throw bad('attribute {field} has a bad range', { field: n });
     if (a.length !== undefined && !(Number.isInteger(a.length) && a.length > 0)) throw bad('attribute {field} has a bad length', { field: n });
+    if (a.field !== undefined && (typeof a.field !== 'string' || !a.field.trim() || ['__proto__', 'constructor', 'prototype'].includes(a.field))) throw bad('attribute {field} has a bad column name', { field: n });
     const o = { label: String(a.label ?? n), type };
-    for (const k of ['domain', 'range', 'unit', 'length', 'definition', 'auto']) if (a[k] !== undefined) o[k] = k === 'domain' ? Object.fromEntries(Object.entries(a.domain).map(([c, l]) => [String(c), String(l)])) : a[k];
+    for (const k of ['domain', 'range', 'unit', 'length', 'definition', 'auto', 'field']) if (a[k] !== undefined) o[k] = k === 'domain' ? Object.fromEntries(Object.entries(a.domain).map(([c, l]) => [String(c), String(l)])) : a[k];
     if (a.required) o.required = true;
     outAttrs[n] = o;
   }
@@ -133,6 +136,9 @@ export function validateCatalog(json) {
     codes.add(code);
     if (!Array.isArray(ty.attributes)) throw bad('feature type {code} has no attribute list', { code });
     for (const n of ty.attributes) if (!outAttrs[n]) throw bad('feature type {code} uses an unknown attribute {field}', { code, field: String(n) });
+    const columns = ty.attributes.map((n) => outAttrs[n].field ?? n);
+    const twice = columns.find((c, k) => columns.indexOf(c) !== k);
+    if (twice) throw bad('feature type {code} writes the column {field} twice', { code, field: twice });
     const geometry = Array.isArray(ty.geometry) && ty.geometry.length ? ty.geometry.map(String) : ['Point', 'LineString', 'Polygon'];
     const o = { code, name: String(ty.name ?? code), geometry, attributes: [...ty.attributes] };
     for (const k of ['definition', 'mgcp', 'label']) if (ty[k] !== undefined) o[k] = ty[k];
@@ -197,7 +203,8 @@ export function fieldsFor(cat, code, subtype = null) {
   const names = st ? [...new Set([...t.attributes, ...st.attributes])] : t.attributes;
   return names.map((n) => {
     const a = cat.attributes[n] ?? { label: n, type: 'text' };
-    const f = { name: n, type: storeType(a), title: a.label };
+    // An attribute may name its column (a definition one type gives differently, decision #243).
+    const f = { name: a.field ?? n, type: storeType(a), title: a.label };
     if (a.domain) f.domain = a.domain;
     if (a.range) f.range = a.range;
     if (a.unit) f.unit = a.unit;

@@ -83,7 +83,10 @@ function primaryGeometry(props) {
   return p && p[1].length > 9 ? [p[1].slice(9)] : [];
 }
 
-/** Attributes shared by types: one entry per name, or a type-qualified one when a definition differs. */
+/**
+ * Attributes shared by types: one entry per name, or a type-qualified one when a definition differs,
+ * which keeps the source's column name in `field` (decision #243): its layers write that name.
+ */
 function attrTable() {
   const attrs = {};
   let n = 0;
@@ -92,10 +95,11 @@ function attrTable() {
     if (!key || BAD_NAMES.has(key)) return null;
     if (FEATURE_COLUMNS.has(key.toLowerCase())) key = `${key}_attr`;
     const prev = attrs[key];
+    const column = key;
     if (prev && JSON.stringify({ ...prev, label: '' }) !== JSON.stringify({ ...a, label: '' })) key = `${key}_${typeCode}`;
     if (BAD_NAMES.has(key)) return null;
     if (!attrs[key] && ++n > MAX_ATTRS) throw E('the catalogue has more than {n} attributes', { n: String(MAX_ATTRS) });
-    attrs[key] ??= a;
+    attrs[key] ??= key === column ? a : { ...a, field: column };
     return key;
   };
   return { attrs, add };

@@ -104,6 +104,27 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     expect(c.attributes.lanes.type).toBe('integer');
     expect(c.attributes.kind).toMatchObject({ type: 'enum', domain: { wood: 'wood', steel: 'steel' } });
   });
+  it('keeps a property two types define differently under its source column in each (decision #243)', async () => {
+    const { fieldsFor, valueIssue } = await import('../../app/src/vector/schema.js');
+    const xsd = `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">` +
+      '<element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><complexType name="RoadType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string"/></sequence></complexType>' +
+      '<element name="Bridge" type="x:BridgeType" substitutionGroup="gml:AbstractFeature"/><complexType name="BridgeType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="status" type="string" minOccurs="0"/></sequence></complexType></schema>';
+    const converted = fromInspire(xsd);
+    const c = validateCatalog(converted);
+    const road = fieldsFor(c, 'Road').find((f) => f.title === 'status');
+    const bridge = fieldsFor(c, 'Bridge').find((f) => f.title === 'status');
+    // Each type keeps its own definition; both layers write the source's column, status.
+    expect([road.name, bridge.name]).toEqual(['status', 'status']);
+    expect(valueIssue(c, road, '')?.code).toBe('E_ATTR_REQUIRED');
+    expect(valueIssue(c, bridge, '')).toBeNull();
+    expect(valueIssue(c, road, 'open')).toBeNull();
+    // A build from before `field` copies only the attribute keys it knows: the catalogue still loads,
+    // with the type-qualified column it wrote before.
+    const older = { ...converted, attributes: Object.fromEntries(Object.entries(converted.attributes).map(([k, { field, ...a }]) => [k, a])) };
+    expect(fieldsFor(validateCatalog(older), 'Bridge').find((f) => f.title === 'status').name).toBe('status_Bridge');
+    // One type may not write a column twice.
+    expect(() => validateCatalog({ ...converted, types: [{ code: 'Both', name: 'Both', attributes: ['status', 'status_Bridge'] }] })).toThrow(/writes the column status twice/);
+  });
   it('keeps a concrete type that a differently named subtype substitutes for', () => {
     const one = '<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x"><element name="Road" type="x:RoadType" substitutionGroup="gml:AbstractFeature"/><element name="Motorway" type="x:RoadType" substitutionGroup="x:Road"/><complexType name="RoadType"><complexContent><extension base="gml:AbstractFeatureType"><sequence><element name="lanes" type="integer"/></sequence></extension></complexContent></complexType></schema>';
     expect(fromInspire(one).types.map((t) => t.code)).toEqual(['Road', 'Motorway']);
