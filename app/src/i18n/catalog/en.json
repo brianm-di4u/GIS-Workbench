@@ -980,6 +980,13 @@
    ]
   },
   {
+   "key": "A route needs a start and an end, and a service area a place to start from",
+   "src": "A route needs a start and an end, and a service area a place to start from",
+   "refs": [
+    "features/routing-tools.js"
+   ]
+  },
+  {
    "key": "A route needs at least two waypoints",
    "src": "A route needs at least two waypoints",
    "refs": [
@@ -41682,8 +41689,8 @@
    ]
   },
   {
-   "key": "Then click the place to start from. The area starts at the nearest junction.",
-   "src": "Then click the place to start from. The area starts at the nearest junction.",
+   "key": "Then click the place to start from, on or near a road.",
+   "src": "Then click the place to start from, on or near a road.",
    "refs": [
     "features/routing-tools.js"
    ]

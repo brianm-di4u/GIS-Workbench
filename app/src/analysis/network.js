@@ -39,15 +39,6 @@ export function onewayRule(values) {
 }
 
 /**
- * Whether a one-way field holds only T and F (and blanks). Those are HERE directions (T against
- * the line, F along it) or true and false (T one-way, F two-way), and the values cannot tell which.
- */
-export function onewayAmbiguous(values) {
-  const s = new Set([...values].map(flag).filter(Boolean));
-  return s.size > 0 && [...s].every((x) => x === 't' || x === 'f');
-}
-
-/**
  * One-way rule from a field value: 1 = along the line only, -1 = against it only, 0 = both ways,
  * null = closed. Knows OSM (yes, -1, no), Y/N, Esri and HERE (FT, TF, B, N) and true/false. N is
  * closed only under the 'here' rule (see onewayRule). Under the 'bool' rule T and F are true and
@@ -223,11 +214,15 @@ export function snapToEdge(g, at, tol = 1) {
   edges[ei] = { ...e, to: n, fwd: e.fwd * f, bwd: e.bwd * f, len: la, coords: head };
   const bi = edges.push({ ...e, from: n, fwd: e.fwd * (1 - f), bwd: e.bwd * (1 - f), len: e.len - la, coords: [P, ...e.coords.slice(i)] }) - 1;
   // A ban on the split edge holds where it was: at its start for the first piece, at its end for
-  // the second. The new node joins only the two pieces, so no ban is placed there.
+  // the second. A U-turn ban ([x, x]) holds on each piece. The new node joins only the two pieces,
+  // so no turn between them is banned there.
   const pieces = (x) => (x === ei ? [ei, bi] : [x]);
   const meet = (x, y) => [edges[x].from, edges[x].to].some((v) => v !== n && (v === edges[y].from || v === edges[y].to));
   const banned = [];
-  for (const [x, y] of g.banned) for (const p of pieces(x)) for (const q of pieces(y)) if (p !== q && meet(p, q)) banned.push([p, q]);
+  for (const [x, y] of g.banned) {
+    if (x === y) for (const p of pieces(x)) banned.push([p, p]);
+    else for (const p of pieces(x)) for (const q of pieces(y)) if (p !== q && meet(p, q)) banned.push([p, q]);
+  }
   const xy = new Float64Array(g.xy.length + 2);
   xy.set(g.xy);
   xy[g.xy.length] = (P[0] - lon0) * kx;

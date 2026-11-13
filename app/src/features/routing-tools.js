@@ -18,7 +18,7 @@ import { loadSqlite, writeGpkg, readGpkg } from '../vector/gpkg.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int, length as fmtLength } from '../i18n/format.js';
 import { buildIndex, search, reverse } from '../analysis/geocode.js';
-import { buildGraph, graphData, snapToEdge, routeLine, serviceLines, onewayAmbiguous } from '../analysis/network.js';
+import { buildGraph, graphData, snapToEdge, routeLine, serviceLines, onewayRule } from '../analysis/network.js';
 
 /**
  * Limits (S-67, measured on 2026-11-10): an address costs about 390 bytes of memory with its layer
@@ -223,7 +223,7 @@ export function install(app) {
       }
     };
     const label = t('Geocoding {n, plural, one {# address} other {# addresses}}…', { n: body.length });
-    await (app.activity ? app.activity.track(label, work, { cancel: true }) : work({ step: async () => {}, cancelled: false }));
+    await app.activity.track(label, work, { cancel: true });
     const id = ok.length ? addLayer(name, 'Point', ok, { stroke: '#e0a020', fill: '#e0a02099' }) : null;
     return { layer: id, matched: ok.length, unmatched: failed.length, failed };
   }
@@ -269,8 +269,9 @@ export function install(app) {
   const call = (prm, g) => app.pool.run('network', { prm, data: g === graph().g ? graph().data : graphData(g) }, { kind: 'analysis', label: t('road network'), timeout: 300000 });
   /** `g` with a node where `at` meets the network: {g, node}. */
   const snap = (g, at) => {
+    if (!Array.isArray(at) || !Number.isFinite(at[0]) || !Number.isFinite(at[1])) throw gwError('A route needs a start and an end, and a service area a place to start from', {}, 'E_NEED_ROADS');
     const s = snapToEdge(g, at);
-    if (!s || s.metres > SNAP_M) throw gwError('That point is {d} from the road network (more than {max})', { d: fmtLength(s?.metres ?? Infinity), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
+    if (!s || !(s.metres <= SNAP_M)) throw gwError('That point is {d} from the road network (more than {max})', { d: fmtLength(s?.metres ?? Infinity), max: fmtLength(SNAP_M) }, 'E_NEED_ROADS');
     return s;
   };
   const costLabel = (c) => (graph().g.cost === 'time' ? t('{min} min', { min: (c / 60).toFixed(1) }) : fmtLength(c));
@@ -445,7 +446,7 @@ export function install(app) {
       const tfCheck = () => {
         clear(tfBox);
         const k = sels.oneway.value;
-        if (k && onewayAmbiguous(S.all('feature').filter((f) => f.vlayer === L.value).map((f) => valueOf(f, k)))) tfBox.append(field(t('T and F mean'), tfSel, t('This field holds only T and F, which can mean either.')));
+        if (k && onewayRule(S.all('feature').filter((f) => f.vlayer === L.value).map((f) => valueOf(f, k))) === 'bool') tfBox.append(field(t('T and F mean'), tfSel, t('This field holds only T and F, which can mean either.')));
       };
       const fill = () => {
         clear(box);
@@ -507,7 +508,7 @@ export function install(app) {
       let at = args?.at;
       if (!breaks) {
         const b = h('input', { class: 'inp', value: time ? '5, 10, 15' : '500, 1000, 2000', 'aria-label': time ? t('Breaks (minutes)') : t('Breaks (metres)') });
-        if ((await modal({ title: t('Service Area'), body: h('div', {}, field(time ? t('Breaks (minutes)') : t('Breaks (metres)'), b), h('p', { class: 'hint' }, t('Then click the place to start from. The area starts at the nearest junction.'))), buttons: [{ label: t('Next'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-service' })) !== 'go') return undefined;
+        if ((await modal({ title: t('Service Area'), body: h('div', {}, field(time ? t('Breaks (minutes)') : t('Breaks (metres)'), b), h('p', { class: 'hint' }, t('Then click the place to start from, on or near a road.'))), buttons: [{ label: t('Next'), value: 'go', primary: true }, { label: t('Cancel'), value: 'cancel' }], id: 'net-service' })) !== 'go') return undefined;
         breaks = b.value
           .split(/[,;\s]+/)
           .map(Number)

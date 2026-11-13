@@ -276,16 +276,34 @@ test('SCN-78 REQ-GAP-85 geocode an address list and route on a city road layer, 
   expect((await viaRoads).banned).toBe(1);
   await expect.poll(() => frame.evaluate(() => window.gisworkbench.routing.graph?.g.banned.length ?? 0)).toBe(1);
   expect(out.service.pieces).toBeGreaterThan(0);
-  // Two clicks at one junction make no route, and no empty layer.
+  // A route from part way along a road starts where it was picked, and covers only the rest of that road.
+  const mid = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const { g } = app.routing.graph;
+    const e = g.edges.reduce((a, b) => (b.coords.length === 2 && b.len > (a?.len ?? 0) ? b : a), null);
+    const [p, q] = e.coords;
+    const at = [p[0] + 0.25 * (q[0] - p[0]), p[1] + 0.25 * (q[1] - p[1])];
+    const end = g.nodes[e.to];
+    const r = await app.routing.route(at, end);
+    const f = app.store.all('feature').find((y) => y.vlayer === r.layer);
+    return { at, first: [f.geom.xyz[0], f.geom.xyz[1]], metres: r.metres, len: e.len, edges: r.edges };
+  });
+  expect(mid.first[0]).toBeCloseTo(mid.at[0], 9);
+  expect(mid.first[1]).toBeCloseTo(mid.at[1], 9);
+  if (mid.edges === 1) expect(mid.metres).toBeCloseTo(0.75 * mid.len, 3);
+  // Two clicks at one place, at a junction or part way along a road, make no route and no empty layer.
   const same = await frame.evaluate(async () => {
     const app = window.gisworkbench;
     const n = app.layers.size;
-    const at = app.routing.graph.g.nodes[0];
-    let code = null;
-    await app.routing.route(at, at).catch((e) => (code = e.code));
-    return { code, added: app.layers.size - n };
+    const [p, q] = app.routing.graph.g.edges[0].coords;
+    const said = [];
+    for (const at of [app.routing.graph.g.nodes[0], [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2]]) await app.routing.route(at, at).catch((e) => said.push([e.code, e.message]));
+    let bad = null;
+    await app.routing.route(null, [NaN, 0]).catch((e) => (bad = [e.code, e.message]));
+    return { said, bad, added: app.layers.size - n };
   });
-  expect(same).toEqual({ code: 'E_NEED_ROADS', added: 0 });
+  const sameMsg = ['E_NEED_ROADS', 'The start and the end are the same place on the road network'];
+  expect(same).toEqual({ said: [sameMsg, sameMsg], bad: ['E_NEED_ROADS', 'A route needs a start and an end, and a service area a place to start from'], added: 0 });
   // The index and the network belong to the project they were built from: opening another drops them.
   const after = await frame.evaluate(() => {
     const app = window.gisworkbench;

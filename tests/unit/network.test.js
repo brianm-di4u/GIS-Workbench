@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { VectorBundle } from '../../app/src/wasm/vector.js';
-import { buildGraph, graphData, snapToEdge, onewayAmbiguous, onewayOf, onewayRule, routeLine, serviceLines } from '../../app/src/analysis/network.js';
+import { buildGraph, graphData, snapToEdge, onewayOf, onewayRule, routeLine, serviceLines } from '../../app/src/analysis/network.js';
 
 const wasmPath = (() => {
   try {
@@ -51,8 +51,9 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     expect(g.edges.map((e) => [e.line, Number.isFinite(e.fwd), Number.isFinite(e.bwd)])).toEqual([['a', true, false], ['b', true, true]]);
   });
   it('asks about a field of only T and F, and reads it either way', () => {
-    expect(onewayAmbiguous(['T', 'F', '', null, 't'])).toBe(true);
-    expect([['T', 'F', 'B'], ['yes', 'no'], [], ['', null]].map(onewayAmbiguous)).toEqual([false, false, false, false]);
+    // The dialog asks when onewayRule reads the field as T and F.
+    expect(onewayRule(['T', 'F', '', null, 't'])).toBe('bool');
+    expect([['T', 'F', 'B'], ['yes', 'no'], [], ['', null]].map(onewayRule)).toEqual(['here', 'yn', 'yn', 'yn']);
     const lines = [
       { id: 'a', coords: [[0, 0], [0.001, 0]], attrs: { ow: 'T' } },
       { id: 'b', coords: [[0.001, 0], [0.002, 0]], attrs: { ow: 'F' } },
@@ -144,6 +145,10 @@ describe('REQ-GAP-85 the graph of a line layer', () => {
     // The built graph is left as it was.
     expect(g.edges).toHaveLength(2);
     expect(g.nodes).toHaveLength(3);
+    // A U-turn ban on the split road holds on both of its pieces.
+    const u = buildGraph(lines, { oneway: 'ow', bans: [{ from: 'a', to: 'a' }] });
+    expect(u.banned).toEqual([[0, 0]]);
+    expect(snapToEdge(u, [0.0005, 0.0001]).g.banned).toEqual([[0, 0], [2, 2]]);
     // A pick next to a node takes the node, and the graph as it is.
     const end = snapToEdge(g, [0.002, -0.00002]);
     expect(end.g).toBe(g);
