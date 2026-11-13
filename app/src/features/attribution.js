@@ -10,7 +10,7 @@
 import { h } from '../shell/dom.js';
 import { modal, field, section, promptBox } from '../shell/dialogs.js';
 import { saveBlob, pickFiles } from '../storage/files.js';
-import { getCatalog, typeOf, fieldsFor, nullOf, checkValue, valueIssue, checkAttrs, coerce, crosswalkMGCP, catalogFromLayers, registerCatalog, listCatalogs, subtypeOf, contingentDomain, ruleIssues } from '../vector/schema.js';
+import { getCatalog, typeOf, fieldsFor, nullOf, checkValue, valueIssue, checkAttrs, coerce, crosswalkMGCP, catalogFromLayers, registerCatalog, listCatalogs, subtypeOf, contingentDomain, ruleIssues, columnOf } from '../vector/schema.js';
 import { installCatalogs } from './catalogs.js';
 import { loadSqlite, writeGpkg, readGpkg } from '../vector/gpkg.js';
 import { readCsv, writeCsv } from '../vector/csv.js';
@@ -65,9 +65,10 @@ export function install(app) {
     let id;
     const label = st ? `${ft.name} / ${st.name}` : ft.name; // catalogue data
     const fields = fieldsFor(cat, code, st?.code ?? null);
-    const defaults = st ? Object.fromEntries(Object.entries({ ...st.fixed, ...(ft.subtypeField ? { [ft.subtypeField]: st.code } : {}) }).filter(([k]) => fields.some((f) => f.name === k))) : {};
+    // The subtype's values are by catalogue key; the layer's defaults are by column (decision #243).
+    const defaults = st ? Object.fromEntries(Object.entries({ ...st.fixed, ...(ft.subtypeField ? { [ft.subtypeField]: st.code } : {}) }).map(([k, x]) => [columnOf(cat, k), x]).filter(([k]) => fields.some((f) => f.name === k))) : {};
     S.transact(t('New {class} layer', { class: label }), (tx) => {
-      id = tx.create('vlayer', { name: nm ?? `${label} (${st ? `${code}/${st.code}` : code})`, visible: true, style: { stroke: '#ff2020', width: 2, fill: '#ff202040', outline: '#2060ff' }, styleRules: TDS_STYLES, fields, schema: { catalog: cat.id, code, name: ft.name, geometry: ft.geometry, ...(st ? { subtype: st.code, subtypeName: st.name, subtypeField: ft.subtypeField ?? null } : {}) }, defaults, attrSets: {}, source: { format: 'new' }, created: new Date().toISOString() });
+      id = tx.create('vlayer', { name: nm ?? `${label} (${st ? `${code}/${st.code}` : code})`, visible: true, style: { stroke: '#ff2020', width: 2, fill: '#ff202040', outline: '#2060ff' }, styleRules: TDS_STYLES, fields, schema: { catalog: cat.id, code, name: ft.name, geometry: ft.geometry, ...(st ? { subtype: st.code, subtypeName: st.name, subtypeField: ft.subtypeField ? columnOf(cat, ft.subtypeField) : null } : {}) }, defaults, attrSets: {}, source: { format: 'new' }, created: new Date().toISOString() });
     });
     if (activate) app.prefs.set('vlayerActive', id);
     return id;
