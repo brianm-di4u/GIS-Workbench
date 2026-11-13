@@ -58,7 +58,9 @@ export function install(app) {
     if (!cat) throw gwError('no feature catalogue {id}', { id: String(catalog) }, 'E_NO_CATALOG');
     const ft = typeOf(cat, code);
     if (!ft) throw gwError('feature class {code} is not in the catalogue', { code }, 'E_UNKNOWN_FEATURE_CLASS');
-    const st = subtypeOf(cat, code, subtype);
+    // A type whose one subtype is itself (an OSM preset, its tags fixed there) takes it unless told otherwise.
+    const own = subtype == null && ft.subtypes?.length === 1 && ft.subtypes[0].code === code;
+    const st = subtypeOf(cat, code, own ? code : subtype);
     if (subtype && !st) throw gwError('{code} has no subtype {subtype}', { code: String(code), subtype: String(subtype) }, 'E_FEATURE_SUBTYPE');
     let id;
     const label = st ? `${ft.name} / ${st.name}` : ft.name; // catalogue data
@@ -216,12 +218,18 @@ export function install(app) {
     const cat = catOf(v);
     const fs = fieldsOf(v);
     const inputs = {};
+    /** A coded field's choices: its domain, after an empty one when the field's null is empty and no code means it. */
+    const choices = (fd, dom) => {
+      const blank = nullOf(cat, fd);
+      const keys = (blank === '' || blank === null) && !('' in dom) ? ['', ...Object.keys(dom)] : Object.keys(dom);
+      return keys.map((k) => h('option', { value: k }, k === '' ? '' : `${k} — ${dom[k]}`));
+    };
     const rows = fs.map((fd) => {
       const cur = f.attrs?.[fd.name];
       let el;
       if (fd.domain) {
-        el = h('select', { class: 'inp', 'aria-label': fd.title ?? fd.name }, Object.entries(fd.domain).map(([k, l]) => h('option', { value: k }, `${k} — ${l}`)));
-        el.value = cur === null || cur === undefined ? String(nullOf(cat, fd)) : String(cur);
+        el = h('select', { class: 'inp', 'aria-label': fd.title ?? fd.name }, choices(fd, fd.domain));
+        el.value = cur === null || cur === undefined ? String(nullOf(cat, fd) ?? '') : String(cur);
       } else {
         el = h('input', { class: 'inp', type: fd.type === 'string' ? 'text' : 'number', spellcheck: fd.type === 'string' ? 'true' : 'false', step: 'any', value: cur === null || cur === undefined ? '' : String(cur), 'aria-label': fd.title ?? fd.name, ...(fd.range ? { min: String(fd.range[0]), max: String(fd.range[1]) } : {}), ...(fd.length ? { maxlength: String(fd.length) } : {}) });
       }
@@ -241,12 +249,13 @@ export function install(app) {
         if (!fd.domain) continue;
         const el = inputs[fd.name];
         const dom = contingentDomain(cat, v.schema, fs, fd.name, at) ?? fd.domain;
-        const keys = Object.keys(dom);
+        const opts = choices(fd, dom);
+        const keys = opts.map((o) => o.value);
         const have = [...el.options].map((o) => o.value);
         if (have.length === keys.length && have.every((k, i) => k === keys[i])) continue;
         const was = el.value;
-        el.replaceChildren(...Object.entries(dom).map(([k, l]) => h('option', { value: k }, `${k} — ${l}`)));
-        el.value = keys.includes(was) ? was : String(nullOf(cat, fd));
+        el.replaceChildren(...opts);
+        el.value = keys.includes(was) ? was : String(nullOf(cat, fd) ?? '');
       }
     };
     for (const fd of fs) inputs[fd.name].addEventListener('change', refreshDomains);
@@ -488,7 +497,7 @@ export function install(app) {
       const subRow = field(t('Subtype'), sub);
       const fillSub = () => {
         const ft = typeOf(cat, sel.value);
-        sub.replaceChildren(h('option', { value: '' }, t('(none)')), ...(ft?.subtypes ?? []).map((s) => h('option', { value: s.code }, `${s.code} ${s.name}`)));
+        sub.replaceChildren(h('option', { value: '' }, t('(none)')), ...(ft?.subtypes ?? []).map((s) => h('option', { value: s.code, selected: ft.subtypes.length === 1 && s.code === ft.code }, `${s.code} ${s.name}`)));
         subRow.hidden = !ft?.subtypes?.length;
       };
       const fill = () => {
@@ -503,7 +512,7 @@ export function install(app) {
       fill();
       if ((await modal({ title: t('New Layer from Schema'), body: h('div', {}, field(t('Feature catalogue'), catSel), field(t('Feature class'), sel), subRow), buttons: OK_CANCEL(), id: 'ext-newschema' })) !== 'ok') return;
       app.prefs.set('catalogLast', cat.id);
-      newSchemaLayer(sel.value, { catalog: cat.id, subtype: sub.value || null });
+      newSchemaLayer(sel.value, { catalog: cat.id, subtype: sub.value });
     }),
   });
   C.implement('ext.attributes', {

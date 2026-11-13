@@ -1,0 +1,6 @@
+{
+  "amenity/cafe": { "name": "Cafe", "geometry": ["point", "area"], "tags": { "amenity": "cafe" }, "fields": ["name", "cuisine"], "moreFields": ["outdoor_seating"] },
+  "highway/residential": { "name": "Residential Road", "geometry": ["line"], "tags": { "highway": "residential" }, "fields": ["name", "lanes"] },
+  "amenity/cafe/old": { "name": "Old Cafe", "geometry": ["point"], "tags": { "amenity": "cafe" }, "searchable": false },
+  "type/route": { "name": "Route", "geometry": ["relation"], "tags": { "type": "route" } }
+}
