@@ -2,6 +2,8 @@
 // if a surviving, blocking finding points at the right place and is about the right
 // thing. A clean change passes only if nothing blocking survives.
 
+import { roundResultError } from './ledger.mjs';
+
 const BLOCKING = new Set(['blocker', 'should']);
 const LINE_SLOP = 3;
 
@@ -20,7 +22,8 @@ function hits(expected, findings, kase) {
 export function gradeCase(kase, result) {
   const findings = result?.findings ?? [];
   const blocking = findings.filter((f) => BLOCKING.has(f.severity) && !f.preExisting);
-  const incomplete = !result || (result.missing ?? []).length > 0;
+  // Anything that isn't a round's result is no review at all, so it never passes a clean case (#257).
+  const incomplete = roundResultError(result) !== null || (result.missing ?? []).length > 0;
   if (kase.kind === 'clean') {
     return { id: kase.id, kind: 'clean', split: kase.split, hard: Boolean(kase.hard), pass: !incomplete && blocking.length === 0, falseAlarms: blocking.length, incomplete };
   }
