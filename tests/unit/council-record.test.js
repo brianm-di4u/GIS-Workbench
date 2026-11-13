@@ -33,6 +33,20 @@ describe('recording a round', () => {
     expect(record(emptyLedger(), { ...real, findings: [{ ...finding, severity: 'should' }] }).added).toHaveLength(1);
   });
 
+  it('counts a planned seat the result leaves out as missing, so the round is rerun (issue 256)', () => {
+    const next = (ledger) => nextStep({ ledger, tier: 1, hash: HASH, council, cleanTree: true, evidenceOk: true, diffLines: 100 });
+    const recordPlanned = (ledger, result, planned) => {
+      const n = next(ledger);
+      return recordRound(ledger, { mode: n.mode, round: n.round, phase: n.phase, model: n.model, hash: HASH, sha: 's', diffLines: 100, result, planned });
+    };
+    const planned = ['council-bug-hunter', 'council-architect'];
+    const ledger = emptyLedger();
+    const out = recordPlanned(ledger, real, planned);
+    expect(out).toMatchObject({ complete: false, missing: ['council-architect'] });
+    expect(ledger.rounds.at(-1)).toMatchObject({ complete: false, raised: null, missing: ['council-architect'] });
+    expect(recordPlanned(ledger, { ...real, seats: planned }, planned).complete).toBe(true);
+  });
+
   it('records a clean round, and a round whose every seat was missing as incomplete', () => {
     const ledger = emptyLedger();
     expect(record(ledger, real).complete).toBe(true);

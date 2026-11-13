@@ -300,9 +300,12 @@ export function roundResultError(result) {
   return null;
 }
 
-export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
+export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result, planned = [] }) {
   const error = roundResultError(result);
   if (error) throw new Error(error);
+  // A seat the plan sent that the result neither counts as answered nor as missing gave no review, so
+  // it is missing too, and the round is rerun (issue 256).
+  const missing = [...(result.missing ?? []), ...planned.filter((seat) => !result.seats.includes(seat) && !(result.missing ?? []).includes(seat))];
   // What this round raised. A bug this change didn't introduce never blocks. An incomplete round
   // raised nothing we can count.
   // A repeat of a finding already on the ledger doesn't count: that is a reviewer asking again. Two
@@ -312,7 +315,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
   const repeatOf = (list, f) =>
     list.some((earlier) => earlier.status !== 'fixed' && SEVERITIES.indexOf(f.severity) >= SEVERITIES.indexOf(earlier.severity) && sameFinding(earlier, f));
   const answered = (f) => repeatOf(ledger.findings, f);
-  const raised = (result.missing ?? []).length === 0
+  const raised = missing.length === 0
     ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting && !answered(f)).length]))
     : null;
   const seen = [...ledger.findings];
@@ -323,7 +326,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
   const droppedNits = [];
 
   // An incomplete round is rerun, so its findings arrive with the rerun.
-  const incomplete = (result.missing ?? []).length > 0;
+  const incomplete = missing.length > 0;
   const ordered = [...(incomplete ? [] : (result.findings ?? []))].sort(
     (a, b) => SEVERITIES.indexOf(a.severity) - SEVERITIES.indexOf(b.severity),
   );
@@ -353,7 +356,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     if (finding.raise && !ledger.raise) ledger.raise = finding.raise;
   }
 
-  const complete = (result.missing ?? []).length === 0;
+  const complete = missing.length === 0;
   // A rerun replaces an incomplete round, so a timeout doesn't use up a phase's cap.
   if (ledger.rounds.at(-1)?.complete === false) ledger.rounds.pop();
   ledger.rounds.push({
@@ -368,10 +371,10 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     complete,
     partial: result.partial ?? [],
     seats: result.seats ?? [],
-    missing: result.missing ?? [],
+    missing,
     refuted: result.refuted ?? 0,
   });
-  return { added, repeats, droppedNits, complete };
+  return { added, repeats, droppedNits, complete, missing };
 }
 
 const DISPOSITIONS = new Set(['fixed', 'wrong', 'intentional', 'wont-matter', 'deferred']);
