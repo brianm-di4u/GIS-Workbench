@@ -290,6 +290,7 @@ export function install(app) {
       if (spec?.type === 'numbers' || spec?.type === 'lonlat') v = String(v).trim() ? String(v).split(/[,;\s]+/).filter(Boolean).map(Number) : (spec.default ?? null);
       try {
         setParam(x.id, key, v);
+        if (Array.isArray(v) && !String(el.value).trim()) el.value = v.join(', ');
         el.removeAttribute('aria-invalid');
       } catch (e) {
         el.setAttribute('aria-invalid', 'true');
@@ -307,7 +308,7 @@ export function install(app) {
       const st = status(x.id);
       const head = h('div', { class: 'wf-item-head' }, h('strong', {}, `${x.id} · ${tr(x.title)}`), h('span', { class: `wf-badge wf-${st}` }, label(st)));
       const form = h('div', { class: 'wf-form' });
-      const params = { ...defaults(op), ...x.params };
+      const params = { ...Object.fromEntries(Object.keys(op.schema ?? {}).map((k) => [k, undefined])), ...defaults(op), ...x.params };
       for (const [k, v] of Object.entries(params)) form.append(control(x, k, op.schema?.[k], v));
       // Inputs: a choice of the outputs upstream that fit, or none.
       for (const p of op.inputs ?? []) {

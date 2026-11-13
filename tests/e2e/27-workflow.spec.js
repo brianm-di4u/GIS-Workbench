@@ -46,6 +46,22 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
     return { tag, r };
   });
   expect(table).toEqual({ tag: 'TEXTAREA', r: 'E_NEED_ADDRESSES' });
+  // Every op's parameters are in its schema, and the list view draws a control for each, with a default or not.
+  const controls = await frame.evaluate(async () => {
+    const W = window.gisworkbench.workflows;
+    const ops = window.gisworkbench.recipes.ops;
+    const byDefaults = Object.entries(ops).filter(([, o]) => o.defaults).map(([k]) => k);
+    W.setView('list');
+    const missing = [];
+    for (const op of ['watershed', 'join', 'route']) {
+      const s = await W.addStep(op);
+      missing.push(...Object.keys(ops[op].schema).filter((k) => !document.getElementById(`wf-${s}-${k}`)).map((k) => `${op}.${k}`));
+      W.removeStep(s);
+    }
+    W.setView('graph');
+    return { byDefaults, missing };
+  });
+  expect(controls).toEqual({ byDefaults: [], missing: [] });
   await expect(panel).toContainText('Add a step to begin');
 
   // Build: roads → buffer 50 and buffer 200 → erase → export.
