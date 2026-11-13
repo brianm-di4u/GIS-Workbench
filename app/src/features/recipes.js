@@ -395,7 +395,7 @@ export function install(app) {
 
   function drawer(i) {
     const step = runner.recipe.steps[i];
-    const rows = Object.entries(step.params).map(([k, v]) => {
+    const rows = Object.entries({ ...Object.fromEntries(Object.keys(OPS[step.op]?.schema ?? {}).map((k) => [k, undefined])), ...step.params }).map(([k, v]) => {
       const inp = h(OPS[step.op]?.schema?.[k]?.multiline ? 'textarea' : 'input', { class: 'inp', value: Array.isArray(v) ? v.join(', ') : String(v ?? ''), 'aria-label': k, 'data-id': `recipe:param:${k}` });
       inp.addEventListener('change', () => {
         const raw = inp.value.trim();

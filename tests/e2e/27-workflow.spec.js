@@ -62,6 +62,35 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
     return { byDefaults, missing };
   });
   expect(controls).toEqual({ byDefaults: [], missing: [] });
+  // A point and a list typed into the list view's fields become a point and a list; a cleared list shows the default it goes back to.
+  const [ws, sa] = await frame.evaluate(async () => {
+    const W = window.gisworkbench.workflows;
+    W.setView('list');
+    return [await W.addStep('watershed'), await W.addStep('serviceArea')];
+  });
+  const at = frame.locator(`[id="wf-${ws}-at"]`);
+  const breaks = frame.locator(`[id="wf-${sa}-breaks"]`);
+  await at.fill('-121.5, 36.25');
+  await at.press('Tab');
+  await expect(at).not.toHaveAttribute('aria-invalid', 'true');
+  await breaks.fill('120, 240');
+  await breaks.press('Tab');
+  const typedIn = () =>
+    frame.evaluate(([a, b]) => {
+      const st = window.gisworkbench.workflows.current().steps;
+      return { at: st.find((s) => s.id === a).params.at, breaks: st.find((s) => s.id === b).params.breaks };
+    }, [ws, sa]);
+  expect(await typedIn()).toEqual({ at: [-121.5, 36.25], breaks: [120, 240] });
+  await breaks.fill('');
+  await breaks.press('Tab');
+  await expect(breaks).toHaveValue('300, 600');
+  expect(await typedIn()).toEqual({ at: [-121.5, 36.25], breaks: [300, 600] });
+  await frame.evaluate(([a, b]) => {
+    const W = window.gisworkbench.workflows;
+    W.removeStep(b);
+    W.removeStep(a);
+    W.setView('graph');
+  }, [ws, sa]);
   await expect(panel).toContainText('Add a step to begin');
 
   // Build: roads → buffer 50 and buffer 200 → erase → export.
