@@ -32,7 +32,7 @@ export function typeOf(cat, code) {
 //
 //   {format: 'gw-catalog/1', id, name, version, source, licence?, nulls?,
 //    attributes: {NAME: {label, type: text|real|integer|enum|boolean, domain?: {code: label},
-//                        range?: [min, max], unit?, length?, required?, definition?, auto?}},
+//                        range?: [min, max], unit?, length?, required?, definition?, auto?, field?}},
 //    types: [{code, name, geometry: [..], attributes: [NAME..], definition?,
 //             subtypeField?, subtypes?: [{code, name, attributes?: [NAME..], fixed?: {NAME: v},
 //                                         domains?: {NAME: [codes]}, definition?}],
@@ -47,6 +47,8 @@ export function typeOf(cat, code) {
 // "forbid": it must be the null; "domain": a contingent domain (only these codes are allowed);
 // "range": a contingent range. A type's rules apply to its features; catalogue rules to all
 // (a rule may name `classes: [codes]`). Subtypes add attributes, fix values and narrow domains.
+// "field": the column a layer writes for the attribute, where it differs from NAME (a property two
+// types define differently keeps one NAME each, decision #243); a type writes each column once.
 
 export const CATALOG_FORMAT = 'gw-catalog/1';
 const ATTR_TYPES = new Set(['text', 'real', 'integer', 'enum', 'boolean']);
@@ -116,8 +118,9 @@ export function validateCatalog(json) {
     if (type === 'enum' && (!a.domain || typeof a.domain !== 'object' || !Object.keys(a.domain).length)) throw bad('attribute {field} is an enumeration without a domain', { field: n });
     if (a.range !== undefined && (!Array.isArray(a.range) || a.range.length !== 2 || !a.range.every(Number.isFinite) || a.range[0] > a.range[1])) throw bad('attribute {field} has a bad range', { field: n });
     if (a.length !== undefined && !(Number.isInteger(a.length) && a.length > 0)) throw bad('attribute {field} has a bad length', { field: n });
+    if (a.field !== undefined && (typeof a.field !== 'string' || !a.field.trim() || ['__proto__', 'constructor', 'prototype'].includes(a.field))) throw bad('attribute {field} has a bad column name', { field: n });
     const o = { label: String(a.label ?? n), type };
-    for (const k of ['domain', 'range', 'unit', 'length', 'definition', 'auto']) if (a[k] !== undefined) o[k] = k === 'domain' ? Object.fromEntries(Object.entries(a.domain).map(([c, l]) => [String(c), String(l)])) : a[k];
+    for (const k of ['domain', 'range', 'unit', 'length', 'definition', 'auto', 'field']) if (a[k] !== undefined) o[k] = k === 'domain' ? Object.fromEntries(Object.entries(a.domain).map(([c, l]) => [String(c), String(l)])) : a[k];
     if (a.required) o.required = true;
     outAttrs[n] = o;
   }
@@ -133,6 +136,9 @@ export function validateCatalog(json) {
     codes.add(code);
     if (!Array.isArray(ty.attributes)) throw bad('feature type {code} has no attribute list', { code });
     for (const n of ty.attributes) if (!outAttrs[n]) throw bad('feature type {code} uses an unknown attribute {field}', { code, field: String(n) });
+    const columns = ty.attributes.map((n) => outAttrs[n].field ?? n);
+    const twice = columns.find((c, k) => columns.indexOf(c) !== k);
+    if (twice) throw bad('feature type {code} writes the column {field} twice', { code, field: twice });
     const geometry = Array.isArray(ty.geometry) && ty.geometry.length ? ty.geometry.map(String) : ['Point', 'LineString', 'Polygon'];
     const o = { code, name: String(ty.name ?? code), geometry, attributes: [...ty.attributes] };
     for (const k of ['definition', 'mgcp', 'label']) if (ty[k] !== undefined) o[k] = ty[k];
@@ -179,7 +185,10 @@ export function subtypeOf(cat, code, subtype) {
 }
 
 /** Store field type for a catalogue attribute. */
-const storeType = (a) => (a.type === 'text' ? 'string' : a.type === 'real' ? 'number' : a.type === 'boolean' ? 'boolean' : 'integer');
+// A coded attribute is stored as its codes are: whole numbers (TDS, ISO 19110 often) or text (INSPIRE
+// code lists, OpenStreetMap, and codes such as '01' that a number would not give back).
+const wholeCode = (k) => Number.isSafeInteger(Number(k)) && String(Number(k)) === k;
+const storeType = (a) => (a.type === 'text' ? 'string' : a.type === 'real' ? 'number' : a.type === 'boolean' ? 'boolean' : a.type === 'enum' && !Object.keys(a.domain ?? {}).every(wholeCode) ? 'string' : 'integer');
 
 /**
  * Layer fields for a feature class (and subtype): [{name, type, title, domain?, range?, unit?,
@@ -194,7 +203,8 @@ export function fieldsFor(cat, code, subtype = null) {
   const names = st ? [...new Set([...t.attributes, ...st.attributes])] : t.attributes;
   return names.map((n) => {
     const a = cat.attributes[n] ?? { label: n, type: 'text' };
-    const f = { name: n, type: storeType(a), title: a.label };
+    // An attribute may name its column (a definition one type gives differently, decision #243).
+    const f = { name: a.field ?? n, type: storeType(a), title: a.label };
     if (a.domain) f.domain = a.domain;
     if (a.range) f.range = a.range;
     if (a.unit) f.unit = a.unit;
@@ -324,12 +334,19 @@ export function ruleIssues(cat, schema, fields, attrs) {
   return out;
 }
 
-/** The TDS null ("no information") value of an attribute. */
+/**
+ * The null ("no information") value of an attribute: the catalogue's own, else TDS's. A catalogue
+ * may set '' or null to mean an empty value (catalogues converted from ISO, INSPIRE or OSM).
+ */
 export function nullOf(cat, field) {
   const nulls = cat?.nulls ?? {};
-  if (field.domain) return field.type === 'integer' ? Number(nulls.enum ?? -999999) : String(nulls.enum ?? '-999999');
-  if (field.type === 'string') return nulls.text ?? 'noInformation';
-  return nulls.number ?? -999999;
+  const of = (k, d) => (nulls[k] !== undefined ? nulls[k] : d);
+  if (field.domain) {
+    const e = of('enum', -999999);
+    return e === null || e === '' ? '' : field.type === 'integer' ? Number(e) : String(e);
+  }
+  if (field.type === 'string') return of('text', 'noInformation');
+  return of('number', -999999);
 }
 
 const isNullValue = (cat, f, v) => v === null || v === undefined || v === '' || String(v) === String(nullOf(cat, f));
@@ -403,12 +420,31 @@ export function crosswalkMGCP(cat, layer, code) {
 /** A catalogue from GeoPackage layers with domains (REQ-EXT-10 import). */
 export function catalogFromLayers(name, layers) {
   const attributes = {};
+  const codes = [];
+  const same = (x, y) => JSON.stringify({ ...x, label: '' }) === JSON.stringify({ ...y, label: '' });
   const types = layers.map((l) => {
-    for (const f of l.fields) {
-      attributes[f.name] ??= { label: f.title ?? f.name, type: f.domain ? 'enum' : f.type === 'number' ? 'real' : f.type === 'integer' ? 'integer' : 'text', ...(f.domain ? { domain: f.domain } : {}), ...(f.range ? { range: f.range } : {}), ...(f.description ? { definition: f.description } : {}) };
-    }
     const fcode = l.features.find((x) => x.attrs?.F_CODE)?.attrs.F_CODE;
-    return { code: fcode ?? l.table ?? l.name, name: l.name, geometry: [...new Set(l.features.map((x) => x.geom.type))], attributes: l.fields.map((f) => f.name) };
+    const code = fcode ?? l.table ?? l.name;
+    codes.push(code);
+    // A column two layers define differently keeps each layer's definition, under a key of its own that
+    // names the column (decision #243), as the converters write it.
+    const names = l.fields.map((f) => {
+      const a = { label: f.title ?? f.name, type: f.domain ? 'enum' : f.type === 'number' ? 'real' : f.type === 'integer' ? 'integer' : 'text', ...(f.domain ? { domain: f.domain } : {}), ...(f.range ? { range: f.range } : {}), ...(f.description ? { definition: f.description } : {}) };
+      let key = f.name;
+      let entry = a;
+      if (attributes[key] && !same(attributes[key], a)) {
+        entry = { ...a, field: f.name };
+        key = `${f.name}_${code}`;
+        for (let i = 2; attributes[key] && !same(attributes[key], entry); i++) key = `${f.name}_${code}_${i}`;
+      }
+      attributes[key] ??= entry;
+      return key;
+    });
+    return { code, name: l.name, geometry: [...new Set(l.features.map((x) => x.geom.type))], attributes: names };
   });
-  return { id: `gpkg:${name}`, name: `${name} (from GeoPackage)`, version: '', nulls: CATALOG.nulls, attributes, types };
+  // TDS's "no information" codes for TDS layers: a TDS feature code, or coded fields that carry the code
+  // (every TDS domain does); a converted catalogue's layer (ISO 19110, INSPIRE, OSM) starts a new feature
+  // empty, as it did before.
+  const tds = codes.some((c) => typeOf(CATALOG, c)) || layers.some((l) => l.fields.some((f) => f.domain && Object.hasOwn(f.domain, String(CATALOG.nulls.enum))));
+  return { id: `gpkg:${name}`, name: `${name} (from GeoPackage)`, version: '', nulls: tds ? CATALOG.nulls : { text: '', enum: '', number: null }, attributes, types };
 }

@@ -1,5 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import { limitText, sizeDelta, snapshot } from '../../build/size-report.mjs';
+import { describe, expect, it, vi } from 'vitest';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tempDir } from '../tools/temp-dir.mjs';
+import { limitText, main, sizeDelta, snapshot } from '../../build/size-report.mjs';
 
 const report = (over = {}, blocks = {}) => ({
   build: { version: '2.6.0', id: 'abc' },
@@ -46,5 +49,28 @@ describe('size report', () => {
   it('says so when no block moved', () => {
     const s = snapshot(report({}, { a: { stored: 1 } }));
     expect(sizeDelta(s, s)).toContain('No embedded block changed size.');
+  });
+
+  // #182: the step only reports, so a missing or broken baseline is a notice, never a failed verify.
+  it('reports a missing or broken baseline and exits 0', () => {
+    const root = tempDir('gw-size');
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {});
+    try {
+      mkdirSync(join(root, 'dist'));
+      mkdirSync(join(root, 'build'));
+      writeFileSync(join(root, 'dist', 'build-report.json'), JSON.stringify(report()));
+      expect(main({ root })).toBe(0);
+      expect(log.mock.calls.at(-1)[0]).toMatch(/^No size report: .*size-baseline\.json/);
+      for (const bad of ['{"version":', '{}']) {
+        writeFileSync(join(root, 'build', 'size-baseline.json'), bad);
+        expect(main({ root })).toBe(0);
+        expect(log.mock.calls.at(-1)[0]).toMatch(/^No size report: /);
+      }
+      writeFileSync(join(root, 'build', 'size-baseline.json'), JSON.stringify(snapshot(report())));
+      expect(main({ root })).toBe(0);
+      expect(log.mock.calls.at(-1)[0]).toContain('### Size since 2.6.0 at build abc');
+    } finally {
+      log.mockRestore();
+    }
   });
 });

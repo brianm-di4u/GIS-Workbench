@@ -3,7 +3,7 @@
 // and parses as TypeScript), the run-time binding (every method implemented, arguments checked,
 // events delivered and kept), the MCP tools generated from it, and v1 unchanged.
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { transform } from 'esbuild';
 import { METHODS, EVENTS, TYPES, API_VERSION, parseSemver, compatBreaks, mcpName } from '../../app/src/automation/v2-spec.js';
@@ -13,7 +13,7 @@ import { Registry, Proposals } from '../../app/src/ai/registry.js';
 import { createMcpServer } from '../../app/src/ai/mcp-server.js';
 import { Store } from '../../app/src/core/store.js';
 import { Emitter } from '../../app/src/core/util.js';
-import { generate, DTS_PATH, ALIAS_PATH, aliasText } from '../../build/api-dts.mjs';
+import { generate, DTS_PATH, ALIAS_PATH, aliasText, aliasKept, APP_VERSION } from '../../build/api-dts.mjs';
 
 const FROZEN = JSON.parse(readFileSync(resolve('tests/unit/fixtures/api-v2-2.0.0.json'), 'utf8'));
 
@@ -89,9 +89,17 @@ describe('REQ-GAP-01 API v2 contract', () => {
 
   it('the reference is named for the major version, and the old name only points to it (REG-179)', () => {
     expect(DTS_PATH).toMatch(new RegExp(`gisworkbench-api-${parseSemver(API_VERSION).major}\\.d\\.ts$`));
-    expect(readFileSync(ALIAS_PATH, 'utf8').replace(/\r\n/g, '\n')).toBe(aliasText());
-    expect(aliasText()).toContain('/// <reference path="./gisworkbench-api-3.d.ts" />');
     expect(aliasText()).toContain("export * from './gisworkbench-api-3';");
+    expect(aliasText()).not.toContain('/// <reference');
+    // Past ALIAS_LAST the file is gone (the next test), so there is nothing to compare.
+    if (aliasKept(APP_VERSION)) expect(readFileSync(ALIAS_PATH, 'utf8').replace(/\r\n/g, '\n')).toBe(aliasText());
+  });
+
+  // #177: the alias goes in the release after 2.7.2, and nothing would notice if it stayed.
+  it('keeps the old name only up to its last release', () => {
+    expect(['2.7.0', '2.7.2', '2.7.2-beta.1', '2.6.9'].map(aliasKept)).toEqual([true, true, true, true]);
+    expect(['2.7.3', '2.7.3-beta.1', '2.8.0', '3.0.0', '2.7.10'].map(aliasKept)).toEqual([false, false, false, false, false]);
+    expect(existsSync(ALIAS_PATH)).toBe(aliasKept(APP_VERSION));
   });
 });
 

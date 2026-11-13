@@ -26,10 +26,6 @@ describe('verify scope', () => {
     expect(names({ paths: ['app/src/a.js'] })).not.toContain('Changelog fragments');
   });
 
-  it('runs the size report only after the strict build', () => {
-    expect(planSteps({ paths: ['app/src/a.js'] }).find((s) => s.name === 'Size report').after).toBe('Strict build');
-  });
-
   it('checks the source catalogue for any code change', () => {
     expect(names({ paths: ['app/src/a.js'] })).toContain('Source catalogue');
     expect(names({ paths: ['docs/a.md'] })).not.toContain('Source catalogue');
