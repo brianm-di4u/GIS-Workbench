@@ -413,15 +413,18 @@ export function crosswalkMGCP(cat, layer, code) {
 /** A catalogue from GeoPackage layers with domains (REQ-EXT-10 import). */
 export function catalogFromLayers(name, layers) {
   const attributes = {};
+  const codes = [];
   const types = layers.map((l) => {
     for (const f of l.fields) {
       attributes[f.name] ??= { label: f.title ?? f.name, type: f.domain ? 'enum' : f.type === 'number' ? 'real' : f.type === 'integer' ? 'integer' : 'text', ...(f.domain ? { domain: f.domain } : {}), ...(f.range ? { range: f.range } : {}), ...(f.description ? { definition: f.description } : {}) };
     }
     const fcode = l.features.find((x) => x.attrs?.F_CODE)?.attrs.F_CODE;
+    codes.push(fcode ?? l.table ?? l.name);
     return { code: fcode ?? l.table ?? l.name, name: l.name, geometry: [...new Set(l.features.map((x) => x.geom.type))], attributes: l.fields.map((f) => f.name) };
   });
-  // TDS's "no information" codes only for a layer whose coded fields carry them (every TDS domain does);
-  // a converted catalogue's layer (ISO 19110, INSPIRE, OSM) starts a new feature empty, as it did before.
-  const tds = layers.some((l) => l.fields.some((f) => f.domain && Object.hasOwn(f.domain, String(CATALOG.nulls.enum))));
+  // TDS's "no information" codes for TDS layers: a TDS feature code, or coded fields that carry the code
+  // (every TDS domain does); a converted catalogue's layer (ISO 19110, INSPIRE, OSM) starts a new feature
+  // empty, as it did before.
+  const tds = codes.some((c) => typeOf(CATALOG, c)) || layers.some((l) => l.fields.some((f) => f.domain && Object.hasOwn(f.domain, String(CATALOG.nulls.enum))));
   return { id: `gpkg:${name}`, name: `${name} (from GeoPackage)`, version: '', nulls: tds ? CATALOG.nulls : { text: '', enum: '', number: null }, attributes, types };
 }

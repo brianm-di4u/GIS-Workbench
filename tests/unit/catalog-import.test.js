@@ -306,6 +306,9 @@ describe('REQ-GAP-87 coded attributes keep their codes', () => {
     const layer = (domain) => ({ name: 'roads', table: 'roads', fields: [{ name: 'surface', type: 'text', domain }], features: [{ attrs: {}, geom: { type: 'LineString' } }] });
     expect(catalogFromLayers('a', [layer({ paved: 'Paved', gravel: 'Gravel' })]).nulls).toEqual({ text: '', enum: '', number: null });
     expect(catalogFromLayers('b', [layer({ '-999999': 'No Information', 1: 'Paved' })]).nulls.enum).toBe('-999999');
+    // A TDS layer with no coded field (contours: a ranged height) keeps TDS's codes by its feature code.
+    const contours = { name: 'contours', table: 'CA010', fields: [{ name: 'ZVH', type: 'number', range: [-500, 9000] }], features: [{ attrs: { F_CODE: 'CA010', ZVH: -999999 }, geom: { type: 'LineString' } }] };
+    expect(catalogFromLayers('c', [contours]).nulls.number).toBe(-999999);
   });
   it('starts a new feature empty, not with the TDS "no information" codes', async () => {
     const { fieldsFor, nullOf, getCatalog } = await import('../../app/src/vector/schema.js');
