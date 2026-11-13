@@ -189,6 +189,8 @@ describe('REQ-GAP-01 API v2 run time', () => {
     const calls = [];
     app.recipes = {
       builtin: [],
+      library: async () => [],
+      known: () => [],
       ops: {},
       validate: (r) => r,
       headless: (src, o) => {
@@ -200,7 +202,7 @@ describe('REQ-GAP-01 API v2 run time', () => {
     const v2 = makeV2(app);
     const r = await v2.recipes.run({ recipe: { id: 'r1' }, gates: 'stop' });
     expect(r).toMatchObject({ run: 'run-1', state: 'waiting' });
-    expect(calls[0][1]).toEqual({ gates: 'stop', params: {} });
+    expect(calls[0][1]).toEqual({ gates: 'stop', params: {}, inputs: {} });
     expect((await v2.recipes.status({ run: 'run-1' })).recipe).toBe('r1');
     await expect(v2.recipes.status({ run: 'run-9' })).rejects.toMatchObject({ code: 'E_NO_RUN' });
     expect(await v2.recipes.op({ op: 'contrast', params: {} })).toEqual({ summary: 'contrast {}', files: [] });
