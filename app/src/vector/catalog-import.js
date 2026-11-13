@@ -232,7 +232,12 @@ export function fromInspire(xsds, codeLists = [], { id = '', name = '' } = {}) {
     seen.add(entry);
     if (/AbstractFeature$/.test(group)) return true;
     const up = resolve('elements', group, entry);
-    return !!up && isFeature(up, seen);
+    if (up) return isFeature(up, seen);
+    // A head in a schema not given here (tn:TransportLink for a RoadLink, with TransportNetworks.xsd
+    // left out) is taken to be a feature's; only GML's own heads (AbstractObject) are not.
+    const at = String(group).indexOf(':');
+    const ns = at < 0 ? entry.scope.xmlns : entry.scope[`xmlns:${String(group).slice(0, at)}`];
+    return !!ns && !/opengis\.net\/gml/.test(ns);
   };
   let features = [...elements.values()].filter((e) => e.node.attrs?.abstract !== 'true' && isFeature(e));
   // An extension that re-declares a type under the same name (ext2d's Building for core2d's) replaces
@@ -331,8 +336,17 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
       names.push(key);
       if (v !== '*' && typeof v === 'string') fixed[key] = v;
     }
-    for (const fid of [...arr(p.fields), ...arr(p.moreFields)]) {
-      const f = fields[fid];
+    // A '{preset}' entry takes that preset's fields, as iD does.
+    const fieldIds = (q, seen) =>
+      [...arr(q.fields), ...arr(q.moreFields)].flatMap((fid) => {
+        const m = /^\{(.+)\}$/.exec(String(fid));
+        if (!m) return [fid];
+        if (seen.has(m[1]) || !Object.hasOwn(presets, m[1])) return [];
+        seen.add(m[1]);
+        return fieldIds(presets[m[1]] ?? {}, seen);
+      });
+    for (const fid of fieldIds(p, new Set([pid]))) {
+      const f = Object.hasOwn(fields, fid) ? fields[fid] : null;
       const key = typeof f?.key === 'string' ? attrFor(f.key, f) : null;
       if (key && !names.includes(key)) names.push(key);
     }

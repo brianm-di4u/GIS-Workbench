@@ -420,5 +420,8 @@ export function catalogFromLayers(name, layers) {
     const fcode = l.features.find((x) => x.attrs?.F_CODE)?.attrs.F_CODE;
     return { code: fcode ?? l.table ?? l.name, name: l.name, geometry: [...new Set(l.features.map((x) => x.geom.type))], attributes: l.fields.map((f) => f.name) };
   });
-  return { id: `gpkg:${name}`, name: `${name} (from GeoPackage)`, version: '', nulls: CATALOG.nulls, attributes, types };
+  // TDS's "no information" codes only for a layer whose coded fields carry them (every TDS domain does);
+  // a converted catalogue's layer (ISO 19110, INSPIRE, OSM) starts a new feature empty, as it did before.
+  const tds = layers.some((l) => l.fields.some((f) => f.domain && Object.hasOwn(f.domain, String(CATALOG.nulls.enum))));
+  return { id: `gpkg:${name}`, name: `${name} (from GeoPackage)`, version: '', nulls: tds ? CATALOG.nulls : { text: '', enum: '', number: null }, attributes, types };
 }

@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fromIso19110, fromInspire, parseCodeList, fromIdPresets, sniffCatalog, attrType, catalogFromFiles } from '../../app/src/vector/catalog-import.js';
-import { validateCatalog } from '../../app/src/vector/schema.js';
+import { validateCatalog, catalogFromLayers } from '../../app/src/vector/schema.js';
 
 const F = (n) => readFileSync(`fixtures/catalogs/${n}`, 'utf8');
 
@@ -78,7 +78,8 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     const both = validateCatalog(fromInspire([base, core, core3d]));
     expect(both.types.map((t) => [t.code, t.attributes])).toEqual([['bu-core2d:Building', ['heightAboveGround']], ['bu-core3d:Building', ['lod']]]);
     // A declared namespace that is not loaded names nothing: the extension cannot borrow core3d's Building.
-    expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['Building', ['lod']]]);
+    // Its own Building stays a type of its own (its head's schema was not given), with only its own properties.
+    expect(fromInspire([base, core3d, ext]).types.map((t) => [t.code, t.attributes])).toEqual([['bu-core3d:Building', ['lod']], ['bu-ext2d:Building', ['officialArea']]]);
   });
   it('reads a voidable property\'s type from its simpleContent, and binds code lists by targetCodeList', () => {
     const voidable = (name, base) => `<element name="${name}" nillable="true"><complexType><simpleContent><extension base="${base}"><attribute name="nilReason" type="gml:NilReasonType"/></extension></simpleContent></complexType></element>`;
@@ -113,6 +114,15 @@ describe('REQ-GAP-87 INSPIRE application schema', () => {
     );
     expect(two.types[0].geometry).toEqual(['LineString']);
     expect(two.types[0].attributes).toEqual(['inNetwork', 'validFrom', 'functionalRoadClass']);
+  });
+  it('takes a feature type whose head is in a schema not given, and not one of GML\'s object heads', () => {
+    const c = fromInspire(
+      `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:tn="urn:tn" xmlns:x="urn:x" targetNamespace="urn:x">` +
+        '<element name="RoadLink" type="x:RoadLinkType" substitutionGroup="tn:TransportLink"/><complexType name="RoadLinkType"><sequence><element name="geometry" type="gml:CurvePropertyType"/><element name="roadName" type="string"/></sequence></complexType>' +
+        '<element name="Width" type="x:WidthType" substitutionGroup="gml:AbstractObject"/><complexType name="WidthType"><sequence><element name="value" type="double"/></sequence></complexType>' +
+        '</schema>',
+    );
+    expect(c.types.map((t) => [t.code, t.geometry, t.attributes])).toEqual([['RoadLink', ['LineString'], ['roadName']]]);
   });
   it('takes a type\'s geometry from its primary geometry property, and keeps other geometries out of its attributes', () => {
     const xsd = (body) => `<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:x="urn:x" targetNamespace="urn:x">${body}</schema>`;
@@ -167,6 +177,17 @@ describe('REQ-GAP-87 the files a user picks', () => {
     expect(() => catalogFromFiles([file('iso19110-roads.xml'), file('iso19110-roads.xml')])).toThrow(/one ISO 19110 file/);
     expect(() => catalogFromFiles([{ name: 'notes.txt', text: 'hello' }])).toThrow(/notes.txt is not a feature catalogue/);
   });
+  it('takes the fields of a preset named as {preset}, and stops at a loop', () => {
+    const presets = {
+      'amenity/restaurant': { name: 'Restaurant', geometry: ['point'], tags: { amenity: 'restaurant' }, fields: ['cuisine', '{amenity/fast_food}'] },
+      'amenity/fast_food': { name: 'Fast Food', geometry: ['point'], tags: { amenity: 'fast_food' }, fields: ['{amenity/restaurant}', 'drive_through'] },
+    };
+    const fields = { cuisine: { key: 'cuisine', type: 'combo', options: ['pizza', 'burger'] }, drive_through: { key: 'drive_through', type: 'check' } };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    const of = (code) => c.types.find((t) => t.code === code).attributes;
+    expect(of('amenity/fast_food')).toEqual(['amenity', 'cuisine', 'drive_through']);
+    expect(of('amenity/restaurant')).toEqual(['amenity', 'cuisine', 'drive_through']);
+  });
   it('names a preset from its id when presets.json leaves names to translations', () => {
     const c = fromIdPresets({ 'leisure/picnic_table': { geometry: ['point'], tags: { leisure: 'picnic_table' } } });
     expect(c.types[0].name).toBe('Picnic table');
@@ -214,6 +235,11 @@ describe('REQ-GAP-87 coded attributes keep their codes', () => {
     // Codes a number would not give back ('01' → 1) stay text.
     const padded = validateCatalog({ format: 'gw-catalog/1', id: 'pad', name: 'Padded', attributes: { cls: { type: 'enum', domain: { '01': 'One', '02': 'Two' } } }, types: [{ code: 'T', name: 'T', geometry: ['POINT'], attributes: ['cls'] }] });
     expect(fieldsFor(padded, 'T').find((f) => f.name === 'cls').type).toBe('string');
+  });
+  it('keeps a new feature empty after a GeoPackage round trip, and TDS layers keep their codes', () => {
+    const layer = (domain) => ({ name: 'roads', table: 'roads', fields: [{ name: 'surface', type: 'text', domain }], features: [{ attrs: {}, geom: { type: 'LineString' } }] });
+    expect(catalogFromLayers('a', [layer({ paved: 'Paved', gravel: 'Gravel' })]).nulls).toEqual({ text: '', enum: '', number: null });
+    expect(catalogFromLayers('b', [layer({ '-999999': 'No Information', 1: 'Paved' })]).nulls.enum).toBe('-999999');
   });
   it('starts a new feature empty, not with the TDS "no information" codes', async () => {
     const { fieldsFor, nullOf, getCatalog } = await import('../../app/src/vector/schema.js');
