@@ -38,11 +38,11 @@ test('REQ-ARC-14 data packs: manifest hashes, SHA-256 checks, changed or foreign
   const m = await frame.evaluate(() => window.gisworkbench.gw.manifest.packs);
   // OD-2.22: one locale pack per committed catalogue, plus the Noto font pack (REQ-L10N, SDP-2.3 §4.8);
   // 2.4: the grid packs (REQ-GAP-16), and ai-gpu, ai-landcover, ai-vlm and ai-vlm-text when their inputs are at hand (REQ-GAP-56/57);
-  // 2.7.0: geoid-egm2008-1 when its input is at hand (REG-024).
+  // 2.7.0: geoid-egm2008-1 when its input is at hand (REG-024); 2.7.1: catalogue-osm, likewise (REG-097).
   const localePacks = readdirSync(resolve('app/src/i18n/catalog')).filter((f) => f !== 'en.json').map((f) => `locale-${f.replace(/\.json$/, '')}`);
   const base = ['ai', 'ai-detect', 'ai-match', 'ai-sam2', 'ai-search', 'codec-3d', 'fonts-noto', 'geoid', 'geoid-egm2008-25', 'grids-eu', 'grids-na', 'grids-oceania', 'hdf5', 'proj', ...localePacks].sort();
   expect(Object.keys(m).filter((k) => base.includes(k)).sort()).toEqual(base);
-  expect(Object.keys(m).filter((k) => !base.includes(k)).every((k) => ['ai-gpu', 'ai-landcover', 'ai-vlm', 'ai-vlm-text', 'geoid-egm2008-1'].includes(k))).toBe(true);
+  expect(Object.keys(m).filter((k) => !base.includes(k)).every((k) => ['ai-gpu', 'ai-landcover', 'ai-vlm', 'ai-vlm-text', 'catalogue-osm', 'geoid-egm2008-1'].includes(k))).toBe(true);
   for (const [name, p] of Object.entries(m)) {
     expect(sha(readFileSync(pk(name))), name).toBe(p.sha256);
     expect(Object.keys(p.entries).length).toBeGreaterThan(0);

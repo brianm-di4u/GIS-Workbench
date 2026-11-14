@@ -4,7 +4,7 @@
 // attribute and its allowed values (AC-10.3). The MGCP cross-walk renames codes and attributes on
 // export.
 
-import CATALOG from '../data/feature-catalog-subset.json';
+import CATALOG from '../data/feature-catalog-subset.json' with { type: 'json' };
 import { gwError } from '../i18n/index.js';
 
 export const DEFAULT_CATALOG = CATALOG;
