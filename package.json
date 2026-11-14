@@ -1,6 +1,6 @@
 {
   "name": "gis-workbench",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "private": true,
   "description": "GIS Workbench: single-file, offline, browser-based GIS, imagery analysis and photogrammetry workbench for civilian use",
   "license": "Apache-2.0",
