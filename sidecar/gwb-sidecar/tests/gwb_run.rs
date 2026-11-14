@@ -78,7 +78,7 @@ fn app(dir: &Path, html: &str) -> PathBuf {
     std::fs::write(a.join("gis-workbench.html"), html).unwrap();
     std::fs::write(
         a.join("SHA256SUMS"),
-        format!("{}  gis-workbench.html\n", sha256(PAGE.as_bytes())),
+        format!("{}  gis-workbench.html\n", sha256(html.as_bytes())),
     )
     .unwrap();
     a
@@ -194,6 +194,114 @@ fn a_run_writes_its_files_provenance_and_log() {
         "the last run's status is still there"
     );
     let _ = std::fs::remove_dir_all(&d);
+}
+
+// #265: the page redraws while the inputs are handed over. One stand-in has no <body> just then (the
+// old code's input had nowhere to go: "Object id doesn't reference a Node"); the other replaces the
+// input once, so files put on the first one never reach the page.
+fn gives_its_inputs_to(page: &str, tag: &str) {
+    let d = scratch(tag);
+    let a = app(&d, page);
+    let input = d.join("site.tif");
+    std::fs::write(&input, vec![7u8; 10]).unwrap();
+    let out = d.join("out");
+    let (code, text) = run(&[
+        "echo",
+        "--app-dir",
+        a.to_str().unwrap(),
+        "--out",
+        out.to_str().unwrap(),
+        "--in",
+        &format!("s1={}", input.display()),
+    ]);
+    assert_eq!(code, 0, "{text}");
+    let what: Value =
+        serde_json::from_slice(&std::fs::read(out.join("what.json")).unwrap()).unwrap();
+    assert_eq!(what["given"], serde_json::json!(["site.tif"]), "{text}");
+}
+
+#[test]
+fn inputs_reach_a_page_that_has_no_body_when_they_are_given() {
+    if !browser() {
+        return;
+    }
+    let page = PAGE.replace(
+        "call: async (m) => ({ api: '3.0.0', build: 'stand-in' }),",
+        "call: async (m) => { const b = document.body; if (b) { b.remove(); setTimeout(() => document.documentElement.append(b), 3000); } return { api: '3.0.0', build: 'stand-in' }; },",
+    );
+    assert_ne!(page, PAGE);
+    gives_its_inputs_to(&page, "nobody");
+}
+
+#[test]
+fn inputs_reach_a_page_that_replaces_its_file_input_once() {
+    if !browser() {
+        return;
+    }
+    let page = PAGE.replace(
+        "window.gisworkbench = {",
+        "let swapped = false;\nnew MutationObserver(() => { const i = document.getElementById('gwb-run-inputs'); if (i && !swapped) { swapped = true; i.replaceWith(i.cloneNode()); } }).observe(document.documentElement, { childList: true, subtree: true });\nwindow.gisworkbench = {",
+    );
+    assert_ne!(page, PAGE);
+    gives_its_inputs_to(&page, "swapped");
+}
+
+/// A run of `page` with one --in file for step s1: its exit code and its log.
+fn run_with_one_input(page: &str, tag: &str) -> (i32, String) {
+    let d = scratch(tag);
+    let a = app(&d, page);
+    let input = d.join("site.tif");
+    std::fs::write(&input, vec![7u8; 10]).unwrap();
+    let out = d.join("out");
+    let (code, _) = run(&[
+        "echo",
+        "--app-dir",
+        a.to_str().unwrap(),
+        "--out",
+        out.to_str().unwrap(),
+        "--in",
+        &format!("s1={}", input.display()),
+    ]);
+    (code, std::fs::read_to_string(out.join("gwb-run.log")).unwrap_or_default())
+}
+
+#[test]
+fn a_page_that_always_replaces_its_file_input_stops_the_run_after_three_tries() {
+    if !browser() {
+        return;
+    }
+    // Every lookup of the input finds a fresh, empty one: the files never stay where the page reads.
+    let page = PAGE.replace(
+        "window.gisworkbench = {",
+        "{ const byId = document.getElementById.bind(document); document.getElementById = (id) => (id === 'gwb-run-inputs' ? Object.assign(document.createElement('input'), { type: 'file' }) : byId(id)); }\nwindow.gisworkbench = {",
+    );
+    assert_ne!(page, PAGE);
+    let (code, log) = run_with_one_input(&page, "always-swapped");
+    assert_eq!(code, 3, "{log}");
+    assert!(
+        log.contains("could not give the inputs to the page: the page replaced its file input"),
+        "{log}"
+    );
+}
+
+#[test]
+fn inputs_lost_after_the_hand_off_stop_the_run_with_exit_3() {
+    if !browser() {
+        return;
+    }
+    // The input is found, made and checked (two lookups); from the third, the page script's
+    // own read, the page answers with an empty input.
+    let page = PAGE.replace(
+        "window.gisworkbench = {",
+        "{ let n = 0; const byId = document.getElementById.bind(document); document.getElementById = (id) => (id === 'gwb-run-inputs' && ++n >= 3 ? Object.assign(document.createElement('input'), { type: 'file' }) : byId(id)); }\nwindow.gisworkbench = {",
+    );
+    assert_ne!(page, PAGE);
+    let (code, log) = run_with_one_input(&page, "lost");
+    assert_eq!(code, 3, "{log}");
+    assert!(
+        log.contains("could not give the inputs to the page: the page lost its input files before the run (0 of 1 arrived)"),
+        "{log}"
+    );
 }
 
 #[test]

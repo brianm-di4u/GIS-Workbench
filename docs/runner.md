@@ -32,7 +32,7 @@ Before anything runs, the runner refuses a recipe that would wait for a person a
 | 0 | The run finished and every step succeeded |
 | 1 | A step failed, or the run stopped at a gate |
 | 2 | The command line is wrong, or an input or recipe file is missing |
-| 3 | No browser was found, the app copy doesn't match `SHA256SUMS`, or the browser or app didn't start |
+| 3 | No browser was found, the app copy doesn't match `SHA256SUMS`, the browser or app didn't start, or the input files didn't reach the page |
 | 4 | The recipe was refused before it started |
 | 5 | The run didn't finish within `--timeout` |
 

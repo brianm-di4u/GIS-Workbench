@@ -29,8 +29,9 @@
 //! start.
 //!
 //! Exit codes: 0 the run finished and every step succeeded; 1 the run failed or stopped at a gate;
-//! 2 the command line is wrong; 3 no browser, no verified app, or the browser or app did not
-//! start; 4 the recipe was refused; 5 the run did not finish within --timeout.
+//! 2 the command line is wrong; 3 no browser, no verified app, the browser or app did not start,
+//! or the input files did not reach the page; 4 the recipe was refused; 5 the run did not finish
+//! within --timeout.
 
 use crate::cdp::{find_browser, Browser};
 use gwb_sidecar_api::{Provenance, StepRecord};
@@ -44,6 +45,7 @@ const USAGE: &str = "usage: gwb-run <recipe> --out DIR [--in [STEP=]FILE]... [--
 
 /// The page's half of a run (see the file for its protocol).
 const PAGE: &str = include_str!("recipe_run_page.js");
+const INPUT: &str = include_str!("recipe_run_input.js");
 
 /// Bytes per read of an output file from the page: about 5.6 MB of base64 per message.
 const CHUNK: u64 = 4 << 20;
@@ -452,9 +454,9 @@ fn run(args: &Args, job: &Job, log: &mut Log) -> u8 {
         .unwrap_or("?")
         .to_string();
     log.line(&format!("browser {}, app build {build}", s.exe.display()));
-    if let Err(e) = give_inputs(&mut s, &job.inputs) {
+    if let Err(e) = give_inputs(&mut s, &job.inputs, t0 + args.timeout) {
         log.line(&format!("could not give the inputs to the page: {e}"));
-        return 3;
+        return if t0.elapsed() >= args.timeout { 5 } else { 3 };
     }
     let left = args.timeout.saturating_sub(t0.elapsed());
     let call = format!(
@@ -486,6 +488,11 @@ fn run(args: &Args, job: &Job, log: &mut Log) -> u8 {
     // A run that finishes can still have had a dialog dismissed (decision 0017): say so.
     for x in &s.b.exceptions {
         log.line(&format!("  the page reported: {x}"));
+    }
+    // Inputs the page lost after give_inputs checked them: the hand-off failed, as above (exit 3).
+    if let Some(why) = answer["lost"].as_str() {
+        log.line(&format!("could not give the inputs to the page: {why}"));
+        return 3;
     }
     if let Some(why) = answer["refused"].as_str() {
         log.line(&format!("refused, nothing was run: {why}"));
@@ -567,32 +574,84 @@ fn run(args: &Args, job: &Job, log: &mut Log) -> u8 {
 }
 
 /// Put the input files on a hidden file input in the page, the way a person picking them would.
-fn give_inputs(s: &mut Session, inputs: &[(String, PathBuf)]) -> Result<(), String> {
+///
+/// The page may redraw meanwhile (#265): the input is put under `<html>` when there is no `<body>`, a
+/// page exception is reported as itself, and the files are checked on the input the page will read,
+/// with the input found again (or made again) up to three times.
+fn give_inputs(
+    s: &mut Session,
+    inputs: &[(String, PathBuf)],
+    deadline: Instant,
+) -> Result<(), String> {
     if inputs.is_empty() {
         return Ok(());
     }
     let page = s.page.clone();
-    let el = s.b.call(
-        "Runtime.evaluate",
-        json!({ "expression": "(() => { const i = document.createElement('input'); i.type = 'file'; i.multiple = true; i.id = 'gwb-run-inputs'; i.hidden = true; document.body.appendChild(i); return i; })()" }),
-        Some(&page),
-        Duration::from_secs(30),
-    )?;
-    let object = el["result"]["objectId"]
-        .as_str()
-        .ok_or("the page gave no file input")?
-        .to_string();
     let files: Vec<String> = inputs
         .iter()
         .map(|(_, p)| p.display().to_string())
         .collect();
-    s.b.call(
-        "DOM.setFileInputFiles",
-        json!({ "files": files, "objectId": object }),
-        Some(&page),
-        Duration::from_secs(60),
-    )?;
-    Ok(())
+    let mut last = String::new();
+    // Each wait stops at the run's own time limit (--timeout), so the tries never outlast it.
+    let wait = |d: u64| Duration::from_secs(d).min(deadline.saturating_duration_since(Instant::now()));
+    for attempt in 0..3 {
+        if attempt > 0 {
+            std::thread::sleep(Duration::from_millis(200));
+        }
+        if Instant::now() >= deadline {
+            return Err(format!("the run's time limit came first ({last})"));
+        }
+        // A redraw may also destroy the context mid-call: every step's error is one more try.
+        let el = match s.b.call(
+            "Runtime.evaluate",
+            json!({ "expression": INPUT }),
+            Some(&page),
+            wait(30),
+        ) {
+            Ok(v) => v,
+            Err(e) => {
+                last = e;
+                continue;
+            }
+        };
+        if let Some(d) = el.get("exceptionDetails") {
+            last = d["exception"]["description"]
+                .as_str()
+                .or(d["text"].as_str())
+                .unwrap_or("the page threw")
+                .lines()
+                .next()
+                .unwrap_or("the page threw")
+                .to_string();
+            continue;
+        }
+        let Some(object) = el["result"]["objectId"].as_str().map(str::to_string) else {
+            last = "the page gave no file input".to_string();
+            continue;
+        };
+        if let Err(e) = s.b.call(
+            "DOM.setFileInputFiles",
+            json!({ "files": files, "objectId": object }),
+            Some(&page),
+            wait(60),
+        ) {
+            last = e;
+            continue;
+        }
+        // The input the page will read has them: not a copy it replaced meanwhile. A plain call, not
+        // eval, so the wait stays within the deadline (eval adds 5 s for the page's own timeout).
+        match s.b.call(
+            "Runtime.evaluate",
+            json!({ "expression": "document.getElementById('gwb-run-inputs')?.files?.length ?? 0", "returnByValue": true }),
+            Some(&page),
+            wait(30),
+        ) {
+            Ok(r) if r["result"]["value"].as_u64() == Some(files.len() as u64) => return Ok(()),
+            Ok(_) => last = "the page replaced its file input".to_string(),
+            Err(e) => last = e,
+        }
+    }
+    Err(last)
 }
 
 /// Read output `i` from the page in chunks and write it to `path` (through a `.part` file, so a
