@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { affectedCrates, fixtureCrates, planSteps } from '../../build/verify-scope.mjs';
+import { affectedCrates, dataSkips, fixtureCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
@@ -142,5 +142,14 @@ describe('quarantine list', () => {
     expect(re.test('REQ-1 a title and more')).toBe(true);
     expect(re.test('a (b)')).toBe(true);
     expect(re.test('a b')).toBe(false);
+  });
+});
+
+describe('tests skipped for missing data', () => {
+  const t = (status, description) => ({ status, annotations: description ? [{ type: 'skip', description }] : [] });
+  const report = { suites: [{ specs: [{ tests: [t('expected'), t('skipped', 'sample missing')] }], suites: [{ specs: [{ tests: [t('skipped', 'sample missing'), t('skipped', 'needs data that only the release gate has'), t('skipped', 'a measurement: GW_SIGNOFF=dry')] }] }] }] };
+  it('counts them by reason, nested suites included, leaving out opt-in measurements', () => {
+    expect(dataSkips(report)).toEqual({ count: 3, reasons: { 'sample missing': 2, 'needs data that only the release gate has': 1 } });
+    expect(dataSkips({})).toEqual({ count: 0, reasons: {} });
   });
 });
