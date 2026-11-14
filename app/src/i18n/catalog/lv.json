@@ -7155,7 +7155,7 @@
   "labels": "uzraksti",
   "landing zone\u0004Buffer": "Drošības attālums",
   "landscape": "ainavorientācija",
-  "largest {n}": "{n} lielākie",
+  "largest {n}": "lielākā vērtība {n}",
   "lasso": "laso",
   "lat lon": "plat gar",
   "latitude out of range": "ģeogrāfiskais platums ir ārpus diapazona",

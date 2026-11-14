@@ -36865,7 +36865,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: sample address localised (other locales do); \"Street number, place\" with ASCII comma so the search parser reads it"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -37301,19 +37302,23 @@
   },
   "Level DSM on Reference": {
    "h": "4f1557fc1409",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "Level DSM on Reference…": {
    "h": "8db619e8887c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "Level DSM: {msg}": {
    "h": "9ff9738e293d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "Levelled by {d} m on {ref}; residual {s} m (NMAD) over {n} stable posts.": {
    "h": "9b35a209a1ed",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "Loading {photo}…": {
    "h": "05b7d619711b",
@@ -38045,7 +38050,8 @@
   },
   "gamma nought": {
    "h": "8e363f2eae1d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: γ⁰ term is written as one word (as シグマノート); with a space it splits into ノート \"note\""
   },
   "gazetteer": {
    "h": "981ea5cbe35b",
@@ -38093,19 +38099,23 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "levelling needs a DSM and a reference DEM loaded as terrain": {
    "h": "3b83d50e014a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "levelling needs at least 50 stable posts (unflagged, under {slope}° of slope) with a reference height": {
    "h": "cf9f664c65d7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "library": {
    "h": "b718f1354f72",
@@ -38485,7 +38495,8 @@
   },
   "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled": {
    "h": "5e5db388dc41",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: level: 水準調整 as in the catalogue (Level the DSM on the prior)"
   },
   "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts": {
    "h": "dfa1c10fca39",
@@ -38553,7 +38564,8 @@
   },
   "{n, plural, one {# ban} other {# bans}} from {file}": {
    "h": "5d93fe6b9e9e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"bans\" are turn bans; 禁止 alone is unclear"
   },
   "{n, plural, one {# date} other {# dates}}": {
    "h": "be32ee75d517",

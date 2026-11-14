@@ -36929,7 +36929,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: sample address localised (number last, which Find Address also parses)"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -37029,7 +37030,8 @@
   },
   "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.": {
    "h": "509a5f3448a3",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: panel name capitalised as elsewhere"
   },
   "Anomaly z-score — {layer}": {
    "h": "16fbf5d8e536",
@@ -37377,7 +37379,8 @@
   },
   "Levelled by {d} m on {ref}; residual {s} m (NMAD) over {n} stable posts.": {
    "h": "9b35a209a1ed",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: 'levelled on' as shipped (disetarakan ke)"
   },
   "Loading {photo}…": {
    "h": "05b7d619711b",
@@ -37533,7 +37536,8 @@
   },
   "Pixel purity skewers (0: none)": {
    "h": "e8800679ca56",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: skewers are projection vectors"
   },
   "Place column": {
    "h": "666421cfa33e",
@@ -37597,7 +37601,8 @@
   },
   "Removes a SAR stereo DSM’s vertical offset, and optionally a tilt, against a reference DEM over stable terrain, and states the residual.": {
    "h": "ee7bc368cbd5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: reference DEM as shipped (DEM acuan)"
   },
   "Reprojection error after the adjustment with the control (RMS)": {
    "h": "5358c3aa2fac",
@@ -37745,7 +37750,8 @@
   },
   "Square the corners": {
    "h": "78d64d7e9581",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: match shipped Square Corners"
   },
   "Stacks dated images, each from its file name or metadata, in date order on one grid, resampling those on another grid, as a time series.": {
    "h": "c0ecf6f35720",
@@ -37837,7 +37843,8 @@
   },
   "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).": {
    "h": "fe00bfddb449",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation kept as in shipped SAFE strings"
   },
   "That point is {d} from the road network (more than {max})": {
    "h": "a514c2b9af08",
@@ -37845,7 +37852,8 @@
   },
   "The annotation’s own orbit": {
    "h": "8f771c1a172c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation kept as in shipped SAFE strings"
   },
   "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.": {
    "h": "42091a8448f0",
@@ -37853,7 +37861,8 @@
   },
   "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.": {
    "h": "9141038463dd",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: flag and reference as shipped"
   },
   "The recipe is open, but this browser has no storage to keep it in your library.": {
    "h": "b60e6221e1da",
@@ -37961,7 +37970,8 @@
   },
   "Use the Annotation’s Orbit": {
    "h": "0554a34beb41",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation kept as in shipped SAFE strings"
   },
   "Use this model": {
    "h": "1f2ba25aaafe",
@@ -38057,7 +38067,8 @@
   },
   "browning": {
    "h": "21dafa5eab70",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: vegetation browning trend"
   },
   "change over the years per pixel": {
    "h": "ce84e0114d79",
@@ -38113,7 +38124,8 @@
   },
   "gazetteer": {
    "h": "981ea5cbe35b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: standard Indonesian term (Gazeter)"
   },
   "geocode": {
    "h": "617bf81b6675",
@@ -38137,7 +38149,8 @@
   },
   "greening": {
    "h": "cd82fb547430",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: penghijauan means tree planting, not a greening trend"
   },
   "in another place": {
    "h": "83a0788db414",
@@ -38157,7 +38170,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38165,11 +38179,13 @@
   },
   "levelling needs a DSM and a reference DEM loaded as terrain": {
    "h": "3b83d50e014a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: reference DEM as shipped (DEM acuan)"
   },
   "levelling needs at least 50 stable posts (unflagged, under {slope}° of slope) with a reference height": {
    "h": "cf9f664c65d7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: unflagged = no flag, not unmarked; acuan as shipped"
   },
   "library": {
    "h": "b718f1354f72",
@@ -38265,11 +38281,13 @@
   },
   "open a DSM and a reference DEM as terrain first": {
    "h": "ace5d4df279e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: reference DEM as shipped (DEM acuan)"
   },
   "open a Sentinel-1 SAFE product with its annotation and calibration first": {
    "h": "0dd8f59c3e0a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation as in shipped SAFE strings"
   },
   "orbit file": {
    "h": "b6662ac8a6ea",
@@ -38321,7 +38339,8 @@
   },
   "reference DEM": {
    "h": "89eeca9b92e7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: reference DEM as shipped (DEM acuan)"
   },
   "regression": {
    "h": "f274537aaf2c",
@@ -38393,7 +38412,8 @@
   },
   "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic": {
    "h": "b523c64533f8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: bundle adjustment as shipped (perataan bundle)"
   },
   "shortest path": {
    "h": "4cf6c2a07d70",
@@ -38405,11 +38425,13 @@
   },
   "spectral: a trend needs one finite date per band": {
    "h": "e2b68f368d49",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: 'tanggal hingga' was unclear for finite date"
   },
   "spectral: an anomaly needs a baseline flag and a group per band": {
    "h": "abc51b11e050",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: flag as shipped"
   },
   "spectral: the baseline holds no dates": {
    "h": "7d646faf64fa",
@@ -38437,7 +38459,8 @@
   },
   "terrain correction needs a Sentinel-1 SAFE layer opened with its annotation": {
    "h": "5da42bd1820e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation as in shipped SAFE strings"
   },
   "terrain correction needs an elevation model loaded as terrain": {
    "h": "21ffa49f9acc",
@@ -38553,7 +38576,8 @@
   },
   "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts": {
    "h": "dfa1c10fca39",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: flag as shipped; penanda reads as GCP marks"
   },
   "{file} ({mb} MB)": {
    "h": "55e165ac2d73",
@@ -38609,7 +38633,8 @@
   },
   "{layer}: the annotation lacks the timing or range sampling geocoding needs": {
    "h": "7e6699b1a841",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation as in shipped SAFE strings"
   },
   "{min} min": {
    "h": "43fe4f2d4989",
@@ -38637,7 +38662,8 @@
   },
   "{number} {street} ({d} away)": {
    "h": "4ef322693282",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: more natural distance phrase"
   },
   "{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage": {
    "h": "b366c48f73b8",
@@ -38729,11 +38755,13 @@
   },
   "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
    "h": "8a98719dca4f",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   },
   "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
    "h": "31ca6751f755",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   }
  }
 }

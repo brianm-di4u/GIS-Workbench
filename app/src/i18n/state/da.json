@@ -36702,7 +36702,8 @@
   },
   "A route needs a start and an end, and a service area a place to start from": {
    "h": "d3fa891fb727",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slutning → startpunkt/slutpunkt"
   },
   "A table with \"from\" and \"to\" road ids: no turn from the first road onto the second where they meet.": {
    "h": "34edf4163b40",
@@ -36890,15 +36891,18 @@
   },
   "Click a start and an end: the fastest or shortest route on the road network.": {
    "h": "0d4757a37c84",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slutning → startpunkt/slutpunkt"
   },
   "Click the end": {
    "h": "9b2fb0e86a86",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: slutningen → slutpunktet"
   },
   "Click the start": {
    "h": "0ac52e56b293",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: starten → startpunktet"
   },
   "Command id": {
    "h": "c1220d9cff6b",
@@ -37226,7 +37230,8 @@
   },
   "No route: the end cannot be reached from the start (one-way streets or a closed road)": {
    "h": "7f749b1e2c77",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slutning → startpunkt/slutpunkt"
   },
   "Objects": {
    "h": "de5236ee1561",
@@ -37634,7 +37639,8 @@
   },
   "The start and the end are the same place on the road network": {
    "h": "97ee1fa3df61",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slutning → startpunkt/slutpunkt"
   },
   "The table is empty: give a header row and one address per row": {
    "h": "0ef3862ef30a",
@@ -37750,7 +37756,8 @@
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: “ved siden” = beside; review gate = gennemsynspunkt as shipped"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -37918,7 +37925,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38118,7 +38126,8 @@
   },
   "sargeo: the look side must be 1, -1 or 0": {
    "h": "dcbb532d2ebc",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: “kiggeside” colloquial"
   },
   "sargeo: the mask step must be positive": {
    "h": "48bd4f259bb8",
@@ -38310,7 +38319,8 @@
   },
   "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled": {
    "h": "5e5db388dc41",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: “kiggesider” colloquial; DOM is common gender"
   },
   "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts": {
    "h": "dfa1c10fca39",
@@ -38342,7 +38352,8 @@
   },
   "{input} takes {want}, not {got}": {
    "h": "d295a7c9db91",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: idiom"
   },
   "{layer} has no lines to build a network from": {
    "h": "e1a40c9d92ba",

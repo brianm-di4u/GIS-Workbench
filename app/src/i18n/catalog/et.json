@@ -7155,7 +7155,7 @@
   "labels": "sildid",
   "landing zone\u0004Buffer": "Ohutusvaru",
   "landscape": "rõhtpaigutus",
-  "largest {n}": "{n} suurimat",
+  "largest {n}": "suurim väärtus {n}",
   "lasso": "lasso",
   "lat lon": "laius pikkus lat lon",
   "latitude out of range": "geograafiline laius on lubatud vahemikust väljas",

@@ -37842,7 +37842,8 @@
   },
   "Two images have the same date, {date}: stack one image per date": {
    "h": "c7b32739b042",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"yığın\" read as the noun \"stack\"; make the instruction unambiguous"
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
@@ -37874,7 +37875,8 @@
   },
   "Vectors to": {
    "h": "84bb7ccd337c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ungrammatical genitive (\"Vektör verilerin biçimi\")"
   },
   "What this run measured. Heights are those of the ground control points.": {
    "h": "6db0540bb1a5",
@@ -37982,7 +37984,8 @@
   },
   "control point\u0004Ground": {
    "h": "151bf4939471",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: the dialog's hint calls the ground coordinates \"Yer: WGS 84\"; catalogue uses \"Yer koordinatı\""
   },
   "dates": {
    "h": "f18e48678b72",
@@ -38058,7 +38061,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: meant the largest value (maximum); \"en büyük {n}\" can read as \"the n largest\""
   },
   "levelling": {
    "h": "c879c12a7ccc",

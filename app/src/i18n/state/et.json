@@ -36736,7 +36736,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: generic street and place instead of a real town"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -37252,7 +37253,8 @@
   },
   "No date for {layers}: name the files with their date (YYYYMMDD) or use files with an acquisition date": {
    "h": "4d26fdcb6e28",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: acquisition date: catalogue 'pildistamise kuupäev'"
   },
   "No match": {
    "h": "cd8d844d2c3d",
@@ -37536,7 +37538,8 @@
   },
   "Snap within": {
    "h": "d7c788070e6d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: snap distance: catalogue 'Haaramiskaugus'"
   },
   "Spatial join": {
    "h": "ec4195a42a20",
@@ -37888,7 +37891,8 @@
   },
   "control point\u0004Ground": {
    "h": "151bf4939471",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: field label: match catalogue 'Ground: WGS 84' hint (Maapind)"
   },
   "dates": {
    "h": "f18e48678b72",
@@ -37964,7 +37968,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",

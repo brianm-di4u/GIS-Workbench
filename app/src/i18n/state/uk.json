@@ -37058,7 +37058,8 @@
   },
   "Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.": {
    "h": "7906f715b6dd",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: button name as in the shipped UI"
   },
   "Input {name}": {
    "h": "c8d00bf099a5",
@@ -37282,11 +37283,13 @@
   },
   "Places UAV photographs on marked ground control points, then makes a DSM and an orthomosaic.": {
    "h": "cefe782dea37",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: UAV abbreviation as in the catalogue"
   },
   "Places a UAV block on surveyed ground control points marked in its photographs, then makes a dense cloud, a DSM and an orthomosaic.": {
    "h": "e36b5e5270ae",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: UAV abbreviation as in the catalogue"
   },
   "Play": {
    "h": "436e61016e26",
@@ -37682,15 +37685,18 @@
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: UAV abbreviation as in the catalogue"
   },
   "UAV block to a sparse model for ground control marking (structure from motion, stage 1)": {
    "h": "d0c330138e4a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: UAV abbreviation as in the catalogue"
   },
   "UAV photographs": {
    "h": "b3adb9e8e2ea",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: UAV abbreviation as in the catalogue"
   },
   "Use a model from an earlier run": {
    "h": "eed87ca3dc9c",
@@ -37894,7 +37900,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38182,7 +38189,8 @@
   },
   "terrain correction: the radar window over {dem} is smaller than one look": {
    "h": "d7d2f38a3dd6",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"look\" as in the catalogue's multilook term"
   },
   "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model": {
    "h": "7fac7475b784",
@@ -38466,7 +38474,8 @@
   },
   "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
    "h": "8a98719dca4f",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: uninflected command name after для; add команди as in message 4"
   },
   "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
    "h": "31ca6751f755",

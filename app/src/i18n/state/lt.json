@@ -36826,7 +36826,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: generic street and place instead of a real town"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -36846,7 +36847,8 @@
   },
   "A time stack needs at least two dated images": {
    "h": "2a0733793329",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack: catalogue uses 'rinkinys' for stack (Sluoksnių rinkinys)"
   },
   "A turn-ban table needs a \"from\" and a \"to\" column of road ids": {
    "h": "f51cdfddfc06",
@@ -36926,7 +36928,8 @@
   },
   "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.": {
    "h": "509a5f3448a3",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Anomaly z-score — {layer}": {
    "h": "16fbf5d8e536",
@@ -36978,7 +36981,8 @@
   },
   "Building a time stack…": {
    "h": "d52952624b43",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Building the address index…": {
    "h": "475fd0d0b8da",
@@ -37162,7 +37166,8 @@
   },
   "From images with more than one band, this band is stacked.": {
    "h": "44370217ba1c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Geocode": {
    "h": "1606207c5530",
@@ -37190,7 +37195,8 @@
   },
   "Geocoding {n, plural, one {# address} other {# addresses}}…": {
    "h": "756e05ce5caf",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: participle must agree with the counted noun"
   },
   "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.": {
    "h": "ad4d546bc4d8",
@@ -37250,7 +37256,8 @@
   },
   "Layover and shadow mask": {
    "h": "5205ab64af38",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: layover genitive as in catalogue (užkločio)"
   },
   "Left side, first number": {
    "h": "b7b6fe3ade00",
@@ -37342,7 +37349,8 @@
   },
   "No date for {layers}: name the files with their date (YYYYMMDD) or use files with an acquisition date": {
    "h": "4d26fdcb6e28",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: acquisition date: catalogue 'užfiksavimo data'"
   },
   "No match": {
    "h": "cd8d844d2c3d",
@@ -37590,7 +37598,8 @@
   },
   "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).": {
    "h": "a303fb20c804",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Service Area": {
    "h": "ba44ee1db7dd",
@@ -37626,7 +37635,8 @@
   },
   "Snap within": {
    "h": "d7c788070e6d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: snap distance: catalogue 'Pritraukimo atstumas'"
   },
   "Spatial join": {
    "h": "ec4195a42a20",
@@ -37750,7 +37760,8 @@
   },
   "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.": {
    "h": "9141038463dd",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: layover genitive as in catalogue (užkločio)"
   },
   "The recipe is open, but this browser has no storage to keep it in your library.": {
    "h": "b60e6221e1da",
@@ -37794,11 +37805,13 @@
   },
   "Time Stack": {
    "h": "6d4a5281e4da",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack: catalogue uses 'rinkinys' for stack"
   },
   "Time Stack…": {
    "h": "7c0b8c852484",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Time series": {
    "h": "5a8375f77dc7",
@@ -37806,11 +37819,13 @@
   },
   "Time stack ({n} dates)": {
    "h": "929765892397",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Time stack of {n} dates ({w}×{h}); {r} resampled": {
    "h": "5bf400c897a4",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Travel time": {
    "h": "fc2dc45944ee",
@@ -37838,7 +37853,8 @@
   },
   "Two images have the same date, {date}: stack one image per date": {
    "h": "c7b32739b042",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
@@ -37978,7 +37994,8 @@
   },
   "control point\u0004Ground": {
    "h": "151bf4939471",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: field label: match catalogue 'Ground: WGS 84' hint (Vietovė)"
   },
   "dates": {
    "h": "f18e48678b72",
@@ -38046,7 +38063,8 @@
   },
   "input {input}: no {kind} layer {layer}": {
    "h": "9fb3e5b0bed5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: {kind} is a translated word that cannot take the genitive here"
   },
   "isochrone": {
    "h": "21136c7519d3",
@@ -38054,7 +38072,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38342,7 +38361,8 @@
   },
   "terrain correction: the radar window over {dem} is smaller than one look": {
    "h": "d7d2f38a3dd6",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SAR look: catalogue 'žiūra'"
   },
   "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model": {
    "h": "7fac7475b784",
@@ -38490,11 +38510,13 @@
   },
   "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)": {
    "h": "7f6fb9cc1de5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "{layer} is not an open image that can go in a time stack": {
    "h": "b27d9ac89d68",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "{layer} is not loaded as terrain: use it as terrain first": {
    "h": "282a78e391bc",
@@ -38546,7 +38568,8 @@
   },
   "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month": {
    "h": "edfaaf4c22fb",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "{n} dates for {m} images: give one date for each": {
    "h": "3dc406c240fa",

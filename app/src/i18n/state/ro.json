@@ -36807,7 +36807,8 @@
   },
   "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.": {
    "h": "509a5f3448a3",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: raster grid is grilă (caroiaj is a map grid overlay)"
   },
   "Anomaly z-score — {layer}": {
    "h": "16fbf5d8e536",
@@ -36955,7 +36956,8 @@
   },
   "Elevation model": {
    "h": "f2e0b9b87e3b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: shipped term"
   },
   "End (longitude, latitude)": {
    "h": "d6d4750db0d2",
@@ -37027,7 +37029,8 @@
   },
   "Flow accumulation": {
    "h": "66ca6f87cbc7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped name of Flow Accumulation"
   },
   "Focal length after the adjustment with the control": {
    "h": "5c4f12452118",
@@ -37067,7 +37070,8 @@
   },
   "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.": {
    "h": "842f3317a665",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: shipped term"
   },
   "Geocoding {n, plural, one {# address} other {# addresses}}…": {
    "h": "756e05ce5caf",
@@ -37095,7 +37099,8 @@
   },
   "Images on another grid are resampled to the grid of the earliest one, inside the AOI when there is one.": {
    "h": "d5b6cf8ed8e5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: raster grid is grilă"
   },
   "Import… reads a gw-catalog/1 JSON file, an ISO 19110 catalogue, an INSPIRE application schema with its code lists, or OpenStreetMap presets.": {
    "h": "7906f715b6dd",
@@ -37435,7 +37440,8 @@
   },
   "Running a recipe unattended": {
    "h": "1f26f3019ff0",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: the run is unattended, not the recipe"
   },
   "Runs in two stages. The first orients the photographs and places them by their GPS; then you mark each ground control point in the photographs; then the second places the block on the points, adjusts it with them, and makes a dense cloud, a DSM and an orthomosaic.": {
    "h": "43f6cd589b66",
@@ -37503,11 +37509,13 @@
   },
   "Smallest contributing area": {
    "h": "98833eb8700d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped wording"
   },
   "Snap within": {
    "h": "d7c788070e6d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: dangling \"a\" before value; shipped snap term"
   },
   "Spatial join": {
    "h": "ec4195a42a20",
@@ -37527,7 +37535,8 @@
   },
   "Stacks dated images, each from its file name or metadata, in date order on one grid, resampling those on another grid, as a time series.": {
    "h": "c0ecf6f35720",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: raster grid is grilă"
   },
   "Start (longitude, latitude)": {
    "h": "217b83114b35",
@@ -37595,7 +37604,8 @@
   },
   "Terrain Correction needs an elevation model: open one and choose Use as Terrain.": {
    "h": "59a5bbca29f5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: shipped term"
   },
   "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}": {
    "h": "548114aef6c0",
@@ -37643,7 +37653,8 @@
   },
   "The roads reachable from a place within each travel time or distance you give.": {
    "h": "1a170b0fef84",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: meaning: within each time or distance"
   },
   "The same calendar month of the baseline": {
    "h": "b8b0f3d5cc89",
@@ -37767,7 +37778,8 @@
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Windows name of Task Scheduler; review gate: shipped term"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -38127,7 +38139,8 @@
   },
   "sargeo: no such job": {
    "h": "787d6c8d36b2",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: job is sarcină (glossary)"
   },
   "sargeo: the DEM is larger than 48 million posts, or its heights are the wrong length": {
    "h": "f30eddcf4791",
@@ -38219,7 +38232,8 @@
   },
   "terrain correction needs an elevation model loaded as terrain": {
    "h": "21ffa49f9acc",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: shipped term"
   },
   "terrain correction: the radar window over {dem} is smaller than one look": {
    "h": "d7d2f38a3dd6",
@@ -38227,11 +38241,13 @@
   },
   "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model": {
    "h": "7fac7475b784",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: shipped term"
   },
   "terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first": {
    "h": "bebdafcaea08",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: shipped term"
   },
   "the address index": {
    "h": "a211e516f23a",
@@ -38383,7 +38399,8 @@
   },
   "{layer} is not on the grid of {ref}, and one of them has no georeference to resample by": {
    "h": "5c5751cd844e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: raster grid is grilă"
   },
   "{layer}: the annotation lacks the timing or range sampling geocoding needs": {
    "h": "7e6699b1a841",
@@ -38507,11 +38524,13 @@
   },
   "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
    "h": "8a98719dca4f",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   },
   "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
    "h": "31ca6751f755",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   }
  }
 }

@@ -7155,7 +7155,7 @@
   "labels": "feliratok",
   "landing zone\u0004Buffer": "Biztonsági távolság",
   "landscape": "fekvő",
-  "largest {n}": "a {n} legnagyobb",
+  "largest {n}": "legnagyobb érték: {n}",
   "lasso": "lasszó lasso",
   "lat lon": "szél. hossz.",
   "latitude out of range": "a földrajzi szélesség a megengedett tartományon kívül esik",

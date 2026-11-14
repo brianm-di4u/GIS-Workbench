@@ -7155,7 +7155,7 @@
   "labels": "etiketter",
   "landing zone\u0004Buffer": "Sikkerhedsmargin",
   "landscape": "liggende",
-  "largest {n}": "største {n}",
+  "largest {n}": "største værdi {n}",
   "lasso": "lasso",
   "lat lon": "bredde længde lat lon",
   "latitude out of range": "breddegrad uden for gyldigt interval",

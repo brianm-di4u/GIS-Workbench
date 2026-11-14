@@ -36856,7 +36856,8 @@
   },
   "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.": {
    "h": "a87d114425df",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"refused\": wrong verb"
   },
   "Address Index": {
    "h": "c3744f9760c6",
@@ -37416,7 +37417,8 @@
   },
   "Pixel purity skewers (0: none)": {
    "h": "e8800679ca56",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: PPI skewers as in the catalogue"
   },
   "Place column": {
    "h": "666421cfa33e",
@@ -37872,7 +37874,8 @@
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"refused\": wrong verb"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -38040,7 +38043,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",

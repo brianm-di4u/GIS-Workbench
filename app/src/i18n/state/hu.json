@@ -36822,7 +36822,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: generic place instead of a real town"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -36842,7 +36843,8 @@
   },
   "A time stack needs at least two dated images": {
    "h": "2a0733793329",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack: use catalogue 'verem' (Rétegverem); köteg is batch"
   },
   "A turn-ban table needs a \"from\" and a \"to\" column of road ids": {
    "h": "f51cdfddfc06",
@@ -36922,7 +36924,8 @@
   },
   "Analyze ▸ Time Series works on a layer with a date on every band: the time axis of a NetCDF-3 (classic) file, or a stack from Time Stack, which puts dated images (dates from their file names or metadata) in date order on one grid. The Time Series panel has a date slider with playback and recording, and shows the values over time at the cursor, at a pinned point or over the AOI, with CSV export. Temporal Trend fits a straight line through each pixel (slope per year, p-value, dates used); Temporal Anomaly compares each date with a baseline period, by calendar month or not, as a difference or a z-score. With an AOI drawn, all of them work inside it.": {
    "h": "509a5f3448a3",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name; pin = rögzít, record = felvétel as in catalogue"
   },
   "Anomaly z-score — {layer}": {
    "h": "16fbf5d8e536",
@@ -36974,7 +36977,8 @@
   },
   "Building a time stack…": {
    "h": "d52952624b43",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Building the address index…": {
    "h": "475fd0d0b8da",
@@ -37158,7 +37162,8 @@
   },
   "From images with more than one band, this band is stacked.": {
    "h": "44370217ba1c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Geocode": {
    "h": "1606207c5530",
@@ -37302,7 +37307,8 @@
   },
   "Move the cursor over the image, pin a point, or draw an AOI.": {
    "h": "06e9f3822ace",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pin = rögzít as in catalogue"
   },
   "New layer from schema": {
    "h": "355346ca2cc6",
@@ -37398,7 +37404,8 @@
   },
   "Opens the Time Series panel: a date slider with playback and recording, and the values over time at the cursor, a pinned point or the AOI, with CSV export.": {
    "h": "748b15439815",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pin = rögzít, record = felvétel as in catalogue"
   },
   "Or open an index saved before (one per district keeps each small):": {
    "h": "52c92755baa7",
@@ -37418,11 +37425,13 @@
   },
   "Pin the cursor": {
    "h": "bc6f1eb5038d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pin = rögzít as in catalogue"
   },
   "Pinned point": {
    "h": "8342489ae4a4",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pin = rögzít as in catalogue"
   },
   "Pixel purity skewers (0: none)": {
    "h": "e8800679ca56",
@@ -37450,7 +37459,8 @@
   },
   "Point at the image, pin a point or draw an AOI first": {
    "h": "72e051db2a90",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pin = rögzít as in catalogue"
   },
   "Pour point (longitude, latitude)": {
    "h": "1b16131b52ce",
@@ -37586,7 +37596,8 @@
   },
   "Select a time series: a layer with a date on every band (a NetCDF-3 time axis, or Analyze ▸ Time Stack).": {
    "h": "a303fb20c804",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Service Area": {
    "h": "ba44ee1db7dd",
@@ -37790,11 +37801,13 @@
   },
   "Time Stack": {
    "h": "6d4a5281e4da",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack: use catalogue 'verem'"
   },
   "Time Stack…": {
    "h": "7c0b8c852484",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Time series": {
    "h": "5a8375f77dc7",
@@ -37802,11 +37815,13 @@
   },
   "Time stack ({n} dates)": {
    "h": "929765892397",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Time stack of {n} dates ({w}×{h}); {r} resampled": {
    "h": "5bf400c897a4",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "Travel time": {
    "h": "fc2dc45944ee",
@@ -37834,7 +37849,8 @@
   },
   "Two images have the same date, {date}: stack one image per date": {
    "h": "c7b32739b042",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
@@ -37974,7 +37990,8 @@
   },
   "control point\u0004Ground": {
    "h": "151bf4939471",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: field label: match catalogue 'Ground: WGS 84' hint (Terep)"
   },
   "dates": {
    "h": "f18e48678b72",
@@ -38050,7 +38067,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38486,11 +38504,13 @@
   },
   "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)": {
    "h": "7f6fb9cc1de5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "{layer} is not an open image that can go in a time stack": {
    "h": "b27d9ac89d68",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "{layer} is not loaded as terrain: use it as terrain first": {
    "h": "282a78e391bc",
@@ -38542,7 +38562,8 @@
   },
   "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month": {
    "h": "edfaaf4c22fb",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Time Stack name"
   },
   "{n} dates for {m} images: give one date for each": {
    "h": "3dc406c240fa",
