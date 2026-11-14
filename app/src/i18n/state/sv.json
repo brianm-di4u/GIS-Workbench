@@ -36737,7 +36737,8 @@
   },
   "A route needs a start and an end, and a service area a place to start from": {
    "h": "d3fa891fb727",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slut → startpunkt/slutpunkt"
   },
   "A table with \"from\" and \"to\" road ids: no turn from the first road onto the second where they meet.": {
    "h": "34edf4163b40",
@@ -36761,7 +36762,8 @@
   },
   "Add a step to begin. In the graph, drag from an output on the right of a step to an input on the left of another; in the list, choose each input from the outputs before it.": {
    "h": "4b75a041015d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: indata/utdata as in the shipped catalogue"
   },
   "Add a step…": {
    "h": "b098fb94bef6",
@@ -36769,7 +36771,8 @@
   },
   "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.": {
    "h": "a87d114425df",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: indata/utdata as in the shipped catalogue"
   },
   "Address Index": {
    "h": "c3744f9760c6",
@@ -36913,7 +36916,8 @@
   },
   "Choose the model file an earlier first stage published (.sfm-model)": {
    "h": "5d7428bd9a29",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp, distinct from workflow steg"
   },
   "Click a place to find its address": {
    "h": "c5a62b097d32",
@@ -36925,15 +36929,18 @@
   },
   "Click a start and an end: the fastest or shortest route on the road network.": {
    "h": "0d4757a37c84",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slut → startpunkt/slutpunkt"
   },
   "Click the end": {
    "h": "9b2fb0e86a86",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: slutet → slutpunkten"
   },
   "Click the start": {
    "h": "0ac52e56b293",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: starten → startpunkten"
   },
   "Command id": {
    "h": "c1220d9cff6b",
@@ -37025,7 +37032,8 @@
   },
   "Finds an address in your address index, with spelling slips forgiven, and marks it. Nothing is sent anywhere.": {
    "h": "9b8ec09ed553",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: awkward phrasing"
   },
   "Finds every address in a CSV table, as points with how they matched and a score.": {
    "h": "a47f4fcc94a6",
@@ -37121,11 +37129,13 @@
   },
   "Input {name}": {
    "h": "c8d00bf099a5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Input = Indata in the shipped catalogue"
   },
   "Input {name} ({type})": {
    "h": "5e925e6e8fd8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Input = Indata in the shipped catalogue"
   },
   "Inside the AOI when there is one.": {
    "h": "4f315a1016cd",
@@ -37201,7 +37211,8 @@
   },
   "Models the first stage published on this sidecar, newest first (it keeps them for 14 days)": {
    "h": "00bbed38a1d5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp; definite sidecarn as shipped"
   },
   "Move the cursor over the image, pin a point, or draw an AOI.": {
    "h": "06e9f3822ace",
@@ -37261,7 +37272,8 @@
   },
   "No route: the end cannot be reached from the start (one-way streets or a closed road)": {
    "h": "7f749b1e2c77",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slut → startpunkt/slutpunkt"
   },
   "Objects": {
    "h": "de5236ee1561",
@@ -37445,7 +37457,8 @@
   },
   "Run the first stage": {
    "h": "28274a1700bf",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp, distinct from workflow steg"
   },
   "Run with these marks": {
    "h": "84b53da1bded",
@@ -37457,7 +37470,8 @@
   },
   "Runs in two stages. The first orients the photographs and places them by their GPS; then you mark each ground control point in the photographs; then the second places the block on the points, adjusts it with them, and makes a dense cloud, a DSM and an orthomosaic.": {
    "h": "43f6cd589b66",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp; “det andra blocket” misread"
   },
   "Save workflow": {
    "h": "e77921c87cd4",
@@ -37645,7 +37659,8 @@
   },
   "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.": {
    "h": "42091a8448f0",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp"
   },
   "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.": {
    "h": "9141038463dd",
@@ -37669,7 +37684,8 @@
   },
   "The start and the end are the same place on the road network": {
    "h": "97ee1fa3df61",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: start/slut → startpunkt/slutpunkt"
   },
   "The table is empty: give a header row and one address per row": {
    "h": "0ef3862ef30a",
@@ -37741,11 +37757,13 @@
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp"
   },
   "UAV block to a sparse model for ground control marking (structure from motion, stage 1)": {
    "h": "d0c330138e4a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp"
   },
   "UAV photographs": {
    "h": "b3adb9e8e2ea",
@@ -37781,11 +37799,13 @@
   },
   "Wires steps into a workflow, output to input; saves it in the project and your library, and runs it again on new inputs.": {
    "h": "3c241c240741",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: utdata/indata as in the shipped catalogue"
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: “vid sidan” = beside; review gate = granskningssteg as shipped"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -37941,11 +37961,13 @@
   },
   "input {input} has no layer: wire it to a step, or give it when the workflow runs": {
    "h": "6e85b4327fb7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: indata as in the shipped catalogue"
   },
   "input {input}: no {kind} layer {layer}": {
    "h": "9fb3e5b0bed5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: indata as in the shipped catalogue"
   },
   "isochrone": {
    "h": "21136c7519d3",
@@ -37953,7 +37975,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38269,7 +38292,8 @@
   },
   "the first stage published no model file": {
    "h": "3010db5f5ca9",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp, distinct from workflow steg"
   },
   "the model file header is too large": {
    "h": "87dd202e0d78",
@@ -38289,7 +38313,8 @@
   },
   "the sidecar could not read {file}": {
    "h": "c0f01af6740f",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: definite form as shipped"
   },
   "the workflow has no steps": {
    "h": "8ff8422d843b",
@@ -38297,7 +38322,8 @@
   },
   "this is not a model file from the first stage": {
    "h": "39c5db470111",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage = etapp, distinct from workflow steg"
   },
   "time series": {
    "h": "4f691bfe771e",
@@ -38345,7 +38371,8 @@
   },
   "{dsm} comes from an opposite-side pair: its errors are not a bias levelling removes, so it is not levelled": {
    "h": "5e5db388dc41",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: DSM is common gender (en DSM)"
   },
   "{dsm} is held as terrain resampled or at reduced resolution, so its flags cannot be matched to its posts": {
    "h": "dfa1c10fca39",
@@ -38377,7 +38404,8 @@
   },
   "{input} takes {want}, not {got}": {
    "h": "d295a7c9db91",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: idiom"
   },
   "{layer} has no lines to build a network from": {
    "h": "e1a40c9d92ba",
@@ -38433,7 +38461,8 @@
   },
   "{number} {street} ({d} away)": {
    "h": "4ef322693282",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: idiom"
   },
   "{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage": {
    "h": "b366c48f73b8",
@@ -38513,6 +38542,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

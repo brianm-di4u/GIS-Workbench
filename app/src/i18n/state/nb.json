@@ -36744,7 +36744,8 @@
   },
   "Add a step to begin. In the graph, drag from an output on the right of a step to an input on the left of another; in the list, choose each input from the outputs before it.": {
    "h": "4b75a041015d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: shipped Inndata/Utdata"
   },
   "Add a step…": {
    "h": "b098fb94bef6",
@@ -36752,7 +36753,8 @@
   },
   "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.": {
    "h": "a87d114425df",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: shipped Inndata/Utdata"
   },
   "Address Index": {
    "h": "c3744f9760c6",
@@ -37028,7 +37030,8 @@
   },
   "Flow accumulation": {
    "h": "66ca6f87cbc7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped name of Flow Accumulation"
   },
   "Focal length after the adjustment with the control": {
    "h": "5c4f12452118",
@@ -37076,7 +37079,8 @@
   },
   "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.": {
    "h": "ad4d546bc4d8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: close spellings = similar"
   },
   "Give at least one break greater than zero": {
    "h": "125778be7408",
@@ -37104,11 +37108,13 @@
   },
   "Input {name}": {
    "h": "c8d00bf099a5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: shipped Inndata"
   },
   "Input {name} ({type})": {
    "h": "5e925e6e8fd8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: shipped Inndata"
   },
   "Inside the AOI when there is one.": {
    "h": "4f315a1016cd",
@@ -37764,11 +37770,13 @@
   },
   "Wires steps into a workflow, output to input; saves it in the project and your library, and runs it again on new inputs.": {
    "h": "3c241c240741",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: shipped Inndata/Utdata"
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"at the page\" mistranslated; review gate: shipped term"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -37924,11 +37932,13 @@
   },
   "input {input} has no layer: wire it to a step, or give it when the workflow runs": {
    "h": "6e85b4327fb7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: ports: shipped Inndata"
   },
   "input {input}: no {kind} layer {layer}": {
    "h": "9fb3e5b0bed5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: no compound with run-time {kind}; shipped Inndata"
   },
   "isochrone": {
    "h": "21136c7519d3",
@@ -37936,7 +37946,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38160,7 +38171,8 @@
   },
   "sargeoParams: opts.look must be 1 (right), -1 (left) or 0 (either)": {
    "h": "49394c2aac1b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: either side, not both"
   },
   "schema": {
    "h": "df0ad6e43880",
@@ -38404,7 +38416,8 @@
   },
   "{n, plural, one {# endmember} other {# endmembers}}": {
    "h": "9811ec2106fe",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped term endemedlem"
   },
   "{n, plural, one {# post raised} other {# posts raised}}": {
    "h": "e2262a1d5917",
@@ -38496,6 +38509,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

@@ -37029,7 +37029,8 @@
   },
   "Elevation model": {
    "h": "f2e0b9b87e3b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue term for elevation model is «μοντέλο υψομέτρων»"
   },
   "End (longitude, latitude)": {
    "h": "d6d4750db0d2",
@@ -37141,7 +37142,8 @@
   },
   "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.": {
    "h": "842f3317a665",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue term for elevation model"
   },
   "Geocoding {n, plural, one {# address} other {# addresses}}…": {
    "h": "756e05ce5caf",
@@ -37237,7 +37239,8 @@
   },
   "Mark farthest from where its survey puts it": {
    "h": "4e3c8fb1e56d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: needs the superlative (the farthest mark), not a comparative"
   },
   "Mark the ground control points": {
    "h": "781fca1a819f",
@@ -37669,7 +37672,8 @@
   },
   "Terrain Correction needs an elevation model: open one and choose Use as Terrain.": {
    "h": "59a5bbca29f5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue term for elevation model"
   },
   "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}": {
    "h": "548114aef6c0",
@@ -37841,7 +37845,8 @@
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: review gate disambiguated from SfM checkpoints; Windows name of Task Scheduler; \"sidecar's own copy\" misattributed to the browser"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -38009,7 +38014,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: meant the largest value (maximum), not \"the n largest\""
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38293,7 +38299,8 @@
   },
   "terrain correction needs an elevation model loaded as terrain": {
    "h": "21ffa49f9acc",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue term for elevation model"
   },
   "terrain correction: the radar window over {dem} is smaller than one look": {
    "h": "d7d2f38a3dd6",
@@ -38301,11 +38308,13 @@
   },
   "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model": {
    "h": "7fac7475b784",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue term for elevation model"
   },
   "terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first": {
    "h": "bebdafcaea08",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue term for elevation model"
   },
   "the address index": {
    "h": "a211e516f23a",
@@ -38570,6 +38579,24 @@
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
    "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   }
  }
 }

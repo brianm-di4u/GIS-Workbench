@@ -36844,7 +36844,8 @@
   },
   "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.": {
    "h": "a87d114425df",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"Pokreni ga izvodi\" / \"Spremi ga čuva\" read ambiguously; name the buttons clearly"
   },
   "Address Index": {
    "h": "c3744f9760c6",
@@ -36980,7 +36981,8 @@
   },
   "Choose a point, then mark it in each photograph: the more photographs, the better, and at least two. Checkpoints are marked the same way and kept out of the adjustment, to measure it.": {
    "h": "08567f0fd538",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: wrong pronoun (njime, singular) and clumsy purpose clause"
   },
   "Choose the ground control file (CSV or gcp_list.txt)": {
    "h": "4dd62175f7c1",
@@ -37620,7 +37622,8 @@
   },
   "Stacks dated images, each from its file name or metadata, in date order on one grid, resampling those on another grid, as a time series.": {
    "h": "c0ecf6f35720",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"svaki\" had no clear referent"
   },
   "Start (longitude, latitude)": {
    "h": "217b83114b35",
@@ -38028,7 +38031,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: meant the largest value (maximum), not \"the n largest\""
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38589,6 +38593,24 @@
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
    "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   }
  }
 }

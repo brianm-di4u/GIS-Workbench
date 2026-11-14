@@ -36826,7 +36826,8 @@
   },
   "Choose the model file an earlier first stage published (.sfm-model)": {
    "h": "5d7428bd9a29",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "Click a place to find its address": {
    "h": "c5a62b097d32",
@@ -36886,7 +36887,8 @@
   },
   "Elevation model": {
    "h": "f2e0b9b87e3b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: catalogue uses “modèle altimétrique”"
   },
   "End (longitude, latitude)": {
    "h": "d6d4750db0d2",
@@ -36998,7 +37000,8 @@
   },
   "Geocodes a Sentinel-1 image onto an elevation model by range-Doppler with its orbit, flattens it to γ⁰ by projected area, and masks layover and shadow.": {
    "h": "842f3317a665",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: catalogue uses “modèle altimétrique”"
   },
   "Geocoding {n, plural, one {# address} other {# addresses}}…": {
    "h": "756e05ce5caf",
@@ -37114,7 +37117,8 @@
   },
   "Models the first stage published on this sidecar, newest first (it keeps them for 14 days)": {
    "h": "00bbed38a1d5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "Move the cursor over the image, pin a point, or draw an AOI.": {
    "h": "06e9f3822ace",
@@ -37358,7 +37362,8 @@
   },
   "Run the first stage": {
    "h": "28274a1700bf",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "Run with these marks": {
    "h": "84b53da1bded",
@@ -37370,7 +37375,8 @@
   },
   "Runs in two stages. The first orients the photographs and places them by their GPS; then you mark each ground control point in the photographs; then the second places the block on the points, adjusts it with them, and makes a dense cloud, a DSM and an orthomosaic.": {
    "h": "43f6cd589b66",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "Save workflow": {
    "h": "e77921c87cd4",
@@ -37434,7 +37440,8 @@
   },
   "Smallest contributing area": {
    "h": "98833eb8700d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue: “Superficie contributive minimale”"
   },
   "Snap within": {
    "h": "d7c788070e6d",
@@ -37526,7 +37533,8 @@
   },
   "Terrain Correction needs an elevation model: open one and choose Use as Terrain.": {
    "h": "59a5bbca29f5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: catalogue uses “modèle altimétrique”"
   },
   "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}": {
    "h": "548114aef6c0",
@@ -37558,7 +37566,8 @@
   },
   "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.": {
    "h": "42091a8448f0",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.": {
    "h": "9141038463dd",
@@ -37654,11 +37663,13 @@
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "UAV block to a sparse model for ground control marking (structure from motion, stage 1)": {
    "h": "d0c330138e4a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "UAV photographs": {
    "h": "b3adb9e8e2ea",
@@ -37790,7 +37801,8 @@
   },
   "control point\u0004Ground": {
    "h": "151bf4939471",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: same dialog’s hint says “Sol : WGS 84”"
   },
   "dates": {
    "h": "f18e48678b72",
@@ -37866,7 +37878,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38102,7 +38115,8 @@
   },
   "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic": {
    "h": "b523c64533f8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: bundle adjustment: catalogue “compensation par faisceaux”"
   },
   "shortest path": {
    "h": "4cf6c2a07d70",
@@ -38150,7 +38164,8 @@
   },
   "terrain correction needs an elevation model loaded as terrain": {
    "h": "21ffa49f9acc",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: catalogue uses “modèle altimétrique”"
   },
   "terrain correction: the radar window over {dem} is smaller than one look": {
    "h": "d7d2f38a3dd6",
@@ -38158,11 +38173,13 @@
   },
   "terrain correction: the radar window over {dem} is {n} pixels, more than the 64 million it reads; use a smaller elevation model": {
    "h": "7fac7475b784",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: catalogue uses “modèle altimétrique”"
   },
   "terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first": {
    "h": "bebdafcaea08",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: elevation model: catalogue uses “modèle altimétrique”"
   },
   "the address index": {
    "h": "a211e516f23a",
@@ -38182,7 +38199,8 @@
   },
   "the first stage published no model file": {
    "h": "3010db5f5ca9",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "the model file header is too large": {
    "h": "87dd202e0d78",
@@ -38210,7 +38228,8 @@
   },
   "this is not a model file from the first stage": {
    "h": "39c5db470111",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM stage: “phase”, so it is not confused with a workflow step (étape)"
   },
   "time series": {
    "h": "4f691bfe771e",
@@ -38426,6 +38445,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

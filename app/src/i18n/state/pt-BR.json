@@ -37378,7 +37378,8 @@
   },
   "Pour point (longitude, latitude)": {
    "h": "1b16131b52ce",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pour point: catalogue “ponto de exutório”"
   },
   "Previous photograph": {
    "h": "c7cd30884cd6",
@@ -37666,7 +37667,8 @@
   },
   "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.": {
    "h": "42091a8448f0",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: quotes: catalogue uses straight double quotes"
   },
   "The offset is fitted robustly over stable terrain: posts with no layover, shadow or matching flag, on gentle slopes of the reference.": {
    "h": "9141038463dd",
@@ -37930,7 +37932,8 @@
   },
   "gazetteer": {
    "h": "981ea5cbe35b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: search keyword: English is already searchable; give the Portuguese term"
   },
   "geocode": {
    "h": "617bf81b6675",
@@ -37946,7 +37949,8 @@
   },
   "give the pour point as longitude, latitude": {
    "h": "342c630760d9",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pour point: catalogue “ponto de exutório”"
   },
   "graph": {
    "h": "eef93e1d1448",
@@ -37974,7 +37978,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38210,7 +38215,8 @@
   },
   "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic": {
    "h": "b523c64533f8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: bundle adjustment: catalogue “ajustamento de feixes”"
   },
   "shortest path": {
    "h": "4cf6c2a07d70",
@@ -38222,19 +38228,23 @@
   },
   "spectral: a trend needs one finite date per band": {
    "h": "e2b68f368d49",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "spectral: an anomaly needs a baseline flag and a group per band": {
    "h": "abc51b11e050",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "spectral: the baseline holds no dates": {
    "h": "7d646faf64fa",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "spectral: unknown temporal operation": {
    "h": "ef4bd8f94680",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "street": {
    "h": "6008c26f4452",
@@ -38270,7 +38280,8 @@
   },
   "terrain correction: {n} posts is more than the 16 million it takes; crop or resample the elevation model first": {
    "h": "bebdafcaea08",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: verb agreement"
   },
   "the address index": {
    "h": "a211e516f23a",
@@ -38458,7 +38469,8 @@
   },
   "{n} addresses are more than one index holds ({max}): split the layer by area, and save each part as an address GeoPackage": {
    "h": "b366c48f73b8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: verb agreement"
   },
   "{n} control points are marked in two or more photographs; at least 3 are needed": {
    "h": "25098609595b",
@@ -38466,7 +38478,8 @@
   },
   "{n} dates are more than one trend or anomaly takes ({max}): make a stack of fewer dates, for example one a month": {
    "h": "edfaaf4c22fb",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: verb agreement"
   },
   "{n} dates for {m} images: give one date for each": {
    "h": "3dc406c240fa",
@@ -38494,7 +38507,8 @@
   },
   "{n} road pieces are more than one network holds ({max}): clip the layer to the area you need": {
    "h": "6bea83157526",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: verb agreement"
   },
   "{ok} of {n} addresses found": {
    "h": "2c9b30147d01",
@@ -38534,6 +38548,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

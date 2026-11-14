@@ -36874,7 +36874,8 @@
   },
   "Command id": {
    "h": "c1220d9cff6b",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue writes ID/id, never “id.”"
   },
   "Compare with": {
    "h": "4007acd502c2",
@@ -36942,7 +36943,8 @@
   },
   "Feature catalogue (id)": {
    "h": "8b239c2e931f",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue writes ID/id, never “id.”"
   },
   "Feature type (code)": {
    "h": "0d429f0e5088",
@@ -37070,7 +37072,8 @@
   },
   "Layer (name or id)": {
    "h": "cfa8564a3949",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue writes ID/id, never “id.”"
   },
   "Layer name": {
    "h": "b6db8b764a4d",
@@ -37358,7 +37361,8 @@
   },
   "Road id field": {
    "h": "c772d0a880a8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue writes ID/id, never “id.”"
   },
   "Road layer": {
    "h": "02058aa579bc",
@@ -37458,7 +37462,8 @@
   },
   "Smallest contributing area": {
    "h": "98833eb8700d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: catalogue: “Área de aporte mínima”"
   },
   "Snap within": {
    "h": "d7c788070e6d",
@@ -37890,7 +37895,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38138,19 +38144,23 @@
   },
   "spectral: a trend needs one finite date per band": {
    "h": "e2b68f368d49",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "spectral: an anomaly needs a baseline flag and a group per band": {
    "h": "abc51b11e050",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "spectral: the baseline holds no dates": {
    "h": "7d646faf64fa",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "spectral: unknown temporal operation": {
    "h": "ef4bd8f94680",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: prefix: catalogue translates “spectral:”"
   },
   "street": {
    "h": "6008c26f4452",
@@ -38358,7 +38368,8 @@
   },
   "{n, plural, one {# endmember} other {# endmembers}}": {
    "h": "9811ec2106fe",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: endmember: catalogue “miembros finales”"
   },
   "{n, plural, one {# post raised} other {# posts raised}}": {
    "h": "e2262a1d5917",
@@ -38450,6 +38461,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

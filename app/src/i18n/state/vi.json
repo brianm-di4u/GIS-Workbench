@@ -36739,7 +36739,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: sample address localised (number first, as Find Address parses it)"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -37279,7 +37280,8 @@
   },
   "Objects": {
    "h": "de5236ee1561",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: match shipped Find objects (Tìm đối tượng)"
   },
   "One-way field": {
    "h": "cdcf41739a67",
@@ -37343,7 +37345,8 @@
   },
   "Pixel purity skewers (0: none)": {
    "h": "e8800679ca56",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: glossary spelling: vector"
   },
   "Place column": {
    "h": "666421cfa33e",
@@ -37647,7 +37650,8 @@
   },
   "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).": {
    "h": "fe00bfddb449",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation kept as in shipped SAR strings, not map note"
   },
   "That point is {d} from the road network (more than {max})": {
    "h": "a514c2b9af08",
@@ -37655,7 +37659,8 @@
   },
   "The annotation’s own orbit": {
    "h": "8f771c1a172c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation kept as in shipped SAR strings"
   },
   "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.": {
    "h": "42091a8448f0",
@@ -37771,7 +37776,8 @@
   },
   "Use the Annotation’s Orbit": {
    "h": "0554a34beb41",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation kept as in shipped SAR strings"
   },
   "Use this model": {
    "h": "1f2ba25aaafe",
@@ -37867,7 +37873,8 @@
   },
   "browning": {
    "h": "21dafa5eab70",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: pair with greening (xanh hóa thực vật)"
   },
   "change over the years per pixel": {
    "h": "ce84e0114d79",
@@ -37919,7 +37926,8 @@
   },
   "gamma nought": {
    "h": "8e363f2eae1d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: 'gamma không' also reads as 'no gamma'"
   },
   "gazetteer": {
    "h": "981ea5cbe35b",
@@ -37967,7 +37975,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38079,7 +38088,8 @@
   },
   "open a Sentinel-1 SAFE product with its annotation and calibration first": {
    "h": "0dd8f59c3e0a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation as in shipped SAFE strings"
   },
   "orbit file": {
    "h": "b6662ac8a6ea",
@@ -38203,7 +38213,8 @@
   },
   "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic": {
    "h": "b523c64533f8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: bundle adjustment as shipped (bình sai chùm tia)"
   },
   "shortest path": {
    "h": "4cf6c2a07d70",
@@ -38247,7 +38258,8 @@
   },
   "terrain correction needs a Sentinel-1 SAFE layer opened with its annotation": {
    "h": "5da42bd1820e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation as in shipped SAFE strings"
   },
   "terrain correction needs an elevation model loaded as terrain": {
    "h": "21ffa49f9acc",
@@ -38419,7 +38431,8 @@
   },
   "{layer}: the annotation lacks the timing or range sampling geocoding needs": {
    "h": "7e6699b1a841",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation as in shipped SAFE strings"
   },
   "{min} min": {
    "h": "43fe4f2d4989",
@@ -38528,6 +38541,24 @@
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
    "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
+   "state": "passed",
+   "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
   }
  }
 }

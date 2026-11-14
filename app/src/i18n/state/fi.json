@@ -36923,15 +36923,18 @@
   },
   "Click a start and an end: the fastest or shortest route on the road network.": {
    "h": "0d4757a37c84",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: object case after napsauta"
   },
   "Click the end": {
    "h": "9b2fb0e86a86",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: object case after napsauta"
   },
   "Click the start": {
    "h": "0ac52e56b293",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: object case after napsauta"
   },
   "Command id": {
    "h": "c1220d9cff6b",
@@ -36939,7 +36942,8 @@
   },
   "Compare with": {
    "h": "4007acd502c2",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: label, not a verb with colon"
   },
   "Cost": {
    "h": "204a5eb2cd28",
@@ -37043,7 +37047,8 @@
   },
   "Flow accumulation": {
    "h": "66ca6f87cbc7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped name of Flow Accumulation"
   },
   "Focal length after the adjustment with the control": {
    "h": "5c4f12452118",
@@ -37091,7 +37096,8 @@
   },
   "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.": {
    "h": "ad4d546bc4d8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: close spellings = similar, not nearby"
   },
   "Give at least one break greater than zero": {
    "h": "125778be7408",
@@ -37223,7 +37229,8 @@
   },
   "No address within {d}": {
    "h": "8c6aa24a3b36",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: within a radius"
   },
   "No addresses in {layer}: map the street field (and the number, or the number ranges)": {
    "h": "e32c29cecde9",
@@ -37523,7 +37530,8 @@
   },
   "Snap within": {
    "h": "d7c788070e6d",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped snap term; label for a distance"
   },
   "Spatial join": {
    "h": "ec4195a42a20",
@@ -37615,7 +37623,8 @@
   },
   "Terrain Correction works on Sentinel-1 SLC images for now; {layer} is {type}": {
    "h": "548114aef6c0",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: case error (kuviin)"
   },
   "Terrain Correction…": {
    "h": "9887830133ae",
@@ -37783,7 +37792,8 @@
   },
   "With the optional sidecar, gwb-run runs a recipe with nobody at the page: from a shell, a script, Task Scheduler or cron. It starts Chrome or Edge headless with the sidecar’s own copy of the app, runs the recipe, and writes its files to the folder given by --out, each with a provenance file beside it. For example: gwb-run folder-to-cog --in s1=site.tif --out results. A recipe that would wait for someone, such as a step that opens a dialog or a review gate when gates are set to stop, is refused before anything runs. gwb-run --help lists the options.": {
    "h": "a227c3823d57",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: review gate: shipped term tarkistusvaihe"
   },
   "Workflow": {
    "h": "2e2d5c5649b7",
@@ -37943,7 +37953,8 @@
   },
   "input {input}: no {kind} layer {layer}": {
    "h": "9fb3e5b0bed5",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: no compound with run-time {kind}"
   },
   "isochrone": {
    "h": "21136c7519d3",
@@ -37951,7 +37962,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38187,7 +38199,8 @@
   },
   "sfm uav drone photogrammetry gcp ground control points checkpoints survey bundle adjustment dsm orthomosaic": {
    "h": "b523c64533f8",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped term kimpputasoitus"
   },
   "shortest path": {
    "h": "4cf6c2a07d70",
@@ -38419,11 +38432,13 @@
   },
   "{n, plural, one {# endmember} other {# endmembers}}": {
    "h": "9811ec2106fe",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped term päätejäsen"
   },
   "{n, plural, one {# post raised} other {# posts raised}}": {
    "h": "e2262a1d5917",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: shipped wording (Fill Sinks: korotettu)"
   },
   "{name} is not an address index GeoPackage written by GIS Workbench": {
    "h": "3e9f04d45890",
@@ -38511,6 +38526,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

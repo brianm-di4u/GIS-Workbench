@@ -36664,7 +36664,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: sample address localised (other locales do); \"Street number, place\" with ASCII comma so the search parser reads it"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -37680,11 +37681,13 @@
   },
   "UAV block placed by ground control to DSM and orthomosaic (structure from motion, stage 2)": {
    "h": "fbd612a5b4d2",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM as in the catalogue (UAV block … (SfM))"
   },
   "UAV block to a sparse model for ground control marking (structure from motion, stage 1)": {
    "h": "d0c330138e4a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: SfM as in the catalogue (UAV block … (SfM))"
   },
   "UAV photographs": {
    "h": "b3adb9e8e2ea",
@@ -37892,7 +37895,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38352,7 +38356,8 @@
   },
   "{n, plural, one {# ban} other {# bans}} from {file}": {
    "h": "5d93fe6b9e9e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"bans\" are turn bans; 금지 alone is unclear"
   },
   "{n, plural, one {# date} other {# dates}}": {
    "h": "be32ee75d517",
@@ -38452,6 +38457,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }

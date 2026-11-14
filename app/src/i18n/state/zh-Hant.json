@@ -36724,7 +36724,8 @@
   },
   "12 Main Street, Springfield": {
    "h": "54aafc2987f7",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: sample address localised (other locales do); \"Street number, place\" with ASCII comma so the search parser reads it"
   },
   "A precise (POEORB) or restituted (RESORB) orbit file is used when it covers the image; GIS Workbench does not download one.": {
    "h": "28ecc14e8a55",
@@ -37632,7 +37633,8 @@
   },
   "Terrain correction: {n} posts with a value, {lay} in layover, {sh} in shadow (the annotation’s orbit).": {
    "h": "fe00bfddb449",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation: 詮釋資料 as in the catalogue (註記 is markup)"
   },
   "That point is {d} from the road network (more than {max})": {
    "h": "a514c2b9af08",
@@ -37640,7 +37642,8 @@
   },
   "The annotation’s own orbit": {
    "h": "8f771c1a172c",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation: 詮釋資料 as in the catalogue (註記 is markup)"
   },
   "The first stage is kept as {file}: run again and choose it with “Use a model from an earlier run”.": {
    "h": "42091a8448f0",
@@ -37756,7 +37759,8 @@
   },
   "Use the Annotation’s Orbit": {
    "h": "0554a34beb41",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation: 詮釋資料 as in the catalogue (註記 is markup)"
   },
   "Use this model": {
    "h": "1f2ba25aaafe",
@@ -37952,7 +37956,8 @@
   },
   "largest {n}": {
    "h": "1100fb295694",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: integrator: {n} is the flow-accumulation maximum, a value, not a count (council #260 S1)"
   },
   "levelling": {
    "h": "c879c12a7ccc",
@@ -38064,7 +38069,8 @@
   },
   "open a Sentinel-1 SAFE product with its annotation and calibration first": {
    "h": "0dd8f59c3e0a",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: annotation 詮釋資料, calibration 校準, as in the catalogue"
   },
   "orbit file": {
    "h": "b6662ac8a6ea",
@@ -38152,7 +38158,8 @@
   },
   "sargeo: the look side must be 1, -1 or 0": {
    "h": "dcbb532d2ebc",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: look side: 側視方向 as in the catalogue"
   },
   "sargeo: the mask step must be positive": {
    "h": "48bd4f259bb8",
@@ -38232,7 +38239,8 @@
   },
   "terrain correction needs a Sentinel-1 SAFE layer opened with its annotation": {
    "h": "5da42bd1820e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation: 詮釋資料 as in the catalogue (註記 is markup)"
   },
   "terrain correction needs an elevation model loaded as terrain": {
    "h": "21ffa49f9acc",
@@ -38404,7 +38412,8 @@
   },
   "{layer}: the annotation lacks the timing or range sampling geocoding needs": {
    "h": "7e6699b1a841",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: Sentinel-1 annotation: 詮釋資料 as in the catalogue (註記 is markup)"
   },
   "{min} min": {
    "h": "43fe4f2d4989",
@@ -38412,7 +38421,8 @@
   },
   "{n, plural, one {# ban} other {# bans}} from {file}": {
    "h": "5d93fe6b9e9e",
-   "state": "passed"
+   "state": "passed",
+   "note": "review: \"bans\" are turn bans; 禁令 alone is unclear"
   },
   "{n, plural, one {# date} other {# dates}}": {
    "h": "be32ee75d517",
@@ -38512,6 +38522,22 @@
   },
   "γ⁰, terrain-flattened": {
    "h": "ee7927a576ad",
+   "state": "passed"
+  },
+  "OpenStreetMap catalogue pack": {
+   "h": "5f7eb0fd9ff6",
+   "state": "passed"
+  },
+  "OpenStreetMap feature catalogue (iD presets)": {
+   "h": "0559c27d34c1",
+   "state": "passed"
+  },
+  "OpenStreetMap presets from the iD editor as a feature catalogue: about 1,500 feature types with their tags and fields, for New Layer from Schema (REG-097).": {
+   "h": "8a98719dca4f",
+   "state": "passed"
+  },
+  "The catalogue-osm data pack (File ▸ Open ▸ Open Data Pack) gives New Layer from Schema the OpenStreetMap presets of the iD editor, about 1,500 feature types, without importing anything. Pick a type and its subtype, and every new feature carries its tags, such as amenity=cafe.": {
+   "h": "31ca6751f755",
    "state": "passed"
   }
  }
