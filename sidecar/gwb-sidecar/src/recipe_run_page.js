@@ -6,7 +6,8 @@
 // is opened in the app before the run; any other name is a step id, and the step gets the file in
 // its `files` parameter.
 //
-// Returns { refused } when the recipe cannot run unattended (nothing has run), else { status } with
+// Returns { refused } when the recipe cannot run unattended (nothing has run), { lost } when the input
+// files did not reach it (gwb-run exits 3, as for a failed hand-off), else { status } with
 // the run's status from recipes.run and window.__gwbRun.chunk(i, offset, length) to read file i's
 // bytes as base64.
 async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
@@ -19,6 +20,8 @@ async ({ id, recipe, gates, params, inputs, timeoutMs }) => {
   const el = document.getElementById('gwb-run-inputs');
   const files = el ? [...el.files] : [];
   el?.remove();
+  // gwb-run checked the files were there; a redraw since then must not run the recipe on no data.
+  if (files.length !== inputs.length) return { lost: `the page lost its input files before the run (${files.length} of ${inputs.length} arrived)` };
   const R = app.recipes;
   const src = recipe ?? [...R.builtin, ...(app.prefs.get('recipes') ?? [])].find((r) => r.id === id);
   if (!src) return { refused: `there is no built-in recipe "${id}" (give a .gwrecipe.json file instead)` };
