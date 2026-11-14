@@ -464,6 +464,9 @@ async function definitions(esbuild) {
  */
 export const packZip = (files) => zipSync(files, { mtime: new Date(1980, 0, 1) });
 
+/** Every pack a full build makes. A pack whose inputs are missing is left out with a warning. */
+export const PACKS = ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'geoid-egm2008-1', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover', 'catalogue-osm'];
+
 export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new Date().toISOString(), extra = [] }) {
   const dir = join(outDir, 'packs');
   mkdirSync(dir, { recursive: true });
@@ -473,7 +476,7 @@ export async function buildPacks({ outDir, esbuild, toolVersion, buildDate = new
   const models = []; // REQ-LAI-08: {pack, spdx, licence} of every pack that carries a model
   const warnings = [];
   const defs = [...(await definitions(esbuild)), ...extra];
-  for (const want of ['geoid', 'hdf5', 'proj', 'ai', 'ai-sam2', 'ai-detect', 'ai-search', 'ai-match', 'codec-3d', 'fonts-noto', 'grids-na', 'grids-eu', 'grids-oceania', 'geoid-egm2008-25', 'geoid-egm2008-1', 'ai-gpu', 'ai-vlm', 'ai-vlm-text', 'ai-landcover', 'catalogue-osm']) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
+  for (const want of PACKS) if (!defs.some((d) => d.name === want)) warnings.push(`pack "${want}" skipped: its inputs are missing (run node build/packs.mjs --fetch)`);
   for (const p of defs) {
     const entries = p.entries.map((e) => ({ path: e.path, kind: e.kind, size: e.bytes.length, sha256: sha256(e.bytes) }));
     const pj = { format: 'gw-pack/1', name: p.name, title: p.title, version: p.version, minTool: toolVersion, description: p.description, licence: p.licence, ...(p.requires ? { requires: p.requires } : {}), created: buildDate.slice(0, 10), entries };

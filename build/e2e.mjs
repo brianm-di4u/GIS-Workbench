@@ -2,9 +2,11 @@
 // sidecar suites with their test sidecar. One pass would let the browser sweeps, which run every
 // command, reach the test sidecar and use up its pairing rate limit. Extra arguments go to both.
 //
-// It tests the bits it says it tests. It builds dist/ first (strict), unless GW_DIST, GWB_DIST or
+// It tests the bits it says it tests, with the data they need. It refuses at once when the Research
+// samples are missing. It builds dist/ first (strict), unless GW_DIST, GWB_DIST or
 // GWB_DIST_DIR points the suites at another build. It refuses a sidecar binary older than the newest
-// change to sidecar/, since the harness runs whatever binary sits in the target folder. And it
+// change to sidecar/, since the harness runs whatever binary sits in the target folder, and a build
+// that lacks a pack (its inputs weren't fetched) or whose manifest names a pack file not there. And it
 // records the app build id and the sidecar's SHA-256 in reports/e2e-bits.json and in its output,
 // which verify keeps as the e2e evidence.
 import { spawnSync } from 'node:child_process';
@@ -38,9 +40,23 @@ export function newestSidecarSource() {
   return Math.max(committed ?? 0, ...edited) || null;
 }
 
+/** Why a build can't be tested in full: packs a full build makes that it lacks, or packs it names whose file isn't there. */
+export function missingPacks({ manifest, expected, packsDir, exists = existsSync }) {
+  if (!manifest) return ['the build has no manifest'];
+  return [
+    ...expected.filter((name) => !manifest[name]).map((name) => `pack "${name}" was not built (run node build/packs.mjs --fetch, then build again)`),
+    ...Object.entries(manifest).filter(([, p]) => !exists(join(packsDir, p.file))).map(([name, p]) => `pack "${name}" is in the manifest but ${p.file} is not in ${packsDir}`),
+  ];
+}
+
 const sha256 = (file) => createHash('sha256').update(readFileSync(file)).digest('hex');
 
 async function main() {
+  const { DIST, DIST_DIR, SAMPLES } = await import('../tests/e2e/helpers.js');
+  if (!existsSync(SAMPLES)) {
+    console.error(`e2e: the Research samples are not at ${SAMPLES}. Set GWB_SAMPLES, or the data tests would fail after hours.`);
+    return 1;
+  }
   const otherBuild = process.env.GW_DIST || process.env.GWB_DIST || process.env.GWB_DIST_DIR;
   if (!otherBuild) {
     const built = spawnSync(process.execPath, ['build/build.mjs', '--strict'], { stdio: 'inherit' }).status;
@@ -49,7 +65,13 @@ async function main() {
       return 1;
     }
   }
-  const { DIST } = await import('../tests/e2e/helpers.js');
+  const manifestText = /<script type="application\/json" id="build-manifest">([\s\S]*?)<\/script>/.exec(readFileSync(DIST, 'utf8'))?.[1];
+  const { PACKS } = await import('./packs.mjs');
+  const lacking = missingPacks({ manifest: manifestText ? JSON.parse(manifestText).packs : null, expected: PACKS, packsDir: join(DIST_DIR, 'packs') });
+  if (lacking.length > 0) {
+    console.error(`e2e: ${DIST} can't be tested in full:\n  ${lacking.join('\n  ')}`);
+    return 1;
+  }
   const { EXE } = await import('../tests/e2e/sidecar/harness.js');
   const exeTime = existsSync(EXE) ? statSync(EXE).mtimeMs : null;
   const stale = staleSidecar({ exe: EXE, exeTime, newestSource: newestSidecarSource() });

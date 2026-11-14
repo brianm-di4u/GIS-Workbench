@@ -36,3 +36,19 @@ describe('where the e2e suites find the Research samples', async () => {
     expect(samplesDir({ GWB_SAMPLES: 'E:/samples' }, () => 'C:/x/.git')).toBe(resolve('E:/samples'));
   });
 });
+
+describe('the e2e packs check', async () => {
+  const { missingPacks } = await import('../../build/e2e.mjs');
+  const manifest = { geoid: { file: 'geoid-1.gwpack' }, ai: { file: 'ai-2.gwpack' } };
+  const on = (...files) => (p) => files.some((f) => p.endsWith(f));
+  it('names a pack a full build makes that this build lacks', () => {
+    expect(missingPacks({ manifest, expected: ['geoid', 'ai', 'proj'], packsDir: 'd', exists: on('geoid-1.gwpack', 'ai-2.gwpack') })).toEqual([expect.stringMatching(/pack "proj" was not built/)]);
+  });
+  it("names a pack the manifest lists whose file isn't there", () => {
+    expect(missingPacks({ manifest, expected: ['geoid', 'ai'], packsDir: 'd', exists: on('geoid-1.gwpack') })).toEqual([expect.stringMatching(/pack "ai" is in the manifest but ai-2.gwpack/)]);
+  });
+  it('passes a build with every pack', () => {
+    expect(missingPacks({ manifest, expected: ['geoid', 'ai'], packsDir: 'd', exists: on('geoid-1.gwpack', 'ai-2.gwpack') })).toEqual([]);
+    expect(missingPacks({ manifest: null, expected: [], packsDir: 'd' })).toEqual(['the build has no manifest']);
+  });
+});
