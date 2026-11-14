@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { affectedCrates, planSteps } from '../../build/verify-scope.mjs';
+import { affectedCrates, fixtureCrates, planSteps } from '../../build/verify-scope.mjs';
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
@@ -29,6 +29,17 @@ describe('verify scope', () => {
   it('checks the source catalogue for any code change', () => {
     expect(names({ paths: ['app/src/a.js'] })).toContain('Source catalogue');
     expect(names({ paths: ['docs/a.md'] })).not.toContain('Source catalogue');
+  });
+
+  it('runs both Rust workspaces when the bundle adjuster cross-check block changes (decision 0020)', () => {
+    const fixture = 'tests/fixtures/ba-cross-check/expected.json';
+    const rustArgs = (input) => planSteps(input).find((s) => s.name === 'Rust tests')?.args;
+    expect(fixtureCrates([fixture, 'app/src/a.js'])).toEqual(['gw-aero']);
+    // Alone, it tests just gw-aero, not the whole workspace.
+    expect(rustArgs({ paths: [fixture], crates: [] })).toEqual(['test', '--locked', '--no-fail-fast', '-p', 'gw-aero']);
+    // With another crate's change, gw-aero still runs.
+    expect(rustArgs({ paths: [fixture, 'crates/gw-raster/src/lib.rs'], crates: ['gw-raster'] })).toEqual(['test', '--locked', '--no-fail-fast', '-p', 'gw-raster', '-p', 'gw-aero']);
+    expect(names({ paths: [fixture], crates: [] })).toContain('Sidecar sfm tests');
   });
 
   it('treats CHANGELOG.md as code, since the build embeds it', () => {
