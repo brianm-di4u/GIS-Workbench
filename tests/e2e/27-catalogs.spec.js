@@ -109,3 +109,33 @@ test('SCN-79 REQ-GAP-87 an INSPIRE schema imported, a layer captured against it,
   expect(bridge).toEqual({ defaults: { status: 'lowered' }, subtypeField: 'status', status: 'lowered' });
   expect(logs.filter((x) => !/Failed to load resource/.test(x))).toEqual([]);
 });
+
+// #191: ISO 19110 and iD presets through the same dialog as INSPIRE, each giving New Layer from Schema its types.
+for (const [kind, files, count, code] of [
+  ['ISO 19110', ['iso19110-roads.xml'], /feature types?/, null],
+  ['iD presets', ['id-presets.json', 'id-fields.json'], /2 feature types/, 'amenity/cafe'],
+]) {
+  test(`REQ-GAP-87 #191 ${kind} imported through Import Feature Catalogue`, async ({ page }) => {
+    const { frame, logs } = await openApp(page, 'file');
+    await frame.evaluate(() => (window.gisworkbench.runMode.caps.fsaPicker = false));
+    const before = await frame.evaluate(() => window.gisworkbench.catalogs.list().length);
+    const [fc] = await Promise.all([page.waitForEvent('filechooser'), frame.evaluate(() => void window.gisworkbench.commands.run('ext.importcatalog'))]);
+    await fc.setFiles(files.map((f) => resolve('fixtures/catalogs', f)));
+    const dlg = frame.locator('[data-id="dialog:catalog-import"]');
+    await expect(dlg).toBeVisible();
+    await expect(dlg).toContainText(count);
+    await dlg.getByRole('button', { name: 'Import' }).click();
+    await frame.waitForFunction((n) => window.gisworkbench.catalogs.list().length > n, before);
+    const cat = await frame.evaluate(() => window.gisworkbench.catalogs.list().find((c) => c.source === 'user'));
+    expect(cat.types).toBeGreaterThan(0);
+    await frame.evaluate(() => void window.gisworkbench.commands.run('ext.newschema'));
+    await frame.locator('[data-id="ext-newschema:catalog"]').selectOption(cat.id);
+    const classes = await frame.locator('[data-id="ext-newschema:class"] option').evaluateAll((os) => os.map((o) => o.value).filter(Boolean));
+    expect(classes.length).toBe(cat.types);
+    if (code) expect(classes).toContain(code);
+    await frame.locator('[data-id="dialog:ext-newschema"]').getByRole('button', { name: 'OK' }).click();
+    const v = await frame.evaluate(() => window.gisworkbench.store.all('vlayer').at(-1).schema);
+    expect(v).toMatchObject({ catalog: cat.id });
+    expect(logs.filter((x) => !/Failed to load resource/.test(x))).toEqual([]);
+  });
+}

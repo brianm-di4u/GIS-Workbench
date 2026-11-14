@@ -374,7 +374,9 @@ export function install(app) {
     const project = new Map();
     for (const r of S.all('workflow').map((x) => x.recipe)) if (r && !builtin.has(r.id) && !project.has(r.id)) project.set(r.id, r);
     const lib = new Map();
-    for (const r of [...library, ...(app.prefs.get('recipes') ?? [])]) if (r && !builtin.has(r.id) && !lib.has(r.id)) lib.set(r.id, r);
+    // The settings' list counts only until it is moved into the library (migrateFromPrefs).
+    const old = app.prefs.get('recipesInLibrary') ? [] : (app.prefs.get('recipes') ?? []);
+    for (const r of [...library, ...old]) if (r && !builtin.has(r.id) && !lib.has(r.id)) lib.set(r.id, r);
     const clash = new Set([...project.keys()].filter((id) => lib.has(id) && body(lib.get(id)) !== body(project.get(id))));
     return [
       ...BUILTIN.map((r) => ({ ...r, source: 'builtin' })),
@@ -456,7 +458,7 @@ export function install(app) {
     // An id the project and the library both hold is listed twice, each labelled, and picked by source.
     const key = (r) => `${r.source}:${r.id}`;
     const where = { project: t('project'), library: t('library') };
-    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: key(r), selected: runner.recipe?.id === r.id && (!r.clash || picked === r.source) }, r.clash ? `${tr(r.name)} (${where[r.source]})` : tr(r.name))));
+    const pick = h('select', { class: 'inp', 'data-id': 'recipe:pick', 'aria-label': t('Recipe') }, h('option', { value: '' }, t('Choose a recipe…')), ...known().map((r) => h('option', { value: key(r), selected: runner.recipe?.id === r.id && (!r.clash || picked === r.source) }, r.source === 'builtin' ? tr(r.name) : `${tr(r.name)} (${where[r.source]})`)));
     pick.addEventListener('change', () => {
       const r = known().find((x) => key(x) === pick.value);
       if (!r) return;

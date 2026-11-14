@@ -17,6 +17,9 @@ export const unescapeXml = (s) =>
 
 const local = (q) => q.slice(q.indexOf(':') + 1);
 
+/** How deep elements may nest: the walkers below recurse, and a deeper file would overflow the stack. */
+export const MAX_XML_DEPTH = 512;
+
 /** Parse XML text → the root element {name, qname, attrs, children, text}. Throws on malformed input. */
 export function parseXml(text) {
   const src = String(text);
@@ -40,7 +43,10 @@ export function parseXml(text) {
       for (const a of m[4].matchAll(/([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) attrs[a[1]] = unescapeXml(a[2] ?? a[3] ?? '');
       const el = { name: local(m[3]), qname: m[3], attrs, children: [], text: '' };
       top.children.push(el);
-      if (!m[5]) stack.push(el);
+      if (!m[5]) {
+        if (stack.length > MAX_XML_DEPTH) throw new Error(`XML nested deeper than ${MAX_XML_DEPTH} elements`);
+        stack.push(el);
+      }
     } else if (m[6] !== undefined) top.text += unescapeXml(m[6]);
   }
   if (stack.length !== 1) throw new Error(`malformed XML: <${stack[stack.length - 1].qname}> is not closed`);
