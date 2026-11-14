@@ -24,14 +24,17 @@ GIS Workbench 2.7.1 is a civilian-use application: it is designed and intended f
 - **Opening a project with other files says what wasn't opened.** A project opens on its own, so files dropped or opened together with it were left out without a word. Now a message names them, and so does the import log. Open those files after the project.
 - **Calibrated Sentinel-1 bands** (β⁰, σ⁰, γ⁰) show the zero fill at burst and swath edges as no data, so it is transparent and left out of statistics. It used to read as −300 dB.
 - **SAR stereo DSM files** now record their product, pair side and prior DEM as GDAL metadata, with band names that other GIS tools show. Files saved by 2.6 are still read by their description, so they keep their flags when you reopen and level them.
-- **API reference:** the TypeScript reference is now `gisworkbench-api-3.d.ts`, named for API 3.0.0. The old name, `gisworkbench-api-v2.d.ts`, still works for one release. (REG-179)
+- **API reference:** the TypeScript reference is now `gisworkbench-api-3.d.ts`, named for API 3.0.0. The old name, `gisworkbench-api-v2.d.ts`, still works through 2.7.2. (REG-179)
 - **Sidecar 0.4.0:** adds the command-line runner and scheduled runs, and structure from motion tied to ground control. Its outputs and API stay compatible with 2.7.0.
+- **File Geodatabase catalogues: a field two classes define differently.** Each class now keeps its own definition, under a key that names its column, such as `status_Bridge`, where the import kept the first definition and warned. One class's subtype values no longer leak into another's, and catalogue rules and subtype defaults on such a field now apply. Import a catalogue again to get the new keys.
 
 ### Fixed
 - **Basemaps draw again after the graphics context comes back.** When the browser dropped and restored the map's graphics context, for example on a phone that was put away, basemap tiles already loaded stayed blank. They are now loaded again.
 - **Lite starts on iPhone and iPad even when Safari drops the graphics context during start-up.** It used to stop with "GIS Workbench failed to start" and need a reload. Now it starts, and the map draws as soon as Safari gives the graphics context back. Full has the same fix.
 - **The radial menu on a slow graphics card.** A quick tap of Space over the image now opens the radial menu even while the picture is slow to draw. Before, it could be taken for a held Space and open nothing.
 - **Sidecar creation options** whose value has an `&` or `<` in it stay one value. They were split in two.
+- **Saving to browser storage no longer waits forever** when the browser aborts the save, for example on a full disk. That hung the recovery journal, the sidecar pairing store, the feature catalogue store and the local AI model store. A failed save also reports its real cause, not "the browser aborted this storage transaction".
+- **Translations:** a control point's ground coordinate in the GCP Model dialog is no longer labelled with the word for the ground surface (German showed "Boden"). An Erase overlay's new layer is named with the Operation's own word in every locale, where German named it "A Radieren B".
 
 ### Known limits
 - **Structure from motion with ground control** doesn't model a rolling shutter, needs GPS in the photographs for the first stage, and refuses control in a different UTM zone from the block.
