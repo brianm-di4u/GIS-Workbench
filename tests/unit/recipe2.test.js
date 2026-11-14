@@ -174,3 +174,22 @@ describe('REQ-GAP-84 gw-recipe/2', () => {
     expect(fits('number', 'any')).toBe(true);
   });
 });
+
+// #191: gw-recipe/1 took any step id; /2 does not, and a wireless /2 workflow reruns as a chain.
+describe('#191 old step ids and wireless workflows', () => {
+  it('renames a gw-recipe/1 step id that /2 refuses, and keeps ids unique', () => {
+    const r = validateRecipe({ format: 'gw-recipe/1', name: 'old', steps: [{ id: 'first step', op: 'num' }, { id: 'a:b', op: 'num' }, { id: 'first_step', op: 'num' }, { id: 'x'.repeat(50), op: 'num' }] }, OPS);
+    expect(r.steps.map((s) => s.id)).toEqual(['first_step_2', 'a_b', 'first_step', 'x'.repeat(36)]);
+    // A renamed id stays clear of the default id a later step with no id will get.
+    const d = validateRecipe({ format: 'gw-recipe/1', name: 'old', steps: [{ id: 's2!', op: 'num' }, { op: 'num' }] }, OPS);
+    expect(d.steps.map((s) => s.id)).toEqual(['s2_2', 's2']);
+    // A /2 file is held to the rule: its wires name steps by id.
+    expect(() => validateRecipe({ format: FORMAT2, name: 'new', steps: [{ id: 'first step', op: 'num' }] }, OPS)).toThrow(/must be 1–40 letters/);
+  });
+  it('treats a gw-recipe/2 workflow with no wires as a chain: a step and every later one rerun', () => {
+    const steps = validateRecipe({ format: FORMAT2, name: 'w', steps: [{ id: 'a', op: 'num' }, { id: 'b', op: 'name' }, { id: 'c', op: 'num' }] }, OPS).steps;
+    // No wires, yet a later step may read what an earlier one made by its name: rerun them all.
+    expect([...downstream(steps, 1, OPS)]).toEqual([1, 2]);
+    expect([...downstream(steps, 0, OPS)]).toEqual([0, 1, 2]);
+  });
+});

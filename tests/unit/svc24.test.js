@@ -460,3 +460,13 @@ describe('service images as image layers (REQ-GAP-07)', () => {
   });
 });
 void all;
+
+// #191: the walkers recurse, so nesting is bounded where the parser reads it.
+import { MAX_XML_DEPTH } from '../../app/src/connectors/xml.js';
+describe('#191 XML nesting depth', () => {
+  it('reads a document nested to the bound and refuses one deeper', () => {
+    const doc = (n) => `${'<a>'.repeat(n)}x${'</a>'.repeat(n)}`;
+    expect(all(parseXml(doc(MAX_XML_DEPTH)), 'a')).toHaveLength(MAX_XML_DEPTH - 1);
+    expect(() => parseXml(doc(MAX_XML_DEPTH + 1))).toThrow(/nested deeper than 512/);
+  });
+});

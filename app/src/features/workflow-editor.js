@@ -167,7 +167,10 @@ export function install(app) {
     if (!ed.wf?.steps.length) throw gwError('the workflow has no steps', {}, 'E_RECIPE_STEP');
     runner.load(ed.wf);
     draw();
-    return runner.run(0, { inputs });
+    const r = await runner.run(0, { inputs });
+    // The graph shows a failed step only as "failed": say why, as the Recipes dock does.
+    if (!r.ok && r.error) toast(t('Recipe step {n} failed: {msg}', { n: r.failed + 1, msg: msgOf({ message: r.error, i18n: r.i18n }) }), { kind: 'warn', ms: 9000 });
+    return r;
   }
 
   // ---- drawing ----
@@ -210,7 +213,7 @@ export function install(app) {
     for (const [i, x] of wf.steps.entries()) {
       const op = ops[x.op];
       const st = status(x.id);
-      const g = s('g', { class: `wf-node wf-${st}${ed.sel === x.id ? ' wf-sel' : ''}`, transform: `translate(${x.at.x},${x.at.y})`, tabindex: 0, role: 'button', 'aria-label': t('{title}, step {id}: {status}', { title: tr(x.title), id: x.id, status: label(st) }), 'data-step': x.id });
+      const g = s('g', { class: `wf-node wf-${st}${ed.sel === x.id ? ' wf-sel' : ''}`, transform: `translate(${x.at.x},${x.at.y})`, tabindex: 0, role: 'button', 'data-step': x.id }); // named by its own text: title, id · status (WCAG 2.5.3)
       g.append(s('rect', { width: NODE_W, height: nodeH(op), rx: 6 }), s('text', { x: 8, y: 16, class: 'wf-title' }, document.createTextNode(tr(x.title))), s('text', { x: 8, y: 28, class: 'wf-status' }, document.createTextNode(`${x.id} · ${label(st)}`)));
       (op.inputs ?? []).forEach((p, k) => {
         g.append(s('circle', { cx: 0, cy: 34 + k * PORT, r: 5, class: 'wf-port wf-in', 'data-port': `${x.id}.${p.name}` }), s('text', { x: 9, y: 38 + k * PORT, class: 'wf-port-label' }, document.createTextNode(p.name)));
@@ -355,9 +358,42 @@ export function install(app) {
     return ol;
   }
 
+  // A redraw rebuilds the panel: the control that had focus gets it back, found by its step and its
+  // place among that step's controls (the list view is the keyboard and screen-reader path).
+  const FOCUSABLE = 'input, select, textarea, button, [tabindex]';
+  const focusKey = (el) => {
+    const a = document.activeElement;
+    if (!a || !el.contains(a)) return null;
+    if (a.id) return { id: a.id };
+    const box = a.closest('[data-item], [data-step]') ?? el;
+    return { item: box === el ? null : (box.dataset.item ?? box.dataset.step), kind: box.dataset.item ? 'item' : 'step', at: box === a ? -1 : [...box.querySelectorAll(FOCUSABLE)].indexOf(a) };
+  };
+  const refocus = (el, k) => {
+    if (!k) return;
+    if (k.id) return void el.querySelector(`#${CSS.escape(k.id)}`)?.focus();
+    const box = k.item === null ? el : el.querySelector(`[data-${k.kind}="${CSS.escape(k.item)}"]`);
+    (k.at < 0 ? box : box?.querySelectorAll(FOCUSABLE)[k.at])?.focus();
+  };
+
   function draw() {
     const el = ed.el;
     if (!el?.isConnected) return;
+    // Removing a field with an uncommitted edit fires its change, which may ask for a redraw while
+    // this one runs: that one is done after this one, and focus goes back once, at the end.
+    if (ed.drawing) return void (ed.again = true);
+    const had = focusKey(el);
+    ed.drawing = true;
+    try {
+      do {
+        ed.again = false;
+        build(el);
+      } while (ed.again);
+    } finally {
+      ed.drawing = false;
+    }
+    refocus(el, had);
+  }
+  function build(el) {
     clear(el);
     const wf = (ed.wf ??= blank());
     const name = h('input', { class: 'inp', value: wf.name, 'aria-label': t('Workflow name') });

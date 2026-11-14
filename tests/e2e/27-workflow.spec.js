@@ -273,10 +273,13 @@ test('SCN-77 REQ-GAP-84 a branching workflow built, saved in the project and rer
     return { kept: newId !== id, libraryKept: lib?.description };
   });
   expect(saved).toEqual({ kept: true, libraryKept: 'newer elsewhere' });
-  // The Recipes dock labels both copies by where they come from.
+  // The Recipes dock labels every recipe by where it comes from (#191), built-in ones aside: both copies too.
   await frame.evaluate(() => window.gisworkbench.commands.run('rcp.open'));
   const labels = await frame.locator('[data-id="recipe:pick"] option').allTextContents();
-  expect(labels.filter((x) => /\((project|library)\)$/.test(x))).toHaveLength(2);
+  const picked = await frame.evaluate(() => window.gisworkbench.recipes.known().map((r) => [r.name, r.source, !!r.clash]));
+  const pairName = picked.find(([, , clash]) => clash)?.[0];
+  expect(labels).toEqual(expect.arrayContaining([`${pairName} (library)`, `${pairName} (project)`]));
+  expect(picked.filter(([, src]) => src !== 'builtin').every(([n, src]) => labels.includes(`${n} (${src})`))).toBe(true);
   // The Builder's Open lists the same copies as the dock: both, by source.
   await frame.evaluate(() => window.gisworkbench.workflows.show());
   await panel.getByRole('button', { name: 'Open…' }).click();
@@ -743,4 +746,63 @@ test('REQ-PIP-02 #191 a workflow opened without positions lays a step two branch
   expect(at.c).toBe(at.b);
   expect(at.d).toBe(at.b + step);
   expect(logs).toEqual([]);
+});
+
+test('REQ-GAP-84 #191 the list keeps focus through a redraw, and the graph says why a step failed', async ({ page }) => {
+  const { frame, logs } = await openApp(page, 'file');
+  await frame.evaluate(() => void window.gisworkbench.commands.run('pip.builder'));
+  const panel = frame.locator('.wf-panel');
+  await expect(panel).toBeVisible({ timeout: 30000 });
+  await panel.getByLabel('Add a step').selectOption({ label: 'Vector layer' });
+  await panel.getByLabel('Add a step').selectOption({ label: 'Buffer' });
+  await panel.getByRole('tab', { name: 'List' }).click();
+  // Wiring an input in the list redraws the panel; the select keeps focus.
+  const input = () => panel.locator('[data-item="s2"]').getByLabel('Input layer');
+  await input().focus();
+  await input().selectOption({ index: 1 });
+  expect(await frame.evaluate(() => window.gisworkbench.workflows.current().steps[1].inputs.layer)).toEqual({ from: 's1', output: 'out' });
+  await expect(input()).toBeFocused();
+  // So does a parameter changed once a run is loaded (the run goes stale and redraws).
+  await frame.evaluate(() => window.gisworkbench.workflows.run().catch(() => {}));
+  const dist = panel.locator('#wf-s2-distance');
+  await dist.focus();
+  await dist.fill('250');
+  await dist.press('Enter');
+  expect(await frame.evaluate(() => window.gisworkbench.workflows.current().steps[1].params.distance)).toBe(250);
+  await expect(panel.locator('#wf-s2-distance')).toBeFocused();
+  // An edit left uncommitted when a redraw comes (its change fires as the field is removed) keeps focus too.
+  await dist.fill('300');
+  await frame.evaluate(() => document.getElementById('wf-s2-distance').dispatchEvent(new Event('change')));
+  expect(await frame.evaluate(() => window.gisworkbench.workflows.current().steps[1].params.distance)).toBe(300);
+  await expect(panel.locator('#wf-s2-distance')).toBeFocused();
+  // In the graph, a failed run says which step failed and why.
+  await frame.evaluate(() => window.gisworkbench.workflows.setParam('s1', 'layer', 'no such layer'));
+  await panel.getByRole('tab', { name: 'Graph' }).click();
+  await panel.getByRole('button', { name: 'Run', exact: true }).click();
+  await expect(frame.locator('.toast', { hasText: 'step 1 failed: no vector layer no such layer' })).toBeVisible();
+  await expect(panel.locator('[data-step="s1"]')).toHaveClass(/wf-failed/);
+  // The graph after a run, with a failed step, passes axe.
+  expect(await axe(frame, '.wf-panel')).toEqual([]);
+  await panel.screenshot({ path: test.info().outputPath('graph-after-run.png') });
+  expect(logs).toEqual([]);
+});
+
+test('REQ-GAP-84 #191 the library keeps any number of workflows across a reload, and moved settings are not listed again', async ({ page }) => {
+  const { frame } = await openApp(page, 'file', { prefs: { ...LEGACY_PREFS, recipes: OLD, recipesInLibrary: true } });
+  const N = 60;
+  const kept = await frame.evaluate(async (n) => {
+    const app = window.gisworkbench;
+    // Moved earlier (the flag is set) and since removed from the library: the settings' copies are not offered.
+    const ghosts = app.recipes.known().filter((r) => r.id.startsWith('old-')).length;
+    for (let i = 0; i < n; i++) await app.recipes.keep({ format: 'gw-recipe/2', id: `many-${i}`, name: `Many ${i}`, version: 1, steps: [{ id: 's1', op: 'gate', params: { message: `#${i}` } }] });
+    return { ghosts, lib: (await app.recipes.library(true)).filter((r) => r.id.startsWith('many-')).length };
+  }, N);
+  expect(kept).toEqual({ ghosts: 0, lib: N });
+  const again = await restart(page);
+  const after = await again.evaluate(async () => {
+    const app = window.gisworkbench;
+    const lib = await app.recipes.library();
+    return { lib: lib.filter((r) => r.id.startsWith('many-')).length, known: app.recipes.known().filter((r) => r.id.startsWith('many-')).length };
+  });
+  expect(after).toEqual({ lib: N, known: N });
 });
