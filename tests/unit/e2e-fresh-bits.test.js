@@ -25,3 +25,14 @@ describe('the e2e sidecar check', () => {
     expect(newest).toBeLessThanOrEqual(Date.now());
   });
 });
+
+describe('where the e2e suites find the Research samples', async () => {
+  const { samplesDir } = await import('../../tests/e2e/helpers.js');
+  const { resolve } = await import('node:path');
+  it('is beside the main checkout, wherever the worktree is', () => {
+    expect(samplesDir({}, () => 'C:/GIS Workbench/gwb-main/.git')).toBe(resolve('C:/GIS Workbench/Research/samples'));
+  });
+  it('can be set with GWB_SAMPLES', () => {
+    expect(samplesDir({ GWB_SAMPLES: 'E:/samples' }, () => 'C:/x/.git')).toBe(resolve('E:/samples'));
+  });
+});

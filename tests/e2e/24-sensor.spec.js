@@ -15,7 +15,7 @@ import { existsSync, readFileSync, readdirSync, mkdtempSync, writeFileSync, rmSy
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { createRequire } from 'node:module';
-import { openApp, openFiles } from './helpers.js';
+import { SAMPLES, openApp, openFiles } from './helpers.js';
 import { rsmTreList, writeSensrb } from '../../app/src/sensor/writers.js';
 import { frameParams, parseCameraFile } from '../../app/src/sensor/camera.js';
 
@@ -445,7 +445,7 @@ test('REQ-GAP-23 frame cameras from SENSRB, drone EXIF/XMP and calibration files
     expect(m[Math.floor(m.length / 2)]).toBeLessThan(25);
   }
   // 5. GDAL's autotest SENSRB opens with the reason it has no frame model.
-  const gdalSensrb = resolve('..', 'Research', 'samples', 'nitf-gdal-autotest-small', 'SENSRB_TRE.ntf');
+  const gdalSensrb = join(SAMPLES, 'nitf-gdal-autotest-small', 'SENSRB_TRE.ntf');
   if (existsSync(gdalSensrb)) {
     const log = await openFiles(frame, [gdalSensrb]);
     expect(JSON.stringify(log)).toMatch(/SENSRB has no sensor array data/);
