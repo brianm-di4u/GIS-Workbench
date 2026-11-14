@@ -10,6 +10,7 @@ import { resolve } from 'node:path';
 import { openApp } from './helpers.js';
 
 const FN = readFileSync(resolve('sidecar', 'gwb-sidecar', 'src', 'recipe_run_page.js'), 'utf8');
+const INPUT = readFileSync(resolve('sidecar', 'gwb-sidecar', 'src', 'recipe_run_input.js'), 'utf8');
 const RASTER = resolve('fixtures', 'fx25', 'aviation', 'nodata-utm15n-f32.tif');
 const STRETCH = { format: 'gw-recipe/1', name: 'Stretch', steps: [{ op: 'contrast' }] };
 
@@ -17,15 +18,7 @@ const STRETCH = { format: 'gw-recipe/1', name: 'Stretch', steps: [{ op: 'contras
 async function runPage(page, args, files = [], before = null) {
   const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
   if (before) await frame.evaluate(before);
-  const input = await frame.evaluateHandle(() => {
-    const i = document.createElement('input');
-    i.type = 'file';
-    i.multiple = true;
-    i.hidden = true;
-    i.id = 'gwb-run-inputs';
-    document.body.appendChild(i);
-    return i;
-  });
+  const input = await frame.evaluateHandle(INPUT);
   if (files.length) await input.asElement().setInputFiles(files);
   const call = { gates: 'continue', params: {}, inputs: files.map(() => ''), timeoutMs: 120_000, ...args };
   return frame.evaluate(`(${FN})(${JSON.stringify(call)}).then((r) => r, (e) => ({ threw: String(e?.message ?? e) }))`);
@@ -136,4 +129,11 @@ test('REG-150 the page script stops, naming it, when an --in project needs its i
   const page = await browser.newPage();
   const r = await runPage(page, { recipe: STRETCH }, [project]);
   expect(r.threw).toBe('opening the inputs asked a question nobody is here to answer: Relink Imagery');
+});
+
+// #265: gwb-run checked the files were on the input; if the page loses them before the run reads
+// them, the run stops, named (gwb-run exits 3, as for a failed hand-off), rather than run on no data.
+test('REG-150 #265 the page script stops a run whose input files went missing', async ({ page }) => {
+  const r = await runPage(page, { recipe: STRETCH, inputs: ['', ''] }, [RASTER]);
+  expect(r).toEqual({ lost: 'the page lost its input files before the run (1 of 2 arrived)' });
 });
