@@ -38,7 +38,7 @@ GIS Workbench 2.7.1 is a civilian-use application: it is designed and intended f
 
 ### Known limits
 - **Structure from motion with ground control** doesn't model a rolling shutter, needs GPS in the photographs for the first stage, and refuses control in a different UTM zone from the block.
-- **Routes start and end at junctions.** Shortest Route and Service Area snap each click to the nearest junction or line end within 500 m. The stretch from the click to that junction is not in the route's length or time.
+- **Routes start and end on the nearest road.** Shortest Route and Service Area join each click to the nearest point on a road within 500 m. The stretch from the click to the road is not in the route's length or time.
 - **Trend and anomaly take at most 1,024 dates.** A longer series is refused with a message; make a Time Stack of fewer dates.
 - **Dates come from NetCDF-3 (classic) files only.** The time axis of a NetCDF-4 file is not read yet; make a Time Stack from its dated images instead.
 
