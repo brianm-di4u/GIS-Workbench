@@ -7,8 +7,8 @@ const exe = 'C:/t/release/gwb-sidecar.exe';
 const at = (iso) => Date.parse(iso);
 
 describe('the e2e sidecar check', () => {
-  it('refuses a binary older than the newest change to sidecar/', () => {
-    expect(staleSidecar({ exe, exeTime: at('2026-11-13T10:00:00Z'), newestSource: at('2026-11-13T11:00:00Z') })).toMatch(/older than the newest change to sidecar\/.*Build it again/);
+  it('refuses a binary older than the newest sidecar source', () => {
+    expect(staleSidecar({ exe, exeTime: at('2026-11-13T10:00:00Z'), newestSource: at('2026-11-13T11:00:00Z') })).toMatch(/older than this checkout's newest sidecar source.*Build it again/);
   });
 
   it('refuses a missing binary', () => {
@@ -19,10 +19,17 @@ describe('the e2e sidecar check', () => {
     expect(staleSidecar({ exe, exeTime: at('2026-11-13T12:00:00Z'), newestSource: at('2026-11-13T11:00:00Z') })).toBeNull();
   });
 
-  it("reads the newest change from this checkout's history", () => {
-    const newest = newestSidecarSource();
-    expect(newest).toBeGreaterThan(at('2026-01-01T00:00:00Z'));
-    expect(newest).toBeLessThanOrEqual(Date.now());
+  it("takes the newest source from this checkout's files, as cargo does, not from commit times", async () => {
+    const { utimesSync, statSync } = await import('node:fs');
+    const file = 'sidecar/gwb-sidecar/src/main.rs';
+    const was = statSync(file);
+    try {
+      const later = new Date(Date.now() + 60_000);
+      utimesSync(file, later, later);
+      expect(newestSidecarSource()).toBe(later.getTime());
+    } finally {
+      utimesSync(file, was.atime, was.mtime);
+    }
   });
 });
 
