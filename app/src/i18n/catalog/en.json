@@ -32610,7 +32610,8 @@
    "key": "Recipe step {n} failed: {msg}",
    "src": "Recipe step {n} failed: {msg}",
    "refs": [
-    "features/recipes.js"
+    "features/recipes.js",
+    "features/workflow-editor.js"
    ]
   },
   {
@@ -59604,7 +59605,7 @@
    "key": "the file is not JSON ({msg})",
    "src": "the file is not JSON ({msg})",
    "refs": [
-    "features/catalogs.js"
+    "vector/catalog-import.js"
    ]
   },
   {
@@ -64187,6 +64188,13 @@
    ]
   },
   {
+   "key": "{file} is not JSON ({msg})",
+   "src": "{file} is not JSON ({msg})",
+   "refs": [
+    "vector/catalog-import.js"
+   ]
+  },
+  {
    "key": "{file} is not a File Geodatabase the sidecar can read",
    "src": "{file} is not a File Geodatabase the sidecar can read",
    "refs": [
@@ -68733,13 +68741,6 @@
    "src": "{title} {state}: {error}",
    "refs": [
     "sidecar/feature.js"
-   ]
-  },
-  {
-   "key": "{title}, step {id}: {status}",
-   "src": "{title}, step {id}: {status}",
-   "refs": [
-    "features/workflow-editor.js"
    ]
   },
   {

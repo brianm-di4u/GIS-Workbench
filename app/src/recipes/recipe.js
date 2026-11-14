@@ -23,6 +23,7 @@ import { gwError } from '../i18n/index.js';
 export const FORMAT = 'gw-recipe/1';
 export const FORMAT2 = 'gw-recipe/2';
 export const MAX_STEPS = 200;
+const STEP_ID = /^[\w.-]{1,40}$/;
 
 const stepErr = (msg, params) => gwError(msg, params, 'E_RECIPE_STEP');
 
@@ -172,8 +173,15 @@ export function validateRecipe(r, ops) {
     const op = ops[s.op];
     if (!op) throw stepErr('step {n}: unknown operation "{op}"', { n: String(i + 1), op: String(s.op) });
     if (s.params !== undefined && (typeof s.params !== 'object' || Array.isArray(s.params) || s.params === null)) throw stepErr('step {n}: params must be an object', { n: String(i + 1) });
-    const id = String(s.id ?? `s${i + 1}`);
-    if (!/^[\w.-]{1,40}$/.test(id)) throw stepErr('step {n}: the id "{id}" must be 1–40 letters, digits or . _ -', { n: String(i + 1), id });
+    let id = String(s.id ?? `s${i + 1}`);
+    // gw-recipe/1 took any id; one that /2 refuses is renamed, since no wire in a /1 file can name it.
+    if (r.format === FORMAT && !STEP_ID.test(id)) {
+      const base = id.replace(/[^\w.-]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 36) || `s${i + 1}`;
+      const taken = (x) => ids.has(x) || r.steps.some((o, j) => j !== i && String(o?.id ?? `s${j + 1}`) === x);
+      id = base;
+      for (let k = 2; taken(id); k++) id = `${base}_${k}`;
+    }
+    if (!STEP_ID.test(id)) throw stepErr('step {n}: the id "{id}" must be 1–40 letters, digits or . _ -', { n: String(i + 1), id });
     if (ids.has(id)) throw stepErr('step {n}: duplicate id "{id}"', { n: String(i + 1), id });
     ids.add(id);
     const params = { ...defaults(op), ...(s.params ?? {}) };

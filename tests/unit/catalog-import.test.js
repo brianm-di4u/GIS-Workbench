@@ -508,7 +508,7 @@ describe('REQ-GAP-87 untrusted catalogue files', () => {
         validateCatalog(catalogFromFiles(set));
         ok++;
       } catch (e) {
-        expect(e.code ?? `${e.name}: ${e.message}`).toMatch(/^E_CATALOG_(CONVERT|INVALID)$/);
+        expect(e.code ?? `${e.name}: ${e.message}`).toMatch(/^E_CATALOG_(CONVERT|INVALID|JSON)$/);
       }
     }
     expect(ok).toBeGreaterThan(100);
@@ -527,5 +527,16 @@ describe('REQ-GAP-87 untrusted catalogue files', () => {
     // Wrong shapes in a preset are skipped, not thrown on.
     const odd = { a: { name: 'A', geometry: 'point', tags: { k: 'v' } }, b: { name: 'B', geometry: ['line'], tags: { k: 'w' }, fields: 7, moreFields: 'x' } };
     expect(fromIdPresets(odd, {}).types.map((ty) => ty.code)).toEqual(['b']);
+  });
+});
+
+// #191: one parser for catalogue JSON, from a picked file, the store or a pack.
+describe('#191 catalogue JSON', () => {
+  it('drops prototype keys and names the file it could not read', async () => {
+    const { catalogJson } = await import('../../app/src/vector/catalog-import.js');
+    const j = catalogJson('{"a":1,"__proto__":{"x":1},"constructor":2,"prototype":3,"toString":4}');
+    expect(Object.keys(j)).toEqual(['a', 'toString']);
+    expect(() => catalogJson('{', 'roads.json')).toThrow(/roads\.json is not JSON/);
+    expect(() => catalogJson('{')).toThrow(expect.objectContaining({ code: 'E_CATALOG_JSON', message: expect.stringMatching(/^the file is not JSON/) }));
   });
 });

@@ -451,14 +451,15 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
   return { format: 'gw-catalog/1', id: safeId(id, 'osm-presets'), name, version: '1', source: 'OpenStreetMap iD presets', nulls: EMPTY_NULLS, attributes: attrs, types };
 }
 
-/** JSON with no prototype keys. */
-const safeJson = (text, what) => {
+/** Catalogue JSON with no prototype keys: the one parser for imported files, the store and packs. */
+export function catalogJson(text, what) {
   try {
     return JSON.parse(text, (k, v) => (BAD_NAMES.has(k) ? undefined : v));
   } catch (e) {
-    throw E('{file} is not JSON ({msg})', { file: what, msg: e.message });
+    if (what === undefined) throw gwError('the file is not JSON ({msg})', { msg: e.message }, 'E_CATALOG_JSON');
+    throw gwError('{file} is not JSON ({msg})', { file: what, msg: e.message }, 'E_CATALOG_JSON');
   }
-};
+}
 
 /**
  * The files a user picked ([{name, text}]) → one gw-catalog/1 object (not yet validated): a
@@ -480,7 +481,7 @@ export function catalogFromFiles(files) {
     return by[k][0];
   };
   const stem = (n) => String(n).replace(/(\.min)?\.(xml|xsd|json)$/i, '');
-  if (used.length === 1 && used[0] === 'gw-catalog') return safeJson(one('gw-catalog').text, one('gw-catalog').name);
+  if (used.length === 1 && used[0] === 'gw-catalog') return catalogJson(one('gw-catalog').text, one('gw-catalog').name);
   if (used.length === 1 && used[0] === 'iso19110') return fromIso19110(one('iso19110').text, { name: stem(one('iso19110').name) });
   if (used.every((k) => k === 'inspire-xsd' || k === 'codelist')) {
     if (!by['inspire-xsd'].length) throw E('a code list needs the application schema (.xsd) that uses it');
@@ -488,8 +489,8 @@ export function catalogFromFiles(files) {
   }
   if (used.every((k) => k === 'id-presets' || k === 'id-fields')) {
     if (!by['id-presets'].length) throw E('fields.json needs the presets.json that uses it');
-    const fields = by['id-fields'].length ? safeJson(one('id-fields').text, one('id-fields').name) : {};
-    return fromIdPresets(safeJson(one('id-presets').text, one('id-presets').name), fields);
+    const fields = by['id-fields'].length ? catalogJson(one('id-fields').text, one('id-fields').name) : {};
+    return fromIdPresets(catalogJson(one('id-presets').text, one('id-presets').name), fields);
   }
   throw E('these files are catalogues of different kinds: import one kind at a time');
 }

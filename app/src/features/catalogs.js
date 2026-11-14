@@ -13,7 +13,7 @@ import { modal, field } from '../shell/dialogs.js';
 import { pickFiles } from '../storage/files.js';
 import { txDone } from '../storage/idb.js';
 import { validateCatalog, registerCatalog, getCatalog, listCatalogs, unregisterCatalog, DEFAULT_CATALOG } from '../vector/schema.js';
-import { catalogFromFiles } from '../vector/catalog-import.js';
+import { catalogFromFiles, catalogJson } from '../vector/catalog-import.js';
 import { t, gwError, msgOf } from '../i18n/index.js';
 import { int } from '../i18n/format.js';
 
@@ -40,16 +40,6 @@ async function idbDo(mode, fn) {
   }
 }
 
-/** Parse catalogue text with no prototype keys. */
-export function parseCatalogText(text) {
-  let json;
-  try {
-    json = JSON.parse(text, (k, v) => (k === '__proto__' || k === 'constructor' ? undefined : v));
-  } catch (e) {
-    throw gwError('the file is not JSON ({msg})', { msg: e.message }, 'E_CATALOG_JSON');
-  }
-  return json;
-}
 
 export function installCatalogs(app) {
   const S = app.store;
@@ -65,7 +55,7 @@ export function installCatalogs(app) {
    * 'both' (default). A catalogue with the id of a pack or the built-in one is refused.
    */
   async function importCatalog(json, { keep = 'both' } = {}) {
-    const cat = validateCatalog(typeof json === 'string' ? parseCatalogText(json) : json);
+    const cat = validateCatalog(typeof json === 'string' ? catalogJson(json) : json);
     const was = source.get(cat.id);
     if (was === 'builtin' || was === 'pack') throw gwError('the catalogue id {id} belongs to a built-in or pack catalogue; give the file its own id', { id: cat.id }, 'E_CATALOG_ID_TAKEN');
     registerCatalog(cat);
@@ -157,7 +147,7 @@ export function installCatalogs(app) {
     for (const [path, bytes] of p.entries) {
       if (!/\.gwcatalog\.json$/i.test(path)) continue;
       try {
-        const cat = validateCatalog(parseCatalogText(new TextDecoder().decode(bytes)));
+        const cat = validateCatalog(catalogJson(new TextDecoder().decode(bytes), path));
         registerCatalog(cat);
         source.set(cat.id, 'pack');
         app.log('info', `catalogue ${cat.id} (${cat.types.length} types) from pack ${name}`);
