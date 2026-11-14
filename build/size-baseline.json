@@ -1,17 +1,17 @@
 {
  "version": "2.7.1",
- "build": "258ef1b5025a61fa",
+ "build": "686e45820410eac8",
  "files": {
-  "total": 8160570,
-  "airgap": 8156593,
-  "lite": 3760808,
+  "total": 8161082,
+  "airgap": 8157105,
+  "lite": 3761160,
   "eager": 1617299,
   "rustTotalGzip": 2024653
  },
  "blocks": {
   "data-basemap": 73732,
   "data-basis-glue": 20444,
-  "data-changelog": 10700,
+  "data-changelog": 11212,
   "data-draco-glue": 15764,
   "data-egm96": 911464,
   "data-splib07": 53992,
