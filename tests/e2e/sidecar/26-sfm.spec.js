@@ -28,7 +28,9 @@ const PORT = 47822;
 const HAS_MODULE = existsSync(join(MODULES, 'sfm', 'bin', LINUX ? 'colmap' : 'colmap.exe'));
 const SMALL = { feature_size: 800, feature_threads: 4, image_size: 800, depth_size: 400, views: 4 };
 
-const results = {};
+// Merged into the report already on disk: the Edge run skips the @sidecar-job Aukerman test, and
+// must not drop the figures the Chrome run wrote before it (decision 0023).
+const results = existsSync(REPORT) ? (JSON.parse(readFileSync(REPORT, 'utf8')).results ?? {}) : {};
 const record = (k, v) => {
   results[k] = v;
   mkdirSync(dirname(REPORT), { recursive: true });
