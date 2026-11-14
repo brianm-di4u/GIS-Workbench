@@ -28,10 +28,11 @@ const PORT = 47822;
 const HAS_MODULE = existsSync(join(MODULES, 'sfm', 'bin', LINUX ? 'colmap' : 'colmap.exe'));
 const SMALL = { feature_size: 800, feature_threads: 4, image_size: 800, depth_size: 400, views: 4 };
 
-// Merged into the report already on disk: the Edge run skips the @sidecar-job Aukerman test, and
-// must not drop the figures the Chrome run wrote before it (decision 0023).
-const results = existsSync(REPORT) ? (JSON.parse(readFileSync(REPORT, 'utf8')).results ?? {}) : {};
+// Each run starts its own report, except the Edge run: it skips the @sidecar-job Aukerman test,
+// so it starts from the report the Chrome run of the same pass wrote before it (decision 0023).
+let results;
 const record = (k, v) => {
+  results ??= test.info().project.name === 'sidecar-edge' && existsSync(REPORT) ? (JSON.parse(readFileSync(REPORT, 'utf8')).results ?? {}) : {};
   results[k] = v;
   mkdirSync(dirname(REPORT), { recursive: true });
   writeFileSync(REPORT, JSON.stringify({ at: new Date().toISOString(), platform: process.platform, results }, null, 2));
