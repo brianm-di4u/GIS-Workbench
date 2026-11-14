@@ -346,25 +346,31 @@ const ID_GEOMETRY = { point: 'Point', vertex: 'Point', line: 'LineString', area:
  * stay free: a feature may carry keys the catalogue does not name.
  */
 export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name = 'OpenStreetMap presets' } = {}) {
-  const attrs = Object.create(null);
-  let n = 0;
-  const attrFor = (key, f) => {
-    if (!key || BAD_NAMES.has(key) || /[{}]/.test(key)) return null;
-    if (FEATURE_COLUMNS.has(key.toLowerCase())) key = `${key}_attr`;
-    if (attrs[key]) return key;
-    if (++n > MAX_ATTRS) throw E('the catalogue has more than {n} attributes', { n: String(MAX_ATTRS) });
+  const { attrs, add, place } = attrTable();
+  // A tag key's definition, from its field (or none: free text). Two fields of one key that define it
+  // differently (direction: a number, or direction_clock's clockwise/anticlockwise) are two
+  // attributes writing one column (decision 0019): the second is named for its field.
+  // iD names the field for a key with ':' with '/' (toilets/disposal writes toilets:disposal).
+  const keyOfId = (fid) => String(fid).replace(/\//g, ':');
+  const own = (fid, key) => fields[fid]?.key === key && keyOfId(fid) === key;
+  const attrFor = (key, f, fid) => {
+    // A template ({…}), a wildcard (addr:*), a multiCombo's prefix (payment:, written as payment:cash=yes)
+    // or the address field (addr, written as addr:street…) names many keys, not a column.
+    if (!key || /[{}*]/.test(key) || key.endsWith(':') || f?.type === 'address') return null;
     const label = clean(f?.label ?? key);
     const opts = f?.options ?? (f?.strings?.options ? Object.keys(f.strings.options) : null);
     if (Array.isArray(opts)) capValues(opts.length, key);
     // A combo's options are suggestions (OSM takes any value) unless it sets customValues: false; a
     // radio's are the values. A check field's yes/no are suggestions too.
     const closed = f?.type === 'radio' || (/combo/.test(f?.type ?? '') && f?.customValues === false);
-    if (Array.isArray(opts) && opts.length && closed) attrs[key] = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
-    else if (f?.type === 'number') attrs[key] = { label, type: 'real' };
-    else attrs[key] = { label, type: 'text' };
-    return key;
+    let def;
+    if (Array.isArray(opts) && opts.length && closed) def = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
+    else if (f?.type === 'number') def = { label, type: 'real' };
+    else def = { label, type: 'text' };
+    // A second definition is named for what its field adds to the key (direction_clock).
+    const rest = keyOfId(fid).startsWith(key) ? String(fid).slice(key.length).replace(/^[^A-Za-z0-9]+/, '') : String(fid);
+    return add(key, def, (rest || fid).replace(/[^A-Za-z0-9]+/g, '_'));
   };
-  const types = [];
   const arr = (x) => (Array.isArray(x) ? x : []);
   // As iD resolves them: fields and moreFields each on its own; a '{preset}' entry takes that preset's
   // list of the same name; a list that resolves to nothing takes its parent's (the id up to the last '/').
@@ -391,30 +397,56 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     resolved.set(k, ids);
     return ids;
   };
+  // Each preset's columns first: its own tags, defined by the key's own field (its id is the key,
+  // with '/' for ':'), or else the first of the preset's fields that writes the key (none: free
+  // text), then each further field's key, the first field naming a column writing it.
+  const read = [];
   for (const [pid, p] of Object.entries(presets ?? {})) {
     if (!p || typeof p !== 'object' || !p.tags || typeof p.tags !== 'object' || p.searchable === false) continue;
-    capTypes(types);
+    capTypes(read);
     // A built presets.json may leave names to its translation files: the id's last part then names it.
     const nm = clean(p.name) || pid.split('/').pop().replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
     const geometry = [...new Set(arr(p.geometry).map((g) => ID_GEOMETRY[g]).filter(Boolean))];
     if (!geometry.length) continue;
-    const names = [];
+    const ids = [...listIds(pid, 'fields'), ...listIds(pid, 'moreFields')];
+    const cols = new Map();
     const fixed = Object.create(null);
     for (const [k, v] of Object.entries(p.tags)) {
-      const key = attrFor(k, fields[k] ?? null);
-      if (!key) continue;
-      names.push(key);
-      if (v !== '*' && typeof v === 'string') fixed[key] = v;
+      const fid = [k, k.replace(/:/g, '/')].find((i) => own(i, k)) ?? ids.find((i) => fields[i]?.key === k) ?? k;
+      cols.set(k, fid);
+      if (v !== '*' && typeof v === 'string') fixed[k] = v;
     }
-    for (const fid of [...listIds(pid, 'fields'), ...listIds(pid, 'moreFields')]) {
-      const f = fields[fid];
-      const key = typeof f?.key === 'string' ? attrFor(f.key, f) : null;
-      if (key && !names.includes(key)) names.push(key);
-    }
-    // A fixed tag outside a coded domain is still a value the subtype sets.
-    for (const k of Object.keys(fixed)) if (attrs[k].type === 'enum' && !Object.hasOwn(attrs[k].domain, fixed[k])) attrs[k].domain[fixed[k]] = fixed[k];
-    types.push({ code: pid, name: nm, geometry, attributes: names, subtypes: [{ code: pid, name: nm, fixed }] });
+    for (const fid of ids) if (typeof fields[fid]?.key === 'string' && !cols.has(fields[fid].key)) cols.set(fields[fid].key, fid);
+    read.push({ pid, nm, geometry, cols, fixed });
   }
+  // Then the definitions: a key's own field first, then the other fields by id, so the plain name
+  // goes the same way whatever the order of the presets. A tag with no field takes the key's first
+  // definition if it has one (free text only if none). Only definitions a preset uses are added.
+  const keyOf = new Map();
+  const first = new Map();
+  const rank = ([k, fid]) => (own(fid, k) ? 0 : fields[fid]?.key === k ? 1 : 2);
+  const uses = read.flatMap((r) => [...r.cols]).sort((a, b) => rank(a) - rank(b) || (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0));
+  for (const [k, fid] of uses) {
+    const at = `${k}\u0000${fid}`;
+    if (keyOf.has(at)) continue;
+    const key = rank([k, fid]) === 2 && first.has(k) ? first.get(k) : attrFor(k, fields[fid]?.key === k ? fields[fid] : null, fid);
+    keyOf.set(at, key);
+    if (key && !first.has(k)) first.set(k, key);
+  }
+  const types = read.map(({ pid, nm, geometry, cols, fixed }) => {
+    const names = [];
+    const values = Object.create(null);
+    for (const [k, fid] of cols) {
+      const key = keyOf.get(`${k}\u0000${fid}`);
+      if (!key) continue;
+      place(names, key);
+      if (Object.hasOwn(fixed, k)) values[key] = fixed[k];
+    }
+    return { code: pid, name: nm, geometry, attributes: names, subtypes: [{ code: pid, name: nm, fixed: values }] };
+  });
+  // A fixed tag outside a coded domain is still a value the subtype sets. Added once every definition
+  // is in, so the definitions compared above are the source's own.
+  for (const ty of types) for (const [k, v] of Object.entries(ty.subtypes[0].fixed)) if (attrs[k].type === 'enum' && !Object.hasOwn(attrs[k].domain, v)) attrs[k].domain[v] = v;
   if (!types.length) throw E('no presets with a name, tags and a point, line or area geometry');
   return { format: 'gw-catalog/1', id: safeId(id, 'osm-presets'), name, version: '1', source: 'OpenStreetMap iD presets', nulls: EMPTY_NULLS, attributes: attrs, types };
 }
