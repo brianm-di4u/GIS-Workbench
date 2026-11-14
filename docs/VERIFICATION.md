@@ -22,7 +22,7 @@ The private SDP names the stages in §6.4 and the test levels in §7.1. This tab
 | `full` | Scoped by `build/verify-scope.mjs`; `node build/verify-scope.mjs --dry` lists the steps for a change. Quarantine, civilian-use and D: drive checks, changelog fragments, `cargo deny`, affected Rust tests, the source catalogue, strict build, size report, vitest, Playwright project `ci` | CI on every PR | §6.4 Full, §7.1 unit, E2E, security |
 | `full` on main | Everything, unscoped | CI on every merge to main | §6.4 Full |
 | nightly | Chrome full, Firefox, WebKit, iOS simulator, release-mode fuzz, npm audit, cargo audit, gitleaks | CI, nightly | §6.4 Nightly, §7.1 fuzz, security |
-| `e2e` | Local Windows run: `npm run test:e2e`, then campaigns c61 and c22, then `npm run trace`. About 4.5 hours | Weekly, and before every release | §7.4 release validation |
+| `e2e` | Local Windows run: `npm run test:e2e`, then campaigns c61 and c22, then `npm run trace`. About 9 hours | Weekly, and before every release | §7.4 release validation |
 
 ## Make the real app checkable
 
