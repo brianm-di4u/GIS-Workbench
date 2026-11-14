@@ -67,3 +67,32 @@ describe("what counts as an input of gwb-sidecar.exe", async () => {
     for (const no of ['sidecar/gwb-sidecar/tests/gwb_run.rs', 'sidecar/gwb-sidecar/src/bin/run.rs', 'sidecar/gwb-sfm/src/ba.rs', 'sidecar/gwb-stereo/src/main.rs', 'sidecar/stubs/nolzo/src/lib.rs']) expect(sidecarInput(no), no).toBe(false);
   });
 });
+
+describe('the e2e module bundle check', async () => {
+  const { bundleProblems } = await import('../../build/e2e.mjs');
+  const mod = (id, installed = true) => ({ id, installed });
+  const full = {
+    modules: ['core-gdal', 'points', 'sfm', 'vendor-mrsid', 'vendor-ecw'].map((id) => mod(id)).concat(mod('vendor-openh264', false)),
+    raster_drivers: [{ name: 'GTiff' }, { name: 'HDF4' }, { name: 'HDF4Image' }],
+    vendor: [{ id: 'vendor-mrsid', installed: true }, { id: 'vendor-ecw', installed: true }, { id: 'vendor-openh264', installed: false }],
+  };
+  it('passes a full bundle without OpenH264, the user\'s own download', () => {
+    expect(bundleProblems(full)).toEqual([]);
+  });
+  it('names each gap of the 11-02 bundle: no Core GDAL, no HDF4, no MrSID or ECW plug-ins', () => {
+    const old = { modules: [mod('core-gdal', false), mod('points')], raster_drivers: [], vendor: [{ id: 'vendor-mrsid', installed: false }] };
+    expect(bundleProblems(old)).toEqual([
+      'module "core-gdal" is not installed',
+      'GDAL has no HDF4 driver (the HDF4 plug-ins)',
+      'GDAL has no HDF4Image driver (the HDF4 plug-ins)',
+      'the vendor-mrsid plug-ins are not loaded',
+      'the vendor-ecw plug-ins are not loaded',
+    ]);
+  });
+  it('asks Linux only for Core GDAL and HDF4', () => {
+    expect(bundleProblems({ ...full, modules: [mod('core-gdal'), mod('sfm', false)], vendor: [] }, { linux: true })).toEqual([]);
+  });
+  it('refuses a sidecar that gave no caps', () => {
+    expect(bundleProblems(null)).toEqual(['the test sidecar gave no caps']);
+  });
+});
