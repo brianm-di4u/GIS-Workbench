@@ -62,9 +62,9 @@ describe('the e2e packs check', async () => {
 
 describe("what counts as an input of gwb-sidecar.exe", async () => {
   const { sidecarInput } = await import('../../build/e2e.mjs');
-  it('is its sources, gwb-sidecar-api and the manifests, not tests, other binaries or other crates', () => {
-    for (const yes of ['sidecar/gwb-sidecar/src/main.rs', 'sidecar/gwb-sidecar/src/cdp.rs', 'sidecar/gwb-sidecar-api/src/lib.rs', 'sidecar/Cargo.lock', 'sidecar/Cargo.toml', 'sidecar/gwb-sidecar/Cargo.toml']) expect(sidecarInput(yes), yes).toBe(true);
-    for (const no of ['sidecar/gwb-sidecar/tests/gwb_run.rs', 'sidecar/gwb-sidecar/src/bin/run.rs', 'sidecar/gwb-sfm/src/ba.rs', 'sidecar/gwb-stereo/src/main.rs', 'sidecar/stubs/nolzo/src/lib.rs']) expect(sidecarInput(no), no).toBe(false);
+  it("is its files, gwb-sidecar-api's, what it embeds and the manifests, not tests, other binaries or other crates", () => {
+    for (const yes of ['sidecar/gwb-sidecar/src/main.rs', 'sidecar/gwb-sidecar/src/cdp.rs', 'sidecar/gwb-sidecar-api/src/lib.rs', 'sidecar/Cargo.lock', 'sidecar/Cargo.toml', 'sidecar/gwb-sidecar/Cargo.toml', 'sidecar/ui/ui.js', 'sidecar/ui/index.html', 'sidecar/profiles/raster-cog.toml', 'sidecar/profiles/linux/points-copc.toml', 'sidecar/gwb-sidecar/src/recipe_run_page.js']) expect(sidecarInput(yes), yes).toBe(true);
+    for (const no of ['sidecar/gwb-sidecar/tests/gwb_run.rs', 'sidecar/gwb-sidecar/src/bin/run.rs', 'sidecar/gwb-sfm/src/ba.rs', 'sidecar/gwb-stereo/src/main.rs', 'sidecar/stubs/nolzo/src/lib.rs', 'sidecar/gwb-sidecar-api/src/bin/export-schema.rs', 'sidecar/installer/vendor-pins.toml']) expect(sidecarInput(no), no).toBe(false);
   });
 });
 

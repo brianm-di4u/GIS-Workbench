@@ -71,10 +71,15 @@ const git = (args) => {
   return r.status === 0 ? r.stdout : '';
 };
 
-/** Is `path` (repo-relative, forward slashes) an input of gwb-sidecar.exe: its crate's sources (not its other binaries), gwb-sidecar-api's, or a manifest? */
+/**
+ * Is `path` (repo-relative, forward slashes) an input of gwb-sidecar.exe: any file of its crate or
+ * gwb-sidecar-api's (not their tests or other binaries), the window and job profiles it embeds with
+ * include_str!, or a workspace manifest?
+ */
 export const sidecarInput = (path) =>
-  ['sidecar/Cargo.toml', 'sidecar/Cargo.lock', 'sidecar/gwb-sidecar/Cargo.toml', 'sidecar/gwb-sidecar-api/Cargo.toml'].includes(path) ||
-  (/^sidecar\/gwb-sidecar(-api)?\/src\/.*\.rs$/.test(path) && !path.startsWith('sidecar/gwb-sidecar/src/bin/'));
+  ['sidecar/Cargo.toml', 'sidecar/Cargo.lock'].includes(path) ||
+  /^sidecar\/(ui|profiles)\//.test(path) ||
+  (/^sidecar\/gwb-sidecar(-api)?\//.test(path) && !/^sidecar\/gwb-sidecar(-api)?\/(tests|src\/bin)\//.test(path));
 
 /**
  * The newest change to this checkout's inputs of gwb-sidecar.exe, by file time, as cargo judges them:
