@@ -80,7 +80,7 @@ test.beforeAll(async ({ browser }) => {
   // The machine lock keeps every `verify` run off the machine while this measures. Waiting for it
   // has no time limit: other runs may hold it for an hour.
   test.setTimeout(0);
-  release_ = await acquire({ level: 'signoff' });
+  release_ = await acquire({ level: 'signoff', priority: 'release' }); // a release-candidate measurement (#268)
   result.build = JSON.parse(readFileSync(join(DIST_DIR, 'build-report.json'), 'utf8')).build;
   result.machine = { cpu: cpus()[0]?.model, cores: cpus().length, memGiB: Math.round(totalmem() / 2 ** 30), os: `${process.platform} ${release()}`, browser: browser.version(), dist: DIST };
 });

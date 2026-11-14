@@ -16,11 +16,11 @@ Main must be green, with no open `pipeline:main-red` issue or tripped breaker, a
 ## Steps
 
 1. **Pick the version** by semantic versioning. Use `-beta.N` or `-rc.N` for a prerelease.
-2. **Open a release PR** that sets the version in `package.json`, updates `CHANGELOG.md` in words a user would understand, and carries any translation increment. Merge it through the gate.
+2. **Open a release PR** that sets the version in `package.json`, updates `CHANGELOG.md` in words a user would understand, and carries any translation increment. Merge it through the gate. Run its verifies with `GWB_VERIFY_PRIORITY=release`, so they go ahead of other waiters for the machine lock (#268).
 3. **Run the release gate** on a fresh checkout of that commit on the admin's PC:
 
    ```bash
-   node .pipeline/verify.mjs e2e
+   GWB_VERIFY_PRIORITY=release node .pipeline/verify.mjs e2e
    ```
 
    SDP §7.4 applies: exit scenarios on the built file, all Musts, performance on the reference laptop, zero open fuzz crashes, and honest limits in Help. Run `npm run trace`, and write the validation report in the private repo.

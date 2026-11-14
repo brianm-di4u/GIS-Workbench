@@ -1,9 +1,9 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { STALE_MS, acquire, decide, describeWait, duration, queueTurn } from '../../.pipeline/lib/machine-lock.mjs';
+import { STALE_MS, acquire, decide, describeWait, duration, queueTurn, ticketName } from '../../.pipeline/lib/machine-lock.mjs';
 
 const holder = { pid: 4242, level: 'full', cwd: 'C:/work/a', startedAt: 1_000_000 };
 const up = () => true;
@@ -78,6 +78,27 @@ describe('machine lock queue order', () => {
     expect(turn.stale).toHaveLength(1);
   });
 
+  it('serves a release ticket that arrived later before every normal ticket (#268)', () => {
+    const at = 1_794_640_789_180;
+    const normal = ticketName({ now: at, pid: 1, tail: 'a' });
+    const release = ticketName({ priority: 'release', now: at + 60_000, pid: 2, tail: 'b' });
+    const laterRelease = ticketName({ priority: 'release', now: at + 90_000, pid: 3, tail: 'c' });
+    const tickets = [ticket(normal, 1), ticket(laterRelease, 3), ticket(release, 2)];
+    expect(queueTurn({ tickets, self: release, alive: up }).position).toBe(0);
+    expect(queueTurn({ tickets, self: laterRelease, alive: up }).position).toBe(1); // arrival order among release tickets
+    expect(queueTurn({ tickets, self: normal, alive: up }).position).toBe(2);
+  });
+
+  it('keeps the name layout older copies read: the pid second, and a plain sort in serving order', () => {
+    const release = ticketName({ priority: 'release', now: 1_794_640_789_180, pid: 4242, tail: 'aaaaaa' });
+    expect(release.split('-')[1]).toBe('4242');
+    expect([ticketName({ now: 1_000_000_000_000, pid: 1, tail: 'a' }), release].sort()[0]).toBe(release); // a normal ticket from 2001 still sorts after it
+  });
+
+  it('refuses a priority it does not know', () => {
+    expect(() => ticketName({ priority: 'urgent' })).toThrow(/release or normal/);
+  });
+
   it('never calls its own ticket stale, and reports -1 when it has none', () => {
     expect(queueTurn({ tickets: [ticket('001-1-a', 1, STALE_MS + 1)], self: '001-1-a', alive: gone }).stale).toEqual([]);
     expect(queueTurn({ tickets: [], self: '001-1-a', alive: up }).position).toBe(-1);
@@ -133,6 +154,35 @@ describe('machine lock files', () => {
     expect(order).toEqual(['b', 'c', 'd']);
     expect(readdirSync(`${path}.queue`)).toEqual([]);
   }, 30_000);
+
+  it('hands the lock to a release waiter before a normal one that queued first (#268)', async () => {
+    const first = await acquire({ ...opts, path });
+    const order = [];
+    const normal = acquire({ ...opts, path }).then((release) => (order.push('normal'), release));
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    const release = acquire({ ...opts, path, priority: 'release' }).then((r) => (order.push('release'), r));
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(order).toEqual([]); // the holder is not pre-empted
+    first();
+    (await release)();
+    (await normal)();
+    expect(order).toEqual(['release', 'normal']);
+  }, 30_000);
+
+  it('takes the priority from GWB_VERIFY_PRIORITY when none is passed', async () => {
+    const releaseLock = await acquire({ ...opts, path, env: { GWB_VERIFY_PRIORITY: 'release' } });
+    expect(JSON.parse(readFileSync(path, 'utf8')).priority).toBe('release');
+    releaseLock();
+  });
+
+  it('keeps beating while the holder blocks its own event loop, so it is not taken as stale', async () => {
+    const releaseLock = await acquire({ ...opts, path, heartbeatMs: 50 });
+    const before = statSync(path).mtimeMs;
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500); // as a long spawnSync would
+    expect(statSync(path).mtimeMs).toBeGreaterThan(before + 200);
+    releaseLock();
+    expect(existsSync(path)).toBe(false);
+  });
 
   it('does not wait behind a queued process that is gone', async () => {
     const dead = spawnSync(process.execPath, ['-e', '0']).pid;
