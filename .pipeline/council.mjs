@@ -29,6 +29,7 @@ import {
   selectSeats,
 } from './lib/ledger.mjs';
 import { loadPersonas } from './lib/personas.mjs';
+import { SHARD_MAX, diffShards } from './lib/shards.mjs';
 import { classify, scriptsChanged } from './lib/tier.mjs';
 
 const BASE = 'origin/main';
@@ -161,6 +162,14 @@ function plan(args) {
         .filter((f) => f.status !== 'pre-existing')
         .map(({ id, severity, class: bugClass, file, line, claim, status }) => ({ id, severity, class: bugClass, file, line, claim, status })),
     });
+    // A full round of a large diff runs each seat once per shard (issue 273). Diff rounds read only
+    // what changed since the last round, so they stay whole.
+    if (output.mode === 'full') {
+      const shards = diffShards(ctx.mergeBase, 'HEAD', ctx.generatedGlobs, { diffLines: ctx.diffLines });
+      if (shards) output.shards = shards;
+      // Say why a large full round stays whole, so the round's log shows it.
+      else if (ctx.diffLines > SHARD_MAX) output.unsharded = "its paths can't be split safely, or it needs more shards than the cap allows";
+    }
     if (args.includes('--inline-personas')) output.personas = loadPersonas();
     // Normally reviewers get disposable worktrees. --cwd pins them to a folder instead,
     // for hosts where the session isn't running in this repo.
