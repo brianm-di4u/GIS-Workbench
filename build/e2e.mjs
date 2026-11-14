@@ -4,15 +4,17 @@
 //
 // It tests the bits it says it tests, with the data they need. It refuses at once when the Research
 // samples are missing. It builds dist/ first (strict), unless GW_DIST or GWB_DIST points the suites
-// at another build, and builds the sidecar into the harness's target folder, since the harness runs
-// whatever binary sits there (a binary named in GWB_SIDECAR_EXE is refused if older than this
-// checkout's sidecar sources). It refuses a build that lacks a pack (its inputs weren't fetched) or
-// whose manifest names a pack file not there. And it records the app build id and the sidecar's SHA-256 in reports/e2e-bits.json and in its output,
-// which verify keeps as the e2e evidence.
+// at another build. It builds the sidecar from this checkout into this checkout's own target and
+// points the harness there, since the harness runs whatever binary sits in its target folder (a
+// binary named in GWB_SIDECAR_EXE is refused if older than this checkout's sidecar sources). It
+// refuses a build that lacks a pack (its inputs weren't fetched) or whose manifest names a pack file
+// not there. And it records the app build id and the sidecar's SHA-256 in reports/e2e-bits.json
+// and in its output, which verify keeps as the e2e evidence.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { cargoTargetDir } from './cargo-target.mjs';
 import { pathToFileURL } from 'node:url';
 
 /** Why `exe` can't be the sidecar under test, or null. Times are in milliseconds. */
@@ -29,24 +31,39 @@ const git = (args) => {
   return r.status === 0 ? r.stdout : '';
 };
 
+/** Is `path` (repo-relative, forward slashes) an input of gwb-sidecar.exe: its crate's sources (not its other binaries), gwb-sidecar-api's, or a manifest? */
+export const sidecarInput = (path) =>
+  ['sidecar/Cargo.toml', 'sidecar/Cargo.lock', 'sidecar/gwb-sidecar/Cargo.toml', 'sidecar/gwb-sidecar-api/Cargo.toml'].includes(path) ||
+  (/^sidecar\/gwb-sidecar(-api)?\/src\/.*\.rs$/.test(path) && !path.startsWith('sidecar/gwb-sidecar/src/bin/'));
+
 /**
- * The newest change to this checkout's sidecar Rust inputs (sources, manifests, the lockfile), by
- * file time, as cargo judges them: a commit time says nothing about when the code reached this
- * checkout, and a commit that touches no input leaves a current binary current.
+ * The newest change to this checkout's inputs of gwb-sidecar.exe, by file time, as cargo judges them:
+ * a commit time says nothing about when the code reached this checkout. Used only for a binary named
+ * in GWB_SIDECAR_EXE; a binary e2e built itself is as current as cargo made it.
  */
 export function newestSidecarSource() {
-  const inputs = git(['ls-files', '--', 'sidecar'])
-    .split('\n')
-    .filter((path) => /(\.rs|Cargo\.toml|Cargo\.lock)$/.test(path) && existsSync(path));
+  const inputs = git(['ls-files', '--', 'sidecar']).split('\n').filter((path) => sidecarInput(path) && existsSync(path));
   return Math.max(0, ...inputs.map((path) => statSync(path).mtimeMs)) || null;
 }
 
-/** Build the sidecar the harness runs, from this checkout, into the harness's target folder. Cargo rebuilds only what changed. */
-function buildSidecar(exe) {
+const MUSL = 'x86_64-unknown-linux-musl';
+
+/**
+ * This checkout's own sidecar target: never the machine-wide one the harness defaults to, where
+ * another worktree's build could pass for this one (#42, #220). Under GWB_CARGO_TARGET, this
+ * checkout's folder there; else sidecar/target.
+ */
+function sidecarTarget() {
+  const base = cargoTargetDir() ?? resolve('sidecar', 'target');
+  return process.platform === 'linux' ? join(base, MUSL) : base;
+}
+
+/** Build the sidecar and its stereo viewer into GWB_SIDECAR_TARGET from this checkout. Cargo rebuilds only what changed. */
+function buildSidecar(target) {
   const linux = process.platform === 'linux';
-  const below = dirname(dirname(exe)); // <target>/release/<exe>, or <target>/<triple>/release/<exe> for the musl build
-  const args = ['build', '--locked', '--release', '-p', 'gwb-sidecar', ...(linux ? ['--target', 'x86_64-unknown-linux-musl'] : [])];
-  return spawnSync('cargo', args, { cwd: 'sidecar', stdio: 'inherit', env: { ...process.env, CARGO_TARGET_DIR: linux ? dirname(below) : below } }).status;
+  // The viewer is built for Windows only in this release; the harness runs it from beside the sidecar.
+  const args = ['build', '--locked', '--release', '-p', 'gwb-sidecar', ...(linux ? ['--target', MUSL] : ['-p', 'gwb-stereo'])];
+  return spawnSync('cargo', args, { cwd: 'sidecar', stdio: 'inherit', env: { ...process.env, CARGO_TARGET_DIR: linux ? dirname(target) : target } }).status;
 }
 
 /** Why a build can't be tested in full: packs a full build makes that it lacks, or packs it names whose file isn't there. */
@@ -66,6 +83,11 @@ async function main() {
     console.error(`e2e: the Research samples are not at ${SAMPLES}. Set GWB_SAMPLES, or the data tests would fail after hours.`);
     return 1;
   }
+  // e2e builds the sidecar into this checkout's own target, and both passes find it there; the
+  // harness reads GWB_SIDECAR_TARGET when first imported. A binary named in GWB_SIDECAR_EXE, or a
+  // target named in GWB_SIDECAR_TARGET, is the caller's.
+  const ownSidecar = !process.env.GWB_SIDECAR_EXE;
+  if (ownSidecar && !process.env.GWB_SIDECAR_TARGET) process.env.GWB_SIDECAR_TARGET = sidecarTarget();
   // GW_DIST or GWB_DIST points both passes at another build. GWB_DIST_DIR reaches only the sidecar
   // pass, so on its own it would split the two passes across two builds.
   const otherBuild = process.env.GW_DIST || process.env.GWB_DIST;
@@ -89,14 +111,13 @@ async function main() {
     return 1;
   }
   const { EXE } = await import('../tests/e2e/sidecar/harness.js');
-  // The harness runs whatever binary sits in its target folder, so build it from this checkout.
-  // A binary named in GWB_SIDECAR_EXE is the caller's, and is only checked for its age.
-  if (!process.env.GWB_SIDECAR_EXE && buildSidecar(EXE) !== 0) {
+  if (ownSidecar && buildSidecar(process.env.GWB_SIDECAR_TARGET) !== 0) {
     console.error('e2e: the sidecar build failed, so there is no current sidecar to test.');
     return 1;
   }
   const exeTime = existsSync(EXE) ? statSync(EXE).mtimeMs : null;
-  const stale = staleSidecar({ exe: EXE, exeTime, newestSource: newestSidecarSource() });
+  // Cargo has just made e2e's own binary current; a caller's binary is checked for its age.
+  const stale = staleSidecar({ exe: EXE, exeTime, newestSource: ownSidecar ? null : newestSidecarSource() });
   if (stale) {
     console.error(`e2e: ${stale}`);
     return 1;
