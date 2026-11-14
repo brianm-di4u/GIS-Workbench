@@ -13,7 +13,7 @@ Layout: `app/` is the browser app, `crates/` is Rust compiled to WASM, `sidecar/
 
 - `node .pipeline/verify.mjs fast`: quick checks, run often.
 - `node .pipeline/verify.mjs full`: what CI runs, scoped to this branch. Must pass before a PR.
-- `node .pipeline/verify.mjs e2e`: the full local gate, about 4.5 hours. Run it only before a release.
+- `node .pipeline/verify.mjs e2e`: the full local gate, about 9 hours. Run it only before a release.
 - `node .pipeline/gate.mjs classify`: this branch's change hash and tier.
 - `node .pipeline/gate.mjs local`: check the gate for the current PR.
 - `npm run build`: build `dist/`. `npx playwright test --project=ci tests/e2e/<spec>`: run one browser suite.
