@@ -224,7 +224,7 @@ test('SCN-63 small block: oriented frames, dense cloud, DSM and orthomosaic, all
   record('small', { registered: r.report.georef.registered, reprojection: r.report.georef.reprojection_px, gps: r.report.georef.gps_rms_m, points: r.report.cloud_points, dsm: r.report.dsm, ortho: r.report.ortho });
 });
 
-test('SCN-63 Aukerman, 77 photographs (ODM data set)', async () => {
+test('SCN-63 Aukerman, 77 photographs (ODM data set)', { tag: '@sidecar-job' }, async () => {
   test.skip(!existsSync(AUKERMAN), 'the ODM data set is not here (GW_SFM_DATA)');
   test.setTimeout(14_400_000);
   const r = await run(frame, FOLDERS.full, { feature_threads: 4 });

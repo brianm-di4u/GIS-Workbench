@@ -56,37 +56,37 @@ async function withFiles(name, picks, run) {
 test.describe.configure({ mode: 'serial' });
 test.setTimeout(8 * 3600_000);
 
-test('REQ-GAP-72 HDF-EOS grids: listing, pixels, fill, scale, the MODIS sinusoidal grid', async () => {
+test('REQ-GAP-72 HDF-EOS grids: listing, pixels, fill, scale, the MODIS sinusoidal grid', { tag: '@sidecar-job' }, async () => {
   const files = ls('hdf4', 'grid');
   test.skip(!ready(files), 'no data or no oracle');
   expect(await withFiles('hdf4-grid', files, hdf4Case)).toEqual([]);
 });
 
-test('REQ-GAP-72 HDF-EOS swaths: MODIS L1B and L2, ASTER L1B, band order, tie points', async () => {
+test('REQ-GAP-72 HDF-EOS swaths: MODIS L1B and L2, ASTER L1B, band order, tie points', { tag: '@sidecar-job' }, async () => {
   const files = ls('hdf4', 'swath');
   test.skip(!ready(files), 'no data or no oracle');
   expect(await withFiles('hdf4-swath', files, hdf4Case)).toEqual([]);
 });
 
-test('REQ-GAP-72 FITS: BITPIX -32, -64, 16, 32, BSCALE and BLANK, cube, extensions, tile compression', async () => {
+test('REQ-GAP-72 FITS: BITPIX -32, -64, 16, 32, BSCALE and BLANK, cube, extensions, tile compression', { tag: '@sidecar-job' }, async () => {
   const files = ['bscale', 'dss16', 'nasa-samples', 'fz', 'bitpix64', 'jwst-cal', 'cube', 'cube-small', 'mef-kepler', 'table'].flatMap((d) => ls('fits', d));
   test.skip(!ready(files), 'no data or no oracle');
   expect(await withFiles('fits', files, fitsCase)).toEqual([]);
 });
 
-test('REQ-GAP-72 FITS: the 10 GB image and the JWST mosaic, every pixel', async () => {
+test('REQ-GAP-72 FITS: the 10 GB image and the JWST mosaic, every pixel', { tag: '@sidecar-job' }, async () => {
   const files = [...ls('fits', 'large'), ...ls('fits', 'mef-jwst')];
   test.skip(QUICK || !!process.env.GWB_PLUGINDATA_NO_LARGE || !ready(files), 'no data, no oracle, or a quick run');
   expect(await withFiles('fits-large', files, (sc, f, path) => fitsCase(sc, f, path, { hdus: 0 }))).toEqual([]);
 });
 
-test('REQ-GAP-72 damaged and mislabelled files are refused by name, and leave nothing', async () => {
+test('REQ-GAP-72 damaged and mislabelled files are refused by name, and leave nothing', { tag: '@sidecar-job' }, async () => {
   const files = ls('bad');
   test.skip(!ready(files), 'no data or no oracle');
   expect(await withFiles('bad', files, badCase)).toEqual([]);
 });
 
-test('REQ-GAP-72 KEA: a large real raster to KEA and back, against h5py and the source', async () => {
+test('REQ-GAP-72 KEA: a large real raster to KEA and back, against h5py and the source', { tag: '@sidecar-job' }, async () => {
   test.skip(!existsSync(PY) || !existsSync(EXE) || !existsSync(SRC), 'no data or no oracle');
   const problems = await withFiles('kea', [SRC], async (sc, f, path) => {
     mkdirSync(SHARED, { recursive: true });
@@ -116,7 +116,7 @@ test('REQ-GAP-72 KEA: a large real raster to KEA and back, against h5py and the 
   expect(problems).toEqual([]);
 });
 
-test('REQ-GAP-72 export-gdal refuses a writer that makes a folder, by name, before it runs', async () => {
+test('REQ-GAP-72 export-gdal refuses a writer that makes a folder, by name, before it runs', { tag: '@sidecar-job' }, async () => {
   test.skip(!existsSync(EXE) || !existsSync(SRC), 'no data');
   const problems = await withFiles('folder-writer', [SRC], async (sc, f) => {
     const r = await runJob(sc, 'export-gdal', [f.id], { driver: 'TileDB' });
@@ -125,7 +125,7 @@ test('REQ-GAP-72 export-gdal refuses a writer that makes a folder, by name, befo
   expect(problems).toEqual([]);
 });
 
-test('REQ-GAP-72 TileDB: a large real raster to an array through a job, read back through a job', async () => {
+test('REQ-GAP-72 TileDB: a large real raster to an array through a job, read back through a job', { tag: '@sidecar-job' }, async () => {
   test.skip(!existsSync(PY) || !existsSync(EXE) || !existsSync(SRC), 'no data or no oracle');
   const dir = join(SHARED, 'tiledb-array');
   rmSync(dir, { recursive: true, force: true });

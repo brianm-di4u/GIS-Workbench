@@ -132,7 +132,7 @@ test.afterAll(async () => {
   if (s) stopSidecar(s.pid);
 });
 
-test('SCN-82: both stages, 5 control points and 2 checkpoints', async () => {
+test('SCN-82: both stages, 5 control points and 2 checkpoints', { tag: '@sidecar-job' }, async () => {
   test.setTimeout(10 * 3600_000);
   const began = Date.now();
   run = await frame.evaluate(
@@ -180,7 +180,7 @@ function modelPath() {
 }
 
 
-test('leave-one-out: each of the 7 points a checkpoint in turn', async () => {
+test('leave-one-out: each of the 7 points a checkpoint in turn', { tag: '@sidecar-job' }, async () => {
   test.setTimeout(3600_000);
   expect(run?.model, 'the run published no model').toBeTruthy();
   const w = join(WORK, 'loo');
@@ -218,7 +218,7 @@ test('leave-one-out: each of the 7 points a checkpoint in turn', async () => {
   floor('leave-one-out, 3D RMSE after the adjustment over the similarity alone', ratio, FLOORS.loo_ratio);
 });
 
-test("the DSM against the authors' DSM made with the same points", async () => {
+test("the DSM against the authors' DSM made with the same points", { tag: '@sidecar-job' }, async () => {
   test.setTimeout(3600_000);
   test.skip(!existsSync(AUTHORS_DSM), "the authors' DSM is not extracted");
   expect(run?.id, 'no stage 2 run').toBeTruthy();
@@ -267,7 +267,7 @@ test("the DSM against the authors' DSM made with the same points", async () => {
   floor('DSM less the survey at the 7 points, RMSE m', out.at_points_rmse_m, FLOORS.dsm_points);
 });
 
-test('the marking dialog: where it predicts each mark, axe, a click and the arrow keys', async () => {
+test('the marking dialog: where it predicts each mark, axe, a click and the arrow keys', { tag: '@sidecar-job' }, async () => {
   test.setTimeout(600_000);
   expect(run?.model, 'the run published no model').toBeTruthy();
   const header = await readModelHeader({ body: Readable.toWeb(createReadStream(modelPath())) });
@@ -346,7 +346,7 @@ test('the marking dialog: where it predicts each mark, axe, a click and the arro
   expect(await frame.evaluate(() => window.__scn82)).toBeNull();
 });
 
-test('the floors hold', () => {
+test('the floors hold', { tag: '@sidecar-job' }, () => {
   expect(floors.length).toBeGreaterThan(0);
   expect(floors.filter((f) => !f.ok)).toEqual([]);
 });
