@@ -41983,8 +41983,8 @@
    ]
   },
   {
-   "key": "The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. A file in a format Convert does not read stops the run before anything is written.",
-   "src": "The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. A file in a format Convert does not read stops the run before anything is written.",
+   "key": "The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. Given files (as gwb-run gives them) must all be formats Convert reads, or the run stops before anything is written; from a picked folder, other files are skipped and named. A file that fails to convert fails the run.",
+   "src": "The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. Given files (as gwb-run gives them) must all be formats Convert reads, or the run stops before anything is written; from a picked folder, other files are skipped and named. A file that fails to convert fails the run.",
    "refs": [
     "recipes/catalog.js"
    ]
@@ -66591,6 +66591,13 @@
    "src": "{n, plural, one {# file} other {# files}} still missing; use File ▸ Relink Imagery",
    "refs": [
     "features/files.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# file} other {# files}}; skipped {skipped}",
+   "src": "{n, plural, one {# file} other {# files}}; skipped {skipped}",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {

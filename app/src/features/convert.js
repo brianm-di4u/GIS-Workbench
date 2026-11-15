@@ -269,7 +269,7 @@ export function install(app) {
     }
     const failed = mine.filter((q) => q.state === 'failed');
     app.toast(failed.length ? t('Convert: {n} failed — see the Convert panel', { n: failed.length }) : t('Convert: done.'), { kind: failed.length ? 'warn' : 'info' });
-    // A recipe step reads this: a file that failed or was skipped fails the step (SDP-2.8 §7.1).
+    // A recipe step reads this (convertFolder): a file that failed fails the step; a skipped one is named.
     return { done: mine.filter((q) => q.state === 'done').length, failed: failed.map((q) => `${q.name}: ${q.detail}`), skipped: mine.filter((q) => q.state === 'skipped').map((q) => q.name) };
   }
   app.convertFiles = run;

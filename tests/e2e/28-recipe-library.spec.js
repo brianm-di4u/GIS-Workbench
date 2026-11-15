@@ -11,7 +11,7 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { openApp } from './helpers.js';
+import { openApp, openFiles } from './helpers.js';
 import { oracleCases, describeCog, compareCog } from '../tools/recipe-oracle.mjs';
 
 const FN = readFileSync(resolve('sidecar', 'gwb-sidecar', 'src', 'recipe_run_page.js'), 'utf8');
@@ -66,6 +66,24 @@ async function compare(kind, bytes, oracleFile) {
   if (kind === 'cog') return compareCog(await describeCog(bytes), want);
   throw new Error(`no comparison for output kind "${kind}"`);
 }
+
+test("REG-282 a recipe's requirement is checked on the layer a step reads, before anything runs", async ({ page }) => {
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await openFiles(frame, [resolve('fixtures', 'fx25', 'aviation', 'nodata-utm15n-f32.tif')]);
+  const r = await frame.evaluate(async () => {
+    const app = window.gisworkbench;
+    const layer = [...app.layers.values()][0].rec.name;
+    const recipe = (requires) => ({ format: 'gw-recipe/2', id: 'req', name: 'Requirement', requires: { dem: requires }, steps: [{ id: 'dem', op: 'rasterLayer', params: { layer } }] });
+    const run = async (req) => {
+      const s = await app.api.v2.recipes.run({ recipe: recipe(req) });
+      return [s.ok, s.error ?? null];
+    };
+    return { fits: await run({ kind: 'raster', bands: 1, nodata: true }), bands: await run({ bands: 3 }), kind: await run({ kind: 'vector' }) };
+  });
+  expect(r.fits).toEqual([true, null]);
+  expect(r.bands).toEqual([false, 'nodata-utm15n-f32.tif has 1 band; this recipe needs 3']);
+  expect(r.kind).toEqual([false, 'nodata-utm15n-f32.tif is not a vector layer']);
+});
 
 for (const c of CASES) {
   test.describe(`REG-284 library recipe ${c.id}`, () => {

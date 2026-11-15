@@ -230,6 +230,8 @@ export function validateRecipe(r, ops) {
 
 const metaErr = (msg, params) => gwError(msg, params, 'E_RECIPE_META');
 const REQUIRE_KEYS = { kind: ['raster', 'vector'], bands: 'integer', nodata: [true] };
+// Names that would reach an object's prototype if used as a key: a recipe file may not use them.
+const RESERVED = new Set(['__proto__', 'constructor', 'prototype']);
 
 /** A recipe's library fields (see the header), checked against its steps; only the ones it has. */
 export function recipeMeta(r, steps, ops) {
@@ -247,29 +249,28 @@ export function recipeMeta(r, steps, ops) {
   }
   const byId = new Map(steps.map((s) => [s.id, s]));
   if (r.params !== undefined) {
-    m.params = {};
+    m.params = Object.create(null);
     for (const [name, spec] of Object.entries(r.params ?? {})) {
+      if (RESERVED.has(name)) throw metaErr('recipe parameter {param}: not a name a parameter may have', { param: name });
       const to = Array.isArray(spec?.to) ? spec.to.map(String) : [];
       if (!to.length) throw metaErr('recipe parameter {param} sets no step parameter (to: ["stepId.param"])', { param: name });
       // Each target is a real step and one of its op's parameters: a mapping that set nothing would
       // leave the step on its default without a word.
       for (const port of to) {
         const [sid, p] = splitPort(port);
-        const op = byId.has(sid) ? ops[byId.get(sid).op] : null;
+        const op = byId.has(sid) && !RESERVED.has(sid) ? ops[byId.get(sid).op] : null;
         if (!op) throw metaErr('recipe parameter {param}: no step "{step}" to set', { param: name, step: sid });
-        if (!op.schema?.[p] && !(p === 'files' && op.files)) throw metaErr('recipe parameter {param}: step {step} has no parameter "{target}"', { param: name, step: sid, target: p });
+        if (!Object.hasOwn(op.schema ?? {}, p) && !(p === 'files' && op.files)) throw metaErr('recipe parameter {param}: step {step} has no parameter "{target}"', { param: name, step: sid, target: p });
       }
-      // The recipe's default goes through the target's schema, so a default that a step would refuse is caught here.
+      // The form shows the first target's schema (its type, range and default) unless the recipe gives one.
       const [sid, p] = splitPort(to[0]);
-      const target = ops[byId.get(sid).op].schema?.[p];
-      if (spec.default !== undefined) checkParam(spec.type ? spec : target, spec.default, { where: `recipe parameter ${name}`, param: name });
-      m.params[name] = { ...(target ?? {}), ...spec, to };
+      m.params[name] = { ...(ops[byId.get(sid).op].schema?.[p] ?? {}), ...spec, to };
     }
   }
   if (r.requires !== undefined) {
-    m.requires = {};
+    m.requires = Object.create(null);
     for (const [sid, req] of Object.entries(r.requires ?? {})) {
-      if (!byId.has(sid)) throw metaErr('requires: no step "{step}"', { step: sid });
+      if (!byId.has(sid) || RESERVED.has(sid)) throw metaErr('requires: no step "{step}"', { step: sid });
       for (const [k, v] of Object.entries(req ?? {})) {
         const allowed = REQUIRE_KEYS[k];
         if (!allowed || (allowed === 'integer' ? !(Number.isInteger(v) && v > 0) : !allowed.includes(v))) throw metaErr('requires {step}: {key} cannot be {value}', { step: sid, key: k, value: JSON.stringify(v) });
@@ -282,14 +283,14 @@ export function recipeMeta(r, steps, ops) {
 
 /** The step overrides {stepId: {param: value}} that the recipe's own parameter values give. */
 export function recipeParams(r, values = {}) {
-  const out = {};
+  const out = Object.create(null);
   for (const [name, v] of Object.entries(values)) {
-    const spec = r.params?.[name];
+    const spec = r.params && Object.hasOwn(r.params, name) ? r.params[name] : null;
     if (!spec) throw metaErr('the recipe has no parameter {param}', { param: name });
     const x = checkParam(spec, v, { where: 'recipe', param: name });
     for (const port of spec.to) {
       const [sid, p] = splitPort(port);
-      (out[sid] ??= {})[p] = x;
+      (out[sid] ??= Object.create(null))[p] = x;
     }
   }
   return out;
@@ -394,12 +395,17 @@ export class RecipeRunner extends Emitter {
     this.emit('change');
     try {
       // Input preconditions (ctx.preflight), before anything runs: a refusal fails the step it names.
-      const why = from === 0 ? await this.ctx.preflight?.(this.recipe) : null;
+      let why = null;
+      try {
+        why = from === 0 ? await this.ctx.preflight?.(this.recipe) : null;
+      } catch (e) {
+        why = { step: null, reason: e.message, i18n: e.i18n ?? null }; // a check that could not run refuses too
+      }
       if (why) {
         const i = Math.max(0, this.recipe.steps.findIndex((s) => s.id === why.step));
-        Object.assign(this.state[i], { status: 'failed', error: why.reason });
+        Object.assign(this.state[i], { status: 'failed', error: why.reason, i18n: why.i18n ?? null });
         for (const k of seq) if (k !== i) this.state[k].status = 'skipped';
-        return { ok: false, failed: i, error: why.reason, refused: true };
+        return { ok: false, failed: i, error: why.reason, refused: true, ...(why.i18n ? { i18n: why.i18n } : {}) };
       }
       for (const i of seq) {
         if (this._stop) {

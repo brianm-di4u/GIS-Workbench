@@ -43,7 +43,17 @@ describe('library fields', () => {
     // The files a step reads are a parameter only of a step that reads files.
     expect(validateRecipe({ ...base, params: { v: { to: ['f.files'] } } }, OPS).params.v.to).toEqual(['f.files']);
     expect(() => validateRecipe({ ...base, params: { v: { to: ['n.files'] } } }, OPS)).toThrow(/no parameter "files"/);
-    expect(() => validateRecipe({ ...base, params: { v: { to: ['n.value'], default: 99 } } }, OPS)).toThrow(/10/);
+  });
+
+  it("refuses names that would reach an object's prototype, so a shared file cannot set a global", () => {
+    const proto = { format: FORMAT2, name: 'r', steps: [{ id: '__proto__', op: 'num' }] };
+    expect(() => validateRecipe({ ...proto, params: { v: { to: ['__proto__.value'] } } }, OPS)).toThrow(/no step "__proto__"/);
+    expect(() => validateRecipe({ ...base, params: { v: { to: ['n.constructor'] } } }, OPS)).toThrow(/no parameter "constructor"/);
+    expect(() => validateRecipe({ ...base, params: JSON.parse('{"__proto__": {"to": ["n.value"]}}') }, OPS)).toThrow(/not a name a parameter may have/);
+    expect(() => validateRecipe({ ...proto, requires: JSON.parse('{"__proto__": {"kind": "raster"}}') }, OPS)).toThrow(/requires: no step "__proto__"/);
+    const r = validateRecipe({ ...base, params: { v: { to: ['n.value'] } } }, OPS);
+    expect(() => recipeParams(r, JSON.parse('{"__proto__": 1}'))).toThrow(/no parameter __proto__/);
+    expect(({}).value).toBeUndefined();
   });
 
   it('refuses a requirement on a step it does not have, or one it cannot check', () => {
@@ -64,6 +74,13 @@ describe('preflight', () => {
     expect([ran, R.state.map((s) => s.status)]).toEqual([[], ['skipped', 'failed']]);
     // A run from a later step has passed it already.
     expect((await R.run(1)).ok).toBe(true);
+  });
+
+  it('a check that throws refuses the run as well, instead of leaving every step pending', async () => {
+    const R = new RecipeRunner(OPS, { preflight: async () => { throw new Error('two layers are named dem'); } });
+    R.load(base);
+    expect(await R.run()).toEqual({ ok: false, failed: 0, error: 'two layers are named dem', refused: true });
+    expect(R.state.map((s) => s.status)).toEqual(['failed', 'skipped']);
   });
 });
 

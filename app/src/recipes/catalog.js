@@ -24,7 +24,7 @@ export const LIBRARY = [
     explanation: {
       what: N_('Writes each raster as a tiled, compressed GeoTIFF with overviews, so a viewer or a web server reads only the part it shows. Each vector file becomes GeoParquet (or FlatGeobuf or GeoJSON).'),
       when: N_('Before you publish imagery or elevation on a web server or object store, or to make a folder of mixed formats quick to open.'),
-      limits: N_('The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. A file in a format Convert does not read stops the run before anything is written.'),
+      limits: N_('The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. Given files (as gwb-run gives them) must all be formats Convert reads, or the run stops before anything is written; from a picked folder, other files are skipped and named. A file that fails to convert fails the run.'),
     },
     params: { vectors: { to: ['s1.vectors'], label: N_('Vectors to') } },
     steps: [{ id: 's1', op: 'convertFolder', title: N_('Convert the folder'), params: { vectors: 'geoparquet' } }],

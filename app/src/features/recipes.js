@@ -272,7 +272,7 @@ export function install(app) {
     // dialog(params): the step opens a dialog when nobody gives it files (REG-150 refuses it).
     // files: the step reads params.files (only such a step may be given files on the command line).
     convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, files: true, dialog: (p) => !p.files?.length,
-    // Before the run: a file Convert does not read stops it before anything is written.
+    // Given files (gwb-run --in, recipes.run): one Convert does not read stops the run before anything is written.
     precheck: async ({ files }) => {
       const bad = files?.length ? await app.convertFiles.unconvertible(files) : [];
       return bad.length ? t('{files}: not a raster or vector format Convert reads', { files: bad.join(', ') }) : null;
@@ -280,16 +280,12 @@ export function install(app) {
     run: async ({ vectors, files: given }, ctx) => {
       let files = given;
       if (ctx?.headless && !files?.length) throw new Error('headless: give the files to convert (params.files, File objects)');
-      if (files?.length) {
-        const r = await app.convertFiles(files, vectors);
-        // A file that failed fails the step: a run that says done has written every file.
-        if (r.failed.length) throw gwError('{n, plural, one {# file} other {# files}} did not convert: {files}', { n: r.failed.length, files: r.failed.join('; ') }, 'E_CONVERT_FAILED');
-        return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
-      }
-      if (window.showDirectoryPicker) files = await walkFolder(await window.showDirectoryPicker({ mode: 'read' }));
-      else files = await pickFiles(app, { multiple: true, accept: [], description: t('Files to convert') });
-      await app.convertFiles(files, vectors);
-      return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
+      if (!files?.length) files = window.showDirectoryPicker ? await walkFolder(await window.showDirectoryPicker({ mode: 'read' })) : await pickFiles(app, { multiple: true, accept: [], description: t('Files to convert') });
+      const r = await app.convertFiles(files, vectors);
+      // A file that failed fails the step: a run that says done has written every file it could read.
+      // A picked folder's other files (a README, an .aux.xml) are skipped, and named in the summary.
+      if (r.failed.length) throw gwError('{n, plural, one {# file} other {# files}} did not convert: {files}', { n: r.failed.length, files: r.failed.join('; ') }, 'E_CONVERT_FAILED');
+      return { summary: r.skipped.length ? t('{n, plural, one {# file} other {# files}}; skipped {skipped}', { n: r.done, skipped: r.skipped.join(', ') }) : t('{n, plural, one {# file} other {# files}}', { n: r.done }) };
     } },
     ...TYPED,
     // Time series (REQ-GAP-83) on the active layer, no dialog.
@@ -369,7 +365,7 @@ export function install(app) {
     const vector = s.op === 'vectorLayer' ? vlayerBy(s.params.layer) : null;
     if (!raster && !vector) return null; // the step's own run says what is missing
     if (req.kind && (req.kind === 'raster') !== !!raster) return t('{layer} is not a {kind} layer', { layer: String(s.params.layer), kind: req.kind === 'raster' ? t('raster') : t('vector') });
-    if (raster && req.bands && raster.info?.bands !== req.bands) return t('{layer} has {n, plural, one {# band} other {# bands}}; this recipe needs {want}', { layer: raster.rec?.name ?? '', n: raster.info?.bands ?? 0, want: req.bands });
+    if (raster && req.bands && raster.bands !== req.bands) return t('{layer} has {n, plural, one {# band} other {# bands}}; this recipe needs {want}', { layer: raster.rec?.name ?? '', n: raster.bands ?? 0, want: req.bands });
     if (raster && req.nodata && raster.nodata == null) return t('{layer} has no no-data value; this recipe needs one', { layer: raster.rec?.name ?? '' });
     return null;
   }
@@ -698,11 +694,14 @@ export function install(app) {
    */
   function gallery({ search = '' } = {}) {
     const words = String(search).toLowerCase().split(/\s+/).filter(Boolean);
-    return BUILTIN.filter((r) => r.category).map((r) => {
+    const out = [];
+    for (const r of BUILTIN.filter((x) => x.category)) {
       const v = validateRecipe(r, OPS);
-      const e = { id: r.id, name: tr(r.name), category: r.category, keywords: (r.keywords ?? []).map((k) => tr(k)), lite: !!r.lite, source: 'builtin', explanation: { what: tr(r.explanation?.what ?? ''), when: tr(r.explanation?.when ?? ''), limits: tr(r.explanation?.limits ?? '') }, params: Object.fromEntries(Object.entries(v.params ?? {}).map(([k, p]) => [k, { ...p, label: tr(p.label ?? k) }])), steps: v.steps.map((s) => ({ id: s.id, op: s.op, title: tr(s.title) })) };
-      return { ...e, text: [e.name, e.category, ...e.keywords, e.explanation.what, e.explanation.when].join(' ').toLowerCase() };
-    }).filter((e) => words.every((w) => e.text.includes(w))).map(({ text, ...e }) => e);
+      const e = { id: r.id, name: tr(r.name), category: r.category, keywords: (r.keywords ?? []).map((k) => tr(k)), lite: !!r.lite, source: 'builtin', explanation: { what: tr(r.explanation.what), when: tr(r.explanation.when ?? ''), limits: tr(r.explanation.limits ?? '') }, params: Object.fromEntries(Object.entries(v.params ?? {}).map(([k, p]) => [k, { ...p, label: tr(p.label ?? k) }])), steps: v.steps.map((s) => ({ id: s.id, op: s.op, title: tr(s.title) })) };
+      const text = [e.name, e.category, ...e.keywords, e.explanation.what, e.explanation.when].join(' ').toLowerCase();
+      if (words.every((w) => text.includes(w))) out.push(e);
+    }
+    return out;
   }
 
   app.recipes = { runner, ops: OPS, builtin: BUILTIN, gallery, preflight, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended: (src, opts) => unattendedOf(src, OPS, opts), keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
