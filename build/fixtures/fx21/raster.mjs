@@ -13,11 +13,12 @@
 
 import { writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { siblingDir } from '../../../tests/tools/samples.mjs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ENV = process.env.GW_TE_ENV ?? join(HERE, '..', '..', '..', '..', 'TE-tools', 'mamba', 'envs', 'gw-te');
+const ENV = process.env.GW_TE_ENV ?? join(siblingDir('TE-tools'), 'mamba', 'envs', 'gw-te');
 const PY = join(ENV, 'python.exe');
 const BIN = join(ENV, 'Library', 'bin');
 const GENV = { ...process.env, PATH: `${BIN};${process.env.PATH}`, GDAL_DATA: join(ENV, 'Library', 'share', 'gdal'), PROJ_DATA: join(ENV, 'Library', 'share', 'proj'), GDAL_DRIVER_PATH: join(ENV, 'Library', 'lib', 'gdalplugins'), GDAL_PAM_ENABLED: 'NO' };

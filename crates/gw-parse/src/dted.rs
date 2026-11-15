@@ -128,13 +128,17 @@ pub fn parse_hgt(b: &[u8], sw_lat: f64, sw_lon: f64) -> Result<Dted> {
 }
 
 #[cfg(test)]
+#[path = "../../test-support/research.rs"]
+mod research;
+
+#[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn sample_files() {
         for name in ["dted-gdal/n43.dt0", "dted-gdal/w118n033.dt1", "dem-derived-s35w059/s35_w059_from_srtm.dt1"] {
-            let p = format!("{}/../../../Research/samples/{name}", env!("CARGO_MANIFEST_DIR"));
+            let p = research::samples().join(name);
             let Ok(b) = std::fs::read(&p) else { continue };
             let d = parse_dted(&b).unwrap_or_else(|e| panic!("{name}: {e}"));
             assert!(d.width >= 2 && d.height >= 2);

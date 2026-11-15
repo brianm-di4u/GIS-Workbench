@@ -24,6 +24,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { siblingDir } from '../../tests/tools/samples.mjs';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
 import { writeNitfSegments } from '../../app/src/formats/nitf-writer.js';
@@ -32,7 +33,7 @@ import { encodeMTIMSA, encodeCAMSDA, encodeMIMCSA, encodeMTIMFA, encodeTMINTA, p
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const OUT = join(ROOT, 'fixtures', 'fx24', 'motion');
 const LARGE = 'E:/gwb24/data-motion';
-const OPJ = join(ROOT, '..', 'TE-tools', 'mamba', 'envs', 'gw-te', 'Library', 'bin', 'opj_compress.exe');
+const OPJ = join(siblingDir('TE-tools'), 'mamba', 'envs', 'gw-te', 'Library', 'bin', 'opj_compress.exe');
 mkdirSync(OUT, { recursive: true });
 
 const T0 = parseStamp('20251025120000.000000000').ns;

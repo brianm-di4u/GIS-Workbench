@@ -1,10 +1,11 @@
 //! Codec checks on the research samples against GDAL autotest values (the oracle):
 //! U_4017A mean 2385–2386 (12-bit JPEG), p0_01a band-1 checksum 1054 (JPEG 2000).
 
-use std::path::PathBuf;
+#[path = "../../test-support/research.rs"]
+mod research;
 
 fn sample(dir: &str, f: &str) -> Option<Vec<u8>> {
-    let p = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../../Research/samples").join(dir).join(f);
+    let p = research::samples().join(dir).join(f);
     std::fs::read(p).ok()
 }
 

@@ -11,9 +11,10 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { siblingDir } from '../tests/tools/samples.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const src = join(root, '..', 'Research', 'data', 'nitf-tre-catalog.json');
+const src = join(siblingDir('Research'), 'data', 'nitf-tre-catalog.json');
 const out = join(root, 'crates', 'gw-parse', 'data', 'tre-catalog.txt');
 
 const TYPE = {

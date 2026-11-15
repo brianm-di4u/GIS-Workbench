@@ -20,12 +20,10 @@
 
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { samplesDir } from '../../../tests/tools/samples.mjs';
+import { join } from 'node:path';
+import { samplesDir, siblingDir } from '../../../tests/tools/samples.mjs';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
-const ENV_BIN = join(ROOT, '..', 'TE-tools', 'mamba', 'envs', 'gw-te', 'Library', 'bin');
+const ENV_BIN = join(siblingDir('TE-tools'), 'mamba', 'envs', 'gw-te', 'Library', 'bin');
 const SEED = join(samplesDir(), 'mpegts-klv-synthetic', 'fx10_synthetic_klv.ts');
 
 export function tool(name) {

@@ -5,9 +5,12 @@
 use gw_parse::{klv, ts};
 use std::path::Path;
 
+#[path = "../../test-support/research.rs"]
+mod research;
+
 #[test]
 fn fx10_index() {
-    let p = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../Research/samples/mpegts-klv-synthetic/fx10_synthetic_klv.ts");
+    let p = research::samples().join("mpegts-klv-synthetic/fx10_synthetic_klv.ts");
     let Ok(b) = std::fs::read(&p) else {
         eprintln!("FX-10 not present; skipped");
         return;
