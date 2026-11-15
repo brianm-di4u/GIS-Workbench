@@ -342,8 +342,9 @@ const ID_GEOMETRY = { point: 'Point', vertex: 'Point', line: 'LineString', area:
  * id) → gw-catalog/1. OSM's tags are open key=value pairs: each preset becomes a type whose
  * attributes are its fields' keys and its own tag keys, with one subtype that fixes its tags
  * (amenity=cafe). A radio field, or a combo whose values are closed (customValues: false), becomes a
- * coded domain, a number field real; anything else is text, as OSM takes any value there. Other tags
- * stay free: a feature may carry keys the catalogue does not name.
+ * coded domain, an integer field integer, a number field real; anything else is text, as OSM takes any
+ * value there. Other tags stay free: a feature may carry keys the catalogue does not name. A preset left
+ * with no column (iD's address preset: only addr:* and the address field) is not a type.
  */
 export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name = 'OpenStreetMap presets' } = {}) {
   const { attrs, add, place } = attrTable();
@@ -365,6 +366,7 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     const closed = f?.type === 'radio' || (/combo/.test(f?.type ?? '') && f?.customValues === false);
     let def;
     if (Array.isArray(opts) && opts.length && closed) def = { label, type: 'enum', domain: Object.fromEntries(opts.filter((o) => !BAD_NAMES.has(String(o))).map((o) => [String(o), clean(f.strings?.options?.[o]?.title ?? f.strings?.options?.[o] ?? o)])) };
+    else if (f?.type === 'integer') def = { label, type: 'integer' };
     else if (f?.type === 'number') def = { label, type: 'real' };
     else def = { label, type: 'text' };
     // A second definition is named for what its field adds to the key (direction_clock).
@@ -433,7 +435,7 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     keyOf.set(at, key);
     if (key && !first.has(k)) first.set(k, key);
   }
-  const types = read.map(({ pid, nm, geometry, cols, fixed }) => {
+  const all = read.map(({ pid, nm, geometry, cols, fixed }) => {
     const names = [];
     const values = Object.create(null);
     for (const [k, fid] of cols) {
@@ -444,9 +446,18 @@ export function fromIdPresets(presets, fields = {}, { id = 'osm-presets', name =
     }
     return { code: pid, name: nm, geometry, attributes: names, subtypes: [{ code: pid, name: nm, fixed: values }] };
   });
+  // A type with no column would make a layer with nothing to fill in.
+  const types = all.filter((t) => t.attributes.length > 0);
   // A fixed tag outside a coded domain is still a value the subtype sets. Added once every definition
   // is in, so the definitions compared above are the source's own.
-  for (const ty of types) for (const [k, v] of Object.entries(ty.subtypes[0].fixed)) if (attrs[k].type === 'enum' && !Object.hasOwn(attrs[k].domain, v)) attrs[k].domain[v] = v;
+  // A fixed tag on a number column is a number, as a feature on that layer stores it.
+  for (const ty of types) {
+    const fixed = ty.subtypes[0].fixed;
+    for (const [k, v] of Object.entries(fixed)) {
+      if (attrs[k].type === 'enum' && !Object.hasOwn(attrs[k].domain, v)) attrs[k].domain[v] = v;
+      else if ((attrs[k].type === 'integer' || attrs[k].type === 'real') && v.trim() !== '' && Number.isFinite(Number(v))) fixed[k] = Number(v);
+    }
+  }
   if (!types.length) throw E('no presets with a name, tags and a point, line or area geometry');
   return { format: 'gw-catalog/1', id: safeId(id, 'osm-presets'), name, version: '1', source: 'OpenStreetMap iD presets', nulls: EMPTY_NULLS, attributes: attrs, types };
 }
