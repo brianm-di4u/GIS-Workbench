@@ -356,6 +356,8 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     if (finding.raise && !ledger.raise) ledger.raise = finding.raise;
   }
 
+  // Its blocking counts are exactly what it put on the ledger, so the gate can match the two (decision 0021).
+  if (raised) for (const severity of ['blocker', 'should']) raised[severity] = added.filter((f) => f.severity === severity).length;
   const complete = missing.length === 0;
   // A rerun replaces an incomplete round, so a timeout doesn't use up a phase's cap.
   if (ledger.rounds.at(-1)?.complete === false) ledger.rounds.pop();
@@ -462,11 +464,11 @@ export function verdictProblems(verdict, hash, { skipLoop = false } = {}) {
     problems.push('a round names no seats, or calls itself complete with seats missing');
   }
   const findings = verdict.findings.map((f) => ({ id: f?.id, severity: f?.severity, status: f?.status, round: f?.round }));
-  // A round can't claim to have raised fewer blocking findings than the log attributes to it.
+  // A round's blocking findings are all in the verdict, against that round: none hidden, none dropped.
   for (const r of rounds.filter((x) => x.complete && x.raised)) {
     for (const severity of ['blocker', 'should']) {
       const own = findings.filter((f) => f.round === r.number && f.severity === severity && f.status !== 'pre-existing').length;
-      if (own > (r.raised[severity] ?? 0)) problems.push(`round ${r.number} says it raised ${r.raised[severity] ?? 0} ${severity} but ${own} are recorded against it`);
+      if (own !== (r.raised[severity] ?? 0)) problems.push(`round ${r.number} says it raised ${r.raised[severity] ?? 0} ${severity} but ${own} are recorded against it`);
     }
   }
   const counted = rounds.filter((r) => r.complete).length;

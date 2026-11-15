@@ -50,6 +50,8 @@ describe('a verdict and its round log', () => {
       'a round with no seats': (v) => { v.log[2].seats = []; },
       'complete with seats missing': (v) => { v.log[2].missing = ['council-architect']; },
       'a should hidden from its round': (v) => { v.log[0].raised.should = 0; },
+      'a should deleted from the findings': (v) => { v.findings.splice(0, 1); },
+      'a should moved to another round': (v) => { v.findings[0].round = 2; },
       'last round on other content': (v) => { v.log.at(-1).hash = 'c'.repeat(64); },
       'not converged': (v) => { v.log = v.log.slice(0, 3); v.rounds = 3; },
       'a dirty close round called clean': (v) => { v.log.at(-1).raised.should = 1; },
