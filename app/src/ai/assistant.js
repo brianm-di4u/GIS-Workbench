@@ -4,7 +4,7 @@
 
 import { Emitter } from '../core/util.js';
 import { t, N_, msgOf, locale, langOf } from '../i18n/index.js';
-import LOCALES from '../i18n/locales.json';
+import LOCALES from '../i18n/locales.json' with { type: 'json' };
 
 export const MAX_TURNS = 16;
 

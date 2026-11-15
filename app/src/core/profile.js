@@ -3,7 +3,7 @@
 // the mobile GUI. A command that the list does not name is Full only: new commands are Full only
 // until someone adds them to the list, in a group with a reason.
 
-import LITE from '../data/lite-commands.json';
+import LITE from '../data/lite-commands.json' with { type: 'json' };
 import { N_ } from '../i18n/index.js';
 
 export const PROFILES = ['full', 'lite'];

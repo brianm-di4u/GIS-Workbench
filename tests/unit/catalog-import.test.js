@@ -289,6 +289,30 @@ describe('REQ-GAP-87 OpenStreetMap presets', () => {
     expect(c.attributes.tracktype).toMatchObject({ type: 'enum', domain: { grade1: 'grade1', grade2: 'grade2' } });
     expect(c.attributes.smoothness).toMatchObject({ type: 'enum', domain: { good: 'good', bad: 'bad' } });
   });
+
+  // #262: iD's integer fields (layer, lanes, admin_level…) are integers, not text.
+  it('reads an integer field as integer and a number field as real', () => {
+    const presets = { 'highway/road': { name: 'Road', geometry: ['line'], tags: { highway: 'road' }, fields: ['lanes', 'width'] } };
+    const fields = { lanes: { key: 'lanes', type: 'integer' }, width: { key: 'width', type: 'number' } };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    expect(c.attributes.lanes.type).toBe('integer');
+    expect(c.attributes.width.type).toBe('real');
+    // A fixed tag on a number column is stored as a number.
+    const fixed = fromIdPresets({ 'highway/lane2': { name: 'Two lanes', geometry: ['line'], tags: { highway: 'road', lanes: '2', width: '3.5' }, fields: ['lanes', 'width'] } }, fields);
+    expect(fixed.types[0].subtypes[0].fixed).toEqual({ highway: 'road', lanes: 2, width: 3.5 });
+  });
+
+  // #262: iD's address preset has only addr:* and the address field, neither of them a column.
+  it('offers no type for a preset left with no column', () => {
+    const presets = {
+      address: { name: 'Address', geometry: ['point', 'vertex', 'area'], tags: { 'addr:*': '*' }, fields: ['address'] },
+      'amenity/cafe': { name: 'Cafe', geometry: ['point'], tags: { amenity: 'cafe' } },
+    };
+    const fields = { address: { key: 'addr', type: 'address' } };
+    const c = validateCatalog(fromIdPresets(presets, fields));
+    expect(c.types.map((t) => t.code)).toEqual(['amenity/cafe']);
+    expect(() => fromIdPresets({ address: presets.address }, fields)).toThrow(/no presets/);
+  });
 });
 
 describe('REQ-GAP-87 the files a user picks', () => {
