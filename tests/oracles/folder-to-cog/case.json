@@ -1,0 +1,13 @@
+{
+ "recipe": "folder-to-cog",
+ "inputs": { "s1": ["fixtures/recipes/folder-to-cog/lena-1.tif", "fixtures/recipes/folder-to-cog/lena-2.tif", "fixtures/recipes/folder-to-cog/lena-3.tif", "fixtures/recipes/folder-to-cog/lena-4.tif"] },
+ "outputs": {
+  "lena-1_cog.tif": { "kind": "cog", "oracle": "lena-1.json" },
+  "lena-2_cog.tif": { "kind": "cog", "oracle": "lena-2.json" },
+  "lena-3_cog.tif": { "kind": "cog", "oracle": "lena-3.json" },
+  "lena-4_cog.tif": { "kind": "cog", "oracle": "lena-4.json" }
+ },
+ "tolerance": "Lossless: every band's full-resolution samples, the geotransform, the EPSG code and the no-data value equal GDAL's; the overview sizes equal GDAL's. Overview samples are averages and are not compared.",
+ "second": { "inputs": { "s1": ["fixtures/fx25/aviation/nodata-utm15n-f32.tif"] }, "why": "Unlike the first: projected (UTM 15N), with a no-data value." },
+ "refuse": { "inputs": { "s1": ["fixtures/recipes/folder-to-cog/lena-1.tif", "fixtures/recipes/folder-to-cog/SOURCE.txt"] }, "reason": "SOURCE.txt: not a raster or vector format Convert reads" }
+}

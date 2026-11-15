@@ -1,0 +1,11 @@
+Test fixture for the folder-to-cog library recipe (SDP-2.8 §4.5). It is not the recipe's sample data.
+
+lena-1.tif to lena-4.tif are pixel windows of USGS_1_n40w106.tif, the USGS 3D Elevation Program 1 arc-second
+DEM tile, near Lena Gulch, Golden and Lakewood, Colorado, in NAD83 (EPSG:4269), Float32, no-data -999999:
+  gdal_translate -srcwin <x> <y> <w> <h> -co COMPRESS=LZW -co PREDICTOR=3 USGS_1_n40w106.tif lena-N.tif
+with the windows lena-1 2886 816 128 128, lena-2 3014 816 128 128, lena-3 2886 944 128 128, and
+lena-4 2886 1072 520 200. lena-4 is wider than one 512-pixel tile, so its COG has two tiles and an overview.
+They are plain stripped GeoTIFFs, the kind the recipe is for.
+
+Licence: U.S. Government work, public domain (USGS "Copyrights and Credits").
+Credit: U.S. Geological Survey, 3D Elevation Program.

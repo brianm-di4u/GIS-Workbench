@@ -4614,6 +4614,13 @@
    ]
   },
   {
+   "key": "Before you publish imagery or elevation on a web server or object store, or to make a folder of mixed formats quick to open.",
+   "src": "Before you publish imagery or elevation on a web server or object store, or to make a folder of mixed formats quick to open.",
+   "refs": [
+    "recipes/catalog.js"
+   ]
+  },
+  {
    "key": "Below",
    "src": "Below",
    "refs": [
@@ -8992,14 +8999,14 @@
    "key": "Convert a folder to COG",
    "src": "Convert a folder to COG",
    "refs": [
-    "features/recipes.js"
+    "recipes/catalog.js"
    ]
   },
   {
    "key": "Convert the folder",
    "src": "Convert the folder",
    "refs": [
-    "features/recipes.js"
+    "recipes/catalog.js"
    ]
   },
   {
@@ -12671,7 +12678,7 @@
    "key": "Every raster in a folder becomes a Cloud-Optimized GeoTIFF; vectors become GeoParquet.",
    "src": "Every raster in a folder becomes a Cloud-Optimized GeoTIFF; vectors become GeoParquet.",
    "refs": [
-    "features/recipes.js"
+    "recipes/catalog.js"
    ]
   },
   {
@@ -41976,6 +41983,13 @@
    ]
   },
   {
+   "key": "The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. A file in a format Convert does not read stops the run before anything is written.",
+   "src": "The pixel values and the georeferencing are kept exactly; the overviews are averages. Multi-band rasters keep their bands; a MrSID or ECW footprint needs the sidecar. A file in a format Convert does not read stops the run before anything is written.",
+   "refs": [
+    "recipes/catalog.js"
+   ]
+  },
+  {
    "key": "The point halfway along a line",
    "src": "The point halfway along a line",
    "refs": [
@@ -44367,7 +44381,8 @@
    "key": "Vectors to",
    "src": "Vectors to",
    "refs": [
-    "features/recipes.js"
+    "features/recipes.js",
+    "recipes/catalog.js"
    ]
   },
   {
@@ -45663,6 +45678,13 @@
    "src": "Writes chosen channels, vectors and samples as a new CPHD file.",
    "refs": [
     "shell/commands.js"
+   ]
+  },
+  {
+   "key": "Writes each raster as a tiled, compressed GeoTIFF with overviews, so a viewer or a web server reads only the part it shows. Each vector file becomes GeoParquet (or FlatGeobuf or GeoJSON).",
+   "src": "Writes each raster as a tiled, compressed GeoTIFF with overviews, so a viewer or a web server reads only the part it shows. Each vector file becomes GeoParquet (or FlatGeobuf or GeoJSON).",
+   "refs": [
+    "recipes/catalog.js"
    ]
   },
   {
@@ -48768,6 +48790,13 @@
    "error": true
   },
   {
+   "key": "cloud optimized",
+   "src": "cloud optimized",
+   "refs": [
+    "recipes/catalog.js"
+   ]
+  },
+  {
    "key": "cloud storage\u0004Region",
    "src": "Region",
    "ctx": "cloud storage",
@@ -48986,6 +49015,13 @@
    "src": "convergence {deg}° is under 10°",
    "refs": [
     "features/stereo.js"
+   ]
+  },
+  {
+   "key": "convert",
+   "src": "convert",
+   "refs": [
+    "recipes/catalog.js"
    ]
   },
   {
@@ -50272,6 +50308,13 @@
    "src": "flow directions",
    "refs": [
     "features/hydrology-tools.js"
+   ]
+  },
+  {
+   "key": "folder",
+   "src": "folder",
+   "refs": [
+    "recipes/catalog.js"
    ]
   },
   {
@@ -55187,6 +55230,13 @@
    "src": "overshoot",
    "refs": [
     "features/extract-r2.js"
+   ]
+  },
+  {
+   "key": "overviews",
+   "src": "overviews",
+   "refs": [
+    "recipes/catalog.js"
    ]
   },
   {
@@ -61671,6 +61721,13 @@
    ]
   },
   {
+   "key": "tiled",
+   "src": "tiled",
+   "refs": [
+    "recipes/catalog.js"
+   ]
+  },
+  {
    "key": "tiled geoid: corrupt tile",
    "src": "tiled geoid: corrupt tile",
    "refs": [
@@ -64054,6 +64111,13 @@
    ]
   },
   {
+   "key": "{files}: not a raster or vector format Convert reads",
+   "src": "{files}: not a raster or vector format Convert reads",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "{file} ({form})",
    "src": "{file} ({form})",
    "refs": [
@@ -65752,6 +65816,13 @@
    ]
   },
   {
+   "key": "{layer} has no no-data value; this recipe needs one",
+   "src": "{layer} has no no-data value; this recipe needs one",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "{layer} has no orbit state vectors, and no orbit file covers it",
    "src": "{layer} has no orbit state vectors, and no orbit file covers it",
    "refs": [
@@ -65766,10 +65837,24 @@
    ]
   },
   {
+   "key": "{layer} has {n, plural, one {# band} other {# bands}}; this recipe needs {want}",
+   "src": "{layer} has {n, plural, one {# band} other {# bands}}; this recipe needs {want}",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
    "key": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
    "src": "{layer} is not a time series: it needs a date on every band (a NetCDF-3 time axis, or Time Stack)",
    "refs": [
     "features/timeseries-tools.js"
+   ]
+  },
+  {
+   "key": "{layer} is not a {kind} layer",
+   "src": "{layer} is not a {kind} layer",
+   "refs": [
+    "features/recipes.js"
    ]
   },
   {
@@ -66483,6 +66568,13 @@
   {
    "key": "{n, plural, one {# file} other {# files}}",
    "src": "{n, plural, one {# file} other {# files}}",
+   "refs": [
+    "features/recipes.js"
+   ]
+  },
+  {
+   "key": "{n, plural, one {# file} other {# files}} did not convert: {files}",
+   "src": "{n, plural, one {# file} other {# files}} did not convert: {files}",
    "refs": [
     "features/recipes.js"
    ]

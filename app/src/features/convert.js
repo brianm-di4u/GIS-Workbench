@@ -227,9 +227,11 @@ export function install(app) {
     const vectors = files.filter((f) => VECTOR_RE.test(f.name));
     const rasters = files.filter((f) => !vectors.includes(f) && isImageName(f.name));
     const other = files.filter((f) => !vectors.includes(f) && !rasters.includes(f));
+    const mine = []; // this run's entries: the queue also holds earlier runs'
     const job = (name, t) => {
       const q = { name, target: t, state: 'working', detail: '' };
       queue.unshift(q);
+      mine.push(q);
       render();
       return q;
     };
@@ -260,13 +262,19 @@ export function install(app) {
       render();
     }
     for (const f of other) {
-      queue.unshift({ name: f.name, target: '—', state: 'skipped', detail: t('not a vector or raster format this tool converts') });
+      const q = { name: f.name, target: '—', state: 'skipped', detail: t('not a vector or raster format this tool converts') };
+      queue.unshift(q);
+      mine.push(q);
       render();
     }
-    const failed = queue.filter((q) => q.state === 'failed').length;
-    app.toast(failed ? t('Convert: {n} failed — see the Convert panel', { n: failed }) : t('Convert: done.'), { kind: failed ? 'warn' : 'info' });
+    const failed = mine.filter((q) => q.state === 'failed');
+    app.toast(failed.length ? t('Convert: {n} failed — see the Convert panel', { n: failed.length }) : t('Convert: done.'), { kind: failed.length ? 'warn' : 'info' });
+    // A recipe step reads this: a file that failed or was skipped fails the step (SDP-2.8 §7.1).
+    return { done: mine.filter((q) => q.state === 'done').length, failed: failed.map((q) => `${q.name}: ${q.detail}`), skipped: mine.filter((q) => q.state === 'skipped').map((q) => q.name) };
   }
   app.convertFiles = run;
+  /** The names of the files Convert would skip, as not a format it converts (a recipe's preflight). */
+  app.convertFiles.unconvertible = async (files) => (await Promise.all([...files].map((f) => sniffName(f).catch(() => f)))).filter((f) => !VECTOR_RE.test(f.name) && !isImageName(f.name)).map((f) => f.name);
 
   function render() {
     if (!panelEl) return;

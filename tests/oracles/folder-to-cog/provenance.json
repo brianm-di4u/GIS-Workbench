@@ -1,0 +1,13 @@
+{
+ "recipe": "folder-to-cog",
+ "oracle": "GDAL 3.13.3 (COG driver), validate_cloud_optimized_geotiff.py",
+ "command": "gdal_translate -of COG -co BLOCKSIZE=512 -co COMPRESS=DEFLATE -co OVERVIEWS=AUTO <input> <stem>_cog.tif",
+ "script": "tests/tools/oracles/folder_to_cog.py",
+ "inputs": [
+  "fixtures/recipes/folder-to-cog/lena-1.tif",
+  "fixtures/recipes/folder-to-cog/lena-2.tif",
+  "fixtures/recipes/folder-to-cog/lena-3.tif",
+  "fixtures/recipes/folder-to-cog/lena-4.tif"
+ ],
+ "date": "2026-11-15"
+}

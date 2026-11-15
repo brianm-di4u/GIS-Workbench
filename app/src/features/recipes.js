@@ -11,7 +11,8 @@
 import { h, clear } from '../shell/dom.js';
 import { pickFiles, saveBlob } from '../storage/files.js';
 import { walkFolder } from '../formats/sniff.js';
-import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, unattended as unattendedOf, FORMAT } from '../recipes/recipe.js';
+import { RecipeRunner, validateRecipe, defaults, checkParam, contentOf, splitPort, unattended as unattendedOf, recipeParams, FORMAT } from '../recipes/recipe.js';
+import { LIBRARY } from '../recipes/catalog.js';
 import { listLibrary, putLibrary, removeFromLibrary, migrateFromPrefs } from '../recipes/library.js';
 import { t, N_, tr, msgOf, gwError } from '../i18n/index.js';
 import { num, int } from '../i18n/format.js';
@@ -46,13 +47,8 @@ export const BUILTIN = [
       { op: 'exportGeojson', title: N_('Export GeoJSON'), params: { what: 'accepted-detections' } },
     ],
   },
-  {
-    format: FORMAT,
-    id: 'folder-to-cog',
-    name: N_('Convert a folder to COG'),
-    description: N_('Every raster in a folder becomes a Cloud-Optimized GeoTIFF; vectors become GeoParquet.'),
-    steps: [{ op: 'convertFolder', title: N_('Convert the folder'), params: { vectors: 'geoparquet' } }],
-  },
+  // The library's recipes (recipes/catalog.js), folder to COG among them.
+  ...LIBRARY,
   {
     format: FORMAT,
     id: 'building-extraction',
@@ -275,11 +271,19 @@ export function install(app) {
     } },
     // dialog(params): the step opens a dialog when nobody gives it files (REG-150 refuses it).
     // files: the step reads params.files (only such a step may be given files on the command line).
-    convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, files: true, dialog: (p) => !p.files?.length, run: async ({ vectors, files: given }, ctx) => {
+    convertFolder: { title: N_('Convert a folder'), schema: { vectors: { type: 'enum', label: N_('Vectors to'), values: ['geoparquet', 'flatgeobuf', 'geojson'], default: 'geoparquet' } }, files: true, dialog: (p) => !p.files?.length,
+    // Before the run: a file Convert does not read stops it before anything is written.
+    precheck: async ({ files }) => {
+      const bad = files?.length ? await app.convertFiles.unconvertible(files) : [];
+      return bad.length ? t('{files}: not a raster or vector format Convert reads', { files: bad.join(', ') }) : null;
+    },
+    run: async ({ vectors, files: given }, ctx) => {
       let files = given;
       if (ctx?.headless && !files?.length) throw new Error('headless: give the files to convert (params.files, File objects)');
       if (files?.length) {
-        await app.convertFiles(files, vectors);
+        const r = await app.convertFiles(files, vectors);
+        // A file that failed fails the step: a run that says done has written every file.
+        if (r.failed.length) throw gwError('{n, plural, one {# file} other {# files}} did not convert: {files}', { n: r.failed.length, files: r.failed.join('; ') }, 'E_CONVERT_FAILED');
         return { summary: t('{n, plural, one {# file} other {# files}}', { n: files.length }) };
       }
       if (window.showDirectoryPicker) files = await walkFolder(await window.showDirectoryPicker({ mode: 'read' }));
@@ -346,7 +350,30 @@ export function install(app) {
     // after a run takes back the step itself, not its stamp.
     S.transact(t('Workflow {name}: step {step}', { name: tr(recipe.name), step: step.id }), (tx) => ids.forEach((id) => tx.set(id, 'recipe', rec)), { kind: 'load' });
   };
-  const runner = new RecipeRunner(OPS, { app, provenance });
+  /**
+   * Why a recipe should not run on what it was given, or null (SDP-2.8 §7.1, input preconditions):
+   * each step's own precheck, and the recipe's requires on the layer or files a step reads. The
+   * runner calls it before the first step, so nothing is written on unsuitable data.
+   */
+  async function preflight(r) {
+    for (const s of r.steps) {
+      const why = (await OPS[s.op].precheck?.(s.params)) ?? requirement(s, r.requires?.[s.id]);
+      if (why) return { step: s.id, reason: why };
+    }
+    return null;
+  }
+  function requirement(s, req) {
+    if (!req) return null;
+    // On the layer a source step names; a step given files checks them in its own precheck.
+    const raster = s.op === 'rasterLayer' ? rasterBy(s.params.layer) : null;
+    const vector = s.op === 'vectorLayer' ? vlayerBy(s.params.layer) : null;
+    if (!raster && !vector) return null; // the step's own run says what is missing
+    if (req.kind && (req.kind === 'raster') !== !!raster) return t('{layer} is not a {kind} layer', { layer: String(s.params.layer), kind: req.kind === 'raster' ? t('raster') : t('vector') });
+    if (raster && req.bands && raster.info?.bands !== req.bands) return t('{layer} has {n, plural, one {# band} other {# bands}}; this recipe needs {want}', { layer: raster.rec?.name ?? '', n: raster.info?.bands ?? 0, want: req.bands });
+    if (raster && req.nodata && raster.nodata == null) return t('{layer} has no no-data value; this recipe needs one', { layer: raster.rec?.name ?? '' });
+    return null;
+  }
+  const runner = new RecipeRunner(OPS, { app, provenance, preflight });
 
   // The user's recipes: the library in IndexedDB (no cap), read once and kept here for the picker.
   let library = [];
@@ -569,8 +596,10 @@ export function install(app) {
    * params: overrides {stepId: {param: value}} applied before the run. inputs: values for inputs
    * left unwired, {"stepId.input": value}.
    */
-  function headless(src, { gates = 'continue', params = {}, inputs = {} } = {}) {
+  function headless(src, { gates = 'continue', params = {}, inputs = {}, values = {} } = {}) {
     const r = validateRecipe(src, OPS);
+    // The recipe's own parameters first, then any step override given by step id.
+    for (const [sid, p] of Object.entries(recipeParams(r, values))) params = { ...params, [sid]: { ...p, ...(params[sid] ?? {}) } };
     for (const s of r.steps) if (params[s.id]) for (const [k, v] of Object.entries(params[s.id])) s.params[k] = checkParam(OPS[s.op].schema?.[k], v, { where: s.id, param: k });
     // A value given for an input the file already gives one replaces it in the workflow that runs, as
     // params do, so a layer's stamp says the run was not the kept copy.
@@ -580,7 +609,7 @@ export function install(app) {
       if (w && 'value' in w) w.value = v;
     }
     const id = `run-${++runN}`;
-    const R = new RecipeRunner(OPS, { app, headless: true, provenance });
+    const R = new RecipeRunner(OPS, { app, headless: true, provenance, preflight });
     R.load(r);
     const files = [];
     let state = 'idle';
@@ -662,5 +691,19 @@ export function install(app) {
     return { summary: String(r.summary ?? ''), files: await Promise.all(files) };
   }
 
-  app.recipes = { runner, ops: OPS, builtin: BUILTIN, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended: (src, opts) => unattendedOf(src, OPS, opts), keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
+  /**
+   * The gallery's entries (SDP-2.8 REG-283; the gallery panel comes in I2): each library recipe with
+   * what the gallery shows, in the user's language. `search` keeps the entries whose name, keywords,
+   * category or explanation hold every word of it.
+   */
+  function gallery({ search = '' } = {}) {
+    const words = String(search).toLowerCase().split(/\s+/).filter(Boolean);
+    return BUILTIN.filter((r) => r.category).map((r) => {
+      const v = validateRecipe(r, OPS);
+      const e = { id: r.id, name: tr(r.name), category: r.category, keywords: (r.keywords ?? []).map((k) => tr(k)), lite: !!r.lite, source: 'builtin', explanation: { what: tr(r.explanation?.what ?? ''), when: tr(r.explanation?.when ?? ''), limits: tr(r.explanation?.limits ?? '') }, params: Object.fromEntries(Object.entries(v.params ?? {}).map(([k, p]) => [k, { ...p, label: tr(p.label ?? k) }])), steps: v.steps.map((s) => ({ id: s.id, op: s.op, title: tr(s.title) })) };
+      return { ...e, text: [e.name, e.category, ...e.keywords, e.explanation.what, e.explanation.when].join(' ').toLowerCase() };
+    }).filter((e) => words.every((w) => e.text.includes(w))).map(({ text, ...e }) => e);
+  }
+
+  app.recipes = { runner, ops: OPS, builtin: BUILTIN, gallery, preflight, open, run: go, validate: (r) => validateRecipe(r, OPS), importFile: importRecipeFile, headless, runOp, unattended: (src, opts) => unattendedOf(src, OPS, opts), keep, placeFor, forget, known, library: (fresh = false) => ready.then(() => (fresh ? refreshLibrary() : library)), refreshLibrary };
 }

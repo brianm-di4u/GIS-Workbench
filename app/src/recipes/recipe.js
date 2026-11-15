@@ -16,6 +16,19 @@
 // 'layer' (either), 'number', 'text', 'any'), and
 // runs as run(params, ctx) → {summary?, outputs?: {name: value}}, with ctx.inputs holding its
 // wired inputs' values.
+//
+// A library recipe (SDP-2.8 §7.1) also says what it is for, optional on any gw-recipe/2 file and
+// kept as given (see recipeMeta):
+//   category, keywords: where the gallery lists it and the words that find it;
+//   lite: whether GIS Workbench Lite runs it;
+//   explanation: {what, when, limits}, read before running it;
+//   params: {name: {…schema entry, to: ['stepId.param', …]}}: the recipe's own parameters, each
+//           setting one or more step parameters, so a form asks for what matters, not every step's;
+//   requires: {stepId: {kind, bands, nodata}}: what the layer or files a step reads must
+//           be, checked before the first step runs (the app's preflight), so a run on unsuitable
+//           data is refused with a reason instead of giving a wrong answer that looks right.
+// These fields may change until 2.8.0 is released, while the library list is settled; a reader
+// ignores any field it does not know, so a file written by a later version still opens.
 
 import { Emitter } from '../core/util.js';
 import { gwError } from '../i18n/index.js';
@@ -212,7 +225,74 @@ export function validateRecipe(r, ops) {
     }
   }
   order(steps);
-  return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Math.max(1, Math.trunc(Number(r.version)) || 1), steps };
+  return { format: FORMAT2, id: String(r.id ?? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')), name: r.name.trim(), description: String(r.description ?? ''), version: Math.max(1, Math.trunc(Number(r.version)) || 1), steps, ...recipeMeta(r, steps, ops) };
+}
+
+const metaErr = (msg, params) => gwError(msg, params, 'E_RECIPE_META');
+const REQUIRE_KEYS = { kind: ['raster', 'vector'], bands: 'integer', nodata: [true] };
+
+/** A recipe's library fields (see the header), checked against its steps; only the ones it has. */
+export function recipeMeta(r, steps, ops) {
+  const m = {};
+  if (r.category !== undefined) m.category = String(r.category);
+  if (r.keywords !== undefined) {
+    if (!Array.isArray(r.keywords)) throw metaErr('keywords must be a list of words');
+    m.keywords = r.keywords.map(String);
+  }
+  if (r.lite !== undefined) m.lite = r.lite === true;
+  if (r.explanation !== undefined) {
+    const e = r.explanation;
+    if (!e || typeof e !== 'object' || typeof e.what !== 'string') throw metaErr('the explanation needs "what": what the recipe does');
+    m.explanation = { what: e.what, when: String(e.when ?? ''), limits: String(e.limits ?? '') };
+  }
+  const byId = new Map(steps.map((s) => [s.id, s]));
+  if (r.params !== undefined) {
+    m.params = {};
+    for (const [name, spec] of Object.entries(r.params ?? {})) {
+      const to = Array.isArray(spec?.to) ? spec.to.map(String) : [];
+      if (!to.length) throw metaErr('recipe parameter {param} sets no step parameter (to: ["stepId.param"])', { param: name });
+      // Each target is a real step and one of its op's parameters: a mapping that set nothing would
+      // leave the step on its default without a word.
+      for (const port of to) {
+        const [sid, p] = splitPort(port);
+        const op = byId.has(sid) ? ops[byId.get(sid).op] : null;
+        if (!op) throw metaErr('recipe parameter {param}: no step "{step}" to set', { param: name, step: sid });
+        if (!op.schema?.[p] && !(p === 'files' && op.files)) throw metaErr('recipe parameter {param}: step {step} has no parameter "{target}"', { param: name, step: sid, target: p });
+      }
+      // The recipe's default goes through the target's schema, so a default that a step would refuse is caught here.
+      const [sid, p] = splitPort(to[0]);
+      const target = ops[byId.get(sid).op].schema?.[p];
+      if (spec.default !== undefined) checkParam(spec.type ? spec : target, spec.default, { where: `recipe parameter ${name}`, param: name });
+      m.params[name] = { ...(target ?? {}), ...spec, to };
+    }
+  }
+  if (r.requires !== undefined) {
+    m.requires = {};
+    for (const [sid, req] of Object.entries(r.requires ?? {})) {
+      if (!byId.has(sid)) throw metaErr('requires: no step "{step}"', { step: sid });
+      for (const [k, v] of Object.entries(req ?? {})) {
+        const allowed = REQUIRE_KEYS[k];
+        if (!allowed || (allowed === 'integer' ? !(Number.isInteger(v) && v > 0) : !allowed.includes(v))) throw metaErr('requires {step}: {key} cannot be {value}', { step: sid, key: k, value: JSON.stringify(v) });
+      }
+      m.requires[sid] = { ...req };
+    }
+  }
+  return m;
+}
+
+/** The step overrides {stepId: {param: value}} that the recipe's own parameter values give. */
+export function recipeParams(r, values = {}) {
+  const out = {};
+  for (const [name, v] of Object.entries(values)) {
+    const spec = r.params?.[name];
+    if (!spec) throw metaErr('the recipe has no parameter {param}', { param: name });
+    const x = checkParam(spec, v, { where: 'recipe', param: name });
+    for (const port of spec.to) {
+      const [sid, p] = splitPort(port);
+      (out[sid] ??= {})[p] = x;
+    }
+  }
+  return out;
 }
 
 /**
@@ -313,6 +393,14 @@ export class RecipeRunner extends Emitter {
     for (const k of seq) this.state[k] = { status: 'pending', ms: null, summary: '', error: null };
     this.emit('change');
     try {
+      // Input preconditions (ctx.preflight), before anything runs: a refusal fails the step it names.
+      const why = from === 0 ? await this.ctx.preflight?.(this.recipe) : null;
+      if (why) {
+        const i = Math.max(0, this.recipe.steps.findIndex((s) => s.id === why.step));
+        Object.assign(this.state[i], { status: 'failed', error: why.reason });
+        for (const k of seq) if (k !== i) this.state[k].status = 'skipped';
+        return { ok: false, failed: i, error: why.reason, refused: true };
+      }
       for (const i of seq) {
         if (this._stop) {
           for (const k of seq.slice(seq.indexOf(i))) this.state[k].status = 'skipped';
@@ -386,6 +474,7 @@ export class RecipeRunner extends Emitter {
   /** The recipe as a file (gw-recipe/2, parameters as edited). */
   toJSON() {
     const r = this.recipe;
-    return r && { format: FORMAT2, id: r.id, name: r.name, description: r.description, version: r.version, steps: r.steps.map((s) => ({ id: s.id, op: s.op, title: s.title, params: s.params, ...(Object.keys(s.inputs ?? {}).length ? { inputs: Object.fromEntries(Object.entries(s.inputs).map(([k, w]) => [k, 'from' in w ? { from: w.from, output: w.output } : { value: w.value }])) } : {}), note: s.note, ...(s.pythonHint ? { pythonHint: s.pythonHint } : {}), ...(s.at ? { at: s.at } : {}) })) };
+    const meta = Object.fromEntries(['category', 'keywords', 'lite', 'explanation', 'params', 'requires'].filter((k) => r?.[k] !== undefined).map((k) => [k, r[k]]));
+    return r && { format: FORMAT2, id: r.id, name: r.name, description: r.description, version: r.version, ...meta, steps:r.steps.map((s) => ({ id: s.id, op: s.op, title: s.title, params: s.params, ...(Object.keys(s.inputs ?? {}).length ? { inputs: Object.fromEntries(Object.entries(s.inputs).map(([k, w]) => [k, 'from' in w ? { from: w.from, output: w.output } : { value: w.value }])) } : {}), note: s.note, ...(s.pythonHint ? { pythonHint: s.pythonHint } : {}), ...(s.at ? { at: s.at } : {}) })) };
   }
 }
