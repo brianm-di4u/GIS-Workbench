@@ -51,7 +51,6 @@ const ONE = process.env.GW_FUZZ_SEQ ? JSON.parse(process.env.GW_FUZZ_SEQ) : null
  */
 const EXCLUDED = [
   [/^sidecar\./, 'needs the optional native sidecar, which the nightly project does not start (PT-13); with none running each command only reports that, and the sidecar has its own suites'],
-  ['win.separate', 'opens a second browser window, which a test run must not do (docs/POLICY.md); window-level commands have their own tests'],
   ['display.fullscreen', 'asks the browser for fullscreen, which resizes the viewport for the rest of the sequence'],
   ['file.print', 'opens the browser print dialog, which headless Chrome cannot show'],
   ['stereo.xr', 'starts a WebXR session, which needs a headset'],
@@ -80,7 +79,7 @@ const isNotUndoable = (id) => NOT_UNDOABLE.some(([m]) => matches(m, id));
  */
 function recordsAfterUndoTo(undoAll) {
   const gw = window.gisworkbench;
-  if (undoAll) while (gw.undo.canUndo) gw.undo.undo();
+  if (undoAll) for (let i = 0; i < 1000 && gw.undo.canUndo; i++) gw.undo.undo(); // 500 steps is the most the history keeps
   const canon = (v) => (Array.isArray(v) ? v.map(canon) : v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, canon(v[k])])) : v);
   return JSON.stringify(canon(gw.store.snapshot().sort((a, b) => (a.id < b.id ? -1 : 1))));
 }
@@ -128,7 +127,7 @@ async function runSequence(browser, seq) {
     const alive = await within(10_000, page.evaluate(() => window.gisworkbench.api.v2.commands.list({ filter: 'qat.undo' }).then((l) => l.length)), 'no answer within 10 s').catch((e) => `no answer: ${e.message}`);
     if (!(alive >= 1)) problems.push(`the app does not answer a trivial command: ${alive}`);
     else if (!seq.some(isNotUndoable)) {
-      const back = await page.evaluate(recordsAfterUndoTo, true);
+      const back = await within(30_000, page.evaluate(recordsAfterUndoTo, true), 'undoing the sequence did not finish within 30 s (main thread blocked)');
       if (back !== start) problems.push('undoing the whole sequence did not restore the starting records');
     }
     // Read the page's errors, CSP violations and requests last, so whatever undoing the sequence
@@ -147,7 +146,7 @@ async function runSequence(browser, seq) {
 
 test.describe.configure({ timeout: 900_000 });
 
-test('command fuzz: every excluded command is in the catalogue and has a reason', async ({ page }) => {
+test('REQ-ARC-13 command fuzz: every excluded command is in the catalogue and has a reason', async ({ page }) => {
   const app = await enterState(page, 'full', { id: 'none', files: [] }, OPTS);
   const ids = new Set(await app.frame.evaluate(async () => (await window.gisworkbench.api.v2.commands.list()).map((c) => c.id)));
   for (const [m, why] of [...EXCLUDED, ...NOT_UNDOABLE]) {
@@ -156,7 +155,7 @@ test('command fuzz: every excluded command is in the catalogue and has a reason'
   }
 });
 
-test(`command fuzz: random command sequences leave the app clean (seed ${SEED}, ${RUNS} × ${LEN})`, async ({ browser, page }) => {
+test(`REQ-NET-02 REQ-ARC-13 command fuzz: random command sequences leave the app clean (seed ${SEED}, ${RUNS} × ${LEN})`, async ({ browser, page }) => {
   const app = await enterState(page, 'full', { id: 'none', files: [] }, OPTS);
   const all = await app.frame.evaluate(async () => (await window.gisworkbench.api.v2.commands.list()).filter((c) => c.implemented).map((c) => c.id));
   const ids = all.filter((id) => !isExcluded(id)).sort();
