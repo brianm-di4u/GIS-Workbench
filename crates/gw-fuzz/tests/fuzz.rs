@@ -6,8 +6,11 @@ use gw_fuzz::run;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
+#[path = "../../test-support/research.rs"]
+mod research;
+
 fn root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../Research/samples")
+    research::samples()
 }
 
 fn files(pred: impl Fn(&str) -> bool) -> Vec<PathBuf> {

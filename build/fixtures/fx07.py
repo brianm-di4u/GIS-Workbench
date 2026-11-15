@@ -19,6 +19,7 @@ Outputs (fixtures/fx07):
 import copy
 import json
 import os
+import subprocess
 import sys
 
 import lxml.etree as ET
@@ -31,7 +32,19 @@ import sarkit.wgs84 as wgs84
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 OUT = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.join(ROOT, "fixtures", "fx07")
-SAMPLES = os.path.join(os.path.dirname(ROOT), "Research", "samples")
+
+
+def sibling(name):
+    """The folder beside the main checkout, from any worktree: git's common dir is <main>/.git
+    (tests/tools/samples.mjs does the same)."""
+    try:
+        common = subprocess.run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+        return os.path.join(os.path.dirname(os.path.dirname(common)), name)
+    except (OSError, subprocess.CalledProcessError):
+        return os.path.join(os.path.dirname(ROOT), name)
+
+
+SAMPLES = os.environ.get("GWB_SAMPLES") or os.path.join(sibling("Research"), "samples")
 os.makedirs(OUT, exist_ok=True)
 
 NS = "urn:SICD:1.4.0"

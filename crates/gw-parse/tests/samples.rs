@@ -1,10 +1,13 @@
 //! REQ-FMT-16 (parse layer): every NITF/NSIF sample in Research/samples parses its file
 //! header and every image subheader, or is refused with a clear error, without panicking.
 
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
+
+#[path = "../../test-support/research.rs"]
+mod research;
 
 fn samples() -> Vec<PathBuf> {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../Research/samples");
+    let root = research::samples();
     let mut out = Vec::new();
     let Ok(dirs) = std::fs::read_dir(&root) else { return out };
     for d in dirs.flatten() {

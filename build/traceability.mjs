@@ -7,10 +7,11 @@
 import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync, existsSync } from 'node:fs';
 import { join, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { siblingDir } from '../tests/tools/samples.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // Appendix A is the generated, complete matrix (348 rows); the PRD tables hold a subset.
-const prd = readFileSync(join(root, '..', 'Docs', 'appendices', 'A-requirements-matrix.md'), 'utf8');
+const prd = readFileSync(join(siblingDir('Docs'), 'appendices', 'A-requirements-matrix.md'), 'utf8');
 const want = (process.argv.find((a) => a.startsWith('--release='))?.split('=')[1] ?? 'R0,R1').split(',');
 
 const reqs = new Map();
