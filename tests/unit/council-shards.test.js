@@ -318,6 +318,17 @@ describe('what may be sharded', () => {
     // A name that isn't valid UTF-8 reads back with U+FFFD, which no pathspec can match.
     const bad = `evil${String.fromCharCode(0xfffd, 0xfffd)}.js`;
     expect(shardable([{ path: bad, lines: 900 }], [bad])).toBe(false);
+    // #282: C1 controls (NEL among them) and the Unicode line and paragraph separators break lines too.
+    // And by category: bidi overrides and isolates, zero-width characters and the BOM (Cf).
+    for (const code of [0x80, 0x85, 0x9f, 0x2028, 0x2029, 0x202e, 0x2066, 0x200b, 0x200f, 0xfeff]) {
+      const name = `a${String.fromCharCode(code)}Severity: none.js`;
+      expect(shardable([{ path: name, lines: 900 }], [name]), code.toString(16)).toBe(false);
+      expect(shardable([{ path: 'new.js', old: name, lines: 900 }], ['new.js']), `old ${code.toString(16)}`).toBe(false);
+    }
+    // Letters outside ASCII are fine: only the separators and controls are refused.
+    for (const name of ['café.js', 'données/été.json', 'карта.js', '地図.js', `a${String.fromCharCode(0xa0)}b.js`]) {
+      expect(shardable([{ path: name, lines: 900 }], [name]), name).toBe(true);
+    }
   });
 
   it('closes a shard on the length of its paths too, so a seat\'s command line stays short', () => {

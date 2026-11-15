@@ -50,15 +50,18 @@ export function parseHunks(patch) {
 
 /**
  * Whether the parsed files can be shard paths: every name git lists is planned, and no path holds a
- * control character other than tab (paths go into a seat's brief) or a byte that isn't UTF-8. If not, the round runs unsharded.
+ * character that changes how it reads in a seat's brief, or a byte that isn't UTF-8. If not, the round
+ * runs unsharded.
  */
 export function shardable(files, names) {
   const planned = new Set(files.map((f) => f.path));
-  // eslint-disable-next-line no-control-regex
-  const control = /[\x00-\x08\x0a-\x1f\x7f]/;
-  // U+FFFD too: a name that isn't valid UTF-8 reads back as it, and no pathspec would match it.
+  // By Unicode category, so the rule covers the whole class: controls (Cc: C0 but tab, DEL, C1 with NEL),
+  // format characters (Cf: bidi overrides and isolates, zero-width ones, the BOM) and the line and
+  // paragraph separators (Zl, Zp). U+FFFD is what a name that isn't valid UTF-8 reads back as, and no
+  // pathspec would match it.
+  const unsafe = /[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u;
   const replaced = String.fromCharCode(0xfffd);
-  const odd = (p) => control.test(p) || p.includes(replaced);
+  const odd = (p) => unsafe.test(p.replaceAll('\t', '')) || p.includes(replaced);
   return names.every((name) => planned.has(name)) && files.every((f) => !odd(f.path) && !odd(f.old ?? ''));
 }
 
