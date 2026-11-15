@@ -60,8 +60,10 @@ export function parseQuery(q) {
     if (street) return { ...out, number: +m[2], suffix: (m[3] || '').toLowerCase(), street, last: true };
   }
   // … or after its own comma, as in Portuguese and Russian ("Rua Principal, 12, Lisboa"): a
-  // segment that is only a number belongs to the street, and the place starts after it.
-  m = tail.length > 1 && /^\s*(\d+)(?:\s*[-–/]\s*\d+)?([a-z])?\.?\s*$/i.exec(tail[0]);
+  // segment that is only a number belongs to the street, and the place starts after it. A postcode
+  // can stand there too ("Main Street, 62701, USA", "Rua Principal, 1000-001, Lisboa"), so the
+  // number has at most 4 digits, and Portugal's 4-3 postcode is not a range.
+  m = tail.length > 1 && /^\s*(?!\d{4}\s*-\s*\d{3}\s*$)(\d{1,4})(?:\s*[-–/]\s*\d{1,4})?([a-z])?\.?\s*$/i.exec(tail[0]);
   if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')) };
   return out;
 }
