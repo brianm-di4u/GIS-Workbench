@@ -33,6 +33,20 @@ describe('recording a round', () => {
     expect(record(emptyLedger(), { ...real, findings: [{ ...finding, severity: 'should' }] }).added).toHaveLength(1);
   });
 
+  it('records a new should beside a bug that was there before, in the same round or a later one (issue 294)', () => {
+    const at = { severity: 'should', file: 'src/a.js', class: 'null deref', preExisting: false };
+    const same = emptyLedger();
+    record(same, { ...real, findings: [{ ...at, line: 10, claim: 'old', preExisting: true }, { ...at, line: 12, claim: 'new' }] });
+    expect(same.findings.map((f) => f.status)).toEqual(['pre-existing', 'open']);
+    expect(same.rounds[0].raised.should).toBe(1);
+
+    const later = emptyLedger();
+    record(later, { ...real, findings: [{ ...at, line: 10, claim: 'old', preExisting: true }] });
+    record(later, { ...real, findings: [{ ...at, line: 11, claim: 'new' }, { ...at, line: 10, claim: 'old again', preExisting: true }] });
+    expect(later.findings.map((f) => f.status)).toEqual(['pre-existing', 'open']);
+    expect(later.rounds[1].raised.should).toBe(1);
+  });
+
   it('counts a planned seat the result leaves out as missing, so the round is rerun (issue 256)', () => {
     const next = (ledger) => nextStep({ ledger, tier: 1, hash: HASH, council, cleanTree: true, evidenceOk: true, diffLines: 100 });
     const recordPlanned = (ledger, result, planned) => {
