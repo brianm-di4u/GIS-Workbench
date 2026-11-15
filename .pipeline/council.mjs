@@ -179,6 +179,8 @@ function plan(args) {
     // for hosts where the session isn't running in this repo.
     if (args.includes('--cwd')) output.cwd = resolve(option(args, '--cwd')).replaceAll('\\', '/');
     ledger.plannedHead = output.head;
+    // The seats sent, so a result that leaves one out can't pass as complete (issue 256).
+    ledger.plannedSeats = (output.seats ?? []).map((seat) => seat.agent);
     if (output.intent) ledger.intent = output.intent;
     if (output.outOfScope) ledger.outOfScope = output.outOfScope;
     saveLedger(ledger);
@@ -230,6 +232,7 @@ function record([file]) {
       sha: git(['rev-parse', 'HEAD']).trim(),
       diffLines: ctx.diffLines,
       result: { ...result, maxNits: ctx.config.council.maxNits },
+      planned: ledger.plannedSeats ?? [],
     });
   } catch (e) {
     console.error(`${file}: ${e.message}`);
@@ -244,7 +247,7 @@ function record([file]) {
         phase: step.phase,
         model: step.model,
         complete: outcome.complete,
-        missing: result.missing ?? [],
+        missing: outcome.missing,
         partial: result.partial ?? [],
         answerThese: outcome.added.map(({ id, severity, class: bugClass, file: f, line, claim, fix }) => ({
           id, severity, class: bugClass, file: f, line, claim, fix,

@@ -286,13 +286,26 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
   };
 }
 
-export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result }) {
-  // Only a council's own result is a round. Anything else, such as the Workflow tool's wrapper
-  // around it, has no findings or seats here and would read as a clean round (issue 210).
+// What a council round's result must be before anything counts it: a findings list, the seats that
+// answered or were missing, and findings whose severity is one the ledger knows. Anything else, such
+// as the Workflow tool's wrapper around a result, would read as a clean round (issues 210, 258). The
+// council record and the reviewer evals both use this. Null when the result is one.
+export function roundResultError(result) {
   const { findings, seats, missing = [] } = result ?? {};
   if (!Array.isArray(findings) || !Array.isArray(seats) || !Array.isArray(missing) || seats.length + missing.length === 0) {
-    throw new Error("not a council round's result: it needs a findings list and the seats that answered or were missing. Given the Workflow tool's output, record its `result`.");
+    return "not a council round's result: it needs a findings list and the seats that answered or were missing. Given the Workflow tool's output, record its `result`.";
   }
+  const odd = findings.find((f) => !SEVERITIES.includes(f?.severity));
+  if (odd) return `not a council round's result: a finding's severity is ${JSON.stringify(odd?.severity)}, not one of ${SEVERITIES.join(', ')}.`;
+  return null;
+}
+
+export function recordRound(ledger, { mode, round, phase = 'loop', model = null, hash, sha, diffLines, result, planned = [] }) {
+  const error = roundResultError(result);
+  if (error) throw new Error(error);
+  // A seat the plan sent that the result neither counts as answered nor as missing gave no review, so
+  // it is missing too, and the round is rerun (issue 256).
+  const missing = [...(result.missing ?? []), ...planned.filter((seat) => !result.seats.includes(seat) && !(result.missing ?? []).includes(seat))];
   // What this round raised. A bug this change didn't introduce never blocks. An incomplete round
   // raised nothing we can count.
   // A repeat of a finding already on the ledger doesn't count: that is a reviewer asking again. Two
@@ -302,7 +315,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
   const repeatOf = (list, f) =>
     list.some((earlier) => earlier.status !== 'fixed' && SEVERITIES.indexOf(f.severity) >= SEVERITIES.indexOf(earlier.severity) && sameFinding(earlier, f));
   const answered = (f) => repeatOf(ledger.findings, f);
-  const raised = (result.missing ?? []).length === 0
+  const raised = missing.length === 0
     ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting && !answered(f)).length]))
     : null;
   const seen = [...ledger.findings];
@@ -313,7 +326,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
   const droppedNits = [];
 
   // An incomplete round is rerun, so its findings arrive with the rerun.
-  const incomplete = (result.missing ?? []).length > 0;
+  const incomplete = missing.length > 0;
   const ordered = [...(incomplete ? [] : (result.findings ?? []))].sort(
     (a, b) => SEVERITIES.indexOf(a.severity) - SEVERITIES.indexOf(b.severity),
   );
@@ -343,7 +356,7 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     if (finding.raise && !ledger.raise) ledger.raise = finding.raise;
   }
 
-  const complete = (result.missing ?? []).length === 0;
+  const complete = missing.length === 0;
   // A rerun replaces an incomplete round, so a timeout doesn't use up a phase's cap.
   if (ledger.rounds.at(-1)?.complete === false) ledger.rounds.pop();
   ledger.rounds.push({
@@ -358,10 +371,10 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     complete,
     partial: result.partial ?? [],
     seats: result.seats ?? [],
-    missing: result.missing ?? [],
+    missing,
     refuted: result.refuted ?? 0,
   });
-  return { added, repeats, droppedNits, complete };
+  return { added, repeats, droppedNits, complete, missing };
 }
 
 const DISPOSITIONS = new Set(['fixed', 'wrong', 'intentional', 'wont-matter', 'deferred']);
@@ -398,7 +411,7 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, coun
     ledger.findings.filter((f) => f.severity === severity && f.status === 'open').length;
   const phases = Object.fromEntries(PHASES.map((phase) => [phase, { rounds: roundsIn(ledger, phase).length, model: roundsIn(ledger, phase).at(-1)?.model ?? null }]));
   return {
-    schema: 1,
+    schema: 2,
     changeHash: hash,
     tier,
     rounds: counted.length,
@@ -414,6 +427,62 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, coun
       severity: f.severity,
       class: f.class ?? null,
       disposition: f.disposition ?? f.status,
+      status: f.status,
+      round: f.round ?? null,
     })),
+    // Every round as the ledger holds it, so the gate can count and judge convergence itself with
+    // the same rules (decision 0021).
+    // A round's blocking counts are the findings it put on the ledger, which is what the gate matches
+    // them against. A round can raise more than it records: two reviewers' findings at one place merge.
+    log: ledger.rounds.map((r) => ({ n: r.number, phase: r.phase, hash: r.hash, complete: r.complete, raised: r.raised ? { ...r.raised, ...recordedIn(ledger, r.number) } : null, partial: r.partial ?? [], seats: r.seats ?? [], missing: r.missing ?? [] })),
+    ...(ledger.mechanical?.length ? { mechanical: ledger.mechanical.map(({ from, to }) => ({ from, to })) } : {}),
   };
+}
+
+const recordedIn = (ledger, round) =>
+  Object.fromEntries(['blocker', 'should'].map((severity) => [severity, ledger.findings.filter((f) => f.round === round && f.severity === severity && f.status !== 'pre-existing').length]));
+
+// Why a verdict doesn't stand up against its own round log, as a list (empty when it does). The gate
+// calls this: it rebuilds the ledger from the log and applies the council's own rules, so a verdict
+// whose numbers were edited, or whose rounds had no reviewers, or that never converged on this
+// content, is refused (decision 0021, #79). `skipLoop` is the gate's own reading of decision 0024 for
+// this change, never the verdict's.
+export function verdictProblems(verdict, hash, { skipLoop = false } = {}) {
+  const log = verdict?.log;
+  if (verdict?.schema !== 2 || !Array.isArray(log) || log.length === 0 || !Array.isArray(verdict.findings)) {
+    return ['it has no round log. Render it again with council.mjs verdict'];
+  }
+  const problems = [];
+  const rounds = log.map((r) => ({
+    number: r?.n,
+    phase: r?.phase,
+    hash: r?.hash,
+    complete: r?.complete === true,
+    raised: r?.raised ?? null,
+    partial: Array.isArray(r?.partial) ? r.partial : [],
+    seats: Array.isArray(r?.seats) ? r.seats : [],
+    missing: Array.isArray(r?.missing) ? r.missing : [],
+  }));
+  if (rounds.some((r) => (r.complete ? r.seats.length === 0 || r.missing.length > 0 : r.missing.length === 0))) {
+    problems.push('a round names no seats, or calls itself complete with seats missing');
+  }
+  const findings = verdict.findings.map((f) => ({ id: f?.id, severity: f?.severity, status: f?.status, round: f?.round }));
+  // A round's blocking findings are all in the verdict, against that round: none hidden, none dropped.
+  for (const r of rounds.filter((x) => x.complete && x.raised)) {
+    for (const severity of ['blocker', 'should']) {
+      const own = findings.filter((f) => f.round === r.number && f.severity === severity && f.status !== 'pre-existing').length;
+      if (own !== (r.raised[severity] ?? 0)) problems.push(`round ${r.number} says it raised ${r.raised[severity] ?? 0} ${severity} but ${own} are recorded against it`);
+    }
+  }
+  const counted = rounds.filter((r) => r.complete).length;
+  if (verdict.rounds !== counted) problems.push(`it counts ${verdict.rounds} rounds but its log has ${counted}`);
+  for (const severity of ['blocker', 'should']) {
+    const open = findings.filter((f) => f.severity === severity && f.status === 'open').length;
+    if (verdict.open?.[severity] !== open) problems.push(`it counts ${verdict.open?.[severity]} open ${severity} but its findings have ${open}`);
+  }
+  const last = rounds.at(-1);
+  if (!last.complete || last.hash !== hash) problems.push('its last round is not a complete review of this content');
+  const ledger = { rounds, findings, mechanical: Array.isArray(verdict.mechanical) ? verdict.mechanical : [] };
+  if (verdict.tier > 0 && !phaseState(ledger, hash, { skipLoop }).closeDone) problems.push('its rounds never converged on this content: close-out needs two clean rounds in a row');
+  return problems;
 }

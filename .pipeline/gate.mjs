@@ -26,7 +26,7 @@ import {
 } from './lib/contract.mjs';
 import { freshnessOf, isStaleSummary } from './lib/freshness.mjs';
 import { evaluateGate } from './lib/gate-core.mjs';
-import { changeSet, git, rawChanges, readBlob, tryGit } from './lib/git.mjs';
+import { changeSet, countLines, git, rawChanges, readBlob, tryGit } from './lib/git.mjs';
 import { cliClient, tokenClient } from './lib/github.mjs';
 import { claimedRevert, verifyCleanRevert } from './lib/revert.mjs';
 import { readRepoState } from './lib/state.mjs';
@@ -198,8 +198,10 @@ export async function gather({ client, repo, number, cwd, localEvidence = false 
   if (configText === null) throw new Error(`pipeline.config.json is missing from ${defaultBranch}`);
   const config = parseConfig(configText);
 
-  const { mergeBase, changes, hash } = changeSet(baseRef, headRef, cwd);
+  const { mergeBase, changes, hash, generatedGlobs } = changeSet(baseRef, headRef, cwd);
   const scriptsChangedIn = scriptsChanged(changes, mergeBase, headRef, cwd);
+  // Decision 0024's small-T1 skip, counted as the council counts it: a binary file is never small.
+  const skipLines = countLines(mergeBase, headRef, mergeBase, generatedGlobs, { strict: true, cwd });
 
   const claimed = claimedRevert(pr.body);
   const cleanRevert = claimed
@@ -248,6 +250,7 @@ export async function gather({ client, repo, number, cwd, localEvidence = false 
     verify,
     comments,
     scriptsChangedIn,
+    skipLines,
     cleanRevert,
     adrCited,
     defaultBranch,
