@@ -13,12 +13,13 @@ import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { unzipSync, strFromU8 } from 'fflate';
 import { openApp, openFiles, SAMPLES } from './helpers.js';
+import { siblingDir } from '../tools/samples.mjs';
 
 test.describe.configure({ timeout: 600000 });
 
 const CORPUS = process.env.TE_CORPUS ?? resolve('..', 'TE-corpus');
 const C = (...p) => join(CORPUS, ...p);
-const ENV = process.env.GW_TE_ENV ?? resolve('..', 'TE-tools/mamba/envs/gw-te');
+const ENV = process.env.GW_TE_ENV ?? join(siblingDir('TE-tools'), 'mamba', 'envs', 'gw-te');
 const LIB = join(ENV, 'Library');
 const genv = { ...process.env, PATH: `${LIB}/bin;${process.env.PATH}`, GDAL_DATA: `${LIB}/share/gdal`, PROJ_DATA: `${LIB}/share/proj`, GDAL_PAM_ENABLED: 'NO' };
 const gdal = (tool, args) => execFileSync(join(LIB, 'bin', `${tool}.exe`), args, { env: genv, maxBuffer: 1 << 30 }).toString();

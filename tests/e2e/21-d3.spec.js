@@ -7,6 +7,7 @@ import { existsSync, readdirSync, statSync, readFileSync, writeFileSync, mkdirSy
 import { spawnSync } from 'node:child_process';
 import { resolve, join, dirname } from 'node:path';
 import { openApp, openFiles, DIST_DIR } from './helpers.js';
+import { siblingDir } from '../tools/samples.mjs';
 
 const DIST = process.env.D3_DIST ? resolve(process.env.D3_DIST) : undefined;
 const TE = process.env.TE_CORPUS ?? resolve('..', 'TE-corpus');
@@ -239,7 +240,7 @@ test('REQ-FMT-38 FX-21: the Rust writer EPSG:4326 and EPSG:3857 sets open from f
 // ---- writers: the app writes, an independent tool reads, the app re-reads (c53 pattern) ----
 const PACKS = DIST ? resolve(DIST, '..', 'packs') : join(DIST_DIR, 'packs');
 const codecPack = () => (existsSync(PACKS) ? readdirSync(PACKS).find((n) => /^codec-3d-.*\.gwpack$/.test(n)) : null);
-const TV = resolve('..', 'TE-tools', 'node-3dtv', 'node_modules', '3d-tiles-validator', 'build', 'main');
+const TV = join(siblingDir('TE-tools'), 'node-3dtv', 'node_modules', '3d-tiles-validator', 'build', 'main');
 const b64ToBytes = (s) => new Uint8Array(Buffer.from(s, 'base64'));
 
 test('REQ-FMT-35 Draco + KTX2 export with the codec pack passes glTF-Validator and re-opens', async ({ page }) => {
