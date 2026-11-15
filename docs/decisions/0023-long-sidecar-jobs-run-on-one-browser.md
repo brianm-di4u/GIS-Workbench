@@ -18,7 +18,7 @@ Option A. The long sidecar-job tests run on Chrome only (the `sidecar` project).
 - Tagged when this was decided:
   - all of `26-plugindata.spec.js`, which opens no page;
   - SCN-63 Aukerman in `26-sfm.spec.js`;
-  - all of `28-sfm-gcp.spec.js` (SCN-82). Its marking-dialog test reads the model made by the tagged stage-2 test in the same serial file, so it can only run where that does. The marking dialog runs in both browsers in `tests/e2e/28-sfm-mark.spec.js`, against a mocked sidecar.
+  - all of `28-sfm-gcp.spec.js` (SCN-82). Its marking-dialog test reads the model made by the tagged stage-2 test in the same serial file, so it can only run where that does. Its page work runs in both browsers in `tests/e2e/28-sfm-mark.spec.js`, against a mocked sidecar: the click, the arrow keys and Enter, and the axe pass on both SfM dialogs (control and marking). Edge loses only the click on a full-size real photograph.
 
 ## Consequences
 
