@@ -7,6 +7,8 @@
 //
 //   node build/release/changelog.mjs check
 //   node build/release/changelog.mjs assemble --version 2.7.0 [--date 2026-12-01] [--summary "One paragraph."]
+//
+// --root <dir> reads <dir>/changes and writes <dir>/CHANGELOG.md instead of the repository's (the tests use it).
 import { readdirSync, readFileSync, writeFileSync, rmSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -32,8 +34,10 @@ export function parseFragment(text, name) {
       sections[type] ??= [];
     } else if (line.startsWith('#')) problems.push(`${at}: only "### Section" headings go in a fragment`);
     else if (!type) problems.push(`${at}: start with a "### Section" heading`);
-    // Only "- " items: the app's What's New dialog reads only those as list items.
-    else if (/^- \S/.test(line) || (/^\s/.test(raw) && sections[type].length)) sections[type].push(line);
+    // Only "- " items, each on one line: the app's What's New dialog trims every line, so a nested item
+    // or a wrapped line would come out flattened or out of order (#182).
+    else if (/^- \S/.test(line)) sections[type].push(line);
+    else if (/^\s/.test(raw)) problems.push(`${at}: write each item on one line, with no nested or indented lines`);
     else problems.push(`${at}: expected a "- " list item`);
   });
   if (!Object.values(sections).some((lines) => lines.length)) problems.push(`${name}: no items`);
@@ -51,7 +55,8 @@ export function assemble(fragments, { version, date, summary }) {
   return out.join('\n');
 }
 
-/** CHANGELOG.md with the block above its newest release. */
+/** CHANGELOG.md with the block above its newest release. (It has no ## [Unreleased] section: the site's
+ * parser refuses any heading that isn't a version, see main().) */
 export function insertRelease(changelog, block, version) {
   const text = changelog.replace(/\r\n?/g, '\n');
   if (text.split('\n').some((line) => line.startsWith(`## [${version}]`))) throw new Error(`CHANGELOG.md already has ${version}`);
@@ -59,10 +64,13 @@ export function insertRelease(changelog, block, version) {
   return at < 0 ? `${text.trimEnd()}\n\n${block}` : `${text.slice(0, at)}${block}\n${text.slice(at)}`;
 }
 
+// Every file but the README and hidden files (.gitkeep, .DS_Store), whatever its name, so a fix-a.MD or
+// fix-a.txt is refused by the name check rather than left out of the release without a word (#182).
 function readFragments(dir) {
   if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((name) => name.endsWith('.md') && name !== 'README.md')
+  return readdirSync(dir, { withFileTypes: true })
+    .filter((e) => e.isFile() && e.name !== 'README.md' && !e.name.startsWith('.'))
+    .map((e) => e.name)
     .sort()
     .map((name) => ({ name, ...parseFragment(readFileSync(join(dir, name), 'utf8'), name) }));
 }
