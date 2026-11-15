@@ -28,8 +28,11 @@ const PORT = 47822;
 const HAS_MODULE = existsSync(join(MODULES, 'sfm', 'bin', LINUX ? 'colmap' : 'colmap.exe'));
 const SMALL = { feature_size: 800, feature_threads: 4, image_size: 800, depth_size: 400, views: 4 };
 
-const results = {};
+// Each run starts its own report, except the Edge run: it skips the @sidecar-job Aukerman test,
+// so it starts from the report the Chrome run of the same pass wrote before it (decision 0023).
+let results;
 const record = (k, v) => {
+  results ??= test.info().project.name === 'sidecar-edge' && existsSync(REPORT) ? (JSON.parse(readFileSync(REPORT, 'utf8')).results ?? {}) : {};
   results[k] = v;
   mkdirSync(dirname(REPORT), { recursive: true });
   writeFileSync(REPORT, JSON.stringify({ at: new Date().toISOString(), platform: process.platform, results }, null, 2));
@@ -224,7 +227,7 @@ test('SCN-63 small block: oriented frames, dense cloud, DSM and orthomosaic, all
   record('small', { registered: r.report.georef.registered, reprojection: r.report.georef.reprojection_px, gps: r.report.georef.gps_rms_m, points: r.report.cloud_points, dsm: r.report.dsm, ortho: r.report.ortho });
 });
 
-test('SCN-63 Aukerman, 77 photographs (ODM data set)', async () => {
+test('SCN-63 Aukerman, 77 photographs (ODM data set)', { tag: '@sidecar-job' }, async () => {
   test.skip(!existsSync(AUKERMAN), 'the ODM data set is not here (GW_SFM_DATA)');
   test.setTimeout(14_400_000);
   const r = await run(frame, FOLDERS.full, { feature_threads: 4 });
