@@ -1,6 +1,6 @@
 # Changelog fragments
 
-A PR whose change a user would notice adds one file here, named for the change, like `fix-terrain-labels.md`. Write it the way `CHANGELOG.md` is written: sections from Added, Changed, Deprecated, Removed, Fixed, Security and Known limits, each holding `- ` items in words a user would understand.
+A PR whose change a user would notice adds one file here, named for the change, like `fix-terrain-labels.md`. Write it the way `CHANGELOG.md` is written: sections from Added, Changed, Deprecated, Removed, Fixed, Security and Known limits, each holding `- ` items in words a user would understand. Write each item on one line, with no nested items or wrapped lines: the app's What's New dialog trims every line, so they would come out flattened.
 
 ```markdown
 ### Fixed

@@ -6,10 +6,16 @@ import { join } from 'node:path';
 import { assemble, insertRelease, parseFragment } from '../../build/release/changelog.mjs';
 
 describe('changelog fragments', () => {
-  it('reads sections and items, nested items and wrapped lines included', () => {
-    const { sections, problems } = parseFragment('### Fixed\n- **A:** one\n  - detail\n  wrapped\n\n### Added\n- two\n', 'a.md');
+  it('reads sections and items', () => {
+    const { sections, problems } = parseFragment('### Fixed\n- **A:** one\n\n### Added\n- two\n', 'a.md');
     expect(problems).toEqual([]);
-    expect(sections).toEqual({ Fixed: ['- **A:** one', '  - detail', '  wrapped'], Added: ['- two'] });
+    expect(sections).toEqual({ Fixed: ['- **A:** one'], Added: ['- two'] });
+  });
+
+  // #182: What's New trims each line, so a nested item or a wrapped line would render flattened or out of order.
+  it('refuses a nested item or a wrapped line', () => {
+    expect(parseFragment('### Fixed\n- **A:** one\n  - detail\n', 'a.md').problems).toEqual(['a.md:3: write each item on one line, with no nested or indented lines']);
+    expect(parseFragment('### Fixed\n- one\n  wrapped\n', 'a.md').problems).toEqual(['a.md:3: write each item on one line, with no nested or indented lines']);
   });
 
   it('refuses what the site parser would refuse', () => {
@@ -37,6 +43,18 @@ describe('changelog fragments', () => {
       expect(ok.status).toBe(0);
       expect(readFileSync(join(root, 'CHANGELOG.md'), 'utf8')).toBe('# Changelog\n\n## [2.7.0] - 2026-12-01\n\n### Fixed\n- fix a\n\n## [2.6.0] - 2026-11-06\n\n### Fixed\n- old\n');
       expect(existsSync(join(root, 'changes', 'fix-a.md'))).toBe(false);
+      // #182: a fragment not named .md is refused, not left out of the release.
+      for (const name of ['fix-b.MD', 'fix-b.txt']) {
+        writeFileSync(join(root, 'changes', name), '### Fixed\n- fix b\n');
+        const check = spawnSync(process.execPath, ['build/release/changelog.mjs', 'check', '--root', root], { encoding: 'utf8' });
+        expect([check.status, check.stderr.trim()]).toEqual([1, `${name}: name it in lower case, like fix-terrain-labels.md`]);
+        rmSync(join(root, 'changes', name));
+      }
+      // A hidden file or a folder in changes/ is not a fragment.
+      writeFileSync(join(root, 'changes', '.gitkeep'), '');
+      mkdirSync(join(root, 'changes', 'drafts'));
+      const tidy = spawnSync(process.execPath, ['build/release/changelog.mjs', 'check', '--root', root], { encoding: 'utf8' });
+      expect([tidy.status, tidy.stdout.trim()]).toEqual([0, '0 changelog fragments, all well formed.']);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
