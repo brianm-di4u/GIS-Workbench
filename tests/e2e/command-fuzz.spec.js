@@ -175,7 +175,7 @@ test(`command fuzz: random command sequences leave the app clean (seed ${SEED}, 
   const result = await fc.check(prop, { seed: SEED, numRuns: RUNS, interruptAfterTimeLimit: 600_000, verbose: process.env.GW_FUZZ_VERBOSE ? 2 : 0 });
   // The same seed gives the same sequences: this fingerprint is how two runs are compared.
   console.log(`command fuzz: ${ran.length} sequences run, fingerprint ${createHash('sha1').update(JSON.stringify(ran)).digest('hex').slice(0, 12)}, ${result.failed ? 'FAILED' : 'clean'}`);
-  if (result.interrupted) console.log('command fuzz: stopped at its 10 minute limit, before all sequences ran');
+  if (!result.failed && result.interrupted) throw new Error(`command fuzz stopped at its 10 minute limit after ${ran.length} of ${RUNS} sequences, so most of the run did not happen (seed ${SEED}); lower GW_FUZZ_RUNS or run it on a faster machine`);
   if (!result.failed) return;
   if (process.env.GW_FUZZ_VERBOSE) console.log('every failing sequence seen while shrinking:', JSON.stringify(result.failures.map((f) => f[0])));
   const seq = result.counterexample[0];
