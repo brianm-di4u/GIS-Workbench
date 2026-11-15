@@ -52,12 +52,17 @@ export function parseQuery(q) {
     const alt = !m[2] && lone && !/^[nsew]$/i.test(lone[1]) ? { suffix: lone[1].toLowerCase(), street: normalise(lone[2]) } : null;
     if (street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), street, ...(alt ? { alt } : {}) };
   }
-  // … or last, as in much of Europe ("Baker Street 221", "Hauptstraße 12-14").
-  m = /^(.+?)\s+(\d+)(?:\s*[-–/]\s*\d+)?([a-z])?$/i.exec(raw);
+  // … or last, as in much of Europe ("Baker Street 221", "Hauptstraße 12-14"), with Hungarian's
+  // ordinal dot ("Fő utca 12.").
+  m = /^(.+?)\s+(\d+)(?:\s*[-–/]\s*\d+)?([a-z])?\.?$/i.exec(raw);
   if (m) {
     const street = normalise(m[1]);
     if (street) return { ...out, number: +m[2], suffix: (m[3] || '').toLowerCase(), street, last: true };
   }
+  // … or after its own comma, as in Portuguese and Russian ("Rua Principal, 12, Lisboa"): a
+  // segment that is only a number belongs to the street, and the place starts after it.
+  m = tail.length > 1 && /^\s*(\d+)(?:\s*[-–/]\s*\d+)?([a-z])?\.?\s*$/i.exec(tail[0]);
+  if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')) };
   return out;
 }
 

@@ -3,7 +3,7 @@ import { affectedCrates, fixtureCrates, planSteps } from '../../build/verify-sco
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Source catalogue', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests', 'Sidecar sfm clippy', 'Sidecar sfm tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Source catalogue', 'Locale catalogues', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests', 'Sidecar sfm clippy', 'Sidecar sfm tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
@@ -29,6 +29,19 @@ describe('verify scope', () => {
   it('checks the source catalogue for any code change', () => {
     expect(names({ paths: ['app/src/a.js'] })).toContain('Source catalogue');
     expect(names({ paths: ['docs/a.md'] })).not.toContain('Source catalogue');
+  });
+
+  // #266: a translation that fails checkMessage shows in English with no error, so a change to a
+  // locale catalogue checks them all, strictly (a stale key fails); en.json alone is the source's.
+  it('checks the locale catalogues, strictly, when one of them changes', () => {
+    const args = (paths) => planSteps({ paths }).find((s) => s.name === 'Locale catalogues')?.args;
+    expect(args(['app/src/i18n/catalog/de.json'])).toEqual(['build/i18n.mjs', 'check', '--strict']);
+    expect(args(['app/src/i18n/state/de.json'])).toEqual(['build/i18n.mjs', 'check', '--strict']);
+    expect(args(['build/i18n.mjs'])).toEqual(['build/i18n.mjs', 'check', '--strict']);
+    expect(args(['app/src/i18n/catalog/en.json'])).toBeUndefined();
+    expect(args(['app/src/a.js'])).toBeUndefined();
+    // On main a code change may leave stale keys until the next translation increment: errors only.
+    expect(args(null)).toEqual(['build/i18n.mjs', 'check']);
   });
 
   it('runs both Rust workspaces when the bundle adjuster cross-check block changes (decision 0020)', () => {
