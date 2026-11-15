@@ -62,6 +62,24 @@ describe('a verdict and its round log', () => {
     expect(verdictProblems(good, 'd'.repeat(64))).not.toEqual([]);
   });
 
+  it("takes a small T1 change's close-out alone only when the gate counts it small (decision 0024)", () => {
+    const ledger = emptyLedger();
+    for (let i = 0; i < 2; i += 1) {
+      const next = nextStep({ ledger, tier: 1, hash: HASH, council, cleanTree: true, evidenceOk: true, diffLines: 30, skipLines: 30 });
+      expect(next.phase).toBe('close');
+      recordRound(ledger, { mode: next.mode, round: next.round, phase: next.phase, model: next.model, hash: HASH, sha: 's', diffLines: 30, result: { findings: [], seats: SEATS, missing: [], partial: [], refuted: 0 }, planned: SEATS });
+    }
+    const verdict = buildVerdict({ ledger, tier: 1, hash: HASH, skipLines: 30, council });
+    expect(verdictProblems(verdict, HASH, { skipLoop: true })).toEqual([]);
+    expect(verdictProblems(verdict, HASH)).toEqual([expect.stringMatching(/never converged/)]);
+    const config = { admins: ['admin'], merge: { t0: 'auto', t1: 'auto', t2: 'human' }, tiers: { t2Paths: [], t1Paths: ['**'] }, council: { maxMechanicalLines: 40 } };
+    const body = `## Testing\nran it\n\n## Risk\nnone\n\n## How to revert\nrevert\n\n${renderVerdict(verdict)}\n`;
+    const gate = (skipLines) => evaluateGate({ pr: { body, draft: false, base: 'main', author: 'admin' }, changes: [{ path: 'app/src/a.js', status: 'modified' }], hash: HASH, config, verify: 'success', skipLines }).blockers.join('\n');
+    expect(gate(30)).not.toMatch(/stand up/);
+    expect(gate(41)).toMatch(/never converged/);
+    expect(gate(undefined)).toMatch(/never converged/);
+  });
+
   it('blocks the gate on a verdict that does not stand', () => {
     const config = JSON.parse(JSON.stringify({ admins: ['admin'], merge: { t0: 'auto', t1: 'auto', t2: 'human' }, tiers: { t2Paths: [], t1Paths: ['**'] } }));
     const body = (verdict) => `## Testing\nran it\n\n## Risk\nnone\n\n## How to revert\nrevert\n\n${renderVerdict(verdict)}\n`;

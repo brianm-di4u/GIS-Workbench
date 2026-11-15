@@ -19,3 +19,4 @@ Option A. `council.mjs verdict` puts a compact log of every round in the block: 
 - It doesn't catch a set of rounds faked consistently from start to finish. That would need a review the agents can't write, such as a CI-run round (option B), which would take a secret, spending and a new workflow.
 - The verdict block is schema 2 and grows by roughly 2–10 KB. A schema 1 verdict is refused, so an open PR renders its verdict again with `council.mjs verdict`.
 - The council record, the reviewer evals and the gate all judge what a round result is with the ledger's own checks.
+- A small T1 change that skipped the loop phase (decision 0024) passes on its close-out alone only when the gate's own line count of the change, not the verdict, says it is small.

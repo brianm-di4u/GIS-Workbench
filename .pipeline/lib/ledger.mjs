@@ -440,8 +440,9 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, coun
 // Why a verdict doesn't stand up against its own round log, as a list (empty when it does). The gate
 // calls this: it rebuilds the ledger from the log and applies the council's own rules, so a verdict
 // whose numbers were edited, or whose rounds had no reviewers, or that never converged on this
-// content, is refused (decision 0021, #79).
-export function verdictProblems(verdict, hash) {
+// content, is refused (decision 0021, #79). `skipLoop` is the gate's own reading of decision 0024 for
+// this change, never the verdict's.
+export function verdictProblems(verdict, hash, { skipLoop = false } = {}) {
   const log = verdict?.log;
   if (verdict?.schema !== 2 || !Array.isArray(log) || log.length === 0 || !Array.isArray(verdict.findings)) {
     return ['it has no round log. Render it again with council.mjs verdict'];
@@ -477,6 +478,6 @@ export function verdictProblems(verdict, hash) {
   const last = rounds.at(-1);
   if (!last.complete || last.hash !== hash) problems.push('its last round is not a complete review of this content');
   const ledger = { rounds, findings, mechanical: Array.isArray(verdict.mechanical) ? verdict.mechanical : [] };
-  if (verdict.tier > 0 && !phaseState(ledger, hash).closeDone) problems.push('its rounds never converged on this content: close-out needs two clean rounds in a row');
+  if (verdict.tier > 0 && !phaseState(ledger, hash, { skipLoop }).closeDone) problems.push('its rounds never converged on this content: close-out needs two clean rounds in a row');
   return problems;
 }

@@ -3,7 +3,7 @@
 import { authority } from './authority.mjs';
 import { checkContract, delegateBarriers, delegateRefusals, findApproval, parseVerdict, touchMarkers } from './contract.mjs';
 import { STALE_TITLE, staleLines } from './freshness.mjs';
-import { verdictProblems } from './ledger.mjs';
+import { skipsLoop, verdictProblems } from './ledger.mjs';
 import { classify } from './tier.mjs';
 
 export function evaluateGate({
@@ -32,6 +32,9 @@ export function evaluateGate({
   // From lib/freshness.mjs, only with `freshness` configured. Left out, the gate
   // doesn't look at how far behind main the branch is, as before.
   freshness,
+  // The change's strict line count (countLines with strict), for decision 0024's small-T1 skip of the
+  // loop phase. Left out, no change counts as small.
+  skipLines,
 }) {
   const { verdict, error: verdictError } = parseVerdict(pr.body);
   const { tier, reasons, flags } = classify({
@@ -70,7 +73,8 @@ export function evaluateGate({
       if (verdict.tier < tier) {
         blockers.push(`Council reviewed at T${verdict.tier}, but this change is T${tier}.`);
       }
-      const problems = verdictProblems(verdict, hash);
+      const skipLoop = skipsLoop({ tier: Math.max(tier, verdict.tier), lines: skipLines, council: config.council });
+      const problems = verdictProblems(verdict, hash, { skipLoop });
       if (problems.length > 0) blockers.push(`Council verdict doesn't stand up against its own rounds: ${problems.join('; ')}.`);
     }
   }
