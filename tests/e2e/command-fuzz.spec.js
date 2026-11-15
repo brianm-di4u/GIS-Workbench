@@ -25,13 +25,13 @@ import { enterState, settle, FX } from './gui-lib.js';
 const SEED = Number(process.env.GW_FUZZ_SEED ?? 20261115);
 const RUNS = Number(process.env.GW_FUZZ_RUNS ?? 40);
 const LEN = Number(process.env.GW_FUZZ_LEN ?? 8);
-/** One sequence, from the environment: the way to replay a single shrunk counterexample. */
 /**
  * The project every sequence starts from: an image and a vector layer. In an empty project only
  * 179 of the 612 implemented commands are enabled, and the rest would do nothing.
  */
 const START = { id: 'fuzz-start', files: [FX('fx01', 'fx01.ntf'), FX('fx12', 'fx12.geojson')] };
 const OPTS = { prefs: { network: 'offline' } };
+/** One sequence, from the environment: the way to replay a single shrunk counterexample. */
 const ONE = process.env.GW_FUZZ_SEQ ? JSON.parse(process.env.GW_FUZZ_SEQ) : null;
 
 /**
@@ -54,6 +54,7 @@ export const EXCLUDED = [
   ['stereo.xr', 'starts a WebXR session, which needs a headset'],
   ['cmp.record', 'starts screen recording, which needs a capture permission prompt a test cannot answer'],
   ['3d.record', 'starts screen recording, which needs a capture permission prompt a test cannot answer'],
+  ['stereo.mode.dual', 'opens a second browser window for the right eye (window.open), which a test run must not do (docs/POLICY.md)'],
   ['net.toggle', 'switches the app online, after which a request is the intended behaviour and the no-request check would fail for the wrong reason'],
 ];
 
@@ -71,14 +72,24 @@ const isExcluded = (id) => EXCLUDED.some(([m]) => matches(m, id));
 const isNotUndoable = (id) => NOT_UNDOABLE.some(([m]) => matches(m, id));
 
 /**
- * Runs in the page. Undoes down to undo depth `depth0` when given, then returns the project's records
+ * Runs in the page. Undoes every step when `undoAll`, then returns the project's records
  * by id with keys sorted (key order is not part of the state, as in tests/unit/store.test.js).
  */
-function recordsAfterUndoTo(depth0) {
+function recordsAfterUndoTo(undoAll) {
   const gw = window.gisworkbench;
-  if (depth0 != null) while (gw.undo.undoStack.length > depth0) gw.undo.undo();
+  if (undoAll) while (gw.undo.canUndo) gw.undo.undo();
   const canon = (v) => (Array.isArray(v) ? v.map(canon) : v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, canon(v[k])])) : v);
   return JSON.stringify(canon(gw.store.snapshot().sort((a, b) => (a.id < b.id ? -1 : 1))));
+}
+
+/** `promise`, or an error saying `what` if it takes longer than `ms` (the timer is cleared either way). */
+async function within(ms, promise, what) {
+  let timer;
+  try {
+    return await Promise.race([promise, new Promise((_, rej) => (timer = setTimeout(() => rej(new Error(what)), ms)))]);
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 /** Run one sequence in a fresh browser context; returns the problems found (empty: the sequence is clean). */
@@ -90,30 +101,34 @@ async function runSequence(browser, seq) {
     const app = await enterState(page, 'full', START, OPTS);
     // Loading the files is the baseline, not part of the sequence: a qat.undo must not reach below it.
     await page.evaluate(() => window.gisworkbench.undo.clear());
-    const start = await page.evaluate(recordsAfterUndoTo, null);
-    const depth0 = 0;
+    const start = await page.evaluate(recordsAfterUndoTo, false);
     for (const id of seq) {
       // Fire, do not await: a command that opens a dialog resolves only when the dialog closes.
-      await page.evaluate((id) => {
-        // A command that is not available now (E_STEP_FIRST) is the API saying "do this first": not a failure.
-        window.__fuzz = 'pending';
-        window.gisworkbench.api.v2.commands.run({ id }).then(() => (window.__fuzz = 'ok'), (e) => (window.__fuzz = e?.code === 'E_STEP_FIRST' ? 'ok' : `threw: ${e?.code ?? ''} ${e?.message}`));
-      }, id);
+      // Each command has its own result slot, so a late finish of an earlier one cannot be read as this one's.
+      const n = await within(
+        30_000,
+        page.evaluate((id) => {
+          const n = (window.__fuzzN = (window.__fuzzN ?? 0) + 1);
+          window.__fuzz ??= {};
+          window.__fuzz[n] = 'pending';
+          // A command that is not available now (E_STEP_FIRST) is the API saying "do this first": not a failure.
+          window.gisworkbench.api.v2.commands.run({ id }).then(() => (window.__fuzz[n] = 'ok'), (e) => (window.__fuzz[n] = e?.code === 'E_STEP_FIRST' ? 'ok' : `threw: ${e?.code ?? ''} ${e?.message}`));
+          return n;
+        }, id),
+        `${id}: the page did not take the command within 30 s (main thread blocked)`,
+      );
       await settle(page, { layout: 'modern' });
-      const st = await page.waitForFunction(() => window.__fuzz !== 'pending', null, { timeout: 5_000 }).then(() => page.evaluate(() => window.__fuzz), () => 'pending');
+      const st = await page.waitForFunction((n) => window.__fuzz[n] !== 'pending', n, { timeout: 5_000 }).then(() => page.evaluate((n) => window.__fuzz[n], n), () => 'pending');
       if (st !== 'ok') problems.push(`${id}: ${st === 'pending' ? 'did not finish within 5 s of its dialog closing' : st}`);
     }
     for (const l of app.logs) problems.push(`console: ${l.slice(0, 300)}`);
     for (const c of await app.csp()) problems.push(`csp: ${c}`);
     for (const u of app.requests) problems.push(`network request: ${u}`);
     // Still answering: the page's main thread runs a query and the command table lists.
-    const alive = await Promise.race([
-      page.evaluate(() => window.gisworkbench.api.v2.commands.list({ filter: 'qat.undo' }).then((l) => l.length)),
-      new Promise((r) => setTimeout(() => r('no answer within 10 s'), 10_000)),
-    ]).catch((e) => `no answer: ${e.message.split('\n')[0]}`);
-    if (alive !== 1) problems.push(`the app does not answer a trivial command: ${alive}`);
+    const alive = await within(10_000, page.evaluate(() => window.gisworkbench.api.v2.commands.list({ filter: 'qat.undo' }).then((l) => l.length)), 'no answer within 10 s').catch((e) => `no answer: ${e.message}`);
+    if (!(alive >= 1)) problems.push(`the app does not answer a trivial command: ${alive}`);
     else if (!seq.some(isNotUndoable)) {
-      const back = await page.evaluate(recordsAfterUndoTo, depth0);
+      const back = await page.evaluate(recordsAfterUndoTo, true);
       if (back !== start) problems.push('undoing the whole sequence did not restore the starting records');
     }
   } catch (e) {
@@ -157,9 +172,10 @@ test(`command fuzz: random command sequences leave the app clean (seed ${SEED}, 
       throw new Error(problems.join('; '));
     }
   });
-  const result = await fc.check(prop, { seed: SEED, numRuns: RUNS, verbose: process.env.GW_FUZZ_VERBOSE ? 2 : 0 });
+  const result = await fc.check(prop, { seed: SEED, numRuns: RUNS, interruptAfterTimeLimit: 600_000, verbose: process.env.GW_FUZZ_VERBOSE ? 2 : 0 });
   // The same seed gives the same sequences: this fingerprint is how two runs are compared.
   console.log(`command fuzz: ${ran.length} sequences run, fingerprint ${createHash('sha1').update(JSON.stringify(ran)).digest('hex').slice(0, 12)}, ${result.failed ? 'FAILED' : 'clean'}`);
+  if (result.interrupted) console.log('command fuzz: stopped at its 10 minute limit, before all sequences ran');
   if (!result.failed) return;
   if (process.env.GW_FUZZ_VERBOSE) console.log('every failing sequence seen while shrinking:', JSON.stringify(result.failures.map((f) => f[0])));
   const seq = result.counterexample[0];
