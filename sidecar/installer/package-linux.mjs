@@ -14,7 +14,7 @@
 //   GWB-Sidecar-<v>-linux-x86_64.tar.gz     unpack anywhere and run ./gwb-sidecar
 // plus SHA256SUMS, sbom.cdx.json and package-report.json. Builds are unsigned previews.
 import { execFileSync } from 'node:child_process';
-import { GLIBC_FLOOR, csmHostProblems, elfGlibcNeeds, glibcFloorProblems, mediaLibraryPathProblems, mediaNeedsProblems, mediaOpenH264Problems, runtimeProblems, stageGlibc, stagePathProblems } from './gates.mjs';
+import { GLIBC_FLOOR, csmHostProblems, elfGlibcNeeds, glibcFloorProblems, mediaLibraryPathProblems, mediaNeedsProblems, mediaOpenH264Problems, packagedDoc, runtimeProblems, stageGlibc, stagePathProblems } from './gates.mjs';
 import { elfNeeded, elfVersions } from './elf.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { chmodSync, closeSync, copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, readSync, readdirSync, renameSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
@@ -175,7 +175,7 @@ async function main() {
   copyFileSync(join(ROOT, 'LICENSE'), join(stage, 'LICENSE.txt'));
   // gwb-run's guide ships beside it (#177): the package has no source tree to point at, so a link into
   // the source (decisions/…) keeps only its text.
-  writeFileSync(join(stage, 'RUNNER.md'), readFileSync(join(ROOT, 'docs', 'runner.md'), 'utf8').replace(/\[([^\]]+)\]\((?!https?:|#)[^)]*\)/g, '$1'));
+  writeFileSync(join(stage, 'RUNNER.md'), packagedDoc(readFileSync(join(ROOT, 'docs', 'runner.md'), 'utf8')));
   writeFileSync(
     join(stage, 'README.txt'),
     [
