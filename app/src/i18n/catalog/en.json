@@ -21174,8 +21174,7 @@
    "key": "List",
    "src": "List",
    "refs": [
-    "features/catalog.js",
-    "features/workflow-editor.js"
+    "features/catalog.js"
    ]
   },
   {
@@ -58179,6 +58178,14 @@
    "refs": [
     "features/geoproc-ui.js",
     "shell/command-meta.js"
+   ]
+  },
+  {
+   "key": "tab\u0004List",
+   "src": "List",
+   "ctx": "tab",
+   "refs": [
+    "features/workflow-editor.js"
    ]
   },
   {

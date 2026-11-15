@@ -223,6 +223,12 @@ describe('one source text, two meanings', () => {
   // #194, #278, #283: a control point's ground coordinate field is labelled with the one message
   // that names it, "Ground coordinate", never a bare "Ground": that drifted to the bare-earth word
   // of Extract from DSM's Ground (a DTM), the sense the locales translated (de "Boden", fr "Sol").
+  // #289: the Workflow Builder's List tab names a view, a noun, apart from the List button that
+  // lists something, which locales translate as a verb (ro "Listează", zh-Hant "列出").
+  it("gives the Workflow Builder's List tab its own message, apart from the List command", () => {
+    expect(keys('features/workflow-editor.js', 'List')).toEqual(['tabList']);
+    expect(keys('features/catalog.js', 'List')).toEqual([keyOf('List')]);
+  });
   it("labels a control point's ground coordinate with 'Ground coordinate', apart from the ground surface", () => {
     expect(keys('features/register.js', 'Ground coordinate')).toEqual(['Ground coordinate']);
     expect(keys('features/register.js', 'Ground')).toEqual([]);

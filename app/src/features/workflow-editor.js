@@ -9,7 +9,7 @@
 import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { pickFiles, saveBlob, textBlob } from '../storage/files.js';
-import { t, tr, msgOf, gwError } from '../i18n/index.js';
+import { t, tc, tr, msgOf, gwError } from '../i18n/index.js';
 import { validateRecipe, checkParam, fits, splitPort, contentOf, defaults, FORMAT2 } from '../recipes/recipe.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
@@ -407,7 +407,7 @@ export function install(app) {
       b.addEventListener('click', () => Promise.resolve(fn()).catch((e) => toast(msgOf(e), { kind: 'error' })));
       return b;
     };
-    const views = h('div', { class: 'btn-row', role: 'tablist' }, btn(t('Graph'), () => ((ed.view = 'graph'), draw()), { role: 'tab', 'aria-selected': String(ed.view === 'graph') }), btn(t('List'), () => ((ed.view = 'list'), draw()), { role: 'tab', 'aria-selected': String(ed.view === 'list') }));
+    const views = h('div', { class: 'btn-row', role: 'tablist' }, btn(t('Graph'), () => ((ed.view = 'graph'), draw()), { role: 'tab', 'aria-selected': String(ed.view === 'graph') }), btn(tc('tab', 'List'), () => ((ed.view = 'list'), draw()), { role: 'tab', 'aria-selected': String(ed.view === 'list') }));
     el.append(
       field(t('Workflow'), name),
       h('div', { class: 'btn-row' }, add, btn(t('Run'), () => run()), btn(t('Stop'), () => runner.stop()), btn(t('Save'), () => saveToProject().then(() => toast(t('Saved in the project and the library'), { kind: 'info' }))), btn(t('Open…'), openDialog), btn(t('Export…'), () => saveBlob(app, textBlob(JSON.stringify(toFile(validateRecipe(wf, ops)), null, 2), 'application/json'), { name: `${wf.id}.gwrecipe.json`, types: ['.json'], description: t('Workflow') }))),

@@ -36750,7 +36750,8 @@
   },
   "Add-Ins ▸ Recipes ▸ Workflow Builder wires steps into a workflow: add a step, then drag from an output on the right of a step to an input on the left of another; a wire is refused when the types do not fit. In List, an input can instead take a layer of the project. Graph shows the steps as boxes and List as rows; select a step to change its settings. Run runs it step by step and shows each step’s state. Save keeps it in the project and in your library in this browser; Export writes a .gwrecipe.json file to share. Each layer a workflow makes records the workflow, its version, the step and its settings.": {
    "h": "a87d114425df",
-   "state": "passed"
+   "state": "passed",
+   "note": "names Export by the button label, Exportă… (#289)"
   },
   "Address Index": {
    "h": "c3744f9760c6",
@@ -38526,6 +38527,11 @@
   "{file} is not JSON ({msg})": {
    "h": "622b912e428f",
    "state": "passed"
+  },
+  "tab\u0004List": {
+   "h": "6f202f54a7b2",
+   "state": "passed",
+   "note": "Workflow Builder tab: the list view, a noun (#289)"
   }
  }
 }
