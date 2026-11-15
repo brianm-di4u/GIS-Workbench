@@ -6,7 +6,7 @@ import { num, int, length, area, setUnits, words, list } from '../../app/src/i18
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
+import { messagesInJs, messagesInRust, checkMessage, checkFails, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
 
 afterEach(() => {
   setLocale('en');
@@ -133,6 +133,17 @@ describe('build tooling', () => {
     expect(checkMessage('Open {file}', 'Öffnen {datei}')[0]).toMatch(/placeholders differ/);
     expect(checkMessage('GeoTIFF file', 'Fichier géoTIFF', ['GeoTIFF'])[0]).toMatch(/do-not-translate/);
     expect(checkMessage('Open', '{')[0]).toMatch(/translation/);
+  });
+  // #266, #292: an error always fails the check; a stale key fails only under --strict, for every
+  // locale or for the tags named, so a branch answers for the catalogues it changed.
+  it('fails the catalogue check on an error, and on a stale key only where strict', () => {
+    const ok = { translated: 1, stale: 0, errors: [] };
+    const results = { de: { ...ok, stale: 2 }, fr: ok };
+    expect(checkFails(results)).toBe(false);
+    expect(checkFails(results, true)).toBe(true);
+    expect(checkFails(results, ['de'])).toBe(true);
+    expect(checkFails(results, ['fr'])).toBe(false);
+    expect(checkFails({ de: ok, fr: { ...ok, errors: [{ key: 'k', errors: ['x'] }] } })).toBe(true);
   });
   it('flags bare user-visible literals', () => {
     const hits = lintJs(`toast('Saved the file');\nmodal({ title: 'Jump to Point', buttons: ['Jump', 'Cancel'] });\nh('p', { class: 'hint' }, 'Type a coordinate');\ntoast(t('Already fine'));\nh('div', { class: 'x' }, 'ok'); // i18n-ignore`, 'x.js');
