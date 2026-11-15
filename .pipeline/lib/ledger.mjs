@@ -311,9 +311,11 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
   // A repeat of a finding already on the ledger doesn't count: that is a reviewer asking again. Two
   // things are not repeats: a finding the author fixed, because the bug came back, and a more severe
   // finding than the earlier one at that place, because an automatically declined nit has not
-  // answered a blocker.
+  // answered a blocker. A bug that was there before answers only another report of a bug that was
+  // there before: a new finding beside it is this change's own, and must be answered (issue 294).
+  const preExisting = (finding) => finding.preExisting === true || finding.status === 'pre-existing';
   const repeatOf = (list, f) =>
-    list.some((earlier) => earlier.status !== 'fixed' && SEVERITIES.indexOf(f.severity) >= SEVERITIES.indexOf(earlier.severity) && sameFinding(earlier, f));
+    list.some((earlier) => earlier.status !== 'fixed' && (!preExisting(earlier) || preExisting(f)) && SEVERITIES.indexOf(f.severity) >= SEVERITIES.indexOf(earlier.severity) && sameFinding(earlier, f));
   const answered = (f) => repeatOf(ledger.findings, f);
   const raised = missing.length === 0
     ? Object.fromEntries(SEVERITIES.map((severity) => [severity, (result.findings ?? []).filter((f) => f.severity === severity && !f.preExisting && !answered(f)).length]))
