@@ -62,6 +62,23 @@ fn is_dem(n: &str) -> bool {
     n.ends_with(".dt0") || n.ends_with(".dt1") || n.ends_with(".dt2") || n.ends_with(".hgt")
 }
 
+/// A 16 × 16 cell cut from the start of a DTED file: its three header records with the counts
+/// rewritten, and the first 16 posts of its first 16 data records, each with its checksum. A whole
+/// cell is 26 MB, and its first part alone fails the length check before a data record is read.
+fn small_dted(b: &[u8]) -> Option<Vec<u8>> {
+    const N: usize = 16;
+    let nrows: usize = std::str::from_utf8(b.get(51..55)?).ok()?.trim().parse().ok()?;
+    let rec_len = 8 + 2 * nrows + 4;
+    let mut out = b.get(..3428)?.to_vec();
+    out[47..55].copy_from_slice(b"00160016");
+    for c in 0..N {
+        let rec = b.get(3428 + c * rec_len..)?.get(..8 + 2 * N)?;
+        out.extend_from_slice(rec);
+        out.extend_from_slice(&rec.iter().map(|&x| u32::from(x)).sum::<u32>().to_be_bytes());
+    }
+    Some(out)
+}
+
 fn is_las(n: &str) -> bool {
     n.ends_with(".las") || n.ends_with(".laz")
 }
@@ -144,7 +161,8 @@ fn fuzz_all_parsers() {
     }));
 
     let mut dem: Vec<Vec<u8>> = files(is_dem).iter().map(|p| std::fs::read(p).unwrap()).collect();
-    dem.extend(fixtures(is_dem).iter().map(|p| head(p, 256 << 10)));
+    dem.extend(fixtures(is_dem).iter().filter_map(|p| small_dted(&head(p, 256 << 10))));
+    assert!(dem.iter().any(|b| gw_parse::dted::parse_dted(b).is_ok_and(|d| d.json.contains("\"checksumErrors\":0"))), "dted: no seed parses, so no data record is read");
     reports.push(run("dted", &dem, n, hang, &o, |b| {
         let _ = gw_parse::dted::parse_dted(b);
         let _ = gw_parse::dted::parse_hgt(b, -35.0, -59.0);
