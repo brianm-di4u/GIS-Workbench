@@ -11,7 +11,7 @@ The gate trusted the council verdict block in a PR body as written (#79). It che
 
 ## Decision
 
-Option A. `council.mjs verdict` puts a compact log of every round in the block: its number, phase, hash, the seats that answered and those missing, and what it raised. Each finding carries its id, severity, status and round. The gate rebuilds the ledger from that log and applies the council's own rules. It recomputes the round count and the open counts, checks that the last round reviewed this content, and checks that close-out converged on it. It refuses a verdict whose numbers disagree, whose rounds name no seats, or whose rounds claim to have raised fewer blocking findings than are recorded against them.
+Option A. `council.mjs verdict` puts a compact log of every round in the block: its number, phase, hash, the seats that answered and those missing, and the blocking findings it recorded. Each finding carries its id, severity, status and round. The gate rebuilds the ledger from that log and applies the council's own rules. It recomputes the round count and the open counts, checks that the last round reviewed this content, and checks that close-out converged on it. It refuses a verdict whose numbers disagree, whose rounds name no seats, or whose rounds' blocking counts don't match the findings recorded against them exactly.
 
 ## Consequences
 
