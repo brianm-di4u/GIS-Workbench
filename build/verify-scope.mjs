@@ -78,7 +78,8 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
 
   if (leg !== 'sidecar') {
     step('Quarantine list', 'node', ['build/check-quarantine.mjs']);
-    step('Civilian-use check', 'node', ['build/check-policy.mjs']);
+    // A branch scans only what it changed: main scanned the rest (#312). Everything scans everything.
+    step('Civilian-use check', 'node', ['build/check-policy.mjs', ...(everything ? [] : ['--changed'])]);
     step('D: drive paths', 'node', ['build/check-d-drive.mjs']);
     if (fragments) step('Changelog fragments', 'node', ['build/release/changelog.mjs', 'check']);
     if (rust) {
@@ -115,7 +116,8 @@ function capture(command, args, cwd) {
   return result.status === 0 ? result.stdout : null;
 }
 
-function changedPaths() {
+/** The paths this branch changed against its base, or null on main, with GWB_SCOPE=all, or when unknown. */
+export function changedPaths() {
   if (process.env.GWB_SCOPE === 'all') return null;
   if (process.env.GITHUB_REF === 'refs/heads/main') return null;
   if (capture('git', ['rev-parse', '--abbrev-ref', 'HEAD'])?.trim() === 'main') return null;

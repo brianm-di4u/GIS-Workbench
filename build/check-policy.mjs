@@ -7,10 +7,12 @@
 //
 //   node build/check-policy.mjs                 check the tree
 //   node build/check-policy.mjs --hash "term"   print the hash of a term to add
+//   node build/check-policy.mjs --changed       on a branch, only the files it changed (verify full)
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
+import { changedPaths } from './verify-scope.mjs';
 
 const SALT = 'gis-workbench-policy-v1';
 const MAX_WORDS = 4;
@@ -41,6 +43,17 @@ export function findTerms(text, banned, seen = new Map()) {
   return found;
 }
 
+/**
+ * The tracked files to scan: all of them, or with `changed` (a branch's changed paths) only those,
+ * since main scanned the rest (#312). A change to the list or to this checker scans everything, as
+ * does an unknown change set (null: main, GWB_SCOPE=all).
+ */
+export function filesToScan(tracked, changed) {
+  if (!changed || changed.some((path) => path === LIST || path === 'build/check-policy.mjs')) return tracked;
+  const set = new Set(changed);
+  return tracked.filter((path) => set.has(path));
+}
+
 function main() {
   const argument = process.argv.indexOf('--hash');
   if (argument !== -1) {
@@ -50,9 +63,10 @@ function main() {
   const { terms, allow = [] } = JSON.parse(readFileSync(LIST, 'utf8'));
   const banned = new Set(terms);
   const allowed = new Set(allow.map(({ path, term }) => `${path}:${term}`));
-  const files = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 << 20 })
+  const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 << 20 })
     .split('\n')
     .filter((path) => path && TEXT.test(path) && !SKIP.test(path) && path !== LIST);
+  const files = filesToScan(tracked, process.argv.includes('--changed') ? changedPaths() : null);
 
   const seen = new Map();
   const problems = [];
@@ -66,7 +80,7 @@ function main() {
     for (const problem of problems) console.error(`  ${problem}`);
     return 1;
   }
-  console.log(`Civilian-use check: ${files.length} files clean.`);
+  console.log(`Civilian-use check: ${files.length === tracked.length ? files.length : `${files.length} changed of ${tracked.length}`} files clean.`);
   return 0;
 }
 

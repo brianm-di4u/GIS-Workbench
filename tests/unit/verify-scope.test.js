@@ -47,6 +47,14 @@ describe('verify scope', () => {
     expect(args(null)).toEqual(['build/i18n.mjs', 'check']);
   });
 
+  // #312: a branch scans only the files it changed for civilian use; everything scans everything.
+  it('scans changed files for civilian use on a branch, and every file otherwise', () => {
+    const args = (paths) => planSteps({ paths }).find((s) => s.name === 'Civilian-use check')?.args;
+    expect(args(['app/src/a.js'])).toEqual(['build/check-policy.mjs', '--changed']);
+    expect(args(null)).toEqual(['build/check-policy.mjs']);
+    expect(args(['build/verify-scope.mjs'])).toEqual(['build/check-policy.mjs']);
+  });
+
   it('runs both Rust workspaces when the bundle adjuster cross-check block changes (decision 0020)', () => {
     const fixture = 'tests/fixtures/ba-cross-check/expected.json';
     const rustArgs = (input) => planSteps(input).find((s) => s.name === 'Rust tests')?.args;
