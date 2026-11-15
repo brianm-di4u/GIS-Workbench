@@ -64,12 +64,12 @@ export function insertRelease(changelog, block, version) {
   return at < 0 ? `${text.trimEnd()}\n\n${block}` : `${text.slice(0, at)}${block}\n${text.slice(at)}`;
 }
 
-// Every file but the README and hidden files (.gitkeep, .DS_Store), whatever its name, so a fix-a.MD or
-// fix-a.txt is refused by the name check rather than left out of the release without a word (#182).
+// Every entry but folders, the README and hidden files (.gitkeep, .DS_Store), whatever its name, so a
+// fix-a.MD, a fix-a.txt or a link is checked rather than left out of the release without a word (#182).
 function readFragments(dir) {
   if (!existsSync(dir)) return [];
   return readdirSync(dir, { withFileTypes: true })
-    .filter((e) => e.isFile() && e.name !== 'README.md' && !e.name.startsWith('.'))
+    .filter((e) => !e.isDirectory() && e.name !== 'README.md' && !e.name.startsWith('.'))
     .map((e) => e.name)
     .sort()
     .map((name) => ({ name, ...parseFragment(readFileSync(join(dir, name), 'utf8'), name) }));
