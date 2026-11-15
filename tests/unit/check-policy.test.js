@@ -40,5 +40,6 @@ describe('files to scan', () => {
   it('scans everything when the list or the checker changed', () => {
     expect(filesToScan(tracked, ['b.js', 'build/check-policy.terms.json'])).toEqual(tracked);
     expect(filesToScan(tracked, ['build/check-policy.mjs'])).toEqual(tracked);
+    expect(filesToScan(tracked, ['build/verify-scope.mjs'])).toEqual(tracked);
   });
 });

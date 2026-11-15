@@ -12,7 +12,6 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { changedPaths } from './verify-scope.mjs';
 
 const SALT = 'gis-workbench-policy-v1';
 const MAX_WORDS = 4;
@@ -45,16 +44,26 @@ export function findTerms(text, banned, seen = new Map()) {
 
 /**
  * The tracked files to scan: all of them, or with `changed` (a branch's changed paths) only those,
- * since main scanned the rest (#312). A change to the list or to this checker scans everything, as
- * does an unknown change set (null: main, GWB_SCOPE=all).
+ * since main scanned the rest (#312). A change to the list, to this checker or to what decides the
+ * change set scans everything, as does an unknown change set (null: main, GWB_SCOPE=all).
  */
+const FULL_SCAN = [LIST, 'build/check-policy.mjs', 'build/verify-scope.mjs'];
 export function filesToScan(tracked, changed) {
-  if (!changed || changed.some((path) => path === LIST || path === 'build/check-policy.mjs')) return tracked;
+  if (!changed || changed.some((path) => FULL_SCAN.includes(path))) return tracked;
   const set = new Set(changed);
   return tracked.filter((path) => set.has(path));
 }
 
-function main() {
+/** A branch's committed changes, plus its uncommitted edits to tracked files; null when unknown. */
+async function branchChanges() {
+  // Loaded only for --changed, so the plain scan (verify fast, main) runs no code outside this file.
+  const committed = (await import('./verify-scope.mjs')).changedPaths();
+  if (!committed) return null;
+  const edited = execFileSync('git', ['diff', '--name-only', '--no-renames', 'HEAD'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+  return [...committed, ...edited];
+}
+
+async function main() {
   const argument = process.argv.indexOf('--hash');
   if (argument !== -1) {
     console.log(hashTerm(process.argv[argument + 1] ?? ''));
@@ -66,7 +75,7 @@ function main() {
   const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 << 20 })
     .split('\n')
     .filter((path) => path && TEXT.test(path) && !SKIP.test(path) && path !== LIST);
-  const files = filesToScan(tracked, process.argv.includes('--changed') ? changedPaths() : null);
+  const files = filesToScan(tracked, process.argv.includes('--changed') ? await branchChanges() : null);
 
   const seen = new Map();
   const problems = [];
@@ -84,4 +93,4 @@ function main() {
   return 0;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = await main();
