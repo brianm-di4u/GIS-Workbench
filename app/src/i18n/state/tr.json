@@ -37978,11 +37978,6 @@
    "h": "3750d291c164",
    "state": "passed"
   },
-  "control point\u0004Ground": {
-   "h": "151bf4939471",
-   "state": "passed",
-   "note": "review: the dialog's hint calls the ground coordinates \"Yer: WGS 84\"; catalogue uses \"Yer koordinatı\""
-  },
   "dates": {
    "h": "f18e48678b72",
    "state": "passed"

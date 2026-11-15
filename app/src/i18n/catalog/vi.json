@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "đường đồng mức cần DEM được tải làm địa hình",
   "contrast": "độ tương phản",
   "control point": "điểm khống chế",
-  "control point\u0004Ground": "Tọa độ mặt đất",
   "control points": "điểm khống chế",
   "convergence {deg}° is under 10°": "góc hội tụ {deg}° nhỏ hơn 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "chuyển đổi {layer} cần khoảng {need} GB bộ nhớ trình duyệt trống; hiện có {free} GB",

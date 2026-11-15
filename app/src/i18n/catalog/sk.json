@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "vrstevnice vyžadujú DMT načítaný ako terén",
   "contrast": "kontrast",
   "control point": "vlícovací bod",
-  "control point\u0004Ground": "Terénna súradnica",
   "control points": "vlícovacie body",
   "convergence {deg}° is under 10°": "konvergencia {deg}° je pod 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "konverzia {layer} vyžaduje približne {need} GB voľného úložiska prehliadača; k dispozícii je {free} GB",

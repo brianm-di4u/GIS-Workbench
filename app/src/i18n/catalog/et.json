@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "samakõrgusjooned vajavad maastikuna laaditud DEM-i",
   "contrast": "kontrastsus",
   "control point": "tugipunkt",
-  "control point\u0004Ground": "Maastikukoordinaat",
   "control points": "tugipunktid",
   "convergence {deg}° is under 10°": "koonduvus {deg}° on alla 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "kihi {layer} teisendamiseks on vaja umbes {need} GB vaba brauseri salvestusruumi; saadaval on {free} GB",

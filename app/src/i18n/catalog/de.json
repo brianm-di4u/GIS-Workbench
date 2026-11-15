@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "Höhenlinien benötigen ein als Gelände geladenes DHM",
   "contrast": "Kontrast",
   "control point": "Passpunkt",
-  "control point\u0004Ground": "Geländekoordinate",
   "control points": "Passpunkte",
   "convergence {deg}° is under 10°": "Konvergenz {deg}° liegt unter 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "die Konvertierung von {layer} benötigt etwa {need} GB freien Browserspeicher; {free} GB sind verfügbar",

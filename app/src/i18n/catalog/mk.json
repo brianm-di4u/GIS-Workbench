@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "за изохипсите е потребен ДМВ вчитан како релјеф",
   "contrast": "контраст",
   "control point": "опорна точка",
-  "control point\u0004Ground": "Теренска координата",
   "control points": "опорни точки",
   "convergence {deg}° is under 10°": "конвергенцијата {deg}° е под 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "за конвертирање на {layer} се потребни околу {need} GB слободно складиште во прелистувачот; достапни се {free} GB",

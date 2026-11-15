@@ -12,7 +12,7 @@
 import { h, clear } from '../shell/dom.js';
 import { modal, field } from '../shell/dialogs.js';
 import { applyAffine, invertAffine } from '../render/renderer.js';
-import { t, tc, msgOf, gwError } from '../i18n/index.js';
+import { t, msgOf, gwError } from '../i18n/index.js';
 import { num, length } from '../i18n/format.js';
 import { pointText } from '../i18n/fonts.js';
 
@@ -624,7 +624,7 @@ export function install(app) {
       const kind = h('select', { class: 'inp', 'aria-label': t('Model') }, h('option', { value: '1' }, t('Affine (order 1)')), h('option', { value: '2' }, t('Polynomial order 2')), h('option', { value: '3' }, t('Polynomial order 3')), h('option', { value: '4' }, t('Projective')));
       const x = h('input', { class: 'inp', type: 'number', step: 'any', 'aria-label': t('Image x') });
       const y = h('input', { class: 'inp', type: 'number', step: 'any', 'aria-label': t('Image y') });
-      const coord = h('input', { class: 'inp', placeholder: t('any format: MGRS, DD, DMS, UTM…'), 'aria-label': t('Ground coordinate') });
+      const coord = h('input', { class: 'inp', placeholder: t('any format: MGRS, DD, DMS, UTM…') });
       const hgt = h('input', { class: 'inp', type: 'number', step: 'any', value: '0', 'aria-label': t('Height (m HAE)') });
       const list = h('ul', { class: 'small' });
       const note = h('p', { class: 'hint', 'aria-live': 'polite' });
@@ -644,7 +644,7 @@ export function install(app) {
         }
       });
       render();
-      const body = h('div', {}, field(t('Model'), kind), field(t('Image x'), x), field(t('Image y'), y), field(tc('control point', 'Ground'), coord), field(t('Height (m HAE)'), hgt), h('div', {}, add), list, note, h('p', { class: 'hint' }, t('Image coordinates: the first pixel centre is (0.5, 0.5). Ground: WGS 84.')));
+      const body = h('div', {}, field(t('Model'), kind), field(t('Image x'), x), field(t('Image y'), y), field(t('Ground coordinate'), coord), field(t('Height (m HAE)'), hgt), h('div', {}, add), list, note, h('p', { class: 'hint' }, t('Image coordinates: the first pixel centre is (0.5, 0.5). Ground: WGS 84.')));
       if ((await modal({ title: t('GCP Model'), body, buttons: [{ label: t('Fit'), value: 'fit', primary: true }, { label: t('Cancel'), value: 'cancel' }], width: 560, id: 'model-gcp' })) !== 'fit') return;
       try {
         const r = app.gcpModelFor(l, gcps, Number(kind.value));

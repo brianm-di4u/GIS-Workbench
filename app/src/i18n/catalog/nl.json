@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "hoogtelijnen vereisen een DHM dat als terrein is geladen",
   "contrast": "contrast",
   "control point": "paspunt",
-  "control point\u0004Ground": "Terreincoördinaat",
   "control points": "paspunten",
   "convergence {deg}° is under 10°": "convergentie {deg}° is kleiner dan 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "het converteren van {layer} vereist ongeveer {need} GB vrije browseropslag; {free} GB is beschikbaar",

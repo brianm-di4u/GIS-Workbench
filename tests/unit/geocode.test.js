@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { along, buildIndex, houseNumber, metres, normalise, parseQuery, reverse, search, similarity } from '../../app/src/analysis/geocode.js';
 
 // A small town: address points on Main Street, a numbered range on Oak Avenue running east.
@@ -21,6 +23,36 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     expect(parseQuery('Baker Street')).toMatchObject({ street: 'baker st' });
     expect(Number.isNaN(parseQuery('Baker Street').number)).toBe(true);
     expect(houseNumber('12-14')).toBe(12);
+  });
+  // #266: Portuguese and Russian write the number after its own comma, Hungarian with a dot.
+  it('reads a number in its own segment after the street, and an ordinal dot', () => {
+    expect(parseQuery('Rua Principal, 12, Lisboa')).toEqual({ number: 12, suffix: '', street: 'rua principal', rest: 'lisboa', last: false, whole: 'rua principal' });
+    expect(parseQuery('Rua Principal, 12A, Lisboa')).toMatchObject({ number: 12, suffix: 'a', rest: 'lisboa' });
+    expect(parseQuery('Fő utca 12., Újfalu')).toMatchObject({ number: 12, street: 'fo utca', rest: 'ujfalu', last: true });
+    // A lone number with no place after it may be a postcode: it stays the place.
+    expect(parseQuery('Main Street, 10115')).toMatchObject({ street: 'main st', rest: '10115' });
+    expect(Number.isNaN(parseQuery('Main Street, 10115').number)).toBe(true);
+    // … and so does a postcode with a place after it: only a number of up to 3 digits is read there,
+    // with a letter or a building fraction, so every postcode shape keeps the old street reading.
+    for (const q of ['Main Street, 62701, USA', 'Hauptstraße, 1010, Wien', 'Fő utca, 1011, Budapest', 'Marszałkowska, 00-950, Warszawa', 'Rua Principal, 1000-001, Lisboa', 'Rua Principal, 1000–001., Lisboa', 'Avenida Paulista, 1578, São Paulo']) {
+      expect(parseQuery(q), q).toMatchObject({ number: NaN, rest: normalise(q.split(',').slice(1).join(' ')) });
+    }
+    expect(parseQuery('ул. Ленина, 12/3, Москва')).toMatchObject({ number: 12, rest: 'москва' });
+    // Both forms find the house, as the English order does.
+    for (const q of ['Main Street, 3, Springfield', 'Main Street 3., Springfield']) expect(search(IX, q)[0]?.id).toBe('m3');
+  });
+  // #266: Find Address shows "12 Main Street, Springfield" as its example; every locale's example
+  // must be one the parser reads, house number 12 on a street, in a place.
+  it("reads every locale's example address as number 12 on a street, in a place", () => {
+    const dir = join('app', 'src', 'i18n', 'catalog');
+    const wrong = [];
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.json') && x !== 'en.json')) {
+      const ex = JSON.parse(readFileSync(join(dir, f), 'utf8')).messages['12 Main Street, Springfield'];
+      if (!ex) continue;
+      const q = parseQuery(ex);
+      if (q.number !== 12 || !q.street || !q.rest) wrong.push(`${f.slice(0, -5)}: ${ex} → ${q.number}, "${q.street}", "${q.rest}"`);
+    }
+    expect(wrong).toEqual([]);
   });
   it('scores near misses by trigram similarity', () => {
     expect(similarity('main st', 'main st')).toBe(1);

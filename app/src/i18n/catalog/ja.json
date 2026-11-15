@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "等高線には地形として読み込んだDEMが必要です",
   "contrast": "コントラスト",
   "control point": "基準点",
-  "control point\u0004Ground": "地上座標",
   "control points": "基準点",
   "convergence {deg}° is under 10°": "収束角{deg}°が10°未満です",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "{layer}の変換には約{need} GBのブラウザー ストレージの空き容量が必要ですが、空きは{free} GBです",

@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "izohipse zahtijevaju DMR učitan kao teren",
   "contrast": "kontrast",
   "control point": "orijentacijska točka",
-  "control point\u0004Ground": "Terenska koordinata",
   "control points": "orijentacijske točke",
   "convergence {deg}° is under 10°": "konvergencija {deg}° manja je od 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "pretvorba sloja {layer} zahtijeva približno {need} GB slobodne pohrane preglednika; dostupno je {free} GB",

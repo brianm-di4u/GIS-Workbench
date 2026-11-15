@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "plastnice potrebujejo DMV, naložen kot teren",
   "contrast": "kontrast",
   "control point": "oslonilna točka",
-  "control point\u0004Ground": "Terenska koordinata",
   "control points": "oslonilne točke",
   "convergence {deg}° is under 10°": "konvergenca {deg}° je pod 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "pretvorba {layer} potrebuje približno {need} GB proste shrambe brskalnika; na voljo je {free} GB",

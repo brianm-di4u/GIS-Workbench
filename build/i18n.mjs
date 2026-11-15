@@ -449,11 +449,15 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   } else if (cmd === 'check' || cmd === 'coverage') {
     const r = check();
     let bad = 0;
+    let stale = 0;
     for (const [tag, x] of Object.entries(r)) {
       console.log(`${tag.padEnd(8)} wave ${x.wave}  ${x.translated}/${x.total} (${x.total ? ((x.translated / x.total) * 100).toFixed(1) : '0.0'} %)  errors ${x.errors.length}  stale ${x.stale}`);
       if (cmd === 'check') for (const e of x.errors.slice(0, 10)) console.log(`   ${e.key}: ${e.errors.join('; ')}`);
       bad += x.errors.length;
+      stale += x.stale;
     }
-    if (cmd === 'check' && bad) process.exitCode = 1;
-  } else console.log('usage: node build/i18n.mjs extract [--check] | lint [--json] [--strict] | check | coverage');
+    // --strict (verify, when a locale catalogue changes): a stale key fails too, since the translate
+    // tool drops them on every merge and one left behind is a hand edit or a missed merge (#266).
+    if (cmd === 'check' && (bad || (process.argv.includes('--strict') && stale))) process.exitCode = 1;
+  } else console.log('usage: node build/i18n.mjs extract [--check] | lint [--json] [--strict] | check [--strict] | coverage');
 }

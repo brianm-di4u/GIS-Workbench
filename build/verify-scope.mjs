@@ -57,6 +57,9 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   // The checker's own changes count too, so a stricter rule is tried on the fragments already there.
   const fragments = everything || paths.some((path) => path.startsWith('changes/') || path === 'build/release/changelog.mjs');
   const sidecar = everything || shared || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
+  // A locale catalogue changed (en.json is the source, checked by extract): every catalogue must
+  // pass checkMessage and hold no stale key, or the build quietly shows English (#266).
+  const catalogues = everything || paths.some((path) => /^app\/src\/i18n\/(catalog\/(?!en\.json$)|state\/)/.test(path) || path === 'build/i18n.mjs');
 
   const steps = [];
   const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
@@ -79,6 +82,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     }
     if (code) {
       step('Source catalogue', 'node', ['build/i18n.mjs', 'extract', '--check']);
+      if (catalogues) step('Locale catalogues', 'node', ['build/i18n.mjs', 'check', ...(everything ? [] : ['--strict'])]);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
       step('Size report', 'node', ['build/size-report.mjs']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
