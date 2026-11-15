@@ -31,6 +31,8 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     expect(parseQuery('Fő utca 12., Újfalu')).toMatchObject({ number: 12, street: 'fo utca', rest: 'ujfalu', last: true });
     // The short form, with no place after the number (#292), reads the same way.
     expect(parseQuery('Rua Principal, 12')).toMatchObject({ number: 12, street: 'rua principal', rest: '' });
+    expect(parseQuery('Rua Principal, 12A')).toMatchObject({ number: 12, suffix: 'a', rest: '' });
+    expect(parseQuery('ул. Ленина, 12/3')).toMatchObject({ number: 12, suffix: '', rest: '' });
     // A longer lone number may be a postcode: it stays the place.
     expect(parseQuery('Main Street, 10115')).toMatchObject({ street: 'main st', rest: '10115' });
     expect(Number.isNaN(parseQuery('Main Street, 10115').number)).toBe(true);

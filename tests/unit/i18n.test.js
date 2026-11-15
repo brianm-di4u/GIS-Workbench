@@ -6,7 +6,7 @@ import { num, int, length, area, setUnits, words, list } from '../../app/src/i18
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { messagesInJs, messagesInRust, checkMessage, checkFails, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
+import { messagesInJs, messagesInRust, checkMessage, checkFails, strictOf, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
 
 afterEach(() => {
   setLocale('en');
@@ -144,6 +144,14 @@ describe('build tooling', () => {
     expect(checkFails(results, ['de'])).toBe(true);
     expect(checkFails(results, ['fr'])).toBe(false);
     expect(checkFails({ de: ok, fr: { ...ok, errors: [{ key: 'k', errors: ['x'] }] } })).toBe(true);
+  });
+  // #302: what verify passes reaches checkFails as meant.
+  it('reads --strict and --strict=tags from the command line', () => {
+    expect(strictOf(['node', 'i18n.mjs', 'check'])).toBe(false);
+    expect(strictOf(['node', 'i18n.mjs', 'check', '--strict'])).toBe(true);
+    expect(strictOf(['node', 'i18n.mjs', 'check', '--strict=de,pt-BR'])).toEqual(['de', 'pt-BR']);
+    expect(strictOf(['node', 'i18n.mjs', 'check', '--strict='])).toEqual([]);
+    expect(checkFails({ de: { translated: 1, stale: 1, errors: [] } }, strictOf(['--strict=']))).toBe(false);
   });
   it('flags bare user-visible literals', () => {
     const hits = lintJs(`toast('Saved the file');\nmodal({ title: 'Jump to Point', buttons: ['Jump', 'Cancel'] });\nh('p', { class: 'hint' }, 'Type a coordinate');\ntoast(t('Already fine'));\nh('div', { class: 'x' }, 'ok'); // i18n-ignore`, 'x.js');
