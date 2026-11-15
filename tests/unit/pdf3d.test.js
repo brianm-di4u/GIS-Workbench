@@ -4,12 +4,13 @@
 // draft (tests/tools/prc_ref.py; its double-code table is read from the draft's own text) parses
 // every section to its last bit, and pypdf checks the PDF's 3D annotation. Poppler renders the
 // page (the poster appearance a viewer without 3D shows).
-import { describe, it, expect, vi, afterAll } from 'vitest';
-import { existsSync, readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { describe, it, expect, vi } from 'vitest';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { BitWriter, writePrc, vertexNormals } from '../../app/src/formats/prc-write.js';
 import { write3dPdf, cameraToWorld } from '../../app/src/formats/pdf3d-write.js';
+import { tempDir } from '../tools/temp-dir.mjs';
 
 const WD = 'E:/gwb25/data-models3d/work/prc-wd.txt';
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
@@ -17,9 +18,9 @@ const PY = `${PYENV}/python.exe`;
 const ok = existsSync(WD) && existsSync(PY);
 const env = { ...process.env, PATH: `${PYENV};${PYENV}/Library/bin;${process.env.PATH}` };
 const ref = (...a) => JSON.parse(execFileSync(PY, ['-I', resolve('tests/tools/prc_ref.py'), ...a], { env, maxBuffer: 1 << 30, encoding: 'utf8' }));
-// Each run gets its own folder, so two runs at once (two worktrees, #312) don't write over each other's files.
-const WORK = ok ? mkdtempSync('E:/gwb25/data-models3d/work/vitest-pdf3d-') : null;
-afterAll(() => WORK && rmSync(WORK, { recursive: true, force: true }));
+// Each run gets its own folder, removed when the file ends, so two runs at once (two worktrees, #312)
+// don't write over each other's files.
+const WORK = ok ? tempDir('vitest-pdf3d', 'E:/gwb25/data-models3d/work') : null;
 // The reader starts Python and parses the draft's text on every call; slow on a loaded machine.
 vi.setConfig({ testTimeout: 120000 });
 

@@ -10,14 +10,14 @@
 //   checked first on osgEarth's tank.FLT, and OpenSceneGraph's OpenFlight plug-in (osgconv,
 //   E:\gwb25\envs\osg) reading the app's files.
 // The large data stays on E:; tests skip cleanly without it, the wasm or the tools.
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { existsSync, readFileSync, writeFileSync, mkdirSync, mkdtempSync, openAsBlob, rmSync } from 'node:fs';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, openAsBlob, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
 import vm from 'node:vm';
 import zlib from 'node:zlib';
 import { Bundle } from '../../app/src/wasm/abi.js';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { slpkEnd, slpkDirectory, i3sGeometry, geometryParams } from '../../app/src/formats/i3s-wasm.js';
 import { SlpkStore, describeLayer, NodeTree, nodeGeometry, nodeAttributes, nodeTexture, gravityHeights } from '../../app/src/formats/i3s-scene.js';
 import { decodeGeometry, decodeAttribute } from '../../app/src/connectors/i3s.js';
@@ -31,10 +31,9 @@ const DATA = 'E:/gwb25/data-models3d';
 const SLPK = `${DATA}/slpk`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
 // The writer tests need somewhere to write even when the E: data drive is absent. Each run gets its own
-// folder, so two runs at once (two worktrees, #312) don't write over each other's packages.
-const WORK_BASE = existsSync(DATA) ? `${DATA}/work` : tmpdir();
-mkdirSync(WORK_BASE, { recursive: true });
-const WORK = mkdtempSync(join(WORK_BASE, 'vitest-')).replaceAll('\\', '/');
+// folder, removed when the file ends, so two runs at once (two worktrees, #312) don't write over each
+// other's packages.
+const WORK = (existsSync(DATA) ? tempDir('vitest', `${DATA}/work`) : tempDir('gw-models3d-vitest')).replaceAll('\\', '/');
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const PY = `${PYENV}/python.exe`;
 const OSG = 'E:/gwb25/envs/osg/Library/bin';
@@ -79,7 +78,6 @@ const open = async (p) => SlpkStore.open(await fileOf(p), run);
 beforeAll(() => {
   if (haveWasm) tiles = new Bundle(new WebAssembly.Module(readFileSync(wasmPath)), 'tiles');
 });
-afterAll(() => rmSync(WORK, { recursive: true, force: true }));
 
 describe.skipIf(!haveWasm || !haveData || !havePy)('SLPK container (Rust) against Python zipfile', () => {
   for (const f of ['Rancho_Mesh_v18.slpk', 'Rancho_Mesh_v17.slpk', 'Admin_Building_v18.slpk', '2015_Street_Tree_Survey_v18.slpk', 'Buildings_NewYork_v18.slpk']) {
