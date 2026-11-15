@@ -51,8 +51,13 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     // The place is matched without the number, so a longer place name still keeps its addresses only.
     const two = buildIndex({ points: [{ ...MAIN(3, -105), place: 'Springfield IL' }, { ...MAIN(3, -90), id: 's3', place: 'Shelbyville' }] });
     expect(search(two, 'Main Street, 101, Springfield IL').map((c) => c.match)).toEqual(['street']);
-    // A number held only in another place is not held here.
-    expect(search(IX, 'Main Street, 3, Shelbyville')[0]).toMatchObject({ match: 'other place', number: '' });
+    // In a place the index holds, a number held only in another place is not held there…
+    const towns = buildIndex({ points: [MAIN(3, -105), { ...MAIN(5, -90), id: 's5', place: 'Shelbyville' }, { ...MAIN(1578, -105.01), id: 'm1578' }] });
+    expect(search(towns, 'Main Street, 3, Shelbyville')[0]).toMatchObject({ match: 'street', number: '' });
+    // … but a place it does not hold (a postcode, a misspelling) hides nothing: the house stands, as 'other place'.
+    for (const q of ['Main Street, 3, 62701', 'Main Street, 3, Springfeld']) expect(search(IX, q)[0], q).toMatchObject({ match: 'other place', number: '3', id: 'm3' });
+    // A 4-digit number the street holds is the house.
+    expect(search(towns, 'Main Street, 1578, Springfield')[0]).toMatchObject({ match: 'exact', id: 'm1578' });
     // A number the street holds in a range stays a house number.
     expect(search(IX, 'Oak Avenue, 150, Springfield')[0]).toMatchObject({ match: 'interpolated', number: '150' });
     // Written before the street, the same number is still a house number, so the nearest one stands in.

@@ -279,10 +279,15 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   let out = q.last && index.streets.has(q.whole) ? searchAs(index, named, fuzzy) : lettered && !index.streets.has(q.street) && index.streets.has(lettered.street) ? searchAs(index, lettered, fuzzy) : searchAs(index, q, fuzzy);
   if (!out.length && q.last) out = searchAs(index, named, fuzzy);
   if (!out.length && lettered) out = searchAs(index, lettered, fuzzy);
-  // "Street, 1010, Wien": a number after its own comma that the street does not hold in the place
-  // named, as a point or in a range, is more likely a postcode. Drop it, so the answer is the
-  // street, not the nearest house to a number that was never one, nor that number elsewhere.
-  if (q.comma && !out.some((c) => c.match === 'exact' || c.match === 'interpolated')) out = searchAs(index, { ...q, number: NaN, suffix: '' }, fuzzy);
+  // "Street, 1010, Wien": a number after its own comma that the street does not hold, as a point or
+  // in a range, is more likely a postcode. Drop it, so the answer is the street, not the nearest
+  // house to a number that was never one. In a place the index holds, only the addresses there
+  // count; a place it does not hold (a postcode, a misspelling) hides nothing, as in searchAs.
+  if (q.comma) {
+    const held = (cands) => cands.some((c) => c.match === 'exact' || c.match === 'interpolated');
+    const known = !q.rest || [...index.places].some((pl) => samePlace(pl, q.rest));
+    if (!held(known ? out : searchAs(index, { ...q, rest: '' }, fuzzy))) out = searchAs(index, { ...q, number: NaN, suffix: '' }, fuzzy);
+  }
   return out.sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
