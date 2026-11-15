@@ -265,6 +265,8 @@ function samePlace(a, b) {
 
 /** Whether a normalised place names one the index holds. */
 const knownPlace = (index, place) => !!place && [...(index.places ?? [])].some((pl) => samePlace(pl, place));
+/** Whether the index holds a place with every word of this one ("1210", not "99 springfield"). */
+const heldWhole = (index, place) => !!place && [...(index.places ?? [])].some((pl) => place.split(' ').every((w) => pl.split(' ').includes(w)));
 
 /**
  * Candidates for a query, best first: {at, score (0–100), match ('exact' | 'interpolated' |
@@ -294,7 +296,7 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   // the place after the number, if any, so "Main Street, 99, Springfield" still finds Springfield
   // IL and "Main Street, 101" is just the street. With no place known, a house anywhere counts.
   const house = (c) => !!c.number && houseNumber(c.number) === q.number;
-  const place = knownPlace(index, q.asPlace) ? q.asPlace : q.rest;
+  const place = heldWhole(index, q.asPlace) ? q.asPlace : q.rest;
   const asPostcode = searchAs(index, { ...q, number: NaN, suffix: '', rest: place }, fuzzy);
   const seen = new Set();
   return [...out.filter(house).sort(byScore), ...asPostcode.sort(byScore), ...out.filter((c) => !house(c)).sort(byScore)]

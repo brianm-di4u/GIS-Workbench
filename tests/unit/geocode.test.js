@@ -74,6 +74,20 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     expect(search(two, 'Main Street, 3')[0]).toMatchObject({ match: 'exact', number: '3' });
     // A lettered number has one reading, the house: the nearest house, with no postcode street.
     expect(search(IX, 'Main Street, 4B, Springfield').map((c) => c.match)).toEqual(['nearest number']);
+    // The postcode reading keeps the place after the number when the index holds no place with the
+    // number in it: "99, Springfield" gives the same streets as "Springfield" alone.
+    const springs = buildIndex({ points: [{ ...MAIN(5, -90), id: 'p5' }, { ...MAIN(7, -89.6), id: 'q7', place: 'Springfield IL' }] });
+    const streets = (q) => search(springs, q).filter((c) => c.match === 'street').map((c) => c.at);
+    expect(streets('Main Street, 99, Springfield')).toEqual(streets('Main Street, Springfield'));
+    expect(streets('Main Street, 99, Springfield')).toHaveLength(2);
+    // "Hauptstraße, 1010, Wien" with Wien in the index: Wien's street, not Graz's.
+    const towns2 = buildIndex({ points: [{ id: 'w7', number: '7', street: 'Hauptstraße', place: 'Wien', at: [16.37, 48.21] }, { id: 'g7', number: '7', street: 'Hauptstraße', place: 'Graz', at: [15.44, 47.07] }] });
+    const wien = search(towns2, 'Hauptstraße, 1010, Wien');
+    expect(wien[0]).toMatchObject({ match: 'street', at: [16.37, 48.21] });
+    expect(wien.some((c) => c.id === 'g7' || (c.at[0] === 15.44 && c.at[1] === 47.07))).toBe(false);
+    // Both readings can land on the same street: it is listed once.
+    const elm = buildIndex({ points: [{ id: 'e', number: '', street: 'Elm Road', place: 'Springfield', at: [-100, 40] }] });
+    expect(search(elm, 'Elm Road, 7').map((c) => c.match)).toEqual(['street']);
     // An unknown place (a postcode, a misspelling) hides nothing: a house the street holds is first.
     for (const q of ['Main Street, 3, 62701', 'Main Street, 3, Springfeld']) expect(search(IX, q)[0], q).toMatchObject({ number: '3', id: 'm3' });
   });
