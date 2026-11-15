@@ -8009,6 +8009,7 @@
   "symbol type {type}": "シンボル タイプ {type}",
   "symbology": "シンボロジ",
   "symmetric difference": "対称差",
+  "tab\u0004List": "リスト",
   "tab capture": "タブ キャプチャ",
   "table lengths ({tables} bytes) run past the tile ({byteLength} bytes)": "テーブル長（{tables}バイト）がタイル（{byteLength}バイト）を越えています",
   "temporal profile": "時系列プロファイル",

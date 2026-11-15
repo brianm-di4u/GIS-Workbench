@@ -8009,6 +8009,7 @@
   "symbol type {type}": "符号类型 {type}",
   "symbology": "符号系统",
   "symmetric difference": "对称差",
+  "tab\u0004List": "列表",
   "tab capture": "选项卡采集",
   "table lengths ({tables} bytes) run past the tile ({byteLength} bytes)": "表长度（{tables} 字节）超出瓦片（{byteLength} 字节）",
   "temporal profile": "时间剖面",

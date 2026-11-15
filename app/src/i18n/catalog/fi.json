@@ -8009,6 +8009,7 @@
   "symbol type {type}": "symbolityyppi {type}",
   "symbology": "symboliikka",
   "symmetric difference": "symmetrinen erotus",
+  "tab\u0004List": "Luettelo",
   "tab capture": "välilehden kaappaus",
   "table lengths ({tables} bytes) run past the tile ({byteLength} bytes)": "taulukoiden pituudet ({tables} tavua) ylittävät tiilen ({byteLength} tavua)",
   "temporal profile": "ajallinen profiili",

@@ -8009,6 +8009,7 @@
   "symbol type {type}": "기호 유형 {type}",
   "symbology": "기호 체계",
   "symmetric difference": "대칭 차집합",
+  "tab\u0004List": "목록",
   "tab capture": "탭 캡처",
   "table lengths ({tables} bytes) run past the tile ({byteLength} bytes)": "테이블 길이({tables}바이트)가 타일({byteLength}바이트)을 넘어갑니다",
   "temporal profile": "시계열 프로파일",

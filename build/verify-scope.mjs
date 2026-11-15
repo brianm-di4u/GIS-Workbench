@@ -58,9 +58,12 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   // The checker's own changes count too, so a stricter rule is tried on the fragments already there.
   const fragments = everything || paths.some((path) => path.startsWith('changes/') || path === 'build/release/changelog.mjs');
   const sidecar = everything || shared || paths.some((path) => path.startsWith('sidecar/') && !isProse(path));
-  // A locale catalogue changed (en.json is the source, checked by extract): every catalogue must
-  // pass checkMessage and hold no stale key, or the build quietly shows English (#266).
-  const catalogues = everything || paths.some((path) => /^app\/src\/i18n\/(catalog\/(?!en\.json$)|state\/)/.test(path) || path === 'build/i18n.mjs');
+  // A locale catalogue, or what checking one reads, changed (en.json is the source, checked by
+  // extract): every catalogue must pass checkMessage, or the build quietly shows English (#266).
+  // The catalogues the branch changed must also hold no stale key (#292).
+  const catalogues = everything || paths.some((path) => /^app\/src\/i18n\/(catalog\/(?!en\.json$)|state\/|glossary\/|locales\.json$)/.test(path) || path === 'build/i18n.mjs');
+  // Only a locale tag's shape reaches the command line, which is a shell on Windows.
+  const changedTags = everything ? [] : [...new Set(paths.map((path) => /^app\/src\/i18n\/(?:catalog|state)\/([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\.json$/.exec(path)?.[1]).filter((tag) => tag && tag !== 'en'))].sort();
 
   const steps = [];
   const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
@@ -83,7 +86,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     }
     if (code) {
       step('Source catalogue', 'node', ['build/i18n.mjs', 'extract', '--check']);
-      if (catalogues) step('Locale catalogues', 'node', ['build/i18n.mjs', 'check', ...(everything ? [] : ['--strict'])]);
+      if (catalogues) step('Locale catalogues', 'node', ['build/i18n.mjs', 'check', ...(changedTags.length ? [`--strict=${changedTags.join(',')}`] : [])]);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
       step('Size report', 'node', ['build/size-report.mjs']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);

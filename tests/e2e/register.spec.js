@@ -118,6 +118,20 @@ test('REQ-SNS-09 an RPC layer keeps its 3-D model with the correction in ICHIPB;
   expect(A2[0] - 3.25 - 10).toBeLessThan(3);
 });
 
+// #283: the ground coordinate field has one name, its visible label, which is also its accessible name.
+test('REQ-SNS-05 the GCP Model dialog labels the ground coordinate once, as its accessible name', async ({ page }) => {
+  const { frame } = await openApp(page, 'file');
+  await openFiles(frame, [resolve('fixtures/fx01/fx01.ntf')]);
+  await frame.waitForFunction(() => [...window.gisworkbench.layers.values()].some((l) => l.modelId && l.lutTex));
+  await frame.evaluate(() => void window.gisworkbench.commands.run('model.gcp'));
+  const dlg = frame.locator('[data-id="dialog:model-gcp"]');
+  await expect(dlg.getByRole('textbox', { name: 'Ground coordinate', exact: true })).toBeVisible();
+  await expect(dlg.getByText('Ground coordinate', { exact: true })).toBeVisible();
+  await expect(dlg.getByText('Ground', { exact: true })).toHaveCount(0);
+  await dlg.getByRole('button', { name: 'Cancel' }).click();
+  await expect(dlg).toHaveCount(0);
+});
+
 test('REQ-SNS-05 GCP models: affine, polynomial and projective with RMS', async ({ page }) => {
   const { frame } = await openApp(page, 'file');
   await openFiles(frame, [resolve('fixtures/fx01/fx01.ntf')]);

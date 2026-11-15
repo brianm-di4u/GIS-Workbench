@@ -6,7 +6,7 @@ import { num, int, length, area, setUnits, words, list } from '../../app/src/i18
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { messagesInJs, messagesInRust, checkMessage, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
+import { messagesInJs, messagesInRust, checkMessage, checkFails, lintJs, unquote, extract, serializeSource, sourceDrift } from '../../build/i18n.mjs';
 
 afterEach(() => {
   setLocale('en');
@@ -134,6 +134,17 @@ describe('build tooling', () => {
     expect(checkMessage('GeoTIFF file', 'Fichier géoTIFF', ['GeoTIFF'])[0]).toMatch(/do-not-translate/);
     expect(checkMessage('Open', '{')[0]).toMatch(/translation/);
   });
+  // #266, #292: an error always fails the check; a stale key fails only under --strict, for every
+  // locale or for the tags named, so a branch answers for the catalogues it changed.
+  it('fails the catalogue check on an error, and on a stale key only where strict', () => {
+    const ok = { translated: 1, stale: 0, errors: [] };
+    const results = { de: { ...ok, stale: 2 }, fr: ok };
+    expect(checkFails(results)).toBe(false);
+    expect(checkFails(results, true)).toBe(true);
+    expect(checkFails(results, ['de'])).toBe(true);
+    expect(checkFails(results, ['fr'])).toBe(false);
+    expect(checkFails({ de: ok, fr: { ...ok, errors: [{ key: 'k', errors: ['x'] }] } })).toBe(true);
+  });
   it('flags bare user-visible literals', () => {
     const hits = lintJs(`toast('Saved the file');\nmodal({ title: 'Jump to Point', buttons: ['Jump', 'Cancel'] });\nh('p', { class: 'hint' }, 'Type a coordinate');\ntoast(t('Already fine'));\nh('div', { class: 'x' }, 'ok'); // i18n-ignore`, 'x.js');
     expect(hits.map((h) => h.kind).sort()).toEqual(['buttons', 'text', 'title', 'toast']);
@@ -212,6 +223,12 @@ describe('one source text, two meanings', () => {
   // #194, #278, #283: a control point's ground coordinate field is labelled with the one message
   // that names it, "Ground coordinate", never a bare "Ground": that drifted to the bare-earth word
   // of Extract from DSM's Ground (a DTM), the sense the locales translated (de "Boden", fr "Sol").
+  // #289: the Workflow Builder's List tab names a view, a noun, apart from the List button that
+  // lists something, which locales translate as a verb (ro "Listează", zh-Hant "列出").
+  it("gives the Workflow Builder's List tab its own message, apart from the List command", () => {
+    expect(keys('features/workflow-editor.js', 'List')).toEqual(['tabList']);
+    expect(keys('features/catalog.js', 'List')).toEqual([keyOf('List')]);
+  });
   it("labels a control point's ground coordinate with 'Ground coordinate', apart from the ground surface", () => {
     expect(keys('features/register.js', 'Ground coordinate')).toEqual(['Ground coordinate']);
     expect(keys('features/register.js', 'Ground')).toEqual([]);

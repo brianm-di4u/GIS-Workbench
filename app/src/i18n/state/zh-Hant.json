@@ -38537,6 +38537,11 @@
    "h": "622b912e428f",
    "state": "passed",
    "note": "review: full-width parentheses as in shipped errors"
+  },
+  "tab\u0004List": {
+   "h": "6f202f54a7b2",
+   "state": "passed",
+   "note": "Workflow Builder tab: the list view, a noun (#289)"
   }
  }
 }

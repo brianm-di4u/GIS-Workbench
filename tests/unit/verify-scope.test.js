@@ -31,13 +31,16 @@ describe('verify scope', () => {
     expect(names({ paths: ['docs/a.md'] })).not.toContain('Source catalogue');
   });
 
-  // #266: a translation that fails checkMessage shows in English with no error, so a change to a
-  // locale catalogue checks them all, strictly (a stale key fails); en.json alone is the source's.
-  it('checks the locale catalogues, strictly, when one of them changes', () => {
+  // #266, #292: a translation that fails checkMessage shows in English with no error, so a change
+  // to a locale catalogue, or to what checking one reads, checks them all. A stale key fails only in
+  // the catalogues the branch changed; en.json alone is the source's.
+  it('checks the locale catalogues, and strictly the ones the branch changed', () => {
     const args = (paths) => planSteps({ paths }).find((s) => s.name === 'Locale catalogues')?.args;
-    expect(args(['app/src/i18n/catalog/de.json'])).toEqual(['build/i18n.mjs', 'check', '--strict']);
-    expect(args(['app/src/i18n/state/de.json'])).toEqual(['build/i18n.mjs', 'check', '--strict']);
-    expect(args(['build/i18n.mjs'])).toEqual(['build/i18n.mjs', 'check', '--strict']);
+    expect(args(['app/src/i18n/catalog/de.json', 'app/src/i18n/state/de.json', 'app/src/i18n/catalog/pt-BR.json'])).toEqual(['build/i18n.mjs', 'check', '--strict=de,pt-BR']);
+    expect(args(['app/src/i18n/state/fr.json', 'app/src/i18n/catalog/en.json'])).toEqual(['build/i18n.mjs', 'check', '--strict=fr']);
+    // Only a locale tag's shape reaches the command line, which is a shell on Windows.
+    expect(args(['app/src/i18n/state/x&calc&.json', 'app/src/i18n/catalog/de.json'])).toEqual(['build/i18n.mjs', 'check', '--strict=de']);
+    for (const path of ['build/i18n.mjs', 'app/src/i18n/glossary/dnt.json', 'app/src/i18n/locales.json']) expect(args([path]), path).toEqual(['build/i18n.mjs', 'check']);
     expect(args(['app/src/i18n/catalog/en.json'])).toBeUndefined();
     expect(args(['app/src/a.js'])).toBeUndefined();
     // On main a code change may leave stale keys until the next translation increment: errors only.

@@ -29,7 +29,9 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     expect(parseQuery('Rua Principal, 12, Lisboa')).toEqual({ number: 12, suffix: '', street: 'rua principal', rest: 'lisboa', last: false, whole: 'rua principal' });
     expect(parseQuery('Rua Principal, 12A, Lisboa')).toMatchObject({ number: 12, suffix: 'a', rest: 'lisboa' });
     expect(parseQuery('Fő utca 12., Újfalu')).toMatchObject({ number: 12, street: 'fo utca', rest: 'ujfalu', last: true });
-    // A lone number with no place after it may be a postcode: it stays the place.
+    // The short form, with no place after the number (#292), reads the same way.
+    expect(parseQuery('Rua Principal, 12')).toMatchObject({ number: 12, street: 'rua principal', rest: '' });
+    // A longer lone number may be a postcode: it stays the place.
     expect(parseQuery('Main Street, 10115')).toMatchObject({ street: 'main st', rest: '10115' });
     expect(Number.isNaN(parseQuery('Main Street, 10115').number)).toBe(true);
     // … and so does a postcode with a place after it: only a number of up to 3 digits is read there,
@@ -38,8 +40,8 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
       expect(parseQuery(q), q).toMatchObject({ number: NaN, rest: normalise(q.split(',').slice(1).join(' ')) });
     }
     expect(parseQuery('ул. Ленина, 12/3, Москва')).toMatchObject({ number: 12, rest: 'москва' });
-    // Both forms find the house, as the English order does.
-    for (const q of ['Main Street, 3, Springfield', 'Main Street 3., Springfield']) expect(search(IX, q)[0]?.id).toBe('m3');
+    // Both forms find the house, as the English order does, and so does the short form.
+    for (const q of ['Main Street, 3, Springfield', 'Main Street 3., Springfield', 'Main Street, 3']) expect(search(IX, q)[0]?.id, q).toBe('m3');
   });
   // #266: Find Address shows "12 Main Street, Springfield" as its example; every locale's example
   // must be one the parser reads, house number 12 on a street, in a place.

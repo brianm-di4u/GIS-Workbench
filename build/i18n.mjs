@@ -367,6 +367,15 @@ export function check({ root = ROOT } = {}) {
 }
 
 /**
+ * Whether `check`'s results fail: any error does. A stale key fails too under `strict`, which is
+ * true for every locale or a list of tags, so a branch answers only for the catalogues it changed
+ * and not for keys a code change left on main until the next translation increment (#266, #292).
+ */
+export function checkFails(results, strict = false) {
+  return Object.entries(results).some(([tag, x]) => x.errors.length > 0 || (x.stale > 0 && (strict === true || (Array.isArray(strict) && strict.includes(tag)))));
+}
+
+/**
  * For build/build.mjs: wave 1 blocks, wave 2–3 pack definitions and the manifest record. Only
  * translations that pass checkMessage ship; others fall back to English (REQ-L10N-17).
  */
@@ -448,16 +457,14 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     if (process.argv.includes('--strict') && hits.length) process.exitCode = 1;
   } else if (cmd === 'check' || cmd === 'coverage') {
     const r = check();
-    let bad = 0;
-    let stale = 0;
     for (const [tag, x] of Object.entries(r)) {
       console.log(`${tag.padEnd(8)} wave ${x.wave}  ${x.translated}/${x.total} (${x.total ? ((x.translated / x.total) * 100).toFixed(1) : '0.0'} %)  errors ${x.errors.length}  stale ${x.stale}`);
       if (cmd === 'check') for (const e of x.errors.slice(0, 10)) console.log(`   ${e.key}: ${e.errors.join('; ')}`);
-      bad += x.errors.length;
-      stale += x.stale;
     }
-    // --strict (verify, when a locale catalogue changes): a stale key fails too, since the translate
-    // tool drops them on every merge and one left behind is a hand edit or a missed merge (#266).
-    if (cmd === 'check' && (bad || (process.argv.includes('--strict') && stale))) process.exitCode = 1;
-  } else console.log('usage: node build/i18n.mjs extract [--check] | lint [--json] [--strict] | check [--strict] | coverage');
+    // --strict[=de,fr] (verify, when those catalogues change): a stale key fails too, since the
+    // translate tool drops them on every merge and one left behind is a hand edit or a missed merge.
+    const flag = process.argv.find((a) => a === '--strict' || a.startsWith('--strict='));
+    const strict = flag === '--strict' ? true : flag ? flag.slice('--strict='.length).split(',').filter(Boolean) : false;
+    if (cmd === 'check' && checkFails(r, strict)) process.exitCode = 1;
+  } else console.log('usage: node build/i18n.mjs extract [--check] | lint [--json] [--strict] | check [--strict[=tag,…]] | coverage');
 }

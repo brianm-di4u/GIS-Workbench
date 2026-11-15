@@ -8009,6 +8009,7 @@
   "symbol type {type}": "тип условного знака {type}",
   "symbology": "symbology символика условные знаки",
   "symmetric difference": "симметрическая разность",
+  "tab\u0004List": "Список",
   "tab capture": "захват вкладки",
   "table lengths ({tables} bytes) run past the tile ({byteLength} bytes)": "длины таблиц ({tables} байт) выходят за пределы тайла ({byteLength} байт)",
   "temporal profile": "временной профиль",
