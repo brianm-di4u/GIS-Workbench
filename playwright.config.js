@@ -13,9 +13,9 @@ const TIMED = /REQ-PRF-03 first tile of a local|REQ-PRF-02 REQ-PRF-08 a 2×2|REQ
 const QUARANTINED = CI ? grepInvert(readQuarantine()) : undefined;
 const ON_RUNNERS = [TIMED, QUARANTINED].filter(Boolean);
 
-// What `verify full` leaves to the nightly run and the release gate: the long sweeps, and the
+// What `verify full` leaves to the nightly run and the release gate: the long sweeps and the command fuzz, and the
 // suites that need a real GPU.
-const NOT_ON_PRS = ['**/sidecar/**', '**/gui-modern.spec.js', '**/gui-sweep.spec.js', '**/i18n.spec.js', '**/24-extai.spec.js', '**/perf.spec.js', '**/perf-r2.spec.js'];
+const NOT_ON_PRS = ['**/sidecar/**', '**/gui-modern.spec.js', '**/gui-sweep.spec.js', '**/command-fuzz.spec.js', '**/i18n.spec.js', '**/24-extai.spec.js', '**/perf.spec.js', '**/perf-r2.spec.js'];
 
 // E2E on the BUILT file (SDP §6.4 Full stage): installed Chrome and Edge, 1440×900.
 export default defineConfig({
