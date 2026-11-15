@@ -7,6 +7,8 @@
 // wait, reverts of its approvals, escalations, the admin's agreement with its
 // rationale, and council rounds and reverts by worker model. Without one, the
 // digest is exactly what it was.
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import { authority } from './authority.mjs';
 import { actorOf, approvedHash, findDecision, isApproveCommand, parseVerdict } from './contract.mjs';
 import { claimedRevert } from './revert.mjs';
@@ -227,8 +229,9 @@ export function freshnessSummary(merged, behind, redIssues) {
   };
 }
 
-export async function buildDigest({ client, repo, now, config, botIssues, since: from = null, extended = false }) {
+export async function buildDigest({ client, repo, now, config, botIssues, since: from = null, extended = false, runsDir }) {
   const since = from ?? new Date(now.getTime() - 7 * DAY).toISOString();
+  const council = councilFindings(readLedgers(runsDir, since));
   const auth = authority(config);
   const wide = extended || auth.delegates.length > 0;
   const pulls = await client.list(`/repos/${repo}/pulls?state=closed&base=main&sort=updated&direction=desc&per_page=100`);
@@ -262,7 +265,7 @@ export async function buildDigest({ client, repo, now, config, botIssues, since:
   // Downloads are a nicety. A failed read shouldn't cost the admin the whole digest.
   const releases = await client.list(`/repos/${repo}/releases?per_page=10`).catch(() => []);
   if (!wide) {
-    return { since, summary: withFreshness(summarize({ merged, commentsByPr, decisions, config })), decisions, state, downloads: releaseDownloads(releases) };
+    return { since, summary: withFreshness(summarize({ merged, commentsByPr, decisions, config })), decisions, state, downloads: releaseDownloads(releases), council };
   }
 
   // The delegate measures. Each extra read is skipped on failure, not fatal.
@@ -311,7 +314,70 @@ export async function buildDigest({ client, repo, now, config, botIssues, since:
       reactions: tallyReactions(rationales, reactionsById, config.admins),
     }),
   );
-  return { since, summary, decisions, state, downloads: releaseDownloads(releases), extended: true };
+  return { since, summary, decisions, state, downloads: releaseDownloads(releases), council, extended: true };
+}
+
+// What the council found, by seat and severity, from the run ledgers in
+// .pipeline/runs/. A finding carries no fixed category (its `class` is free text),
+// so the seat that raised it stands in. Pure: it takes the parsed ledgers.
+export function councilFindings(ledgers) {
+  const bySeat = new Map();
+  let total = 0;
+  let preExisting = 0;
+  let read = 0;
+  for (const ledger of ledgers ?? []) {
+    // .pipeline/runs/ also holds other tools' state files; a ledger has a findings list.
+    if (!Array.isArray(ledger?.findings)) continue;
+    read += 1;
+    for (const finding of ledger.findings) {
+      if (!finding || typeof finding !== 'object') continue;
+      // A finding two seats reached independently lists both in `seats`; each is credited.
+      const named = (Array.isArray(finding.seats) ? finding.seats : [finding.seat]).filter((n) => typeof n === 'string' && n);
+      for (const seat of named.length ? named : ['unknown']) {
+        const row = bySeat.get(seat) ?? { seat, blocker: 0, should: 0, nit: 0, other: 0 };
+        row[['blocker', 'should', 'nit'].includes(finding.severity) ? finding.severity : 'other'] += 1;
+        bySeat.set(seat, row);
+      }
+      total += 1;
+      if (finding.status === 'pre-existing') preExisting += 1;
+    }
+  }
+  return { ledgers: read, total, preExisting, bySeat: [...bySeat.values()].sort((a, b) => a.seat.localeCompare(b.seat)) };
+}
+
+// The ledgers last written since `since`. A missing folder, or a file that isn't
+// JSON, gives nothing, so the digest never fails over local state.
+export function readLedgers(dir = join('.pipeline', 'runs'), since = null) {
+  const ledgers = [];
+  try {
+    for (const name of readdirSync(dir).filter((n) => n.endsWith('.json'))) {
+      try {
+        const path = join(dir, name);
+        if (since && statSync(path).mtime.toISOString() < since) continue;
+        ledgers.push(JSON.parse(readFileSync(path, 'utf8')));
+      } catch {
+        // Skip a ledger that can't be read.
+      }
+    }
+  } catch {
+    // No folder, or one that can't be listed: no ledgers.
+  }
+  return ledgers;
+}
+
+function councilSection(c, since) {
+  const lines = ['', '## What the council found', ''];
+  // The ledgers are gitignored and local, so a digest built in CI has none. Say so,
+  // so that it can't be read as a week the council found nothing.
+  if (c.ledgers === 0) return [...lines, 'No council run ledgers were found here. They are local and gitignored, so this is not a count of zero.'];
+  if (c.total === 0) return [...lines, `No council findings recorded in ${c.ledgers} ledgers updated since ${since.slice(0, 10)}.`];
+  lines.push('| Seat | Blocker | Should | Nit |', '|---|---|---|---|');
+  lines.push(...c.bySeat.map((r) => `| ${r.seat} | ${r.blocker} | ${r.should} | ${r.nit + r.other} |`));
+  lines.push(
+    '',
+    `${c.total} findings (${c.preExisting} pre-existing) in ${c.ledgers} local ledgers updated since ${since.slice(0, 10)}. A ledger holds its branch's whole history, so this can include earlier weeks. A finding counts for each seat that raised it.`,
+  );
+  return lines;
 }
 
 function freshnessSection(f) {
@@ -373,7 +439,7 @@ function delegateSection(s) {
   return lines;
 }
 
-export function renderDigest({ since, summary: s, decisions, state, downloads = [], extended = false }) {
+export function renderDigest({ since, summary: s, decisions, state, downloads = [], extended = false, council = councilFindings([]) }) {
   const wide = extended && s.roles;
   const suspended = wide ? (state.suspended ?? []) : [];
   const lines = [
@@ -406,6 +472,7 @@ export function renderDigest({ since, summary: s, decisions, state, downloads = 
   );
   if (wide) lines.push(...delegateSection(s));
   if (s.freshness) lines.push(...freshnessSection(s.freshness));
+  lines.push(...councilSection(council, since));
   lines.push('', '## How authors answered findings', '');
   const entries = Object.entries(s.dispositions);
   lines.push(...(entries.length ? entries.map(([k, v]) => `- ${k}: ${v}`) : ['No findings this week.']));
