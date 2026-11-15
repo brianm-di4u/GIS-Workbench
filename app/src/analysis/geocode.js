@@ -292,11 +292,13 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   // "Street, 1010, Wien": a bare number after its own comma is a house number or a postcode, so both
   // readings are ranked (decision 0025): a house the street holds there first, as a point or in a
   // range; then the street, read with the number as part of the place, as before #290; then a
-  // nearest-house guess. That place is the whole tail when the index holds it ("1210"), or else
-  // the place after the number, if any, so "Main Street, 99, Springfield" still finds Springfield
-  // IL and "Main Street, 101" is just the street. With no place known, a house anywhere counts.
+  // nearest-house guess. That place is the whole tail when a held place has all of it ("1210"),
+  // or the place after the number when the index holds that ("Main Street, 99, Springfield" stays
+  // in Springfield IL too), or else the whole tail when it matches a held place at all ("1210,
+  // Wien" with only "1210" held); with neither, the place after the number, if any ("Main Street,
+  // 101" is just the street). With no place known, a house anywhere counts.
   const house = (c) => !!c.number && houseNumber(c.number) === q.number;
-  const place = heldWhole(index, q.asPlace) ? q.asPlace : q.rest;
+  const place = heldWhole(index, q.asPlace) || (!knownPlace(index, q.rest) && knownPlace(index, q.asPlace)) ? q.asPlace : q.rest;
   const asPostcode = searchAs(index, { ...q, number: NaN, suffix: '', rest: place }, fuzzy);
   const seen = new Set();
   return [...out.filter(house).sort(byScore), ...asPostcode.sort(byScore), ...out.filter((c) => !house(c)).sort(byScore)]

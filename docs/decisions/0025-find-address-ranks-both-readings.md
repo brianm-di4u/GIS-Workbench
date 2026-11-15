@@ -14,7 +14,11 @@ A number in its own segment after the street's comma can be a house number or a 
 The admin chose option A (`/decide A` on #305). `search` runs both readings and merges their candidates, in this order:
 
 1. A house the street holds in the place named: an address point, or a number interpolated in a range. When the index doesn't hold the place named (a postcode or a misspelling), a house the street holds anywhere counts, as `searchAs` already treats an unknown place.
-2. The street, read with the number as a postcode. Its place is everything after the street when the index holds that ("1210"). Otherwise it's the place after the number, if there is one.
+2. The street, read with the number as a postcode. Its place is chosen in this order:
+   - everything after the street, when a place the index holds has all of it ("1210");
+   - otherwise the place after the number, when the index holds that;
+   - otherwise everything after the street, when it matches a held place at all ("1210, Wien" with only "1210" held);
+   - otherwise the place after the number, if there is one.
 3. A nearest-house guess.
 
 The user sees both readings, so neither is silently lost. A number with a letter or a building fraction has only the house reading.

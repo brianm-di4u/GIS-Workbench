@@ -84,6 +84,10 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     const towns2 = buildIndex({ points: [{ id: 'w7', number: '7', street: 'Hauptstraße', place: 'Wien', at: [16.37, 48.21] }, { id: 'g7', number: '7', street: 'Hauptstraße', place: 'Graz', at: [15.44, 47.07] }] });
     const wien = search(towns2, 'Hauptstraße, 1010, Wien');
     expect(wien[0]).toMatchObject({ match: 'street', at: [16.37, 48.21] });
+    // The street and the nearest house share a point but are different results: both stay.
+    expect(wien.map((c) => c.match)).toEqual(['street', 'nearest number']);
+    // A postcode-named index with a city after the postcode: the district, ahead of any other.
+    expect(search(districts, 'Hauptstraße, 1210, Wien')[0]).toMatchObject({ match: 'street', at: [16.4, 48.27] });
     expect(wien.some((c) => c.id === 'g7' || (c.at[0] === 15.44 && c.at[1] === 47.07))).toBe(false);
     // Both readings can land on the same street: it is listed once.
     const elm = buildIndex({ points: [{ id: 'e', number: '', street: 'Elm Road', place: 'Springfield', at: [-100, 40] }] });
