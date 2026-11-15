@@ -1,19 +1,20 @@
 // A fixed delay is the quick fix for an ordering problem: wait 200 ms and hope the other thing has
 // finished. Each one is copied by the next change that meets the same problem, and each makes the
-// app slower and its tests flaky. This counts the timer calls in each module of app/src. The counts
-// below are what was there before the check existed. A module may not gain one, and when it loses
-// one its number goes down here, so the list only shrinks. core/util.js is where timing helpers
-// such as debounce() live, so it is not counted.
+// app slower and its tests flaky. This counts the timer calls in each module of app/src, and calls
+// to sleep() from core/util.js, which is a delay by another name. The counts below are what was
+// there before the check existed. A module may not gain one, and when it loses one its number goes
+// down here, so the list only shrinks. core/util.js defines sleep(), debounce() and yieldNow(), so
+// its own timers are not counted.
 import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync } from 'node:fs';
 
 const SRC = 'app/src';
 const HELPERS = 'core/util.js';
-const TIMER = /\b(?:setTimeout|setInterval|requestAnimationFrame|requestIdleCallback)\(/g;
+const TIMER = /\b(?:setTimeout|setInterval|requestAnimationFrame|requestIdleCallback|sleep)\(/g;
 const BEFORE = {
   'ai/providers.js': 1,
   'automation/api-v2-core.js': 1,
-  'connectors/auth.js': 1,
+  'connectors/auth.js': 2,
   'features/ai-local.js': 1,
   'features/basemaps.js': 1,
   'features/catalog.js': 2,
@@ -75,7 +76,7 @@ const BEFORE = {
   'sidecar/relay-host.js': 1,
   'storage/files.js': 1,
   'storage/journal.js': 1,
-  'svc/services.js': 1,
+  'svc/services.js': 3,
   'workers/decode/mie-cache.js': 1,
   'workers/kinds/analysis.worker.js': 4,
   'workers/kinds/decode.worker.js': 1,
@@ -100,7 +101,7 @@ const modules = readdirSync(SRC, { withFileTypes: true }).flatMap((e) => (e.isDi
 
 describe('the timer count', () => {
   it('counts each kind of timer call, and not a name that only contains one', () => {
-    expect(timerCalls('setTimeout(f, 1); requestAnimationFrame(g); self.setInterval(h, 2); requestIdleCallback(i);')).toBe(4);
+    expect(timerCalls('setTimeout(f, 1); requestAnimationFrame(g); self.setInterval(h, 2); requestIdleCallback(i); await sleep(200);')).toBe(5);
     expect(timerCalls('clearTimeout(t); cancelAnimationFrame(r); mySetTimeout(f); const setTimeout = 1;')).toBe(0);
   });
 
@@ -122,7 +123,7 @@ describe('timers in app/src', () => {
 
   it('no module gains a timer call', () => {
     expect(modules.length).toBeGreaterThan(300);
-    expect(added, 'a new timer call: await the event or promise the code is waiting for instead of a delay. To coalesce calls use debounce() from core/util.js, and put a new timing helper there').toEqual([]);
+    expect(added, 'a new timer or sleep() call: await the event or promise the code is waiting for instead of a delay. To coalesce calls use debounce() from core/util.js, and to let the page draw use yieldNow()').toEqual([]);
   });
 
   it('a module that lost a timer call has its number lowered', () => {
