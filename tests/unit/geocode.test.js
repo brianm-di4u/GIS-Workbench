@@ -69,6 +69,11 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     // A multi-word place named by its first word: still that place's street, not every town's.
     const two = buildIndex({ points: [{ ...MAIN(3, -105), place: 'Springfield IL' }, { ...MAIN(5, -105.001), place: 'Springfield IL' }, { ...MAIN(3, -90), id: 's3', place: 'Shelbyville' }] });
     expect(search(two, 'Main Street, 99, Springfield').map((c) => c.match)).toEqual(['street', 'nearest number']);
+    // The short form with no place: the street in each town, never 'other place' (no place was named).
+    expect(search(two, 'Main Street, 101').map((c) => c.match)).not.toContain('other place');
+    expect(search(two, 'Main Street, 3')[0]).toMatchObject({ match: 'exact', number: '3' });
+    // A lettered number has one reading, the house: the nearest house, with no postcode street.
+    expect(search(IX, 'Main Street, 4B, Springfield').map((c) => c.match)).toEqual(['nearest number']);
     // An unknown place (a postcode, a misspelling) hides nothing: a house the street holds is first.
     for (const q of ['Main Street, 3, 62701', 'Main Street, 3, Springfeld']) expect(search(IX, q)[0], q).toMatchObject({ number: '3', id: 'm3' });
   });

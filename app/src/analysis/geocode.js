@@ -273,6 +273,8 @@ const knownPlace = (index, place) => !!place && [...(index.places ?? [])].some((
  * that had to be approximated. A place named after a comma that the index holds keeps the addresses there; one it does not hold ranks them first, and the rest, lower, as 'other place'.
  * A street name in several places gives one candidate for each. A number last is read as part of
  * the street's name ("Route 66") when a street has that whole name, or no street matches without it.
+ * A bare number after the street's comma has two readings (decision 0025), ranked by reading, not
+ * by score: a house the street holds, the street with the number as a postcode, a nearest house.
  */
 export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   const q = parseQuery(query);
@@ -289,9 +291,10 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   // readings are ranked (decision 0025): a house the street holds there first, as a point or in a
   // range; then the street, read with the number as part of the place, as before #290; then a
   // nearest-house guess. That place is the whole tail when the index holds it ("1210"), or else
-  // the place after the number, so "Main Street, 99, Springfield" still finds Springfield IL.
+  // the place after the number, if any, so "Main Street, 99, Springfield" still finds Springfield
+  // IL and "Main Street, 101" is just the street. With no place known, a house anywhere counts.
   const house = (c) => !!c.number && houseNumber(c.number) === q.number;
-  const place = knownPlace(index, q.asPlace) || !knownPlace(index, q.rest) ? q.asPlace : q.rest;
+  const place = knownPlace(index, q.asPlace) ? q.asPlace : q.rest;
   const asPostcode = searchAs(index, { ...q, number: NaN, suffix: '', rest: place }, fuzzy);
   const seen = new Set();
   return [...out.filter(house).sort(byScore), ...asPostcode.sort(byScore), ...out.filter((c) => !house(c)).sort(byScore)]
