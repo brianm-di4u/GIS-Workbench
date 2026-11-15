@@ -22,10 +22,11 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { samplesDir } from '../../../tests/tools/samples.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const ENV_BIN = join(ROOT, '..', 'TE-tools', 'mamba', 'envs', 'gw-te', 'Library', 'bin');
-const SEED = join(ROOT, '..', 'Research', 'samples', 'mpegts-klv-synthetic', 'fx10_synthetic_klv.ts');
+const SEED = join(samplesDir(), 'mpegts-klv-synthetic', 'fx10_synthetic_klv.ts');
 
 export function tool(name) {
   const exe = join(process.env.GW_TE_BIN ?? ENV_BIN, `${name}${process.platform === 'win32' ? '.exe' : ''}`);

@@ -3,7 +3,8 @@ import { chromium } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
-import { resolve } from 'node:path';
+import { join, resolve } from 'node:path';
+import { samplesDir } from './samples.mjs';
 
 const require = createRequire(import.meta.url);
 const axe = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -19,7 +20,7 @@ const input = await page.evaluateHandle(() => {
   document.body.appendChild(i);
   return i;
 });
-await input.asElement().setInputFiles(resolve('../Research/samples/nitf-wv3-mvs-stereo-chips/wv3_a_chip.ntf'));
+await input.asElement().setInputFiles(join(samplesDir(), 'nitf-wv3-mvs-stereo-chips', 'wv3_a_chip.ntf'));
 await page.evaluate((i) => window.gisworkbench.openFiles([...i.files]), input);
 await page.evaluate(axe);
 for (const theme of (process.argv[2] ?? 'grey,dark,print').split(',')) {

@@ -18,9 +18,10 @@
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { samplesDir } from '../../tests/tools/samples.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const SEED = join(ROOT, '..', 'Research', 'samples', 'mpegts-klv-synthetic');
+const SEED = join(samplesDir(), 'mpegts-klv-synthetic');
 const OUT = process.argv[2] ? join(process.argv[2], 'fx10') : join(ROOT, 'fixtures', 'fx10');
 mkdirSync(OUT, { recursive: true });
 
