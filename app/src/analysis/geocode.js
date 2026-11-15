@@ -60,13 +60,13 @@ export function parseQuery(q) {
     if (street) return { ...out, number: +m[2], suffix: (m[3] || '').toLowerCase(), street, last: true };
   }
   // … or after its own comma, as in Portuguese and Russian ("Rua Principal, 12, Lisboa", or just
-  // "Rua Principal, 12"): a segment of up to 4 digits, with a letter or a building fraction ("12/3"),
-  // belongs to the street. A bare number there may instead be a postcode ("Hauptstraße, 1010,
-  // Wien"), so `asPlace` keeps that reading, everything after the street as the place, for search
-  // to fall back to when the street does not hold the number. One with a letter or a building
-  // fraction is no postcode; one with a leading zero ("0150 Oslo") is only ever one.
-  m = /^\s*(?!0)(\d{1,4})(\s*\/\s*\d{1,4})?([a-z])?\.?\s*$/i.exec(tail[0] ?? '');
-  if (m && out.street) return { ...out, number: +m[1], suffix: (m[3] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')), ...(m[2] || m[3] ? {} : { asPlace: out.rest }) };
+  // "Rua Principal, 12"): a segment that is only a number belongs to the street, and the place
+  // starts after it. A postcode
+  // can stand there too ("Wien" 1010, "00-950 Warszawa", "62701"), so only a short number is read,
+  // up to 3 digits, with a letter or a building fraction ("12/3"). Anything longer stays the place,
+  // as before: a missed house number falls back to the street, a misread one is a wrong point.
+  m = /^\s*(\d{1,3})(?:\s*\/\s*\d{1,3})?([a-z])?\.?\s*$/i.exec(tail[0] ?? '');
+  if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')) };
   return out;
 }
 
@@ -280,16 +280,6 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   let out = q.last && index.streets.has(q.whole) ? searchAs(index, named, fuzzy) : lettered && !index.streets.has(q.street) && index.streets.has(lettered.street) ? searchAs(index, lettered, fuzzy) : searchAs(index, q, fuzzy);
   if (!out.length && q.last) out = searchAs(index, named, fuzzy);
   if (!out.length && lettered) out = searchAs(index, lettered, fuzzy);
-  // "Street, 1010, Wien": a bare number after its own comma that the street does not hold, as a
-  // point or in a range, is more likely a postcode. Read it as main always did, as part of the
-  // place, so the answer is the street, not the nearest house to a number that was never one. In
-  // a place the index holds, only the addresses there count; a place it does not hold (a
-  // postcode, a misspelling) hides nothing, as in searchAs.
-  if (q.asPlace !== undefined) {
-    const held = (cands) => cands.some((c) => c.match === 'exact' || c.match === 'interpolated');
-    const known = !q.rest || [...index.places].some((pl) => samePlace(pl, q.rest));
-    if (!held(known ? out : searchAs(index, { ...q, rest: '' }, fuzzy))) out = searchAs(index, { ...q, number: NaN, suffix: '', rest: q.asPlace }, fuzzy);
-  }
   return out.sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
