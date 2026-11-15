@@ -6,7 +6,7 @@
 // `council.loopModel`. Rounds repeat until no blocker or should is open and the last two rounds in a
 // row raised nothing above a nit. Then close-out repeats the same rule on `council.closeModel`. The
 // verdict is rendered only after close-out converges. Each phase has a hard cap, and hitting it parks
-// the change.
+// the change. A small T1 change skips the loop phase and goes straight to close-out (decision 0024).
 import { matchesAny } from './paths.mjs';
 
 export const SEVERITIES = ['blocker', 'should', 'nit'];
@@ -187,16 +187,23 @@ export function linkMechanical(ledger, { to, reason, lines, maxLines = 40 }) {
 // Where a change stands: the loop phase is done once its latest rounds are two clean ones in a row on
 // the same content, whatever happens after. Close-out is done when its latest rounds are two clean ones
 // in a row on this exact content, with nothing open. The caps count every round in a phase, clean or not.
-export function phaseState(ledger, hash) {
+// Decision 0024 (#277): a T1 change of council.maxMechanicalLines (40) changed lines or fewer skips the
+// loop phase: its close-out, two clean rounds on the close-out model, is the whole review. T0 has its
+// one round, and T2 keeps both phases at any size. `lines` is the strict count (countLines with strict),
+// so a binary file or a diff git couldn't produce never counts as small.
+export const skipsLoop = ({ tier, lines, council = {} }) =>
+  tier === 1 && Number.isFinite(lines) && lines <= (council.maxMechanicalLines ?? 40);
+
+export function phaseState(ledger, hash, { skipLoop = false } = {}) {
   const loop = roundsIn(ledger, 'loop');
   const close = roundsIn(ledger, 'close');
   const context = { findings: ledger.findings, links: mechanicalLinks(ledger) };
-  const loopDone = cleanTail(loop, context) >= CLEAN_ROUNDS;
+  const loopDone = skipLoop || cleanTail(loop, context) >= CLEAN_ROUNDS;
   const closeDone = loopDone && cleanTail(close, context) >= CLEAN_ROUNDS && close.at(-1).hash === hash && blockingOpen(ledger).length === 0;
   return { loop, close, loopDone, closeDone };
 }
 
-export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidenceOk, diffLines }) {
+export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidenceOk, diffLines, skipLines }) {
   const last = ledger.rounds.at(-1);
   const complete = ledger.rounds.filter((r) => r.complete);
   const base = { tier, hash, roundsUsed: complete.length };
@@ -236,7 +243,7 @@ export function nextStep({ ledger, tier, hash, council = {}, cleanTree, evidence
     return { ...base, status: 'review', mode: 'full', phase: 'loop', model: modelFor('loop', council), round: complete.length + 1 };
   }
 
-  const state = phaseState(ledger, hash);
+  const state = phaseState(ledger, hash, { skipLoop: skipsLoop({ tier, lines: skipLines, council }) });
   if (state.closeDone) {
     return { ...base, status: 'done', message: 'Close-out has converged on this exact change. Render the verdict.' };
   }
@@ -372,7 +379,7 @@ export function resolveFinding(ledger, id, disposition, reason) {
   return finding;
 }
 
-export function buildVerdict({ ledger, tier: reviewedTier, hash }) {
+export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, council = {} }) {
   // A finding that raised the change to the admin raises its tier, here as in the plan.
   const tier = ledger.raise ? Math.max(reviewedTier, 2) : reviewedTier;
   const last = ledger.rounds.at(-1);
@@ -382,7 +389,7 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash }) {
   const open = blockingOpen(ledger);
   if (open.length > 0) throw new Error(`Open findings: ${open.map((f) => f.id).join(', ')}`);
   // The verdict comes only after close-out converges (a docs-only change has the one round).
-  if (tier > 0 && !phaseState(ledger, hash).closeDone) {
+  if (tier > 0 && !phaseState(ledger, hash, { skipLoop: skipsLoop({ tier, lines: skipLines, council }) }).closeDone) {
     throw new Error('Close-out has not converged on this change: it needs two clean rounds in a row on the close-out model. Run another round.');
   }
 

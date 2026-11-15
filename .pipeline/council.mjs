@@ -99,7 +99,10 @@ function context() {
     adrCited: decided(loadLedger().decisions ?? [], config),
   });
   const diffLines = countLines(mergeBase, 'HEAD', mergeBase, generatedGlobs);
-  return { config, mergeBase, changes, hash, tier, reasons, diffLines, generated, generatedGlobs };
+  // Skipping the loop (decision 0024) is an exemption bounded by size, so it reads the strict count:
+  // a binary file, or a diff git can't produce, is never small.
+  const skipLines = countLines(mergeBase, 'HEAD', mergeBase, generatedGlobs, { strict: true });
+  return { config, mergeBase, changes, hash, tier, reasons, diffLines, skipLines, generated, generatedGlobs };
 }
 
 function evidence(hash) {
@@ -133,6 +136,7 @@ function plan(args) {
     cleanTree,
     evidenceOk: proof.ok,
     diffLines: ctx.diffLines,
+    skipLines: ctx.skipLines,
   });
   const output = { ...step, reasons: ctx.reasons };
   if (step.status === 'review') {
@@ -209,6 +213,7 @@ function record([file]) {
     cleanTree: true,
     evidenceOk: true,
     diffLines: ctx.diffLines,
+    skipLines: ctx.skipLines,
   });
   if (step.status !== 'review') {
     console.error(`Nothing to record: ${step.status}. ${step.message ?? ''}`);
@@ -284,7 +289,7 @@ function mechanical([reason]) {
 function verdict() {
   const ctx = context();
   const ledger = loadLedger();
-  const built = buildVerdict({ ledger, tier: ctx.tier, hash: ctx.hash });
+  const built = buildVerdict({ ledger, tier: ctx.tier, hash: ctx.hash, skipLines: ctx.skipLines, council: ctx.config.council });
   console.log(renderVerdict(built));
   return 0;
 }
