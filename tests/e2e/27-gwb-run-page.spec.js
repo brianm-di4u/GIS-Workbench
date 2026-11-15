@@ -47,6 +47,20 @@ test('REG-150 the page script stops, naming the file, when an --in file does not
   expect(r.threw).toMatch(/an input did not open: junk\.tif: /);
 });
 
+test('REG-150 #177 the page script stops, naming it, when an input raster has no statistics', async ({ page }) => {
+  // A raster whose statistics job fails gets error, not stats: the run must stop, not wait out --timeout
+  // or run on it. The app's own failure path runs: only the layer's statistics job is made to reject.
+  const r = await runPage(page, { recipe: STRETCH }, [RASTER], () => {
+    const layers = window.gisworkbench.layers;
+    const set = layers.set.bind(layers);
+    layers.set = (id, layer) => {
+      if (layer?.ensureStats) layer.ensureStats = () => Promise.reject(new Error('statistics failed'));
+      return set(id, layer);
+    };
+  });
+  expect(r.threw).toBe('an input did not open: nodata-utm15n-f32.tif: statistics failed');
+});
+
 test('REG-150 the page script opens an imagery ZIP without asking which file', async ({ page }, info) => {
   const zip = info.outputPath('two.zip');
   const tif = (n) => new Uint8Array(readFileSync(resolve('fixtures', 'fx25', 'aviation', n)));

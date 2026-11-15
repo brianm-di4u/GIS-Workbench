@@ -100,9 +100,12 @@ fn run(args: &[&str]) -> (i32, String) {
     )
 }
 
+/// Whether a browser is here to run these tests. A machine without one skips them, but CI has one, so
+/// there a missing browser fails instead of passing silently (#177).
 fn browser() -> bool {
     match gwb_sidecar::cdp::find_browser(None) {
         Ok(_) => true,
+        Err(e) if std::env::var_os("CI").is_some() => panic!("CI is set but no browser was found: {e}"),
         Err(e) => {
             eprintln!("skipped: {e}");
             false
