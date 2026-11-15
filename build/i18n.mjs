@@ -375,6 +375,12 @@ export function checkFails(results, strict = false) {
   return Object.entries(results).some(([tag, x]) => x.errors.length > 0 || (x.stale > 0 && (strict === true || (Array.isArray(strict) && strict.includes(tag)))));
 }
 
+/** `check`'s strict argument from the command line: `--strict` is every locale, `--strict=de,fr` those tags (none listed: not strict). */
+export function strictOf(argv) {
+  const flag = argv.find((a) => a === '--strict' || a.startsWith('--strict='));
+  return flag === '--strict' ? true : flag ? flag.slice('--strict='.length).split(',').filter(Boolean) : false;
+}
+
 /**
  * For build/build.mjs: wave 1 blocks, wave 2–3 pack definitions and the manifest record. Only
  * translations that pass checkMessage ship; others fall back to English (REQ-L10N-17).
@@ -463,8 +469,6 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     }
     // --strict[=de,fr] (verify, when those catalogues change): a stale key fails too, since the
     // translate tool drops them on every merge and one left behind is a hand edit or a missed merge.
-    const flag = process.argv.find((a) => a === '--strict' || a.startsWith('--strict='));
-    const strict = flag === '--strict' ? true : flag ? flag.slice('--strict='.length).split(',').filter(Boolean) : false;
-    if (cmd === 'check' && checkFails(r, strict)) process.exitCode = 1;
+    if (cmd === 'check' && checkFails(r, strictOf(process.argv))) process.exitCode = 1;
   } else console.log('usage: node build/i18n.mjs extract [--check] | lint [--json] [--strict] | check [--strict[=tag,…]] | coverage');
 }
