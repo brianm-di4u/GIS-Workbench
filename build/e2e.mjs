@@ -5,28 +5,19 @@
 // It tests the bits it says it tests, with the data they need, and checks every prerequisite
 // before the hours of tests rather than letting them find one gap per run: the Research samples,
 // the module bundle (asked of a test sidecar: every module, the HDF4, MrSID and ECW plug-ins), the
-// native stereo viewer beside the sidecar, a current relay build, a current sidecar and app, and
-// every pack. It builds the sidecar from this checkout into this checkout's own target and points
-// the harness there, since the harness runs whatever binary sits in its target folder (a binary
-// named in GWB_SIDECAR_EXE is refused if older than this checkout's sidecar sources). It builds
-// dist/ (strict), unless GW_DIST or GWB_DIST points the suites at another build. And it records the
-// app build id and the sidecar's SHA-256 in reports/e2e-bits.json and in its output, which verify
-// keeps as the e2e evidence.
+// native stereo viewer beside the sidecar, and every pack. It builds the sidecar from this checkout
+// into this checkout's own target and points the harness there, since the harness runs whatever
+// binary sits in its target folder; cargo decides what is current. It builds dist/ (strict),
+// unless GW_DIST or GWB_DIST points the suites at another build. And it records the app build id
+// and the SHA-256 of each native binary in reports/e2e-bits.json and in its output, which verify
+// keeps as the e2e evidence. A binary it didn't build (GWB_SIDECAR_EXE, the relay build) is marked
+// there as outside this run's build.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { cargoTargetDir } from './cargo-target.mjs';
 import { pathToFileURL } from 'node:url';
-
-/** Why `exe` can't be the sidecar under test, or null. Times are in milliseconds. */
-export function staleSidecar({ exe, exeTime, newestSource }) {
-  if (exeTime == null) return `there is no sidecar at ${exe}.`;
-  if (newestSource != null && exeTime < newestSource) {
-    return `the sidecar at ${exe} (${new Date(exeTime).toISOString()}) is older than this checkout's newest sidecar source (${new Date(newestSource).toISOString()}). Build it again.`;
-  }
-  return null;
-}
 
 /**
  * What a module bundle lacks for the sidecar suites, from the test sidecar's /v1/caps: every module
@@ -64,31 +55,6 @@ export async function probeBundle() {
   } finally {
     if (s) stopSidecar(s.pid);
   }
-}
-
-const git = (args) => {
-  const r = spawnSync('git', args, { encoding: 'utf8' });
-  return r.status === 0 ? r.stdout : '';
-};
-
-/**
- * Is `path` (repo-relative, forward slashes) an input of gwb-sidecar.exe: any file of its crate or
- * gwb-sidecar-api's (not their tests or other binaries), the window and job profiles it embeds with
- * include_str!, or a workspace manifest?
- */
-export const sidecarInput = (path) =>
-  ['sidecar/Cargo.toml', 'sidecar/Cargo.lock'].includes(path) ||
-  /^sidecar\/(ui|profiles)\//.test(path) ||
-  (/^sidecar\/gwb-sidecar(-api)?\//.test(path) && !/^sidecar\/gwb-sidecar(-api)?\/(tests|src\/bin)\//.test(path));
-
-/**
- * The newest change to this checkout's inputs of gwb-sidecar.exe, by file time, as cargo judges them:
- * a commit time says nothing about when the code reached this checkout. Used only for a binary named
- * in GWB_SIDECAR_EXE; a binary e2e built itself is as current as cargo made it.
- */
-export function newestSidecarSource() {
-  const inputs = git(['ls-files', '--', 'sidecar']).split('\n').filter((path) => sidecarInput(path) && existsSync(path));
-  return Math.max(0, ...inputs.map((path) => statSync(path).mtimeMs)) || null;
 }
 
 const MUSL = 'x86_64-unknown-linux-musl';
@@ -129,12 +95,13 @@ function refuse(problems) {
   return true;
 }
 
-const mtime = (file) => (existsSync(file) ? statSync(file).mtimeMs : null);
+/** A native binary as the evidence records it: its SHA-256, and whether this run built it. */
+export const binary = (file, built, outside) => ({ file, sha256: sha256(file), built, ...(built ? {} : { note: `outside this run's build: ${outside}` }) });
 
 async function main() {
   // e2e builds the sidecar into this checkout's own target, and both passes find it there; the
-  // harness reads GWB_SIDECAR_TARGET when first imported. A binary named in GWB_SIDECAR_EXE, or a
-  // target named in GWB_SIDECAR_TARGET, is the caller's.
+  // harness reads GWB_SIDECAR_TARGET when first imported. A binary named in GWB_SIDECAR_EXE is the
+  // caller's, tested as it is and recorded as outside this run's build.
   const ownSidecar = !process.env.GWB_SIDECAR_EXE;
   if (ownSidecar && !process.env.GWB_SIDECAR_TARGET) process.env.GWB_SIDECAR_TARGET = sidecarTarget();
   const { DIST, DIST_DIR, SAMPLES } = await import('../tests/e2e/helpers.js');
@@ -148,20 +115,15 @@ async function main() {
   // GW_DIST or GWB_DIST points both passes at another build. GWB_DIST_DIR reaches only the sidecar
   // pass, so on its own it would split the two passes across two builds.
   if (sidecarDist !== DIST_DIR) problems.push(`the sidecar pass would serve ${sidecarDist} but the browser pass tests ${DIST_DIR}. Set GW_DIST to the same build.`);
-  // The relay build runs 26-native's shutdown tests; an old one passes them on old code.
-  const relayStale = existsSync(RELAY_EXE) ? staleSidecar({ exe: RELAY_EXE, exeTime: mtime(RELAY_EXE), newestSource: newestSidecarSource() }) : null;
-  if (relayStale) problems.push(`${relayStale.replace('the sidecar', 'the relay build')} (cargo build --release -p gwb-sidecar --features cors-relay, then GWB_SIDECAR_RELAY_EXE)`);
   if (refuse(problems)) return 1;
 
   // Then the sidecar: cargo rebuilds only what changed, so this is quick when it is current.
   if (ownSidecar && buildSidecar(process.env.GWB_SIDECAR_TARGET) !== 0) return refuse(['the sidecar build failed, so there is no current sidecar to test.']) && 1;
-  const exeTime = mtime(EXE);
-  // Cargo has just made e2e's own binary current; a caller's binary is checked for its age.
-  const stale = staleSidecar({ exe: EXE, exeTime, newestSource: ownSidecar ? null : newestSidecarSource() });
-  if (stale) problems.push(ownSidecar ? stale : `${stale} Or leave GWB_SIDECAR_EXE unset to have e2e build it.`);
+  const noSidecar = !existsSync(EXE);
+  if (noSidecar) problems.push(`there is no sidecar at ${EXE}.`);
   const viewer = join(dirname(EXE), 'gwb-stereo-viewer.exe');
   if (process.platform === 'win32' && !existsSync(viewer)) problems.push(`the native stereo viewer is not beside the sidecar, at ${viewer}.`);
-  if (!stale) problems.push(...(await probeBundle()));
+  if (!noSidecar) problems.push(...(await probeBundle()));
   if (refuse(problems)) return 1;
 
   // Last the app, which takes minutes to build.
@@ -172,11 +134,14 @@ async function main() {
   if (refuse(missingPacks({ manifest: manifestText ? JSON.parse(manifestText).packs : null, expected: PACKS, packsDir: join(DIST_DIR, 'packs') }).map((p) => `${DIST}: ${p}`))) return 1;
   const bits = {
     app: { file: DIST, build: /<meta name="gw-build" content="([^"]+)"/.exec(readFileSync(DIST, 'utf8'))?.[1] ?? null, rebuilt: !otherBuild },
-    sidecar: { file: EXE, sha256: sha256(EXE), modified: new Date(exeTime).toISOString() },
+    sidecar: binary(EXE, ownSidecar, 'named in GWB_SIDECAR_EXE'),
+    // 26-native's shutdown tests run the test-only relay build, which e2e doesn't build.
+    relay: existsSync(RELAY_EXE) ? binary(RELAY_EXE, false, 'the test-only relay build (GWB_SIDECAR_RELAY_EXE)') : null,
   };
   mkdirSync('reports', { recursive: true });
   writeFileSync(join('reports', 'e2e-bits.json'), `${JSON.stringify(bits, null, 2)}\n`);
   console.log(`e2e bits: app build ${bits.app.build} (${DIST}), sidecar sha256 ${bits.sidecar.sha256} (${EXE})`);
+  for (const b of [bits.sidecar, bits.relay].filter((b) => b?.note)) console.log(`e2e bits: ${b.file} is ${b.note}; sha256 ${b.sha256}`);
 
   const cli = 'node_modules/@playwright/test/cli.js';
   const extra = process.argv.slice(2);

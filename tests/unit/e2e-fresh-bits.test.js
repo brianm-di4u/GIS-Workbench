@@ -1,35 +1,20 @@
-// The release e2e refuses to test a sidecar binary older than the sidecar's code: the harness runs
-// whatever binary sits in the target folder, so a stale one passed the suites on old code.
+// The release e2e records the native binaries it tests: what it built itself is as current as cargo
+// made it, and a binary it didn't build is marked as outside this run's build.
 import { describe, expect, it } from 'vitest';
-import { newestSidecarSource, staleSidecar } from '../../build/e2e.mjs';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { binary } from '../../build/e2e.mjs';
 
-const exe = 'C:/t/release/gwb-sidecar.exe';
-const at = (iso) => Date.parse(iso);
-
-describe('the e2e sidecar check', () => {
-  it('refuses a binary older than the newest sidecar source', () => {
-    expect(staleSidecar({ exe, exeTime: at('2026-11-13T10:00:00Z'), newestSource: at('2026-11-13T11:00:00Z') })).toMatch(/older than this checkout's newest sidecar source.*Build it again/);
+describe('the e2e record of a native binary', () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'e2e-bits-')), 'gwb-sidecar.exe');
+  writeFileSync(file, 'abc');
+  const abc = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
+  it('gives the SHA-256 of a binary e2e built, with no note', () => {
+    expect(binary(file, true, 'unused')).toEqual({ file, sha256: abc, built: true });
   });
-
-  it('refuses a missing binary', () => {
-    expect(staleSidecar({ exe, exeTime: null, newestSource: at('2026-11-13T11:00:00Z') })).toMatch(/there is no sidecar at/);
-  });
-
-  it('accepts a binary built after the newest change', () => {
-    expect(staleSidecar({ exe, exeTime: at('2026-11-13T12:00:00Z'), newestSource: at('2026-11-13T11:00:00Z') })).toBeNull();
-  });
-
-  it("takes the newest source from this checkout's files, as cargo does, not from commit times", async () => {
-    const { utimesSync, statSync } = await import('node:fs');
-    const file = 'sidecar/gwb-sidecar/src/main.rs';
-    const was = statSync(file);
-    try {
-      const later = new Date(Date.now() + 60_000);
-      utimesSync(file, later, later);
-      expect(newestSidecarSource()).toBe(later.getTime());
-    } finally {
-      utimesSync(file, was.atime, was.mtime);
-    }
+  it("marks a binary e2e didn't build as outside this run's build, and says why", () => {
+    expect(binary(file, false, 'named in GWB_SIDECAR_EXE')).toEqual({ file, sha256: abc, built: false, note: "outside this run's build: named in GWB_SIDECAR_EXE" });
   });
 });
 
@@ -57,14 +42,6 @@ describe('the e2e packs check', async () => {
   it('passes a build with every pack', () => {
     expect(missingPacks({ manifest, expected: ['geoid', 'ai'], packsDir: 'd', exists: on('geoid-1.gwpack', 'ai-2.gwpack') })).toEqual([]);
     expect(missingPacks({ manifest: null, expected: [], packsDir: 'd' })).toEqual(['the build has no manifest']);
-  });
-});
-
-describe("what counts as an input of gwb-sidecar.exe", async () => {
-  const { sidecarInput } = await import('../../build/e2e.mjs');
-  it("is its files, gwb-sidecar-api's, what it embeds and the manifests, not tests, other binaries or other crates", () => {
-    for (const yes of ['sidecar/gwb-sidecar/src/main.rs', 'sidecar/gwb-sidecar/src/cdp.rs', 'sidecar/gwb-sidecar-api/src/lib.rs', 'sidecar/Cargo.lock', 'sidecar/Cargo.toml', 'sidecar/gwb-sidecar/Cargo.toml', 'sidecar/ui/ui.js', 'sidecar/ui/index.html', 'sidecar/profiles/raster-cog.toml', 'sidecar/profiles/linux/points-copc.toml', 'sidecar/gwb-sidecar/src/recipe_run_page.js']) expect(sidecarInput(yes), yes).toBe(true);
-    for (const no of ['sidecar/gwb-sidecar/tests/gwb_run.rs', 'sidecar/gwb-sidecar/src/bin/run.rs', 'sidecar/gwb-sfm/src/ba.rs', 'sidecar/gwb-stereo/src/main.rs', 'sidecar/stubs/nolzo/src/lib.rs', 'sidecar/gwb-sidecar-api/src/bin/export-schema.rs', 'sidecar/installer/vendor-pins.toml']) expect(sidecarInput(no), no).toBe(false);
   });
 });
 
