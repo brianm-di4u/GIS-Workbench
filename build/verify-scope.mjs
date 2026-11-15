@@ -21,11 +21,16 @@ const SIDECAR_EVERYTHING = /^sidecar\/(Cargo\.toml|Cargo\.lock|deny\.toml|rust-t
 // CHANGELOG.md is the exception: the build embeds it.
 const isProse = (path) => path.endsWith('.md') && path !== 'CHANGELOG.md';
 
+// Source in crates/ that belongs to no package but is compiled into some by #[path], and those crates
+// (#299, #308): a change to it alone must still run them.
+const SHARED_SOURCES = { 'crates/test-support/': ['gw-codec', 'gw-fuzz', 'gw-parse'] };
+
 /** The workspace crates a change affects: those it touched, and everything depending on them. */
 export function affectedCrates(packages, paths) {
-  const touched = new Set(
-    packages.filter((p) => paths.some((path) => path.startsWith(`${p.dir}/`))).map((p) => p.name),
-  );
+  const touched = new Set([
+    ...packages.filter((p) => paths.some((path) => path.startsWith(`${p.dir}/`))).map((p) => p.name),
+    ...Object.entries(SHARED_SOURCES).filter(([dir]) => paths.some((path) => path.startsWith(dir))).flatMap(([, users]) => users),
+  ]);
   let grew = true;
   while (grew) {
     grew = false;

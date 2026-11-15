@@ -236,12 +236,13 @@ if (partial.length) log(`Partial answer from: ${partial.join(', ')}. Its finding
 
 // Dedupe across seats in plain code, by place rather than wording: seats describe the
 // same bug in different words. The most severe report of a place stands for it, so
-// the author answers one finding. The ledger removes repeats from earlier rounds.
+// the author answers one finding. A bug that was there before stands only for itself, never for a new
+// finding at its place (issue 303, as #294 in the ledger). The ledger removes repeats from earlier rounds.
 const rank = { blocker: 0, should: 1, nit: 2 }
 const byPlace = new Map()
 for (const entry of heard) {
   for (const finding of entry.result.findings ?? []) {
-    const place = `${finding.file}|${finding.line}`.toLowerCase()
+    const place = `${finding.file}|${finding.line}|${finding.preExisting === true}`.toLowerCase()
     const existing = byPlace.get(place)
     if (!existing) {
       byPlace.set(place, { ...finding, seat: entry.seat, seats: [entry.seat] })

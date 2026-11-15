@@ -119,6 +119,13 @@ describe('affected crates', () => {
     expect(affectedCrates(packages, ['crates/c/src/lib.rs'])).toEqual(['c']);
   });
 
+  it('runs the crates that take crates/test-support by #[path] when only it changes (#308)', () => {
+    const ws = ['gw-codec', 'gw-fuzz', 'gw-parse', 'gw-raster'].map((name) => ({ name, dir: `crates/${name}`, deps: [] }));
+    expect(affectedCrates(ws, ['crates/test-support/research.rs'])).toEqual(['gw-codec', 'gw-fuzz', 'gw-parse']);
+    const rustArgs = planSteps({ paths: ['crates/test-support/research.rs'], crates: affectedCrates(ws, ['crates/test-support/research.rs']) }).find((s) => s.name === 'Rust tests')?.args;
+    expect(rustArgs).toEqual(['test', '--locked', '--no-fail-fast', '-p', 'gw-codec', '-p', 'gw-fuzz', '-p', 'gw-parse']);
+  });
+
   it('matches whole folder names', () => {
     expect(affectedCrates(packages, ['crates/ab/src/lib.rs'])).toEqual(['ab']);
   });

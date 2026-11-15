@@ -75,3 +75,23 @@ describe('a council seat that ends without answering', () => {
     expect(calls.map((c) => c.label)).not.toContain('bug-hunter (retry)');
   });
 });
+
+// Issue 303: one seat's report of a bug that was there before must not stand in for another seat's
+// new finding at the same line, or the new one never reaches the ledger.
+describe('the dedupe across seats', () => {
+  it('keeps a new finding and a pre-existing one at the same place apart', async () => {
+    const at = { class: 'c', file: 'src/a.js', line: 10, claim: 'x', evidence: 'e', fix: 'f' };
+    const reports = {
+      'bug-hunter': [{ ...at, severity: 'blocker', preExisting: true }],
+      minimalist: [{ ...at, severity: 'should', preExisting: false }],
+    };
+    const { result } = await runRound((label) => {
+      if (label.startsWith('verifier')) return { headVisible: true, votes: [0, 1].map((key) => ({ key, verdict: 'real', reason: 'r' })) };
+      return { ...clean, findings: reports[label] ?? [] };
+    });
+    expect(result.findings.map((f) => [f.severity, f.preExisting, f.seats])).toEqual([
+      ['blocker', true, ['council-bug-hunter']],
+      ['should', false, ['council-minimalist']],
+    ]);
+  });
+});
