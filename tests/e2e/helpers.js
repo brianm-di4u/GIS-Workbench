@@ -5,26 +5,15 @@ import { createServer } from 'node:http';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve, join, extname, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { execFileSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
+import { samplesDir } from '../tools/samples.mjs';
 
 export const ROOT = resolve('.');
 // GW_DIST points the suites at another build: a folder (as gui-lib.js takes it, e.g. dist-21-video) or the .html itself (GWB_DIST: the same).
 const GW_DIST = (process.env.GW_DIST ?? process.env.GWB_DIST) ? resolve(process.env.GW_DIST ?? process.env.GWB_DIST) : join(ROOT, 'dist');
 export const DIST = GW_DIST.endsWith('.html') ? GW_DIST : join(GW_DIST, 'gis-workbench.html');
 export const DIST_DIR = dirname(DIST); // the build's folder: its Lite and air-gapped files, packs, embed snippets
-/**
- * The Research samples sit beside the main checkout, so a worktree anywhere finds them through git's
- * common dir (<main>/.git, two levels below the folder that holds Research). GWB_SAMPLES overrides.
- */
-export function samplesDir(env = process.env, commonDir = () => execFileSync('git', ['rev-parse', '--path-format=absolute', '--git-common-dir'], { encoding: 'utf8' }).trim()) {
-  if (env.GWB_SAMPLES) return resolve(env.GWB_SAMPLES);
-  try {
-    return resolve(commonDir(), '..', '..', 'Research', 'samples');
-  } catch {
-    return resolve(ROOT, '..', 'Research', 'samples');
-  }
-}
+export { samplesDir };
 export const SAMPLES = samplesDir();
 
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.json': 'application/json' };

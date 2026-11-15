@@ -6,9 +6,11 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import { Core } from '../../app/src/wasm/core.js';
+import { join } from 'node:path';
+import { samplesDir } from '../tools/samples.mjs';
 
 const DIST = 'dist/gis-workbench.html';
-const TRUTH = '../Research/samples/nitf-wv3-mvs-stereo-chips/wv3_chips_truth.json';
+const TRUTH = join(samplesDir(), 'nitf-wv3-mvs-stereo-chips', 'wv3_chips_truth.json');
 const ready = existsSync(DIST) && existsSync(TRUTH);
 
 export function loadCore() {

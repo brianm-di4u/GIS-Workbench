@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { samplesDir } from '../../tests/tools/samples.mjs';
 import { writeNitfSegments } from '../../app/src/formats/nitf-writer.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -45,7 +46,7 @@ const frames = order.map((k) => {
   return { k, t, img: { width: W, height: H, bands: 1, type: 'u8', planes: [px] }, opts: { iid1: `MIE${num(k + 1, 3)}`, iid2: `MIE4NITF frame ${k + 1}`, idatim: stamp(t).slice(0, 14), icat: 'VIS', irep: 'MONO', corners: [[34.51, -117.01], [34.51, -116.99], [34.49, -116.99], [34.49, -117.01]], tres: [['MTIMSA', mtimsa]] } };
 });
 writeFileSync(join(OUT, 'mie4nitf.ntf'), writeNitfSegments(frames.map((f) => ({ img: f.img, opts: f.opts })), { title: 'GIS Workbench MIE4NITF test (6 frames)' }));
-const cadrg = join(ROOT, '..', 'Research', 'samples', 'nitf-jitc-vq-cadrg', 'U_3058b.ntf');
+const cadrg = join(samplesDir(), 'nitf-jitc-vq-cadrg', 'U_3058b.ntf');
 if (existsSync(cadrg)) copyFileSync(cadrg, join(OUT, '0XQ0F010.JN1'));
 writeFileSync(join(OUT, 'formats_truth.json'), JSON.stringify({ mie: { frames: N, fileOrder: order, times: [...Array(N).keys()].map((k) => new Date(base + k * 500).toISOString()), frameRate: 2, squareX: [...Array(N).keys()].map((k) => 10 + 10 * k) }, cadrg: { width: 1536, height: 1536, source: 'Research/samples/nitf-jitc-vq-cadrg/U_3058b.ntf' } }));
 console.log(`formats fixtures → ${OUT}`);
