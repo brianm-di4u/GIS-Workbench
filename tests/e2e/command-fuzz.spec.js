@@ -8,7 +8,10 @@
 //     is not file, data, blob or loopback);
 //   - the app still answers (a trivial query returns, the main thread is not stuck);
 //   - undoing the whole sequence puts the project's records back as they were, unless a command
-//     in it is on NOT_UNDOABLE.
+//     in it is on NOT_UNDOABLE. This covers store records only (graphics, layers' records, window
+//     layout records); a command that changes only the view, a preference or other UI state passes
+//     it without being tested, and a command the API refuses as not available now (E_STEP_FIRST)
+//     counts as run.
 //
 // Reproducing: the seed is fixed by default so a nightly run is the same run every night. A
 // failure prints the seed and the shrunk sequence. Replay with
@@ -46,7 +49,7 @@ const ONE = process.env.GW_FUZZ_SEQ ? JSON.parse(process.env.GW_FUZZ_SEQ) : null
  * ran all 612 implemented commands once; none threw, made a request or hung, so none needed
  * excluding for failing.
  */
-export const EXCLUDED = [
+const EXCLUDED = [
   [/^sidecar\./, 'needs the optional native sidecar, which the nightly project does not start (PT-13); with none running each command only reports that, and the sidecar has its own suites'],
   ['win.separate', 'opens a second browser window, which a test run must not do (docs/POLICY.md); window-level commands have their own tests'],
   ['display.fullscreen', 'asks the browser for fullscreen, which resizes the viewport for the rest of the sequence'],
@@ -62,7 +65,7 @@ export const EXCLUDED = [
  * Commands that change the project in a way undo does not reverse (they replace it, or change
  * what is not a store record). A sequence with one still runs; only the undo check is skipped.
  */
-export const NOT_UNDOABLE = [
+const NOT_UNDOABLE = [
   ['file.newproject', 'replaces the project and clears the history, so there is nothing to undo back to'],
   ['file.openproject', 'replaces the project and clears the history, so there is nothing to undo back to'],
 ];
@@ -121,9 +124,6 @@ async function runSequence(browser, seq) {
       const st = await page.waitForFunction((n) => window.__fuzz[n] !== 'pending', n, { timeout: 5_000 }).then(() => page.evaluate((n) => window.__fuzz[n], n), () => 'pending');
       if (st !== 'ok') problems.push(`${id}: ${st === 'pending' ? 'did not finish within 5 s of its dialog closing' : st}`);
     }
-    for (const l of app.logs) problems.push(`console: ${l.slice(0, 300)}`);
-    for (const c of await app.csp()) problems.push(`csp: ${c}`);
-    for (const u of app.requests) problems.push(`network request: ${u}`);
     // Still answering: the page's main thread runs a query and the command table lists.
     const alive = await within(10_000, page.evaluate(() => window.gisworkbench.api.v2.commands.list({ filter: 'qat.undo' }).then((l) => l.length)), 'no answer within 10 s').catch((e) => `no answer: ${e.message}`);
     if (!(alive >= 1)) problems.push(`the app does not answer a trivial command: ${alive}`);
@@ -131,6 +131,12 @@ async function runSequence(browser, seq) {
       const back = await page.evaluate(recordsAfterUndoTo, true);
       if (back !== start) problems.push('undoing the whole sequence did not restore the starting records');
     }
+    // Read the page's errors, CSP violations and requests last, so whatever undoing the sequence
+    // logged or requested is counted too.
+    await page.waitForTimeout(300);
+    for (const l of app.logs) problems.push(`console: ${l.slice(0, 300)}`);
+    for (const c of await app.csp()) problems.push(`csp: ${c}`);
+    for (const u of app.requests) problems.push(`network request: ${u}`);
   } catch (e) {
     problems.push(`harness: ${e.message.split('\n')[0]}`);
   } finally {
