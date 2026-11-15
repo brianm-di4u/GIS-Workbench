@@ -215,4 +215,20 @@ describe('one source text, two meanings', () => {
     expect(keys('features/register.js', 'Ground')).toEqual([keyOf('Ground', 'control point')]);
     expect(keys('features/extract-r2.js', 'Ground')).toEqual([keyOf('Ground')]);
   });
+
+  // #280: the field's input is named t('Ground coordinate') (register.js), so its visible label is
+  // that same glossary term; a separate wording drifted to the soil word twice (#194, #278).
+  it("labels a control point's Ground field with its accessible name, in every locale", () => {
+    // Not yet re-translated: a bare terrain word that is not the soil sense. Next increment.
+    const PENDING = new Set(['bg', 'es', 'pl', 'pt-BR', 'ru', 'tr', 'uk']);
+    const dir = join('app', 'src', 'i18n', 'catalog');
+    const wrong = [];
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.json') && x !== 'en.json')) {
+      const tag = f.slice(0, -5);
+      const m = JSON.parse(readFileSync(join(dir, f), 'utf8')).messages;
+      const label = m[keyOf('Ground', 'control point')];
+      if (label && !PENDING.has(tag) && label !== m['Ground coordinate']) wrong.push(`${tag}: ${label} / ${m['Ground coordinate']}`);
+    }
+    expect(wrong).toEqual([]);
+  });
 });

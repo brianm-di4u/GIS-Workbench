@@ -37149,10 +37149,6 @@
    "h": "756e05ce5caf",
    "state": "passed"
   },
-  "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then start and end at the junction nearest each click.": {
-   "h": "ad4d546bc4d8",
-   "state": "passed"
-  },
   "Give at least one break greater than zero": {
    "h": "125778be7408",
    "state": "passed"
@@ -38564,10 +38560,6 @@
    "h": "ea5b6de58e2b",
    "state": "passed"
   },
-  "{title}, step {id}: {status}": {
-   "h": "44cbfb73bf95",
-   "state": "passed"
-  },
   "{w}×{h} pixels × {n} dates is more than one pass takes ({max} M values): draw an AOI": {
    "h": "0888bfd1e7a3",
    "state": "passed"
@@ -38597,6 +38589,14 @@
    "h": "31ca6751f755",
    "state": "passed",
    "note": "review: thousands separator: catalogue groups with a space (20 000), not a dot"
+  },
+  "Geospatial ▸ Addresses and Routes works on your own data and sends nothing anywhere. Address Index builds an index from an address layer (points with numbers, or street lines with number ranges) and can save it as a GeoPackage to open again. Find Address searches it as you type (exact, close spellings, and numbers placed along a street); Geocode a Table adds a location to every row of a table; Reverse Geocode names the address at a click. Road Network builds a graph from a line layer, with one-way roads, speeds and turn bans; Shortest Route and Service Area then join each click to the nearest point on a road, within 500 m.": {
+   "h": "4be96ae08a71",
+   "state": "passed"
+  },
+  "{file} is not JSON ({msg})": {
+   "h": "622b912e428f",
+   "state": "passed"
   }
  }
 }
