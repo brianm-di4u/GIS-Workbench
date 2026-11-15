@@ -8,6 +8,7 @@
 import { test, expect } from '@playwright/test';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { siblingDir } from '../tools/samples.mjs';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { zipSync, gzipSync, strToU8 } from 'fflate';
@@ -19,7 +20,7 @@ test.describe.configure({ timeout: 600000 });
 const DATA = 'E:/gwb25/data-models3d';
 const S = (f) => `${DATA}/slpk/${f}`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
-const PYENV = resolve('..', '..', 'GIS Workbench', 'TE-tools', 'mamba', 'envs', 'gw-te');
+const PYENV = join(siblingDir('TE-tools'), 'mamba', 'envs', 'gw-te');
 const PY = existsSync('C:/GIS Workbench/TE-tools/mamba/envs/gw-te/python.exe') ? 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te' : PYENV;
 const pyEnv = { ...process.env, PATH: `${PY};${PY}/Library/bin;${process.env.PATH}` };
 const py = (script, args) => JSON.parse(execFileSync(`${PY}/python.exe`, ['-I', resolve('tests/tools', script), ...args], { env: pyEnv, maxBuffer: 1 << 30, encoding: 'utf8' }));

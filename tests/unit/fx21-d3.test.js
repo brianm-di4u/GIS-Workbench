@@ -8,12 +8,13 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { siblingDir } from '../tools/samples.mjs';
 import { spawnSync } from 'node:child_process';
 import validator from 'gltf-validator';
 
 const FX = resolve('fixtures/fx21/d3');
 const TE = resolve('..', 'TE-corpus');
-const TV = resolve('..', 'TE-tools', 'node-3dtv', 'node_modules', '3d-tiles-validator', 'build', 'main');
+const TV = join(siblingDir('TE-tools'), 'node-3dtv', 'node_modules', '3d-tiles-validator', 'build', 'main');
 const KHRONOS = join(TE, '3d-gltf-khronos-ktx2', 'ChronographWatch', 'glTF-KTX-BasisU');
 
 async function validate(bytes, dir = null) {
