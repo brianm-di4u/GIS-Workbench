@@ -1,13 +1,13 @@
 // The release e2e records the native binaries it tests: what it built itself is as current as cargo
 // made it, and a binary it didn't build is marked as outside this run's build.
 import { describe, expect, it } from 'vitest';
-import { mkdtempSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { writeFileSync } from 'node:fs';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { join } from 'node:path';
 import { binary } from '../../build/e2e.mjs';
 
 describe('the e2e record of a native binary', () => {
-  const file = join(mkdtempSync(join(tmpdir(), 'e2e-bits-')), 'gwb-sidecar.exe');
+  const file = join(tempDir('e2e-bits'), 'gwb-sidecar.exe');
   writeFileSync(file, 'abc');
   const abc = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
   it('gives the SHA-256 of a binary e2e built, with no note', () => {
