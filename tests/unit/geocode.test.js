@@ -32,10 +32,11 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     // A lone number with no place after it may be a postcode: it stays the place.
     expect(parseQuery('Main Street, 10115')).toMatchObject({ street: 'main st', rest: '10115' });
     expect(Number.isNaN(parseQuery('Main Street, 10115').number)).toBe(true);
-    // … and so does a postcode with a place after it: a house number there has at most 4 digits,
-    // and Portugal's 4-3 postcode is not a range. A 4-digit number and a building fraction are.
-    for (const q of ['Main Street, 62701, USA', 'Rua Principal, 1000-001, Lisboa']) expect(Number.isNaN(parseQuery(q).number), q).toBe(true);
-    expect(parseQuery('Avenida Paulista, 1578, São Paulo')).toMatchObject({ number: 1578, rest: 'sao paulo' });
+    // … and so does a postcode with a place after it: only a number of up to 3 digits is read there,
+    // with a letter or a building fraction, so every postcode shape keeps the old street reading.
+    for (const q of ['Main Street, 62701, USA', 'Hauptstraße, 1010, Wien', 'Fő utca, 1011, Budapest', 'Marszałkowska, 00-950, Warszawa', 'Rua Principal, 1000-001, Lisboa', 'Rua Principal, 1000–001., Lisboa', 'Avenida Paulista, 1578, São Paulo']) {
+      expect(parseQuery(q), q).toMatchObject({ number: NaN, rest: normalise(q.split(',').slice(1).join(' ')) });
+    }
     expect(parseQuery('ул. Ленина, 12/3, Москва')).toMatchObject({ number: 12, rest: 'москва' });
     // Both forms find the house, as the English order does.
     for (const q of ['Main Street, 3, Springfield', 'Main Street 3., Springfield']) expect(search(IX, q)[0]?.id).toBe('m3');

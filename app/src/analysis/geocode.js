@@ -61,9 +61,10 @@ export function parseQuery(q) {
   }
   // … or after its own comma, as in Portuguese and Russian ("Rua Principal, 12, Lisboa"): a
   // segment that is only a number belongs to the street, and the place starts after it. A postcode
-  // can stand there too ("Main Street, 62701, USA", "Rua Principal, 1000-001, Lisboa"), so the
-  // number has at most 4 digits, and Portugal's 4-3 postcode is not a range.
-  m = tail.length > 1 && /^\s*(?!\d{4}\s*-\s*\d{3}\s*$)(\d{1,4})(?:\s*[-–/]\s*\d{1,4})?([a-z])?\.?\s*$/i.exec(tail[0]);
+  // can stand there too ("Wien" 1010, "00-950 Warszawa", "62701"), so only a short number is read,
+  // up to 3 digits, with a letter or a building fraction ("12/3"). Anything longer stays the place,
+  // as before: a missed house number falls back to the street, a misread one is a wrong point.
+  m = tail.length > 1 && /^\s*(\d{1,3})(?:\s*\/\s*\d{1,3})?([a-z])?\.?\s*$/i.exec(tail[0]);
   if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')) };
   return out;
 }
