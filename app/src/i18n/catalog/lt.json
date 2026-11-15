@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "horizontalėms reikia SAM, įkelto kaip reljefas",
   "contrast": "kontrastas",
   "control point": "atraminis taškas",
-  "control point\u0004Ground": "Vietovės koordinatė",
   "control points": "atraminiai taškai",
   "convergence {deg}° is under 10°": "konvergencija {deg}° mažesnė nei 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "{layer} konvertavimui reikia apie {need} GB laisvos naršyklės saugyklos vietos; laisva {free} GB",

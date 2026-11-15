@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "등고선에는 지형으로 불러온 DEM이 필요합니다",
   "contrast": "대비",
   "control point": "기준점",
-  "control point\u0004Ground": "지상 좌표",
   "control points": "기준점",
   "convergence {deg}° is under 10°": "수렴각 {deg}°가 10° 미만입니다",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "{layer}을(를) 변환하려면 약 {need} GB의 브라우저 저장소 여유 공간이 필요하지만 {free} GB만 사용할 수 있습니다",

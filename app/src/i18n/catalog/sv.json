@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "höjdkurvor kräver en DEM som är inläst som terräng",
   "contrast": "kontrast",
   "control point": "stödpunkt",
-  "control point\u0004Ground": "Markkoordinat",
   "control points": "stödpunkter",
   "convergence {deg}° is under 10°": "konvergensen {deg}° är under 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "konvertering av {layer} kräver cirka {need} GB ledig webbläsarlagring; {free} GB är tillgängligt",

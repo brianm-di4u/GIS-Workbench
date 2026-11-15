@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "warstwice wymagają NMT wczytanego jako teren",
   "contrast": "kontrast",
   "control point": "fotopunkt",
-  "control point\u0004Ground": "Teren",
   "control points": "punkty osnowy",
   "convergence {deg}° is under 10°": "zbieżność {deg}° jest mniejsza niż 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "konwersja {layer} wymaga około {need} GB wolnej pamięci przeglądarki; dostępne: {free} GB",

@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "хоризонталите изискват ЦМВ, зареден като релеф",
   "contrast": "контраст",
   "control point": "опорна точка",
-  "control point\u0004Ground": "Терен",
   "control points": "опорни точки",
   "convergence {deg}° is under 10°": "конвергенцията {deg}° е под 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "преобразуването на {layer} изисква около {need} GB свободно хранилище в браузъра; налични са {free} GB",

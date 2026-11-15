@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "eş yükselti eğrileri için arazi olarak yüklenmiş bir SYM gerekir",
   "contrast": "kontrast",
   "control point": "kontrol noktası",
-  "control point\u0004Ground": "Yer",
   "control points": "kontrol noktaları control points",
   "convergence {deg}° is under 10°": "yakınsama {deg}°, 10°'nin altında",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "{layer} katmanını dönüştürmek için yaklaşık {need} GB boş tarayıcı depolaması gerekiyor; {free} GB kullanılabilir",

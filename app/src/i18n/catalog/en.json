@@ -48976,14 +48976,6 @@
    ]
   },
   {
-   "key": "control point\u0004Ground",
-   "src": "Ground",
-   "ctx": "control point",
-   "refs": [
-    "features/register.js"
-   ]
-  },
-  {
    "key": "control points",
    "src": "control points",
    "refs": [

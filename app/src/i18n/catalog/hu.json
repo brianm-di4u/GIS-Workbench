@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "a szintvonalakhoz terepként betöltött DDM szükséges",
   "contrast": "kontraszt",
   "control point": "illesztőpont",
-  "control point\u0004Ground": "Terepi koordináta",
   "control points": "illesztőpontok",
   "convergence {deg}° is under 10°": "a konvergencia ({deg}°) 10° alatt van",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "a(z) {layer} konvertálásához kb. {need} GB szabad böngészőtároló kell; {free} GB érhető el",

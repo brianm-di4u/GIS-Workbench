@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "等高線需要已載入為地形的 DEM",
   "contrast": "對比",
   "control point": "控制點",
-  "control point\u0004Ground": "地面座標",
   "control points": "控制點 control points",
   "convergence {deg}° is under 10°": "交會角 {deg}° 小於 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "轉換 {layer} 約需 {need} GB 的可用瀏覽器儲存空間；目前可用 {free} GB",

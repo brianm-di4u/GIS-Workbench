@@ -209,26 +209,12 @@ describe('one source text, two meanings', () => {
     expect(keys('features/spectral-analysis.js', 'Region')).toEqual([keyOf('Region')]);
   });
 
-  // #194: a control point's Ground is its ground coordinate; Extract from DSM's Ground is the
-  // bare-earth surface (a DTM), the sense the locales translated (de "Boden", fr "Sol").
-  it("gives a control point's Ground coordinate its own key, apart from the ground surface", () => {
-    expect(keys('features/register.js', 'Ground')).toEqual([keyOf('Ground', 'control point')]);
+  // #194, #278, #283: a control point's ground coordinate field is labelled with the one message
+  // that names it, "Ground coordinate", never a bare "Ground": that drifted to the bare-earth word
+  // of Extract from DSM's Ground (a DTM), the sense the locales translated (de "Boden", fr "Sol").
+  it("labels a control point's ground coordinate with 'Ground coordinate', apart from the ground surface", () => {
+    expect(keys('features/register.js', 'Ground coordinate')).toEqual(['Ground coordinate']);
+    expect(keys('features/register.js', 'Ground')).toEqual([]);
     expect(keys('features/extract-r2.js', 'Ground')).toEqual([keyOf('Ground')]);
-  });
-
-  // #280: the field's input is named t('Ground coordinate') (register.js), so its visible label is
-  // that same glossary term; a separate wording drifted to the soil word twice (#194, #278).
-  it("labels a control point's Ground field with its accessible name, in every locale", () => {
-    // Not yet re-translated: a bare terrain word that is not the soil sense. Next increment.
-    const PENDING = new Set(['bg', 'es', 'pl', 'pt-BR', 'ru', 'tr', 'uk']);
-    const dir = join('app', 'src', 'i18n', 'catalog');
-    const wrong = [];
-    for (const f of readdirSync(dir).filter((x) => x.endsWith('.json') && x !== 'en.json')) {
-      const tag = f.slice(0, -5);
-      const m = JSON.parse(readFileSync(join(dir, f), 'utf8')).messages;
-      const label = m[keyOf('Ground', 'control point')];
-      if (label && !PENDING.has(tag) && label !== m['Ground coordinate']) wrong.push(`${tag}: ${label} / ${m['Ground coordinate']}`);
-    }
-    expect(wrong).toEqual([]);
   });
 });

@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "izohipsat kërkojnë një DEM të ngarkuar si terren",
   "contrast": "kontrast",
   "control point": "pikë kontrolli",
-  "control point\u0004Ground": "Koordinatë në tokë",
   "control points": "control points pika kontrolli",
   "convergence {deg}° is under 10°": "konvergjenca {deg}° është nën 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "konvertimi i {layer} kërkon rreth {need} GB hapësirë të lirë ruajtëse në shfletues; janë të disponueshme {free} GB",

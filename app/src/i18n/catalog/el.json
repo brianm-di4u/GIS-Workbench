@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "οι ισοϋψείς απαιτούν ΨΜΥ φορτωμένο ως έδαφος",
   "contrast": "αντίθεση",
   "control point": "φωτοσταθερό",
-  "control point\u0004Ground": "Συντεταγμένη εδάφους",
   "control points": "φωτοσταθερά σημεία",
   "convergence {deg}° is under 10°": "η σύγκλιση {deg}° είναι κάτω από 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "η μετατροπή του {layer} απαιτεί περίπου {need} GB ελεύθερου χώρου αποθήκευσης του προγράμματος περιήγησης· είναι διαθέσιμα {free} GB",

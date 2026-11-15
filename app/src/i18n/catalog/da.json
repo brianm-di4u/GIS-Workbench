@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "højdekurver kræver en DHM indlæst som terræn",
   "contrast": "kontrast",
   "control point": "paspunkt",
-  "control point\u0004Ground": "Terrænkoordinat",
   "control points": "paspunkter",
   "convergence {deg}° is under 10°": "konvergens {deg}° er under 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "konvertering af {layer} kræver ca. {need} GB ledigt browserlager; {free} GB er tilgængeligt",

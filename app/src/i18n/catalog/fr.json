@@ -6773,7 +6773,6 @@
   "contour lines need a DEM loaded as terrain": "les courbes de niveau nécessitent un MNE chargé comme terrain",
   "contrast": "contraste",
   "control point": "point d’appui",
-  "control point\u0004Ground": "Coordonnée terrain",
   "control points": "points d’appui",
   "convergence {deg}° is under 10°": "convergence de {deg}° inférieure à 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "la conversion de {layer} nécessite environ {need} Go de stockage libre dans le navigateur ; {free} Go disponibles",
