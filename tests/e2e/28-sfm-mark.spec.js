@@ -6,6 +6,7 @@
 
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { openApp } from './helpers.js';
 import { MAGIC, VERSION, controlCsv } from '../../app/src/features/sfm-gcp.js';
 
@@ -28,6 +29,12 @@ const HEADER = {
   files: [],
 };
 const MODEL = `${MAGIC} ${VERSION}\n${JSON.stringify(HEADER)}\n`;
+const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
+
+async function axe(frame, sel) {
+  if (!(await frame.evaluate(() => !!window.axe))) await frame.evaluate(AXE);
+  return frame.evaluate(async (q) => (await window.axe.run(document.querySelector(q), { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] } })).violations.map((v) => v.id), sel);
+}
 const CONTROL = controlCsv({
   epsg: 32630,
   points: [
@@ -92,6 +99,21 @@ async function start(frame, model, names = ['A.JPG', 'B.JPG'], turned = false) {
     window.__sfm = g.commands.run('sidecar.sfmcontrol', args);
   }, { model, names, turned });
 }
+
+// The axe pass on both SfM dialogs runs here, in Chrome and Edge, as well as in SCN-82: that test runs
+// on Chrome only (@sidecar-job, decision 0023).
+test('the control dialog and the marking dialog: axe clean', async ({ page }) => {
+  await mockSidecar(page);
+  const { frame } = await openApp(page, 'file', { prefs: { welcomeDone: true } });
+  await start(frame, true);
+  const opts = frame.locator('[data-id="dialog:sidecar-sfm-gcp"]');
+  await expect(opts).toBeVisible();
+  expect(await axe(frame, '[data-id="dialog:sidecar-sfm-gcp"]')).toEqual([]);
+  await opts.getByRole('button', { name: 'Run the first stage' }).click();
+  const dlg = frame.locator('[data-id="dialog:sidecar-sfm-mark"]');
+  await expect(dlg.locator('[data-id="sfm:photo"]')).toContainText('G1 in A.JPG', { timeout: 30_000 });
+  expect(await axe(frame, '[data-id="dialog:sidecar-sfm-mark"]')).toEqual([]);
+});
 
 test('the marking dialog: a click, the arrow keys and Enter mark a point without running the second stage', async ({ page }) => {
   await mockSidecar(page);

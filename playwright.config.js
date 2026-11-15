@@ -43,6 +43,9 @@ export default defineConfig({
     { name: 'sidecar-setup', testMatch: /e2e[\\/]sidecar[\\/]global\.setup\.js$/, teardown: 'sidecar-teardown' },
     { name: 'sidecar-teardown', testMatch: /e2e[\\/]sidecar[\\/]global\.teardown\.js$/ },
     { name: 'sidecar', use: chrome, testMatch: /e2e[\\/]sidecar[\\/][^\\/]+\.spec\.js$/, dependencies: ['sidecar-setup'], workers: 1 },
-    ...(LINUX ? [] : [{ name: 'sidecar-edge', use: { channel: 'msedge' }, testMatch: /e2e[\\/]sidecar[\\/][^\\/]+\.spec\.js$/, dependencies: ['sidecar-setup', 'sidecar'], workers: 1 }]), // one test sidecar: never beside the Chrome run
+    // A test tagged @sidecar-job runs a long sidecar job that the page only starts, checked against
+    // a reference: it runs on Chrome only (decision 0023). Every test where the page does the work
+    // runs on both browsers.
+    ...(LINUX ? [] : [{ name: 'sidecar-edge', use: { channel: 'msedge' }, testMatch: /e2e[\\/]sidecar[\\/][^\\/]+\.spec\.js$/, grepInvert: /@sidecar-job/, dependencies: ['sidecar-setup', 'sidecar'], workers: 1 }]), // one test sidecar: never beside the Chrome run
   ],
 });
