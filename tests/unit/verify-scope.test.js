@@ -38,6 +38,8 @@ describe('verify scope', () => {
     const args = (paths) => planSteps({ paths }).find((s) => s.name === 'Locale catalogues')?.args;
     expect(args(['app/src/i18n/catalog/de.json', 'app/src/i18n/state/de.json', 'app/src/i18n/catalog/pt-BR.json'])).toEqual(['build/i18n.mjs', 'check', '--strict=de,pt-BR']);
     expect(args(['app/src/i18n/state/fr.json', 'app/src/i18n/catalog/en.json'])).toEqual(['build/i18n.mjs', 'check', '--strict=fr']);
+    // Only a locale tag's shape reaches the command line, which is a shell on Windows.
+    expect(args(['app/src/i18n/state/x&calc&.json', 'app/src/i18n/catalog/de.json'])).toEqual(['build/i18n.mjs', 'check', '--strict=de']);
     for (const path of ['build/i18n.mjs', 'app/src/i18n/glossary/dnt.json', 'app/src/i18n/locales.json']) expect(args([path]), path).toEqual(['build/i18n.mjs', 'check']);
     expect(args(['app/src/i18n/catalog/en.json'])).toBeUndefined();
     expect(args(['app/src/a.js'])).toBeUndefined();

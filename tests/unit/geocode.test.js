@@ -26,16 +26,16 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
   });
   // #266: Portuguese and Russian write the number after its own comma, Hungarian with a dot.
   it('reads a number in its own segment after the street, and an ordinal dot', () => {
-    expect(parseQuery('Rua Principal, 12, Lisboa')).toEqual({ number: 12, suffix: '', street: 'rua principal', rest: 'lisboa', last: false, whole: 'rua principal', comma: '12 lisboa' });
+    expect(parseQuery('Rua Principal, 12, Lisboa')).toEqual({ number: 12, suffix: '', street: 'rua principal', rest: 'lisboa', last: false, whole: 'rua principal', comma: true });
     expect(parseQuery('Rua Principal, 12A, Lisboa')).toMatchObject({ number: 12, suffix: 'a', rest: 'lisboa' });
     expect(parseQuery('Fő utca 12., Újfalu')).toMatchObject({ number: 12, street: 'fo utca', rest: 'ujfalu', last: true });
     expect(parseQuery('ул. Ленина, 12/3, Москва')).toMatchObject({ number: 12, rest: 'москва' });
     // The short form, with no place (#292), and a 4-digit number, which may be a postcode: `comma`
-    // keeps the reading with all of it as the place.
-    expect(parseQuery('Rua Principal, 12')).toMatchObject({ number: 12, rest: '', comma: '12' });
-    expect(parseQuery('Hauptstraße, 1010, Wien')).toMatchObject({ number: 1010, rest: 'wien', comma: '1010 wien' });
-    // Longer numbers and postcode shapes are never a house number: they stay the place.
-    for (const q of ['Main Street, 10115', 'Main Street, 62701, USA', 'Marszałkowska, 00-950, Warszawa', 'Rua Principal, 1000-001, Lisboa', 'Rua Principal, 1000–001., Lisboa']) {
+    // marks it, for search to check against the street.
+    expect(parseQuery('Rua Principal, 12')).toMatchObject({ number: 12, rest: '', comma: true });
+    expect(parseQuery('Hauptstraße, 1010, Wien')).toMatchObject({ number: 1010, rest: 'wien', comma: true });
+    // Longer numbers, a leading zero and postcode shapes are never a house number: they stay the place.
+    for (const q of ['Main Street, 10115', 'Main Street, 0150, Oslo', 'Main Street, 62701, USA', 'Marszałkowska, 00-950, Warszawa', 'Rua Principal, 1000-001, Lisboa', 'Rua Principal, 1000–001., Lisboa']) {
       expect(parseQuery(q), q).toMatchObject({ number: NaN, rest: normalise(q.split(',').slice(1).join(' ')) });
     }
     // Both forms find the house, as the English order does, and so does the short form.
@@ -48,6 +48,13 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     expect(viaComma).toMatchObject({ match: 'street', number: '' });
     expect(viaComma.at).toEqual(search(IX, 'Main Street, Springfield')[0].at);
     expect(search(IX, 'Main Street, 1010, Springfield')[0]).toMatchObject({ match: 'street' });
+    // The place is matched without the number, so a longer place name still keeps its addresses only.
+    const two = buildIndex({ points: [{ ...MAIN(3, -105), place: 'Springfield IL' }, { ...MAIN(3, -90), id: 's3', place: 'Shelbyville' }] });
+    expect(search(two, 'Main Street, 101, Springfield IL').map((c) => c.match)).toEqual(['street']);
+    // A number held only in another place is not held here.
+    expect(search(IX, 'Main Street, 3, Shelbyville')[0]).toMatchObject({ match: 'other place', number: '' });
+    // A number the street holds in a range stays a house number.
+    expect(search(IX, 'Oak Avenue, 150, Springfield')[0]).toMatchObject({ match: 'interpolated', number: '150' });
     // Written before the street, the same number is still a house number, so the nearest one stands in.
     expect(search(IX, '101 Main Street, Springfield')[0]).toMatchObject({ match: 'nearest number' });
   });

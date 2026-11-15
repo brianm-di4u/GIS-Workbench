@@ -62,10 +62,10 @@ export function parseQuery(q) {
   // … or after its own comma, as in Portuguese and Russian ("Rua Principal, 12, Lisboa", or just
   // "Rua Principal, 12"): a segment of up to 4 digits, with a letter or a building fraction ("12/3"),
   // belongs to the street. A postcode can stand there too ("Hauptstraße, 1010, Wien"), so `comma`
-  // keeps the other reading, everything after the street as the place: search falls back to it
-  // when the street holds no such number.
-  m = /^\s*(\d{1,4})(?:\s*\/\s*\d{1,4})?([a-z])?\.?\s*$/i.exec(tail[0] ?? '');
-  if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')), comma: out.rest };
+  // marks it: search drops the number when the street does not hold it. A leading zero ("0150
+  // Oslo") is only ever a postcode.
+  m = /^\s*(?!0)(\d{1,4})(?:\s*\/\s*\d{1,4})?([a-z])?\.?\s*$/i.exec(tail[0] ?? '');
+  if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')), comma: true };
   return out;
 }
 
@@ -279,10 +279,10 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   let out = q.last && index.streets.has(q.whole) ? searchAs(index, named, fuzzy) : lettered && !index.streets.has(q.street) && index.streets.has(lettered.street) ? searchAs(index, lettered, fuzzy) : searchAs(index, q, fuzzy);
   if (!out.length && q.last) out = searchAs(index, named, fuzzy);
   if (!out.length && lettered) out = searchAs(index, lettered, fuzzy);
-  // "Street, 1010, Wien": a number after its own comma that the street does not hold, as a point
-  // or in a range, is more likely a postcode. Read it as part of the place, so the answer is the
-  // street, not the nearest house to a number that was never one.
-  if (q.comma !== undefined && !out.some((c) => c.number && houseNumber(c.number) === q.number)) out = searchAs(index, { ...q, number: NaN, suffix: '', rest: q.comma }, fuzzy);
+  // "Street, 1010, Wien": a number after its own comma that the street does not hold in the place
+  // named, as a point or in a range, is more likely a postcode. Drop it, so the answer is the
+  // street, not the nearest house to a number that was never one, nor that number elsewhere.
+  if (q.comma && !out.some((c) => c.match === 'exact' || c.match === 'interpolated')) out = searchAs(index, { ...q, number: NaN, suffix: '' }, fuzzy);
   return out.sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
