@@ -356,8 +356,6 @@ export function recordRound(ledger, { mode, round, phase = 'loop', model = null,
     if (finding.raise && !ledger.raise) ledger.raise = finding.raise;
   }
 
-  // Its blocking counts are exactly what it put on the ledger, so the gate can match the two (decision 0021).
-  if (raised) for (const severity of ['blocker', 'should']) raised[severity] = added.filter((f) => f.severity === severity).length;
   const complete = missing.length === 0;
   // A rerun replaces an incomplete round, so a timeout doesn't use up a phase's cap.
   if (ledger.rounds.at(-1)?.complete === false) ledger.rounds.pop();
@@ -434,10 +432,15 @@ export function buildVerdict({ ledger, tier: reviewedTier, hash, skipLines, coun
     })),
     // Every round as the ledger holds it, so the gate can count and judge convergence itself with
     // the same rules (decision 0021).
-    log: ledger.rounds.map((r) => ({ n: r.number, phase: r.phase, hash: r.hash, complete: r.complete, raised: r.raised ?? null, partial: r.partial ?? [], seats: r.seats ?? [], missing: r.missing ?? [] })),
+    // A round's blocking counts are the findings it put on the ledger, which is what the gate matches
+    // them against. A round can raise more than it records: two reviewers' findings at one place merge.
+    log: ledger.rounds.map((r) => ({ n: r.number, phase: r.phase, hash: r.hash, complete: r.complete, raised: r.raised ? { ...r.raised, ...recordedIn(ledger, r.number) } : null, partial: r.partial ?? [], seats: r.seats ?? [], missing: r.missing ?? [] })),
     ...(ledger.mechanical?.length ? { mechanical: ledger.mechanical.map(({ from, to }) => ({ from, to })) } : {}),
   };
 }
+
+const recordedIn = (ledger, round) =>
+  Object.fromEntries(['blocker', 'should'].map((severity) => [severity, ledger.findings.filter((f) => f.round === round && f.severity === severity && f.status !== 'pre-existing').length]));
 
 // Why a verdict doesn't stand up against its own round log, as a list (empty when it does). The gate
 // calls this: it rebuilds the ledger from the log and applies the council's own rules, so a verdict

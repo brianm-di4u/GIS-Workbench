@@ -64,6 +64,19 @@ describe('a verdict and its round log', () => {
     expect(verdictProblems(good, 'd'.repeat(64))).not.toEqual([]);
   });
 
+  it('counts what a round recorded when two of its findings merged, so the gate accepts it', () => {
+    const ledger = emptyLedger();
+    const near = { severity: 'should', class: 'merged class', file: 'src/m.js', preExisting: false };
+    round(ledger, [{ ...near, line: 10, claim: 'first' }, { ...near, line: 12, claim: 'second' }], 'b'.repeat(64));
+    expect(ledger.findings).toHaveLength(1);
+    expect(ledger.rounds[0].raised.should).toBe(2);
+    resolveFinding(ledger, ledger.findings[0].id, 'fixed');
+    for (let i = 0; i < 4; i += 1) round(ledger);
+    const verdict = buildVerdict({ ledger, tier: 1, hash: HASH });
+    expect(verdict.log[0].raised.should).toBe(1);
+    expect(verdictProblems(verdict, HASH)).toEqual([]);
+  });
+
   it("takes a small T1 change's close-out alone only when the gate counts it small (decision 0024)", () => {
     const ledger = emptyLedger();
     for (let i = 0; i < 2; i += 1) {
