@@ -10,8 +10,8 @@
 //   checked first on osgEarth's tank.FLT, and OpenSceneGraph's OpenFlight plug-in (osgconv,
 //   E:\gwb25\envs\osg) reading the app's files.
 // The large data stays on E:; tests skip cleanly without it, the wasm or the tools.
-import { describe, it, expect, beforeAll } from 'vitest';
-import { existsSync, readFileSync, writeFileSync, mkdirSync, openAsBlob, rmSync } from 'node:fs';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, mkdtempSync, openAsBlob, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -30,8 +30,11 @@ import { geoToEcef } from '../../app/src/formats/tiles3d-write.js';
 const DATA = 'E:/gwb25/data-models3d';
 const SLPK = `${DATA}/slpk`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
-// The writer tests need somewhere to write even when the E: data drive is absent.
-const WORK = existsSync(DATA) ? `${DATA}/work/vitest` : join(tmpdir(), 'gw-models3d-vitest').replaceAll('\\', '/');
+// The writer tests need somewhere to write even when the E: data drive is absent. Each run gets its own
+// folder, so two runs at once (two worktrees, #312) don't write over each other's packages.
+const WORK_BASE = existsSync(DATA) ? `${DATA}/work` : tmpdir();
+mkdirSync(WORK_BASE, { recursive: true });
+const WORK = mkdtempSync(join(WORK_BASE, 'vitest-')).replaceAll('\\', '/');
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const PY = `${PYENV}/python.exe`;
 const OSG = 'E:/gwb25/envs/osg/Library/bin';
@@ -75,8 +78,8 @@ const open = async (p) => SlpkStore.open(await fileOf(p), run);
 
 beforeAll(() => {
   if (haveWasm) tiles = new Bundle(new WebAssembly.Module(readFileSync(wasmPath)), 'tiles');
-  mkdirSync(WORK, { recursive: true });
 });
+afterAll(() => rmSync(WORK, { recursive: true, force: true }));
 
 describe.skipIf(!haveWasm || !haveData || !havePy)('SLPK container (Rust) against Python zipfile', () => {
   for (const f of ['Rancho_Mesh_v18.slpk', 'Rancho_Mesh_v17.slpk', 'Admin_Building_v18.slpk', '2015_Street_Tree_Survey_v18.slpk', 'Buildings_NewYork_v18.slpk']) {
