@@ -79,16 +79,25 @@ export function remapCargoHome(cargoHome = process.env.CARGO_HOME || join(homedi
   return ['--config', `target.wasm32-unknown-unknown.rustflags=['--remap-path-prefix=${cargoHome}=/cargo']`];
 }
 
-export function buildRust(root, { log = console.log, strict = false } = {}) {
+/**
+ * Cargo's build of every bundle, which the unit tests also load. Cargo rebuilds only what changed,
+ * and the flags must match the app build's, or each would rebuild all the other made.
+ */
+export function cargoBundles(root) {
   const crates = join(root, 'crates');
-  const results = [];
-  const errors = [];
   const remap = remapCargoHome();
   for (const b of BUNDLES) {
     const env = { ...process.env, CARGO_PROFILE_RELEASE_OPT_LEVEL: b.opt };
     const r = spawnSync('cargo', [...remap, 'build', '--locked', '--release', '--target', 'wasm32-unknown-unknown', '-p', b.crate], { cwd: crates, env, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
     if (r.status !== 0) throw new Error(`cargo build ${b.crate} failed:\n${r.stderr}`);
   }
+}
+
+export function buildRust(root, { log = console.log, strict = false } = {}) {
+  const crates = join(root, 'crates');
+  const results = [];
+  const errors = [];
+  cargoBundles(root);
   const tdir = join(targetDir(crates), 'wasm32-unknown-unknown', 'release');
   const wasmOpt = spawnSync('wasm-opt', ['--version'], { encoding: 'utf8' }).status === 0;
   if (!wasmOpt) log('rust: wasm-opt not found; shipping cargo output unoptimised by binaryen (install binaryen to enable)');

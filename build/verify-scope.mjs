@@ -10,6 +10,7 @@
 // GWB_LEG picks a CI leg: `linux` for the app, `sidecar` for the native code on Windows. With
 // neither set, a local run does both.
 import { spawnSync } from 'node:child_process';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { scopeCargoTarget } from './cargo-target.mjs';
 
@@ -129,6 +130,39 @@ function workspaceCrates() {
   }));
 }
 
+/**
+ * The browser tests a Playwright JSON report skipped for want of data, by reason. With
+ * GWB_PARTIAL_DATA a missing sample or pack skips its test instead of failing it, so a run can pass
+ * having tested none of them. Opt-in measurements ("a measurement: …") aren't data skips.
+ */
+export function dataSkips(report) {
+  const reasons = {};
+  const walk = (suite) => {
+    for (const spec of suite.specs ?? []) {
+      for (const t of spec.tests ?? []) {
+        if (t.status !== 'skipped') continue;
+        const skip = [...(t.annotations ?? []), ...(t.results?.[0]?.annotations ?? [])].find((a) => a.type === 'skip');
+        const reason = skip?.description ?? 'no reason given';
+        if (/^a measurement:/.test(reason)) continue;
+        reasons[reason] = (reasons[reason] ?? 0) + 1;
+      }
+    }
+    for (const child of suite.suites ?? []) walk(child);
+  };
+  for (const suite of report?.suites ?? []) walk(suite);
+  return { count: Object.values(reasons).reduce((a, b) => a + b, 0), reasons };
+}
+
+/** After the browser subset: say how many tests it skipped for missing data, and keep the count. */
+function reportDataSkips(since) {
+  const file = 'reports/e2e.json';
+  if (!existsSync(file) || statSync(file).mtimeMs < since) return;
+  const skips = dataSkips(JSON.parse(readFileSync(file, 'utf8')));
+  writeFileSync('reports/data-skips.json', `${JSON.stringify(skips, null, 2)}\n`);
+  console.log(`=== Browser subset: ${skips.count} tests skipped for missing data`);
+  for (const [reason, n] of Object.entries(skips.reasons).sort((a, b) => b[1] - a[1]).slice(0, 8)) console.log(`      ${n} × ${reason}`);
+}
+
 function main() {
   scopeCargoTarget(); // this checkout's target, not a machine-wide one shared with other worktrees (#42)
   const paths = changedPaths();
@@ -150,6 +184,7 @@ function main() {
     const started = Date.now();
     const { status } = spawnSync(command, args, { stdio: 'inherit', cwd, env, shell: process.platform === 'win32' });
     console.log(`=== ${name}: ${status === 0 ? 'ok' : 'FAILED'} in ${Math.round((Date.now() - started) / 1000)} s`);
+    if (name === 'Browser subset') reportDataSkips(started);
     if (status !== 0) failed.push(name);
   }
   if (failed.length > 0) console.error(`\nFailed: ${failed.join(', ')}`);

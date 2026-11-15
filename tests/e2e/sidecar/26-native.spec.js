@@ -24,14 +24,13 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
 import { openApp, openFiles } from '../helpers.js';
-import { approvePending, startSidecar, stopSidecar, windowPost, outboundConnections, EXE, DATA_ROOT, DIST_DIR, LINUX } from './harness.js';
+import { approvePending, startSidecar, stopSidecar, windowPost, outboundConnections, EXE, DATA_ROOT, DIST_DIR, LINUX, RELAY_EXE } from './harness.js';
 
 const DIST = join(DIST_DIR, 'gis-workbench.html');
 const PREFS = { welcomeDone: true };
 const AXE = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const WORK = resolve('test-results', 'native');
 const CERTS = resolve('fixtures/fx26/native/certs');
-const RELAY_EXE = process.env.GWB_SIDECAR_RELAY_EXE ?? 'E:/qlab/ct26-native-relay/release/gwb-sidecar.exe';
 const MOCK = process.env.GWB_PRO_MOCK ?? resolve('sidecar/pro-addin/MockAddin/bin/Release/net8.0/MockAddin.exe');
 const PAIR = (process.env.GWB_STEREO_PAIR ?? 'E:/TE-corpus/derived-gtiff-variants/mvs_wv3_a_chip_rpc.tif;E:/TE-corpus/derived-gtiff-variants/mvs_wv3_b_chip_rpc.tif').split(';');
 const PORT = Number(process.env.GWB_NATIVE_PORT ?? 47822);

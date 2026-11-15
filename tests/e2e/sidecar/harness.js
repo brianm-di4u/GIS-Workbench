@@ -19,6 +19,8 @@ const HOME = process.env.HOME ?? '';
 const TARGET = process.env.GWB_SIDECAR_TARGET ?? (LINUX ? join(HOME, 'gwb/target/x86_64-unknown-linux-musl') : join(homedir(), 'AppData', 'Local', 'qlab', 'ct21-sidecar'));
 export const EXE = process.env.GWB_SIDECAR_EXE ?? join(TARGET, 'release', LINUX ? 'gwb-sidecar' : 'gwb-sidecar.exe');
 export const MODULES = process.env.GWB_SIDECAR_MODULES ?? (LINUX ? join(HOME, 'gwb/bundle/modules') : 'E:/gwb-sidecar-deps/bundle/modules');
+/** The test-only relay build (`--features cors-relay`, never shipped, OD-2.17); 26-native skips its tests without one. */
+export const RELAY_EXE = process.env.GWB_SIDECAR_RELAY_EXE ?? 'E:/qlab/ct26-native-relay/release/gwb-sidecar.exe';
 /** Where the test sidecar keeps its data (Linux: the native disk, not /mnt/c (slow) or /tmp (RAM)). */
 export const DATA_ROOT = process.env.GWB_SIDECAR_DATA ?? (LINUX ? join(HOME, 'gwb/e2e') : resolve('test-results'));
 export const DIST_DIR = process.env.GWB_DIST_DIR ? resolve(process.env.GWB_DIST_DIR) : BUILD_DIR; // else GW_DIST (helpers.js)
