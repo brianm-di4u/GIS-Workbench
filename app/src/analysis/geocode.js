@@ -60,13 +60,13 @@ export function parseQuery(q) {
     if (street) return { ...out, number: +m[2], suffix: (m[3] || '').toLowerCase(), street, last: true };
   }
   // … or after its own comma, as in Portuguese and Russian ("Rua Principal, 12, Lisboa", or just
-  // "Rua Principal, 12"): a segment that is only a number belongs to the street, and the place
-  // starts after it. A postcode
-  // can stand there too ("Wien" 1010, "00-950 Warszawa", "62701"), so only a short number is read,
-  // up to 3 digits, with a letter or a building fraction ("12/3"). Anything longer stays the place,
-  // as before: a missed house number falls back to the street, a misread one is a wrong point.
-  m = /^\s*(\d{1,3})(?:\s*\/\s*\d{1,3})?([a-z])?\.?\s*$/i.exec(tail[0] ?? '');
-  if (m && out.street) return { ...out, number: +m[1], suffix: (m[2] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')) };
+  // "Rua Principal, 12"): a segment of up to 4 digits, with a letter or a building fraction ("12/3"),
+  // belongs to the street, and the place starts after it. A bare number there may instead be a
+  // postcode ("Hauptstraße, 1010, Wien", "Laugavegur, 101, Reykjavík"), so `asPlace` keeps that
+  // reading, everything after the street as the place, and search ranks both (decision 0025). A
+  // leading zero ("0150 Oslo"), five digits or a postcode's hyphen is only ever the place.
+  m = /^\s*(?!0)(\d{1,4})(\s*\/\s*\d{1,4})?([a-z])?\.?\s*$/i.exec(tail[0] ?? '');
+  if (m && out.street) return { ...out, number: +m[1], suffix: (m[3] || '').toLowerCase(), rest: normalise(tail.slice(1).join(' ')), ...(m[2] || m[3] ? {} : { asPlace: out.rest }) };
   return out;
 }
 
@@ -233,7 +233,7 @@ function searchAs(index, q, fuzzy) {
   }
   const out = [];
   const placeOk = (pl) => !q.rest || !pl || samePlace(pl, q.rest);
-  const known = !!q.rest && [...(index.places ?? [])].some((pl) => samePlace(pl, q.rest));
+  const known = knownPlace(index, q.rest);
   for (const [s, sim] of cands) {
     // One candidate per place the street is in: Main St in two towns is two streets.
     const groups = new Map();
@@ -263,6 +263,9 @@ function samePlace(a, b) {
   return x.every((w) => y.includes(w));
 }
 
+/** Whether a normalised place names one the index holds. */
+const knownPlace = (index, place) => !!place && [...(index.places ?? [])].some((pl) => samePlace(pl, place));
+
 /**
  * Candidates for a query, best first: {at, score (0–100), match ('exact' | 'interpolated' |
  * 'nearest number' | 'street' | 'other place'), street, number, id}. A misspelt street still matches when its
@@ -280,7 +283,23 @@ export function search(index, query, { limit = 5, fuzzy = 0.7 } = {}) {
   let out = q.last && index.streets.has(q.whole) ? searchAs(index, named, fuzzy) : lettered && !index.streets.has(q.street) && index.streets.has(lettered.street) ? searchAs(index, lettered, fuzzy) : searchAs(index, q, fuzzy);
   if (!out.length && q.last) out = searchAs(index, named, fuzzy);
   if (!out.length && lettered) out = searchAs(index, lettered, fuzzy);
-  return out.sort((a, b) => b.score - a.score).slice(0, limit);
+  const byScore = (a, b) => b.score - a.score;
+  if (q.asPlace === undefined) return out.sort(byScore).slice(0, limit);
+  // "Street, 1010, Wien": a bare number after its own comma is a house number or a postcode, so both
+  // readings are ranked (decision 0025): a house the street holds there first, as a point or in a
+  // range; then the street, read with the number as part of the place, as before #290; then a
+  // nearest-house guess. That place is the whole tail when the index holds it ("1210"), or else
+  // the place after the number, so "Main Street, 99, Springfield" still finds Springfield IL.
+  const house = (c) => !!c.number && houseNumber(c.number) === q.number;
+  const place = knownPlace(index, q.asPlace) || !knownPlace(index, q.rest) ? q.asPlace : q.rest;
+  const asPostcode = searchAs(index, { ...q, number: NaN, suffix: '', rest: place }, fuzzy);
+  const seen = new Set();
+  return [...out.filter(house).sort(byScore), ...asPostcode.sort(byScore), ...out.filter((c) => !house(c)).sort(byScore)]
+    .filter((c) => {
+      const key = `${c.at}|${c.number}`;
+      return !seen.has(key) && seen.add(key);
+    })
+    .slice(0, limit);
 }
 
 /** The nearest point of segment a–b to p (lon/lat), with its fraction along it and its side (+1 left, −1 right). */
