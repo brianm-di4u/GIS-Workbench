@@ -9,7 +9,7 @@ const CI = Boolean(process.env.CI);
 // Tests that measure real time. A shared runner with no GPU can't run them fairly, so they stay in
 // the local gate. The frame-rate and time budgets of perf.spec.js and perf-r2.spec.js are among
 // them: on the nightly runner's SwiftShader the anaglyph pans at under 2 fps (#48).
-const TIMED = /REQ-PRF-03 first tile of a local|REQ-PRF-02 REQ-PRF-08 a 2×2|REQ-PRF-06 a 4k|AT-05\.3 REQ-STR-04|REQ-FMT-52 FC-22|REQ-GAP-47 playback|REQ-GAP-48 (MPEG-2|S-58)|REQ-GAP-49 (SCN-55|AES-128|live sliding window)|REQ-PRF-01 interactive within|SCN-12 AT-12\.2|SCN-14 AT-14\.1|SCN-15 AT-15\.3|REQ-HOST-05 gestures|REQ-ING-04 a 100 000-feature layer/;
+const TIMED = /REQ-PRF-03 first tile of a local|REQ-PRF-02 REQ-PRF-08 a 2×2|REQ-PRF-06 a 4k|AT-05\.3 REQ-STR-04|REQ-FMT-52 FC-22|REQ-GAP-47 playback|REQ-GAP-48 (MPEG-2|S-58)|REQ-GAP-49 (SCN-55|SCN-30 corpus|AES-128|live sliding window)|REQ-PRF-01 interactive within|SCN-12 AT-12\.2|SCN-14 AT-14\.1|SCN-15 AT-15\.3|REQ-HOST-05 gestures|REQ-ING-04 a 100 000-feature layer/;
 const QUARANTINED = CI ? grepInvert(readQuarantine()) : undefined;
 const ON_RUNNERS = [TIMED, QUARANTINED].filter(Boolean);
 
@@ -21,7 +21,9 @@ const NOT_ON_PRS = ['**/sidecar/**', '**/gui-modern.spec.js', '**/gui-sweep.spec
 export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 90_000,
-  workers: 4,
+  // The total; each project caps its own. `verify full` holds the machine lock, so its `ci` project
+  // runs 8 locally (#312: 229 s against 311 s at 4); CI runners and the release gate's projects stay at 4.
+  workers: CI ? 4 : 8,
   // Flake policy: one retry in CI only, and known flakes are listed in tests/quarantine.json.
   // A local run never retries, so a flake stays visible to whoever is working on it.
   retries: CI ? 1 : 0,
@@ -34,10 +36,10 @@ export default defineConfig({
   },
   projects: [
     // Every suite but the sidecar ones runs with no sidecar (PT-13).
-    { name: 'chrome', use: chrome, testIgnore: '**/sidecar/**' },
-    { name: 'ci', use: chrome, testIgnore: NOT_ON_PRS, grepInvert: ON_RUNNERS },
-    { name: 'nightly', use: chrome, testIgnore: '**/sidecar/**', grepInvert: ON_RUNNERS },
-    ...(LINUX ? [] : [{ name: 'edge', use: { channel: 'msedge' }, testIgnore: '**/sidecar/**' }]),
+    { name: 'chrome', use: chrome, testIgnore: '**/sidecar/**', workers: 4 },
+    { name: 'ci', use: chrome, testIgnore: NOT_ON_PRS, grepInvert: ON_RUNNERS, workers: CI ? 4 : 8 },
+    { name: 'nightly', use: chrome, testIgnore: '**/sidecar/**', grepInvert: ON_RUNNERS, workers: 4 },
+    ...(LINUX ? [] : [{ name: 'edge', use: { channel: 'msedge' }, testIgnore: '**/sidecar/**', workers: 4 }]),
     // The optional sidecar (SDP-2.1 §7.5): a setup project starts a test sidecar with a test
     // pairing token; the teardown project stops it. Run: npx playwright test --project=sidecar
     { name: 'sidecar-setup', testMatch: /e2e[\\/]sidecar[\\/]global\.setup\.js$/, teardown: 'sidecar-teardown' },
