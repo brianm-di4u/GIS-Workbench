@@ -17,7 +17,7 @@ concurrency:
 jobs:
   app:
     if: ${{ !github.event.repository.private }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
       GWB_LEG: linux
