@@ -26,7 +26,7 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
   });
   // #266: Portuguese and Russian write the number after its own comma, Hungarian with a dot.
   it('reads a number in its own segment after the street, and an ordinal dot', () => {
-    expect(parseQuery('Rua Principal, 12, Lisboa')).toEqual({ number: 12, suffix: '', street: 'rua principal', rest: 'lisboa', last: false, whole: 'rua principal' });
+    expect(parseQuery('Rua Principal, 12, Lisboa')).toEqual({ number: 12, suffix: '', street: 'rua principal', rest: 'lisboa', last: false, whole: 'rua principal', asPlace: '12 lisboa' });
     expect(parseQuery('Rua Principal, 12A, Lisboa')).toMatchObject({ number: 12, suffix: 'a', rest: 'lisboa' });
     expect(parseQuery('Fő utca 12., Újfalu')).toMatchObject({ number: 12, street: 'fo utca', rest: 'ujfalu', last: true });
     // The short form, with no place after the number (#292), reads the same way.
@@ -36,14 +36,64 @@ describe('REQ-GAP-85 address normalising and parsing', () => {
     // A longer lone number may be a postcode: it stays the place.
     expect(parseQuery('Main Street, 10115')).toMatchObject({ street: 'main st', rest: '10115' });
     expect(Number.isNaN(parseQuery('Main Street, 10115').number)).toBe(true);
-    // … and so does a postcode with a place after it: only a number of up to 3 digits is read there,
-    // with a letter or a building fraction, so every postcode shape keeps the old street reading.
-    for (const q of ['Main Street, 62701, USA', 'Hauptstraße, 1010, Wien', 'Fő utca, 1011, Budapest', 'Marszałkowska, 00-950, Warszawa', 'Rua Principal, 1000-001, Lisboa', 'Rua Principal, 1000–001., Lisboa', 'Avenida Paulista, 1578, São Paulo']) {
+    // … and so do five digits, a leading zero and a postcode's hyphen with a place after them.
+    for (const q of ['Main Street, 62701, USA', 'Main Street, 0150, Oslo', 'Marszałkowska, 00-950, Warszawa', 'Rua Principal, 1000-001, Lisboa', 'Rua Principal, 1000–001., Lisboa']) {
       expect(parseQuery(q), q).toMatchObject({ number: NaN, rest: normalise(q.split(',').slice(1).join(' ')) });
     }
     expect(parseQuery('ул. Ленина, 12/3, Москва')).toMatchObject({ number: 12, rest: 'москва' });
+    // Up to 4 digits are a house number; a bare one keeps the postcode reading in `asPlace` (decision 0025).
+    expect(parseQuery('Avenida Paulista, 1578, São Paulo')).toMatchObject({ number: 1578, rest: 'sao paulo', asPlace: '1578 sao paulo' });
+    expect(parseQuery('Rua Principal, 12A, Lisboa').asPlace).toBeUndefined();
+    expect(parseQuery('ул. Ленина, 12/3, Москва').asPlace).toBeUndefined();
     // Both forms find the house, as the English order does, and so does the short form.
     for (const q of ['Main Street, 3, Springfield', 'Main Street 3., Springfield', 'Main Street, 3']) expect(search(IX, q)[0]?.id, q).toBe('m3');
+  });
+  // #301, decision 0025: a bare number after the street's comma is a house number or a postcode;
+  // search ranks a house the street holds first, the street read with the postcode next, and a
+  // nearest-house guess last.
+  it('ranks the house-number and postcode readings of a number after the comma', () => {
+    const at = (c) => [c.match, c.number, c.at];
+    // A point, and a 4-digit one: the house first.
+    const towns = buildIndex({ points: [MAIN(3, -105), { ...MAIN(5, -90), id: 's5', place: 'Shelbyville' }, MAIN(1578, -105.01)] });
+    expect(search(towns, 'Main Street, 1578, Springfield')[0]).toMatchObject({ match: 'exact', id: 'm1578' });
+    expect(search(IX, 'Main Street, 3, Springfield')[0]).toMatchObject({ match: 'exact', id: 'm3' });
+    // A range: the interpolated house first.
+    expect(search(IX, 'Oak Avenue, 150, Springfield')[0]).toMatchObject({ match: 'interpolated', number: '150' });
+    // A number the street does not hold: its street first, then the nearest house, lower.
+    const r = search(IX, 'Main Street, 101, Springfield');
+    expect(r.map((c) => c.match)).toEqual(['street', 'nearest number']);
+    expect(r[0].at).toEqual(search(IX, 'Main Street, Springfield')[0].at);
+    // A postcode-named index: the district the postcode names.
+    const districts = buildIndex({ points: [5, 7].map((n) => ({ id: `a${n}`, number: String(n), street: 'Hauptstraße', place: '1010', at: [16.37, 48.21] })).concat([5, 9].map((n) => ({ id: `b${n}`, number: String(n), street: 'Hauptstraße', place: '1210', at: [16.4, 48.27] }))) });
+    expect(at(search(districts, 'Hauptstraße, 1210')[0])).toEqual(['street', '', [16.4, 48.27]]);
+    // A multi-word place named by its first word: still that place's street, not every town's.
+    const two = buildIndex({ points: [{ ...MAIN(3, -105), place: 'Springfield IL' }, { ...MAIN(5, -105.001), place: 'Springfield IL' }, { ...MAIN(3, -90), id: 's3', place: 'Shelbyville' }] });
+    expect(search(two, 'Main Street, 99, Springfield').map((c) => c.match)).toEqual(['street', 'nearest number']);
+    // The short form with no place: the street in each town, never 'other place' (no place was named).
+    expect(search(two, 'Main Street, 101').map((c) => c.match)).not.toContain('other place');
+    expect(search(two, 'Main Street, 3')[0]).toMatchObject({ match: 'exact', number: '3' });
+    // A lettered number has one reading, the house: the nearest house, with no postcode street.
+    expect(search(IX, 'Main Street, 4B, Springfield').map((c) => c.match)).toEqual(['nearest number']);
+    // The postcode reading keeps the place after the number when the index holds no place with the
+    // number in it: "99, Springfield" gives the same streets as "Springfield" alone.
+    const springs = buildIndex({ points: [{ ...MAIN(5, -90), id: 'p5' }, { ...MAIN(7, -89.6), id: 'q7', place: 'Springfield IL' }] });
+    const streets = (q) => search(springs, q).filter((c) => c.match === 'street').map((c) => c.at);
+    expect(streets('Main Street, 99, Springfield')).toEqual(streets('Main Street, Springfield'));
+    expect(streets('Main Street, 99, Springfield')).toHaveLength(2);
+    // "Hauptstraße, 1010, Wien" with Wien in the index: Wien's street, not Graz's.
+    const towns2 = buildIndex({ points: [{ id: 'w7', number: '7', street: 'Hauptstraße', place: 'Wien', at: [16.37, 48.21] }, { id: 'g7', number: '7', street: 'Hauptstraße', place: 'Graz', at: [15.44, 47.07] }] });
+    const wien = search(towns2, 'Hauptstraße, 1010, Wien');
+    expect(wien[0]).toMatchObject({ match: 'street', at: [16.37, 48.21] });
+    // The street and the nearest house share a point but are different results: both stay.
+    expect(wien.map((c) => c.match)).toEqual(['street', 'nearest number']);
+    // A postcode-named index with a city after the postcode: the district, ahead of any other.
+    expect(search(districts, 'Hauptstraße, 1210, Wien')[0]).toMatchObject({ match: 'street', at: [16.4, 48.27] });
+    expect(wien.some((c) => c.id === 'g7' || (c.at[0] === 15.44 && c.at[1] === 47.07))).toBe(false);
+    // Both readings can land on the same street: it is listed once.
+    const elm = buildIndex({ points: [{ id: 'e', number: '', street: 'Elm Road', place: 'Springfield', at: [-100, 40] }] });
+    expect(search(elm, 'Elm Road, 7').map((c) => c.match)).toEqual(['street']);
+    // An unknown place (a postcode, a misspelling) hides nothing: a house the street holds is first.
+    for (const q of ['Main Street, 3, 62701', 'Main Street, 3, Springfeld']) expect(search(IX, q)[0], q).toMatchObject({ number: '3', id: 'm3' });
   });
   // #266: Find Address shows "12 Main Street, Springfield" as its example; every locale's example
   // must be one the parser reads, house number 12 on a street, in a place.
