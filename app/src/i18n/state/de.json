@@ -7055,8 +7055,7 @@
   },
   "Image coordinates: the first pixel centre is (0.5, 0.5). Ground: WGS 84.": {
    "h": "c32198d0a26c",
-   "state": "passed",
-   "note": "review: Ground = ground-coordinate term, not bare terrain"
+   "state": "passed"
   },
   "Image corners vs projection": {
    "h": "65aba79a24c9",
@@ -37799,8 +37798,7 @@
   },
   "control point\u0004Ground": {
    "h": "151bf4939471",
-   "state": "passed",
-   "note": "review: Ground = ground-coordinate term, not bare terrain"
+   "state": "passed"
   },
   "dates": {
    "h": "f18e48678b72",

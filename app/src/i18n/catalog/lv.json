@@ -6773,7 +6773,7 @@
   "contour lines need a DEM loaded as terrain": "horizontālēm nepieciešams DAM, kas ielādēts kā reljefs",
   "contrast": "kontrasts",
   "control point": "atbalsta punkts",
-  "control point\u0004Ground": "Apvidus koordinātas",
+  "control point\u0004Ground": "Apvidus koordināta",
   "control points": "atbalsta punkti",
   "convergence {deg}° is under 10°": "konverģence {deg}° ir mazāka par 10°",
   "converting {layer} needs about {need} GB of free browser storage; {free} GB is available": "slāņa {layer} konvertēšanai nepieciešami aptuveni {need} GB brīvas pārlūkprogrammas krātuves; pieejami {free} GB",
