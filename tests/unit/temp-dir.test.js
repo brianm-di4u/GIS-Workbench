@@ -59,7 +59,6 @@ const BEFORE_THE_HELPER = new Set([
   'tests/unit/i18n.test.js',
   'tests/unit/machine-lock.test.js',
   'tests/unit/media-gate.test.js',
-  'tests/unit/models3d.test.js',
   'tests/unit/node-modules-check.test.js',
   'tests/unit/obs-export.test.js',
   'tests/unit/obstruction25.test.js',

@@ -14,10 +14,10 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, openAsBlob, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
 import vm from 'node:vm';
 import zlib from 'node:zlib';
 import { Bundle } from '../../app/src/wasm/abi.js';
+import { tempDir } from '../tools/temp-dir.mjs';
 import { slpkEnd, slpkDirectory, i3sGeometry, geometryParams } from '../../app/src/formats/i3s-wasm.js';
 import { SlpkStore, describeLayer, NodeTree, nodeGeometry, nodeAttributes, nodeTexture, gravityHeights } from '../../app/src/formats/i3s-scene.js';
 import { decodeGeometry, decodeAttribute } from '../../app/src/connectors/i3s.js';
@@ -30,8 +30,10 @@ import { geoToEcef } from '../../app/src/formats/tiles3d-write.js';
 const DATA = 'E:/gwb25/data-models3d';
 const SLPK = `${DATA}/slpk`;
 const CONVERTER = `${DATA}/i3s_converter/i3s_converter.exe`;
-// The writer tests need somewhere to write even when the E: data drive is absent.
-const WORK = existsSync(DATA) ? `${DATA}/work/vitest` : join(tmpdir(), 'gw-models3d-vitest').replaceAll('\\', '/');
+// The writer tests need somewhere to write even when the E: data drive is absent. Each run gets its own
+// folder, removed when the file ends, so two runs at once (two worktrees, #312) don't write over each
+// other's packages.
+const WORK = (existsSync(DATA) ? tempDir('vitest', `${DATA}/work`) : tempDir('gw-models3d-vitest')).replaceAll('\\', '/');
 const PYENV = 'C:/GIS Workbench/TE-tools/mamba/envs/gw-te';
 const PY = `${PYENV}/python.exe`;
 const OSG = 'E:/gwb25/envs/osg/Library/bin';
@@ -75,7 +77,6 @@ const open = async (p) => SlpkStore.open(await fileOf(p), run);
 
 beforeAll(() => {
   if (haveWasm) tiles = new Bundle(new WebAssembly.Module(readFileSync(wasmPath)), 'tiles');
-  mkdirSync(WORK, { recursive: true });
 });
 
 describe.skipIf(!haveWasm || !haveData || !havePy)('SLPK container (Rust) against Python zipfile', () => {
