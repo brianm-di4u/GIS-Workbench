@@ -18,6 +18,13 @@ fn read(rel: &str, max: usize) -> Option<Vec<u8>> {
     Some(b[..b.len().min(max)].to_vec())
 }
 
+/// A fixture in this repository. A CI runner has these and no corpus, so each target takes one as a
+/// seed as well: with none it ran nothing and passed.
+fn fixture(rel: &str, max: usize) -> Option<Vec<u8>> {
+    let b = std::fs::read(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/fx21/nitf").join(rel)).ok()?;
+    Some(b[..b.len().min(max)].to_vec())
+}
+
 fn iters() -> usize {
     std::env::var("GW_FUZZ_ITERS").ok().and_then(|v| v.parse().ok()).unwrap_or(1500)
 }
@@ -34,7 +41,7 @@ fn fuzz21_nitf() {
     let mut reports = Vec::new();
 
     // RPF A.TOC: NITF-wrapped and bare tables of contents.
-    let tocs: Vec<Vec<u8>> = ["derived-rpf-cadrg-from-cib10/n35e011/RPF/A.TOC", "derived-rpf-cadrg-from-cib10/n60w156/RPF/A.TOC", "raster-gdal-autotest-dimap2-rpf-nm/rpftoc/zone9/RPF/A.TOC", "nitf-rpf-cadrg-frames/rpf_toc/A.TOC"].iter().filter_map(|p| read(p, 1 << 20)).collect();
+    let tocs: Vec<Vec<u8>> = ["derived-rpf-cadrg-from-cib10/n35e011/RPF/A.TOC", "derived-rpf-cadrg-from-cib10/n60w156/RPF/A.TOC", "raster-gdal-autotest-dimap2-rpf-nm/rpftoc/zone9/RPF/A.TOC", "nitf-rpf-cadrg-frames/rpf_toc/A.TOC"].iter().filter_map(|p| read(p, 1 << 20)).chain(["rpf-cadrg-z2/RPF/A.TOC", "rpf-cib-z3/RPF/A.TOC"].iter().filter_map(|p| fixture(p, 1 << 20))).collect();
     reports.push(run("rpf_toc", &tocs, n, hang, &o, |b| {
         if let Ok(t) = gw_parse::rpf_toc::parse(b) {
             let _ = gw_parse::rpf_toc::to_json(&t);
@@ -89,6 +96,7 @@ fn fuzz21_nitf() {
             oj.push(b);
         }
     }
+    oj.extend(fixture("ojpeg_ycbcr.tif", 1 << 20));
     reports.push(run("ojpeg", &oj, n, hang, &o, |b| {
         use gw_codec::ojpeg::{header, ifd_entries, ifd_repair, stream, Record};
         let le = b.first() == Some(&0x49);
@@ -115,6 +123,7 @@ fn fuzz21_nitf() {
             fp.push(b);
         }
     }
+    fp.extend(["footprint_mg3.sid", "footprint_v2.ecw"].iter().filter_map(|f| fixture(f, 64 << 10)));
     reports.push(run("footprint", &fp, n, hang, &o, |b| {
         for f in [gw_parse::footprint::mrsid(b), gw_parse::footprint::ecw(b)].into_iter().flatten() {
             let _ = gw_parse::footprint::to_json(&f);
@@ -122,7 +131,7 @@ fn fuzz21_nitf() {
     }));
 
     // JPEG 2000 with POC (main and tile-part headers) and ROI maxshift.
-    let j2k: Vec<Vec<u8>> = ["j2k-openjpeg-poc-conformance/p0_03.j2k", "j2k-openjpeg-poc-conformance/p0_15.j2k", "j2k-openjpeg-poc-conformance/p0_13.j2k", "jp2-gdal-autotest-geojp2-gmljp2/byte_one_poc.j2k"].iter().filter_map(|p| read(p, 1 << 20)).collect();
+    let j2k: Vec<Vec<u8>> = ["j2k-openjpeg-poc-conformance/p0_03.j2k", "j2k-openjpeg-poc-conformance/p0_15.j2k", "j2k-openjpeg-poc-conformance/p0_13.j2k", "jp2-gdal-autotest-geojp2-gmljp2/byte_one_poc.j2k"].iter().filter_map(|p| read(p, 1 << 20)).chain(fixture("poc_lrcp_rpcl.j2k", 1 << 20)).collect();
     // The decoder may legitimately reconstruct up to MAX_SAMPLES (400 M) declared samples from a tiny
     // file (seconds of work in a worker, by design), so this target's slow threshold is 15 s.
     reports.push(run("j2k_poc", &j2k, n.min(600), hang.max(Duration::from_secs(15)), &o, |b| {
@@ -132,6 +141,7 @@ fn fuzz21_nitf() {
     let mut bad = Vec::new();
     for r in &reports {
         eprintln!("{}: {} runs, slowest {:?}, {} problems", r.target, r.runs, r.slowest, r.crashes.len());
+        assert!(r.runs > 0 || r.skipped, "{}: no seeds", r.target);
         for (p, m) in &r.crashes {
             bad.push(format!("{} {}: {m}", r.target, p.display()));
         }

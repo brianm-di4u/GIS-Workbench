@@ -147,6 +147,7 @@ fn fuzz21_raster() {
     let mut bad = Vec::new();
     for r in &reports {
         eprintln!("fuzz21 {:<8} {:>6} runs, slowest {:?}, {} problem(s)", r.target, r.runs, r.slowest, r.crashes.len());
+        assert!(r.runs > 0 || r.skipped, "{}: no seeds", r.target);
         for (p, m) in &r.crashes {
             bad.push(format!("{}: {} ({})", r.target, m, p.display()));
         }

@@ -8,7 +8,8 @@ use gw_abi::{Error, Json, Result};
 fn dms(s: &str) -> Option<f64> {
     // DDDMMSSH (longitude) or DDDMMSSH with leading zero for latitude in the UHL.
     let s = s.trim();
-    if s.len() < 7 {
+    // The digits and the hemisphere letter are ASCII; anything else can't be cut at a byte offset.
+    if s.len() < 7 || !s.is_ascii() {
         return None;
     }
     let (num, h) = s.split_at(s.len() - 1);
@@ -157,5 +158,18 @@ mod tests {
         b[..3].copy_from_slice(b"UHL");
         assert!(parse_dted(&b).is_err());
         assert!(parse_hgt(&[0u8; 1000], 0.0, 0.0).is_err());
+    }
+
+    #[test]
+    fn a_coordinate_that_is_not_ascii_is_an_error_not_a_panic() {
+        // A byte that is not UTF-8, and a two-byte character, each as the last of the field.
+        for last in [&b"1170000\xFF"[..], "117000\u{b1}".as_bytes()] {
+            let mut b = vec![b' '; 4000];
+            b[..3].copy_from_slice(b"UHL");
+            b[4..12].copy_from_slice(last);
+            b[12..20].copy_from_slice(b"0340000N");
+            assert!(parse_dted(&b).is_err());
+        }
+        assert_eq!(dms("1170000W"), Some(-117.0));
     }
 }

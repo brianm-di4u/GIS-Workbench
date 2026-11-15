@@ -27,6 +27,62 @@ fn files(pred: impl Fn(&str) -> bool) -> Vec<PathBuf> {
     out
 }
 
+/// The fixtures in this repository whose lower-case name passes `pred`. A CI runner has these and no
+/// Research samples, so each target takes seeds from here as well: with none it ran nothing and passed.
+fn fixtures(pred: impl Fn(&str) -> bool) -> Vec<PathBuf> {
+    fn walk(d: &Path, pred: &dyn Fn(&str) -> bool, out: &mut Vec<PathBuf>) {
+        for f in std::fs::read_dir(d).into_iter().flatten().flatten() {
+            let p = f.path();
+            if p.is_dir() {
+                walk(&p, pred, out);
+            } else if pred(&f.file_name().to_string_lossy().to_lowercase()) {
+                out.push(p);
+            }
+        }
+    }
+    let mut out = Vec::new();
+    walk(&Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures"), &pred, &mut out);
+    out.sort();
+    out
+}
+
+/// The first `max` bytes of a file.
+fn head(p: &Path, max: usize) -> Vec<u8> {
+    use std::io::Read;
+    let mut b = Vec::new();
+    std::fs::File::open(p).unwrap().take(max as u64).read_to_end(&mut b).unwrap();
+    b
+}
+
+fn is_nitf(n: &str) -> bool {
+    n.ends_with(".ntf") || n.ends_with(".nsf") || n.ends_with(".nitf")
+}
+
+fn is_dem(n: &str) -> bool {
+    n.ends_with(".dt0") || n.ends_with(".dt1") || n.ends_with(".dt2") || n.ends_with(".hgt")
+}
+
+/// A 16 × 16 cell cut from the start of a DTED file: its three header records with the counts
+/// rewritten, and the first 16 posts of its first 16 data records, each with its checksum. A whole
+/// cell is 26 MB, and its first part alone fails the length check before a data record is read.
+fn small_dted(b: &[u8]) -> Option<Vec<u8>> {
+    const N: usize = 16;
+    let nrows: usize = std::str::from_utf8(b.get(51..55)?).ok()?.trim().parse().ok()?;
+    let rec_len = 8 + 2 * nrows + 4;
+    let mut out = b.get(..3428)?.to_vec();
+    out[47..55].copy_from_slice(b"00160016");
+    for c in 0..N {
+        let rec = b.get(3428 + c * rec_len..)?.get(..8 + 2 * N)?;
+        out.extend_from_slice(rec);
+        out.extend_from_slice(&rec.iter().map(|&x| u32::from(x)).sum::<u32>().to_be_bytes());
+    }
+    Some(out)
+}
+
+fn is_las(n: &str) -> bool {
+    n.ends_with(".las") || n.ends_with(".laz")
+}
+
 fn iters() -> usize {
     std::env::var("GW_FUZZ_ITERS").ok().and_then(|v| v.parse().ok()).unwrap_or(1500)
 }
@@ -83,13 +139,7 @@ fn fuzz_all_parsers() {
     let o = out();
     let mut reports = Vec::new();
 
-    let nitf: Vec<Vec<u8>> = files(|n| n.ends_with(".ntf") || n.ends_with(".nsf") || n.ends_with(".nitf"))
-        .iter()
-        .map(|p| {
-            let b = std::fs::read(p).unwrap();
-            b[..b.len().min(256 << 10)].to_vec()
-        })
-        .collect();
+    let nitf: Vec<Vec<u8>> = files(is_nitf).iter().chain(fixtures(is_nitf).iter()).map(|p| head(p, 256 << 10)).collect();
     reports.push(run("nitf", &nitf, n, hang, &o, nitf_path));
 
     let mut tres: Vec<Vec<u8>> = Vec::new();
@@ -110,7 +160,9 @@ fn fuzz_all_parsers() {
         let _ = gw_parse::tre::decode(tag, b.get(11..).unwrap_or(&[]));
     }));
 
-    let dem: Vec<Vec<u8>> = files(|n| n.ends_with(".dt0") || n.ends_with(".dt1") || n.ends_with(".dt2") || n.ends_with(".hgt")).iter().map(|p| std::fs::read(p).unwrap()).collect();
+    let mut dem: Vec<Vec<u8>> = files(is_dem).iter().map(|p| std::fs::read(p).unwrap()).collect();
+    dem.extend(fixtures(is_dem).iter().filter_map(|p| small_dted(&head(p, 256 << 10))));
+    assert!(dem.iter().any(|b| gw_parse::dted::parse_dted(b).is_ok_and(|d| d.json.contains("\"checksumErrors\":0"))), "dted: no seed parses, so no data record is read");
     reports.push(run("dted", &dem, n, hang, &o, |b| {
         let _ = gw_parse::dted::parse_dted(b);
         let _ = gw_parse::dted::parse_hgt(b, -35.0, -59.0);
@@ -131,6 +183,9 @@ fn fuzz_all_parsers() {
     for p in files(|n| n.ends_with(".jpg")) {
         jpeg.push(std::fs::read(p).unwrap());
     }
+    for p in fixtures(|n| n.ends_with(".jpg")) {
+        jpeg.push(head(&p, 1 << 20));
+    }
     reports.push(run("jpeg", &jpeg, n, hang, &o, |b| {
         let _ = gw_codec::jpeg::decode(b, 0, 0);
         let _ = gw_codec::jpeg::decode(b, 3, 1);
@@ -138,8 +193,9 @@ fn fuzz_all_parsers() {
 
     let j2k: Vec<Vec<u8>> = files(|n| (n.starts_with("p0_01") && n.ends_with(".ntf")) || n == "two_images_jp2.ntf")
         .iter()
+        .chain(fixtures(|n| n == "mie_j2k.ntf").iter())
         .filter_map(|p| {
-            let b = std::fs::read(p).unwrap();
+            let b = head(p, 4 << 20);
             find(&b, b"\xFF\x4F\xFF\x51").map(|i| b[i..].to_vec())
         })
         .collect();
@@ -157,7 +213,8 @@ fn fuzz_all_parsers() {
         let _ = gw_codec::j2k::decode(b, Some((16, 16)));
     }));
 
-    let vq: Vec<Vec<u8>> = files(|n| n == "u_3058b.ntf").iter().map(|p| std::fs::read(p).unwrap()).collect();
+    // RPF frames: U_3058B among the samples, and the CADRG and CIB frames among the fixtures.
+    let vq: Vec<Vec<u8>> = files(|n| n == "u_3058b.ntf").iter().chain(fixtures(|n| n.ends_with(".mm2") || n.ends_with(".i13") || n.ends_with(".jn1")).iter()).map(|p| head(p, 4 << 20)).collect();
     reports.push(run("vq", &vq, n, hang, &o, |b| {
         if let Some(i) = find(b, b"RPFIMG") {
             let _ = gw_codec::vq::rpf_locations(b.get(i + 11..).unwrap_or(&[]));
@@ -180,7 +237,7 @@ fn fuzz_all_parsers() {
             xml.push(b[i..j + 7].to_vec());
         }
     }
-    for p in files(|n| n.ends_with(".nitf") && n.contains("SIDD") || n.ends_with(".xml")) {
+    for p in files(|n| n.ends_with(".nitf") && n.contains("SIDD") || n.ends_with(".xml")).into_iter().chain(fixtures(|n| n.ends_with(".sicd.xml"))) {
         let b = std::fs::read(&p).unwrap();
         for (a, z) in [(&b"<SICD"[..], &b"</SICD>"[..]), (b"<SIDD", b"</SIDD>")] {
             if let (Some(i), Some(j)) = (find(&b, a), find(&b, z)) {
@@ -208,13 +265,7 @@ fn fuzz_all_parsers() {
     }));
 
     // LAS/LAZ headers, VLRs and the LAZ chunk table (REQ-LDR-01, REQ-FMT-10).
-    let las: Vec<Vec<u8>> = files(|n| n.ends_with(".las") || n.ends_with(".laz"))
-        .iter()
-        .map(|p| {
-            let b = std::fs::read(p).unwrap();
-            b[..b.len().min(256 << 10)].to_vec()
-        })
-        .collect();
+    let las: Vec<Vec<u8>> = files(is_las).iter().chain(fixtures(is_las).iter()).map(|p| head(p, 256 << 10)).collect();
     reports.push(run("las", &las, n, hang, &o, |b| {
         if let Ok(h) = gw_pointcloud::las::header(b) {
             if let Ok(v) = gw_pointcloud::las::vlrs(b, &h) {
@@ -298,6 +349,7 @@ endstream endobj".to_vec());
     let mut bad = Vec::new();
     for r in &reports {
         eprintln!("fuzz {:<7} {:>6} runs, slowest {:?}, {} problem(s)", r.target, r.runs, r.slowest, r.crashes.len());
+        assert!(r.runs > 0 || r.skipped, "{}: no seeds", r.target);
         for (p, m) in &r.crashes {
             bad.push(format!("{}: {} ({})", r.target, m, p.display()));
         }
