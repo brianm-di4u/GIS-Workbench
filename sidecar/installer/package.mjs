@@ -12,7 +12,7 @@
 //    installer), GWB-Sidecar-<v>-x64-portable.zip, gwb-sidecar-module-<id>-<v>.zip, SHA256SUMS.
 //    Builds are unsigned previews (Authenticode signing is an open owner item).
 import { execFileSync } from 'node:child_process';
-import { csmHostProblems, mediaNeedsProblems, mediaOpenH264Problems } from './gates.mjs';
+import { csmHostProblems, mediaNeedsProblems, mediaOpenH264Problems, packagedDoc } from './gates.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { homedir } from 'node:os';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -145,9 +145,12 @@ async function main() {
   ].filter((l, i, a) => !(l.startsWith('- ') && a.indexOf(l) !== i));
   writeFileSync(join(stage, 'SOURCE-OFFER.txt'), offer.join('\n') + '\n');
   copyFileSync(join(ROOT, 'LICENSE'), join(stage, 'LICENSE.txt'));
+  // gwb-run's guide ships beside it (#177): the package has no source tree to point at, so a link into
+  // the source (decisions/…) keeps only its text.
+  writeFileSync(join(stage, 'RUNNER.md'), packagedDoc(readFileSync(join(ROOT, 'docs', 'runner.md'), 'utf8')));
   writeFileSync(
     join(stage, 'README.txt'),
-    [`GIS Workbench Sidecar ${VERSION} (preview, unsigned)`, '', 'An optional local helper for GIS Workbench: it converts MrSID, ECW, FileGDB, E57, MPEG-2 and every', 'other GDAL, OGR, PDAL or FFmpeg format into formats the app reads. It listens on 127.0.0.1 only.', '', 'Start gwb-sidecar.exe; its tray icon opens the sidecar window (pairing, modules, jobs, log).', 'MrSID/ECW plug-ins: gwb-sidecar-setup.exe vendor-prompt (shows each vendor licence first).', 'Offline: gwb-sidecar-setup.exe vendor mrsid --from <folder with the OSGeo4W package and licence files>.', 'Command line: gwb-run.exe runs a recipe headless in your installed Chrome or Edge (gwb-run.exe --check to try it);', 'gwb-sidecar.exe run takes the same arguments with no window, for Task Scheduler. See docs/runner.md in the source.', 'Portable: unzip anywhere and run; no administrator rights. Data: %LOCALAPPDATA%\\GIS Workbench Sidecar.', ''].join('\r\n'),
+    [`GIS Workbench Sidecar ${VERSION} (preview, unsigned)`, '', 'An optional local helper for GIS Workbench: it converts MrSID, ECW, FileGDB, E57, MPEG-2 and every', 'other GDAL, OGR, PDAL or FFmpeg format into formats the app reads. It listens on 127.0.0.1 only.', '', 'Start gwb-sidecar.exe; its tray icon opens the sidecar window (pairing, modules, jobs, log).', 'MrSID/ECW plug-ins: gwb-sidecar-setup.exe vendor-prompt (shows each vendor licence first).', 'Offline: gwb-sidecar-setup.exe vendor mrsid --from <folder with the OSGeo4W package and licence files>.', 'Command line: gwb-run.exe runs a recipe headless in your installed Chrome or Edge (gwb-run.exe --check to try it);', 'gwb-sidecar.exe run takes the same arguments with no window, for Task Scheduler. See RUNNER.md.', 'Portable: unzip anywhere and run; no administrator rights. Data: %LOCALAPPDATA%\\GIS Workbench Sidecar.', ''].join('\r\n'),
   );
   if (problems.length) {
     console.error(`packaging gate failed:\n  ${problems.join('\n  ')}`);

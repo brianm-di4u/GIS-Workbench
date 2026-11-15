@@ -14,7 +14,7 @@
 //   GWB-Sidecar-<v>-linux-x86_64.tar.gz     unpack anywhere and run ./gwb-sidecar
 // plus SHA256SUMS, sbom.cdx.json and package-report.json. Builds are unsigned previews.
 import { execFileSync } from 'node:child_process';
-import { GLIBC_FLOOR, csmHostProblems, elfGlibcNeeds, glibcFloorProblems, mediaLibraryPathProblems, mediaNeedsProblems, mediaOpenH264Problems, runtimeProblems, stageGlibc, stagePathProblems } from './gates.mjs';
+import { GLIBC_FLOOR, csmHostProblems, elfGlibcNeeds, glibcFloorProblems, mediaLibraryPathProblems, mediaNeedsProblems, mediaOpenH264Problems, packagedDoc, runtimeProblems, stageGlibc, stagePathProblems } from './gates.mjs';
 import { elfNeeded, elfVersions } from './elf.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { chmodSync, closeSync, copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, readSync, readdirSync, renameSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
@@ -173,6 +173,9 @@ async function main() {
   ].filter((l, i, a) => !(l.startsWith('- ') && a.indexOf(l) !== i));
   writeFileSync(join(stage, 'SOURCE-OFFER.txt'), offer.join('\n') + '\n');
   copyFileSync(join(ROOT, 'LICENSE'), join(stage, 'LICENSE.txt'));
+  // gwb-run's guide ships beside it (#177): the package has no source tree to point at, so a link into
+  // the source (decisions/…) keeps only its text.
+  writeFileSync(join(stage, 'RUNNER.md'), packagedDoc(readFileSync(join(ROOT, 'docs', 'runner.md'), 'utf8')));
   writeFileSync(
     join(stage, 'README.txt'),
     [
@@ -187,6 +190,8 @@ async function main() {
       'MPEG-2 video becomes MPEG-1 in MPEG-TS with every KLV stream kept, or H.264 once the OpenH264 Video Codec provided by Cisco Systems, Inc. is downloaded (Add or remove modules).',
       'Tools run in their own process group with memory and CPU caps; with Landlock (Linux 5.13+) they write only in',
       'their job folder and (Linux 6.7+) open no TCP connection. Data: ~/.local/share/gis-workbench-sidecar.',
+      'Command line: ./gwb-run runs a recipe headless in your installed Chrome, Chromium or Edge (./gwb-run --check to',
+      'try it); ./gwb-sidecar run takes the same arguments with no window, for cron or a systemd timer. See RUNNER.md.',
       '',
     ].join('\n'),
   );

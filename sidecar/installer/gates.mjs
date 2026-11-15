@@ -281,3 +281,9 @@ export function stagePathProblems(needs, elfInfo) {
   }
   return problems;
 }
+
+/** A doc from docs/ as it ships in a package (#177): the package has no source tree, so a markdown link into
+ * it keeps only its text. Links to http(s) and #anchors stay. */
+export function packagedDoc(md) {
+  return md.replace(/\[([^\]]+)\]\((?!https?:|#)[^)]*\)/g, '$1');
+}
