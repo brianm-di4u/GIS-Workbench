@@ -1,9 +1,9 @@
 // The folders under app/src are layers, and until now only habit kept them apart. This holds two
 // things that were already true, so that a later change can't undo them unnoticed.
 //
-// 1. A worker never loads UI code. Each file in workers/kinds is bundled on its own
-//    (build/build.mjs), so one import of a UI module from anything a worker reaches puts the shell
-//    in every worker and breaks where it touches `document`.
+// 1. A worker never loads UI code. workers/worker-core.js and each file in workers/kinds are
+//    bundled on their own (build/build.mjs), so one import of a UI module from anything a worker
+//    reaches puts the shell in that worker and breaks where it touches `document`.
 // 2. The UI layers sit on top. features/, lazy/, mobile/, shell/ and shell2/ are imported only by
 //    each other and by the two entry files. The files in FROM_BEFORE imported one from below
 //    before this check existed. Untangling one means taking it off the list, and the list may
@@ -86,7 +86,7 @@ const walk = (dir) => readdirSync(`${SRC}/${dir}`, { withFileTypes: true }).flat
 const modules = readdirSync(SRC, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(e.name) : /\.m?js$/.test(e.name) ? [e.name] : []));
 const text = (p) => readFileSync(`${SRC}/${p}`, 'utf8');
 const graph = importGraph(modules, text);
-const workers = modules.filter((p) => /^workers\/kinds\/[^/]+\.worker\.js$/.test(p));
+const workers = modules.filter((p) => p === 'workers/worker-core.js' || /^workers\/kinds\/[^/]+\.worker\.js$/.test(p));
 
 describe('the import scan', () => {
   const files = {
@@ -115,7 +115,8 @@ describe('the import scan', () => {
 describe('the layers of app/src', () => {
   it('finds the modules and the worker entries the build bundles', () => {
     expect(modules.length).toBeGreaterThan(300);
-    expect(workers.length).toBeGreaterThanOrEqual(4);
+    expect(workers).toContain('workers/worker-core.js');
+    expect(workers.length).toBeGreaterThanOrEqual(5);
     expect([...graph.values()].flat().filter((p) => /\.m?js$/.test(p) && !graph.has(p)), 'an import the scan resolved to a file that is not there').toEqual([]);
   });
 
