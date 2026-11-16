@@ -79,6 +79,49 @@ fn small_dted(b: &[u8]) -> Option<Vec<u8>> {
     Some(out)
 }
 
+/// A 400-point LAZ file from the app's own writer. The chunk table is at the end of a LAZ file, so
+/// it is only inside a seed that holds the whole file, and the fixtures are 9 MB and more (#317).
+fn small_laz() -> Vec<u8> {
+    use gw_pointcloud::decode::{Columns, Lattice};
+    use gw_pointcloud::write::{write, WriteSpec};
+    let n = 400;
+    let mut c = Columns::with_capacity(n, false);
+    for k in 0..n {
+        let f = k as f32;
+        c.pos.extend([(f * 0.37) % 90.0, (f * 0.91) % 70.0, 100.0 + (f * 0.013).sin() * 20.0]);
+        c.time.push(f * 0.001);
+        c.intensity.push((k % 4096) as u16);
+        c.source.push(7);
+        c.scan.push((k % 90) as i16);
+        c.class.push([1u8, 2, 5, 6][k % 4]);
+        c.ret.push(0x11);
+        c.flags.push(0);
+        c.user.push(0);
+    }
+    c.n = n;
+    let inv = Lattice { x0: 0.0, y0: 0.0, dx: 1000.0, dy: 1000.0, nx: 2, ny: 2, nodes: vec![[500000.0, 4000000.0, 0.0], [501000.0, 4000000.0, 0.0], [500000.0, 4001000.0, 0.0], [501000.0, 4001000.0, 0.0]], v_unit: 1.0 };
+    let s = WriteSpec { format: 6, scale: [0.001; 3], wkt: "LOCAL_CS[\"fuzz\"]".into(), system_id: "GIS Workbench".into(), software: "fuzz".into(), day: 1, year: 2026, adjusted_gps: true, t0: 0.0, compress: true };
+    write(&c, &inv, &s).expect("the writer's own LAZ")
+}
+
+/// The LAS/LAZ header, its VLRs and the LAZ chunk table. True when a chunk table was read.
+fn las_path(b: &[u8]) -> bool {
+    let mut read = false;
+    if let Ok(h) = gw_pointcloud::las::header(b) {
+        if let Ok(v) = gw_pointcloud::las::vlrs(b, &h) {
+            for x in &v {
+                let d = b.get(x.data_offset as usize..(x.data_offset + x.data_len) as usize).unwrap_or(&[]);
+                if x.user_id == "laszip encoded" {
+                    if let Ok(z) = gw_pointcloud::laz::vlr(d) {
+                        read |= gw_pointcloud::laz::chunk_table(&b[(h.point_offset as usize).min(b.len())..], &z, h.n_points).is_ok();
+                    }
+                }
+            }
+        }
+    }
+    read
+}
+
 fn is_las(n: &str) -> bool {
     n.ends_with(".las") || n.ends_with(".laz")
 }
@@ -163,6 +206,9 @@ fn fuzz_all_parsers() {
     let mut dem: Vec<Vec<u8>> = files(is_dem).iter().map(|p| std::fs::read(p).unwrap()).collect();
     dem.extend(fixtures(is_dem).iter().filter_map(|p| small_dted(&head(p, 256 << 10))));
     assert!(dem.iter().any(|b| gw_parse::dted::parse_dted(b).is_ok_and(|d| d.json.contains("\"checksumErrors\":0"))), "dted: no seed parses, so no data record is read");
+    // An HGT grid has no header: only its size says what it is, and the smallest is 601 posts a side (#317).
+    dem.push((0..601 * 601 * 2).map(|k| (k % 7) as u8).collect());
+    assert!(dem.iter().any(|b| gw_parse::dted::parse_hgt(b, -35.0, -59.0).is_ok()), "dted: no seed is a whole HGT grid");
     reports.push(run("dted", &dem, n, hang, &o, |b| {
         let _ = gw_parse::dted::parse_dted(b);
         let _ = gw_parse::dted::parse_hgt(b, -35.0, -59.0);
@@ -265,20 +311,32 @@ fn fuzz_all_parsers() {
     }));
 
     // LAS/LAZ headers, VLRs and the LAZ chunk table (REQ-LDR-01, REQ-FMT-10).
-    let las: Vec<Vec<u8>> = files(is_las).iter().chain(fixtures(is_las).iter()).map(|p| head(p, 256 << 10)).collect();
+    let mut las: Vec<Vec<u8>> = files(is_las).iter().chain(fixtures(is_las).iter()).map(|p| head(p, 256 << 10)).collect();
+    las.push(small_laz());
+    assert!(las.iter().any(|b| las_path(b)), "las: no seed holds its LAZ chunk table");
     reports.push(run("las", &las, n, hang, &o, |b| {
-        if let Ok(h) = gw_pointcloud::las::header(b) {
-            if let Ok(v) = gw_pointcloud::las::vlrs(b, &h) {
-                for x in &v {
-                    let d = b.get(x.data_offset as usize..(x.data_offset + x.data_len) as usize).unwrap_or(&[]);
-                    if x.user_id == "laszip encoded" {
-                        if let Ok(z) = gw_pointcloud::laz::vlr(d) {
-                            let _ = gw_pointcloud::laz::chunk_table(&b[(h.point_offset as usize).min(b.len())..], &z, h.n_points);
-                        }
-                    }
-                }
-            }
+        las_path(b);
+    }));
+
+    // ENVI headers (REQ-FMT-06) and the Landsat, WorldView and Sentinel-2 metadata files beside a
+    // scene: text a user opens, and none had a target.
+    let envi: Vec<Vec<u8>> = fixtures(|n| n.ends_with(".hdr")).iter().map(|p| head(p, 256 << 10)).collect();
+    assert!(envi.iter().any(|b| gw_parse::envi::parse(b).is_ok()), "envi: no seed parses");
+    reports.push(run("envi", &envi, n, hang, &o, |b| {
+        if let Ok(h) = gw_parse::envi::parse(b) {
+            let _ = gw_parse::envi::to_json(&h, b.len() as u64);
         }
+    }));
+    let meta: Vec<Vec<u8>> = vec![
+        b"GROUP = LANDSAT_METADATA_FILE\n SPACECRAFT_ID = \"LANDSAT_8\"\n PROCESSING_LEVEL = \"L1TP\"\n SUN_ELEVATION = 55.5\n RADIANCE_MULT_BAND_4 = 9.6476E-03\n RADIANCE_ADD_BAND_4 = -48.23801\n REFLECTANCE_MULT_BAND_4 = 2.0000E-05\n REFLECTANCE_ADD_BAND_4 = -0.100000\n K1_CONSTANT_BAND_10 = 774.8853\n K2_CONSTANT_BAND_10 = 1321.0789\n".to_vec(),
+        b"satId = \"WV03\";\nmeanSunEl = 61.2;\nBEGIN_GROUP = BAND_R\n absCalFactor = 1.3e-02;\n effectiveBandwidth = 5.85e-02;\nEND_GROUP = BAND_R\n".to_vec(),
+        br#"<n1:Level-2A_User_Product xmlns:n1="x"><General_Info><Product_Info><PROCESSING_BASELINE>05.09</PROCESSING_BASELINE><PROCESSING_LEVEL>Level-2A</PROCESSING_LEVEL></Product_Info><Product_Image_Characteristics><QUANTIFICATION_VALUES_LIST><BOA_QUANTIFICATION_VALUE unit="none">10000</BOA_QUANTIFICATION_VALUE></QUANTIFICATION_VALUES_LIST><BOA_ADD_OFFSET_VALUES_LIST><BOA_ADD_OFFSET band_id="3">-1000</BOA_ADD_OFFSET></BOA_ADD_OFFSET_VALUES_LIST></Product_Image_Characteristics></General_Info></n1:Level-2A_User_Product>"#.to_vec(),
+    ];
+    assert!(gw_parse::msimeta::landsat_mtl(&meta[0]).is_ok() && gw_parse::msimeta::worldview_imd(&meta[1]).is_ok() && gw_parse::msimeta::sentinel2_mtd(&meta[2]).is_ok(), "msimeta: a seed no longer parses with its own reader");
+    reports.push(run("msimeta", &meta, n, hang, &o, |b| {
+        let _ = gw_parse::msimeta::landsat_mtl(b);
+        let _ = gw_parse::msimeta::worldview_imd(b);
+        let _ = gw_parse::msimeta::sentinel2_mtd(b);
     }));
 
     // MPEG-TS demux and KLV (REQ-FMV-01, 02): FX-10 (Research) and the FX-10/11
