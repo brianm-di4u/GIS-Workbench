@@ -3,7 +3,7 @@ import { affectedCrates, dataSkips, fixtureCrates, planSteps } from '../../build
 import { grepInvert, problems } from '../../build/check-quarantine.mjs';
 
 const names = (input) => planSteps(input).map((step) => step.name);
-const ALL = ['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Source catalogue', 'Locale catalogues', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests', 'Sidecar sfm clippy', 'Sidecar sfm tests'];
+const ALL = ['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Changelog fragments', 'Crate licences and sources', 'Clippy', 'Rust tests', 'Source catalogue', 'Locale catalogues', 'Type check', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset', 'Sidecar licences and sources', 'Sidecar clippy', 'Sidecar tests', 'Sidecar sfm clippy', 'Sidecar sfm tests'];
 
 describe('verify scope', () => {
   it('runs everything when the change set is unknown', () => {
@@ -64,7 +64,14 @@ describe('verify scope', () => {
 
   it('skips Rust for an app change', () => {
     const steps = names({ paths: ['app/src/shell/commands.js'] });
-    expect(steps).toEqual(['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Source catalogue', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset']);
+    expect(steps).toEqual(['Quarantine list', 'Civilian-use check', 'D: drive paths', 'Source catalogue', 'Type check', 'Strict build', 'Size report', 'Unit and golden tests', 'Browser subset']);
+  });
+
+  // Decision 0027: the app's source, the checker and its baseline, and the pinned TypeScript.
+  it('type-checks when the app, the checker or the pinned TypeScript changed, and not otherwise', () => {
+    for (const path of ['app/src/core/util.js', 'build/check-types.mjs', 'build/typecheck-baseline.json', 'build/typecheck.tsconfig.json', 'package.json', 'package-lock.json']) expect(names({ paths: [path] }), path).toContain('Type check');
+    for (const path of ['tests/unit/a.test.js', 'crates/gw-a/src/lib.rs', 'build/build.mjs', 'docs/a.md']) expect(names({ paths: [path], crates: ['gw-a'] }), path).not.toContain('Type check');
+    expect(names({ paths: ['app/src/a.js'], leg: 'sidecar' })).not.toContain('Type check');
   });
 
   it('tests only the affected crates', () => {

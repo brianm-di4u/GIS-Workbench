@@ -54,6 +54,7 @@
     "mgrs": "2.2.0",
     "onnxruntime-web": "1.31.1",
     "proj-wasm": "0.1.0",
+    "typescript": "6.0.3",
     "vitest": "5.1.0"
   },
   "engines": {
