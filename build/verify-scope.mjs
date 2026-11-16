@@ -70,6 +70,9 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
   // Only a locale tag's shape reaches the command line, which is a shell on Windows.
   const changedTags = everything ? [] : [...new Set(paths.map((path) => /^app\/src\/i18n\/(?:catalog|state)\/([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\.json$/.exec(path)?.[1]).filter((tag) => tag && tag !== 'en'))].sort();
 
+  // The app's source, the checker and its baseline, or the pinned TypeScript changed (decision 0027).
+  const types = everything || paths.some((path) => path.startsWith('app/src/') || /^build\/(check-types\.mjs|typecheck[.-][^/]+)$/.test(path) || path === 'package.json' || path === 'package-lock.json');
+
   const steps = [];
   const step = (name, command, args, cwd) => steps.push({ name, command, args, ...(cwd ? { cwd } : {}) });
   const cargoDeny = ['deny', '--locked', '--all-features', 'check', 'licenses', 'bans', 'sources'];
@@ -92,6 +95,7 @@ export function planSteps({ paths, leg = 'all', crates = null }) {
     if (code) {
       step('Source catalogue', 'node', ['build/i18n.mjs', 'extract', '--check']);
       if (catalogues) step('Locale catalogues', 'node', ['build/i18n.mjs', 'check', ...(changedTags.length ? [`--strict=${changedTags.join(',')}`] : [])]);
+      if (types) step('Type check', 'node', ['build/check-types.mjs']);
       step('Strict build', 'node', ['build/build.mjs', '--strict']);
       step('Size report', 'node', ['build/size-report.mjs']);
       step('Unit and golden tests', 'npx', ['vitest', 'run']);
