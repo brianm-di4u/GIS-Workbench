@@ -5,7 +5,9 @@
 //   - no page error and no console error;
 //   - no CSP violation;
 //   - no network request (the app promises to work offline: openApp records every request that
-//     is not file, data, blob or loopback);
+//     is not file, data, blob or loopback). The app's CSP refuses a fetch, an image or a frame to
+//     any other origin first, so a plant that makes one is reported as a CSP violation; this check
+//     is the backstop for a request the CSP does not cover, and no plant has made it fire;
 //   - the app still answers (a trivial query returns, the main thread is not stuck);
 //   - undoing the whole sequence puts the project's records back as they were, unless a command
 //     in it is on NOT_UNDOABLE. This covers store records only (graphics, layers' records, window
@@ -119,8 +121,10 @@ async function runSequence(browser, seq) {
         }, id),
         `${id}: the page did not take the command within 30 s (main thread blocked)`,
       );
-      await settle(page, { layout: 'modern' });
-      const st = await page.waitForFunction((n) => window.__fuzz[n] !== 'pending', n, { timeout: 5_000 }).then(() => page.evaluate((n) => window.__fuzz[n], n), () => 'pending');
+      // Everything after the dispatch is bounded too: a command that freezes the page after its first
+      // await would otherwise stall here until the test timeout, with no sequence reported.
+      await within(90_000, settle(page, { layout: 'modern' }), `${id}: the page stopped answering after the command started (main thread blocked)`);
+      const st = await within(15_000, page.waitForFunction((n) => window.__fuzz[n] !== 'pending', n, { timeout: 5_000 }).then(() => page.evaluate((n) => window.__fuzz[n], n), () => 'pending'), `${id}: the page stopped answering while its result was read`);
       if (st !== 'ok') problems.push(`${id}: ${st === 'pending' ? 'did not finish within 5 s of its dialog closing' : st}`);
     }
     // Still answering: the page's main thread runs a query and the command table lists.
@@ -134,7 +138,7 @@ async function runSequence(browser, seq) {
     // logged or requested is counted too.
     await page.waitForTimeout(300);
     for (const l of app.logs) problems.push(`console: ${l.slice(0, 300)}`);
-    for (const c of await app.csp()) problems.push(`csp: ${c}`);
+    for (const c of await within(10_000, app.csp(), 'the page stopped answering when its CSP violations were read')) problems.push(`csp: ${c}`);
     for (const u of app.requests) problems.push(`network request: ${u}`);
   } catch (e) {
     problems.push(`harness: ${e.message.split('\n')[0]}`);
@@ -144,9 +148,10 @@ async function runSequence(browser, seq) {
   return problems;
 }
 
-// The run stops starting new sequences after 10 minutes; the rest of the 20 is room for the sequence
-// in flight (up to 8 commands, each allowed 30 s to be taken and up to 60 s to settle on software GL).
-test.describe.configure({ timeout: 1_200_000 });
+// The run stops starting new sequences after 10 minutes. The rest of the 30 is room for the one in
+// flight: at worst 8 commands x (30 s to take it + 90 s to settle + 15 s to read) is 18 minutes, but a
+// page that stops answering ends its sequence at the first bound, so a real sequence is far shorter.
+test.describe.configure({ timeout: 1_800_000 });
 
 test('REQ-ARC-13 command fuzz: every excluded command is in the catalogue and has a reason', async ({ page }) => {
   const app = await enterState(page, 'full', { id: 'none', files: [] }, OPTS);
