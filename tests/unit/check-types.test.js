@@ -3,7 +3,7 @@
 // verify runs the check itself.
 import { describe, expect, it } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
-import { compare, countByFile, lowered, parseErrors, raised } from '../../build/check-types.mjs';
+import { carry, compare, countByFile, lowered, parseErrors, parseRenames, raised } from '../../build/check-types.mjs';
 
 const OUTPUT = [
   "app/src/core/a.js(12,5): error TS2339: Property 'x' does not exist on type 'A'.",
@@ -58,6 +58,26 @@ describe('the ratchet', () => {
   it('names a number that is higher than the one main has, and a file main did not list', () => {
     expect(raised({ 'app/src/a.js': 3, 'app/src/b.js': 1, 'app/src/new.js': 1 }, baseline)).toEqual(['app/src/a.js', 'app/src/new.js']);
     expect(raised({ 'app/src/a.js': 1 }, baseline)).toEqual([]);
+  });
+
+  it('moves the number of a renamed module to its new path, and nothing else', () => {
+    const renames = parseRenames(['R095', 'app/src/a.js', 'app/src/core/a2.js', 'M', 'app/src/b.js', 'C080', 'app/src/c.js', 'app/src/c-copy.js', 'R100', 'app/src/gone.js', 'app/src/x.js', ''].join('\0'));
+    expect(renames).toEqual([['app/src/a.js', 'app/src/core/a2.js'], ['app/src/gone.js', 'app/src/x.js']]);
+    // An unlisted module renamed carries nothing; a copy is not a rename.
+    expect(carry(baseline, renames)).toEqual({ 'app/src/core/a2.js': 2, 'app/src/b.js': 1, 'app/src/c.js': 4 });
+    // A path that already has its own number keeps it.
+    expect(carry({ 'app/src/a.js': 2, 'app/src/core/a2.js': 1 }, renames)).toEqual({ 'app/src/a.js': 2, 'app/src/core/a2.js': 1 });
+  });
+
+  it('lets a renamed module pass under its new path, at its old number and no higher', () => {
+    const renames = [['app/src/a.js', 'app/src/core/a2.js']];
+    const main = carry(baseline, renames);
+    const branch = carry({ 'app/src/core/a2.js': 2, 'app/src/b.js': 1, 'app/src/c.js': 4 }, renames);
+    expect(raised(branch, main)).toEqual([]);
+    expect(compare({ 'app/src/core/a2.js': 2, 'app/src/b.js': 1, 'app/src/c.js': 4 }, branch)).toEqual({ over: [], under: [] });
+    expect(raised({ ...branch, 'app/src/core/a2.js': 3 }, main)).toEqual(['app/src/core/a2.js']);
+    // Before --lower writes the new path, the old entry moves by itself, so the check still passes.
+    expect(compare({ 'app/src/core/a2.js': 2, 'app/src/b.js': 1, 'app/src/c.js': 4 }, carry(baseline, renames)).over).toEqual([]);
   });
 });
 

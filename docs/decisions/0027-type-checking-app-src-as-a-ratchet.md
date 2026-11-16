@@ -16,6 +16,7 @@ The admin chose option A (`/decide A` on #324): a ratchet.
 - `typescript` becomes a dev dependency (Apache-2.0, on the allowlist in `THIRD_PARTY.md`), and `verify` runs a `checkJs` pass over `app/src` with `strict` off.
 - The number of errors in each file is recorded in a baseline. A file may not have more errors than its baseline, and a file not in the baseline, which includes every new file, must have none.
 - A file's number may only go down. When a change removes errors, the baseline is lowered in the same change.
+- A number follows its code. A module that git sees as renamed since the branch left main keeps its number under its new path. Code moved any other way, such as a module split into new files, carries no number: the new files must be clean.
 - The app stays JavaScript. Types are written as JSDoc where the checker needs them. Nothing is converted to `.ts`, and the build doesn't change.
 
 ## Consequences
@@ -24,4 +25,5 @@ The admin chose option A (`/decide A` on #324): a ratchet.
 - The baseline is a shared file that changes whenever an error is removed, so two changes that clean up the same file will conflict on it.
 - The error count depends on the checker's version. Upgrading TypeScript means regenerating the baseline in that same change, and saying in the PR what moved.
 - Raising a file's number is not allowed. If a real case needs it, that is a new decision.
+- Splitting a module with recorded errors means fixing the errors in the code that moves, or keeping that code in the original file. A split that needs its errors carried is a new decision.
 - Turning on `strict`, or checking with no baseline, would each be a further decision.

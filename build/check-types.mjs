@@ -3,7 +3,8 @@
 // a loose TypeScript check of it reports well over a thousand errors, nearly all from missing type
 // information. This holds the line where it is: build/typecheck-baseline.json records how many
 // errors each module has, a module may not have more than its number, and a module not listed,
-// which includes every new one, must have none. A number may only go down.
+// which includes every new one, must have none. A number may only go down. A module git sees as
+// renamed since the branch left main keeps its number under its new path, and --lower writes it there.
 //
 //   node build/check-types.mjs               check
 //   node build/check-types.mjs --lower       check, then write the numbers that went down
@@ -46,6 +47,35 @@ export function compare(counts, baseline) {
   };
 }
 
+/**
+ * The baseline with each renamed module's number moved to its new path. A number follows its code:
+ * `renames` is [from, to] pairs from git's rename detection. A path that already has a number keeps
+ * its own, and a module split into new files carries nothing.
+ */
+export function carry(baseline, renames) {
+  const out = { ...baseline };
+  for (const [from, to] of renames) {
+    if (out[from] === undefined || out[to] !== undefined) continue;
+    out[to] = out[from];
+    delete out[from];
+  }
+  return out;
+}
+
+/** git's `diff --name-status -z` output as [from, to] rename pairs. */
+export function parseRenames(output) {
+  const parts = output.split('\0');
+  const pairs = [];
+  for (let i = 0; i < parts.length; ) {
+    const status = parts[i];
+    if (/^R\d*$/.test(status)) {
+      pairs.push([parts[i + 1].replaceAll('\\', '/'), parts[i + 2].replaceAll('\\', '/')]);
+      i += 3;
+    } else i += /^C\d*$/.test(status) ? 3 : 2;
+  }
+  return pairs;
+}
+
 /** Files whose number in `baseline` is higher than in the baseline it started from. */
 export function raised(baseline, before) {
   return Object.keys(baseline).filter((f) => baseline[f] > (before[f] ?? 0)).sort();
@@ -71,14 +101,20 @@ const git = (args) => {
   }
 };
 
-/** The baseline and the pinned TypeScript version at the point this branch left main, or null on main and where git can't say. */
+/**
+ * What this branch started from on main: the baseline (null before one existed), the pinned
+ * TypeScript version, and the app modules renamed since. `{ onMain: true }` on main itself, and
+ * null where git can't say.
+ */
 function atMergeBase() {
   const base = git(['merge-base', `origin/${process.env.GITHUB_BASE_REF || 'main'}`, 'HEAD'])?.trim();
-  if (!base || base === git(['rev-parse', 'HEAD'])?.trim()) return null;
-  const baseline = git(['show', `${base}:${BASELINE}`]);
+  if (!base) return null;
+  if (base === git(['rev-parse', 'HEAD'])?.trim()) return { onMain: true };
   const pkg = git(['show', `${base}:package.json`]);
-  if (baseline === null || pkg === null) return null;
-  return { baseline: JSON.parse(baseline), typescript: JSON.parse(pkg).devDependencies?.typescript ?? null };
+  const names = git(['diff', '-M', '--name-status', '-z', base, 'HEAD', '--', 'app/src']);
+  if (pkg === null || names === null) return null;
+  const baseline = git(['show', `${base}:${BASELINE}`]);
+  return { baseline: baseline === null ? null : JSON.parse(baseline), typescript: JSON.parse(pkg).devDependencies?.typescript ?? null, renames: parseRenames(names) };
 }
 
 function main(args) {
@@ -102,17 +138,24 @@ function main(args) {
     return 0;
   }
 
-  const baseline = JSON.parse(readFileSync(BASELINE, 'utf8'));
   let failed = false;
-
   const before = atMergeBase();
+  const renames = before?.renames ?? [];
+  // A renamed module's number moves with it, here and in main's baseline alike.
+  const recorded = JSON.parse(readFileSync(BASELINE, 'utf8'));
+  const baseline = carry(recorded, renames);
+  const moved = Object.keys(recorded).filter((f) => baseline[f] === undefined);
+
   const pinned = JSON.parse(readFileSync('package.json', 'utf8')).devDependencies?.typescript ?? null;
-  if (before && before.typescript === pinned) {
-    const up = raised(baseline, before.baseline);
+  if (before === null) {
+    console.log("check-types: could not read this branch's start on main, so the rule that the baseline may not raise main's numbers was not checked here.");
+  } else if (before.baseline && before.typescript === pinned) {
+    const main = carry(before.baseline, renames);
+    const up = raised(baseline, main);
     if (up.length > 0) {
       failed = true;
       console.error(`check-types: ${BASELINE} raises a number main has. A number may only go down (decision 0027): fix the new errors instead.`);
-      for (const f of up) console.error(`  ${f}: ${before.baseline[f] ?? 0} on main, ${baseline[f]} here`);
+      for (const f of up) console.error(`  ${f}: ${main[f] ?? 0} on main, ${baseline[f]} here`);
     }
   }
 
@@ -125,14 +168,15 @@ function main(args) {
       for (const e of errors.filter((x) => x.file === file)) console.error(`    line ${e.line}: ${e.code} ${e.message}`);
     }
   }
-  if (under.length > 0) {
+  if (under.length > 0 || moved.length > 0) {
     if (args.includes('--lower')) {
       write(lowered(counts, baseline));
-      console.log(`check-types: lowered ${under.length} numbers in ${BASELINE}.`);
+      console.log(`check-types: lowered ${under.length} numbers and moved ${moved.length} renamed modules in ${BASELINE}.`);
     } else {
       failed = true;
-      console.error(`check-types: fewer errors than ${BASELINE} records. Lower the numbers with: node build/check-types.mjs --lower`);
+      console.error(`check-types: ${BASELINE} is out of date. Update it with: node build/check-types.mjs --lower`);
       for (const { file, allowed, found } of under) console.error(`  ${file}: ${allowed} recorded, ${found} found`);
+      for (const file of moved) console.error(`  ${file}: renamed, its number goes under the new path`);
     }
   }
   if (!failed) console.log(`check-types: ok. ${total} recorded errors in ${Object.keys(counts).length} files, none new.`);
