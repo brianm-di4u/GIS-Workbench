@@ -321,6 +321,7 @@ fn fuzz_all_parsers() {
     // ENVI headers (REQ-FMT-06) and the Landsat, WorldView and Sentinel-2 metadata files beside a
     // scene: text a user opens, and none had a target.
     let envi: Vec<Vec<u8>> = fixtures(|n| n.ends_with(".hdr")).iter().map(|p| head(p, 256 << 10)).collect();
+    assert!(envi.iter().any(|b| gw_parse::envi::parse(b).is_ok()), "envi: no seed parses");
     reports.push(run("envi", &envi, n, hang, &o, |b| {
         if let Ok(h) = gw_parse::envi::parse(b) {
             let _ = gw_parse::envi::to_json(&h, b.len() as u64);
@@ -331,6 +332,7 @@ fn fuzz_all_parsers() {
         b"satId = \"WV03\";\nmeanSunEl = 61.2;\nBEGIN_GROUP = BAND_R\n absCalFactor = 1.3e-02;\n effectiveBandwidth = 5.85e-02;\nEND_GROUP = BAND_R\n".to_vec(),
         br#"<n1:Level-2A_User_Product xmlns:n1="x"><General_Info><Product_Info><PROCESSING_BASELINE>05.09</PROCESSING_BASELINE><PROCESSING_LEVEL>Level-2A</PROCESSING_LEVEL></Product_Info><Product_Image_Characteristics><QUANTIFICATION_VALUES_LIST><BOA_QUANTIFICATION_VALUE unit="none">10000</BOA_QUANTIFICATION_VALUE></QUANTIFICATION_VALUES_LIST><BOA_ADD_OFFSET_VALUES_LIST><BOA_ADD_OFFSET band_id="3">-1000</BOA_ADD_OFFSET></BOA_ADD_OFFSET_VALUES_LIST></Product_Image_Characteristics></General_Info></n1:Level-2A_User_Product>"#.to_vec(),
     ];
+    assert!(gw_parse::msimeta::landsat_mtl(&meta[0]).is_ok() && gw_parse::msimeta::worldview_imd(&meta[1]).is_ok() && gw_parse::msimeta::sentinel2_mtd(&meta[2]).is_ok(), "msimeta: a seed no longer parses with its own reader");
     reports.push(run("msimeta", &meta, n, hang, &o, |b| {
         let _ = gw_parse::msimeta::landsat_mtl(b);
         let _ = gw_parse::msimeta::worldview_imd(b);

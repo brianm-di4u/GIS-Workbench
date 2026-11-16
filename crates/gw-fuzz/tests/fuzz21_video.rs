@@ -122,6 +122,13 @@ fn fuzz_video_parsers() {
     reports.push(run("mpeg1v", &es, n, hang, &o, decode_all));
     // The same streams through the MPEG-2 decoder, which had no target: the MPEG-2 seed decodes, and
     // the MPEG-1 ones exercise its refusal.
+    let decodes = |es: &Vec<u8>| {
+        let mut d = gw_codec::mpeg2v::Decoder::new();
+        d.push(es);
+        d.end();
+        matches!(d.decode(), Ok(Some(_)))
+    };
+    assert!(es.iter().any(decodes), "mpeg2v: no seed decodes to a picture");
     reports.push(run("mpeg2v", &es, n, hang, &o, decode_all_mpeg2));
     let mut bad = Vec::new();
     for r in &reports {
