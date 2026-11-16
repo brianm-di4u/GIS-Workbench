@@ -230,7 +230,8 @@ fn igeolo_geographic(icords: &str, igeolo: &str) -> Option<[(f64, f64); 4]> {
         return None;
     }
     for (k, o) in out.iter_mut().enumerate() {
-        let s = std::str::from_utf8(&g[k * 15..k * 15 + 15]).ok()?;
+        // IGEOLO is read as Latin-1, so a byte above 0x7F is two bytes here: only ASCII can be cut at a byte offset.
+        let s = std::str::from_utf8(&g[k * 15..k * 15 + 15]).ok().filter(|s| s.is_ascii())?;
         *o = match icords {
             "G" | "C" => {
                 let dms = |t: &str, dd: usize| -> Option<f64> {
@@ -699,6 +700,19 @@ mod tests {
 
     fn pad(s: &str, n: usize) -> String {
         format!("{s:<n$}")
+    }
+
+    #[test]
+    fn igeolo_that_is_not_ascii_gives_no_corners_and_no_panic() {
+        // #318. A byte above 0x7F in IGEOLO, decoded as Latin-1: its two bytes straddle a field boundary.
+        let corner = "12345\u{e9}N1234567";
+        assert_eq!(corner.len(), 15);
+        let igeolo = format!("{corner}{}", "123456N1234567E".repeat(3));
+        for icords in ["G", "C", "D"] {
+            assert!(igeolo_geographic(icords, &igeolo).is_none(), "{icords}");
+        }
+        let ok = igeolo_geographic("G", &"340000N1170000W".repeat(4)).unwrap();
+        assert_eq!(ok[0], (34.0, -117.0));
     }
 
     /// Build a minimal valid NITF 2.1 file header with one image segment.
