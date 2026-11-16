@@ -51,39 +51,47 @@ fn video_es(b: &[u8]) -> Vec<u8> {
     gw_parse::ps::extract_es(b, 0, 0xE0, true).0
 }
 
-fn decode_all(es: &[u8]) {
-    let mut d = gw_codec::mpeg1v::Decoder::new();
-    let mut rgba = Vec::new();
-    let mut n = 0;
-    for c in es.chunks(7919) {
-        d.push(c);
-        while let Ok(Some(o)) = d.decode() {
-            d.rgba(o.slot, &mut rgba);
-            n += 1;
-            if n > 64 {
-                return;
+/// Decode a stream in pieces, to the end, and again from the middle after a seek. The MPEG-1 and
+/// MPEG-2 decoders are driven the same way.
+macro_rules! decode_all {
+    ($name:ident, $decoder:ty) => {
+        fn $name(es: &[u8]) {
+            let mut d = <$decoder>::new();
+            let mut rgba = Vec::new();
+            let mut n = 0;
+            for c in es.chunks(7919) {
+                d.push(c);
+                while let Ok(Some(o)) = d.decode() {
+                    d.rgba(o.slot, &mut rgba);
+                    n += 1;
+                    if n > 64 {
+                        return;
+                    }
+                }
+            }
+            d.end();
+            while let Ok(Some(o)) = d.decode() {
+                d.rgba(o.slot, &mut rgba);
+                n += 1;
+                if n > 80 {
+                    return;
+                }
+            }
+            // A seek: reset and feed the second half.
+            d.reset();
+            d.push(&es[es.len() / 2..]);
+            d.end();
+            while let Ok(Some(_)) = d.decode() {
+                n += 1;
+                if n > 120 {
+                    return;
+                }
             }
         }
-    }
-    d.end();
-    while let Ok(Some(o)) = d.decode() {
-        d.rgba(o.slot, &mut rgba);
-        n += 1;
-        if n > 80 {
-            return;
-        }
-    }
-    // A seek: reset and feed the second half.
-    d.reset();
-    d.push(&es[es.len() / 2..]);
-    d.end();
-    while let Ok(Some(_)) = d.decode() {
-        n += 1;
-        if n > 120 {
-            return;
-        }
-    }
+    };
 }
+decode_all!(decode_all, gw_codec::mpeg1v::Decoder);
+decode_all!(decode_all_mpeg2, gw_codec::mpeg2v::Decoder);
 
 #[test]
 fn fuzz_video_parsers() {
@@ -112,6 +120,9 @@ fn fuzz_video_parsers() {
     // cut to ~96 KB so each run decodes a handful of pictures.
     let es: Vec<Vec<u8>> = ps.iter().map(|b| video_es(b)).filter(|e| e.len() > 1000).map(|e| e[..e.len().min(96 << 10)].to_vec()).collect();
     reports.push(run("mpeg1v", &es, n, hang, &o, decode_all));
+    // The same streams through the MPEG-2 decoder, which had no target: the MPEG-2 seed decodes, and
+    // the MPEG-1 ones exercise its refusal.
+    reports.push(run("mpeg2v", &es, n, hang, &o, decode_all_mpeg2));
     let mut bad = Vec::new();
     for r in &reports {
         eprintln!("fuzz {:<7} {:>6} runs, slowest {:?}, {} problem(s)", r.target, r.runs, r.slowest, r.crashes.len());
