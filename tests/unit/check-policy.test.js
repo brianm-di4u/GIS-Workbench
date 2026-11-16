@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { findTerms, hashTerm, words } from '../../build/check-policy.mjs';
+import { filesToScan, findTerms, hashTerm, words } from '../../build/check-policy.mjs';
 
 const banned = new Set([hashTerm('blue widget'), hashTerm('gizmo')]);
 const found = (text) => findTerms(text, banned).size;
@@ -23,5 +23,23 @@ describe('civilian-use check', () => {
 
   it('counts each term once', () => {
     expect(found('gizmo gizmo gizmo')).toBe(1);
+  });
+});
+
+// #312: a branch scans only the files it changed; main, an unknown change set, and a change to the
+// list or the checker scan everything.
+describe('files to scan', () => {
+  const tracked = ['a.md', 'b.js', 'c.json'];
+  it('scans everything with no change set', () => {
+    expect(filesToScan(tracked, null)).toEqual(tracked);
+  });
+  it('scans only the tracked files a branch changed', () => {
+    expect(filesToScan(tracked, ['b.js', 'fixtures/x.bin', 'gone.md'])).toEqual(['b.js']);
+    expect(filesToScan(tracked, [])).toEqual([]);
+  });
+  it('scans everything when the list or the checker changed', () => {
+    expect(filesToScan(tracked, ['b.js', 'build/check-policy.terms.json'])).toEqual(tracked);
+    expect(filesToScan(tracked, ['build/check-policy.mjs'])).toEqual(tracked);
+    expect(filesToScan(tracked, ['build/verify-scope.mjs'])).toEqual(tracked);
   });
 });

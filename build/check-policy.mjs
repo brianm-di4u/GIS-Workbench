@@ -7,6 +7,7 @@
 //
 //   node build/check-policy.mjs                 check the tree
 //   node build/check-policy.mjs --hash "term"   print the hash of a term to add
+//   node build/check-policy.mjs --changed       on a branch, only the files it changed (verify full)
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -41,7 +42,28 @@ export function findTerms(text, banned, seen = new Map()) {
   return found;
 }
 
-function main() {
+/**
+ * The tracked files to scan: all of them, or with `changed` (a branch's changed paths) only those,
+ * since main scanned the rest (#312). A change to the list, to this checker or to what decides the
+ * change set scans everything, as does an unknown change set (null: main, GWB_SCOPE=all).
+ */
+const FULL_SCAN = [LIST, 'build/check-policy.mjs', 'build/verify-scope.mjs'];
+export function filesToScan(tracked, changed) {
+  if (!changed || changed.some((path) => FULL_SCAN.includes(path))) return tracked;
+  const set = new Set(changed);
+  return tracked.filter((path) => set.has(path));
+}
+
+/** A branch's committed changes, plus its uncommitted edits to tracked files; null when unknown. */
+async function branchChanges() {
+  // Loaded only for --changed, so the plain scan (verify fast, main) runs no code outside this file.
+  const committed = (await import('./verify-scope.mjs')).changedPaths();
+  if (!committed) return null;
+  const edited = execFileSync('git', ['diff', '--name-only', '--no-renames', 'HEAD'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+  return [...committed, ...edited];
+}
+
+async function main() {
   const argument = process.argv.indexOf('--hash');
   if (argument !== -1) {
     console.log(hashTerm(process.argv[argument + 1] ?? ''));
@@ -50,9 +72,10 @@ function main() {
   const { terms, allow = [] } = JSON.parse(readFileSync(LIST, 'utf8'));
   const banned = new Set(terms);
   const allowed = new Set(allow.map(({ path, term }) => `${path}:${term}`));
-  const files = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 << 20 })
+  const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 << 20 })
     .split('\n')
     .filter((path) => path && TEXT.test(path) && !SKIP.test(path) && path !== LIST);
+  const files = filesToScan(tracked, process.argv.includes('--changed') ? await branchChanges() : null);
 
   const seen = new Map();
   const problems = [];
@@ -66,8 +89,8 @@ function main() {
     for (const problem of problems) console.error(`  ${problem}`);
     return 1;
   }
-  console.log(`Civilian-use check: ${files.length} files clean.`);
+  console.log(`Civilian-use check: ${files.length === tracked.length ? files.length : `${files.length} changed of ${tracked.length}`} files clean.`);
   return 0;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = await main();
